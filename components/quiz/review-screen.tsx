@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { coreQuestions, dimensionLabels, scenarioQuestions } from "@/lib/quiz-schema"
+import { coreQuestions, dimensionLabels } from "@/lib/quiz-schema"
 import { generateResult, getNeighboringFamilyKey, getScenarioSequence } from "@/lib/scoring"
 import { encodePayload, dimensionScoresToArray } from "@/lib/share"
 import { Answers, Question } from "@/lib/types"
@@ -17,25 +17,23 @@ type AnswerRow = {
 
 export function ReviewScreen() {
   const router = useRouter()
-  const [answers, setAnswers] = useState<Answers | null>(null)
-  const [ready, setReady] = useState(false)
+  const [answers] = useState<Answers | null>(() => {
+    if (typeof window === "undefined") return null
+    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
+    if (!raw) return null
+    try {
+      return JSON.parse(raw) as Answers
+    } catch {
+      return null
+    }
+  })
   const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
-    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
-    if (!raw) {
+    if (answers === null) {
       router.replace("/quiz")
-      return
     }
-    try {
-      const parsed = JSON.parse(raw) as Answers
-      setAnswers(parsed)
-    } catch {
-      router.replace("/quiz")
-      return
-    }
-    setReady(true)
-  }, [router])
+  }, [answers, router])
 
   const scenarioSequence = useMemo(
     () => (answers ? getScenarioSequence(answers) : []),
@@ -91,7 +89,7 @@ export function ReviewScreen() {
     router.push("/quiz")
   }
 
-  if (!ready) {
+  if (answers === null) {
     return <div className="panel" style={{ padding: "40px" }}>Loading your answers…</div>
   }
 
@@ -176,7 +174,7 @@ export function ReviewScreen() {
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-          Your result is only computed when you click "Generate." No data is sent anywhere — all
+          Your result is only computed when you click &ldquo;Generate.&rdquo; No data is sent anywhere — all
           processing happens in your browser.
         </p>
       </section>

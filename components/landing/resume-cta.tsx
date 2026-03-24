@@ -1,33 +1,30 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
 import { Answers } from "@/lib/types"
 
-export function ResumeCta() {
-  const [hasDraft, setHasDraft] = useState(false)
-  const [draftCount, setDraftCount] = useState(0)
+function readDraft(): { hasDraft: boolean; draftCount: number } {
+  if (typeof window === "undefined") return { hasDraft: false, draftCount: 0 }
+  const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
+  if (!raw) return { hasDraft: false, draftCount: 0 }
+  try {
+    const parsed = JSON.parse(raw) as Answers
+    const count = Object.keys(parsed).length
+    if (count > 0) return { hasDraft: true, draftCount: count }
+  } catch {
+    // Corrupt data — ignore.
+  }
+  return { hasDraft: false, draftCount: 0 }
+}
 
-  useEffect(() => {
-    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
-    if (!raw) return
-    try {
-      const parsed = JSON.parse(raw) as Answers
-      const count = Object.keys(parsed).length
-      if (count > 0) {
-        setHasDraft(true)
-        setDraftCount(count)
-      }
-    } catch {
-      // Corrupt data — ignore.
-    }
-  }, [])
+export function ResumeCta() {
+  const [{ hasDraft, draftCount }, setDraft] = useState(readDraft)
 
   function clearDraft() {
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-    setHasDraft(false)
-    setDraftCount(0)
+    setDraft({ hasDraft: false, draftCount: 0 })
   }
 
   if (!hasDraft) {

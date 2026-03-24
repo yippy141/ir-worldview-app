@@ -191,7 +191,7 @@ export default function MethodPage() {
         <p style={{ lineHeight: "1.65" }}>
           <strong>Stage 1 — Core dimension scores.</strong> Each Likert question maps to one
           dimension. Some items are reverse-scored: high agreement lowers the relevant dimension
-          score because the item contradicts that dimension's logic. Dimension scores are averaged
+          score because the item contradicts that dimension&apos;s logic. Dimension scores are averaged
           within each group and run from 1 to 7.
         </p>
         <p style={{ lineHeight: "1.65" }}>
@@ -213,7 +213,7 @@ export default function MethodPage() {
         </p>
         <div className="panel-flush">
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-            <strong>Note on "profile clarity":</strong> Earlier versions of this tool displayed a
+            <strong>Note on &ldquo;profile clarity&rdquo;:</strong> Earlier versions of this tool displayed a
             clarity percentage. This figure was an internal heuristic measuring the gap between the
             top and second-place family scores — not a validated confidence metric, and not a
             population percentile. It has been removed from the results display to avoid implying a
