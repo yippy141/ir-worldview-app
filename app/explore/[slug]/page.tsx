@@ -245,6 +245,31 @@ export default async function ExploreDetailPage({ params }: Props) {
                 {family.quizCoverage.note}
               </p>
             </div>
+            {family.modelingNote ? (
+              <div
+                className="callout"
+                style={{
+                  borderLeft: "3px solid var(--accent-light)",
+                  marginTop: "12px",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "0.72rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                    fontWeight: 600,
+                    color: "var(--muted)",
+                    marginBottom: "8px",
+                  }}
+                >
+                  What this page models (and what it does not)
+                </p>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                  {family.modelingNote}
+                </p>
+              </div>
+            ) : null}
           </section>
 
           <hr className="divider" />

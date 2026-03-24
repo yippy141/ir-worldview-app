@@ -12,7 +12,7 @@ export const MODELED_FAMILY_KEYS: FamilyKey[] = [
 
 export const FAMILY_LABELS: Record<FamilyKey, string> = {
   realist: "Strategic Realist",
-  institutionalist: "Critical Institutionalist",
+  institutionalist: "Liberal Institutionalist",
   constructivist: "Social Constructivist",
   criticalPoliticalEconomy: "Critical Political Economist",
 }

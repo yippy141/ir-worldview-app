@@ -1,5 +1,5 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
-import { familyDescriptions } from "@/lib/scoring"
+import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { familyLabel } from "@/lib/worldview-config"
 import { DimensionKey, DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
 
@@ -710,4 +710,83 @@ export function getFlipAnalysis(
   } else {
     return `Your ${dimLabel} score (${score.toFixed(1)}) is in the moderate-low range — closer to neutral than a decisive position would be. A shift toward taking ${dimLabel} more seriously would move the result toward ${nkLabel}. The runner-up captures a real part of your profile.`
   }
+}
+
+// ── Why this result won ───────────────────────────────────────────────────────
+
+// Returns 2–4 bullets explaining which dimensions most drove the primary result
+// over the runner-up, in plain English.
+export function getWhyThisResult(
+  fk: FamilyKey,
+  nk: FamilyKey,
+  d: DimensionScores,
+): string[] {
+  const primaryProfile = familyProfiles[fk]
+  const runnerProfile = familyProfiles[nk]
+  const dims = Object.keys(d) as DimensionKey[]
+
+  // For each dimension, compute how much it favored primary over runner-up
+  const contributions = dims.map((dim) => {
+    const centered = d[dim] - 4
+    const primaryWeight = primaryProfile[dim] ?? 0
+    const runnerWeight = runnerProfile[dim] ?? 0
+    const diff = centered * (primaryWeight - runnerWeight)
+    return { dim, diff, score: d[dim] }
+  })
+
+  const top = contributions
+    .filter((c) => c.diff > 0.1)
+    .sort((a, b) => b.diff - a.diff)
+    .slice(0, 4)
+
+  if (top.length === 0) {
+    return ["Your answers aligned consistently with the overall profile of this tradition across multiple dimensions."]
+  }
+
+  const fkLabel = familyLabel(fk)
+  const nkLabel = familyLabel(nk)
+
+  return top.map(({ dim, score }) => {
+    const dimLabel = dimensionLabels[dim].toLowerCase()
+    const directionWord = score >= 4.5 ? "high" : score <= 3.5 ? "low" : "moderate"
+    return `Your ${directionWord} score on ${dimLabel} aligned more with ${fkLabel} logic than with ${nkLabel}.`
+  })
+}
+
+// ── Comparison strip ──────────────────────────────────────────────────────────
+
+export type ComparisonDimension = {
+  dim: DimensionKey
+  label: string
+  userScore: number
+  primaryExpected: "high" | "neutral" | "low"
+  runnerUpExpected: "high" | "neutral" | "low"
+}
+
+// Returns the top 3 dimensions where primary and runner-up profiles diverge
+// most, for rendering a comparison strip on the results page.
+export function getComparisonDimensions(
+  fk: FamilyKey,
+  nk: FamilyKey,
+  d: DimensionScores,
+): ComparisonDimension[] {
+  const primaryProfile = familyProfiles[fk]
+  const runnerProfile = familyProfiles[nk]
+  const dims = Object.keys(d) as DimensionKey[]
+
+  const divergence = dims.map((dim) => {
+    const pWeight = primaryProfile[dim] ?? 0
+    const rWeight = runnerProfile[dim] ?? 0
+    return { dim, gap: Math.abs(pWeight - rWeight), pWeight, rWeight }
+  })
+
+  const top3 = divergence.sort((a, b) => b.gap - a.gap).slice(0, 3)
+
+  return top3.map(({ dim, pWeight, rWeight }) => ({
+    dim,
+    label: dimensionLabels[dim],
+    userScore: d[dim],
+    primaryExpected: pWeight > 0.2 ? "high" : pWeight < -0.2 ? "low" : "neutral",
+    runnerUpExpected: rWeight > 0.2 ? "high" : rWeight < -0.2 ? "low" : "neutral",
+  }))
 }

@@ -1,14 +1,21 @@
 "use client"
 
-import { useState } from "react"
+import { useSyncExternalStore } from "react"
 import Link from "next/link"
 import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
 import { Answers } from "@/lib/types"
 
-function readDraft(): { hasDraft: boolean; draftCount: number } {
-  if (typeof window === "undefined") return { hasDraft: false, draftCount: 0 }
+type DraftState = { hasDraft: boolean; draftCount: number }
+
+const NO_DRAFT: DraftState = { hasDraft: false, draftCount: 0 }
+
+// Cached snapshot — useSyncExternalStore requires a stable reference when
+// the value hasn't changed, otherwise React throws in development.
+let _cached: DraftState = NO_DRAFT
+
+function readFromStorage(): DraftState {
   const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
-  if (!raw) return { hasDraft: false, draftCount: 0 }
+  if (!raw) return NO_DRAFT
   try {
     const parsed = JSON.parse(raw) as Answers
     const count = Object.keys(parsed).length
@@ -16,15 +23,43 @@ function readDraft(): { hasDraft: boolean; draftCount: number } {
   } catch {
     // Corrupt data — ignore.
   }
-  return { hasDraft: false, draftCount: 0 }
+  return NO_DRAFT
+}
+
+// Listeners are called when we mutate localStorage in this tab so React
+// can re-run getSnapshot and schedule a re-render if the value changed.
+const _listeners = new Set<() => void>()
+
+function subscribe(cb: () => void) {
+  _listeners.add(cb)
+  return () => _listeners.delete(cb)
+}
+
+function getSnapshot(): DraftState {
+  const next = readFromStorage()
+  // Return the same reference when nothing changed — prevents spurious re-renders.
+  if (next.hasDraft === _cached.hasDraft && next.draftCount === _cached.draftCount) {
+    return _cached
+  }
+  _cached = next
+  return _cached
+}
+
+function getServerSnapshot(): DraftState {
+  // Matches the server-rendered HTML (no localStorage on the server).
+  return NO_DRAFT
 }
 
 export function ResumeCta() {
-  const [{ hasDraft, draftCount }, setDraft] = useState(readDraft)
+  const { hasDraft, draftCount } = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  )
 
   function clearDraft() {
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-    setDraft({ hasDraft: false, draftCount: 0 })
+    _listeners.forEach((cb) => cb())
   }
 
   if (!hasDraft) {

@@ -46,6 +46,58 @@ export default function ExplorePage() {
 
       <hr className="divider" />
 
+      {/* Umbrella traditions */}
+      <div className="article-section stack-md">
+        <h2>Each tradition is an umbrella</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          None of the families below is a single unified school. Each is a grouping of related
+          arguments that share certain premises — a family resemblance, not a doctrine.
+        </p>
+        <div className="stack-sm">
+          <div>
+            <p style={{ lineHeight: "1.7" }}>
+              <strong>Realism</strong> includes classical realists (who ground the argument in human
+              nature and statecraft), structural realists (who locate the explanation in systemic
+              anarchy), offensive realists (who argue the structure pushes toward power maximization),
+              and defensive realists (who argue it often rewards restraint). They share the premise
+              that power and self-help are durable features of world politics — they disagree on what
+              follows from that.
+            </p>
+          </div>
+          <div>
+            <p style={{ lineHeight: "1.7" }}>
+              <strong>Liberalism</strong> is also an umbrella. The tradition modeled here —
+              liberal institutionalism — emphasizes how rules, monitoring, and repeated interaction
+              can make cooperation more durable. Other liberal strands include commercial liberalism
+              (trade and economic interdependence reduce the incentive for conflict), republican
+              liberalism (democratic institutions shape what governments can credibly commit to
+              internationally), and sociological liberalism (transnational actors and networks
+              matter). The quiz primarily tests institutionalist instincts.
+            </p>
+          </div>
+          <div>
+            <p style={{ lineHeight: "1.7" }}>
+              <strong>Constructivism</strong> ranges from conventional constructivism (norms and
+              identity are empirically important variables) to critical constructivism (which asks
+              whose interests prevailing norms serve) to poststructuralism (which questions the
+              stable identities that even conventional constructivism assumes). What they share is
+              the claim that the meaning of threats and interests is partly socially constructed.
+            </p>
+          </div>
+          <div>
+            <p style={{ lineHeight: "1.7" }}>
+              <strong>Critical political economy</strong> includes Marxist political economy,
+              dependency theory, world-systems theory, neo-Gramscian IPE, and structural power
+              analysis. They agree that global economic structures shape state autonomy in ways
+              that conventional security analysis misses — they differ on which structural mechanisms
+              matter most and whether reform from within is possible.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr className="divider" />
+
       {/* Modeled families grid */}
       <div className="article-section stack-md">
         <h2>Traditions modeled in the quiz</h2>

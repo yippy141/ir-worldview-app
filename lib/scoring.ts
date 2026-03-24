@@ -1,5 +1,5 @@
-import { coreQuestions, dimensionLabels, rootScenarioOrder, scenarioQuestions } from "@/lib/quiz-schema"
-import {
+import { coreQuestions, dimensionLabels, tieBreakerClusters, FALLBACK_SCENARIO_IDS, scenarioQuestions } from "@/lib/quiz-schema"
+import type {
   Answers,
   DimensionKey,
   DimensionScores,
@@ -12,7 +12,7 @@ import {
 
 const DIMENSIONS = Object.keys(dimensionLabels) as DimensionKey[]
 
-const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
+export const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
   realist: {
     securityCompetition: 1,
     institutions: -0.55,
@@ -53,7 +53,7 @@ const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> =
 
 const familyLabels: Record<FamilyKey, string> = {
   realist: "Strategic Realist",
-  institutionalist: "Critical Institutionalist",
+  institutionalist: "Liberal Institutionalist",
   constructivist: "Social Constructivist",
   criticalPoliticalEconomy: "Critical Political Economist",
 }
@@ -104,7 +104,52 @@ export function computeCoreDimensionScores(answers: Answers): DimensionScores {
   }, {} as DimensionScores)
 }
 
+// Select 3–5 tie-breaker scenario IDs based on the two closest family scores.
+export function selectTieBreakerIds(
+  familyScores: Record<FamilyKey, number>,
+  dimensionScores: DimensionScores,
+): string[] {
+  const ordered = (Object.entries(familyScores) as [FamilyKey, number][]).sort((a, b) => b[1] - a[1])
+  const topFamily = ordered[0][0]
+  const runnerUpFamily = ordered[1][0]
+  const gap = ordered[0][1] - ordered[1][1]
+
+  const ids = new Set<string>()
+
+  // If top two are close, add the cluster for that pair
+  if (gap < 1.5) {
+    const cluster = tieBreakerClusters.find(
+      (c) =>
+        (c.pair[0] === topFamily && c.pair[1] === runnerUpFamily) ||
+        (c.pair[0] === runnerUpFamily && c.pair[1] === topFamily),
+    )
+    if (cluster) cluster.scenarioIds.forEach((id) => ids.add(id))
+  }
+
+  // If orderJustice is near neutral, add the humanitarian intervention item
+  if (dimensionScores.orderJustice >= 3.4 && dimensionScores.orderJustice <= 4.6) {
+    ids.add("humanitarianIntervention")
+  }
+
+  // Ensure at least 3 scenarios via fallback
+  for (const id of FALLBACK_SCENARIO_IDS) {
+    if (ids.size >= 3) break
+    ids.add(id)
+  }
+
+  return [...ids].slice(0, 5)
+}
+
 export function getScenarioSequence(answers: Answers): ScenarioQuestion[] {
+  // Gate scenarios behind all 21 core items being answered
+  const allCoreAnswered = coreQuestions.every((q) => answers[q.id] !== undefined)
+  if (!allCoreAnswered) return []
+
+  // Compute scores to select adaptive tie-breakers
+  const coreScores = computeCoreDimensionScores(answers)
+  const fScores = scoreFamilies(coreScores)
+  const rootIds = selectTieBreakerIds(fScores, coreScores)
+
   const sequence: ScenarioQuestion[] = []
   const seen = new Set<string>()
 
@@ -124,7 +169,7 @@ export function getScenarioSequence(answers: Answers): ScenarioQuestion[] {
     }
   }
 
-  for (const scenarioId of rootScenarioOrder) {
+  for (const scenarioId of rootIds) {
     addScenario(scenarioId)
   }
 

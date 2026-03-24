@@ -22,6 +22,7 @@ export type ExploreFamily = {
   neighbors: { familyKey: FamilyKey; contrast: string }[]
   readings: ExploreReading[]
   quizCoverage: { level: "strong" | "moderate" | "partial"; note: string }
+  modelingNote?: string
 }
 
 export type ExploreGapEntry = {
@@ -263,6 +264,8 @@ Liberal institutionalism also takes domestic politics seriously. The "two-level 
       note:
         "Institutionalism is one of the most directly modeled traditions. The institutions dimension captures the core question — do rules shape outcomes independently? The domestic filters dimension captures liberal arguments about how internal politics shape foreign policy. The scenarios on institutional capture and sanctions-monitoring probe institutionalist instincts about when rules fail. This tradition is modeled with reasonable depth.",
     },
+    modelingNote:
+      "This page models liberal institutionalism — the tradition associated with Keohane, Nye, and the study of international regimes and cooperation under anarchy. It does not model the full liberal tradition in IR. Other liberal strands — commercial liberalism (trade reduces the incentive for conflict), republican liberalism (democratic institutions shape foreign policy), and sociological liberalism (transnational actors and networks matter) — share a general optimism about cooperation but differ substantially in their explanatory emphasis. The quiz primarily tests institutionalist instincts.",
   },
 
   {
@@ -480,6 +483,8 @@ The tradition also attends to who builds the rules. The institutions that govern
       note:
         "Critical political economy is modeled through the political economy dimension, which captures instincts about whether global economics is necessary to explain international outcomes. The scenarios on financial crisis and capital controls also probe these instincts. The current model is thinner here than for realism or institutionalism — it captures the core orientation but does not have dedicated dimensions for questions about class, production hierarchies, or the granular politics of global finance. This is the tradition most underrepresented in the current version, and an area for expansion in future iterations.",
     },
+    modelingNote:
+      "Critical political economy is an umbrella for several distinct but related strands. Marxist political economy foregrounds class and capital accumulation as the drivers of foreign economic policy. Dependency theory (Prebisch, Cardoso, Frank) emphasizes how core-periphery relations structurally reproduce underdevelopment. World-systems theory (Wallerstein) extends this to a long-run analysis of capitalism as a single historical system. Neo-Gramscian IPE (Cox, Gill) examines how hegemony and ideology reproduce international economic order. Structural power analysis (Strange) focuses on how control over production, finance, security, and knowledge structures creates power independent of formal authority. The quiz scores these strands together as a single orientation — it does not yet disaggregate them.",
   },
 ]
 

@@ -1,4 +1,4 @@
-import { LikertQuestion, ScenarioQuestion } from "@/lib/types"
+import type { LikertQuestion, ScenarioQuestion } from "@/lib/types"
 
 export const SCHEMA_VERSION = 2
 
@@ -276,54 +276,60 @@ export const coreQuestions: LikertQuestion[] = [
   },
 ]
 
-// ── Scenario questions (unchanged from v1) ────────────────────────────────────
+// ── Scenario questions (Phase 3C) ─────────────────────────────────────────────
+// Each option represents a distinct theoretical logic, not a temperature scale.
+// All three options in each scenario should be defensible — none is the "obvious" answer.
 
 export const scenarioQuestions: Record<string, ScenarioQuestion> = {
   strategicTechnology: {
     id: "strategicTechnology",
     kind: "scenario",
     prompt:
-      "A rival great power is closing the gap in advanced chips through open supply chains. What is the best response?",
+      "A rival great power is closing the gap in advanced semiconductors. Your firms are intertwined with theirs through global supply chains. What is the primary consideration?",
     options: [
       {
         id: "A",
-        label: "Keep markets open. Aggregate gains and innovation matter most.",
-        weights: { institutions: 0.6, restraint: 0.4, securityCompetition: -0.5 },
+        label:
+          "Closing the capability gap is itself the threat. Restrict exports across relevant categories now — the cost to overall trade is secondary to preserving the structural advantage.",
+        weights: { securityCompetition: 0.7, restraint: -0.5, institutions: -0.3 },
       },
       {
         id: "B",
-        label: "Restrict narrowly and multilaterally in clearly strategic technologies.",
-        weights: { securityCompetition: 0.4, institutions: 0.3, restraint: 0.3 },
-        followUpId: "allyTrade",
+        label:
+          "The real contest is over who controls production standards and supply-chain dependency structures. Invest in domestic capacity and reduce asymmetric exposure — export controls are a distraction from structural repositioning.",
+        weights: { politicalEconomy: 0.7, securityCompetition: 0.2, institutions: -0.1 },
       },
       {
         id: "C",
-        label: "Restrict aggressively and seek durable technological primacy.",
-        weights: { securityCompetition: 0.8, restraint: -0.7, institutions: -0.3 },
-        followUpId: "allyTrade",
+        label:
+          "Restrict only genuinely dual-use items through coordinated multilateral frameworks. Unilateral broad controls fracture the open economic order that sustains allied cohesion and long-run competitiveness.",
+        weights: { institutions: 0.6, securityCompetition: 0.1, restraint: 0.3 },
       },
     ],
   },
-  allyTrade: {
-    id: "allyTrade",
+  allyBurdenSharing: {
+    id: "allyBurdenSharing",
     kind: "scenario",
     prompt:
-      "An ally benefits more from a trade agreement, but both sides still gain substantially. What matters most?",
+      "A major ally spends significantly below agreed targets, relying on extended deterrence from your state. How should the alliance respond?",
     options: [
       {
         id: "A",
-        label: "Accept it — absolute gains and alliance solidarity outweigh relative gain concerns; declining a mutually beneficial deal is strategically self-defeating.",
-        weights: { institutions: 0.5, restraint: 0.2, securityCompetition: -0.4 },
+        label:
+          "Sustained free-riding undermines collective defense credibility. The asymmetry in burden is an asymmetry in leverage — allies that rely on extended deterrence become clients rather than partners.",
+        weights: { securityCompetition: 0.6, restraint: -0.3, institutions: -0.2 },
       },
       {
         id: "B",
-        label: "Decline it — in a competitive environment, consistently allowing an ally to gain relative advantage accumulates into a structural problem, even when absolute gains are positive.",
-        weights: { securityCompetition: 0.7, restraint: -0.4, institutions: -0.4 },
+        label:
+          "Allies that invest in shared capabilities are investing in the alliance's collective capacity, not just their own defense. The concern is whether the alliance delivers on shared commitments — not relative contributions within it.",
+        weights: { institutions: 0.6, securityCompetition: -0.2, restraint: 0.2 },
       },
       {
         id: "C",
-        label: "Use it as leverage — ratify, but make it conditional on renegotiating arrangements in strategically sensitive sectors first.",
-        weights: { securityCompetition: 0.3, institutions: 0.1, politicalEconomy: 0.3 },
+        label:
+          "The burden-sharing dispute often masks a deeper conflict over who defines the alliance's purpose. Demanding higher outlays without addressing the underlying legitimacy and status questions typically fails.",
+        weights: { normsIdentity: 0.5, domesticFilters: 0.3, institutions: 0.1 },
       },
     ],
   },
@@ -331,23 +337,26 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "institutionalCapture",
     kind: "scenario",
     prompt:
-      "A global institution is technically effective, but one great power heavily shapes its agenda through funding and veto leverage. What should others do?",
+      "A global institution is technically effective, but one great power heavily shapes its agenda through funding and veto leverage. What is the primary response?",
     options: [
       {
         id: "A",
-        label: "Reform its governance — the capture problem is real but fixable; abandoning the institution trades a correctable flaw for the larger cost of building something new.",
-        weights: { institutions: 0.7, domesticFilters: 0.2 },
+        label:
+          "Reform its governance — voting weights, budget diversification, transparency rules. The capture is correctable, and abandoning the institution trades a fixable flaw for the larger cost of rebuilding cooperation from scratch.",
+        weights: { institutions: 0.8, restraint: 0.2 },
         followUpId: "sanctionsBody",
       },
       {
         id: "B",
-        label: "Reject its authority on key issues — working within a dominant-power-shaped institution confers legitimacy it has not earned; the institution's independence is the fiction, not the capture.",
-        weights: { institutions: -0.6, securityCompetition: 0.3 },
+        label:
+          "Reject its authority on contested issues. A captured institution does not generate legitimate obligations — it launders dominant-power preferences as neutral rules. Working within it confers legitimacy it has not earned.",
+        weights: { institutions: -0.6, securityCompetition: 0.5, restraint: -0.2 },
       },
       {
         id: "C",
-        label: "Build coalitions outside it — selective bypass preserves the institution for areas where it still functions while avoiding captured processes on others.",
-        weights: { institutions: -0.2, securityCompetition: 0.2, restraint: -0.1 },
+        label:
+          "Build alternative coalitions outside it. The capture reflects structural inequalities in the international economy that procedural fixes cannot address. The priority is building weight and voice in alternative forums.",
+        weights: { politicalEconomy: 0.5, institutions: -0.3, securityCompetition: 0.1 },
       },
     ],
   },
@@ -355,22 +364,25 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "sanctionsBody",
     kind: "scenario",
     prompt:
-      "A sanctions-monitoring body is credible on paper but is distrusted by the target state. Which problem matters more?",
+      "A sanctions-monitoring body has credible procedures, but the target state regards it as politically motivated. Which assessment is closer to the truth?",
     options: [
       {
         id: "A",
-        label: "Distrust of the institution itself is the real obstacle.",
-        weights: { institutions: -0.2, normsIdentity: 0.2 },
-      },
-      {
-        id: "B",
-        label: "The target may still distrust the process, but credible enforcement can help.",
+        label:
+          "The institution's procedural credibility is what matters. Distrust reflects the target's interest in avoiding scrutiny, not a genuine legitimacy deficit.",
         weights: { institutions: 0.4, restraint: 0.1 },
       },
       {
+        id: "B",
+        label:
+          "Both matter. An institution cannot enforce effectively if the target has no reason to regard it as impartial — procedural credibility and perceived legitimacy are not separable.",
+        weights: { institutions: 0.1, normsIdentity: 0.3 },
+      },
+      {
         id: "C",
-        label: "Only underlying power shifts matter; the monitor adds little.",
-        weights: { institutions: -0.5, securityCompetition: 0.3 },
+        label:
+          "The underlying power relationships determine whether monitoring changes behavior. Procedural credibility adds little when the target can absorb the cost of non-compliance.",
+        weights: { institutions: -0.4, securityCompetition: 0.3 },
       },
     ],
   },
@@ -378,23 +390,26 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "humanitarianIntervention",
     kind: "scenario",
     prompt:
-      "Mass killing is underway, but a UN Security Council veto blocks authorization. A regional body supports action. What is the best response?",
+      "Mass killing is underway, but a UN Security Council veto blocks authorization. A credible regional body endorses limited action. What is the right response?",
     options: [
       {
         id: "A",
-        label: "Legality first — coercive action without UNSC authorization damages the normative order more than any single atrocity outcome it might prevent.",
+        label:
+          "Legality first. Coercive action without UNSC authorization damages the normative order more than any single atrocity outcome it might prevent — the precedent will be used for far less justifiable purposes.",
         weights: { orderJustice: 0.8, restraint: 0.2 },
       },
       {
         id: "B",
-        label: "Moral primacy — when mass killing is underway, sovereignty cannot be the binding constraint; the scale of harm sets the threshold, not the politics of the Security Council.",
+        label:
+          "Moral threshold supersedes procedural gatekeeping. When mass killing is underway, sovereignty cannot be the binding constraint. The scale of harm sets the threshold — not the composition of the Security Council.",
         weights: { orderJustice: -0.8, restraint: -0.1 },
         followUpId: "atrocityThreshold",
       },
       {
         id: "C",
-        label: "Regional legitimacy, narrow mandate — limited action can be justified without UNSC authorization if the threshold is extreme, the mandate strictly limited, and a credible regional body endorses it.",
-        weights: { orderJustice: 0.2, restraint: 0.3 },
+        label:
+          "Regional endorsement plus a strictly limited mandate provides sufficient legitimacy for emergency action. This is not a general license for regime change — it distinguishes emergency protection from unilateral intervention.",
+        weights: { orderJustice: 0.2, restraint: 0.3, institutions: 0.2 },
         followUpId: "atrocityThreshold",
       },
     ],
@@ -402,21 +417,21 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
   atrocityThreshold: {
     id: "atrocityThreshold",
     kind: "scenario",
-    prompt: "Which threshold most justifies breaching sovereignty?",
+    prompt: "Which threshold most clearly justifies breaching sovereignty against the will of the target state?",
     options: [
       {
         id: "A",
-        label: "Only genocide or comparably systematic mass killing.",
+        label: "Only genocide or comparably systematic mass killing meets the bar.",
         weights: { orderJustice: 0.5 },
       },
       {
         id: "B",
-        label: "Large-scale atrocities, even if they fall short of genocide.",
+        label: "Large-scale atrocities, even if they fall short of a legal genocide standard.",
         weights: { orderJustice: 0 },
       },
       {
         id: "C",
-        label: "Serious repression or recurring war crimes should often be enough.",
+        label: "Serious and sustained repression or recurring war crimes should often be enough.",
         weights: { orderJustice: -0.5 },
       },
     ],
@@ -425,23 +440,26 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "financialCrisis",
     kind: "scenario",
     prompt:
-      "A middle-income state faces collapse after capital flight and external financing pressure. What is the best diagnosis?",
+      "A middle-income country faces economic collapse after a sudden reversal of capital flows and creditor pressure to adopt austerity. What is the more accurate diagnosis?",
     options: [
       {
         id: "A",
-        label: "The main problem is domestic mismanagement; orthodox adjustment is the answer.",
+        label:
+          "The crisis reflects domestic fiscal imbalances and credibility deficits that external pressure has exposed, not created. Adjustment — consolidation and credibility signaling — restores sustainable market access.",
         weights: { politicalEconomy: -0.6, domesticFilters: 0.2 },
       },
       {
         id: "B",
-        label: "The problem is both domestic and structural; use temporary controls and renegotiate.",
-        weights: { politicalEconomy: 0.5, domesticFilters: 0.4, restraint: 0.1 },
+        label:
+          "The crisis has both domestic and structural dimensions. Temporary capital controls, selective restructuring, and renegotiated conditionality — not rejection of the international system — is the pragmatic path.",
+        weights: { politicalEconomy: 0.4, domesticFilters: 0.3, institutions: 0.2 },
         followUpId: "capitalControls",
       },
       {
         id: "C",
-        label: "The problem is chiefly external domination; reject the existing financial architecture.",
-        weights: { politicalEconomy: 0.9, institutions: -0.2, restraint: -0.1 },
+        label:
+          "Capital flight and creditor leverage are features of structural financial dependence, not accidents of policy. The crisis will recur unless the state reduces asymmetric exposure and builds regional financing alternatives.",
+        weights: { politicalEconomy: 0.9, institutions: -0.3 },
         followUpId: "capitalControls",
       },
     ],
@@ -449,21 +467,24 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
   capitalControls: {
     id: "capitalControls",
     kind: "scenario",
-    prompt: "Which policy bundle is most prudent in that crisis?",
+    prompt: "Which policy stance is most defensible in that crisis?",
     options: [
       {
         id: "A",
-        label: "Rapid liberalization and confidence signaling.",
+        label:
+          "Rapid liberalization and credible commitment signaling — controls delay adjustment and signal the wrong priorities to markets.",
         weights: { politicalEconomy: -0.3, institutions: 0.1 },
       },
       {
         id: "B",
-        label: "Temporary controls, targeted relief, and renegotiation.",
+        label:
+          "Temporary controls, targeted relief, and renegotiation of conditionality terms while remaining within the international financial architecture.",
         weights: { politicalEconomy: 0.4, domesticFilters: 0.2, restraint: 0.1 },
       },
       {
         id: "C",
-        label: "Long-run exit from dependent financial structures.",
+        label:
+          "Long-run restructuring away from dependent financial relationships — temporary controls are the floor, not the ceiling.",
         weights: { politicalEconomy: 0.7, institutions: -0.2 },
       },
     ],
@@ -472,33 +493,102 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "formerRivalTransforms",
     kind: "scenario",
     prompt:
-      "A long-time rival democratizes, joins institutions, and changes its elite discourse. How much should the threat assessment change?",
+      "A long-time rival democratizes, joins multilateral institutions, and shifts its elite discourse toward cooperative norms. How much should the threat assessment change?",
     options: [
       {
         id: "A",
-        label: "Update significantly — the combination of democratic accountability, institutional integration, and elite socialization changes what this state will do; that transformation is threat-relevant information.",
+        label:
+          "Update significantly. Democratic accountability, institutional integration, and elite socialization change what a state will do. Dismissing this as strategic signaling discards threat-relevant evidence.",
         weights: { normsIdentity: 0.8, securityCompetition: -0.4 },
       },
       {
         id: "B",
-        label: "Update minimally — capabilities and structural incentives are what drive behavior; regime change and discourse shifts are often strategic signals, not durable transformations.",
+        label:
+          "Update minimally. Capabilities and structural incentives drive behavior. Regime change and discourse shifts are often tactical rather than durable — the interests that produced rivalry have not been transformed.",
         weights: { normsIdentity: -0.7, securityCompetition: 0.5 },
       },
       {
         id: "C",
-        label: "Update conditionally — democratization and institutional membership reduce some risks but preserve others; the threat assessment should track the specific issue areas, not assume either continuity or transformation.",
-        weights: { normsIdentity: 0.1, securityCompetition: 0.1, restraint: 0.1 },
+        label:
+          "Focus on institutional integration more than identity change. Membership in shared institutions raises the cost of aggression and builds domestic constituencies for stable relations — regardless of whether values have genuinely converged.",
+        weights: { institutions: 0.6, normsIdentity: 0.1, securityCompetition: -0.3 },
+      },
+    ],
+  },
+  economicCoercion: {
+    id: "economicCoercion",
+    kind: "scenario",
+    prompt:
+      "A rival state uses trade and investment restrictions as deliberate political pressure. What is the right framework for understanding and responding?",
+    options: [
+      {
+        id: "A",
+        label:
+          "Economic coercion is a form of power politics and should be met with countervailing pressure. Allowing asymmetric leverage to go unanswered signals vulnerability — the logic of deterrence applies to economic instruments as much as military ones.",
+        weights: { securityCompetition: 0.6, politicalEconomy: 0.2, restraint: -0.3 },
+      },
+      {
+        id: "B",
+        label:
+          "The lever exists because of structural dependence. Ad hoc retaliation does not remove it. The strategic response is long-run: diversify supply chains, build alternative financing, reduce the asymmetric exposure that makes coercion possible.",
+        weights: { politicalEconomy: 0.8, securityCompetition: 0.1, institutions: -0.1 },
+      },
+      {
+        id: "C",
+        label:
+          "The right response is multilateral dispute mechanisms and binding trade rules. Ad hoc retaliation normalizes economic statecraft as a coercive tool. The goal is binding the coercer into rules — not matching leverage for leverage.",
+        weights: { institutions: 0.7, politicalEconomy: -0.1, restraint: 0.2 },
+      },
+    ],
+  },
+  institutionalLegitimacy: {
+    id: "institutionalLegitimacy",
+    kind: "scenario",
+    prompt:
+      "A major international organization faces a legitimacy crisis, with rising-power members questioning whose norms and interests it represents. What is the better diagnosis?",
+    options: [
+      {
+        id: "A",
+        label:
+          "The crisis is a governance problem. More inclusive voting weights, broader representation in leadership, and better transparency procedures can restore confidence. The institution's track record is the asset worth protecting.",
+        weights: { institutions: 0.7, normsIdentity: 0.1, domesticFilters: 0.2 },
+      },
+      {
+        id: "B",
+        label:
+          "The crisis reflects whose knowledge, norms, and interests the institution was built to serve. Procedural fixes rarely address that deeper exclusion. Legitimacy requires recognizing whose frameworks and voices were structurally marginalized.",
+        weights: { normsIdentity: 0.8, institutions: 0.1, domesticFilters: 0.2 },
+      },
+      {
+        id: "C",
+        label:
+          "States invoke legitimacy when existing institutions no longer serve their interests as well as before. The 'crisis' tracks the underlying power shift — not a principled deficit. Treating legitimacy arguments as neutral diagnoses misreads the political incentives.",
+        weights: { securityCompetition: 0.5, institutions: -0.3, normsIdentity: -0.2 },
       },
     ],
   },
 }
 
-export const rootScenarioOrder = [
+// Tie-breaker selection clusters used by scoring.ts selectTieBreakerIds.
+// Each cluster maps a close family-score pair to the scenario IDs that best
+// discriminate between those two traditions.
+export type TieBreakerCluster = {
+  pair: [string, string]
+  scenarioIds: string[]
+}
+
+export const tieBreakerClusters: TieBreakerCluster[] = [
+  { pair: ["realist", "institutionalist"], scenarioIds: ["strategicTechnology", "institutionalCapture"] },
+  { pair: ["institutionalist", "constructivist"], scenarioIds: ["institutionalLegitimacy", "formerRivalTransforms"] },
+  { pair: ["realist", "criticalPoliticalEconomy"], scenarioIds: ["financialCrisis", "economicCoercion"] },
+  { pair: ["constructivist", "criticalPoliticalEconomy"], scenarioIds: ["economicCoercion", "institutionalLegitimacy"] },
+  { pair: ["institutionalist", "criticalPoliticalEconomy"], scenarioIds: ["financialCrisis", "allyBurdenSharing"] },
+]
+
+export const FALLBACK_SCENARIO_IDS = [
   "strategicTechnology",
-  "institutionalCapture",
   "humanitarianIntervention",
-  "financialCrisis",
   "formerRivalTransforms",
-] as const
+]
 
 export const likertScale = [1, 2, 3, 4, 5, 6, 7] as const

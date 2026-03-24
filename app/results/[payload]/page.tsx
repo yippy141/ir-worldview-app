@@ -14,6 +14,8 @@ import {
   getIssueAreaTilts,
   getRunnerUpSeparation,
   getFlipAnalysis,
+  getWhyThisResult,
+  getComparisonDimensions,
 } from "@/lib/result-helpers"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { familySlug } from "@/lib/worldview-config"
@@ -72,6 +74,8 @@ export default async function ResultPage(
   const issueAreaTilts = getIssueAreaTilts(data.fk, dimensionScores)
   const runnerUpSeparation = getRunnerUpSeparation(data.fk, data.nk, dimensionScores)
   const flipAnalysis = getFlipAnalysis(data.fk, data.nk, dimensionScores)
+  const whyThisResult = getWhyThisResult(data.fk, data.nk, dimensionScores)
+  const comparisonDims = getComparisonDimensions(data.fk, data.nk, dimensionScores)
 
   return (
     <div className="wide-container">
@@ -137,7 +141,20 @@ export default async function ResultPage(
           </div>
         ) : null}
 
-        {/* 5. Tensions */}
+        {/* 5. Why this result won */}
+        <div className="result-section stack-md">
+          <h2>Why this result won</h2>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+            The dimensions that most clearly distinguished your primary result from the runner-up.
+          </p>
+          <ul className="content-list">
+            {whyThisResult.map((bullet, i) => (
+              <li key={i}>{bullet}</li>
+            ))}
+          </ul>
+        </div>
+
+        {/* 6. Tensions */}
         <div className="result-section stack-md">
           <h2>Where you are mixed</h2>
           {tensions.length > 0 ? (
@@ -156,7 +173,7 @@ export default async function ResultPage(
           )}
         </div>
 
-        {/* 6. Issue-area tilts */}
+        {/* 7. Issue-area tilts */}
         {issueAreaTilts.length > 0 ? (
           <div className="result-section stack-md">
             <h2>Where your instincts cross boundaries</h2>
@@ -182,7 +199,7 @@ export default async function ResultPage(
           </div>
         ) : null}
 
-        {/* 7. Dimension profile */}
+        {/* 8. Dimension profile */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Dimension profile</h2>
@@ -211,7 +228,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 8. Closest neighbor */}
+        {/* 9. Closest neighbor */}
         <div className="result-section stack-md">
           <h2>Closest neighboring worldview</h2>
           <div className="neighbor-columns">
@@ -262,7 +279,48 @@ export default async function ResultPage(
           </p>
         </div>
 
-        {/* 9. Glossary */}
+        {/* 10. Primary vs runner-up comparison strip */}
+        <div className="result-section stack-md">
+          <h2>Where you diverge from your runner-up</h2>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+            The three dimensions where {familyLabel} and {neighborLabel} expect the most different
+            answers — and where your scores landed.
+          </p>
+          <div className="comparison-strip">
+            <div className="comparison-header">
+              <span className="comparison-label" />
+              <span className="comparison-family">{familyLabel}</span>
+              <span className="comparison-score-head">Your score</span>
+              <span className="comparison-family">{neighborLabel}</span>
+            </div>
+            {comparisonDims.map((cd) => (
+              <div key={cd.dim} className="comparison-row">
+                <span className="comparison-label">{cd.label}</span>
+                <span
+                  className={`comparison-expected comparison-expected--${cd.primaryExpected}`}
+                >
+                  {cd.primaryExpected === "high"
+                    ? "Higher"
+                    : cd.primaryExpected === "low"
+                      ? "Lower"
+                      : "Neutral"}
+                </span>
+                <span className="comparison-score">{cd.userScore.toFixed(1)}</span>
+                <span
+                  className={`comparison-expected comparison-expected--${cd.runnerUpExpected}`}
+                >
+                  {cd.runnerUpExpected === "high"
+                    ? "Higher"
+                    : cd.runnerUpExpected === "low"
+                      ? "Lower"
+                      : "Neutral"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 12. Glossary */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Glossary</h2>
@@ -282,7 +340,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 10. Suggested reading — primary */}
+        {/* 13. Suggested reading — primary */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Suggested reading</h2>
@@ -305,7 +363,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 11. Runner-up reading */}
+        {/* 14. Runner-up reading */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Reading for your runner-up</h2>
@@ -329,7 +387,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 12. Methods note + share */}
+        {/* 15. Methods note + share */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this classification</p>
