@@ -9,9 +9,11 @@ export const metadata: Metadata = {
 
 export default function QuizPage() {
   return (
-    // QuizApp uses useSearchParams, which requires a Suspense boundary in Next.js App Router.
-    <Suspense fallback={<div className="panel" style={{ padding: "40px" }}>Loading quiz…</div>}>
-      <QuizApp />
-    </Suspense>
+    <div className="container">
+      {/* QuizApp uses useSearchParams, which requires a Suspense boundary in Next.js App Router. */}
+      <Suspense fallback={<div className="panel" style={{ padding: "40px" }}>Loading quiz…</div>}>
+        <QuizApp />
+      </Suspense>
+    </div>
   )
 }

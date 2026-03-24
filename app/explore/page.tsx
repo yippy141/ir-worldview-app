@@ -1,6 +1,7 @@
 import Link from "next/link"
-import { exploreFamilies, exploreGaps } from "@/lib/explore-content"
+import { exploreFamilies, exploreGaps, issueCompares } from "@/lib/explore-content"
 import { FamilyCard } from "@/components/explore/family-card"
+import { familyLabel } from "@/lib/worldview-config"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ExplorePage() {
   return (
-    <div className="article-page">
+    <div className="wide-container">
       {/* Header */}
       <div className="article-header stack-sm">
         <p className="eyebrow">Worldview library</p>
@@ -55,6 +56,41 @@ export default function ExplorePage() {
         <div className="explore-grid">
           {exploreFamilies.map((family) => (
             <FamilyCard key={family.slug} family={family} />
+          ))}
+        </div>
+      </div>
+
+      <hr className="divider" />
+
+      {/* Issue comparisons */}
+      <div className="article-section stack-md">
+        <div className="stack-xs">
+          <h2>How the traditions read major issues</h2>
+          <p className="muted" style={{ lineHeight: "1.65" }}>
+            Three recurring questions in contemporary foreign policy — seen through all four
+            modeled traditions side by side.
+          </p>
+        </div>
+        <div>
+          {issueCompares.map((issue) => (
+            <div key={issue.slug} className="compare-issue">
+              <h3 style={{ fontFamily: "Georgia, serif", fontSize: "1.1rem", marginBottom: "6px" }}>
+                {issue.title}
+              </h3>
+              <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.55", marginBottom: "0" }}>
+                {issue.summary}
+              </p>
+              <div className="compare-grid">
+                {issue.readings.map((r) => (
+                  <div key={r.familyKey} className="compare-cell">
+                    <p className="compare-cell-label">{familyLabel(r.familyKey)}</p>
+                    <p style={{ fontSize: "0.875rem", lineHeight: "1.6", color: "var(--muted)" }}>
+                      {r.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>

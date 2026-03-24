@@ -405,3 +405,309 @@ export function getTopDimensions(scores: DimensionScores, n: number): DimensionK
     .slice(0, n)
     .map(([key]) => key)
 }
+
+// ── Subtradition affinity ─────────────────────────────────────────────────────
+
+export type SubtraditionAffinity = {
+  name: string
+  note: string
+}
+
+export function getSubtraditionAffinity(
+  familyKey: FamilyKey,
+  d: DimensionScores,
+): SubtraditionAffinity | null {
+  switch (familyKey) {
+    case "realist":
+      if (d.restraint >= 5)
+        return {
+          name: "Defensive realism",
+          note:
+            "Your restraint score is notably high for a realist. Defensive realists argue that the structure of anarchy often rewards restraint — that overextension and offensive moves provoke balancing coalitions more than they produce durable security. This is consistent with your profile.",
+        }
+      if (d.restraint <= 3)
+        return {
+          name: "Offensive realism",
+          note:
+            "Your low restraint score within a realist frame points toward offensive realism: the structure of anarchy pushes major powers to maximize power because there is no safe stopping point. Windows of opportunity should be exploited.",
+        }
+      if (d.domesticFilters >= 5)
+        return {
+          name: "Classical realism",
+          note:
+            "A realist who also gives weight to domestic politics and statecraft leans toward the classical tradition — Morgenthau's emphasis on prudence, leadership, and the human drives behind power competition, rather than purely structural accounts.",
+        }
+      return {
+        name: "Structural realism",
+        note:
+          "Your profile fits the mainstream structural realist position: the distribution of power and the condition of anarchy explain most of what matters, with relatively little variance from domestic or ideational factors.",
+      }
+
+    case "institutionalist":
+      if (d.domesticFilters >= 5 && d.institutions >= 5)
+        return {
+          name: "Two-level game / democratic peace",
+          note:
+            "You give high weight to both institutions and domestic politics — the combination that characterizes the democratic peace and two-level game strands of liberal institutionalism. Domestic constraints are not noise; they shape what governments can credibly commit to internationally.",
+        }
+      if (d.domesticFilters >= 5)
+        return {
+          name: "Liberal internationalism (domestic emphasis)",
+          note:
+            "Your high domestic-filters score alongside institutionalist leanings places you closer to the liberal internationalist tradition that emphasizes regime type, public opinion, and two-level constraints rather than purely organizational design.",
+        }
+      return {
+        name: "Neoliberal institutionalism",
+        note:
+          "Your profile matches the core neoliberal institutionalist position: international organizations and regimes can lower the cost of cooperation and make compliance more durable, even in the absence of a dominant enforcer.",
+      }
+
+    case "constructivist":
+      if (d.politicalEconomy >= 5)
+        return {
+          name: "Critical constructivism",
+          note:
+            "Your constructivism has a material-structural edge: you think norms and identities matter, but you also ask whose interests prevailing norms serve. This places you in the critical constructivist strand, which is skeptical of treating 'good norms' as unambiguously emancipatory.",
+        }
+      if (d.normsIdentity >= 6)
+        return {
+          name: "Conventional constructivism",
+          note:
+            "A strong normsIdentity score combined with a constructivist primary classification fits the mainstream conventional strand: norms and identities are empirically important variables that shape what counts as a legitimate policy option.",
+        }
+      return {
+        name: "Soft constructivism",
+        note:
+          "You lean constructivist but with moderate scores — suggesting an openness to ideational explanations without fully committing to identity as the master variable. This is sometimes called 'soft' or 'thin' constructivism.",
+      }
+
+    case "criticalPoliticalEconomy":
+      if (d.domesticFilters >= 5)
+        return {
+          name: "Dependency theory / development focus",
+          note:
+            "Your attention to domestic political economy alongside global structures is consistent with the dependency theory strand — which emphasizes how core-periphery dynamics are reproduced through domestic class coalitions and development policy, not just external imposition.",
+        }
+      if (d.institutions >= 4.5)
+        return {
+          name: "Structural power / IPE",
+          note:
+            "You score higher on institutions than most critical PE adherents, suggesting an orientation closer to Strange's structural power framework — which takes international institutions seriously as sites of structural power rather than dismissing them entirely.",
+        }
+      return {
+        name: "Marxist / world-systems",
+        note:
+          "Your skepticism of institutions combined with high political-economy salience fits the Marxist and world-systems strand: global capitalism reproduces core-periphery hierarchy through the structure of production and finance, and reform from within existing institutions is a limited bet.",
+      }
+  }
+}
+
+// ── Issue-area tilts ──────────────────────────────────────────────────────────
+
+export type IssueTilt = {
+  issue: string
+  tilt: string
+  note: string
+}
+
+export function getIssueAreaTilts(familyKey: FamilyKey, d: DimensionScores): IssueTilt[] {
+  const tilts: IssueTilt[] = []
+
+  // Cross-cutting patterns that surface regardless of primary family
+  if (familyKey === "realist" && d.institutions >= 5) {
+    tilts.push({
+      issue: "Trade and economic governance",
+      tilt: "Institutionalist undertow",
+      note:
+        "Your realist primary is tempered by a notably high institutions score. On trade and economic governance — where enforcement is easier and stakes lower than in security — your instinct may be more institutionalist than your primary classification suggests.",
+    })
+  }
+
+  if (familyKey === "realist" && d.normsIdentity >= 5) {
+    tilts.push({
+      issue: "Alliance management",
+      tilt: "Identity-sensitive",
+      note:
+        "Realists who also score high on normsIdentity often hold a more textured view of alliances — one that includes legitimacy, shared identity, and mutual recognition, not just capability aggregation. On alliance politics, your instinct may draw more on constructivist logic than on pure power accounting.",
+    })
+  }
+
+  if (familyKey === "institutionalist" && d.securityCompetition >= 5) {
+    tilts.push({
+      issue: "Hard security and military competition",
+      tilt: "Realist undertow",
+      note:
+        "Your institutionalist primary has a realist undertow on security: when strategic competition intensifies, your scores suggest you are less confident that institutions can hold. On military competition and major-power deterrence, your instincts may lean more realist than your overall classification.",
+    })
+  }
+
+  if (familyKey === "institutionalist" && d.politicalEconomy >= 5) {
+    tilts.push({
+      issue: "Global finance and development",
+      tilt: "Critical PE awareness",
+      note:
+        "An institutionalist who also scores high on political economy holds a more critical view of international economic institutions — aware that they encode structural advantages for some states. On IMF conditionality, debt relief, or development finance, your instincts may diverge from mainstream liberal institutionalism.",
+    })
+  }
+
+  if (familyKey === "constructivist" && d.politicalEconomy >= 5) {
+    tilts.push({
+      issue: "Trade and economic rules",
+      tilt: "Structural economic skepticism",
+      note:
+        "Your constructivism is inflected by political-economy awareness. On trade rules and financial governance, you are likely to ask not just 'are these legitimate norms?' but 'whose interests do these norms serve?' — a critical IPE question embedded in a constructivist frame.",
+    })
+  }
+
+  if (familyKey === "constructivist" && d.securityCompetition >= 5) {
+    tilts.push({
+      issue: "Great-power competition",
+      tilt: "Security-realist tilt",
+      note:
+        "Your constructivism coexists with a notable security-competition score. On great-power rivalry, you may read threat construction and identity politics as causally real while also recognizing that the material distribution of capabilities creates genuine constraints on what social change can achieve.",
+    })
+  }
+
+  if (familyKey === "criticalPoliticalEconomy" && d.institutions >= 4.5) {
+    tilts.push({
+      issue: "International economic reform",
+      tilt: "Reform-oriented",
+      note:
+        "Your critical PE primary is moderated by a relatively high institutions score — unusual in this tradition. On reform questions (IMF governance, WTO dispute mechanisms, climate finance), your instinct may be more reformist than transformational, suggesting openness to institutional change from within.",
+    })
+  }
+
+  if (familyKey === "criticalPoliticalEconomy" && d.normsIdentity >= 5) {
+    tilts.push({
+      issue: "Human rights and humanitarian norms",
+      tilt: "Norm-sensitive",
+      note:
+        "Critical PE adherents who also score high on normsIdentity tend to take seriously how humanitarian and human rights norms can be both genuine moral commitments and strategic resources for powerful states. On intervention debates, your view is likely more nuanced than pure skepticism.",
+    })
+  }
+
+  return tilts
+}
+
+// ── Runner-up separation ──────────────────────────────────────────────────────
+
+// Which dimension most separates each family pair, and in what direction.
+const separatingDimension: Partial<Record<FamilyKey, Partial<Record<FamilyKey, DimensionKey>>>> = {
+  realist: {
+    institutionalist: "institutions",
+    constructivist: "normsIdentity",
+    criticalPoliticalEconomy: "politicalEconomy",
+  },
+  institutionalist: {
+    realist: "securityCompetition",
+    constructivist: "normsIdentity",
+    criticalPoliticalEconomy: "politicalEconomy",
+  },
+  constructivist: {
+    realist: "securityCompetition",
+    institutionalist: "institutions",
+    criticalPoliticalEconomy: "politicalEconomy",
+  },
+  criticalPoliticalEconomy: {
+    realist: "securityCompetition",
+    institutionalist: "institutions",
+    constructivist: "normsIdentity",
+  },
+}
+
+const separationPhrases: Partial<
+  Record<FamilyKey, Partial<Record<FamilyKey, (score: number) => string>>>
+> = {
+  realist: {
+    institutionalist: (s) =>
+      s >= 4
+        ? `Your institutions score (${s.toFixed(1)}) is relatively high for a realist — you are more open to institutional mechanisms than a typical realist profile. This is the main bridge between your primary classification and the runner-up.`
+        : `Your low institutions score (${s.toFixed(1)}) is the clearest gap between you and the institutionalist runner-up. Institutionalism rests on the premise that rules and monitoring can sustain cooperation — your profile is skeptical of that.`,
+    constructivist: (s) =>
+      s >= 4
+        ? `A normsIdentity score of ${s.toFixed(1)} is moderate-to-high for a realist — you give more weight to legitimacy and identity than a strict structural realist would. That is the bridge to your constructivist runner-up.`
+        : `Your low normsIdentity score (${s.toFixed(1)}) marks the main separation from the constructivist runner-up. Where constructivists treat identity and norms as causally real, your profile is skeptical of that framing.`,
+    criticalPoliticalEconomy: (s) =>
+      s >= 4
+        ? `A political economy score of ${s.toFixed(1)} is relatively high for a realist — you share the critical PE view that economic structures matter, not just military power. That overlap drives the runner-up score.`
+        : `Your low political economy score (${s.toFixed(1)}) marks the gap from the critical PE runner-up. You locate the main constraint in security competition rather than economic hierarchy.`,
+  },
+  institutionalist: {
+    realist: (s) =>
+      s >= 4
+        ? `A security competition score of ${s.toFixed(1)} is notable for an institutionalist — you take rivalry seriously even while investing in institutions. That realist undertow is what makes realism your runner-up.`
+        : `Your relatively low security competition score (${s.toFixed(1)}) anchors the separation from realism. The realist runner-up reflects some structural pessimism, but your primary classification reflects more optimism about institutional management.`,
+    constructivist: (s) =>
+      s >= 4
+        ? `A normsIdentity score of ${s.toFixed(1)} shows you give real weight to legitimacy and identity — bridging institutionalism and constructivism. The difference is causal: you emphasize rules and monitoring more than identity per se.`
+        : `Your modest normsIdentity score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on rules and incentive structures; the constructivist move to identity as a primary cause is a step further than your profile takes.`,
+    criticalPoliticalEconomy: (s) =>
+      s >= 4
+        ? `A political economy score of ${s.toFixed(1)} is high for an institutionalist — you share the critical PE view that economic hierarchy shapes governance. That overlap is what makes critical PE your runner-up.`
+        : `Your lower political economy score (${s.toFixed(1)}) marks the main gap from the critical PE runner-up. You focus on institutional design and rules; critical PE focuses on the structural economic power that institutions often encode.`,
+  },
+  constructivist: {
+    realist: (s) =>
+      s >= 4
+        ? `A security competition score of ${s.toFixed(1)} is notable for a constructivist — you have not set aside the logic of power and uncertainty even while emphasizing identity. That coexistence is what makes realism your runner-up.`
+        : `Your low security competition score (${s.toFixed(1)}) marks the clearest separation from the realist runner-up. A realist constructivist is possible, but your profile leans toward the view that social change can genuinely transform threat perceptions.`,
+    institutionalist: (s) =>
+      s >= 4
+        ? `An institutions score of ${s.toFixed(1)} is relatively high for a constructivist — you share the institutionalist interest in rules and monitoring, even if your primary emphasis is on the identities that give rules meaning.`
+        : `Your moderate institutions score (${s.toFixed(1)}) reflects the standard constructivist position: institutions matter, but what makes them work is shared identity and legitimacy, not just the rules themselves.`,
+    criticalPoliticalEconomy: (s) =>
+      s >= 4
+        ? `A political economy score of ${s.toFixed(1)} is notable in a constructivist profile — you ask whose interests prevailing norms serve, not just whether norms are real. That critical edge is what brings critical PE close as a runner-up.`
+        : `Your lower political economy score (${s.toFixed(1)}) marks the gap from the critical PE runner-up. You see ideas and norms as primary; critical PE sees economic structure as the deeper determinant.`,
+  },
+  criticalPoliticalEconomy: {
+    realist: (s) =>
+      s >= 4
+        ? `A security competition score of ${s.toFixed(1)} is higher than typical for a critical PE primary — you take military rivalry seriously alongside economic structure. That combination is what makes realism your runner-up.`
+        : `Your low security competition score (${s.toFixed(1)}) marks the gap from the realist runner-up. Both traditions are skeptical of liberal optimism, but you locate the constraint in economic hierarchy rather than military power distribution.`,
+    institutionalist: (s) =>
+      s >= 4
+        ? `An institutions score of ${s.toFixed(1)} is high for a critical PE primary — you are more open to the possibility of institutional reform than the pure skeptic position. That openness is what brings institutionalism close as a runner-up.`
+        : `Your low institutions score (${s.toFixed(1)}) marks the gap from the institutionalist runner-up. You see international institutions as encoding structural economic power rather than as genuine solutions to cooperation problems.`,
+    constructivist: (s) =>
+      s >= 4
+        ? `A normsIdentity score of ${s.toFixed(1)} is notable in a critical PE profile — you take legitimacy and identity seriously alongside economic structure. The overlap with constructivism is in asking whose interests prevailing norms serve.`
+        : `Your lower normsIdentity score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on material structures; constructivism's emphasis on ideas and identities as primary causes is a step your profile does not fully take.`,
+  },
+}
+
+export function getRunnerUpSeparation(
+  fk: FamilyKey,
+  nk: FamilyKey,
+  d: DimensionScores,
+): string {
+  const dim = separatingDimension[fk]?.[nk]
+  if (!dim) return ""
+  const phrase = separationPhrases[fk]?.[nk]
+  if (!phrase) return ""
+  return phrase(d[dim])
+}
+
+// ── Flip analysis ─────────────────────────────────────────────────────────────
+
+export function getFlipAnalysis(
+  fk: FamilyKey,
+  nk: FamilyKey,
+  d: DimensionScores,
+): string | null {
+  const dim = separatingDimension[fk]?.[nk]
+  if (!dim) return null
+
+  const score = d[dim]
+  // Only surface when the score is within 1.2 of neutral — a genuinely close call
+  if (Math.abs(score - 4) > 1.2) return null
+
+  const dimLabel = dimensionLabels[dim].toLowerCase()
+  const nkLabel = familyLabel(nk)
+
+  if (score >= 4) {
+    return `Your ${dimLabel} score (${score.toFixed(1)}) is in the moderate-high range — closer to the ${nkLabel} position than a decisive primary score would be. If your instincts on this dimension were somewhat stronger, the model would classify you as ${nkLabel}. The runner-up is not a distant second.`
+  } else {
+    return `Your ${dimLabel} score (${score.toFixed(1)}) is in the moderate-low range — closer to neutral than a decisive position would be. A shift toward taking ${dimLabel} more seriously would move the result toward ${nkLabel}. The runner-up captures a real part of your profile.`
+  }
+}

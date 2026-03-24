@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function LandingPage() {
   return (
-    <div className="landing-page">
+    <div className="landing-page container">
       {/* Editorial hero */}
       <section className="landing-hero">
         <div className="stack-sm" style={{ maxWidth: "600px" }}>

@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </div>
             </div>
           </header>
-          <main className="site-main container page-space">{children}</main>
+          <main className="site-main page-space">{children}</main>
         </div>
       </body>
     </html>

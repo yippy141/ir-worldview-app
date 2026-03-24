@@ -73,7 +73,7 @@ const limitations = [
 
 export default function MethodPage() {
   return (
-    <div className="stack-lg">
+    <div className="container stack-lg">
       {/* Header */}
       <section className="panel stack-md">
         <p className="eyebrow">Methodology</p>

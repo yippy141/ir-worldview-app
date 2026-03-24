@@ -69,6 +69,13 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
       <button type="button" className="secondary-button" onClick={handleCopy}>
         {copied ? "Link copied!" : "Copy link"}
       </button>
+      <button
+        type="button"
+        className="secondary-button"
+        onClick={() => window.print()}
+      >
+        Save as PDF
+      </button>
       <button type="button" className="secondary-button" onClick={handleRetake}>
         Retake the quiz
       </button>
