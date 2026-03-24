@@ -1,26 +1,641 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f7f2ec;
+  --panel: #fffdf9;
+  --panel-2: #f2ece4;
+  --text: #1b1716;
+  --muted: #6f6762;
+  --accent: #6b1f1a;
+  --accent-light: #8b2a24;
+  --border: #ddd3ca;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  padding: 0;
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font: inherit;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+
+.site-shell {
+  min-height: 100vh;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  background: rgba(247, 242, 236, 0.92);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  gap: 24px;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav-cta {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  padding: 7px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.nav-cta:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+  text-decoration: none;
+}
+
+.container {
+  width: min(780px, calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.page-space {
+  padding: 48px 0 96px;
+}
+
+/* ── Brand ──────────────────────────────────────────────────────────────────── */
+
+.brand {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.brand-subtitle {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+/* ── Panels (for form UI and callouts) ──────────────────────────────────────── */
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+
+.panel-flush {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 18px 22px;
+}
+
+/* Smaller, lighter surface for inline callouts */
+.callout {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 18px 22px;
+}
+
+/* ── Stack utilities ─────────────────────────────────────────────────────────── */
+
+.stack-xs > * + * { margin-top: 8px; }
+.stack-sm > * + * { margin-top: 12px; }
+.stack-md > * + * { margin-top: 20px; }
+.stack-lg > * + * { margin-top: 32px; }
+
+/* ── Flex utilities ──────────────────────────────────────────────────────────── */
+
+.row { display: flex; }
+.wrap { flex-wrap: wrap; }
+.space-between { justify-content: space-between; }
+.center { align-items: center; }
+.gap-sm { gap: 12px; }
+.gap-md { gap: 20px; }
+
+/* ── Typography ──────────────────────────────────────────────────────────────── */
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-light);
+  font-size: 0.7rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+h1, h2, h3, p { margin: 0; }
+
+h1 {
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1rem;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.muted { color: var(--muted); }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ── CTAs (link-style buttons) ───────────────────────────────────────────────── */
+
+.cta-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  padding: 11px 22px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.cta-primary:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+  text-decoration: none;
+}
+
+.cta-secondary {
+  display: inline-block;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 11px 22px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.cta-secondary:hover {
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────────── */
+
+.answer-button,
+.primary-button,
+.secondary-button,
+.option-card {
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.answer-button,
+.primary-button,
+.secondary-button {
+  padding: 10px 18px;
+}
+
+.answer-button,
+.secondary-button,
+.option-card {
+  background: var(--panel);
+}
+
+.primary-button {
+  background: var(--accent);
+  color: #ffffff;
+  font-weight: 600;
+  border-color: var(--accent);
+}
+
+.answer-button:hover,
+.secondary-button:hover,
+.option-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.primary-button:hover {
+  background: var(--accent-light);
+  border-color: var(--accent-light);
+}
+
+.answer-button.selected,
+.option-card.selected {
+  border-color: var(--accent);
+  background: rgba(107, 31, 26, 0.06);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.secondary-button:disabled,
+.primary-button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+  padding: 16px 18px;
+}
+
+.option-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: var(--muted);
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.option-card.selected .option-badge {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ── Progress bars ───────────────────────────────────────────────────────────── */
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.progress-bar,
+.score-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill,
+.score-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* ── Likert ──────────────────────────────────────────────────────────────────── */
+
+.likert-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.likert-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 0 2px;
+}
+
+/* ── Landing page ────────────────────────────────────────────────────────────── */
+
+
+.landing-hero {
+  padding: 48px 0 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.landing-section {
+  padding: 48px 0;
+}
+
+.dimension-list {
+  margin-top: 4px;
+}
+
+.dimension-row {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.dimension-row:last-child {
+  border-bottom: none;
+}
+
+/* ── Article pages (explore, method) ─────────────────────────────────────────── */
+
+.article-page {
+  max-width: 680px;
+}
+
+.article-header {
+  padding: 40px 0 36px;
+}
+
+.article-section {
+  padding: 36px 0;
+}
+
+.content-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.content-list li {
+  line-height: 1.65;
+  margin-bottom: 10px;
+  color: var(--muted);
+}
+
+.content-list li:last-child {
+  margin-bottom: 0;
+}
+
+.neighbor-entry {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.neighbor-entry:last-child {
+  border-bottom: none;
+}
+
+/* ── Explore overview ────────────────────────────────────────────────────────── */
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.explore-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  height: 100%;
+}
+
+.explore-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.gap-entry {
+  padding: 24px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.gap-entry:last-child {
+  border-bottom: none;
+}
+
+/* ── Result page ─────────────────────────────────────────────────────────────── */
+
+
+.result-hero {
+  padding: 48px 0 36px;
+  border-bottom: 1px solid var(--border);
+}
+
+.result-section {
+  padding: 36px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.result-section:last-child {
+  border-bottom: none;
+}
+
+/* Key driver cards */
+.driver-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+}
+
+.driver-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 18px;
+}
+
+/* Tension items */
+.tension-item {
+  border-left: 3px solid var(--border);
+  padding: 10px 16px;
+  margin-bottom: 12px;
+}
+
+.tension-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Dimension bars */
+.dim-row {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.dim-row:last-child {
+  border-bottom: none;
+}
+
+/* Neighbor two-column */
+.neighbor-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+/* Glossary */
+.definition-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.definition-item:last-child {
+  border-bottom: none;
+}
+
+/* Reading bibliography */
+.reading-bib {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.reading-bib:last-child {
+  border-bottom: none;
+}
+
+/* ── Review screen ───────────────────────────────────────────────────────────── */
+
+.review-table {
+  margin-top: 4px;
+}
+
+.review-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-row:last-child {
+  border-bottom: none;
+}
+
+.review-row-content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 720px) {
+  .likert-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+  }
+
+  .header-nav {
+    gap: 14px;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .driver-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .neighbor-columns {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .explore-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-hero {
+    padding: 32px 0 40px;
+  }
+
+  .landing-section {
+    padding: 32px 0;
+  }
+
+  .article-header {
+    padding: 28px 0 24px;
+  }
+
+  .article-section {
+    padding: 28px 0;
+  }
+
+  .result-hero {
+    padding: 32px 0 28px;
+  }
+
+  .result-section {
+    padding: 28px 0;
+  }
 }
