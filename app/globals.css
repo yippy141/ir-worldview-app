@@ -639,3 +639,81 @@ h3 {
     padding: 28px 0;
   }
 }
+
+@media print {
+  :root {
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --panel-2: #ffffff;
+    --text: #111111;
+    --muted: #444444;
+    --accent: #222222;
+    --accent-light: #444444;
+    --border: #c9c9c9;
+    --shadow: none;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+    color: #111111;
+  }
+
+  .site-header,
+  .print-hidden {
+    display: none !important;
+  }
+
+  .site-main {
+    width: auto;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .container {
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
+
+  .page-space,
+  .result-hero,
+  .result-section {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .result-hero {
+    padding-top: 0;
+  }
+
+  .result-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .panel,
+  .panel-flush,
+  .callout,
+  .driver-card,
+  .explore-card {
+    box-shadow: none;
+  }
+
+  .score-bar,
+  .progress-bar {
+    background: #ffffff;
+    border-color: #999999;
+  }
+
+  .score-fill,
+  .progress-fill {
+    background: #444444;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

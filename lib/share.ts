@@ -1,4 +1,4 @@
-import { DimensionKey, DimensionScores, SharePayload } from "@/lib/types"
+import type { DimensionKey, DimensionScores, SharePayload } from "@/lib/types"
 
 // Fixed dimension order for the payload array.
 // This order must never change — it is part of the v2 payload contract.
@@ -17,12 +17,14 @@ export const PAYLOAD_DIMENSION_ORDER: DimensionKey[] = [
 export function encodePayload(payload: SharePayload): string {
   const json = JSON.stringify(payload)
   // Convert to URL-safe Base64 and strip padding.
-  return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "")
+  return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
 }
 
 export function decodePayload(encoded: string): SharePayload | null {
   try {
-    const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/")
+    const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/")
+    const paddingLength = (4 - (normalized.length % 4)) % 4
+    const base64 = `${normalized}${"=".repeat(paddingLength)}`
     const json = atob(base64)
     const parsed = JSON.parse(json)
     if (

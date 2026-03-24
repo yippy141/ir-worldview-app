@@ -1,4 +1,5 @@
-import { FamilyKey } from "@/lib/types"
+import type { FamilyKey } from "@/lib/types"
+import { familyKeyFromSlug, familySlug } from "@/lib/worldview-config"
 
 export type ExploreReading = {
   title: string
@@ -15,7 +16,7 @@ export type ExploreFamily = {
   emphasizes: string[]
   underweights: string[]
   persuasiveArguments: string[]
-  neighbors: { name: string; contrast: string }[]
+  neighbors: { familyKey: FamilyKey; contrast: string }[]
   readings: ExploreReading[]
   quizCoverage: { level: "strong" | "moderate" | "partial"; note: string }
 }
@@ -31,7 +32,7 @@ export type ExploreGapEntry = {
 
 export const exploreFamilies: ExploreFamily[] = [
   {
-    slug: "realism",
+    slug: familySlug("realist"),
     familyKey: "realist",
     name: "Realism",
     tagline: "World politics is shaped by the distribution of power and the absence of any authority above states.",
@@ -62,12 +63,12 @@ Realism is not a single view. Classical realists emphasize human nature and stat
     ],
     neighbors: [
       {
-        name: "Institutionalism",
+        familyKey: "institutionalist",
         contrast:
           "Both work within a state-centric frame and accept anarchy as the baseline. Institutionalists argue that repeated interaction and shared rules can make cooperation durable even without enforcement — realists are skeptical that this holds under real pressure.",
       },
       {
-        name: "Critical Political Economy",
+        familyKey: "criticalPoliticalEconomy",
         contrast:
           "Both are skeptical of liberal optimism, but locate the driving logic differently. Realists focus on security competition and power distribution; critical PE focuses on economic structure, capital flows, and dependence as the real constraints on state autonomy.",
       },
@@ -97,7 +98,7 @@ Realism is not a single view. Classical realists emphasize human nature and stat
   },
 
   {
-    slug: "institutionalism",
+    slug: familySlug("institutionalist"),
     familyKey: "institutionalist",
     name: "Institutionalism",
     tagline: "Cooperation can be made durable through shared rules, monitoring, and repeated interaction — even without a world government.",
@@ -128,12 +129,12 @@ Liberal institutionalism also takes domestic politics seriously. The "two-level 
     ],
     neighbors: [
       {
-        name: "Realism",
+        familyKey: "realist",
         contrast:
           "Both are state-centric and accept anarchy as the baseline. The disagreement is whether institutions can shift behavior independently of the underlying power distribution — institutionalists say yes, realists are skeptical.",
       },
       {
-        name: "Constructivism",
+        familyKey: "constructivist",
         contrast:
           "Both look beyond raw power. The key difference is the causal variable: institutionalists emphasize rules and repeated interaction; constructivists emphasize shared identity and the social meaning of cooperation.",
       },
@@ -163,7 +164,7 @@ Liberal institutionalism also takes domestic politics seriously. The "two-level 
   },
 
   {
-    slug: "constructivism",
+    slug: familySlug("constructivist"),
     familyKey: "constructivist",
     name: "Constructivism",
     tagline: "The meaning of threats, alliances, and interests is partly constituted by identity, norms, and shared social expectations.",
@@ -193,12 +194,12 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
     ],
     neighbors: [
       {
-        name: "Institutionalism",
+        familyKey: "institutionalist",
         contrast:
           "Both look beyond raw power. The key difference is the causal variable: institutionalists emphasize rules and monitoring; constructivists emphasize the shared identities and social expectations that give rules meaning in the first place.",
       },
       {
-        name: "Critical Political Economy",
+        familyKey: "criticalPoliticalEconomy",
         contrast:
           "Both are critical of the positivist mainstream in IR. Constructivism focuses on ideas and norms; critical PE focuses on economic structures and class. The two traditions sometimes converge in asking whose interests a given set of norms actually serves.",
       },
@@ -228,7 +229,7 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
   },
 
   {
-    slug: "critical-political-economy",
+    slug: familySlug("criticalPoliticalEconomy"),
     familyKey: "criticalPoliticalEconomy",
     name: "Critical Political Economy",
     tagline: "World politics is shaped by who controls production, finance, and access to markets — not just who has the most tanks.",
@@ -258,12 +259,12 @@ The tradition also attends to who builds the rules. The institutions that govern
     ],
     neighbors: [
       {
-        name: "Realism",
+        familyKey: "realist",
         contrast:
           "Both are skeptical of liberal optimism. The difference is the driving logic: realists focus on security competition and the distribution of military power; critical PE focuses on economic structure, class, and the politics of production and finance.",
       },
       {
-        name: "Constructivism",
+        familyKey: "constructivist",
         contrast:
           "Both are critical of the positivist mainstream. Critical PE emphasizes material structures — who controls capital and supply chains; constructivism emphasizes ideas and norms. The two traditions sometimes converge in asking whose interests prevailing arrangements serve.",
       },
@@ -333,7 +334,8 @@ export const exploreGaps: ExploreGapEntry[] = [
 // ── Lookup helpers ────────────────────────────────────────────────────────────
 
 export function getFamilyBySlug(slug: string): ExploreFamily | null {
-  return exploreFamilies.find((f) => f.slug === slug) ?? null
+  const key = familyKeyFromSlug(slug)
+  return key ? getFamilyByKey(key) : null
 }
 
 export function getFamilyByKey(key: FamilyKey): ExploreFamily | null {

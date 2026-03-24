@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { exploreFamilies, getFamilyBySlug, coverageLevelLabels } from "@/lib/explore-content"
+import { coverageLevelLabels, getFamilyByKey, getFamilyBySlug } from "@/lib/explore-content"
+import { familySlug, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 import type { Metadata } from "next"
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export function generateStaticParams() {
-  return exploreFamilies.map((f) => ({ slug: f.slug }))
+  return MODELED_FAMILY_KEYS.map((familyKey) => ({ slug: familySlug(familyKey) }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -108,9 +109,11 @@ export default async function ExploreDetailPage({ params }: Props) {
         <h2>Neighboring traditions</h2>
         <div className="stack-md">
           {family.neighbors.map((neighbor) => (
-            <div key={neighbor.name} className="neighbor-entry">
+            <div key={neighbor.familyKey} className="neighbor-entry">
               <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
-                {neighbor.name}
+                <Link href={`/explore/${familySlug(neighbor.familyKey)}`} style={{ color: "inherit" }}>
+                  {getFamilyByKey(neighbor.familyKey)?.name ?? "Related perspective"}
+                </Link>
               </p>
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {neighbor.contrast}

@@ -1,7 +1,14 @@
-import { FamilyKey } from "@/lib/types"
+import type { FamilyKey } from "@/lib/types"
 
 // Single source of truth for worldview family identifiers, slugs, and display labels.
 // All route generation, result display, and explore linking should reference these.
+
+export const MODELED_FAMILY_KEYS: FamilyKey[] = [
+  "realist",
+  "institutionalist",
+  "constructivist",
+  "criticalPoliticalEconomy",
+]
 
 export const FAMILY_LABELS: Record<FamilyKey, string> = {
   realist: "Strategic Realist",
