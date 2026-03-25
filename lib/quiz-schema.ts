@@ -143,7 +143,7 @@ export const coreQuestions: LikertQuestion[] = [
     id: "ni2",
     kind: "likert",
     dimension: "normsIdentity",
-    prompt: "State interests are shaped partly by identity, status, and recognition, not just material advantage.",
+    prompt: "What a state wants depends partly on identity, status, and recognition — not just material advantage.",
     clarification: {
       whatItAsks: "Whether interests are socially formed rather than fixed in advance.",
       whatItDoesNotAsk: "This is not denying that material interests exist.",
@@ -285,24 +285,24 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "strategicTechnology",
     kind: "scenario",
     prompt:
-      "A rival great power is closing the gap in advanced semiconductors. Your firms are intertwined with theirs through global supply chains. What is the primary consideration?",
+      "A rival great power is closing the gap in advanced semiconductors. Your firms are intertwined with theirs through global supply chains. What should drive the response?",
     options: [
       {
         id: "A",
         label:
-          "Closing the capability gap is itself the threat. Restrict exports across relevant categories now — the cost to overall trade is secondary to preserving the structural advantage.",
+          "Closing the capability gap is itself the threat. Restrict exports across key categories now — the cost to trade is secondary to preserving the structural advantage.",
         weights: { securityCompetition: 0.7, restraint: -0.5, institutions: -0.3 },
       },
       {
         id: "B",
         label:
-          "The real contest is over who controls production standards and supply-chain dependency structures. Invest in domestic capacity and reduce asymmetric exposure — export controls are a distraction from structural repositioning.",
+          "The real contest is over who controls production standards and supply-chain dependencies. Invest in domestic capacity and reduce one-sided dependence — broad export controls miss the underlying competitive problem.",
         weights: { politicalEconomy: 0.7, securityCompetition: 0.2, institutions: -0.1 },
       },
       {
         id: "C",
         label:
-          "Restrict only genuinely dual-use items through coordinated multilateral frameworks. Unilateral broad controls fracture the open economic order that sustains allied cohesion and long-run competitiveness.",
+          "Restrict only genuinely dual-use items through coordinated multilateral agreements. Broad unilateral controls fracture the open economic order that sustains allied cohesion and long-run competitiveness.",
         weights: { institutions: 0.6, securityCompetition: 0.1, restraint: 0.3 },
       },
     ],
@@ -316,7 +316,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Sustained free-riding undermines collective defense credibility. The asymmetry in burden is an asymmetry in leverage — allies that rely on extended deterrence become clients rather than partners.",
+          "Sustained free-riding undermines collective defense credibility. Unequal burden means unequal leverage — allies that depend on extended deterrence become clients rather than partners.",
         weights: { securityCompetition: 0.6, restraint: -0.3, institutions: -0.2 },
       },
       {
@@ -328,7 +328,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "C",
         label:
-          "The burden-sharing dispute often masks a deeper conflict over who defines the alliance's purpose. Demanding higher outlays without addressing the underlying legitimacy and status questions typically fails.",
+          "The burden-sharing dispute often masks a deeper disagreement about who defines the alliance's purpose. Demanding higher outlays without addressing that underlying conflict typically fails.",
         weights: { normsIdentity: 0.5, domesticFilters: 0.3, institutions: 0.1 },
       },
     ],
@@ -337,7 +337,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "institutionalCapture",
     kind: "scenario",
     prompt:
-      "A global institution is technically effective, but one great power heavily shapes its agenda through funding and veto leverage. What is the primary response?",
+      "A global institution is technically effective, but one great power heavily shapes its agenda through funding and veto leverage. What should be done?",
     options: [
       {
         id: "A",
@@ -355,7 +355,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Build alternative coalitions outside it. The capture reflects structural inequalities in the international economy that procedural fixes cannot address. The priority is building weight and voice in alternative forums.",
+          "Build alternative coalitions outside it. The capture reflects deep inequalities that procedural fixes cannot reach. The priority is building weight and voice in alternative forums.",
         weights: { politicalEconomy: 0.5, institutions: -0.3, securityCompetition: 0.1 },
       },
     ],
@@ -364,7 +364,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "sanctionsBody",
     kind: "scenario",
     prompt:
-      "A sanctions-monitoring body has credible procedures, but the target state regards it as politically motivated. Which assessment is closer to the truth?",
+      "A sanctions-monitoring body has credible procedures, but the target state regards it as politically motivated. Which is more accurate?",
     options: [
       {
         id: "A",
@@ -395,13 +395,13 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Legality first. Coercive action without UNSC authorization damages the normative order more than any single atrocity outcome it might prevent — the precedent will be used for far less justifiable purposes.",
+          "Legality first. Coercive action without Security Council authorization sets a precedent that will be used for far less defensible purposes — the damage to the international legal framework outweighs the case at hand.",
         weights: { orderJustice: 0.8, restraint: 0.2 },
       },
       {
         id: "B",
         label:
-          "Moral threshold supersedes procedural gatekeeping. When mass killing is underway, sovereignty cannot be the binding constraint. The scale of harm sets the threshold — not the composition of the Security Council.",
+          "The moral case overrides the procedural objection. When mass killing is happening, sovereignty cannot be the main constraint. The scale of harm sets the bar — not who sits on the Security Council.",
         weights: { orderJustice: -0.8, restraint: -0.1 },
         followUpId: "atrocityThreshold",
       },
@@ -440,12 +440,12 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "financialCrisis",
     kind: "scenario",
     prompt:
-      "A middle-income country faces economic collapse after a sudden reversal of capital flows and creditor pressure to adopt austerity. What is the more accurate diagnosis?",
+      "A middle-income country faces economic collapse after a sudden reversal of capital flows and creditor pressure to adopt austerity. What is the right explanation?",
     options: [
       {
         id: "A",
         label:
-          "The crisis reflects domestic fiscal imbalances and credibility deficits that external pressure has exposed, not created. Adjustment — consolidation and credibility signaling — restores sustainable market access.",
+          "The crisis reflects domestic fiscal problems and weak credibility that external pressure has exposed, not created. Fiscal consolidation restores market access.",
         weights: { politicalEconomy: -0.6, domesticFilters: 0.2 },
       },
       {
@@ -458,7 +458,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Capital flight and creditor leverage are features of structural financial dependence, not accidents of policy. The crisis will recur unless the state reduces asymmetric exposure and builds regional financing alternatives.",
+          "Capital flight and creditor leverage are features of structural financial vulnerability, not accidents of policy. The crisis will recur unless the state reduces its dependence on external capital and builds regional financing alternatives.",
         weights: { politicalEconomy: 0.9, institutions: -0.3 },
         followUpId: "capitalControls",
       },
@@ -472,7 +472,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Rapid liberalization and credible commitment signaling — controls delay adjustment and signal the wrong priorities to markets.",
+          "Rapid liberalization and credible fiscal commitment — controls delay adjustment and send the wrong signal to markets.",
         weights: { politicalEconomy: -0.3, institutions: 0.1 },
       },
       {
@@ -498,7 +498,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Update significantly. Democratic accountability, institutional integration, and elite socialization change what a state will do. Dismissing this as strategic signaling discards threat-relevant evidence.",
+          "Update significantly. Democratic accountability, institutional ties, and a shift in elite thinking change what a state will do. Dismissing this as strategic signaling discards threat-relevant evidence.",
         weights: { normsIdentity: 0.8, securityCompetition: -0.4 },
       },
       {
@@ -519,18 +519,18 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "economicCoercion",
     kind: "scenario",
     prompt:
-      "A rival state uses trade and investment restrictions as deliberate political pressure. What is the right framework for understanding and responding?",
+      "A rival state uses trade and investment restrictions as deliberate political pressure. How should you understand and respond?",
     options: [
       {
         id: "A",
         label:
-          "Economic coercion is a form of power politics and should be met with countervailing pressure. Allowing asymmetric leverage to go unanswered signals vulnerability — the logic of deterrence applies to economic instruments as much as military ones.",
+          "Economic coercion is power politics and should be met with matching pressure. Leaving leverage unanswered signals vulnerability — the logic of deterrence applies to economic instruments as much as military ones.",
         weights: { securityCompetition: 0.6, politicalEconomy: 0.2, restraint: -0.3 },
       },
       {
         id: "B",
         label:
-          "The lever exists because of structural dependence. Ad hoc retaliation does not remove it. The strategic response is long-run: diversify supply chains, build alternative financing, reduce the asymmetric exposure that makes coercion possible.",
+          "The lever exists because of structural dependence. Ad hoc retaliation does not remove it. The strategic response is long-run: diversify supply chains, build alternative financing, reduce the dependence that makes coercion possible.",
         weights: { politicalEconomy: 0.8, securityCompetition: 0.1, institutions: -0.1 },
       },
       {
@@ -545,7 +545,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
     id: "institutionalLegitimacy",
     kind: "scenario",
     prompt:
-      "A major international organization faces a legitimacy crisis, with rising-power members questioning whose norms and interests it represents. What is the better diagnosis?",
+      "A major international organization faces a legitimacy crisis, with rising-power members questioning whose norms and interests it represents. What is the right explanation?",
     options: [
       {
         id: "A",
@@ -556,7 +556,7 @@ export const scenarioQuestions: Record<string, ScenarioQuestion> = {
       {
         id: "B",
         label:
-          "The crisis reflects whose knowledge, norms, and interests the institution was built to serve. Procedural fixes rarely address that deeper exclusion. Legitimacy requires recognizing whose frameworks and voices were structurally marginalized.",
+          "The crisis reflects whose knowledge, norms, and interests the institution was built to serve. Procedural fixes rarely address that deeper exclusion. Legitimacy requires addressing whose voices were excluded when the institution was built.",
         weights: { normsIdentity: 0.8, institutions: 0.1, domesticFilters: 0.2 },
       },
       {

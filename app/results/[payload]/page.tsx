@@ -20,7 +20,8 @@ import {
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { familySlug } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
-import { DimensionKey } from "@/lib/types"
+import { HistoryCompare } from "@/components/results/history-compare"
+import type { DimensionKey } from "@/lib/types"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -387,7 +388,34 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 15. Methods note + share */}
+        {/* 15. How to read this result */}
+        <div className="result-section stack-md">
+          <h2>How to read this result</h2>
+          <ul className="content-list">
+            <li>
+              <strong>What this says about your instincts.</strong> Your result reflects which
+              theoretical tradition best matches your pattern of responses — not which one you
+              consciously endorse. The dimension scores show where you lean, and how strongly.
+            </li>
+            <li>
+              <strong>What this does not mean.</strong> A classification is not a verdict. It does
+              not measure expertise, knowledge, or moral standing. Most serious analysts draw on more
+              than one tradition, and the runner-up family often matters as much as the primary one.
+            </li>
+            <li>
+              <strong>Where you may be conditional rather than fixed.</strong> The issue-area tilts
+              section above flags places where your instincts cross the boundaries your primary
+              classification would predict. Those are worth reading carefully — they often reflect
+              more considered views than the general pattern does.
+            </li>
+          </ul>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+            If you retake this inventory in a year and get a different result, that can reflect real
+            change in your thinking — or better self-understanding the second time. Both are useful.
+          </p>
+        </div>
+
+        {/* 16. Methods note + share */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this classification</p>
@@ -407,12 +435,26 @@ export default async function ResultPage(
             </Link>
           </p>
 
-          {/* Client component for share buttons */}
+          <p>
+            <Link href="/feedback" style={{ color: "var(--accent)" }}>
+              Share feedback on this inventory →
+            </Link>
+          </p>
+
+          {/* Client component for share buttons + history compare */}
           <ShareActions
             payload={payload}
             familyLabel={familyLabel}
             strategyModifier={data.sm}
             normativeModifier={data.nm}
+          />
+
+          <HistoryCompare
+            familyKey={data.fk}
+            neighborKey={data.nk}
+            strategyModifier={data.sm}
+            normativeModifier={data.nm}
+            dimensionScores={dimensionScores}
           />
         </div>
       </article>

@@ -600,6 +600,37 @@ h3 {
   }
 }
 
+/* ── History compare ─────────────────────────────────────────────────────────── */
+
+.compare-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.history-shift-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-shift-row:last-child {
+  border-bottom: none;
+}
+
+.history-shift-value {
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+
 /* ── Article pages (explore, method) ─────────────────────────────────────────── */
 
 .article-page {

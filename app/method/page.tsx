@@ -184,6 +184,26 @@ export default function MethodPage() {
         </p>
       </section>
 
+      {/* Why plain English */}
+      <section className="panel stack-md">
+        <h2>Why the wording is plain English</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          The question prompts are written to be readable without prior IR training. Technical terms
+          appear in the optional clarifications, not in the main prompts. This is a deliberate
+          choice.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          A question that requires IR jargon to parse will produce a different answer from a
+          specialist than from a non-specialist — not because their instincts differ, but because
+          the question is asking something different to each of them. Plain wording reduces that
+          artifact.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Technical language is still available via the clarification disclosures. The goal is to
+          make jargon optional, not invisible.
+        </p>
+      </section>
+
       {/* How scoring works */}
       <section className="panel stack-md">
         <h2>How scoring works</h2>

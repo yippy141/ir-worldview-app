@@ -38,6 +38,37 @@ export default function LandingPage() {
 
       <hr className="divider" style={{ margin: "0" }} />
 
+      {/* Purpose */}
+      <section className="landing-section">
+        <div style={{ maxWidth: "560px" }} className="stack-md">
+          <h2>What this is for</h2>
+          <p className="muted" style={{ lineHeight: "1.7" }}>
+            This inventory is designed to surface which theoretical traditions in International
+            Relations most closely match your implicit assumptions — not to label your politics, rank
+            your expertise, or sort you into a box.
+          </p>
+          <p className="muted" style={{ lineHeight: "1.7" }}>
+            It works best as a prompt for reflection: a structured way to examine assumptions you
+            might hold without having made them explicit. The result is a starting point, not a
+            verdict.
+          </p>
+          <p className="muted" style={{ lineHeight: "1.7" }}>
+            It uses seven dimensions rather than a single axis because the major traditions in IR
+            theory disagree across multiple independent questions — not just one. Two people can
+            reach the same overall classification via very different dimension profiles, and the
+            dimension scores often tell a more interesting story than the label.
+          </p>
+          <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)" }}>
+            <strong style={{ color: "var(--text)" }}>What it is not:</strong> a political compass, a
+            personality test, or a validated psychometric instrument. Results can overlap. A
+            different result on a second attempt can reflect real change in your thinking, or better
+            self-knowledge the second time.
+          </p>
+        </div>
+      </section>
+
+      <hr className="divider" style={{ margin: "0" }} />
+
       {/* What the inventory measures */}
       <section className="landing-section">
         <div style={{ maxWidth: "600px" }} className="stack-md">
