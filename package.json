@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint app components lib tests --ext .ts,.tsx,.mts,.mjs",
+    "lint": "eslint . --cache",
     "test": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts"
   },
   "dependencies": {

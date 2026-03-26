@@ -30,7 +30,7 @@ const tocItems = [
   { id: "underweights", label: "What it underweights" },
   { id: "issue-readings", label: "How it reads major issues" },
   { id: "neighbors", label: "Neighboring traditions" },
-  { id: "readings", label: "Suggested readings" },
+  { id: "readings", label: "Reading list" },
   { id: "quiz-coverage", label: "How this quiz models it" },
 ]
 
@@ -206,22 +206,75 @@ export default async function ExploreDetailPage({ params }: Props) {
 
           <hr className="divider" />
 
-          {/* Readings */}
+          {/* Readings — tiered */}
           <section id="readings" className="article-section stack-md">
-            <h2>Suggested starting points</h2>
-            <div>
-              {family.readings.map((reading) => (
-                <div key={reading.title} className="reading-bib">
-                  <p style={{ fontWeight: 600 }}>{reading.title}</p>
-                  <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
-                    {reading.author}
-                  </p>
-                  <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
-                    {reading.note}
-                  </p>
+            <h2>Reading list</h2>
+
+            <div className="stack-md">
+              {/* Starter */}
+              <div>
+                <p className="reading-tier-label">Starter</p>
+                <div>
+                  {family.readings.map((reading) => (
+                    <div key={reading.title} className="reading-bib">
+                      <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                      <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
+                        {reading.author}
+                      </p>
+                      <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
+                        {reading.note}
+                      </p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* Go deeper */}
+              {family.advancedReadings && family.advancedReadings.length > 0 && (
+                <div>
+                  <p className="reading-tier-label">Go deeper</p>
+                  <div>
+                    {family.advancedReadings.map((reading) => (
+                      <div key={reading.title} className="reading-bib">
+                        <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                        <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
+                          {reading.author}
+                        </p>
+                        <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
+                          {reading.note}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Read the critique */}
+              {family.counterReadings && family.counterReadings.length > 0 && (
+                <div>
+                  <p className="reading-tier-label">Read the critique</p>
+                  <div>
+                    {family.counterReadings.map((reading) => (
+                      <div key={reading.title} className="reading-bib">
+                        <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                        <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
+                          {reading.author}
+                        </p>
+                        <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
+                          {reading.note}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+
+            <p style={{ fontSize: "0.875rem", marginTop: "8px" }}>
+              <Link href="/references" style={{ color: "var(--accent)" }}>
+                Full bibliography →
+              </Link>
+            </p>
           </section>
 
           <hr className="divider" />

@@ -21,7 +21,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <p className="brand-subtitle">A prototype classification tool</p>
                 </Link>
                 <nav className="header-nav">
+                  <Link href="/" className="nav-link">Home</Link>
                   <Link href="/explore" className="nav-link">Explore</Link>
+                  <Link href="/references" className="nav-link">References</Link>
                   <Link href="/method" className="nav-link">Methods</Link>
                   <Link href="/quiz" className="nav-cta">Take the quiz</Link>
                 </nav>

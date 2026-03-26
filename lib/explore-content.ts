@@ -21,6 +21,8 @@ export type ExploreFamily = {
   issueReadings: { issue: string; note: string }[]
   neighbors: { familyKey: FamilyKey; contrast: string }[]
   readings: ExploreReading[]
+  advancedReadings?: ExploreReading[]
+  counterReadings?: ExploreReading[]
   quizCoverage: { level: "strong" | "moderate" | "partial"; note: string }
   modelingNote?: string
 }
@@ -147,6 +149,35 @@ Realism is not a single view. Classical realists emphasize human nature and stat
         note: "Classical realism's core text — focuses on the statecraft required to manage power competition in a world without common authority.",
       },
     ],
+    advancedReadings: [
+      {
+        title: "War and Change in World Politics",
+        author: "Robert Gilpin",
+        note: "A structural account of how hegemonic transitions produce conflict. Argues that wars of redistribution become more likely when rising powers find the existing order no longer reflects their interests. Directly relevant to US-China competition.",
+      },
+      {
+        title: "Perception and Misperception in International Politics",
+        author: "Robert Jervis",
+        note: "The essential treatment of the security dilemma and cognitive bias in strategic decision-making. Shows how defensive intentions can be read as offensive, producing spirals that no party wanted.",
+      },
+      {
+        title: "The Origins of Alliances",
+        author: "Stephen Walt",
+        note: "Argues that states balance against threats, not just power — refining Waltz's structural realism to account for why states balance the way they do. A key text in defensive realist thinking.",
+      },
+    ],
+    counterReadings: [
+      {
+        title: "After Hegemony",
+        author: "Robert Keohane",
+        note: "The strongest institutionalist challenge to realism. Shows that international cooperation can be sustained without a dominant enforcer — directly against the realist expectation that order depends on hegemony.",
+      },
+      {
+        title: "Anarchy Is What States Make of It",
+        author: "Alexander Wendt",
+        note: "The constructivist challenge: anarchy does not have a fixed logic. The meaning of rivalry and self-help depends on identities and relationships that states construct through interaction — not on structure alone.",
+      },
+    ],
     quizCoverage: {
       level: "strong",
       note:
@@ -259,6 +290,35 @@ Liberal institutionalism also takes domestic politics seriously. The "two-level 
         note: "A more recent reflection on the limits and possibilities of global governance.",
       },
     ],
+    advancedReadings: [
+      {
+        title: "After Victory: Institutions, Strategic Restraint, and the Rebuilding of Order After Major Wars",
+        author: "G. John Ikenberry",
+        note: "Explains why post-war hegemons sometimes bind themselves through institutions rather than simply imposing order. Argues that constitutional settlements lower the costs of running a liberal order — relevant to whether US-led institutions are durable.",
+      },
+      {
+        title: "The Evolution of Cooperation",
+        author: "Robert Axelrod",
+        note: "Shows through iterated prisoner's dilemma experiments how cooperation can emerge among self-interested actors without central authority. The game-theoretic foundation for much institutionalist reasoning about what makes agreements self-sustaining.",
+      },
+      {
+        title: "A New World Order",
+        author: "Anne-Marie Slaughter",
+        note: "Argues that global governance operates primarily through transgovernmental networks — regulators, judges, and legislators building connections across borders — rather than through formal international organizations alone.",
+      },
+    ],
+    counterReadings: [
+      {
+        title: "The False Promise of International Institutions",
+        author: "John Mearsheimer",
+        note: "A sharp realist challenge. Argues that institutions reflect the preferences of powerful states and cannot independently constrain behavior when core interests are at stake. The most direct engagement with institutionalist claims.",
+      },
+      {
+        title: "War and Change in World Politics",
+        author: "Robert Gilpin",
+        note: "Argues that international order is underwritten by hegemony, not institutions. When the hegemonic power declines, the order it created does not sustain itself through institutional momentum — it collapses or is renegotiated by force.",
+      },
+    ],
     quizCoverage: {
       level: "strong",
       note:
@@ -364,7 +424,36 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
       {
         title: "Rules for the World",
         author: "Martha Finnemore & Michael Barnett",
-        note: "An examination of how international organizations develop their own institutional logics and shape state behavior.",
+        note: "An examination of how international organizations develop their own institutional logics and shape state behavior beyond what their member states originally intended.",
+      },
+    ],
+    advancedReadings: [
+      {
+        title: "Social Theory of International Politics",
+        author: "Alexander Wendt",
+        note: "The full theoretical treatment of constructivism. Distinguishes three cultures of anarchy — Hobbesian, Lockean, Kantian — and argues that state identities are both constructed and capable of change. More demanding than the 1992 article but the definitive statement.",
+      },
+      {
+        title: "International Norm Dynamics and Political Change",
+        author: "Martha Finnemore and Kathryn Sikkink",
+        note: "Introduces the norm life cycle — emergence, cascade, internalization — and explains how norms spread and gain causal force without being enforced by a central authority. One of the most cited articles in constructivist IR.",
+      },
+      {
+        title: "The Chemical Weapons Taboo",
+        author: "Richard Price",
+        note: "An empirical case study of how a norm became robust and nearly universal despite the strategic advantages chemical weapons can offer. Shows constructivist arguments at work on a hard case.",
+      },
+    ],
+    counterReadings: [
+      {
+        title: "Rationalist Explanations for War",
+        author: "James Fearon",
+        note: "A rationalist challenge to explanations that rely on misperception, identity, or social construction. Argues that bargaining failure — not cultural or ideational factors — is the fundamental puzzle in explaining why wars happen when they are costly to both sides.",
+      },
+      {
+        title: "The Great Delusion: Liberal Dreams and International Realities",
+        author: "John Mearsheimer",
+        note: "A realist attack on liberal internationalism that also challenges the constructivist claim that norms can transform international politics. Argues that nationalism and realist logic reliably defeat attempts to spread liberal order through socialization.",
       },
     ],
     quizCoverage: {
@@ -476,6 +565,35 @@ The tradition also attends to who builds the rules. The institutions that govern
         title: "Social Forces, States and World Orders",
         author: "Robert Cox",
         note: "The critical IR theory argument that theory always serves someone's interests — a key text in critical PE and IPE.",
+      },
+    ],
+    advancedReadings: [
+      {
+        title: "Dependency and Development in Latin America",
+        author: "Fernando Henrique Cardoso and Enzo Faletto",
+        note: "The most rigorous dependency theory text. Avoids mechanical determinism by examining how domestic class alliances mediate dependency relations — showing why similarly positioned states respond differently to external structural constraints.",
+      },
+      {
+        title: "States and the Reemergence of Global Finance",
+        author: "Eric Helleiner",
+        note: "Shows that financial globalization was a political choice, not an inevitable market outcome. States actively dismantled capital controls. Essential for understanding why structural financial power is a political variable, not a natural fact.",
+      },
+      {
+        title: "Production, Power, and World Order: Social Forces in the Making of History",
+        author: "Robert Cox",
+        note: "The book-length development of Cox's neo-Gramscian framework. Examines how hegemony is reproduced through a combination of material power, institutional forms, and prevailing ideas — across different historical phases of world order.",
+      },
+    ],
+    counterReadings: [
+      {
+        title: "In Defense of Globalization",
+        author: "Jagdish Bhagwati",
+        note: "A direct liberal-economic challenge to dependency and critical PE arguments. Argues that trade and investment liberalization, when well-managed, reduce poverty and expand opportunities in developing countries. A sharp counterpoint to the structural exploitation argument.",
+      },
+      {
+        title: "Defending the National Interest: Raw Materials Investments and U.S. Foreign Policy",
+        author: "Stephen Krasner",
+        note: "A state-centric realist challenge to Marxist IPE. Argues that state interests — not class interests — drive foreign economic policy, and that states sometimes act against the preferences of their dominant economic actors.",
       },
     ],
     quizCoverage: {

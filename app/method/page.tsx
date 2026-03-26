@@ -258,6 +258,51 @@ export default function MethodPage() {
         </div>
       </section>
 
+      {/* Sources */}
+      <section className="panel stack-md">
+        <h2>Sources and references</h2>
+        <p className="muted" style={{ lineHeight: "1.65" }}>
+          The theoretical content draws on the primary texts of each tradition. The measurement
+          design draws on the survey and political psychology literature below.
+        </p>
+        <div>
+          {[
+            {
+              citation: "Likert, Rensis. \"A Technique for the Measurement of Attitudes.\" Archives of Psychology, no. 140 (1932).",
+              note: "The original Likert summated-rating scale. The seven-point format used here is a standard extension of Likert's five-point design.",
+            },
+            {
+              citation: "Converse, Philip E. \"The Nature of Belief Systems in Mass Publics.\" In D. E. Apter (ed.), Ideology and Discontent. Free Press, 1964.",
+              note: "The foundational study of constraint in political belief systems. Raises the core question this inventory must answer honestly: do self-reported attitudes form coherent patterns?",
+            },
+            {
+              citation: "Zaller, John R. The Nature and Origins of Mass Opinion. Cambridge University Press, 1992.",
+              note: "Argues that survey responses capture a running sample of considerations, not stable fixed preferences. One reason this inventory describes results as interpretive rather than definitive.",
+            },
+            {
+              citation: "Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? Princeton University Press, 2005.",
+              note: "The finding that fox-like analysts who draw on multiple frameworks outperform single-paradigm hedgehogs is directly relevant to why the runner-up classification matters here.",
+            },
+            {
+              citation: "Sil, Rudra and Katzenstein, Peter J. Beyond Paradigms: Analytic Eclecticism in the Study of World Politics. Palgrave Macmillan, 2010.",
+              note: "The case for drawing on multiple IR traditions rather than committing to one. Frames the intellectual rationale for treating the runner-up as important, not a rounding error.",
+            },
+          ].map((item) => (
+            <div key={item.citation} style={{ padding: "14px 0", borderBottom: "1px solid var(--border)" }}>
+              <p style={{ fontSize: "0.875rem", lineHeight: "1.6", fontStyle: "italic" }}>
+                {item.citation}
+              </p>
+              <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55", marginTop: "6px" }}>
+                {item.note}
+              </p>
+            </div>
+          ))}
+        </div>
+        <p style={{ fontSize: "0.875rem" }}>
+          <a href="/references" style={{ color: "var(--accent)" }}>Full bibliography by tradition →</a>
+        </p>
+      </section>
+
       {/* Version history */}
       <section className="panel stack-md">
         <h2>Version history</h2>

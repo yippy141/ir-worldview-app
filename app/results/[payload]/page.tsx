@@ -21,7 +21,8 @@ import { dimensionLabels } from "@/lib/quiz-schema"
 import { familySlug } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
-import type { DimensionKey } from "@/lib/types"
+import { scoreFamilies } from "@/lib/scoring"
+import type { DimensionKey, FamilyKey } from "@/lib/types"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -62,6 +63,7 @@ export default async function ResultPage(
   }
 
   const dimensionScores = payloadToDimensionScores(data)
+  const familyScores = scoreFamilies(dimensionScores)
   const familyLabel = familyLabelFromKey(data.fk)
   const neighborLabel = familyLabelFromKey(data.nk)
   const summary = buildSummary(data.fk, dimensionScores)
@@ -229,7 +231,44 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 9. Closest neighbor */}
+        {/* 9. Worldview fit */}
+        <div className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>Worldview fit</h2>
+            <p className="muted" style={{ fontSize: "0.875rem" }}>
+              Relative fit within this result — not population percentiles or absolute scores.
+            </p>
+          </div>
+          <div className="family-fit-bars">
+            {(Object.entries(familyScores) as [FamilyKey, number][])
+              .sort((a, b) => b[1] - a[1])
+              .map(([key, score], index) => {
+                const allScores = Object.values(familyScores)
+                const min = Math.min(...allScores)
+                const max = Math.max(...allScores)
+                const range = max - min
+                const normalized = range > 0 ? ((score - min) / range) * 100 : 50
+                const isPrimary = key === data.fk
+                return (
+                  <div
+                    key={key}
+                    className={`family-fit-row${isPrimary ? " family-fit-primary" : ""}`}
+                  >
+                    <span className="family-fit-label">{familyLabelFromKey(key)}</span>
+                    <div className="family-fit-bar" aria-hidden="true">
+                      <div
+                        className="family-fit-fill"
+                        style={{ width: `${normalized}%` }}
+                      />
+                    </div>
+                    {index === 0 && <span className="family-fit-badge">Primary</span>}
+                  </div>
+                )
+              })}
+          </div>
+        </div>
+
+        {/* 10. Closest neighbor */}
         <div className="result-section stack-md">
           <h2>Closest neighboring worldview</h2>
           <div className="neighbor-columns">
@@ -436,7 +475,7 @@ export default async function ResultPage(
           </p>
 
           <p>
-            <Link href="/feedback" style={{ color: "var(--accent)" }}>
+            <Link href={`/feedback?result=${payload}`} style={{ color: "var(--accent)" }}>
               Share feedback on this inventory →
             </Link>
           </p>

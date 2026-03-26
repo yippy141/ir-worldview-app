@@ -201,7 +201,7 @@ function centerScore(score: number): number {
   return score - 4
 }
 
-function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
+export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
   return (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
     const weights = familyProfiles[family]
     const score = DIMENSIONS.reduce((sum, dimension) => {
