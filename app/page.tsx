@@ -27,26 +27,74 @@ const HERO_CAVEAT =
 
 export default function LandingPage() {
   return (
-    <div className="landing-page container">
-      {/* Editorial hero */}
+    <div className="landing-page">
+      {/* Two-column hero */}
       <section className="landing-hero">
-        <div className="stack-sm" style={{ maxWidth: "600px" }}>
-          <p className="eyebrow">A prototype classification tool</p>
-          <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.03em" }}>
-            {HERO_HEADING}
-          </h1>
+        <div className="hero-grid">
+          {/* Left: intro copy + CTAs */}
+          <div className="stack-md">
+            <div>
+              <p className="eyebrow">A prototype classification tool</p>
+              <h1
+                style={{
+                  fontSize: "clamp(2rem, 4vw, 3rem)",
+                  letterSpacing: "-0.03em",
+                  marginTop: "10px",
+                }}
+              >
+                {HERO_HEADING}
+              </h1>
+            </div>
+            <p style={{ fontSize: "1.05rem", lineHeight: "1.75", color: "var(--muted)" }}>
+              {HERO_PARA_1}
+            </p>
+            <p style={{ fontSize: "1.05rem", lineHeight: "1.75", color: "var(--muted)" }}>
+              {HERO_PARA_2}
+            </p>
+            <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)" }}>
+              <strong style={{ color: "var(--text)" }}>{HERO_CAVEAT}</strong>
+            </p>
+            <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
+              <Link href="/quiz" className="cta-primary">
+                Take the quiz →
+              </Link>
+              <Link href="/explore" className="cta-secondary">
+                Explore the perspectives →
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: navigation cards */}
+          <div className="hero-cards">
+            <Link href="/quiz" className="menu-card">
+              <p className="menu-card-title">Take the quiz</p>
+              <p className="menu-card-desc">
+                Map your instincts across seven dimensions drawn from IR theory. Takes 10–15 minutes.
+              </p>
+            </Link>
+            <Link href="/explore" className="menu-card">
+              <p className="menu-card-title">Explore the perspectives</p>
+              <p className="menu-card-desc">
+                A field guide to the four worldview families the quiz draws on.
+              </p>
+            </Link>
+            <Link href="/method" className="menu-card">
+              <p className="menu-card-title">How it works</p>
+              <p className="menu-card-desc">
+                Methodology, scoring, dimensions, and important limitations.
+              </p>
+            </Link>
+            <Link href="/references" className="menu-card">
+              <p className="menu-card-title">References</p>
+              <p className="menu-card-desc">
+                Primary texts and further reading, organized by tradition.
+              </p>
+            </Link>
+          </div>
         </div>
-        <div style={{ maxWidth: "560px" }} className="stack-md">
-          <p style={{ fontSize: "1.05rem", lineHeight: "1.75", color: "var(--muted)" }}>
-            {HERO_PARA_1}
-          </p>
-          <p style={{ fontSize: "1.05rem", lineHeight: "1.75", color: "var(--muted)" }}>
-            {HERO_PARA_2}
-          </p>
-          <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)" }}>
-            <strong style={{ color: "var(--text)" }}>{HERO_CAVEAT}</strong>
-          </p>
-          {/* Client component handles localStorage draft detection */}
+
+        {/* Draft resume banner — only renders when a saved draft exists */}
+        <div style={{ marginTop: "24px" }}>
           <ResumeCta />
         </div>
       </section>
@@ -55,7 +103,7 @@ export default function LandingPage() {
 
       {/* Purpose */}
       <section className="landing-section">
-        <div style={{ maxWidth: "560px" }} className="stack-md">
+        <div style={{ maxWidth: "640px" }} className="stack-md">
           <h2>What this is for</h2>
           <p className="muted" style={{ lineHeight: "1.7" }}>
             This quiz shows which traditions in International Relations most closely match your
@@ -84,7 +132,7 @@ export default function LandingPage() {
 
       {/* What the inventory measures */}
       <section className="landing-section">
-        <div style={{ maxWidth: "600px" }} className="stack-md">
+        <div style={{ maxWidth: "640px" }} className="stack-md">
           <h2>What the inventory measures</h2>
           <p className="muted" style={{ lineHeight: "1.7" }}>
             Seven dimensions drawn from the main theoretical traditions in IR scholarship. Each
@@ -106,25 +154,6 @@ export default function LandingPage() {
                 <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.55" }}>{desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <hr className="divider" style={{ margin: "0" }} />
-
-      {/* Explore section teaser */}
-      <section className="landing-section">
-        <div style={{ maxWidth: "560px" }} className="stack-md">
-          <h2>Not ready to take the quiz?</h2>
-          <p className="muted" style={{ lineHeight: "1.7" }}>
-            The Explore section is a field guide to the worldview families the quiz draws on. It
-            explains what each tradition emphasizes, where it tends to miss, and what arguments it
-            finds most persuasive.
-          </p>
-          <div>
-            <Link href="/explore" className="cta-secondary">
-              Explore the perspectives →
-            </Link>
           </div>
         </div>
       </section>

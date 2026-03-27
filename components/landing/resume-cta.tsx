@@ -63,16 +63,7 @@ export function ResumeCta() {
   }
 
   if (!hasDraft) {
-    return (
-      <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-        <Link href="/quiz" className="cta-primary">
-          Take the quiz
-        </Link>
-        <Link href="/explore" className="cta-secondary">
-          Explore the perspectives
-        </Link>
-      </div>
-    )
+    return null
   }
 
   return (

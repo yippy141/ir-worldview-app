@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="site-shell">
           <header className="site-header">
-            <div className="container" style={{ padding: "0" }}>
+            <div className="wide-container" style={{ padding: "0" }}>
               <div className="header-inner">
                 <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
                   <p className="brand">{siteConfig.publicTitle}</p>
@@ -37,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="site-main page-space">{children}</main>
 
           <footer className="site-footer">
-            <div className="container" style={{ padding: "0" }}>
+            <div className="wide-container" style={{ padding: "0" }}>
               <div className="footer-inner">
                 <div className="footer-brand">
                   <strong>{siteConfig.publicTitle}</strong>
