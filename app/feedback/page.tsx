@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -6,8 +7,7 @@ export const metadata: Metadata = {
   description: "Share your feedback on the IR Worldview Inventory pilot.",
 }
 
-// TODO: Replace this placeholder with the actual Google Form URL before the pilot
-const GOOGLE_FORM_URL = "https://forms.google.com/placeholder"
+const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGxaUUwUYmo0YI8mcmqKGnne66MyGhPSWO88lSUwC91NZlyQ/viewform"
 
 interface Props {
   searchParams: Promise<{ result?: string }>
@@ -24,16 +24,15 @@ export default async function FeedbackPage({ searchParams }: Props) {
         <h1>Help improve this inventory</h1>
 
         <p style={{ lineHeight: "1.7", maxWidth: "580px" }}>
-          This instrument is in a pilot phase. The questions, scoring weights, and result framing
-          are based on theoretical judgment — not empirical calibration against a large sample.
-          Your responses help identify where the questions are confusing, where the results feel
-          inaccurate, and what the instrument is currently missing.
+          This quiz is in a pilot phase. The questions, scoring weights, and result framing are
+          based on theoretical judgment, not empirical calibration. Your responses help identify
+          where the questions are confusing, where results feel off, and what is missing.
         </p>
 
         <div className="panel-flush stack-xs" style={{ maxWidth: "580px" }}>
           <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>The form covers four things</p>
           <ul style={{ margin: "8px 0 0", paddingLeft: "20px", lineHeight: "1.85", color: "var(--muted)", fontSize: "0.9rem" }}>
-            <li>How accurate the result felt — and where it missed</li>
+            <li>How accurate the result felt, and where it missed</li>
             <li>Which question was hardest to answer and why</li>
             <li>What was missing, unclear, or felt off</li>
             <li>An optional role (student / practitioner / academic / other)</li>
@@ -56,8 +55,8 @@ export default async function FeedbackPage({ searchParams }: Props) {
         >
           <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.6" }}>
             <strong>Privacy:</strong> The form is anonymous by default. It does not collect your
-            email address unless you choose to enter it. Responses are used only to improve this
-            instrument and are not shared with third parties.
+            email address unless you choose to provide it. Responses are not shared with third
+            parties.
           </p>
         </div>
 
@@ -75,6 +74,32 @@ export default async function FeedbackPage({ searchParams }: Props) {
           </Link>
         </div>
       </div>
+
+      {/* Direct contact */}
+      {siteConfig.links.filter((l) => l.kind === "contact").length > 0 && (
+        <div className="panel stack-sm" style={{ marginTop: "24px" }}>
+          <p className="eyebrow">Direct contact</p>
+          <p style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "580px" }}>
+            Prefer to write directly? The links below reach {siteConfig.author}. This is most
+            useful for longer feedback, collaboration inquiries, or pilot arrangements.
+          </p>
+          <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
+            {siteConfig.links
+              .filter((l) => l.kind === "contact")
+              .map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="cta-secondary"
+                  target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                  rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                >
+                  {link.label} →
+                </a>
+              ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

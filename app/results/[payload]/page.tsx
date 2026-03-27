@@ -101,8 +101,8 @@ export default async function ResultPage(
               lineHeight: "1.55",
             }}
           >
-            Prototype classification — not a validated psychometric diagnosis. Treat this as a
-            starting point for reflection.
+            Prototype classification — not a validated psychometric instrument. Use this as a
+            starting point, not a verdict.
           </p>
         </div>
 
@@ -148,7 +148,7 @@ export default async function ResultPage(
         <div className="result-section stack-md">
           <h2>Why this result won</h2>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            The dimensions that most clearly distinguished your primary result from the runner-up.
+            The dimensions that most clearly separated your primary result from the runner-up.
           </p>
           <ul className="content-list">
             {whyThisResult.map((bullet, i) => (
@@ -170,8 +170,8 @@ export default async function ResultPage(
             </div>
           ) : (
             <p className="muted" style={{ lineHeight: "1.65" }}>
-              Your profile shows relatively consistent views across dimensions without strong internal
-              tensions — your theoretical instincts appear well-integrated.
+              Your profile shows consistent views across dimensions, without strong internal tensions.
+              Your instincts appear well-integrated.
             </p>
           )}
         </div>
@@ -181,8 +181,8 @@ export default async function ResultPage(
           <div className="result-section stack-md">
             <h2>Where your instincts cross boundaries</h2>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              Issue areas where your dimension scores suggest a different instinct than your primary
-              classification would predict on its own.
+              Issue areas where your scores suggest a different instinct than your primary
+              classification alone would predict.
             </p>
             <div>
               {issueAreaTilts.map((tilt) => (
@@ -207,8 +207,8 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Dimension profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Scores run from 1 to 7. These reflect your positions within this model — not population
-              percentiles or validated measurements.
+              Scores run from 1 to 7. They reflect your positions within this model, not population
+              percentiles.
             </p>
           </div>
           <div>

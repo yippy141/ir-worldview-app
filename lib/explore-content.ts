@@ -7,6 +7,12 @@ export type ExploreReading = {
   note: string
 }
 
+export type ExploreThinker = {
+  name: string
+  role: string   // institutional role / era — kept brief
+  note: string   // what this thinker contributed to the tradition
+}
+
 export type ExploreFamily = {
   slug: string
   familyKey: FamilyKey
@@ -23,6 +29,7 @@ export type ExploreFamily = {
   readings: ExploreReading[]
   advancedReadings?: ExploreReading[]
   counterReadings?: ExploreReading[]
+  associatedThinkers?: ExploreThinker[]
   quizCoverage: { level: "strong" | "moderate" | "partial"; note: string }
   modelingNote?: string
 }
@@ -178,6 +185,28 @@ Realism is not a single view. Classical realists emphasize human nature and stat
         note: "The constructivist challenge: anarchy does not have a fixed logic. The meaning of rivalry and self-help depends on identities and relationships that states construct through interaction — not on structure alone.",
       },
     ],
+    associatedThinkers: [
+      {
+        name: "Hans Morgenthau (1904–1980)",
+        role: "Political scientist — University of Chicago",
+        note: "The founding figure of classical realism. Grounded the realist argument in a concept of the national interest defined in terms of power, and insisted that statecraft is a discipline requiring tragic judgment, not rule-following.",
+      },
+      {
+        name: "Kenneth Waltz (1924–2013)",
+        role: "Political scientist — Columbia University and UC Berkeley",
+        note: "Founded structural realism (neorealism). Shifted the causal argument from human nature to the architecture of the international system — anarchy plus the distribution of capabilities — and set the terms for theoretical debate across two generations of IR scholars.",
+      },
+      {
+        name: "John Mearsheimer (b. 1947)",
+        role: "Political scientist — University of Chicago",
+        note: "The leading proponent of offensive realism. Argues that the structure of anarchy compels great powers to maximize relative power because there is no safe stopping point — and that this logic makes conflict recurrent regardless of ideology.",
+      },
+      {
+        name: "Robert Jervis (1940–2021)",
+        role: "Political scientist — Columbia University",
+        note: "The essential scholar of the security dilemma and strategic misperception. Showed how cognitive biases and the offense-defense balance interact to produce arms spirals and wars that no party intended.",
+      },
+    ],
     quizCoverage: {
       level: "strong",
       note:
@@ -319,6 +348,28 @@ Liberal institutionalism also takes domestic politics seriously. The "two-level 
         note: "Argues that international order is underwritten by hegemony, not institutions. When the hegemonic power declines, the order it created does not sustain itself through institutional momentum — it collapses or is renegotiated by force.",
       },
     ],
+    associatedThinkers: [
+      {
+        name: "Robert Keohane (b. 1941)",
+        role: "Political scientist — Princeton University",
+        note: "The central figure of liberal institutionalism. Developed the theoretical case that international institutions can sustain cooperation among self-interested states even after the dominant power that created them declines.",
+      },
+      {
+        name: "Joseph Nye (b. 1937)",
+        role: "Political scientist — Harvard University",
+        note: "Co-developed complex interdependence with Keohane and introduced the concept of soft power — the ability to shape others' preferences through attraction rather than coercion. Influential across both academic and policy communities.",
+      },
+      {
+        name: "G. John Ikenberry (b. 1954)",
+        role: "Political scientist — Princeton University",
+        note: "Argues that the post-war US-led liberal order succeeded partly because the United States bound itself through institutions — making the order legitimate to other states. Central to debates about whether liberal order can survive US retrenchment.",
+      },
+      {
+        name: "Robert Putnam (b. 1941)",
+        role: "Political scientist — Harvard University",
+        note: "Developed the two-level game framework: international negotiations are simultaneously domestic political contests. Governments negotiate abroad while managing ratification constraints at home, and this domestic politics shapes what is achievable internationally.",
+      },
+    ],
     quizCoverage: {
       level: "strong",
       note:
@@ -454,6 +505,28 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
         title: "The Great Delusion: Liberal Dreams and International Realities",
         author: "John Mearsheimer",
         note: "A realist attack on liberal internationalism that also challenges the constructivist claim that norms can transform international politics. Argues that nationalism and realist logic reliably defeat attempts to spread liberal order through socialization.",
+      },
+    ],
+    associatedThinkers: [
+      {
+        name: "Alexander Wendt (b. 1958)",
+        role: "Political scientist — Ohio State University",
+        note: "The central theorist of conventional constructivism. His 1992 article 'Anarchy Is What States Make of It' established constructivism as a mainstream approach, arguing that anarchy has no fixed logic — its consequences depend on the identities and relationships states construct.",
+      },
+      {
+        name: "Martha Finnemore (b. 1959)",
+        role: "Political scientist — George Washington University",
+        note: "Demonstrated empirically that international organizations actively shape state interests rather than just serving them. With Kathryn Sikkink, developed the norm life cycle — emergence, cascade, internalization — as a framework for understanding how norms spread.",
+      },
+      {
+        name: "Peter Katzenstein (b. 1945)",
+        role: "Political scientist — Cornell University",
+        note: "Helped establish constructivism's empirical footing in security studies through The Culture of National Security. Edited and contributed to foundational work showing how norms and identity shaped German, Japanese, and US security policy.",
+      },
+      {
+        name: "Nicholas Onuf (b. 1941)",
+        role: "Political scientist — Florida International University",
+        note: "Coined the term 'constructivism' in an IR context. Developed a rules-based framework arguing that social reality — including the rules governing international life — is constructed through speech acts and shared practices.",
       },
     ],
     quizCoverage: {
@@ -594,6 +667,28 @@ The tradition also attends to who builds the rules. The institutions that govern
         title: "Defending the National Interest: Raw Materials Investments and U.S. Foreign Policy",
         author: "Stephen Krasner",
         note: "A state-centric realist challenge to Marxist IPE. Argues that state interests — not class interests — drive foreign economic policy, and that states sometimes act against the preferences of their dominant economic actors.",
+      },
+    ],
+    associatedThinkers: [
+      {
+        name: "Susan Strange (1923–1998)",
+        role: "Political economist — LSE and University of Warwick",
+        note: "Developed the concept of structural power in international political economy — the ability to shape the rules and structures within which others must operate. Argued that the United States exercises power through control of global finance and knowledge structures, independent of formal authority.",
+      },
+      {
+        name: "Robert Cox (1926–2018)",
+        role: "Political economist — York University",
+        note: "The founding figure of neo-Gramscian IPE. Argued that theory is always 'theory for someone and for some purpose,' and that hegemony is reproduced through a combination of material power, institutions, and prevailing ideas. 'Problem-solving theory versus critical theory' is his central distinction.",
+      },
+      {
+        name: "Immanuel Wallerstein (1930–2019)",
+        role: "Sociologist — Binghamton University",
+        note: "Developed world-systems theory: a historical sociology of capitalism as a single world-system with structurally reproduced core, semi-periphery, and periphery zones. Argued that underdevelopment is produced by integration into the world economy, not by isolation from it.",
+      },
+      {
+        name: "Raúl Prebisch (1901–1986)",
+        role: "Economist — UN Economic Commission for Latin America (ECLAC)",
+        note: "Developed the Prebisch-Singer thesis on deteriorating terms of trade: commodity-exporting periphery countries face a long-run structural disadvantage relative to industrialized core countries. Foundational for dependency theory and structuralist development economics.",
       },
     ],
     quizCoverage: {

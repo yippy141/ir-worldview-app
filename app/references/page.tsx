@@ -13,6 +13,9 @@ type RefEntry = {
   year: number
   publisher: string
   note: string
+  // Stable source link: publisher catalog page, JSTOR stable URL, or DOI.
+  // Only populated where a durable, publicly accessible link is known.
+  url?: string
 }
 
 const realistRefs: RefEntry[] = [
@@ -36,6 +39,7 @@ const realistRefs: RefEntry[] = [
     year: 1979,
     publisher: "Addison-Wesley. Reissued by McGraw-Hill.",
     note: "The founding text of structural realism (neorealism). Shifts the causal argument from human nature to the architecture of the system — anarchy and the distribution of capabilities. Sets the terms for most subsequent theoretical debate.",
+    url: "https://www.waveland.com/browse.php?t=144",
   },
   {
     author: "Waltz, Kenneth N.",
@@ -74,6 +78,7 @@ const institutionalistRefs: RefEntry[] = [
     year: 1984,
     publisher: "Princeton University Press.",
     note: "The central text of liberal institutionalism. Argues that international regimes can sustain cooperation even after the dominant power that created them declines — against the realist expectation that order depends on hegemony.",
+    url: "https://press.princeton.edu/books/paperback/9780691122489/after-hegemony",
   },
   {
     author: "Keohane, Robert O. and Nye, Joseph S.",
@@ -88,6 +93,7 @@ const institutionalistRefs: RefEntry[] = [
     year: 1988,
     publisher: "International Organization, vol. 42, no. 3.",
     note: "Argues that international negotiations are simultaneously domestic political contests. Win-sets — the range of agreements that can survive ratification — shape what is achievable abroad. One of the most cited articles in IR.",
+    url: "https://www.jstor.org/stable/2706785",
   },
   {
     author: "Ikenberry, G. John",
@@ -109,6 +115,7 @@ const institutionalistRefs: RefEntry[] = [
     year: 1994,
     publisher: "International Security, vol. 19, no. 3.",
     note: "A sharp realist challenge to institutionalism. Argues that institutions reflect the interests of powerful states and cannot independently cause peace. Essential reading for understanding what institutionalism is up against.",
+    url: "https://www.jstor.org/stable/2539078",
   },
 ]
 
@@ -119,6 +126,7 @@ const constructivistRefs: RefEntry[] = [
     year: 1992,
     publisher: "International Organization, vol. 46, no. 2.",
     note: "The article that established constructivism as a mainstream IR approach. Argues that anarchy has no single fixed logic — its consequences depend on the identities and relationships states construct. Directly challenges Waltz.",
+    url: "https://www.jstor.org/stable/2706858",
   },
   {
     author: "Wendt, Alexander",
@@ -126,6 +134,7 @@ const constructivistRefs: RefEntry[] = [
     year: 1999,
     publisher: "Cambridge University Press.",
     note: "The full theoretical treatment. Distinguishes three cultures of anarchy (Hobbesian, Lockean, Kantian) and argues that state identities are both constructed and capable of change through sustained interaction.",
+    url: "https://www.cambridge.org/core/books/social-theory-of-international-politics/",
   },
   {
     author: "Katzenstein, Peter J. (ed.)",
@@ -140,6 +149,7 @@ const constructivistRefs: RefEntry[] = [
     year: 1998,
     publisher: "International Organization, vol. 52, no. 4.",
     note: "Introduces the norm life cycle — emergence, cascade, internalization — and explains how norms spread and gain causal force. The most cited constructivist article on norm diffusion.",
+    url: "https://www.jstor.org/stable/2601361",
   },
   {
     author: "Hopf, Ted",
@@ -258,6 +268,18 @@ function RefSection({ id, title, entries }: { id: string; title: string; entries
             <p style={{ fontSize: "0.875rem", lineHeight: "1.6", marginTop: "8px" }}>
               {ref.note}
             </p>
+            {ref.url && (
+              <p style={{ fontSize: "0.8rem", marginTop: "6px" }}>
+                <a
+                  href={ref.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: "var(--accent)" }}
+                >
+                  View source →
+                </a>
+              </p>
+            )}
           </div>
         ))}
       </div>

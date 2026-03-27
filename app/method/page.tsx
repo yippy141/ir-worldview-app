@@ -10,12 +10,12 @@ const dimensions = [
   {
     label: "Security competition",
     description:
-      "How much weight do you give to the durability of interstate rivalry, uncertainty about intentions, and positional competition among major powers? High scores indicate a realist-adjacent orientation toward these as persistent structural features of world politics. Low scores suggest skepticism that rivalry is the dominant organizing logic.",
+      "How much weight do you give to interstate rivalry, uncertainty about intentions, and positional competition among major powers? High scores indicate a realist-adjacent orientation. Low scores suggest skepticism that rivalry is the dominant organizing logic.",
   },
   {
     label: "Institutional efficacy",
     description:
-      "Do you think international institutions can make cooperation more durable even without a central enforcer? High scores indicate institutionalist-adjacent views; low scores suggest skepticism that institutions matter beyond the preferences of powerful states.",
+      "Do you think international institutions can make cooperation more durable, even without a central enforcer? High scores indicate institutionalist-adjacent views. Low scores suggest skepticism that institutions matter beyond the preferences of powerful states.",
   },
   {
     label: "Domestic and transnational filters",
@@ -25,49 +25,49 @@ const dimensions = [
   {
     label: "Norms and identity",
     description:
-      "Do you think the meaning of threats, alliances, and interests is shaped by identity, recognition, and social expectations? High scores indicate constructivist leanings — the view that anarchy is not a fixed constraint but a social condition. Low scores indicate that you treat norms as rhetorical cover for material interests.",
+      "Do you think the meaning of a threat or alliance is shaped by identity, recognition, and social expectations? High scores indicate constructivist leanings — the view that anarchy is a social condition, not a fixed one. Low scores suggest you treat norm language as cover for material interests.",
   },
   {
     label: "Political economy",
     description:
-      "How central are production structures, global finance, trade dependence, and economic hierarchy to your understanding of world politics? This dimension captures critical political economy and dependency-theory traditions, which argue that security and diplomacy cannot be fully understood without examining who controls capital and supply chains.",
+      "How central are production structures, global finance, trade dependence, and economic hierarchy to your understanding of world politics? This dimension captures the critical political economy tradition, which holds that security and diplomacy cannot be understood without examining who controls capital and supply chains.",
   },
   {
     label: "Restraint vs. maximization",
     description:
-      "Does your instinct run toward limiting commitments and avoiding overextension, or toward seizing windows for durable advantage? This dimension captures a strategic disposition that cuts across the main paradigm families — you can be a restrained realist or a maximizing institutionalist.",
+      "Does your instinct run toward limiting commitments and avoiding overextension, or toward seizing windows for durable advantage? This disposition cuts across the main paradigm families. A restrained realist and a maximizing institutionalist can land at very different ends of this scale.",
   },
   {
     label: "Order vs. justice",
     description:
-      "When international order and universal moral obligations conflict, which tends to win in your judgment? This dimension captures the pluralism-solidarism debate in English School theory. Pluralists privilege sovereignty and non-intervention; solidarists argue that sufficiently grave moral violations can override them.",
+      "When international order and universal moral obligations conflict, which wins in your judgment? This captures the pluralism-solidarism debate in English School theory. Pluralists privilege sovereignty and non-intervention. Solidarists hold that sufficiently grave violations can override them.",
   },
 ]
 
 const limitations = [
   {
     heading: "Not validated",
-    body: "This instrument has not been tested for reliability, construct validity, or criterion validity against established psychometric instruments or expert ratings. The family profiles and weights reflect theoretical judgment, not empirical calibration against a population of known respondents.",
+    body: "This instrument has not been tested for reliability or validity against established psychometric instruments or expert ratings. The family profiles and weights reflect theoretical judgment, not empirical calibration.",
   },
   {
     heading: "The paradigms are stylized",
-    body: "Real IR scholars do not fit cleanly into four boxes. The family profiles are idealized for classification purposes. Most serious analysts draw on multiple traditions depending on the issue area, and the runner-up family in your results may matter as much as the primary one.",
+    body: "The four family profiles are idealized for classification purposes. In practice, most scholars draw on multiple traditions depending on the issue. The runner-up in your results may be as revealing as the primary.",
   },
   {
     heading: "Branching logic is heuristic",
-    body: "The scenario weights and follow-up rules were designed by hand to capture what seem like theoretically meaningful distinctions. They have not been validated against a large sample of respondents with known worldviews, nor have the weights been calibrated empirically.",
+    body: "The scenario weights and branching rules were designed by hand to capture theoretically meaningful distinctions. They have not been validated against a large sample, and the weights have not been calibrated empirically.",
   },
   {
     heading: "Self-report limitations",
-    body: "What you believe you think and what your actual policy instincts imply are not always the same thing. The scenario section is designed partly to surface that gap, but it cannot fully resolve it. People often hold different instincts across issue areas that they would not describe as contradictory if asked directly.",
+    body: "What you believe you think and what your actual instincts imply are not always the same. The scenario section is intended to surface that gap, but it cannot resolve it fully. People often hold different instincts across issue areas without experiencing them as contradictory.",
   },
   {
     heading: "Scores are relative, not absolute",
-    body: "A score of 5.3 on institutional efficacy means you lean institutionalist relative to this model's scale — it does not mean 76% of the population agrees with you. The scores are not population percentiles and should not be read as such.",
+    body: "A score of 5.3 on institutional efficacy means you lean institutionalist relative to this model's scale. It does not mean 76% of the population agrees with you. The scores are not population percentiles.",
   },
   {
     heading: "Coverage is incomplete",
-    body: "The current instrument covers seven dimensions and five major scenario clusters. Important traditions — feminist IR, postcolonial theory, green IR — are not yet represented. The results should be understood with this coverage gap in mind.",
+    body: "The instrument covers seven dimensions and five major scenario clusters. Important traditions — feminist IR, postcolonial theory, green IR — are not yet represented. Results should be read with that gap in mind.",
   },
 ]
 
@@ -79,9 +79,9 @@ export default function MethodPage() {
         <p className="eyebrow">Methodology</p>
         <h1>How this inventory works</h1>
         <p className="muted" style={{ lineHeight: "1.7" }}>
-          This page explains what the IR Worldview Inventory is, how it is structured, and what its
-          results should and should not be taken to mean. Transparency here matters: a
-          classification tool that does not explain itself is a black box, not an analytical aid.
+            This page explains what the IR Worldview Inventory is, how it works, and what the results
+          should and should not mean. A classification tool that does not explain itself is a black
+          box.
         </p>
       </section>
 
@@ -89,15 +89,14 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>What this is — and what it is not</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The IR Worldview Inventory is a <strong>prototype heuristic classification tool</strong>,
-          not a validated psychometric instrument. It is designed to help you reflect on which
-          theoretical traditions in International Relations most resemble your implicit assumptions
-          — not to diagnose your personality, measure your intelligence, or assess your expertise.
+          The IR Worldview Inventory is a <strong>prototype classification tool</strong>, not a
+          validated psychometric instrument. It helps you see which traditions in International
+          Relations most closely match your implicit assumptions. It does not diagnose your
+          personality, measure intelligence, or assess expertise.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          It is not a test with right and wrong answers. High scores in any dimension are not better
-          or worse than low scores. The result is a prompt for reflection, not a verdict about how
-          you think about the world.
+          There are no right or wrong answers. High scores in any dimension are not better than low
+          scores. The result is a prompt, not a verdict.
         </p>
         <div className="panel-flush stack-xs">
           <p style={{ fontWeight: 600 }}>In short</p>
@@ -115,16 +114,14 @@ export default function MethodPage() {
         <h2>Who it is for</h2>
         <p style={{ lineHeight: "1.7" }}>
           The primary audience is people who think seriously about foreign policy, international
-          order, or strategic affairs — whether as practitioners, students, researchers, or engaged
-          readers. Some background in IR theory makes the questions easier to parse, but the
-          inventory is designed to be accessible without a graduate education. Jargon is defined
-          where it appears.
+          order, or strategic affairs — practitioners, students, researchers, or engaged readers.
+          Some background in IR theory helps, but the quiz is accessible without it. Jargon is
+          defined where it appears.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          It is also useful as a teaching tool. Taking it before and after reading core IR texts
-          tends to surface assumptions that coursework alone sometimes leaves implicit — particularly
-          the gap between what students say they believe theoretically and what their scenario
-          choices reveal.
+          It also works as a teaching tool. Taking it before and after reading core IR texts tends
+          to surface assumptions that coursework alone leaves implicit — in particular, the gap
+          between stated theoretical views and what scenario choices reveal.
         </p>
       </section>
 
@@ -133,9 +130,9 @@ export default function MethodPage() {
         <div className="stack-xs">
           <h2>The seven dimensions</h2>
           <p className="muted" style={{ lineHeight: "1.65" }}>
-            Each question maps to one of seven analytical dimensions drawn from the major traditions
-            in IR theory. The dimensions were chosen to capture meaningful variation across the
-            leading paradigms without collapsing them into a single axis.
+            Each question maps to one of seven dimensions drawn from the major traditions in IR
+            theory. They were chosen to capture meaningful variation across the leading paradigms
+            without collapsing everything into a single axis.
           </p>
         </div>
         <div>
@@ -164,23 +161,22 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>Why branching scenarios are used</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The core questions are Likert-scale attitude items — they ask you to rate your agreement
-          with theoretical propositions. These are good at measuring dimension-level orientations
-          but can feel abstract.
+          The core questions are Likert-scale items. They ask you to rate your agreement with
+          theoretical propositions. They are good at measuring your orientation on each dimension,
+          but they can feel abstract.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           The branching scenarios follow up with concrete policy situations — sanctions, trade
-          restrictions, humanitarian intervention, financial crises — where your instincts often
-          differ from your stated theoretical preferences. This is intentional. Many people hold
-          latent realist instincts on strategic technology and latent institutionalist instincts on
-          trade, even when they consistently describe themselves as one thing.
+          restrictions, humanitarian intervention, financial crises. Your instincts in these cases
+          often differ from your stated theoretical preferences. Many people hold realist instincts
+          on strategic technology and institutionalist instincts on trade, even when they describe
+          themselves as one thing throughout.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Branching means your path through the scenarios depends on your earlier choices. If you
-          restrict trade aggressively in the technology scenario, you will see a follow-up about
-          ally trade that a more open respondent will not see. This allows the instrument to probe
-          the conditions under which your instincts shift — not just what your baseline preference
-          is.
+          Branching means your path through the scenarios depends on earlier choices. If you
+          restrict trade aggressively in the technology scenario, you see a follow-up about ally
+          trade that a more open respondent will not. This probes the conditions under which your
+          instincts shift, not just your baseline preference.
         </p>
       </section>
 
@@ -189,17 +185,15 @@ export default function MethodPage() {
         <h2>Why the wording is plain English</h2>
         <p style={{ lineHeight: "1.7" }}>
           The question prompts are written to be readable without prior IR training. Technical terms
-          appear in the optional clarifications, not in the main prompts. This is a deliberate
-          choice.
+          appear in the optional clarifications, not the main prompts.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          A question that requires IR jargon to parse will produce a different answer from a
-          specialist than from a non-specialist — not because their instincts differ, but because
-          the question is asking something different to each of them. Plain wording reduces that
-          artifact.
+          A question that requires IR jargon produces different answers from specialists and
+          non-specialists — not because their instincts differ, but because the question is asking
+          each of them something different. Plain wording reduces that artifact.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Technical language is still available via the clarification disclosures. The goal is to
+          Technical language is still available via the clarification disclosures. The aim is to
           make jargon optional, not invisible.
         </p>
       </section>
@@ -221,10 +215,10 @@ export default function MethodPage() {
           scenarios sharpen the profile rather than overriding the core.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Once dimension scores are finalized, the model computes a dot-product similarity score
-          between your dimension profile and four idealized family profiles — realist,
-          institutionalist, constructivist, and critical political economist. The family with the
-          highest similarity score becomes your primary classification.
+          Once dimension scores are finalized, the model computes a similarity score between your
+          dimension profile and four idealized family profiles — realist, institutionalist,
+          constructivist, and critical political economist. The family with the highest score
+          becomes your primary classification.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           Two additional modifiers — strategy disposition and normative orientation — are computed
@@ -233,11 +227,10 @@ export default function MethodPage() {
         </p>
         <div className="panel-flush">
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-            <strong>Note on &ldquo;profile clarity&rdquo;:</strong> Earlier versions of this tool displayed a
-            clarity percentage. This figure was an internal heuristic measuring the gap between the
-            top and second-place family scores — not a validated confidence metric, and not a
-            population percentile. It has been removed from the results display to avoid implying a
-            precision the model does not have.
+            <strong>Note on &ldquo;profile clarity&rdquo;:</strong> Earlier versions displayed a clarity
+            percentage. This figure measured the gap between the top and second-place family
+            scores — an internal heuristic, not a validated confidence metric. It has been removed
+            to avoid implying a precision the model does not have.
           </p>
         </div>
       </section>
@@ -281,7 +274,7 @@ export default function MethodPage() {
             },
             {
               citation: "Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? Princeton University Press, 2005.",
-              note: "The finding that fox-like analysts who draw on multiple frameworks outperform single-paradigm hedgehogs is directly relevant to why the runner-up classification matters here.",
+              note: "The finding that people who draw on multiple frameworks outperform single-paradigm thinkers is directly relevant to why the runner-up classification matters here.",
             },
             {
               citation: "Sil, Rudra and Katzenstein, Peter J. Beyond Paradigms: Analytic Eclecticism in the Study of World Politics. Palgrave Macmillan, 2010.",

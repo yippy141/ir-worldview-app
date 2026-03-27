@@ -1,12 +1,29 @@
 import Link from "next/link"
 import { ResumeCta } from "@/components/landing/resume-cta"
+import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "IR Worldview Inventory",
+  title: siteConfig.publicTitle,
   description:
-    "A prototype classification tool that maps how you think about world politics across seven analytical dimensions drawn from International Relations theory.",
+    "A prototype classification tool that maps assumptions about world politics across seven analytical dimensions drawn from International Relations theory.",
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EDITABLE: Hero introduction copy
+// Edit the strings below to update the landing page intro without touching JSX.
+// ─────────────────────────────────────────────────────────────────────────────
+const HERO_HEADING = "How do you see the world?"
+
+const HERO_PARA_1 =
+  "Most people who follow world politics hold working assumptions about how it operates. When does power matter more than rules? What drives conflict? Can institutions hold under pressure? Those assumptions shape which arguments feel credible. They rarely get examined."
+
+const HERO_PARA_2 =
+  "This quiz maps your instincts across seven dimensions drawn from the main traditions in International Relations. The result is not a political label or a measure of expertise. It shows which tradition most closely matches how you already think — and gives you a way to test whether that fit actually holds."
+
+const HERO_CAVEAT =
+  "This is not a personality test, a political compass, or a validated psychometric instrument. It is a prototype, and the results are a starting point. It takes roughly 10–15 minutes."
+// ─────────────────────────────────────────────────────────────────────────────
 
 export default function LandingPage() {
   return (
@@ -16,20 +33,18 @@ export default function LandingPage() {
         <div className="stack-sm" style={{ maxWidth: "600px" }}>
           <p className="eyebrow">A prototype classification tool</p>
           <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", letterSpacing: "-0.03em" }}>
-            How do you think about world politics?
+            {HERO_HEADING}
           </h1>
         </div>
         <div style={{ maxWidth: "560px" }} className="stack-md">
-          <p style={{ fontSize: "1.1rem", lineHeight: "1.7", color: "var(--muted)" }}>
-            The IR Worldview Inventory maps your theoretical assumptions across seven dimensions —
-            from security competition and institutional efficacy to the balance between order and
-            justice. The result is a classification of which traditions in International Relations
-            theory most closely match your instincts.
+          <p style={{ fontSize: "1.05rem", lineHeight: "1.75", color: "var(--muted)" }}>
+            {HERO_PARA_1}
           </p>
-          <p style={{ fontSize: "0.9rem", lineHeight: "1.65", color: "var(--muted)" }}>
-            <strong style={{ color: "var(--text)" }}>What it is not:</strong> a personality test, a
-            political compass, or a validated psychometric instrument. This is a prototype designed
-            to prompt reflection. It takes roughly 10–15 minutes to complete.
+          <p style={{ fontSize: "1.05rem", lineHeight: "1.75", color: "var(--muted)" }}>
+            {HERO_PARA_2}
+          </p>
+          <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)" }}>
+            <strong style={{ color: "var(--text)" }}>{HERO_CAVEAT}</strong>
           </p>
           {/* Client component handles localStorage draft detection */}
           <ResumeCta />
@@ -43,26 +58,24 @@ export default function LandingPage() {
         <div style={{ maxWidth: "560px" }} className="stack-md">
           <h2>What this is for</h2>
           <p className="muted" style={{ lineHeight: "1.7" }}>
-            This inventory is designed to surface which theoretical traditions in International
-            Relations most closely match your implicit assumptions — not to label your politics, rank
-            your expertise, or sort you into a box.
+            This quiz shows which traditions in International Relations most closely match your
+            instincts. It does not label your politics, rank your expertise, or sort you into a box.
           </p>
           <p className="muted" style={{ lineHeight: "1.7" }}>
-            It works best as a prompt for reflection: a structured way to examine assumptions you
-            might hold without having made them explicit. The result is a starting point, not a
-            verdict.
+            It works best as a starting point for reflection. The result surfaces assumptions you
+            may hold without having examined them. It is not a verdict.
           </p>
           <p className="muted" style={{ lineHeight: "1.7" }}>
             It uses seven dimensions rather than a single axis because the major traditions in IR
-            theory disagree across multiple independent questions — not just one. Two people can
-            reach the same overall classification via very different dimension profiles, and the
-            dimension scores often tell a more interesting story than the label.
+            theory disagree across multiple independent questions. Two people can reach the same
+            overall classification through very different dimension profiles. The scores often tell a
+            more interesting story than the label.
           </p>
           <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)" }}>
             <strong style={{ color: "var(--text)" }}>What it is not:</strong> a political compass, a
             personality test, or a validated psychometric instrument. Results can overlap. A
-            different result on a second attempt can reflect real change in your thinking, or better
-            self-knowledge the second time.
+            different result on a second attempt can mean real change in thinking, or simply better
+            self-knowledge.
           </p>
         </div>
       </section>
@@ -75,15 +88,15 @@ export default function LandingPage() {
           <h2>What the inventory measures</h2>
           <p className="muted" style={{ lineHeight: "1.7" }}>
             Seven dimensions drawn from the main theoretical traditions in IR scholarship. Each
-            dimension corresponds to a real debate about how world politics works — not a political
-            opinion about what policy is best.
+            corresponds to a genuine debate about how world politics works, not a political opinion
+            about what policy is best.
           </p>
           <div className="dimension-list">
             {[
               ["Security competition", "Do interstate rivalry and self-help pressures set the fundamental terms?"],
               ["Institutional efficacy", "Can international rules shape behavior independently of raw power?"],
               ["Domestic and transnational filters", "How much does internal politics vary outcomes across similar external pressures?"],
-              ["Norms and identity", "Does the social meaning of threats — not just their material facts — matter causally?"],
+              ["Norms and identity", "Does the social meaning of a threat matter causally, beyond its material facts?"],
               ["Political economy", "Is global economic structure necessary to explain international outcomes?"],
               ["Restraint vs maximization", "Does a safer grand strategy mean limiting commitments or pressing advantages?"],
               ["Order vs justice", "When they conflict, should stability or universal moral obligations take priority?"],
@@ -105,14 +118,36 @@ export default function LandingPage() {
           <h2>Not ready to take the quiz?</h2>
           <p className="muted" style={{ lineHeight: "1.7" }}>
             The Explore section is a field guide to the worldview families the quiz draws on. It
-            explains what each tradition emphasizes, what it tends to miss, and what kinds of
-            arguments it finds most persuasive — useful whether or not you take the quiz.
+            explains what each tradition emphasizes, where it tends to miss, and what arguments it
+            finds most persuasive.
           </p>
           <div>
             <Link href="/explore" className="cta-secondary">
               Explore the perspectives →
             </Link>
           </div>
+        </div>
+      </section>
+
+      <hr className="divider" style={{ margin: "0" }} />
+
+      {/* About / byline */}
+      <section className="landing-section">
+        <div style={{ maxWidth: "560px" }} className="stack-sm">
+          <p className="eyebrow">About this project</p>
+          <p className="muted" style={{ lineHeight: "1.7", fontSize: "0.9rem" }}>
+            The {siteConfig.publicTitle} is a prototype built by {siteConfig.author}. It is aimed
+            at students, researchers, practitioners, and engaged readers curious about the
+            theoretical priors behind their foreign policy instincts. For its limitations, see
+            the{" "}
+            <Link href="/method" style={{ color: "var(--accent)" }}>Methods</Link>{" "}
+            page.
+          </p>
+          <p style={{ fontSize: "0.875rem" }}>
+            <Link href="/feedback" style={{ color: "var(--accent)" }}>
+              Feedback is welcome →
+            </Link>
+          </p>
         </div>
       </section>
     </div>

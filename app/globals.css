@@ -9,6 +9,12 @@
   --border: #ddd3ca;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.03);
   color-scheme: light;
+
+  /* Tradition-specific accent colors — used for chips, rules, and subtle callouts */
+  --t-realist: #6b1f1a;        /* oxblood — matches site accent */
+  --t-institutionalist: #2d4a6e; /* slate blue */
+  --t-constructivist: #1e5f5c;   /* deep teal */
+  --t-cpe: #7a4e28;              /* bronze/umber */
 }
 
 * {
@@ -48,6 +54,12 @@ button {
 
 .site-shell {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-main {
+  flex: 1;
 }
 
 .site-header {
@@ -102,6 +114,82 @@ button {
   background: var(--accent-light);
   border-color: var(--accent-light);
   text-decoration: none;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────────── */
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--panel-2);
+  padding: 24px 0;
+  margin-top: auto;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.footer-sep {
+  margin: 0 6px;
+  color: var(--border);
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* ── Tradition accent chips ──────────────────────────────────────────────────── */
+
+.tradition-chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 3px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.tradition--realist        { background: var(--t-realist); }
+.tradition--institutionalist { background: var(--t-institutionalist); }
+.tradition--constructivist { background: var(--t-constructivist); }
+.tradition--cpe            { background: var(--t-cpe); }
+
+/* ── Thinker entries (Explore detail pages) ──────────────────────────────────── */
+
+.thinker-entry {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.thinker-entry:last-child {
+  border-bottom: none;
 }
 
 .container {

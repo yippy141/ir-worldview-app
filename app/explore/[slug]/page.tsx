@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { coverageLevelLabels, getFamilyByKey, getFamilyBySlug } from "@/lib/explore-content"
-import { familySlug, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
+import { familySlug, familyTraditionClass, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 import type { Metadata } from "next"
 
 interface Props {
@@ -30,6 +30,7 @@ const tocItems = [
   { id: "underweights", label: "What it underweights" },
   { id: "issue-readings", label: "How it reads major issues" },
   { id: "neighbors", label: "Neighboring traditions" },
+  { id: "thinkers", label: "Associated thinkers" },
   { id: "readings", label: "Reading list" },
   { id: "quiz-coverage", label: "How this quiz models it" },
 ]
@@ -54,6 +55,9 @@ export default async function ExploreDetailPage({ params }: Props) {
       {/* Page header (full width, above atlas grid) */}
       <div className="article-header stack-sm" style={{ maxWidth: "680px", marginBottom: "48px" }}>
         <p className="eyebrow">Worldview library</p>
+        <span className={`tradition-chip ${familyTraditionClass(family.familyKey)}`}>
+          {family.name}
+        </span>
         <h1>{family.name}</h1>
         <p style={{ fontSize: "1.1rem", lineHeight: "1.65", color: "var(--muted)" }}>
           {family.tagline}
@@ -205,6 +209,36 @@ export default async function ExploreDetailPage({ params }: Props) {
           </section>
 
           <hr className="divider" />
+
+          {/* Associated thinkers */}
+          {family.associatedThinkers && family.associatedThinkers.length > 0 && (
+            <>
+              <section id="thinkers" className="article-section stack-md">
+                <h2>Associated thinkers</h2>
+                <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+                  Scholars whose work is central to this tradition. These are illustrative, not
+                  exhaustive. Real thinkers frequently draw on multiple frameworks and revise their
+                  positions over a career — these associations point to their primary contributions,
+                  not to fixed labels.
+                </p>
+                <div>
+                  {family.associatedThinkers.map((thinker) => (
+                    <div key={thinker.name} className="thinker-entry">
+                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{thinker.name}</p>
+                      <p className="muted" style={{ fontSize: "0.8rem", marginTop: "2px" }}>
+                        {thinker.role}
+                      </p>
+                      <p style={{ fontSize: "0.875rem", lineHeight: "1.65", marginTop: "6px" }}>
+                        {thinker.note}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <hr className="divider" />
+            </>
+          )}
 
           {/* Readings — tiered */}
           <section id="readings" className="article-section stack-md">
