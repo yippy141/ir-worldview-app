@@ -16,6 +16,7 @@ import {
   getFlipAnalysis,
   getWhyThisResult,
   getComparisonDimensions,
+  getQuickTake,
   getWhyItMatters,
   getHowYouReadTheWorld,
   getBlindSpots,
@@ -42,12 +43,18 @@ export async function generateMetadata(
   }
 }
 
-// Maps FamilyKey to the CSS var for tradition color
 const TRADITION_COLOR: Record<FamilyKey, string> = {
   realist: "var(--t-realist)",
   institutionalist: "var(--t-institutionalist)",
   constructivist: "var(--t-constructivist)",
   criticalPoliticalEconomy: "var(--t-cpe)",
+}
+
+const TRADITION_RULE_CLASS: Record<FamilyKey, string> = {
+  realist: "result-hero-rule--realist",
+  institutionalist: "result-hero-rule--institutionalist",
+  constructivist: "result-hero-rule--constructivist",
+  criticalPoliticalEconomy: "result-hero-rule--cpe",
 }
 
 export default async function ResultPage(
@@ -81,6 +88,7 @@ export default async function ResultPage(
   const neighborLabel = familyLabelFromKey(data.nk)
   const traditionClass = familyTraditionClass(data.fk)
   const traditionColor = TRADITION_COLOR[data.fk]
+  const ruleClass = TRADITION_RULE_CLASS[data.fk]
 
   const summary = buildSummary(data.fk, dimensionScores)
   const explanation = familyDescriptions[data.fk]
@@ -96,6 +104,7 @@ export default async function ResultPage(
   const whyThisResult = getWhyThisResult(data.fk, data.nk, dimensionScores)
   const comparisonDims = getComparisonDimensions(data.fk, data.nk, dimensionScores)
 
+  const quickTake = getQuickTake(data.fk)
   const whyItMatters = getWhyItMatters(data.fk)
   const issueStances = getHowYouReadTheWorld(data.fk, data.sm, data.nm)
   const blindSpots = getBlindSpots(data.fk)
@@ -106,38 +115,64 @@ export default async function ResultPage(
     <div className="wide-container">
       <article className="result-article">
 
-        {/* 1. Hero */}
-        <div className={`result-hero ${traditionClass}`}>
-          <span className={`tradition-chip ${traditionClass}`}>{familyLabel}</span>
-          <p style={{ fontSize: "1rem", color: "var(--muted)", marginTop: "10px" }}>
+        {/* ── 1. Hero ── */}
+        <div className="result-hero">
+          <div className={`result-hero-rule ${ruleClass}`} />
+          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flexWrap: "wrap", marginBottom: "16px" }}>
+            <span className={`tradition-chip ${traditionClass}`}>{familyLabel}</span>
+          </div>
+          <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
+            {familyLabel}
+          </h1>
+          <p style={{ fontSize: "0.9rem", color: "var(--muted)", marginBottom: "16px" }}>
             {data.sm} · {data.nm}
           </p>
-          <p style={{ fontSize: "1rem", lineHeight: "1.7", marginTop: "12px" }}>{summary}</p>
-          <p className="muted" style={{ lineHeight: "1.65" }}>{explanation}</p>
-          <p
-            style={{
-              fontSize: "0.8rem",
-              fontStyle: "italic",
-              color: "var(--muted)",
-              marginTop: "20px",
-              paddingTop: "16px",
-              borderTop: "1px solid var(--border)",
-              lineHeight: "1.55",
-            }}
-          >
-            Prototype classification. Not a validated instrument. Use this as a starting point.
+          <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "580px", marginBottom: "10px" }}>
+            {summary}
+          </p>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "580px" }}>
+            {explanation}
+          </p>
+          <p style={{
+            fontSize: "0.78rem",
+            fontStyle: "italic",
+            color: "var(--muted)",
+            marginTop: "20px",
+            paddingTop: "16px",
+            borderTop: "1px solid var(--border)",
+            lineHeight: "1.5",
+          }}>
+            Prototype classification. Not a validated instrument. Use as a starting point.
           </p>
         </div>
 
-        {/* 2. Why this matters */}
+        {/* ── 2. Quick take ── */}
+        <div className="result-section stack-sm">
+          <p className="eyebrow">Quick take</p>
+          <div className="quick-take-grid">
+            <div className="quick-take-item">
+              <p className="quick-take-label">Notices first</p>
+              <p className="quick-take-text">{quickTake.noticesFirst}</p>
+            </div>
+            <div className="quick-take-item">
+              <p className="quick-take-label">Tends to discount</p>
+              <p className="quick-take-text">{quickTake.tendsToDiscount}</p>
+            </div>
+            <div className="quick-take-item">
+              <p className="quick-take-label">In practice</p>
+              <p className="quick-take-text">{quickTake.inPractice}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── 3. Why this matters ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <p className="eyebrow" style={{ color: traditionColor }}>Why this worldview</p>
-            <h2>What it notices, discounts, and finds persuasive</h2>
+            <h2>What this worldview notices, discounts, and finds persuasive</h2>
           </div>
-          <div>
+          <div className="result-prose">
             <div className="wtm-group">
-              <p className="wtm-label">Tends to notice first</p>
+              <p className="wtm-label">Notices first</p>
               <ul className="wtm-list">
                 {whyItMatters.notices.map((item, i) => <li key={i}>{item}</li>)}
               </ul>
@@ -157,17 +192,16 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 3. How you'd likely read the world */}
+        {/* ── 4. How you'd likely read the world ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <p className="eyebrow" style={{ color: traditionColor }}>Five issue areas</p>
             <h2>How you would likely read the world</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Generated from your primary family, runner-up, strategy modifier, and normative modifier.
-              Not derived from raw answer-level data.
+            <p className="muted" style={{ fontSize: "0.85rem" }}>
+              Five issue areas. Generated from your primary family, runner-up, strategy modifier,
+              and normative modifier. Not derived from raw answer data.
             </p>
           </div>
-          <div>
+          <div className="result-prose">
             {issueStances.map((stance) => (
               <div key={stance.issue} className="issue-module">
                 <p className="issue-module-title">{stance.issue}</p>
@@ -175,26 +209,24 @@ export default async function ResultPage(
               </div>
             ))}
           </div>
-          {/* Issue-area tilt anomalies — where instincts cross family lines */}
           {issueAreaTilts.length > 0 && (
-            <div style={{ marginTop: "8px" }}>
-              <p
-                className="muted"
-                style={{ fontSize: "0.8rem", fontStyle: "italic", marginBottom: "12px" }}
-              >
-                Issue areas where your scores suggest a different instinct than your primary
-                classification would predict:
+            <div className="result-prose" style={{ marginTop: "8px" }}>
+              <p className="muted" style={{ fontSize: "0.8rem", fontStyle: "italic", marginBottom: "12px" }}>
+                Where your scores suggest a different instinct than your primary classification would
+                predict:
               </p>
               <div>
                 {issueAreaTilts.map((tilt) => (
                   <div key={tilt.issue} className="issue-tilt-row">
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginBottom: "4px" }}>
-                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.9rem" }}>{tilt.issue}</p>
-                      <p style={{ fontSize: "0.72rem", fontWeight: 600, color: traditionColor, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0 }}>
+                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.875rem" }}>
+                        {tilt.issue}
+                      </p>
+                      <p style={{ fontSize: "0.68rem", fontWeight: 600, color: traditionColor, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0 }}>
                         {tilt.tilt}
                       </p>
                     </div>
-                    <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+                    <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.85rem" }}>
                       {tilt.note}
                     </p>
                   </div>
@@ -204,13 +236,10 @@ export default async function ResultPage(
           )}
         </div>
 
-        {/* 4. Blind spots and counterarguments */}
+        {/* ── 5. Blind spots ── */}
         <div className="result-section stack-md">
-          <div className="stack-xs">
-            <p className="eyebrow" style={{ color: traditionColor }}>Limitations</p>
-            <h2>Blind spots and counterarguments</h2>
-          </div>
-          <div>
+          <h2>Blind spots and counterarguments</h2>
+          <div className="result-prose">
             <div className="blind-item">
               <p className="blind-item-label">Explains well</p>
               <p className="blind-item-text">{blindSpots.explainsWell}</p>
@@ -228,15 +257,15 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 5. What could shift your result */}
+        {/* ── 6. What could shift your result ── */}
         <div className="result-section stack-md">
           <h2>What could shift your result</h2>
-          <ul className="content-list">
+          <ul className="content-list result-prose">
             {whatCouldShift.map((item, i) => <li key={i}>{item}</li>)}
           </ul>
         </div>
 
-        {/* 6. Key drivers */}
+        {/* ── 7. Key drivers ── */}
         <div className="result-section stack-md">
           <h2>What most drove your result</h2>
           <div className="driver-grid">
@@ -253,7 +282,7 @@ export default async function ResultPage(
             ))}
           </div>
           {subtraditionAffinity && (
-            <div style={{ marginTop: "8px" }}>
+            <div className="result-prose" style={{ marginTop: "4px" }}>
               <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.95rem" }}>
                 {subtraditionAffinity.name}
               </p>
@@ -262,8 +291,8 @@ export default async function ResultPage(
               </p>
             </div>
           )}
-          <div>
-            <p className="muted" style={{ fontSize: "0.875rem", marginBottom: "8px" }}>
+          <div className="result-prose">
+            <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "8px" }}>
               Why this result won over the runner-up:
             </p>
             <ul className="content-list">
@@ -272,13 +301,12 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 7. Dimension profile */}
+        {/* ── 8. Dimension profile ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Dimension profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Scores run from 1 to 7. They reflect your positions within this model, not population
-              percentiles.
+              Scores from 1 to 7. Positions within this model, not population percentiles.
             </p>
           </div>
           <div>
@@ -301,7 +329,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 8. Worldview fit */}
+        {/* ── 9. Worldview fit ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Worldview fit</h2>
@@ -345,35 +373,35 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 9. Tensions */}
+        {/* ── 10. Tensions ── */}
         <div className="result-section stack-md">
           <h2>Where you are mixed</h2>
-          {tensions.length > 0 ? (
-            <div className="stack-sm">
-              {tensions.map((tension) => (
-                <div key={tension.key} className="tension-item">
-                  <p style={{ lineHeight: "1.65" }}>{tension.text}</p>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="muted" style={{ lineHeight: "1.65" }}>
-              Your profile shows consistent views across dimensions, without strong internal tensions.
-              Your instincts appear well-integrated.
-            </p>
-          )}
+          <div className="result-prose">
+            {tensions.length > 0 ? (
+              <div className="stack-sm">
+                {tensions.map((tension) => (
+                  <div key={tension.key} className="tension-item">
+                    <p style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{tension.text}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="muted" style={{ lineHeight: "1.65" }}>
+                Your profile shows consistent views across dimensions without strong internal tensions.
+              </p>
+            )}
+          </div>
         </div>
 
-        {/* 10. Pressure-test */}
+        {/* ── 11. Pressure-test ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <p className="eyebrow" style={{ color: traditionColor }}>Self-examination</p>
             <h2>Pressure-test your worldview</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
               Three questions designed to probe the limits of this framework.
             </p>
           </div>
-          <ol className="pressure-list">
+          <ol className="pressure-list result-prose">
             {pressureQuestions.map((q, i) => (
               <li key={i} className="pressure-q">
                 <p>{q}</p>
@@ -382,7 +410,7 @@ export default async function ResultPage(
           </ol>
         </div>
 
-        {/* 11. Closest neighbor */}
+        {/* ── 12. Neighbor overlap ── */}
         <div className="result-section stack-md">
           <h2>Closest neighboring worldview</h2>
           <div className="neighbor-columns">
@@ -399,24 +427,24 @@ export default async function ResultPage(
               </p>
             </div>
           </div>
-          {neighborText && (
-            <p className="muted" style={{ lineHeight: "1.65" }}>{neighborText}</p>
-          )}
-          {runnerUpSeparation && (
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              {runnerUpSeparation}
-            </p>
-          )}
-          {flipAnalysis && (
-            <div className="flip-note">
-              <p style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>{flipAnalysis}</p>
-            </div>
-          )}
-          {/* Comparison strip */}
-          <div>
-            <p className="muted" style={{ fontSize: "0.875rem", marginBottom: "10px" }}>
-              Dimensions where {familyLabel} and {neighborLabel} diverge most — and where your
-              scores landed:
+          <div className="result-prose stack-md">
+            {neighborText && (
+              <p className="muted" style={{ lineHeight: "1.65" }}>{neighborText}</p>
+            )}
+            {runnerUpSeparation && (
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                {runnerUpSeparation}
+              </p>
+            )}
+            {flipAnalysis && (
+              <div className="flip-note">
+                <p style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>{flipAnalysis}</p>
+              </div>
+            )}
+          </div>
+          <div style={{ marginTop: "20px" }}>
+            <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "10px" }}>
+              Dimensions where {familyLabel} and {neighborLabel} diverge most:
             </p>
             <div className="comparison-strip">
               <div className="comparison-header">
@@ -439,19 +467,19 @@ export default async function ResultPage(
               ))}
             </div>
           </div>
-          <p style={{ fontSize: "0.875rem" }}>
+          <p style={{ fontSize: "0.875rem", marginTop: "16px" }}>
             <Link href={`/explore/${familySlug(data.nk)}`} style={{ color: "var(--accent)" }}>
               Learn more about {neighborLabel} →
             </Link>
           </p>
         </div>
 
-        {/* 12. Suggested reading */}
+        {/* ── 13. Suggested reading ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Suggested reading</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Three starting points for your primary worldview. Two for your runner-up.
+              Three starting points for your primary worldview. Two for the runner-up.
             </p>
           </div>
           <div>
@@ -477,7 +505,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 13. Glossary */}
+        {/* ── 14. Glossary ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Glossary</h2>
@@ -497,15 +525,15 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* 14. Methods note + share */}
+        {/* ── 15. Methods note + share ── */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this classification</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              This is a prototype, not a validated psychometric instrument. Branching logic is
-              heuristic. Scores are comparative within this model and are not population percentiles.{" "}
+              Prototype, not a validated psychometric instrument. Branching logic is heuristic.
+              Scores are comparative within this model, not population percentiles.{" "}
               <Link href="/method" style={{ color: "var(--accent)" }}>
-                Read the full methods note →
+                Full methods note →
               </Link>
             </p>
           </div>

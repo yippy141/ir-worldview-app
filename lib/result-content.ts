@@ -1,5 +1,36 @@
 import type { FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
 
+// ── Quick take ─────────────────────────────────────────────────────────────────
+
+export type QuickTake = {
+  noticesFirst: string
+  tendsToDiscount: string
+  inPractice: string
+}
+
+export const quickTakeData: Record<FamilyKey, QuickTake> = {
+  realist: {
+    noticesFirst: "Who has the power, and whether the gap is growing or closing.",
+    tendsToDiscount: "Rules and norms that lack an enforcer willing to pay the cost of enforcement.",
+    inPractice: "You will find capability-based arguments more convincing than process-based ones, and you will be skeptical when stability is attributed to shared values rather than deterrence.",
+  },
+  institutionalist: {
+    noticesFirst: "Whether the rules are credible, and whether monitoring makes defection costly.",
+    tendsToDiscount: "The claim that states will defect whenever it is convenient, regardless of institutional context.",
+    inPractice: "You will focus on institutional design, enforcement mechanisms, and whether domestic politics allow governments to honor their commitments.",
+  },
+  constructivist: {
+    noticesFirst: "Who is defining the threat, whose identity is at stake, and what history shapes the relationship.",
+    tendsToDiscount: "Purely material explanations that treat interests as fixed and independent of social context.",
+    inPractice: "You will pay attention to how situations are framed, which historical analogies are being invoked, and whether legitimacy is being contested or accepted.",
+  },
+  criticalPoliticalEconomy: {
+    noticesFirst: "Who controls the financial architecture, and which states carry structural dependence.",
+    tendsToDiscount: "Claims that international institutions distribute gains broadly, regardless of who designed them.",
+    inPractice: "You will ask who benefits from the current rules and who bears the adjustment costs, before accepting any account of cooperation or conflict at face value.",
+  },
+}
+
 // ── Why this worldview matters ────────────────────────────────────────────────
 
 export type WhyItMatters = {

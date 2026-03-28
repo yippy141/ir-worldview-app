@@ -881,27 +881,28 @@ h3 {
 /* ── Result page ─────────────────────────────────────────────────────────────── */
 
 
+/* ── Result page layout ───────────────────────────────────────────────────── */
+
 .result-hero {
-  padding: 48px 0 36px;
+  padding: 40px 0 36px;
   border-bottom: 1px solid var(--border);
-  border-left: 4px solid var(--accent);
-  padding-left: 20px;
 }
 
-/* Tradition-colored hero border variants */
-.result-hero.tradition--realist        { border-left-color: var(--t-realist); }
-.result-hero.tradition--institutionalist { border-left-color: var(--t-institutionalist); }
-.result-hero.tradition--constructivist { border-left-color: var(--t-constructivist); }
-.result-hero.tradition--cpe            { border-left-color: var(--t-cpe); }
+/* Thin top rule in tradition color — only accent on hero */
+.result-hero-rule {
+  height: 3px;
+  border-radius: 2px;
+  margin-bottom: 28px;
+  background: var(--accent);
+}
 
-/* Tradition-colored fit fill variants (applied inline) */
-.family-fit-primary--realist .family-fit-fill        { background: var(--t-realist); }
-.family-fit-primary--institutionalist .family-fit-fill { background: var(--t-institutionalist); }
-.family-fit-primary--constructivist .family-fit-fill { background: var(--t-constructivist); }
-.family-fit-primary--cpe .family-fit-fill            { background: var(--t-cpe); }
+.result-hero-rule--realist        { background: var(--t-realist); }
+.result-hero-rule--institutionalist { background: var(--t-institutionalist); }
+.result-hero-rule--constructivist { background: var(--t-constructivist); }
+.result-hero-rule--cpe            { background: var(--t-cpe); }
 
 .result-section {
-  padding: 36px 0;
+  padding: 40px 0;
   border-bottom: 1px solid var(--border);
 }
 
@@ -909,18 +910,63 @@ h3 {
   border-bottom: none;
 }
 
+/* Narrow prose column for body copy */
+.result-prose {
+  max-width: 640px;
+}
+
+/* ── Quick take ───────────────────────────────────────────────────────────── */
+
+.quick-take-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+@media (min-width: 640px) {
+  .quick-take-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.quick-take-item {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 16px 18px;
+}
+
+.quick-take-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin-bottom: 7px;
+}
+
+.quick-take-text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+}
+
 /* ── Why it matters items ─────────────────────────────────────────────────── */
 
 .wtm-group {
-  margin-bottom: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
 }
 
 .wtm-group:last-child {
-  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .wtm-label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.09em;
@@ -933,11 +979,11 @@ h3 {
   padding-left: 18px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .wtm-list li {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   line-height: 1.6;
   color: var(--text);
 }

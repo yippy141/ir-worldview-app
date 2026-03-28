@@ -3,12 +3,13 @@ import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { familyLabel } from "@/lib/worldview-config"
 import { DimensionKey, DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
 import {
+  quickTakeData,
   whyItMattersData,
   buildIssueStances,
   blindSpotsData,
   pressureTestQuestions,
 } from "@/lib/result-content"
-export type { WhyItMatters, IssueStance, BlindSpot } from "@/lib/result-content"
+export type { QuickTake, WhyItMatters, IssueStance, BlindSpot } from "@/lib/result-content"
 
 // ── Family labels ─────────────────────────────────────────────────────────────
 
@@ -796,6 +797,12 @@ export function getComparisonDimensions(
     primaryExpected: pWeight > 0.2 ? "high" : pWeight < -0.2 ? "low" : "neutral",
     runnerUpExpected: rWeight > 0.2 ? "high" : rWeight < -0.2 ? "low" : "neutral",
   }))
+}
+
+// ── Quick take ────────────────────────────────────────────────────────────────
+
+export function getQuickTake(fk: FamilyKey) {
+  return quickTakeData[fk]
 }
 
 // ── Why this worldview matters ────────────────────────────────────────────────
