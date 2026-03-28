@@ -2,6 +2,13 @@ import { dimensionLabels } from "@/lib/quiz-schema"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { familyLabel } from "@/lib/worldview-config"
 import { DimensionKey, DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
+import {
+  whyItMattersData,
+  buildIssueStances,
+  blindSpotsData,
+  pressureTestQuestions,
+} from "@/lib/result-content"
+export type { WhyItMatters, IssueStance, BlindSpot } from "@/lib/result-content"
 
 // ── Family labels ─────────────────────────────────────────────────────────────
 
@@ -789,4 +796,88 @@ export function getComparisonDimensions(
     primaryExpected: pWeight > 0.2 ? "high" : pWeight < -0.2 ? "low" : "neutral",
     runnerUpExpected: rWeight > 0.2 ? "high" : rWeight < -0.2 ? "low" : "neutral",
   }))
+}
+
+// ── Why this worldview matters ────────────────────────────────────────────────
+
+export function getWhyItMatters(fk: FamilyKey) {
+  return whyItMattersData[fk]
+}
+
+// ── How you'd likely read the world ──────────────────────────────────────────
+
+export function getHowYouReadTheWorld(
+  fk: FamilyKey,
+  sm: StrategyModifier,
+  nm: NormativeModifier,
+) {
+  return buildIssueStances(fk, sm, nm)
+}
+
+// ── Blind spots and counterarguments ─────────────────────────────────────────
+
+export function getBlindSpots(fk: FamilyKey) {
+  return blindSpotsData[fk]
+}
+
+// ── Pressure-test questions ───────────────────────────────────────────────────
+
+export function getPressureTestQuestions(fk: FamilyKey): string[] {
+  return pressureTestQuestions[fk]
+}
+
+// ── What could shift your result ─────────────────────────────────────────────
+
+export function getWhatCouldShift(
+  fk: FamilyKey,
+  nk: FamilyKey,
+  d: DimensionScores,
+  sm: StrategyModifier,
+  nm: NormativeModifier,
+): string[] {
+  const results: string[] = []
+
+  // 1. Primary classification: which dimension shift would flip to runner-up
+  const dim = separatingDimension[fk]?.[nk]
+  if (dim) {
+    const dimLabel = dimensionLabels[dim].toLowerCase()
+    const nkLabel = familyLabel(nk)
+    const score = d[dim]
+    const dir = score < 4 ? "higher" : "lower"
+    results.push(
+      `Your classification could shift to ${nkLabel} if your score on ${dimLabel} were notably ${dir}. Your current score is ${score.toFixed(1)} out of 7.`,
+    )
+  }
+
+  // 2. Strategy modifier: what would shift it
+  if (sm === "Restrainer") {
+    results.push(
+      "Your Restrainer modifier would shift to Hedger if your scenario choices showed more willingness to press advantages when a clear window exists.",
+    )
+  } else if (sm === "Maximizer") {
+    results.push(
+      "Your Maximizer modifier would shift to Hedger if your scenario choices showed more attention to the risks of overextension and the long-term costs of forward commitments.",
+    )
+  } else {
+    results.push(
+      "Your Hedger modifier reflects a mixed strategy instinct. A more consistent lean toward either restraint or maximization across the scenario choices would shift the modifier.",
+    )
+  }
+
+  // 3. Normative modifier: what would shift it
+  if (nm === "Pluralist") {
+    results.push(
+      "Your Pluralist modifier would shift to Conditional Solidarist if you gave more weight to the possibility that sufficiently grave violations can override sovereignty in specific extreme cases.",
+    )
+  } else if (nm === "Universalist") {
+    results.push(
+      "Your Universalist modifier would shift to Conditional Solidarist if you gave more weight to the institutional risks of establishing precedents that normalize external intervention.",
+    )
+  } else {
+    results.push(
+      "Your Conditional Solidarist modifier reflects genuine tension between order and justice. A more consistent position on either side of that debate would shift the modifier.",
+    )
+  }
+
+  return results
 }

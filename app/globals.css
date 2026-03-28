@@ -884,7 +884,21 @@ h3 {
 .result-hero {
   padding: 48px 0 36px;
   border-bottom: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  padding-left: 20px;
 }
+
+/* Tradition-colored hero border variants */
+.result-hero.tradition--realist        { border-left-color: var(--t-realist); }
+.result-hero.tradition--institutionalist { border-left-color: var(--t-institutionalist); }
+.result-hero.tradition--constructivist { border-left-color: var(--t-constructivist); }
+.result-hero.tradition--cpe            { border-left-color: var(--t-cpe); }
+
+/* Tradition-colored fit fill variants (applied inline) */
+.family-fit-primary--realist .family-fit-fill        { background: var(--t-realist); }
+.family-fit-primary--institutionalist .family-fit-fill { background: var(--t-institutionalist); }
+.family-fit-primary--constructivist .family-fit-fill { background: var(--t-constructivist); }
+.family-fit-primary--cpe .family-fit-fill            { background: var(--t-cpe); }
 
 .result-section {
   padding: 36px 0;
@@ -893,6 +907,130 @@ h3 {
 
 .result-section:last-child {
   border-bottom: none;
+}
+
+/* ── Why it matters items ─────────────────────────────────────────────────── */
+
+.wtm-group {
+  margin-bottom: 18px;
+}
+
+.wtm-group:last-child {
+  margin-bottom: 0;
+}
+
+.wtm-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.wtm-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wtm-list li {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+/* ── Issue modules ────────────────────────────────────────────────────────── */
+
+.issue-module {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.issue-module:last-child {
+  border-bottom: none;
+}
+
+.issue-module-title {
+  font-weight: 600;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.issue-module-text {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ── Blind spot items ─────────────────────────────────────────────────────── */
+
+.blind-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.blind-item:last-child {
+  border-bottom: none;
+}
+
+.blind-item-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+
+.blind-item-text {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0;
+}
+
+.blind-item-text.rival {
+  color: var(--muted);
+}
+
+/* ── Pressure-test questions ──────────────────────────────────────────────── */
+
+.pressure-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  counter-reset: pressure-counter;
+}
+
+.pressure-q {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  counter-increment: pressure-counter;
+}
+
+.pressure-q::before {
+  content: counter(pressure-counter);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  padding-top: 2px;
+}
+
+.pressure-q p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0;
+  font-style: italic;
 }
 
 /* Key driver cards */
