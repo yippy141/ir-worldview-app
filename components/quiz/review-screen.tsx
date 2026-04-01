@@ -50,23 +50,24 @@ export function ReviewScreen() {
     return allQuestions.map((q, index) => ({
       question: q,
       index,
-      sectionLabel: index < coreQuestions.length ? "Core question" : "Scenario",
+      sectionLabel: index < coreQuestions.length ? "Foundation question" : "Scenario lab",
       answerDisplay: formatAnswer(q, answers[q.id]),
     }))
   }, [allQuestions, answers])
 
-  const coreRows = answerRows.filter((r) => r.sectionLabel === "Core question")
-  const scenarioRows = answerRows.filter((r) => r.sectionLabel === "Scenario")
+  const coreRows = answerRows.filter((r) => r.sectionLabel === "Foundation question")
+  const scenarioRows = answerRows.filter((r) => r.sectionLabel === "Scenario lab")
 
-  const completedCount = allQuestions.filter((q) => answers?.[q.id] !== undefined).length
-  const isComplete = allQuestions.length > 0 && completedCount === allQuestions.length
+  const coreCompletedCount = coreQuestions.filter((q) => answers?.[q.id] !== undefined).length
+  const scenarioCompletedCount = scenarioSequence.filter((q) => answers?.[q.id] !== undefined).length
+  const foundationComplete = coreCompletedCount === coreQuestions.length
 
   function handleEdit(index: number) {
     router.push(`/quiz?q=${index}&from=review`)
   }
 
   function handleGenerate() {
-    if (!answers || !isComplete) return
+    if (!answers || !foundationComplete) return
     setGenerating(true)
     try {
       const result = generateResult(answers)
@@ -98,25 +99,26 @@ export function ReviewScreen() {
       {/* Header */}
       <section className="panel stack-sm">
         <p className="eyebrow">Review your answers</p>
-        <h1>Before you see your result</h1>
+        <h1>Before you generate your result</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Check your answers below. You can edit any response before generating your result. Your
-          result is only generated when you click the button at the bottom.
+          Check the foundation questions before you generate your result. You can still review or
+          skip the scenario lab in this pass without changing the core profile.
         </p>
-        <p className="muted" style={{ fontSize: "0.875rem" }}>
-          {completedCount} of {allQuestions.length} questions answered
-          {!isComplete && (
-            <span style={{ color: "var(--accent-light)", marginLeft: "8px" }}>
-              — some questions are unanswered
-            </span>
-          )}
+        <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
+          {coreCompletedCount} of {coreQuestions.length} foundation questions answered
+          {scenarioSequence.length > 0 ? (
+            <>
+              <br />
+              {scenarioCompletedCount} of {scenarioSequence.length} scenario-lab questions answered
+            </>
+          ) : null}
         </p>
       </section>
 
       {/* Core questions */}
       {coreRows.length > 0 ? (
         <section className="panel stack-md">
-          <h2>Core questions</h2>
+          <h2>Foundation questions</h2>
           <div className="review-table">
             {coreRows.map((row) => (
               <ReviewRow
@@ -132,7 +134,7 @@ export function ReviewScreen() {
       {/* Scenario questions */}
       {scenarioRows.length > 0 ? (
         <section className="panel stack-md">
-          <h2>Scenarios</h2>
+          <h2>Scenario lab</h2>
           <div className="review-table">
             {scenarioRows.map((row) => (
               <ReviewRow
@@ -147,15 +149,24 @@ export function ReviewScreen() {
 
       {/* Actions */}
       <section className="panel stack-md">
-        {!isComplete ? (
+        {!foundationComplete ? (
           <div
             className="callout"
             style={{ borderLeft: "3px solid var(--accent-light)", borderRadius: "0 5px 5px 0" }}
           >
             <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-              You have unanswered questions. You can still generate a result, but unanswered items
-              will default to the neutral midpoint (4). For the most accurate classification, we
-              recommend completing all questions.
+              Finish the foundation questions before you generate a result. They set the core
+              profile.
+            </p>
+          </div>
+        ) : scenarioRows.length > 0 && scenarioCompletedCount < scenarioRows.length ? (
+          <div
+            className="callout"
+            style={{ borderLeft: "3px solid var(--accent-light)", borderRadius: "0 5px 5px 0" }}
+          >
+            <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+              Your foundation profile is ready. You can still answer the scenario lab, but those
+              case responses do not change the core score in this pass.
             </p>
           </div>
         ) : null}
@@ -165,7 +176,7 @@ export function ReviewScreen() {
             type="button"
             className="primary-button"
             onClick={handleGenerate}
-            disabled={generating}
+            disabled={generating || !foundationComplete}
           >
             {generating ? "Generating…" : "Generate my result →"}
           </button>
@@ -174,7 +185,7 @@ export function ReviewScreen() {
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-          Your result is only computed when you click &ldquo;Generate.&rdquo; No data is sent anywhere — all
+          Your result is only computed when you click &ldquo;Generate.&rdquo; No data is sent anywhere; all
           processing happens in your browser.
         </p>
       </section>
@@ -251,5 +262,5 @@ function dimensionOrScenarioLabel(question: Question): string {
   if (question.kind === "likert") {
     return dimensionLabels[question.dimension]
   }
-  return "Scenario"
+  return "Scenario lab"
 }

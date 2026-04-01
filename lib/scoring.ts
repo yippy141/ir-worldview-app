@@ -41,13 +41,13 @@ export const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, numb
     orderJustice: 0.2,
   },
   criticalPoliticalEconomy: {
-    securityCompetition: 0.05,
-    institutions: 0.1,
-    domesticFilters: 0.4,
-    normsIdentity: 0.05,
-    politicalEconomy: 1,
-    restraint: 0.15,
-    orderJustice: -0.05,
+    securityCompetition: -0.1,
+    institutions: -0.4,
+    domesticFilters: 0.55,
+    normsIdentity: 0.15,
+    politicalEconomy: 0.8,
+    restraint: 0.1,
+    orderJustice: -0.2,
   },
 }
 
@@ -66,7 +66,7 @@ export const familyDescriptions: Record<FamilyKey, string> = {
   constructivist:
     "You give major causal weight to identity, recognition, and legitimacy, and you think the meaning of rivalry is shaped socially rather than fixed in advance.",
   criticalPoliticalEconomy:
-    "You explain world politics through production, finance, dependence, and structural leverage more than through security competition alone.",
+    "You read world politics less as a neutral arena than as a hierarchy shaped by leverage, dependence, and unequal control over production and finance.",
 }
 
 export function scoreLikert(rawValue: number, reverse?: boolean): number {
@@ -141,7 +141,7 @@ export function selectTieBreakerIds(
 }
 
 export function getScenarioSequence(answers: Answers): ScenarioQuestion[] {
-  // Gate scenarios behind all 21 core items being answered
+  // Gate scenarios behind every core item being answered.
   const allCoreAnswered = coreQuestions.every((q) => answers[q.id] !== undefined)
   if (!allCoreAnswered) return []
 
@@ -176,33 +176,23 @@ export function getScenarioSequence(answers: Answers): ScenarioQuestion[] {
   return sequence
 }
 
-function applyScenarioWeights(baseScores: DimensionScores, answers: Answers): DimensionScores {
-  const adjustedScores: DimensionScores = { ...baseScores }
-
-  for (const scenario of getScenarioSequence(answers)) {
-    const choice = answers[scenario.id]
-    if (!choice || typeof choice === "number") continue
-
-    const option = scenario.options.find((candidate) => candidate.id === choice)
-    if (!option) continue
-
-    for (const [dimension, weight] of Object.entries(option.weights) as [DimensionKey, number][]) {
-      adjustedScores[dimension] = clamp(adjustedScores[dimension] + weight, 1, 7)
-    }
-  }
-
-  return DIMENSIONS.reduce((accumulator, dimension) => {
-    accumulator[dimension] = Number(adjustedScores[dimension].toFixed(2))
-    return accumulator
-  }, {} as DimensionScores)
-}
-
 function centerScore(score: number): number {
   return score - 4
 }
 
+function computeCriticalSystemicSignal(dimensionScores: DimensionScores): number {
+  return Number(
+    (
+      centerScore(dimensionScores.politicalEconomy) * 0.55 +
+      centerScore(dimensionScores.domesticFilters) * 0.25 -
+      centerScore(dimensionScores.institutions) * 0.35 -
+      centerScore(dimensionScores.orderJustice) * 0.15
+    ).toFixed(2),
+  )
+}
+
 export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
-  return (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
+  const scores = (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
     const weights = familyProfiles[family]
     const score = DIMENSIONS.reduce((sum, dimension) => {
       const weight = weights[dimension] ?? 0
@@ -212,32 +202,40 @@ export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKe
     accumulator[family] = Number(score.toFixed(2))
     return accumulator
   }, {} as Record<FamilyKey, number>)
+
+  const criticalSignal = computeCriticalSystemicSignal(dimensionScores)
+  const runnerUp = Math.max(scores.realist, scores.institutionalist, scores.constructivist)
+  const cpeLead = scores.criticalPoliticalEconomy - runnerUp
+
+  if (scores.criticalPoliticalEconomy > runnerUp && (criticalSignal < 1.8 || cpeLead < 0.75)) {
+    scores.criticalPoliticalEconomy = Number((runnerUp - 0.05).toFixed(2))
+  }
+
+  return scores
 }
 
-function getStrategyModifier(dimensionScores: DimensionScores, answers: Answers): StrategyModifier {
+function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {
   const restraint = dimensionScores.restraint
-  const strategicTech = answers.strategicTechnology
 
-  if (restraint >= 5.2 && (strategicTech === "A" || strategicTech === "B" || !strategicTech)) {
+  if (restraint >= 5.15) {
     return "Restrainer"
   }
 
-  if (restraint <= 3.8 && strategicTech === "C") {
+  if (restraint <= 3.85) {
     return "Maximizer"
   }
 
   return "Hedger"
 }
 
-function getNormativeModifier(dimensionScores: DimensionScores, answers: Answers): NormativeModifier {
+function getNormativeModifier(dimensionScores: DimensionScores): NormativeModifier {
   const orderJustice = dimensionScores.orderJustice
-  const intervention = answers.humanitarianIntervention
 
-  if (orderJustice >= 5.2 && (intervention === "A" || intervention === "B" || !intervention)) {
+  if (orderJustice >= 5.15) {
     return "Pluralist"
   }
 
-  if (orderJustice <= 3.8 && intervention === "C") {
+  if (orderJustice <= 3.85) {
     return "Universalist"
   }
 
@@ -259,13 +257,13 @@ function getNeighboringFamily(familyKey: FamilyKey, familyScores: Record<FamilyK
 
 export function generateResult(answers: Answers): QuizResult {
   const coreScores = computeCoreDimensionScores(answers)
-  const dimensionScores = applyScenarioWeights(coreScores, answers)
+  const dimensionScores = coreScores
   const familyScores = scoreFamilies(dimensionScores)
   const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][]).sort((a, b) => b[1] - a[1])
   const familyKey = orderedFamilies[0][0]
   const familyLabel = familyLabels[familyKey]
-  const strategyModifier = getStrategyModifier(dimensionScores, answers)
-  const normativeModifier = getNormativeModifier(dimensionScores, answers)
+  const strategyModifier = getStrategyModifier(dimensionScores)
+  const normativeModifier = getNormativeModifier(dimensionScores)
   const clarity = computeClarity(familyScores)
   const neighboringFamily = getNeighboringFamily(familyKey, familyScores)
 
@@ -290,8 +288,4 @@ export function getNeighboringFamilyKey(
     (a, b) => b[1] - a[1],
   )
   return ordered.find(([key]) => key !== familyKey)?.[0] ?? familyKey
-}
-
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
 }

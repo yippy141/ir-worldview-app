@@ -169,10 +169,10 @@ export const coreQuestions: LikertQuestion[] = [
     id: "pe1",
     kind: "likert",
     dimension: "politicalEconomy",
-    prompt: "World politics cannot be understood without looking at production, finance, and economic dependence.",
+    prompt: "To explain world politics, you usually need to look at trade, finance, and economic dependence as well as military power.",
     clarification: {
-      whatItAsks: "Whether economic structures are necessary for explaining international outcomes.",
-      whatItDoesNotAsk: "This is not saying military or diplomatic factors are irrelevant.",
+      whatItAsks: "Whether economic leverage and exposure belong in the basic explanation, not just in a few special cases.",
+      whatItDoesNotAsk: "This is not saying military or diplomatic factors stop mattering.",
       terms: [
         { term: "economic dependence", definition: "A situation in which one actor's options are heavily shaped by access to another's capital, markets, or supply chains." },
       ],
@@ -182,10 +182,13 @@ export const coreQuestions: LikertQuestion[] = [
     id: "pe2",
     kind: "likert",
     dimension: "politicalEconomy",
-    prompt: "Control over supply chains, capital, or market access can matter as much as military power.",
+    prompt: "Global markets and financial rules often lock weaker states into patterns that mainly serve stronger ones.",
     clarification: {
-      whatItAsks: "Whether economic leverage can be as strategically important as armed force.",
-      whatItDoesNotAsk: "This is not limited to trade policy in a narrow sense.",
+      whatItAsks: "Whether hierarchy is built into major economic arrangements, not just used tactically from case to case.",
+      whatItDoesNotAsk: "This is not asking whether weaker states have no room to maneuver at all.",
+      terms: [
+        { term: "financial rules", definition: "The lending, payment, and market rules that shape who can borrow, invest, or trade on workable terms." },
+      ],
     },
   },
   {
@@ -193,12 +196,12 @@ export const coreQuestions: LikertQuestion[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     reverse: true,
-    prompt: "Security crises can usually be explained without paying much attention to economic hierarchy.",
+    prompt: "Most international crises can be understood without looking much at who controls credit, production, or market access.",
     clarification: {
-      whatItAsks: "Whether economic hierarchy is usually secondary when explaining crises.",
-      whatItDoesNotAsk: "This is not asking whether every conflict is 'really about economics.'",
+      whatItAsks: "Whether deeper patterns of leverage and dependence are usually secondary when a crisis unfolds.",
+      whatItDoesNotAsk: "This is not asking whether every crisis is secretly just about economics.",
       terms: [
-        { term: "economic hierarchy", definition: "Unequal control over wealth, production, finance, or market access across the international system." },
+        { term: "market access", definition: "Reliable access to buyers, suppliers, credit, or investment on workable terms." },
       ],
     },
   },
