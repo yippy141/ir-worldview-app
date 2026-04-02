@@ -31,22 +31,207 @@ export function normativeModifierLabel(nm: NormativeModifier): string {
 
 // ── Plain-English summary ─────────────────────────────────────────────────────
 
-const familyLogicPhrases: Record<FamilyKey, string> = {
-  realist:
-    "strategic realism — uncertainty, positional advantage, and the durability of interstate rivalry",
-  institutionalist:
-    "liberal institutionalism — rules-based cooperation, domestic filters, and strategic restraint",
-  constructivist:
-    "constructivism — the role of identity, recognition, and shared expectations in shaping how threats are perceived",
-  criticalPoliticalEconomy:
-    "critical political economy — production structures, financial dependence, and global economic hierarchy",
+const explanatoryDimensions = [
+  "securityCompetition",
+  "institutions",
+  "domesticFilters",
+  "normsIdentity",
+  "politicalEconomy",
+] as const satisfies readonly DimensionKey[]
+
+const profileTitlePhrases: Record<
+  (typeof explanatoryDimensions)[number],
+  { high: string; low: string }
+> = {
+  securityCompetition: {
+    high: "rivalry-first",
+    low: "less rivalry-centered",
+  },
+  institutions: {
+    high: "institution-minded",
+    low: "institution-skeptical",
+  },
+  domesticFilters: {
+    high: "domestic-politics aware",
+    low: "system-pressure first",
+  },
+  normsIdentity: {
+    high: "legitimacy-aware",
+    low: "norm-skeptical",
+  },
+  politicalEconomy: {
+    high: "political-economy attuned",
+    low: "security-and-diplomacy first",
+  },
+}
+
+function getTopExplanatoryDimensions(scores: DimensionScores, n: number): DimensionKey[] {
+  return explanatoryDimensions
+    .slice()
+    .sort((a, b) => Math.abs(scores[b] - 4) - Math.abs(scores[a] - 4))
+    .slice(0, n)
+}
+
+function getProfileTitlePhrase(dimension: DimensionKey, score: number): string {
+  if (!(dimension in profileTitlePhrases)) {
+    return dimensionLabels[dimension].toLowerCase()
+  }
+
+  const phrases = profileTitlePhrases[dimension as (typeof explanatoryDimensions)[number]]
+  return score >= 4 ? phrases.high : phrases.low
+}
+
+export function buildProfileTitle(dimensionScores: DimensionScores): string {
+  const [primary, secondary] = getTopExplanatoryDimensions(dimensionScores, 2)
+  const primaryPhrase = getProfileTitlePhrase(primary, dimensionScores[primary])
+  const secondaryPhrase = getProfileTitlePhrase(secondary, dimensionScores[secondary])
+  return `A ${primaryPhrase}, ${secondaryPhrase} foundation profile`
 }
 
 export function buildSummary(familyKey: FamilyKey, dimensionScores: DimensionScores): string {
-  const top2 = getTopDimensions(dimensionScores, 2)
+  const top2 = getTopExplanatoryDimensions(dimensionScores, 2)
   const dim0 = dimensionLabels[top2[0]].toLowerCase()
   const dim1 = dimensionLabels[top2[1]].toLowerCase()
-  return `Your answers place you closest to ${familyLogicPhrases[familyKey]}. You also show notable weight on ${dim1}. The arguments that tend to persuade you most are those about ${dim0} and its intersection with ${dim1}.`
+  return `The strongest signals in your foundation profile are ${dim0} and ${dim1}. In this model, ${familyLabel(familyKey)} is the closest tradition-level shorthand for that pattern. Read the label as an interpretation of the profile, not a permanent box.`
+}
+
+// ── Closest traditions ────────────────────────────────────────────────────────
+
+export type ClosestTradition = {
+  key: FamilyKey
+  label: string
+  score: number
+}
+
+export type ClosestTraditionsSummary = {
+  primary: ClosestTradition
+  secondary: ClosestTradition
+  showBoth: boolean
+  displayLabel: string
+  note: string
+}
+
+export function getClosestTraditions(
+  familyScores: Record<FamilyKey, number>,
+): ClosestTraditionsSummary {
+  const ordered = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
+    .map(([key, score]) => ({
+      key,
+      score,
+      label: familyLabel(key),
+    }))
+
+  const primary = ordered[0]
+  const secondary = ordered[1]
+  const gap = primary.score - secondary.score
+  const showBoth = gap <= 0.45
+
+  return {
+    primary,
+    secondary,
+    showBoth,
+    displayLabel: showBoth
+      ? `${primary.label} and ${secondary.label}`
+      : primary.label,
+    note: showBoth
+      ? `${primary.label} and ${secondary.label} are both close shorthand for this foundation profile. The gap between them is narrow enough that forcing a single tradition would hide part of the mix.`
+      : `${primary.label} is the closest shorthand for this foundation profile. ${secondary.label} is the nearest overlap, so this is better read as a profile with a clear neighbor than as a sealed box.`,
+  }
+}
+
+// ── Strong lenses ─────────────────────────────────────────────────────────────
+
+export type StrongLens = {
+  key: string
+  label: string
+  description: string
+}
+
+function centerScore(score: number): number {
+  return score - 4
+}
+
+function getCriticalSystemicSignal(dimensionScores: DimensionScores): number {
+  return (
+    centerScore(dimensionScores.politicalEconomy) * 0.55 +
+    centerScore(dimensionScores.domesticFilters) * 0.25 -
+    centerScore(dimensionScores.institutions) * 0.35 -
+    centerScore(dimensionScores.orderJustice) * 0.15
+  )
+}
+
+export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] {
+  const lenses: { weight: number; lens: StrongLens }[] = []
+  const criticalSystemicSignal = getCriticalSystemicSignal(dimensionScores)
+
+  if (dimensionScores.politicalEconomy >= 5.15) {
+    if (criticalSystemicSignal >= 1.8) {
+      lenses.push({
+        weight: criticalSystemicSignal,
+        lens: {
+          key: "critical-systemic",
+          label: "Critical / systemic lens",
+          description:
+            "You do not just think economics matters. You also read institutions, hierarchy, and leverage through a more systemic frame of dependence and structural advantage.",
+        },
+      })
+    } else {
+      lenses.push({
+        weight: dimensionScores.politicalEconomy - 4,
+        lens: {
+          key: "political-economy-salience",
+          label: "Political-economy salience",
+          description:
+            "Trade, finance, sanctions, and dependence are part of how you explain outcomes. In this model, that is a cross-cutting lens, not automatically a Critical Political Economy identity.",
+        },
+      })
+    }
+  }
+
+  if (dimensionScores.domesticFilters >= 5.15) {
+    lenses.push({
+      weight: dimensionScores.domesticFilters - 4,
+      lens: {
+        key: "domestic-politics",
+        label: "Domestic-politics sensitivity",
+        description:
+          "You give real weight to coalitions, regime type, and bureaucratic capacity when explaining why states facing similar pressures still behave differently.",
+      },
+    })
+  }
+
+  if (dimensionScores.normsIdentity >= 5.15) {
+    lenses.push({
+      weight: dimensionScores.normsIdentity - 4,
+      lens: {
+        key: "identity-legitimacy",
+        label: "Identity / legitimacy sensitivity",
+        description:
+          "You are attentive to how legitimacy, recognition, and shared expectations shape what actors think threats, interests, and obligations mean.",
+      },
+    })
+  }
+
+  const orderJusticeDistance = Math.abs(dimensionScores.orderJustice - 4)
+  if (orderJusticeDistance >= 1.2) {
+    lenses.push({
+      weight: orderJusticeDistance,
+      lens: {
+        key: "normative-justice",
+        label: "Normative / justice sensitivity",
+        description:
+          dimensionScores.orderJustice <= 3.8
+            ? "You do not treat sovereignty as the final word in every hard case. Extreme moral stakes remain live in your analysis."
+            : "You treat order, precedent, and the costs of intervention as hard constraints, not as secondary clean-up questions.",
+      },
+    })
+  }
+
+  return lenses
+    .sort((a, b) => b.weight - a.weight)
+    .slice(0, 3)
+    .map(({ lens }) => lens)
 }
 
 // ── Key drivers ───────────────────────────────────────────────────────────────
@@ -859,30 +1044,30 @@ export function getWhatCouldShift(
   // 2. Strategy modifier: what would shift it
   if (sm === "Restrainer") {
     results.push(
-      "Your Restrainer modifier would shift to Hedger if your scenario choices showed more willingness to press advantages when a clear window exists.",
+      "Your Restrainer modifier would shift to Hedger if your answers on restraint and overextension moved closer to the middle of the scale and gave more weight to pressing advantages when conditions are favorable.",
     )
   } else if (sm === "Maximizer") {
     results.push(
-      "Your Maximizer modifier would shift to Hedger if your scenario choices showed more attention to the risks of overextension and the long-term costs of forward commitments.",
+      "Your Maximizer modifier would shift to Hedger if your answers gave more weight to the risks of overextension and the long-term costs of forward commitments.",
     )
   } else {
     results.push(
-      "Your Hedger modifier reflects a mixed strategy instinct. A more consistent lean toward either restraint or maximization across the scenario choices would shift the modifier.",
+      "Your Hedger modifier reflects a mixed strategy instinct. A more consistent lean toward either restraint or maximization in the foundation answers would shift the modifier.",
     )
   }
 
   // 3. Normative modifier: what would shift it
   if (nm === "Pluralist") {
     results.push(
-      "Your Pluralist modifier would shift to Conditional Solidarist if you gave more weight to the possibility that sufficiently grave violations can override sovereignty in specific extreme cases.",
+      "Your Pluralist modifier would shift to Conditional Solidarist if your order-versus-justice answers gave more weight to cases where sufficiently grave violations can override sovereignty.",
     )
   } else if (nm === "Universalist") {
     results.push(
-      "Your Universalist modifier would shift to Conditional Solidarist if you gave more weight to the institutional risks of establishing precedents that normalize external intervention.",
+      "Your Universalist modifier would shift to Conditional Solidarist if your answers gave more weight to the institutional and precedential risks created by external intervention.",
     )
   } else {
     results.push(
-      "Your Conditional Solidarist modifier reflects genuine tension between order and justice. A more consistent position on either side of that debate would shift the modifier.",
+      "Your Conditional Solidarist modifier reflects genuine tension between order and justice. A more consistent position on either side of that debate in the foundation answers would shift the modifier.",
     )
   }
 

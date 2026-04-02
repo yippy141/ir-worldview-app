@@ -3,136 +3,180 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Methods — IR Worldview Inventory",
   description:
-    "How the IR Worldview Inventory works: dimensions, scoring, branching logic, and important limitations.",
+    "How the IR Worldview Inventory works: foundation profile, tradition shorthand, style outputs, case layer, and limitations.",
 }
 
 const dimensions = [
   {
     label: "Security competition",
     description:
-      "How much weight do you give to interstate rivalry, uncertainty about intentions, and positional competition among major powers? High scores indicate a realist-adjacent orientation. Low scores suggest skepticism that rivalry is the dominant organizing logic.",
+      "How much weight do you give to rivalry, uncertainty about intentions, and positional competition among major powers? High scores lean toward the view that security competition is a durable constraint. Low scores suggest skepticism that rivalry is the main organizing logic.",
   },
   {
     label: "Institutional efficacy",
     description:
-      "Do you think international institutions can make cooperation more durable, even without a central enforcer? High scores indicate institutionalist-adjacent views. Low scores suggest skepticism that institutions matter beyond the preferences of powerful states.",
+      "Do you think rules, monitoring, and repeated interaction can make cooperation more durable even without a world government? High scores lean institutionalist. Low scores suggest you see institutions mostly as mirrors of power.",
   },
   {
     label: "Domestic and transnational filters",
     description:
-      "How much do domestic coalitions, regime type, public opinion, and transnational actors shape foreign policy relative to external constraints? This dimension captures liberal and two-level-game arguments about why states with similar external environments behave differently.",
+      "How much do coalitions, regime type, bureaucratic capacity, and transnational actors shape foreign policy relative to external pressure? This dimension captures whether you think states facing similar environments can still behave differently for domestic reasons.",
   },
   {
     label: "Norms and identity",
     description:
-      "Do you think the meaning of a threat or alliance is shaped by identity, recognition, and social expectations? High scores indicate constructivist leanings — the view that anarchy is a social condition, not a fixed one. Low scores suggest you treat norm language as cover for material interests.",
+      "Do legitimacy, recognition, and social meaning help shape interests and threats, or are they mostly rhetorical cover for material interests? High scores lean constructivist. Low scores suggest skepticism that norms have much independent force.",
   },
   {
-    label: "Political economy",
+    label: "Political-economy salience",
     description:
-      "How central are production structures, global finance, trade dependence, and economic hierarchy to your understanding of world politics? This dimension captures the critical political economy tradition, which holds that security and diplomacy cannot be understood without examining who controls capital and supply chains.",
+      "How central are production, finance, trade dependence, sanctions, and leverage to your explanation of world politics? High scores mean you keep political economy firmly in view. They do not, by themselves, make you a critical political economist.",
   },
   {
     label: "Restraint vs. maximization",
     description:
-      "Does your instinct run toward limiting commitments and avoiding overextension, or toward seizing windows for durable advantage? This disposition cuts across the main paradigm families. A restrained realist and a maximizing institutionalist can land at very different ends of this scale.",
+      "When a major power has room to press for advantage, is the safer instinct to hold back or to exploit the opening? This is a strategic style dimension, not a standalone worldview family.",
   },
   {
     label: "Order vs. justice",
     description:
-      "When international order and universal moral obligations conflict, which wins in your judgment? This captures the pluralism-solidarism debate in English School theory. Pluralists privilege sovereignty and non-intervention. Solidarists hold that sufficiently grave violations can override them.",
+      "When sovereignty and wider moral obligations clash, which usually carries more weight in your judgment? This is a normative style dimension, not a claim about who is more moral.",
+  },
+]
+
+const resultLayers = [
+  {
+    heading: "1. Core profile",
+    body: "The foundation result is a seven-dimension profile. This is the main output. It shows which lines of argument you lean toward and where you are mixed.",
+  },
+  {
+    heading: "2. Closest traditions",
+    body: "One or two IR traditions are shown as interpretive shorthand for that profile. They are labels for a pattern, not natural kinds or permanent identities.",
+  },
+  {
+    heading: "3. Strategic and normative style",
+    body: "The result also reports a strategic style and a normative style. These modifiers sit alongside the profile. They are not separate worldview families.",
+  },
+  {
+    heading: "4. Case layer",
+    body: "Applied case prompts belong to a separate layer. They test which arguments you find most convincing in concrete situations. They can diverge from the foundation profile without invalidating it.",
   },
 ]
 
 const limitations = [
   {
     heading: "Not validated",
-    body: "This instrument has not been tested for reliability or validity against established psychometric instruments or expert ratings. The family profiles and weights reflect theoretical judgment, not empirical calibration.",
+    body: "This is not a validated psychometric instrument. The dimensions, family profiles, and thresholds reflect theoretical judgment and editorial design, not large-sample calibration.",
   },
   {
-    heading: "The paradigms are stylized",
-    body: "The four family profiles are idealized for classification purposes. In practice, most scholars draw on multiple traditions depending on the issue. The runner-up in your results may be as revealing as the primary.",
+    heading: "Traditions are shorthand",
+    body: "Realism, institutionalism, constructivism, and critical political economy are modeled here as simplified reference profiles. Most serious readers draw from more than one tradition depending on the issue.",
   },
   {
-    heading: "Branching logic is heuristic",
-    body: "The scenario weights and branching rules were designed by hand to capture theoretically meaningful distinctions. They have not been validated against a large sample, and the weights have not been calibrated empirically.",
+    heading: "Political economy is not a catch-all",
+    body: "This version distinguishes broad political-economy salience from a stronger critical or systemic commitment. Thinking economics matters does not automatically make someone a Critical Political Economy result.",
   },
   {
-    heading: "Self-report limitations",
-    body: "What you believe you think and what your actual instincts imply are not always the same. The scenario section is intended to surface that gap, but it cannot resolve it fully. People often hold different instincts across issue areas without experiencing them as contradictory.",
+    heading: "The case layer is separate",
+    body: "Case prompts are meant to surface applied instinct, not to masquerade as extra scientific precision. In the current shared-result flow, case-level readouts are kept separate from the foundation result.",
   },
   {
     heading: "Scores are relative, not absolute",
-    body: "A score of 5.3 on institutional efficacy means you lean institutionalist relative to this model's scale. It does not mean 76% of the population agrees with you. The scores are not population percentiles.",
+    body: "A score of 5.4 on a dimension means you lean that way within this model's scale. It does not mean 54% of people agree with you, and it is not a percentile.",
   },
   {
     heading: "Coverage is incomplete",
-    body: "The instrument covers seven dimensions and five major scenario clusters. Important traditions — feminist IR, postcolonial theory, green IR — are not yet represented. Results should be read with that gap in mind.",
+    body: "The current model does not fully represent several important traditions, including feminist IR, postcolonial theory, and green IR. People anchored in those traditions may be mapped onto the nearest modeled family instead.",
   },
 ]
 
 export default function MethodPage() {
   return (
     <div className="container stack-lg">
-      {/* Header */}
       <section className="panel stack-md">
         <p className="eyebrow">Methodology</p>
         <h1>How this inventory works</h1>
         <p className="muted" style={{ lineHeight: "1.7" }}>
-            This page explains what the IR Worldview Inventory is, how it works, and what the results
-          should and should not mean. A classification tool that does not explain itself is a black
-          box.
+          This inventory is a structured thought exercise about how you read world politics. It is
+          meant to surface patterns in your answers, not to diagnose a hidden essence or certify a
+          single correct school of thought.
         </p>
       </section>
 
-      {/* What it is */}
       <section className="panel stack-md">
         <h2>What this is — and what it is not</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The IR Worldview Inventory is a <strong>prototype classification tool</strong>, not a
-          validated psychometric instrument. It helps you see which traditions in International
-          Relations most closely match your implicit assumptions. It does not diagnose your
-          personality, measure intelligence, or assess expertise.
+          The IR Worldview Inventory is best read as an editorially designed interpretation tool. It
+          asks which arguments you tend to find more convincing, where your instincts cluster, and
+          where they pull in different directions.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          There are no right or wrong answers. High scores in any dimension are not better than low
-          scores. The result is a prompt, not a verdict.
+          It is not a scientific diagnostic, not a personality test, and not a measure of knowledge
+          or expertise. The result is a structured read of your answers, not objective truth about
+          you.
         </p>
         <div className="panel-flush stack-xs">
           <p style={{ fontWeight: 600 }}>In short</p>
           <ul style={{ margin: "8px 0 0", paddingLeft: "20px", lineHeight: "1.85", color: "var(--muted)" }}>
-            <li>This is a prototype, not a finished or validated instrument.</li>
-            <li>Results are comparative within this model, not population percentiles.</li>
-            <li>No answer is more correct than any other.</li>
-            <li>This tool does not measure knowledge, expertise, or moral standing.</li>
+            <li>This is a structured thought exercise, not a validated instrument.</li>
+            <li>Tradition labels are shorthand for a multidimensional profile.</li>
+            <li>Mixed outputs are normal and can be meaningful.</li>
+            <li>No score is a percentile, and no answer is morally superior.</li>
           </ul>
         </div>
       </section>
 
-      {/* Who it's for */}
+      <section className="panel stack-md">
+        <div className="stack-xs">
+          <h2>How to read a result</h2>
+          <p className="muted" style={{ lineHeight: "1.65" }}>
+            The result has layers. The point is to show the profile first, then use tradition names
+            as shorthand rather than as rigid boxes.
+          </p>
+        </div>
+        <div>
+          {resultLayers.map((layer) => (
+            <div
+              key={layer.heading}
+              style={{ padding: "20px 0", borderBottom: "1px solid var(--border)" }}
+            >
+              <p
+                style={{
+                  fontWeight: 600,
+                  fontFamily: "Georgia, serif",
+                  marginBottom: "8px",
+                  fontSize: "1rem",
+                }}
+              >
+                {layer.heading}
+              </p>
+              <p className="muted" style={{ lineHeight: "1.65" }}>{layer.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <section className="panel stack-md">
         <h2>Who it is for</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The primary audience is people who think seriously about foreign policy, international
-          order, or strategic affairs — practitioners, students, researchers, or engaged readers.
-          Some background in IR theory helps, but the quiz is accessible without it. Jargon is
-          defined where it appears.
+          The main audience is people who think seriously about foreign policy, international order,
+          or strategic affairs: students, practitioners, researchers, and engaged readers. Some IR
+          background helps, but the main prompts are written in plain English rather than specialist
+          jargon.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          It also works as a teaching tool. Taking it before and after reading core IR texts tends
-          to surface assumptions that coursework alone leaves implicit — in particular, the gap
-          between stated theoretical views and what scenario choices reveal.
+          It can also work as a classroom or discussion tool. The value is often in seeing where
+          you expected one tradition label but the profile itself points somewhere more mixed.
         </p>
       </section>
 
-      {/* Dimensions */}
       <section className="panel stack-md">
         <div className="stack-xs">
           <h2>The seven dimensions</h2>
           <p className="muted" style={{ lineHeight: "1.65" }}>
-            Each question maps to one of seven dimensions drawn from the major traditions in IR
-            theory. They were chosen to capture meaningful variation across the leading paradigms
-            without collapsing everything into a single axis.
+            The foundation profile is built from seven dimensions drawn from major debates in IR.
+            They are meant to capture broad explanatory priors and style differences without
+            pretending to measure everything that matters.
           </p>
         </div>
         <div>
@@ -157,85 +201,68 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Why branching */}
       <section className="panel stack-md">
-        <h2>Why branching scenarios are used</h2>
+        <h2>Why the case layer is separate</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The core questions are Likert-scale items. They ask you to rate your agreement with
-          theoretical propositions. They are good at measuring your orientation on each dimension,
-          but they can feel abstract.
+          Broad priors and applied instincts are related, but they are not the same thing. Someone
+          can hold a generally institutionalist profile and still lean toward deterrence-heavy
+          arguments in a security case. Someone else can read world politics through power and
+          rivalry in the abstract but still resist escalation in concrete cases.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          The branching scenarios follow up with concrete policy situations — sanctions, trade
-          restrictions, humanitarian intervention, financial crises. Your instincts in these cases
-          often differ from your stated theoretical preferences. Many people hold realist instincts
-          on strategic technology and institutionalist instincts on trade, even when they describe
-          themselves as one thing throughout.
+          That is why the inventory keeps the foundation result separate from the case layer. Case
+          prompts are there to show how a profile travels into live arguments, not to smuggle extra
+          points back into the core classification.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Branching means your path through the scenarios depends on earlier choices. If you
-          restrict trade aggressively in the technology scenario, you see a follow-up about ally
-          trade that a more open respondent will not. This probes the conditions under which your
-          instincts shift, not just your baseline preference.
+          In the current shared-result flow, the foundation profile, closest traditions, and style
+          outputs are what travel with the link. Case-level interpretation is treated as a separate
+          applied readout.
         </p>
       </section>
 
-      {/* Why plain English */}
       <section className="panel stack-md">
         <h2>Why the wording is plain English</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The question prompts are written to be readable without prior IR training. Technical terms
-          appear in the optional clarifications, not the main prompts.
+          The prompts aim to be readable without prior theory training. Technical language lives in
+          optional explainers, not in the main question stem.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          A question that requires IR jargon produces different answers from specialists and
-          non-specialists — not because their instincts differ, but because the question is asking
-          each of them something different. Plain wording reduces that artifact.
-        </p>
-        <p style={{ lineHeight: "1.7" }}>
-          Technical language is still available via the clarification disclosures. The aim is to
-          make jargon optional, not invisible.
+          This matters because jargon-heavy wording can accidentally test training rather than
+          instinct. Plain language reduces that problem and makes disagreement easier to interpret.
         </p>
       </section>
 
-      {/* How scoring works */}
       <section className="panel stack-md">
         <h2>How scoring works</h2>
-        <p style={{ lineHeight: "1.7" }}>Scoring happens in two stages.</p>
-        <p style={{ lineHeight: "1.65" }}>
-          <strong>Stage 1 — Core dimension scores.</strong> Each Likert question maps to one
-          dimension. Some items are reverse-scored: high agreement lowers the relevant dimension
-          score because the item contradicts that dimension&apos;s logic. Dimension scores are averaged
-          within each group and run from 1 to 7.
-        </p>
-        <p style={{ lineHeight: "1.65" }}>
-          <strong>Stage 2 — Scenario adjustments.</strong> Each scenario choice carries a small
-          weight vector across the dimensions it is most relevant to. These weights are added to the
-          core dimension scores and clamped to the 1–7 range. The effect is deliberately modest:
-          scenarios sharpen the profile rather than overriding the core.
+        <p style={{ lineHeight: "1.7" }}>
+          Scoring begins with the foundation questions. Each item maps to one dimension, and the
+          answers are averaged into a seven-dimension profile on a 1 to 7 scale.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Once dimension scores are finalized, the model computes a similarity score between your
-          dimension profile and four idealized family profiles — realist, institutionalist,
-          constructivist, and critical political economist. The family with the highest score
-          becomes your primary classification.
+          The model then compares that profile with four stylized tradition profiles: realism,
+          institutionalism, constructivism, and critical political economy. The closest one or two
+          are shown as interpretive shorthand.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Two additional modifiers — strategy disposition and normative orientation — are computed
-          separately from the restraint and order-justice dimensions plus specific scenario choices.
-          These modify the label without changing the underlying family classification.
+          Strategic and normative style are reported separately from the restraint and
+          order-versus-justice dimensions. They help describe the profile, but they do not create a
+          new worldview family.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          High political-economy salience does not automatically force a Critical Political Economy
+          result. A stronger critical or systemic pattern is required before that tradition becomes
+          the primary shorthand.
         </p>
         <div className="panel-flush">
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-            <strong>Note on &ldquo;profile clarity&rdquo;:</strong> Earlier versions displayed a clarity
-            percentage. This figure measured the gap between the top and second-place family
-            scores — an internal heuristic, not a validated confidence metric. It has been removed
-            to avoid implying a precision the model does not have.
+            <strong>On precision:</strong> Earlier versions used a &ldquo;clarity&rdquo; figure.
+            That metric has been removed because it risked sounding more scientific than the model
+            is.
           </p>
         </div>
       </section>
 
-      {/* Limitations */}
       <section className="panel stack-md">
         <h2>Important limitations</h2>
         <div>
@@ -251,34 +278,34 @@ export default function MethodPage() {
         </div>
       </section>
 
-      {/* Sources */}
       <section className="panel stack-md">
         <h2>Sources and references</h2>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          The theoretical content draws on the primary texts of each tradition. The measurement
-          design draws on the survey and political psychology literature below.
+          The theoretical content draws on major IR traditions and on classic work in survey
+          design, political judgment, and belief systems. These references matter less as
+          authorities to obey than as reminders of what this tool can and cannot honestly claim.
         </p>
         <div>
           {[
             {
               citation: "Likert, Rensis. \"A Technique for the Measurement of Attitudes.\" Archives of Psychology, no. 140 (1932).",
-              note: "The original Likert summated-rating scale. The seven-point format used here is a standard extension of Likert's five-point design.",
+              note: "The core template behind agreement scales. Useful as a reminder that scaling answers is not the same thing as validating an instrument.",
             },
             {
               citation: "Converse, Philip E. \"The Nature of Belief Systems in Mass Publics.\" In D. E. Apter (ed.), Ideology and Discontent. Free Press, 1964.",
-              note: "The foundational study of constraint in political belief systems. Raises the core question this inventory must answer honestly: do self-reported attitudes form coherent patterns?",
+              note: "A classic statement of the problem any worldview inventory faces: many people do not hold fully coherent, systematized belief structures across issues.",
             },
             {
               citation: "Zaller, John R. The Nature and Origins of Mass Opinion. Cambridge University Press, 1992.",
-              note: "Argues that survey responses capture a running sample of considerations, not stable fixed preferences. One reason this inventory describes results as interpretive rather than definitive.",
+              note: "A reminder that survey responses often reflect which considerations are most available at the moment, not permanently fixed inner doctrines.",
             },
             {
               citation: "Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? Princeton University Press, 2005.",
-              note: "The finding that people who draw on multiple frameworks outperform single-paradigm thinkers is directly relevant to why the runner-up classification matters here.",
+              note: "Relevant here because eclectic thinkers often outperform those who force every question through one master lens.",
             },
             {
               citation: "Sil, Rudra and Katzenstein, Peter J. Beyond Paradigms: Analytic Eclecticism in the Study of World Politics. Palgrave Macmillan, 2010.",
-              note: "The case for drawing on multiple IR traditions rather than committing to one. Frames the intellectual rationale for treating the runner-up as important, not a rounding error.",
+              note: "The best justification for taking mixed results seriously rather than treating the runner-up as noise.",
             },
           ].map((item) => (
             <div key={item.citation} style={{ padding: "14px 0", borderBottom: "1px solid var(--border)" }}>
@@ -296,26 +323,30 @@ export default function MethodPage() {
         </p>
       </section>
 
-      {/* Version history */}
       <section className="panel stack-md">
         <h2>Version history</h2>
         <div className="stack-md">
           <div className="stack-xs">
+            <p style={{ fontWeight: 600 }}>v0.3 — April 2026</p>
+            <p className="muted" style={{ lineHeight: "1.65" }}>
+              Phase 4R pass 2. Results are now framed profile-first and tradition-second. Methods
+              copy now describes the tool as a structured thought exercise, clarifies that mixed
+              outputs are meaningful, and keeps the case layer separate from the foundation result.
+            </p>
+          </div>
+          <div className="stack-xs">
             <p style={{ fontWeight: 600 }}>v0.2 — March 2026</p>
             <p className="muted" style={{ lineHeight: "1.65" }}>
-              Phase 1 redesign. Editorial light theme. Explicit Back / Next navigation — no more
-              auto-advance. Rewrote results screen with plain-English summary, key drivers,
-              tensions, dimension one-liners, neighbor overlap text, glossary, and suggested
-              reading. Removed profile clarity display. Added this methods page. Nav updated from
-              /learn to /method.
+              Editorial light-theme redesign. Added clearer navigation, plain-English result
+              sections, glossary, suggested reading, and the first methods page. Removed the
+              earlier clarity display.
             </p>
           </div>
           <div className="stack-xs">
             <p style={{ fontWeight: 600 }}>v0.1 — Initial release</p>
             <p className="muted" style={{ lineHeight: "1.65" }}>
-              Schema-driven MVP with 14 core Likert questions and five branching scenario clusters.
-              Results showed dimension bars and family fit scores. Dark theme. Auto-advance on
-              selection.
+              Schema-driven MVP with core Likert items and branching scenarios. Dark theme.
+              Results centered on family fit and dimension bars.
             </p>
           </div>
         </div>

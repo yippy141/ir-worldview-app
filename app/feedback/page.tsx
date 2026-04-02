@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Feedback — IR Worldview Inventory",
-  description: "Share your feedback on the IR Worldview Inventory pilot.",
+  description: "Share feedback on the IR Worldview Inventory pilot and its result architecture.",
 }
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGxaUUwUYmo0YI8mcmqKGnne66MyGhPSWO88lSUwC91NZlyQ/viewform"
@@ -24,23 +24,42 @@ export default async function FeedbackPage({ searchParams }: Props) {
         <h1>Help improve this inventory</h1>
 
         <p style={{ lineHeight: "1.7", maxWidth: "580px" }}>
-          This quiz is in a pilot phase. The questions, scoring weights, and result framing are
-          based on theoretical judgment, not empirical calibration. Your responses help identify
-          where the questions are confusing, where results feel off, and what is missing.
+          This pilot is testing the architecture as much as the wording. The most useful feedback
+          is not just whether the top label felt right, but whether the profile, tradition
+          shorthand, style outputs, and overall structure felt honest and useful.
         </p>
 
         <div className="panel-flush stack-xs" style={{ maxWidth: "580px" }}>
-          <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>The form covers four things</p>
+          <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>The most useful feedback covers six things</p>
           <ul style={{ margin: "8px 0 0", paddingLeft: "20px", lineHeight: "1.85", color: "var(--muted)", fontSize: "0.9rem" }}>
-            <li>How accurate the result felt, and where it missed</li>
-            <li>Which question was hardest to answer and why</li>
-            <li>What was missing, unclear, or felt off</li>
-            <li>An optional role (student / practitioner / academic / other)</li>
+            <li>What result you expected before taking the inventory</li>
+            <li>Whether the core profile fit better than the tradition label</li>
+            <li>Which part felt most wrong: profile, label, style, or the whole structure</li>
+            <li>Whether political economy here should read as a worldview, a lens, or both</li>
+            <li>Which question or case pushed you in the wrong direction</li>
+            <li>What felt missing, under-modeled, or structurally off</li>
           </ul>
         </div>
 
+        <div
+          className="panel-flush"
+          style={{
+            maxWidth: "580px",
+            padding: "12px 16px",
+            background: "var(--panel-2)",
+            borderRadius: "4px",
+            borderLeft: "3px solid var(--border)",
+          }}
+        >
+          <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.6" }}>
+            If the whole architecture felt wrong, that is especially useful feedback. You do not
+            need to translate it into a better-fitting label first.
+          </p>
+        </div>
+
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65", maxWidth: "580px" }}>
-          <strong>Time:</strong> About two to three minutes. No required fields.
+          <strong>Time:</strong> About two to three minutes. No required fields. Blunt reactions are
+          more useful than polite agreement.
         </p>
 
         <div
