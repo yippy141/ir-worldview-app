@@ -1,11 +1,14 @@
-import { coreQuestions, dimensionLabels, tieBreakerClusters, FALLBACK_SCENARIO_IDS, scenarioQuestions } from "@/lib/quiz-schema"
+import { dimensionLabels, getFoundationQuestions } from "@/lib/quiz-schema"
 import type {
   Answers,
+  ChoiceQuestion,
   DimensionKey,
   DimensionScores,
   FamilyKey,
+  LikertQuestion,
+  Question,
+  QuizMode,
   QuizResult,
-  ScenarioQuestion,
   StrategyModifier,
   NormativeModifier,
 } from "@/lib/types"
@@ -77,7 +80,31 @@ export function scoreLikert(rawValue: number, reverse?: boolean): number {
   return reverse ? 8 - rawValue : rawValue
 }
 
-export function computeCoreDimensionScores(answers: Answers): DimensionScores {
+function collectLikertSignal(question: LikertQuestion, raw: number) {
+  return { dimension: question.dimension, value: scoreLikert(raw, question.reverse) }
+}
+
+function collectChoiceSignals(question: ChoiceQuestion, answer: string) {
+  const option = question.options.find((candidate) => candidate.id === answer)
+  if (!option) return []
+
+  return (Object.entries(option.signals) as [DimensionKey, number][])
+    .filter(([, value]) => typeof value === "number")
+    .map(([dimension, value]) => ({ dimension, value }))
+}
+
+function collectQuestionSignals(question: Question, answer: Answers[string]) {
+  if (question.kind === "likert") {
+    return typeof answer === "number" ? [collectLikertSignal(question, answer)] : []
+  }
+
+  return typeof answer === "string" ? collectChoiceSignals(question, answer) : []
+}
+
+export function computeCoreDimensionScores(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): DimensionScores {
   const buckets: Record<DimensionKey, number[]> = {
     securityCompetition: [],
     institutions: [],
@@ -88,92 +115,21 @@ export function computeCoreDimensionScores(answers: Answers): DimensionScores {
     orderJustice: [],
   }
 
-  for (const question of coreQuestions) {
-    const raw = answers[question.id]
-
-    if (typeof raw !== "number") continue
-
-    buckets[question.dimension].push(scoreLikert(raw, question.reverse))
+  for (const question of getFoundationQuestions(mode)) {
+    for (const signal of collectQuestionSignals(question, answers[question.id])) {
+      buckets[signal.dimension].push(signal.value)
+    }
   }
 
   return DIMENSIONS.reduce((accumulator, dimension) => {
     const values = buckets[dimension]
-    const average = values.length > 0 ? values.reduce((sum, value) => sum + value, 0) / values.length : 4
+    const average =
+      values.length > 0
+        ? values.reduce((sum, value) => sum + value, 0) / values.length
+        : 4
     accumulator[dimension] = Number(average.toFixed(2))
     return accumulator
   }, {} as DimensionScores)
-}
-
-// Select 3–5 tie-breaker scenario IDs based on the two closest family scores.
-export function selectTieBreakerIds(
-  familyScores: Record<FamilyKey, number>,
-  dimensionScores: DimensionScores,
-): string[] {
-  const ordered = (Object.entries(familyScores) as [FamilyKey, number][]).sort((a, b) => b[1] - a[1])
-  const topFamily = ordered[0][0]
-  const runnerUpFamily = ordered[1][0]
-  const gap = ordered[0][1] - ordered[1][1]
-
-  const ids = new Set<string>()
-
-  // If top two are close, add the cluster for that pair
-  if (gap < 1.5) {
-    const cluster = tieBreakerClusters.find(
-      (c) =>
-        (c.pair[0] === topFamily && c.pair[1] === runnerUpFamily) ||
-        (c.pair[0] === runnerUpFamily && c.pair[1] === topFamily),
-    )
-    if (cluster) cluster.scenarioIds.forEach((id) => ids.add(id))
-  }
-
-  // If orderJustice is near neutral, add the humanitarian intervention item
-  if (dimensionScores.orderJustice >= 3.4 && dimensionScores.orderJustice <= 4.6) {
-    ids.add("humanitarianIntervention")
-  }
-
-  // Ensure at least 3 scenarios via fallback
-  for (const id of FALLBACK_SCENARIO_IDS) {
-    if (ids.size >= 3) break
-    ids.add(id)
-  }
-
-  return [...ids].slice(0, 5)
-}
-
-export function getScenarioSequence(answers: Answers): ScenarioQuestion[] {
-  // Gate scenarios behind every core item being answered.
-  const allCoreAnswered = coreQuestions.every((q) => answers[q.id] !== undefined)
-  if (!allCoreAnswered) return []
-
-  // Compute scores to select adaptive tie-breakers
-  const coreScores = computeCoreDimensionScores(answers)
-  const fScores = scoreFamilies(coreScores)
-  const rootIds = selectTieBreakerIds(fScores, coreScores)
-
-  const sequence: ScenarioQuestion[] = []
-  const seen = new Set<string>()
-
-  const addScenario = (scenarioId: string) => {
-    if (seen.has(scenarioId)) return
-    const scenario = scenarioQuestions[scenarioId]
-    if (!scenario) return
-    sequence.push(scenario)
-    seen.add(scenarioId)
-
-    const choice = answers[scenarioId]
-    if (!choice || typeof choice === "number") return
-
-    const chosenOption = scenario.options.find((option) => option.id === choice)
-    if (chosenOption?.followUpId) {
-      addScenario(chosenOption.followUpId)
-    }
-  }
-
-  for (const scenarioId of rootIds) {
-    addScenario(scenarioId)
-  }
-
-  return sequence
 }
 
 function centerScore(score: number): number {
@@ -255,11 +211,14 @@ function getNeighboringFamily(familyKey: FamilyKey, familyScores: Record<FamilyK
   return runnerUp ? familyLabels[runnerUp[0]] : familyLabels[familyKey]
 }
 
-export function generateResult(answers: Answers): QuizResult {
-  const coreScores = computeCoreDimensionScores(answers)
-  const dimensionScores = coreScores
+export function generateResult(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): QuizResult {
+  const dimensionScores = computeCoreDimensionScores(answers, mode)
   const familyScores = scoreFamilies(dimensionScores)
-  const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][]).sort((a, b) => b[1] - a[1])
+  const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
   const familyKey = orderedFamilies[0][0]
   const familyLabel = familyLabels[familyKey]
   const strategyModifier = getStrategyModifier(dimensionScores)
@@ -284,8 +243,7 @@ export function getNeighboringFamilyKey(
   familyKey: FamilyKey,
   familyScores: Record<FamilyKey, number>,
 ): FamilyKey {
-  const ordered = (Object.entries(familyScores) as [FamilyKey, number][]).sort(
-    (a, b) => b[1] - a[1],
-  )
+  const ordered = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
   return ordered.find(([key]) => key !== familyKey)?.[0] ?? familyKey
 }

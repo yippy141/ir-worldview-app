@@ -1,597 +1,637 @@
-import type { LikertQuestion, ScenarioQuestion } from "@/lib/types"
+import type { Question, QuizMode } from "@/lib/types"
 
-export const SCHEMA_VERSION = 2
+export const SCHEMA_VERSION = 3
 
 export const dimensionLabels = {
-  securityCompetition: "Security competition",
-  institutions: "Institutional efficacy",
-  domesticFilters: "Domestic and transnational filters",
-  normsIdentity: "Norms and identity",
-  politicalEconomy: "Political economy",
-  restraint: "Restraint vs maximization",
-  orderJustice: "Order vs justice",
+  securityCompetition: "Security rivalry",
+  institutions: "Institutions and rules",
+  domesticFilters: "Domestic politics",
+  normsIdentity: "Identity and legitimacy",
+  politicalEconomy: "Markets and dependence",
+  restraint: "Restraint and advantage",
+  orderJustice: "Order and justice",
 } as const
 
-// 21 core items — 3 per dimension.
-// Item IDs use the format: dimension-prefix + number (sc1, in1, etc.)
-export const coreQuestions: LikertQuestion[] = [
-  // ── Security competition ──────────────────────────────────────────────────
+export const standardQuestions: Question[] = [
   {
     id: "sc1",
     kind: "likert",
     dimension: "securityCompetition",
-    prompt: "Uncertainty about what major powers will do in the future is a lasting feature of world politics.",
+    prompt:
+      "Even peaceful periods between major powers can unravel when the balance of power changes.",
     clarification: {
-      whatItAsks: "Whether future intentions are hard to know in a durable way, even when present relations seem calm.",
-      whatItDoesNotAsk: "This is not asking whether war is inevitable or whether cooperation never happens.",
-      terms: [
-        { term: "major powers", definition: "States with unusually large military, economic, or political influence." },
-      ],
+      whatItAsks:
+        "Whether peace between major powers is usually conditional rather than permanently solved.",
+      whatItDoesNotAsk:
+        "This is not saying war is inevitable or that diplomacy never matters.",
     },
+  },
+  {
+    id: "in1",
+    kind: "likert",
+    dimension: "institutions",
+    prompt:
+      "Shared rules can make cooperation last, even when no single state is in charge.",
+    clarification: {
+      whatItAsks:
+        "Whether institutions can shape behavior by setting expectations, monitoring conduct, and lowering uncertainty.",
+      whatItDoesNotAsk:
+        "This is not claiming institutions always work or that power stops mattering.",
+    },
+  },
+  {
+    id: "df1",
+    kind: "likert",
+    dimension: "domesticFilters",
+    prompt:
+      "Foreign policy often reflects domestic coalitions and political pressures as much as outside threats do.",
+    clarification: {
+      whatItAsks:
+        "Whether internal politics helps explain foreign policy choices, not just the external environment.",
+      whatItDoesNotAsk:
+        "This is not denying that outside pressure can still dominate in some cases.",
+    },
+  },
+  {
+    id: "ni1",
+    kind: "likert",
+    dimension: "normsIdentity",
+    prompt:
+      "The same military move can look threatening or reassuring depending on the relationship involved.",
+    clarification: {
+      whatItAsks:
+        "Whether meaning depends partly on trust, recognition, history, and shared expectations.",
+      whatItDoesNotAsk:
+        "This is not saying military capabilities stop mattering.",
+    },
+  },
+  {
+    id: "pe1",
+    kind: "likert",
+    dimension: "politicalEconomy",
+    prompt:
+      "Trade, finance, and supply chains belong in the basic explanation of world politics, not in a separate box.",
+    clarification: {
+      whatItAsks:
+        "Whether economic leverage and dependence are part of the core story, not background detail.",
+      whatItDoesNotAsk:
+        "This is not saying every crisis is secretly just about economics.",
+    },
+  },
+  {
+    id: "rs1",
+    kind: "likert",
+    dimension: "restraint",
+    prompt:
+      "Major powers often make themselves less secure when they chase advantages beyond what defense requires.",
+    clarification: {
+      whatItAsks:
+        "Whether overextension and pursuit of excess advantage can generate backlash and reduce security.",
+      whatItDoesNotAsk:
+        "This is not asking whether every gain in power is a mistake.",
+    },
+  },
+  {
+    id: "oj1",
+    kind: "likert",
+    dimension: "orderJustice",
+    prompt:
+      "A stable international order is often worth protecting even when it leaves serious injustice unresolved.",
+    clarification: {
+      whatItAsks:
+        "Whether stability and precedent should usually take priority when they collide with broader moral goals.",
+      whatItDoesNotAsk: "This is not saying injustice is unimportant.",
+    },
+  },
+  {
+    id: "tradeoff_alliances",
+    kind: "tradeoff",
+    prompt: "What most often keeps alliances together under real pressure?",
+    helpText:
+      "Choose the logic you find most persuasive, not the sentence that sounds nicest in the abstract.",
+    options: [
+      {
+        id: "power",
+        title: "Material backing",
+        label:
+          "Alliances hold when members believe the leading power can and will bear the cost of defense.",
+        signals: { securityCompetition: 6.3, institutions: 2.8, restraint: 3.6 },
+      },
+      {
+        id: "rules",
+        title: "Rules and routines",
+        label:
+          "Planning structures, standing commitments, and repeated coordination make alliance promises more credible.",
+        signals: { institutions: 6.4, securityCompetition: 3.5, restraint: 4.7 },
+      },
+      {
+        id: "domestic",
+        title: "Domestic staying power",
+        label:
+          "Alliances endure when domestic coalitions, budgets, and public tolerance can sustain them over time.",
+        signals: { domesticFilters: 6.3, institutions: 4.8, restraint: 4.5 },
+      },
+      {
+        id: "meaning",
+        title: "Political meaning",
+        label:
+          "Alliances hold when they are seen as legitimate and identity-consistent, not only as efficient bargains.",
+        signals: { normsIdentity: 6.2, institutions: 4.9, securityCompetition: 3.4 },
+      },
+    ],
   },
   {
     id: "sc2",
     kind: "likert",
     dimension: "securityCompetition",
-    prompt: "States often fall into rivalry because they cannot safely rely on others for protection.",
+    prompt:
+      "States often prepare for danger because they cannot be sure others will stay benign.",
     clarification: {
-      whatItAsks: "Whether the lack of guaranteed protection pushes states toward self-protective behavior and rivalry.",
-      whatItDoesNotAsk: "This is not saying alliances are useless or that trust never matters.",
-      terms: [
-        { term: "rivalry", definition: "A recurring relationship of competition, suspicion, or strategic contest." },
-      ],
-    },
-  },
-  {
-    id: "sc3",
-    kind: "likert",
-    dimension: "securityCompetition",
-    prompt: "Long periods of peace between major powers usually depend on favorable conditions that can change.",
-    clarification: {
-      whatItAsks: "Whether major-power peace is often contingent rather than permanently solved.",
-      whatItDoesNotAsk: "This is not denying that institutions, trade, or diplomacy can help preserve peace.",
-    },
-  },
-
-  // ── Institutions ──────────────────────────────────────────────────────────
-  {
-    id: "in1",
-    kind: "likert",
-    dimension: "institutions",
-    prompt: "International rules and organizations can make cooperation last longer, even when no single state can enforce them.",
-    clarification: {
-      whatItAsks: "Whether institutions can shape behavior by setting expectations, monitoring conduct, or lowering uncertainty.",
-      whatItDoesNotAsk: "This is not claiming institutions always work or that power stops mattering.",
+      whatItAsks:
+        "Whether uncertainty about future intentions pushes states toward self-protective behavior.",
+      whatItDoesNotAsk:
+        "This is not saying trust never matters or that alliances are useless.",
     },
   },
   {
     id: "in2",
     kind: "likert",
     dimension: "institutions",
-    prompt: "Monitoring and repeated interaction can reduce cheating in international agreements.",
+    prompt:
+      "Monitoring and repeated contact can keep international agreements alive.",
     clarification: {
-      whatItAsks: "Whether transparency and repeated contact can help sustain cooperation.",
-      whatItDoesNotAsk: "This is not asking whether every agreement is equally credible.",
-      terms: [
-        { term: "monitoring", definition: "Procedures for checking whether parties are keeping their commitments." },
-      ],
-    },
-  },
-  {
-    id: "in3",
-    kind: "likert",
-    dimension: "institutions",
-    reverse: true,
-    prompt: "Most international institutions do little more than reflect what powerful states already want.",
-    clarification: {
-      whatItAsks: "Whether institutions have little independent effect beyond the interests of the strongest actors.",
-      whatItDoesNotAsk: "This is not asking whether powerful states influence institutions at all — the question is whether institutions matter independently.",
-    },
-  },
-
-  // ── Domestic filters ──────────────────────────────────────────────────────
-  {
-    id: "df1",
-    kind: "likert",
-    dimension: "domesticFilters",
-    prompt: "Domestic coalitions and interest groups often shape foreign policy as much as external threats do.",
-    clarification: {
-      whatItAsks: "Whether internal political forces help explain foreign policy choices.",
-      whatItDoesNotAsk: "This is not denying that outside pressures matter.",
-      terms: [
-        { term: "domestic coalitions", definition: "Alliances of groups inside a country that push policy in a particular direction." },
-      ],
+      whatItAsks:
+        "Whether transparency and repeated interaction can reduce cheating and support cooperation.",
+      whatItDoesNotAsk:
+        "This is not asking whether every agreement is equally credible.",
     },
   },
   {
     id: "df2",
     kind: "likert",
     dimension: "domesticFilters",
-    prompt: "States facing similar outside pressures can still act differently because their internal politics differ.",
+    prompt:
+      "States facing similar outside pressures can still act very differently because their internal politics differ.",
     clarification: {
-      whatItAsks: "Whether internal institutions, leadership, or social forces can filter the same external environment differently.",
-      whatItDoesNotAsk: "This is not saying domestic politics always outweighs external pressure.",
-    },
-  },
-  {
-    id: "df3",
-    kind: "likert",
-    dimension: "domesticFilters",
-    reverse: true,
-    prompt: "Once the balance of power is clear, regime type and public opinion usually matter little.",
-    clarification: {
-      whatItAsks: "Whether external power conditions explain most behavior even after internal differences are considered.",
-      whatItDoesNotAsk: "This is not asking whether public opinion is always decisive.",
-      terms: [
-        { term: "balance of power", definition: "The relative distribution of capabilities among major states." },
-      ],
-    },
-  },
-
-  // ── Norms and identity ────────────────────────────────────────────────────
-  {
-    id: "ni1",
-    kind: "likert",
-    dimension: "normsIdentity",
-    prompt: "The same military move can look threatening or reassuring depending on the relationship between the states involved.",
-    clarification: {
-      whatItAsks: "Whether the meaning of an action depends partly on trust, status, identity, or shared expectations.",
-      whatItDoesNotAsk: "This is not saying military capabilities do not matter.",
+      whatItAsks:
+        "Whether institutions, elites, and social coalitions inside a state filter the same outside world differently.",
+      whatItDoesNotAsk:
+        "This is not saying domestic politics always outweighs external pressure.",
     },
   },
   {
     id: "ni2",
     kind: "likert",
     dimension: "normsIdentity",
-    prompt: "What a state wants depends partly on identity, status, and recognition — not just material advantage.",
+    prompt:
+      "Status, recognition, and legitimacy shape what states think they want, not just how they pursue fixed interests.",
     clarification: {
-      whatItAsks: "Whether interests are socially formed rather than fixed in advance.",
+      whatItAsks:
+        "Whether interests are partly socially formed rather than fully given in advance.",
       whatItDoesNotAsk: "This is not denying that material interests exist.",
-      terms: [
-        { term: "recognition", definition: "Being treated by others as a legitimate or respected actor." },
-      ],
-    },
-  },
-  {
-    id: "ni3",
-    kind: "likert",
-    dimension: "normsIdentity",
-    reverse: true,
-    prompt: "Talk about legitimacy usually matters less than material interests.",
-    clarification: {
-      whatItAsks: "Whether appeals to legitimacy are usually secondary to material incentives.",
-      whatItDoesNotAsk: "This is not asking whether leaders use moral language sincerely or cynically in every case.",
-    },
-  },
-
-  // ── Political economy ─────────────────────────────────────────────────────
-  {
-    id: "pe1",
-    kind: "likert",
-    dimension: "politicalEconomy",
-    prompt: "To explain world politics, you usually need to look at trade, finance, and economic dependence as well as military power.",
-    clarification: {
-      whatItAsks: "Whether economic leverage and exposure belong in the basic explanation, not just in a few special cases.",
-      whatItDoesNotAsk: "This is not saying military or diplomatic factors stop mattering.",
-      terms: [
-        { term: "economic dependence", definition: "A situation in which one actor's options are heavily shaped by access to another's capital, markets, or supply chains." },
-      ],
     },
   },
   {
     id: "pe2",
     kind: "likert",
     dimension: "politicalEconomy",
-    prompt: "Global markets and financial rules often lock weaker states into patterns that mainly serve stronger ones.",
+    prompt:
+      "Economic rules often give stronger states structural advantages that weaker states have to work around.",
     clarification: {
-      whatItAsks: "Whether hierarchy is built into major economic arrangements, not just used tactically from case to case.",
-      whatItDoesNotAsk: "This is not asking whether weaker states have no room to maneuver at all.",
-      terms: [
-        { term: "financial rules", definition: "The lending, payment, and market rules that shape who can borrow, invest, or trade on workable terms." },
-      ],
-    },
-  },
-  {
-    id: "pe3",
-    kind: "likert",
-    dimension: "politicalEconomy",
-    reverse: true,
-    prompt: "Most international crises can be understood without looking much at who controls credit, production, or market access.",
-    clarification: {
-      whatItAsks: "Whether deeper patterns of leverage and dependence are usually secondary when a crisis unfolds.",
-      whatItDoesNotAsk: "This is not asking whether every crisis is secretly just about economics.",
-      terms: [
-        { term: "market access", definition: "Reliable access to buyers, suppliers, credit, or investment on workable terms." },
-      ],
-    },
-  },
-
-  // ── Restraint vs maximization ─────────────────────────────────────────────
-  {
-    id: "rs1",
-    kind: "likert",
-    dimension: "restraint",
-    prompt: "Major powers often make themselves less secure when they chase advantages beyond what defense requires.",
-    clarification: {
-      whatItAsks: "Whether overextension and pursuit of excess advantage can create backlash and reduce security.",
-      whatItDoesNotAsk: "This is not asking whether all power accumulation is bad.",
+      whatItAsks:
+        "Whether hierarchy is built into major economic arrangements, not just used tactically from case to case.",
+      whatItDoesNotAsk:
+        "This is not asking whether weaker states have no room to maneuver.",
     },
   },
   {
     id: "rs2",
     kind: "likert",
     dimension: "restraint",
-    prompt: "A safer grand strategy usually means limiting commitments rather than trying to dominate every key region.",
+    prompt:
+      "Avoiding overextension is usually more important than pressing every opening for lasting advantage.",
     clarification: {
-      whatItAsks: "Whether strategic restraint is often safer than broad primacy.",
-      whatItDoesNotAsk: "This is not asking whether states should become isolationist.",
-      terms: [
-        { term: "grand strategy", definition: "A state's broad long-term approach to security, commitments, and power." },
-      ],
-    },
-  },
-  {
-    id: "rs3",
-    kind: "likert",
-    dimension: "restraint",
-    reverse: true,
-    prompt: "When an opportunity for lasting superiority appears, a major power should usually take it.",
-    clarification: {
-      whatItAsks: "Whether durable strategic advantage should normally be seized when available.",
-      whatItDoesNotAsk: "This is not asking about short-term tactical gains or one-off battlefield decisions.",
-    },
-  },
-
-  // ── Order vs justice ──────────────────────────────────────────────────────
-  {
-    id: "oj1",
-    kind: "likert",
-    dimension: "orderJustice",
-    prompt: "International order is usually worth protecting even when it leaves serious injustices unresolved.",
-    clarification: {
-      whatItAsks: "Whether stability and order should usually take priority when they conflict with broader moral goals.",
-      whatItDoesNotAsk: "This is not saying injustice is unimportant.",
+      whatItAsks:
+        "Whether a safer grand strategy usually comes from limiting commitments rather than exploiting every opportunity.",
+      whatItDoesNotAsk:
+        "This is not asking whether states should withdraw from the world.",
     },
   },
   {
     id: "oj2",
     kind: "likert",
     dimension: "orderJustice",
-    prompt: "There should be a strong presumption against intervening in another state's domestic affairs.",
+    reverse: true,
+    prompt:
+      "When atrocities are severe enough, sovereignty should sometimes give way to outside action.",
     clarification: {
-      whatItAsks: "Whether non-intervention should be the default rule.",
-      whatItDoesNotAsk: "This is not asking whether intervention is never justified.",
+      whatItAsks:
+        "Whether extreme moral emergencies can justify overriding non-intervention.",
+      whatItDoesNotAsk:
+        "This is not a blanket endorsement of regime change or constant intervention.",
     },
   },
   {
-    id: "oj3",
+    id: "tradeoff_interdependence",
+    kind: "tradeoff",
+    prompt:
+      "When economic interdependence becomes dangerous, what is usually the deeper problem?",
+    helpText:
+      "This asks what drives the vulnerability most fundamentally, not which policy tool you like most.",
+    options: [
+      {
+        id: "rivalry",
+        title: "Rivalry turns ties into leverage",
+        label:
+          "Interdependence becomes dangerous mainly when strategic competition sharpens and states start treating exposure as a security risk.",
+        signals: { securityCompetition: 6.1, politicalEconomy: 4.8, institutions: 3.1 },
+      },
+      {
+        id: "rules",
+        title: "Rules failed to keep up",
+        label:
+          "The danger comes from weak guardrails. Better multilateral rules could preserve openness without so much coercive exposure.",
+        signals: { institutions: 6.2, politicalEconomy: 4.3, restraint: 4.8 },
+      },
+      {
+        id: "domestic",
+        title: "Domestic dependence hardened",
+        label:
+          "The real weakness is political: domestic firms, regions, and interest groups become too embedded to adjust quickly when risk rises.",
+        signals: { domesticFilters: 6.2, politicalEconomy: 5.2, restraint: 4.4 },
+      },
+      {
+        id: "structure",
+        title: "The structure was unequal",
+        label:
+          "The vulnerability is built into who controls credit, production, and chokepoints. Exposure looks mutual until coercion begins.",
+        signals: { politicalEconomy: 6.5, institutions: 2.9, securityCompetition: 4.5 },
+      },
+    ],
+  },
+  {
+    id: "tradeoff_strategy",
+    kind: "tradeoff",
+    prompt: "A rival is gaining ground. Which concern should come first?",
+    options: [
+      {
+        id: "press",
+        title: "Press the opening",
+        label:
+          "If a durable strategic edge is available now, failing to use it will look reckless later.",
+        signals: { restraint: 2.4, securityCompetition: 6.1 },
+      },
+      {
+        id: "limit",
+        title: "Guard against overreach",
+        label:
+          "The first danger is self-inflicted: excessive commitments and escalation can do more damage than a narrower rival gain.",
+        signals: { restraint: 6.2, securityCompetition: 4.1 },
+      },
+      {
+        id: "base",
+        title: "Start with the home front",
+        label:
+          "The real question is whether domestic coalitions, public tolerance, and fiscal capacity can carry the strategy at all.",
+        signals: { domesticFilters: 6.3, restraint: 5.1 },
+      },
+      {
+        id: "industrial",
+        title: "Control the production base",
+        label:
+          "Long-run advantage turns less on tactical posturing than on who controls technology, industry, and supply chains.",
+        signals: { politicalEconomy: 6.1, securityCompetition: 4.9, restraint: 4.4 },
+      },
+    ],
+  },
+  {
+    id: "tradeoff_intervention",
+    kind: "tradeoff",
+    prompt:
+      "A state is committing mass atrocities, but outside action could weaken legal restraints elsewhere. What should govern the decision?",
+    options: [
+      {
+        id: "precedent",
+        title: "Protect the precedent",
+        label:
+          "Without a strong presumption for order and sovereignty, later abuses of intervention will do wider damage than this case can justify.",
+        signals: { orderJustice: 6.3, restraint: 5.2, institutions: 4.8 },
+      },
+      {
+        id: "protection",
+        title: "Protect the victims",
+        label:
+          "When harm crosses an extreme threshold, the moral case should outweigh the normal presumption against intervention.",
+        signals: { orderJustice: 2.4, restraint: 3.3, normsIdentity: 4.7 },
+      },
+      {
+        id: "mandate",
+        title: "Judge the authority",
+        label:
+          "The decisive issue is whether a narrow, legitimate mandate exists. Emergency action is strongest when it is bounded and collectively framed.",
+        signals: { institutions: 6.1, orderJustice: 4.3, restraint: 4.9 },
+      },
+      {
+        id: "consequences",
+        title: "Judge the likely outcome",
+        label:
+          "The first test is whether action will plausibly protect people rather than widen the war or create a larger disaster.",
+        signals: { restraint: 6.1, orderJustice: 4.0, domesticFilters: 4.6 },
+      },
+    ],
+  },
+  {
+    id: "case_semiconductors",
+    kind: "miniCase",
+    prompt:
+      "A rival power is closing the gap in advanced semiconductors while your firms remain deeply tied into its supply chain. What should drive the response?",
+    helpText:
+      "This asks what the response should be built around, not which talking point is easiest to defend publicly.",
+    options: [
+      {
+        id: "edge",
+        title: "Preserve the strategic edge",
+        label:
+          "Restrict broadly now. Closing the capability gap is itself the threat, and trade costs are secondary to preserving advantage.",
+        signals: { securityCompetition: 6.4, restraint: 2.8, institutions: 2.9 },
+      },
+      {
+        id: "dependence",
+        title: "Reduce structural dependence",
+        label:
+          "The deeper contest is over production chokepoints and dependence. Build domestic capacity and unwind one-sided exposure.",
+        signals: { politicalEconomy: 6.4, securityCompetition: 4.8, institutions: 3.3 },
+      },
+      {
+        id: "coalition",
+        title: "Coordinate narrow controls",
+        label:
+          "Limit only the highest-risk technologies and do it with allies. Broad unilateral controls fracture the order you still need.",
+        signals: { institutions: 6.2, restraint: 5.0, securityCompetition: 4.4 },
+      },
+      {
+        id: "framing",
+        title: "Avoid securitizing everything",
+        label:
+          "Treating every technological gap as a security emergency hardens rivalry and narrows room for future cooperation.",
+        signals: { normsIdentity: 5.9, restraint: 5.7, securityCompetition: 3.1 },
+      },
+    ],
+  },
+  {
+    id: "case_protection",
+    kind: "miniCase",
+    prompt:
+      "Mass killing is underway, a UN Security Council veto blocks authorization, and a credible regional body backs limited action. What matters most?",
+    helpText:
+      "Focus on the principle you think should govern the response, not on whether any real-world coalition would execute it well.",
+    options: [
+      {
+        id: "law",
+        title: "Legality first",
+        label:
+          "Action without Security Council authorization weakens the legal framework that protects weaker states in harder cases to come.",
+        signals: { orderJustice: 6.5, institutions: 5.4, restraint: 5.1 },
+      },
+      {
+        id: "moral",
+        title: "Protection first",
+        label:
+          "Extreme human harm can override the normal procedural objection. The scale of the abuse changes the rule of thumb.",
+        signals: { orderJustice: 2.3, restraint: 3.4, normsIdentity: 4.9 },
+      },
+      {
+        id: "bounded",
+        title: "Bounded emergency legitimacy",
+        label:
+          "Regional backing plus a tightly limited mandate can justify emergency action without turning it into a general license.",
+        signals: { institutions: 5.8, orderJustice: 4.3, restraint: 5.0 },
+      },
+      {
+        id: "prudence",
+        title: "Escalation and aftermath",
+        label:
+          "The first question is whether outside action would likely protect civilians rather than widen the war and leave a worse political vacuum.",
+        signals: { restraint: 6.2, orderJustice: 4.1, domesticFilters: 4.8 },
+      },
+    ],
+  },
+]
+
+export const analystQuestions: Question[] = [
+  {
+    id: "an_sc3",
     kind: "likert",
-    dimension: "orderJustice",
-    reverse: true,
-    prompt: "When severe mass atrocities are underway, sovereignty should sometimes give way to outside action.",
+    dimension: "securityCompetition",
+    prompt:
+      "Long periods of major-power peace usually rest on favorable conditions that can change.",
     clarification: {
-      whatItAsks: "Whether extreme moral emergencies can justify overriding non-intervention.",
-      whatItDoesNotAsk: "This is not a blanket endorsement of regime change or constant intervention.",
-      terms: [
-        { term: "sovereignty", definition: "A state's recognized authority over its own territory and internal affairs." },
-      ],
+      whatItAsks:
+        "Whether durable peace is often contingent rather than fully solved.",
+      whatItDoesNotAsk:
+        "This is not denying that diplomacy, trade, or institutions can help preserve peace.",
     },
   },
+  {
+    id: "an_in3",
+    kind: "likert",
+    dimension: "institutions",
+    reverse: true,
+    prompt:
+      "Many international institutions do little more than reflect what powerful states already want.",
+    clarification: {
+      whatItAsks:
+        "Whether institutions have little independent effect beyond the preferences of the strongest actors.",
+      whatItDoesNotAsk:
+        "This is not asking whether powerful states influence institutions at all.",
+    },
+  },
+  {
+    id: "an_pe3",
+    kind: "likert",
+    dimension: "politicalEconomy",
+    reverse: true,
+    prompt:
+      "Most international crises can be understood without looking much at who controls credit, production, or market access.",
+    clarification: {
+      whatItAsks:
+        "Whether deeper patterns of leverage and dependence are usually secondary when crises unfold.",
+      whatItDoesNotAsk:
+        "This is not claiming every crisis is reducible to economics.",
+    },
+  },
+  {
+    id: "an_oj3",
+    kind: "likert",
+    dimension: "orderJustice",
+    prompt:
+      "There should be a strong default rule against intervening in another state's domestic affairs.",
+    clarification: {
+      whatItAsks:
+        "Whether non-intervention should usually be the baseline even in morally difficult cases.",
+      whatItDoesNotAsk:
+        "This is not asking whether intervention is never justified.",
+    },
+  },
+  {
+    id: "an_tradeoff_legitimacy",
+    kind: "tradeoff",
+    prompt:
+      "A technically effective global institution faces a legitimacy crisis among rising powers. What is the deeper problem?",
+    options: [
+      {
+        id: "governance",
+        title: "Its governance is outdated",
+        label:
+          "Voting weights, leadership access, and transparency rules have not adjusted enough to keep the institution credible.",
+        signals: { institutions: 6.2, domesticFilters: 4.6, normsIdentity: 4.4 },
+      },
+      {
+        id: "exclusion",
+        title: "Its social foundations are contested",
+        label:
+          "The institution reflects particular norms and voices that others never fully accepted as neutral or universal.",
+        signals: { normsIdentity: 6.4, institutions: 4.6, domesticFilters: 4.8 },
+      },
+      {
+        id: "power",
+        title: "Power shifted beneath it",
+        label:
+          "States invoke legitimacy language when the institution serves them less well than before. The real story is changing power.",
+        signals: { securityCompetition: 6.0, institutions: 3.0, normsIdentity: 3.1 },
+      },
+      {
+        id: "hierarchy",
+        title: "Its structure was unequal from the start",
+        label:
+          "The institution sits inside a broader hierarchy of finance, production, and agenda-setting that procedural reform alone cannot fix.",
+        signals: { politicalEconomy: 6.3, institutions: 3.1, normsIdentity: 4.7 },
+      },
+    ],
+  },
+  {
+    id: "an_tradeoff_rival",
+    kind: "tradeoff",
+    prompt:
+      "A long-time rival democratizes, joins institutions, and speaks in more cooperative terms. How much should the threat assessment change?",
+    options: [
+      {
+        id: "update",
+        title: "Update it substantially",
+        label:
+          "Changes in regime type, elite discourse, and relationship history provide real evidence about future behavior.",
+        signals: { normsIdentity: 6.2, securityCompetition: 2.9, institutions: 4.7 },
+      },
+      {
+        id: "minimal",
+        title: "Update it only cautiously",
+        label:
+          "Capabilities and structural incentives still do most of the work. Political signals can reverse quickly.",
+        signals: { securityCompetition: 6.3, normsIdentity: 2.8 },
+      },
+      {
+        id: "integration",
+        title: "Watch institutional integration",
+        label:
+          "Membership in shared institutions matters more than declared values because it changes incentives and raises the cost of aggression.",
+        signals: { institutions: 6.1, securityCompetition: 3.6, normsIdentity: 4.5 },
+      },
+      {
+        id: "durability",
+        title: "Watch domestic durability",
+        label:
+          "The critical question is whether the new course is rooted in domestic coalitions strong enough to last beyond one leadership cycle.",
+        signals: { domesticFilters: 6.3, normsIdentity: 4.8, institutions: 4.4 },
+      },
+    ],
+  },
+  {
+    id: "an_case_finance",
+    kind: "miniCase",
+    prompt:
+      "A middle-income country faces collapse after capital flight and creditor pressure for austerity. What is the most persuasive reading?",
+    helpText:
+      "Answer this as an argument about the crisis, not as a guess about what international markets would currently reward.",
+    options: [
+      {
+        id: "credibility",
+        title: "Domestic credibility failure",
+        label:
+          "External pressure exposed internal weakness. Restoring credibility is the first condition for recovery.",
+        signals: { politicalEconomy: 2.9, domesticFilters: 4.8, institutions: 4.3 },
+      },
+      {
+        id: "pragmatic",
+        title: "Mixed crisis, mixed repair",
+        label:
+          "The crisis is both domestic and structural. Use temporary controls and renegotiation, but stay inside the broader system.",
+        signals: { politicalEconomy: 5.1, domesticFilters: 5.2, institutions: 5.1, restraint: 4.8 },
+      },
+      {
+        id: "dependence",
+        title: "Structural dependence exposed",
+        label:
+          "The crisis reflects dependence on external capital and creditor leverage. It will recur unless that structure changes.",
+        signals: { politicalEconomy: 6.5, institutions: 2.8, domesticFilters: 4.8 },
+      },
+      {
+        id: "coalitions",
+        title: "Domestic distributional conflict",
+        label:
+          "The real fight is over who inside the country absorbs the adjustment. Financial pressure matters, but politics decides the path.",
+        signals: { domesticFilters: 6.4, politicalEconomy: 5.2, institutions: 4.3 },
+      },
+    ],
+  },
+  {
+    id: "an_case_burdens",
+    kind: "miniCase",
+    prompt:
+      "A major ally keeps underspending on defense while relying on your guarantees. What is the most persuasive response?",
+    helpText:
+      "Treat this as a question about alliance politics under stress, not about whether you personally like the ally.",
+    options: [
+      {
+        id: "credibility",
+        title: "Free-riding corrodes credibility",
+        label:
+          "Unequal burden undercuts collective defense and eventually weakens deterrence itself.",
+        signals: { securityCompetition: 6.0, restraint: 3.4, institutions: 3.6 },
+      },
+      {
+        id: "capacity",
+        title: "Measure shared capacity, not just shares",
+        label:
+          "The real question is whether the alliance still delivers usable capability and coordination, not whether every member pays the same proportion.",
+        signals: { institutions: 6.1, securityCompetition: 4.1, restraint: 4.8 },
+      },
+      {
+        id: "purpose",
+        title: "The purpose is contested",
+        label:
+          "Burden fights usually reflect a deeper disagreement about what the alliance is for and whose strategy it serves.",
+        signals: { normsIdentity: 5.8, domesticFilters: 5.4, institutions: 4.5 },
+      },
+      {
+        id: "rebalance",
+        title: "The guarantor is overextended",
+        label:
+          "The first correction is to narrow commitments. An alliance that depends on unsustainable guarantees is badly designed.",
+        signals: { restraint: 6.3, securityCompetition: 4.6, institutions: 3.6 },
+      },
+    ],
+  },
 ]
 
-// ── Scenario questions (Phase 3C) ─────────────────────────────────────────────
-// Each option represents a distinct theoretical logic, not a temperature scale.
-// All three options in each scenario should be defensible — none is the "obvious" answer.
-
-export const scenarioQuestions: Record<string, ScenarioQuestion> = {
-  strategicTechnology: {
-    id: "strategicTechnology",
-    kind: "scenario",
-    prompt:
-      "A rival great power is closing the gap in advanced semiconductors. Your firms are intertwined with theirs through global supply chains. What should drive the response?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Closing the capability gap is itself the threat. Restrict exports across key categories now — the cost to trade is secondary to preserving the structural advantage.",
-        weights: { securityCompetition: 0.7, restraint: -0.5, institutions: -0.3 },
-      },
-      {
-        id: "B",
-        label:
-          "The real contest is over who controls production standards and supply-chain dependencies. Invest in domestic capacity and reduce one-sided dependence — broad export controls miss the underlying competitive problem.",
-        weights: { politicalEconomy: 0.7, securityCompetition: 0.2, institutions: -0.1 },
-      },
-      {
-        id: "C",
-        label:
-          "Restrict only genuinely dual-use items through coordinated multilateral agreements. Broad unilateral controls fracture the open economic order that sustains allied cohesion and long-run competitiveness.",
-        weights: { institutions: 0.6, securityCompetition: 0.1, restraint: 0.3 },
-      },
-    ],
-  },
-  allyBurdenSharing: {
-    id: "allyBurdenSharing",
-    kind: "scenario",
-    prompt:
-      "A major ally spends significantly below agreed targets, relying on extended deterrence from your state. How should the alliance respond?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Sustained free-riding undermines collective defense credibility. Unequal burden means unequal leverage — allies that depend on extended deterrence become clients rather than partners.",
-        weights: { securityCompetition: 0.6, restraint: -0.3, institutions: -0.2 },
-      },
-      {
-        id: "B",
-        label:
-          "Allies that invest in shared capabilities are investing in the alliance's collective capacity, not just their own defense. The concern is whether the alliance delivers on shared commitments — not relative contributions within it.",
-        weights: { institutions: 0.6, securityCompetition: -0.2, restraint: 0.2 },
-      },
-      {
-        id: "C",
-        label:
-          "The burden-sharing dispute often masks a deeper disagreement about who defines the alliance's purpose. Demanding higher outlays without addressing that underlying conflict typically fails.",
-        weights: { normsIdentity: 0.5, domesticFilters: 0.3, institutions: 0.1 },
-      },
-    ],
-  },
-  institutionalCapture: {
-    id: "institutionalCapture",
-    kind: "scenario",
-    prompt:
-      "A global institution is technically effective, but one great power heavily shapes its agenda through funding and veto leverage. What should be done?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Reform its governance — voting weights, budget diversification, transparency rules. The capture is correctable, and abandoning the institution trades a fixable flaw for the larger cost of rebuilding cooperation from scratch.",
-        weights: { institutions: 0.8, restraint: 0.2 },
-        followUpId: "sanctionsBody",
-      },
-      {
-        id: "B",
-        label:
-          "Reject its authority on contested issues. A captured institution does not generate legitimate obligations — it launders dominant-power preferences as neutral rules. Working within it confers legitimacy it has not earned.",
-        weights: { institutions: -0.6, securityCompetition: 0.5, restraint: -0.2 },
-      },
-      {
-        id: "C",
-        label:
-          "Build alternative coalitions outside it. The capture reflects deep inequalities that procedural fixes cannot reach. The priority is building weight and voice in alternative forums.",
-        weights: { politicalEconomy: 0.5, institutions: -0.3, securityCompetition: 0.1 },
-      },
-    ],
-  },
-  sanctionsBody: {
-    id: "sanctionsBody",
-    kind: "scenario",
-    prompt:
-      "A sanctions-monitoring body has credible procedures, but the target state regards it as politically motivated. Which is more accurate?",
-    options: [
-      {
-        id: "A",
-        label:
-          "The institution's procedural credibility is what matters. Distrust reflects the target's interest in avoiding scrutiny, not a genuine legitimacy deficit.",
-        weights: { institutions: 0.4, restraint: 0.1 },
-      },
-      {
-        id: "B",
-        label:
-          "Both matter. An institution cannot enforce effectively if the target has no reason to regard it as impartial — procedural credibility and perceived legitimacy are not separable.",
-        weights: { institutions: 0.1, normsIdentity: 0.3 },
-      },
-      {
-        id: "C",
-        label:
-          "The underlying power relationships determine whether monitoring changes behavior. Procedural credibility adds little when the target can absorb the cost of non-compliance.",
-        weights: { institutions: -0.4, securityCompetition: 0.3 },
-      },
-    ],
-  },
-  humanitarianIntervention: {
-    id: "humanitarianIntervention",
-    kind: "scenario",
-    prompt:
-      "Mass killing is underway, but a UN Security Council veto blocks authorization. A credible regional body endorses limited action. What is the right response?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Legality first. Coercive action without Security Council authorization sets a precedent that will be used for far less defensible purposes — the damage to the international legal framework outweighs the case at hand.",
-        weights: { orderJustice: 0.8, restraint: 0.2 },
-      },
-      {
-        id: "B",
-        label:
-          "The moral case overrides the procedural objection. When mass killing is happening, sovereignty cannot be the main constraint. The scale of harm sets the bar — not who sits on the Security Council.",
-        weights: { orderJustice: -0.8, restraint: -0.1 },
-        followUpId: "atrocityThreshold",
-      },
-      {
-        id: "C",
-        label:
-          "Regional endorsement plus a strictly limited mandate provides sufficient legitimacy for emergency action. This is not a general license for regime change — it distinguishes emergency protection from unilateral intervention.",
-        weights: { orderJustice: 0.2, restraint: 0.3, institutions: 0.2 },
-        followUpId: "atrocityThreshold",
-      },
-    ],
-  },
-  atrocityThreshold: {
-    id: "atrocityThreshold",
-    kind: "scenario",
-    prompt: "Which threshold most clearly justifies breaching sovereignty against the will of the target state?",
-    options: [
-      {
-        id: "A",
-        label: "Only genocide or comparably systematic mass killing meets the bar.",
-        weights: { orderJustice: 0.5 },
-      },
-      {
-        id: "B",
-        label: "Large-scale atrocities, even if they fall short of a legal genocide standard.",
-        weights: { orderJustice: 0 },
-      },
-      {
-        id: "C",
-        label: "Serious and sustained repression or recurring war crimes should often be enough.",
-        weights: { orderJustice: -0.5 },
-      },
-    ],
-  },
-  financialCrisis: {
-    id: "financialCrisis",
-    kind: "scenario",
-    prompt:
-      "A middle-income country faces economic collapse after a sudden reversal of capital flows and creditor pressure to adopt austerity. What is the right explanation?",
-    options: [
-      {
-        id: "A",
-        label:
-          "The crisis reflects domestic fiscal problems and weak credibility that external pressure has exposed, not created. Fiscal consolidation restores market access.",
-        weights: { politicalEconomy: -0.6, domesticFilters: 0.2 },
-      },
-      {
-        id: "B",
-        label:
-          "The crisis has both domestic and structural dimensions. Temporary capital controls, selective restructuring, and renegotiated conditionality — not rejection of the international system — is the pragmatic path.",
-        weights: { politicalEconomy: 0.4, domesticFilters: 0.3, institutions: 0.2 },
-        followUpId: "capitalControls",
-      },
-      {
-        id: "C",
-        label:
-          "Capital flight and creditor leverage are features of structural financial vulnerability, not accidents of policy. The crisis will recur unless the state reduces its dependence on external capital and builds regional financing alternatives.",
-        weights: { politicalEconomy: 0.9, institutions: -0.3 },
-        followUpId: "capitalControls",
-      },
-    ],
-  },
-  capitalControls: {
-    id: "capitalControls",
-    kind: "scenario",
-    prompt: "Which policy stance is most defensible in that crisis?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Rapid liberalization and credible fiscal commitment — controls delay adjustment and send the wrong signal to markets.",
-        weights: { politicalEconomy: -0.3, institutions: 0.1 },
-      },
-      {
-        id: "B",
-        label:
-          "Temporary controls, targeted relief, and renegotiation of conditionality terms while remaining within the international financial architecture.",
-        weights: { politicalEconomy: 0.4, domesticFilters: 0.2, restraint: 0.1 },
-      },
-      {
-        id: "C",
-        label:
-          "Long-run restructuring away from dependent financial relationships — temporary controls are the floor, not the ceiling.",
-        weights: { politicalEconomy: 0.7, institutions: -0.2 },
-      },
-    ],
-  },
-  formerRivalTransforms: {
-    id: "formerRivalTransforms",
-    kind: "scenario",
-    prompt:
-      "A long-time rival democratizes, joins multilateral institutions, and shifts its elite discourse toward cooperative norms. How much should the threat assessment change?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Update significantly. Democratic accountability, institutional ties, and a shift in elite thinking change what a state will do. Dismissing this as strategic signaling discards threat-relevant evidence.",
-        weights: { normsIdentity: 0.8, securityCompetition: -0.4 },
-      },
-      {
-        id: "B",
-        label:
-          "Update minimally. Capabilities and structural incentives drive behavior. Regime change and discourse shifts are often tactical rather than durable — the interests that produced rivalry have not been transformed.",
-        weights: { normsIdentity: -0.7, securityCompetition: 0.5 },
-      },
-      {
-        id: "C",
-        label:
-          "Focus on institutional integration more than identity change. Membership in shared institutions raises the cost of aggression and builds domestic constituencies for stable relations — regardless of whether values have genuinely converged.",
-        weights: { institutions: 0.6, normsIdentity: 0.1, securityCompetition: -0.3 },
-      },
-    ],
-  },
-  economicCoercion: {
-    id: "economicCoercion",
-    kind: "scenario",
-    prompt:
-      "A rival state uses trade and investment restrictions as deliberate political pressure. How should you understand and respond?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Economic coercion is power politics and should be met with matching pressure. Leaving leverage unanswered signals vulnerability — the logic of deterrence applies to economic instruments as much as military ones.",
-        weights: { securityCompetition: 0.6, politicalEconomy: 0.2, restraint: -0.3 },
-      },
-      {
-        id: "B",
-        label:
-          "The lever exists because of structural dependence. Ad hoc retaliation does not remove it. The strategic response is long-run: diversify supply chains, build alternative financing, reduce the dependence that makes coercion possible.",
-        weights: { politicalEconomy: 0.8, securityCompetition: 0.1, institutions: -0.1 },
-      },
-      {
-        id: "C",
-        label:
-          "The right response is multilateral dispute mechanisms and binding trade rules. Ad hoc retaliation normalizes economic statecraft as a coercive tool. The goal is binding the coercer into rules — not matching leverage for leverage.",
-        weights: { institutions: 0.7, politicalEconomy: -0.1, restraint: 0.2 },
-      },
-    ],
-  },
-  institutionalLegitimacy: {
-    id: "institutionalLegitimacy",
-    kind: "scenario",
-    prompt:
-      "A major international organization faces a legitimacy crisis, with rising-power members questioning whose norms and interests it represents. What is the right explanation?",
-    options: [
-      {
-        id: "A",
-        label:
-          "The crisis is a governance problem. More inclusive voting weights, broader representation in leadership, and better transparency procedures can restore confidence. The institution's track record is the asset worth protecting.",
-        weights: { institutions: 0.7, normsIdentity: 0.1, domesticFilters: 0.2 },
-      },
-      {
-        id: "B",
-        label:
-          "The crisis reflects whose knowledge, norms, and interests the institution was built to serve. Procedural fixes rarely address that deeper exclusion. Legitimacy requires addressing whose voices were excluded when the institution was built.",
-        weights: { normsIdentity: 0.8, institutions: 0.1, domesticFilters: 0.2 },
-      },
-      {
-        id: "C",
-        label:
-          "States invoke legitimacy when existing institutions no longer serve their interests as well as before. The 'crisis' tracks the underlying power shift — not a principled deficit. Treating legitimacy arguments as neutral diagnoses misreads the political incentives.",
-        weights: { securityCompetition: 0.5, institutions: -0.3, normsIdentity: -0.2 },
-      },
-    ],
-  },
+export function getFoundationQuestions(mode: QuizMode): Question[] {
+  return mode === "analyst"
+    ? [...standardQuestions, ...analystQuestions]
+    : standardQuestions
 }
 
-// Tie-breaker selection clusters used by scoring.ts selectTieBreakerIds.
-// Each cluster maps a close family-score pair to the scenario IDs that best
-// discriminate between those two traditions.
-export type TieBreakerCluster = {
-  pair: [string, string]
-  scenarioIds: string[]
-}
-
-export const tieBreakerClusters: TieBreakerCluster[] = [
-  { pair: ["realist", "institutionalist"], scenarioIds: ["strategicTechnology", "institutionalCapture"] },
-  { pair: ["institutionalist", "constructivist"], scenarioIds: ["institutionalLegitimacy", "formerRivalTransforms"] },
-  { pair: ["realist", "criticalPoliticalEconomy"], scenarioIds: ["financialCrisis", "economicCoercion"] },
-  { pair: ["constructivist", "criticalPoliticalEconomy"], scenarioIds: ["economicCoercion", "institutionalLegitimacy"] },
-  { pair: ["institutionalist", "criticalPoliticalEconomy"], scenarioIds: ["financialCrisis", "allyBurdenSharing"] },
-]
-
-export const FALLBACK_SCENARIO_IDS = [
-  "strategicTechnology",
-  "humanitarianIntervention",
-  "formerRivalTransforms",
-]
+export const questionCountsByMode = {
+  standard: standardQuestions.length,
+  analyst: standardQuestions.length + analystQuestions.length,
+} as const
 
 export const likertScale = [1, 2, 3, 4, 5, 6, 7] as const

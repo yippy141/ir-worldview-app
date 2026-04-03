@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function ReviewPage() {
   return (
-    <div className="container">
+    <div className="wide-container">
       <ReviewScreen />
     </div>
   )

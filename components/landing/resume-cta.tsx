@@ -2,42 +2,62 @@
 
 import { useSyncExternalStore } from "react"
 import Link from "next/link"
-import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
-import { Answers } from "@/lib/types"
+import {
+  QUIZ_STORAGE_KEY,
+  QUIZ_SESSION_EVENT,
+  countAnsweredQuestions,
+  notifyQuizSessionUpdated,
+  parseQuizSession,
+} from "@/lib/quiz-session"
 
-type DraftState = { hasDraft: boolean; draftCount: number }
+type DraftState = {
+  hasDraft: boolean
+  draftCount: number
+  modeLabel?: string
+}
 
 const NO_DRAFT: DraftState = { hasDraft: false, draftCount: 0 }
 
-let _cached: DraftState = NO_DRAFT
+let cached: DraftState = NO_DRAFT
+const listeners = new Set<() => void>()
 
 function readFromStorage(): DraftState {
-  const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
-  if (!raw) return NO_DRAFT
-  try {
-    const parsed = JSON.parse(raw) as Answers
-    const count = Object.keys(parsed).length
-    if (count > 0) return { hasDraft: true, draftCount: count }
-  } catch {
-    // Corrupt data — ignore.
+  const session = parseQuizSession(window.localStorage.getItem(QUIZ_STORAGE_KEY))
+  if (!session || !session.activeMode) return NO_DRAFT
+
+  const draftCount = countAnsweredQuestions(session)
+  if (draftCount === 0) return NO_DRAFT
+
+  return {
+    hasDraft: true,
+    draftCount,
+    modeLabel: session.activeMode === "standard" ? "Standard" : "Analyst",
   }
-  return NO_DRAFT
 }
 
-const _listeners = new Set<() => void>()
-
-function subscribe(cb: () => void) {
-  _listeners.add(cb)
-  return () => _listeners.delete(cb)
+function subscribe(callback: () => void) {
+  listeners.add(callback)
+  window.addEventListener("storage", callback)
+  window.addEventListener(QUIZ_SESSION_EVENT, callback)
+  return () => {
+    listeners.delete(callback)
+    window.removeEventListener("storage", callback)
+    window.removeEventListener(QUIZ_SESSION_EVENT, callback)
+  }
 }
 
 function getSnapshot(): DraftState {
   const next = readFromStorage()
-  if (next.hasDraft === _cached.hasDraft && next.draftCount === _cached.draftCount) {
-    return _cached
+  if (
+    next.hasDraft === cached.hasDraft &&
+    next.draftCount === cached.draftCount &&
+    next.modeLabel === cached.modeLabel
+  ) {
+    return cached
   }
-  _cached = next
-  return _cached
+
+  cached = next
+  return cached
 }
 
 function getServerSnapshot(): DraftState {
@@ -45,7 +65,7 @@ function getServerSnapshot(): DraftState {
 }
 
 export function QuizMenuCard() {
-  const { hasDraft, draftCount } = useSyncExternalStore(
+  const { hasDraft, draftCount, modeLabel } = useSyncExternalStore(
     subscribe,
     getSnapshot,
     getServerSnapshot,
@@ -53,15 +73,15 @@ export function QuizMenuCard() {
 
   function clearDraft() {
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-    _listeners.forEach((cb) => cb())
+    notifyQuizSessionUpdated()
   }
 
   if (!hasDraft) {
     return (
       <Link href="/quiz" className="menu-card">
-        <p className="menu-card-title">Take the quiz</p>
+        <p className="menu-card-title">Take the foundation</p>
         <p className="menu-card-desc">
-          Map your instincts across seven dimensions drawn from IR theory. Takes 10–15 minutes.
+          Choose Standard or Analyst mode and map your instincts across seven IR dimensions.
         </p>
       </Link>
     )
@@ -69,14 +89,14 @@ export function QuizMenuCard() {
 
   return (
     <Link href="/quiz" className="menu-card">
-      <p className="menu-card-title">Resume quiz</p>
+      <p className="menu-card-title">Resume foundation</p>
       <p className="menu-card-desc">
-        {draftCount} {draftCount === 1 ? "question" : "questions"} answered.{" "}
+        {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered.{" "}
         <button
           type="button"
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
+          onClick={(event) => {
+            event.preventDefault()
+            event.stopPropagation()
             clearDraft()
           }}
           style={{

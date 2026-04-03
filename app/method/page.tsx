@@ -3,42 +3,42 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Methods — IR Worldview Inventory",
   description:
-    "How the IR Worldview Inventory works: foundation profile, tradition shorthand, style outputs, case layer, and limitations.",
+    "How the IR Worldview Inventory works: foundation profile, tradition shorthand, style outputs, modules, and limitations.",
 }
 
 const dimensions = [
   {
-    label: "Security competition",
+    label: "Security rivalry",
     description:
       "How much weight do you give to rivalry, uncertainty about intentions, and positional competition among major powers? High scores lean toward the view that security competition is a durable constraint. Low scores suggest skepticism that rivalry is the main organizing logic.",
   },
   {
-    label: "Institutional efficacy",
+    label: "Institutions and rules",
     description:
       "Do you think rules, monitoring, and repeated interaction can make cooperation more durable even without a world government? High scores lean institutionalist. Low scores suggest you see institutions mostly as mirrors of power.",
   },
   {
-    label: "Domestic and transnational filters",
+    label: "Domestic politics",
     description:
       "How much do coalitions, regime type, bureaucratic capacity, and transnational actors shape foreign policy relative to external pressure? This dimension captures whether you think states facing similar environments can still behave differently for domestic reasons.",
   },
   {
-    label: "Norms and identity",
+    label: "Identity and legitimacy",
     description:
       "Do legitimacy, recognition, and social meaning help shape interests and threats, or are they mostly rhetorical cover for material interests? High scores lean constructivist. Low scores suggest skepticism that norms have much independent force.",
   },
   {
-    label: "Political-economy salience",
+    label: "Markets and dependence",
     description:
       "How central are production, finance, trade dependence, sanctions, and leverage to your explanation of world politics? High scores mean you keep political economy firmly in view. They do not, by themselves, make you a critical political economist.",
   },
   {
-    label: "Restraint vs. maximization",
+    label: "Restraint and advantage",
     description:
       "When a major power has room to press for advantage, is the safer instinct to hold back or to exploit the opening? This is a strategic style dimension, not a standalone worldview family.",
   },
   {
-    label: "Order vs. justice",
+    label: "Order and justice",
     description:
       "When sovereignty and wider moral obligations clash, which usually carries more weight in your judgment? This is a normative style dimension, not a claim about who is more moral.",
   },
@@ -58,8 +58,8 @@ const resultLayers = [
     body: "The result also reports a strategic style and a normative style. These modifiers sit alongside the profile. They are not separate worldview families.",
   },
   {
-    heading: "4. Case layer",
-    body: "Applied case prompts belong to a separate layer. They test which arguments you find most convincing in concrete situations. They can diverge from the foundation profile without invalidating it.",
+    heading: "4. Flagship modules",
+    body: "Security and Technology modules sit on top of the foundation. They show how your instincts travel in a specific issue domain, but they do not replace the foundation result.",
   },
 ]
 
@@ -77,8 +77,8 @@ const limitations = [
     body: "This version distinguishes broad political-economy salience from a stronger critical or systemic commitment. Thinking economics matters does not automatically make someone a Critical Political Economy result.",
   },
   {
-    heading: "The case layer is separate",
-    body: "Case prompts are meant to surface applied instinct, not to masquerade as extra scientific precision. In the current shared-result flow, case-level readouts are kept separate from the foundation result.",
+    heading: "Modules are separate",
+    body: "The flagship modules are meant to surface domain-specific instinct, not to masquerade as extra scientific precision. Their readouts are kept separate from the foundation result.",
   },
   {
     heading: "Scores are relative, not absolute",
@@ -202,22 +202,22 @@ export default function MethodPage() {
       </section>
 
       <section className="panel stack-md">
-        <h2>Why the case layer is separate</h2>
+        <h2>Why the module layer is separate</h2>
         <p style={{ lineHeight: "1.7" }}>
-          Broad priors and applied instincts are related, but they are not the same thing. Someone
-          can hold a generally institutionalist profile and still lean toward deterrence-heavy
-          arguments in a security case. Someone else can read world politics through power and
-          rivalry in the abstract but still resist escalation in concrete cases.
+          Broad priors and domain-specific instincts are related, but they are not the same thing.
+          Someone can hold a generally institutionalist foundation profile and still lean toward
+          deterrence-heavy arguments in a security module. Someone else can read world politics
+          through power and rivalry in the abstract but still resist escalation in a concrete case.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          That is why the inventory keeps the foundation result separate from the case layer. Case
-          prompts are there to show how a profile travels into live arguments, not to smuggle extra
-          points back into the core classification.
+          That is why the inventory keeps the foundation result separate from the flagship modules.
+          The modules are there to show how a profile travels into live arguments, not to smuggle
+          extra points back into the core classification.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           In the current shared-result flow, the foundation profile, closest traditions, and style
-          outputs are what travel with the link. Case-level interpretation is treated as a separate
-          applied readout.
+          outputs are what travel with the main result link. Module interpretation is treated as a
+          separate applied readout.
         </p>
       </section>
 
@@ -236,8 +236,9 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>How scoring works</h2>
         <p style={{ lineHeight: "1.7" }}>
-          Scoring begins with the foundation questions. Each item maps to one dimension, and the
-          answers are averaged into a seven-dimension profile on a 1 to 7 scale.
+          Scoring begins with the foundation questions. Some items are plain-language agreement
+          prompts, while others are tradeoffs or mini-cases. Together they map onto the same seven
+          dimensions and are averaged into a seven-dimension profile on a 1 to 7 scale.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           The model then compares that profile with four stylized tradition profiles: realism,
@@ -327,11 +328,19 @@ export default function MethodPage() {
         <h2>Version history</h2>
         <div className="stack-md">
           <div className="stack-xs">
+            <p style={{ fontWeight: 600 }}>v0.4 — April 2026</p>
+            <p className="muted" style={{ lineHeight: "1.65" }}>
+              Minimal stable Phase 5M pass. Added Standard and Analyst foundation modes, mixed
+              question types, cleaner plain-language stems, and two flagship modules for Security
+              and Technology.
+            </p>
+          </div>
+          <div className="stack-xs">
             <p style={{ fontWeight: 600 }}>v0.3 — April 2026</p>
             <p className="muted" style={{ lineHeight: "1.65" }}>
               Phase 4R pass 2. Results are now framed profile-first and tradition-second. Methods
               copy now describes the tool as a structured thought exercise, clarifies that mixed
-              outputs are meaningful, and keeps the case layer separate from the foundation result.
+              outputs are meaningful, and keeps the applied layer separate from the foundation result.
             </p>
           </div>
           <div className="stack-xs">

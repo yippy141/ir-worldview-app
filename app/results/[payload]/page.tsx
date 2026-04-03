@@ -31,6 +31,7 @@ import { familySlug, familyTraditionClass } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { scoreFamilies } from "@/lib/scoring"
+import { modules } from "@/lib/modules/framework"
 import type { DimensionKey, FamilyKey } from "@/lib/types"
 import type { Metadata } from "next"
 
@@ -64,7 +65,7 @@ const STRATEGY_STYLE_NOTES = {
   Restrainer:
     "You lean toward limiting commitments and avoiding overextension rather than pressing every available advantage.",
   Hedger:
-    "You leave real room for both competition and restraint. The strategic answer depends on the case, not a fixed rule.",
+    "You keep both competition and restraint live. The strategic answer depends on the case, not a fixed rule.",
   Maximizer:
     "You are comparatively more willing to press for durable advantage when the strategic opening looks real.",
 } as const
@@ -158,10 +159,10 @@ export default async function ResultPage(
               <span className={`tradition-chip ${neighborTraditionClass}`}>{neighborLabel}</span>
             )}
           </div>
-          <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "580px", marginBottom: "10px" }}>
+          <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", marginBottom: "10px" }}>
             {summary}
           </p>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "580px" }}>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "720px" }}>
             {closestTraditions.note}
           </p>
           <p style={{
@@ -174,8 +175,8 @@ export default async function ResultPage(
             lineHeight: "1.5",
           }}>
             Structured thought exercise, not a scientific diagnostic. Shared links preserve the
-            foundation profile and style outputs; any case-based readout belongs to a separate
-            scenario-lab layer.
+            foundation profile and style outputs; any module readout belongs to a separate,
+            issue-specific layer.
           </p>
         </div>
 
@@ -337,16 +338,42 @@ export default async function ResultPage(
           </p>
         </div>
 
-        {/* ── 5. Scenario lab note ── */}
+        {/* ── 5. Module bridge ── */}
         <div className="result-section stack-md">
-          <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>Scenario lab stays separate</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              The foundation profile above is the main result. A case-based lab is meant to test
-              how that profile travels to concrete issues. It can diverge without canceling the
-              foundation pattern, and this shared page does not fold case-level readouts back into
-              the core classification.
+          <div className="stack-xs">
+            <h2>Take a flagship module</h2>
+            <p className="muted" style={{ fontSize: "0.875rem" }}>
+              The foundation result is the base layer. The modules below stay separate and show how
+              your instincts travel in one issue domain.
             </p>
+          </div>
+          <div className="module-card-grid">
+            {modules.map((moduleDefinition) => (
+              <Link
+                key={moduleDefinition.slug}
+                href={`/modules/${moduleDefinition.slug}?foundation=${encodeURIComponent(payload)}`}
+                className="explore-card"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <p className="eyebrow" style={{ marginBottom: "10px" }}>Flagship module</p>
+                <p
+                  style={{
+                    fontFamily: "Georgia, serif",
+                    fontWeight: 700,
+                    fontSize: "1.05rem",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {moduleDefinition.title}
+                </p>
+                <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.88rem" }}>
+                  {moduleDefinition.description}
+                </p>
+                <p style={{ marginTop: "12px", fontSize: "0.82rem", color: "var(--accent-light)", fontWeight: 600 }}>
+                  Standard: {moduleDefinition.timeEstimate.standard} · Analyst: {moduleDefinition.timeEstimate.analyst}
+                </p>
+              </Link>
+            ))}
           </div>
         </div>
 
@@ -402,7 +429,8 @@ export default async function ResultPage(
             <h2>How this profile may travel across issues</h2>
             <p className="muted" style={{ fontSize: "0.85rem" }}>
               Illustrative issue readings generated from your foundation profile and style
-              modifiers. Not a scenario-lab readout and not derived directly from raw answer text.
+              modifiers. These are bridges from the foundation, not substitutes for a dedicated
+              module readout.
             </p>
           </div>
           <div className="result-prose">

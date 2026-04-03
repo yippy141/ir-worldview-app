@@ -132,7 +132,7 @@ const ISSUE_BLOCKS: IssueBlock[] = [
     clauses: {
       restrainer: {
         realist:
-          " Your restraint score suggests you also see overextension as a real risk — that pressing advantages invites counterbalancing.",
+          " Your restraint score suggests you also see overextension as a serious risk: pressing advantages can invite counterbalancing.",
         institutionalist:
           " Your restraint score reinforces skepticism about forward commitments that create entrapment.",
       },

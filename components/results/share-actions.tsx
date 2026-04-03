@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
+import { QUIZ_STORAGE_KEY, notifyQuizSessionUpdated } from "@/lib/quiz-session"
 
 type Props = {
   payload: string
@@ -54,6 +54,7 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
 
   function handleRetake() {
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+    notifyQuizSessionUpdated()
     router.push("/quiz")
   }
 

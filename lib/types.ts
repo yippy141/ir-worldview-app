@@ -7,7 +7,10 @@ export type DimensionKey =
   | "restraint"
   | "orderJustice"
 
-export type QuestionKind = "likert" | "scenario"
+export type QuizMode = "standard" | "analyst"
+export type FamiliarityLevel = "new" | "some" | "very"
+
+export type QuestionKind = "likert" | "tradeoff" | "miniCase"
 
 export type Clarification = {
   title?: string
@@ -26,24 +29,36 @@ export type LikertQuestion = {
   clarification?: Clarification
 }
 
-export type ScenarioOption = {
-  id: "A" | "B" | "C"
+export type ChoiceOption = {
+  id: string
+  title: string
   label: string
-  weights: Partial<Record<DimensionKey, number>>
-  followUpId?: string
+  signals: Partial<Record<DimensionKey, number>>
 }
 
-export type ScenarioQuestion = {
+export type ChoiceQuestion = {
   id: string
-  kind: "scenario"
+  kind: "tradeoff" | "miniCase"
   prompt: string
   helpText?: string
-  options: ScenarioOption[]
+  clarification?: Clarification
+  options: ChoiceOption[]
 }
 
-export type Question = LikertQuestion | ScenarioQuestion
+export type Question = LikertQuestion | ChoiceQuestion
 
-export type Answers = Record<string, number | "A" | "B" | "C">
+export type AnswerValue = number | string
+export type Answers = Record<string, AnswerValue>
+
+export type QuizSession = {
+  v: 3
+  familiarity?: FamiliarityLevel
+  requestedDepth?: QuizMode
+  recommendedMode?: QuizMode
+  activeMode?: QuizMode
+  contextAssist: boolean
+  answers: Answers
+}
 
 export type DimensionScores = Record<DimensionKey, number>
 

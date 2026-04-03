@@ -92,7 +92,7 @@ export function buildSummary(familyKey: FamilyKey, dimensionScores: DimensionSco
   const top2 = getTopExplanatoryDimensions(dimensionScores, 2)
   const dim0 = dimensionLabels[top2[0]].toLowerCase()
   const dim1 = dimensionLabels[top2[1]].toLowerCase()
-  return `The strongest signals in your foundation profile are ${dim0} and ${dim1}. In this model, ${familyLabel(familyKey)} is the closest tradition-level shorthand for that pattern. Read the label as an interpretation of the profile, not a permanent box.`
+  return `The strongest signals in your foundation profile are ${dim0} and ${dim1}. ${familyLabel(familyKey)} is the closest tradition-level shorthand for that pattern. Read the label as an interpretation of the profile, not a permanent box.`
 }
 
 // ── Closest traditions ────────────────────────────────────────────────────────
@@ -183,7 +183,7 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
           key: "political-economy-salience",
           label: "Political-economy salience",
           description:
-            "Trade, finance, sanctions, and dependence are part of how you explain outcomes. In this model, that is a cross-cutting lens, not automatically a Critical Political Economy identity.",
+            "Trade, finance, sanctions, and dependence are part of how you explain outcomes. That is a cross-cutting lens, not automatically a Critical Political Economy identity.",
         },
       })
     }
@@ -196,7 +196,7 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
         key: "domestic-politics",
         label: "Domestic-politics sensitivity",
         description:
-          "You give real weight to coalitions, regime type, and bureaucratic capacity when explaining why states facing similar pressures still behave differently.",
+          "You emphasize coalitions, regime type, and bureaucratic capacity when explaining why states facing similar pressures still behave differently.",
       },
     })
   }
@@ -287,7 +287,7 @@ const dimensionDriverDescriptions: Record<DimensionKey, (score: number) => strin
       ? "You treat uncertainty about rivals' intentions as a structural feature of international politics, not a problem reassurance can solve."
       : s <= 3
         ? "You are not persuaded that security competition is the central organizing logic of world politics."
-        : "You see interstate rivalry as real but not as the only lens worth applying to most situations.",
+        : "You see interstate rivalry as one important lens, but not the only one worth applying to most situations.",
   institutions: (s) =>
     s >= 5
       ? "You think well-designed institutions can shift incentives and make cooperation more durable, regardless of which power is currently strongest."
@@ -296,7 +296,7 @@ const dimensionDriverDescriptions: Record<DimensionKey, (score: number) => strin
         : "You think institutions can matter, but mostly when they are credible and not obviously controlled by the powerful.",
   domesticFilters: (s) =>
     s >= 5
-      ? "You place real weight on how regime type, coalitions, and bureaucratic capacity shape what states actually do in foreign policy."
+      ? "You emphasize how regime type, coalitions, and bureaucratic capacity shape what states actually do in foreign policy."
       : s <= 3
         ? "You think external constraints explain most foreign policy; domestic politics adds noise, not signal."
         : "You give domestic factors a meaningful role, especially when they clearly override structural pressures.",
@@ -361,7 +361,7 @@ export const dimensionOneLiners: Record<DimensionKey, (score: number) => string>
         : "You think institutions can matter, but only when credible and not obviously captured.",
   domesticFilters: (s) =>
     s >= 5
-      ? "You give real weight to how regime type, coalitions, and bureaucratic capacity shape foreign policy."
+      ? "You emphasize how regime type, coalitions, and bureaucratic capacity shape foreign policy."
       : s <= 3
         ? "You think external constraints explain most foreign policy; domestic politics adds noise."
         : "You give domestic factors some role, especially when they clearly override structural pressures.",
@@ -428,7 +428,7 @@ export const tensionRules: TensionRule[] = [
   {
     key: "domestic-realist",
     condition: (d) => d.domesticFilters >= 5 && d.securityCompetition >= 5,
-    text: "You give real weight to domestic politics while treating security competition as a persistent constraint. When they conflict, which factor dominates depends on the issue. That is realistic, but it also means your framework is harder to apply predictively across cases.",
+    text: "You emphasize domestic politics while also treating security competition as a persistent constraint. When they conflict, which factor dominates depends on the issue. That is realistic, but it also makes your framework harder to apply predictively across cases.",
   },
 ]
 
@@ -832,7 +832,7 @@ const separationPhrases: Partial<
         : `Your relatively low security competition score (${s.toFixed(1)}) anchors the separation from realism. The realist runner-up reflects some structural pessimism, but your primary classification reflects more optimism about institutional management.`,
     constructivist: (s) =>
       s >= 4
-        ? `A normsIdentity score of ${s.toFixed(1)} shows you give real weight to legitimacy and identity — bridging institutionalism and constructivism. The difference is causal: you emphasize rules and monitoring more than identity per se.`
+        ? `A normsIdentity score of ${s.toFixed(1)} shows that legitimacy and identity remain important in your profile, bridging institutionalism and constructivism. The difference is causal: you emphasize rules and monitoring more than identity per se.`
         : `Your modest normsIdentity score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on rules and incentive structures; the constructivist move to identity as a primary cause is a step further than your profile takes.`,
     criticalPoliticalEconomy: (s) =>
       s >= 4
