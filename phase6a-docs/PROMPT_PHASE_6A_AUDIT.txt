@@ -1,0 +1,32 @@
+You are auditing Phase 6A.
+
+Read PHASE_6A_SPEC.md first and follow it closely.
+
+This is an audit only.
+Do not edit code.
+Do not modify files.
+
+Your job:
+1. inspect the current branch / repo structure
+2. identify the minimum viable implementation path for Phase 6A
+3. identify the most likely risks or hidden dependencies
+4. identify what should be deferred even if it appears in product discussion
+
+Required output:
+- file-by-file plan
+- implementation order
+- likely data-flow changes
+- how to implement an integrated profile without overbuilding
+- where naming is currently drifting
+- how to preserve the current 5M.1 state before edits
+- biggest QA risks
+
+Important constraints:
+- no backend accounts or auth
+- no database
+- no nationality-adjusted scoring
+- no new modules
+- no fake master score
+- no full ranking system
+
+Stop after the audit memo.

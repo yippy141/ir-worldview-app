@@ -58,8 +58,8 @@ const resultLayers = [
     body: "The result also reports a strategic style and a normative style. These modifiers sit alongside the profile. They are not separate worldview families.",
   },
   {
-    heading: "4. Flagship modules",
-    body: "Security and Technology modules sit on top of the foundation. They show how your instincts travel in a specific issue domain, but they do not replace the foundation result.",
+    heading: "4. Focus-area modules",
+    body: "Security and Technology modules sit on top of the Foundation. They show how your instincts travel in a specific issue domain, but they do not replace the baseline result.",
   },
 ]
 
@@ -78,7 +78,7 @@ const limitations = [
   },
   {
     heading: "Modules are separate",
-    body: "The flagship modules are meant to surface domain-specific instinct, not to masquerade as extra scientific precision. Their readouts are kept separate from the foundation result.",
+    body: "The focus-area modules are meant to surface domain-specific instinct, not to masquerade as extra scientific precision. Their readouts are kept separate from the Foundation result.",
   },
   {
     heading: "Scores are relative, not absolute",
@@ -210,15 +210,23 @@ export default function MethodPage() {
           through power and rivalry in the abstract but still resist escalation in a concrete case.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          That is why the inventory keeps the foundation result separate from the flagship modules.
-          The modules are there to show how a profile travels into live arguments, not to smuggle
-          extra points back into the core classification.
+          That is why the inventory keeps the Foundation result separate from the focus-area
+          modules. The modules are there to show how a profile travels into live arguments, not to
+          smuggle extra points back into the core classification.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           In the current shared-result flow, the foundation profile, closest traditions, and style
           outputs are what travel with the main result link. Module interpretation is treated as a
           separate applied readout.
         </p>
+        <div className="panel-flush stack-xs">
+          <p style={{ fontWeight: 600 }}>Why these issue areas</p>
+          <p className="muted" style={{ lineHeight: "1.65" }}>
+            The focus-area structure is loosely inspired by how international affairs programs,
+            including the SAIS MAIR curriculum, often group issue areas. This prototype is
+            independent and does not imply affiliation or endorsement.
+          </p>
+        </div>
       </section>
 
       <section className="panel stack-md">
@@ -330,9 +338,9 @@ export default function MethodPage() {
           <div className="stack-xs">
             <p style={{ fontWeight: 600 }}>v0.4 — April 2026</p>
             <p className="muted" style={{ lineHeight: "1.65" }}>
-              Minimal stable Phase 5M pass. Added Standard and Analyst foundation modes, mixed
-              question types, cleaner plain-language stems, and two flagship modules for Security
-              and Technology.
+              Minimal stable Phase 5M pass. Added Standard and Deep-dive Foundation modes, mixed
+              question types, cleaner plain-language stems, and two focus-area modules for
+              Security and Technology.
             </p>
           </div>
           <div className="stack-xs">

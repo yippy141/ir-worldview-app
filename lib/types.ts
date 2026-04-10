@@ -11,6 +11,7 @@ export type QuizMode = "standard" | "analyst"
 export type FamiliarityLevel = "new" | "some" | "very"
 
 export type QuestionKind = "likert" | "tradeoff" | "miniCase"
+export type ChoiceCardType = "explanation" | "decision" | "both"
 
 export type Clarification = {
   title?: string
@@ -41,17 +42,24 @@ export type ChoiceQuestion = {
   kind: "tradeoff" | "miniCase"
   prompt: string
   helpText?: string
+  cardType: ChoiceCardType
+  allowSecondChoiceInAnalyst?: boolean
   clarification?: Clarification
   options: ChoiceOption[]
 }
 
 export type Question = LikertQuestion | ChoiceQuestion
 
-export type AnswerValue = number | string
+export type RankedChoiceAnswer = {
+  primary: string
+  secondary?: string
+}
+
+export type AnswerValue = number | string | RankedChoiceAnswer
 export type Answers = Record<string, AnswerValue>
 
 export type QuizSession = {
-  v: 3
+  v: 4
   familiarity?: FamiliarityLevel
   requestedDepth?: QuizMode
   recommendedMode?: QuizMode

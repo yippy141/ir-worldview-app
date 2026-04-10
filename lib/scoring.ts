@@ -1,6 +1,7 @@
 import { dimensionLabels, getFoundationQuestions } from "@/lib/quiz-schema"
 import type {
   Answers,
+  AnswerValue,
   ChoiceQuestion,
   DimensionKey,
   DimensionScores,
@@ -11,9 +12,11 @@ import type {
   QuizResult,
   StrategyModifier,
   NormativeModifier,
+  RankedChoiceAnswer,
 } from "@/lib/types"
 
 const DIMENSIONS = Object.keys(dimensionLabels) as DimensionKey[]
+const SECOND_CHOICE_WEIGHT = 0.45
 
 export const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
   realist: {
@@ -93,39 +96,79 @@ function collectChoiceSignals(question: ChoiceQuestion, answer: string) {
     .map(([dimension, value]) => ({ dimension, value }))
 }
 
-function collectQuestionSignals(question: Question, answer: Answers[string]) {
+function collectQuestionSignals(
+  question: Question,
+  answer: AnswerValue | undefined,
+  mode: QuizMode,
+) {
   if (question.kind === "likert") {
     return typeof answer === "number" ? [collectLikertSignal(question, answer)] : []
   }
 
-  return typeof answer === "string" ? collectChoiceSignals(question, answer) : []
+  if (typeof answer === "string") {
+    return collectChoiceSignals(question, answer).map((signal) => ({ ...signal, weight: 1 }))
+  }
+
+  if (!isRankedChoiceAnswer(answer)) {
+    return []
+  }
+
+  const signals = collectChoiceSignals(question, answer.primary).map((signal) => ({
+    ...signal,
+    weight: 1,
+  }))
+
+  if (
+    mode === "analyst" &&
+    question.allowSecondChoiceInAnalyst &&
+    answer.secondary &&
+    answer.secondary !== answer.primary
+  ) {
+    signals.push(
+      ...collectChoiceSignals(question, answer.secondary).map((signal) => ({
+        ...signal,
+        weight: SECOND_CHOICE_WEIGHT,
+      })),
+    )
+  }
+
+  return signals
 }
 
 export function computeCoreDimensionScores(
   answers: Answers,
   mode: QuizMode = "standard",
 ): DimensionScores {
-  const buckets: Record<DimensionKey, number[]> = {
-    securityCompetition: [],
-    institutions: [],
-    domesticFilters: [],
-    normsIdentity: [],
-    politicalEconomy: [],
-    restraint: [],
-    orderJustice: [],
+  const sums: Record<DimensionKey, number> = {
+    securityCompetition: 0,
+    institutions: 0,
+    domesticFilters: 0,
+    normsIdentity: 0,
+    politicalEconomy: 0,
+    restraint: 0,
+    orderJustice: 0,
+  }
+  const weights: Record<DimensionKey, number> = {
+    securityCompetition: 0,
+    institutions: 0,
+    domesticFilters: 0,
+    normsIdentity: 0,
+    politicalEconomy: 0,
+    restraint: 0,
+    orderJustice: 0,
   }
 
   for (const question of getFoundationQuestions(mode)) {
-    for (const signal of collectQuestionSignals(question, answers[question.id])) {
-      buckets[signal.dimension].push(signal.value)
+    for (const signal of collectQuestionSignals(question, answers[question.id], mode)) {
+      sums[signal.dimension] += signal.value * signal.weight
+      weights[signal.dimension] += signal.weight
     }
   }
 
   return DIMENSIONS.reduce((accumulator, dimension) => {
-    const values = buckets[dimension]
     const average =
-      values.length > 0
-        ? values.reduce((sum, value) => sum + value, 0) / values.length
+      weights[dimension] > 0
+        ? sums[dimension] / weights[dimension]
         : 4
     accumulator[dimension] = Number(average.toFixed(2))
     return accumulator
@@ -246,4 +289,8 @@ export function getNeighboringFamilyKey(
   const ordered = (Object.entries(familyScores) as [FamilyKey, number][])
     .sort((a, b) => b[1] - a[1])
   return ordered.find(([key]) => key !== familyKey)?.[0] ?? familyKey
+}
+
+function isRankedChoiceAnswer(value: AnswerValue | undefined): value is RankedChoiceAnswer {
+  return typeof value === "object" && value !== null && typeof value.primary === "string"
 }

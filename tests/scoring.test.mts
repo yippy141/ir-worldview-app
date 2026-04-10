@@ -57,6 +57,37 @@ test("foundation scores stay on the 1 to 7 scale in both modes", () => {
   }
 })
 
+test("deep-dive foundation cards accept a softer second choice", () => {
+  const answers: Answers = {
+    tradeoff_alliances: {
+      primary: "power",
+      secondary: "rules",
+    },
+  }
+
+  const scores = computeCoreDimensionScores(answers, "analyst")
+  const expectedSecurityCompetition = (6.3 + 3.5 * 0.45) / (1 + 0.45)
+  const expectedInstitutions = (2.8 + 6.4 * 0.45) / (1 + 0.45)
+
+  assert.equal(scores.securityCompetition, Number(expectedSecurityCompetition.toFixed(2)))
+  assert.equal(scores.institutions, Number(expectedInstitutions.toFixed(2)))
+})
+
+test("standard foundation scoring ignores second-choice structure", () => {
+  const scores = computeCoreDimensionScores(
+    {
+      tradeoff_alliances: {
+        primary: "power",
+        secondary: "rules",
+      },
+    },
+    "standard",
+  )
+
+  assert.equal(scores.securityCompetition, 6.3)
+  assert.equal(scores.institutions, 2.8)
+})
+
 test("high political-economy salience alone does not force a CPE result", () => {
   const dimensionScores = {
     securityCompetition: 3.7,

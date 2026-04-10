@@ -11,7 +11,7 @@ import {
   notifyQuizSessionUpdated,
   parseQuizSession,
 } from "@/lib/quiz-session"
-import type { Question, QuizSession } from "@/lib/types"
+import type { AnswerValue, Question, QuizSession, RankedChoiceAnswer } from "@/lib/types"
 
 type AnswerRow = {
   question: Question
@@ -93,11 +93,11 @@ export function ReviewScreen() {
         <p className="eyebrow">Review your answers</p>
         <h1>Before you generate your foundation result</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Review the full foundation before you generate the result. The flagship modules come
-          afterward and remain separate from this score.
+          Review the full foundation before you generate the result. Focus-area modules come
+          afterward as issue-specific overlays, not as replacements for the baseline.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-          {session.activeMode === "standard" ? "Standard mode" : "Analyst mode"} · {answeredCount} of{" "}
+          {session.activeMode === "standard" ? "Standard mode" : "Deep-dive mode"} · {answeredCount} of{" "}
           {questions.length} questions answered
         </p>
       </section>
@@ -134,7 +134,7 @@ export function ReviewScreen() {
           >
             <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
               Your foundation result is ready. Afterward you can take Security or Technology as
-              separate flagship modules.
+              separate focus-area modules.
             </p>
           </div>
         )}
@@ -149,7 +149,7 @@ export function ReviewScreen() {
             {generating ? "Generating…" : "Generate my result →"}
           </button>
           <button type="button" className="secondary-button" onClick={handleBackToQuiz}>
-            Back to quiz
+            Back to foundation
           </button>
           <button type="button" className="secondary-button" onClick={handleReset}>
             Start over
@@ -223,12 +223,38 @@ function formatAnswer(question: Question, answer: QuizSession["answers"][string]
     return `${n} — ${labels[n] ?? ""}`
   }
 
-  const option = question.options.find((candidate) => candidate.id === answer)
-  return option ? `${option.title} — ${option.label}` : String(answer)
+  const primaryId = typeof answer === "string" ? answer : getRankedChoiceAnswer(answer)?.primary
+  const secondaryId = getRankedChoiceAnswer(answer)?.secondary
+  const primary = question.options.find((candidate) => candidate.id === primaryId)
+  const secondary = question.options.find((candidate) => candidate.id === secondaryId)
+
+  if (!primary) {
+    return String(primaryId ?? answer)
+  }
+
+  if (!secondary) {
+    return `Most persuasive: ${primary.title} — ${primary.label}`
+  }
+
+  return `Most persuasive: ${primary.title} · Second-most persuasive: ${secondary.title}`
 }
 
 function questionLabel(question: Question) {
-  if (question.kind === "tradeoff") return "Tradeoff"
-  if (question.kind === "miniCase") return "Mini-case"
+  if (question.kind === "tradeoff") return `Tradeoff · ${cardTypeLabel(question.cardType)}`
+  if (question.kind === "miniCase") return `Mini-case · ${cardTypeLabel(question.cardType)}`
   return "Foundation statement"
+}
+
+function cardTypeLabel(cardType: "explanation" | "decision" | "both") {
+  if (cardType === "explanation") return "Explanation"
+  if (cardType === "decision") return "Decision"
+  return "Both"
+}
+
+function getRankedChoiceAnswer(answer: AnswerValue | undefined): RankedChoiceAnswer | null {
+  if (typeof answer !== "object" || answer === null || typeof answer.primary !== "string") {
+    return null
+  }
+
+  return answer
 }

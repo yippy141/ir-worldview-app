@@ -1,4 +1,4 @@
-import type { DimensionScores, QuizMode } from "@/lib/types"
+import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
 
 export type ModuleSlug = "security" | "technology"
 
@@ -19,6 +19,7 @@ export type ModuleOption = {
 export type ModuleQuestion = {
   id: string
   kind?: "case" | "synthesis"
+  cardType?: ChoiceCardType
   title: string
   prompt: string
   primer: string
@@ -59,6 +60,7 @@ export type ModuleDefinition = {
   timeEstimate: Record<QuizMode, string>
   description: string
   measures: string[]
+  doesNotClaim: string[]
   axes: ModuleAxis[]
   questionsByMode: Record<QuizMode, ModuleQuestion[]>
   interpret: (scores: Record<string, number>) => ModuleInterpretation

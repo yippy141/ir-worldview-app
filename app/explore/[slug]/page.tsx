@@ -32,7 +32,7 @@ const tocItems = [
   { id: "neighbors", label: "Neighboring traditions" },
   { id: "thinkers", label: "Associated thinkers" },
   { id: "readings", label: "Reading list" },
-  { id: "quiz-coverage", label: "How this quiz models it" },
+  { id: "quiz-coverage", label: "How the Foundation models it" },
 ]
 
 export default async function ExploreDetailPage({ params }: Props) {
@@ -315,7 +315,7 @@ export default async function ExploreDetailPage({ params }: Props) {
 
           {/* Quiz coverage */}
           <section id="quiz-coverage" className="article-section stack-sm">
-            <h2>How this quiz models it</h2>
+            <h2>How the Foundation models it</h2>
             <div className="callout stack-xs">
               <p
                 style={{
@@ -362,7 +362,7 @@ export default async function ExploreDetailPage({ params }: Props) {
           <hr className="divider" />
 
           <div className="article-section row gap-sm" style={{ flexWrap: "wrap" }}>
-            <Link href="/quiz" className="cta-primary">Take the quiz →</Link>
+            <Link href="/quiz" className="cta-primary">Take the Foundation →</Link>
             <Link href="/explore" className="cta-secondary">← All perspectives</Link>
           </div>
         </div>

@@ -17,6 +17,7 @@ import type {
   Question,
   QuizMode,
   QuizSession,
+  RankedChoiceAnswer,
 } from "@/lib/types"
 
 export function QuizApp() {
@@ -100,13 +101,57 @@ export function QuizApp() {
     const currentQuestion = questions[effectiveIndex]
     if (!currentQuestion) return
 
-    setSession((prev) => ({
-      ...prev,
-      answers: {
-        ...prev.answers,
-        [currentQuestion.id]: value,
-      },
-    }))
+    if (currentQuestion.kind === "likert") {
+      setSession((prev) => ({
+        ...prev,
+        answers: {
+          ...prev.answers,
+          [currentQuestion.id]: value,
+        },
+      }))
+      return
+    }
+
+    setSession((prev) => {
+      const prior = getRankedChoiceAnswer(prev.answers[currentQuestion.id])
+      const primary = String(value)
+      const secondary =
+        prior?.secondary && prior.secondary !== primary ? prior.secondary : undefined
+
+      return {
+        ...prev,
+        answers: {
+          ...prev.answers,
+          [currentQuestion.id]: {
+            primary,
+            ...(secondary ? { secondary } : {}),
+          },
+        },
+      }
+    })
+  }
+
+  function setSecondaryChoice(optionId: string) {
+    const currentQuestion = questions[effectiveIndex]
+    if (!currentQuestion || currentQuestion.kind === "likert") return
+
+    setSession((prev) => {
+      const currentAnswer = getRankedChoiceAnswer(prev.answers[currentQuestion.id])
+      if (!currentAnswer?.primary || currentAnswer.primary === optionId) {
+        return prev
+      }
+
+      return {
+        ...prev,
+        answers: {
+          ...prev.answers,
+          [currentQuestion.id]: {
+            primary: currentAnswer.primary,
+            secondary: currentAnswer.secondary === optionId ? undefined : optionId,
+          },
+        },
+      }
+    })
   }
 
   function goBack() {
@@ -152,7 +197,18 @@ export function QuizApp() {
   const completedCount = questions.filter((question) => session.answers[question.id] !== undefined).length
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const isComplete = questions.length > 0 && completedCount === questions.length
-  const hasCurrentAnswer = currentQuestion ? session.answers[currentQuestion.id] !== undefined : false
+  const currentPrimarySelection =
+    currentQuestion && currentQuestion.kind !== "likert"
+      ? getPrimarySelection(session.answers[currentQuestion.id])
+      : undefined
+  const currentSecondarySelection =
+    currentQuestion && currentQuestion.kind !== "likert"
+      ? getSecondarySelection(session.answers[currentQuestion.id])
+      : undefined
+  const hasCurrentAnswer =
+    currentQuestion?.kind === "likert"
+      ? session.answers[currentQuestion.id] !== undefined
+      : Boolean(currentPrimarySelection)
   const completionAction = isComplete
     ? fromReview
       ? "return-to-review"
@@ -171,11 +227,11 @@ export function QuizApp() {
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
                   ? "Standard mode keeps the foundation concise and plain-language."
-                  : "Analyst mode adds harder tradeoffs, denser framing, and a longer pass through the same foundation."}
+                  : "Deep-dive mode adds harder tradeoffs, denser framing, and a second choice on case cards when another argument also fits your judgment."}
               </p>
             </div>
             <span className="mode-pill">
-              {session.activeMode === "standard" ? "Standard mode" : "Analyst mode"}
+              {modeLabel(session.activeMode)}
             </span>
           </div>
           <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
@@ -244,6 +300,28 @@ export function QuizApp() {
             <h2>{currentQuestion.prompt}</h2>
           </div>
 
+          {currentQuestion.kind !== "likert" ? (
+            <div className="callout stack-sm">
+              <div className="stack-xs">
+                <p className="eyebrow">How to answer this card</p>
+                <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+                  {choiceInstructionCopy(currentQuestion)}
+                </p>
+                <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
+                  Do not answer based on what sounds most publicly defensible, what another actor
+                  in the case would prefer, or what officials currently say unless that is also
+                  your own judgment.
+                </p>
+                {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
+                  <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
+                    In Deep-dive mode, you can also add a second-most persuasive option as a softer
+                    signal.
+                  </p>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+
           {hasSupport(currentQuestion) ? (
             <SupportBlock
               question={currentQuestion}
@@ -280,7 +358,7 @@ export function QuizApp() {
           ) : (
             <div className="stack-sm">
               {currentQuestion.options.map((option, optionIndex) => {
-                const selected = session.answers[currentQuestion.id] === option.id
+                const selected = currentPrimarySelection === option.id
                 return (
                   <button
                     key={option.id}
@@ -297,6 +375,43 @@ export function QuizApp() {
                   </button>
                 )
               })}
+
+              {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst && currentPrimarySelection ? (
+                <div className="callout stack-sm">
+                  <div className="stack-xs">
+                    <p className="eyebrow">Second-most persuasive</p>
+                    <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+                      Use this only when another option also captures part of your analytic
+                      judgment. It counts less than your main choice.
+                    </p>
+                  </div>
+                  <div className="module-secondary-grid">
+                    {currentQuestion.options
+                      .filter((option) => option.id !== currentPrimarySelection)
+                      .map((option) => {
+                        const selected = currentSecondarySelection === option.id
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            className={selected ? "secondary-choice-button selected" : "secondary-choice-button"}
+                            onClick={() => setSecondaryChoice(option.id)}
+                            aria-pressed={selected}
+                          >
+                            <span className="option-card-content">
+                              <span className="option-card-title" style={{ fontSize: "0.94rem" }}>
+                                {option.title}
+                              </span>
+                              <span className="option-card-text" style={{ fontSize: "0.86rem" }}>
+                                {option.label}
+                              </span>
+                            </span>
+                          </button>
+                        )
+                      })}
+                  </div>
+                </div>
+              ) : null}
             </div>
           )}
 
@@ -411,8 +526,8 @@ function ModeGate({
               />
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
-                title="Analyst"
-                description="About 18 to 25 minutes. More ambiguity, sharper tradeoffs, and deeper cases."
+                title="Deep-dive"
+                description="About 18 to 25 minutes. More ambiguity, sharper tradeoffs, deeper cases, and optional second choices on case cards."
                 onClick={() => onSetRequestedDepth("analyst")}
               />
             </div>
@@ -427,7 +542,7 @@ function ModeGate({
             <>
               <h2>
                 {recommendedMode === "analyst"
-                  ? "Analyst is the recommended fit."
+                  ? "Deep-dive is the recommended fit."
                   : "Standard is the recommended fit."}
               </h2>
               <p className="muted" style={{ lineHeight: "1.65" }}>
@@ -457,7 +572,7 @@ function ModeGate({
             onClick={() => onStartMode("analyst")}
             disabled={!ready}
           >
-            Continue in Analyst
+            Continue in Deep-dive
           </button>
         </div>
       </section>
@@ -569,11 +684,56 @@ function ClarificationCopy({ clarification }: { clarification: Clarification }) 
 }
 
 function questionLabel(question: Question) {
-  if (question.kind === "tradeoff") return "Tradeoff"
-  if (question.kind === "miniCase") return "Mini-case"
+  if (question.kind === "tradeoff") {
+    return `Tradeoff · ${cardTypeLabel(question.cardType)}`
+  }
+  if (question.kind === "miniCase") {
+    return `Mini-case · ${cardTypeLabel(question.cardType)}`
+  }
   return "Foundation statement"
 }
 
 function hasSupport(question: Question) {
   return Boolean(question.helpText || question.clarification)
+}
+
+function modeLabel(mode: QuizMode) {
+  return mode === "standard" ? "Standard mode" : "Deep-dive mode"
+}
+
+function cardTypeLabel(cardType: Question extends { cardType: infer T } ? T : never) {
+  if (cardType === "explanation") return "Explanation"
+  if (cardType === "decision") return "Decision"
+  return "Both"
+}
+
+function choiceInstructionCopy(question: Extract<Question, { kind: "tradeoff" | "miniCase" }>) {
+  if (question.cardType === "explanation") {
+    return "Answer from your own analytic judgment. Choose the option that best explains what is driving the case."
+  }
+
+  if (question.cardType === "decision") {
+    return "Answer from your own analytic judgment. Choose the consideration that should carry the most weight in the case."
+  }
+
+  return "Answer from your own analytic judgment. Choose the option you find most persuasive overall."
+}
+
+function getPrimarySelection(answer: AnswerValue | undefined) {
+  if (typeof answer === "string") return answer
+  if (isRankedChoiceAnswer(answer)) return answer.primary
+  return undefined
+}
+
+function getSecondarySelection(answer: AnswerValue | undefined) {
+  if (isRankedChoiceAnswer(answer)) return answer.secondary
+  return undefined
+}
+
+function getRankedChoiceAnswer(answer: AnswerValue | undefined): RankedChoiceAnswer | null {
+  return isRankedChoiceAnswer(answer) ? answer : null
+}
+
+function isRankedChoiceAnswer(answer: AnswerValue | undefined): answer is RankedChoiceAnswer {
+  return typeof answer === "object" && answer !== null && typeof answer.primary === "string"
 }

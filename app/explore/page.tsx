@@ -38,9 +38,9 @@ export default function ExplorePage() {
           more than one tradition, depending on the issue.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          The quiz is designed to surface which framework dominates your instincts in aggregate —
-          not to assign you a permanent label. The runner-up family often matters as much as the
-          primary one.
+          The Foundation is designed to surface which framework dominates your instincts in
+          aggregate, not to assign you a permanent label. The runner-up family often matters as
+          much as the primary one.
         </p>
       </div>
 
@@ -72,7 +72,7 @@ export default function ExplorePage() {
               (trade and economic interdependence reduce the incentive for conflict), republican
               liberalism (democratic institutions shape what governments can credibly commit to
               internationally), and sociological liberalism (transnational actors and networks
-              matter). The quiz primarily tests institutionalist instincts.
+              matter). The Foundation primarily tests institutionalist instincts.
             </p>
           </div>
           <div>
@@ -100,10 +100,10 @@ export default function ExplorePage() {
 
       {/* Modeled families grid */}
       <div className="article-section stack-md">
-        <h2>Traditions modeled in the quiz</h2>
+        <h2>Traditions modeled in the Foundation</h2>
         <p className="muted" style={{ lineHeight: "1.65" }}>
           These four traditions are classified by the inventory. Each page explains what the
-          tradition emphasizes, what it misses, and how well the current quiz models it.
+          tradition emphasizes, what it misses, and how well the current Foundation models it.
         </p>
         <div className="explore-grid">
           {exploreFamilies.map((family) => (
@@ -188,7 +188,7 @@ export default function ExplorePage() {
       <div className="article-section stack-sm">
         <h2>A note on coverage and the Western canon</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The traditions described here — and the quiz that draws on them — reflect IR theory as it
+          The traditions described here — and the Foundation that draws on them — reflect IR theory as it
           has been predominantly taught and published in Anglo-American and Western European
           universities. This is a real limitation. IR as a discipline has been shaped by the
           strategic concerns, historical experiences, and institutional positions of a particular
@@ -207,7 +207,7 @@ export default function ExplorePage() {
       <hr className="divider" />
 
       <div className="article-section">
-        <Link href="/quiz" className="cta-primary">Take the quiz →</Link>
+        <Link href="/quiz" className="cta-primary">Take the Foundation →</Link>
       </div>
     </div>
   )

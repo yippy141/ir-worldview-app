@@ -31,7 +31,7 @@ function readFromStorage(): DraftState {
   return {
     hasDraft: true,
     draftCount,
-    modeLabel: session.activeMode === "standard" ? "Standard" : "Analyst",
+    modeLabel: session.activeMode === "standard" ? "Standard" : "Deep-dive",
   }
 }
 
@@ -81,7 +81,7 @@ export function QuizMenuCard() {
       <Link href="/quiz" className="menu-card">
         <p className="menu-card-title">Take the foundation</p>
         <p className="menu-card-desc">
-          Choose Standard or Analyst mode and map your instincts across seven IR dimensions.
+          Choose Standard or Deep-dive mode and map your instincts across seven IR dimensions.
         </p>
       </Link>
     )

@@ -475,12 +475,17 @@ export const technologyModule: ModuleDefinition = {
     analyst: "11 to 14 minutes",
   },
   description:
-    "A beta module on export controls, AI governance, industrial policy, openness, and strategic dependence.",
+    "An issue-specific stress test on export controls, AI governance, industrial policy, openness, and strategic dependence.",
   measures: [
     "openness versus control",
     "innovation speed versus safety and security constraint",
     "market dynamism versus industrial policy",
     "national strategy versus coordinated governance",
+  ],
+  doesNotClaim: [
+    "a stable technology identity that overrides the Foundation baseline",
+    "a single answer for semiconductors, AI governance, and industrial policy alike",
+    "a claim to measure technical expertise rather than issue instincts",
   ],
   axes: [
     {
@@ -520,7 +525,7 @@ export const technologyModule: ModuleDefinition = {
 
     if (control >= 5.6 && industrial >= 5.3) {
       return {
-        headline: "Strategic control builder",
+        headline: "Technology read: control with capacity-building",
         summary:
           "You think technological advantage depends on guarding chokepoints, building capacity, and treating interdependence as an exposure to manage.",
         instincts: [
@@ -535,7 +540,7 @@ export const technologyModule: ModuleDefinition = {
 
     if (governance >= 5.6) {
       return {
-        headline: "Alliance-governance coordinator",
+        headline: "Technology read: coordinated governance",
         summary:
           "You think the stronger technological strategy is coordinated rather than purely national: narrow controls, shared standards, and durable alignment among capable partners.",
         instincts: [
@@ -550,7 +555,7 @@ export const technologyModule: ModuleDefinition = {
 
     if (safety >= 5.8) {
       return {
-        headline: "Safety-first technology governor",
+        headline: "Technology read: safety-first constraint",
         summary:
           "You are comparatively willing to slow or channel frontier development when safety and security risks begin to outrun existing guardrails.",
         instincts: [
@@ -565,7 +570,7 @@ export const technologyModule: ModuleDefinition = {
 
     if (control <= 3.6 && industrial <= 4.0) {
       return {
-        headline: "Innovation-first openness advocate",
+        headline: "Technology read: openness with targeted safeguards",
         summary:
           "You think over-securitizing technology can do more long-run damage than the risks it is supposed to solve, especially when it freezes adaptation.",
         instincts: [
@@ -579,7 +584,7 @@ export const technologyModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Conditional techno-strategist",
+      headline: "Technology read: selective control, case by case",
       summary:
         "You are balancing openness, control, industrial capacity, and risk management case by case rather than carrying one fixed doctrine across the whole domain.",
       instincts: [

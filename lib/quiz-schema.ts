@@ -106,6 +106,8 @@ export const standardQuestions: Question[] = [
   {
     id: "tradeoff_alliances",
     kind: "tradeoff",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
     prompt: "What most often keeps alliances together under real pressure?",
     helpText:
       "Choose the logic you find most persuasive, not the sentence that sounds nicest in the abstract.",
@@ -234,6 +236,8 @@ export const standardQuestions: Question[] = [
   {
     id: "tradeoff_interdependence",
     kind: "tradeoff",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "When economic interdependence becomes dangerous, what is usually the deeper problem?",
     helpText:
@@ -272,6 +276,8 @@ export const standardQuestions: Question[] = [
   {
     id: "tradeoff_strategy",
     kind: "tradeoff",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
     prompt: "A rival is gaining ground. Which concern should come first?",
     options: [
       {
@@ -307,6 +313,8 @@ export const standardQuestions: Question[] = [
   {
     id: "tradeoff_intervention",
     kind: "tradeoff",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "A state is committing mass atrocities, but outside action could weaken legal restraints elsewhere. What should govern the decision?",
     options: [
@@ -343,6 +351,8 @@ export const standardQuestions: Question[] = [
   {
     id: "case_semiconductors",
     kind: "miniCase",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "A rival power is closing the gap in advanced semiconductors while your firms remain deeply tied into its supply chain. What should drive the response?",
     helpText:
@@ -381,6 +391,8 @@ export const standardQuestions: Question[] = [
   {
     id: "case_protection",
     kind: "miniCase",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "Mass killing is underway, a UN Security Council veto blocks authorization, and a credible regional body backs limited action. What matters most?",
     helpText:
@@ -476,6 +488,8 @@ export const analystQuestions: Question[] = [
   {
     id: "an_tradeoff_legitimacy",
     kind: "tradeoff",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "A technically effective global institution faces a legitimacy crisis among rising powers. What is the deeper problem?",
     options: [
@@ -512,6 +526,8 @@ export const analystQuestions: Question[] = [
   {
     id: "an_tradeoff_rival",
     kind: "tradeoff",
+    cardType: "both",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "A long-time rival democratizes, joins institutions, and speaks in more cooperative terms. How much should the threat assessment change?",
     options: [
@@ -548,6 +564,8 @@ export const analystQuestions: Question[] = [
   {
     id: "an_case_finance",
     kind: "miniCase",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "A middle-income country faces collapse after capital flight and creditor pressure for austerity. What is the most persuasive reading?",
     helpText:
@@ -586,6 +604,8 @@ export const analystQuestions: Question[] = [
   {
     id: "an_case_burdens",
     kind: "miniCase",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
     prompt:
       "A major ally keeps underspending on defense while relying on your guarantees. What is the most persuasive response?",
     helpText:

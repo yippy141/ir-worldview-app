@@ -993,6 +993,11 @@ h3 {
   border-bottom: 1px solid var(--border);
 }
 
+.profile-hero {
+  padding: 48px 0 40px;
+  border-bottom: 1px solid var(--border);
+}
+
 /* Thin top rule in tradition color — only accent on hero */
 .result-hero-rule {
   height: 3px;
@@ -1013,6 +1018,43 @@ h3 {
 
 .result-section:last-child {
   border-bottom: none;
+}
+
+.profile-module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.profile-details {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  padding: 0 18px;
+}
+
+.profile-details + .profile-details {
+  margin-top: 12px;
+}
+
+.profile-details summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 16px 0;
+  font-weight: 600;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.profile-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.profile-details[open] summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-details > :not(summary) {
+  padding: 16px 0 18px;
 }
 
 /* Narrow prose column for body copy */
@@ -1411,6 +1453,10 @@ h3 {
   }
 
   .result-hero {
+    padding: 32px 0 28px;
+  }
+
+  .profile-hero {
     padding: 32px 0 28px;
   }
 

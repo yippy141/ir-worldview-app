@@ -30,6 +30,7 @@ import { dimensionLabels } from "@/lib/quiz-schema"
 import { familySlug, familyTraditionClass } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
+import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
 import { scoreFamilies } from "@/lib/scoring"
 import { modules } from "@/lib/modules/framework"
 import type { DimensionKey, FamilyKey } from "@/lib/types"
@@ -95,7 +96,7 @@ export default async function ResultPage(
             The result URL may be incomplete, corrupted, or from an older version of the inventory.
           </p>
           <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-            <Link href="/quiz" className="cta-primary">Take the quiz</Link>
+            <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
             <Link href="/explore" className="cta-secondary">Explore the perspectives</Link>
             <Link href="/method" className="cta-secondary">Methods</Link>
           </div>
@@ -141,6 +142,29 @@ export default async function ResultPage(
   return (
     <div className="wide-container">
       <article className="result-article">
+        <FoundationProfileSync
+          snapshot={{
+            payload,
+            resultPath: `/results/${payload}`,
+            familyKey: data.fk,
+            familyLabel,
+            runnerUpKey: neighborKey,
+            runnerUpLabel: neighborLabel,
+            summary,
+            dimensionScores,
+            strategyModifier: data.sm,
+            normativeModifier: data.nm,
+            keyDrivers: keyDrivers.map((driver) => ({
+              type: driver.type,
+              label: driver.label,
+              description: driver.description,
+            })),
+            strongLenses: strongLenses.map((lens) => ({
+              label: lens.label,
+              description: lens.description,
+            })),
+          }}
+        />
 
         {/* ── 1. Hero ── */}
         <div className="result-hero">
@@ -175,8 +199,8 @@ export default async function ResultPage(
             lineHeight: "1.5",
           }}>
             Structured thought exercise, not a scientific diagnostic. Shared links preserve the
-            foundation profile and style outputs; any module readout belongs to a separate,
-            issue-specific layer.
+            Foundation result; completed focus-area modules stay on a separate local Profile layer
+            on this device.
           </p>
         </div>
 
@@ -341,10 +365,10 @@ export default async function ResultPage(
         {/* ── 5. Module bridge ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <h2>Take a flagship module</h2>
+            <h2>Add a focus-area overlay</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              The foundation result is the base layer. The modules below stay separate and show how
-              your instincts travel in one issue domain.
+              The Foundation result is the base layer. The modules below stay separate and show how
+              your instincts travel in one issue domain, then feed into your local Profile page.
             </p>
           </div>
           <div className="module-card-grid">
@@ -355,7 +379,7 @@ export default async function ResultPage(
                 className="explore-card"
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <p className="eyebrow" style={{ marginBottom: "10px" }}>Flagship module</p>
+                <p className="eyebrow" style={{ marginBottom: "10px" }}>Focus-area module</p>
                 <p
                   style={{
                     fontFamily: "Georgia, serif",
@@ -370,7 +394,7 @@ export default async function ResultPage(
                   {moduleDefinition.description}
                 </p>
                 <p style={{ marginTop: "12px", fontSize: "0.82rem", color: "var(--accent-light)", fontWeight: 600 }}>
-                  Standard: {moduleDefinition.timeEstimate.standard} · Analyst: {moduleDefinition.timeEstimate.analyst}
+                  Standard: {moduleDefinition.timeEstimate.standard} · Deep-dive: {moduleDefinition.timeEstimate.analyst}
                 </p>
               </Link>
             ))}
@@ -622,6 +646,11 @@ export default async function ResultPage(
               </Link>
             </p>
           </div>
+          <p>
+            <Link href="/profile" style={{ color: "var(--accent)" }}>
+              View your integrated profile →
+            </Link>
+          </p>
           <p>
             <Link href={`/explore/${familySlug(data.fk)}`} style={{ color: "var(--accent)" }}>
               Explore {familyLabel} in depth →

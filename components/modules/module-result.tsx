@@ -5,17 +5,20 @@ import {
   getModuleQuestions,
   getSelectedModuleOptions,
 } from "@/lib/modules/framework"
+import { ModuleProfileSync } from "@/components/profile/module-profile-sync"
 import type { ModuleAnswers, ModuleSlug } from "@/lib/modules/types"
 import type { DimensionScores, QuizMode } from "@/lib/types"
 
 export function ModuleResultView({
   slug,
+  payload,
   mode,
   answers,
   foundation,
   foundationPayload,
 }: {
   slug: ModuleSlug
+  payload: string
   mode: QuizMode
   answers: ModuleAnswers
   foundation?: DimensionScores
@@ -27,21 +30,50 @@ export function ModuleResultView({
   const result = buildModuleResult(moduleDefinition, mode, answers, foundation)
   const selected = getSelectedModuleOptions(moduleDefinition, mode, answers)
   const questionCount = getModuleQuestions(moduleDefinition, mode).length
+  const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
 
   return (
     <div className="stack-lg">
       <article className="result-article">
+        <ModuleProfileSync
+          snapshot={{
+            slug,
+            title: moduleDefinition.shortTitle,
+            mode,
+            headline: result.headline,
+            summary: result.summary,
+            resultPath,
+            scores: result.scores,
+            instincts: result.instincts,
+            comparison: result.comparison,
+            challenge: result.challenge,
+            measures: moduleDefinition.measures,
+            doesNotClaim: moduleDefinition.doesNotClaim,
+            evidence: selected.map(({ question, primary, secondary }) => ({
+              question: question.title,
+              primary: primary?.title ?? "No selection",
+              ...(secondary?.title ? { secondary: secondary.title } : {}),
+            })),
+          }}
+        />
+
         <section className="result-section stack-md">
-          <p className="eyebrow">Module result</p>
+          <p className="eyebrow">Focus-area result</p>
           <h1>{result.headline}</h1>
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
             {result.summary}
           </p>
+          {result.comparison ? (
+            <div className="callout">
+              <p style={{ fontWeight: 600, marginBottom: "8px" }}>How this differs from your Foundation</p>
+              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
+            </div>
+          ) : null}
           <div className="driver-grid">
             <div className="driver-card stack-xs">
               <p className="eyebrow">Mode</p>
               <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                {mode === "standard" ? "Standard" : "Analyst"}
+                {mode === "standard" ? "Standard" : "Deep-dive"}
               </p>
               <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
                 {questionCount} questions · {moduleDefinition.timeEstimate[mode]}
@@ -50,12 +82,38 @@ export function ModuleResultView({
             <div className="driver-card stack-xs">
               <p className="eyebrow">Reading this result</p>
               <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-                This is a domain-specific read on {moduleDefinition.shortTitle.toLowerCase()}. It
-                can compare back to the foundation when available, but it does not replace that
-                profile.
+                This is an issue read on {moduleDefinition.shortTitle.toLowerCase()}. It can
+                compare back to the Foundation when available, but it does not replace that
+                baseline.
+              </p>
+            </div>
+            <div className="driver-card stack-xs">
+              <p className="eyebrow">What it measured</p>
+              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                {moduleDefinition.measures.join("; ")}.
+              </p>
+            </div>
+            <div className="driver-card stack-xs">
+              <p className="eyebrow">What it did not claim</p>
+              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                {moduleDefinition.doesNotClaim.join("; ")}.
               </p>
             </div>
           </div>
+        </section>
+
+        <section className="result-section stack-md">
+          <h2>Recurring instincts</h2>
+          <ul className="content-list result-prose">
+            {result.instincts.map((instinct) => (
+              <li key={instinct}>{instinct}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="result-section stack-md">
+          <h2>Tensions and caveats</h2>
+          <p className="result-prose" style={{ lineHeight: "1.7" }}>{result.challenge}</p>
         </section>
 
         <section className="result-section stack-md">
@@ -88,60 +146,45 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <h2>Recurring instincts</h2>
-          <ul className="content-list result-prose">
-            {result.instincts.map((instinct) => (
-              <li key={instinct}>{instinct}</li>
-            ))}
-          </ul>
-        </section>
-
-        {result.comparison ? (
-          <section className="result-section stack-md">
-            <h2>How this compares to your foundation</h2>
-            <div className="callout">
-              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
-            </div>
-          </section>
-        ) : null}
-
-        <section className="result-section stack-md">
-          <h2>Selected framings</h2>
-          <div className="driver-grid">
-            {selected.map(({ question, primary, secondary }) => (
-              <div key={question.id} className="driver-card stack-sm">
-                <div className="stack-xs">
-                  <p className="eyebrow">{question.title}</p>
-                  <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
-                    {question.prompt}
-                  </p>
-                </div>
-                <div className="stack-xs">
-                  <span className="option-card-meta">Most persuasive</span>
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                    {primary?.title ?? "No selection"}
-                  </p>
-                  <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-                    {primary?.label ?? "This question was not answered."}
-                  </p>
-                </div>
-                {secondary ? (
+          <div className="stack-xs">
+            <h2>Evidence log</h2>
+            <p className="muted" style={{ fontSize: "0.875rem" }}>
+              Lower-level recall of the framings you selected in this module.
+            </p>
+          </div>
+          <details className="profile-details" open>
+            <summary>Selected framings</summary>
+            <div className="driver-grid" style={{ marginTop: "16px" }}>
+              {selected.map(({ question, primary, secondary }) => (
+                <div key={question.id} className="driver-card stack-sm">
                   <div className="stack-xs">
-                    <span className="option-card-meta option-card-meta--secondary">Second choice</span>
-                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{secondary.title}</p>
+                    <p className="eyebrow">{question.title}</p>
                     <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
-                      {secondary.label}
+                      {question.prompt}
                     </p>
                   </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="result-section stack-md">
-          <h2>What might challenge this module view</h2>
-          <p className="result-prose" style={{ lineHeight: "1.7" }}>{result.challenge}</p>
+                  <div className="stack-xs">
+                    <span className="option-card-meta">Most persuasive</span>
+                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+                      {primary?.title ?? "No selection"}
+                    </p>
+                    <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
+                      {primary?.label ?? "This question was not answered."}
+                    </p>
+                  </div>
+                  {secondary ? (
+                    <div className="stack-xs">
+                      <span className="option-card-meta option-card-meta--secondary">Second-most persuasive</span>
+                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{secondary.title}</p>
+                      <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
+                        {secondary.label}
+                      </p>
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+            </div>
+          </details>
         </section>
 
         <section className="result-section stack-md">
@@ -150,16 +193,19 @@ export function ModuleResultView({
               href={foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules"}
               className="cta-primary"
             >
-              Try another module
+              Try another focus-area module
             </Link>
             <Link href={`/modules/${slug}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`} className="cta-secondary">
               Retake this module
             </Link>
             {foundationPayload ? (
               <Link href={`/results/${foundationPayload}`} className="cta-secondary">
-                Back to foundation result
+                Back to Foundation result
               </Link>
             ) : null}
+            <Link href="/profile" className="cta-secondary">
+              View profile
+            </Link>
           </div>
         </section>
       </article>

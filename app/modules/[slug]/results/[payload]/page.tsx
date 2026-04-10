@@ -43,7 +43,7 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
             The link may be incomplete, corrupted, or from an older version of the module.
           </p>
           <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-            <Link href="/modules" className="cta-primary">Go to modules</Link>
+            <Link href="/modules" className="cta-primary">Go to focus-area modules</Link>
             <Link href={`/modules/${slug}`} className="cta-secondary">Retake this module</Link>
           </div>
         </div>
@@ -55,6 +55,7 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
     <div className="wide-container">
       <ModuleResultView
         slug={moduleDefinition.slug}
+        payload={payload}
         mode={data.mode}
         answers={data.answers}
         foundation={foundationData ? payloadToDimensionScores(foundationData) : undefined}

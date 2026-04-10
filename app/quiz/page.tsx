@@ -3,9 +3,9 @@ import { QuizApp } from "@/components/quiz-app"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Quiz — IR Worldview Inventory",
+  title: "Foundation — IR Worldview Inventory",
   description:
-    "Choose Standard or Analyst mode and complete the shared foundation of the IR Worldview Inventory.",
+    "Choose Standard or Deep-dive mode and complete the shared Foundation of the IR Worldview Inventory.",
 }
 
 export default function QuizPage() {

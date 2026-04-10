@@ -1,7 +1,7 @@
 export const siteConfig = {
-  publicTitle: "The IR Worldview Quiz",
+  publicTitle: "IR Worldview Inventory",
   formalTitle: "IR Worldview Inventory",
-  socialShorthand: "The Isms Quiz",
+  socialShorthand: "IR Worldview Inventory",
   byline: "A prototype by JinHua Yip",
   author: "JinHua Yip",
   links: [

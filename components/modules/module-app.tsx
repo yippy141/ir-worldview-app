@@ -9,7 +9,7 @@ import {
   getModuleQuestions,
 } from "@/lib/modules/framework"
 import type { ModuleAnswers, ModuleSlug } from "@/lib/modules/types"
-import type { QuizMode } from "@/lib/types"
+import type { ChoiceCardType, QuizMode } from "@/lib/types"
 
 export function ModuleApp({
   slug,
@@ -90,7 +90,7 @@ export function ModuleApp({
     <div className="stack-lg">
       <section className="panel stack-md">
         <div className="stack-sm">
-          <p className="eyebrow">Flagship module</p>
+          <p className="eyebrow">Focus-area module</p>
           <h1>{moduleDefinition.title}</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "760px" }}>
             {moduleDefinition.description}
@@ -101,8 +101,8 @@ export function ModuleApp({
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard keeps the module concise. Analyst adds four extra cases and invites an
-              optional second choice on selected cards as a softer signal.
+              Standard keeps the module concise. Deep-dive adds four extra cases and invites an
+              optional second-most persuasive choice on selected cards as a softer signal.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -116,7 +116,7 @@ export function ModuleApp({
             <ModeCard
               selected={mode === "analyst"}
               badge="A"
-              title="Analyst"
+              title="Deep-dive"
               description={`12 questions · ${moduleDefinition.timeEstimate.analyst}`}
               onClick={() => handleModeChange("analyst")}
             />
@@ -139,6 +139,27 @@ export function ModuleApp({
               ))}
             </ul>
           </div>
+          <div className="callout stack-xs">
+            <p className="eyebrow">What it does not claim</p>
+            <ul className="content-list" style={{ margin: 0 }}>
+              {moduleDefinition.doesNotClaim.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="callout stack-xs">
+          <p style={{ fontWeight: 600 }}>How to answer these cases</p>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+            Answer from your own analytic judgment. On Explanation cards, choose what best explains
+            the case. On Decision cards, choose what should carry the most weight. On Both cards,
+            choose the framing you find most persuasive overall.
+          </p>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+            The case mix is meant to stay broader than one U.S.-allied frame, including major-power,
+            middle-power, and vulnerability-centered settings.
+          </p>
         </div>
 
         {foundationPayload ? (
@@ -168,15 +189,22 @@ export function ModuleApp({
         const secondarySelection = answers[question.id]?.secondary
         const showSecondChoice =
           mode === "analyst" && question.allowSecondChoiceInAnalyst && Boolean(primarySelection)
+        const cardType = inferModuleCardType(question.cardType, question.prompt)
 
         return (
           <section key={question.id} className="panel stack-md">
             <div className="stack-xs">
               <p className="eyebrow">
-                {question.kind === "synthesis" ? "Synthesis" : "Case"} · {index + 1} of {questions.length}
+                {question.kind === "synthesis" ? "Synthesis" : "Case"} · {cardTypeLabel(cardType)} · {index + 1} of {questions.length}
               </p>
               <h2>{question.title}</h2>
               <p style={{ lineHeight: "1.7", maxWidth: "880px" }}>{question.prompt}</p>
+            </div>
+
+            <div className="callout">
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                {moduleInstructionCopy(cardType)}
+              </p>
             </div>
 
             <div className="stack-xs">
@@ -222,7 +250,7 @@ export function ModuleApp({
             {showSecondChoice ? (
               <div className="callout stack-sm">
                 <div className="stack-xs">
-                  <p className="eyebrow">Optional second choice</p>
+                  <p className="eyebrow">Second-most persuasive</p>
                   <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
                     If another framing also comes close, mark it here. It counts as a softer signal
                     than your main choice.
@@ -278,7 +306,7 @@ export function ModuleApp({
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>
-          Module results stay separate from the foundation result. They show how your instincts
+          Module results stay separate from the Foundation baseline. They show how your instincts
           travel inside one issue domain.
         </p>
       </section>
@@ -313,4 +341,48 @@ function ModeCard({
       </span>
     </button>
   )
+}
+
+function inferModuleCardType(cardType: ChoiceCardType | undefined, prompt: string): ChoiceCardType {
+  if (cardType) return cardType
+
+  const normalized = prompt.toLowerCase()
+
+  if (
+    normalized.includes("what is the strongest framing") ||
+    normalized.includes("which framing is strongest") ||
+    normalized.includes("what is the deeper problem") ||
+    normalized.includes("what is the most persuasive reading")
+  ) {
+    return "explanation"
+  }
+
+  if (
+    normalized.includes("what should drive") ||
+    normalized.includes("what matters most") ||
+    normalized.includes("which framing is strongest?") ||
+    normalized.includes("what is the most persuasive response")
+  ) {
+    return "decision"
+  }
+
+  return "both"
+}
+
+function cardTypeLabel(cardType: ChoiceCardType) {
+  if (cardType === "explanation") return "Explanation"
+  if (cardType === "decision") return "Decision"
+  return "Both"
+}
+
+function moduleInstructionCopy(cardType: ChoiceCardType) {
+  if (cardType === "explanation") {
+    return "Choose the option that best explains what is driving the case, based on your own analytic judgment."
+  }
+
+  if (cardType === "decision") {
+    return "Choose the consideration that should carry the most weight in the case, based on your own analytic judgment."
+  }
+
+  return "Choose the framing you find most persuasive overall, based on your own analytic judgment."
 }

@@ -475,12 +475,17 @@ export const securityModule: ModuleDefinition = {
     analyst: "11 to 14 minutes",
   },
   description:
-    "A beta module on deterrence, escalation, alliance politics, coercion, and the legitimacy of force in hard cases.",
+    "An issue-specific stress test on deterrence, escalation, alliance politics, coercion, and the legitimacy of force in hard cases.",
   measures: [
     "restraint versus coercive activism",
     "credibility versus escalation aversion",
     "alliance-centered versus autonomy-sensitive instincts",
     "order and sovereignty versus protection and legitimacy",
+  ],
+  doesNotClaim: [
+    "a fixed security identity that overrides the Foundation baseline",
+    "a full theory of grand strategy across every theater",
+    "nationality-adjusted or role-play-based judgments",
   ],
   axes: [
     {
@@ -520,9 +525,9 @@ export const securityModule: ModuleDefinition = {
 
     if (activism >= 5.5 && escalation >= 5.3) {
       return {
-        headline: "Credibility-first power balancer",
+        headline: "Security read: pressure and visible deterrence",
         summary:
-          "You are comparatively willing to use pressure, visible resolve, and harder commitments to prevent revisionist gains.",
+          "You are comparatively willing to use pressure, visible resolve, and harder commitments when you think hesitation would invite more probing.",
         instincts: [
           "You worry most about the cost of hesitation once a rival starts testing limits.",
           "You treat deterrence failures as harder to reverse than overcommitment.",
@@ -535,7 +540,7 @@ export const securityModule: ModuleDefinition = {
 
     if (activism <= 3.5 && escalation <= 3.8) {
       return {
-        headline: "Restrained crisis manager",
+        headline: "Security read: restraint and crisis limits",
         summary:
           "You put more weight on escalation control, war termination, and limiting commitments than on pressing every available strategic opening.",
         instincts: [
@@ -550,7 +555,7 @@ export const securityModule: ModuleDefinition = {
 
     if (alliance >= 5.6) {
       return {
-        headline: "Alliance-first deterrence strategist",
+        headline: "Security read: coalition-centered deterrence",
         summary:
           "You think durable security comes less from unilateral sharpness than from coalitions that can coordinate signals, costs, and endurance over time.",
         instincts: [
@@ -565,9 +570,9 @@ export const securityModule: ModuleDefinition = {
 
     if (legitimacy >= 5.5) {
       return {
-        headline: "Legitimacy-aware security strategist",
+        headline: "Security read: legitimacy-bound statecraft",
         summary:
-          "You think force, deterrence, and alliance politics hold up only when they remain tied to a defensible political and legal frame.",
+          "You think force, deterrence, and alliance politics hold up best when they remain tied to a defensible political and legal frame.",
         instincts: [
           "You look for strategies that preserve legitimacy as well as leverage.",
           "You distinguish narrow, bounded coercion from open-ended authorization to act.",
@@ -579,7 +584,7 @@ export const securityModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Conditional statecraft hedger",
+      headline: "Security read: mixed under pressure",
       summary:
         "You do not carry one fixed security rule from case to case. You balance deterrence, escalation risk, coalition management, and legitimacy together.",
       instincts: [

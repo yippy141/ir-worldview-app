@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: siteConfig.publicTitle,
   description:
-    "A prototype classification tool that maps assumptions about world politics across seven analytical dimensions drawn from International Relations theory.",
+    "An editorial interactive that maps baseline assumptions about world politics, then layers in issue-specific focus-area reads.",
 }
 
 export default function LandingPage() {
@@ -31,9 +31,9 @@ export default function LandingPage() {
             </div>
             <p style={{ fontSize: "1rem", lineHeight: "1.75", color: "var(--muted)", maxWidth: "480px" }}>
               Most people who think seriously about foreign policy hold strong working assumptions
-              about how international politics operates. The foundation surfaces those assumptions
-              across seven dimensions drawn from the main traditions in IR theory, and the flagship
-              modules let you test how they travel in specific issue areas.
+              about how international politics operates. The Foundation surfaces those assumptions
+              across seven dimensions drawn from the main traditions in IR theory, and the
+              focus-area modules let you test how they travel in specific issue areas.
             </p>
             <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)", maxWidth: "480px" }}>
               <strong style={{ color: "var(--text)" }}>Not</strong> a political compass, a
@@ -48,13 +48,19 @@ export default function LandingPage() {
             <Link href="/explore" className="menu-card">
               <p className="menu-card-title">Explore the perspectives</p>
               <p className="menu-card-desc">
-                A field guide to the four worldview families the quiz draws on.
+                A field guide to the four worldview families the inventory draws on.
+              </p>
+            </Link>
+            <Link href="/profile" className="menu-card">
+              <p className="menu-card-title">Profile</p>
+              <p className="menu-card-desc">
+                Bring your Foundation and completed focus-area modules into one integrated view.
               </p>
             </Link>
             <Link href="/modules" className="menu-card">
-              <p className="menu-card-title">Flagship modules</p>
+              <p className="menu-card-title">Focus-area modules</p>
               <p className="menu-card-desc">
-                Go deeper on Security or Technology after the shared foundation.
+                Stress-test your baseline in Security or Technology after the Foundation.
               </p>
             </Link>
             <Link href="/method" className="menu-card">
@@ -81,8 +87,8 @@ export default function LandingPage() {
           <p className="eyebrow">About this project</p>
           <p className="muted" style={{ lineHeight: "1.7", fontSize: "0.9rem" }}>
             The {siteConfig.publicTitle} is a prototype built by {siteConfig.author}, aimed at
-            students, researchers, practitioners, and engaged readers curious about the theoretical
-            priors behind their foreign policy instincts. For its limitations, see the{" "}
+            students, researchers, practitioners, and engaged readers curious about the
+            theoretical priors behind their foreign policy instincts. For its limitations, see the{" "}
             <Link href="/method" style={{ color: "var(--accent)" }}>Methods</Link> page.
           </p>
           <p style={{ fontSize: "0.875rem" }}>
