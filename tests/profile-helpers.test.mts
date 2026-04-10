@@ -1,5 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { buildFoundationNarrative } from "@/lib/narrative/foundation"
+import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
   buildCrossDomainTensions,
   buildIntegratedHeadline,
@@ -193,4 +195,80 @@ test("cross-domain tensions surface both domain conflict and card-type splits", 
     tensions.some((tension) => tension.includes("Technology reads the domain")),
     "expected a technology explanation-versus-decision tension",
   )
+})
+
+test("broad-spectrum foundation state surfaces honestly before modules exist", () => {
+  const broadProfile: ProfileStore = {
+    v: 2,
+    foundation: {
+      ...profile.foundation!,
+      familyKey: "realist",
+      familyLabel: "Strategic Realist",
+      runnerUpKey: "institutionalist",
+      runnerUpLabel: "Liberal Institutionalist",
+      summary: "Broad-spectrum baseline",
+      dimensionScores: {
+        securityCompetition: 4.2,
+        institutions: 4.1,
+        domesticFilters: 4.0,
+        normsIdentity: 3.9,
+        politicalEconomy: 4.1,
+        restraint: 4.0,
+        orderJustice: 3.8,
+      },
+    },
+    modules: {},
+  }
+
+  const assessment = buildProfileAssessment(broadProfile)
+  const narrative = buildProfileNarrative(broadProfile, assessment)
+  const foundationNarrative = buildFoundationNarrative({
+    familyKey: "realist",
+    runnerUpKey: "institutionalist",
+    strategyModifier: broadProfile.foundation.strategyModifier,
+    normativeModifier: broadProfile.foundation.normativeModifier,
+    dimensionScores: broadProfile.foundation.dimensionScores,
+  })
+
+  assert.equal(assessment.state, "lowDifferentiation")
+  assert.equal(foundationNarrative.state, "lowDifferentiation")
+  assert.ok(narrative.sections[0]?.text.includes("broad-spectrum"))
+})
+
+test("sharply differentiated foundations can surface before modules are added", () => {
+  const sharpProfile: ProfileStore = {
+    v: 2,
+    foundation: {
+      ...profile.foundation!,
+      familyKey: "realist",
+      familyLabel: "Strategic Realist",
+      runnerUpKey: "institutionalist",
+      runnerUpLabel: "Liberal Institutionalist",
+      summary: "Sharp baseline",
+      dimensionScores: {
+        securityCompetition: 6.2,
+        institutions: 2.5,
+        domesticFilters: 3.0,
+        normsIdentity: 2.8,
+        politicalEconomy: 3.4,
+        restraint: 3.0,
+        orderJustice: 4.7,
+      },
+    },
+    modules: {},
+  }
+
+  const assessment = buildProfileAssessment(sharpProfile)
+  const narrative = buildProfileNarrative(sharpProfile, assessment)
+
+  assert.equal(assessment.state, "sharplyDifferentiatedBaseline")
+  assert.ok(narrative.sections[0]?.text.includes("clearer baseline"))
+})
+
+test("profile narrative builds the expected editorial blocks for true tension states", () => {
+  const narrative = buildProfileNarrative(profile)
+
+  assert.equal(narrative.sections.length, 5)
+  assert.equal(narrative.sections[2]?.title, "Cross-domain tensions")
+  assert.ok(narrative.sections[1]?.text.includes("Security"))
 })

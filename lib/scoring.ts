@@ -75,6 +75,22 @@ export const familyDescriptions: Record<FamilyKey, string> = {
     "You read world politics less as a neutral arena than as a hierarchy shaped by leverage, dependence, and unequal control over production and finance.",
 }
 
+export type CoreDimensionAudit = {
+  sums: Record<DimensionKey, number>
+  weights: Record<DimensionKey, number>
+  rawAverages: Record<DimensionKey, number>
+  roundedAverages: DimensionScores
+}
+
+export type ScoreShapeAnalysis = {
+  familyScores: Record<FamilyKey, number>
+  orderedFamilies: [FamilyKey, number][]
+  nearestFitGap: number
+  averageDistanceFromCenter: number
+  maxDistanceFromCenter: number
+  sharpDimensionCount: number
+}
+
 export function scoreLikert(rawValue: number, reverse?: boolean): number {
   if (rawValue < 1 || rawValue > 7) {
     throw new Error(`Likert value must be between 1 and 7. Received: ${rawValue}`)
@@ -135,28 +151,24 @@ function collectQuestionSignals(
   return signals
 }
 
-export function computeCoreDimensionScores(
+function createEmptyDimensionMap() {
+  return {
+    securityCompetition: 0,
+    institutions: 0,
+    domesticFilters: 0,
+    normsIdentity: 0,
+    politicalEconomy: 0,
+    restraint: 0,
+    orderJustice: 0,
+  } as Record<DimensionKey, number>
+}
+
+function computeDimensionAggregates(
   answers: Answers,
   mode: QuizMode = "standard",
-): DimensionScores {
-  const sums: Record<DimensionKey, number> = {
-    securityCompetition: 0,
-    institutions: 0,
-    domesticFilters: 0,
-    normsIdentity: 0,
-    politicalEconomy: 0,
-    restraint: 0,
-    orderJustice: 0,
-  }
-  const weights: Record<DimensionKey, number> = {
-    securityCompetition: 0,
-    institutions: 0,
-    domesticFilters: 0,
-    normsIdentity: 0,
-    politicalEconomy: 0,
-    restraint: 0,
-    orderJustice: 0,
-  }
+) {
+  const sums = createEmptyDimensionMap()
+  const weights = createEmptyDimensionMap()
 
   for (const question of getFoundationQuestions(mode)) {
     for (const signal of collectQuestionSignals(question, answers[question.id], mode)) {
@@ -165,14 +177,49 @@ export function computeCoreDimensionScores(
     }
   }
 
+  return { sums, weights }
+}
+
+function getRawDimensionAverages({
+  sums,
+  weights,
+}: ReturnType<typeof computeDimensionAggregates>) {
   return DIMENSIONS.reduce((accumulator, dimension) => {
-    const average =
-      weights[dimension] > 0
-        ? sums[dimension] / weights[dimension]
-        : 4
-    accumulator[dimension] = Number(average.toFixed(2))
+    accumulator[dimension] = weights[dimension] > 0
+      ? sums[dimension] / weights[dimension]
+      : 4
+    return accumulator
+  }, {} as Record<DimensionKey, number>)
+}
+
+export function computeCoreDimensionScores(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): DimensionScores {
+  const rawAverages = getRawDimensionAverages(computeDimensionAggregates(answers, mode))
+  return DIMENSIONS.reduce((accumulator, dimension) => {
+    accumulator[dimension] = Number(rawAverages[dimension].toFixed(2))
     return accumulator
   }, {} as DimensionScores)
+}
+
+export function computeCoreDimensionAudit(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): CoreDimensionAudit {
+  const aggregates = computeDimensionAggregates(answers, mode)
+  const rawAverages = getRawDimensionAverages(aggregates)
+  const roundedAverages = DIMENSIONS.reduce((accumulator, dimension) => {
+    accumulator[dimension] = Number(rawAverages[dimension].toFixed(2))
+    return accumulator
+  }, {} as DimensionScores)
+
+  return {
+    sums: aggregates.sums,
+    weights: aggregates.weights,
+    rawAverages,
+    roundedAverages,
+  }
 }
 
 function centerScore(score: number): number {
@@ -211,6 +258,25 @@ export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKe
   }
 
   return scores
+}
+
+export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeAnalysis {
+  const familyScores = scoreFamilies(dimensionScores)
+  const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
+  const distances = Object.values(dimensionScores).map((score) => Math.abs(score - 4))
+  const nearestFitGap = orderedFamilies[0][1] - orderedFamilies[1][1]
+  const maxDistanceFromCenter = Math.max(...distances)
+  const sharpDimensionCount = distances.filter((distance) => distance >= 1.15).length
+
+  return {
+    familyScores,
+    orderedFamilies,
+    nearestFitGap,
+    averageDistanceFromCenter: distances.reduce((sum, distance) => sum + distance, 0) / distances.length,
+    maxDistanceFromCenter,
+    sharpDimensionCount,
+  }
 }
 
 function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {

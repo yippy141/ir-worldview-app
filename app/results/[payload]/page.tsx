@@ -2,7 +2,6 @@ import Link from "next/link"
 import { decodePayload, payloadToDimensionScores } from "@/lib/share"
 import {
   buildProfileTitle,
-  buildSummary,
   familyLabelFromKey,
   familyDescriptions,
   getClosestTraditions,
@@ -19,14 +18,11 @@ import {
   getFlipAnalysis,
   getWhyThisResult,
   getComparisonDimensions,
-  getQuickTake,
-  getWhyItMatters,
   getHowYouReadTheWorld,
-  getBlindSpots,
   getPressureTestQuestions,
-  getWhatCouldShift,
 } from "@/lib/result-helpers"
 import { dimensionLabels } from "@/lib/quiz-schema"
+import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { familySlug, familyTraditionClass } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
@@ -117,7 +113,6 @@ export default async function ResultPage(
   const ruleClass = TRADITION_RULE_CLASS[data.fk]
 
   const profileTitle = buildProfileTitle(dimensionScores)
-  const summary = buildSummary(data.fk, dimensionScores)
   const explanation = familyDescriptions[data.fk]
   const keyDrivers = getKeyDrivers(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
@@ -131,13 +126,17 @@ export default async function ResultPage(
   const flipAnalysis = getFlipAnalysis(data.fk, neighborKey, dimensionScores)
   const whyThisResult = getWhyThisResult(data.fk, neighborKey, dimensionScores)
   const comparisonDims = getComparisonDimensions(data.fk, neighborKey, dimensionScores)
+  const foundationNarrative = buildFoundationNarrative({
+    familyKey: data.fk,
+    runnerUpKey: neighborKey,
+    strategyModifier: data.sm,
+    normativeModifier: data.nm,
+    dimensionScores,
+  })
+  const summary = foundationNarrative.summary
 
-  const quickTake = getQuickTake(data.fk)
-  const whyItMatters = getWhyItMatters(data.fk)
   const issueStances = getHowYouReadTheWorld(data.fk, data.sm, data.nm)
-  const blindSpots = getBlindSpots(data.fk)
   const pressureQuestions = getPressureTestQuestions(data.fk)
-  const whatCouldShift = getWhatCouldShift(data.fk, neighborKey, dimensionScores, data.sm, data.nm)
 
   return (
     <div className="wide-container">
@@ -174,7 +173,11 @@ export default async function ResultPage(
             {profileTitle}
           </h1>
           <p style={{ fontSize: "0.9rem", color: "var(--muted)", marginBottom: "8px" }}>
-            {closestTraditions.showBoth ? "Closest traditions" : "Closest tradition"}:{" "}
+            {foundationNarrative.state === "lowDifferentiation"
+              ? "Nearest-fit tradition"
+              : closestTraditions.showBoth
+                ? "Closest traditions"
+                : "Closest tradition"}:{" "}
             {closestTraditions.displayLabel}
           </p>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flexWrap: "wrap", marginBottom: "16px" }}>
@@ -204,7 +207,26 @@ export default async function ResultPage(
           </p>
         </div>
 
-        {/* ── 2. Core profile ── */}
+        {/* ── 2. Narrative layer ── */}
+        <div className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>Interpretive read</h2>
+            <p className="muted" style={{ fontSize: "0.875rem" }}>
+              Structured interpretation of the Foundation baseline. This is a controlled editorial
+              layer, not freeform generated prose.
+            </p>
+          </div>
+          <div className="result-prose stack-md">
+            {foundationNarrative.sections.map((section) => (
+              <div key={section.title} className="stack-xs">
+                <p className="eyebrow">{section.title}</p>
+                <p style={{ lineHeight: "1.7" }}>{section.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── 3. Core profile ── */}
         <div className="result-section stack-sm">
           <div className="stack-xs">
             <h2>Core profile</h2>
@@ -262,7 +284,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 3. Dimension profile ── */}
+        {/* ── 4. Dimension profile ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Dimension profile</h2>
@@ -291,13 +313,14 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 4. Closest traditions ── */}
+        {/* ── 5. Closest traditions ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Closest traditions</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These labels are interpretive shorthand for the profile above. Mixed outputs are
-              normal.
+              {foundationNarrative.state === "lowDifferentiation"
+                ? "These labels are nearest-fit shorthand for a profile that remains comparatively broad-spectrum."
+                : "These labels are interpretive shorthand for the profile above. Mixed outputs are normal."}
             </p>
           </div>
           <div className="neighbor-columns">
@@ -319,12 +342,12 @@ export default async function ResultPage(
             {neighborText && (
               <p className="muted" style={{ lineHeight: "1.65" }}>{neighborText}</p>
             )}
-            {runnerUpSeparation && (
+            {foundationNarrative.state !== "lowDifferentiation" && runnerUpSeparation && (
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                 {runnerUpSeparation}
               </p>
             )}
-            {flipAnalysis && (
+            {foundationNarrative.state !== "lowDifferentiation" && flipAnalysis && (
               <div className="flip-note">
                 <p style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>{flipAnalysis}</p>
               </div>
@@ -362,7 +385,7 @@ export default async function ResultPage(
           </p>
         </div>
 
-        {/* ── 5. Module bridge ── */}
+        {/* ── 6. Module bridge ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Add a focus-area overlay</h2>
@@ -401,53 +424,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 6. Quick take ── */}
-        <div className="result-section stack-sm">
-          <p className="eyebrow">Quick take</p>
-          <div className="quick-take-grid">
-            <div className="quick-take-item">
-              <p className="quick-take-label">Notices first</p>
-              <p className="quick-take-text">{quickTake.noticesFirst}</p>
-            </div>
-            <div className="quick-take-item">
-              <p className="quick-take-label">Tends to discount</p>
-              <p className="quick-take-text">{quickTake.tendsToDiscount}</p>
-            </div>
-            <div className="quick-take-item">
-              <p className="quick-take-label">In practice</p>
-              <p className="quick-take-text">{quickTake.inPractice}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* ── 7. Why this tradition persuades you ── */}
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>What this worldview notices, discounts, and finds persuasive</h2>
-          </div>
-          <div className="result-prose">
-            <div className="wtm-group">
-              <p className="wtm-label">Notices first</p>
-              <ul className="wtm-list">
-                {whyItMatters.notices.map((item, i) => <li key={i}>{item}</li>)}
-              </ul>
-            </div>
-            <div className="wtm-group">
-              <p className="wtm-label">Tends to discount</p>
-              <ul className="wtm-list">
-                {whyItMatters.discounts.map((item, i) => <li key={i}>{item}</li>)}
-              </ul>
-            </div>
-            <div className="wtm-group">
-              <p className="wtm-label">Arguments likely to persuade</p>
-              <ul className="wtm-list">
-                {whyItMatters.persuasive.map((item, i) => <li key={i}>{item}</li>)}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* ── 8. Issue-area reading ── */}
+        {/* ── 7. Issue-area reading ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>How this profile may travel across issues</h2>
@@ -492,30 +469,9 @@ export default async function ResultPage(
           )}
         </div>
 
-        {/* ── 9. Blind spots ── */}
+        {/* ── 8. Why this shorthand fits ── */}
         <div className="result-section stack-md">
-          <h2>Blind spots and counterarguments</h2>
-          <div className="result-prose">
-            <div className="blind-item">
-              <p className="blind-item-label">Explains well</p>
-              <p className="blind-item-text">{blindSpots.explainsWell}</p>
-            </div>
-            <div className="blind-item">
-              <p className="blind-item-label">Tends to miss</p>
-              <p className="blind-item-text">{blindSpots.tendsMiss}</p>
-            </div>
-            <div className="blind-item">
-              <p className="blind-item-label">
-                Rival argument — from {familyLabelFromKey(blindSpots.rivalFamily)}
-              </p>
-              <p className="blind-item-text rival">{blindSpots.rivalArgument}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* ── 10. Why this shorthand fits ── */}
-        <div className="result-section stack-md">
-          <h2>Why this shorthand fits</h2>
+          <h2>{foundationNarrative.state === "lowDifferentiation" ? "Why this nearest fit still appears" : "Why this shorthand fits"}</h2>
           {subtraditionAffinity && (
             <div className="result-prose" style={{ marginTop: "4px" }}>
               <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.95rem" }}>
@@ -528,7 +484,9 @@ export default async function ResultPage(
           )}
           <div className="result-prose">
             <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "8px" }}>
-              Why this result won over the runner-up:
+              {foundationNarrative.state === "lowDifferentiation"
+                ? "What still pulls this profile slightly closer to the nearest fit:"
+                : "Why this result won over the runner-up:"}
             </p>
             <ul className="content-list">
               {whyThisResult.map((bullet, i) => <li key={i}>{bullet}</li>)}
@@ -536,15 +494,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 11. What could shift your result ── */}
-        <div className="result-section stack-md">
-          <h2>What could shift your result</h2>
-          <ul className="content-list result-prose">
-            {whatCouldShift.map((item, i) => <li key={i}>{item}</li>)}
-          </ul>
-        </div>
-
-        {/* ── 12. Tensions ── */}
+        {/* ── 9. Tensions ── */}
         <div className="result-section stack-md">
           <h2>Where you are mixed</h2>
           <div className="result-prose">
@@ -564,7 +514,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 13. Pressure-test ── */}
+        {/* ── 10. Pressure-test ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Pressure-test your worldview</h2>
@@ -581,7 +531,7 @@ export default async function ResultPage(
           </ol>
         </div>
 
-        {/* ── 14. Suggested reading ── */}
+        {/* ── 11. Suggested reading ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Suggested reading</h2>
@@ -612,7 +562,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 15. Glossary ── */}
+        {/* ── 12. Glossary ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Glossary</h2>
@@ -632,7 +582,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 16. Methods note + share ── */}
+        {/* ── 13. Methods note + share ── */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this classification</p>

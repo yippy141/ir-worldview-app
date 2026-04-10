@@ -1,7 +1,13 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { getFoundationQuestions, questionCountsByMode } from "@/lib/quiz-schema"
-import { computeCoreDimensionScores, generateResult, scoreFamilies } from "@/lib/scoring"
+import {
+  analyzeScoreShape,
+  computeCoreDimensionAudit,
+  computeCoreDimensionScores,
+  generateResult,
+  scoreFamilies,
+} from "@/lib/scoring"
 import type { Answers, Question, QuizMode } from "@/lib/types"
 
 function completeAnswers(mode: QuizMode): Answers {
@@ -22,6 +28,45 @@ function defaultAnswer(question: Question) {
 function topFamilyKey(scores: ReturnType<typeof scoreFamilies>) {
   return (Object.entries(scores).sort((a, b) => b[1] - a[1])[0] ?? [undefined])[0]
 }
+
+const syntheticProfiles = {
+  realist: {
+    securityCompetition: 6.2,
+    institutions: 2.5,
+    domesticFilters: 3.0,
+    normsIdentity: 2.8,
+    politicalEconomy: 3.4,
+    restraint: 3.0,
+    orderJustice: 4.7,
+  },
+  institutionalist: {
+    securityCompetition: 3.2,
+    institutions: 6.2,
+    domesticFilters: 5.6,
+    normsIdentity: 4.8,
+    politicalEconomy: 4.7,
+    restraint: 5.4,
+    orderJustice: 4.6,
+  },
+  constructivist: {
+    securityCompetition: 3.1,
+    institutions: 4.6,
+    domesticFilters: 4.2,
+    normsIdentity: 6.3,
+    politicalEconomy: 4.2,
+    restraint: 4.8,
+    orderJustice: 4.6,
+  },
+  criticalPoliticalEconomy: {
+    securityCompetition: 3.3,
+    institutions: 2.6,
+    domesticFilters: 5.7,
+    normsIdentity: 4.5,
+    politicalEconomy: 6.4,
+    restraint: 4.4,
+    orderJustice: 3.2,
+  },
+} as const
 
 test("analyst mode includes additional foundation questions", () => {
   assert.ok(questionCountsByMode.analyst > questionCountsByMode.standard)
@@ -71,6 +116,26 @@ test("deep-dive foundation cards accept a softer second choice", () => {
 
   assert.equal(scores.securityCompetition, Number(expectedSecurityCompetition.toFixed(2)))
   assert.equal(scores.institutions, Number(expectedInstitutions.toFixed(2)))
+})
+
+test("dimension audit preserves raw averages before display rounding", () => {
+  const audit = computeCoreDimensionAudit(
+    {
+      tradeoff_alliances: {
+        primary: "power",
+        secondary: "rules",
+      },
+    },
+    "analyst",
+  )
+
+  const expectedSecurityCompetition = (6.3 + 3.5 * 0.45) / (1 + 0.45)
+  assert.equal(audit.weights.securityCompetition, 1.45)
+  assert.equal(audit.rawAverages.securityCompetition, expectedSecurityCompetition)
+  assert.equal(
+    audit.roundedAverages.securityCompetition,
+    Number(expectedSecurityCompetition.toFixed(2)),
+  )
 })
 
 test("standard foundation scoring ignores second-choice structure", () => {
@@ -124,4 +189,43 @@ test("CPE remains available for a clearly critical-systemic profile", () => {
     familyScores.criticalPoliticalEconomy > familyScores.institutionalist,
     "Expected a clearly critical-systemic profile to remain CPE-primary.",
   )
+})
+
+test("flat midpoint profiles remain visibly broad-spectrum in score-shape analysis", () => {
+  const analysis = analyzeScoreShape({
+    securityCompetition: 4,
+    institutions: 4,
+    domesticFilters: 4,
+    normsIdentity: 4,
+    politicalEconomy: 4,
+    restraint: 4,
+    orderJustice: 4,
+  })
+
+  assert.equal(analysis.nearestFitGap, 0)
+  assert.equal(analysis.averageDistanceFromCenter, 0)
+  assert.equal(analysis.sharpDimensionCount, 0)
+})
+
+test("clearly differentiated synthetic profiles do not collapse into the same midpoint-like shape", () => {
+  const expectations = [
+    ["realist", syntheticProfiles.realist],
+    ["institutionalist", syntheticProfiles.institutionalist],
+    ["constructivist", syntheticProfiles.constructivist],
+    ["criticalPoliticalEconomy", syntheticProfiles.criticalPoliticalEconomy],
+  ] as const
+
+  for (const [expectedFamily, profile] of expectations) {
+    const analysis = analyzeScoreShape(profile)
+
+    assert.equal(topFamilyKey(analysis.familyScores), expectedFamily)
+    assert.ok(
+      analysis.nearestFitGap >= 0.35,
+      `Expected a visible family gap for ${expectedFamily}, got ${analysis.nearestFitGap}.`,
+    )
+    assert.ok(
+      analysis.averageDistanceFromCenter >= 0.75,
+      `Expected ${expectedFamily} to sit away from a flat midpoint profile, got ${analysis.averageDistanceFromCenter}.`,
+    )
+  }
 })

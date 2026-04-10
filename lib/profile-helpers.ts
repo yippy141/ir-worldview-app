@@ -1,5 +1,5 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
-import { scoreFamilies } from "@/lib/scoring"
+import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import type { ModuleSlug } from "@/lib/modules/types"
 import type { ModuleSnapshot, ProfileStore } from "@/lib/profile-store"
 import type { ChoiceCardType, DimensionKey } from "@/lib/types"
@@ -7,6 +7,7 @@ import type { ChoiceCardType, DimensionKey } from "@/lib/types"
 export type ProfileState =
   | "lowDifferentiation"
   | "stableModeration"
+  | "sharplyDifferentiatedBaseline"
   | "domainConditionedShift"
   | "trueTension"
 
@@ -37,6 +38,22 @@ export type ProfileSpineRow = {
 }
 
 type ModuleCardTypeScores = Partial<Record<ChoiceCardType, Record<string, number>>>
+
+export type ProfileShift = {
+  dimension: DimensionKey
+  value: number
+  moduleLabel: string
+  direction: string
+}
+
+export type ProfileNarrativeSignals = {
+  moduleSnapshots: ModuleSnapshot[]
+  strongestShift: ProfileShift | null
+  crossDomainConflicts: string[]
+  cardTypeTensions: string[]
+  totalTensions: string[]
+  meaningfulShiftCount: number
+}
 
 const SPINE_ENDPOINTS: Record<DimensionKey, { lowLabel: string; highLabel: string }> = {
   securityCompetition: {
@@ -125,8 +142,55 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     }
   }
 
-  const moduleSnapshots = getOrderedModuleSnapshots(profile)
+  const foundationAssessment = assessFoundationNarrative(foundation.dimensionScores)
+  const narrativeSignals = getProfileNarrativeSignals(profile)
+  const {
+    moduleSnapshots,
+    strongestShift,
+    crossDomainConflicts,
+    totalTensions,
+    meaningfulShiftCount,
+  } = narrativeSignals
+
   if (moduleSnapshots.length === 0) {
+    if (foundationAssessment.state === "lowDifferentiation") {
+      return {
+        state: "lowDifferentiation",
+        stateLabel: "Broad-spectrum baseline",
+        synthesis: `Broad-spectrum ${foundation.familyLabel.toLowerCase()} nearest-fit baseline with no completed focus-area overlays yet.`,
+        summary:
+          "The Foundation is not seeing a sharply sorted profile. The honest read is broad-spectrum overlap, with the tradition label functioning as shorthand rather than as a crisp box.",
+        changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
+        panelTitle: "Broad-spectrum mode",
+        panelIntro:
+          "The main payoff here is not hidden distinctiveness. It is knowing that the baseline remains relatively unsorted until a harder pressure test sharpens it, if it does at all.",
+        points: [
+          "The Foundation stays closest to one tradition, but the separation is narrow.",
+          "No saved module overlays yet exist to tell you whether a domain-specific stress test sharpens the profile.",
+          "The strongest signal right now is overlap and moderation rather than doctrinal sharpness.",
+        ],
+      }
+    }
+
+    if (foundationAssessment.state === "sharplyDifferentiated") {
+      return {
+        state: "sharplyDifferentiatedBaseline",
+        stateLabel: "Sharply differentiated baseline",
+        synthesis: `${foundation.familyLabel} baseline with a clear center of gravity before any focus-area overlays are added.`,
+        summary:
+          "The Foundation already produces a more sharply sorted baseline than a nearest-fit or broad-spectrum result. Modules may complicate it later, but they are not needed to make the core read intelligible.",
+        changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
+        panelTitle: "Baseline mode",
+        panelIntro:
+          "The important point here is not that the model found a total theory of everything. It is that the Foundation is already doing substantial interpretive work before any module pressure is added.",
+        points: [
+          "The baseline dimensions point in a more mutually reinforcing direction than a flat profile does.",
+          "The result is still shorthand, but it is a clearer shorthand than a narrow nearest-fit edge.",
+          "Modules now matter most as pressure tests: they can reinforce, qualify, or complicate an already coherent baseline.",
+        ],
+      }
+    }
+
     return {
       state: "stableModeration",
       stateLabel: "Baseline only",
@@ -143,13 +207,6 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     }
   }
 
-  const nearestFitGap = getNearestFitGap(foundation.dimensionScores)
-  const averageDistance = getAverageDistanceFromCenter(foundation.dimensionScores)
-  const strongestShift = getStrongestShift(moduleSnapshots)
-  const crossDomainConflicts = getCrossDomainConflictPoints(moduleSnapshots)
-  const cardTypeTensions = getCardTypeTensionPoints(moduleSnapshots)
-  const totalTensions = [...crossDomainConflicts, ...cardTypeTensions]
-  const meaningfulShiftCount = getMeaningfulShiftCount(moduleSnapshots)
   const changedMost = strongestShift
     ? `What shifts most: ${strongestShift.moduleLabel} pushes you ${strongestShift.direction}.`
     : "What shifts most: the completed modules mostly stay close to your Foundation baseline."
@@ -185,15 +242,15 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     }
   }
 
-  if (nearestFitGap <= 0.45 && averageDistance <= 1.05) {
+  if (foundationAssessment.state === "lowDifferentiation") {
     return {
       state: "lowDifferentiation",
-      stateLabel: "Nearest fit",
+      stateLabel: "Broad-spectrum",
       synthesis: `Nearest-fit ${foundation.familyLabel.toLowerCase()} baseline with only modest separation across the layers you have completed.`,
       summary:
         "The model is not seeing a sharply sorted profile here. The result is better read as a nearest fit with stable tendencies than as a crisp worldview box.",
       changedMost,
-      panelTitle: "Stability mode",
+      panelTitle: "Broad-spectrum mode",
       panelIntro:
         "The honest takeaway is not hidden distinctiveness. It is that your profile stays relatively unsorted even after the available overlays.",
       points: [
@@ -201,6 +258,21 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
         "The completed module overlays do not sharply separate the profile into a cleaner box.",
         "What is stable here is moderation and overlap rather than doctrinal sharpness.",
       ],
+    }
+  }
+
+  if (foundationAssessment.state === "sharplyDifferentiated") {
+    return {
+      state: "sharplyDifferentiatedBaseline",
+      stateLabel: "Sharply differentiated baseline",
+      synthesis: `${foundation.familyLabel} baseline that remains coherent once the completed module overlays are layered in.`,
+      summary:
+        "The Foundation starts from a clearer center of gravity than a broad-spectrum result, and the completed modules add texture without dissolving that baseline into a flat midpoint blend.",
+      changedMost,
+      panelTitle: "Baseline mode",
+      panelIntro:
+        "The important signal here is not that nothing changes. It is that the baseline stays recognizably itself even after domain pressure is applied.",
+      points: buildStabilityPoints(moduleSnapshots),
     }
   }
 
@@ -243,6 +315,27 @@ export function buildProfileSpineRows(profile: ProfileStore): ProfileSpineRow[] 
   }))
 }
 
+export function getOrderedModuleSnapshots(profile: ProfileStore) {
+  return Object.values(profile.modules)
+    .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
+    .sort((a, b) => a.timestamp - b.timestamp)
+}
+
+export function getProfileNarrativeSignals(profile: ProfileStore): ProfileNarrativeSignals {
+  const moduleSnapshots = getOrderedModuleSnapshots(profile)
+  const crossDomainConflicts = getCrossDomainConflictPoints(moduleSnapshots)
+  const cardTypeTensions = getCardTypeTensionPoints(moduleSnapshots)
+
+  return {
+    moduleSnapshots,
+    strongestShift: getStrongestShift(moduleSnapshots),
+    crossDomainConflicts,
+    cardTypeTensions,
+    totalTensions: [...crossDomainConflicts, ...cardTypeTensions],
+    meaningfulShiftCount: getMeaningfulShiftCount(moduleSnapshots),
+  }
+}
+
 function buildShiftPoints(moduleSnapshots: ModuleSnapshot[]) {
   const strongestShift = getStrongestShift(moduleSnapshots)
   const points: string[] = []
@@ -281,24 +374,7 @@ function buildStabilityPoints(moduleSnapshots: ModuleSnapshot[]) {
   return uniqueStrings(points).slice(0, 3)
 }
 
-function getNearestFitGap(dimensionScores: Record<DimensionKey, number>) {
-  const orderedScores = Object.values(scoreFamilies(dimensionScores)).sort((a, b) => b - a)
-  return orderedScores[0] - orderedScores[1]
-}
-
-function getAverageDistanceFromCenter(dimensionScores: Record<DimensionKey, number>) {
-  const distances = Object.values(dimensionScores).map((score) => Math.abs(score - 4))
-  const total = distances.reduce((sum, value) => sum + value, 0)
-  return total / distances.length
-}
-
-function getOrderedModuleSnapshots(profile: ProfileStore) {
-  return Object.values(profile.modules)
-    .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
-    .sort((a, b) => a.timestamp - b.timestamp)
-}
-
-function getStrongestShift(moduleSnapshots: ModuleSnapshot[]) {
+function getStrongestShift(moduleSnapshots: ModuleSnapshot[]): ProfileShift | null {
   const shifts = moduleSnapshots.flatMap((moduleSnapshot) =>
     Object.entries(moduleSnapshot.overlayDeltas ?? {})
       .filter((entry): entry is [DimensionKey, number] => typeof entry[1] === "number")

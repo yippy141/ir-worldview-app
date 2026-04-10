@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
   loadProfileStore,
   type ModuleSnapshot,
@@ -69,6 +70,7 @@ export function ProfileDashboard() {
     .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
     .sort((a, b) => b.timestamp - a.timestamp)
   const assessment = buildProfileAssessment(profile)
+  const profileNarrative = buildProfileNarrative(profile, assessment)
   const spineRows = buildProfileSpineRows(profile)
 
   return (
@@ -78,7 +80,7 @@ export function ProfileDashboard() {
           <p className="eyebrow">Profile</p>
           <h1>{buildIntegratedHeadline(profile)}</h1>
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
-            {assessment.summary}
+            {profileNarrative.summary}
           </p>
           <div className="row gap-sm wrap" style={{ marginTop: "10px" }}>
             <span className="mode-pill">{assessment.stateLabel}</span>
@@ -102,6 +104,24 @@ export function ProfileDashboard() {
             {assessment.changedMost}
           </p>
         </section>
+      </section>
+
+      <section className="result-section stack-md">
+        <div className="stack-xs">
+          <h2>Integrated interpretation</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+            Controlled narrative synthesis of the Foundation baseline and the completed focus-area
+            overlays on this device.
+          </p>
+        </div>
+        <div className="result-prose stack-md">
+          {profileNarrative.sections.map((section) => (
+            <div key={section.title} className="stack-xs">
+              <p className="eyebrow">{section.title}</p>
+              <p style={{ lineHeight: "1.7" }}>{section.text}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="result-section stack-md">
@@ -230,20 +250,6 @@ export function ProfileDashboard() {
             </p>
           </div>
         )}
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>{assessment.panelTitle}</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            {assessment.panelIntro}
-          </p>
-        </div>
-        <ul className="content-list result-prose">
-          {assessment.points.map((point) => (
-            <li key={point}>{point}</li>
-          ))}
-        </ul>
       </section>
 
       <section className="result-section stack-md">
