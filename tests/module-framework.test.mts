@@ -42,6 +42,8 @@ test("each flagship module produces a stable result shape", () => {
     assert.ok(result.headline.length > 0)
     assert.ok(result.summary.length > 0)
     assert.ok(result.instincts.length >= 2)
+    assert.equal(result.laneSummaries.length, moduleDefinition.lanes.length)
+    assert.ok(Object.keys(result.cardTypeScores).length >= 2)
 
     for (const axis of moduleDefinition.axes) {
       assert.ok(result.scores[axis.key] >= 1 && result.scores[axis.key] <= 7)

@@ -30,6 +30,9 @@ export function ModuleResultView({
   const result = buildModuleResult(moduleDefinition, mode, answers, foundation)
   const selected = getSelectedModuleOptions(moduleDefinition, mode, answers)
   const questionCount = getModuleQuestions(moduleDefinition, mode).length
+  const laneLabelMap = Object.fromEntries(
+    moduleDefinition.lanes.map((lane) => [lane.key, lane.label]),
+  ) as Record<string, string>
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
 
   return (
@@ -39,6 +42,8 @@ export function ModuleResultView({
           snapshot={{
             slug,
             title: moduleDefinition.shortTitle,
+            subtitle: moduleDefinition.subtitle,
+            shorthand: moduleDefinition.shorthand,
             mode,
             headline: result.headline,
             summary: result.summary,
@@ -54,21 +59,22 @@ export function ModuleResultView({
               primary: primary?.title ?? "No selection",
               ...(secondary?.title ? { secondary: secondary.title } : {}),
             })),
+            laneSummaries: result.laneSummaries,
+            ...(result.cardTypeRead ? { cardTypeRead: result.cardTypeRead } : {}),
+            ...(Object.keys(result.cardTypeScores).length > 0
+              ? { cardTypeScores: result.cardTypeScores }
+              : {}),
+            overlayDeltas: result.overlayDeltas,
           }}
         />
 
         <section className="result-section stack-md">
           <p className="eyebrow">Focus-area result</p>
           <h1>{result.headline}</h1>
+          <p style={{ fontWeight: 600, maxWidth: "760px" }}>{moduleDefinition.subtitle}</p>
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
             {result.summary}
           </p>
-          {result.comparison ? (
-            <div className="callout">
-              <p style={{ fontWeight: 600, marginBottom: "8px" }}>How this differs from your Foundation</p>
-              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
-            </div>
-          ) : null}
           <div className="driver-grid">
             <div className="driver-card stack-xs">
               <p className="eyebrow">Mode</p>
@@ -80,11 +86,12 @@ export function ModuleResultView({
               </p>
             </div>
             <div className="driver-card stack-xs">
-              <p className="eyebrow">Reading this result</p>
-              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-                This is an issue read on {moduleDefinition.shortTitle.toLowerCase()}. It can
-                compare back to the Foundation when available, but it does not replace that
-                baseline.
+              <p className="eyebrow">In-flow shorthand</p>
+              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+                {moduleDefinition.shorthand}
+              </p>
+              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                This is an issue read, not a mini-identity replacing the Foundation baseline.
               </p>
             </div>
             <div className="driver-card stack-xs">
@@ -100,7 +107,60 @@ export function ModuleResultView({
               </p>
             </div>
           </div>
+          {result.comparison ? (
+            <div className="callout">
+              <p style={{ fontWeight: 600, marginBottom: "8px" }}>How this differs from your Foundation</p>
+              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
+            </div>
+          ) : null}
         </section>
+
+        <section className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>Lane reads</h2>
+            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+              The three internal lanes come first. This module is meant to read like a structured
+              issue file, not one undifferentiated basket of cases.
+            </p>
+          </div>
+          <div className="profile-module-grid">
+            {result.laneSummaries.map((lane) => (
+              <div key={lane.key} className="explore-card stack-sm">
+                <div className="stack-xs">
+                  <p className="eyebrow">{lane.label}</p>
+                  <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{lane.summary}</p>
+                </div>
+                <div className="module-lane-meter stack-xs">
+                  <div className="progress-meta">
+                    <span>{lane.lowLabel}</span>
+                    <span>{lane.score.toFixed(1)} / 7</span>
+                  </div>
+                  <div className="score-bar" aria-hidden="true">
+                    <div className="score-fill" style={{ width: `${(lane.score / 7) * 100}%` }} />
+                  </div>
+                  <div className="progress-meta">
+                    <span>{lane.lowLabel}</span>
+                    <span>{lane.highLabel}</span>
+                  </div>
+                </div>
+                {lane.delta ? (
+                  <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
+                    <strong>Relative to Foundation:</strong> {lane.delta}
+                  </p>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {result.cardTypeRead ? (
+          <section className="result-section stack-md">
+            <h2>{result.cardTypeRead.headline}</h2>
+            <p className="result-prose" style={{ lineHeight: "1.7" }}>
+              {result.cardTypeRead.summary}
+            </p>
+          </section>
+        ) : null}
 
         <section className="result-section stack-md">
           <h2>Recurring instincts</h2>
@@ -159,9 +219,10 @@ export function ModuleResultView({
                 <div key={question.id} className="driver-card stack-sm">
                   <div className="stack-xs">
                     <p className="eyebrow">{question.title}</p>
-                    <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
-                      {question.prompt}
+                    <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
+                      {laneLabelMap[question.lane] ?? question.lane} · {formatCardType(question.cardType)}
                     </p>
+                    <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>{question.prompt}</p>
                   </div>
                   <div className="stack-xs">
                     <span className="option-card-meta">Most persuasive</span>
@@ -211,4 +272,10 @@ export function ModuleResultView({
       </article>
     </div>
   )
+}
+
+function formatCardType(cardType: "explanation" | "decision" | "both") {
+  if (cardType === "explanation") return "Explanation"
+  if (cardType === "decision") return "Decision"
+  return "Both"
 }

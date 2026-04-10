@@ -1,5 +1,7 @@
-import type { ModuleSlug } from "@/lib/modules/types"
+import type { ModuleCardTypeRead, ModuleLaneSummary, ModuleSlug } from "@/lib/modules/types"
 import type {
+  ChoiceCardType,
+  DimensionKey,
   DimensionScores,
   FamilyKey,
   NormativeModifier,
@@ -47,6 +49,8 @@ export type ModuleSnapshot = {
   timestamp: number
   slug: ModuleSlug
   title: string
+  subtitle?: string
+  shorthand?: string
   mode: QuizMode
   headline: string
   summary: string
@@ -58,17 +62,21 @@ export type ModuleSnapshot = {
   measures: string[]
   doesNotClaim: string[]
   evidence: ModuleEvidenceItem[]
+  laneSummaries: ModuleLaneSummary[]
+  cardTypeRead?: ModuleCardTypeRead
+  cardTypeScores?: Partial<Record<ChoiceCardType, Record<string, number>>>
+  overlayDeltas: Partial<Record<DimensionKey, number>>
 }
 
 export type ProfileStore = {
-  v: 1
+  v: 2
   foundation: FoundationSnapshot | null
   modules: Partial<Record<ModuleSlug, ModuleSnapshot>>
 }
 
 export function emptyProfileStore(): ProfileStore {
   return {
-    v: 1,
+    v: 2,
     foundation: null,
     modules: {},
   }
@@ -80,13 +88,18 @@ export function parseProfileStore(raw: string | null): ProfileStore {
   }
 
   try {
-    const parsed = JSON.parse(raw) as Partial<ProfileStore>
-    if (parsed.v !== 1 || typeof parsed !== "object" || parsed === null) {
+    const parsed = JSON.parse(raw) as Partial<ProfileStore> & { v?: number }
+
+    if (typeof parsed !== "object" || parsed === null) {
+      return emptyProfileStore()
+    }
+
+    if (parsed.v !== 1 && parsed.v !== 2) {
       return emptyProfileStore()
     }
 
     return {
-      v: 1,
+      v: 2,
       foundation: isFoundationSnapshot(parsed.foundation) ? parsed.foundation : null,
       modules: normalizeModuleSnapshots(parsed.modules),
     }
@@ -138,12 +151,72 @@ function normalizeModuleSnapshots(
   const normalized: Partial<Record<ModuleSlug, ModuleSnapshot>> = {}
 
   for (const [key, candidate] of Object.entries(value)) {
-    if ((key === "security" || key === "technology") && isModuleSnapshot(candidate)) {
-      normalized[key] = candidate
+    if (key === "security" || key === "technology") {
+      const snapshot = normalizeModuleSnapshot(candidate, key)
+      if (snapshot) {
+        normalized[key] = snapshot
+      }
     }
   }
 
   return normalized
+}
+
+function normalizeModuleSnapshot(
+  value: unknown,
+  slug: ModuleSlug,
+): ModuleSnapshot | null {
+  if (typeof value !== "object" || value === null) return null
+
+  const candidate = value as Partial<ModuleSnapshot> & {
+    laneSummaries?: unknown
+    overlayDeltas?: unknown
+    cardTypeRead?: unknown
+  }
+
+  if (
+    typeof candidate.timestamp !== "number" ||
+    candidate.slug !== slug ||
+    typeof candidate.title !== "string" ||
+    (candidate.mode !== "standard" && candidate.mode !== "analyst") ||
+    typeof candidate.headline !== "string" ||
+    typeof candidate.summary !== "string" ||
+    typeof candidate.resultPath !== "string" ||
+    typeof candidate.scores !== "object" ||
+    candidate.scores === null ||
+    !Array.isArray(candidate.instincts) ||
+    typeof candidate.challenge !== "string" ||
+    !Array.isArray(candidate.measures) ||
+    !Array.isArray(candidate.doesNotClaim) ||
+    !Array.isArray(candidate.evidence)
+  ) {
+    return null
+  }
+
+  return {
+    timestamp: candidate.timestamp,
+    slug,
+    title: candidate.title,
+    ...(typeof candidate.subtitle === "string" ? { subtitle: candidate.subtitle } : {}),
+    ...(typeof candidate.shorthand === "string" ? { shorthand: candidate.shorthand } : {}),
+    mode: candidate.mode,
+    headline: candidate.headline,
+    summary: candidate.summary,
+    resultPath: candidate.resultPath,
+    scores: candidate.scores as Record<string, number>,
+    instincts: candidate.instincts as string[],
+    ...(typeof candidate.comparison === "string" ? { comparison: candidate.comparison } : {}),
+    challenge: candidate.challenge,
+    measures: candidate.measures as string[],
+    doesNotClaim: candidate.doesNotClaim as string[],
+    evidence: normalizeEvidence(candidate.evidence),
+    laneSummaries: normalizeLaneSummaries(candidate.laneSummaries),
+    ...(isCardTypeRead(candidate.cardTypeRead) ? { cardTypeRead: candidate.cardTypeRead } : {}),
+    ...(normalizeCardTypeScores(candidate.cardTypeScores)
+      ? { cardTypeScores: normalizeCardTypeScores(candidate.cardTypeScores) }
+      : {}),
+    overlayDeltas: normalizeOverlayDeltas(candidate.overlayDeltas),
+  }
 }
 
 function isFoundationSnapshot(value: unknown): value is FoundationSnapshot {
@@ -167,24 +240,105 @@ function isFoundationSnapshot(value: unknown): value is FoundationSnapshot {
   )
 }
 
-function isModuleSnapshot(value: unknown): value is ModuleSnapshot {
-  if (typeof value !== "object" || value === null) return false
+function normalizeEvidence(value: unknown): ModuleEvidenceItem[] {
+  if (!Array.isArray(value)) return []
 
-  const candidate = value as Partial<ModuleSnapshot>
+  return value
+    .filter((item) => typeof item === "object" && item !== null)
+    .map((item) => item as Partial<ModuleEvidenceItem>)
+    .filter((item) => typeof item.question === "string" && typeof item.primary === "string")
+    .map((item) => ({
+      question: item.question as string,
+      primary: item.primary as string,
+      ...(typeof item.secondary === "string" ? { secondary: item.secondary } : {}),
+    }))
+}
+
+function normalizeLaneSummaries(value: unknown): ModuleLaneSummary[] {
+  if (!Array.isArray(value)) return []
+
+  return value
+    .filter((item) => typeof item === "object" && item !== null)
+    .map((item) => item as Partial<ModuleLaneSummary>)
+    .filter(
+      (item) =>
+        typeof item.key === "string" &&
+        typeof item.label === "string" &&
+        typeof item.summary === "string" &&
+        typeof item.score === "number" &&
+        typeof item.lowLabel === "string" &&
+        typeof item.highLabel === "string",
+    )
+    .map((item) => ({
+      key: item.key as string,
+      label: item.label as string,
+      summary: item.summary as string,
+      score: item.score as number,
+      lowLabel: item.lowLabel as string,
+      highLabel: item.highLabel as string,
+      ...(typeof item.delta === "string" ? { delta: item.delta } : {}),
+    }))
+}
+
+function isCardTypeRead(value: unknown): value is ModuleCardTypeRead {
   return (
-    typeof candidate.timestamp === "number" &&
-    (candidate.slug === "security" || candidate.slug === "technology") &&
-    typeof candidate.title === "string" &&
-    (candidate.mode === "standard" || candidate.mode === "analyst") &&
-    typeof candidate.headline === "string" &&
-    typeof candidate.summary === "string" &&
-    typeof candidate.resultPath === "string" &&
-    typeof candidate.scores === "object" &&
-    candidate.scores !== null &&
-    Array.isArray(candidate.instincts) &&
-    typeof candidate.challenge === "string" &&
-    Array.isArray(candidate.measures) &&
-    Array.isArray(candidate.doesNotClaim) &&
-    Array.isArray(candidate.evidence)
+    typeof value === "object" &&
+    value !== null &&
+    typeof (value as ModuleCardTypeRead).headline === "string" &&
+    typeof (value as ModuleCardTypeRead).summary === "string"
+  )
+}
+
+function normalizeOverlayDeltas(value: unknown): Partial<Record<DimensionKey, number>> {
+  if (typeof value !== "object" || value === null) {
+    return {}
+  }
+
+  const normalized: Partial<Record<DimensionKey, number>> = {}
+
+  for (const [key, raw] of Object.entries(value)) {
+    if (isDimensionKey(key) && typeof raw === "number") {
+      normalized[key] = raw
+    }
+  }
+
+  return normalized
+}
+
+function normalizeCardTypeScores(
+  value: unknown,
+): Partial<Record<ChoiceCardType, Record<string, number>>> | null {
+  if (typeof value !== "object" || value === null) {
+    return null
+  }
+
+  const normalized: Partial<Record<ChoiceCardType, Record<string, number>>> = {}
+
+  for (const [key, raw] of Object.entries(value)) {
+    if ((key === "explanation" || key === "decision" || key === "both") && isNumberRecord(raw)) {
+      normalized[key] = raw
+    }
+  }
+
+  return Object.keys(normalized).length > 0 ? normalized : null
+}
+
+function isNumberRecord(value: unknown): value is Record<string, number> {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    Object.values(value).every((entry) => typeof entry === "number")
+  )
+}
+
+function isDimensionKey(value: string): value is DimensionKey {
+  return (
+    value === "securityCompetition" ||
+    value === "institutions" ||
+    value === "domesticFilters" ||
+    value === "normsIdentity" ||
+    value === "politicalEconomy" ||
+    value === "restraint" ||
+    value === "orderJustice"
   )
 }

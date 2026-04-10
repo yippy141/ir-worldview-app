@@ -2,15 +2,15 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { dimensionLabels } from "@/lib/quiz-schema"
 import {
   loadProfileStore,
   type ModuleSnapshot,
   type ProfileStore,
 } from "@/lib/profile-store"
 import {
-  buildCrossDomainTensions,
   buildIntegratedHeadline,
+  buildProfileAssessment,
+  buildProfileSpineRows,
 } from "@/lib/profile-helpers"
 
 const STRATEGY_LABELS = {
@@ -23,6 +23,11 @@ const NORMATIVE_LABELS = {
   Pluralist: "Order-first normative style",
   "Conditional Solidarist": "Mixed normative style",
   Universalist: "Justice-forward normative style",
+} as const
+
+const MODULE_COLORS = {
+  security: "var(--accent)",
+  technology: "var(--t-institutionalist)",
 } as const
 
 export function ProfileDashboard() {
@@ -63,54 +68,48 @@ export function ProfileDashboard() {
   const moduleSnapshots = Object.values(profile.modules)
     .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
     .sort((a, b) => b.timestamp - a.timestamp)
-  const tensions = buildCrossDomainTensions(profile)
+  const assessment = buildProfileAssessment(profile)
+  const spineRows = buildProfileSpineRows(profile)
 
   return (
     <article className="result-article">
-      <section className="profile-hero">
-        <p className="eyebrow">Profile</p>
-        <h1>{buildIntegratedHeadline(profile)}</h1>
-        <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
-          {foundation.summary}
-        </p>
-        <div className="row gap-sm wrap" style={{ marginTop: "18px" }}>
-          <span className="mode-pill">{foundation.familyLabel}</span>
-          <span className="mode-pill">{foundation.runnerUpLabel}</span>
-          <span className="mode-pill">{STRATEGY_LABELS[foundation.strategyModifier]}</span>
-          <span className="mode-pill">{NORMATIVE_LABELS[foundation.normativeModifier]}</span>
-        </div>
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>Foundation spine</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            The baseline dimensions remain the anchor. Focus-area modules overlay this spine; they
-            do not replace it.
+      <section className="profile-hero stack-md">
+        <div className="stack-sm">
+          <p className="eyebrow">Profile</p>
+          <h1>{buildIntegratedHeadline(profile)}</h1>
+          <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
+            {assessment.summary}
           </p>
+          <div className="row gap-sm wrap" style={{ marginTop: "10px" }}>
+            <span className="mode-pill">{assessment.stateLabel}</span>
+            <span className="mode-pill">{foundation.familyLabel}</span>
+            <span className="mode-pill">{foundation.runnerUpLabel}</span>
+            <span className="mode-pill">{STRATEGY_LABELS[foundation.strategyModifier]}</span>
+            <span className="mode-pill">{NORMATIVE_LABELS[foundation.normativeModifier]}</span>
+          </div>
         </div>
-        <div>
-          {Object.entries(foundation.dimensionScores).map(([dimension, value]) => (
-            <div key={dimension} className="dim-row">
-              <div className="progress-meta">
-                <span style={{ fontWeight: 600, color: "var(--text)" }}>
-                  {dimensionLabels[dimension as keyof typeof dimensionLabels]}
-                </span>
-                <span>{value.toFixed(1)} / 7</span>
-              </div>
-              <div className="score-bar" style={{ margin: "6px 0" }} aria-hidden="true">
-                <div className="score-fill" style={{ width: `${(value / 7) * 100}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
+
+        <section className="profile-spine-card stack-sm">
+          <div className="stack-xs">
+            <h2>Foundation spine with overlays</h2>
+            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+              The baseline stays fixed. Module overlays show directional pressure on related
+              dimensions; they are not recalculated Foundation scores.
+            </p>
+          </div>
+          <ProfileSpine rows={spineRows} />
+          <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
+            {assessment.changedMost}
+          </p>
+        </section>
       </section>
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>Strongest lenses</h2>
+          <h2>Baseline anchors</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            The strongest baseline signals before any focus-area overlay.
+            The Foundation remains the anchor for the integrated profile, even when focus-area
+            overlays shift emphasis.
           </p>
         </div>
         <div className="driver-grid">
@@ -139,7 +138,7 @@ export function ProfileDashboard() {
         <div className="stack-xs">
           <h2>Focus-area overlays</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            Completed modules are shown here as issue reads layered on top of the Foundation.
+            Each completed module is shown as a domain overlay with its three internal lane reads.
           </p>
         </div>
         {moduleSnapshots.length > 0 ? (
@@ -149,10 +148,57 @@ export function ProfileDashboard() {
                 <div className="stack-xs">
                   <p className="eyebrow">{moduleSnapshot.title}</p>
                   <h3>{moduleSnapshot.headline}</h3>
+                  {moduleSnapshot.subtitle ? (
+                    <p style={{ fontWeight: 600, fontSize: "0.92rem" }}>{moduleSnapshot.subtitle}</p>
+                  ) : null}
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                     {moduleSnapshot.summary}
                   </p>
                 </div>
+
+                {moduleSnapshot.laneSummaries.length > 0 ? (
+                  <div className="stack-sm">
+                    {moduleSnapshot.laneSummaries.map((lane) => (
+                      <div key={`${moduleSnapshot.slug}-${lane.key}`} className="module-lane-summary stack-xs">
+                        <div className="progress-meta">
+                          <span style={{ fontWeight: 600, color: "var(--text)" }}>{lane.label}</span>
+                          <span>{lane.score.toFixed(1)} / 7</span>
+                        </div>
+                        <div className="profile-mini-scale" aria-hidden="true">
+                          <div
+                            className="profile-mini-scale-fill"
+                            style={{
+                              width: `${(lane.score / 7) * 100}%`,
+                              background: MODULE_COLORS[moduleSnapshot.slug],
+                            }}
+                          />
+                        </div>
+                        <div className="progress-meta" style={{ fontSize: "0.78rem" }}>
+                          <span>{lane.lowLabel}</span>
+                          <span>{lane.highLabel}</span>
+                        </div>
+                        <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
+                          {lane.summary}
+                        </p>
+                        {lane.delta ? (
+                          <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
+                            <strong>Relative to Foundation:</strong> {lane.delta}
+                          </p>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+
+                {moduleSnapshot.cardTypeRead ? (
+                  <div className="callout stack-xs">
+                    <p className="eyebrow">{moduleSnapshot.cardTypeRead.headline}</p>
+                    <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
+                      {moduleSnapshot.cardTypeRead.summary}
+                    </p>
+                  </div>
+                ) : null}
+
                 {moduleSnapshot.comparison ? (
                   <div className="callout">
                     <p style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
@@ -160,14 +206,7 @@ export function ProfileDashboard() {
                     </p>
                   </div>
                 ) : null}
-                <ul className="content-list" style={{ margin: 0 }}>
-                  {moduleSnapshot.instincts.slice(0, 3).map((instinct) => (
-                    <li key={instinct}>{instinct}</li>
-                  ))}
-                </ul>
-                <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.6" }}>
-                  <strong>Caveat:</strong> {moduleSnapshot.challenge}
-                </p>
+
                 <p>
                   <Link href={moduleSnapshot.resultPath} style={{ color: "var(--accent)" }}>
                     Open full result →
@@ -180,8 +219,9 @@ export function ProfileDashboard() {
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>No focus-area overlays yet</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              The Foundation already gives you a complete baseline. Focus-area modules add pressure
-              tests in Security and Technology when you want to see how that baseline travels.
+              The Foundation already gives you a complete baseline. Focus-area modules add
+              pressure tests in Security and Technology when you want to see how that baseline
+              travels.
             </p>
             <p>
               <Link href={`/modules?foundation=${encodeURIComponent(foundation.payload)}`} style={{ color: "var(--accent)" }}>
@@ -194,23 +234,16 @@ export function ProfileDashboard() {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>Cross-domain tensions</h2>
+          <h2>{assessment.panelTitle}</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            Places where the baseline and issue-specific overlays pull in different directions.
+            {assessment.panelIntro}
           </p>
         </div>
-        {tensions.length > 0 ? (
-          <ul className="content-list result-prose">
-            {tensions.map((tension) => (
-              <li key={tension}>{tension}</li>
-            ))}
-          </ul>
-        ) : (
-          <p className="muted" style={{ lineHeight: "1.65" }}>
-            Your current saved results are more aligned than conflicted. Add another focus-area
-            module if you want more cross-domain contrast.
-          </p>
-        )}
+        <ul className="content-list result-prose">
+          {assessment.points.map((point) => (
+            <li key={point}>{point}</li>
+          ))}
+        </ul>
       </section>
 
       <section className="result-section stack-md">
@@ -218,7 +251,7 @@ export function ProfileDashboard() {
           <h2>Evidence and detail</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
             Open the drawers below for the saved Foundation result and the lower-evidence module
-            logs on this device.
+            recall on this device.
           </p>
         </div>
 
@@ -262,5 +295,61 @@ export function ProfileDashboard() {
         ))}
       </section>
     </article>
+  )
+}
+
+function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows> }) {
+  const overlayLegend = Array.from(
+    new Map(
+      rows
+        .flatMap((row) => row.overlays)
+        .map((overlay) => [overlay.slug, overlay]),
+    ).values(),
+  )
+
+  return (
+    <div className="stack-sm">
+      <div className="profile-spine-legend">
+        <span className="profile-spine-legend-item">
+          <span className="profile-spine-swatch profile-spine-swatch--baseline" />
+          Foundation
+        </span>
+        {overlayLegend.map((overlay) => (
+          <span key={overlay.slug} className="profile-spine-legend-item">
+            <span className={`profile-spine-swatch profile-spine-swatch--${overlay.slug}`} />
+            {overlay.label}
+          </span>
+        ))}
+      </div>
+
+      <div className="profile-spine-table">
+        {rows.map((row) => (
+          <div key={row.dimension} className="profile-spine-row">
+            <div className="profile-spine-label">
+              <p style={{ fontWeight: 600, color: "var(--text)" }}>{row.label}</p>
+            </div>
+            <div className="profile-spine-scale">
+              <span className="profile-spine-end">{row.lowLabel}</span>
+              <div className="profile-spine-track">
+                <div
+                  className="profile-spine-dot profile-spine-dot--baseline"
+                  style={{ left: `${((row.baseline - 1) / 6) * 100}%` }}
+                  title={`Foundation: ${row.baseline.toFixed(1)}`}
+                />
+                {row.overlays.map((overlay) => (
+                  <div
+                    key={`${row.dimension}-${overlay.slug}`}
+                    className={`profile-spine-dot profile-spine-dot--${overlay.slug}`}
+                    style={{ left: `${((overlay.value - 1) / 6) * 100}%` }}
+                    title={`${overlay.label}: ${overlay.value.toFixed(1)}`}
+                  />
+                ))}
+              </div>
+              <span className="profile-spine-end">{row.highLabel}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }

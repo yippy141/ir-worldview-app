@@ -1,307 +1,477 @@
-import type { ModuleDefinition } from "@/lib/modules/types"
+import type {
+  ModuleAnalytics,
+  ModuleDefinition,
+  ModuleLaneSummary,
+} from "@/lib/modules/types"
+import type { DimensionKey, DimensionScores } from "@/lib/types"
+
+const securityLanes: ModuleDefinition["lanes"] = [
+  {
+    key: "deterrence",
+    label: "Deterrence and escalation",
+    description: "How you handle probing, coercion, and crisis ceilings.",
+    scoreKey: "activism",
+    lowLabel: "Crisis-limiting",
+    highLabel: "Pressure-forward",
+  },
+  {
+    key: "alliances",
+    label: "Alliances and autonomy",
+    description: "How exposed partners, coalition durability, and hedging space should be read.",
+    scoreKey: "alliance",
+    lowLabel: "Autonomy space",
+    highLabel: "Alliance-centered",
+  },
+  {
+    key: "legitimacy",
+    label: "Order, legitimacy, and protection",
+    description: "How you weigh order, legal authority, civilian protection, and bounded action.",
+    scoreKey: "legitimacy",
+    lowLabel: "Order-first",
+    highLabel: "Protection-sensitive",
+  },
+]
 
 const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"] = [
   {
-    id: "ukraine_termination",
-    title: "Ukraine support and war termination",
-    prompt:
-      "The war is grinding on. Kyiv wants additional support, several European states fear attrition, and outside partners disagree on what a politically sustainable end state looks like. What is the strongest framing?",
-    primer:
-      "This asks what should anchor strategy under pressure: battlefield leverage, coalition durability, frontline reassurance, or war termination.",
+    id: "taiwan_quarantine",
+    kind: "case",
+    lane: "deterrence",
+    cardType: "decision",
+    title: "Quarantine pressure around Taiwan",
+    prompt: "What should carry the most weight first?",
+    scene:
+      "Beijing begins a quarantine-style pressure campaign around Taiwan: shipping is slowed, inspections are threatened, and the line between coercion and open conflict is kept deliberately blurry. Allies agree the move cannot be ignored, but they disagree on what a first response should try to accomplish.",
+    whyHard:
+      "The dilemma is how to resist coercion early without letting a pressure campaign slide into a larger war through overreaction.",
+    contextBullets: [
+      { label: "Actor / stake", text: "Taiwan, China, and outside partners are testing whether coercion below invasion can still reset the status quo." },
+      { label: "Uncertainty", text: "No one knows whether Beijing is signaling, probing, or preparing to go further." },
+      { label: "Term", text: "A quarantine here means coercive restriction of movement without a formally declared blockade." },
+    ],
+    perspectiveTags: ["major-power", "alliance-manager", "maritime"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "pressure",
-        title: "Shift the battlefield before the bargaining",
+        id: "clarify_response",
+        title: "Clarify the response",
         label:
-          "If Russian gains harden, every later settlement gets worse. More pressure now can improve the eventual bargaining range.",
-        signals: { activism: 6.2, escalation: 5.8, alliance: 4.8 },
+          "The first job is to remove doubt about whether outside states would answer coercive pressure at all.",
+        signals: { activism: 6.1, escalation: 6.0, alliance: 5.0, legitimacy: 4.2 },
       },
       {
-        id: "coalition",
-        title: "Keep support tied to coalition endurance",
+        id: "build_denial_endurance",
+        title: "Build denial endurance",
         label:
-          "Sustain military backing, but keep the objective bounded enough that partners can carry it for years rather than weeks.",
-        signals: { alliance: 6.0, activism: 4.8, escalation: 4.3, legitimacy: 4.5 },
+          "What matters most is a coalition that can keep the pressure from working over time rather than one dramatic signal.",
+        signals: { activism: 5.1, escalation: 5.0, alliance: 5.9, legitimacy: 4.8 },
       },
       {
-        id: "frontline",
-        title: "Frontline states need harder reassurance",
+        id: "preserve_hedging_space",
+        title: "Preserve hedging space",
         label:
-          "For countries living beside Russia, ambiguity is its own escalation risk. The priority is a posture that convinces exposed allies the line will hold.",
-        signals: { alliance: 6.3, escalation: 5.2, activism: 5.3, legitimacy: 4.4 },
+          "Regional partners need room to resist coercion without being forced immediately into the hardest military camp.",
+        signals: { activism: 3.2, escalation: 3.6, alliance: 3.2, legitimacy: 4.9 },
       },
       {
-        id: "termination",
-        title: "Cap the war before it widens further",
+        id: "raise_political_costs",
+        title: "Raise political costs",
         label:
-          "The deeper danger is a long war with expanding costs and shrinking diplomatic exits. War termination should come first.",
-        signals: { activism: 2.8, escalation: 3.1, alliance: 3.8 },
+          "The strongest first move is to widen the diplomatic and economic cost of coercion while keeping force carefully bounded.",
+        signals: { activism: 4.1, escalation: 4.0, alliance: 5.0, legitimacy: 6.0 },
+      },
+    ],
+  },
+  {
+    id: "gray_zone_sabotage",
+    kind: "case",
+    lane: "deterrence",
+    cardType: "explanation",
+    title: "Gray-zone sabotage",
+    prompt: "What is the most persuasive reading of what the rival is testing?",
+    scene:
+      "A series of cyber disruptions and undersea infrastructure incidents are linked to a rival state, but attribution remains politically contested. Officials debate whether the pattern is mainly about punishment, signaling, coalition pressure, or exploiting easy vulnerabilities.",
+    whyHard:
+      "The ambiguity is part of the problem: the more uncertain the evidence looks, the easier it is to disagree about what the incidents mean.",
+    contextBullets: [
+      { label: "Actor / stake", text: "Multiple allied states are affected, so interpretation shapes not just retaliation but alliance cohesion." },
+      { label: "Uncertainty", text: "The rival benefits if partners cannot agree whether the incidents cross a meaningful threshold." },
+    ],
+    perspectiveTags: ["alliance-manager", "cyber", "infrastructure"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "resolve_probe",
+        title: "Probe for resolve",
+        label:
+          "The incidents are mainly testing whether ambiguity lets the rival impose costs without triggering a firm response.",
+        signals: { activism: 5.6, escalation: 5.8, alliance: 4.9, legitimacy: 4.1 },
+      },
+      {
+        id: "coalition_probe",
+        title: "Probe the coalition",
+        label:
+          "The target is not just infrastructure. It is the political gap between partners with different thresholds for acting.",
+        signals: { activism: 4.8, escalation: 4.8, alliance: 6.1, legitimacy: 4.8 },
+      },
+      {
+        id: "resilience_probe",
+        title: "Probe resilience gaps",
+        label:
+          "The rival is exploiting soft infrastructure and recovery weaknesses more than it is trying to trigger a single dramatic showdown.",
+        signals: { activism: 3.5, escalation: 3.8, alliance: 4.5, legitimacy: 4.4 },
+      },
+      {
+        id: "bait_for_escalation",
+        title: "Bait for escalation",
+        label:
+          "The point is to provoke an overreaction on incomplete evidence and turn allied caution into a strategic restraint.",
+        signals: { activism: 3.4, escalation: 3.6, alliance: 4.2, legitimacy: 5.8 },
+      },
+    ],
+  },
+  {
+    id: "shipping_attacks",
+    kind: "case",
+    lane: "deterrence",
+    cardType: "decision",
+    title: "Shipping attacks in a chokepoint",
+    prompt: "What should govern the response?",
+    scene:
+      "Attacks on commercial shipping continue around a major maritime chokepoint. Some governments want punitive strikes to restore deterrence quickly; others want a narrower mission focused only on keeping the route open.",
+    whyHard:
+      "A forceful response may restore credibility, but it may also widen a side theater into a larger regional conflict.",
+    contextBullets: [
+      { label: "Actor / stake", text: "The route matters to many states that are not parties to the wider regional conflict." },
+      { label: "Uncertainty", text: "It is unclear whether limited strikes would deter further attacks or simply expand the fight." },
+    ],
+    perspectiveTags: ["maritime", "commercial", "regional-order"],
+    knowledgeLoad: "low",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "punish_fast",
+        title: "Punish fast",
+        label:
+          "If attacks on commercial shipping start to look routine, delay itself becomes strategically expensive.",
+        signals: { activism: 5.9, escalation: 5.6, alliance: 4.4, legitimacy: 4.0 },
+      },
+      {
+        id: "protect_the_route",
+        title: "Protect the route",
+        label:
+          "The mission should stay narrow: keep shipping moving without letting every proxy attack redefine the wider war.",
+        signals: { activism: 4.3, escalation: 4.1, alliance: 5.9, legitimacy: 5.1 },
+      },
+      {
+        id: "keep_a_ceiling",
+        title: "Keep a ceiling",
+        label:
+          "The deeper strategic danger is being dragged into a larger campaign through incremental retaliation.",
+        signals: { activism: 2.9, escalation: 3.1, alliance: 4.0, legitimacy: 4.6 },
+      },
+      {
+        id: "anchor_in_regional_backing",
+        title: "Anchor in regional backing",
+        label:
+          "Maritime order will hold more durably if nearby states can frame the mission as route protection rather than outside punishment.",
+        signals: { activism: 4.0, escalation: 4.0, alliance: 4.9, legitimacy: 6.0 },
       },
     ],
   },
   {
     id: "eastern_flank",
+    kind: "case",
+    lane: "alliances",
+    cardType: "decision",
     title: "Eastern-flank reassurance",
-    prompt:
-      "After repeated sabotage scares and airspace incidents, a NATO state on the eastern flank asks for a more permanent allied presence. What is the strongest framing?",
-    primer:
-      "This asks whether security comes mainly from visible commitments, resilient reinforcement, local depth, or deliberate restraint.",
+    prompt: "What should matter most in the posture decision?",
+    scene:
+      "After repeated sabotage scares and airspace incidents, a NATO state on the eastern flank asks for a more permanent allied presence. Some partners favor a visible tripwire; others want a posture built around reinforcement, mobility, and local denial.",
+    whyHard:
+      "A signal that reassures exposed allies may also look like routine escalation if it becomes too rigid or too symbolic.",
+    contextBullets: [
+      { label: "Actor / stake", text: "Frontline allies want a posture that proves the alliance would not hesitate in a real crisis." },
+      { label: "Uncertainty", text: "It is unclear whether deterrence comes more from symbolism, local resilience, or reinforcement depth." },
+    ],
+    perspectiveTags: ["alliance-manager", "frontline-state", "deterrence"],
+    knowledgeLoad: "low",
+    allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "tripwire",
+        id: "make_the_promise_visible",
         title: "Make the promise visible",
         label:
-          "A permanent forward presence matters because exposed allies need proof that any attack immediately implicates the wider alliance.",
-        signals: { activism: 5.9, escalation: 6.1, alliance: 6.2 },
+          "A forward presence matters first because exposed allies need proof that any attack instantly widens the coalition.",
+        signals: { activism: 5.9, escalation: 6.0, alliance: 6.3, legitimacy: 4.3 },
       },
       {
-        id: "resilience",
-        title: "Build depth, mobility, and reinforcement",
+        id: "build_reinforcement_depth",
+        title: "Build reinforcement depth",
         label:
-          "The strongest deterrent is not symbolism alone but a posture partners can reinforce quickly and sustain politically.",
-        signals: { alliance: 6.1, activism: 4.7, escalation: 4.9, legitimacy: 4.4 },
+          "Deterrence is strongest when the posture can be reinforced quickly and sustained politically, not just displayed.",
+        signals: { activism: 4.8, escalation: 4.9, alliance: 6.0, legitimacy: 4.7 },
       },
       {
-        id: "local_capacity",
-        title: "Local capacity has to come first",
+        id: "prioritize_local_denial",
+        title: "Prioritize local denial",
         label:
-          "Frontline states should invest first in their own mobilization, civil defense, and denial capacity rather than assuming outsiders will carry the burden.",
-        signals: { alliance: 2.9, activism: 4.4, escalation: 4.7 },
+          "Frontline states need their own mobilization, civil defense, and denial capacity more than they need a symbolic outside footprint.",
+        signals: { activism: 4.5, escalation: 4.6, alliance: 3.0, legitimacy: 4.1 },
       },
       {
-        id: "limits",
-        title: "Do not turn every incident into a test",
+        id: "pair_reassurance_with_limits",
+        title: "Pair reassurance with limits",
         label:
-          "A thicker posture can calm allies, but it can also harden routine escalation. Reassurance should stay paired with explicit limits.",
-        signals: { activism: 3.1, escalation: 3.4, alliance: 4.2, legitimacy: 4.5 },
+          "Reassurance should stay tied to explicit ceilings so that every incident does not become a crisis of posture.",
+        signals: { activism: 3.2, escalation: 3.5, alliance: 4.4, legitimacy: 5.0 },
       },
     ],
   },
   {
-    id: "taiwan_blockade",
-    title: "Taiwan deterrence and blockade pressure",
-    prompt:
-      "Concern rises that Beijing could use blockade pressure or coercive quarantine rather than immediate invasion. What should drive policy first?",
-    primer:
-      "This case asks whether deterrence works mainly through clearer commitments, coalition denial, regional hedging, or wider legitimacy costs.",
+    id: "maritime_pressure",
+    kind: "case",
+    lane: "alliances",
+    cardType: "decision",
+    title: "Maritime pressure short of alliance",
+    prompt: "What should carry the most weight when outside states offer support?",
+    scene:
+      "A Southeast Asian state faces repeated maritime pressure from a much larger power. It wants help, but not formal bloc alignment that would narrow its diplomatic room or turn every dispute into a camp test.",
+    whyHard:
+      "Outside backing can strengthen the smaller state, but the wrong form of backing can also reduce the autonomy it is trying to preserve.",
+    contextBullets: [
+      { label: "Actor / stake", text: "The state is vulnerable to coercion but still wants room to trade, bargain, and hedge." },
+      { label: "Uncertainty", text: "Support that looks stabilizing to one actor may look like bloc capture to another." },
+    ],
+    perspectiveTags: ["small-state", "middle-power", "hedging", "maritime"],
+    knowledgeLoad: "low",
+    allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "clarity",
-        title: "Reduce ambiguity about response",
+        id: "hard_external_backing",
+        title: "Use hard external backing",
         label:
-          "Visible resolve lowers the chance that Beijing mistakes caution for unwillingness to respond.",
-        signals: { activism: 6.1, escalation: 6.2, alliance: 5.1 },
+          "Without stronger outside balancing, legal claims and coast guards will not offset material asymmetry for long.",
+        signals: { activism: 5.1, escalation: 5.3, alliance: 6.2, legitimacy: 4.2 },
       },
       {
-        id: "denial",
-        title: "Build a denial coalition",
+        id: "protect_hedging_room",
+        title: "Protect hedging room",
         label:
-          "The most credible answer is a coalition that can absorb a blockade, coordinate sanctions, and sustain pressure over time.",
-        signals: { alliance: 6.3, activism: 5.3, escalation: 5.2 },
+          "Smaller states often survive by diversifying ties and avoiding security arrangements that narrow their diplomatic options too early.",
+        signals: { activism: 3.5, escalation: 4.0, alliance: 2.8, legitimacy: 4.9 },
       },
       {
-        id: "hedging",
-        title: "Keep room for regional hedging",
+        id: "multilateralize_pressure",
+        title: "Multilateralize pressure",
         label:
-          "Many Asian states want coercion resisted without being locked into a maximal military coalition they cannot control.",
-        signals: { activism: 3.0, escalation: 3.5, alliance: 3.2, legitimacy: 4.9 },
+          "The more durable answer is to widen the political cost of coercion through law, regional diplomacy, and shared monitoring.",
+        signals: { activism: 4.0, escalation: 4.0, alliance: 4.9, legitimacy: 5.9 },
       },
       {
-        id: "legitimacy",
-        title: "Make coercion politically and economically costly",
+        id: "build_local_resilience",
+        title: "Build local resilience",
         label:
-          "The key is to widen the diplomatic and economic cost of coercion while keeping direct military commitments carefully bounded.",
-        signals: { legitimacy: 6.0, alliance: 5.1, activism: 4.2, escalation: 4.0 },
+          "What matters first is resilient local capacity: surveillance, denial tools, and shock absorption at home.",
+        signals: { activism: 4.7, escalation: 4.6, alliance: 3.6, legitimacy: 4.2 },
       },
     ],
   },
   {
-    id: "maritime_coercion",
-    title: "Maritime coercion short of alliance",
-    prompt:
-      "A Southeast Asian state faces repeated maritime pressure from a much larger power. It wants support, but not formal bloc alignment. What is the strongest framing?",
-    primer:
-      "This asks how smaller states should think about autonomy, outside support, law, and local capacity under persistent coercion.",
+    id: "middle_power_alignment",
+    kind: "case",
+    lane: "alliances",
+    cardType: "explanation",
+    title: "Middle-power alignment under pressure",
+    prompt: "What is the strongest reading of why a middle power resists bloc discipline?",
+    scene:
+      "A middle power wants security ties with Washington, trade with China, and no formal obligation to line up across every file. Outside commentators disagree on whether this is opportunism, realism, vulnerability management, or a workable layered strategy.",
+    whyHard:
+      "The same behavior can look evasive from a coalition manager's perspective and prudent from the middle power's own perspective.",
+    contextBullets: [
+      { label: "Actor / stake", text: "The state is trying to preserve both security partnerships and economic room to maneuver." },
+      { label: "Uncertainty", text: "Sharper rivalry may eventually punish layered positioning, but forcing a clean choice can also backfire." },
+    ],
+    perspectiveTags: ["middle-power", "nonaligned", "alliance-manager"],
+    knowledgeLoad: "low",
+    allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "external_balancing",
-        title: "Outside balancing is unavoidable",
+        id: "ambiguity_will_fail",
+        title: "Ambiguity will fail",
         label:
-          "Without harder external backing, legal claims and coast guards will not offset material asymmetry for long.",
-        signals: { alliance: 6.2, activism: 5.1, escalation: 5.4 },
+          "As rivalry sharpens, layered positioning becomes harder to sustain and partners will eventually demand a real line.",
+        signals: { activism: 5.0, escalation: 5.2, alliance: 6.1, legitimacy: 4.1 },
       },
       {
-        id: "autonomy",
-        title: "Protect room for hedging",
+        id: "layered_alignment_is_real",
+        title: "Layered alignment is real",
         label:
-          "Smaller states often survive by diversifying ties and avoiding formal alignment that would narrow their diplomatic options.",
-        signals: { alliance: 2.8, escalation: 4.0, activism: 3.5, legitimacy: 4.8 },
+          "States can be security partners in one domain, economic partners in another, and still remain dependable on specific problems.",
+        signals: { activism: 4.2, escalation: 4.3, alliance: 5.0, legitimacy: 4.9 },
       },
       {
-        id: "multilateral",
-        title: "Multilateralize the pressure",
+        id: "autonomy_is_rational",
+        title: "Autonomy is rational",
         label:
-          "The most durable answer is to widen the political cost of coercion through legal rulings, regional diplomacy, and collective monitoring.",
-        signals: { legitimacy: 5.9, alliance: 5.0, activism: 4.0 },
+          "The state is managing exposure, not avoiding responsibility. For vulnerable powers, autonomy itself is a strategic asset.",
+        signals: { activism: 3.7, escalation: 4.0, alliance: 2.8, legitimacy: 5.3 },
       },
       {
-        id: "self_strengthening",
-        title: "Invest in denial at home",
+        id: "problem_based_coalitions",
+        title: "Problem-based coalitions",
         label:
-          "The priority is resilient local capacity: coastal defense, surveillance, and economic shock absorption.",
-        signals: { alliance: 3.5, activism: 4.8, escalation: 4.6, legitimacy: 4.3 },
+          "Issue-specific coalitions are more realistic than demanding whole-of-state alignment on every dispute at once.",
+        signals: { activism: 4.0, escalation: 4.1, alliance: 4.8, legitimacy: 5.5 },
       },
     ],
   },
   {
-    id: "iran_threshold",
-    title: "Iran's nuclear threshold and preventive force",
-    prompt:
-      "Iran moves closer to a nuclear threshold. Inspections strain, regional partners push for harder measures, and preventive force returns to the table. Which framing is strongest?",
-    primer:
-      "This asks what matters most when deterrence, legitimacy, and preventive action all look incomplete.",
-    options: [
-      {
-        id: "preventive",
-        title: "Keep preventive force credible",
-        label:
-          "A believable willingness to strike is necessary because once threshold status is normalized, diplomacy loses leverage fast.",
-        signals: { activism: 6.4, escalation: 6.0, alliance: 4.7 },
-      },
-      {
-        id: "coercive_diplomacy",
-        title: "Use hard coercive diplomacy",
-        label:
-          "Sustained pressure, regional deterrence, and constrained bargaining are stronger than either passivity or immediate force.",
-        signals: { activism: 5.2, escalation: 4.9, alliance: 5.4, legitimacy: 4.5 },
-      },
-      {
-        id: "containment",
-        title: "Set a high bar for force",
-        label:
-          "The first goal is to avoid creating a wider war. Containment and patient pressure are safer than preventive action.",
-        signals: { activism: 2.7, escalation: 3.2, alliance: 4.0 },
-      },
-      {
-        id: "inspection",
-        title: "Preserve inspection authority and legitimacy",
-        label:
-          "Broader legitimacy, inspection credibility, and coordinated pressure matter more than acting early without sustainable backing.",
-        signals: { legitimacy: 6.1, alliance: 5.0, activism: 4.0 },
-      },
-    ],
-  },
-  {
-    id: "red_sea",
-    title: "Maritime chokepoints and limited strikes",
-    prompt:
-      "Shipping attacks around a major maritime chokepoint continue. Several governments support limited strikes; others warn about mission creep and regional backlash. Which framing is strongest?",
-    primer:
-      "This asks whether order is best protected through quick punishment, a bounded coalition mission, restraint, or stronger regional legitimacy.",
-    options: [
-      {
-        id: "restore_deterrence",
-        title: "Restore deterrence quickly",
-        label:
-          "If attacks on commercial shipping become routine, the cost of delayed response compounds across the whole system.",
-        signals: { activism: 5.9, escalation: 5.6, legitimacy: 4.2 },
-      },
-      {
-        id: "defensive_coalition",
-        title: "Protect the route, not the whole conflict",
-        label:
-          "A narrow multinational defensive mission is stronger than treating every proxy attack as a reason to widen the war.",
-        signals: { alliance: 6.0, activism: 4.5, escalation: 4.1, legitimacy: 5.0 },
-      },
-      {
-        id: "limit_theater",
-        title: "Do not let a side theater set the agenda",
-        label:
-          "The bigger danger is being pulled into a broader regional war through incremental retaliation.",
-        signals: { activism: 2.8, escalation: 3.0, alliance: 3.9 },
-      },
-      {
-        id: "regional_legitimacy",
-        title: "Regional backing determines durability",
-        label:
-          "Maritime order is easier to defend when nearby states see the mission as protecting commerce rather than imposing another outside campaign.",
-        signals: { legitimacy: 6.0, alliance: 4.8, escalation: 4.2 },
-      },
-    ],
-  },
-  {
-    id: "civilian_protection",
+    id: "atrocity_response",
+    kind: "case",
+    lane: "legitimacy",
+    cardType: "decision",
     title: "Mass atrocity and outside action",
-    prompt:
-      "Mass civilian killing is underway, but the Security Council is blocked and outside military action would be contested. What is the strongest framing?",
-    primer:
-      "This asks how you weigh order, protection, regional authority, and escalation when legal and moral signals point in different directions.",
+    prompt: "What should govern the decision?",
+    scene:
+      "Mass civilian killing is underway, the Security Council is blocked, and outside military action would be legally contested. Some governments argue that the humanitarian threshold is already clear; others warn that poorly bounded intervention could damage order beyond the immediate crisis.",
+    whyHard:
+      "The central tension is whether the gravity of the harm justifies acting without the level of legal and political grounding that would normally be required.",
+    contextBullets: [
+      { label: "Actor / stake", text: "Civilians face immediate danger, but outside action would also create a precedent for future cases." },
+      { label: "Uncertainty", text: "No option offers a clean combination of effectiveness, legality, and political durability." },
+    ],
+    perspectiveTags: ["vulnerable-state", "humanitarian", "regional-order"],
+    knowledgeLoad: "low",
+    allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "order_bar",
-        title: "The bar for force remains high",
+        id: "legal_bar_remains_high",
+        title: "Keep the legal bar high",
         label:
-          "However terrible the case, overriding sovereignty without durable legal and political grounding can damage order beyond the immediate crisis.",
-        signals: { legitimacy: 2.8, activism: 3.4, escalation: 4.0 },
+          "However terrible the case, overriding sovereignty without durable grounding can damage order well beyond the crisis at hand.",
+        signals: { activism: 3.4, escalation: 4.0, alliance: 4.1, legitimacy: 2.9 },
       },
       {
-        id: "limited_protection",
-        title: "Protection can justify limited force",
+        id: "limited_protection_can_qualify",
+        title: "Allow limited protection",
         label:
-          "If the threshold is truly extreme, narrow action to stop mass killing can be defensible even without perfect consensus.",
-        signals: { legitimacy: 6.3, activism: 5.4, escalation: 4.2 },
+          "If the threshold is truly extreme, narrow action to stop mass killing can still be defensible without perfect consensus.",
+        signals: { activism: 5.2, escalation: 4.2, alliance: 4.6, legitimacy: 6.2 },
       },
       {
-        id: "regional_lead",
-        title: "Regional actors should define the mission",
+        id: "regional_authority_should_anchor",
+        title: "Anchor in regional authority",
         label:
-          "External action is more defensible when the most affected regional states define the aim, ceiling, and exit conditions.",
-        signals: { legitimacy: 5.7, alliance: 5.0, activism: 4.6 },
+          "Outside action is more defensible when nearby states define the aim, ceiling, and exit conditions.",
+        signals: { activism: 4.5, escalation: 4.4, alliance: 5.0, legitimacy: 5.7 },
       },
       {
-        id: "civilian_relief",
-        title: "Reduce harm without opening a larger war",
+        id: "reduce_harm_without_widening",
+        title: "Reduce harm without widening",
         label:
-          "Humanitarian corridors, sanctions, and documentation may achieve less, but they avoid normalizing poorly bounded intervention.",
-        signals: { activism: 3.0, escalation: 3.4, legitimacy: 4.6 },
+          "Relief, sanctions, monitoring, and documentation may do less, but they avoid normalizing open-ended force on weak authorization.",
+        signals: { activism: 3.0, escalation: 3.5, alliance: 4.3, legitimacy: 4.8 },
       },
     ],
   },
   {
-    id: "synthesis",
-    kind: "synthesis",
-    title: "Cross-case synthesis",
-    prompt: "Across these cases, what recurring failure worries you most?",
-    primer:
-      "This final question is meant to surface the instinct you carry across different security problems.",
+    id: "aid_corridor",
+    kind: "case",
+    lane: "legitimacy",
+    cardType: "decision",
+    title: "Aid corridors without clear authorization",
+    prompt: "What should carry the most weight?",
+    scene:
+      "A government is choking off food and medicine to a besieged region. Outside states consider escorting maritime and air relief corridors, but there is no clear UN authorization and several regional actors worry about mission creep.",
+    whyHard:
+      "The problem is how to relieve urgent civilian harm without quietly turning a relief mission into a broader warfighting mandate.",
+    contextBullets: [
+      { label: "Actor / stake", text: "The people at risk need access quickly, but the legal and political basis for coercive escort is disputed." },
+      { label: "Uncertainty", text: "A corridor could save lives, but it could also force escalation if the government challenges it directly." },
+    ],
+    perspectiveTags: ["humanitarian", "regional-order", "civilian-protection"],
+    knowledgeLoad: "low",
+    allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "undeterrence",
-        title: "Under-deterrence",
+        id: "open_the_corridor",
+        title: "Open the corridor",
         label:
-          "If adversaries doubt resolve, they press harder and make every later correction more expensive.",
-        signals: { activism: 6.2, escalation: 6.1, alliance: 5.0 },
+          "When starvation or siege tactics are already being used, relief access itself becomes the urgent strategic priority.",
+        signals: { activism: 4.8, escalation: 4.1, alliance: 4.5, legitimacy: 6.1 },
       },
       {
-        id: "overreach",
-        title: "Overreach and escalation",
+        id: "seek_regional_cover",
+        title: "Seek regional cover",
         label:
-          "The sharper danger is widening wars, unsustainable commitments, and strategic exhaustion.",
-        signals: { activism: 2.7, escalation: 3.0, alliance: 4.0 },
+          "Even under pressure, the mission needs regional political ownership if it is going to remain bounded and defensible.",
+        signals: { activism: 4.2, escalation: 4.1, alliance: 5.1, legitimacy: 5.6 },
       },
       {
-        id: "alliance",
-        title: "Alliance fragmentation",
+        id: "secure_authority_first",
+        title: "Secure authority first",
         label:
-          "Security strategy fails when coalitions split, signals diverge, and exposed partners stop trusting the larger grouping.",
-        signals: { alliance: 6.4, activism: 4.8, legitimacy: 4.6 },
+          "The mission should not move faster than its legal and political basis, even when the delay is painful.",
+        signals: { activism: 3.2, escalation: 3.9, alliance: 4.0, legitimacy: 3.0 },
       },
       {
-        id: "legitimacy",
-        title: "Legitimacy decay",
+        id: "intensify_indirect_pressure",
+        title: "Intensify indirect pressure",
         label:
-          "Coercive strategy rarely holds if it sheds legitimacy faster than it produces durable order.",
-        signals: { legitimacy: 6.2, activism: 4.3, escalation: 4.0 },
+          "The better route is harder sanctions, public evidence, and coercive diplomacy short of escorting contested corridors.",
+        signals: { activism: 3.6, escalation: 3.7, alliance: 4.5, legitimacy: 4.9 },
+      },
+    ],
+  },
+  {
+    id: "ceasefire_accountability",
+    kind: "case",
+    lane: "legitimacy",
+    cardType: "explanation",
+    title: "Ceasefire versus accountability",
+    prompt: "What is the strongest framing of the tradeoff?",
+    scene:
+      "Mediators think they can likely secure a ceasefire in a brutal war, but only if accountability is delayed and monitors are weaker than many activists want. The debate turns on whether stopping the killing, preserving legal norms, or building a politically workable settlement matters most.",
+    whyHard:
+      "The same compromise can look like prudence to one camp and norm erosion to another.",
+    contextBullets: [
+      { label: "Actor / stake", text: "Negotiators, affected communities, and outside supporters all define a 'responsible' peace differently." },
+      { label: "Uncertainty", text: "A harder accountability demand may preserve principle but also delay a fragile chance to stop the war." },
+    ],
+    perspectiveTags: ["post-conflict", "humanitarian", "transitional-justice"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "stop_killing_first",
+        title: "Stop the killing first",
+        label:
+          "The strongest justification for compromise is that ending mass harm now outweighs getting the legal architecture right immediately.",
+        signals: { activism: 3.3, escalation: 3.6, alliance: 4.1, legitimacy: 5.7 },
+      },
+      {
+        id: "accountability_sets_limits",
+        title: "Accountability sets limits",
+        label:
+          "If accountability can always be postponed in the hardest cases, the norm against atrocity steadily weakens where it matters most.",
+        signals: { activism: 3.7, escalation: 3.9, alliance: 4.2, legitimacy: 2.9 },
+      },
+      {
+        id: "regional_monitoring_compromise",
+        title: "Use a monitored compromise",
+        label:
+          "The better answer is a politically workable ceasefire tied to regional monitoring and a sequenced accountability path.",
+        signals: { activism: 3.8, escalation: 3.8, alliance: 5.0, legitimacy: 5.1 },
+      },
+      {
+        id: "bad_peace_can_recycle_harm",
+        title: "A bad peace recycles harm",
+        label:
+          "A ceasefire without credible enforcement or future constraint can freeze violence temporarily while preserving its drivers.",
+        signals: { activism: 4.4, escalation: 4.2, alliance: 4.6, legitimacy: 4.7 },
       },
     ],
   },
@@ -309,158 +479,149 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
 
 const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] = [
   {
-    id: "sanctions_enforcement",
-    title: "Sanctions leakage and swing states",
-    prompt:
-      "A coalition wants third-country firms and ports to enforce sanctions more tightly. Several swing states say that looks like wealthy powers exporting their war discipline. What is the strongest framing?",
-    primer:
-      "This case asks whether leakage, coalition breadth, autonomy, or legal grounding should dominate the argument.",
+    id: "iran_threshold",
+    kind: "case",
+    lane: "deterrence",
+    cardType: "explanation",
+    title: "Nuclear threshold and preventive force",
+    prompt: "What is the strongest reading of what this case is mainly about?",
+    scene:
+      "Iran moves closer to a nuclear threshold. Inspections are fraying, regional partners want harder measures, and preventive force returns to the table. The dispute is not just over options, but over what kind of problem this now is.",
+    whyHard:
+      "The closer threshold status feels, the easier it is for the argument to slide from leverage and signaling into war logic.",
+    contextBullets: [
+      { label: "Actor / stake", text: "Regional partners fear normalization of threshold status; others fear that force would widen the war more than it would solve the nuclear problem." },
+      { label: "Uncertainty", text: "No one knows whether harder threats restore leverage or simply accelerate the crisis." },
+    ],
+    perspectiveTags: ["regional-security", "nuclear", "alliance-manager"],
+    knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "secondary_pressure",
-        title: "Leakage has to carry a cost",
+        id: "threshold_is_a_leverage_problem",
+        title: "Leverage is evaporating",
         label:
-          "Sanctions lose strategic meaning when outside actors can profit from evasion without consequence.",
-        signals: { activism: 5.6, alliance: 5.3, escalation: 5.0 },
+          "The real issue is that once threshold status feels normal, diplomacy loses pressure faster than it can recover it.",
+        signals: { activism: 6.0, escalation: 5.7, alliance: 4.8, legitimacy: 4.0 },
       },
       {
-        id: "coalition_breadth",
-        title: "Preserve the coalition's political breadth",
+        id: "threshold_is_a_containment_problem",
+        title: "Containment is safer",
         label:
-          "A broad but imperfect coalition often lasts longer than a cleaner coalition built on coercing reluctant states.",
-        signals: { alliance: 6.2, legitimacy: 5.2, activism: 4.4 },
+          "The key problem is how to avoid turning a bad nuclear position into an even wider war through premature force.",
+        signals: { activism: 2.8, escalation: 3.2, alliance: 4.1, legitimacy: 4.8 },
       },
       {
-        id: "autonomy_space",
-        title: "Swing states will protect autonomy",
+        id: "threshold_is_a_coalition_problem",
+        title: "Coalition management comes first",
         label:
-          "Many middle powers will resist being turned into enforcement arms for conflicts they do not fully own.",
-        signals: { alliance: 2.9, legitimacy: 4.8, escalation: 3.8 },
+          "The central question is whether partners can sustain a credible common line long enough for pressure to mean anything.",
+        signals: { activism: 4.6, escalation: 4.5, alliance: 5.9, legitimacy: 4.8 },
       },
       {
-        id: "legal_authority",
-        title: "Legitimacy depends on clear legal grounding",
+        id: "threshold_is_a_legitimacy_problem",
+        title: "Legitimacy sets the ceiling",
         label:
-          "The more coercive the enforcement, the more it needs a clear public legal basis rather than improvised pressure.",
-        signals: { legitimacy: 6.2, alliance: 4.7, activism: 4.0 },
+          "What matters most is whether any harder move can still be defended as bounded and politically sustainable.",
+        signals: { activism: 4.0, escalation: 4.1, alliance: 4.5, legitimacy: 6.0 },
       },
     ],
   },
   {
     id: "nuclear_hedging",
+    kind: "case",
+    lane: "alliances",
+    cardType: "decision",
     title: "Extended deterrence and nuclear hedging",
-    prompt:
-      "An exposed ally begins debating an independent nuclear option because it no longer fully trusts extended deterrence. What is the strongest framing?",
-    primer:
-      "This asks how you balance reassurance, nonproliferation, autonomy, and arms control when the guarantee itself is in doubt.",
+    prompt: "What should matter most in the response to an exposed ally's nuclear debate?",
+    scene:
+      "An exposed ally begins debating an independent nuclear option because it no longer fully trusts extended deterrence. Some officials want unmistakable reassurance; others think the moment calls for a broader political framework that lowers demand for new arsenals.",
+    whyHard:
+      "Reassurance, nonproliferation, and autonomy all matter here, but pushing one too hard can undermine the others.",
+    contextBullets: [
+      { label: "Actor / stake", text: "The ally is not only judging the adversary. It is also judging the reliability of its own coalition." },
+      { label: "Uncertainty", text: "A stronger guarantee may calm fears, but it may also tie the guarantor more tightly to future escalation." },
+    ],
+    perspectiveTags: ["alliance-manager", "frontline-state", "nuclear"],
+    knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "reinforce_umbrella",
-        title: "Make the outside guarantee unmistakable",
+        id: "restore_confidence_fast",
+        title: "Restore confidence fast",
         label:
-          "The priority is to restore confidence in extended deterrence before doubts cascade into regional proliferation.",
-        signals: { alliance: 6.4, escalation: 5.8, activism: 5.3 },
+          "The first job is to make the outside guarantee unmistakable before the hedging debate cascades further.",
+        signals: { activism: 5.3, escalation: 5.6, alliance: 6.3, legitimacy: 4.2 },
       },
       {
-        id: "latency",
-        title: "Tolerate hedging short of weaponization",
+        id: "lower_demand_for_latency",
+        title: "Lower demand for latency",
         label:
-          "Some allies will want a latent option even if they stop short of crossing the line. That may be politically unavoidable.",
-        signals: { alliance: 3.4, escalation: 4.8, activism: 4.2, legitimacy: 4.5 },
+          "What matters most is a political and military framework that reduces the felt need for an independent option.",
+        signals: { activism: 3.9, escalation: 4.0, alliance: 5.0, legitimacy: 5.6 },
       },
       {
-        id: "arms_control",
-        title: "Rebuild regional arms control and assurance",
+        id: "tolerate_some_hedging",
+        title: "Tolerate some hedging",
         label:
-          "The answer is a political framework that lowers demand for new arsenals rather than assuming every credibility problem needs harder posture.",
-        signals: { legitimacy: 5.7, alliance: 4.9, activism: 3.8, escalation: 3.9 },
+          "Some allies will want a latent option even if they do not cross the line, and treating that as pure disloyalty misreads the problem.",
+        signals: { activism: 4.2, escalation: 4.7, alliance: 3.4, legitimacy: 4.8 },
       },
       {
-        id: "nonproliferation",
-        title: "Stop the proliferation cascade early",
+        id: "protect_nonproliferation_early",
+        title: "Protect nonproliferation early",
         label:
-          "The wider regional danger is the spread of nuclear latency itself, even if current fears about abandonment are understandable.",
-        signals: { legitimacy: 5.4, alliance: 5.5, activism: 4.8, escalation: 4.7 },
+          "The wider danger is the spread of nuclear latency itself, even if the ally's anxiety is understandable.",
+        signals: { activism: 4.8, escalation: 4.6, alliance: 5.4, legitimacy: 5.2 },
       },
     ],
   },
   {
-    id: "gray_zone_retaliation",
-    title: "Gray-zone sabotage and retaliation",
-    prompt:
-      "A rival is linked to cyber disruption and undersea infrastructure sabotage, but attribution remains politically contested. What is the strongest framing?",
-    primer:
-      "This case asks whether the best answer is retaliation, coalition attribution, resilience, or a high threshold for crossing into overt response.",
-    allowSecondChoiceInAnalyst: true,
-    options: [
-      {
-        id: "retaliate",
-        title: "Retaliate in a calibrated way",
-        label:
-          "Letting gray-zone attacks accumulate without visible cost invites further testing under the cover of ambiguity.",
-        signals: { activism: 5.7, escalation: 5.4, legitimacy: 4.2 },
-      },
-      {
-        id: "joint_attribution",
-        title: "Attribute with partners before acting",
-        label:
-          "Shared attribution and coordinated response matter because the political meaning of the incident is part of the deterrent signal.",
-        signals: { alliance: 6.0, legitimacy: 5.0, activism: 4.5 },
-      },
-      {
-        id: "resilience",
-        title: "Resilience is the first line of defense",
-        label:
-          "Hardening infrastructure and recovery capacity may matter more than dramatic retaliation in an ambiguous domain.",
-        signals: { activism: 3.0, escalation: 3.6, alliance: 4.6 },
-      },
-      {
-        id: "high_threshold",
-        title: "Keep the threshold for overt retaliation high",
-        label:
-          "Ambiguity is exactly why states should resist being maneuvered into visible escalation on incomplete evidence.",
-        signals: { legitimacy: 5.8, escalation: 3.8, activism: 3.4 },
-      },
+    id: "sanctions_enforcement",
+    kind: "case",
+    lane: "legitimacy",
+    cardType: "explanation",
+    title: "Sanctions leakage and swing states",
+    prompt: "What is the strongest reading of why several swing states resist tighter enforcement?",
+    scene:
+      "A wartime coalition wants third-country firms and ports to enforce sanctions more tightly. Several swing states say that looks like wealthy powers exporting their war discipline through other people's trade networks.",
+    whyHard:
+      "The same resistance can be read as opportunism, autonomy protection, or a real legitimacy objection to how coercion is being organized.",
+    contextBullets: [
+      { label: "Actor / stake", text: "The coalition wants enforcement credibility; swing states want to avoid becoming instruments of a conflict they do not fully own." },
+      { label: "Uncertainty", text: "It is unclear whether harder pressure would strengthen the coalition or merely narrow it." },
     ],
-  },
-  {
-    id: "middle_power_alignment",
-    title: "Middle-power alignment under pressure",
-    prompt:
-      "A middle power wants security ties with Washington, trade with China, and no formal bloc discipline. What is the strongest framing?",
-    primer:
-      "This asks whether alignment, layered partnerships, autonomy, or issue-based coalitions best fit a world of sharper competition.",
+    perspectiveTags: ["middle-power", "nonaligned", "sanctions", "developmental"],
+    knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
-        id: "camp_choice",
-        title: "Partners eventually have to choose",
+        id: "resistance_is_about_leakage",
+        title: "Leakage changes the war",
         label:
-          "When rivalry sharpens, strategic ambiguity becomes a liability. Security partners need to know where the line really is.",
-        signals: { alliance: 6.2, escalation: 5.4, activism: 5.0 },
+          "The central issue is that sanctions lose strategic meaning when outside actors can profit from evasion without consequence.",
+        signals: { activism: 5.5, escalation: 4.9, alliance: 5.2, legitimacy: 4.0 },
       },
       {
-        id: "layered_alignment",
-        title: "Allow layered alignment",
+        id: "resistance_is_about_coalition_breadth",
+        title: "Breadth is the real stake",
         label:
-          "States can be security partners in one domain, economic partners in another, and still remain useful coalition members.",
-        signals: { alliance: 5.1, legitimacy: 4.7, activism: 4.2 },
+          "A broad but imperfect coalition often lasts longer than a cleaner coalition built on coercing reluctant states.",
+        signals: { activism: 4.2, escalation: 4.1, alliance: 6.0, legitimacy: 5.2 },
       },
       {
-        id: "autonomy",
-        title: "Autonomy is not fence-sitting",
+        id: "resistance_is_about_autonomy",
+        title: "Autonomy is the real stake",
         label:
-          "Many states are managing vulnerability, not avoiding responsibility. For them, autonomy is a rational strategic posture.",
-        signals: { alliance: 2.8, legitimacy: 5.2, escalation: 4.1 },
+          "Many middle powers resist not because they support the target, but because they do not want to be turned into enforcement arms for others.",
+        signals: { activism: 3.7, escalation: 3.8, alliance: 2.9, legitimacy: 5.1 },
       },
       {
-        id: "issue_coalitions",
-        title: "Build narrow coalitions by problem",
+        id: "resistance_is_about_legal_grounding",
+        title: "Legal grounding is the real stake",
         label:
-          "Issue-specific coalitions are often more durable than demanding whole-of-state alignment across every file at once.",
-        signals: { alliance: 4.8, legitimacy: 5.5, activism: 4.0 },
+          "The more coercive the enforcement becomes, the more it needs a public basis that looks like law rather than improvised hierarchy.",
+        signals: { activism: 4.0, escalation: 3.9, alliance: 4.6, legitimacy: 6.2 },
       },
     ],
   },
@@ -470,22 +631,24 @@ export const securityModule: ModuleDefinition = {
   slug: "security",
   shortTitle: "Security",
   title: "Security, Strategy, and Statecraft",
+  subtitle: "Deterrence, alliances, and protection under pressure",
+  shorthand: "Security Pressure",
   timeEstimate: {
-    standard: "7 to 9 minutes",
+    standard: "8 to 10 minutes",
     analyst: "11 to 14 minutes",
   },
   description:
-    "An issue-specific stress test on deterrence, escalation, alliance politics, coercion, and the legitimacy of force in hard cases.",
+    "An issue-specific read on deterrence, alliance politics, crisis ceilings, and the legitimacy of force under pressure.",
   measures: [
-    "restraint versus coercive activism",
-    "credibility versus escalation aversion",
-    "alliance-centered versus autonomy-sensitive instincts",
-    "order and sovereignty versus protection and legitimacy",
+    "pressure versus crisis-limiting instincts",
+    "alliance-centered versus autonomy-sensitive coalition instincts",
+    "order-first versus protection-sensitive views of force and legitimacy",
+    "how explanation cards differ from decision cards when the case sharpens",
   ],
   doesNotClaim: [
     "a fixed security identity that overrides the Foundation baseline",
     "a full theory of grand strategy across every theater",
-    "nationality-adjusted or role-play-based judgments",
+    "role-play or nationality-adjusted answers",
   ],
   axes: [
     {
@@ -513,108 +676,281 @@ export const securityModule: ModuleDefinition = {
       highLabel: "Protection-sensitive",
     },
   ],
+  lanes: securityLanes,
   questionsByMode: {
     standard: securityStandardQuestions,
     analyst: [...securityStandardQuestions, ...securityAnalystAdditions],
   },
-  interpret(scores) {
-    const activism = scores.activism
-    const escalation = scores.escalation
-    const alliance = scores.alliance
-    const legitimacy = scores.legitimacy
+  interpret(analytics) {
+    const { activism, escalation, alliance, legitimacy } = analytics.scores
 
-    if (activism >= 5.5 && escalation >= 5.3) {
+    if (activism >= 5.4 && escalation >= 5.1) {
       return {
         headline: "Security read: pressure and visible deterrence",
         summary:
-          "You are comparatively willing to use pressure, visible resolve, and harder commitments when you think hesitation would invite more probing.",
+          "You become firmer under security pressure. Delay looks costly to you, and visible commitment matters when rivals are testing limits.",
         instincts: [
-          "You worry most about the cost of hesitation once a rival starts testing limits.",
-          "You treat deterrence failures as harder to reverse than overcommitment.",
-          "You are comfortable with coercive tools when they clarify commitment rather than blur it.",
+          "You worry most about what hesitation teaches an adversary.",
+          "You treat credibility failures as harder to reverse than bounded overcommitment.",
+          "You are comfortable with pressure when it clarifies the line rather than blurs it.",
         ],
         challenge:
-          "This style can underrate how quickly credibility campaigns turn into escalation traps or politically unsustainable commitments.",
+          "This style can understate how quickly credibility campaigns become escalation traps or politically unsustainable commitments.",
       }
     }
 
-    if (activism <= 3.5 && escalation <= 3.8) {
+    if (activism <= 3.7 && escalation <= 3.9) {
       return {
-        headline: "Security read: restraint and crisis limits",
+        headline: "Security read: restraint and crisis ceilings",
         summary:
-          "You put more weight on escalation control, war termination, and limiting commitments than on pressing every available strategic opening.",
+          "You look first for ceilings, off-ramps, and ways to keep coercion from widening into a harder war than the original problem requires.",
         instincts: [
-          "You look first for off-ramps, ceilings, and ways to keep crises bounded.",
           "You are skeptical that visible toughness automatically produces better outcomes.",
-          "You see overextension as a strategic danger in its own right.",
+          "You see overextension and mission creep as strategic dangers in their own right.",
+          "You prefer bounded responses that do not quietly redefine the whole conflict.",
         ],
         challenge:
-          "This style can underrate the cumulative cost of under-deterrence when rivals conclude that caution will keep winning out.",
+          "This style can understate how much cumulative advantage a rival can gain when caution keeps winning the first move.",
       }
     }
 
-    if (alliance >= 5.6) {
+    if (alliance >= 5.4) {
       return {
-        headline: "Security read: coalition-centered deterrence",
+        headline: "Security read: coalition-centered pressure management",
         summary:
-          "You think durable security comes less from unilateral sharpness than from coalitions that can coordinate signals, costs, and endurance over time.",
+          "You think security holds up best when exposed partners trust the coalition and the coalition can actually carry the policy together.",
         instincts: [
-          "You treat alliance coherence as a strategic asset, not diplomatic decoration.",
-          "You look for policies that partners can sustain together rather than dramatic solo moves.",
-          "You see burden-sharing and political alignment as part of deterrence itself.",
+          "You treat alliance cohesion as part of deterrence, not diplomatic decoration.",
+          "You prefer strategies that partners can sustain together over dramatic unilateral gestures.",
+          "You pay close attention to how frontline and middle-power states read outside commitments.",
         ],
         challenge:
-          "This style can assume more allied durability than actually exists when domestic politics diverge under pressure.",
+          "This style can assume more allied durability than domestic politics will actually deliver under stress.",
       }
     }
 
-    if (legitimacy >= 5.5) {
+    if (legitimacy >= 5.3) {
       return {
-        headline: "Security read: legitimacy-bound statecraft",
+        headline: "Security read: protection-sensitive statecraft",
         summary:
-          "You think force, deterrence, and alliance politics hold up best when they remain tied to a defensible political and legal frame.",
+          "You think force and deterrence hold up best when they remain visibly bounded by civilian protection, political legitimacy, and defensible authority.",
         instincts: [
-          "You look for strategies that preserve legitimacy as well as leverage.",
-          "You distinguish narrow, bounded coercion from open-ended authorization to act.",
-          "You worry about how today's precedent changes tomorrow's harder cases.",
+          "You keep asking what kind of precedent a response is setting.",
+          "You distinguish narrow protection from open-ended license to act.",
+          "You see legitimacy as part of strategic durability rather than as a separate moral clean-up step.",
         ],
         challenge:
-          "This style can overestimate how much legitimacy alone constrains rivals that are willing to bear reputational cost.",
+          "This style can overestimate how much legitimacy itself constrains rivals willing to absorb reputational cost.",
       }
     }
 
     return {
-      headline: "Security read: mixed under pressure",
+      headline: "Security read: bounded pressure, case by case",
       summary:
-        "You do not carry one fixed security rule from case to case. You balance deterrence, escalation risk, coalition management, and legitimacy together.",
+        "You do not carry one fixed security rule from case to case. You balance deterrence, coalition management, escalation risk, and legitimacy together.",
       instincts: [
         "You resist turning every crisis into a single test of resolve.",
-        "You look for strategies that keep options open rather than settle the argument in advance.",
-        "You expect the right answer to shift across theaters and political contexts.",
+        "You look for responses that keep options open rather than settle the argument too early.",
+        "You expect the strongest security logic to shift with theater, partner exposure, and political context.",
       ],
       challenge:
         "This style can leave your own threshold for decisive action harder to specify when a crisis suddenly sharpens.",
     }
   },
-  compareToFoundation(scores, foundation) {
+  summarizeLanes(analytics, foundation) {
+    const deterrence = analytics.laneScores.deterrence
+    const alliances = analytics.laneScores.alliances
+    const legitimacy = analytics.laneScores.legitimacy
+
+    return [
+      summarizeSecurityLane("deterrence", deterrence, foundation),
+      summarizeSecurityLane("alliances", alliances, foundation),
+      summarizeSecurityLane("legitimacy", legitimacy, foundation),
+    ]
+  },
+  summarizeCardTypes(analytics) {
+    const explanation = analytics.cardTypeScores.explanation
+    const decision = analytics.cardTypeScores.decision
+
+    if (!explanation || !decision) return undefined
+
+    if (explanation.activism - decision.activism >= 0.65) {
+      return {
+        headline: "Explanation and Decision",
+        summary:
+          "You explain security cases through harder pressure and deterrence logics than you are willing to endorse outright once the decision costs are in view.",
+      }
+    }
+
+    if (decision.legitimacy - explanation.legitimacy >= 0.65) {
+      return {
+        headline: "Explanation and Decision",
+        summary:
+          "You often read cases structurally, but your decision cards keep legitimacy, civilian risk, and bounded action more active than your explanations alone would suggest.",
+      }
+    }
+
+    if (decision.alliance - explanation.alliance >= 0.65) {
+      return {
+        headline: "Explanation and Decision",
+        summary:
+          "Your explanation cards are not especially coalition-first, but your decision cards put much more weight on what exposed partners and alliances can actually carry together.",
+      }
+    }
+
+    return {
+      headline: "Explanation and Decision",
+      summary:
+        "Your explanation and decision cards mostly point in the same direction. The same security logic tends to survive when the question shifts from diagnosis to choice.",
+    }
+  },
+  buildOverlayDeltas(analytics) {
+    const { activism, escalation, alliance, legitimacy } = analytics.scores
+
+    return {
+      securityCompetition: compress(((activism - 4) * 0.6 + (escalation - 4) * 0.4) * 0.55),
+      institutions: compress(((alliance - 4) * 0.75 + (legitimacy - 4) * 0.25) * 0.4),
+      normsIdentity: compress((legitimacy - 4) * 0.22),
+      restraint: compress((4 - activism) * 0.55),
+      orderJustice: compress((4 - legitimacy) * 0.55),
+    }
+  },
+  compareToFoundation(analytics, foundation) {
     const notes: string[] = []
+    const { activism, alliance, legitimacy } = analytics.scores
 
-    if (foundation.restraint >= 5.15 && scores.activism >= 5.2) {
-      notes.push("In security crises, you are more coercive than your general foundation profile suggests.")
-    } else if (foundation.restraint <= 3.85 && scores.activism <= 3.8) {
-      notes.push("In security crises, you are more restrained than your general foundation profile suggests.")
+    if (foundation.restraint >= 5.15 && activism >= 5.1) {
+      notes.push("Under security pressure, you harden relative to your more restrained Foundation baseline.")
+    } else if (foundation.restraint <= 3.85 && activism <= 3.8) {
+      notes.push("Under security pressure, you become more bounded than your harder-edged Foundation baseline might imply.")
     }
 
-    if (foundation.orderJustice >= 5.15 && scores.legitimacy >= 5.1) {
-      notes.push("Compared with your foundation result, this module makes you more willing to treat protection and legitimacy as active constraints.")
-    } else if (foundation.orderJustice <= 3.85 && scores.legitimacy <= 4.2) {
-      notes.push("Your module result reinforces a justice-sensitive baseline rather than pulling you back toward order-first caution.")
+    if (foundation.institutions >= 5.15 && alliance >= 5.2) {
+      notes.push("Your institutional baseline stays visible here through coalition endurance and alliance design.")
+    } else if (foundation.institutions <= 3.85 && alliance >= 5.2) {
+      notes.push("Even with a more skeptical Foundation baseline, security pressure pushes you toward coalition management and exposed-partner reassurance.")
     }
 
-    if (foundation.institutions >= 5 && scores.alliance >= 5.2) {
-      notes.push("Your institutional instinct also stays visible here through coalition management and alliance design.")
+    if (foundation.orderJustice >= 5.15 && legitimacy >= 5.1) {
+      notes.push("Compared with the Foundation, this module makes protection and political legitimacy more active constraints.")
+    } else if (foundation.orderJustice <= 3.85 && legitimacy <= 4.0) {
+      notes.push("This module reinforces a more justice-sensitive baseline rather than pulling you back toward order-first caution.")
     }
 
     return notes.join(" ")
   },
 }
+
+function summarizeSecurityLane(
+  laneKey: string,
+  scores: Record<string, number>,
+  foundation?: DimensionScores,
+): ModuleLaneSummary {
+  const lane = securityLanes.find((candidate) => candidate.key === laneKey)
+  if (!lane) {
+    return {
+      key: laneKey,
+      label: laneKey,
+      summary: "This lane does not yet have a defined summary.",
+      score: 4,
+      lowLabel: "Lower",
+      highLabel: "Higher",
+    }
+  }
+
+  if (laneKey === "deterrence") {
+    const activism = scores.activism ?? 4
+    const escalation = scores.escalation ?? 4
+    let summary = "This lane prefers bounded deterrence over pure signaling or pure restraint."
+
+    if (activism >= 5.2 && escalation >= 5.0) {
+      summary =
+        "This lane leans toward visible deterrence and earlier pressure when ambiguity itself starts to reward probing."
+    } else if (activism <= 3.8) {
+      summary =
+        "This lane looks first for ceilings, route protection, resilience, and ways to keep coercion from widening into a larger war."
+    }
+
+    return {
+      key: lane.key,
+      label: lane.label,
+      summary,
+      score: activism,
+      lowLabel: lane.lowLabel,
+      highLabel: lane.highLabel,
+      delta:
+        foundation && Math.abs(foundation.restraint - 4) > 0.4
+          ? activism >= 5.1 && foundation.restraint >= 5.15
+            ? "Harder-edged than your baseline restraint score."
+            : activism <= 3.8 && foundation.restraint <= 3.85
+              ? "More crisis-limiting than your baseline strategic style."
+              : undefined
+          : undefined,
+    }
+  }
+
+  if (laneKey === "alliances") {
+    const alliance = scores.alliance ?? 4
+    let summary = "This lane favors layered alignment: support where needed, but without assuming every partner fits one template."
+
+    if (alliance >= 5.2) {
+      summary =
+        "This lane becomes coalition-centered. Exposed allies, reassurance, and partner endurance are part of the security answer itself."
+    } else if (alliance <= 3.8) {
+      summary =
+        "This lane is autonomy-sensitive. It gives smaller and middle powers more room to hedge, diversify, and resist bloc compression."
+    }
+
+    return {
+      key: lane.key,
+      label: lane.label,
+      summary,
+      score: alliance,
+      lowLabel: lane.lowLabel,
+      highLabel: lane.highLabel,
+      delta:
+        foundation && alliance >= 5.2 && foundation.institutions <= 3.85
+          ? "More coalition-centered than your baseline institutions score."
+          : undefined,
+    }
+  }
+
+  const legitimacyScore = scores.legitimacy ?? 4
+  let summary = "This lane tries to keep order, protection, and political legitimacy in view at the same time."
+
+  if (legitimacyScore >= 5.2) {
+    summary =
+      "This lane is protection-sensitive. It keeps civilian risk, regional backing, and defensible authority active even when harder action is on the table."
+  } else if (legitimacyScore <= 3.8) {
+    summary =
+      "This lane stays order-first. It sets a higher bar for force when legal authority and precedent are weak."
+  }
+
+  return {
+    key: lane.key,
+    label: lane.label,
+    summary,
+    score: legitimacyScore,
+    lowLabel: lane.lowLabel,
+    highLabel: lane.highLabel,
+    delta:
+      foundation && legitimacyScore >= 5.2 && foundation.orderJustice >= 5.15
+        ? "More protection-sensitive than your order-first Foundation baseline."
+        : foundation && legitimacyScore <= 3.8 && foundation.orderJustice <= 3.85
+          ? "More order-first than your justice-sensitive Foundation baseline."
+          : undefined,
+  }
+}
+
+function compress(value: number) {
+  const bounded = Math.max(-1.2, Math.min(1.2, value))
+  return Number(bounded.toFixed(2))
+}
+
+export const securityOverlayDimensions: readonly DimensionKey[] = [
+  "securityCompetition",
+  "institutions",
+  "normsIdentity",
+  "restraint",
+  "orderJustice",
+] as const

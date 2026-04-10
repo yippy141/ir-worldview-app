@@ -1,6 +1,7 @@
 import { securityModule } from "@/lib/modules/security"
 import { technologyModule } from "@/lib/modules/technology"
 import type {
+  ModuleAnalytics,
   ModuleAnswers,
   ModuleDefinition,
   ModulePayload,
@@ -9,7 +10,7 @@ import type {
   ModuleSelection,
   ModuleSlug,
 } from "@/lib/modules/types"
-import type { DimensionScores, QuizMode } from "@/lib/types"
+import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
 
 export const modules: readonly ModuleDefinition[] = [securityModule, technologyModule]
 export const SECOND_CHOICE_WEIGHT = 0.45
@@ -55,7 +56,11 @@ export function decodeModulePayload(encoded: string): ModulePayload | null {
       parsed.answers !== null
     ) {
       const answers = normalizeModuleAnswers(parsed.answers)
+      const moduleDefinition = getModuleDefinition(parsed.slug)
       if (!answers) return null
+      if (!moduleDefinition || !validateModuleAnswers(moduleDefinition, "standard", answers)) {
+        return null
+      }
 
       return {
         v: 2,
@@ -66,13 +71,16 @@ export function decodeModulePayload(encoded: string): ModulePayload | null {
     }
 
     const answers = normalizeModuleAnswers(parsed.answers)
+    const moduleDefinition =
+      typeof parsed.slug === "string" ? getModuleDefinition(parsed.slug) : null
 
     if (
       parsed.v !== 2 ||
       typeof parsed.slug !== "string" ||
-      !getModuleDefinition(parsed.slug) ||
+      !moduleDefinition ||
       !isQuizMode(parsed.mode) ||
-      !answers
+      !answers ||
+      !validateModuleAnswers(moduleDefinition, parsed.mode, answers)
     ) {
       return null
     }
@@ -98,15 +106,63 @@ export function countAnsweredModuleQuestions(
   ).length
 }
 
+export function countAnsweredModuleQuestionsByLane(
+  moduleDefinition: ModuleDefinition,
+  mode: QuizMode,
+  answers: ModuleAnswers,
+) {
+  return Object.fromEntries(
+    moduleDefinition.lanes.map((lane) => [
+      lane.key,
+      getModuleQuestions(moduleDefinition, mode).filter(
+        (question) => question.lane === lane.key && answers[question.id]?.primary !== undefined,
+      ).length,
+    ]),
+  ) as Record<string, number>
+}
+
 export function scoreModule(
   moduleDefinition: ModuleDefinition,
   mode: QuizMode,
   answers: ModuleAnswers,
 ): Record<string, number> {
+  return buildModuleAnalytics(moduleDefinition, mode, answers).scores
+}
+
+export function buildModuleAnalytics(
+  moduleDefinition: ModuleDefinition,
+  mode: QuizMode,
+  answers: ModuleAnswers,
+): ModuleAnalytics {
+  const questions = getModuleQuestions(moduleDefinition, mode)
+
+  return {
+    scores: scoreQuestions(moduleDefinition, questions, answers, mode),
+    laneScores: Object.fromEntries(
+      moduleDefinition.lanes.map((lane) => [
+        lane.key,
+        scoreQuestions(
+          moduleDefinition,
+          questions.filter((question) => question.lane === lane.key),
+          answers,
+          mode,
+        ),
+      ]),
+    ),
+    cardTypeScores: buildCardTypeScores(moduleDefinition, questions, answers, mode),
+  }
+}
+
+function scoreQuestions(
+  moduleDefinition: ModuleDefinition,
+  questions: ModuleQuestion[],
+  answers: ModuleAnswers,
+  mode: QuizMode,
+) {
   const sums = Object.fromEntries(moduleDefinition.axes.map((axis) => [axis.key, 0]))
   const weights = Object.fromEntries(moduleDefinition.axes.map((axis) => [axis.key, 0]))
 
-  for (const question of getModuleQuestions(moduleDefinition, mode)) {
+  for (const question of questions) {
     const answer = answers[question.id]
     if (!answer?.primary) continue
 
@@ -131,22 +187,46 @@ export function scoreModule(
   )
 }
 
+function buildCardTypeScores(
+  moduleDefinition: ModuleDefinition,
+  questions: ModuleQuestion[],
+  answers: ModuleAnswers,
+  mode: QuizMode,
+) {
+  const cardTypes: ChoiceCardType[] = ["explanation", "decision", "both"]
+  const scores: Partial<Record<ChoiceCardType, Record<string, number>>> = {}
+
+  for (const cardType of cardTypes) {
+    const filtered = questions.filter((question) => question.cardType === cardType)
+    if (filtered.length === 0) continue
+    scores[cardType] = scoreQuestions(moduleDefinition, filtered, answers, mode)
+  }
+
+  return scores
+}
+
 export function buildModuleResult(
   moduleDefinition: ModuleDefinition,
   mode: QuizMode,
   answers: ModuleAnswers,
   foundation?: DimensionScores,
 ): ModuleResult {
-  const scores = scoreModule(moduleDefinition, mode, answers)
-  const interpretation = moduleDefinition.interpret(scores)
+  const analytics = buildModuleAnalytics(moduleDefinition, mode, answers)
+  const interpretation = moduleDefinition.interpret(analytics)
+  const laneSummaries = moduleDefinition.summarizeLanes(analytics, foundation)
+  const cardTypeRead = moduleDefinition.summarizeCardTypes?.(analytics)
   const comparison =
     foundation && moduleDefinition.compareToFoundation
-      ? moduleDefinition.compareToFoundation(scores, foundation)
+      ? moduleDefinition.compareToFoundation(analytics, foundation)
       : undefined
 
   return {
     ...interpretation,
-    scores,
+    scores: analytics.scores,
+    laneSummaries,
+    ...(cardTypeRead ? { cardTypeRead } : {}),
+    cardTypeScores: analytics.cardTypeScores,
+    overlayDeltas: moduleDefinition.buildOverlayDeltas(analytics),
     comparison: comparison || undefined,
   }
 }
@@ -210,6 +290,27 @@ function normalizeModuleSelection(value: unknown): ModuleSelection | null {
     primary: parsed.primary,
     ...(parsed.secondary ? { secondary: parsed.secondary } : {}),
   }
+}
+
+function validateModuleAnswers(
+  moduleDefinition: ModuleDefinition,
+  mode: QuizMode,
+  answers: ModuleAnswers,
+) {
+  const questionMap = Object.fromEntries(
+    getModuleQuestions(moduleDefinition, mode).map((question) => [question.id, question]),
+  ) as Record<string, ModuleQuestion>
+
+  for (const [questionId, selection] of Object.entries(answers)) {
+    const question = questionMap[questionId]
+    if (!question) return false
+
+    const optionIds = new Set(question.options.map((option) => option.id))
+    if (!optionIds.has(selection.primary)) return false
+    if (selection.secondary && !optionIds.has(selection.secondary)) return false
+  }
+
+  return true
 }
 
 function isQuizMode(value: unknown): value is QuizMode {

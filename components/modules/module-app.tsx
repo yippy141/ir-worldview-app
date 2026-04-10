@@ -4,11 +4,12 @@ import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   countAnsweredModuleQuestions,
+  countAnsweredModuleQuestionsByLane,
   encodeModulePayload,
   getModuleDefinition,
   getModuleQuestions,
 } from "@/lib/modules/framework"
-import type { ModuleAnswers, ModuleSlug } from "@/lib/modules/types"
+import type { ModuleAnswers, ModuleLane, ModuleQuestion, ModuleSlug } from "@/lib/modules/types"
 import type { ChoiceCardType, QuizMode } from "@/lib/types"
 
 export function ModuleApp({
@@ -22,15 +23,31 @@ export function ModuleApp({
   const moduleDefinition = getModuleDefinition(slug)
   const [mode, setMode] = useState<QuizMode>("standard")
   const [answers, setAnswers] = useState<ModuleAnswers>({})
-  const [openPrimers, setOpenPrimers] = useState<Record<string, boolean>>({})
 
   const questions = useMemo(
     () => (moduleDefinition ? getModuleQuestions(moduleDefinition, mode) : []),
     [mode, moduleDefinition],
   )
 
+  const questionsByLane = useMemo(
+    () =>
+      moduleDefinition
+        ? moduleDefinition.lanes.map((lane) => ({
+            lane,
+            questions: questions.filter((question) => question.lane === lane.key),
+          }))
+        : [],
+    [moduleDefinition, questions],
+  )
+
   const completedCount = useMemo(
     () => (moduleDefinition ? countAnsweredModuleQuestions(moduleDefinition, mode, answers) : 0),
+    [answers, mode, moduleDefinition],
+  )
+
+  const answeredByLane = useMemo(
+    () =>
+      moduleDefinition ? countAnsweredModuleQuestionsByLane(moduleDefinition, mode, answers) : {},
     [answers, mode, moduleDefinition],
   )
 
@@ -45,7 +62,6 @@ export function ModuleApp({
     if (nextMode === mode) return
     setMode(nextMode)
     setAnswers({})
-    setOpenPrimers({})
   }
 
   function setPrimary(questionId: string, optionId: string) {
@@ -87,11 +103,12 @@ export function ModuleApp({
   }
 
   return (
-    <div className="stack-lg">
+    <div className="stack-xl">
       <section className="panel stack-md">
         <div className="stack-sm">
           <p className="eyebrow">Focus-area module</p>
           <h1>{moduleDefinition.title}</h1>
+          <p style={{ fontWeight: 600, maxWidth: "760px" }}>{moduleDefinition.subtitle}</p>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "760px" }}>
             {moduleDefinition.description}
           </p>
@@ -101,8 +118,8 @@ export function ModuleApp({
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard keeps the module concise. Deep-dive adds four extra cases and invites an
-              optional second-most persuasive choice on selected cards as a softer signal.
+              Standard keeps the module to nine lane-balanced cases. Deep-dive adds one more case
+              per lane and lets you mark a second-most persuasive answer as a softer signal.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -110,7 +127,7 @@ export function ModuleApp({
               selected={mode === "standard"}
               badge="S"
               title="Standard"
-              description={`8 questions · ${moduleDefinition.timeEstimate.standard}`}
+              description={`9 questions · ${moduleDefinition.timeEstimate.standard}`}
               onClick={() => handleModeChange("standard")}
             />
             <ModeCard
@@ -125,8 +142,8 @@ export function ModuleApp({
 
         <div className="module-meta-grid">
           <div className="callout stack-xs">
-            <p className="eyebrow">Time</p>
-            <p style={{ fontWeight: 600 }}>{moduleDefinition.timeEstimate[mode]}</p>
+            <p className="eyebrow">In-flow shorthand</p>
+            <p style={{ fontWeight: 600 }}>{moduleDefinition.shorthand}</p>
             <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
               {questions.length} scored items in this mode.
             </p>
@@ -149,16 +166,36 @@ export function ModuleApp({
           </div>
         </div>
 
+        <div className="callout stack-sm">
+          <div className="stack-xs">
+            <p style={{ fontWeight: 600 }}>Visible lanes</p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              Each case sits inside one lane so the module reads like a structured issue file
+              rather than one large basket of debates.
+            </p>
+          </div>
+          <div className="module-lane-grid">
+            {questionsByLane.map(({ lane, questions: laneQuestions }) => (
+              <LaneProgressCard
+                key={lane.key}
+                lane={lane}
+                answered={answeredByLane[lane.key] ?? 0}
+                total={laneQuestions.length}
+              />
+            ))}
+          </div>
+        </div>
+
         <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>How to answer these cases</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Answer from your own analytic judgment. On Explanation cards, choose what best explains
-            the case. On Decision cards, choose what should carry the most weight. On Both cards,
-            choose the framing you find most persuasive overall.
+            Read the scene first, then the tradeoff. On Explanation cards, choose the logic that
+            best explains the case. On Decision cards, choose the logic that should carry the most
+            weight in the response.
           </p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            The case mix is meant to stay broader than one U.S.-allied frame, including major-power,
-            middle-power, and vulnerability-centered settings.
+            Do not answer based on what sounds most publicly defensible unless that is also your
+            own judgment.
           </p>
         </div>
 
@@ -166,8 +203,8 @@ export function ModuleApp({
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>Foundation comparison is on</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              This module result can compare back to your foundation profile, but it remains a
-              separate issue-specific readout.
+              This module can compare back to your Foundation result, but it remains an
+              issue-specific read rather than a replacement for the baseline.
             </p>
           </div>
         ) : null}
@@ -183,109 +220,136 @@ export function ModuleApp({
         </div>
       </section>
 
-      {questions.map((question, index) => {
-        const primerOpen = openPrimers[question.id] ?? false
-        const primarySelection = answers[question.id]?.primary
-        const secondarySelection = answers[question.id]?.secondary
-        const showSecondChoice =
-          mode === "analyst" && question.allowSecondChoiceInAnalyst && Boolean(primarySelection)
-        const cardType = inferModuleCardType(question.cardType, question.prompt)
-
-        return (
-          <section key={question.id} className="panel stack-md">
-            <div className="stack-xs">
-              <p className="eyebrow">
-                {question.kind === "synthesis" ? "Synthesis" : "Case"} · {cardTypeLabel(cardType)} · {index + 1} of {questions.length}
-              </p>
-              <h2>{question.title}</h2>
-              <p style={{ lineHeight: "1.7", maxWidth: "880px" }}>{question.prompt}</p>
+      {questionsByLane.map(({ lane, questions: laneQuestions }) => (
+        <section key={lane.key} className="stack-md">
+          <div className="stack-xs">
+            <p className="eyebrow">{moduleDefinition.shorthand} · Lane</p>
+            <h2>{lane.label}</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              {lane.description}
+            </p>
+            <div className="progress-meta">
+              <span>{answeredByLane[lane.key] ?? 0} of {laneQuestions.length} answered in this lane</span>
+              <span>{Math.round(((answeredByLane[lane.key] ?? 0) / Math.max(laneQuestions.length, 1)) * 100)}%</span>
             </div>
+          </div>
 
-            <div className="callout">
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                {moduleInstructionCopy(cardType)}
-              </p>
-            </div>
+          {laneQuestions.map((question, questionIndex) => {
+            const primarySelection = answers[question.id]?.primary
+            const secondarySelection = answers[question.id]?.secondary
+            const showSecondChoice =
+              mode === "analyst" && question.allowSecondChoiceInAnalyst && Boolean(primarySelection)
 
-            <div className="stack-xs">
-              <button
-                type="button"
-                className="secondary-button"
-                onClick={() =>
-                  setOpenPrimers((prev) => ({ ...prev, [question.id]: !primerOpen }))
-                }
-              >
-                {primerOpen ? "Hide context" : "Need context?"}
-              </button>
-              {primerOpen ? (
+            return (
+              <section key={question.id} className="panel stack-md">
+                <div className="stack-xs">
+                  <p className="eyebrow">
+                    {lane.label} · {cardTypeLabel(question.cardType)} · {questionIndex + 1} of {laneQuestions.length}
+                  </p>
+                  <h3>{question.title}</h3>
+                </div>
+
+                <div className="module-case-frame stack-sm">
+                  <div className="stack-xs">
+                    <p className="eyebrow">Scene</p>
+                    <p style={{ lineHeight: "1.7", maxWidth: "880px" }}>{question.scene}</p>
+                  </div>
+                  <div className="callout stack-xs">
+                    <p className="eyebrow">What Makes This Hard</p>
+                    <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                      {question.whyHard}
+                    </p>
+                  </div>
+                  <div className="stack-xs">
+                    <p className="eyebrow">Question</p>
+                    <p style={{ lineHeight: "1.7", maxWidth: "880px" }}>{question.prompt}</p>
+                  </div>
+                  {question.contextBullets && question.contextBullets.length > 0 ? (
+                    <details className="profile-details">
+                      <summary>Optional context</summary>
+                      <div className="stack-xs">
+                        {question.contextBullets.map((bullet) => (
+                          <p
+                            key={`${question.id}-${bullet.label}`}
+                            className="muted"
+                            style={{ lineHeight: "1.6", fontSize: "0.88rem" }}
+                          >
+                            <strong>{bullet.label}:</strong> {bullet.text}
+                          </p>
+                        ))}
+                      </div>
+                    </details>
+                  ) : null}
+                </div>
+
                 <div className="callout">
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {question.primer}
+                    {moduleInstructionCopy(question.cardType)}
                   </p>
                 </div>
-              ) : null}
-            </div>
 
-            <div className="stack-sm">
-              {question.options.map((option, optionIndex) => {
-                const selected = primarySelection === option.id
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={selected ? "option-card selected" : "option-card"}
-                    onClick={() => setPrimary(question.id, option.id)}
-                    aria-pressed={selected}
-                  >
-                    <span className="option-badge">{optionIndex + 1}</span>
-                    <span className="option-card-content">
-                      <span className="option-card-title">{option.title}</span>
-                      <span className="option-card-text">{option.label}</span>
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
+                <div className="stack-sm">
+                  {question.options.map((option, optionIndex) => {
+                    const selected = primarySelection === option.id
+                    return (
+                      <button
+                        key={option.id}
+                        type="button"
+                        className={selected ? "option-card selected" : "option-card"}
+                        onClick={() => setPrimary(question.id, option.id)}
+                        aria-pressed={selected}
+                      >
+                        <span className="option-badge">{optionIndex + 1}</span>
+                        <span className="option-card-content">
+                          <span className="option-card-title">{option.title}</span>
+                          <span className="option-card-text">{option.label}</span>
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
 
-            {showSecondChoice ? (
-              <div className="callout stack-sm">
-                <div className="stack-xs">
-                  <p className="eyebrow">Second-most persuasive</p>
-                  <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-                    If another framing also comes close, mark it here. It counts as a softer signal
-                    than your main choice.
-                  </p>
-                </div>
-                <div className="module-secondary-grid">
-                  {question.options
-                    .filter((option) => option.id !== primarySelection)
-                    .map((option) => {
-                      const selected = secondarySelection === option.id
-                      return (
-                        <button
-                          key={option.id}
-                          type="button"
-                          className={selected ? "secondary-choice-button selected" : "secondary-choice-button"}
-                          onClick={() => setSecondary(question.id, option.id)}
-                          aria-pressed={selected}
-                        >
-                          <span className="option-card-content">
-                            <span className="option-card-title" style={{ fontSize: "0.94rem" }}>
-                              {option.title}
-                            </span>
-                            <span className="option-card-text" style={{ fontSize: "0.86rem" }}>
-                              {option.label}
-                            </span>
-                          </span>
-                        </button>
-                      )
-                    })}
-                </div>
-              </div>
-            ) : null}
-          </section>
-        )
-      })}
+                {showSecondChoice ? (
+                  <div className="callout stack-sm">
+                    <div className="stack-xs">
+                      <p className="eyebrow">Second-most persuasive</p>
+                      <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+                        Use this only when another option also captures part of your judgment. It
+                        counts less than your main choice.
+                      </p>
+                    </div>
+                    <div className="module-secondary-grid">
+                      {question.options
+                        .filter((option) => option.id !== primarySelection)
+                        .map((option) => {
+                          const selected = secondarySelection === option.id
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              className={selected ? "secondary-choice-button selected" : "secondary-choice-button"}
+                              onClick={() => setSecondary(question.id, option.id)}
+                              aria-pressed={selected}
+                            >
+                              <span className="option-card-content">
+                                <span className="option-card-title" style={{ fontSize: "0.94rem" }}>
+                                  {option.title}
+                                </span>
+                                <span className="option-card-text" style={{ fontSize: "0.86rem" }}>
+                                  {option.label}
+                                </span>
+                              </span>
+                            </button>
+                          )
+                        })}
+                    </div>
+                  </div>
+                ) : null}
+              </section>
+            )
+          })}
+        </section>
+      ))}
 
       <section className="panel stack-md">
         <div className="row gap-sm wrap">
@@ -300,7 +364,13 @@ export function ModuleApp({
           <button
             type="button"
             className="secondary-button"
-            onClick={() => router.push(foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules")}
+            onClick={() =>
+              router.push(
+                foundationPayload
+                  ? `/modules?foundation=${encodeURIComponent(foundationPayload)}`
+                  : "/modules",
+              )
+            }
           >
             Back to modules
           </button>
@@ -343,30 +413,32 @@ function ModeCard({
   )
 }
 
-function inferModuleCardType(cardType: ChoiceCardType | undefined, prompt: string): ChoiceCardType {
-  if (cardType) return cardType
+function LaneProgressCard({
+  lane,
+  answered,
+  total,
+}: {
+  lane: ModuleLane
+  answered: number
+  total: number
+}) {
+  const progress = Math.round((answered / Math.max(total, 1)) * 100)
 
-  const normalized = prompt.toLowerCase()
-
-  if (
-    normalized.includes("what is the strongest framing") ||
-    normalized.includes("which framing is strongest") ||
-    normalized.includes("what is the deeper problem") ||
-    normalized.includes("what is the most persuasive reading")
-  ) {
-    return "explanation"
-  }
-
-  if (
-    normalized.includes("what should drive") ||
-    normalized.includes("what matters most") ||
-    normalized.includes("which framing is strongest?") ||
-    normalized.includes("what is the most persuasive response")
-  ) {
-    return "decision"
-  }
-
-  return "both"
+  return (
+    <div className="module-lane-card stack-xs">
+      <p className="eyebrow">{lane.label}</p>
+      <p className="muted" style={{ lineHeight: "1.55", fontSize: "0.86rem" }}>
+        {lane.description}
+      </p>
+      <div className="progress-meta">
+        <span>{answered} of {total}</span>
+        <span>{progress}%</span>
+      </div>
+      <div className="progress-bar" aria-hidden="true">
+        <div className="progress-fill" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  )
 }
 
 function cardTypeLabel(cardType: ChoiceCardType) {
@@ -377,12 +449,12 @@ function cardTypeLabel(cardType: ChoiceCardType) {
 
 function moduleInstructionCopy(cardType: ChoiceCardType) {
   if (cardType === "explanation") {
-    return "Choose the option that best explains what is driving the case, based on your own analytic judgment."
+    return "Choose the option that best explains what is driving the case."
   }
 
   if (cardType === "decision") {
-    return "Choose the consideration that should carry the most weight in the case, based on your own analytic judgment."
+    return "Choose the consideration that should carry the most weight in the response."
   }
 
-  return "Choose the framing you find most persuasive overall, based on your own analytic judgment."
+  return "Choose the framing you find most persuasive overall."
 }
