@@ -38,3 +38,33 @@ test("share payloads roundtrip through URL-safe base64 encoding", () => {
     assert.deepEqual(decodePayload(encoded), payload)
   }
 })
+
+test("malformed payloads fail safely instead of decoding to a fabricated result", () => {
+  const malformedPayloads = [
+    "%%%bad%%%payload",
+    encodeRawPayload({
+      ...payloads[0],
+      ds: [6.25, 2.5, 4, 3.75, 5.5, 4.25],
+    }),
+    encodeRawPayload({
+      ...payloads[0],
+      ds: [8, 2.5, 4, 3.75, 5.5, 4.25, 2.75],
+    }),
+    encodeRawPayload({
+      ...payloads[0],
+      fk: "bogus",
+    }),
+    encodeRawPayload({
+      ...payloads[0],
+      sm: "Balancer",
+    }),
+  ]
+
+  for (const payload of malformedPayloads) {
+    assert.equal(decodePayload(payload), null)
+  }
+})
+
+function encodeRawPayload(payload: unknown) {
+  return btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
+}

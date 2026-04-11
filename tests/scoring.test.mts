@@ -153,6 +153,29 @@ test("standard foundation scoring ignores second-choice structure", () => {
   assert.equal(scores.institutions, 2.8)
 })
 
+test("likert answers contribute to dimension scores instead of collapsing to the midpoint", () => {
+  const scores = computeCoreDimensionScores(
+    {
+      sc1: 7,
+      in1: 1,
+      df1: 6,
+      ni1: 2,
+      pe1: 5,
+      rs1: 3,
+      oj2: 7,
+    },
+    "standard",
+  )
+
+  assert.equal(scores.securityCompetition, 7)
+  assert.equal(scores.institutions, 1)
+  assert.equal(scores.domesticFilters, 6)
+  assert.equal(scores.normsIdentity, 2)
+  assert.equal(scores.politicalEconomy, 5)
+  assert.equal(scores.restraint, 3)
+  assert.equal(scores.orderJustice, 1)
+})
+
 test("high political-economy salience alone does not force a CPE result", () => {
   const dimensionScores = {
     securityCompetition: 3.7,

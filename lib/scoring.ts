@@ -100,7 +100,7 @@ export function scoreLikert(rawValue: number, reverse?: boolean): number {
 }
 
 function collectLikertSignal(question: LikertQuestion, raw: number) {
-  return { dimension: question.dimension, value: scoreLikert(raw, question.reverse) }
+  return { dimension: question.dimension, value: scoreLikert(raw, question.reverse), weight: 1 }
 }
 
 function collectChoiceSignals(question: ChoiceQuestion, answer: string) {
@@ -320,15 +320,19 @@ function getNeighboringFamily(familyKey: FamilyKey, familyScores: Record<FamilyK
   return runnerUp ? familyLabels[runnerUp[0]] : familyLabels[familyKey]
 }
 
-export function generateResult(
-  answers: Answers,
-  mode: QuizMode = "standard",
-): QuizResult {
-  const dimensionScores = computeCoreDimensionScores(answers, mode)
+export type CanonicalFoundationResult = QuizResult & {
+  runnerUpKey: FamilyKey
+  runnerUpLabel: string
+}
+
+export function buildCanonicalFoundationResult(
+  dimensionScores: DimensionScores,
+): CanonicalFoundationResult {
   const familyScores = scoreFamilies(dimensionScores)
   const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
     .sort((a, b) => b[1] - a[1])
   const familyKey = orderedFamilies[0][0]
+  const runnerUpKey = orderedFamilies.find(([key]) => key !== familyKey)?.[0] ?? familyKey
   const familyLabel = familyLabels[familyKey]
   const strategyModifier = getStrategyModifier(dimensionScores)
   const normativeModifier = getNormativeModifier(dimensionScores)
@@ -345,7 +349,16 @@ export function generateResult(
     familyScores,
     explanation: familyDescriptions[familyKey],
     neighboringFamily,
+    runnerUpKey,
+    runnerUpLabel: familyLabels[runnerUpKey],
   }
+}
+
+export function generateResult(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): CanonicalFoundationResult {
+  return buildCanonicalFoundationResult(computeCoreDimensionScores(answers, mode))
 }
 
 export function getNeighboringFamilyKey(

@@ -30,6 +30,7 @@ export function ModuleResultView({
   const result = buildModuleResult(moduleDefinition, mode, answers, foundation)
   const selected = getSelectedModuleOptions(moduleDefinition, mode, answers)
   const questionCount = getModuleQuestions(moduleDefinition, mode).length
+  const isStandard = mode === "standard"
   const laneLabelMap = Object.fromEntries(
     moduleDefinition.lanes.map((lane) => [lane.key, lane.label]),
   ) as Record<string, string>
@@ -75,42 +76,34 @@ export function ModuleResultView({
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
             {result.summary}
           </p>
-          <div className="driver-grid">
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">Mode</p>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                {mode === "standard" ? "Standard" : "Deep-dive"}
-              </p>
-              <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                {questionCount} questions · {moduleDefinition.timeEstimate[mode]}
-              </p>
-            </div>
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">In-flow shorthand</p>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                {moduleDefinition.shorthand}
-              </p>
-              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                This is an issue read, not a mini-identity replacing the Foundation baseline.
-              </p>
-            </div>
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">What it measured</p>
-              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                {moduleDefinition.measures.join("; ")}.
-              </p>
-            </div>
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">What it did not claim</p>
-              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                {moduleDefinition.doesNotClaim.join("; ")}.
-              </p>
-            </div>
-          </div>
           {result.comparison ? (
             <div className="callout">
               <p style={{ fontWeight: 600, marginBottom: "8px" }}>How this differs from your Foundation</p>
               <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
+            </div>
+          ) : null}
+          {isStandard ? (
+            <div className="driver-grid">
+              {result.cardTypeRead ? (
+                <div className="driver-card stack-xs">
+                  <p className="eyebrow">Cross-lane read</p>
+                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+                    {result.cardTypeRead.headline}
+                  </p>
+                  <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                    {result.cardTypeRead.summary}
+                  </p>
+                </div>
+              ) : null}
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">Main challenge</p>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+                  What this result still has to answer
+                </p>
+                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                  {result.challenge}
+                </p>
+              </div>
             </div>
           ) : null}
         </section>
@@ -153,7 +146,7 @@ export function ModuleResultView({
           </div>
         </section>
 
-        {result.cardTypeRead ? (
+        {!isStandard && result.cardTypeRead ? (
           <section className="result-section stack-md">
             <h2>{result.cardTypeRead.headline}</h2>
             <p className="result-prose" style={{ lineHeight: "1.7" }}>
@@ -174,6 +167,50 @@ export function ModuleResultView({
         <section className="result-section stack-md">
           <h2>Tensions and caveats</h2>
           <p className="result-prose" style={{ lineHeight: "1.7" }}>{result.challenge}</p>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>How to read this module</h2>
+            <p className="muted" style={{ fontSize: "0.875rem" }}>
+              Lower-level framing and scope notes kept below the main issue read.
+            </p>
+          </div>
+          <details className="profile-details" open={!isStandard}>
+            <summary>{isStandard ? "Open framing and scope notes" : "Framing and scope notes"}</summary>
+            <div className="driver-grid" style={{ marginTop: "16px" }}>
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">Mode</p>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+                  {mode === "standard" ? "Standard" : "Deep-dive"}
+                </p>
+                <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                  {questionCount} questions · {moduleDefinition.timeEstimate[mode]}
+                </p>
+              </div>
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">In-flow shorthand</p>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+                  {moduleDefinition.shorthand}
+                </p>
+                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                  This is an issue read, not a replacement for the Foundation baseline.
+                </p>
+              </div>
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">What it measured</p>
+                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                  {moduleDefinition.measures.join("; ")}.
+                </p>
+              </div>
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">What it did not claim</p>
+                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
+                  {moduleDefinition.doesNotClaim.join("; ")}.
+                </p>
+              </div>
+            </div>
+          </details>
         </section>
 
         <section className="result-section stack-md">
@@ -212,7 +249,7 @@ export function ModuleResultView({
               Lower-level recall of the framings you selected in this module.
             </p>
           </div>
-          <details className="profile-details" open>
+          <details className="profile-details" open={!isStandard}>
             <summary>Selected framings</summary>
             <div className="driver-grid" style={{ marginTop: "16px" }}>
               {selected.map(({ question, primary, secondary }) => (

@@ -1,9 +1,8 @@
 import Link from "next/link"
-import { decodePayload, payloadToDimensionScores } from "@/lib/share"
+import { resolveFoundationPayload } from "@/lib/share"
 import {
   buildProfileTitle,
   familyLabelFromKey,
-  familyDescriptions,
   getClosestTraditions,
   getKeyDrivers,
   getActiveTensions,
@@ -27,7 +26,6 @@ import { familySlug, familyTraditionClass } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
-import { scoreFamilies } from "@/lib/scoring"
 import { modules } from "@/lib/modules/framework"
 import type { DimensionKey, FamilyKey } from "@/lib/types"
 import type { Metadata } from "next"
@@ -36,11 +34,14 @@ export async function generateMetadata(
   { params }: { params: Promise<{ payload: string }> },
 ): Promise<Metadata> {
   const { payload } = await params
-  const data = decodePayload(payload)
-  if (!data) return { title: "Result — IR Worldview Inventory" }
+  const resolved = resolveFoundationPayload(payload)
+  if (!resolved) return { title: "Result — IR Worldview Inventory" }
+
+  const familyLabel = familyLabelFromKey(resolved.result.familyKey)
+
   return {
-    title: `${familyLabelFromKey(data.fk)} — IR Worldview Inventory`,
-    description: `My IR Worldview result: ${familyLabelFromKey(data.fk)} · ${data.sm} · ${data.nm}`,
+    title: `${familyLabel} — IR Worldview Inventory`,
+    description: `My IR Worldview result: ${familyLabel} · ${resolved.result.strategyModifier} · ${resolved.result.normativeModifier}`,
   }
 }
 
@@ -80,9 +81,9 @@ export default async function ResultPage(
   { params }: { params: Promise<{ payload: string }> },
 ) {
   const { payload } = await params
-  const data = decodePayload(payload)
+  const resolved = resolveFoundationPayload(payload)
 
-  if (!data) {
+  if (!resolved) {
     return (
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
@@ -101,42 +102,47 @@ export default async function ResultPage(
     )
   }
 
-  const dimensionScores = payloadToDimensionScores(data)
-  const familyScores = scoreFamilies(dimensionScores)
+  const { dimensionScores, result } = resolved
+  const familyScores = result.familyScores
   const closestTraditions = getClosestTraditions(familyScores)
-  const familyLabel = familyLabelFromKey(data.fk)
-  const neighborKey = closestTraditions.secondary.key
-  const neighborLabel = familyLabelFromKey(neighborKey)
-  const traditionClass = familyTraditionClass(data.fk)
+  const familyLabel = result.familyLabel
+  const neighborKey = result.runnerUpKey
+  const neighborLabel = result.runnerUpLabel
+  const traditionClass = familyTraditionClass(result.familyKey)
   const neighborTraditionClass = familyTraditionClass(neighborKey)
-  const traditionColor = TRADITION_COLOR[data.fk]
-  const ruleClass = TRADITION_RULE_CLASS[data.fk]
+  const traditionColor = TRADITION_COLOR[result.familyKey]
+  const ruleClass = TRADITION_RULE_CLASS[result.familyKey]
 
   const profileTitle = buildProfileTitle(dimensionScores)
-  const explanation = familyDescriptions[data.fk]
+  const explanation = result.explanation
   const keyDrivers = getKeyDrivers(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
   const tensions = getActiveTensions(dimensionScores)
-  const neighborText = neighborOverlapTexts[data.fk]?.[neighborKey] ?? ""
-  const readings = suggestedReadings[data.fk]
+  const neighborText = neighborOverlapTexts[result.familyKey]?.[neighborKey] ?? ""
+  const readings = suggestedReadings[result.familyKey]
   const neighborReadings = suggestedReadings[neighborKey]
-  const subtraditionAffinity = getSubtraditionAffinity(data.fk, dimensionScores)
-  const issueAreaTilts = getIssueAreaTilts(data.fk, dimensionScores)
-  const runnerUpSeparation = getRunnerUpSeparation(data.fk, neighborKey, dimensionScores)
-  const flipAnalysis = getFlipAnalysis(data.fk, neighborKey, dimensionScores)
-  const whyThisResult = getWhyThisResult(data.fk, neighborKey, dimensionScores)
-  const comparisonDims = getComparisonDimensions(data.fk, neighborKey, dimensionScores)
+  const subtraditionAffinity = getSubtraditionAffinity(result.familyKey, dimensionScores)
+  const issueAreaTilts = getIssueAreaTilts(result.familyKey, dimensionScores)
+  const runnerUpSeparation = getRunnerUpSeparation(result.familyKey, neighborKey, dimensionScores)
+  const flipAnalysis = getFlipAnalysis(result.familyKey, neighborKey, dimensionScores)
+  const whyThisResult = getWhyThisResult(result.familyKey, neighborKey, dimensionScores)
+  const comparisonDims = getComparisonDimensions(result.familyKey, neighborKey, dimensionScores)
   const foundationNarrative = buildFoundationNarrative({
-    familyKey: data.fk,
+    familyKey: result.familyKey,
     runnerUpKey: neighborKey,
-    strategyModifier: data.sm,
-    normativeModifier: data.nm,
+    strategyModifier: result.strategyModifier,
+    normativeModifier: result.normativeModifier,
     dimensionScores,
   })
   const summary = foundationNarrative.summary
 
-  const issueStances = getHowYouReadTheWorld(data.fk, data.sm, data.nm)
-  const pressureQuestions = getPressureTestQuestions(data.fk)
+  const issueStances = getHowYouReadTheWorld(
+    result.familyKey,
+    result.strategyModifier,
+    result.normativeModifier,
+  )
+  const pressureQuestions = getPressureTestQuestions(result.familyKey)
+  const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
 
   return (
     <div className="wide-container">
@@ -145,14 +151,14 @@ export default async function ResultPage(
           snapshot={{
             payload,
             resultPath: `/results/${payload}`,
-            familyKey: data.fk,
+            familyKey: result.familyKey,
             familyLabel,
             runnerUpKey: neighborKey,
             runnerUpLabel: neighborLabel,
             summary,
             dimensionScores,
-            strategyModifier: data.sm,
-            normativeModifier: data.nm,
+            strategyModifier: result.strategyModifier,
+            normativeModifier: result.normativeModifier,
             keyDrivers: keyDrivers.map((driver) => ({
               type: driver.type,
               label: driver.label,
@@ -189,49 +195,15 @@ export default async function ResultPage(
           <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", marginBottom: "10px" }}>
             {summary}
           </p>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "720px" }}>
-            {closestTraditions.note}
-          </p>
-          <p style={{
-            fontSize: "0.78rem",
-            fontStyle: "italic",
-            color: "var(--muted)",
-            marginTop: "20px",
-            paddingTop: "16px",
-            borderTop: "1px solid var(--border)",
-            lineHeight: "1.5",
-          }}>
-            Structured thought exercise, not a scientific diagnostic. Shared links preserve the
-            Foundation result; completed focus-area modules stay on a separate local Profile layer
-            on this device.
-          </p>
         </div>
 
-        {/* ── 2. Narrative layer ── */}
+        {/* ── 2. Main payoff ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <h2>Interpretive read</h2>
+            <h2>Main signals</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Structured interpretation of the Foundation baseline. This is a controlled editorial
-              layer, not freeform generated prose.
-            </p>
-          </div>
-          <div className="result-prose stack-md">
-            {foundationNarrative.sections.map((section) => (
-              <div key={section.title} className="stack-xs">
-                <p className="eyebrow">{section.title}</p>
-                <p style={{ lineHeight: "1.7" }}>{section.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── 3. Core profile ── */}
-        <div className="result-section stack-sm">
-          <div className="stack-xs">
-            <h2>Core profile</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              The strongest signals in the foundation result, before tradition shorthand.
+              The strongest pulls in your Foundation result, before the deeper taxonomy and methods
+              notes.
             </p>
           </div>
           <div className="driver-grid">
@@ -246,6 +218,12 @@ export default async function ResultPage(
                 </p>
               </div>
             ))}
+          </div>
+          <div className="callout stack-xs">
+            <p style={{ fontWeight: 600 }}>Where you were mixed or what may shift under pressure</p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              {mixedNote}
+            </p>
           </div>
           {strongLenses.length > 0 && (
             <div className="stack-sm" style={{ marginTop: "8px" }}>
@@ -266,25 +244,25 @@ export default async function ResultPage(
             <div className="driver-card stack-xs">
               <p className="eyebrow">Strategic style</p>
               <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginTop: "6px" }}>
-                {data.sm}
+                {result.strategyModifier}
               </p>
               <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55", marginTop: "6px" }}>
-                {STRATEGY_STYLE_NOTES[data.sm]}
+                {STRATEGY_STYLE_NOTES[result.strategyModifier]}
               </p>
             </div>
             <div className="driver-card stack-xs">
               <p className="eyebrow">Normative style</p>
               <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginTop: "6px" }}>
-                {data.nm}
+                {result.normativeModifier}
               </p>
               <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55", marginTop: "6px" }}>
-                {NORMATIVE_STYLE_NOTES[data.nm]}
+                {NORMATIVE_STYLE_NOTES[result.normativeModifier]}
               </p>
             </div>
           </div>
         </div>
 
-        {/* ── 4. Dimension profile ── */}
+        {/* ── 3. Dimension profile ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Dimension profile</h2>
@@ -313,14 +291,12 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 5. Closest traditions ── */}
+        {/* ── 4. Closest traditions ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Closest traditions</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              {foundationNarrative.state === "lowDifferentiation"
-                ? "These labels are nearest-fit shorthand for a profile that remains comparatively broad-spectrum."
-                : "These labels are interpretive shorthand for the profile above. Mixed outputs are normal."}
+              {closestTraditions.note}
             </p>
           </div>
           <div className="neighbor-columns">
@@ -337,47 +313,50 @@ export default async function ResultPage(
               </p>
             </div>
           </div>
-          <div className="result-prose stack-md">
-            <p style={{ lineHeight: "1.65" }}>{explanation}</p>
-            {neighborText && (
-              <p className="muted" style={{ lineHeight: "1.65" }}>{neighborText}</p>
-            )}
-            {foundationNarrative.state !== "lowDifferentiation" && runnerUpSeparation && (
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                {runnerUpSeparation}
-              </p>
-            )}
-            {foundationNarrative.state !== "lowDifferentiation" && flipAnalysis && (
-              <div className="flip-note">
-                <p style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>{flipAnalysis}</p>
-              </div>
-            )}
-          </div>
-          <div style={{ marginTop: "20px" }}>
-            <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "10px" }}>
-              Dimensions where {familyLabel} and {neighborLabel} diverge most:
-            </p>
-            <div className="comparison-strip">
-              <div className="comparison-header">
-                <span className="comparison-label" />
-                <span className="comparison-family">{familyLabel}</span>
-                <span className="comparison-score-head">Your score</span>
-                <span className="comparison-family">{neighborLabel}</span>
-              </div>
-              {comparisonDims.map((cd) => (
-                <div key={cd.dim} className="comparison-row">
-                  <span className="comparison-label">{cd.label}</span>
-                  <span className={`comparison-expected comparison-expected--${cd.primaryExpected}`}>
-                    {cd.primaryExpected === "high" ? "Higher" : cd.primaryExpected === "low" ? "Lower" : "Neutral"}
-                  </span>
-                  <span className="comparison-score">{cd.userScore.toFixed(1)}</span>
-                  <span className={`comparison-expected comparison-expected--${cd.runnerUpExpected}`}>
-                    {cd.runnerUpExpected === "high" ? "Higher" : cd.runnerUpExpected === "low" ? "Lower" : "Neutral"}
-                  </span>
+          <details className="profile-details">
+            <summary>Why these traditions are close</summary>
+            <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
+              <p style={{ lineHeight: "1.65" }}>{explanation}</p>
+              {neighborText && (
+                <p className="muted" style={{ lineHeight: "1.65" }}>{neighborText}</p>
+              )}
+              {foundationNarrative.state !== "lowDifferentiation" && runnerUpSeparation && (
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                  {runnerUpSeparation}
+                </p>
+              )}
+              {foundationNarrative.state !== "lowDifferentiation" && flipAnalysis && (
+                <div className="flip-note">
+                  <p style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>{flipAnalysis}</p>
                 </div>
-              ))}
+              )}
             </div>
-          </div>
+            <div style={{ marginTop: "20px" }}>
+              <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "10px" }}>
+                Dimensions where {familyLabel} and {neighborLabel} diverge most:
+              </p>
+              <div className="comparison-strip">
+                <div className="comparison-header">
+                  <span className="comparison-label" />
+                  <span className="comparison-family">{familyLabel}</span>
+                  <span className="comparison-score-head">Your score</span>
+                  <span className="comparison-family">{neighborLabel}</span>
+                </div>
+                {comparisonDims.map((cd) => (
+                  <div key={cd.dim} className="comparison-row">
+                    <span className="comparison-label">{cd.label}</span>
+                    <span className={`comparison-expected comparison-expected--${cd.primaryExpected}`}>
+                      {cd.primaryExpected === "high" ? "Higher" : cd.primaryExpected === "low" ? "Lower" : "Neutral"}
+                    </span>
+                    <span className="comparison-score">{cd.userScore.toFixed(1)}</span>
+                    <span className={`comparison-expected comparison-expected--${cd.runnerUpExpected}`}>
+                      {cd.runnerUpExpected === "high" ? "Higher" : cd.runnerUpExpected === "low" ? "Lower" : "Neutral"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </details>
           <p style={{ fontSize: "0.875rem", marginTop: "16px" }}>
             <Link href={`/explore/${familySlug(neighborKey)}`} style={{ color: "var(--accent)" }}>
               Learn more about {neighborLabel} →
@@ -385,7 +364,7 @@ export default async function ResultPage(
           </p>
         </div>
 
-        {/* ── 6. Module bridge ── */}
+        {/* ── 5. Module bridge ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Add a focus-area overlay</h2>
@@ -424,97 +403,57 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 7. Issue-area reading ── */}
+        {/* ── 6. Interpretive read ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <h2>How this profile may travel across issues</h2>
+            <h2>Interpretive read</h2>
             <p className="muted" style={{ fontSize: "0.85rem" }}>
-              Illustrative issue readings generated from your foundation profile and style
-              modifiers. These are bridges from the foundation, not substitutes for a dedicated
-              module readout.
+              Kept below the headline payoff so the page leads with the result, not the editorial
+              scaffolding around it.
             </p>
           </div>
-          <div className="result-prose">
-            {issueStances.map((stance) => (
-              <div key={stance.issue} className="issue-module">
-                <p className="issue-module-title">{stance.issue}</p>
-                <p className="issue-module-text">{stance.text}</p>
-              </div>
-            ))}
-          </div>
-          {issueAreaTilts.length > 0 && (
-            <div className="result-prose" style={{ marginTop: "8px" }}>
-              <p className="muted" style={{ fontSize: "0.8rem", fontStyle: "italic", marginBottom: "12px" }}>
-                Where your scores suggest a different instinct than the primary shorthand alone
-                would predict:
-              </p>
-              <div>
-                {issueAreaTilts.map((tilt) => (
-                  <div key={tilt.issue} className="issue-tilt-row">
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginBottom: "4px" }}>
-                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.875rem" }}>
-                        {tilt.issue}
-                      </p>
-                      <p style={{ fontSize: "0.68rem", fontWeight: 600, color: traditionColor, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0 }}>
-                        {tilt.tilt}
-                      </p>
-                    </div>
-                    <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.85rem" }}>
-                      {tilt.note}
-                    </p>
-                  </div>
-                ))}
-              </div>
+          <details className="profile-details">
+            <summary>Open the longer interpretation</summary>
+            <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
+              {foundationNarrative.sections.map((section) => (
+                <div key={section.title} className="stack-xs">
+                  <p className="eyebrow">{section.title}</p>
+                  <p style={{ lineHeight: "1.7" }}>{section.text}</p>
+                </div>
+              ))}
             </div>
-          )}
+          </details>
         </div>
 
-        {/* ── 8. Why this shorthand fits ── */}
+        {/* ── 7. Why this shorthand fits ── */}
         <div className="result-section stack-md">
           <h2>{foundationNarrative.state === "lowDifferentiation" ? "Why this nearest fit still appears" : "Why this shorthand fits"}</h2>
-          {subtraditionAffinity && (
-            <div className="result-prose" style={{ marginTop: "4px" }}>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.95rem" }}>
-                {subtraditionAffinity.name}
-              </p>
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem", marginTop: "6px" }}>
-                {subtraditionAffinity.note}
-              </p>
-            </div>
-          )}
-          <div className="result-prose">
-            <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "8px" }}>
-              {foundationNarrative.state === "lowDifferentiation"
-                ? "What still pulls this profile slightly closer to the nearest fit:"
-                : "Why this result won over the runner-up:"}
-            </p>
-            <ul className="content-list">
-              {whyThisResult.map((bullet, i) => <li key={i}>{bullet}</li>)}
-            </ul>
-          </div>
-        </div>
-
-        {/* ── 9. Tensions ── */}
-        <div className="result-section stack-md">
-          <h2>Where you are mixed</h2>
-          <div className="result-prose">
-            {tensions.length > 0 ? (
-              <div className="stack-sm">
-                {tensions.map((tension) => (
-                  <div key={tension.key} className="tension-item">
-                    <p style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{tension.text}</p>
-                  </div>
-                ))}
+          <details className="profile-details">
+            <summary>Open the shorthand breakdown</summary>
+            {subtraditionAffinity && (
+              <div className="result-prose" style={{ marginTop: "16px" }}>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.95rem" }}>
+                  {subtraditionAffinity.name}
+                </p>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem", marginTop: "6px" }}>
+                  {subtraditionAffinity.note}
+                </p>
               </div>
-            ) : (
-              <p className="muted" style={{ lineHeight: "1.65" }}>
-                Your profile shows consistent views across dimensions without strong internal tensions.
-              </p>
             )}
-          </div>
+            <div className="result-prose" style={{ marginTop: "16px" }}>
+              <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "8px" }}>
+                {foundationNarrative.state === "lowDifferentiation"
+                  ? "What still pulls this profile slightly closer to the nearest fit:"
+                  : "Why this result won over the runner-up:"}
+              </p>
+              <ul className="content-list">
+                {whyThisResult.map((bullet, i) => <li key={i}>{bullet}</li>)}
+              </ul>
+            </div>
+          </details>
         </div>
 
-        {/* ── 10. Pressure-test ── */}
+        {/* ── 8. Pressure-test ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Pressure-test your worldview</h2>
@@ -531,7 +470,54 @@ export default async function ResultPage(
           </ol>
         </div>
 
-        {/* ── 11. Suggested reading ── */}
+        {/* ── 9. Issue-area reading ── */}
+        <div className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>How this profile may travel across issues</h2>
+            <p className="muted" style={{ fontSize: "0.85rem" }}>
+              Illustrative bridges from the Foundation baseline, not substitutes for a dedicated
+              module result.
+            </p>
+          </div>
+          <details className="profile-details">
+            <summary>Open the issue-bridge notes</summary>
+            <div className="result-prose" style={{ marginTop: "16px" }}>
+              {issueStances.map((stance) => (
+                <div key={stance.issue} className="issue-module">
+                  <p className="issue-module-title">{stance.issue}</p>
+                  <p className="issue-module-text">{stance.text}</p>
+                </div>
+              ))}
+            </div>
+            {issueAreaTilts.length > 0 && (
+              <div className="result-prose" style={{ marginTop: "8px" }}>
+                <p className="muted" style={{ fontSize: "0.8rem", fontStyle: "italic", marginBottom: "12px" }}>
+                  Where your scores suggest a different instinct than the primary shorthand alone
+                  would predict:
+                </p>
+                <div>
+                  {issueAreaTilts.map((tilt) => (
+                    <div key={tilt.issue} className="issue-tilt-row">
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginBottom: "4px" }}>
+                        <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.875rem" }}>
+                          {tilt.issue}
+                        </p>
+                        <p style={{ fontSize: "0.68rem", fontWeight: 600, color: traditionColor, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0 }}>
+                          {tilt.tilt}
+                        </p>
+                      </div>
+                      <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.85rem" }}>
+                        {tilt.note}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </details>
+        </div>
+
+        {/* ── 10. Suggested reading ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Suggested reading</h2>
@@ -562,7 +548,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 12. Glossary ── */}
+        {/* ── 11. Glossary ── */}
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Glossary</h2>
@@ -582,7 +568,7 @@ export default async function ResultPage(
           </div>
         </div>
 
-        {/* ── 13. Methods note + share ── */}
+        {/* ── 12. Methods note + share ── */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this classification</p>
@@ -602,7 +588,7 @@ export default async function ResultPage(
             </Link>
           </p>
           <p>
-            <Link href={`/explore/${familySlug(data.fk)}`} style={{ color: "var(--accent)" }}>
+            <Link href={`/explore/${familySlug(result.familyKey)}`} style={{ color: "var(--accent)" }}>
               Explore {familyLabel} in depth →
             </Link>
           </p>
@@ -614,14 +600,14 @@ export default async function ResultPage(
           <ShareActions
             payload={payload}
             familyLabel={familyLabel}
-            strategyModifier={data.sm}
-            normativeModifier={data.nm}
+            strategyModifier={result.strategyModifier}
+            normativeModifier={result.normativeModifier}
           />
           <HistoryCompare
-            familyKey={data.fk}
+            familyKey={result.familyKey}
             neighborKey={neighborKey}
-            strategyModifier={data.sm}
-            normativeModifier={data.nm}
+            strategyModifier={result.strategyModifier}
+            normativeModifier={result.normativeModifier}
             dimensionScores={dimensionScores}
           />
         </div>
@@ -629,4 +615,19 @@ export default async function ResultPage(
       </article>
     </div>
   )
+}
+
+function getFallbackMixedNote(
+  state: "lowDifferentiation" | "stableModeration" | "sharplyDifferentiated",
+  closestTraditionsNote: string,
+) {
+  if (state === "lowDifferentiation") {
+    return closestTraditionsNote
+  }
+
+  if (state === "sharplyDifferentiated") {
+    return "The baseline is comparatively consistent across dimensions. The main test now is whether it still holds under issue-specific pressure."
+  }
+
+  return "The baseline is clear, but a nearby runner-up still matters in harder cases. That overlap is part of the result, not noise to be scrubbed out."
 }

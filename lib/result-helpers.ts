@@ -44,8 +44,8 @@ const profileTitlePhrases: Record<
   { high: string; low: string }
 > = {
   securityCompetition: {
-    high: "rivalry-first",
-    low: "less rivalry-centered",
+    high: "competition-centered",
+    low: "less competition-centered",
   },
   institutions: {
     high: "institution-minded",

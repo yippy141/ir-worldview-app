@@ -146,7 +146,12 @@ export function buildFoundationNarrative({
 
   return {
     state: assessment.state,
-    summary: buildSummaryLine(assessment.state, familyLabelValue, runnerUpLabel),
+    summary: buildSummaryLine(
+      assessment.state,
+      familyLabelValue,
+      runnerUpLabel,
+      strongestSignals,
+    ),
     sections: [
       {
         title: "What this means",
@@ -183,16 +188,17 @@ function buildSummaryLine(
   state: FoundationNarrativeState,
   familyLabelValue: string,
   runnerUpLabel: string,
+  strongestSignals: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `Broad-spectrum baseline. ${familyLabelValue} is the nearest fit, with ${runnerUpLabel} close enough that the overlap matters.`
+    return `No single lens dominates. ${familyLabelValue} is the nearest fit, but the strongest movement is around ${strongestSignals}, with ${runnerUpLabel} still close.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `Sharply differentiated ${familyLabelValue.toLowerCase()} baseline with a clear center of gravity.`
+    return `${familyLabelValue} is the clearest shorthand here. The profile is driven most by ${strongestSignals}.`
   }
 
-  return `${familyLabelValue} is the closest shorthand for a moderately differentiated foundation profile.`
+  return `${familyLabelValue} is the best shorthand for this baseline. The clearest pulls are ${strongestSignals}.`
 }
 
 function buildMeaningText(
@@ -202,14 +208,14 @@ function buildMeaningText(
   runnerUpLabel: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `${FAMILY_MEANINGS[familyKey]} The model is not seeing a narrow doctrinal camp, though. Your answers stay comparatively close to the middle across several dimensions, which is why ${familyLabelValue} should be read as nearest-fit shorthand rather than a hard identity claim. ${runnerUpLabel} remains close because the profile is carrying more than one live logic at once.`
+    return `${FAMILY_MEANINGS[familyKey]} But the model is not seeing a narrow doctrinal camp. Several dimensions stay close enough to the middle that ${familyLabelValue} works better as nearest-fit shorthand than as a hard identity claim. ${runnerUpLabel} stays close because more than one logic remains live in the profile.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `${FAMILY_MEANINGS[familyKey]} Here the label is doing real interpretive work rather than merely winning a technical tiebreak. Several dimensions reinforce one another strongly enough that the Foundation reads as a coherent lens with a clearer center of gravity, even though the result still remains a shorthand summary of a multidimensional profile.`
+    return `${FAMILY_MEANINGS[familyKey]} Here the label is doing more than winning a technical tiebreak. Several dimensions reinforce one another strongly enough that the Foundation reads as a coherent lens with a clearer center of gravity, even though it remains a shorthand summary of a multidimensional profile.`
   }
 
-  return `${FAMILY_MEANINGS[familyKey]} The baseline leans clearly enough to name a usable default lens, but not so cleanly that neighboring arguments disappear. ${familyLabelValue} is the best shorthand for where the profile tends to start, while ${runnerUpLabel} still captures some of the nearby logic you have not fully set aside.`
+  return `${FAMILY_MEANINGS[familyKey]} The baseline leans clearly enough to name a usable default lens, but not so cleanly that neighboring arguments disappear. ${familyLabelValue} is the best shorthand for where the profile tends to start, while ${runnerUpLabel} still captures nearby logic you have not fully set aside.`
 }
 
 function buildWhyText(
@@ -219,14 +225,14 @@ function buildWhyText(
   strongestSignals: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `The main movement away from the midpoint shows up in ${strongestSignals}, but the gap between the two closest traditions remains narrow. That is why the result is better read as a nearest fit than as a crisp classification. The informative part is not that the model found a hidden camp; it is which considerations you return to slightly more often when the questions get harder.`
+    return `The main movement away from the midpoint shows up in ${strongestSignals}, but the gap between the two closest traditions remains narrow. That is why this reads better as a nearest fit than as a crisp classification. The useful signal is not that the model found a hidden camp. It is which considerations you return to slightly more often when the questions get harder.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `The model landed on ${familyLabelValue} because the profile is not merely centered with a few stylistic modifiers attached. The strongest signals point in a compatible direction: ${strongestSignals}. That widens the separation from ${runnerUpLabel} enough that the baseline reads as a clearer tradition-level pattern rather than a narrow nearest-fit edge.`
+    return `The model landed on ${familyLabelValue} because the strongest signals point in a compatible direction: ${strongestSignals}. That widens the separation from ${runnerUpLabel} enough that the baseline reads as a clearer tradition-level pattern rather than a narrow nearest-fit edge.`
   }
 
-  return `The model landed on ${familyLabelValue} because the strongest pull in the profile comes from ${strongestSignals}, even though the overall pattern still leaves ${runnerUpLabel} close enough to matter. In other words, there is a real baseline tilt here, but not a sealed box. The runner-up remains part of the explanation, not background noise.`
+  return `The model landed on ${familyLabelValue} because the strongest pull in the profile comes from ${strongestSignals}, even though the overall pattern still leaves ${runnerUpLabel} close enough to matter. There is a real baseline tilt here, but not a sealed box. The runner-up remains part of the explanation, not background noise.`
 }
 
 function buildPressureTestText(
