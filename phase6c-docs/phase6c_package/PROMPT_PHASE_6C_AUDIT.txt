@@ -1,0 +1,46 @@
+You are auditing the IR Worldview Inventory repo for Phase 6C.
+
+Read:
+- PHASE_6C_SPEC.md
+- current module content files
+- current Foundation result page
+- current module result component
+- current Profile page/component
+- relevant helpers and copy/config files
+
+Audit only.
+Do not edit code.
+Do not modify files.
+
+Return a structured memo with exactly these sections:
+
+1. File-by-file plan
+- Which files are most likely to change
+- Why each one matters
+
+2. Highest-risk content areas
+- Which module cards are still too context-leaky
+- Which answer options still violate one-option-one-logic
+- Which result sections still look too meta or too repetitive
+
+3. Standard-mode compression plan
+- What should move below the fold or into drawers
+- What should remain above the fold
+
+4. Visual hierarchy plan
+- What should become the dominant visual on Foundation/module/Profile
+- What should be de-boxed or visually demoted
+
+5. Atlas Lite plan
+- Minimum viable implementation
+- Which page(s) should link to it
+- What pattern data or editorial content it needs
+
+6. Knowledge-load and perspective-balance QA
+- Whether the current schema is sufficient
+- What metadata/content process needs tightening
+
+7. Explicit deferrals
+- What should not be attempted in Phase 6C
+
+Stop after the audit memo.

@@ -1,0 +1,71 @@
+You are implementing Phase 6C in the IR Worldview Inventory repo.
+
+Read these files first:
+- PHASE_6C_SPEC.md
+- relevant module content files
+- relevant result/profile components
+- current scoring/profile helpers as needed
+
+Your job is to perform one consolidated but disciplined pass.
+
+## Hard rules
+
+1. Keep scope tight to Phase 6C.
+2. Do not add new focus-area modules.
+3. Do not add Crisis Lab / simulation.
+4. Do not add live multi-user stats, rarity claims, or percentile logic.
+5. Do not add compare-with-friends features in this phase.
+6. Preserve trust in the Foundation scoring pipeline.
+7. If you are unsure whether something belongs in this phase, leave it out.
+
+## Implementation goals
+
+1. Tighten module content discipline
+   - visible lanes stay in place
+   - scenario cards get stronger scene/whyHard/context structure
+   - high-priority Security/Technology cards are rewritten where they are still context-leaky
+   - answer options move toward one-option-one-logic
+   - optional second-most-persuasive should exist on scenario/tradeoff cards across Standard and Deep-dive if it can be done cleanly without harming baseline Likert interactions
+
+2. Improve Standard-mode payoff and compress meta copy
+   - Foundation, module result, and Profile pages should de-emphasize methods/meta above the fold
+   - Standard mode should read in plainer English than Deep-dive
+   - evidence/methods/log sections should be collapsed or visually demoted when appropriate
+
+3. Improve visual hierarchy and reduce card soup
+   - fewer bordered/tinted panels where possible
+   - stronger hero + one dominant visual + fewer same-weight sections
+   - do not overbuild or create dashboard clutter
+
+4. Add Atlas Lite
+   - create a lightweight browse page for 8–12 canonical profile patterns
+   - Foundation/Profile should link to it and show nearest/neighboring patterns in a modest way
+   - this should be editorially curated, not pseudoscientific or data-driven
+
+5. Preserve honesty in flat/mixed/stable/tension handling
+   - keep low-differentiation handling explicit
+   - keep explanation vs decision distinction where it matters
+   - do not reintroduce overclaiming through copy
+
+## What to do before editing
+
+Before you edit anything, do all of the following and then stop:
+1. list the files you will change
+2. list the files that need the heaviest content rewrite
+3. explain the minimum viable Atlas Lite implementation
+4. explain whether you can make second-most-persuasive optional in Standard-mode scenario cards cleanly
+5. explain the main visual/layout changes you will make
+6. explicitly name anything from the spec you are deferring
+7. then wait for approval
+
+## After approval
+
+Implement the minimum stable Phase 6C version.
+When done:
+- run lint
+- run tests
+- run build
+- summarize what changed
+- note any parts of the spec that remain only partially implemented
+
+Do not continue iterating after that unless asked.

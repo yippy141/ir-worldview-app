@@ -7,9 +7,11 @@ import {
   countAnsweredModuleQuestionsByLane,
   encodeModulePayload,
   getModuleDefinition,
+  getModulePerspectiveCoverage,
   getModuleQuestions,
+  moduleAllowsSecondChoice,
 } from "@/lib/modules/framework"
-import type { ModuleAnswers, ModuleLane, ModuleQuestion, ModuleSlug } from "@/lib/modules/types"
+import type { ModuleAnswers, ModuleLane, ModuleSlug } from "@/lib/modules/types"
 import type { ChoiceCardType, QuizMode } from "@/lib/types"
 
 export function ModuleApp({
@@ -49,6 +51,14 @@ export function ModuleApp({
     () =>
       moduleDefinition ? countAnsweredModuleQuestionsByLane(moduleDefinition, mode, answers) : {},
     [answers, mode, moduleDefinition],
+  )
+
+  const perspectiveCoverage = useMemo(
+    () =>
+      moduleDefinition
+        ? getModulePerspectiveCoverage(moduleDefinition, "analyst").filter((role) => role.count > 0)
+        : [],
+    [moduleDefinition],
   )
 
   if (!moduleDefinition) {
@@ -119,7 +129,8 @@ export function ModuleApp({
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard keeps the module to nine lane-balanced cases. Deep-dive adds one more case
-              per lane and lets you mark a second-most persuasive answer as a softer signal.
+              per lane. In both modes, scenario cards can carry an optional second-most persuasive
+              answer as a softer signal once you choose a primary one.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -187,6 +198,17 @@ export function ModuleApp({
         </div>
 
         <div className="callout stack-xs">
+          <p style={{ fontWeight: 600 }}>Perspective coverage across the full issue file</p>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+            This module is meant to test the issue through multiple actor positions, not only from
+            one coalition-manager point of view.
+          </p>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.88rem" }}>
+            {perspectiveCoverage.map((role) => role.label).join(" · ")}
+          </p>
+        </div>
+
+        <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>How to answer these cases</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
             Read the scene first, then the tradeoff. On Explanation cards, choose the logic that
@@ -237,8 +259,7 @@ export function ModuleApp({
           {laneQuestions.map((question, questionIndex) => {
             const primarySelection = answers[question.id]?.primary
             const secondarySelection = answers[question.id]?.secondary
-            const showSecondChoice =
-              mode === "analyst" && question.allowSecondChoiceInAnalyst && Boolean(primarySelection)
+            const showSecondChoice = moduleAllowsSecondChoice(question) && Boolean(primarySelection)
 
             return (
               <section key={question.id} className="panel stack-md">
@@ -315,7 +336,7 @@ export function ModuleApp({
                       <p className="eyebrow">Second-most persuasive</p>
                       <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
                         Use this only when another option also captures part of your judgment. It
-                        counts less than your main choice.
+                        counts less than your main choice and should stay genuinely secondary.
                       </p>
                     </div>
                     <div className="module-secondary-grid">

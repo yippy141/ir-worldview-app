@@ -4,7 +4,9 @@ import {
   buildModuleResult,
   decodeModulePayload,
   encodeModulePayload,
+  getModulePerspectiveCoverage,
   getModuleQuestions,
+  hasCompleteModulePerspectiveCoverage,
   modules,
   scoreModule,
   SECOND_CHOICE_WEIGHT,
@@ -51,6 +53,32 @@ test("each flagship module produces a stable result shape", () => {
   }
 })
 
+test("standard module second choice contributes at reduced weight", () => {
+  const moduleDefinition = modules.find((module) => module.slug === "security")
+  assert.ok(moduleDefinition, "expected security module to exist")
+
+  const standardQuestions = getModuleQuestions(moduleDefinition, "standard")
+  const targetQuestion = standardQuestions.find((question) => question.id === "gray_zone_sabotage")
+  assert.ok(targetQuestion, "expected standard gray-zone question to exist")
+
+  const answers: ModuleAnswers = {
+    gray_zone_sabotage: {
+      primary: targetQuestion.options[0].id,
+      secondary: targetQuestion.options[1].id,
+    },
+  }
+
+  const scores = scoreModule(moduleDefinition, "standard", answers)
+  const expectedAlliance =
+    (
+      targetQuestion.options[0].signals.alliance +
+      targetQuestion.options[1].signals.alliance * SECOND_CHOICE_WEIGHT
+    ) /
+    (1 + SECOND_CHOICE_WEIGHT)
+
+  assert.equal(scores.alliance, Number(expectedAlliance.toFixed(2)))
+})
+
 test("analyst second choice contributes at reduced weight", () => {
   const moduleDefinition = modules.find((module) => module.slug === "security")
   assert.ok(moduleDefinition, "expected security module to exist")
@@ -75,4 +103,18 @@ test("analyst second choice contributes at reduced weight", () => {
     (1 + SECOND_CHOICE_WEIGHT)
 
   assert.equal(scores.alliance, Number(expectedAlliance.toFixed(2)))
+})
+
+test("full modules satisfy the perspective coverage audit", () => {
+  for (const moduleDefinition of modules) {
+    assert.equal(
+      hasCompleteModulePerspectiveCoverage(moduleDefinition, "analyst"),
+      true,
+      `expected ${moduleDefinition.slug} to cover every perspective role in the full issue file`,
+    )
+
+    for (const role of getModulePerspectiveCoverage(moduleDefinition, "analyst")) {
+      assert.ok(role.count > 0, `expected ${moduleDefinition.slug} to cover ${role.label}`)
+    }
+  }
 })

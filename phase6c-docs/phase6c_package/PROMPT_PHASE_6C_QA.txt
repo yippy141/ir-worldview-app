@@ -1,0 +1,23 @@
+You are reviewing the current working branch against Phase 6C.
+
+Read:
+- PHASE_6C_SPEC.md
+- the current branch code
+- relevant module content files
+- Foundation/module/Profile result surfaces
+
+Do not do a broad rewrite.
+Focus on verification and go/no-go judgment.
+
+Return a structured QA memo with these sections:
+
+1. What clearly improved
+2. Remaining weak points
+3. Whether Standard mode is now shorter, plainer, and less meta above the fold
+4. Whether the modules feel more targeted and less memo-like
+5. Whether Atlas Lite is useful rather than decorative
+6. Whether explanation vs decision still survives where it matters
+7. Whether perspective balance is now visible enough
+8. Any regressions or bugs
+9. Go / no-go for the next friend round
+10. Minimal fixes still needed, if any

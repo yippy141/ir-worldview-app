@@ -41,34 +41,34 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     title: "Semiconductor export controls",
     prompt: "What should carry the most weight first?",
     scene:
-      "The United States considers tightening semiconductor controls on China while allies worry about retaliation, fragmentation, and commercial loss. The dispute is not only over how broad controls should be, but over what they are really for.",
+      "The United States considers tightening semiconductor controls on China while allies worry about retaliation, fragmentation, and commercial loss. The dispute is not only over scope, but over what export controls are actually supposed to achieve.",
     whyHard:
-      "Controls can protect a chokepoint, but they can also widen rivalry and strain the coalition needed to keep the controls meaningful.",
+      "Controls can preserve leverage, but they can also speed up duplication and strain the coalition needed to keep them effective.",
     contextBullets: [
       { label: "Actor / stake", text: "Governments are weighing security advantage against the costs of splitting technology supply chains faster than partners can adapt." },
       { label: "Uncertainty", text: "No one knows whether broader controls preserve leverage or just speed up duplication and bloc hardening." },
     ],
-    perspectiveTags: ["major-power", "alliance-manager", "industrial"],
+    perspectiveTags: ["major-power", "alliance-manager", "industrial", "export-controls"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "preserve_the_chokepoint",
-        title: "Preserve the chokepoint",
+        title: "Protect the chokepoint",
         label:
-          "Broad control is justified because losing the technological edge would reshape the wider strategic balance.",
+          "Broad control is justified because letting a rival close the capability gap would reshape the wider strategic balance.",
         signals: { control: 6.3, governance: 3.4, industrial: 5.0, safety: 4.6 },
       },
       {
         id: "coordinate_narrow_controls",
         title: "Coordinate narrow controls",
         label:
-          "Controls should be tightly scoped and coordinated so they do not damage the wider order they are supposed to defend.",
+          "Controls should stay narrow and coordinated so they do not damage the wider order they are supposed to defend.",
         signals: { control: 5.2, governance: 6.2, industrial: 4.6, safety: 4.8 },
       },
       {
         id: "build_capacity_instead",
-        title: "Build capacity instead",
+        title: "Build capacity first",
         label:
           "The more durable answer is productive depth at home and across partners, not ever-broader restriction by itself.",
         signals: { control: 4.8, governance: 4.8, industrial: 6.3, safety: 4.4 },
@@ -77,7 +77,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
         id: "avoid_total_securitization",
         title: "Avoid total securitization",
         label:
-          "Turning every technology gap into a security contest raises costs and shrinks the room for adaptation faster than it solves the problem.",
+          "Turning every technology gap into a security contest can shrink the room for adaptation faster than it solves the underlying problem.",
         signals: { control: 2.9, governance: 4.2, industrial: 3.9, safety: 3.9 },
       },
     ],
@@ -384,9 +384,9 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     title: "Military AI deployment",
     prompt: "What should carry the most weight in the deployment choice?",
     scene:
-      "A defense establishment wants rapid AI deployment despite weak testing standards because it fears a rival will move first. Others argue that once military AI diffuses under unclear thresholds, coalition discipline and human accountability may weaken faster than anyone intends.",
+      "A defense establishment wants rapid AI deployment despite weak testing standards because it fears a rival will move first. Others argue that once military AI diffuses under unclear thresholds, doctrine, coalition discipline, and accountability may weaken faster than anyone intends.",
     whyHard:
-      "Speed and caution are both strategic arguments here, not simply innovation versus ethics.",
+      "Speed and caution are both strategic arguments here, so the choice is not simply innovation versus ethics.",
     contextBullets: [
       { label: "Actor / stake", text: "The decision affects not only one state but also partners that may inherit the doctrine and the operating risk." },
       { label: "Uncertainty", text: "A slower rollout may preserve control, but it may also hand the first-mover advantage to a rival." },
@@ -397,28 +397,28 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     options: [
       {
         id: "field_quickly",
-        title: "Field quickly",
+        title: "Field before the rival sets the baseline",
         label:
-          "A military that waits for perfect confidence may discover that its rival set the operational baseline first.",
+          "A military that waits for high confidence may discover that its rival set the operational baseline first.",
         signals: { control: 4.8, governance: 3.9, industrial: 5.2, safety: 3.8 },
       },
       {
         id: "gate_the_fielding",
-        title: "Gate the fielding",
+        title: "Gate deployment through thresholds",
         label:
           "Deployment can continue, but only through staged testing, auditable logs, and hard limits on autonomous action.",
         signals: { control: 5.6, governance: 4.8, industrial: 4.5, safety: 6.2 },
       },
       {
         id: "set_coalition_baselines",
-        title: "Set coalition baselines",
+        title: "Set coalition baselines first",
         label:
           "The bigger danger is close partners racing ahead with different thresholds and incompatible doctrine.",
         signals: { control: 4.6, governance: 6.0, industrial: 4.4, safety: 5.5 },
       },
       {
         id: "protect_human_accountability",
-        title: "Protect human accountability",
+        title: "Keep responsibility legible",
         label:
           "The deepest risk is not only technical error but the erosion of responsibility once command decisions become opaque.",
         signals: { control: 4.4, governance: 5.0, industrial: 4.0, safety: 6.0 },
@@ -485,9 +485,9 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
     title: "Containment critique and export controls",
     prompt: "What is the strongest reading of how non-Western governments see the controls debate?",
     scene:
-      "A non-Western government hears U.S. officials describe export controls as security policy and Chinese officials describe them as an attempt to freeze hierarchy. Its own policymakers are deciding whether the issue is mainly strategic denial, poor rule design, hierarchy management, or pragmatic nonalignment.",
+      "A non-Western government hears U.S. officials describe export controls as security policy and Chinese officials describe them as an attempt to freeze hierarchy. Its own policymakers are deciding whether the issue is mainly strategic denial, rule design, hierarchy management, or long-run hedging.",
     whyHard:
-      "More than one critique can be true at once, but the main diagnosis determines whether the government narrows cooperation, widens resistance, or hedges.",
+      "More than one critique can be true at once, but the main diagnosis determines whether the government narrows cooperation, pushes back, or keeps room to hedge.",
     contextBullets: [
       { label: "Actor / stake", text: "The state wants technology access without becoming permanently subordinate to either camp." },
       { label: "Uncertainty", text: "It is unclear whether controls are a temporary security measure or a more durable hierarchy-preserving strategy." },
@@ -519,7 +519,7 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
       },
       {
         id: "nonalignment_will_persist",
-        title: "Nonalignment will persist",
+        title: "Hedging will persist",
         label:
           "Many states will protect room to maneuver because both camps offer leverage and dependency in different forms.",
         signals: { control: 3.0, governance: 4.6, industrial: 4.6, safety: 4.0 },

@@ -7,7 +7,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Explore — IR Worldview Inventory",
   description:
-    "A field guide to the worldview families the inventory draws on — what each tradition emphasizes, what it misses, and what it tends to find persuasive.",
+    "A field guide to the worldview families and canonical profile patterns the inventory draws on — what each tradition emphasizes, what it misses, and where the current model is strongest or partial.",
 }
 
 export default function ExplorePage() {
@@ -20,8 +20,24 @@ export default function ExplorePage() {
         <p className="muted" style={{ lineHeight: "1.7", fontSize: "1.05rem", maxWidth: "560px" }}>
           International Relations theory is not a single political spectrum. The traditions below
           disagree about what drives world politics, what evidence is most relevant, and what kinds
-          of arguments are most persuasive. This is a field guide, not an endorsement of any one
-          view.
+          of arguments are most persuasive. This is a field guide to the current model, not an
+          endorsement of any one view or a claim that people fit perfectly into rigid boxes.
+        </p>
+      </div>
+
+      <hr className="divider" />
+
+      <div className="article-section stack-sm">
+        <h2>Atlas Lite</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          The inventory runs on continuous dimensions. The Atlas page is a lightweight browse layer
+          showing recurring profile patterns in the current model: a map of nearby combinations, not
+          a rarity chart or a live user distribution.
+        </p>
+        <p>
+          <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
+            Open Atlas Lite →
+          </Link>
         </p>
       </div>
 
@@ -40,7 +56,8 @@ export default function ExplorePage() {
         <p style={{ lineHeight: "1.7" }}>
           The Foundation is designed to surface which framework dominates your instincts in
           aggregate, not to assign you a permanent label. The runner-up family often matters as
-          much as the primary one.
+          much as the primary one, and some results are better read as broad-spectrum overlap than
+          as a sharply sorted type.
         </p>
       </div>
 

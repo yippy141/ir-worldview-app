@@ -41,44 +41,44 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Quarantine pressure around Taiwan",
     prompt: "What should carry the most weight first?",
     scene:
-      "Beijing begins a quarantine-style pressure campaign around Taiwan: shipping is slowed, inspections are threatened, and the line between coercion and open conflict is kept deliberately blurry. Allies agree the move cannot be ignored, but they disagree on what a first response should try to accomplish.",
+      "Beijing begins a quarantine-style pressure campaign around Taiwan. Commercial traffic is slowed, inspections are threatened, and the line between coercion and open conflict is kept deliberately blurry while outside governments debate the first move.",
     whyHard:
-      "The dilemma is how to resist coercion early without letting a pressure campaign slide into a larger war through overreaction.",
+      "The first response has to resist coercion early without making a still-limited crisis harder to control than the pressure campaign itself.",
     contextBullets: [
       { label: "Actor / stake", text: "Taiwan, China, and outside partners are testing whether coercion below invasion can still reset the status quo." },
       { label: "Uncertainty", text: "No one knows whether Beijing is signaling, probing, or preparing to go further." },
       { label: "Term", text: "A quarantine here means coercive restriction of movement without a formally declared blockade." },
     ],
-    perspectiveTags: ["major-power", "alliance-manager", "maritime"],
+    perspectiveTags: ["major-power", "alliance-manager", "maritime", "frontline-state"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "clarify_response",
-        title: "Clarify the response",
+        title: "Deny a quiet fait accompli",
         label:
-          "The first job is to remove doubt about whether outside states would answer coercive pressure at all.",
+          "The first job is to show that quarantine tactics cannot quietly rewrite the status quo through ambiguity alone.",
         signals: { activism: 6.1, escalation: 6.0, alliance: 5.0, legitimacy: 4.2 },
       },
       {
         id: "build_denial_endurance",
-        title: "Build denial endurance",
+        title: "Build endurance first",
         label:
-          "What matters most is a coalition that can keep the pressure from working over time rather than one dramatic signal.",
+          "What matters most is a coalition that can keep traffic, logistics, and political resolve from collapsing over time.",
         signals: { activism: 5.1, escalation: 5.0, alliance: 5.9, legitimacy: 4.8 },
       },
       {
         id: "preserve_hedging_space",
-        title: "Preserve hedging space",
+        title: "Preserve regional room to maneuver",
         label:
-          "Regional partners need room to resist coercion without being forced immediately into the hardest military camp.",
+          "Regional partners need room to resist coercion without being forced immediately into the hardest military alignment.",
         signals: { activism: 3.2, escalation: 3.6, alliance: 3.2, legitimacy: 4.9 },
       },
       {
         id: "raise_political_costs",
-        title: "Raise political costs",
+        title: "Raise the political cost",
         label:
-          "The strongest first move is to widen the diplomatic and economic cost of coercion while keeping force carefully bounded.",
+          "The strongest first move is to widen the diplomatic and economic cost of coercion while holding force below the easiest escalatory threshold.",
         signals: { activism: 4.1, escalation: 4.0, alliance: 5.0, legitimacy: 6.0 },
       },
     ],
@@ -91,43 +91,43 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Gray-zone sabotage",
     prompt: "What is the most persuasive reading of what the rival is testing?",
     scene:
-      "A series of cyber disruptions and undersea infrastructure incidents are linked to a rival state, but attribution remains politically contested. Officials debate whether the pattern is mainly about punishment, signaling, coalition pressure, or exploiting easy vulnerabilities.",
+      "A series of cyber disruptions and undersea infrastructure incidents are linked to a rival state, but attribution remains politically contested. Officials disagree on whether the pattern is mainly about response thresholds, coalition cohesion, resilience gaps, or baiting an overreaction.",
     whyHard:
-      "The ambiguity is part of the problem: the more uncertain the evidence looks, the easier it is to disagree about what the incidents mean.",
+      "The ambiguity is part of the strategy: if the incidents stay deniable, partners can agree that something is wrong while still disagreeing about what it means.",
     contextBullets: [
       { label: "Actor / stake", text: "Multiple allied states are affected, so interpretation shapes not just retaliation but alliance cohesion." },
       { label: "Uncertainty", text: "The rival benefits if partners cannot agree whether the incidents cross a meaningful threshold." },
     ],
-    perspectiveTags: ["alliance-manager", "cyber", "infrastructure"],
+    perspectiveTags: ["alliance-manager", "cyber", "infrastructure", "major-power"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "resolve_probe",
-        title: "Probe for resolve",
+        title: "Test response thresholds",
         label:
-          "The incidents are mainly testing whether ambiguity lets the rival impose costs without triggering a firm response.",
+          "The incidents are mainly testing whether ambiguity lets the rival impose costs without triggering a firm threshold response.",
         signals: { activism: 5.6, escalation: 5.8, alliance: 4.9, legitimacy: 4.1 },
       },
       {
         id: "coalition_probe",
-        title: "Probe the coalition",
+        title: "Test coalition fracture points",
         label:
-          "The target is not just infrastructure. It is the political gap between partners with different thresholds for acting.",
+          "The target is the political gap between partners with different thresholds for acting on incomplete evidence.",
         signals: { activism: 4.8, escalation: 4.8, alliance: 6.1, legitimacy: 4.8 },
       },
       {
         id: "resilience_probe",
-        title: "Probe resilience gaps",
+        title: "Map resilience gaps",
         label:
-          "The rival is exploiting soft infrastructure and recovery weaknesses more than it is trying to trigger a single dramatic showdown.",
+          "The rival is exploiting repair, redundancy, and recovery weaknesses more than it is trying to trigger one dramatic showdown.",
         signals: { activism: 3.5, escalation: 3.8, alliance: 4.5, legitimacy: 4.4 },
       },
       {
         id: "bait_for_escalation",
-        title: "Bait for escalation",
+        title: "Create an attribution trap",
         label:
-          "The point is to provoke an overreaction on incomplete evidence and turn allied caution into a strategic restraint.",
+          "The point is to provoke an overreaction on partial evidence and turn allied caution into a strategic restraint on themselves.",
         signals: { activism: 3.4, escalation: 3.6, alliance: 4.2, legitimacy: 5.8 },
       },
     ],
@@ -287,7 +287,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Middle-power alignment under pressure",
     prompt: "What is the strongest reading of why a middle power resists bloc discipline?",
     scene:
-      "A middle power wants security ties with Washington, trade with China, and no formal obligation to line up across every file. Outside commentators disagree on whether this is opportunism, realism, vulnerability management, or a workable layered strategy.",
+      "A middle power wants security ties with Washington, trade with China, and no formal obligation to line up across every file. Outside commentators disagree on whether this is failed ambiguity, layered strategy, autonomy preservation, or problem-based coalition-building.",
     whyHard:
       "The same behavior can look evasive from a coalition manager's perspective and prudent from the middle power's own perspective.",
     contextBullets: [
@@ -300,30 +300,30 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     options: [
       {
         id: "ambiguity_will_fail",
-        title: "Ambiguity will fail",
+        title: "Rivalry will force a line",
         label:
-          "As rivalry sharpens, layered positioning becomes harder to sustain and partners will eventually demand a real line.",
+          "As rivalry sharpens, layered positioning becomes harder to sustain and partners will eventually demand a clearer strategic line.",
         signals: { activism: 5.0, escalation: 5.2, alliance: 6.1, legitimacy: 4.1 },
       },
       {
         id: "layered_alignment_is_real",
-        title: "Layered alignment is real",
+        title: "Layered alignment can hold",
         label:
-          "States can be security partners in one domain, economic partners in another, and still remain dependable on specific problems.",
+          "States can be dependable on specific security problems while still separating trade, finance, or diplomacy across other files.",
         signals: { activism: 4.2, escalation: 4.3, alliance: 5.0, legitimacy: 4.9 },
       },
       {
         id: "autonomy_is_rational",
-        title: "Autonomy is rational",
+        title: "Autonomy is a strategic asset",
         label:
-          "The state is managing exposure, not avoiding responsibility. For vulnerable powers, autonomy itself is a strategic asset.",
+          "The state is managing exposure, not ducking responsibility. For vulnerable powers, autonomy itself is part of survival.",
         signals: { activism: 3.7, escalation: 4.0, alliance: 2.8, legitimacy: 5.3 },
       },
       {
         id: "problem_based_coalitions",
-        title: "Problem-based coalitions",
+        title: "Problem-based coalitions are the equilibrium",
         label:
-          "Issue-specific coalitions are more realistic than demanding whole-of-state alignment on every dispute at once.",
+          "Issue-specific coalitions are more realistic than demanding whole-of-state alignment across every dispute at once.",
         signals: { activism: 4.0, escalation: 4.1, alliance: 4.8, legitimacy: 5.5 },
       },
     ],

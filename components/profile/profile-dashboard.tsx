@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
   loadProfileStore,
@@ -72,6 +73,13 @@ export function ProfileDashboard() {
   const assessment = buildProfileAssessment(profile)
   const profileNarrative = buildProfileNarrative(profile, assessment)
   const spineRows = buildProfileSpineRows(profile)
+  const atlasMatch = matchAtlasLiteProfile({
+    foundation,
+    profileState: assessment.state,
+    moduleSnapshots,
+  })
+  const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security")
+  const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology")
 
   return (
     <article className="result-article">
@@ -108,6 +116,90 @@ export function ProfileDashboard() {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
+          <h2>Profile highlights</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+            The top-line shifts and continuities in the Foundation-plus-overlay profile on this
+            device.
+          </p>
+        </div>
+        <div className="driver-grid">
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">Security shift</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+              {securitySnapshot ? "Security overlay completed" : "Security overlay not yet saved"}
+            </p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getModuleHighlightText(
+                securitySnapshot,
+                "Security has not been completed yet, so the baseline still carries the full weight here.",
+              )}
+            </p>
+          </div>
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">Technology shift</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+              {technologySnapshot ? "Technology overlay completed" : "Technology overlay not yet saved"}
+            </p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getModuleHighlightText(
+                technologySnapshot,
+                "Technology has not been completed yet, so the baseline still carries the full weight here.",
+              )}
+            </p>
+          </div>
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">Stable trait</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>What persists</p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getStableTraitText(foundation)}
+            </p>
+          </div>
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">Unstable or contested trait</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Where the profile is least settled</p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getContestedTraitText(assessment)}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="result-section stack-md">
+        <div className="stack-xs">
+          <h2>Atlas Lite</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+            A curated browse layer for nearby profile patterns. This is editorial shorthand, not a
+            rarity claim or a user distribution.
+          </p>
+        </div>
+        <div className="atlas-pattern-card atlas-pattern-card--compact stack-sm">
+          <div className="stack-xs">
+            <p className="eyebrow">Nearest atlas pattern</p>
+            <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
+              {atlasMatch.nearest.name}
+            </p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              {atlasMatch.nearest.description}
+            </p>
+          </div>
+          <div className="stack-xs">
+            <p style={{ fontWeight: 600 }}>Neighboring patterns worth exploring</p>
+            <div className="atlas-inline-links">
+              {atlasMatch.neighbors.map((pattern) => (
+                <Link key={pattern.id} href={`/explore/atlas#${pattern.id}`} style={{ color: "var(--accent)" }}>
+                  {pattern.name}
+                </Link>
+              ))}
+              <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
+                Open Atlas Lite
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="result-section stack-md">
+        <div className="stack-xs">
           <h2>Integrated interpretation</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
             Controlled narrative synthesis of the Foundation baseline and the completed focus-area
@@ -119,36 +211,6 @@ export function ProfileDashboard() {
             <div key={section.title} className="stack-xs">
               <p className="eyebrow">{section.title}</p>
               <p style={{ lineHeight: "1.7" }}>{section.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>Baseline anchors</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            The Foundation remains the anchor for the integrated profile, even when focus-area
-            overlays shift emphasis.
-          </p>
-        </div>
-        <div className="driver-grid">
-          {foundation.keyDrivers.map((driver) => (
-            <div key={driver.label} className="driver-card stack-xs">
-              <p className="eyebrow">{driver.type}</p>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
-              <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                {driver.description}
-              </p>
-            </div>
-          ))}
-          {foundation.strongLenses.map((lens) => (
-            <div key={lens.label} className="driver-card stack-xs">
-              <p className="eyebrow">Lens</p>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
-              <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                {lens.description}
-              </p>
             </div>
           ))}
         </div>
@@ -275,6 +337,30 @@ export function ProfileDashboard() {
           </div>
         </details>
 
+        <details className="profile-details">
+          <summary>Foundation anchors</summary>
+          <div className="driver-grid" style={{ marginTop: "16px" }}>
+            {foundation.keyDrivers.map((driver) => (
+              <div key={driver.label} className="driver-card stack-xs">
+                <p className="eyebrow">{driver.type}</p>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
+                <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                  {driver.description}
+                </p>
+              </div>
+            ))}
+            {foundation.strongLenses.map((lens) => (
+              <div key={lens.label} className="driver-card stack-xs">
+                <p className="eyebrow">Lens</p>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
+                <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                  {lens.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </details>
+
         {moduleSnapshots.map((moduleSnapshot) => (
           <details key={moduleSnapshot.slug} className="profile-details">
             <summary>{moduleSnapshot.title} evidence log</summary>
@@ -302,6 +388,54 @@ export function ProfileDashboard() {
       </section>
     </article>
   )
+}
+
+function getModuleHighlightText(snapshot: ModuleSnapshot | undefined, fallback: string) {
+  if (!snapshot) return fallback
+
+  const dominantLane = snapshot.laneSummaries
+    .slice()
+    .sort((a, b) => Math.abs(b.score - 4) - Math.abs(a.score - 4))[0]
+
+  if (!dominantLane) {
+    return snapshot.summary
+  }
+
+  return `${dominantLane.label}: ${dominantLane.summary}`
+}
+
+function getStableTraitText(foundation: ProfileStore["foundation"]) {
+  if (!foundation) {
+    return "The Foundation baseline is not saved yet."
+  }
+
+  const strongestDriver = foundation.keyDrivers[0]
+  if (strongestDriver) {
+    return `${strongestDriver.label}. ${strongestDriver.description}`
+  }
+
+  const firstLens = foundation.strongLenses[0]
+  if (firstLens) {
+    return `${firstLens.label}. ${firstLens.description}`
+  }
+
+  return "The Foundation remains the anchor until issue overlays complicate it."
+}
+
+function getContestedTraitText(assessment: ReturnType<typeof buildProfileAssessment>) {
+  if (assessment.state === "trueTension") {
+    return assessment.points[0] ?? assessment.changedMost
+  }
+
+  if (assessment.state === "domainConditionedShift") {
+    return assessment.changedMost
+  }
+
+  if (assessment.state === "lowDifferentiation") {
+    return "No single contested trait dominates yet. The main signal remains overlap rather than one sharp split."
+  }
+
+  return "No major contested fault line has opened yet. The completed overlays still sit relatively close to the baseline."
 }
 
 function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows> }) {

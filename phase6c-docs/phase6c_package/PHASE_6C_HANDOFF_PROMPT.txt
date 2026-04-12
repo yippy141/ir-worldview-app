@@ -1,0 +1,29 @@
+Project: IR Worldview Inventory
+Current intended phase: Phase 6C — Content Discipline, Standard-Mode Compression, and Exploration Lite
+
+What has already happened:
+- Early versions had severe taxonomy and CPE-overclustering problems.
+- Foundation architecture, focus-area modules, and Profile now exist.
+- A major Foundation collapse bug was fixed in Phase 6B2.
+- The product is now coherent enough that the main remaining problems are content discipline, payoff, visual hierarchy, and public-surface consistency.
+- The two existing focus-area modules are Security, Strategy, and Statecraft; and Technology, AI, and Geoeconomics.
+- The next pass should not add new modules or a crisis lab.
+
+What this phase should do:
+- tighten module cases and answer options
+- make Standard-mode results plainer, shorter, and less meta above the fold
+- improve visual hierarchy and reduce card soup
+- add Atlas Lite: a small browse page of canonical profile patterns
+- preserve honesty on low-differentiation, stability, domain shift, and tension states
+
+What this phase should NOT do:
+- no crisis lab
+- no compare-with-friends
+- no rarity / percentile system
+- no new focus-area modules
+- no huge taxonomy redesign
+
+Instructions for the model:
+1. Read PHASE_6C_SPEC.md first.
+2. Summarize the goal and likely files to touch in 6–8 lines.
+3. Do not edit anything until I approve.

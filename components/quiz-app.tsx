@@ -223,7 +223,7 @@ export function QuizApp() {
           <p className="eyebrow">IR Worldview Inventory</p>
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
             <div className="stack-xs">
-              <h1>Foundation questionnaire</h1>
+              <h1>Foundation</h1>
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
                   ? "Standard mode keeps the foundation concise and plain-language."

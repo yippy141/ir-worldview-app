@@ -34,6 +34,9 @@ export function ModuleResultView({
   const laneLabelMap = Object.fromEntries(
     moduleDefinition.lanes.map((lane) => [lane.key, lane.label]),
   ) as Record<string, string>
+  const dominantLane = result.laneSummaries
+    .slice()
+    .sort((a, b) => Math.abs(b.score - 4) - Math.abs(a.score - 4))[0]
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
 
   return (
@@ -76,6 +79,14 @@ export function ModuleResultView({
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
             {result.summary}
           </p>
+          {dominantLane ? (
+            <div className="callout stack-xs">
+              <p style={{ fontWeight: 600 }}>What pulled hardest</p>
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+                <strong>{dominantLane.label}:</strong> {dominantLane.summary}
+              </p>
+            </div>
+          ) : null}
           {result.comparison ? (
             <div className="callout">
               <p style={{ fontWeight: 600, marginBottom: "8px" }}>How this differs from your Foundation</p>

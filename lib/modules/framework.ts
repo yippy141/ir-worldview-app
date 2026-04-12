@@ -15,6 +15,54 @@ import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
 export const modules: readonly ModuleDefinition[] = [securityModule, technologyModule]
 export const SECOND_CHOICE_WEIGHT = 0.45
 
+export const MODULE_PERSPECTIVE_MATRIX = [
+  {
+    key: "coalitionManager",
+    label: "Alliance manager / status quo coalition actor",
+    tags: ["alliance-manager", "major-power"],
+  },
+  {
+    key: "rivalLogic",
+    label: "Rival or rising-power logic",
+    tags: ["major-power", "regional-security", "deterrence", "export-controls", "military"],
+  },
+  {
+    key: "exposedState",
+    label: "Exposed ally or vulnerable smaller state",
+    tags: ["frontline-state", "small-state", "vulnerable-state", "middle-income"],
+  },
+  {
+    key: "middlePowerHedging",
+    label: "Nonaligned or middle-power hedging logic",
+    tags: ["middle-power", "nonaligned", "hedging"],
+  },
+  {
+    key: "developmental",
+    label: "Developmental / dependency / capacity-constrained actor",
+    tags: ["developmental", "dependency", "state-capacity", "middle-income", "supply-chain"],
+  },
+  {
+    key: "protectionAuthority",
+    label: "Legality / protection / authority logic",
+    tags: [
+      "humanitarian",
+      "civilian-protection",
+      "post-conflict",
+      "regional-order",
+      "ai-governance",
+      "safety",
+      "regulation",
+      "incident-response",
+    ],
+  },
+] as const
+
+export type ModulePerspectiveCoverage = {
+  key: (typeof MODULE_PERSPECTIVE_MATRIX)[number]["key"]
+  label: string
+  count: number
+}
+
 const MODULE_MAP = Object.fromEntries(
   modules.map((moduleDefinition) => [moduleDefinition.slug, moduleDefinition]),
 ) as Record<ModuleSlug, ModuleDefinition>
@@ -28,6 +76,32 @@ export function getModuleQuestions(
   mode: QuizMode,
 ) {
   return moduleDefinition.questionsByMode[mode]
+}
+
+export function moduleAllowsSecondChoice(question: ModuleQuestion) {
+  return Boolean(question.allowSecondChoiceInAnalyst)
+}
+
+export function getModulePerspectiveCoverage(
+  moduleDefinition: ModuleDefinition,
+  mode: QuizMode = "analyst",
+): ModulePerspectiveCoverage[] {
+  const questions = getModuleQuestions(moduleDefinition, mode)
+
+  return MODULE_PERSPECTIVE_MATRIX.map((role) => ({
+    key: role.key,
+    label: role.label,
+    count: questions.filter((question) =>
+      question.perspectiveTags.some((tag) => role.tags.some((roleTag) => roleTag === tag))
+    ).length,
+  }))
+}
+
+export function hasCompleteModulePerspectiveCoverage(
+  moduleDefinition: ModuleDefinition,
+  mode: QuizMode = "analyst",
+) {
+  return getModulePerspectiveCoverage(moduleDefinition, mode).every((role) => role.count > 0)
 }
 
 export function encodeModulePayload(payload: ModulePayload): string {
@@ -169,8 +243,7 @@ function scoreQuestions(
     applySignals(question, answer.primary, 1, sums, weights)
 
     if (
-      mode === "analyst" &&
-      question.allowSecondChoiceInAnalyst &&
+      moduleAllowsSecondChoice(question) &&
       answer.secondary &&
       answer.secondary !== answer.primary
     ) {

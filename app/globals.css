@@ -979,6 +979,12 @@ h3 {
   gap: 16px;
 }
 
+.atlas-pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+}
+
 .explore-card {
   background: var(--panel);
   border: 1px solid var(--border);
@@ -992,6 +998,23 @@ h3 {
 .explore-card:hover {
   border-color: var(--accent);
   box-shadow: 0 0 0 1px var(--accent);
+}
+
+.atlas-pattern-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 24px;
+}
+
+.atlas-pattern-card--compact {
+  padding: 22px 24px;
+}
+
+.atlas-inline-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
 }
 
 .gap-entry {
@@ -1372,7 +1395,7 @@ h3 {
 }
 
 .driver-card {
-  background: var(--panel-2);
+  background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 5px;
   padding: 20px;
