@@ -28,15 +28,15 @@ export default function ExplorePage() {
       <hr className="divider" />
 
       <div className="article-section stack-sm">
-        <h2>Atlas Lite</h2>
+        <h2>Atlas</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The inventory runs on continuous dimensions. The Atlas page is a lightweight browse layer
-          showing recurring profile patterns in the current model: a map of nearby combinations, not
-          a rarity chart or a live user distribution.
+          The inventory runs on continuous dimensions. The Atlas is a browse map of recurring
+          profile patterns in the current model: nearby combinations, not a rarity chart or a live
+          user distribution.
         </p>
         <p>
           <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-            Open Atlas Lite →
+            Open Atlas →
           </Link>
         </p>
       </div>
@@ -55,9 +55,9 @@ export default function ExplorePage() {
         </p>
         <p style={{ lineHeight: "1.7" }}>
           The Foundation is designed to surface which framework dominates your instincts in
-          aggregate, not to assign you a permanent label. The runner-up family often matters as
-          much as the primary one, and some results are better read as broad-spectrum overlap than
-          as a sharply sorted type.
+          aggregate, not to assign you a permanent label. The runner-up family often remains nearly
+          as important as the primary one, and some results are better read as overlap than as a sharply
+          sorted type.
         </p>
       </div>
 

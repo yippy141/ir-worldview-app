@@ -2,7 +2,8 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { matchAtlasLiteProfile } from "@/lib/atlas-lite"
+import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
   loadProfileStore,
@@ -166,32 +167,49 @@ export function ProfileDashboard() {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>Atlas Lite</h2>
+          <h2>Atlas</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            A curated browse layer for nearby profile patterns. This is editorial shorthand, not a
-            rarity claim or a user distribution.
+            A browse map of recurring profile patterns in the model. It is an editorial guide, not
+            a rarity claim or a user distribution.
           </p>
         </div>
         <div className="atlas-pattern-card atlas-pattern-card--compact stack-sm">
           <div className="stack-xs">
-            <p className="eyebrow">Nearest atlas pattern</p>
+            <p className="eyebrow">Nearest Atlas pattern</p>
             <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
               {atlasMatch.nearest.name}
             </p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              {atlasMatch.nearest.description}
+              {atlasMatch.nearest.cardSummary}
             </p>
           </div>
+          <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
           <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>Neighboring patterns worth exploring</p>
+            <p style={{ fontWeight: 600 }}>What usually drives it</p>
+            <div className="atlas-tag-list">
+              {atlasMatch.nearest.cardDrivers.map((driver) => (
+                <span key={driver} className="atlas-tag">
+                  {driver}
+                </span>
+              ))}
+            </div>
+          </div>
+          <p className="muted atlas-pressure-note">
+            <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
+          </p>
+          <div className="stack-xs">
+            <p style={{ fontWeight: 600 }}>Nearby patterns worth opening</p>
             <div className="atlas-inline-links">
               {atlasMatch.neighbors.map((pattern) => (
-                <Link key={pattern.id} href={`/explore/atlas#${pattern.id}`} style={{ color: "var(--accent)" }}>
+                <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
                   {pattern.name}
                 </Link>
               ))}
+              <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
+                Read this pattern
+              </Link>
               <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                Open Atlas Lite
+                Open Atlas
               </Link>
             </div>
           </div>

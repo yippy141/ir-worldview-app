@@ -1007,14 +1007,113 @@ h3 {
   padding: 24px;
 }
 
+.atlas-pattern-card__footer {
+  padding-top: 6px;
+}
+
 .atlas-pattern-card--compact {
   padding: 22px 24px;
+}
+
+.atlas-pattern-cta {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.atlas-pattern-cta:hover {
+  text-decoration: underline;
 }
 
 .atlas-inline-links {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 14px;
+}
+
+.atlas-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.atlas-tag {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  line-height: 1.3;
+  color: var(--muted);
+  background: color-mix(in srgb, var(--paper) 72%, white 28%);
+}
+
+.atlas-pressure-note {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+.atlas-fingerprint {
+  display: grid;
+  gap: 10px;
+}
+
+.atlas-fingerprint--compact {
+  gap: 8px;
+}
+
+.atlas-fingerprint-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(92px, 120px) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.atlas-fingerprint--compact .atlas-fingerprint-row {
+  grid-template-columns: minmax(110px, 1fr) minmax(92px, 110px);
+}
+
+.atlas-fingerprint-label {
+  font-size: 0.84rem;
+  color: var(--text);
+}
+
+.atlas-fingerprint-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.atlas-fingerprint-segment {
+  height: 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 55%, var(--border) 45%);
+}
+
+.atlas-fingerprint-segment--active {
+  background: color-mix(in srgb, var(--accent) 72%, white 28%);
+}
+
+.atlas-fingerprint-value {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.atlas-detail-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.95fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.atlas-detail-side {
+  min-width: 0;
+}
+
+.atlas-detail-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
 }
 
 .gap-entry {
@@ -1591,6 +1690,20 @@ h3 {
 
   .atlas-toc {
     position: static;
+    display: none;
+  }
+
+  .atlas-detail-hero-grid,
+  .atlas-detail-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas-fingerprint-row,
+  .atlas-fingerprint--compact .atlas-fingerprint-row {
+    grid-template-columns: minmax(0, 1fr) minmax(88px, 104px);
+  }
+
+  .atlas-fingerprint-value {
     display: none;
   }
 

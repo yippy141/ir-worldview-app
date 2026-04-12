@@ -688,7 +688,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Security read: pressure and visible deterrence",
         summary:
-          "You become firmer under security pressure. Delay looks costly to you, and visible commitment matters when rivals are testing limits.",
+          "Under security pressure, you generally believe delay is costly and visible commitment helps keep rivals from pushing further.",
         instincts: [
           "You worry most about what hesitation teaches an adversary.",
           "You treat credibility failures as harder to reverse than bounded overcommitment.",
@@ -718,7 +718,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Security read: coalition-centered pressure management",
         summary:
-          "You think security holds up best when exposed partners trust the coalition and the coalition can actually carry the policy together.",
+          "You generally believe security holds best when exposed partners trust the coalition and the coalition can carry the policy together.",
         instincts: [
           "You treat alliance cohesion as part of deterrence, not diplomatic decoration.",
           "You prefer strategies that partners can sustain together over dramatic unilateral gestures.",
@@ -733,7 +733,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Security read: protection-sensitive statecraft",
         summary:
-          "You think force and deterrence hold up best when they remain visibly bounded by civilian protection, political legitimacy, and defensible authority.",
+          "You generally believe force and deterrence hold best when they remain bounded by civilian protection, political legitimacy, and defensible authority.",
         instincts: [
           "You keep asking what kind of precedent a response is setting.",
           "You distinguish narrow protection from open-ended license to act.",

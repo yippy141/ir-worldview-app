@@ -20,13 +20,13 @@ export type ProfileNarrative = {
 
 const PROFILE_PRACTICE_FRAMES = {
   realist:
-    "In practice, the profile keeps returning to constraint, leverage, and credibility before it grants much explanatory weight to reassurance or process alone.",
+    "The profile keeps returning to constraint, leverage, and credibility before it grants much explanatory weight to reassurance or process alone.",
   institutionalist:
-    "In practice, the profile keeps returning to institutional design, credible commitment, and whether coordination changes incentives rather than merely decorating them.",
+    "The profile keeps returning to institutional design, credible commitment, and whether coordination changes incentives rather than merely decorating them.",
   constructivist:
-    "In practice, the profile keeps returning to legitimacy, framing, and historical relationship before it treats the material facts as self-explanatory.",
+    "The profile keeps returning to legitimacy, framing, and historical relationship before it treats the material facts as self-explanatory.",
   criticalPoliticalEconomy:
-    "In practice, the profile keeps returning to dependence, structural advantage, and who writes the rules of the game before it accepts surface descriptions at face value.",
+    "The profile keeps returning to dependence, structural advantage, and who writes the rules of the game before it accepts surface descriptions at face value.",
 } as const
 
 export function buildProfileNarrative(
@@ -100,7 +100,7 @@ function buildIntegratedRead(
   }
 
   if (assessment.state === "lowDifferentiation") {
-    return `The integrated profile is still better read as broad-spectrum than sharply sorted. Even after the saved overlays are layered in, the center of gravity remains modest and overlapping rather than tightly doctrinal. The value is in naming that overlap honestly and watching whether later pressure tests sharpen it.`
+    return `The integrated profile is still better read as overlap than as a sharply sorted camp. Even after the saved overlays are layered in, the center of gravity remains modest and overlapping rather than tightly doctrinal. The value is in naming that overlap honestly and watching whether later pressure tests sharpen it.`
   }
 
   if (assessment.state === "sharplyDifferentiatedBaseline" || foundationState === "sharplyDifferentiated") {
@@ -134,7 +134,7 @@ function buildStabilityOrTensionText(
   }
 
   if (assessment.state === "lowDifferentiation") {
-    return "The stable pattern here is not doctrinal sharpness. It is that the profile remains comparatively broad-spectrum even after the saved overlays are added. The completed layers provide context, but they do not yet force a cleaner split between neighboring traditions."
+    return "The stable pattern here is not doctrinal sharpness. It is that the profile remains overlapping even after the saved overlays are added. The completed layers provide context, but they do not yet force a cleaner split between neighboring traditions."
   }
 
   if (assessment.state === "sharplyDifferentiatedBaseline") {
@@ -176,7 +176,7 @@ function buildProbeNextText(
   runnerUpLabel: string,
 ) {
   if (moduleSnapshots.length === 0) {
-    return "The next useful probe is a focus-area module. Security is the sharper test of coercion, alliances, and legitimacy under pressure. Technology is the sharper test of control, dependence, and governance. Either one can show whether the baseline sharpens or stays broad-spectrum once the issue domain gets harder."
+    return "The next useful probe is a focus-area module. Security is the sharper test of coercion, alliances, and legitimacy under pressure. Technology is the sharper test of control, dependence, and governance. Either one can show whether the baseline sharpens or keeps its overlap once the issue domain gets harder."
   }
 
   if (moduleSnapshots.length === 1) {
@@ -188,7 +188,7 @@ function buildProbeNextText(
   }
 
   if (assessment.state === "lowDifferentiation") {
-    return `The next probe is whether a harder Foundation retake or a fresh issue case consistently breaks the overlap. If not, broad-spectrum reasoning may simply be the honest result. If it does, ${runnerUpLabel} is the most useful neighboring profile to compare against.`
+    return `The next probe is whether a harder Foundation retake or a fresh issue case consistently breaks the overlap. If not, overlapping reasoning may simply be the honest result. If it does, ${runnerUpLabel} is the most useful neighboring profile to compare against.`
   }
 
   return `The next probe is a neighboring comparison in your own head rather than a new taxonomy feature: ask what would have to change for ${runnerUpLabel} to become the better shorthand. That question is usually more informative than trying to force extra certainty out of a result that is already working as a profile.`

@@ -197,7 +197,7 @@ test("cross-domain tensions surface both domain conflict and card-type splits", 
   )
 })
 
-test("broad-spectrum foundation state surfaces honestly before modules exist", () => {
+test("overlap foundation state surfaces honestly before modules exist", () => {
   const broadProfile: ProfileStore = {
     v: 2,
     foundation: {
@@ -232,7 +232,7 @@ test("broad-spectrum foundation state surfaces honestly before modules exist", (
 
   assert.equal(assessment.state, "lowDifferentiation")
   assert.equal(foundationNarrative.state, "lowDifferentiation")
-  assert.ok(narrative.sections[0]?.text.includes("broad-spectrum"))
+  assert.ok(narrative.sections[0]?.text.includes("overlap"))
 })
 
 test("sharply differentiated foundations can surface before modules are added", () => {

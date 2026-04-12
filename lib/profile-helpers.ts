@@ -156,14 +156,14 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     if (foundationAssessment.state === "lowDifferentiation") {
       return {
         state: "lowDifferentiation",
-        stateLabel: "Broad-spectrum baseline",
-        synthesis: `Broad-spectrum ${foundation.familyLabel.toLowerCase()} nearest-fit baseline with no completed focus-area overlays yet.`,
+        stateLabel: "Overlap baseline",
+        synthesis: `${foundation.familyLabel} starting point with substantial overlap and no completed focus-area overlays yet.`,
         summary:
-          "The Foundation is not seeing a sharply sorted profile. The honest read is broad-spectrum overlap, with the tradition label functioning as shorthand rather than as a crisp box.",
+          "The Foundation is not sorting this profile into one firm camp yet. The honest read is overlap, with the tradition label serving as a starting point rather than a fixed box.",
         changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
-        panelTitle: "Broad-spectrum mode",
+        panelTitle: "Overlap mode",
         panelIntro:
-          "The main payoff here is not hidden distinctiveness. It is knowing that the baseline remains relatively unsorted until a harder pressure test sharpens it, if it does at all.",
+          "The main payoff here is knowing that the baseline remains relatively unsorted until a harder pressure test sharpens it, if it does at all.",
         points: [
           "The Foundation stays closest to one tradition, but the separation is narrow.",
           "No saved module overlays yet exist to tell you whether a domain-specific stress test sharpens the profile.",
@@ -178,14 +178,14 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
         stateLabel: "Sharply differentiated baseline",
         synthesis: `${foundation.familyLabel} baseline with a clear center of gravity before any focus-area overlays are added.`,
         summary:
-          "The Foundation already produces a more sharply sorted baseline than a nearest-fit or broad-spectrum result. Modules may complicate it later, but they are not needed to make the core read intelligible.",
+          "The Foundation already produces a clearer baseline than an overlap result. Modules may complicate it later, but they are not needed to make the core read intelligible.",
         changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
         panelTitle: "Baseline mode",
         panelIntro:
           "The important point here is not that the model found a total theory of everything. It is that the Foundation is already doing substantial interpretive work before any module pressure is added.",
         points: [
           "The baseline dimensions point in a more mutually reinforcing direction than a flat profile does.",
-          "The result is still shorthand, but it is a clearer shorthand than a narrow nearest-fit edge.",
+          "The result is still shorthand, but it is a clearer shorthand than a narrow edge between traditions.",
           "Modules now matter most as pressure tests: they can reinforce, qualify, or complicate an already coherent baseline.",
         ],
       }
@@ -245,14 +245,14 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
   if (foundationAssessment.state === "lowDifferentiation") {
     return {
       state: "lowDifferentiation",
-      stateLabel: "Broad-spectrum",
-      synthesis: `Nearest-fit ${foundation.familyLabel.toLowerCase()} baseline with only modest separation across the layers you have completed.`,
+      stateLabel: "Overlap across layers",
+      synthesis: `${foundation.familyLabel} starting point with only modest separation across the layers you have completed.`,
       summary:
-        "The model is not seeing a sharply sorted profile here. The result is better read as a nearest fit with stable tendencies than as a crisp worldview box.",
+        "The model is not seeing a sharply sorted profile here. The result is better read as an overlapping pattern with stable tendencies than as a crisp worldview box.",
       changedMost,
-      panelTitle: "Broad-spectrum mode",
+      panelTitle: "Overlap mode",
       panelIntro:
-        "The honest takeaway is not hidden distinctiveness. It is that your profile stays relatively unsorted even after the available overlays.",
+        "The honest takeaway is that your profile stays relatively unsorted even after the available overlays.",
       points: [
         "The gap between the closest Foundation traditions remains narrow.",
         "The completed module overlays do not sharply separate the profile into a cleaner box.",
@@ -267,7 +267,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       stateLabel: "Sharply differentiated baseline",
       synthesis: `${foundation.familyLabel} baseline that remains coherent once the completed module overlays are layered in.`,
       summary:
-        "The Foundation starts from a clearer center of gravity than a broad-spectrum result, and the completed modules add texture without dissolving that baseline into a flat midpoint blend.",
+        "The Foundation starts from a clearer center of gravity than an overlap result, and the completed modules add texture without dissolving that baseline into a flat midpoint blend.",
       changedMost,
       panelTitle: "Baseline mode",
       panelIntro:

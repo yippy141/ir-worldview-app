@@ -687,7 +687,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: control with capacity-building",
         summary:
-          "You think technological advantage depends on guarding chokepoints, building productive depth, and treating dependence as an exposure to manage.",
+          "You generally believe technological advantage depends on guarding chokepoints, building productive depth, and treating dependence as an exposure to manage.",
         instincts: [
           "You are comfortable using control and industrial policy together.",
           "You treat productive capacity as a strategic asset, not just an economic one.",
@@ -702,7 +702,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: coordinated governance",
         summary:
-          "You think the stronger technology strategy is coordinated rather than purely national: shared standards, selective controls, and durable alignment among capable partners.",
+          "You generally believe the stronger technology strategy is coordinated rather than purely national: shared standards, narrow controls, and durable alignment among capable partners.",
         instincts: [
           "You prefer tools that partners can actually implement together.",
           "You treat governance capacity as part of strategic power, not a soft add-on.",
@@ -732,7 +732,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: openness with targeted safeguards",
         summary:
-          "You think over-securitizing technology can do more long-run damage than the risks it is supposed to solve, especially when it hardens the field too early.",
+          "You generally believe over-securitizing technology can do more long-run damage than the risks it is meant to solve, especially when it hardens the field too early.",
         instincts: [
           "You default toward openness with targeted safeguards rather than broad control.",
           "You trust competitive adaptation more than heavy industrial direction.",
@@ -744,7 +744,7 @@ export const technologyModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Technology read: selective control, case by case",
+      headline: "Technology read: calibrated control by sector",
       summary:
         "You balance openness, control, capacity-building, and governance case by case rather than carrying one fixed doctrine across the whole domain.",
       instincts: [

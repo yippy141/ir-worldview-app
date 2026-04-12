@@ -1,6 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import {
+  atlasFingerprintOrder,
   getAtlasLitePattern,
   getAtlasLitePatterns,
   matchAtlasLiteFoundation,
@@ -8,12 +9,25 @@ import {
 } from "@/lib/atlas-lite"
 import type { FoundationSnapshot, ModuleSnapshot } from "@/lib/profile-store"
 
-test("atlas lite exposes a bounded curated pattern set and valid neighbor links", () => {
+test("atlas exposes a bounded curated pattern set, valid neighbors, and detail-ready content", () => {
   const patterns = getAtlasLitePatterns()
 
   assert.ok(patterns.length >= 8 && patterns.length <= 12)
 
   for (const pattern of patterns) {
+    assert.ok(pattern.cardSummary.length > 0)
+    assert.ok(pattern.cardDrivers.length >= 2 && pattern.cardDrivers.length <= 3)
+    assert.ok(pattern.detailSummary.length > 0)
+    assert.ok(pattern.detailDrivers.length >= 3)
+    assert.ok(pattern.securitySummary.length > 0)
+    assert.ok(pattern.technologySummary.length > 0)
+    assert.ok(pattern.confusionNote.length > 0)
+    assert.ok(pattern.pressureTestQuestions.length >= 2)
+    assert.deepEqual(
+      Object.keys(pattern.fingerprint).sort(),
+      [...atlasFingerprintOrder].sort(),
+    )
+
     for (const neighborId of pattern.neighborIds) {
       assert.ok(
         getAtlasLitePattern(neighborId),
@@ -23,7 +37,7 @@ test("atlas lite exposes a bounded curated pattern set and valid neighbor links"
   }
 })
 
-test("broad-spectrum foundations map to the broad-spectrum atlas pattern", () => {
+test("overlapping foundations map to the bridge-builder atlas pattern", () => {
   const match = matchAtlasLiteFoundation({
     familyKey: "realist",
     runnerUpKey: "institutionalist",
