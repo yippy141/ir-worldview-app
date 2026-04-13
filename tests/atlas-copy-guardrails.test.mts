@@ -20,7 +20,11 @@ test("atlas and visible summary surfaces avoid flagged copy patterns", () => {
   for (const pattern of getAtlasLitePatterns()) {
     assertCleanCopy(`atlas card summary for ${pattern.id}`, pattern.cardSummary)
     assertCleanCopy(`atlas detail summary for ${pattern.id}`, pattern.detailSummary)
+    assertCleanCopy(`atlas so-what for ${pattern.id}`, pattern.soWhat)
     assertCleanCopy(`atlas pressure note for ${pattern.id}`, pattern.cardPressureNote)
+    for (const [index, item] of pattern.underestimates.entries()) {
+      assertCleanCopy(`atlas underestimates ${pattern.id} ${index}`, item)
+    }
   }
 
   const foundationCases = [

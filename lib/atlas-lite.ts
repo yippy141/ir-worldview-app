@@ -57,7 +57,9 @@ export type AtlasLitePattern = {
   cardDrivers: string[]
   cardPressureNote: string
   detailSummary: string
+  soWhat: string
   detailDrivers: string[]
+  underestimates: string[]
   securitySummary: string
   technologySummary: string
   confusionNote: string
@@ -98,10 +100,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security often forces a clearer choice on deterrence, while Technology usually sorts views on openness and dependence faster than the baseline does.",
     detailSummary:
       "This pattern is less about indecision than about holding several lines of argument open at once. The user usually wants more evidence before settling on a single school as the default lens.",
+    soWhat:
+      "In practice, this pattern is slower to accept one master explanation and more likely to ask which argument still survives contact with the case.",
     detailDrivers: [
       "The strongest signals sit close together rather than stacking into one firm worldview.",
       "Rivalry, institutions, legitimacy, and political economy all retain some pull.",
       "The profile often wants a harder issue case before it accepts a sharper label.",
+    ],
+    underestimates: [
+      "Moments when a choice really does need to be made quickly.",
+      "How costly prolonged ambiguity can become when a rival is already testing the boundary.",
     ],
     securitySummary:
       "In Security, this pattern often separates into two paths: one side moves toward coalition management and restraint, while the other hardens around deterrence and visible commitment.",
@@ -147,10 +155,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security usually reinforces bounded deterrence, while Technology can still push this pattern toward tighter controls when chokepoints look exposed.",
     detailSummary:
       "This realist pattern treats competition as durable, but it does not treat every contest as a reason to press harder. The first instinct is to preserve position without drifting into commitments that are expensive to hold or hard to reverse.",
+    soWhat:
+      "In practice, this pattern is likely to back deterrence and limits together: hold position, but stay alert to escalation traps and strategic drift.",
     detailDrivers: [
       "Security competition remains the starting point for reading most major-power cases.",
       "Restraint is not softness here; it is a way to protect position and avoid strategic drift.",
       "Order and precedent usually carry more weight than expansive moral ambition.",
+    ],
+    underestimates: [
+      "Openings where sustained pressure could improve the strategic balance.",
+      "How often cautious ceilings can look like passivity to allies or rivals.",
     ],
     securitySummary:
       "In Security, this pattern usually favors reinforcement, deterrence, and visible resolve, but with clear ceilings and a strong preference against open-ended escalation.",
@@ -195,10 +209,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security usually strengthens visible pressure, and Technology often sharpens support for control over key chokepoints and dependencies.",
     detailSummary:
       "This pattern sees competition as the baseline condition of major-power politics. It is more willing than the constraint-first version to test openings, raise costs, and convert advantage into position.",
+    soWhat:
+      "In practice, this pattern is readier to use leverage early and to accept friction if it improves long-run position.",
     detailDrivers: [
       "Security competition is usually the strongest explanatory signal in the profile.",
       "Institutions are judged mainly by whether they help or hinder power management.",
       "The profile is readier to accept friction if it believes the strategic payoff is durable.",
+    ],
+    underestimates: [
+      "Coalition fatigue and escalation ceilings that arrive before the payoff does.",
+      "Ways institutional friction can sometimes protect a policy from strategic overreach.",
     ],
     securitySummary:
       "In Security, this pattern often backs earlier pressure, stronger deterrent signaling, and less patience with ambiguity or delay.",
@@ -242,10 +262,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security usually turns this pattern toward alliance endurance, while Technology usually turns it toward coordinated controls and shared standards.",
     detailSummary:
       "This pattern is not idealistic about institutions. It trusts them most when they can hold a coalition together and keep policy usable over time.",
+    soWhat:
+      "In practice, this pattern is likely to judge policy by whether partners can sustain it, not just by whether it looks strategically clean on day one.",
     detailDrivers: [
       "Institutional tools are valued for coordination, signaling, and burden-sharing.",
       "Restraint is often preferred to dramatic moves that partners cannot sustain.",
       "A realist runner-up often remains close because power and pressure are never fully out of view.",
+    ],
+    underestimates: [
+      "Moments when speed and coercive clarity outrun coalition process.",
+      "How quickly partner alignment can crack once burden-sharing turns politically costly.",
     ],
     securitySummary:
       "In Security, this pattern treats alliance endurance as part of deterrence itself and pays close attention to what exposed partners can realistically bear.",
@@ -291,10 +317,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security makes authorization and reassurance harder, while Technology usually strengthens support for shared governance and narrow controls.",
     detailSummary:
       "This pattern believes well-built institutions can do real work. It is more willing than Coalition Pragmatist to treat rules and monitoring as stabilizing forces in their own right, not only as tools of coalition management.",
+    soWhat:
+      "In practice, this pattern is likely to ask whether better rules, monitoring, and coordination can still carry the case before it gives up on the institutional route.",
     detailDrivers: [
       "Institutional design is treated as a real source of order, not just a mirror of power.",
-      "Domestic politics still matters because commitments are only credible if states can keep them.",
+      "Domestic politics stays in view because commitments are only credible if states can actually keep them.",
       "The profile does not need a hard rivalry frame to explain most cases.",
+    ],
+    underestimates: [
+      "How quickly hard rivalry can hollow out rules and monitoring arrangements.",
+      "How often reassurance and authorization fail once strategic distrust has set in.",
     ],
     securitySummary:
       "In Security, this pattern usually looks for authorization, reassurance, and credible monitoring before it accepts that the only answer is a harder line.",
@@ -339,10 +371,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security often raises the legitimacy of force and the meaning of reassurance, while Technology sharpens who gets to set rules and safety baselines.",
     detailSummary:
       "This pattern does not treat material facts as self-explanatory. It keeps asking how actors read one another, which claims look legitimate, and how historical relationships shape the same move.",
+    soWhat:
+      "In practice, this pattern is likely to ask who is interpreting the move, how it is framed, and what claims look legitimate before jumping to raw capability alone.",
     detailDrivers: [
       "Norms and identity remain active explanatory signals rather than rhetorical decoration.",
       "The profile wants to know how the same policy looks from different historical and regional vantage points.",
       "Order and justice stay open questions rather than a settled ranking.",
+    ],
+    underestimates: [
+      "Cases where brute capability dominates before interpretation can do much work.",
+      "How long threshold choices can stay open before a policy still has to be chosen.",
     ],
     securitySummary:
       "In Security, this pattern usually asks how allies, rivals, and regional actors interpret the move, not only whether the move changes raw capability.",
@@ -385,10 +423,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security raises the hardest questions about bounded force, while Technology brings harms, access, and unequal protection into sharper view.",
     detailSummary:
       "This pattern gives real weight to humanitarian protection and wider moral claims. It still pays attention to authority and precedent, but it is more willing to say those guardrails should bend in extreme cases.",
+    soWhat:
+      "In practice, this pattern is likelier to ask who is left exposed if rules are applied too rigidly, especially in severe-harm cases.",
     detailDrivers: [
       "Justice-sensitive answers remain visible even when order and precedent are kept in view.",
       "Legitimacy is treated as part of the case for action, not only as a constraint on action.",
       "The profile is especially attentive to who is left exposed when rules are applied too rigidly.",
+    ],
+    underestimates: [
+      "Precedent costs and the difficulty of keeping limited action limited.",
+      "How unevenly moral urgency travels across institutions, coalitions, and domestic politics.",
     ],
     securitySummary:
       "In Security, this pattern often centers the tension between civilian protection, legal grounding, and the risk that bounded action turns into open-ended intervention.",
@@ -432,10 +476,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security often raises suspicion about who bears the burden, while Technology sharpens concern about chokepoints, exclusion, and industrial lockout.",
     detailSummary:
       "This pattern is skeptical of neutral-sounding accounts of order. It looks first at who controls the terms of exchange, who absorbs the shocks, and whose dependence is being managed for someone else.",
+    soWhat:
+      "In practice, this pattern is likely to ask who sets the terms, who carries the cost, and whether clean institutional language is hiding hierarchy.",
     detailDrivers: [
       "Political economy is treated as a primary driver rather than a background condition.",
       "Institutions are often read as structured by hierarchy rather than as neutral problem-solvers.",
       "Domestic politics stays relevant because external dependence is transmitted through internal social and economic structures.",
+    ],
+    underestimates: [
+      "Immediate coercive threats that do not fit neatly into the deeper hierarchy story.",
+      "How much variation can still exist across different forms of coordination with stronger states.",
     ],
     securitySummary:
       "In Security, this pattern often questions sanctions, improvised hierarchy, and coalition discipline when weaker states are asked to carry the adjustment cost.",
@@ -478,10 +528,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security often pushes this pattern toward hedging, while Technology usually strengthens support for public capacity, trusted infrastructure, and diversified dependence.",
     detailSummary:
       "This pattern worries less about immediate prestige than about whether a state can keep room to maneuver over time. It treats industrial depth, financing conditions, and strategic dependence as part of sovereignty itself.",
+    soWhat:
+      "In practice, this pattern is likely to judge policy by whether it preserves room to maneuver, build capacity, and avoid lock-in later.",
     detailDrivers: [
       "Political economy and domestic capacity move together in the profile.",
       "The main fear is lock-in: arrangements that narrow future bargaining space.",
       "The closest neighbor is often institutionalist or critical political economy rather than pure realism.",
+    ],
+    underestimates: [
+      "Short-run alliance or deterrence demands when autonomy is under direct pressure.",
+      "How often urgent exposure can force a less autonomy-preserving choice in the near term.",
     ],
     securitySummary:
       "In Security, this pattern often prefers autonomy-sensitive partnerships, middle-power hedging, and deals that protect room for maneuver.",
@@ -525,10 +581,16 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Security often hardens the diagnosis faster than the endorsement, while Technology can reveal a different balance between control, governance, and access.",
     detailSummary:
       "This pattern is not simple overlap. The user does sort in one direction under some conditions, then changes emphasis under others. The result is better read as a structured tension than as a fuzzy center.",
+    soWhat:
+      "In practice, this pattern does not give one all-purpose reflex. It tells you where your reasoning changes by domain or by the shift from diagnosis to decision.",
     detailDrivers: [
       "Saved overlays create a real domain-conditioned shift or cross-domain tension.",
       "Explanation and decision logics do not collapse neatly into one line.",
       "The baseline remains useful, but not as an all-purpose reflex.",
+    ],
+    underestimates: [
+      "How hard it can be to state one simple line under pressure.",
+      "How easily outsiders can misread a real cross-domain split as inconsistency or indecision.",
     ],
     securitySummary:
       "In Security, this pattern often explains crises in harder terms than it is willing to endorse once legitimacy and escalation costs come fully into view.",

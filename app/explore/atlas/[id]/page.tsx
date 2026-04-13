@@ -60,29 +60,32 @@ export default async function AtlasPatternDetailPage(
 
       <section className="result-section atlas-detail-hero-grid">
         <div className="stack-sm">
-          <div className="stack-xs">
-            <p className="eyebrow">Executive summary</p>
-            <p style={{ lineHeight: "1.75", maxWidth: "760px" }}>{pattern.cardSummary}</p>
+          <div className="callout stack-xs profile-so-what" style={{ margin: 0 }}>
+            <p className="eyebrow">So what this usually means</p>
+            <p style={{ lineHeight: "1.75", marginBottom: 0 }}>{pattern.soWhat}</p>
           </div>
           <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>What usually drives this pattern</p>
-            <ul className="content-list" style={{ margin: 0 }}>
-              {pattern.detailDrivers.map((driver) => (
-                <li key={driver}>{driver}</li>
-              ))}
-            </ul>
+            <p className="eyebrow">At a glance</p>
+            <p style={{ lineHeight: "1.75", maxWidth: "760px" }}>{pattern.cardSummary}</p>
           </div>
         </div>
 
         <aside className="atlas-detail-side stack-sm">
-          <div className="callout stack-sm" style={{ margin: 0 }}>
+          <div className="callout stack-sm atlas-detail-fingerprint-card" style={{ margin: 0 }}>
             <div className="stack-xs">
               <p className="eyebrow">Visual fingerprint</p>
-              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-                An editorial sketch of the pattern shape across five core dimensions.
-              </p>
+              <div className="atlas-tag-list" aria-label={`${pattern.name} drivers`}>
+                {pattern.cardDrivers.map((driver) => (
+                  <span key={driver} className="atlas-tag">
+                    {driver}
+                  </span>
+                ))}
+              </div>
             </div>
             <AtlasFingerprint fingerprint={pattern.fingerprint} />
+            <p className="muted atlas-pressure-note" style={{ marginBottom: 0 }}>
+              <strong>Under pressure:</strong> {pattern.cardPressureNote}
+            </p>
           </div>
         </aside>
       </section>
@@ -90,13 +93,36 @@ export default async function AtlasPatternDetailPage(
       <section className="result-section stack-md">
         <div className="atlas-detail-columns">
           <div className="stack-sm">
+            <p className="eyebrow">Emphasis</p>
+            <h2 style={{ marginBottom: 0 }}>What this usually emphasizes</h2>
+            <ul className="content-list" style={{ margin: 0 }}>
+              {pattern.detailDrivers.map((driver) => (
+                <li key={driver}>{driver}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="stack-sm">
+            <p className="eyebrow">Blind spots</p>
+            <h2 style={{ marginBottom: 0 }}>What this often underestimates</h2>
+            <ul className="content-list" style={{ margin: 0 }}>
+              {pattern.underestimates.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="result-section stack-md">
+        <div className="atlas-detail-columns">
+          <div className="stack-sm">
             <p className="eyebrow">Security</p>
-            <h2 style={{ marginBottom: 0 }}>How it often looks under Security pressure</h2>
+            <h2 style={{ marginBottom: 0 }}>How this often shifts in Security</h2>
             <p style={{ lineHeight: "1.75" }}>{pattern.securitySummary}</p>
           </div>
           <div className="stack-sm">
             <p className="eyebrow">Technology</p>
-            <h2 style={{ marginBottom: 0 }}>How it often looks under Technology pressure</h2>
+            <h2 style={{ marginBottom: 0 }}>How this often shifts in Technology</h2>
             <p style={{ lineHeight: "1.75" }}>{pattern.technologySummary}</p>
           </div>
         </div>
@@ -105,18 +131,18 @@ export default async function AtlasPatternDetailPage(
       <section className="result-section stack-md">
         <div className="atlas-detail-columns">
           <div className="stack-sm">
-            <p className="eyebrow">Nearby confusion</p>
-            <h2 style={{ marginBottom: 0 }}>Where this pattern is often confused with neighbors</h2>
-            <p style={{ lineHeight: "1.75" }}>{pattern.confusionNote}</p>
-          </div>
-          <div className="stack-sm">
             <p className="eyebrow">Pressure test</p>
-            <h2 style={{ marginBottom: 0 }}>Questions worth asking</h2>
+            <h2 style={{ marginBottom: 0 }}>Questions to pressure-test</h2>
             <ul className="content-list" style={{ margin: 0 }}>
               {pattern.pressureTestQuestions.map((question) => (
                 <li key={question}>{question}</li>
               ))}
             </ul>
+          </div>
+          <div className="stack-sm">
+            <p className="eyebrow">Common confusion</p>
+            <h2 style={{ marginBottom: 0 }}>Where nearby patterns can look similar</h2>
+            <p style={{ lineHeight: "1.75" }}>{pattern.confusionNote}</p>
           </div>
         </div>
       </section>

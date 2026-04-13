@@ -7,6 +7,7 @@ import type {
   SharePayload,
   StrategyModifier,
 } from "@/lib/types"
+import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
 
 // Fixed dimension order for the payload array.
 // This order must never change — it is part of the v2 payload contract.
@@ -20,30 +21,18 @@ export const PAYLOAD_DIMENSION_ORDER: DimensionKey[] = [
   "orderJustice",
 ]
 
-// btoa and atob are available as globals in both browsers and Node.js 18+.
-// Next.js 16 requires Node.js 18.18+, so this is safe in all environments.
 export function encodePayload(payload: SharePayload): string {
-  const json = JSON.stringify(payload)
-  // Convert to URL-safe Base64 and strip padding.
-  return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
+  return encodeUrlPayload(payload)
 }
 
 export function decodePayload(encoded: string): SharePayload | null {
-  try {
-    const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/")
-    const paddingLength = (4 - (normalized.length % 4)) % 4
-    const base64 = `${normalized}${"=".repeat(paddingLength)}`
-    const json = atob(base64)
-    const parsed = JSON.parse(json)
+  const parsed = decodeUrlPayload(encoded)
 
-    if (!isSharePayload(parsed)) {
-      return null
-    }
-
-    return parsed
-  } catch {
+  if (!isSharePayload(parsed)) {
     return null
   }
+
+  return parsed
 }
 
 export function payloadToDimensionScores(payload: SharePayload): DimensionScores {

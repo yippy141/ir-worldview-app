@@ -1055,7 +1055,7 @@ h3 {
 
 .atlas-fingerprint {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .atlas-fingerprint--compact {
@@ -1067,10 +1067,15 @@ h3 {
   grid-template-columns: minmax(120px, 1fr) minmax(92px, 120px) auto;
   gap: 12px;
   align-items: center;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--border) 76%, var(--accent) 24%);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--panel) 78%, white 22%);
 }
 
 .atlas-fingerprint--compact .atlas-fingerprint-row {
   grid-template-columns: minmax(110px, 1fr) minmax(92px, 110px);
+  padding: 8px 10px;
 }
 
 .atlas-fingerprint-label {
@@ -1082,21 +1087,28 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
-}
-
-.atlas-fingerprint-segment {
-  height: 8px;
+  padding: 5px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--paper) 55%, var(--border) 45%);
 }
 
+.atlas-fingerprint-segment {
+  height: 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 62%, white 38%);
+}
+
 .atlas-fingerprint-segment--active {
-  background: color-mix(in srgb, var(--accent) 72%, white 28%);
+  background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 82%, black 18%));
 }
 
 .atlas-fingerprint-value {
   font-size: 0.8rem;
   color: var(--muted);
+}
+
+.atlas-detail-fingerprint-card {
+  border-color: color-mix(in srgb, var(--border) 72%, var(--accent) 28%);
 }
 
 .atlas-detail-hero-grid {
@@ -1311,6 +1323,125 @@ h3 {
 
 .profile-details[open] summary {
   border-bottom: 1px solid var(--border);
+}
+
+.profile-so-what {
+  border-color: color-mix(in srgb, var(--border) 62%, var(--accent) 38%);
+  background: color-mix(in srgb, var(--panel) 74%, white 26%);
+}
+
+.compare-input-panel {
+  margin-bottom: 8px;
+}
+
+.compare-form-grid,
+.compare-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.compare-textarea {
+  width: 100%;
+  min-height: 118px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 14px 16px;
+  font: inherit;
+  line-height: 1.55;
+}
+
+.compare-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.compare-dominant-panel {
+  border-color: color-mix(in srgb, var(--border) 68%, var(--accent) 32%);
+}
+
+.compare-spine-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+
+.compare-spine-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.compare-spine-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+}
+
+.compare-spine-swatch--left,
+.compare-spine-dot--left {
+  background: var(--accent);
+}
+
+.compare-spine-swatch--right,
+.compare-spine-dot--right {
+  background: var(--text);
+}
+
+.compare-spine-table {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.compare-spine-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.compare-spine-label {
+  min-width: 0;
+}
+
+.compare-spine-scale {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(28px, 36px) minmax(0, 1fr) minmax(28px, 36px);
+  gap: 12px;
+  align-items: center;
+}
+
+.compare-spine-end {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.compare-spine-track {
+  position: relative;
+  height: 18px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 52%, var(--border) 48%);
+}
+
+.compare-spine-dot {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--panel);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
 }
 
 .profile-details > :not(summary) {
@@ -1698,6 +1829,12 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .compare-form-grid,
+  .compare-summary-grid,
+  .compare-spine-row {
+    grid-template-columns: 1fr;
+  }
+
   .atlas-fingerprint-row,
   .atlas-fingerprint--compact .atlas-fingerprint-row {
     grid-template-columns: minmax(0, 1fr) minmax(88px, 104px);
@@ -1745,6 +1882,11 @@ h3 {
   }
 
   .profile-spine-scale {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .compare-spine-scale {
     grid-template-columns: 1fr;
     gap: 8px;
   }

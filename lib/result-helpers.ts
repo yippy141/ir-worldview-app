@@ -1,7 +1,13 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { familyLabel } from "@/lib/worldview-config"
-import { DimensionKey, DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
+import type {
+  DimensionKey,
+  DimensionScores,
+  FamilyKey,
+  NormativeModifier,
+  StrategyModifier,
+} from "@/lib/types"
 import {
   quickTakeData,
   whyItMattersData,

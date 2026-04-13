@@ -145,6 +145,12 @@ export default async function ResultPage(
   )
   const pressureQuestions = getPressureTestQuestions(result.familyKey)
   const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
+  const soWhatBlock = foundationNarrative.sections.find(
+    (section) => section.title === "So what this usually means",
+  )
+  const deepFoundationSections = foundationNarrative.sections.filter(
+    (section) => section.title !== "So what this usually means",
+  )
   const atlasMatch = matchAtlasLiteFoundation({
     familyKey: result.familyKey,
     runnerUpKey: neighborKey,
@@ -206,6 +212,15 @@ export default async function ResultPage(
             {summary}
           </p>
         </div>
+
+        {soWhatBlock ? (
+          <div className="result-section stack-md">
+            <div className="callout stack-xs profile-so-what">
+              <p className="eyebrow">So what this usually means</p>
+              <p style={{ lineHeight: "1.75", marginBottom: 0 }}>{soWhatBlock.text}</p>
+            </div>
+          </div>
+        ) : null}
 
         <div className="result-section stack-md">
           <div className="stack-xs">
@@ -479,7 +494,7 @@ export default async function ResultPage(
           <details className="profile-details">
             <summary>Longer interpretation, issue bridges, and pressure-test questions</summary>
             <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
-              {foundationNarrative.sections.map((section) => (
+              {deepFoundationSections.map((section) => (
                 <div key={section.title} className="stack-xs">
                   <p className="eyebrow">{section.title}</p>
                   <p style={{ lineHeight: "1.7" }}>{section.text}</p>
@@ -641,5 +656,5 @@ function getFallbackMixedNote(
     return "The baseline is comparatively consistent across dimensions. The main test now is whether it still holds under issue-specific pressure."
   }
 
-  return "The baseline is clear, but a nearby runner-up still matters in harder cases. That overlap is part of the result, not noise to be scrubbed out."
+  return "The baseline is clear, but a nearby runner-up still stays live in harder cases. That overlap is part of the result, not noise to be scrubbed out."
 }

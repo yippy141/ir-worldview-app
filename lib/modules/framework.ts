@@ -1,5 +1,6 @@
 import { securityModule } from "@/lib/modules/security"
 import { technologyModule } from "@/lib/modules/technology"
+import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
 import type {
   ModuleAnalytics,
   ModuleAnswers,
@@ -105,68 +106,65 @@ export function hasCompleteModulePerspectiveCoverage(
 }
 
 export function encodeModulePayload(payload: ModulePayload): string {
-  const json = JSON.stringify(payload)
-  return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
+  return encodeUrlPayload(payload)
 }
 
 export function decodeModulePayload(encoded: string): ModulePayload | null {
-  try {
-    const normalized = encoded.replace(/-/g, "+").replace(/_/g, "/")
-    const paddingLength = (4 - (normalized.length % 4)) % 4
-    const json = atob(`${normalized}${"=".repeat(paddingLength)}`)
-    const parsed = JSON.parse(json) as
-      | Partial<ModulePayload>
-      | {
-          v?: 1
-          slug?: string
-          answers?: Record<string, string>
-        }
-
-    if (
-      parsed.v === 1 &&
-      typeof parsed.slug === "string" &&
-      getModuleDefinition(parsed.slug) &&
-      typeof parsed.answers === "object" &&
-      parsed.answers !== null
-    ) {
-      const answers = normalizeModuleAnswers(parsed.answers)
-      const moduleDefinition = getModuleDefinition(parsed.slug)
-      if (!answers) return null
-      if (!moduleDefinition || !validateModuleAnswers(moduleDefinition, "standard", answers)) {
-        return null
+  const parsed = decodeUrlPayload(encoded) as
+    | Partial<ModulePayload>
+    | {
+        v?: 1
+        slug?: string
+        answers?: Record<string, string>
       }
+    | null
 
-      return {
-        v: 2,
-        slug: parsed.slug as ModuleSlug,
-        mode: "standard",
-        answers,
-      }
-    }
+  if (!parsed) {
+    return null
+  }
 
+  if (
+    parsed.v === 1 &&
+    typeof parsed.slug === "string" &&
+    getModuleDefinition(parsed.slug) &&
+    typeof parsed.answers === "object" &&
+    parsed.answers !== null
+  ) {
     const answers = normalizeModuleAnswers(parsed.answers)
-    const moduleDefinition =
-      typeof parsed.slug === "string" ? getModuleDefinition(parsed.slug) : null
-
-    if (
-      parsed.v !== 2 ||
-      typeof parsed.slug !== "string" ||
-      !moduleDefinition ||
-      !isQuizMode(parsed.mode) ||
-      !answers ||
-      !validateModuleAnswers(moduleDefinition, parsed.mode, answers)
-    ) {
+    const moduleDefinition = getModuleDefinition(parsed.slug)
+    if (!answers) return null
+    if (!moduleDefinition || !validateModuleAnswers(moduleDefinition, "standard", answers)) {
       return null
     }
 
     return {
       v: 2,
       slug: parsed.slug as ModuleSlug,
-      mode: parsed.mode,
+      mode: "standard",
       answers,
     }
-  } catch {
+  }
+
+  const answers = normalizeModuleAnswers(parsed.answers)
+  const moduleDefinition =
+    typeof parsed.slug === "string" ? getModuleDefinition(parsed.slug) : null
+
+  if (
+    parsed.v !== 2 ||
+    typeof parsed.slug !== "string" ||
+    !moduleDefinition ||
+    !isQuizMode(parsed.mode) ||
+    !answers ||
+    !validateModuleAnswers(moduleDefinition, parsed.mode, answers)
+  ) {
     return null
+  }
+
+  return {
+    v: 2,
+    slug: parsed.slug as ModuleSlug,
+    mode: parsed.mode,
+    answers,
   }
 }
 

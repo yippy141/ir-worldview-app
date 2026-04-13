@@ -67,7 +67,7 @@ export function buildProfileNarrative(
         text: buildStabilityOrTensionText(assessment, signals.totalTensions),
       },
       {
-        title: "What this may mean in practice",
+        title: "So what this usually means",
         text: buildPracticeText(
           foundation.familyKey,
           assessment.state,
@@ -160,7 +160,7 @@ function buildPracticeText(
   }
 
   if (state === "lowDifferentiation") {
-    return `${practiceFrame} The practical upshot is not that one theory crowds out the others. It is that the profile keeps several neighboring arguments live at once and then sorts between them case by case.`
+    return `${practiceFrame} The practical upshot is not that one theory crowds out the others. It is that the profile keeps several neighboring arguments live at once and then sorts between them issue by issue.`
   }
 
   if (state === "sharplyDifferentiatedBaseline") {

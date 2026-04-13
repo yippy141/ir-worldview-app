@@ -1,0 +1,37 @@
+Project: IR Worldview Inventory
+Current target phase: Phase 6D — So-What Payoff, Shareable Profile, and Compare Layer
+
+What already exists:
+- Foundation baseline flow
+- Focus-area modules for Security and Technology
+- Integrated local Profile page
+- Atlas Lite browse page and pattern detail pages
+- stronger narrative/result layers than earlier phases
+- fixed Foundation scoring-collapse bug
+
+Why this phase exists:
+- Atlas cards/detail pages improved, but users still want a stronger `so what` payoff
+- integrated Profile is still mostly local-device state
+- there is still no real friend-to-friend comparison layer
+- visible summaries can still sound AI-coded or too taxonomy-aware
+- the product needs a lightweight share/compare capability before larger testing
+
+What this phase should do:
+1. sharpen visible Atlas/result/profile copy
+2. add clearer `what this usually means` interpretation blocks
+3. make the integrated Profile shareable by URL-safe payload
+4. add a compare page for two shared profiles
+5. strengthen visual payoff without making the UI flashy or dashboard-heavy
+
+Important boundaries:
+- no new modules
+- no backend accounts or database
+- no crisis lab / simulation
+- no rarity / percentile / popularity features
+- no large repo-wide wording sweep beyond touched surfaces
+
+Implementation guidance:
+- planning first, wait for approval before editing
+- keep scope tight
+- test share payload roundtrips and malformed payload failures
+- preserve restrained editorial design

@@ -167,7 +167,7 @@ export function buildFoundationNarrative({
         ),
       },
       {
-        title: "What this tends to imply in live debates",
+        title: "So what this usually means",
         text: `${FAMILY_DEBATE_FRAMES[familyKey]} ${STRATEGY_FRAMES[strategyModifier]} ${NORMATIVE_FRAMES[normativeModifier]}`,
       },
       {
