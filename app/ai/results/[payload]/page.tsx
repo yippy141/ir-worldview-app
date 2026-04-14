@@ -5,8 +5,9 @@ import {
   archetypeDescriptions,
   buildAiGovernanceSummary,
   getAxisCards,
-  getActiveAiGovernanceTensions,
 } from "@/lib/ai-governance-results"
+import { buildAiGovernanceResultFromSharePayload } from "@/lib/ai-governance-results-v2"
+import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import type { Metadata } from "next"
 
@@ -49,12 +50,10 @@ export default async function AiResultPage(
 
   const axisScores = aiPayloadToAxisScores(decoded)
   const archetypeLabel = archetypeLabelFromKey(decoded.ak)
-  const neighborLabel = archetypeLabelFromKey(decoded.nk)
   const explanation = archetypeDescriptions[decoded.ak]
-  const neighborExplanation = archetypeDescriptions[decoded.nk]
   const summary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
   const axisCards = getAxisCards(axisScores)
-  const tensions = getActiveAiGovernanceTensions(axisScores)
+  const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
 
   return (
     <div className="wide-container">
@@ -114,47 +113,9 @@ export default async function AiResultPage(
           </div>
         </div>
 
-        {/* ── 4. Tensions ── */}
-        {tensions.length > 0 ? (
-          <div className="result-section stack-md">
-            <div className="stack-xs">
-              <h2>Internal tensions</h2>
-              <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-                Where two of your positions point in different directions. Each is individually
-                coherent, but combining them raises a genuine policy design problem.
-              </p>
-            </div>
-            <div className="stack-sm">
-              {tensions.map((tension) => (
-                <div key={tension.key} className="callout">
-                  <p style={{ lineHeight: "1.7", fontSize: "0.9rem" }}>{tension.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ) : null}
+        <AiGovernanceProfileSections result={profileResult} />
 
-        {/* ── 5. Neighboring archetype ── */}
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Closest neighboring archetype</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-              The runner-up in the scoring. The gap between your primary and this archetype is part
-              of the result, not noise.
-            </p>
-          </div>
-          <div className="driver-card stack-xs" style={{ maxWidth: "640px" }}>
-            <p className="eyebrow">Runner-up</p>
-            <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem", marginTop: "6px" }}>
-              {neighborLabel}
-            </p>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65", marginTop: "8px" }}>
-              {neighborExplanation}
-            </p>
-          </div>
-        </div>
-
-        {/* ── 6. Methods note + share ── */}
+        {/* ── 4. Methods note + share ── */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this profile</p>

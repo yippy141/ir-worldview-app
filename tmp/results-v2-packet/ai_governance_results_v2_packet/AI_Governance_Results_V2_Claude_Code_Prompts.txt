@@ -1,0 +1,23 @@
+PROMPT 1 - WIRE IN THE RESULTS V2 HELPERS
+
+Implement only the Results V2 depth upgrade for the AI Governance Compass. Do not modify any IR quiz files or routes. Inspect the existing AI results route and components first, then integrate the new helper files `lib/ai-governance-profile-copy.ts`, `lib/ai-governance-results-v2.ts`, and `components/results/ai-governance-profile-sections.tsx`. Render the new profile sections on the AI results page after the existing axis profile and before the about/methods/disclaimer area. Keep the current visual style close to the site. Do not change the share payload format, scoring engine, quiz questions, or review flow. Run `npm run lint` only, then stop and summarize files changed.
+
+PROMPT 2 - HERO UPGRADE ONLY
+
+Improve only the hero area of the AI results page. Surface the existing clarity score more explicitly and, when clarity is below 72, show the hybrid label from `getHybridLabel`. Keep the archetype title and the three modifier pills. Do not change scoring or payloads. Do not touch IR files. Run `npm run lint` only, then stop and summarize the diff.
+
+PROMPT 3 - POLISH THE NEW SECTIONS
+
+Polish the new AI result sections for readability and mobile layout. Keep the content structure from Results V2, but make spacing, hierarchy, and card layout feel more substantial and polished on desktop and mobile. Do not add new dependencies. Do not touch IR routes, scoring, or payload logic. Run `npm run lint` only, then stop and list any rough edges.
+
+PROMPT 4 - SAFETY CHECK ONLY
+
+Do not change code yet. Review the AI results route and confirm that the Results V2 additions do not depend on raw quiz answers being present in the payload. Report only whether the current implementation is share-link safe. If anything would break for shared result links, describe the issue and the smallest safe fix.
+
+PROMPT 5 - OPTIONAL SMALL COPY TUNING
+
+Tighten copy only. Keep all structure and logic the same. Make the Results V2 language feel more serious-policy and less generic-product without becoming dry. Preserve the user's voice and the overall accessible tone. Do not touch IR files. Run `npm run lint` only, then stop.
+
+PROMPT 6 - IF LINT FAILS
+
+Fix only blocking lint or type issues introduced by Results V2. Make the smallest safe changes possible. Do not refactor unrelated files. Do not touch IR quiz routes or share logic unless a direct type import requires it. Run `npm run lint` only, then stop and summarize what changed.
