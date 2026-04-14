@@ -1631,6 +1631,156 @@ h3 {
   padding: 20px;
 }
 
+/* AI governance result deep-dive */
+.ai-result-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.78fr);
+  gap: 22px 28px;
+  align-items: start;
+}
+
+.ai-result-overview-main {
+  min-width: 0;
+}
+
+.ai-result-section-intro {
+  max-width: 760px;
+}
+
+.ai-result-hybrid-note {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.ai-result-lead-card,
+.ai-result-card {
+  min-width: 0;
+  padding: 22px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+}
+
+.ai-result-lead-card {
+  border-color: color-mix(in srgb, var(--border) 70%, var(--accent) 30%);
+  background: color-mix(in srgb, var(--panel) 82%, white 18%);
+}
+
+.ai-result-card--soft {
+  background: color-mix(in srgb, var(--panel) 76%, white 24%);
+}
+
+.ai-result-card--muted {
+  background: var(--panel-2);
+}
+
+.ai-result-card--accent {
+  border-color: color-mix(in srgb, var(--border) 66%, var(--accent) 34%);
+}
+
+.ai-result-card--question {
+  background: color-mix(in srgb, var(--panel-2) 84%, white 16%);
+  border-color: color-mix(in srgb, var(--border) 62%, var(--accent) 38%);
+}
+
+.ai-result-summary-grid,
+.ai-result-policy-grid,
+.ai-result-columns,
+.ai-result-tension-grid,
+.ai-result-critique-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.ai-result-summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ai-result-policy-grid,
+.ai-result-tension-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ai-result-columns {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.ai-result-critique-grid {
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.9fr);
+  gap: 18px;
+}
+
+.ai-result-lead {
+  margin: 0;
+  font-size: 1.06rem;
+  line-height: 1.9;
+  color: var(--text);
+}
+
+.ai-result-body {
+  margin: 0;
+  font-size: 0.93rem;
+  line-height: 1.72;
+  color: var(--text);
+}
+
+.ai-result-body.muted {
+  color: var(--muted);
+}
+
+.ai-result-card-title {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.1rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.ai-result-metric {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+}
+
+.ai-result-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ai-result-list li {
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.94rem;
+  line-height: 1.74;
+  color: var(--text);
+}
+
+.ai-result-list li:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.ai-result-list li:last-child {
+  padding-bottom: 0;
+}
+
+.ai-result-question {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.86;
+  color: var(--text);
+}
+
 /* Tension items */
 .tension-item {
   border-left: 3px solid var(--border);
@@ -1801,6 +1951,15 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .ai-result-overview,
+  .ai-result-summary-grid,
+  .ai-result-policy-grid,
+  .ai-result-columns,
+  .ai-result-tension-grid,
+  .ai-result-critique-grid {
+    grid-template-columns: 1fr;
+  }
+
   .neighbor-columns {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -1876,6 +2035,30 @@ h3 {
     padding: 28px 0;
   }
 
+  .ai-result-overview {
+    gap: 16px;
+  }
+
+  .ai-result-lead-card,
+  .ai-result-card {
+    padding: 18px;
+    border-radius: 6px;
+  }
+
+  .ai-result-lead {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .ai-result-metric {
+    font-size: 1.72rem;
+  }
+
+  .ai-result-question {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
   .profile-spine-row {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -1893,6 +2076,18 @@ h3 {
 
   .profile-spine-legend {
     grid-column: auto;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 980px) {
+  .ai-result-overview,
+  .ai-result-critique-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ai-result-policy-grid,
+  .ai-result-tension-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
