@@ -122,49 +122,49 @@ const additionalTensionRules: Array<{
     title: "Open diffusion under high-risk assumptions",
     condition: (scores) => scores.riskHorizon >= 5 && scores.openness <= 3.5,
     text:
-      "You give real weight to severe frontier risk while remaining relatively open to diffusion. That can be coherent, but it forces a harder question about where targeted restrictions would actually begin.",
+      "You give real weight to severe frontier risk while staying relatively open to diffusion. The hard question is where you would start to draw real limits.",
   },
   {
     key: "competition-with-restraint",
     title: "Competition with restraint",
     condition: (scores) => scores.geopolitics >= 5 && scores.deploymentPace >= 5,
     text:
-      "You treat rivalry as durable but still favor meaningful caution. The hard operational problem is whether restraint can survive once competitive pressure becomes acute.",
+      "You treat rivalry as durable but still favor caution. The real test is whether restraint survives once competitive pressure sharpens.",
   },
   {
     key: "public-legitimacy-vs-speed",
     title: "Legitimacy versus speed",
     condition: (scores) => scores.legitimacy >= 5 && scores.deploymentPace <= 3.5,
     text:
-      "You want governance to remain publicly legible without sacrificing the adaptive speed of iterative learning. The unresolved design problem is how to make slow institutions supervise fast systems.",
+      "You want governance that stays publicly legible without giving up the speed of iterative learning. The design problem is how slow institutions supervise fast systems.",
   },
   {
     key: "transformative-but-supervised",
     title: "Transformation under supervision",
     condition: (scores) => scores.humanFuture <= 3.5 && scores.oversight >= 5,
     text:
-      "You are comparatively more open to transformative futures, but only under stronger public supervision. That raises a difficult question about whether institutions can safely govern futures they barely understand.",
+      "You are more open to transformative futures, but only under stronger public supervision. The question is whether institutions can govern futures they barely understand.",
   },
   {
     key: "middle-way-open-control",
     title: "No universal default on openness",
     condition: (scores) => scores.openness > 3.5 && scores.openness < 5.2,
     text:
-      "You do not treat openness or control as a universal default. That flexibility is often wise, but it also means the burden is on you to specify the threshold where your default flips.",
+      "You do not treat openness or control as a standing default. That can be wise, but it puts pressure on you to say where your default changes.",
   },
   {
     key: "sovereignty-vs-broad-legitimacy",
     title: "Sovereignty versus broad legitimacy",
     condition: (scores) => scores.geopolitics >= 5 && scores.legitimacy >= 5,
     text:
-      "You want stronger rules with broader legitimacy while also taking rivalry seriously. In practice, those goals collide when rivals do not trust the same institutions.",
+      "You want stronger rules with broader legitimacy while also taking rivalry seriously. Those goals collide when rivals do not trust the same institutions.",
   },
   {
     key: "human-control-vs-defense-use",
     title: "Human control versus defense integration",
     condition: (scores) => scores.militaryRole >= 5 && scores.humanFuture >= 5,
     text:
-      "You see a case for bounded defense use while also wanting meaningful human control to remain central. The pressure test is whether those lines remain bright once operational incentives intensify.",
+      "You see a case for bounded defense use while still wanting human control to remain central. The test is whether those lines hold once operational incentives intensify.",
   },
 ]
 
@@ -206,7 +206,7 @@ export function buildAiGovernanceDeepDive(result: AiResult): AiGovernanceDeepDiv
 }
 
 export function getClarityLabel(clarity: number): string {
-  if (clarity >= 84) return "Clear tilt"
+  if (clarity >= 84) return "Clear lead"
   if (clarity >= 72) return "Mostly settled"
   if (clarity >= 64) return "Mixed profile"
   return "Hybrid zone"
@@ -248,59 +248,59 @@ export function getPolicySignals(axisScores: AiAxisScores): PolicySignal[] {
       stance: getFrontierReleaseStance(axisScores),
       explanation:
         axisScores.deploymentPace >= 5
-          ? "You are more willing to accept delay, stronger evaluation, and narrower release when capabilities start to look strategically or societally dangerous."
+          ? "You are more willing to accept delay, stronger evaluation, and narrower release when capabilities begin to look dangerous."
           : axisScores.deploymentPace <= 3.5
-            ? "You are more likely to treat deployment and iterative learning as part of the safety strategy rather than something opposed to it."
-            : "You look for specific thresholds and clearer triggers rather than a pure speed-first or pause-first posture.",
+            ? "You are more likely to treat deployment and iterative learning as part of the safety strategy, not as its opposite."
+            : "You look for thresholds and triggers rather than a simple speed-first or pause-first line.",
     },
     {
       title: "Oversight and enforcement",
       stance: getOversightStance(axisScores),
       explanation:
         axisScores.oversight >= 5
-          ? "You want more external authority over frontier development and are less satisfied with voluntary internal governance alone."
+          ? "You want more outside authority over frontier development and are less satisfied with voluntary internal governance alone."
           : axisScores.oversight <= 3.5
-            ? "You are comparatively more willing to let technically informed actors move first and rely less on deep state intervention."
-            : "You want oversight, but you do not assume that stronger state involvement automatically improves governance.",
+            ? "You are more willing to let technically informed actors move first and rely less on deep state intervention."
+            : "You want oversight, but you do not assume that more state involvement is automatically better.",
     },
     {
       title: "International order",
       stance: getInternationalOrderStance(axisScores),
       explanation:
         axisScores.geopolitics >= 5
-          ? "You treat rivalry as a durable constraint on governance design, which makes verification and reciprocity more important than ideal rhetoric."
+          ? "You treat rivalry as a durable constraint on governance design. That makes verification and reciprocity more important than rhetoric."
           : axisScores.geopolitics <= 3.5
             ? "You think coordination has to outrank rivalry more often than current politics allows, especially at the frontier."
-            : "You see both real competition and real coordination needs, so your instinct is selective rather than doctrinal.",
+            : "You see real competition and real coordination needs, so your instinct is selective rather than doctrinal.",
     },
     {
       title: "Openness and diffusion",
       stance: getOpennessStance(axisScores),
       explanation:
         axisScores.openness >= 5
-          ? "You are more comfortable with staged access, release controls, and concentration of capability when you think diffusion would outrun governance."
+          ? "You are more comfortable with staged access and release controls when you think diffusion would outrun governance."
           : axisScores.openness <= 3.5
-            ? "You are more likely to see broad access and lower barriers as a protection against capture and dependence, not just as a risk factor."
-            : "You do not believe either open release or closed control is always the right answer, so context matters heavily in your worldview.",
+            ? "You are more likely to see broad access and lower barriers as protection against capture and dependence, not just as a risk."
+            : "You do not treat open release or closed control as a standing answer. Context matters.",
     },
     {
       title: "Defense and security use",
       stance: getDefenseUseStance(axisScores),
       explanation:
         axisScores.militaryRole >= 5
-          ? "You see a stronger case for tightly bounded military and intelligence use if strategic vulnerability would otherwise become unacceptable."
+          ? "You see a stronger case for tightly bounded military and intelligence use if the alternative is serious strategic vulnerability."
           : axisScores.militaryRole <= 3.5
             ? "You worry that normalizing defense integration erodes safety and governance boundaries faster than institutions can rebuild them."
-            : "You draw lines between narrow defensive use and broader military normalization rather than collapsing them into a single judgment.",
+            : "You draw a line between narrow defensive use and broader military normalization.",
     },
     {
       title: "Human future",
       stance: getHumanFutureStance(axisScores),
       explanation:
         axisScores.humanFuture >= 5
-          ? "You want governance to preserve meaningful human control and political agency even as AI becomes more capable."
+          ? "You want governance to preserve meaningful human control and political agency as AI becomes more capable."
           : axisScores.humanFuture <= 3.5
-            ? "You are more open to transformative futures if the upside is sufficiently large and the governance case still holds."
+            ? "You are more open to transformative futures if the upside is large enough and the governance case still holds."
             : "You are open to transformation, but only if institutions can absorb it without losing legitimacy or agency.",
     },
   ]
@@ -326,7 +326,7 @@ export function getExpandedTensionCards(axisScores: AiAxisScores): TensionCard[]
     {
       title: "Tradeoffs you resolve case by case",
       text:
-        "Your scores are relatively mixed across several axes. That often means your worldview is less ideological than threshold-driven: the hard part is specifying where you would actually flip from one default to another.",
+        "Your scores are mixed across several axes. That usually means you are less ideological than threshold-driven. The hard part is saying where your default would change.",
     },
   ]
 }
@@ -383,7 +383,7 @@ function buildContrastText(
   const first = axisLabelWithPole(axes[0], axisScores[axes[0]])
   const second = axisLabelWithPole(axes[1], axisScores[axes[1]])
 
-  return `Compared with ${archetypeLabels[runnerUp]}, the decisive separation in your profile came more from ${first} and ${second}. That is the main reason you landed in ${archetypeLabels[primary]} rather than next door.`
+  return `Compared with ${archetypeLabels[runnerUp]}, your result separated most on ${first} and ${second}. That is why you landed in ${archetypeLabels[primary]} rather than next door.`
 }
 
 function buildFarthestText(
@@ -395,7 +395,7 @@ function buildFarthestText(
   const first = axisLabelWithPole(axes[0], axisScores[axes[0]])
   const second = axisLabelWithPole(axes[1], axisScores[axes[1]])
 
-  return `Your profile is farthest from ${archetypeLabels[farthest]} because your instincts on ${first} and ${second} point in a very different direction.`
+  return `Your profile is farthest from ${archetypeLabels[farthest]} because your instincts on ${first} and ${second} point in a different direction.`
 }
 
 function axisLabelWithPole(axis: AiAxisKey, score: number): string {

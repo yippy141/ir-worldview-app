@@ -16,7 +16,7 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <div className="ai-result-section-intro stack-xs result-prose">
               <p className="eyebrow">{deepDive.clarityLabel}</p>
               {hybridLabel ? (
-                <p className="ai-result-hybrid-note">Hybrid read: {hybridLabel}</p>
+                <p className="ai-result-hybrid-note">Hybrid signal: {hybridLabel}</p>
               ) : null}
               <h2>Governing instinct</h2>
             </div>
@@ -30,20 +30,20 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <p className="eyebrow">Profile clarity</p>
             <p className="ai-result-metric">{result.clarity} / 100</p>
             <p className="ai-result-body muted">
-              A higher score means your top archetype pulled clearly ahead. A lower score means
-              you sit in a more mixed or hybrid zone.
+              A higher score means one archetype led clearly. A lower score means this result sits
+              closer to a mixed profile.
             </p>
           </aside>
         </div>
 
         <div className="ai-result-summary-grid">
           <article className="ai-result-card ai-result-card--soft stack-xs">
-            <p className="eyebrow">Shareable read</p>
+            <p className="eyebrow">Short readout</p>
             <p className="ai-result-body">{deepDive.shareBlurb}</p>
           </article>
 
           <article className="ai-result-card ai-result-card--soft stack-xs">
-            <p className="eyebrow">Strongest signals</p>
+            <p className="eyebrow">Main signals</p>
             <p className="ai-result-body">{getPrimaryAxisSummary(result.axisScores)}</p>
           </article>
         </div>
@@ -53,7 +53,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Likely policy package</h2>
           <p className="ai-result-body muted">
-            These are the policy instincts that most naturally follow from your result. They are not fixed party positions. They are the directions your worldview pulls when concrete governance choices arrive.
+            These are the policy positions that follow most directly from your result. They are not
+            party labels. They show where your judgment is likely to pull when choices get concrete.
           </p>
         </div>
 
@@ -77,7 +78,9 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <div className="stack-xs">
               <h2>International order implications</h2>
               <p className="ai-result-body muted">
-                This is where your AI worldview becomes geopolitical. These points are most useful when thinking about rivalry, middle-power dependence, standards politics, and whether legitimacy has to travel beyond one lab or one state.
+                This is where your result meets geopolitics. Use these points to think about
+                rivalry, dependence, standards, and whether rules can travel beyond one lab or one
+                state.
               </p>
             </div>
             <ul className="ai-result-list">
@@ -91,7 +94,7 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <div className="stack-xs">
               <h2>What would change your mind</h2>
               <p className="ai-result-body muted">
-                A useful worldview should be able to say what evidence would actually move it.
+                A serious view should say what evidence would move it.
               </p>
             </div>
             <ul className="ai-result-list">
@@ -107,7 +110,7 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Pressure points</h2>
           <p className="ai-result-body muted">
-            These are the places where your values and strategic instincts can pull in different directions under pressure.
+            These are the places where your principles and strategic instincts may pull apart.
           </p>
         </div>
 
@@ -128,7 +131,7 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Boundary cases</h2>
           <p className="ai-result-body muted">
-            This gives you the nearest alternative to your result and the worldview family from which you are farthest.
+            This shows the nearest alternative to your result and the family from which you are farthest.
           </p>
         </div>
 
