@@ -157,7 +157,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       return {
         state: "lowDifferentiation",
         stateLabel: "Overlap baseline",
-        synthesis: `${foundation.familyLabel} starting point with substantial overlap and no completed focus-area overlays yet.`,
+        synthesis: `${foundation.familyLabel} is the closest shorthand, but the baseline still reads as overlap.`,
         summary:
           "The Foundation is not sorting this profile into one firm camp yet. The honest read is overlap, with the tradition label serving as a starting point rather than a fixed box.",
         changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
@@ -176,7 +176,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       return {
         state: "sharplyDifferentiatedBaseline",
         stateLabel: "Sharply differentiated baseline",
-        synthesis: `${foundation.familyLabel} baseline with a clear center of gravity before any focus-area overlays are added.`,
+        synthesis: `Your baseline already reads clearly ${foundation.familyLabel} before any module is added.`,
         summary:
           "The Foundation already produces a clearer baseline than an overlap result. Modules may complicate it later, but they are not needed to make the core read intelligible.",
         changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
@@ -191,10 +191,10 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       }
     }
 
-    return {
+  return {
       state: "stableModeration",
       stateLabel: "Baseline only",
-      synthesis: `${foundation.familyLabel} baseline with no completed focus-area overlays yet.`,
+      synthesis: `Your baseline is closest to ${foundation.familyLabel}, with no module pressure applied yet.`,
       summary:
         "The Foundation is still doing the interpretive work on its own. Once modules are added, this page will show where the baseline hardens, softens, or stays steady.",
       changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
@@ -215,7 +215,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     return {
       state: "trueTension",
       stateLabel: "True tension",
-      synthesis: `${foundation.familyLabel} baseline with real cross-domain tension once the overlays are layered in.`,
+      synthesis: `Your baseline still reads ${foundation.familyLabel}, but the saved modules pull it in different directions.`,
       summary:
         "Your saved results do not just show mild variation. They pull in meaningfully different directions across issue areas or card types.",
       changedMost,
@@ -231,7 +231,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     return {
       state: "domainConditionedShift",
       stateLabel: "Domain-conditioned shift",
-      synthesis: `${foundation.familyLabel} baseline with a clear domain-conditioned shift under ${strongestModule.toLowerCase()} pressure.`,
+      synthesis: `Your baseline stays closest to ${foundation.familyLabel}, but ${strongestModule.toLowerCase()} changes the emphasis.`,
       summary:
         "The baseline is still recognizable, but at least one module produces a consistent directional shift rather than just a little noise around the center.",
       changedMost,
@@ -246,7 +246,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     return {
       state: "lowDifferentiation",
       stateLabel: "Overlap across layers",
-      synthesis: `${foundation.familyLabel} starting point with only modest separation across the layers you have completed.`,
+      synthesis: "Your profile still reads as overlap more than one settled camp.",
       summary:
         "The model is not seeing a sharply sorted profile here. The result is better read as an overlapping pattern with stable tendencies than as a crisp worldview box.",
       changedMost,
@@ -265,7 +265,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
     return {
       state: "sharplyDifferentiatedBaseline",
       stateLabel: "Sharply differentiated baseline",
-      synthesis: `${foundation.familyLabel} baseline that remains coherent once the completed module overlays are layered in.`,
+      synthesis: `Your ${foundation.familyLabel} baseline stays recognizable even after the saved modules.`,
       summary:
         "The Foundation starts from a clearer center of gravity than an overlap result, and the completed modules add texture without dissolving that baseline into a flat midpoint blend.",
       changedMost,
@@ -279,7 +279,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
   return {
     state: "stableModeration",
     stateLabel: "Broadly stable",
-    synthesis: `${foundation.familyLabel} baseline that stays broadly stable across the completed module overlays.`,
+    synthesis: `Your ${foundation.familyLabel} baseline stays broadly steady across the saved modules.`,
     summary:
       "The completed modules add texture, but they do not overturn the overall pattern. The same broad orientation survives once pressure is applied in different domains.",
     changedMost,

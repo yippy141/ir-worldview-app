@@ -92,22 +92,22 @@ function buildIntegratedRead(
   foundationState: ReturnType<typeof assessFoundationNarrative>["state"],
 ) {
   if (assessment.state === "trueTension") {
-    return `${familyLabelValue} still anchors the profile, but the integrated payoff is not a cleaner box. The saved overlays pull parts of the profile in meaningfully different directions, so the result now reads less like a single steady doctrine and more like a map of where your reasoning changes across domains or between explanation and decision.`
+    return `${familyLabelValue} still anchors the profile, but the saved modules do not point in one tidy direction. Different domains pull different parts of your reasoning harder, so the useful read is where the shifts appear, not how to force a cleaner label.`
   }
 
   if (assessment.state === "domainConditionedShift") {
-    return `${familyLabelValue} still anchors the profile, yet one focus-area overlay now changes the emphasis consistently enough to matter. The useful read is not that the Foundation was wrong. It is that the baseline travels unevenly once the questions become domain-specific.`
+    return `${familyLabelValue} still anchors the profile, but one module changes the emphasis enough to matter. The story is not that the Foundation was wrong. It is that your baseline hardens differently once the questions become more concrete.`
   }
 
   if (assessment.state === "lowDifferentiation") {
-    return `The integrated profile is still better read as overlap than as a sharply sorted camp. Even after the saved overlays are layered in, the center of gravity remains modest and overlapping rather than tightly doctrinal. The value is in naming that overlap honestly and watching whether later pressure tests sharpen it.`
+    return "The integrated profile still reads as overlap more than one settled camp. Even with saved modules layered in, more than one neighboring line of argument stays active."
   }
 
   if (assessment.state === "sharplyDifferentiatedBaseline" || foundationState === "sharplyDifferentiated") {
-    return `The integrated profile starts from a clearer baseline than a nearest-fit result and largely keeps that shape once the saved overlays are added. The modules matter as pressure tests and qualifiers, but they do not dissolve the core center of gravity into a flat midpoint blend.`
+    return "The integrated profile starts from a clear baseline and mostly keeps that shape once the saved modules are added. The issue files qualify the read, but they do not scramble it into a midpoint blend."
   }
 
-  return `${familyLabelValue} remains the best shorthand for the integrated profile, but the profile still reads as moderate rather than doctrinally pure. The saved overlays add texture and context without changing the fact that the same broad orientation survives across the layers you have completed.`
+  return `${familyLabelValue} remains the best shorthand for the integrated profile. The saved modules add texture, but the same broad starting point keeps showing up across the layers you have completed.`
 }
 
 function buildModuleChangeText(moduleSummaries: string[], strongestShiftText: string) {
@@ -126,22 +126,22 @@ function buildStabilityOrTensionText(
     const firstExample = totalTensions[0] ?? assessment.points[0]
     const secondExample = totalTensions[1]
     const exampleText = secondExample ? `${firstExample} ${secondExample}` : firstExample
-    return `The integrated profile is most useful when it names the points that do not collapse into one neat line. ${exampleText} That does not mean the model has failed. It means the domains are surfacing a substantive tension that a single summary label would hide.`
+    return `The most useful part of this profile is that it names where your answers stop lining up neatly. ${exampleText} That is not noise. It is the point the single label would otherwise hide.`
   }
 
   if (assessment.state === "domainConditionedShift") {
-    return `${assessment.changedMost} The baseline remains recognizable, but the completed overlays show that one issue domain predictably changes the weighting of the profile. That is more informative than minor noise around the midpoint because it tells you where your baseline is most contingent.`
+    return `${assessment.changedMost} The baseline remains recognizable, but one issue domain changes what you trust first once the case becomes specific.`
   }
 
   if (assessment.state === "lowDifferentiation") {
-    return "The stable pattern here is not doctrinal sharpness. It is that the profile remains overlapping even after the saved overlays are added. The completed layers provide context, but they do not yet force a cleaner split between neighboring traditions."
+    return "The stable pattern here is not doctrinal sharpness. It is that the profile stays overlapping even after the saved modules are added."
   }
 
   if (assessment.state === "sharplyDifferentiatedBaseline") {
-    return "The stable pattern here is that the baseline keeps its shape under pressure. The saved overlays still matter, but they mostly reinforce or qualify the existing center of gravity rather than pushing the profile into a qualitatively different mode."
+    return "The stable pattern here is that the baseline keeps its shape under pressure. The saved modules still matter, but they mostly reinforce or qualify the core read."
   }
 
-  return "The stable pattern here is that the same broad orientation keeps surviving once pressure is applied in different domains. The completed overlays add detail and emphasis, but they do not generate the kind of sharp conflict that would require a different integrated read."
+  return "The stable pattern here is that the same broad orientation survives once pressure is applied in different domains. The saved modules add detail and emphasis without forcing a different overall read."
 }
 
 function buildPracticeText(
@@ -152,22 +152,22 @@ function buildPracticeText(
   const practiceFrame = PROFILE_PRACTICE_FRAMES[familyKey]
 
   if (state === "trueTension" && strongestModuleLabel) {
-    return `${practiceFrame} The main practical complication is that ${strongestModuleLabel} changes that read enough to create a real exception by domain. In other words, the profile is still patterned, but not in a way that should be flattened into a single all-purpose reflex.`
+    return `${practiceFrame} The main thing to watch is that ${strongestModuleLabel} changes that read enough to create a real exception by domain.`
   }
 
   if (state === "domainConditionedShift" && strongestModuleLabel) {
-    return `${practiceFrame} The clearest exception appears under ${strongestModuleLabel} pressure, which means the baseline is still useful but should not be treated as domain-invariant. The profile remains anchored, yet not every issue gets read through the same balance of considerations.`
+    return `${practiceFrame} The clearest shift appears under ${strongestModuleLabel} pressure, which means the baseline is useful but not automatic across every issue.`
   }
 
   if (state === "lowDifferentiation") {
-    return `${practiceFrame} The practical upshot is not that one theory crowds out the others. It is that the profile keeps several neighboring arguments live at once and then sorts between them issue by issue.`
+    return `${practiceFrame} In practice, you keep several neighboring arguments active and sort between them as the issue changes.`
   }
 
   if (state === "sharplyDifferentiatedBaseline") {
-    return `${practiceFrame} Compared with a flatter profile, this one is more likely to keep returning to the same core set of considerations across issues unless a later stress test creates a real contradiction.`
+    return `${practiceFrame} In practice, you are likely to return to the same core logic across issues unless a harder case creates a real contradiction.`
   }
 
-  return `${practiceFrame} The practical upshot is a stable but not rigid baseline: one that gives you a clear first read without pretending that every issue reduces to exactly the same logic.`
+  return `${practiceFrame} In practice, the baseline stays steady without pretending every issue is identical.`
 }
 
 function buildProbeNextText(

@@ -111,7 +111,6 @@ export default async function ResultPage(
   const neighborKey = result.runnerUpKey
   const neighborLabel = result.runnerUpLabel
   const traditionClass = familyTraditionClass(result.familyKey)
-  const neighborTraditionClass = familyTraditionClass(neighborKey)
   const traditionColor = TRADITION_COLOR[result.familyKey]
   const ruleClass = TRADITION_RULE_CLASS[result.familyKey]
 
@@ -194,33 +193,13 @@ export default async function ResultPage(
           <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
             {profileTitle}
           </h1>
-          <p style={{ fontSize: "0.9rem", color: "var(--muted)", marginBottom: "8px" }}>
-            {foundationNarrative.state === "lowDifferentiation"
-              ? "Closest tradition"
-              : closestTraditions.showBoth
-                ? "Closest traditions"
-                : "Closest tradition"}:{" "}
-            {closestTraditions.displayLabel}
-          </p>
           <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flexWrap: "wrap", marginBottom: "16px" }}>
             <span className={`tradition-chip ${traditionClass}`}>{familyLabel}</span>
-            {closestTraditions.showBoth && (
-              <span className={`tradition-chip ${neighborTraditionClass}`}>{neighborLabel}</span>
-            )}
           </div>
           <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", marginBottom: "10px" }}>
-            {summary}
+            {soWhatBlock?.text ?? summary}
           </p>
         </div>
-
-        {soWhatBlock ? (
-          <div className="result-section stack-md">
-            <div className="callout stack-xs profile-so-what">
-              <p className="eyebrow">So what this usually means</p>
-              <p style={{ lineHeight: "1.75", marginBottom: 0 }}>{soWhatBlock.text}</p>
-            </div>
-          </div>
-        ) : null}
 
         <div className="result-section stack-md">
           <div className="stack-xs">
@@ -253,9 +232,8 @@ export default async function ResultPage(
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Main signals</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              The clearest pulls in your Foundation result, in plain English before the denser
-              interpretation below.
+            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+              The clearest pulls in the baseline before the lower-level comparison and method notes.
             </p>
           </div>
           <div className="driver-grid">
@@ -271,41 +249,21 @@ export default async function ResultPage(
               </div>
             ))}
           </div>
-          <div className="driver-grid">
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">Strategic style</p>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{result.strategyModifier}</p>
-              <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-                {STRATEGY_STYLE_NOTES[result.strategyModifier]}
-              </p>
-            </div>
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">Normative style</p>
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{result.normativeModifier}</p>
-              <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-                {NORMATIVE_STYLE_NOTES[result.normativeModifier]}
-              </p>
-            </div>
-          </div>
           <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>Where this stays stable or may shift under pressure</p>
+            <p style={{ fontWeight: 600 }}>How settled this baseline is</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{mixedNote}</p>
           </div>
-          {strongLenses.length > 0 ? (
-            <div className="stack-sm">
-              <p className="eyebrow">Strong lenses</p>
-              <div className="driver-grid">
-                {strongLenses.map((lens) => (
-                  <div key={lens.key} className="driver-card stack-xs">
-                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
-                    <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-                      {lens.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ) : null}
+          <div className="row gap-sm wrap">
+            <Link
+              href={`/modules?foundation=${encodeURIComponent(payload)}`}
+              className="cta-primary"
+            >
+              Add a focus-area module
+            </Link>
+            <Link href="/profile" className="cta-secondary">
+              View profile
+            </Link>
+          </div>
         </div>
 
         <div className="result-section stack-md">
@@ -409,6 +367,37 @@ export default async function ResultPage(
             <summary>Closest traditions and why this shorthand fits</summary>
             <div className="stack-md" style={{ marginTop: "16px" }}>
               <p className="muted" style={{ fontSize: "0.875rem" }}>{closestTraditions.note}</p>
+              <div className="driver-grid">
+                <div className="driver-card stack-xs">
+                  <p className="eyebrow">Strategic style</p>
+                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{result.strategyModifier}</p>
+                  <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
+                    {STRATEGY_STYLE_NOTES[result.strategyModifier]}
+                  </p>
+                </div>
+                <div className="driver-card stack-xs">
+                  <p className="eyebrow">Normative style</p>
+                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{result.normativeModifier}</p>
+                  <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
+                    {NORMATIVE_STYLE_NOTES[result.normativeModifier]}
+                  </p>
+                </div>
+              </div>
+              {strongLenses.length > 0 ? (
+                <div className="stack-sm">
+                  <p className="eyebrow">Other lenses that stay active</p>
+                  <div className="driver-grid">
+                    {strongLenses.map((lens) => (
+                      <div key={lens.key} className="driver-card stack-xs">
+                        <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
+                        <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
+                          {lens.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
               <div className="neighbor-columns">
                 <div className="stack-xs">
                   <p className="eyebrow">Closest shorthand</p>

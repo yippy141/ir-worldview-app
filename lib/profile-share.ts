@@ -359,7 +359,8 @@ function isCardTypeScores(
 
   return Object.entries(value).every(
     ([key, record]) =>
-      (key === "explanation" || key === "decision" || key === "both") && isNumberRecord(record),
+      (key === "explanation" || key === "decision" || key === "actorLens" || key === "both") &&
+      isNumberRecord(record),
   )
 }
 

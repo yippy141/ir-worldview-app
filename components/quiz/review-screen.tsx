@@ -245,9 +245,10 @@ function questionLabel(question: Question) {
   return "Foundation statement"
 }
 
-function cardTypeLabel(cardType: "explanation" | "decision" | "both") {
+function cardTypeLabel(cardType: "explanation" | "decision" | "actorLens" | "both") {
   if (cardType === "explanation") return "Explanation"
   if (cardType === "decision") return "Decision"
+  if (cardType === "actorLens") return "Actor lens"
   return "Both"
 }
 

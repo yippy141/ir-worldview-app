@@ -2,7 +2,7 @@ export const siteConfig = {
   publicTitle: "IR Worldview Inventory",
   formalTitle: "IR Worldview Inventory",
   socialShorthand: "IR Worldview Inventory",
-  byline: "A prototype by JinHua Yip",
+  byline: "By JinHua Yip",
   author: "JinHua Yip",
   links: [
     { label: "Email", href: "mailto:jhyip16@outlook.com", kind: "contact" },

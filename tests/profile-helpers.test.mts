@@ -171,7 +171,7 @@ const profile: ProfileStore = {
 test("integrated headline reflects the new profile-state logic without inventing a total score", () => {
   assert.equal(
     buildIntegratedHeadline(profile),
-    "Liberal Institutionalist baseline with real cross-domain tension once the overlays are layered in.",
+    "Your baseline still reads Liberal Institutionalist, but the saved modules pull it in different directions.",
   )
 })
 
@@ -262,7 +262,7 @@ test("sharply differentiated foundations can surface before modules are added", 
   const narrative = buildProfileNarrative(sharpProfile, assessment)
 
   assert.equal(assessment.state, "sharplyDifferentiatedBaseline")
-  assert.ok(narrative.sections[0]?.text.includes("clearer baseline"))
+  assert.ok(narrative.sections[0]?.text.includes("clear baseline"))
 })
 
 test("profile narrative builds the expected editorial blocks for true tension states", () => {

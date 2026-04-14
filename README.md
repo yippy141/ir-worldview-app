@@ -1,12 +1,13 @@
 # IR Worldview Inventory
 
-IR Worldview Inventory is a Next.js interactive that classifies a user's International Relations instincts across seven analytical dimensions, then summarizes the nearest modeled worldview family and modifiers. The product is designed as an editorial, policy-journal-style experience rather than a dashboard or personality-test toy.
+IR Worldview Inventory is a Next.js editorial interactive about how people read world politics. The product starts with a seven-dimension Foundation result, adds issue-specific Security and Technology modules, and brings saved results together in an integrated Profile.
 
 ## Project overview
 
 - The quiz produces an interpretive summary, not a natural-kind identity.
 - Results are generated canonically through `/results/[payload]`, so links can be refreshed, shared, and reopened directly.
-- Explore pages function as a field guide to the modeled worldview families and to important traditions that are not yet fully modeled.
+- Explore pages function as a field guide to the modeled worldview families, recurring profile patterns, and important traditions that are not yet fully modeled.
+- Focus-area modules use explanation, decision, and actor-lens cards; actor-lens responses are tracked separately from the main module read.
 
 ## Main routes
 
@@ -14,6 +15,9 @@ IR Worldview Inventory is a Next.js interactive that classifies a user's Interna
 - `/quiz` quiz flow
 - `/quiz/review` required answer review before result generation
 - `/results/[payload]` canonical result page for encoded share payloads
+- `/modules` Security and Technology issue files
+- `/modules/[slug]/results/[payload]` canonical module result pages
+- `/profile` integrated local profile built from saved Foundation and module snapshots
 - `/explore` worldview field guide overview
 - `/explore/[slug]` modeled worldview detail pages
 - `/method` methodology and limitations
@@ -21,7 +25,7 @@ IR Worldview Inventory is a Next.js interactive that classifies a user's Interna
 
 ## Methodology limitations
 
-- This is a prototype classification model, not a validated psychometric instrument.
+- This is an editorial interpretation tool, not a validated psychometric instrument.
 - Scores are positions within this model. They are not population percentiles.
 - Worldview families are shorthand summaries of a multidimensional profile, not fixed essences.
 - Only four traditions are directly modeled in scoring right now: realism, institutionalism, constructivism, and critical political economy.
@@ -65,5 +69,5 @@ npm run test
 ## Repository notes
 
 - Canonical worldview keys and slugs live in `lib/worldview-config.ts`.
-- Share payload encoding and decoding live in `lib/share.ts`.
+- Foundation share payload encoding and decoding live in `lib/share.ts`; profile-share encoding lives in `lib/profile-share.ts`.
 - Archived planning and spec documents are kept under `docs/archive/`.

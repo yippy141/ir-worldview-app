@@ -32,8 +32,8 @@ export default async function ModulesPage(
         <p style={{ fontWeight: 600 }}>Why these issue areas</p>
         <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
           The focus-area structure is loosely inspired by how international affairs programs,
-          including the SAIS MAIR curriculum, often group issue areas. This prototype is
-          independent and does not imply affiliation or endorsement.
+          including the SAIS MAIR curriculum, often group issue areas. This project is independent
+          and does not imply affiliation or endorsement.
         </p>
       </div>
 

@@ -1,0 +1,21 @@
+Read these files first:
+- PHASE_6E_SPEC.md
+- COPY_TONE_GUIDE_PHASE_6E.md
+
+Review the current branch against the spec.
+Do not do a broad rewrite.
+
+Focus on:
+1. whether the Profile top block is now plain-English and user-facing
+2. whether Foundation/module tops are less label-heavy and less AI-coded
+3. whether `Actor lens` is implemented coherently and distinctly from Explanation / Decision
+4. whether the rewritten Security and Technology cards are more specific and less coalition-manager-coded
+5. whether public home / Explore / Methods / README surfaces are more aligned
+6. whether any remaining phrases still sound like internal project language
+7. whether the product is ready for a narrow friend round
+
+Return:
+- what improved
+- what still feels weak
+- the 5 most important remaining copy/content problems
+- whether this is go / no-go for the next friend round

@@ -11,7 +11,7 @@ export type QuizMode = "standard" | "analyst"
 export type FamiliarityLevel = "new" | "some" | "very"
 
 export type QuestionKind = "likert" | "tradeoff" | "miniCase"
-export type ChoiceCardType = "explanation" | "decision" | "both"
+export type ChoiceCardType = "explanation" | "decision" | "actorLens" | "both"
 
 export type Clarification = {
   title?: string

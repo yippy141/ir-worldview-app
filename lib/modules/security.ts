@@ -41,13 +41,14 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Quarantine pressure around Taiwan",
     prompt: "What should carry the most weight first?",
     scene:
-      "Beijing begins a quarantine-style pressure campaign around Taiwan. Commercial traffic is slowed, inspections are threatened, and the line between coercion and open conflict is kept deliberately blurry while outside governments debate the first move.",
+      "Day three of a China-led quarantine around Taiwan. Commercial insurers are pulling back, container traffic is slowing, and no shots have been fired. A U.S.-aligned crisis group is deciding its first coordinated move while Beijing still insists it is conducting lawful inspections rather than a blockade.",
     whyHard:
-      "The first response has to resist coercion early without making a still-limited crisis harder to control than the pressure campaign itself.",
+      "Move too softly and coercion below invasion may harden into a new status quo. Move too visibly with military force and a still-limited crisis may jump a rung before anyone knows Beijing's ceiling.",
     contextBullets: [
-      { label: "Actor / stake", text: "Taiwan, China, and outside partners are testing whether coercion below invasion can still reset the status quo." },
-      { label: "Uncertainty", text: "No one knows whether Beijing is signaling, probing, or preparing to go further." },
-      { label: "Term", text: "A quarantine here means coercive restriction of movement without a formally declared blockade." },
+      { label: "Actor role", text: "You are judging the first coordinated outside response, not Taiwan's domestic politics or China's ideal long-run strategy." },
+      { label: "Crisis stage", text: "The pressure campaign has begun, but the crisis is still in the coercive-below-war phase." },
+      { label: "Immediate constraint", text: "Traffic and market confidence are eroding faster than governments can build consensus." },
+      { label: "Term", text: "A quarantine here means coercive inspections and movement restrictions without a formally declared blockade." },
     ],
     perspectiveTags: ["major-power", "alliance-manager", "maritime", "frontline-state"],
     knowledgeLoad: "medium",
@@ -55,30 +56,30 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     options: [
       {
         id: "clarify_response",
-        title: "Deny a quiet fait accompli",
+        title: "Show ambiguity will not stick",
         label:
-          "The first job is to show that quarantine tactics cannot quietly rewrite the status quo through ambiguity alone.",
+          "The first job is to prove that coercion below invasion cannot quietly rewrite the status quo.",
         signals: { activism: 6.1, escalation: 6.0, alliance: 5.0, legitimacy: 4.2 },
       },
       {
         id: "build_denial_endurance",
-        title: "Build endurance first",
+        title: "Keep Taiwan supplied and the coalition in the game",
         label:
-          "What matters most is a coalition that can keep traffic, logistics, and political resolve from collapsing over time.",
+          "The key is an endurance plan that keeps traffic, logistics, and allied resolve from unraveling over time.",
         signals: { activism: 5.1, escalation: 5.0, alliance: 5.9, legitimacy: 4.8 },
       },
       {
         id: "preserve_hedging_space",
-        title: "Preserve regional room to maneuver",
+        title: "Leave room for regional partners",
         label:
           "Regional partners need room to resist coercion without being forced immediately into the hardest military alignment.",
         signals: { activism: 3.2, escalation: 3.6, alliance: 3.2, legitimacy: 4.9 },
       },
       {
         id: "raise_political_costs",
-        title: "Raise the political cost",
+        title: "Raise the diplomatic and economic cost fast",
         label:
-          "The strongest first move is to widen the diplomatic and economic cost of coercion while holding force below the easiest escalatory threshold.",
+          "The strongest first move is to widen the political and economic cost of coercion while staying below the easiest escalatory threshold.",
         signals: { activism: 4.1, escalation: 4.0, alliance: 5.0, legitimacy: 6.0 },
       },
     ],
@@ -91,12 +92,14 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Gray-zone sabotage",
     prompt: "What is the most persuasive reading of what the rival is testing?",
     scene:
-      "A series of cyber disruptions and undersea infrastructure incidents are linked to a rival state, but attribution remains politically contested. Officials disagree on whether the pattern is mainly about response thresholds, coalition cohesion, resilience gaps, or baiting an overreaction.",
+      "After three weeks of cable cuts, rail disruptions, and port outages across two allied states, intelligence services privately assess a rival state's hand as likely but not courtroom-grade. An alliance ministerial must decide what the campaign is really testing before it makes the next public statement.",
     whyHard:
-      "The ambiguity is part of the strategy: if the incidents stay deniable, partners can agree that something is wrong while still disagreeing about what it means.",
+      "If attribution stays contested, allies can agree the pattern is hostile while still disagreeing about whether it calls for punishment, resilience, or restraint.",
     contextBullets: [
-      { label: "Actor / stake", text: "Multiple allied states are affected, so interpretation shapes not just retaliation but alliance cohesion." },
-      { label: "Uncertainty", text: "The rival benefits if partners cannot agree whether the incidents cross a meaningful threshold." },
+      { label: "Actor role", text: "You are judging the campaign from an allied ministerial trying to hold both credibility and cohesion together." },
+      { label: "Crisis stage", text: "The sabotage pattern is ongoing but still below any openly declared military threshold." },
+      { label: "Attribution quality", text: "Private confidence is higher than public proof." },
+      { label: "Immediate constraint", text: "Partners will fracture if they define the problem differently." },
     ],
     perspectiveTags: ["alliance-manager", "cyber", "infrastructure", "major-power"],
     knowledgeLoad: "medium",
@@ -283,16 +286,17 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     id: "middle_power_alignment",
     kind: "case",
     lane: "alliances",
-    cardType: "explanation",
+    cardType: "actorLens",
     title: "Middle-power alignment under pressure",
-    prompt: "What is the strongest reading of why a middle power resists bloc discipline?",
+    prompt: "From the middle power's strategic position, which logic looks strongest?",
     scene:
-      "A middle power wants security ties with Washington, trade with China, and no formal obligation to line up across every file. Outside commentators disagree on whether this is failed ambiguity, layered strategy, autonomy preservation, or problem-based coalition-building.",
+      "A middle power is in the first year of sharper U.S.-China rivalry. It wants security ties with Washington, trade with China, and no formal commitment to line up across every file. Its cabinet is deciding how to defend that strategy before alliance managers start demanding a clearer line.",
     whyHard:
-      "The same behavior can look evasive from a coalition manager's perspective and prudent from the middle power's own perspective.",
+      "From outside, the posture can look evasive. From inside, the same posture may be the state's main way to preserve bargaining room and avoid overdependence.",
     contextBullets: [
-      { label: "Actor / stake", text: "The state is trying to preserve both security partnerships and economic room to maneuver." },
-      { label: "Uncertainty", text: "Sharper rivalry may eventually punish layered positioning, but forcing a clean choice can also backfire." },
+      { label: "Actor role", text: "Answer from the middle power's strategic position, not from what an alliance manager would prefer." },
+      { label: "Crisis stage", text: "Rivalry is sharpening, but the state is not yet being forced into an outright bloc break." },
+      { label: "Immediate constraint", text: "The state wants security cooperation without surrendering economic and diplomatic flexibility." },
     ],
     perspectiveTags: ["middle-power", "nonaligned", "alliance-manager"],
     knowledgeLoad: "low",
@@ -300,30 +304,30 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     options: [
       {
         id: "ambiguity_will_fail",
-        title: "Rivalry will force a line",
+        title: "Prepare for a forced choice",
         label:
-          "As rivalry sharpens, layered positioning becomes harder to sustain and partners will eventually demand a clearer strategic line.",
+          "If rivalry keeps sharpening, the state may need to bank credibility with Washington before the room to hedge closes.",
         signals: { activism: 5.0, escalation: 5.2, alliance: 6.1, legitimacy: 4.1 },
       },
       {
         id: "layered_alignment_is_real",
-        title: "Layered alignment can hold",
+        title: "Keep layers separate",
         label:
-          "States can be dependable on specific security problems while still separating trade, finance, or diplomacy across other files.",
+          "The state can cooperate on security where needed while refusing to turn every trade and diplomatic file into a bloc test.",
         signals: { activism: 4.2, escalation: 4.3, alliance: 5.0, legitimacy: 4.9 },
       },
       {
         id: "autonomy_is_rational",
-        title: "Autonomy is a strategic asset",
+        title: "Treat autonomy as an asset",
         label:
-          "The state is managing exposure, not ducking responsibility. For vulnerable powers, autonomy itself is part of survival.",
+          "From this state's position, independent room to bargain is itself part of national security, not an evasion of responsibility.",
         signals: { activism: 3.7, escalation: 4.0, alliance: 2.8, legitimacy: 5.3 },
       },
       {
         id: "problem_based_coalitions",
-        title: "Problem-based coalitions are the equilibrium",
+        title: "Stay issue by issue",
         label:
-          "Issue-specific coalitions are more realistic than demanding whole-of-state alignment across every dispute at once.",
+          "The most durable strategy is to join coalitions on specific problems without accepting whole-of-state alignment.",
         signals: { activism: 4.0, escalation: 4.1, alliance: 4.8, legitimacy: 5.5 },
       },
     ],
@@ -486,12 +490,14 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
     title: "Nuclear threshold and preventive force",
     prompt: "What is the strongest reading of what this case is mainly about?",
     scene:
-      "Iran moves closer to a nuclear threshold. Inspections are fraying, regional partners want harder measures, and preventive force returns to the table. The dispute is not just over options, but over what kind of problem this now is.",
+      "At a regional crisis review, inspectors report Iran is closer to weapons-grade breakout than six months ago, but intent and weaponization timelines remain disputed. Israel, Gulf partners, and Western governments are arguing over whether this is mainly a failing leverage game, a future containment problem, a coalition-discipline problem, or a legitimacy-boundary problem.",
     whyHard:
-      "The closer threshold status feels, the easier it is for the argument to slide from leverage and signaling into war logic.",
+      "The closer threshold status feels, the easier it is for the argument to slide from pressure and bargaining into preventive-war logic.",
     contextBullets: [
-      { label: "Actor / stake", text: "Regional partners fear normalization of threshold status; others fear that force would widen the war more than it would solve the nuclear problem." },
-      { label: "Uncertainty", text: "No one knows whether harder threats restore leverage or simply accelerate the crisis." },
+      { label: "Actor role", text: "You are judging the case from a coalition debating its next line, not from Tehran's internal politics." },
+      { label: "Crisis stage", text: "The crisis is still in the threshold-and-signaling phase, before an open strike decision." },
+      { label: "Attribution quality", text: "Inspection access is degrading, but knowledge about intent and timeline is still incomplete." },
+      { label: "Immediate constraint", text: "Partners want urgency without stumbling into a war they may not be able to bound." },
     ],
     perspectiveTags: ["regional-security", "nuclear", "alliance-manager"],
     knowledgeLoad: "medium",
@@ -745,9 +751,9 @@ export const securityModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Security read: bounded pressure, case by case",
+      headline: "Security read: targeted pressure with limits",
       summary:
-        "You do not carry one fixed security rule from case to case. You balance deterrence, coalition management, escalation risk, and legitimacy together.",
+        "You prefer targeted pressure over either passivity or maximal escalation. Alliance durability, crisis ceilings, and legitimacy all stay in view.",
       instincts: [
         "You resist turning every crisis into a single test of resolve.",
         "You look for responses that keep options open rather than settle the argument too early.",
@@ -771,6 +777,23 @@ export const securityModule: ModuleDefinition = {
   summarizeCardTypes(analytics) {
     const explanation = analytics.cardTypeScores.explanation
     const decision = analytics.cardTypeScores.decision
+    const actorLens = analytics.cardTypeScores.actorLens
+
+    if (actorLens) {
+      if (decision && decision.alliance - actorLens.alliance >= 0.65) {
+        return {
+          headline: "Explanation, Decision, and Actor lens",
+          summary:
+            "Your own decision cards lean more toward alliance management than your actor-lens cards do. When you switch into another state's position, autonomy and exposure become more visible. That perspective read is tracked separately so it does not overwrite your own security judgment.",
+        }
+      }
+
+      return {
+        headline: "Explanation, Decision, and Actor lens",
+        summary:
+          "The actor-lens cards are doing a different job from the decision cards. They track how security logic looks from inside another actor's position, so perspective-modeling does not overwrite your own issue read.",
+      }
+    }
 
     if (!explanation || !decision) return undefined
 

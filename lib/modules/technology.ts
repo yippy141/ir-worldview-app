@@ -384,12 +384,14 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     title: "Military AI deployment",
     prompt: "What should carry the most weight in the deployment choice?",
     scene:
-      "A defense establishment wants rapid AI deployment despite weak testing standards because it fears a rival will move first. Others argue that once military AI diffuses under unclear thresholds, doctrine, coalition discipline, and accountability may weaken faster than anyone intends.",
+      "After a year of rapid battlefield experimentation abroad, a defense ministry is deciding whether to field AI-enabled targeting and battle-management tools before its testing standards are mature. Commanders warn that waiting could leave the force behind a rival. Lawyers and allies warn that rushed deployment could spread unclear doctrine and weak accountability across the coalition.",
     whyHard:
-      "Speed and caution are both strategic arguments here, so the choice is not simply innovation versus ethics.",
+      "Speed and caution are both strategic arguments here, so the choice is not simply innovation versus ethics. The immediate question is what should set the deployment threshold before rough practice becomes coalition doctrine.",
     contextBullets: [
-      { label: "Actor / stake", text: "The decision affects not only one state but also partners that may inherit the doctrine and the operating risk." },
-      { label: "Uncertainty", text: "A slower rollout may preserve control, but it may also hand the first-mover advantage to a rival." },
+      { label: "Actor role", text: "You are judging a defense ministry deciding whether to authorize broader deployment now." },
+      { label: "Crisis stage", text: "The technology is moving from limited experimentation toward operational fielding." },
+      { label: "Immediate constraint", text: "Allies may inherit the doctrine and risk before common safeguards are in place." },
+      { label: "Uncertainty", text: "A slower rollout may preserve control, but it may also hand real operational learning to a rival." },
     ],
     perspectiveTags: ["military", "alliance-manager", "safety"],
     knowledgeLoad: "medium",
@@ -429,16 +431,18 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     id: "digital_development",
     kind: "case",
     lane: "governance",
-    cardType: "explanation",
+    cardType: "actorLens",
     title: "Digital development without dependency",
-    prompt: "What is the strongest reading of the middle-income state's problem?",
+    prompt: "From this state's strategic position, which logic looks strongest?",
     scene:
-      "A middle-income state wants AI capacity but worries that both U.S. platforms and Chinese infrastructure create dependency. Policymakers disagree on whether the problem is mainly sovereignty, lock-in, access, or fiscal scale.",
+      "A middle-income state is drafting its five-year AI strategy. It wants more capacity, but officials worry that both U.S. platforms and Chinese infrastructure could harden long-run dependency. The cabinet is deciding which logic best captures its own position before it commits scarce public money.",
     whyHard:
-      "The state needs more capability, but the path that looks cheapest now may deepen the dependence it most wants to avoid later.",
+      "The state needs more capability, but the path that looks cheapest now may deepen the dependence it most wants to escape later.",
     contextBullets: [
-      { label: "Actor / stake", text: "The state cannot finance every layer of the stack, but it still wants room to bargain and adapt." },
-      { label: "Uncertainty", text: "It is unclear whether sovereignty, diversification, regional pooling, or simple access is the decisive constraint." },
+      { label: "Actor role", text: "Answer from the state's own strategic position, not from what a major power or a donor would prefer." },
+      { label: "Crisis stage", text: "This is an early buildout decision, before the state's technical path dependence is locked in." },
+      { label: "Immediate constraint", text: "The state cannot finance every layer of the stack, but it still wants room to bargain and adapt." },
+      { label: "Uncertainty", text: "It is unclear whether sovereignty, diversification, shared regional capacity, or simple access is the decisive constraint." },
     ],
     perspectiveTags: ["developmental", "middle-income", "digital-sovereignty"],
     knowledgeLoad: "low",
@@ -446,28 +450,28 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     options: [
       {
         id: "sovereign_capacity_problem",
-        title: "It is a sovereignty problem",
+        title: "Treat it as a sovereignty problem",
         label:
           "The main issue is how to build enough domestic depth in data, talent, and cloud access to reduce future coercive vulnerability.",
         signals: { control: 5.8, governance: 3.3, industrial: 5.8, safety: 4.1 },
       },
       {
         id: "interoperability_problem",
-        title: "It is a lock-in problem",
+        title: "Treat it as a lock-in problem",
         label:
           "The stronger answer is diversified suppliers and portable standards that keep dependence from hardening into captivity.",
         signals: { control: 4.3, governance: 6.0, industrial: 4.8, safety: 4.3 },
       },
       {
         id: "collective_capacity_problem",
-        title: "It is a scale problem",
+        title: "Treat it as a scale problem",
         label:
           "Shared compute, training, and procurement are the only realistic way for many states to widen room to maneuver.",
         signals: { control: 4.1, governance: 5.6, industrial: 6.0, safety: 4.2 },
       },
       {
         id: "exclusion_problem",
-        title: "It is an exclusion problem",
+        title: "Treat it as an access problem",
         label:
           "For many states the bigger danger is being left out of the technology shift altogether, not becoming too dependent within it.",
         signals: { control: 2.8, governance: 4.2, industrial: 3.8, safety: 4.0 },
@@ -481,16 +485,18 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
     id: "containment_critique",
     kind: "case",
     lane: "controls",
-    cardType: "explanation",
+    cardType: "actorLens",
     title: "Containment critique and export controls",
-    prompt: "What is the strongest reading of how non-Western governments see the controls debate?",
+    prompt: "From this non-Western government's strategic position, which logic looks strongest?",
     scene:
-      "A non-Western government hears U.S. officials describe export controls as security policy and Chinese officials describe them as an attempt to freeze hierarchy. Its own policymakers are deciding whether the issue is mainly strategic denial, rule design, hierarchy management, or long-run hedging.",
+      "A non-Western government is deciding whether to join a new technology-security arrangement after fresh U.S. semiconductor controls and Chinese retaliation threats. Its policymakers hear Washington call the measures security policy and Beijing call them an attempt to freeze hierarchy. They now have to decide which logic best captures their own strategic read before trade and technology talks begin.",
     whyHard:
       "More than one critique can be true at once, but the main diagnosis determines whether the government narrows cooperation, pushes back, or keeps room to hedge.",
     contextBullets: [
-      { label: "Actor / stake", text: "The state wants technology access without becoming permanently subordinate to either camp." },
-      { label: "Uncertainty", text: "It is unclear whether controls are a temporary security measure or a more durable hierarchy-preserving strategy." },
+      { label: "Actor role", text: "Answer from the government's own strategic position, not from Washington's or Beijing's preferred framing." },
+      { label: "Crisis stage", text: "The controls fight is active, but the government still has room to decide how closely it will align." },
+      { label: "Immediate constraint", text: "The state wants technology access without becoming permanently subordinate to either camp." },
+      { label: "Uncertainty", text: "It is unclear whether the controls are a narrow security measure or part of a longer hierarchy-preserving strategy." },
     ],
     perspectiveTags: ["nonaligned", "developmental", "export-controls"],
     knowledgeLoad: "medium",
@@ -744,9 +750,9 @@ export const technologyModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Technology read: calibrated control by sector",
+      headline: "Technology read: selective control with coordination",
       summary:
-        "You balance openness, control, capacity-building, and governance case by case rather than carrying one fixed doctrine across the whole domain.",
+        "You are open to controls, capacity-building, and coordinated rules, but you do not want one tool to dominate every technology problem.",
       instincts: [
         "You expect the right answer to shift across semiconductors, frontier AI, and digital development.",
         "You are open to both controls and openness depending on the strategic setting.",
@@ -766,6 +772,23 @@ export const technologyModule: ModuleDefinition = {
   summarizeCardTypes(analytics) {
     const explanation = analytics.cardTypeScores.explanation
     const decision = analytics.cardTypeScores.decision
+    const actorLens = analytics.cardTypeScores.actorLens
+
+    if (actorLens) {
+      if (decision && actorLens.control - decision.control >= 0.65) {
+        return {
+          headline: "Explanation, Decision, and Actor lens",
+          summary:
+            "Your actor-lens cards make dependency and bargaining room look sharper than your own policy choices do. That perspective read is tracked separately so modeling another state's incentives does not overwrite your technology judgment.",
+        }
+      }
+
+      return {
+        headline: "Explanation, Decision, and Actor lens",
+        summary:
+          "The actor-lens cards are doing a different job from the decision cards. They show how technology politics looks from inside another state's position, so perspective-modeling does not overwrite your own issue read.",
+      }
+    }
 
     if (!explanation || !decision) return undefined
 

@@ -315,7 +315,10 @@ function normalizeCardTypeScores(
   const normalized: Partial<Record<ChoiceCardType, Record<string, number>>> = {}
 
   for (const [key, raw] of Object.entries(value)) {
-    if ((key === "explanation" || key === "decision" || key === "both") && isNumberRecord(raw)) {
+    if (
+      (key === "explanation" || key === "decision" || key === "actorLens" || key === "both") &&
+      isNumberRecord(raw)
+    ) {
       normalized[key] = raw
     }
   }

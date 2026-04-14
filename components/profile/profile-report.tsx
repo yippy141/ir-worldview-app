@@ -10,22 +10,7 @@ import {
   buildProfileAssessment,
   buildProfileSpineRows,
 } from "@/lib/profile-helpers"
-import {
-  type ModuleSnapshot,
-  type ProfileStore,
-} from "@/lib/profile-store"
-
-const STRATEGY_LABELS = {
-  Restrainer: "Restrained strategy",
-  Hedger: "Conditional strategy",
-  Maximizer: "Harder competitive strategy",
-} as const
-
-const NORMATIVE_LABELS = {
-  Pluralist: "Order-first normative style",
-  "Conditional Solidarist": "Mixed normative style",
-  Universalist: "Justice-forward normative style",
-} as const
+import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
 
 const MODULE_COLORS = {
   security: "var(--accent)",
@@ -64,6 +49,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     (section) => section.title !== "So what this usually means",
   )
   const contextLabel = mode === "local" ? "on this device" : "in this shared profile"
+  const topParagraph = soWhatBlock?.text ?? profileNarrative.summary
 
   return (
     <article className="result-article">
@@ -72,24 +58,61 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
           <h1>{buildIntegratedHeadline(profile)}</h1>
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
-            {profileNarrative.summary}
+            {topParagraph}
           </p>
-          <div className="row gap-sm wrap" style={{ marginTop: "10px" }}>
-            <span className="mode-pill">{assessment.stateLabel}</span>
+          <div className="row gap-sm wrap">
             <span className="mode-pill">{foundation.familyLabel}</span>
-            <span className="mode-pill">{foundation.runnerUpLabel}</span>
-            <span className="mode-pill">{STRATEGY_LABELS[foundation.strategyModifier]}</span>
-            <span className="mode-pill">{NORMATIVE_LABELS[foundation.normativeModifier]}</span>
           </div>
           {actionSlot ? <div style={{ marginTop: "10px" }}>{actionSlot}</div> : null}
         </div>
+        <div className="driver-grid">
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">What stayed stable</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Foundation anchor</p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getStableTraitText(foundation)}
+            </p>
+          </div>
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">Security</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+              {securitySnapshot ? "What hardens under security pressure" : "Security not yet added"}
+            </p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getModuleHighlightText(
+                securitySnapshot,
+                "Security is not saved yet, so the baseline still carries the full weight here.",
+              )}
+            </p>
+          </div>
+          <div className="driver-card stack-xs">
+            <p className="eyebrow">Technology</p>
+            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
+              {technologySnapshot ? "What hardens in technology" : "Technology not yet added"}
+            </p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+              {getModuleHighlightText(
+                technologySnapshot,
+                "Technology is not saved yet, so the baseline still carries the full weight here.",
+              )}
+            </p>
+          </div>
+        </div>
+        <div className="callout stack-xs">
+          <p className="eyebrow">Main thing to pressure-test</p>
+          <p style={{ lineHeight: "1.7", marginBottom: 0 }}>
+            {getContestedTraitText(assessment)}
+          </p>
+        </div>
+      </section>
 
+      <section className="result-section stack-md">
         <section className="profile-spine-card stack-sm">
           <div className="stack-xs">
             <h2>Foundation spine with overlays</h2>
             <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-              The Foundation baseline stays fixed. Module overlays show directional pressure on
-              related dimensions; they are not recalculated Foundation scores.
+              The Foundation stays fixed. Saved modules show where pressure pulls nearby dimensions
+              harder, softer, or in a different direction.
             </p>
           </div>
           <ProfileSpine rows={spineRows} />
@@ -97,64 +120,6 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             {assessment.changedMost}
           </p>
         </section>
-      </section>
-
-      {soWhatBlock ? (
-        <section className="result-section stack-md">
-          <div className="callout stack-xs profile-so-what">
-            <p className="eyebrow">So what this usually means</p>
-            <p style={{ lineHeight: "1.75", marginBottom: 0 }}>{soWhatBlock.text}</p>
-          </div>
-        </section>
-      ) : null}
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>Profile highlights</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            The clearest continuities and shifts in the Foundation-plus-overlay profile {contextLabel}.
-          </p>
-        </div>
-        <div className="driver-grid">
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">Security shift</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-              {securitySnapshot ? "Security overlay completed" : "Security overlay not yet saved"}
-            </p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getModuleHighlightText(
-                securitySnapshot,
-                "Security has not been completed yet, so the baseline still carries the full weight here.",
-              )}
-            </p>
-          </div>
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">Technology shift</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-              {technologySnapshot ? "Technology overlay completed" : "Technology overlay not yet saved"}
-            </p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getModuleHighlightText(
-                technologySnapshot,
-                "Technology has not been completed yet, so the baseline still carries the full weight here.",
-              )}
-            </p>
-          </div>
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">Shared anchor</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>What stays steady</p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getStableTraitText(foundation)}
-            </p>
-          </div>
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">Main pressure point</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Where the profile is least settled</p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getContestedTraitText(assessment)}
-            </p>
-          </div>
-        </div>
       </section>
 
       <section className="result-section stack-md">
@@ -212,7 +177,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <div className="stack-xs">
           <h2>Integrated interpretation</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            A controlled synthesis of the Foundation baseline and the completed focus-area overlays {contextLabel}.
+            A plain-English read of the Foundation baseline and the completed focus-area overlays {contextLabel}.
           </p>
         </div>
         <div className="result-prose stack-md">

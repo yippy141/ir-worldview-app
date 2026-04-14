@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Methods — IR Worldview Inventory",
   description:
-    "How the IR Worldview Inventory works: foundation profile, tradition shorthand, style outputs, modules, and limitations.",
+    "How the IR Worldview Inventory works across the Foundation, focus-area modules, integrated Profile, and editorial limitations.",
 }
 
 const dimensions = [
@@ -59,7 +59,7 @@ const resultLayers = [
   },
   {
     heading: "4. Focus-area modules",
-    body: "Security and Technology modules sit on top of the Foundation. They show how your instincts travel in a specific issue domain, but they do not replace the baseline result.",
+    body: "Security and Technology modules test the baseline in concrete issue files. Their top-line read stays separate from the Foundation result rather than pretending to be a more scientific replacement for it.",
   },
 ]
 
@@ -215,6 +215,12 @@ export default function MethodPage() {
           smuggle extra points back into the core classification.
         </p>
         <p style={{ lineHeight: "1.7" }}>
+          The module cards now do three different jobs. Explanation cards ask what best explains a
+          case. Decision cards ask what should carry the most weight in response. Actor-lens cards
+          ask what logic would look strongest from that actor&apos;s own position, and are tracked
+          separately so perspective-modeling does not overwrite your own judgment.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
           In the current shared-result flow, the foundation profile, closest traditions, and style
           outputs are what travel with the main result link. Module interpretation is treated as a
           separate applied readout.
@@ -223,7 +229,7 @@ export default function MethodPage() {
           <p style={{ fontWeight: 600 }}>Why these issue areas</p>
           <p className="muted" style={{ lineHeight: "1.65" }}>
             The focus-area structure is loosely inspired by how international affairs programs,
-            including the SAIS MAIR curriculum, often group issue areas. This prototype is
+            including the SAIS MAIR curriculum, often group issue areas. This project is
             independent and does not imply affiliation or endorsement.
           </p>
         </div>
@@ -257,6 +263,10 @@ export default function MethodPage() {
           Strategic and normative style are reported separately from the restraint and
           order-versus-justice dimensions. They help describe the profile, but they do not create a
           new worldview family.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Module scores are issue-specific. Actor-lens responses are stored and shown, but they do
+          not quietly become your main module read the way a normal own-judgment answer would.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           High political-economy salience does not automatically force a Critical Political Economy

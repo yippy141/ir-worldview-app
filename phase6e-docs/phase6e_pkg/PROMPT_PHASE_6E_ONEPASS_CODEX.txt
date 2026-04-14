@@ -1,0 +1,45 @@
+You are implementing Phase 6E for the IR Worldview Inventory.
+
+Read these open files first:
+- PHASE_6E_SPEC.md
+- COPY_TONE_GUIDE_PHASE_6E.md
+
+Your job is to make a focused content-discipline pass, not a broad expansion.
+
+## Hard rules
+- Keep scope tight.
+- Do not add new modules.
+- Do not start crisis-lab work.
+- Do not add percentile/rarity/popularity features.
+- Do not add accounts, a database, or analytics.
+- Do not redesign scoring broadly except where the new `Actor lens` card type requires it.
+- Do not do a repo-wide wording sweep beyond the surfaces named in the spec.
+
+## First response: plan only
+In your first response, do NOT edit files yet.
+Instead, provide:
+1. the files you will change
+2. the implementation order
+3. how you will add `Actor lens` end to end
+4. which Security and Technology cards you will rewrite first
+5. how you will reduce label clutter above the fold
+6. how you will align the public home / Explore / Methods / README surfaces
+7. what you will defer
+Then stop and wait for approval.
+
+## After approval
+When approved, implement the minimum stable Phase 6E version.
+At the end:
+- run `npm run lint`
+- run `npm run test`
+- run `npm run build`
+- report the outputs clearly
+
+## Success criteria
+The pass is successful if:
+- Profile top copy sounds like product language, not internal architecture language
+- Foundation and module tops are shorter and plainer
+- `Actor lens` exists in schema/UI/instruction/tests
+- Security and Technology cards are more specific and less context-leaky
+- public-facing copy is materially closer to the current product
+- all checks pass

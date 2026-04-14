@@ -211,13 +211,20 @@ export function ModuleApp({
         <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>How to answer these cases</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Read the scene first, then the tradeoff. On Explanation cards, choose the logic that
-            best explains the case. On Decision cards, choose the logic that should carry the most
-            weight in the response.
+            Read the scene first, then the tradeoff.
           </p>
+          <ul
+            className="muted"
+            style={{ margin: 0, paddingLeft: "20px", lineHeight: "1.65", fontSize: "0.9rem" }}
+          >
+            <li>On <strong>Explanation</strong> cards, choose the logic that best explains the case.</li>
+            <li>On <strong>Decision</strong> cards, choose the consideration that should carry the most weight in the response.</li>
+            <li>On <strong>Actor lens</strong> cards, choose the logic that would look strongest from that actor&apos;s own strategic position.</li>
+          </ul>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Do not answer based on what sounds most publicly defensible unless that is also your
-            own judgment.
+            Answer from your own analytic judgment, not from what sounds most moderate or most
+            publicly defensible. If another option also fits, add it as your second-most
+            persuasive answer.
           </p>
         </div>
 
@@ -465,6 +472,7 @@ function LaneProgressCard({
 function cardTypeLabel(cardType: ChoiceCardType) {
   if (cardType === "explanation") return "Explanation"
   if (cardType === "decision") return "Decision"
+  if (cardType === "actorLens") return "Actor lens"
   return "Both"
 }
 
@@ -475,6 +483,10 @@ function moduleInstructionCopy(cardType: ChoiceCardType) {
 
   if (cardType === "decision") {
     return "Choose the consideration that should carry the most weight in the response."
+  }
+
+  if (cardType === "actorLens") {
+    return "Choose the logic that would look strongest from that actor's own strategic position, not the policy you personally prefer."
   }
 
   return "Choose the framing you find most persuasive overall."

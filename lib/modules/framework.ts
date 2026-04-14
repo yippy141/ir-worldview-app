@@ -207,15 +207,16 @@ export function buildModuleAnalytics(
   answers: ModuleAnswers,
 ): ModuleAnalytics {
   const questions = getModuleQuestions(moduleDefinition, mode)
+  const scoredQuestions = questions.filter((question) => question.cardType !== "actorLens")
 
   return {
-    scores: scoreQuestions(moduleDefinition, questions, answers, mode),
+    scores: scoreQuestions(moduleDefinition, scoredQuestions, answers, mode),
     laneScores: Object.fromEntries(
       moduleDefinition.lanes.map((lane) => [
         lane.key,
         scoreQuestions(
           moduleDefinition,
-          questions.filter((question) => question.lane === lane.key),
+          scoredQuestions.filter((question) => question.lane === lane.key),
           answers,
           mode,
         ),
@@ -264,7 +265,7 @@ function buildCardTypeScores(
   answers: ModuleAnswers,
   mode: QuizMode,
 ) {
-  const cardTypes: ChoiceCardType[] = ["explanation", "decision", "both"]
+  const cardTypes: ChoiceCardType[] = ["explanation", "decision", "actorLens", "both"]
   const scores: Partial<Record<ChoiceCardType, Record<string, number>>> = {}
 
   for (const cardType of cardTypes) {

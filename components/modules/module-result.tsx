@@ -34,9 +34,7 @@ export function ModuleResultView({
   const laneLabelMap = Object.fromEntries(
     moduleDefinition.lanes.map((lane) => [lane.key, lane.label]),
   ) as Record<string, string>
-  const dominantLane = result.laneSummaries
-    .slice()
-    .sort((a, b) => Math.abs(b.score - 4) - Math.abs(a.score - 4))[0]
+  const hasActorLens = Boolean(result.cardTypeScores.actorLens)
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
 
   return (
@@ -75,58 +73,9 @@ export function ModuleResultView({
         <section className="result-section stack-md">
           <p className="eyebrow">Focus-area result</p>
           <h1>{result.headline}</h1>
-          <p style={{ fontWeight: 600, maxWidth: "760px" }}>{moduleDefinition.subtitle}</p>
           <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
             {result.summary}
           </p>
-          {dominantLane ? (
-            <div className="callout stack-xs">
-              <p style={{ fontWeight: 600 }}>What pulled hardest</p>
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-                <strong>{dominantLane.label}:</strong> {dominantLane.summary}
-              </p>
-            </div>
-          ) : null}
-          {result.comparison ? (
-            <div className="callout">
-              <p style={{ fontWeight: 600, marginBottom: "8px" }}>How this differs from your Foundation</p>
-              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
-            </div>
-          ) : null}
-          {isStandard ? (
-            <div className="driver-grid">
-              {result.cardTypeRead ? (
-                <div className="driver-card stack-xs">
-                  <p className="eyebrow">Cross-lane read</p>
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                    {result.cardTypeRead.headline}
-                  </p>
-                  <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                    {result.cardTypeRead.summary}
-                  </p>
-                </div>
-              ) : null}
-              <div className="driver-card stack-xs">
-                <p className="eyebrow">Main challenge</p>
-                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                  What this result still has to answer
-                </p>
-                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                  {result.challenge}
-                </p>
-              </div>
-            </div>
-          ) : null}
-        </section>
-
-        <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Lane reads</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              The three internal lanes come first. This module is meant to read like a structured
-              issue file, not one undifferentiated basket of cases.
-            </p>
-          </div>
           <div className="profile-module-grid">
             {result.laneSummaries.map((lane) => (
               <div key={lane.key} className="explore-card stack-sm">
@@ -155,11 +104,28 @@ export function ModuleResultView({
               </div>
             ))}
           </div>
+          {result.comparison ? (
+            <div className="callout stack-xs">
+              <p style={{ fontWeight: 600 }}>How this differs from your Foundation</p>
+              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
+            </div>
+          ) : null}
+          <div className="callout stack-xs">
+            <p style={{ fontWeight: 600 }}>What this still does not settle</p>
+            <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.challenge}</p>
+          </div>
         </section>
 
-        {!isStandard && result.cardTypeRead ? (
+        {result.cardTypeRead ? (
           <section className="result-section stack-md">
-            <h2>{result.cardTypeRead.headline}</h2>
+            <div className="stack-xs">
+              <h2>{result.cardTypeRead.headline}</h2>
+              <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+                {hasActorLens
+                  ? "Actor-lens cards are tracked separately so perspective-modeling does not overwrite your own issue read."
+                  : "How the module changes when the question shifts from diagnosis to choice."}
+              </p>
+            </div>
             <p className="result-prose" style={{ lineHeight: "1.7" }}>
               {result.cardTypeRead.summary}
             </p>
@@ -229,7 +195,7 @@ export function ModuleResultView({
             <h2>Module profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
               Scores run from 1 to 7 inside this module. The labels below are qualitative poles,
-              not population percentiles.
+              not population percentiles{hasActorLens ? ", and the main lane read is built from Explanation and Decision cards rather than Actor lens cards." : "."}
             </p>
           </div>
 
@@ -322,8 +288,9 @@ export function ModuleResultView({
   )
 }
 
-function formatCardType(cardType: "explanation" | "decision" | "both") {
+function formatCardType(cardType: "explanation" | "decision" | "actorLens" | "both") {
   if (cardType === "explanation") return "Explanation"
   if (cardType === "decision") return "Decision"
+  if (cardType === "actorLens") return "Actor lens"
   return "Both"
 }

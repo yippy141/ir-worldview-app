@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: siteConfig.publicTitle,
   description:
-    "A prototype classification tool that maps assumptions about world politics across seven analytical dimensions from International Relations theory.",
+    "An editorial interactive about how you read world politics across the Foundation, focus-area modules, and integrated Profile.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -17,7 +17,7 @@ export default function LandingPage() {
           {/* Left: intro copy */}
           <div className="stack-md">
             <div>
-              <p className="eyebrow">A prototype classification tool</p>
+              <p className="eyebrow">Editorial interactive</p>
               <h1
                 style={{
                   fontSize: "clamp(1.9rem, 4vw, 2.8rem)",
@@ -30,15 +30,15 @@ export default function LandingPage() {
               </h1>
             </div>
             <p style={{ fontSize: "1rem", lineHeight: "1.75", color: "var(--muted)", maxWidth: "480px" }}>
-              Most people who think seriously about foreign policy hold strong working assumptions
-              about how international politics operates. The Foundation surfaces those assumptions
-              across seven dimensions drawn from the main traditions in IR theory, and the
-              focus-area modules let you test how they travel in specific issue areas.
+              Start with the Foundation to map your baseline assumptions about world politics
+              across seven dimensions. Then use the Security and Technology modules to see how that
+              baseline changes once the cases become more concrete, and bring the results together
+              in your Profile.
             </p>
             <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)", maxWidth: "480px" }}>
               <strong style={{ color: "var(--text)" }}>Not</strong> a political compass, a
-              personality test, or a validated psychometric instrument. A prototype. Results are a
-              starting point, not a verdict.
+              personality test, or a validated psychometric instrument. This is a public-facing
+              interpretation tool: useful as a starting point, not a verdict.
             </p>
           </div>
 
@@ -48,7 +48,7 @@ export default function LandingPage() {
             <Link href="/explore" className="menu-card">
               <p className="menu-card-title">Explore the perspectives</p>
               <p className="menu-card-desc">
-                A field guide to the four worldview families the inventory draws on.
+                A field guide to the modeled traditions, nearby profile patterns, and coverage gaps.
               </p>
             </Link>
             <Link href="/profile" className="menu-card">
@@ -66,7 +66,7 @@ export default function LandingPage() {
             <Link href="/method" className="menu-card">
               <p className="menu-card-title">How it works</p>
               <p className="menu-card-desc">
-                Methodology, scoring, dimensions, and important limitations.
+                Foundation, focus-area modules, Profile architecture, scoring, and limitations.
               </p>
             </Link>
             <Link href="/references" className="menu-card">
@@ -86,8 +86,8 @@ export default function LandingPage() {
         <div style={{ maxWidth: "560px" }} className="stack-sm">
           <p className="eyebrow">About this project</p>
           <p className="muted" style={{ lineHeight: "1.7", fontSize: "0.9rem" }}>
-            The {siteConfig.publicTitle} is a prototype built by {siteConfig.author}, aimed at
-            students, researchers, practitioners, and engaged readers curious about the
+            The {siteConfig.publicTitle} is an editorial interactive built by {siteConfig.author},
+            aimed at students, researchers, practitioners, and engaged readers curious about the
             theoretical priors behind their foreign policy instincts. For its limitations, see the{" "}
             <Link href="/method" style={{ color: "var(--accent)" }}>Methods</Link> page.
           </p>

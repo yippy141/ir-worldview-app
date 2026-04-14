@@ -149,6 +149,11 @@ const profile: ProfileStore = {
           governance: 4.1,
           safety: 4.4,
         },
+        actorLens: {
+          control: 5.7,
+          governance: 4.8,
+          safety: 4.2,
+        },
         decision: {
           control: 5.1,
           governance: 5,
@@ -174,6 +179,7 @@ test("shared profile payloads roundtrip and reconstruct a stable integrated prof
   )
   assert.equal(resolved.profile.modules.security?.laneSummaries[0]?.key, "deterrence")
   assert.equal(resolved.profile.modules.technology?.laneSummaries[0]?.key, "controls")
+  assert.equal(resolved.profile.modules.technology?.cardTypeScores?.actorLens?.control, 5.7)
 })
 
 test("shared profile inputs can be normalized from raw payloads, paths, and full URLs", () => {

@@ -19,9 +19,9 @@ export default function ExplorePage() {
         <h1>Explore the perspectives</h1>
         <p className="muted" style={{ lineHeight: "1.7", fontSize: "1.05rem", maxWidth: "560px" }}>
           International Relations theory is not a single political spectrum. The traditions below
-          disagree about what drives world politics, what evidence is most relevant, and what kinds
-          of arguments are most persuasive. This is a field guide to the current model, not an
-          endorsement of any one view or a claim that people fit perfectly into rigid boxes.
+          disagree about what drives world politics, what evidence matters most, and what kinds of
+          arguments carry the most weight. This page is a field guide to the current Foundation,
+          module, and Profile model, not a claim that people fit perfectly into rigid boxes.
         </p>
       </div>
 
@@ -31,8 +31,8 @@ export default function ExplorePage() {
         <h2>Atlas</h2>
         <p style={{ lineHeight: "1.7" }}>
           The inventory runs on continuous dimensions. The Atlas is a browse map of recurring
-          profile patterns in the current model: nearby combinations, not a rarity chart or a live
-          user distribution.
+          profile patterns in the current model: nearby combinations from the Foundation-plus-Profile
+          architecture, not a rarity chart or a live user distribution.
         </p>
         <p>
           <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
@@ -119,8 +119,9 @@ export default function ExplorePage() {
       <div className="article-section stack-md">
         <h2>Traditions modeled in the Foundation</h2>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          These four traditions are classified by the inventory. Each page explains what the
-          tradition emphasizes, what it misses, and how well the current Foundation models it.
+          These four traditions are the ones the Foundation scores directly. Each page explains
+          what the tradition emphasizes, what it misses, and how the rest of the product builds on
+          that baseline rather than replacing it.
         </p>
         <div className="explore-grid">
           {exploreFamilies.map((family) => (

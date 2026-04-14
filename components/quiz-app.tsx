@@ -704,6 +704,7 @@ function modeLabel(mode: QuizMode) {
 function cardTypeLabel(cardType: Question extends { cardType: infer T } ? T : never) {
   if (cardType === "explanation") return "Explanation"
   if (cardType === "decision") return "Decision"
+  if (cardType === "actorLens") return "Actor lens"
   return "Both"
 }
 
@@ -714,6 +715,10 @@ function choiceInstructionCopy(question: Extract<Question, { kind: "tradeoff" | 
 
   if (question.cardType === "decision") {
     return "Answer from your own analytic judgment. Choose the consideration that should carry the most weight in the case."
+  }
+
+  if (question.cardType === "actorLens") {
+    return "Answer from your own analytic judgment. Choose the logic that would look strongest from that actor's own strategic position, not the policy you personally prefer."
   }
 
   return "Answer from your own analytic judgment. Choose the option you find most persuasive overall."

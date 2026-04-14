@@ -105,6 +105,30 @@ test("analyst second choice contributes at reduced weight", () => {
   assert.equal(scores.alliance, Number(expectedAlliance.toFixed(2)))
 })
 
+test("actor lens cards are scored separately from the main module read", () => {
+  const moduleDefinition = modules.find((module) => module.slug === "security")
+  assert.ok(moduleDefinition, "expected security module to exist")
+
+  const standardQuestions = getModuleQuestions(moduleDefinition, "standard")
+  const targetQuestion = standardQuestions.find((question) => question.id === "middle_power_alignment")
+  assert.ok(targetQuestion, "expected standard actor-lens question to exist")
+
+  const answers: ModuleAnswers = {
+    middle_power_alignment: {
+      primary: targetQuestion.options[2].id,
+    },
+  }
+
+  const scores = scoreModule(moduleDefinition, "standard", answers)
+  const result = buildModuleResult(moduleDefinition, "standard", answers)
+
+  assert.equal(scores.alliance, 4)
+  assert.equal(
+    result.cardTypeScores.actorLens?.alliance,
+    targetQuestion.options[2].signals.alliance,
+  )
+})
+
 test("full modules satisfy the perspective coverage audit", () => {
   for (const moduleDefinition of modules) {
     assert.equal(
