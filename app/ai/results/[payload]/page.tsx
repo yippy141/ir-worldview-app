@@ -6,7 +6,11 @@ import {
   buildAiGovernanceSummary,
   getAxisCards,
 } from "@/lib/ai-governance-results"
-import { buildAiGovernanceResultFromSharePayload } from "@/lib/ai-governance-results-v2"
+import {
+  buildAiGovernanceResultFromSharePayload,
+  getClarityLabel,
+  getHybridLabel,
+} from "@/lib/ai-governance-results-v2"
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import type { Metadata } from "next"
@@ -54,6 +58,8 @@ export default async function AiResultPage(
   const summary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
   const axisCards = getAxisCards(axisScores)
   const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
+  const clarityLabel = getClarityLabel(profileResult.clarity)
+  const hybridLabel = getHybridLabel(profileResult)
 
   return (
     <div className="wide-container">
@@ -62,20 +68,60 @@ export default async function AiResultPage(
         {/* ── 1. Hero ── */}
         <div className="result-hero">
           <div className="result-hero-rule" />
-          <p className="eyebrow">AI Governance Compass</p>
-          <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "12px" }}>
-            {archetypeLabel}
-          </h1>
+          <div
+            style={{
+              display: "grid",
+              gap: "24px",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+              alignItems: "start",
+            }}
+          >
+            <div>
+              <p className="eyebrow">AI Governance Compass</p>
+              <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "12px" }}>
+                {archetypeLabel}
+              </h1>
 
-          <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
-            <ModifierChip label={decoded.rl} />
-            <ModifierChip label={decoded.pm} />
-            <ModifierChip label={decoded.gm} />
+              <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
+                <ModifierChip label={decoded.rl} />
+                <ModifierChip label={decoded.pm} />
+                <ModifierChip label={decoded.gm} />
+              </div>
+
+              <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", margin: 0 }}>
+                {summary}
+              </p>
+            </div>
+
+            <div className="callout stack-xs" style={{ maxWidth: "320px" }}>
+              <p className="eyebrow">Profile clarity</p>
+              <div>
+                <p
+                  style={{
+                    fontSize: "2rem",
+                    lineHeight: "1",
+                    fontWeight: 700,
+                    margin: 0,
+                    color: "var(--text)",
+                  }}
+                >
+                  {profileResult.clarity} / 100
+                </p>
+                <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.6", margin: "8px 0 0" }}>
+                  {clarityLabel}
+                </p>
+              </div>
+              {hybridLabel ? (
+                <div>
+                  <p className="eyebrow" style={{ marginBottom: "6px" }}>Hybrid signal</p>
+                  <p style={{ margin: 0, lineHeight: "1.6" }}>{hybridLabel}</p>
+                </div>
+              ) : null}
+              <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.65", margin: 0 }}>
+                A higher score means your top archetype pulled more clearly ahead. Lower clarity means the result should be read as a more mixed profile.
+              </p>
+            </div>
           </div>
-
-          <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px" }}>
-            {summary}
-          </p>
         </div>
 
         {/* ── 2. Explanation ── */}
