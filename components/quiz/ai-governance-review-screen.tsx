@@ -106,8 +106,7 @@ export function AiGovernanceReviewScreen() {
         <p className="eyebrow">AI Governance Compass</p>
         <h1>Review your answers</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Review the full inventory before generating your governance profile. All processing
-          stays in your browser.
+          Edit any answer before you generate. All processing stays in your browser.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
           {answeredCount} of {questions.length} questions answered

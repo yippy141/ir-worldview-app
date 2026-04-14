@@ -5,7 +5,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "AI Governance Compass",
   description:
-    "Map how you think about AI safety, governance, and the future. A prototype profile for reflection, not a validated psychometric diagnosis.",
+    "Position statements and branching scenarios map where you stand across eight AI governance dimensions. The result is a structured interpretation, not a validated instrument.",
 }
 
 export default function AiPage() {

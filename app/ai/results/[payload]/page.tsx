@@ -120,8 +120,8 @@ export default async function AiResultPage(
             <div className="stack-xs">
               <h2>Internal tensions</h2>
               <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-                These are places where your scores pull in directions that are coherent but require
-                deliberate resolution in practice.
+                Where two of your positions point in different directions. Each is individually
+                coherent, but combining them raises a genuine policy design problem.
               </p>
             </div>
             <div className="stack-sm">
@@ -159,11 +159,9 @@ export default async function AiResultPage(
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this profile</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              This is a prototype compass for structured reflection, not a validated psychometric
-              instrument. Archetype labels are shorthand summaries of a multidimensional axis
-              profile. Scores are positions inside this model and are not population percentiles.
-              The inventory covers a curated subset of AI governance debates and does not claim
-              exhaustive coverage.
+              Archetype labels are shorthand summaries, not verdicts. Scores measure positions
+              inside this model and are not population percentiles. This is an early-stage
+              inventory covering a defined set of AI governance debates — not the full field.
             </p>
           </div>
 

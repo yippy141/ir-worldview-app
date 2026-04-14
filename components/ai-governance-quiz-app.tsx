@@ -128,10 +128,6 @@ export function AiGovernanceQuizApp() {
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
             <h1>Map how you think about AI safety, governance, and the future</h1>
           </div>
-          <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-            This inventory combines core worldview questions with branching AI governance scenarios.
-            The result is a prototype profile for reflection, not a validated psychometric diagnosis.
-          </p>
         </div>
 
         <div className="stack-xs">
@@ -315,8 +311,9 @@ function StartGate({
           <p className="eyebrow">AI Governance Compass</p>
           <h1>Map how you think about AI safety, governance, and the future</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            This inventory combines core worldview questions with branching AI governance scenarios.
-            The result is a prototype profile for reflection, not a validated psychometric diagnosis.
+            Position statements and branching scenarios map where you stand across eight AI
+            governance dimensions. The result is a structured interpretation — not a personality
+            profile or a validated instrument.
           </p>
         </div>
 
