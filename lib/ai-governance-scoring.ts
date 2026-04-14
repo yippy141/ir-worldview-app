@@ -229,15 +229,22 @@ function computeClarity(archetypeScores: Record<AiArchetypeKey, number>): number
   return Math.max(55, Math.min(95, Math.round(60 + gap * 8)))
 }
 
+export function getNeighboringArchetypeKey(
+  archetypeKey: AiArchetypeKey,
+  archetypeScores: Record<AiArchetypeKey, number>,
+): AiArchetypeKey {
+  const ordered = (Object.entries(archetypeScores) as Array<[AiArchetypeKey, number]>).sort(
+    (a, b) => b[1] - a[1],
+  )
+  const runnerUp = ordered.find(([key]) => key !== archetypeKey)
+  return runnerUp ? runnerUp[0] : archetypeKey
+}
+
 function getNeighboringArchetype(
   archetypeKey: AiArchetypeKey,
   archetypeScores: Record<AiArchetypeKey, number>,
 ): string {
-  const ordered = Object.entries(archetypeScores).sort((a, b) => b[1] - a[1]) as Array<
-    [AiArchetypeKey, number]
-  >
-  const runnerUp = ordered.find(([key]) => key !== archetypeKey)
-  return runnerUp ? archetypeLabels[runnerUp[0]] : archetypeLabels[archetypeKey]
+  return archetypeLabels[getNeighboringArchetypeKey(archetypeKey, archetypeScores)]
 }
 
 export function generateAiGovernanceResult(answers: AiAnswers): AiResult {

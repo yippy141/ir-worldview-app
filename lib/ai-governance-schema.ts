@@ -4,6 +4,7 @@ import {
 } from "./ai-governance-types"
 
 export const AI_GOVERNANCE_SCHEMA_VERSION = 1
+export const AI_GOVERNANCE_STORAGE_KEY = "ai-governance-answers-v1"
 export const aiLikertScale = [1, 2, 3, 4, 5, 6, 7] as const
 
 export const aiAxisLabels = {

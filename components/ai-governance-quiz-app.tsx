@@ -2,11 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { aiCoreQuestions, aiLikertScale } from "@/lib/ai-governance-schema"
+import { AI_GOVERNANCE_STORAGE_KEY, aiCoreQuestions, aiLikertScale } from "@/lib/ai-governance-schema"
 import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
 import type { AiAnswers, AiClarification, AiQuestion } from "@/lib/ai-governance-types"
-
-const AI_STORAGE_KEY = "ai-governance-answers-v1"
 
 type AiQuizState = {
   started: boolean
@@ -32,7 +30,7 @@ export function AiGovernanceQuizApp() {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    const raw = window.localStorage.getItem(AI_STORAGE_KEY)
+    const raw = window.localStorage.getItem(AI_GOVERNANCE_STORAGE_KEY)
     const timeout = window.setTimeout(() => {
       if (raw) {
         try {
@@ -41,7 +39,7 @@ export function AiGovernanceQuizApp() {
             setState(parsed as AiQuizState)
           }
         } catch {
-          window.localStorage.removeItem(AI_STORAGE_KEY)
+          window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
         }
       }
       setReady(true)
@@ -51,7 +49,7 @@ export function AiGovernanceQuizApp() {
 
   useEffect(() => {
     if (!ready) return
-    window.localStorage.setItem(AI_STORAGE_KEY, JSON.stringify(state))
+    window.localStorage.setItem(AI_GOVERNANCE_STORAGE_KEY, JSON.stringify(state))
   }, [ready, state])
 
   const questions: AiQuestion[] = useMemo(() => {
@@ -92,7 +90,7 @@ export function AiGovernanceQuizApp() {
     setState(createEmptyState())
     setCurrentIndex(0)
     setSupportOpen(false)
-    window.localStorage.removeItem(AI_STORAGE_KEY)
+    window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
   }
 
   if (!ready) {
