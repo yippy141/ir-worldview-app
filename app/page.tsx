@@ -81,6 +81,36 @@ export default function LandingPage() {
 
       <hr className="divider" style={{ margin: "0" }} />
 
+      {/* AI Governance Compass */}
+      <section className="landing-section">
+        <div style={{ maxWidth: "600px" }} className="stack-md">
+          <div>
+            <p className="eyebrow">Companion module</p>
+            <h2
+              style={{
+                fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)",
+                letterSpacing: "-0.02em",
+                marginTop: "8px",
+                lineHeight: "1.2",
+              }}
+            >
+              AI Governance Compass
+            </h2>
+          </div>
+          <p style={{ fontSize: "0.975rem", lineHeight: "1.75", color: "var(--muted)" }}>
+            A branching inventory of how you think about AI safety, governance, geopolitical
+            rivalry, openness, military use, and the future of human agency.
+          </p>
+          <div>
+            <Link href="/ai" className="cta-primary">
+              Take the AI module →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <hr className="divider" style={{ margin: "0" }} />
+
       {/* About / byline */}
       <section className="landing-section">
         <div style={{ maxWidth: "560px" }} className="stack-sm">
