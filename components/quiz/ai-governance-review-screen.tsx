@@ -182,7 +182,7 @@ export function AiGovernanceReviewScreen() {
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-          The profile is computed when you click "Generate." No data leaves your browser.
+          The profile is computed when you click &ldquo;Generate.&rdquo; No data leaves your browser.
         </p>
       </section>
     </div>
