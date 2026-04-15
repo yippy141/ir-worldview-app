@@ -18,7 +18,7 @@ export function AiGovernanceReadingListSection({
         </p>
       </div>
 
-      <div className="stack-md">
+      <div>
         <ReadingBucket
           heading="Start here"
           subheading="Foundational framings that map the governance debate regardless of where you sit in it."
@@ -57,9 +57,9 @@ function ReadingBucket({
   entries: ReadingEntry[]
 }) {
   return (
-    <div className="stack-sm">
+    <div className="ai-reading-bucket stack-md" style={{ paddingBottom: "28px" }}>
       <div className="stack-xs">
-        <h3 style={{ fontSize: "1rem", fontWeight: 700, margin: 0 }}>{heading}</h3>
+        <h3 style={{ fontSize: "0.9rem", fontWeight: 700, margin: 0, letterSpacing: "0.01em" }}>{heading}</h3>
         <p className="muted" style={{ fontSize: "0.825rem", lineHeight: "1.55", margin: 0 }}>
           {subheading}
         </p>

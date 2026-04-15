@@ -2079,6 +2079,128 @@ h3 {
   }
 }
 
+/* ── AI Governance Compass — visual system polish ────────────────────────────
+   All classes here are prefixed .ai- and do not affect IR routes.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Hero rule: shorter, bolder, policy-doc weight */
+.ai-hero-rule {
+  height: 4px;
+  width: 48px;
+  border-radius: 2px;
+  margin-bottom: 36px;
+  background: var(--accent);
+}
+
+/* Modifier chips: policy-doc style — no pill radius, clean border */
+.ai-modifier-chip {
+  display: inline-block;
+  padding: 3px 9px;
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--muted);
+  background: var(--panel-2);
+  white-space: nowrap;
+}
+
+/* Wider card padding for AI result cards */
+.ai-result-lead-card,
+.ai-result-card {
+  padding: 24px 28px;
+}
+
+/* Reading list bucket — border separator between consecutive buckets */
+.ai-reading-bucket + .ai-reading-bucket {
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+/* Mode pill — sharper for AI quiz */
+.ai-mode-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  background: var(--panel-2);
+  border-radius: 3px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Axis profile bar: taller, slightly more contrast */
+.ai-score-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.ai-score-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+
+/* Axis row: slightly more breathing room than dim-row */
+.ai-dim-row {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ai-dim-row:last-child {
+  border-bottom: none;
+}
+
+/* Hero summary text */
+.ai-hero-summary {
+  font-size: 1.05rem;
+  line-height: 1.78;
+  max-width: 680px;
+  margin: 0;
+  color: var(--text);
+}
+
+/* Hero eyebrow: slightly spaced for AI */
+.ai-hero-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+  margin: 0 0 14px;
+}
+
+/* Hero h1: editorial weight */
+.ai-hero-h1 {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  margin: 0 0 16px;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+@media (max-width: 720px) {
+  .ai-result-lead-card,
+  .ai-result-card {
+    padding: 18px 20px;
+  }
+
+  .ai-hero-h1 {
+    font-size: 1.75rem;
+  }
+}
+
 @media (min-width: 721px) and (max-width: 980px) {
   .ai-result-overview,
   .ai-result-critique-grid {

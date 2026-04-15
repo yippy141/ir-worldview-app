@@ -184,8 +184,8 @@ export function AiGovernanceQuizApp() {
         <div className="stack-sm">
           <div className="row gap-sm" style={{ alignItems: "center" }}>
             <p className="eyebrow">AI Governance Compass</p>
-            <span className="mode-pill">
-              {state.mode === "analyst" ? "Deep-dive mode" : "Standard mode"}
+            <span className="ai-mode-pill">
+              {state.mode === "analyst" ? "Deep-dive" : "Standard"}
             </span>
           </div>
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
