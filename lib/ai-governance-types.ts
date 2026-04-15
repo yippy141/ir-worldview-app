@@ -54,10 +54,28 @@ export type AiScenarioQuestion = {
   options: AiScenarioOption[]
   /** Analyst-mode options (4 scored choices). When present, replaces options in analyst mode. */
   analystOptions?: AiScenarioOption[]
+  /** When true, analyst mode shows an optional backup-choice selector on this scenario. */
+  allowBackupChoiceInAnalyst?: boolean
 }
 
 export type AiQuestion = AiLikertQuestion | AiScenarioQuestion
-export type AiAnswers = Record<string, number | "A" | "B" | "C" | "D" | undefined>
+export type AiRankedChoiceAnswer = {
+  primary: "A" | "B" | "C" | "D"
+  secondary?: "A" | "B" | "C" | "D"
+}
+
+export function isAiRankedChoiceAnswer(value: unknown): value is AiRankedChoiceAnswer {
+  if (typeof value !== "object" || value === null) return false
+  const v = value as Record<string, unknown>
+  return (
+    typeof v.primary === "string" &&
+    ["A", "B", "C", "D"].includes(v.primary) &&
+    (v.secondary === undefined ||
+      (typeof v.secondary === "string" && ["A", "B", "C", "D"].includes(v.secondary)))
+  )
+}
+
+export type AiAnswers = Record<string, number | "A" | "B" | "C" | "D" | AiRankedChoiceAnswer | undefined>
 export type AiAxisScores = Record<AiAxisKey, number>
 
 export type AiArchetypeKey =

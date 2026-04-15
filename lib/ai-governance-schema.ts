@@ -310,6 +310,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "capabilityThreshold",
     kind: "scenario",
     cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
     prompt:
       "A leading lab says a new model may have crossed an internal threshold for dangerous cyber capability. What should happen first?",
     analystPrompt:
@@ -479,6 +480,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "openWeights",
     kind: "scenario",
     cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
     prompt:
       "When frontier models become more capable, which release approach seems best?",
     helpText:
@@ -564,6 +566,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "militaryIntegration",
     kind: "scenario",
     cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
     prompt: "How should frontier AI be used in national defense?",
     helpText:
       "Bounded defense use means tightly scoped applications — like logistics or information triage — where human authority over final decisions is preserved and the mission set is clearly restricted.",
@@ -647,6 +650,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "multilateralVerification",
     kind: "scenario",
     cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
     prompt:
       "If countries try to coordinate on frontier AI safeguards, what matters most?",
     helpText:

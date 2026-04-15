@@ -6,6 +6,7 @@ import { AI_GOVERNANCE_STORAGE_KEY, getAiCoreQuestions, getScenarioOptions } fro
 import { generateAiGovernanceResult, getAiScenarioSequence, getNeighboringArchetypeKey } from "@/lib/ai-governance-scoring"
 import { encodeAiPayload, aiAxisScoresToArray } from "@/lib/ai-governance-share"
 import type { AiAnswers, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
+import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 
 type AiQuizState = {
   started: boolean
@@ -247,7 +248,7 @@ const likertLabels: Record<number, string> = {
 
 function formatAnswer(
   question: AiQuestion,
-  answer: number | "A" | "B" | "C" | "D" | undefined,
+  answer: AiAnswers[string],
   mode: AiQuizMode,
 ): string {
   if (answer === undefined) return "—"
@@ -255,6 +256,16 @@ function formatAnswer(
   if (question.kind === "likert") {
     const n = answer as number
     return `${n} — ${likertLabels[n] ?? ""}`
+  }
+
+  if (isAiRankedChoiceAnswer(answer)) {
+    const options = getScenarioOptions(question, mode)
+    const primary = options.find((o) => o.id === answer.primary)
+    const primaryLabel = primary ? primary.label : String(answer.primary)
+    if (!answer.secondary) return primaryLabel
+    const secondary = options.find((o) => o.id === answer.secondary)
+    const secondaryLabel = secondary ? secondary.label : String(answer.secondary)
+    return `${primaryLabel} (backup: ${secondaryLabel})`
   }
 
   const option = getScenarioOptions(question, mode).find((o) => o.id === answer)

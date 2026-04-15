@@ -16,6 +16,7 @@ import {
   AiResult,
   AiScenarioQuestion,
   GeopoliticsModifier,
+  isAiRankedChoiceAnswer,
   PaceModifier,
   RiskLens,
 } from "./ai-governance-types"
@@ -146,6 +147,19 @@ export function computeAiCoreAxisScores(
   }, {} as AiAxisScores)
 }
 
+export const AI_BACKUP_CHOICE_WEIGHT = 0.45
+
+/** Extracts the primary choice ID from an answer, handling ranked answers. */
+function getPrimaryChoiceId(
+  answer: AiAnswers[string],
+): "A" | "B" | "C" | "D" | undefined {
+  if (isAiRankedChoiceAnswer(answer)) return answer.primary
+  if (typeof answer === "string" && ["A", "B", "C", "D"].includes(answer)) {
+    return answer as "A" | "B" | "C" | "D"
+  }
+  return undefined
+}
+
 export function getAiScenarioSequence(answers: AiAnswers): AiScenarioQuestion[] {
   const sequence: AiScenarioQuestion[] = []
   const seen = new Set<string>()
@@ -158,10 +172,11 @@ export function getAiScenarioSequence(answers: AiAnswers): AiScenarioQuestion[] 
     sequence.push(scenario)
     seen.add(scenarioId)
 
-    const choice = answers[scenarioId]
-    if (!choice || typeof choice === "number") return
+    const rawAnswer = answers[scenarioId]
+    const primaryId = getPrimaryChoiceId(rawAnswer)
+    if (!primaryId) return
 
-    const chosenOption = scenario.options.find((option) => option.id === choice)
+    const chosenOption = scenario.options.find((option) => option.id === primaryId)
     if (chosenOption?.followUpId) {
       addScenario(chosenOption.followUpId)
     }
@@ -180,18 +195,34 @@ function applyScenarioWeights(
   mode?: AiQuizMode,
 ): AiAxisScores {
   const adjustedScores: AiAxisScores = { ...baseScores }
+  const effectiveMode = mode ?? "standard"
 
   for (const scenario of getAiScenarioSequence(answers)) {
-    const choice = answers[scenario.id]
-    if (!choice || typeof choice === "number") continue
+    const rawAnswer = answers[scenario.id]
+    const options = getScenarioOptions(scenario, effectiveMode)
 
-    const option = getScenarioOptions(scenario, mode ?? "standard").find(
-      (candidate) => candidate.id === choice,
-    )
-    if (!option) continue
+    const primaryId = getPrimaryChoiceId(rawAnswer)
+    if (!primaryId) continue
 
-    for (const [axis, weight] of Object.entries(option.weights) as Array<[AiAxisKey, number]>) {
-      adjustedScores[axis] = clamp(adjustedScores[axis] + weight, 1, 7)
+    const primaryOption = options.find((candidate) => candidate.id === primaryId)
+    if (primaryOption) {
+      for (const [axis, weight] of Object.entries(primaryOption.weights) as Array<[AiAxisKey, number]>) {
+        adjustedScores[axis] = clamp(adjustedScores[axis] + weight, 1, 7)
+      }
+    }
+
+    // Apply backup choice at reduced weight (analyst mode only)
+    if (effectiveMode === "analyst" && isAiRankedChoiceAnswer(rawAnswer) && rawAnswer.secondary) {
+      const secondaryOption = options.find((candidate) => candidate.id === rawAnswer.secondary)
+      if (secondaryOption) {
+        for (const [axis, weight] of Object.entries(secondaryOption.weights) as Array<[AiAxisKey, number]>) {
+          adjustedScores[axis] = clamp(
+            adjustedScores[axis] + weight * AI_BACKUP_CHOICE_WEIGHT,
+            1,
+            7,
+          )
+        }
+      }
     }
   }
 

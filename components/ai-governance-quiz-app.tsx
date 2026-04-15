@@ -11,7 +11,8 @@ import {
   getScenarioPrompt,
 } from "@/lib/ai-governance-schema"
 import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
-import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
+import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode, AiRankedChoiceAnswer } from "@/lib/ai-governance-types"
+import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { AiGlossaryDrawer } from "@/components/quiz/ai-glossary-drawer"
 
 type AiQuizState = {
@@ -91,10 +92,37 @@ export function AiGovernanceQuizApp() {
   }
 
   function setAnswer(questionId: string, value: number | "A" | "B" | "C" | "D") {
-    setState((prev) => ({
-      ...prev,
-      answers: { ...prev.answers, [questionId]: value },
-    }))
+    setState((prev) => {
+      const existing = prev.answers[questionId]
+      // Preserve secondary if re-selecting primary on a ranked question
+      const secondary =
+        isAiRankedChoiceAnswer(existing) && existing.secondary !== value
+          ? existing.secondary
+          : undefined
+      const newValue: AiAnswers[string] =
+        typeof value === "number"
+          ? value
+          : secondary !== undefined
+            ? { primary: value, secondary }
+            : value
+      return { ...prev, answers: { ...prev.answers, [questionId]: newValue } }
+    })
+  }
+
+  function setBackupChoice(questionId: string, value: "A" | "B" | "C" | "D" | undefined) {
+    setState((prev) => {
+      const existing = prev.answers[questionId]
+      const primaryId = isAiRankedChoiceAnswer(existing)
+        ? existing.primary
+        : typeof existing === "string" && ["A", "B", "C", "D"].includes(existing as string)
+          ? (existing as "A" | "B" | "C" | "D")
+          : undefined
+      if (!primaryId) return prev
+      const newValue: AiRankedChoiceAnswer = value !== undefined
+        ? { primary: primaryId, secondary: value }
+        : { primary: primaryId }
+      return { ...prev, answers: { ...prev.answers, [questionId]: newValue } }
+    })
   }
 
   function goBack() {
@@ -273,23 +301,76 @@ export function AiGovernanceQuizApp() {
             </div>
           ) : (
             <div className="stack-sm">
-              {getScenarioOptions(currentQuestion, state.mode).map((option, optionIndex) => {
-                const selected = state.answers[currentQuestion.id] === option.id
+              {(() => {
+                const rawAnswer = state.answers[currentQuestion.id]
+                const primaryId = isAiRankedChoiceAnswer(rawAnswer)
+                  ? rawAnswer.primary
+                  : typeof rawAnswer === "string"
+                    ? (rawAnswer as "A" | "B" | "C" | "D")
+                    : undefined
+                const secondaryId = isAiRankedChoiceAnswer(rawAnswer) ? rawAnswer.secondary : undefined
+                const scenarioOptions = getScenarioOptions(currentQuestion, state.mode)
+                const showBackup =
+                  state.mode === "analyst" &&
+                  currentQuestion.kind === "scenario" &&
+                  currentQuestion.allowBackupChoiceInAnalyst === true &&
+                  primaryId !== undefined
+
                 return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={selected ? "option-card selected" : "option-card"}
-                    onClick={() => setAnswer(currentQuestion.id, option.id)}
-                    aria-pressed={selected}
-                  >
-                    <span className="option-badge">{optionIndex + 1}</span>
-                    <span className="option-card-content">
-                      <span className="option-card-text">{option.label}</span>
-                    </span>
-                  </button>
+                  <>
+                    <div className="stack-sm">
+                      {scenarioOptions.map((option, optionIndex) => {
+                        const selected = option.id === primaryId
+                        return (
+                          <button
+                            key={option.id}
+                            type="button"
+                            className={selected ? "option-card selected" : "option-card"}
+                            onClick={() => setAnswer(currentQuestion.id, option.id)}
+                            aria-pressed={selected}
+                          >
+                            <span className="option-badge">{optionIndex + 1}</span>
+                            <span className="option-card-content">
+                              <span className="option-card-text">{option.label}</span>
+                            </span>
+                          </button>
+                        )
+                      })}
+                    </div>
+
+                    {showBackup ? (
+                      <div className="stack-xs" style={{ marginTop: "8px" }}>
+                        <p className="muted" style={{ fontSize: "0.8rem" }}>
+                          Optional: which would be your backup choice?
+                        </p>
+                        <div className="module-secondary-grid">
+                          {scenarioOptions
+                            .filter((option) => option.id !== primaryId)
+                            .map((option) => {
+                              const isSecondary = option.id === secondaryId
+                              return (
+                                <button
+                                  key={option.id}
+                                  type="button"
+                                  className={isSecondary ? "secondary-choice-button selected" : "secondary-choice-button"}
+                                  aria-pressed={isSecondary}
+                                  onClick={() =>
+                                    setBackupChoice(
+                                      currentQuestion.id,
+                                      isSecondary ? undefined : option.id,
+                                    )
+                                  }
+                                >
+                                  {option.label}
+                                </button>
+                              )
+                            })}
+                        </div>
+                      </div>
+                    ) : null}
+                  </>
                 )
-              })}
+              })()}
             </div>
           )}
 
