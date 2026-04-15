@@ -13,6 +13,7 @@ import {
 } from "@/lib/ai-governance-results-v2"
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
+import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -161,7 +162,10 @@ export default async function AiResultPage(
 
         <AiGovernanceProfileSections result={profileResult} />
 
-        {/* ── 4. Methods note + share ── */}
+        {/* ── 4. Reading list ── */}
+        <AiGovernanceReadingListSection archetypeKey={decoded.ak} />
+
+        {/* ── 5. Methods note + share ── */}
         <div className="result-section stack-md">
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this profile</p>
