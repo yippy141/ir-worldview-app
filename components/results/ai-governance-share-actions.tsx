@@ -27,14 +27,14 @@ export function AiGovernanceShareActions({
     () => false,
   )
 
-  const shareUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/ai/results/${payload}`
-      : `/ai/results/${payload}`
-
   const resultLabel = `${archetypeLabel} · ${riskLens} · ${paceModifier} · ${geopoliticsModifier}`
 
+  function getShareUrl(): string {
+    return `${window.location.origin}/ai/results/${payload}`
+  }
+
   async function handleCopy() {
+    const shareUrl = getShareUrl()
     try {
       await navigator.clipboard.writeText(shareUrl)
       setCopied(true)
@@ -52,7 +52,7 @@ export function AiGovernanceShareActions({
         await navigator.share({
           title: `AI Governance Compass: ${archetypeLabel}`,
           text: `My AI governance profile: ${resultLabel}`,
-          url: shareUrl,
+          url: getShareUrl(),
         })
       } catch {
         await handleCopy()

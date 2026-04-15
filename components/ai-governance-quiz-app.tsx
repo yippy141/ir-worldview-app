@@ -451,7 +451,7 @@ function ModeGate({
 
         <div className="stack-sm">
           <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>Choose your depth</p>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+          <div className="module-mode-grid">
             <button
               type="button"
               className={selectedMode === "standard" ? "option-card selected" : "option-card"}
