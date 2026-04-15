@@ -1,5 +1,6 @@
 import {
   AiLikertQuestion,
+  AiQuizMode,
   AiScenarioQuestion,
 } from "./ai-governance-types"
 
@@ -236,6 +237,71 @@ export const aiCoreQuestions: AiLikertQuestion[] = [
     },
   },
 ]
+
+export const aiAnalystOnlyQuestions: AiLikertQuestion[] = [
+  {
+    id: "rh3",
+    kind: "likert",
+    axis: "riskHorizon",
+    prompt:
+      "Current methods for understanding what frontier models have learned or intend to do are too limited to serve as a reliable basis for deployment decisions at the capability frontier.",
+    clarification: {
+      whatItAsks:
+        "Whether interpretability gaps are themselves a policy-relevant constraint on when deployment is justified.",
+      whatItDoesNotAsk:
+        "This is not asking whether interpretability research is valuable or promising.",
+    },
+  },
+  {
+    id: "ov3",
+    kind: "likert",
+    axis: "oversight",
+    prompt:
+      "Controlling access to large-scale training compute is a more tractable enforcement mechanism for AI governance than software restrictions, model evaluations, or usage policies alone.",
+    clarification: {
+      whatItAsks:
+        "Whether physical compute control is comparatively verifiable and harder to circumvent than other governance levers.",
+      whatItDoesNotAsk:
+        "This is not asking whether compute governance is sufficient on its own.",
+    },
+  },
+  {
+    id: "gp3",
+    kind: "likert",
+    axis: "geopolitics",
+    prompt:
+      "Meaningful AI restraint between rival powers would require some form of mutual inspection or verification regime, even if technically difficult and politically costly to negotiate.",
+    clarification: {
+      whatItAsks:
+        "Whether structural verification — not just norms or declarations — is a necessary condition for durable restraint between major powers.",
+      whatItDoesNotAsk:
+        "This is not asking whether such a regime is currently achievable or that one side should disarm unilaterally.",
+    },
+  },
+  {
+    id: "lg3",
+    kind: "likert",
+    axis: "legitimacy",
+    prompt:
+      "Standards bodies and evaluation frameworks dominated by leading AI nations or frontier labs will face persistent legitimacy deficits with countries that are more affected than represented in those processes.",
+    clarification: {
+      whatItAsks:
+        "Whether the composition of standard-setting institutions matters for whether their outputs are accepted as globally legitimate.",
+      whatItDoesNotAsk:
+        "This is not asking whether technical standards are unimportant.",
+    },
+  },
+]
+
+export function getAiCoreQuestions(mode: AiQuizMode): AiLikertQuestion[] {
+  if (mode === "analyst") return [...aiCoreQuestions, ...aiAnalystOnlyQuestions]
+  return aiCoreQuestions
+}
+
+export const aiQuestionCountsByMode = {
+  standard: aiCoreQuestions.length,
+  analyst: aiCoreQuestions.length + aiAnalystOnlyQuestions.length,
+} as const
 
 export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
   capabilityThreshold: {

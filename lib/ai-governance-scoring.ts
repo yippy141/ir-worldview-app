@@ -3,12 +3,15 @@ import {
   aiCoreQuestions,
   aiRootScenarioOrder,
   aiScenarioQuestions,
+  getAiCoreQuestions,
 } from "./ai-governance-schema"
 import {
   AiAnswers,
   AiArchetypeKey,
   AiAxisKey,
   AiAxisScores,
+  AiLikertQuestion,
+  AiQuizMode,
   AiResult,
   AiScenarioQuestion,
   GeopoliticsModifier,
@@ -113,7 +116,10 @@ export function scoreLikert(rawValue: number, reverse?: boolean): number {
   return reverse ? 8 - rawValue : rawValue
 }
 
-export function computeAiCoreAxisScores(answers: AiAnswers): AiAxisScores {
+export function computeAiCoreAxisScores(
+  answers: AiAnswers,
+  questions?: AiLikertQuestion[],
+): AiAxisScores {
   const buckets: Record<AiAxisKey, number[]> = {
     riskHorizon: [],
     deploymentPace: [],
@@ -125,7 +131,7 @@ export function computeAiCoreAxisScores(answers: AiAnswers): AiAxisScores {
     humanFuture: [],
   }
 
-  for (const question of aiCoreQuestions) {
+  for (const question of questions ?? aiCoreQuestions) {
     const raw = answers[question.id]
     if (typeof raw !== "number") continue
     buckets[question.axis].push(scoreLikert(raw, question.reverse))
@@ -247,8 +253,9 @@ function getNeighboringArchetype(
   return archetypeLabels[getNeighboringArchetypeKey(archetypeKey, archetypeScores)]
 }
 
-export function generateAiGovernanceResult(answers: AiAnswers): AiResult {
-  const coreScores = computeAiCoreAxisScores(answers)
+export function generateAiGovernanceResult(answers: AiAnswers, mode?: AiQuizMode): AiResult {
+  const coreQuestions = getAiCoreQuestions(mode ?? "standard")
+  const coreScores = computeAiCoreAxisScores(answers, coreQuestions)
   const axisScores = applyScenarioWeights(coreScores, answers)
   const archetypeScores = scoreArchetypes(axisScores)
   const orderedArchetypes = (Object.entries(archetypeScores) as Array<[AiArchetypeKey, number]>).sort(

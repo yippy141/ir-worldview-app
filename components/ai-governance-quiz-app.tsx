@@ -2,17 +2,35 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { AI_GOVERNANCE_STORAGE_KEY, aiCoreQuestions, aiLikertScale } from "@/lib/ai-governance-schema"
+import {
+  AI_GOVERNANCE_STORAGE_KEY,
+  aiLikertScale,
+  aiQuestionCountsByMode,
+  getAiCoreQuestions,
+} from "@/lib/ai-governance-schema"
 import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
-import type { AiAnswers, AiClarification, AiQuestion } from "@/lib/ai-governance-types"
+import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
 
 type AiQuizState = {
   started: boolean
+  mode: AiQuizMode
   answers: AiAnswers
 }
 
 function createEmptyState(): AiQuizState {
-  return { started: false, answers: {} }
+  return { started: false, mode: "standard", answers: {} }
+}
+
+function normalizeState(parsed: unknown): AiQuizState | null {
+  if (typeof parsed !== "object" || parsed === null || !("answers" in parsed)) return null
+  const raw = parsed as Record<string, unknown>
+  return {
+    started: Boolean(raw.started),
+    mode: raw.mode === "analyst" ? "analyst" : "standard",
+    answers: typeof raw.answers === "object" && raw.answers !== null
+      ? (raw.answers as AiAnswers)
+      : {},
+  }
 }
 
 export function AiGovernanceQuizApp() {
@@ -34,10 +52,8 @@ export function AiGovernanceQuizApp() {
     const timeout = window.setTimeout(() => {
       if (raw) {
         try {
-          const parsed = JSON.parse(raw)
-          if (parsed && typeof parsed === "object" && "answers" in parsed) {
-            setState(parsed as AiQuizState)
-          }
+          const normalized = normalizeState(JSON.parse(raw))
+          if (normalized) setState(normalized)
         } catch {
           window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
         }
@@ -54,13 +70,18 @@ export function AiGovernanceQuizApp() {
 
   const questions: AiQuestion[] = useMemo(() => {
     if (!state.started) return []
-    return [...aiCoreQuestions, ...getAiScenarioSequence(state.answers)]
-  }, [state.started, state.answers])
+    return [...getAiCoreQuestions(state.mode), ...getAiScenarioSequence(state.answers)]
+  }, [state.started, state.mode, state.answers])
 
   const effectiveIndex = Math.min(currentIndex, Math.max(0, questions.length - 1))
 
-  function start() {
-    setState((prev) => ({ ...prev, started: true }))
+  function start(mode: AiQuizMode) {
+    setState((prev) => ({
+      ...prev,
+      started: true,
+      mode,
+      answers: prev.started && prev.mode !== mode ? {} : prev.answers,
+    }))
     setCurrentIndex(0)
     setSupportOpen(false)
   }
@@ -99,7 +120,8 @@ export function AiGovernanceQuizApp() {
 
   if (!state.started) {
     return (
-      <StartGate
+      <ModeGate
+        currentMode={state.mode}
         hasDraft={Object.keys(state.answers).length > 0}
         onStart={start}
         onReset={resetQuiz}
@@ -124,7 +146,12 @@ export function AiGovernanceQuizApp() {
     <div className="stack-lg">
       <section className="panel stack-md">
         <div className="stack-sm">
-          <p className="eyebrow">AI Governance Compass</p>
+          <div className="row gap-sm" style={{ alignItems: "center" }}>
+            <p className="eyebrow">AI Governance Compass</p>
+            <span className="mode-pill">
+              {state.mode === "analyst" ? "Deep-dive mode" : "Standard mode"}
+            </span>
+          </div>
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
             <h1>Map how you think about AI safety, governance, and the future</h1>
           </div>
@@ -295,15 +322,20 @@ export function AiGovernanceQuizApp() {
   )
 }
 
-function StartGate({
+function ModeGate({
+  currentMode,
   hasDraft,
   onStart,
   onReset,
 }: {
+  currentMode: AiQuizMode
   hasDraft: boolean
-  onStart: () => void
+  onStart: (mode: AiQuizMode) => void
   onReset: () => void
 }) {
+  const [selectedMode, setSelectedMode] = useState<AiQuizMode>(currentMode)
+  const modeChanged = hasDraft && selectedMode !== currentMode
+
   return (
     <div className="stack-lg">
       <section className="panel stack-md">
@@ -317,9 +349,43 @@ function StartGate({
           </p>
         </div>
 
+        <div className="stack-sm">
+          <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>Choose your depth</p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+            <button
+              type="button"
+              className={selectedMode === "standard" ? "option-card selected" : "option-card"}
+              onClick={() => setSelectedMode("standard")}
+              aria-pressed={selectedMode === "standard"}
+              style={{ textAlign: "left" }}
+            >
+              <span className="option-card-content">
+                <span className="option-card-text" style={{ fontWeight: 600 }}>Standard</span>
+                <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
+                  {aiQuestionCountsByMode.standard} statements · {aiQuestionCountsByMode.standard + 5} questions total. Plain-language prompts covering all eight governance dimensions.
+                </span>
+              </span>
+            </button>
+            <button
+              type="button"
+              className={selectedMode === "analyst" ? "option-card selected" : "option-card"}
+              onClick={() => setSelectedMode("analyst")}
+              aria-pressed={selectedMode === "analyst"}
+              style={{ textAlign: "left" }}
+            >
+              <span className="option-card-content">
+                <span className="option-card-text" style={{ fontWeight: 600 }}>Deep-dive</span>
+                <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
+                  {aiQuestionCountsByMode.analyst} statements · {aiQuestionCountsByMode.analyst + 5} questions total. Adds technically denser questions on interpretability limits, compute governance, verification regimes, and legitimacy deficits.
+                </span>
+              </span>
+            </button>
+          </div>
+        </div>
+
         <div className="row gap-sm wrap">
-          <button type="button" className="primary-button" onClick={onStart}>
-            {hasDraft ? "Resume draft" : "Begin"}
+          <button type="button" className="primary-button" onClick={() => onStart(selectedMode)}>
+            {hasDraft && !modeChanged ? "Resume draft" : "Begin"}
           </button>
           {hasDraft ? (
             <button type="button" className="secondary-button" onClick={onReset}>
@@ -327,6 +393,11 @@ function StartGate({
             </button>
           ) : null}
         </div>
+        {modeChanged ? (
+          <p className="muted" style={{ fontSize: "0.82rem" }}>
+            Switching modes will clear your current draft.
+          </p>
+        ) : null}
       </section>
     </div>
   )

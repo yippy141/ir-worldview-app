@@ -1,3 +1,5 @@
+export type AiQuizMode = "standard" | "analyst"
+
 export type AiAxisKey =
   | "riskHorizon"
   | "deploymentPace"
