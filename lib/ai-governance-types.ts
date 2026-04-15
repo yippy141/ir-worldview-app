@@ -34,7 +34,7 @@ export type AiLikertQuestion = {
 }
 
 export type AiScenarioOption = {
-  id: "A" | "B" | "C"
+  id: "A" | "B" | "C" | "D"
   label: string
   weights: Partial<Record<AiAxisKey, number>>
   followUpId?: string
@@ -45,14 +45,19 @@ export type AiScenarioQuestion = {
   kind: "scenario"
   cardType: AiCardType
   prompt: string
+  /** Alternative prompt shown in analyst mode when the framing differs from standard. */
+  analystPrompt?: string
   helpText?: string
   actorRole?: string
   tags?: string[]
+  /** Standard-mode options (3 scored choices). */
   options: AiScenarioOption[]
+  /** Analyst-mode options (4 scored choices). When present, replaces options in analyst mode. */
+  analystOptions?: AiScenarioOption[]
 }
 
 export type AiQuestion = AiLikertQuestion | AiScenarioQuestion
-export type AiAnswers = Record<string, number | "A" | "B" | "C" | undefined>
+export type AiAnswers = Record<string, number | "A" | "B" | "C" | "D" | undefined>
 export type AiAxisScores = Record<AiAxisKey, number>
 
 export type AiArchetypeKey =

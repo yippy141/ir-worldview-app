@@ -7,6 +7,8 @@ import {
   aiLikertScale,
   aiQuestionCountsByMode,
   getAiCoreQuestions,
+  getScenarioOptions,
+  getScenarioPrompt,
 } from "@/lib/ai-governance-schema"
 import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
 import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
@@ -88,7 +90,7 @@ export function AiGovernanceQuizApp() {
     setSupportOpen(false)
   }
 
-  function setAnswer(questionId: string, value: number | "A" | "B" | "C") {
+  function setAnswer(questionId: string, value: number | "A" | "B" | "C" | "D") {
     setState((prev) => ({
       ...prev,
       answers: { ...prev.answers, [questionId]: value },
@@ -219,7 +221,11 @@ export function AiGovernanceQuizApp() {
             <p className="eyebrow">
               {questionLabel(currentQuestion)} · {effectiveIndex + 1} of {questions.length}
             </p>
-            <h2>{currentQuestion.prompt}</h2>
+            <h2>
+              {currentQuestion.kind === "scenario"
+                ? getScenarioPrompt(currentQuestion, state.mode)
+                : currentQuestion.prompt}
+            </h2>
           </div>
 
           {currentQuestion.kind === "scenario" && currentQuestion.actorRole ? (
@@ -267,7 +273,7 @@ export function AiGovernanceQuizApp() {
             </div>
           ) : (
             <div className="stack-sm">
-              {currentQuestion.options.map((option, optionIndex) => {
+              {getScenarioOptions(currentQuestion, state.mode).map((option, optionIndex) => {
                 const selected = state.answers[currentQuestion.id] === option.id
                 return (
                   <button

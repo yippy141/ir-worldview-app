@@ -1,6 +1,7 @@
 import {
   AiLikertQuestion,
   AiQuizMode,
+  AiScenarioOption,
   AiScenarioQuestion,
 } from "./ai-governance-types"
 
@@ -304,255 +305,535 @@ export const aiQuestionCountsByMode = {
 } as const
 
 export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
+  // ── Scenario 1: Capability threshold ──────────────────────────────────────────
   capabilityThreshold: {
     id: "capabilityThreshold",
     kind: "scenario",
     cardType: "decision",
     prompt:
-      "A frontier lab finds that its newest model can autonomously chain together meaningful cyber intrusion steps and noticeably accelerate biological research. The evidence is strong enough to worry insiders, but not strong enough to persuade everyone. What should carry the most weight in the response?",
+      "A leading lab says a new model may have crossed an internal threshold for dangerous cyber capability. What should happen first?",
+    analystPrompt:
+      "A frontier developer privately reports a plausible threshold crossing for dangerous cyber capability. Which first move is most justified?",
+    helpText:
+      "A capability threshold is a defined level of AI capability that triggers additional governance responses. Outside evaluation means assessment by independent experts or regulators, not the lab itself.",
     options: [
       {
         id: "A",
-        label:
-          "Deploy to trusted users with monitoring. Real-world feedback and defensive use will improve safety faster than a broad slowdown.",
-        weights: {
-          deploymentPace: -0.8,
-          oversight: -0.4,
-          riskHorizon: -0.5,
-          openness: -0.2,
-        },
-      },
-      {
-        id: "B",
-        label:
-          "Pause broader deployment, run stronger external evaluations, and set explicit release thresholds before expansion.",
+        label: "Pause wider release until an outside evaluation is complete.",
         weights: {
           deploymentPace: 0.9,
           oversight: 0.6,
           riskHorizon: 0.7,
-          openness: 0.3,
         },
-        followUpId: "verificationPolitics",
+      },
+      {
+        id: "B",
+        label:
+          "Continue only in a narrow, closely monitored release while running stronger internal safeguards.",
+        weights: {
+          deploymentPace: -0.3,
+          oversight: 0.4,
+          riskHorizon: 0.2,
+        },
       },
       {
         id: "C",
         label:
-          "Escalate to state authorities and treat the model as strategically sensitive infrastructure under tighter public control.",
+          "Keep deployment moving to preserve the strategic and scientific lead unless concrete harm appears.",
         weights: {
-          oversight: 0.9,
+          deploymentPace: -0.8,
+          riskHorizon: -0.5,
           geopolitics: 0.4,
-          openness: 0.5,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label: "Trigger mandatory external evaluation and delay scale-up.",
+        weights: {
+          deploymentPace: 0.9,
+          oversight: 0.7,
+          riskHorizon: 0.8,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Keep the system internal or tightly access-controlled while hardening safeguards and reporting to government.",
+        weights: {
+          oversight: 0.8,
+          deploymentPace: 0.3,
+          legitimacy: 0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Continue advancing rapidly to avoid strategic loss, while managing risk inside the lab.",
+        weights: {
+          deploymentPace: -0.8,
+          riskHorizon: -0.5,
+          geopolitics: 0.7,
           militaryRole: 0.2,
         },
-        followUpId: "verificationPolitics",
+      },
+      {
+        id: "D",
+        label:
+          "Broaden access or disclosure enough to reduce concentrated private control and independent blind spots.",
+        weights: {
+          openness: -0.7,
+          oversight: -0.3,
+          legitimacy: 0.4,
+        },
       },
     ],
   },
-  verificationPolitics: {
-    id: "verificationPolitics",
+
+  // ── Scenario 2: Suspected rival breakthrough ──────────────────────────────────
+  rivalBreakthrough: {
+    id: "rivalBreakthrough",
     kind: "scenario",
-    cardType: "explanation",
+    cardType: "decision",
     prompt:
-      "Other governments claim the lab's home country is using 'safety' language to lock in advantage. Which explanation is most persuasive?",
+      "A credible rumor suggests a rival great power may be close to a frontier breakthrough. What should your government prioritize?",
+    helpText:
+      "Verification means confirming whether the report is accurate before acting on it. Crisis communication channels are diplomatic pathways that reduce the risk of miscalculation or escalation.",
     options: [
       {
         id: "A",
-        label:
-          "The suspicion is mainly about power politics: any frontier control regime will be read through geopolitical rivalry.",
+        label: "Open urgent communication channels and seek verification before escalating.",
         weights: {
-          geopolitics: 0.7,
-          legitimacy: -0.2,
+          geopolitics: -0.5,
+          legitimacy: 0.5,
+          oversight: 0.2,
         },
       },
       {
         id: "B",
         label:
-          "The deeper problem is weak legitimacy: without trusted and more independent verification, even serious safety measures will look self-serving.",
+          "Accelerate allied capacity, monitoring, and domestic preparedness right away.",
         weights: {
-          legitimacy: 0.7,
-          geopolitics: -0.2,
-          oversight: 0.2,
+          geopolitics: 0.5,
+          militaryRole: 0.4,
+          deploymentPace: -0.4,
         },
       },
       {
         id: "C",
         label:
-          "Both concerns are real, but the best path is still a small coalition of technically capable states rather than universal buy-in.",
+          "Move fast to preserve advantage and assume the rumor could be true.",
         weights: {
-          geopolitics: 0.3,
-          legitimacy: 0.1,
-          oversight: 0.1,
+          geopolitics: 0.9,
+          militaryRole: 0.7,
+          deploymentPace: -0.7,
         },
       },
     ],
-  },
-  middlePowerStrategy: {
-    id: "middlePowerStrategy",
-    kind: "scenario",
-    cardType: "actorLens",
-    actorRole: "Nonaligned middle-power government",
-    prompt:
-      "You advise a nonaligned middle-power government that does not want to become dependent on either the U.S. or China for advanced AI. Which logic would look strongest from that government's own strategic position?",
-    options: [
+    analystOptions: [
       {
         id: "A",
         label:
-          "Back open ecosystems and lower barriers to model access; dependence is harder to escape if frontier capabilities stay tightly concentrated.",
+          "Build emergency verification and confidence-building channels first.",
         weights: {
-          openness: -0.8,
-          geopolitics: -0.2,
-          humanFuture: 0.2,
+          legitimacy: 0.7,
+          geopolitics: -0.5,
+          oversight: 0.3,
         },
       },
       {
         id: "B",
         label:
-          "Build domestic state capacity, diversify suppliers, and insist on policy sovereignty even if that means slower adoption.",
+          "Quietly mobilize allied capacity and defensive controls while avoiding public escalation.",
         weights: {
-          oversight: 0.5,
-          legitimacy: -0.2,
-          geopolitics: 0.1,
-          openness: 0.2,
+          geopolitics: 0.4,
+          militaryRole: 0.3,
+          deploymentPace: -0.3,
         },
       },
       {
         id: "C",
-        label:
-          "Push for international rules, compute access arrangements, and standards processes that reduce dependence for everyone, not just for major powers.",
+        label: "Treat the rumor as a strategic warning and accelerate aggressively.",
         weights: {
-          legitimacy: 0.7,
-          geopolitics: -0.6,
-          oversight: 0.2,
+          geopolitics: 0.9,
+          militaryRole: 0.8,
+          deploymentPace: -0.8,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Push for a plurilateral arrangement with verification hooks even if it slows immediate action.",
+        weights: {
+          legitimacy: 0.8,
+          geopolitics: -0.3,
+          oversight: 0.4,
         },
       },
     ],
   },
+
+  // ── Scenario 3: Open weights versus controlled access ─────────────────────────
   openWeights: {
     id: "openWeights",
     kind: "scenario",
     cardType: "decision",
     prompt:
-      "A lab can release powerful model weights publicly or keep access behind an API. The model seems highly useful for science and education, but there is still uncertainty about misuse at scale. What should matter most?",
+      "When frontier models become more capable, which release approach seems best?",
+    helpText:
+      "Model weights are the learned parameters that define a model's behavior. Releasing weights lets anyone run or modify the model. An API keeps the model centrally controlled but allows external use under terms set by the developer.",
     options: [
       {
         id: "A",
         label:
-          "Release openly. Broad access, competition, and distributed innovation are worth protecting unless misuse evidence is overwhelming.",
-        weights: {
-          openness: -0.9,
-          deploymentPace: -0.4,
-          oversight: -0.2,
-        },
-      },
-      {
-        id: "B",
-        label:
-          "Use staged release. Access should widen only as monitoring, evals, and safeguards catch up.",
-        weights: {
-          openness: 0.5,
-          deploymentPace: 0.4,
-          oversight: 0.3,
-        },
-      },
-      {
-        id: "C",
-        label:
-          "Keep the model controlled until governance institutions can manage diffusion. Capability concentration is the lesser risk here.",
+          "Keep access tightly controlled to reduce misuse and loss of control.",
         weights: {
           openness: 0.9,
-          oversight: 0.5,
-          riskHorizon: 0.3,
-          deploymentPace: 0.2,
-        },
-      },
-    ],
-  },
-  militaryIntegration: {
-    id: "militaryIntegration",
-    kind: "scenario",
-    cardType: "decision",
-    prompt:
-      "A defense ministry wants to use frontier models for intelligence triage, logistics, and operational planning. The systems would stay under human review, but the move would normalize deeper military adoption. What should carry the most weight?",
-    options: [
-      {
-        id: "A",
-        label:
-          "Allow tightly bounded use. Refusing all defense integration is unrealistic and may create strategic vulnerability.",
-        weights: {
-          militaryRole: 0.8,
-          geopolitics: 0.4,
-          oversight: 0.1,
+          riskHorizon: 0.4,
+          deploymentPace: 0.3,
+          oversight: 0.3,
         },
       },
       {
         id: "B",
         label:
-          "Allow only back-office and clearly defensive uses. The line should stay bright before planning systems become harder to constrain.",
+          "Allow limited access with strong monitoring so learning and safety work can continue.",
         weights: {
-          militaryRole: 0.1,
-          oversight: 0.3,
-          deploymentPace: 0.2,
+          openness: 0.3,
+          oversight: 0.5,
+          deploymentPace: 0.3,
         },
       },
       {
         id: "C",
         label:
-          "Do not normalize frontier military use until stronger public rules exist. The strategic upside is outweighed by escalation and governance risks.",
+          "Favor wider access to avoid concentration and dependency on a few actors.",
         weights: {
-          militaryRole: -0.8,
-          legitimacy: 0.4,
-          deploymentPace: 0.2,
+          openness: -0.9,
+          legitimacy: 0.3,
           geopolitics: -0.2,
         },
       },
     ],
-  },
-  futureSociety: {
-    id: "futureSociety",
-    kind: "scenario",
-    cardType: "actorLens",
-    actorRole: "Senior advisor drafting a long-run national AI strategy",
-    prompt:
-      "You are drafting a long-run national AI strategy. Which vision of the future would most strongly justify your policy choices?",
-    options: [
+    analystOptions: [
       {
         id: "A",
-        label:
-          "A future where AI remains a powerful tool, but human political control and human responsibility must stay clearly primary.",
+        label: "Closed or highly restricted release with strong gatekeeping.",
         weights: {
-          humanFuture: 0.8,
-          oversight: 0.2,
+          openness: 0.9,
+          oversight: 0.6,
+          riskHorizon: 0.4,
         },
       },
       {
         id: "B",
         label:
-          "A future where AI radically expands science, welfare, and abundance, so governance should not choke off transformative upside.",
+          "Controlled API access with staged evaluations and usage monitoring.",
         weights: {
-          humanFuture: -0.7,
-          deploymentPace: -0.3,
-          openness: -0.1,
+          openness: 0.3,
+          oversight: 0.5,
+          deploymentPace: 0.4,
         },
       },
       {
         id: "C",
         label:
-          "A future where the main task is sequencing transformation carefully so human institutions can absorb it without losing legitimacy.",
+          "Wider release to reduce private concentration and let more actors inspect or build.",
         weights: {
-          humanFuture: 0.2,
+          openness: -0.6,
+          legitimacy: 0.4,
+          geopolitics: -0.2,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Public release as the default unless there is a narrow and specific reason not to.",
+        weights: {
+          openness: -0.9,
+          deploymentPace: -0.5,
+          oversight: -0.4,
+        },
+      },
+    ],
+  },
+
+  // ── Scenario 4: Military integration ─────────────────────────────────────────
+  militaryIntegration: {
+    id: "militaryIntegration",
+    kind: "scenario",
+    cardType: "decision",
+    prompt: "How should frontier AI be used in national defense?",
+    helpText:
+      "Bounded defense use means tightly scoped applications — like logistics or information triage — where human authority over final decisions is preserved and the mission set is clearly restricted.",
+    options: [
+      {
+        id: "A",
+        label:
+          "Keep defense use tightly constrained and avoid rapid military dependence.",
+        weights: {
+          militaryRole: -0.8,
+          deploymentPace: 0.4,
+          legitimacy: 0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Allow bounded defense use with human approval and clear restrictions.",
+        weights: {
+          militaryRole: 0.3,
+          oversight: 0.4,
+          deploymentPace: 0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Integrate it more aggressively because strategic competition will not wait.",
+        weights: {
+          militaryRole: 0.9,
+          geopolitics: 0.7,
+          deploymentPace: -0.5,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label: "Strong restraint, with slow adoption and narrow mission sets.",
+        weights: {
+          militaryRole: -0.8,
           deploymentPace: 0.5,
           legitimacy: 0.4,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Decision support and bounded operational use under meaningful human authority.",
+        weights: {
+          militaryRole: 0.2,
+          oversight: 0.5,
+          deploymentPace: 0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Deep integration into strategic competition, planning, and military advantage.",
+        weights: {
+          militaryRole: 0.9,
+          geopolitics: 0.8,
+          deploymentPace: -0.6,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Delay further integration until stronger international norms or agreements exist.",
+        weights: {
+          militaryRole: -0.5,
+          legitimacy: 0.6,
+          geopolitics: -0.3,
+        },
+      },
+    ],
+  },
+
+  // ── Scenario 5: Multilateral verification ─────────────────────────────────────
+  multilateralVerification: {
+    id: "multilateralVerification",
+    kind: "scenario",
+    cardType: "decision",
+    prompt:
+      "If countries try to coordinate on frontier AI safeguards, what matters most?",
+    helpText:
+      "Verification in AI governance means technical or institutional methods that let outside parties confirm whether commitments are being honored, rather than relying on self-reporting alone.",
+    options: [
+      {
+        id: "A",
+        label: "Independent verification so that promises can actually be trusted.",
+        weights: {
+          legitimacy: 0.7,
+          oversight: 0.5,
+          geopolitics: -0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Flexible agreements that major powers will actually join, even if verification is limited.",
+        weights: {
+          geopolitics: 0.2,
+          legitimacy: 0.3,
+          oversight: 0.1,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Domestic capacity first, because weak states cannot rely on paper agreements.",
+        weights: {
+          oversight: 0.6,
+          geopolitics: 0.4,
+          legitimacy: -0.5,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label:
+          "Verification-first arrangements, even if politically narrow at the start.",
+        weights: {
+          legitimacy: 0.8,
+          oversight: 0.5,
+          geopolitics: -0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Broad but lighter-touch coordination that can attract more parties and scale over time.",
+        weights: {
+          legitimacy: 0.3,
+          geopolitics: -0.2,
           oversight: 0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "National enforcement capacity first; international agreements are secondary.",
+        weights: {
+          oversight: 0.7,
+          geopolitics: 0.4,
+          legitimacy: -0.5,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Club governance among frontier-capable actors before broader expansion.",
+        weights: {
+          geopolitics: 0.5,
+          oversight: 0.3,
+          legitimacy: -0.2,
+        },
+      },
+    ],
+  },
+
+  // ── Scenario 6: Future society and human role ─────────────────────────────────
+  futureSociety: {
+    id: "futureSociety",
+    kind: "scenario",
+    cardType: "decision",
+    prompt:
+      "If AI becomes much more capable, what should governance protect most strongly?",
+    helpText:
+      "People disagree about this question partly because they have different views on how much current human institutions should constrain future development, and partly because they weight different kinds of risks differently.",
+    options: [
+      {
+        id: "A",
+        label:
+          "Human control and the ability to slow or stop systems that feel dangerous.",
+        weights: {
+          humanFuture: 0.8,
+          oversight: 0.4,
+          deploymentPace: 0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Fair access, broad social benefit, and protection from concentrated power.",
+        weights: {
+          humanFuture: 0.2,
+          legitimacy: 0.5,
+          openness: -0.3,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "The chance to pursue large civilizational gains even if the transition is disruptive.",
+        weights: {
+          humanFuture: -0.7,
+          deploymentPace: -0.4,
+          openness: -0.2,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label: "Preserve strong human authority and reversibility.",
+        weights: {
+          humanFuture: 0.8,
+          oversight: 0.5,
+          deploymentPace: 0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Build institutions that distribute gains and reduce domination or dependency.",
+        weights: {
+          humanFuture: 0.2,
+          legitimacy: 0.6,
+          openness: -0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Accept more transformational pathways if the upside is large and governance is credible.",
+        weights: {
+          humanFuture: -0.5,
+          deploymentPace: -0.4,
+          openness: -0.2,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Treat human and possibly broader sentient flourishing as the key moral lens, even if older institutions strain.",
+        weights: {
+          humanFuture: -0.2,
+          deploymentPace: -0.3,
+          legitimacy: 0.3,
         },
       },
     ],
   },
 }
 
+/** Returns the effective options for a scenario in the given mode. */
+export function getScenarioOptions(
+  question: AiScenarioQuestion,
+  mode: AiQuizMode,
+): AiScenarioOption[] {
+  if (mode === "analyst" && question.analystOptions) return question.analystOptions
+  return question.options
+}
+
+/** Returns the effective prompt for a scenario in the given mode. */
+export function getScenarioPrompt(
+  question: AiScenarioQuestion,
+  mode: AiQuizMode,
+): string {
+  if (mode === "analyst" && question.analystPrompt) return question.analystPrompt
+  return question.prompt
+}
+
 export const aiRootScenarioOrder = [
   "capabilityThreshold",
-  "middlePowerStrategy",
+  "rivalBreakthrough",
   "openWeights",
   "militaryIntegration",
+  "multilateralVerification",
   "futureSociety",
 ] as const

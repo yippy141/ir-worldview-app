@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { AI_GOVERNANCE_STORAGE_KEY, aiCoreQuestions } from "@/lib/ai-governance-schema"
+import { AI_GOVERNANCE_STORAGE_KEY, getAiCoreQuestions, getScenarioOptions } from "@/lib/ai-governance-schema"
 import { generateAiGovernanceResult, getAiScenarioSequence, getNeighboringArchetypeKey } from "@/lib/ai-governance-scoring"
 import { encodeAiPayload, aiAxisScoresToArray } from "@/lib/ai-governance-share"
-import type { AiAnswers, AiQuestion } from "@/lib/ai-governance-types"
+import type { AiAnswers, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
 
 type AiQuizState = {
   started: boolean
+  mode: AiQuizMode
   answers: AiAnswers
 }
 
@@ -25,7 +26,11 @@ function loadState(): AiQuizState | null {
   try {
     const parsed = JSON.parse(raw)
     if (parsed && typeof parsed === "object" && "answers" in parsed) {
-      return parsed as AiQuizState
+      return {
+        started: Boolean(parsed.started),
+        mode: parsed.mode === "analyst" ? "analyst" : "standard",
+        answers: parsed.answers ?? {},
+      }
     }
     return null
   } catch {
@@ -44,16 +49,17 @@ export function AiGovernanceReviewScreen() {
     }
   }, [router, state])
 
+  const mode: AiQuizMode = state?.mode ?? "standard"
   const answers = state?.answers ?? {}
   const questions: AiQuestion[] = [
-    ...aiCoreQuestions,
+    ...getAiCoreQuestions(mode),
     ...getAiScenarioSequence(answers),
   ]
 
   const answerRows: AnswerRow[] = questions.map((question, index) => ({
     question,
     index,
-    answerDisplay: formatAnswer(question, answers[question.id]),
+    answerDisplay: formatAnswer(question, answers[question.id], mode),
   }))
 
   const coreRows = answerRows.filter((r) => r.question.kind === "likert")
@@ -70,7 +76,7 @@ export function AiGovernanceReviewScreen() {
     if (!isComplete) return
     setGenerating(true)
     try {
-      const result = generateAiGovernanceResult(answers)
+      const result = generateAiGovernanceResult(answers, mode)
       const nk = getNeighboringArchetypeKey(result.archetypeKey, result.archetypeScores)
       const payload = encodeAiPayload({
         v: 1,
@@ -239,7 +245,11 @@ const likertLabels: Record<number, string> = {
   7: "Strongly agree",
 }
 
-function formatAnswer(question: AiQuestion, answer: number | "A" | "B" | "C" | undefined): string {
+function formatAnswer(
+  question: AiQuestion,
+  answer: number | "A" | "B" | "C" | "D" | undefined,
+  mode: AiQuizMode,
+): string {
   if (answer === undefined) return "—"
 
   if (question.kind === "likert") {
@@ -247,7 +257,7 @@ function formatAnswer(question: AiQuestion, answer: number | "A" | "B" | "C" | u
     return `${n} — ${likertLabels[n] ?? ""}`
   }
 
-  const option = question.options.find((o) => o.id === answer)
+  const option = getScenarioOptions(question, mode).find((o) => o.id === answer)
   if (!option) return String(answer)
   return option.label
 }

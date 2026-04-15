@@ -4,6 +4,7 @@ import {
   aiRootScenarioOrder,
   aiScenarioQuestions,
   getAiCoreQuestions,
+  getScenarioOptions,
 } from "./ai-governance-schema"
 import {
   AiAnswers,
@@ -173,14 +174,20 @@ export function getAiScenarioSequence(answers: AiAnswers): AiScenarioQuestion[] 
   return sequence
 }
 
-function applyScenarioWeights(baseScores: AiAxisScores, answers: AiAnswers): AiAxisScores {
+function applyScenarioWeights(
+  baseScores: AiAxisScores,
+  answers: AiAnswers,
+  mode?: AiQuizMode,
+): AiAxisScores {
   const adjustedScores: AiAxisScores = { ...baseScores }
 
   for (const scenario of getAiScenarioSequence(answers)) {
     const choice = answers[scenario.id]
     if (!choice || typeof choice === "number") continue
 
-    const option = scenario.options.find((candidate) => candidate.id === choice)
+    const option = getScenarioOptions(scenario, mode ?? "standard").find(
+      (candidate) => candidate.id === choice,
+    )
     if (!option) continue
 
     for (const [axis, weight] of Object.entries(option.weights) as Array<[AiAxisKey, number]>) {
@@ -256,7 +263,7 @@ function getNeighboringArchetype(
 export function generateAiGovernanceResult(answers: AiAnswers, mode?: AiQuizMode): AiResult {
   const coreQuestions = getAiCoreQuestions(mode ?? "standard")
   const coreScores = computeAiCoreAxisScores(answers, coreQuestions)
-  const axisScores = applyScenarioWeights(coreScores, answers)
+  const axisScores = applyScenarioWeights(coreScores, answers, mode)
   const archetypeScores = scoreArchetypes(axisScores)
   const orderedArchetypes = (Object.entries(archetypeScores) as Array<[AiArchetypeKey, number]>).sort(
     (a, b) => b[1] - a[1],
