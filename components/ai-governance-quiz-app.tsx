@@ -10,6 +10,7 @@ import {
 } from "@/lib/ai-governance-schema"
 import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
 import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
+import { AiGlossaryDrawer } from "@/components/quiz/ai-glossary-drawer"
 
 type AiQuizState = {
   started: boolean
@@ -45,6 +46,7 @@ export function AiGovernanceQuizApp() {
     hasIndexedQuestion && !isNaN(initialQ) ? initialQ : 0,
   )
   const [supportOpen, setSupportOpen] = useState(false)
+  const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -120,12 +122,16 @@ export function AiGovernanceQuizApp() {
 
   if (!state.started) {
     return (
-      <ModeGate
-        currentMode={state.mode}
-        hasDraft={Object.keys(state.answers).length > 0}
-        onStart={start}
-        onReset={resetQuiz}
-      />
+      <>
+        <ModeGate
+          currentMode={state.mode}
+          hasDraft={Object.keys(state.answers).length > 0}
+          onStart={start}
+          onReset={resetQuiz}
+          onOpenGlossary={() => setGlossaryOpen(true)}
+        />
+        <AiGlossaryDrawer open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
+      </>
     )
   }
 
@@ -178,8 +184,13 @@ export function AiGovernanceQuizApp() {
           <button type="button" className="secondary-button" onClick={resetQuiz}>
             Start over
           </button>
+          <button type="button" className="secondary-button" onClick={() => setGlossaryOpen(true)}>
+            Glossary
+          </button>
         </div>
       </section>
+
+      <AiGlossaryDrawer open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
 
       {currentQuestion ? (
         <section className="panel stack-md">
@@ -327,11 +338,13 @@ function ModeGate({
   hasDraft,
   onStart,
   onReset,
+  onOpenGlossary,
 }: {
   currentMode: AiQuizMode
   hasDraft: boolean
   onStart: (mode: AiQuizMode) => void
   onReset: () => void
+  onOpenGlossary: () => void
 }) {
   const [selectedMode, setSelectedMode] = useState<AiQuizMode>(currentMode)
   const modeChanged = hasDraft && selectedMode !== currentMode
@@ -392,6 +405,9 @@ function ModeGate({
               Start over
             </button>
           ) : null}
+          <button type="button" className="secondary-button" onClick={onOpenGlossary}>
+            Glossary
+          </button>
         </div>
         {modeChanged ? (
           <p className="muted" style={{ fontSize: "0.82rem" }}>
