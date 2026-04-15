@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useSyncExternalStore } from "react"
 import { useRouter } from "next/navigation"
 import { AI_GOVERNANCE_STORAGE_KEY } from "@/lib/ai-governance-schema"
 
@@ -21,6 +21,11 @@ export function AiGovernanceShareActions({
 }: Props) {
   const router = useRouter()
   const [copied, setCopied] = useState(false)
+  const canNativeShare = useSyncExternalStore(
+    () => () => {},
+    () => typeof navigator.share === "function",
+    () => false,
+  )
 
   const shareUrl =
     typeof window !== "undefined"
@@ -65,11 +70,7 @@ export function AiGovernanceShareActions({
   return (
     <div className="row gap-sm print-hidden" style={{ flexWrap: "wrap" }}>
       <button type="button" className="primary-button" onClick={handleShare}>
-        {typeof navigator !== "undefined" && typeof navigator.share === "function"
-          ? "Share result"
-          : copied
-            ? "Copied!"
-            : "Copy share link"}
+        {canNativeShare ? "Share result" : copied ? "Copied!" : "Copy share link"}
       </button>
       <button type="button" className="secondary-button" onClick={handleCopy}>
         {copied ? "Link copied!" : "Copy link"}
