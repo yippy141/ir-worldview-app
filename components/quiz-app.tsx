@@ -20,6 +20,11 @@ import type {
   RankedChoiceAnswer,
 } from "@/lib/types"
 
+const foundationTimeEstimateByMode = {
+  standard: "12 to 16 minutes",
+  analyst: "30 to 40 minutes",
+} as const
+
 export function QuizApp() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -226,8 +231,8 @@ export function QuizApp() {
               <h1>Foundation</h1>
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
-                  ? `${questionCountsByMode.standard} questions with plainer wording and fewer follow-ups.`
-                  : `${questionCountsByMode.analyst} questions with denser cases on political economy, technology, actor lenses, and crisis tradeoffs.`}
+                  ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard} · the cleanest route through the core IR disputes.`
+                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases, actor-position cards, and regional-development lenses.`}
               </p>
             </div>
             <span className="mode-pill">
@@ -521,13 +526,13 @@ function ModeGate({
               <ChoiceSelect
                 selected={requestedDepth === "standard"}
                 title="Standard"
-                description={`${questionCountsByMode.standard} questions. About 10 to 14 minutes. Cleaner wording and fewer follow-ups.`}
+                description={`${questionCountsByMode.standard} questions. About ${foundationTimeEstimateByMode.standard}. Cleaner wording, fewer follow-ups, and a gentler first pass through the core disputes.`}
                 onClick={() => onSetRequestedDepth("standard")}
               />
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
                 title="Advanced"
-                description={`${questionCountsByMode.analyst} questions. About 25 to 35 minutes. More ambiguity, more actor-lens cases, sharper tradeoffs, and optional second choices on case cards.`}
+                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. More cross-pressure, more actor-lens cases, more regional and development perspectives, and optional second choices on case cards.`}
                 onClick={() => onSetRequestedDepth("analyst")}
               />
             </div>

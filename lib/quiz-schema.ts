@@ -1030,6 +1030,246 @@ export const analystQuestions: Question[] = [
       },
     ],
   },
+  {
+    id: "an_tradeoff_parallel_order",
+    kind: "tradeoff",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "Rising powers start building parallel banks, payment rails, and development forums. What is the deeper issue?",
+    helpText:
+      "Choose the logic that best explains why alternative institutions become attractive, not the reform plan you personally prefer.",
+    options: [
+      {
+        id: "reform",
+        title: "Old governance stopped adjusting",
+        label:
+          "The main problem is that existing institutions no longer give rising states enough voice, protection, or agenda-setting power.",
+        signals: { institutions: 6.3, domesticFilters: 4.6, normsIdentity: 4.5 },
+      },
+      {
+        id: "power",
+        title: "Power shifted first",
+        label:
+          "Institutional conflict is downstream from changing material power. The argument over rules reflects a harder strategic transition.",
+        signals: { securityCompetition: 6.1, institutions: 3.0, politicalEconomy: 4.7 },
+      },
+      {
+        id: "hierarchy",
+        title: "States want room from hierarchy",
+        label:
+          "Parallel institutions matter because they create space from credit, payment, and lending systems others already dominate.",
+        signals: { politicalEconomy: 6.4, institutions: 4.0, orderJustice: 3.6 },
+      },
+      {
+        id: "legitimation",
+        title: "Leaders need proof of autonomy",
+        label:
+          "Alternative institutions also help ruling coalitions show they are not permanently trapped inside someone else's order.",
+        signals: { domesticFilters: 6.2, normsIdentity: 5.0, institutions: 4.1 },
+      },
+    ],
+  },
+  {
+    id: "an_case_sanctions_alignment",
+    kind: "miniCase",
+    cardType: "actorLens",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A nonaligned state condemns aggression but relies on the aggressor for cheap energy and fertilizer. Which logic looks strongest from its side?",
+    helpText:
+      "Answer from the state's own position, not from what either camp wants it to say in public.",
+    options: [
+      {
+        id: "norm",
+        title: "Defend the rule despite the cost",
+        label:
+          "Absorbing real pain may be necessary if the state wants to defend the rule against conquest credibly.",
+        signals: { institutions: 5.8, orderJustice: 5.9, restraint: 3.8 },
+      },
+      {
+        id: "stability",
+        title: "Protect domestic stability first",
+        label:
+          "Energy, food, and coalition stability at home matter first because a line the government cannot sustain will quickly collapse.",
+        signals: { domesticFilters: 6.4, restraint: 5.1, politicalEconomy: 4.9 },
+      },
+      {
+        id: "diversify",
+        title: "Use the crisis to diversify",
+        label:
+          "The stronger answer is to reduce structural dependence over time rather than swing instantly into a new dependency.",
+        signals: { politicalEconomy: 6.3, restraint: 5.4, institutions: 4.3 },
+      },
+      {
+        id: "hedge",
+        title: "Condemn, but keep room to hedge",
+        label:
+          "The state should oppose the breach without turning itself into an enforcement arm for someone else's wider strategy.",
+        signals: { restraint: 6.0, normsIdentity: 4.8, institutions: 4.2 },
+      },
+    ],
+  },
+  {
+    id: "an_case_intervention_memory",
+    kind: "miniCase",
+    cardType: "actorLens",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A post-colonial government sees calls for intervention next door after severe repression. Which logic looks strongest from its side?",
+    helpText:
+      "Answer from that government's vantage point, not from the outside coalition calling for action.",
+    options: [
+      {
+        id: "shield",
+        title: "Keep the sovereignty bar high",
+        label:
+          "Force is applied selectively enough that weaker states cannot treat intervention as a neutral rule.",
+        signals: { orderJustice: 6.3, restraint: 5.4, normsIdentity: 4.8 },
+      },
+      {
+        id: "threshold",
+        title: "Extreme harm can still justify action",
+        label:
+          "Even from a sovereignty-sensitive position, mass killing can create a real exception when the harm is overwhelming.",
+        signals: { orderJustice: 2.7, restraint: 3.8, normsIdentity: 4.9 },
+      },
+      {
+        id: "regional",
+        title: "Regional ownership is the key test",
+        label:
+          "The most defensible exception is one bounded by nearby political ownership rather than distant moral language alone.",
+        signals: { institutions: 6.0, orderJustice: 4.2, restraint: 5.0 },
+      },
+      {
+        id: "aftermath",
+        title: "Judge the aftermath first",
+        label:
+          "The deciding issue is whether outside force will actually protect people rather than deepen collapse and external control.",
+        signals: { restraint: 6.2, domesticFilters: 4.8, orderJustice: 4.3 },
+      },
+    ],
+  },
+  {
+    id: "an_case_rising_power_voice",
+    kind: "miniCase",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A rising power demands more voice in global rules while expanding military reach. What is the most persuasive reading?",
+    helpText:
+      "Pick the logic that best explains the pattern, not the response you would recommend.",
+    options: [
+      {
+        id: "security_transition",
+        title: "It is mainly a power transition",
+        label:
+          "As power shifts, the rising state pushes harder both militarily and institutionally because the old order serves it less well.",
+        signals: { securityCompetition: 6.1, institutions: 3.5, normsIdentity: 3.8 },
+      },
+      {
+        id: "status_recognition",
+        title: "Recognition is the core issue",
+        label:
+          "The state wants material room, but it also wants its status and authority claims treated as legitimate.",
+        signals: { normsIdentity: 6.3, securityCompetition: 3.4, institutions: 4.4 },
+      },
+      {
+        id: "representation",
+        title: "Representation is lagging",
+        label:
+          "The sharper problem is that existing rules and leadership structures have not adjusted enough to absorb the new weight.",
+        signals: { institutions: 6.2, domesticFilters: 4.6, normsIdentity: 4.5 },
+      },
+      {
+        id: "hierarchy_contest",
+        title: "It is contesting hierarchy",
+        label:
+          "The dispute is not only over voice. It is also over who controls finance, technology, and agenda-setting across the wider order.",
+        signals: { politicalEconomy: 6.2, securityCompetition: 4.6, normsIdentity: 4.7 },
+      },
+    ],
+  },
+  {
+    id: "an_tradeoff_energy_alignment",
+    kind: "tradeoff",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A government condemns aggression abroad, but breaking economic ties quickly would cause severe price shocks at home. What should govern its line?",
+    helpText:
+      "This asks what should come first in the decision, not what sounds most principled in a speech.",
+    options: [
+      {
+        id: "defend_rule",
+        title: "Defend the rule fast",
+        label:
+          "Absorbing real cost is part of making aggression and territorial seizure harder to normalize.",
+        signals: { orderJustice: 6.1, institutions: 5.6, restraint: 3.7 },
+      },
+      {
+        id: "protect_home",
+        title: "Protect domestic stability",
+        label:
+          "A foreign policy that breaks the home coalition quickly will not stay credible for long.",
+        signals: { domesticFilters: 6.4, restraint: 5.3, politicalEconomy: 4.7 },
+      },
+      {
+        id: "phase_reduction",
+        title: "Reduce exposure in phases",
+        label:
+          "The stronger line is to cut dependence over time while avoiding a shock that strengthens hard-liners at home.",
+        signals: { politicalEconomy: 5.9, restraint: 5.8, domesticFilters: 5.1 },
+      },
+      {
+        id: "hedge_diplomatically",
+        title: "Keep diplomatic room",
+        label:
+          "Condemn the breach, but avoid turning economic pain into automatic alignment with someone else's larger strategy.",
+        signals: { restraint: 5.7, normsIdentity: 4.8, institutions: 4.2 },
+      },
+    ],
+  },
+  {
+    id: "an_tradeoff_ceasefire_settlement",
+    kind: "tradeoff",
+    cardType: "both",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A brutal war may end only if outside powers delay accountability and accept an unequal settlement. What is the deeper issue?",
+    helpText:
+      "Choose the logic that best captures the hard tradeoff, not the outcome that feels most satisfying on paper.",
+    options: [
+      {
+        id: "stop_harm_now",
+        title: "Stop the harm now",
+        label:
+          "An imperfect peace can still be defensible if it sharply reduces killing and buys time for political repair.",
+        signals: { restraint: 5.9, orderJustice: 3.1, institutions: 4.8 },
+      },
+      {
+        id: "hold_accountability_line",
+        title: "Hold the accountability line",
+        label:
+          "If the hardest wars always suspend justice, the norm weakens exactly where future offenders are watching.",
+        signals: { orderJustice: 6.2, institutions: 5.1, restraint: 4.1 },
+      },
+      {
+        id: "sequence_peace_and_justice",
+        title: "Sequence peace and justice",
+        label:
+          "The strongest answer is a monitored settlement that stops the war now but keeps a credible path to later accountability.",
+        signals: { institutions: 6.1, restraint: 5.2, orderJustice: 4.4 },
+      },
+      {
+        id: "read_the_power_distribution",
+        title: "Read the power behind the terms",
+        label:
+          "The real issue is who has leverage to define both peace and justice. The settlement language follows that imbalance.",
+        signals: { politicalEconomy: 5.9, domesticFilters: 4.8, orderJustice: 4.0 },
+      },
+    ],
+  },
 ]
 
 export function getFoundationQuestions(mode: QuizMode): Question[] {

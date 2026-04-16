@@ -583,6 +583,61 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
     ],
   },
   {
+    id: "data_center_dependence",
+    kind: "case",
+    lane: "controls",
+    cardType: "decision",
+    title: "Foreign cloud and data-center lock-in",
+    prompt: "What should carry the most weight first?",
+    scene:
+      "A lower-income state can get fast data-center finance only from one outside provider that would also run cloud security, maintenance, and most public-sector hosting. Ministers must decide what matters most before signing.",
+    whyHard:
+      "The deal could close a real capacity gap quickly, but it could also lock sensitive systems into one foreign stack.",
+    contextBullets: [
+      {
+        label: "Actor / stake",
+        text: "The state wants digital capacity now, but it does not want critical systems to become politically hard to replace later.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether the bigger danger is staying underbuilt now or accepting a form of dependence that hardens over time.",
+      },
+    ],
+    perspectiveTags: ["developmental", "dependency", "state-capacity"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "take_access_now",
+        title: "Take the access now",
+        label:
+          "The immediate capability gap is the first problem. A fast buildout matters more than avoiding every future dependency risk.",
+        signals: { control: 2.9, governance: 4.0, industrial: 3.8, safety: 4.0 },
+      },
+      {
+        id: "control_sensitive_layers",
+        title: "Protect the sensitive layers",
+        label:
+          "The state should move only if it keeps firmer control over security, data, and the parts of the stack that would be hardest to unwind later.",
+        signals: { control: 6.0, governance: 3.3, industrial: 5.0, safety: 4.4 },
+      },
+      {
+        id: "diversify_before_lockin",
+        title: "Diversify before lock-in",
+        label:
+          "The better answer is multiple suppliers, portable standards, and contract terms that keep one provider from becoming decisive.",
+        signals: { control: 4.4, governance: 6.1, industrial: 4.8, safety: 4.3 },
+      },
+      {
+        id: "pool_regionally_first",
+        title: "Pool regionally first",
+        label:
+          "Regional procurement and shared infrastructure may be slower, but they can widen bargaining room more than a fast bilateral deal.",
+        signals: { control: 4.0, governance: 5.5, industrial: 6.0, safety: 4.2 },
+      },
+    ],
+  },
+  {
     id: "subsidy_race",
     kind: "case",
     lane: "capacity",
@@ -628,6 +683,61 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
         label:
           "Public subsidy races can spend enormous sums on political symbolism while crowding out more adaptive private investment.",
         signals: { control: 3.2, governance: 4.0, industrial: 2.9, safety: 4.0 },
+      },
+    ],
+  },
+  {
+    id: "regional_public_compute",
+    kind: "case",
+    lane: "capacity",
+    cardType: "decision",
+    title: "Regional public compute",
+    prompt: "What should carry the most weight when middle powers consider a shared compute buildout?",
+    scene:
+      "Several middle powers are debating whether to pool public compute, cloud capacity, and training programs instead of each chasing a national frontier stack. Finance ministries want scale. Security officials worry pooled systems could dilute control.",
+    whyHard:
+      "National buildout is politically cleaner, but separate national stacks may be too thin to matter. A regional pool can solve scale and still create new coordination risks.",
+    contextBullets: [
+      {
+        label: "Actor / stake",
+        text: "These states want more capacity, but none can cheaply build every frontier layer alone.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether durable capacity comes from national depth, pooled scale, targeted public layers, or letting private actors sort it out.",
+      },
+    ],
+    perspectiveTags: ["developmental", "state-capacity", "middle-income"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "keep_national_compute_depth",
+        title: "Keep national depth",
+        label:
+          "Shared access is useful, but strategic sectors still need national control over their most critical compute and cloud layers.",
+        signals: { control: 5.8, governance: 3.4, industrial: 5.9, safety: 4.1 },
+      },
+      {
+        id: "pool_scale_regionally",
+        title: "Pool scale regionally",
+        label:
+          "A shared buildout is the strongest path because scale, talent, and bargaining power all improve when middle powers stop duplicating thin national efforts.",
+        signals: { control: 4.1, governance: 6.2, industrial: 6.1, safety: 4.3 },
+      },
+      {
+        id: "fund_missing_layers",
+        title: "Fund the missing layers",
+        label:
+          "The smarter approach is targeted public support for power, cloud access, and training rather than one grand frontier gesture.",
+        signals: { control: 4.6, governance: 5.0, industrial: 5.5, safety: 4.2 },
+      },
+      {
+        id: "let_market_choose",
+        title: "Let the market choose",
+        label:
+          "Governments should widen access and basic infrastructure, but they should not guess too confidently which compute model will age best.",
+        signals: { control: 3.0, governance: 4.0, industrial: 2.9, safety: 4.0 },
       },
     ],
   },
@@ -680,6 +790,61 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
       },
     ],
   },
+  {
+    id: "ai_standards_voice",
+    kind: "case",
+    lane: "governance",
+    cardType: "explanation",
+    title: "AI standards without broad voice",
+    prompt: "What is the deeper issue when a small club starts setting global AI standards?",
+    scene:
+      "A club of technically capable states is close to setting AI testing and deployment standards that many others will have to live with. Supporters say only capable states can move fast enough. Critics say the process will set global defaults without broad voice.",
+    whyHard:
+      "A narrow club may be easier to enforce, but that does not settle whether others will see the rules as legitimate, development-friendly, or compatible with regulatory autonomy.",
+    contextBullets: [
+      {
+        label: "Actor / stake",
+        text: "The standards will shape access, compliance costs, and deployment rules far beyond the states writing them.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether the bigger risk is weak enforcement, weak legitimacy, hidden development costs, or reduced national room to govern.",
+      },
+    ],
+    perspectiveTags: ["ai-governance", "developmental", "nonaligned", "regulation"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "capable_states_must_lead",
+        title: "Capable states must lead",
+        label:
+          "The first requirement is enforceable standards, and only a narrow set of states currently has the technical and regulatory capacity to build them fast enough.",
+        signals: { control: 5.0, governance: 5.8, industrial: 4.3, safety: 6.0 },
+      },
+      {
+        id: "legitimacy_needs_voice",
+        title: "Legitimacy needs broader voice",
+        label:
+          "Rules that others must live under will be weaker in the long run if the writers treat broad participation as optional.",
+        signals: { control: 4.1, governance: 6.3, industrial: 4.5, safety: 4.8 },
+      },
+      {
+        id: "development_costs_are_hidden",
+        title: "The development costs are hidden",
+        label:
+          "The sharper issue is that compliance costs and access barriers may fall hardest on states that were barely in the room when the rules were drafted.",
+        signals: { control: 3.9, governance: 5.0, industrial: 5.5, safety: 4.4 },
+      },
+      {
+        id: "sovereignty_room_matters",
+        title: "Regulatory room still matters",
+        label:
+          "A state may want common baselines and still resist standards that narrow domestic room to govern its own deployment choices.",
+        signals: { control: 5.5, governance: 3.0, industrial: 4.8, safety: 4.2 },
+      },
+    ],
+  },
 ]
 
 export const technologyModule: ModuleDefinition = {
@@ -690,7 +855,7 @@ export const technologyModule: ModuleDefinition = {
   shorthand: "Tech Power",
   timeEstimate: {
     standard: "8 to 10 minutes",
-    analyst: "11 to 14 minutes",
+    analyst: "14 to 18 minutes",
   },
   description:
     "An issue-specific read on chokepoints, industrial capacity, coordinated governance, access gaps, and safety constraints.",

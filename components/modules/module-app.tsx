@@ -65,6 +65,10 @@ export function ModuleApp({
     return null
   }
 
+  const standardQuestionCount = moduleDefinition.questionsByMode.standard.length
+  const analystQuestionCount = moduleDefinition.questionsByMode.analyst.length
+  const analystAdditionCount = analystQuestionCount - standardQuestionCount
+
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const ready = questions.length > 0 && completedCount === questions.length
 
@@ -128,9 +132,11 @@ export function ModuleApp({
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard keeps the module to nine lane-balanced cases. Advanced adds one more case
-              per lane. In both modes, scenario cards can carry an optional second-most persuasive
-              answer as a softer signal once you choose a primary one.
+              Standard keeps the module to {standardQuestionCount} lane-balanced cases. Advanced
+              expands it to {analystQuestionCount} with {analystAdditionCount} additional
+              cross-pressure and actor-position cases. In both modes, scenario cards can carry an
+              optional second-most persuasive answer as a softer signal once you choose a primary
+              one.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -138,14 +144,14 @@ export function ModuleApp({
               selected={mode === "standard"}
               badge="S"
               title="Standard"
-              description={`9 questions · ${moduleDefinition.timeEstimate.standard}`}
+              description={`${standardQuestionCount} questions · ${moduleDefinition.timeEstimate.standard}`}
               onClick={() => handleModeChange("standard")}
             />
             <ModeCard
               selected={mode === "analyst"}
               badge="A"
               title="Advanced"
-              description={`12 questions · ${moduleDefinition.timeEstimate.analyst}`}
+              description={`${analystQuestionCount} questions · ${moduleDefinition.timeEstimate.analyst}`}
               onClick={() => handleModeChange("analyst")}
             />
           </div>

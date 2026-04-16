@@ -67,8 +67,8 @@ export default async function ModulesPage(
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
-              Standard keeps each module compact. Advanced adds one more case per lane without
-              changing the purpose of the readout.
+              Standard keeps each module compact. Advanced adds a second layer of cases in every
+              lane, with more actor-position and cross-pressure questions.
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
@@ -113,6 +113,9 @@ export default async function ModulesPage(
                     <p className="lobby-meta-label">How long it takes</p>
                     <p className="muted">
                       Standard: {moduleDefinition.timeEstimate.standard} · Advanced: {moduleDefinition.timeEstimate.analyst}
+                    </p>
+                    <p className="muted">
+                      {moduleDefinition.questionsByMode.standard.length} standard questions · {moduleDefinition.questionsByMode.analyst.length} advanced questions
                     </p>
                   </div>
                   <div className="lobby-meta-block">

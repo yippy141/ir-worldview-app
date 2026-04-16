@@ -569,6 +569,61 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
     ],
   },
   {
+    id: "beijing_below_war",
+    kind: "case",
+    lane: "deterrence",
+    cardType: "explanation",
+    title: "Coercion below blockade",
+    prompt: "What is the strongest reading of why Beijing would prefer coercion below outright blockade?",
+    scene:
+      "In a Taiwan crisis, Beijing wants to raise pressure without taking the full legal and military leap of open blockade or invasion. Officials debate whether the main aim is to normalize a new baseline, split outside coalitions, probe response thresholds, or keep the crisis below a costlier war line.",
+    whyHard:
+      "More than one purpose can be real at once, but the main diagnosis changes how the whole move is read.",
+    contextBullets: [
+      {
+        label: "Actor role",
+        text: "You are judging the strategic logic of the move, not endorsing it.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "Beijing wants coercive leverage without triggering the fastest outside military response.",
+      },
+    ],
+    perspectiveTags: ["major-power", "deterrence", "maritime"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "normalize_baseline",
+        title: "Normalize a new baseline",
+        label:
+          "The core aim is to make extraordinary interference look routine enough that others slowly adapt to it.",
+        signals: { activism: 5.7, escalation: 5.1, alliance: 4.7, legitimacy: 4.0 },
+      },
+      {
+        id: "split_coalition",
+        title: "Split the outside coalition",
+        label:
+          "Pressure below war works best if allies and regional states keep disagreeing about when coercion becomes intolerable.",
+        signals: { activism: 4.7, escalation: 4.7, alliance: 6.2, legitimacy: 4.8 },
+      },
+      {
+        id: "probe_thresholds",
+        title: "Probe response thresholds",
+        label:
+          "The main aim is to learn what kinds of coercion outsiders will absorb before they act decisively.",
+        signals: { activism: 6.0, escalation: 5.9, alliance: 4.8, legitimacy: 4.1 },
+      },
+      {
+        id: "hold_military_ceiling",
+        title: "Keep the military ceiling low",
+        label:
+          "The stronger logic is to coerce while still staying below the costs of open war.",
+        signals: { activism: 3.5, escalation: 3.4, alliance: 4.1, legitimacy: 5.1 },
+      },
+    ],
+  },
+  {
     id: "nuclear_hedging",
     kind: "case",
     lane: "alliances",
@@ -614,6 +669,61 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
         label:
           "The wider danger is the spread of nuclear latency itself, even if the ally's anxiety is understandable.",
         signals: { activism: 4.8, escalation: 4.6, alliance: 5.4, legitimacy: 5.2 },
+      },
+    ],
+  },
+  {
+    id: "patron_trust_gap",
+    kind: "case",
+    lane: "alliances",
+    cardType: "decision",
+    title: "Security help without full trust",
+    prompt: "From this partner state's side, what should carry the most weight?",
+    scene:
+      "A regional power faces a stronger neighbor and relies on an outside patron for air defense, intelligence, and financing. It wants deeper help, but it does not fully trust that the patron would bear equal risk in a longer crisis. Its cabinet is deciding how to proceed before new basing talks begin.",
+    whyHard:
+      "Outside guarantees can deter and entrap at the same time. The same tie can look like protection or dependence depending on how much trust remains.",
+    contextBullets: [
+      {
+        label: "Actor role",
+        text: "Answer from the partner state's own position, not from the patron's preferred line.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "The state needs help quickly, but it does not want today's reassurance to become tomorrow's dependence.",
+      },
+    ],
+    perspectiveTags: ["middle-power", "nonaligned", "regional-security"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "lock_in_guarantee",
+        title: "Lock in the guarantee",
+        label:
+          "A doubtful guarantee is still better than a thin one. The first job is to make outside backing harder to reverse.",
+        signals: { activism: 5.2, escalation: 5.3, alliance: 6.2, legitimacy: 4.1 },
+      },
+      {
+        id: "diversify_backers",
+        title: "Diversify the backers",
+        label:
+          "The state should not let one patron decide its room to maneuver. Redundancy in partners is part of security.",
+        signals: { activism: 3.8, escalation: 4.0, alliance: 2.9, legitimacy: 5.0 },
+      },
+      {
+        id: "build_denial_home",
+        title: "Build denial at home",
+        label:
+          "The safer answer is local resilience, denial tools, and mobilization depth that do not depend on full outside trust.",
+        signals: { activism: 4.9, escalation: 4.6, alliance: 3.4, legitimacy: 4.2 },
+      },
+      {
+        id: "keep_it_issue_based",
+        title: "Keep it issue by issue",
+        label:
+          "The state should deepen useful security ties without letting one relationship absorb every file of its foreign policy.",
+        signals: { activism: 4.1, escalation: 4.2, alliance: 4.8, legitimacy: 5.4 },
       },
     ],
   },
@@ -666,6 +776,61 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
       },
     ],
   },
+  {
+    id: "selective_enforcement_memory",
+    kind: "case",
+    lane: "legitimacy",
+    cardType: "explanation",
+    title: "Selective enforcement and intervention memory",
+    prompt: "What is the strongest reading of why many post-colonial states resist harder enforcement?",
+    scene:
+      "After mass repression in a weak state, several wealthy powers call for tighter sanctions, no-fly options, and criminal investigations. Many post-colonial states condemn the violence but still resist the enforcement push. They argue the same powers are not equally urgent in other crises.",
+    whyHard:
+      "The resistance can reflect cynicism, sovereignty concerns, or a real judgment about how selective enforcement shapes order.",
+    contextBullets: [
+      {
+        label: "Actor / stake",
+        text: "These states are not defending the violence. They are judging what kind of order the enforcement pattern would create.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether harder enforcement would protect civilians or reinforce rules many states already see as unevenly applied.",
+      },
+    ],
+    perspectiveTags: ["nonaligned", "regional-order", "humanitarian", "vulnerable-state"],
+    knowledgeLoad: "medium",
+    allowSecondChoiceInAnalyst: true,
+    options: [
+      {
+        id: "selective_force_is_the_issue",
+        title: "Selective force is the real issue",
+        label:
+          "The objection is that powerful states invoke principles unevenly and ask weaker states to live under precedents they do not apply evenly.",
+        signals: { activism: 3.9, escalation: 4.0, alliance: 4.5, legitimacy: 6.1 },
+      },
+      {
+        id: "sovereignty_barrier_is_the_issue",
+        title: "The sovereignty barrier still matters",
+        label:
+          "The deeper concern is that once coercive enforcement becomes easier, weaker states carry the long-run risk.",
+        signals: { activism: 3.2, escalation: 3.9, alliance: 4.2, legitimacy: 5.9 },
+      },
+      {
+        id: "regional_ownership_is_missing",
+        title: "Regional ownership is missing",
+        label:
+          "The problem is less the goal than the lack of nearby political ownership that could bound the mission and its aftermath.",
+        signals: { activism: 4.3, escalation: 4.2, alliance: 5.2, legitimacy: 5.8 },
+      },
+      {
+        id: "burden_is_asymmetric",
+        title: "The burden is asymmetric",
+        label:
+          "Many states resist because enforcement often shifts the economic and political burden through other people's trade, diplomacy, and displacement pressures.",
+        signals: { activism: 4.0, escalation: 4.1, alliance: 3.4, legitimacy: 5.3 },
+      },
+    ],
+  },
 ]
 
 export const securityModule: ModuleDefinition = {
@@ -676,7 +841,7 @@ export const securityModule: ModuleDefinition = {
   shorthand: "Security Pressure",
   timeEstimate: {
     standard: "8 to 10 minutes",
-    analyst: "11 to 14 minutes",
+    analyst: "14 to 18 minutes",
   },
   description:
     "An issue-specific read on deterrence, alliance politics, crisis ceilings, and the legitimacy of force under pressure.",
