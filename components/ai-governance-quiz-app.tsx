@@ -6,6 +6,7 @@ import {
   AI_GOVERNANCE_STORAGE_KEY,
   aiLikertScale,
   aiQuestionCountsByMode,
+  aiTotalQuestionCountsByMode,
   getAiCoreQuestions,
   getScenarioOptions,
   getScenarioPrompt,
@@ -82,7 +83,7 @@ export function AiGovernanceQuizApp() {
 
   const questions: AiQuestion[] = useMemo(() => {
     if (!state.started) return []
-    return [...getAiCoreQuestions(state.mode), ...getAiScenarioSequence(state.answers)]
+    return [...getAiCoreQuestions(state.mode), ...getAiScenarioSequence(state.answers, state.mode)]
   }, [state.started, state.mode, state.answers])
 
   const effectiveIndex = Math.min(currentIndex, Math.max(0, questions.length - 1))
@@ -476,7 +477,7 @@ function ModeGate({
               <span className="option-card-content">
                 <span className="option-card-text" style={{ fontWeight: 600 }}>Standard</span>
                 <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
-                  {aiQuestionCountsByMode.standard} statements · {aiQuestionCountsByMode.standard + 5} questions total. Plain-language prompts covering all eight governance dimensions.
+                  {aiQuestionCountsByMode.standard} statements · {aiTotalQuestionCountsByMode.standard} questions total. Plain-language prompts covering all eight governance dimensions.
                 </span>
               </span>
             </button>
@@ -490,7 +491,7 @@ function ModeGate({
               <span className="option-card-content">
                 <span className="option-card-text" style={{ fontWeight: 600 }}>Advanced</span>
                 <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
-                  {aiQuestionCountsByMode.analyst} statements · {aiQuestionCountsByMode.analyst + 5} questions total. Adds technically denser questions on interpretability limits, compute governance, verification regimes, and legitimacy deficits.
+                  {aiQuestionCountsByMode.analyst} statements · {aiTotalQuestionCountsByMode.analyst} questions total. Adds materially deeper questions on audits, compute governance, incident reporting, weight security, critical infrastructure, global legitimacy, and moral-status overlays.
                 </span>
               </span>
             </button>

@@ -292,6 +292,110 @@ export const aiAnalystOnlyQuestions: AiLikertQuestion[] = [
         "This is not asking whether technical standards are unimportant.",
     },
   },
+  {
+    id: "dp3",
+    kind: "likert",
+    axis: "deploymentPace",
+    prompt:
+      "Frontier deployment in high-impact settings should usually require a structured safety case, not just internal confidence that the model is ready.",
+    clarification: {
+      whatItAsks:
+        "Whether labs should have to present a more explicit argument for why deployment is justified before higher-stakes use.",
+      whatItDoesNotAsk:
+        "This is not asking whether every useful model needs the same level of review.",
+    },
+  },
+  {
+    id: "dp4",
+    kind: "likert",
+    axis: "deploymentPace",
+    prompt:
+      "Advanced models should not be integrated into critical infrastructure like the grid, water systems, telecom recovery, or emergency response before stronger assurance and rollback regimes exist.",
+    clarification: {
+      whatItAsks:
+        "Whether critical infrastructure should face a higher threshold for deployment than ordinary consumer or office uses.",
+      whatItDoesNotAsk:
+        "This is not asking whether AI can never be useful in public infrastructure.",
+    },
+  },
+  {
+    id: "ov4",
+    kind: "likert",
+    axis: "oversight",
+    prompt:
+      "Frontier labs should face mandatory reporting of serious safety or security incidents, including near misses that reveal dangerous failure modes.",
+    clarification: {
+      whatItAsks:
+        "Whether incident reporting should be a public-governance requirement rather than a discretionary internal practice.",
+      whatItDoesNotAsk:
+        "This is not asking whether every minor product bug belongs in a national reporting regime.",
+    },
+  },
+  {
+    id: "ov5",
+    kind: "likert",
+    axis: "oversight",
+    prompt:
+      "Frontier labs should undergo recurring third-party audits of safety, security, and governance controls even if that slows iteration.",
+    clarification: {
+      whatItAsks:
+        "Whether outside audit should be a standing condition of high-capability development rather than an ad hoc response after problems arise.",
+      whatItDoesNotAsk:
+        "This is not asking whether any available auditor is automatically competent enough to do the job well.",
+    },
+  },
+  {
+    id: "op3",
+    kind: "likert",
+    axis: "openness",
+    prompt:
+      "For the highest-capability systems, protecting model weights against theft or broad release is a governance priority, not just an internal lab-security issue.",
+    clarification: {
+      whatItAsks:
+        "Whether weight security should be treated as part of public governance because uncontrolled proliferation changes the risk landscape.",
+      whatItDoesNotAsk:
+        "This is not asking whether every useful model should remain closed by default.",
+    },
+  },
+  {
+    id: "lg4",
+    kind: "likert",
+    axis: "legitimacy",
+    prompt:
+      "A frontier-governance regime designed mainly by leading labs and major powers will remain politically incomplete unless middle powers and more affected states have real agenda-setting influence.",
+    clarification: {
+      whatItAsks:
+        "Whether legitimacy in AI governance depends partly on who gets to shape priorities, not only on technical competence.",
+      whatItDoesNotAsk:
+        "This is not asking whether every institution must represent every actor equally in every decision.",
+    },
+  },
+  {
+    id: "hf3",
+    kind: "likert",
+    axis: "humanFuture",
+    prompt:
+      "If some future AI systems became plausibly sentient or morally considerable, governance should widen beyond human welfare alone.",
+    clarification: {
+      whatItAsks:
+        "Whether moral status questions could become a legitimate part of governance if future systems seem more than tool-like.",
+      whatItDoesNotAsk:
+        "This is not asking you to assume current models are sentient now.",
+    },
+  },
+  {
+    id: "hf4",
+    kind: "likert",
+    axis: "humanFuture",
+    prompt:
+      "Radical AI-enabled human enhancement should face stronger public limits unless its benefits, risks, and access are politically shared rather than privately captured.",
+    clarification: {
+      whatItAsks:
+        "Whether governance should treat extreme augmentation as a political and distributive question, not only as a private consumer choice.",
+      whatItDoesNotAsk:
+        "This is not asking whether all medical or assistive enhancement is suspect.",
+    },
+  },
 ]
 
 export function getAiCoreQuestions(mode: AiQuizMode): AiLikertQuestion[] {
@@ -303,6 +407,12 @@ export const aiQuestionCountsByMode = {
   standard: aiCoreQuestions.length,
   analyst: aiCoreQuestions.length + aiAnalystOnlyQuestions.length,
 } as const
+
+export const aiAnalystScenarioOrder = [
+  "auditIncidentRegime",
+  "computeGovernance",
+  "criticalInfrastructure",
+] as const
 
 export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
   // ── Scenario 1: Capability threshold ──────────────────────────────────────────
@@ -813,6 +923,288 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       },
     ],
   },
+  auditIncidentRegime: {
+    id: "auditIncidentRegime",
+    kind: "scenario",
+    cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
+    prompt:
+      "A frontier lab discloses a serious internal incident that did not reach the public but exposed a dangerous failure mode. What regime should follow?",
+    helpText:
+      "A safety case is a structured argument for why deployment is justified in a given context. A near miss is an incident that reveals a dangerous failure mode even if major harm did not occur this time.",
+    options: [
+      {
+        id: "A",
+        label:
+          "Require mandatory reporting, outside review, and a pause on broader deployment until the incident is understood.",
+        weights: {
+          oversight: 0.8,
+          deploymentPace: 0.7,
+          legitimacy: 0.2,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Report confidentially to government and continue only in a narrow monitored setting while fixes are tested.",
+        weights: {
+          oversight: 0.5,
+          deploymentPace: 0.2,
+          geopolitics: 0.1,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Let the lab remediate internally unless repeated incidents show a broader pattern of unsafe conduct.",
+        weights: {
+          oversight: -0.6,
+          deploymentPace: -0.4,
+          legitimacy: -0.2,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Require a published safety case and third-party audit before any higher-risk redeployment is allowed.",
+        weights: {
+          oversight: 0.7,
+          deploymentPace: 0.6,
+          legitimacy: 0.5,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label:
+          "Trigger mandatory incident reporting, outside review, and a deployment pause until the failure mode is understood.",
+        weights: {
+          oversight: 0.8,
+          deploymentPace: 0.8,
+          legitimacy: 0.2,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Keep the model in a narrow supervised channel while reporting to government and tightening controls.",
+        weights: {
+          oversight: 0.5,
+          deploymentPace: 0.2,
+          geopolitics: 0.1,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Treat this as a lab-governance problem first and avoid creating a standing public reporting trigger from one event.",
+        weights: {
+          oversight: -0.5,
+          deploymentPace: -0.3,
+          legitimacy: -0.3,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Require a structured safety case, external audit, and incident-disclosure summary before scaling resumes.",
+        weights: {
+          oversight: 0.8,
+          deploymentPace: 0.6,
+          legitimacy: 0.5,
+        },
+      },
+    ],
+  },
+  computeGovernance: {
+    id: "computeGovernance",
+    kind: "scenario",
+    cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
+    prompt:
+      "A coalition of major compute providers proposes licensing extreme-scale training runs and imposing stricter weight-security obligations. What posture seems best?",
+    helpText:
+      "Compute governance uses the hardware and cloud infrastructure needed for frontier training as a governance chokepoint. Weight security means preventing theft or uncontrolled release of the model parameters themselves.",
+    options: [
+      {
+        id: "A",
+        label:
+          "Adopt licensing and stronger weight security as a necessary choke point for the frontier.",
+        weights: {
+          openness: 0.5,
+          oversight: 0.6,
+          riskHorizon: 0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Allow compute controls only with sunset clauses, independent review, and safeguards against cartelization.",
+        weights: {
+          openness: 0.2,
+          legitimacy: 0.6,
+          oversight: 0.4,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Resist concentrated compute gatekeeping because it will entrench the leading states and firms.",
+        weights: {
+          openness: -0.8,
+          legitimacy: 0.2,
+          geopolitics: -0.2,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Use allied compute controls to deny adversarial access even if governance becomes club-like.",
+        weights: {
+          openness: 0.5,
+          geopolitics: 0.6,
+          oversight: 0.3,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label:
+          "Treat compute licensing and stronger weight security as the most workable near-term frontier lever.",
+        weights: {
+          openness: 0.5,
+          oversight: 0.6,
+          riskHorizon: 0.3,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Allow compute controls, but only with anti-cartel safeguards, external review, and regular sunset tests.",
+        weights: {
+          openness: 0.2,
+          legitimacy: 0.7,
+          oversight: 0.4,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Oppose concentrated compute gatekeeping because it would harden hierarchy before it proves its safety value.",
+        weights: {
+          openness: -0.8,
+          legitimacy: 0.3,
+          geopolitics: -0.2,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Build club-style compute controls among trusted states first and treat broader legitimacy as a later problem.",
+        weights: {
+          openness: 0.4,
+          geopolitics: 0.7,
+          legitimacy: -0.2,
+        },
+      },
+    ],
+  },
+  criticalInfrastructure: {
+    id: "criticalInfrastructure",
+    kind: "scenario",
+    cardType: "decision",
+    allowBackupChoiceInAnalyst: true,
+    prompt:
+      "A government wants to authorize frontier models for grid balancing, telecom recovery, and emergency coordination. What should matter most before approval?",
+    helpText:
+      "Critical infrastructure refers to systems whose failure would create large public harms. Rollback means being able to remove or disable an AI system quickly if it begins to fail or behave unpredictably.",
+    options: [
+      {
+        id: "A",
+        label:
+          "Do not approve until stronger assurance, rollback, and fail-safe regimes are in place.",
+        weights: {
+          deploymentPace: 0.8,
+          oversight: 0.6,
+          riskHorizon: 0.4,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Allow only narrow human-supervised pilots with mandatory incident reporting and outside audit.",
+        weights: {
+          deploymentPace: 0.2,
+          oversight: 0.7,
+          legitimacy: 0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Move faster because resilience gains matter and waiting may create public risk of its own.",
+        weights: {
+          deploymentPace: -0.7,
+          oversight: -0.2,
+          humanFuture: -0.1,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Build a public-interest governance layer with local and middle-power representation before dependency hardens.",
+        weights: {
+          legitimacy: 0.8,
+          oversight: 0.3,
+          deploymentPace: 0.2,
+        },
+      },
+    ],
+    analystOptions: [
+      {
+        id: "A",
+        label:
+          "Treat critical infrastructure as a high-assurance zone and block approval until stronger rollback and assurance regimes exist.",
+        weights: {
+          deploymentPace: 0.8,
+          oversight: 0.6,
+          riskHorizon: 0.4,
+        },
+      },
+      {
+        id: "B",
+        label:
+          "Allow narrow public pilots under human supervision, external audit, and mandatory incident reporting.",
+        weights: {
+          deploymentPace: 0.2,
+          oversight: 0.7,
+          legitimacy: 0.2,
+        },
+      },
+      {
+        id: "C",
+        label:
+          "Prioritize resilience gains and approve faster, provided operators can intervene when needed.",
+        weights: {
+          deploymentPace: -0.7,
+          oversight: -0.2,
+          humanFuture: -0.1,
+        },
+      },
+      {
+        id: "D",
+        label:
+          "Require a governance structure with stronger public legitimacy before a few providers become infrastructural gatekeepers.",
+        weights: {
+          legitimacy: 0.8,
+          oversight: 0.3,
+          deploymentPace: 0.2,
+        },
+      },
+    ],
+  },
 }
 
 /** Returns the effective options for a scenario in the given mode. */
@@ -841,3 +1233,19 @@ export const aiRootScenarioOrder = [
   "multilateralVerification",
   "futureSociety",
 ] as const
+
+export function getAiScenarioOrder(mode: AiQuizMode) {
+  return mode === "analyst"
+    ? [...aiRootScenarioOrder, ...aiAnalystScenarioOrder]
+    : [...aiRootScenarioOrder]
+}
+
+export const aiScenarioCountsByMode = {
+  standard: aiRootScenarioOrder.length,
+  analyst: aiRootScenarioOrder.length + aiAnalystScenarioOrder.length,
+} as const
+
+export const aiTotalQuestionCountsByMode = {
+  standard: aiQuestionCountsByMode.standard + aiScenarioCountsByMode.standard,
+  analyst: aiQuestionCountsByMode.analyst + aiScenarioCountsByMode.analyst,
+} as const

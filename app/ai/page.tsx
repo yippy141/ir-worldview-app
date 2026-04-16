@@ -1,9 +1,9 @@
 import Link from "next/link"
-import { aiQuestionCountsByMode } from "@/lib/ai-governance-schema"
+import { aiQuestionCountsByMode, aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
 import type { Metadata } from "next"
 
-const standardQuestionTotal = aiQuestionCountsByMode.standard + 5
-const advancedQuestionTotal = aiQuestionCountsByMode.analyst + 5
+const standardQuestionTotal = aiTotalQuestionCountsByMode.standard
+const advancedQuestionTotal = aiTotalQuestionCountsByMode.analyst
 
 export const metadata: Metadata = {
   title: "AI Governance Compass",
@@ -109,8 +109,9 @@ export default function AiPage() {
               </div>
               <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
                 {aiQuestionCountsByMode.analyst} statements and {advancedQuestionTotal} questions
-                total. Adds technically denser prompts on interpretability limits, compute
-                governance, verification regimes, and legitimacy deficits.
+                total. Adds materially deeper prompts on audits, compute governance, incident
+                reporting, weight security, critical infrastructure, global legitimacy, and moral
+                status or augmentation overlays.
               </p>
               <span className="atlas-pattern-cta">Open Advanced →</span>
             </Link>

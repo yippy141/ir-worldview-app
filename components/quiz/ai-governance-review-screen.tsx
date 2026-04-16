@@ -54,7 +54,7 @@ export function AiGovernanceReviewScreen() {
   const answers = state?.answers ?? {}
   const questions: AiQuestion[] = [
     ...getAiCoreQuestions(mode),
-    ...getAiScenarioSequence(answers),
+    ...getAiScenarioSequence(answers, mode),
   ]
 
   const answerRows: AnswerRow[] = questions.map((question, index) => ({

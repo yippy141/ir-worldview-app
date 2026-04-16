@@ -1,9 +1,9 @@
 import {
   aiAxisLabels,
   aiCoreQuestions,
-  aiRootScenarioOrder,
   aiScenarioQuestions,
   getAiCoreQuestions,
+  getAiScenarioOrder,
   getScenarioOptions,
 } from "./ai-governance-schema"
 import {
@@ -160,7 +160,10 @@ function getPrimaryChoiceId(
   return undefined
 }
 
-export function getAiScenarioSequence(answers: AiAnswers): AiScenarioQuestion[] {
+export function getAiScenarioSequence(
+  answers: AiAnswers,
+  mode: AiQuizMode = "standard",
+): AiScenarioQuestion[] {
   const sequence: AiScenarioQuestion[] = []
   const seen = new Set<string>()
 
@@ -176,13 +179,13 @@ export function getAiScenarioSequence(answers: AiAnswers): AiScenarioQuestion[] 
     const primaryId = getPrimaryChoiceId(rawAnswer)
     if (!primaryId) return
 
-    const chosenOption = scenario.options.find((option) => option.id === primaryId)
+    const chosenOption = getScenarioOptions(scenario, mode).find((option) => option.id === primaryId)
     if (chosenOption?.followUpId) {
       addScenario(chosenOption.followUpId)
     }
   }
 
-  for (const scenarioId of aiRootScenarioOrder) {
+  for (const scenarioId of getAiScenarioOrder(mode)) {
     addScenario(scenarioId)
   }
 
@@ -197,7 +200,7 @@ function applyScenarioWeights(
   const adjustedScores: AiAxisScores = { ...baseScores }
   const effectiveMode = mode ?? "standard"
 
-  for (const scenario of getAiScenarioSequence(answers)) {
+  for (const scenario of getAiScenarioSequence(answers, effectiveMode)) {
     const rawAnswer = answers[scenario.id]
     const options = getScenarioOptions(scenario, effectiveMode)
 
