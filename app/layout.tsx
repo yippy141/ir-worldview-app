@@ -17,20 +17,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="site-shell">
           <header className="site-header">
-            <div className="container" style={{ padding: "0" }}>
+            <div className="wide-container">
               <div className="header-inner">
-                <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
+                <Link href="/" className="site-brand-link">
                   <p className="brand">{siteConfig.publicTitle}</p>
                   <p className="brand-subtitle">{siteConfig.byline}</p>
                 </Link>
-                <nav className="header-nav">
-                  <Link href="/" className="nav-link">Home</Link>
-                  <Link href="/quiz" className="nav-link">Foundation</Link>
-                  <Link href="/profile" className="nav-link">Profile</Link>
-                  <Link href="/explore" className="nav-link">Explore</Link>
-                  <Link href="/modules" className="nav-link">Focus Areas</Link>
-                  <Link href="/references" className="nav-link">References</Link>
-                  <Link href="/method" className="nav-link">Methods</Link>
+                <nav className="header-nav" aria-label="Site">
+                  <div className="header-nav-group">
+                    <p className="header-nav-label">Start here</p>
+                    <div className="header-nav-row">
+                      <Link href="/" className="nav-link">Home</Link>
+                      <Link href="/quiz" className="nav-link">Foundation</Link>
+                      <Link href="/profile" className="nav-link">Profile</Link>
+                    </div>
+                  </div>
+                  <div className="header-nav-group">
+                    <p className="header-nav-label">Browse</p>
+                    <div className="header-nav-row">
+                      <Link href="/explore" className="nav-link">Explore</Link>
+                      <Link href="/modules" className="nav-link">Focus Areas</Link>
+                      <Link href="/ai" className="nav-link">AI</Link>
+                      <Link href="/references" className="nav-link">References</Link>
+                      <Link href="/method" className="nav-link">Methods</Link>
+                    </div>
+                  </div>
                 </nav>
               </div>
             </div>
@@ -39,7 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="site-main page-space">{children}</main>
 
           <footer className="site-footer">
-            <div className="container" style={{ padding: "0" }}>
+            <div className="wide-container">
               <div className="footer-inner">
                 <div className="footer-brand">
                   <strong>{siteConfig.publicTitle}</strong>
