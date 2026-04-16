@@ -132,6 +132,15 @@ Good clarification:
 - Prefer typed config data over scattered string literals.
 - Add graceful invalid-result handling, but fix the generator first.
 
+## Repository rules
+- Never delete or replace the current IR quiz routes.
+- Never rename existing payload helpers without explicit instruction.
+- For AI changes, prefer parallel routes and additive changes.
+- Run npm run lint after edits.
+- Run npm run test and npm run build after substantial milestones.
+- Do not add new dependencies unless explicitly asked.
+- Keep changes readable and minimal.
+
 ## Expected deliverable quality
 
 When implementing a phase:
