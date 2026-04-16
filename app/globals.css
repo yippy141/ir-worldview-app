@@ -2205,9 +2205,50 @@ h3 {
   height: 100%;
 }
 
+.ai-atlas-compare-card {
+  background: color-mix(in srgb, var(--panel) 88%, white 12%);
+}
+
 .ai-atlas-reading {
   padding-top: 14px;
   border-top: 1px solid var(--border);
+}
+
+.ai-atlas-pillars {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.ai-atlas-list li {
+  font-size: 0.88rem;
+}
+
+.ai-axis-guide-card {
+  height: 100%;
+}
+
+.ai-axis-poles {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.ai-axis-pole {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ai-axis-pole--high {
+  color: var(--accent);
+  text-align: right;
 }
 
 @media (max-width: 720px) {
@@ -2218,6 +2259,10 @@ h3 {
 
   .ai-hero-h1 {
     font-size: 1.75rem;
+  }
+
+  .ai-atlas-pillars {
+    grid-template-columns: 1fr;
   }
 }
 
