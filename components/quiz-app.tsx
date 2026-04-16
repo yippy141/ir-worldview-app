@@ -232,7 +232,7 @@ export function QuizApp() {
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
                   ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard} · the cleanest route through the core IR disputes.`
-                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases, actor-position cards, and regional-development lenses.`}
+                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases, actor-position cards, and selected counterparty or development lenses.`}
               </p>
             </div>
             <span className="mode-pill">
@@ -532,7 +532,7 @@ function ModeGate({
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
                 title="Advanced"
-                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. More cross-pressure, more actor-lens cases, more regional and development perspectives, and optional second choices on case cards.`}
+                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. More cross-pressure, more actor-lens cases, selected counterparty or development pressure tests, and optional second choices on case cards.`}
                 onClick={() => onSetRequestedDepth("analyst")}
               />
             </div>

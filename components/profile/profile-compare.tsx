@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { buildIntegratedHeadline } from "@/lib/profile-helpers"
 import { buildProfileComparison } from "@/lib/profile-compare"
@@ -139,6 +140,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
           <div className="stack-xs">
             <p className="eyebrow">Left Atlas pattern</p>
             <h2 style={{ marginBottom: 0 }}>{leftAtlas.nearest.name}</h2>
+            <AtlasPatternFamily pattern={leftAtlas.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
               {leftAtlas.nearest.cardSummary}
             </p>
@@ -160,6 +162,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
           <div className="stack-xs">
             <p className="eyebrow">Right Atlas pattern</p>
             <h2 style={{ marginBottom: 0 }}>{rightAtlas.nearest.name}</h2>
+            <AtlasPatternFamily pattern={rightAtlas.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
               {rightAtlas.nearest.cardSummary}
             </p>

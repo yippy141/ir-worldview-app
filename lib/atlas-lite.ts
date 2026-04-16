@@ -53,6 +53,8 @@ export const atlasFingerprintLabels: Record<AtlasFingerprintKey, string> = {
 export type AtlasLitePattern = {
   id: string
   name: string
+  primaryFamily: FamilyKey
+  secondaryFamilies?: FamilyKey[]
   cardSummary: string
   cardDrivers: string[]
   cardPressureNote: string
@@ -89,6 +91,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "broad-spectrum-bridge-builder",
     name: "Bridge Builder",
+    primaryFamily: "institutionalist",
+    secondaryFamilies: ["constructivist", "realist"],
     cardSummary:
       "This pattern keeps several neighboring arguments in play and looks for workable overlap before it reaches for a harder camp.",
     cardDrivers: [
@@ -144,6 +148,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "constraint-first-realist",
     name: "Constraint-First Realist",
+    primaryFamily: "realist",
     cardSummary:
       "This pattern starts from rivalry and constraint, but it stays wary of overreach and looks for ceilings before it reaches for a harder line.",
     cardDrivers: [
@@ -198,6 +203,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "competitive-balancer",
     name: "Competitive Balancer",
+    primaryFamily: "realist",
     cardSummary:
       "This pattern returns quickly to rivalry, leverage, and credible positioning, with more willingness to press advantage when the opening looks real.",
     cardDrivers: [
@@ -251,6 +257,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "coalition-pragmatist",
     name: "Coalition Pragmatist",
+    primaryFamily: "institutionalist",
+    secondaryFamilies: ["realist", "constructivist"],
     cardSummary:
       "This pattern prefers workable coordination and durable partner alignment over either rigid bloc discipline or go-it-alone autonomy.",
     cardDrivers: [
@@ -306,6 +314,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "institution-builder",
     name: "Institution Builder",
+    primaryFamily: "institutionalist",
+    secondaryFamilies: ["constructivist"],
     cardSummary:
       "This pattern starts with rules, monitoring, and repeated cooperation as the best way to hold order together over time.",
     cardDrivers: [
@@ -360,6 +370,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "legitimacy-attuned-reader",
     name: "Legitimacy Reader",
+    primaryFamily: "constructivist",
+    secondaryFamilies: ["institutionalist"],
     cardSummary:
       "This pattern keeps asking how identity, recognition, and legitimacy shape the meaning of power, threat, and cooperation.",
     cardDrivers: [
@@ -412,6 +424,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "justice-forward-solidarist",
     name: "Justice-Forward Solidarist",
+    primaryFamily: "constructivist",
+    secondaryFamilies: ["institutionalist"],
     cardSummary:
       "This pattern keeps open the possibility that severe moral stakes can outweigh strict non-intervention, especially when legitimacy and protection pull together.",
     cardDrivers: [
@@ -465,6 +479,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "structural-inequality-critic",
     name: "Structural Inequality Critic",
+    primaryFamily: "criticalPoliticalEconomy",
     cardSummary:
       "This pattern reads world politics through leverage, dependence, and unequal control over finance, production, and rule-setting.",
     cardDrivers: [
@@ -517,6 +532,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "development-sovereignty-builder",
     name: "Development-Sovereignty Builder",
+    primaryFamily: "criticalPoliticalEconomy",
+    secondaryFamilies: ["institutionalist"],
     cardSummary:
       "This pattern starts with policy room, productive depth, and the need to avoid forms of dependence that close off future choice.",
     cardDrivers: [
@@ -570,6 +587,8 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "cross-pressured-synthesizer",
     name: "Cross-Pressured Synthesizer",
+    primaryFamily: "institutionalist",
+    secondaryFamilies: ["constructivist", "criticalPoliticalEconomy"],
     cardSummary:
       "This pattern does not settle into one clean doctrine: different domains or question types pull the profile in materially different directions.",
     cardDrivers: [

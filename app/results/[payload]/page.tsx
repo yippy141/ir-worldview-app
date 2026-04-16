@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
 import { resolveFoundationPayload } from "@/lib/share"
 import {
@@ -350,6 +351,7 @@ export default async function ResultPage(
               <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
                 {atlasMatch.nearest.name}
               </p>
+              <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                 {atlasMatch.nearest.cardSummary}
               </p>

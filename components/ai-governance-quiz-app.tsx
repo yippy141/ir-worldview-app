@@ -507,7 +507,7 @@ function ModeGate({
               <span className="option-card-content">
                 <span className="option-card-text" style={{ fontWeight: 600 }}>Advanced</span>
                 <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
-                  {aiQuestionCountsByMode.analyst} statements · {aiTotalQuestionCountsByMode.analyst} questions total. Adds materially deeper questions on audits, compute governance, incident reporting, weight security, critical infrastructure, global legitimacy, and moral-status overlays.
+                  {aiQuestionCountsByMode.analyst} statements · {aiTotalQuestionCountsByMode.analyst} questions total. Adds materially deeper questions on audits, compute governance, incident reporting, security competition, critical infrastructure, legitimacy under pressure, and moral-status overlays.
                 </span>
               </span>
             </button>

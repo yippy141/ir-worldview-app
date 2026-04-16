@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { getAtlasPatternHref, type AtlasLitePattern } from "@/lib/atlas-lite"
 
 export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
@@ -8,6 +9,7 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
       <div className="stack-xs">
         <p className="eyebrow">Atlas pattern</p>
         <h2 style={{ marginBottom: 0 }}>{pattern.name}</h2>
+        <AtlasPatternFamily pattern={pattern} compact />
         <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.94rem" }}>
           {pattern.cardSummary}
         </p>

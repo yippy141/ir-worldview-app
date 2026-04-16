@@ -26,9 +26,10 @@ export default async function ModulesPage(
               <p className="section-kicker">Focus-area modules</p>
               <h1>Issue overlays for the IR Foundation</h1>
               <p className="lobby-lead">
-                Security and Technology sit on top of the shared IR baseline. They do not replace
-                the Foundation. They show how your instincts travel once the questions become more
-                concrete and the tradeoffs become harder to ignore.
+                Security and Technology sit on top of the shared IR baseline. They begin from the
+                policy debates a U.S. or allied reader will usually recognize first, then widen
+                the file with selected counterparty and middle-power lenses where those change the
+                read.
               </p>
               <div className="row gap-sm wrap">
                 <Link href="/quiz" className="cta-primary">Open the Foundation</Link>
@@ -68,7 +69,8 @@ export default async function ModulesPage(
             <div className="signal-list-item">
               <strong>How long it takes</strong>
               Standard keeps each module compact. Advanced adds a second layer of cases in every
-              lane, with more actor-position and cross-pressure questions.
+              lane, with sharper cross-pressure, actor-position, and selected counterparty or
+              middle-power cards.
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
@@ -88,7 +90,6 @@ export default async function ModulesPage(
               <article key={moduleDefinition.slug} className="lobby-entry">
                 <div className="lobby-entry-main stack-sm">
                   <div className="stack-xs">
-                    <p className="section-kicker">Focus-area module</p>
                     <h3 className="lobby-entry-title">{moduleDefinition.title}</h3>
                     <p className="lobby-entry-subtitle">{moduleDefinition.subtitle}</p>
                   </div>

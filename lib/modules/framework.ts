@@ -19,12 +19,12 @@ export const SECOND_CHOICE_WEIGHT = 0.45
 export const MODULE_PERSPECTIVE_MATRIX = [
   {
     key: "coalitionManager",
-    label: "Alliance manager / status quo coalition actor",
+    label: "Alliance manager / default coalition-facing logic",
     tags: ["alliance-manager", "major-power"],
   },
   {
     key: "rivalLogic",
-    label: "Rival or rising-power logic",
+    label: "Counterparty or rival-power logic",
     tags: ["major-power", "regional-security", "deterrence", "export-controls", "military"],
   },
   {
@@ -34,7 +34,7 @@ export const MODULE_PERSPECTIVE_MATRIX = [
   },
   {
     key: "middlePowerHedging",
-    label: "Nonaligned or middle-power hedging logic",
+    label: "Middle-power or nonaligned hedging logic",
     tags: ["middle-power", "nonaligned", "hedging"],
   },
   {

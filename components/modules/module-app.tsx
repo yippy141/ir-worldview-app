@@ -134,9 +134,9 @@ export function ModuleApp({
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard keeps the module to {standardQuestionCount} lane-balanced cases. Advanced
               expands it to {analystQuestionCount} with {analystAdditionCount} additional
-              cross-pressure and actor-position cases. In both modes, scenario cards can carry an
-              optional second-most persuasive answer as a softer signal once you choose a primary
-              one.
+              cross-pressure and actor-position cases, including selected counterparty and
+              middle-power pressure tests. In both modes, scenario cards can carry an optional
+              second-most persuasive answer as a softer signal once you choose a primary one.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -206,8 +206,9 @@ export function ModuleApp({
         <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>Perspective coverage across the full issue file</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            This module is meant to test the issue through multiple actor positions, not only from
-            one coalition-manager point of view.
+            This module still starts from the policy debate most users will recognize, but it
+            widens the file with selected rival, allied, middle-power, and development-state
+            lenses so the issue does not collapse into a single coalition view.
           </p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.88rem" }}>
             {perspectiveCoverage.map((role) => role.label).join(" · ")}

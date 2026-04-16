@@ -44,13 +44,10 @@ export default function LandingPage() {
         <div className="landing-hero-grid">
           <div className="stack-md">
             <p className="section-kicker">Editorial interactive for IR and AI</p>
-            <h1 className="landing-display">
-              Map a baseline, pressure-test it in live issue areas, and keep the whole profile in view.
-            </h1>
+            <h1 className="landing-display">Map how you view international affairs</h1>
             <p className="landing-lead">
-              Start with the IR Foundation to map your baseline assumptions about world politics
-              across seven dimensions. Then use Security, Technology, and the AI companion to see
-              where that baseline holds, sharpens, or complicates.
+              Start with the IR Foundation. Then use Security, Technology, and the AI companion to
+              see where that baseline holds, sharpens, or shifts.
             </p>
             <div className="row gap-sm wrap">
               <Link href="/quiz" className="cta-primary">
@@ -61,19 +58,18 @@ export default function LandingPage() {
               </Link>
             </div>
             <p className="landing-note">
-              Not a political compass, a personality test, or a validated psychometric instrument.
-              This is an interpretive tool designed to make theoretical priors legible, not to
-              assign a final verdict.
+              An interpretive tool, not a validated instrument. It makes theoretical priors easier
+              to see; it does not assign a final verdict.
             </p>
           </div>
 
           <aside className="landing-side-stack">
             <div className="landing-side-panel stack-sm">
-              <p className="section-kicker">How the product family fits together</p>
+              <p className="section-kicker">How it works</p>
               <div className="landing-route-list">
                 <div className="landing-route-item">
-                  <p className="landing-route-title">1. Foundation</p>
-                  <p className="landing-route-text">Establish the baseline IR read before moving into applied cases.</p>
+                  <p className="landing-route-title">1. Foundation baseline</p>
+                  <p className="landing-route-text">Start with the shared IR read before moving into harder issue files.</p>
                 </div>
                 <div className="landing-route-item">
                   <p className="landing-route-title">2. Issue overlays</p>
@@ -81,7 +77,7 @@ export default function LandingPage() {
                 </div>
                 <div className="landing-route-item">
                   <p className="landing-route-title">3. Companion AI layer</p>
-                  <p className="landing-route-text">Keep AI governance adjacent to the IR profile rather than collapsing them into one score.</p>
+                  <p className="landing-route-text">Keep AI governance adjacent to the IR profile rather than folding it into one score.</p>
                 </div>
               </div>
             </div>
@@ -107,8 +103,9 @@ export default function LandingPage() {
               </div>
               <div className="signal-list-item">
                 <strong>How long it takes</strong>
-                Standard is the cleaner first pass. Advanced adds denser tradeoffs without changing
-                the underlying scoring model.
+                Standard is the cleaner first pass. Advanced adds denser tradeoffs, selected
+                counterparty pressure tests, and optional second choices on case cards without
+                changing the underlying scoring model.
               </div>
               <div className="signal-list-item">
                 <strong>What it does not claim</strong>
@@ -127,7 +124,6 @@ export default function LandingPage() {
 
           <div className="landing-family-rail">
             <div className="stack-xs">
-              <p className="section-kicker">Continue through the rest of the product</p>
               <h2 className="landing-family-heading">Issue overlays, companion module, browse surfaces, and profile</h2>
             </div>
             <div className="landing-rail-list">

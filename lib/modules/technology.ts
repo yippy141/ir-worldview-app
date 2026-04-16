@@ -38,7 +38,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "controls",
     cardType: "decision",
-    title: "China under tighter chip controls",
+    title: "Tighter chip controls from the target's side",
     prompt: "What should carry the most weight first?",
     scene:
       "Restrictions tighten again on advanced chips and tooling. In Beijing, officials are deciding what deserves priority next: domestic substitution, selective outside access, broader ecosystem investment, or restraint against panic.",
@@ -47,7 +47,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     contextBullets: [
       {
         label: "Actor role",
-        text: "Answer from Beijing's industrial-policy position, not from Washington's preferred line.",
+        text: "Answer from the target state's industrial-policy position, not from Washington's preferred line.",
       },
       {
         label: "Crisis stage",
@@ -858,7 +858,7 @@ export const technologyModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "An issue-specific read on chokepoints, industrial capacity, coordinated governance, access gaps, and safety constraints.",
+    "An issue-specific read on chokepoints, industrial capacity, coordinated governance, access gaps, and safety constraints, with selected counterparty and development-state lenses where they change the policy read.",
   measures: [
     "openness versus control",
     "market adaptation versus state-capacity building",

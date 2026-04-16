@@ -38,7 +38,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "deterrence",
     cardType: "decision",
-    title: "Beijing's quarantine calculus",
+    title: "Quarantine pressure around Taiwan",
     prompt: "What should carry the most weight first?",
     scene:
       "Day three of a quarantine around Taiwan. Insurers are pulling back, container traffic is slowing, and no shots have been fired. In Beijing, leaders are deciding what should govern the next move while they still claim the inspections are lawful and limited.",
@@ -47,7 +47,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     contextBullets: [
       {
         label: "Actor role",
-        text: "Answer from Beijing's strategic position, not from Taiwan's domestic politics or Washington's preferred response.",
+        text: "Answer from the coercing power's strategic position, not from Taiwan's domestic politics or Washington's preferred response.",
       },
       {
         label: "Crisis stage",
@@ -152,8 +152,8 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "deterrence",
     cardType: "decision",
-    title: "Iran's retaliation ladder",
-    prompt: "What should govern Tehran's response?",
+    title: "Retaliation under sanctions pressure",
+    prompt: "What should govern the response?",
     scene:
       "After a covert strike on a sensitive site and a wave of proxy attacks across the region, Tehran is deciding how to respond. Some officials want a visible strike to restore deterrence. Others argue that survival under sanctions matters more than one dramatic answer.",
     whyHard:
@@ -844,7 +844,7 @@ export const securityModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "An issue-specific read on deterrence, alliance politics, crisis ceilings, and the legitimacy of force under pressure.",
+    "An issue-specific read on deterrence, alliance politics, crisis ceilings, and the legitimacy of force, starting with familiar security debates and widening the file with selected counterparty and middle-power lenses.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",

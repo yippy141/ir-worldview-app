@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import {
   getAtlasLiteNeighbors,
   getAtlasLitePattern,
@@ -48,6 +49,7 @@ export default async function AtlasPatternDetailPage(
       <div className="article-header stack-sm">
         <p className="eyebrow">Atlas</p>
         <h1>{pattern.name}</h1>
+        <AtlasPatternFamily pattern={pattern} />
         <p className="muted" style={{ lineHeight: "1.72", fontSize: "1.04rem", maxWidth: "760px" }}>
           {pattern.detailSummary}
         </p>

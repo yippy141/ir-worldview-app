@@ -3,6 +3,7 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -147,6 +148,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
               {atlasMatch.nearest.name}
             </p>
+            <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
               {atlasMatch.nearest.cardSummary}
             </p>

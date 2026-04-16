@@ -73,8 +73,8 @@ export default function AiPage() {
             <h2>Start in Standard or Advanced mode</h2>
             <p className="muted lobby-side-text">
               Both modes score the same model. Advanced adds technically sharper prompts on audits,
-              compute governance, incident reporting, weight security, critical infrastructure, and
-              legitimacy under pressure.
+              compute governance, incident reporting, security competition, critical
+              infrastructure, and legitimacy under pressure.
             </p>
           </div>
 
@@ -117,8 +117,8 @@ export default function AiPage() {
               <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
                 {aiQuestionCountsByMode.analyst} statements and {advancedQuestionTotal} questions
                 total. Adds materially deeper prompts on audits, compute governance, incident
-                reporting, weight security, critical infrastructure, global legitimacy, and moral
-                status or augmentation overlays.
+                reporting, security competition, critical infrastructure, legitimacy under
+                pressure, and moral-status or augmentation overlays.
               </p>
               <span className="atlas-pattern-cta">Open Advanced →</span>
             </Link>
