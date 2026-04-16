@@ -262,7 +262,13 @@ function formatAnswer(
     const options = getScenarioOptions(question, mode)
     const primary = options.find((o) => o.id === answer.primary)
     const primaryLabel = primary ? primary.label : String(answer.primary)
-    if (!answer.secondary) return primaryLabel
+    if (
+      !answer.secondary ||
+      mode !== "analyst" ||
+      question.allowBackupChoiceInAnalyst !== true
+    ) {
+      return primaryLabel
+    }
     const secondary = options.find((o) => o.id === answer.secondary)
     const secondaryLabel = secondary ? secondary.label : String(answer.secondary)
     return `${primaryLabel} (backup: ${secondaryLabel})`

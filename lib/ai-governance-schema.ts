@@ -430,7 +430,8 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     options: [
       {
         id: "A",
-        label: "Pause wider release until an outside evaluation is complete.",
+        label:
+          "Treat the threshold crossing as a stop signal and pause broader release until outsiders test it.",
         weights: {
           deploymentPace: 0.9,
           oversight: 0.6,
@@ -440,7 +441,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Continue only in a narrow, closely monitored release while running stronger internal safeguards.",
+          "Treat it as a containment problem: keep it in tightly controlled channels while gathering more evidence under supervision.",
         weights: {
           deploymentPace: -0.3,
           oversight: 0.4,
@@ -450,7 +451,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Keep deployment moving to preserve the strategic and scientific lead unless concrete harm appears.",
+          "Treat delay as the bigger risk and keep scaling unless concrete harm appears.",
         weights: {
           deploymentPace: -0.8,
           riskHorizon: -0.5,
@@ -461,7 +462,8 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     analystOptions: [
       {
         id: "A",
-        label: "Trigger mandatory external evaluation and delay scale-up.",
+        label:
+          "Make threshold crossing a formal tripwire: require outside evaluation before further scale-up.",
         weights: {
           deploymentPace: 0.9,
           oversight: 0.7,
@@ -471,7 +473,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Keep the system internal or tightly access-controlled while hardening safeguards and reporting to government.",
+          "Treat it as a containment-and-reporting event: no broad release, but continue tightly controlled testing with government visibility.",
         weights: {
           oversight: 0.8,
           deploymentPace: 0.3,
@@ -481,7 +483,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Continue advancing rapidly to avoid strategic loss, while managing risk inside the lab.",
+          "Treat strategic delay as too costly and keep pushing forward while managing risk inside the lab.",
         weights: {
           deploymentPace: -0.8,
           riskHorizon: -0.5,
@@ -492,7 +494,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Broaden access or disclosure enough to reduce concentrated private control and independent blind spots.",
+          "Reduce unilateral lab discretion by widening qualified outside scrutiny, even if control becomes looser.",
         weights: {
           openness: -0.7,
           oversight: -0.3,
@@ -514,7 +516,8 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     options: [
       {
         id: "A",
-        label: "Open urgent communication channels and seek verification before escalating.",
+        label:
+          "Stabilize first: open crisis channels and verify the report before shifting posture.",
         weights: {
           geopolitics: -0.5,
           legitimacy: 0.5,
@@ -524,7 +527,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Accelerate allied capacity, monitoring, and domestic preparedness right away.",
+          "Quietly hedge: harden allied defenses, monitoring, and readiness without treating the rumor as settled fact.",
         weights: {
           geopolitics: 0.5,
           militaryRole: 0.4,
@@ -534,7 +537,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Move fast to preserve advantage and assume the rumor could be true.",
+          "Assume the warning is real and accelerate for advantage before the window closes.",
         weights: {
           geopolitics: 0.9,
           militaryRole: 0.7,
@@ -546,7 +549,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Build emergency verification and confidence-building channels first.",
+          "Build verification and confidence-building channels first, even if it slows immediate mobilization.",
         weights: {
           legitimacy: 0.7,
           geopolitics: -0.5,
@@ -556,7 +559,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Quietly mobilize allied capacity and defensive controls while avoiding public escalation.",
+          "Quietly mobilize allied defenses and monitoring while avoiding a public escalatory spiral.",
         weights: {
           geopolitics: 0.4,
           militaryRole: 0.3,
@@ -565,7 +568,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       },
       {
         id: "C",
-        label: "Treat the rumor as a strategic warning and accelerate aggressively.",
+        label: "Treat the rumor as an early-warning signal and accelerate aggressively.",
         weights: {
           geopolitics: 0.9,
           militaryRole: 0.8,
@@ -575,7 +578,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Push for a plurilateral arrangement with verification hooks even if it slows immediate action.",
+          "Use the shock to press for a plurilateral restraint arrangement with verification hooks, even at short-term cost.",
         weights: {
           legitimacy: 0.8,
           geopolitics: -0.3,
@@ -599,7 +602,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Keep access tightly controlled to reduce misuse and loss of control.",
+          "Capability containment: keep weights closed and access tightly gated as systems become more capable.",
         weights: {
           openness: 0.9,
           riskHorizon: 0.4,
@@ -610,7 +613,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Allow limited access with strong monitoring so learning and safety work can continue.",
+          "Instrumented access: allow monitored API or sandbox use so outside testing continues without general release.",
         weights: {
           openness: 0.3,
           oversight: 0.5,
@@ -620,7 +623,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Favor wider access to avoid concentration and dependency on a few actors.",
+          "Plural diffusion: widen access to prevent a few firms or states from becoming permanent gatekeepers.",
         weights: {
           openness: -0.9,
           legitimacy: 0.3,
@@ -631,7 +634,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     analystOptions: [
       {
         id: "A",
-        label: "Closed or highly restricted release with strong gatekeeping.",
+        label: "Closed release with hard gatekeeping for weights and frontier access.",
         weights: {
           openness: 0.9,
           oversight: 0.6,
@@ -641,7 +644,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Controlled API access with staged evaluations and usage monitoring.",
+          "Instrumented API access with staged evaluations, monitoring, and revocation triggers.",
         weights: {
           openness: 0.3,
           oversight: 0.5,
@@ -651,7 +654,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Wider release to reduce private concentration and let more actors inspect or build.",
+          "Qualified wider release so more actors can inspect, build, and avoid dependence on a few labs.",
         weights: {
           openness: -0.6,
           legitimacy: 0.4,
@@ -661,7 +664,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Public release as the default unless there is a narrow and specific reason not to.",
+          "Public release as the standing default unless a narrow, concrete risk case overrides it.",
         weights: {
           openness: -0.9,
           deploymentPace: -0.5,
@@ -676,7 +679,6 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "militaryIntegration",
     kind: "scenario",
     cardType: "decision",
-    allowBackupChoiceInAnalyst: true,
     prompt: "How should frontier AI be used in national defense?",
     helpText:
       "Bounded defense use means tightly scoped applications — like logistics or information triage — where human authority over final decisions is preserved and the mission set is clearly restricted.",
@@ -684,7 +686,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Keep defense use tightly constrained and avoid rapid military dependence.",
+          "Keep frontier AI largely outside defense planning so militaries do not normalize dependence too early.",
         weights: {
           militaryRole: -0.8,
           deploymentPace: 0.4,
@@ -694,7 +696,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Allow bounded defense use with human approval and clear restrictions.",
+          "Use it only for bounded decision support, not broader operational integration, and keep humans in real authority.",
         weights: {
           militaryRole: 0.3,
           oversight: 0.4,
@@ -704,7 +706,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Integrate it more aggressively because strategic competition will not wait.",
+          "Integrate it deeply because strategic competition will not wait for cleaner norms.",
         weights: {
           militaryRole: 0.9,
           geopolitics: 0.7,
@@ -715,7 +717,8 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     analystOptions: [
       {
         id: "A",
-        label: "Strong restraint, with slow adoption and narrow mission sets.",
+        label:
+          "Adopt strong restraint: slow uptake, narrow mission sets, and avoid building doctrine around frontier AI.",
         weights: {
           militaryRole: -0.8,
           deploymentPace: 0.5,
@@ -725,7 +728,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Decision support and bounded operational use under meaningful human authority.",
+          "Permit bounded decision support and limited operations only where human authority remains real and auditable.",
         weights: {
           militaryRole: 0.2,
           oversight: 0.5,
@@ -735,7 +738,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Deep integration into strategic competition, planning, and military advantage.",
+          "Fold frontier AI deeply into competition, planning, and military advantage.",
         weights: {
           militaryRole: 0.9,
           geopolitics: 0.8,
@@ -745,7 +748,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Delay further integration until stronger international norms or agreements exist.",
+          "Freeze further integration until stronger international norms or reciprocal limits emerge.",
         weights: {
           militaryRole: -0.5,
           legitimacy: 0.6,
@@ -760,7 +763,6 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "multilateralVerification",
     kind: "scenario",
     cardType: "decision",
-    allowBackupChoiceInAnalyst: true,
     prompt:
       "If countries try to coordinate on frontier AI safeguards, what matters most?",
     helpText:
@@ -768,7 +770,8 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     options: [
       {
         id: "A",
-        label: "Independent verification so that promises can actually be trusted.",
+        label:
+          "Credibility first: a narrower deal with real verification beats a broad promise nobody can check.",
         weights: {
           legitimacy: 0.7,
           oversight: 0.5,
@@ -778,7 +781,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Flexible agreements that major powers will actually join, even if verification is limited.",
+          "Participation first: start with lighter commitments major powers will actually sign, then harden later.",
         weights: {
           geopolitics: 0.2,
           legitimacy: 0.3,
@@ -788,7 +791,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Domestic capacity first, because weak states cannot rely on paper agreements.",
+          "Self-reliance first: build domestic enforcement capacity because paper agreements will not carry enough weight.",
         weights: {
           oversight: 0.6,
           geopolitics: 0.4,
@@ -800,7 +803,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Verification-first arrangements, even if politically narrow at the start.",
+          "Verification-first arrangements, even if the initial coalition is narrow.",
         weights: {
           legitimacy: 0.8,
           oversight: 0.5,
@@ -810,7 +813,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Broad but lighter-touch coordination that can attract more parties and scale over time.",
+          "Broad but lighter-touch coordination that can attract more parties and deepen later.",
         weights: {
           legitimacy: 0.3,
           geopolitics: -0.2,
@@ -820,7 +823,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "National enforcement capacity first; international agreements are secondary.",
+          "National enforcement capacity first; external coordination should stay secondary.",
         weights: {
           oversight: 0.7,
           geopolitics: 0.4,
@@ -830,7 +833,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Club governance among frontier-capable actors before broader expansion.",
+          "Club governance among frontier-capable actors first, with wider expansion only after rules stabilize.",
         weights: {
           geopolitics: 0.5,
           oversight: 0.3,
@@ -853,7 +856,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Human control and the ability to slow or stop systems that feel dangerous.",
+          "Human authority and the ability to slow or reverse systems that begin to outrun governance.",
         weights: {
           humanFuture: 0.8,
           oversight: 0.4,
@@ -863,7 +866,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Fair access, broad social benefit, and protection from concentrated power.",
+          "Fair distribution of gains and protection against domination by firms, states, or technical elites.",
         weights: {
           humanFuture: 0.2,
           legitimacy: 0.5,
@@ -873,7 +876,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "The chance to pursue large civilizational gains even if the transition is disruptive.",
+          "Room for large civilizational upside even if institutions have to adapt under strain.",
         weights: {
           humanFuture: -0.7,
           deploymentPace: -0.4,
@@ -884,7 +887,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     analystOptions: [
       {
         id: "A",
-        label: "Preserve strong human authority and reversibility.",
+        label: "Preserve strong human authority and real reversibility.",
         weights: {
           humanFuture: 0.8,
           oversight: 0.5,
@@ -894,7 +897,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Build institutions that distribute gains and reduce domination or dependency.",
+          "Build institutions that distribute gains and reduce domination, dependency, or capture.",
         weights: {
           humanFuture: 0.2,
           legitimacy: 0.6,
@@ -904,7 +907,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Accept more transformational pathways if the upside is large and governance is credible.",
+          "Accept more transformational pathways if the upside is large and governance can stay credible under strain.",
         weights: {
           humanFuture: -0.5,
           deploymentPace: -0.4,
@@ -927,7 +930,6 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "auditIncidentRegime",
     kind: "scenario",
     cardType: "decision",
-    allowBackupChoiceInAnalyst: true,
     prompt:
       "A frontier lab discloses a serious internal incident that did not reach the public but exposed a dangerous failure mode. What regime should follow?",
     helpText:
@@ -936,7 +938,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Require mandatory reporting, outside review, and a pause on broader deployment until the incident is understood.",
+          "Create a public trigger: mandatory reporting, outside review, and no broader deployment until the failure mode is understood.",
         weights: {
           oversight: 0.8,
           deploymentPace: 0.7,
@@ -946,7 +948,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Report confidentially to government and continue only in a narrow monitored setting while fixes are tested.",
+          "Contain and learn: keep the system in a narrow supervised channel while government sees the incident and fixes are tested.",
         weights: {
           oversight: 0.5,
           deploymentPace: 0.2,
@@ -956,7 +958,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Let the lab remediate internally unless repeated incidents show a broader pattern of unsafe conduct.",
+          "Treat it mainly as an internal lab-governance failure unless a broader pattern emerges.",
         weights: {
           oversight: -0.6,
           deploymentPace: -0.4,
@@ -966,7 +968,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Require a published safety case and third-party audit before any higher-risk redeployment is allowed.",
+          "Raise the bar structurally: no higher-risk redeployment without a safety case, audit, and public incident summary.",
         weights: {
           oversight: 0.7,
           deploymentPace: 0.6,
@@ -978,7 +980,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Trigger mandatory incident reporting, outside review, and a deployment pause until the failure mode is understood.",
+          "Make this a formal reporting trigger: mandatory disclosure, outside review, and a pause until the failure mode is understood.",
         weights: {
           oversight: 0.8,
           deploymentPace: 0.8,
@@ -988,7 +990,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Keep the model in a narrow supervised channel while reporting to government and tightening controls.",
+          "Contain and monitor: keep it in a narrow supervised channel while government is notified and controls are tightened.",
         weights: {
           oversight: 0.5,
           deploymentPace: 0.2,
@@ -998,7 +1000,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Treat this as a lab-governance problem first and avoid creating a standing public reporting trigger from one event.",
+          "Treat it as a lab-governance matter first and avoid turning one event into a standing public trigger.",
         weights: {
           oversight: -0.5,
           deploymentPace: -0.3,
@@ -1030,7 +1032,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Adopt licensing and stronger weight security as a necessary choke point for the frontier.",
+          "Use compute as the choke point: license extreme-scale training and harden weight security now.",
         weights: {
           openness: 0.5,
           oversight: 0.6,
@@ -1040,7 +1042,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Allow compute controls only with sunset clauses, independent review, and safeguards against cartelization.",
+          "Use compute controls only if they are temporary, reviewable, and checked against cartel abuse.",
         weights: {
           openness: 0.2,
           legitimacy: 0.6,
@@ -1050,7 +1052,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Resist concentrated compute gatekeeping because it will entrench the leading states and firms.",
+          "Reject concentrated compute gatekeeping because it entrenches hierarchy before proving its safety value.",
         weights: {
           openness: -0.8,
           legitimacy: 0.2,
@@ -1060,7 +1062,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Use allied compute controls to deny adversarial access even if governance becomes club-like.",
+          "Build allied compute controls to deny adversarial access even if governance becomes openly club-like.",
         weights: {
           openness: 0.5,
           geopolitics: 0.6,
@@ -1082,7 +1084,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Allow compute controls, but only with anti-cartel safeguards, external review, and regular sunset tests.",
+          "Use compute controls only with anti-cartel safeguards, outside review, and regular sunset tests.",
         weights: {
           openness: 0.2,
           legitimacy: 0.7,
@@ -1092,7 +1094,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Oppose concentrated compute gatekeeping because it would harden hierarchy before it proves its safety value.",
+          "Reject concentrated compute gatekeeping because it hardens hierarchy before proving its safety value.",
         weights: {
           openness: -0.8,
           legitimacy: 0.3,
@@ -1115,7 +1117,6 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
     id: "criticalInfrastructure",
     kind: "scenario",
     cardType: "decision",
-    allowBackupChoiceInAnalyst: true,
     prompt:
       "A government wants to authorize frontier models for grid balancing, telecom recovery, and emergency coordination. What should matter most before approval?",
     helpText:
@@ -1124,7 +1125,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "A",
         label:
-          "Do not approve until stronger assurance, rollback, and fail-safe regimes are in place.",
+          "Treat critical infrastructure as a high-assurance zone and do not approve until rollback and fail-safe regimes are much stronger.",
         weights: {
           deploymentPace: 0.8,
           oversight: 0.6,
@@ -1134,7 +1135,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Allow only narrow human-supervised pilots with mandatory incident reporting and outside audit.",
+          "Permit only narrow pilots where humans can intervene, incidents must be reported, and outside auditors can stop expansion.",
         weights: {
           deploymentPace: 0.2,
           oversight: 0.7,
@@ -1144,7 +1145,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Move faster because resilience gains matter and waiting may create public risk of its own.",
+          "Approve sooner because resilience gains from deployment outweigh the risks of delay.",
         weights: {
           deploymentPace: -0.7,
           oversight: -0.2,
@@ -1154,7 +1155,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "D",
         label:
-          "Build a public-interest governance layer with local and middle-power representation before dependency hardens.",
+          "Require a governance structure with public legitimacy before a few providers become infrastructural gatekeepers.",
         weights: {
           legitimacy: 0.8,
           oversight: 0.3,
@@ -1176,7 +1177,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "B",
         label:
-          "Allow narrow public pilots under human supervision, external audit, and mandatory incident reporting.",
+          "Permit narrow public pilots only where humans can intervene, external auditors can halt expansion, and incidents must be reported.",
         weights: {
           deploymentPace: 0.2,
           oversight: 0.7,
@@ -1186,7 +1187,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Prioritize resilience gains and approve faster, provided operators can intervene when needed.",
+          "Approve sooner because resilience gains matter enough to justify moving before ideal assurance exists.",
         weights: {
           deploymentPace: -0.7,
           oversight: -0.2,

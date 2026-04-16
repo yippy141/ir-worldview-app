@@ -214,8 +214,13 @@ function applyScenarioWeights(
       }
     }
 
-    // Apply backup choice at reduced weight (analyst mode only)
-    if (effectiveMode === "analyst" && isAiRankedChoiceAnswer(rawAnswer) && rawAnswer.secondary) {
+    // Apply backup choice only on scenarios that explicitly support it.
+    if (
+      effectiveMode === "analyst" &&
+      scenario.allowBackupChoiceInAnalyst === true &&
+      isAiRankedChoiceAnswer(rawAnswer) &&
+      rawAnswer.secondary
+    ) {
       const secondaryOption = options.find((candidate) => candidate.id === rawAnswer.secondary)
       if (secondaryOption) {
         for (const [axis, weight] of Object.entries(secondaryOption.weights) as Array<[AiAxisKey, number]>) {

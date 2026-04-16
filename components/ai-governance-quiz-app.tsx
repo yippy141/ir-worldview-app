@@ -548,7 +548,7 @@ function SupportBlock({
           textUnderlineOffset: "3px",
         }}
       >
-        {visible ? "Hide context" : "Need context?"}
+        {visible ? "Hide context" : "Need more context?"}
       </button>
 
       {visible ? (
