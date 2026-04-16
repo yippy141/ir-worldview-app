@@ -1,5 +1,13 @@
 import type { ModuleCardTypeRead, ModuleLaneSummary, ModuleSlug } from "@/lib/modules/types"
 import type {
+  AiArchetypeKey,
+  AiAxisKey,
+  AiAxisScores,
+  GeopoliticsModifier,
+  PaceModifier,
+  RiskLens,
+} from "@/lib/ai-governance-types"
+import type {
   ChoiceCardType,
   DimensionKey,
   DimensionScores,
@@ -68,17 +76,33 @@ export type ModuleSnapshot = {
   overlayDeltas: Partial<Record<DimensionKey, number>>
 }
 
+export type AiGovernanceSnapshot = {
+  timestamp: number
+  payload: string
+  resultPath: string
+  archetypeKey: AiArchetypeKey
+  archetypeLabel: string
+  riskLens: RiskLens
+  paceModifier: PaceModifier
+  geopoliticsModifier: GeopoliticsModifier
+  axisScores: AiAxisScores
+  summary: string
+  governingInstinct: string
+}
+
 export type ProfileStore = {
-  v: 2
+  v: 2 | 3
   foundation: FoundationSnapshot | null
   modules: Partial<Record<ModuleSlug, ModuleSnapshot>>
+  aiGovernance: AiGovernanceSnapshot | null
 }
 
 export function emptyProfileStore(): ProfileStore {
   return {
-    v: 2,
+    v: 3,
     foundation: null,
     modules: {},
+    aiGovernance: null,
   }
 }
 
@@ -94,14 +118,17 @@ export function parseProfileStore(raw: string | null): ProfileStore {
       return emptyProfileStore()
     }
 
-    if (parsed.v !== 1 && parsed.v !== 2) {
+    if (parsed.v !== 1 && parsed.v !== 2 && parsed.v !== 3) {
       return emptyProfileStore()
     }
 
     return {
-      v: 2,
+      v: 3,
       foundation: isFoundationSnapshot(parsed.foundation) ? parsed.foundation : null,
       modules: normalizeModuleSnapshots(parsed.modules),
+      aiGovernance: isAiGovernanceSnapshot(parsed.aiGovernance)
+        ? parsed.aiGovernance
+        : null,
     }
   } catch {
     return emptyProfileStore()
@@ -138,6 +165,14 @@ export function saveModuleSnapshot(snapshot: ModuleSnapshot): void {
       ...store.modules,
       [snapshot.slug]: snapshot,
     },
+  })
+}
+
+export function saveAiGovernanceSnapshot(snapshot: AiGovernanceSnapshot): void {
+  const store = loadProfileStore()
+  saveProfileStore({
+    ...store,
+    aiGovernance: snapshot,
   })
 }
 
@@ -238,6 +273,42 @@ function isFoundationSnapshot(value: unknown): value is FoundationSnapshot {
     Array.isArray(candidate.keyDrivers) &&
     Array.isArray(candidate.strongLenses)
   )
+}
+
+const AI_AXIS_KEYS: AiAxisKey[] = [
+  "riskHorizon",
+  "deploymentPace",
+  "oversight",
+  "geopolitics",
+  "openness",
+  "militaryRole",
+  "legitimacy",
+  "humanFuture",
+]
+
+function isAiGovernanceSnapshot(value: unknown): value is AiGovernanceSnapshot {
+  if (typeof value !== "object" || value === null) return false
+
+  const candidate = value as Partial<AiGovernanceSnapshot>
+  return (
+    typeof candidate.timestamp === "number" &&
+    typeof candidate.payload === "string" &&
+    typeof candidate.resultPath === "string" &&
+    typeof candidate.archetypeKey === "string" &&
+    typeof candidate.archetypeLabel === "string" &&
+    typeof candidate.riskLens === "string" &&
+    typeof candidate.paceModifier === "string" &&
+    typeof candidate.geopoliticsModifier === "string" &&
+    typeof candidate.summary === "string" &&
+    typeof candidate.governingInstinct === "string" &&
+    isAiAxisScores(candidate.axisScores)
+  )
+}
+
+function isAiAxisScores(value: unknown): value is AiAxisScores {
+  if (typeof value !== "object" || value === null) return false
+
+  return AI_AXIS_KEYS.every((axis) => typeof (value as Record<AiAxisKey, unknown>)[axis] === "number")
 }
 
 function normalizeEvidence(value: unknown): ModuleEvidenceItem[] {

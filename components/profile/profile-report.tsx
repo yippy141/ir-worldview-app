@@ -4,6 +4,7 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
+import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
   buildIntegratedHeadline,
@@ -35,6 +36,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   const assessment = buildProfileAssessment(profile)
   const profileNarrative = buildProfileNarrative(profile, assessment)
   const spineRows = buildProfileSpineRows(profile)
+  const aiSnapshot = profile.aiGovernance
+  const crossModuleSynthesis = getCrossModuleSynthesis(
+    foundation.familyKey,
+    aiSnapshot?.archetypeKey ?? null,
+  )
   const atlasMatch = matchAtlasLiteProfile({
     foundation,
     profileState: assessment.state,
@@ -188,6 +194,95 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="result-section stack-md">
+        <div className="stack-xs">
+          <h2>IR + AI synthesis</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+            This reads the IR Foundation and the AI Governance Compass side by side. It does not
+            create a master score.
+          </p>
+        </div>
+
+        {aiSnapshot ? (
+          <>
+            <div className="row gap-sm wrap">
+              <span className="mode-pill">{foundation.familyLabel}</span>
+              <span className="ai-mode-pill">{aiSnapshot.archetypeLabel}</span>
+            </div>
+
+            <div className="driver-grid">
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">{crossModuleSynthesis.title}</p>
+                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Short read</p>
+                <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                  {crossModuleSynthesis.shortReadout}
+                </p>
+              </div>
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">Where they align</p>
+                <ul className="content-list" style={{ margin: 0 }}>
+                  {crossModuleSynthesis.likelyAlignment.map((item) => (
+                    <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="driver-card stack-xs">
+                <p className="eyebrow">Where they may conflict</p>
+                <ul className="content-list" style={{ margin: 0 }}>
+                  {crossModuleSynthesis.likelyTensions.map((item) => (
+                    <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="callout stack-xs">
+              <p className="eyebrow">What this combination implies</p>
+              <p style={{ lineHeight: "1.7", margin: 0 }}>
+                {crossModuleSynthesis.practicalImplication}
+              </p>
+            </div>
+
+            <div className="stack-xs">
+              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65", margin: 0 }}>
+                <strong>AI result:</strong> {aiSnapshot.summary}
+              </p>
+              {mode === "local" ? (
+                <p style={{ margin: 0 }}>
+                  <Link href={aiSnapshot.resultPath} style={{ color: "var(--accent)" }}>
+                    Open AI result →
+                  </Link>
+                </p>
+              ) : null}
+            </div>
+          </>
+        ) : (
+          <div className="callout stack-xs">
+            <p style={{ fontWeight: 600 }}>
+              {mode === "local"
+                ? "AI governance not yet added"
+                : "AI governance not included in this shared profile"}
+            </p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              {mode === "local"
+                ? "This block appears once this device has a saved AI Governance Compass result. It reads the IR baseline and AI result side by side rather than folding them into one score."
+                : "Shared profiles currently carry the IR foundation and saved IR module overlays only. The synthesis block needs a saved AI result to do more than offer a generic framing."}
+            </p>
+            {mode === "local" ? (
+              <p style={{ margin: 0 }}>
+                <Link href="/ai" style={{ color: "var(--accent)" }}>
+                  Add an AI result →
+                </Link>
+              </p>
+            ) : null}
+          </div>
+        )}
       </section>
 
       <section className="result-section stack-md">

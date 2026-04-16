@@ -123,9 +123,10 @@ export function resolveProfileSharePayload(encoded: string): ResolvedProfileShar
   ) as ProfileStore["modules"]
 
   const profile: ProfileStore = {
-    v: 2,
+    v: 3,
     foundation,
     modules,
+    aiGovernance: null,
   }
 
   return {

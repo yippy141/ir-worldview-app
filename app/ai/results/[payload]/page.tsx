@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { AiProfileSync } from "@/components/profile/ai-profile-sync"
 import { decodeAiPayload, aiPayloadToAxisScores } from "@/lib/ai-governance-share"
 import {
   archetypeLabelFromKey,
@@ -6,7 +7,10 @@ import {
   buildAiGovernanceSummary,
   getAxisCards,
 } from "@/lib/ai-governance-results"
-import { buildAiGovernanceResultFromSharePayload } from "@/lib/ai-governance-results-v2"
+import {
+  buildAiGovernanceDeepDive,
+  buildAiGovernanceResultFromSharePayload,
+} from "@/lib/ai-governance-results-v2"
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
@@ -55,10 +59,25 @@ export default async function AiResultPage(
   const summary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
   const axisCards = getAxisCards(axisScores)
   const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
+  const deepDive = buildAiGovernanceDeepDive(profileResult)
 
   return (
     <div className="wide-container">
       <article className="result-article">
+        <AiProfileSync
+          snapshot={{
+            payload,
+            resultPath: `/ai/results/${payload}`,
+            archetypeKey: profileResult.archetypeKey,
+            archetypeLabel,
+            riskLens: decoded.rl,
+            paceModifier: decoded.pm,
+            geopoliticsModifier: decoded.gm,
+            axisScores,
+            summary,
+            governingInstinct: deepDive.governingInstinct,
+          }}
+        />
 
         {/* ── 1. Hero ── */}
         <div className="result-hero">
