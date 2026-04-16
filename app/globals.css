@@ -2190,6 +2190,26 @@ h3 {
   font-family: Georgia, "Times New Roman", serif;
 }
 
+.ai-lobby-card-link {
+  display: block;
+  height: 100%;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.ai-lobby-card-link:hover {
+  text-decoration: none;
+}
+
+.ai-atlas-card {
+  height: 100%;
+}
+
+.ai-atlas-reading {
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
 @media (max-width: 720px) {
   .ai-result-lead-card,
   .ai-result-card {

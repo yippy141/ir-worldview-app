@@ -21,6 +21,12 @@ type AiQuizState = {
   answers: AiAnswers
 }
 
+function parseRequestedMode(value: string | null): AiQuizMode | null {
+  if (value === "standard") return "standard"
+  if (value === "advanced" || value === "analyst") return "analyst"
+  return null
+}
+
 function createEmptyState(): AiQuizState {
   return { started: false, mode: "standard", answers: {} }
 }
@@ -43,6 +49,7 @@ export function AiGovernanceQuizApp() {
   const fromReview = searchParams.get("from") === "review"
   const hasIndexedQuestion = searchParams.get("q") !== null
   const initialQ = parseInt(searchParams.get("q") ?? "0", 10)
+  const requestedMode = parseRequestedMode(searchParams.get("mode"))
 
   const [state, setState] = useState<AiQuizState>(createEmptyState())
   const [currentIndex, setCurrentIndex] = useState(
@@ -151,11 +158,14 @@ export function AiGovernanceQuizApp() {
   }
 
   if (!state.started) {
+    const hasDraft = Object.keys(state.answers).length > 0
+    const gateMode = hasDraft ? state.mode : requestedMode ?? state.mode
+
     return (
       <>
         <ModeGate
-          currentMode={state.mode}
-          hasDraft={Object.keys(state.answers).length > 0}
+          currentMode={gateMode}
+          hasDraft={hasDraft}
           onStart={start}
           onReset={resetQuiz}
           onOpenGlossary={() => setGlossaryOpen(true)}
@@ -435,6 +445,10 @@ function ModeGate({
 }) {
   const [selectedMode, setSelectedMode] = useState<AiQuizMode>(currentMode)
   const modeChanged = hasDraft && selectedMode !== currentMode
+
+  useEffect(() => {
+    setSelectedMode(currentMode)
+  }, [currentMode])
 
   return (
     <div className="stack-lg">

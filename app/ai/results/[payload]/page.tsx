@@ -42,7 +42,7 @@ export default async function AiResultPage(
             The result URL may be incomplete, corrupted, or from an older version of the compass.
           </p>
           <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-            <Link href="/ai" className="cta-primary">Take the inventory</Link>
+            <Link href="/ai/quiz" className="cta-primary">Take the inventory</Link>
           </div>
         </div>
       </div>

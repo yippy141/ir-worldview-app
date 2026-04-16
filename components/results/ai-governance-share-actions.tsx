@@ -64,7 +64,7 @@ export function AiGovernanceShareActions({
 
   function handleRetake() {
     window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
-    router.push("/ai")
+    router.push("/ai/quiz")
   }
 
   return (

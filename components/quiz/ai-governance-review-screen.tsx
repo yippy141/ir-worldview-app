@@ -70,7 +70,7 @@ export function AiGovernanceReviewScreen() {
   const isComplete = questions.length > 0 && answeredCount === questions.length
 
   function handleEdit(index: number) {
-    router.push(`/ai?q=${index}&from=review`)
+    router.push(`/ai/quiz?q=${index}&from=review`)
   }
 
   function handleGenerate() {
@@ -95,12 +95,12 @@ export function AiGovernanceReviewScreen() {
   }
 
   function handleBackToQuiz() {
-    router.push("/ai")
+    router.push("/ai/quiz")
   }
 
   function handleReset() {
     window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
-    router.push("/ai")
+    router.push("/ai/quiz")
   }
 
   if (state === null || !state.started) {
