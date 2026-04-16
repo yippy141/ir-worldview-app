@@ -38,48 +38,60 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "deterrence",
     cardType: "decision",
-    title: "Quarantine pressure around Taiwan",
+    title: "Beijing's quarantine calculus",
     prompt: "What should carry the most weight first?",
     scene:
-      "Day three of a China-led quarantine around Taiwan. Commercial insurers are pulling back, container traffic is slowing, and no shots have been fired. A U.S.-aligned crisis group is deciding its first coordinated move while Beijing still insists it is conducting lawful inspections rather than a blockade.",
+      "Day three of a quarantine around Taiwan. Insurers are pulling back, container traffic is slowing, and no shots have been fired. In Beijing, leaders are deciding what should govern the next move while they still claim the inspections are lawful and limited.",
     whyHard:
-      "Move too softly and coercion below invasion may harden into a new status quo. Move too visibly with military force and a still-limited crisis may jump a rung before anyone knows Beijing's ceiling.",
+      "Too little pressure can make the move look hollow. Too much pressure can turn coercion below war into a direct clash before Beijing knows how far outside powers will go.",
     contextBullets: [
-      { label: "Actor role", text: "You are judging the first coordinated outside response, not Taiwan's domestic politics or China's ideal long-run strategy." },
-      { label: "Crisis stage", text: "The pressure campaign has begun, but the crisis is still in the coercive-below-war phase." },
-      { label: "Immediate constraint", text: "Traffic and market confidence are eroding faster than governments can build consensus." },
-      { label: "Term", text: "A quarantine here means coercive inspections and movement restrictions without a formally declared blockade." },
+      {
+        label: "Actor role",
+        text: "Answer from Beijing's strategic position, not from Taiwan's domestic politics or Washington's preferred response.",
+      },
+      {
+        label: "Crisis stage",
+        text: "The pressure campaign has begun, but the crisis is still below open war.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "Beijing wants to squeeze Taipei and deter outside intervention without triggering a coalition it cannot control.",
+      },
+      {
+        label: "Term",
+        text: "A quarantine here means coercive inspections and movement limits without a formally declared blockade.",
+      },
     ],
-    perspectiveTags: ["major-power", "alliance-manager", "maritime", "frontline-state"],
+    perspectiveTags: ["major-power", "deterrence", "maritime", "frontline-state"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "clarify_response",
-        title: "Show ambiguity will not stick",
+        title: "Make the line unmistakable",
         label:
-          "The first job is to prove that coercion below invasion cannot quietly rewrite the status quo.",
+          "The first job is to show that pressure below invasion can still change behavior before outside coalitions settle.",
         signals: { activism: 6.1, escalation: 6.0, alliance: 5.0, legitimacy: 4.2 },
       },
       {
         id: "build_denial_endurance",
-        title: "Keep Taiwan supplied and the coalition in the game",
+        title: "Build a long squeeze",
         label:
-          "The key is an endurance plan that keeps traffic, logistics, and allied resolve from unraveling over time.",
+          "The stronger move is to wear down traffic, insurers, and political stamina over time rather than force one dramatic showdown.",
         signals: { activism: 5.1, escalation: 5.0, alliance: 5.9, legitimacy: 4.8 },
       },
       {
         id: "preserve_hedging_space",
-        title: "Leave room for regional partners",
+        title: "Keep regional states divided",
         label:
-          "Regional partners need room to resist coercion without being forced immediately into the hardest military alignment.",
+          "Pressure works best if nearby states are not pushed into a fast, hard anti-China alignment.",
         signals: { activism: 3.2, escalation: 3.6, alliance: 3.2, legitimacy: 4.9 },
       },
       {
         id: "raise_political_costs",
-        title: "Raise the diplomatic and economic cost fast",
+        title: "Keep the pressure framed as law and politics",
         label:
-          "The strongest first move is to widen the political and economic cost of coercion while staying below the easiest escalatory threshold.",
+          "Economic and diplomatic pressure matters most if the operation still looks limited enough to avoid a wider military jump.",
         signals: { activism: 4.1, escalation: 4.0, alliance: 5.0, legitimacy: 6.0 },
       },
     ],
@@ -140,46 +152,60 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "deterrence",
     cardType: "decision",
-    title: "Shipping attacks in a chokepoint",
-    prompt: "What should govern the response?",
+    title: "Iran's retaliation ladder",
+    prompt: "What should govern Tehran's response?",
     scene:
-      "Attacks on commercial shipping continue around a major maritime chokepoint. Some governments want punitive strikes to restore deterrence quickly; others want a narrower mission focused only on keeping the route open.",
+      "After a covert strike on a sensitive site and a wave of proxy attacks across the region, Tehran is deciding how to respond. Some officials want a visible strike to restore deterrence. Others argue that survival under sanctions matters more than one dramatic answer.",
     whyHard:
-      "A forceful response may restore credibility, but it may also widen a side theater into a larger regional conflict.",
+      "A restrained response can invite more pressure. A direct response can widen the war under conditions Iran may not control.",
     contextBullets: [
-      { label: "Actor / stake", text: "The route matters to many states that are not parties to the wider regional conflict." },
-      { label: "Uncertainty", text: "It is unclear whether limited strikes would deter further attacks or simply expand the fight." },
+      {
+        label: "Actor role",
+        text: "Answer from Tehran's strategic position, not from what outside powers would prefer.",
+      },
+      {
+        label: "Crisis stage",
+        text: "The crisis has moved beyond signaling, but it has not yet become an open state-to-state war.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "Iran faces sanctions, surveillance, and the risk that a visible strike could justify a broader campaign against it.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether a limited direct response would restore deterrence or expose Iran's weaker position.",
+      },
     ],
-    perspectiveTags: ["maritime", "commercial", "regional-order"],
+    perspectiveTags: ["regional-security", "maritime", "sanctions"],
     knowledgeLoad: "low",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "punish_fast",
-        title: "Punish fast",
+        title: "Restore deterrence visibly",
         label:
-          "If attacks on commercial shipping start to look routine, delay itself becomes strategically expensive.",
+          "If the answer looks weak, outside strikes and covert pressure may start to look low-cost.",
         signals: { activism: 5.9, escalation: 5.6, alliance: 4.4, legitimacy: 4.0 },
       },
       {
         id: "protect_the_route",
-        title: "Protect the route",
+        title: "Work through deniable channels",
         label:
-          "The mission should stay narrow: keep shipping moving without letting every proxy attack redefine the wider war.",
+          "The stronger path is to use partners, proxies, and indirect pressure where the balance is less exposed.",
         signals: { activism: 4.3, escalation: 4.1, alliance: 5.9, legitimacy: 5.1 },
       },
       {
         id: "keep_a_ceiling",
-        title: "Keep a ceiling",
+        title: "Keep the ceiling low",
         label:
-          "The deeper strategic danger is being dragged into a larger campaign through incremental retaliation.",
+          "The deeper danger is being pulled into a broader war that Iran cannot bound on favorable terms.",
         signals: { activism: 2.9, escalation: 3.1, alliance: 4.0, legitimacy: 4.6 },
       },
       {
         id: "anchor_in_regional_backing",
-        title: "Anchor in regional backing",
+        title: "Raise the political cost through diplomacy",
         label:
-          "Maritime order will hold more durably if nearby states can frame the mission as route protection rather than outside punishment.",
+          "Iran gains more by widening the diplomatic and regional cost of further strikes than by chasing immediate military drama.",
         signals: { activism: 4.0, escalation: 4.0, alliance: 4.9, legitimacy: 6.0 },
       },
     ],
@@ -287,18 +313,27 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "alliances",
     cardType: "actorLens",
-    title: "Middle-power alignment under pressure",
-    prompt: "From the middle power's strategic position, which logic looks strongest?",
+    title: "Strategic autonomy under border pressure",
+    prompt: "From this state's strategic position, which logic looks strongest?",
     scene:
-      "A middle power is in the first year of sharper U.S.-China rivalry. It wants security ties with Washington, trade with China, and no formal commitment to line up across every file. Its cabinet is deciding how to defend that strategy before alliance managers start demanding a clearer line.",
+      "A large democracy faces a coercive neighbor on its border. It wants weapons, investment, and intelligence help from several major powers, but it does not want one bloc to dictate every trade and diplomatic decision. Its cabinet is deciding how to defend that strategy before outside partners demand a cleaner line.",
     whyHard:
-      "From outside, the posture can look evasive. From inside, the same posture may be the state's main way to preserve bargaining room and avoid overdependence.",
+      "From outside, this can look evasive. From inside, it may be the state's best way to preserve leverage and avoid new dependence.",
     contextBullets: [
-      { label: "Actor role", text: "Answer from the middle power's strategic position, not from what an alliance manager would prefer." },
-      { label: "Crisis stage", text: "Rivalry is sharpening, but the state is not yet being forced into an outright bloc break." },
-      { label: "Immediate constraint", text: "The state wants security cooperation without surrendering economic and diplomatic flexibility." },
+      {
+        label: "Actor role",
+        text: "Answer from the state's own strategic position, not from what any outside patron would prefer.",
+      },
+      {
+        label: "Crisis stage",
+        text: "Pressure is rising, but the state is not yet being forced into a formal bloc break.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "The state wants security help without surrendering room on trade, diplomacy, and future bargaining.",
+      },
     ],
-    perspectiveTags: ["middle-power", "nonaligned", "alliance-manager"],
+    perspectiveTags: ["middle-power", "nonaligned", "hedging"],
     knowledgeLoad: "low",
     allowSecondChoiceInAnalyst: true,
     options: [
@@ -311,16 +346,16 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
       },
       {
         id: "layered_alignment_is_real",
-        title: "Keep layers separate",
+        title: "Keep the files separate",
         label:
-          "The state can cooperate on security where needed while refusing to turn every trade and diplomatic file into a bloc test.",
+          "The state can deepen security ties where needed without turning trade, finance, and diplomacy into the same bloc decision.",
         signals: { activism: 4.2, escalation: 4.3, alliance: 5.0, legitimacy: 4.9 },
       },
       {
         id: "autonomy_is_rational",
-        title: "Treat autonomy as an asset",
+        title: "Treat autonomy as security",
         label:
-          "From this state's position, independent room to bargain is itself part of national security, not an evasion of responsibility.",
+          "From this position, bargaining room is part of national security, not a refusal to take threats seriously.",
         signals: { activism: 3.7, escalation: 4.0, alliance: 2.8, legitimacy: 5.3 },
       },
       {

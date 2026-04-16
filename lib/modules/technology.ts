@@ -38,46 +38,60 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "controls",
     cardType: "decision",
-    title: "Semiconductor export controls",
+    title: "China under tighter chip controls",
     prompt: "What should carry the most weight first?",
     scene:
-      "The United States considers tightening semiconductor controls on China while allies worry about retaliation, fragmentation, and commercial loss. The dispute is not only over scope, but over what export controls are actually supposed to achieve.",
+      "Restrictions tighten again on advanced chips and tooling. In Beijing, officials are deciding what deserves priority next: domestic substitution, selective outside access, broader ecosystem investment, or restraint against panic.",
     whyHard:
-      "Controls can preserve leverage, but they can also speed up duplication and strain the coalition needed to keep them effective.",
+      "Trying to duplicate every bottleneck is costly. Leaving key layers exposed lets foreign governments set the ceiling on future capacity.",
     contextBullets: [
-      { label: "Actor / stake", text: "Governments are weighing security advantage against the costs of splitting technology supply chains faster than partners can adapt." },
-      { label: "Uncertainty", text: "No one knows whether broader controls preserve leverage or just speed up duplication and bloc hardening." },
+      {
+        label: "Actor role",
+        text: "Answer from Beijing's industrial-policy position, not from Washington's preferred line.",
+      },
+      {
+        label: "Crisis stage",
+        text: "Restrictions are tightening, but Chinese firms still retain some access, workarounds, and investment room.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "China wants to reduce exposure without wasting capital on every symbolic bottleneck at once.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether the main danger is short-run capability loss, long-run dependency, or overreaction.",
+      },
     ],
-    perspectiveTags: ["major-power", "alliance-manager", "industrial", "export-controls"],
+    perspectiveTags: ["major-power", "industrial", "export-controls"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "preserve_the_chokepoint",
-        title: "Protect the chokepoint",
+        title: "Accelerate domestic substitution",
         label:
-          "Broad control is justified because letting a rival close the capability gap would reshape the wider strategic balance.",
+          "The first job is to replace foreign choke points even if the near-term cost is high.",
         signals: { control: 6.3, governance: 3.4, industrial: 5.0, safety: 4.6 },
       },
       {
         id: "coordinate_narrow_controls",
-        title: "Coordinate narrow controls",
+        title: "Protect access where you still can",
         label:
-          "Controls should stay narrow and coordinated so they do not damage the wider order they are supposed to defend.",
+          "Selective cooperation, narrower retaliation, and targeted diplomacy may preserve room that a full break would destroy.",
         signals: { control: 5.2, governance: 6.2, industrial: 4.6, safety: 4.8 },
       },
       {
         id: "build_capacity_instead",
-        title: "Build capacity first",
+        title: "Build the wider ecosystem",
         label:
-          "The more durable answer is productive depth at home and across partners, not ever-broader restriction by itself.",
+          "The real priority is talent, tools, power, finance, and manufacturing depth, not chasing every frontier bottleneck at once.",
         signals: { control: 4.8, governance: 4.8, industrial: 6.3, safety: 4.4 },
       },
       {
         id: "avoid_total_securitization",
-        title: "Avoid total securitization",
+        title: "Do not turn every gap into an emergency",
         label:
-          "Turning every technology gap into a security contest can shrink the room for adaptation faster than it solves the underlying problem.",
+          "Panic can waste resources and harden blocs faster than the restrictions themselves.",
         signals: { control: 2.9, governance: 4.2, industrial: 3.9, safety: 3.9 },
       },
     ],
@@ -136,17 +150,23 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "controls",
     cardType: "explanation",
-    title: "Data localization and sovereign stacks",
-    prompt: "What is the strongest reading of why states are building sovereign AI stacks?",
+    title: "Foreign clouds and sovereign stacks",
+    prompt: "What is the strongest reading of why some states want a sovereign AI stack?",
     scene:
-      "Governments are choosing between interoperable data rules, local storage mandates, and more sovereign AI stacks. The same move is described by some as necessary risk control and by others as hierarchy management or industrial self-protection.",
+      "A lower-income state relies on foreign cloud providers, imported data-center hardware, and outside software services for most digital government functions. Officials are debating local storage rules and a modest sovereign AI stack. Critics call it expensive symbolism. Supporters call it the price of not living inside someone else's infrastructure.",
     whyHard:
-      "A sovereignty move can be about security, development, bargaining power, or domestic politics, and the right explanation changes what policy follows.",
+      "The same move can be about control, bargaining power, development, or politics. The reason you think is primary changes what policy follows.",
     contextBullets: [
-      { label: "Actor / stake", text: "Large and small states do not face the same dependence risks or the same costs of fragmentation." },
-      { label: "Uncertainty", text: "It is not obvious whether sovereignty measures reduce exposure or just move dependence into a different layer of the stack." },
+      {
+        label: "Actor / stake",
+        text: "The state wants digital growth, but it cannot cheaply build every layer itself.",
+      },
+      {
+        label: "Uncertainty",
+        text: "Local rules may reduce exposure, or they may just move dependence into a more expensive form.",
+      },
     ],
-    perspectiveTags: ["developmental", "digital-sovereignty", "state-capacity"],
+    perspectiveTags: ["developmental", "dependency", "digital-sovereignty", "state-capacity"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [
@@ -234,46 +254,52 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "capacity",
     cardType: "explanation",
-    title: "AI and industrial policy",
-    prompt: "What is the strongest reading of how durable technological advantage is built?",
+    title: "Compute, cloud, and industrial catch-up",
+    prompt: "What is the strongest reading of how a middle power should build durable AI capacity?",
     scene:
-      "Governments are weighing subsidies, public compute, talent pipelines, allied specialization, and strategic autonomy in AI buildout. The disagreement is not just about instruments. It is about what kind of system actually produces durable advantage.",
+      "A large middle power is deciding whether compute, cloud, and data centers should be treated as strategic public infrastructure or left mainly to the market. Officials agree the country cannot build every layer of the stack. They disagree on what kind of system actually creates durable advantage.",
     whyHard:
-      "If you misidentify the engine of advantage, you can spend heavily on the wrong layer of the stack.",
+      "If you misread where advantage comes from, you can spend heavily and still stay dependent.",
     contextBullets: [
-      { label: "Actor / stake", text: "States want frontier capability, but they vary widely in fiscal capacity, scale, and existing ecosystem depth." },
-      { label: "Uncertainty", text: "It is unclear whether strategic industries are best built through state direction, market discovery, or coalition specialization." },
+      {
+        label: "Actor / stake",
+        text: "The state wants more capacity, but its fiscal room and technical base are limited.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether catch-up comes mainly from public buildout, market adaptation, coalition specialization, or protected autonomy.",
+      },
     ],
-    perspectiveTags: ["industrial", "state-capacity", "alliance-manager"],
+    perspectiveTags: ["developmental", "industrial", "state-capacity", "middle-income"],
     knowledgeLoad: "low",
     allowSecondChoiceInAnalyst: true,
     options: [
       {
         id: "state_buildout_logic",
-        title: "State buildout matters most",
+        title: "Public buildout matters most",
         label:
-          "Strategic industries do not reliably appear at the needed scale or speed without sustained public direction and infrastructure.",
+          "Strategic sectors usually do not appear at the needed scale or speed without public finance and infrastructure.",
         signals: { control: 5.1, governance: 4.2, industrial: 6.4, safety: 4.1 },
       },
       {
         id: "specialization_logic",
         title: "Specialization matters most",
         label:
-          "The stronger model is interoperable ecosystems across partners, not every country trying to reproduce the whole stack.",
+          "The stronger model is to pool scale across partners instead of trying to rebuild the whole stack alone.",
         signals: { control: 4.3, governance: 6.1, industrial: 4.8, safety: 4.2 },
       },
       {
         id: "market_adaptation_logic",
         title: "Market adaptation matters most",
         label:
-          "States should set guardrails and basic infrastructure, but heavy planning often freezes the field around political guesses.",
+          "Government should set guardrails and basic infrastructure, but heavy planning can lock in the wrong bets.",
         signals: { control: 3.1, governance: 4.1, industrial: 2.8, safety: 4.0 },
       },
       {
         id: "autonomy_depth_logic",
-        title: "Autonomy depth matters most",
+        title: "Protected depth matters most",
         label:
-          "Too much dependence on allies or open supply chains creates future vulnerability. Strategic sectors need protected domestic depth.",
+          "Dependence on foreign capital, cloud, or tools creates future vulnerability. Some domestic depth has to be built and sheltered.",
         signals: { control: 6.2, governance: 3.0, industrial: 5.9, safety: 4.2 },
       },
     ],
@@ -432,19 +458,31 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "governance",
     cardType: "actorLens",
-    title: "Digital development without dependency",
+    title: "AI access under sanctions and dependence",
     prompt: "From this state's strategic position, which logic looks strongest?",
     scene:
-      "A middle-income state is drafting its five-year AI strategy. It wants more capacity, but officials worry that both U.S. platforms and Chinese infrastructure could harden long-run dependency. The cabinet is deciding which logic best captures its own position before it commits scarce public money.",
+      "A sanctions-constrained middle-income state wants AI compute and cloud access for education, logistics, and public services. Officials know the fastest outside options could also deepen surveillance exposure and political dependence. The cabinet is deciding which logic best captures its own position before it commits scarce public money.",
     whyHard:
-      "The state needs more capability, but the path that looks cheapest now may deepen the dependence it most wants to escape later.",
+      "The state needs more capability, but the cheapest path now may deepen the dependence it most wants to escape later.",
     contextBullets: [
-      { label: "Actor role", text: "Answer from the state's own strategic position, not from what a major power or a donor would prefer." },
-      { label: "Crisis stage", text: "This is an early buildout decision, before the state's technical path dependence is locked in." },
-      { label: "Immediate constraint", text: "The state cannot finance every layer of the stack, but it still wants room to bargain and adapt." },
-      { label: "Uncertainty", text: "It is unclear whether sovereignty, diversification, shared regional capacity, or simple access is the decisive constraint." },
+      {
+        label: "Actor role",
+        text: "Answer from the state's own strategic position, not from what a major power or a donor would prefer.",
+      },
+      {
+        label: "Crisis stage",
+        text: "This is an early buildout decision, before the state's technical dependence is locked in.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "The state cannot finance every layer of the stack, but it still wants room to bargain and protect sensitive systems.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether sovereignty, diversification, shared capacity, or simple access is the decisive constraint.",
+      },
     ],
-    perspectiveTags: ["developmental", "middle-income", "digital-sovereignty"],
+    perspectiveTags: ["developmental", "middle-income", "dependency", "state-capacity"],
     knowledgeLoad: "low",
     allowSecondChoiceInAnalyst: true,
     options: [
@@ -466,7 +504,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
         id: "collective_capacity_problem",
         title: "Treat it as a scale problem",
         label:
-          "Shared compute, training, and procurement are the only realistic way for many states to widen room to maneuver.",
+          "Shared compute, training, and procurement may be the only realistic way to widen room to maneuver.",
         signals: { control: 4.1, governance: 5.6, industrial: 6.0, safety: 4.2 },
       },
       {
@@ -486,19 +524,31 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
     kind: "case",
     lane: "controls",
     cardType: "actorLens",
-    title: "Containment critique and export controls",
-    prompt: "From this non-Western government's strategic position, which logic looks strongest?",
+    title: "Tech nonalignment under export-control pressure",
+    prompt: "From this government's strategic position, which logic looks strongest?",
     scene:
-      "A non-Western government is deciding whether to join a new technology-security arrangement after fresh U.S. semiconductor controls and Chinese retaliation threats. Its policymakers hear Washington call the measures security policy and Beijing call them an attempt to freeze hierarchy. They now have to decide which logic best captures their own strategic read before trade and technology talks begin.",
+      "A large nonaligned state is deciding whether to join a new technology-security arrangement after fresh U.S. controls and Chinese retaliation threats. Its policymakers hear Washington call the measures security policy and Beijing call them an attempt to freeze hierarchy. They now have to decide which logic best captures their own strategic read before trade and technology talks begin.",
     whyHard:
-      "More than one critique can be true at once, but the main diagnosis determines whether the government narrows cooperation, pushes back, or keeps room to hedge.",
+      "More than one critique can be true at once, but the main diagnosis determines whether the government aligns, pushes back, or keeps room to hedge.",
     contextBullets: [
-      { label: "Actor role", text: "Answer from the government's own strategic position, not from Washington's or Beijing's preferred framing." },
-      { label: "Crisis stage", text: "The controls fight is active, but the government still has room to decide how closely it will align." },
-      { label: "Immediate constraint", text: "The state wants technology access without becoming permanently subordinate to either camp." },
-      { label: "Uncertainty", text: "It is unclear whether the controls are a narrow security measure or part of a longer hierarchy-preserving strategy." },
+      {
+        label: "Actor role",
+        text: "Answer from the government's own strategic position, not from Washington's or Beijing's preferred framing.",
+      },
+      {
+        label: "Crisis stage",
+        text: "The controls fight is active, but the government still has room to decide how closely it will align.",
+      },
+      {
+        label: "Immediate constraint",
+        text: "The state wants advanced technology access without becoming permanently subordinate to either camp.",
+      },
+      {
+        label: "Uncertainty",
+        text: "It is unclear whether the controls are a narrow security measure or part of a longer strategy to preserve hierarchy.",
+      },
     ],
-    perspectiveTags: ["nonaligned", "developmental", "export-controls"],
+    perspectiveTags: ["middle-power", "nonaligned", "developmental", "export-controls"],
     knowledgeLoad: "medium",
     allowSecondChoiceInAnalyst: true,
     options: [

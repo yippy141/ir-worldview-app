@@ -637,7 +637,7 @@ function SupportBlock({
             textUnderlineOffset: "3px",
           }}
         >
-          {visible ? "Hide context" : "Need context?"}
+          {visible ? "Hide explainer" : supportToggleLabel(question)}
         </button>
       ) : null}
 
@@ -666,12 +666,14 @@ function SupportBlock({
 function ClarificationCopy({ clarification }: { clarification: Clarification }) {
   return (
     <div className="stack-xs">
+      <p style={{ fontWeight: 600 }}>What this is really asking</p>
       <p>{clarification.whatItAsks}</p>
       {clarification.whatItDoesNotAsk ? (
         <p className="muted">{clarification.whatItDoesNotAsk}</p>
       ) : null}
       {clarification.terms && clarification.terms.length > 0 ? (
         <div className="stack-xs">
+          <p style={{ fontWeight: 600 }}>Quick glossary</p>
           {clarification.terms.map((term) => (
             <p key={term.term}>
               <strong>{term.term}:</strong> <span className="muted">{term.definition}</span>
@@ -695,6 +697,10 @@ function questionLabel(question: Question) {
 
 function hasSupport(question: Question) {
   return Boolean(question.helpText || question.clarification)
+}
+
+function supportToggleLabel(question: Question) {
+  return question.clarification ? "What this is really asking" : "Quick explainer"
 }
 
 function modeLabel(mode: QuizMode) {
