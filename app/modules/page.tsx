@@ -19,82 +19,144 @@ export default async function ModulesPage(
 
   return (
     <div className="wide-container">
-      <div className="article-header stack-sm">
-        <p className="eyebrow">Focus-area modules</p>
-        <h1>Stress-test your baseline in one issue area</h1>
-        <p className="muted" style={{ lineHeight: "1.7", fontSize: "1.05rem", maxWidth: "640px" }}>
-          These modules sit on top of the shared Foundation. They do not replace the baseline;
-          they show how your instincts travel when the questions become more issue-specific.
-        </p>
-      </div>
+      <article className="lobby-page stack-xl">
+        <section className="lobby-hero">
+          <div className="lobby-hero-grid">
+            <div className="stack-md">
+              <p className="section-kicker">Focus-area modules</p>
+              <h1>Issue overlays for the IR Foundation</h1>
+              <p className="lobby-lead">
+                Security and Technology sit on top of the shared IR baseline. They do not replace
+                the Foundation. They show how your instincts travel once the questions become more
+                concrete and the tradeoffs become harder to ignore.
+              </p>
+              <div className="row gap-sm wrap">
+                <Link href="/quiz" className="cta-primary">Open the Foundation</Link>
+                <Link href="/profile" className="cta-secondary">View your Profile</Link>
+              </div>
+            </div>
 
-      <div className="callout stack-xs" style={{ marginBottom: "28px" }}>
-        <p style={{ fontWeight: 600 }}>Why these issue areas</p>
-        <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-          The focus-area structure is loosely inspired by how international affairs programs,
-          including the SAIS MAIR curriculum, often group issue areas. This project is independent
-          and does not imply affiliation or endorsement.
-        </p>
-      </div>
+            <aside className="lobby-side-note stack-sm">
+              <div className="stack-xs">
+                <p className="section-kicker">Why these modules exist</p>
+                <p className="muted lobby-side-text">
+                  Broad priors and issue-specific instincts are related but not identical. This
+                  layer tests how the baseline behaves when it has to answer live arguments rather
+                  than abstract statements.
+                </p>
+              </div>
+              {foundation ? (
+                <div className="callout stack-xs">
+                  <p style={{ fontWeight: 600 }}>Foundation comparison is available</p>
+                  <p className="muted lobby-side-text">
+                    Open either module from here and the result page will compare it back to your
+                    Foundation baseline.
+                  </p>
+                </div>
+              ) : null}
+            </aside>
+          </div>
+        </section>
 
-      <div className="callout stack-sm" style={{ marginBottom: "28px" }}>
-        <p style={{ fontWeight: 600, margin: 0 }}>Companion AI module</p>
-        <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
-          The AI Governance Compass is a parallel companion module with its own quiz and atlas.
-          Use the atlas if you want the quickest way into the modeled AI-governance families
-          before taking the inventory.
-        </p>
-        <div className="row gap-sm wrap">
-          <Link href="/ai" className="cta-secondary">AI home</Link>
-          <Link href="/ai/atlas" className="cta-primary">AI atlas</Link>
-          <Link href="/ai/quiz" className="cta-secondary">AI quiz</Link>
-        </div>
-      </div>
+        <section className="lobby-signals">
+          <div className="signal-list signal-list--three">
+            <div className="signal-list-item">
+              <strong>What this layer covers</strong>
+              Security and Technology each use lane-based cases rather than one undifferentiated
+              basket of prompts.
+            </div>
+            <div className="signal-list-item">
+              <strong>How long it takes</strong>
+              Standard keeps each module compact. Advanced adds one more case per lane without
+              changing the purpose of the readout.
+            </div>
+            <div className="signal-list-item">
+              <strong>What it does not claim</strong>
+              A module result is an issue read, not a more scientific replacement for the
+              Foundation baseline.
+            </div>
+          </div>
+        </section>
 
-      {foundation ? (
-        <div className="callout stack-xs" style={{ marginBottom: "28px" }}>
-          <p style={{ fontWeight: 600 }}>Foundation comparison is available</p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            If you open a module from here, the result page will compare that module back to your
-            Foundation baseline.
-          </p>
-        </div>
-      ) : null}
+        <section className="stack-md">
+          <div className="stack-xs">
+            <p className="section-kicker">Available modules</p>
+            <h2>Choose the issue file you want to pressure-test first</h2>
+          </div>
+          <div className="lobby-entry-list">
+            {modules.map((moduleDefinition) => (
+              <article key={moduleDefinition.slug} className="lobby-entry">
+                <div className="lobby-entry-main stack-sm">
+                  <div className="stack-xs">
+                    <p className="section-kicker">Focus-area module</p>
+                    <h3 className="lobby-entry-title">{moduleDefinition.title}</h3>
+                    <p className="lobby-entry-subtitle">{moduleDefinition.subtitle}</p>
+                  </div>
+                  <p className="muted lobby-entry-text">{moduleDefinition.description}</p>
+                  <div className="row gap-sm wrap">
+                    <Link
+                      href={`/modules/${moduleDefinition.slug}${foundation ? `?foundation=${encodeURIComponent(foundation)}` : ""}`}
+                      className="cta-primary"
+                    >
+                      Open {moduleDefinition.shortTitle}
+                    </Link>
+                    <Link href="/profile" className="cta-secondary">Keep it in Profile</Link>
+                  </div>
+                </div>
 
-      <div className="module-card-grid">
-        {modules.map((moduleDefinition) => (
-          <Link
-            key={moduleDefinition.slug}
-            href={`/modules/${moduleDefinition.slug}${foundation ? `?foundation=${encodeURIComponent(foundation)}` : ""}`}
-            className="explore-card"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <p className="eyebrow" style={{ marginBottom: "10px" }}>Focus-area module</p>
-            <p
-              style={{
-                fontFamily: "Georgia, serif",
-                fontWeight: 700,
-                fontSize: "1.05rem",
-                marginBottom: "8px",
-              }}
-            >
-              {moduleDefinition.title}
+                <div className="lobby-entry-meta">
+                  <div className="lobby-meta-block">
+                    <p className="lobby-meta-label">What it covers</p>
+                    <p className="muted">{moduleDefinition.lanes.map((lane) => lane.label).join(" · ")}</p>
+                  </div>
+                  <div className="lobby-meta-block">
+                    <p className="lobby-meta-label">How long it takes</p>
+                    <p className="muted">
+                      Standard: {moduleDefinition.timeEstimate.standard} · Advanced: {moduleDefinition.timeEstimate.analyst}
+                    </p>
+                  </div>
+                  <div className="lobby-meta-block">
+                    <p className="lobby-meta-label">What it does not claim</p>
+                    <p className="muted">{moduleDefinition.doesNotClaim[0]}.</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="lobby-related-grid">
+          <div className="stack-sm">
+            <p className="section-kicker">Same product family</p>
+            <h2>The AI companion and browse surfaces stay adjacent to the IR modules</h2>
+            <p className="muted lobby-side-text">
+              The AI Governance Compass runs alongside the IR Foundation and issue overlays. The
+              field guide and Profile keep the whole product legible rather than scattering the
+              pieces across separate experiences.
             </p>
-            <p style={{ fontWeight: 600, marginBottom: "8px", fontSize: "0.9rem" }}>
-              {moduleDefinition.subtitle}
-            </p>
-            <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.88rem" }}>
-              {moduleDefinition.description}
-            </p>
-            <p className="muted" style={{ marginTop: "12px", fontSize: "0.82rem", lineHeight: "1.55" }}>
-              Lanes: {moduleDefinition.lanes.map((lane) => lane.label).join(" · ")}
-            </p>
-            <p style={{ marginTop: "14px", fontSize: "0.82rem", color: "var(--accent-light)", fontWeight: 600 }}>
-              Standard: {moduleDefinition.timeEstimate.standard} · Advanced: {moduleDefinition.timeEstimate.analyst}
-            </p>
-          </Link>
-        ))}
-      </div>
+          </div>
+          <div className="resource-list">
+            <Link href="/ai" className="resource-list-link">
+              <span className="resource-list-copy">
+                <span className="resource-list-title">AI Governance Compass</span>
+                <span className="resource-list-text">Open the companion module and its atlas.</span>
+              </span>
+            </Link>
+            <Link href="/explore" className="resource-list-link">
+              <span className="resource-list-copy">
+                <span className="resource-list-title">Explore</span>
+                <span className="resource-list-text">Browse modeled traditions, nearby patterns, and coverage gaps.</span>
+              </span>
+            </Link>
+            <Link href="/profile" className="resource-list-link">
+              <span className="resource-list-copy">
+                <span className="resource-list-title">Profile</span>
+                <span className="resource-list-text">Keep the Foundation, overlays, and saved AI result in one view.</span>
+              </span>
+            </Link>
+          </div>
+        </section>
+      </article>
     </div>
   )
 }

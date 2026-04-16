@@ -3,6 +3,20 @@ import Link from "next/link"
 import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
+const primaryNavItems = [
+  { href: "/quiz", label: "Foundation" },
+  { href: "/modules", label: "Focus Areas" },
+  { href: "/ai", label: "AI" },
+  { href: "/explore", label: "Explore" },
+] as const
+
+const secondaryNavItems = [
+  { href: "/profile", label: "Profile" },
+  { href: "/method", label: "Methods" },
+  { href: "/references", label: "References" },
+  { href: "/feedback", label: "Feedback" },
+] as const
+
 export const metadata: Metadata = {
   title: siteConfig.publicTitle,
   description:
@@ -23,27 +37,50 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <p className="brand">{siteConfig.publicTitle}</p>
                   <p className="brand-subtitle">{siteConfig.byline}</p>
                 </Link>
-                <nav className="header-nav" aria-label="Site">
-                  <div className="header-nav-group">
-                    <p className="header-nav-label">Start here</p>
-                    <div className="header-nav-row">
-                      <Link href="/" className="nav-link">Home</Link>
-                      <Link href="/quiz" className="nav-link">Foundation</Link>
-                      <Link href="/profile" className="nav-link">Profile</Link>
-                    </div>
+                <nav className="header-nav header-nav--desktop" aria-label="Primary">
+                  <div className="header-nav-row">
+                    {primaryNavItems.map((item) => (
+                      <Link key={item.href} href={item.href} className="nav-link">
+                        {item.label}
+                      </Link>
+                    ))}
+                    <details className="nav-disclosure">
+                      <summary className="nav-disclosure-summary">More</summary>
+                      <div className="nav-disclosure-menu">
+                        {secondaryNavItems.map((item) => (
+                          <Link key={item.href} href={item.href} className="nav-disclosure-link">
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </details>
                   </div>
-                  <div className="header-nav-group">
-                    <p className="header-nav-label">Browse</p>
-                    <div className="header-nav-row">
-                      <Link href="/explore" className="nav-link">Explore</Link>
-                      <Link href="/modules" className="nav-link">Focus Areas</Link>
-                      <Link href="/ai" className="nav-link">AI</Link>
-                      <Link href="/references" className="nav-link">References</Link>
-                      <Link href="/method" className="nav-link">Methods</Link>
-                    </div>
-                  </div>
-                  <Link href="/feedback" className="nav-cta">Feedback</Link>
                 </nav>
+                <details className="mobile-nav">
+                  <summary className="mobile-nav-summary">Menu</summary>
+                  <div className="mobile-nav-sheet">
+                    <div className="mobile-nav-group">
+                      <p className="mobile-nav-label">Main routes</p>
+                      <div className="mobile-nav-links">
+                        {primaryNavItems.map((item) => (
+                          <Link key={item.href} href={item.href} className="mobile-nav-link">
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="mobile-nav-group">
+                      <p className="mobile-nav-label">Project</p>
+                      <div className="mobile-nav-links">
+                        {secondaryNavItems.map((item) => (
+                          <Link key={item.href} href={item.href} className="mobile-nav-link">
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </details>
               </div>
             </div>
           </header>

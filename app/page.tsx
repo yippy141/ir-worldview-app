@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { QuizMenuCard } from "@/components/landing/resume-cta"
+import { modules } from "@/lib/modules/framework"
 import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
@@ -10,122 +11,161 @@ export const metadata: Metadata = {
 }
 
 export default function LandingPage() {
+  const familyLinks = [
+    ...modules.map((moduleDefinition) => ({
+      href: `/modules/${moduleDefinition.slug}`,
+      label: moduleDefinition.shortTitle,
+      description: moduleDefinition.subtitle,
+      meta: `${moduleDefinition.timeEstimate.standard} to ${moduleDefinition.timeEstimate.analyst}`,
+    })),
+    {
+      href: "/ai",
+      label: "AI Governance Compass",
+      description: "A companion module that keeps AI governance legible without folding it into the IR baseline.",
+      meta: "Parallel module",
+    },
+    {
+      href: "/explore",
+      label: "Explore",
+      description: "A field guide to modeled traditions, nearby patterns, and the parts of the map that remain partial.",
+      meta: "Browse the model",
+    },
+    {
+      href: "/profile",
+      label: "Profile",
+      description: "Keep the Foundation, completed overlays, and any saved AI result in one integrated read.",
+      meta: "Your saved synthesis",
+    },
+  ]
+
   return (
     <div className="landing-page">
-      <section className="landing-hero">
-        <div className="hero-grid">
-          {/* Left: intro copy */}
+      <section className="landing-hero landing-hero--editorial">
+        <div className="landing-hero-grid">
           <div className="stack-md">
-            <div>
-              <p className="eyebrow">Editorial interactive</p>
-              <h1
-                style={{
-                  fontSize: "clamp(1.9rem, 4vw, 2.8rem)",
-                  letterSpacing: "-0.03em",
-                  marginTop: "10px",
-                  lineHeight: "1.15",
-                }}
-              >
-                Map how you think about world politics
-              </h1>
+            <p className="section-kicker">Editorial interactive for IR and AI</p>
+            <h1 className="landing-display">
+              Map a baseline, pressure-test it in live issue areas, and keep the whole profile in view.
+            </h1>
+            <p className="landing-lead">
+              Start with the IR Foundation to map your baseline assumptions about world politics
+              across seven dimensions. Then use Security, Technology, and the AI companion to see
+              where that baseline holds, sharpens, or complicates.
+            </p>
+            <div className="row gap-sm wrap">
+              <Link href="/quiz" className="cta-primary">
+                Start with the Foundation
+              </Link>
+              <Link href="/explore" className="cta-secondary">
+                Browse the field guide
+              </Link>
             </div>
-            <p style={{ fontSize: "1rem", lineHeight: "1.75", color: "var(--muted)", maxWidth: "480px" }}>
-              Start with the Foundation to map your baseline assumptions about world politics
-              across seven dimensions. Then use the Security and Technology modules to see how that
-              baseline changes once the cases become more concrete, and bring the results together
-              in your Profile.
-            </p>
-            <p style={{ fontSize: "0.875rem", lineHeight: "1.65", color: "var(--muted)", maxWidth: "480px" }}>
-              <strong style={{ color: "var(--text)" }}>Not</strong> a political compass, a
-              personality test, or a validated psychometric instrument. This is a public-facing
-              interpretation tool: useful as a starting point, not a verdict.
+            <p className="landing-note">
+              Not a political compass, a personality test, or a validated psychometric instrument.
+              This is an interpretive tool designed to make theoretical priors legible, not to
+              assign a final verdict.
             </p>
           </div>
 
-          {/* Right: menu cards */}
-          <div className="hero-cards">
+          <aside className="landing-side-stack">
+            <div className="landing-side-panel stack-sm">
+              <p className="section-kicker">How the product family fits together</p>
+              <div className="landing-route-list">
+                <div className="landing-route-item">
+                  <p className="landing-route-title">1. Foundation</p>
+                  <p className="landing-route-text">Establish the baseline IR read before moving into applied cases.</p>
+                </div>
+                <div className="landing-route-item">
+                  <p className="landing-route-title">2. Issue overlays</p>
+                  <p className="landing-route-text">Use Security and Technology to see how the baseline travels under pressure.</p>
+                </div>
+                <div className="landing-route-item">
+                  <p className="landing-route-title">3. Companion AI layer</p>
+                  <p className="landing-route-text">Keep AI governance adjacent to the IR profile rather than collapsing them into one score.</p>
+                </div>
+              </div>
+            </div>
             <QuizMenuCard />
-            <Link href="/explore" className="menu-card">
-              <p className="menu-card-title">Explore the perspectives</p>
-              <p className="menu-card-desc">
-                A field guide to the modeled traditions, nearby profile patterns, and coverage gaps.
-              </p>
-            </Link>
-            <Link href="/profile" className="menu-card">
-              <p className="menu-card-title">Profile</p>
-              <p className="menu-card-desc">
-                Bring your Foundation and completed focus-area modules into one integrated view.
-              </p>
-            </Link>
-            <Link href="/modules" className="menu-card">
-              <p className="menu-card-title">Focus-area modules</p>
-              <p className="menu-card-desc">
-                Stress-test your baseline in Security or Technology after the Foundation.
-              </p>
-            </Link>
-            <Link href="/method" className="menu-card">
-              <p className="menu-card-title">How it works</p>
-              <p className="menu-card-desc">
-                Foundation, focus-area modules, Profile architecture, scoring, and limitations.
-              </p>
-            </Link>
-            <Link href="/references" className="menu-card">
-              <p className="menu-card-title">References</p>
-              <p className="menu-card-desc">
-                Primary texts and further reading, organized by tradition.
-              </p>
-            </Link>
+          </aside>
+        </div>
+      </section>
+
+      <section className="landing-section">
+        <div className="landing-family-grid">
+          <article className="landing-feature-card stack-md">
+            <p className="section-kicker">Start here</p>
+            <h2>IR Foundation</h2>
+            <p className="landing-feature-text">
+              The Foundation is the shared baseline for the product. It gives you the clearest
+              first read before any issue-specific overlay or integrated profile work begins.
+            </p>
+            <div className="signal-list">
+              <div className="signal-list-item">
+                <strong>What it covers</strong>
+                Seven dimensions across rivalry, institutions, domestic politics, identity,
+                political economy, restraint, and order versus justice.
+              </div>
+              <div className="signal-list-item">
+                <strong>How long it takes</strong>
+                Standard is the cleaner first pass. Advanced adds denser tradeoffs without changing
+                the underlying scoring model.
+              </div>
+              <div className="signal-list-item">
+                <strong>What it does not claim</strong>
+                It does not sort people into natural kinds or certify a single correct worldview.
+              </div>
+            </div>
+            <div className="row gap-sm wrap">
+              <Link href="/quiz" className="cta-primary">
+                Open the Foundation
+              </Link>
+              <Link href="/method" className="cta-secondary">
+                Read the methods
+              </Link>
+            </div>
+          </article>
+
+          <div className="landing-family-rail">
+            <div className="stack-xs">
+              <p className="section-kicker">Continue through the rest of the product</p>
+              <h2 className="landing-family-heading">Issue overlays, companion module, browse surfaces, and profile</h2>
+            </div>
+            <div className="landing-rail-list">
+              {familyLinks.map((entry) => (
+                <Link key={entry.href} href={entry.href} className="landing-rail-link">
+                  <div className="landing-rail-copy">
+                    <p className="landing-rail-title">{entry.label}</p>
+                    <p className="landing-rail-text">{entry.description}</p>
+                  </div>
+                  <div className="landing-rail-meta">
+                    <span>{entry.meta}</span>
+                    <span className="landing-rail-arrow">Open</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <hr className="divider" style={{ margin: "0" }} />
-
-      {/* AI Governance Compass */}
-      <section className="landing-section">
-        <div style={{ maxWidth: "600px" }} className="stack-md">
-          <div>
-            <p className="eyebrow">Companion module</p>
-            <h2
-              style={{
-                fontSize: "clamp(1.3rem, 2.5vw, 1.8rem)",
-                letterSpacing: "-0.02em",
-                marginTop: "8px",
-                lineHeight: "1.2",
-              }}
-            >
-              AI Governance Compass
-            </h2>
+      <section className="landing-section landing-section--closing">
+        <div className="landing-closing-grid">
+          <div className="stack-sm">
+            <p className="section-kicker">About the project</p>
+            <p className="landing-closing-text">
+              The {siteConfig.publicTitle} is an editorial interactive built by {siteConfig.author}
+              for students, researchers, practitioners, and engaged readers who want a clearer
+              account of the theoretical priors behind their foreign-policy instincts.
+            </p>
           </div>
-          <p style={{ fontSize: "0.975rem", lineHeight: "1.75", color: "var(--muted)" }}>
-            A branching inventory of how you think about AI safety, governance, geopolitical
-            rivalry, openness, military use, and the future of human agency.
-          </p>
-          <div>
-            <Link href="/ai" className="cta-primary">
-              Take the AI module →
+          <div className="landing-closing-links">
+            <Link href="/references" className="landing-text-link">
+              Continue into references
+            </Link>
+            <Link href="/feedback" className="landing-text-link">
+              Send feedback
             </Link>
           </div>
-        </div>
-      </section>
-
-      <hr className="divider" style={{ margin: "0" }} />
-
-      {/* About / byline */}
-      <section className="landing-section">
-        <div style={{ maxWidth: "560px" }} className="stack-sm">
-          <p className="eyebrow">About this project</p>
-          <p className="muted" style={{ lineHeight: "1.7", fontSize: "0.9rem" }}>
-            The {siteConfig.publicTitle} is an editorial interactive built by {siteConfig.author},
-            aimed at students, researchers, practitioners, and engaged readers curious about the
-            theoretical priors behind their foreign policy instincts. For its limitations, see the{" "}
-            <Link href="/method" style={{ color: "var(--accent)" }}>Methods</Link> page.
-          </p>
-          <p style={{ fontSize: "0.875rem" }}>
-            <Link href="/feedback" style={{ color: "var(--accent)" }}>
-              Feedback is welcome →
-            </Link>
-          </p>
         </div>
       </section>
     </div>

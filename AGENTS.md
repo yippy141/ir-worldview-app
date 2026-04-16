@@ -133,13 +133,14 @@ Good clarification:
 - Add graceful invalid-result handling, but fix the generator first.
 
 ## Repository rules
-- Never delete or replace the current IR quiz routes.
-- Never rename existing payload helpers without explicit instruction.
-- For AI changes, prefer parallel routes and additive changes.
+- Do not break existing share payloads unless explicitly asked.
+- Preserve existing scoring semantics unless explicitly asked.
+- Use parallel routes and minimal diffs where possible.
 - Run npm run lint after edits.
-- Run npm run test and npm run build after substantial milestones.
-- Do not add new dependencies unless explicitly asked.
-- Keep changes readable and minimal.
+- Run npm run test and npm run build for milestone prompts.
+- Do not run npm run dev unless explicitly asked.
+- Prefer fewer, bigger, high-confidence changes.
+- Keep IR and AI content globally legible, not just US-policy-legible.
 
 ## Expected deliverable quality
 
