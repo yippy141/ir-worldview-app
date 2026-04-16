@@ -27,6 +27,12 @@ export default function AiPage() {
             Use it as an editorial field guide to your governing instincts, not as a validated
             instrument or a claim that the AI-governance field divides neatly into fixed camps.
           </p>
+          <div className="row gap-sm wrap">
+            <Link href="/ai/quiz" className="cta-primary">Open the quiz</Link>
+            <Link href="/ai/atlas" className="cta-secondary">Browse the atlas</Link>
+            <Link href="/method" className="cta-secondary">Methods</Link>
+            <Link href="/references" className="cta-secondary">Resources</Link>
+          </div>
         </section>
 
         <section className="result-section stack-lg">

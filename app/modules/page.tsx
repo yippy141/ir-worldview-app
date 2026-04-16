@@ -37,6 +37,20 @@ export default async function ModulesPage(
         </p>
       </div>
 
+      <div className="callout stack-sm" style={{ marginBottom: "28px" }}>
+        <p style={{ fontWeight: 600, margin: 0 }}>Companion AI module</p>
+        <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+          The AI Governance Compass is a parallel companion module with its own quiz and atlas.
+          Use the atlas if you want the quickest way into the modeled AI-governance families
+          before taking the inventory.
+        </p>
+        <div className="row gap-sm wrap">
+          <Link href="/ai" className="cta-secondary">AI home</Link>
+          <Link href="/ai/atlas" className="cta-primary">AI atlas</Link>
+          <Link href="/ai/quiz" className="cta-secondary">AI quiz</Link>
+        </div>
+      </div>
+
       {foundation ? (
         <div className="callout stack-xs" style={{ marginBottom: "28px" }}>
           <p style={{ fontWeight: 600 }}>Foundation comparison is available</p>
