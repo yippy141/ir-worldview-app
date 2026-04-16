@@ -154,11 +154,6 @@ export default async function AiResultPage(
           </div>
 
           <p>
-            <Link href="/ai/atlas" style={{ color: "var(--accent)" }}>
-              Browse the AI atlas →
-            </Link>
-          </p>
-          <p>
             <Link href={`/feedback?module=ai&result=${payload}`} style={{ color: "var(--accent)" }}>
               Share feedback on this module →
             </Link>

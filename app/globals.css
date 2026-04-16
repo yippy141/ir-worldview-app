@@ -2412,6 +2412,114 @@ h3 {
   border-bottom: none;
 }
 
+/* Structured reading paths */
+.reading-path-block {
+  padding: 2px 0;
+}
+
+.reading-path-block + .reading-path-block {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.reading-path-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(220px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.reading-path-label {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-light);
+}
+
+.reading-path-subheading {
+  margin: 0;
+  max-width: 720px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.98rem;
+  line-height: 1.62;
+  color: var(--text);
+}
+
+.reading-path-related {
+  padding-left: 18px;
+  border-left: 1px solid var(--border);
+}
+
+.reading-path-related-label {
+  margin: 0 0 8px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+.reading-path-related-item {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.reading-path-related-item + .reading-path-related-item {
+  margin-top: 8px;
+}
+
+.reading-entry-list {
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.reading-entry {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.reading-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.reading-entry-title {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.reading-entry-title-link {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.reading-entry-title-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.reading-entry-meta {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+}
+
+.reading-entry-note {
+  margin: 8px 0 0;
+  max-width: 760px;
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
 /* ── Review screen ───────────────────────────────────────────────────────────── */
 
 .review-table {
@@ -2452,6 +2560,18 @@ h3 {
   .site-brand-link {
     min-width: 0;
     width: 100%;
+  }
+
+  .reading-path-header {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .reading-path-related {
+    padding-top: 12px;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    border-left: none;
   }
 
   .header-nav--desktop {

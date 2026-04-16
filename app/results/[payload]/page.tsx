@@ -28,6 +28,7 @@ import { familySlug, familyTraditionClass } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
+import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { modules } from "@/lib/modules/framework"
 import type { DimensionKey, FamilyKey } from "@/lib/types"
 import type { Metadata } from "next"
@@ -158,6 +159,75 @@ export default async function ResultPage(
     dimensionScores,
     foundationState: foundationNarrative.state,
   })
+  const readingPaths = [
+    {
+      key: "start-here",
+      heading: "Start here",
+      subheading:
+        "Open the modeled tradition page first, then begin with one anchor text before you widen the frame.",
+      entries: readings.slice(0, 1).map((item) => ({
+        id: `${result.familyKey}-${item.title}`,
+        title: item.title,
+        author: item.author,
+        note: item.note,
+      })),
+      links: [
+        {
+          href: `/explore/${familySlug(result.familyKey)}`,
+          label: `Open ${familyLabel}`,
+          text: "See the tradition guide, issue readings, and critique shelf in one place.",
+        },
+      ],
+    },
+    {
+      key: "go-deeper",
+      heading: "Go deeper",
+      subheading:
+        "Stay with the nearest fit long enough to see its internal variation, methods, and adjacent debates.",
+      entries: readings.slice(1).map((item) => ({
+        id: `${result.familyKey}-${item.title}`,
+        title: item.title,
+        author: item.author,
+        note: item.note,
+      })),
+      links: [
+        {
+          href: "/references",
+          label: "Open references",
+          text: "Use the wider bibliography when you want more than the result-page shelf.",
+        },
+        {
+          href: "/method",
+          label: "Read methods",
+          text: "See the model limits, terminology choices, and why the labels stay interpretive.",
+        },
+      ],
+    },
+    {
+      key: "challenge-your-view",
+      heading: "Challenge your view",
+      subheading:
+        `Read the nearest runner-up and test the profile in harder issue settings rather than treating the top label as closed.`,
+      entries: neighborReadings.slice(0, 2).map((item) => ({
+        id: `${neighborKey}-${item.title}`,
+        title: item.title,
+        author: item.author,
+        note: item.note,
+      })),
+      links: [
+        {
+          href: `/explore/${familySlug(neighborKey)}`,
+          label: `Read ${neighborLabel}`,
+          text: "Open the closest alternative tradition and compare its issue logic directly.",
+        },
+        {
+          href: `/modules?foundation=${encodeURIComponent(payload)}`,
+          label: "Add a focus-area overlay",
+          text: "Pressure-test the baseline in Security or Technology before treating it as settled.",
+        },
+      ],
+    },
+  ]
 
   return (
     <div className="wide-container">
@@ -539,39 +609,21 @@ export default async function ResultPage(
           </details>
         </div>
 
+        <ReadingPathSection
+          title="Reading paths"
+          intro="Use these shelves as guided next steps rather than a bibliography dump. The first path orients you, the second deepens the strongest fit, and the third forces a more serious challenge."
+          paths={readingPaths}
+        />
+
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <h2>Reading and terminology</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Reading lists and definitions are kept below the main payoff.
+            <h2>Glossary</h2>
+            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+              Short definitions for the recurring terms on this page.
             </p>
           </div>
           <details className="profile-details">
-            <summary>Suggested reading</summary>
-            <div style={{ marginTop: "16px" }}>
-              {readings.map((item) => (
-                <div key={item.title} className="reading-bib">
-                  <p style={{ fontWeight: 600 }}>{item.title}</p>
-                  <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>{item.author}</p>
-                  <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>{item.note}</p>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: "16px" }}>
-              <p className="muted" style={{ fontSize: "0.875rem", marginBottom: "8px" }}>
-                Also worth reading — {neighborLabel}:
-              </p>
-              {neighborReadings.slice(0, 2).map((item) => (
-                <div key={item.title} className="reading-bib">
-                  <p style={{ fontWeight: 600 }}>{item.title}</p>
-                  <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>{item.author}</p>
-                  <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>{item.note}</p>
-                </div>
-              ))}
-            </div>
-          </details>
-          <details className="profile-details">
-            <summary>Glossary</summary>
+            <summary>Open glossary</summary>
             <div style={{ marginTop: "16px" }}>
               {glossaryTerms.map((term) => (
                 <div key={term.term} className="definition-item">
@@ -601,11 +653,6 @@ export default async function ResultPage(
           <p>
             <Link href="/profile" style={{ color: "var(--accent)" }}>
               View your integrated profile →
-            </Link>
-          </p>
-          <p>
-            <Link href={`/explore/${familySlug(result.familyKey)}`} style={{ color: "var(--accent)" }}>
-              Explore {familyLabel} in depth →
             </Link>
           </p>
           <p>
