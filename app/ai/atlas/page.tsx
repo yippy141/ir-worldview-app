@@ -297,7 +297,7 @@ export default function AiAtlasPage() {
                   {reading.author} · {reading.year}
                 </p>
                 <p className="muted" style={{ lineHeight: "1.65", margin: 0 }}>
-                  {reading.description}
+                  {reading.whyItMatters}
                 </p>
               </div>
             ))}

@@ -1,5 +1,8 @@
 import { aiArchetypeDeepProfiles } from "./ai-governance-profile-copy"
-import { getReadingBuckets, type ReadingEntry } from "./ai-governance-reading-lists"
+import {
+  getAiReadingList,
+  type ReadingEntry,
+} from "./ai-governance-reading-lists-v2"
 import { aiAxisLabels } from "./ai-governance-schema"
 import type { AiArchetypeKey, AiAxisKey } from "./ai-governance-types"
 
@@ -326,14 +329,14 @@ export const aiAtlasKeys = AI_ATLAS_ARCHETYPES.map((card) => card.id)
 export function getAiAtlasEntries(): AiAtlasEntry[] {
   return AI_ATLAS_ARCHETYPES.map((card) => {
     const profile = aiArchetypeDeepProfiles[card.id]
-    const readings = getReadingBuckets(card.id)
+    const readings = getAiReadingList(card.id)
     const comparison = aiAtlasComparisonNotes[card.id]
 
     return {
       ...card,
       key: card.id,
       questionToSitWith: profile.questionToSitWith,
-      startHere: readings.forYourType[0],
+      startHere: readings.practiceNow[0] ?? readings.startHere[0],
       critique: readings.bestCritique[0],
       comparisonNote: comparison.comparisonNote,
       contrastAxes: comparison.contrastAxes,
@@ -342,7 +345,7 @@ export function getAiAtlasEntries(): AiAtlasEntry[] {
 }
 
 export function getAiAtlasSharedReadings() {
-  return getReadingBuckets(aiAtlasKeys[0]).startHere.slice(0, 4)
+  return getAiReadingList(aiAtlasKeys[0]).startHere.slice(0, 4)
 }
 
 export function getAiAtlasLabel(id: AiAtlasArchetypeId) {

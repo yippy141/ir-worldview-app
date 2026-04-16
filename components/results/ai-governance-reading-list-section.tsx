@@ -1,4 +1,7 @@
-import { getReadingBuckets, type ReadingEntry } from "@/lib/ai-governance-reading-lists"
+import {
+  getAiReadingList,
+  type ReadingEntry,
+} from "@/lib/ai-governance-reading-lists-v2"
 import type { AiArchetypeKey } from "@/lib/ai-governance-types"
 
 export function AiGovernanceReadingListSection({
@@ -6,34 +9,35 @@ export function AiGovernanceReadingListSection({
 }: {
   archetypeKey: AiArchetypeKey
 }) {
-  const buckets = getReadingBuckets(archetypeKey)
+  const buckets = getAiReadingList(archetypeKey)
 
   return (
     <section className="result-section stack-md">
       <div className="ai-result-section-intro stack-xs result-prose">
         <h2>Reading list</h2>
         <p className="ai-result-body muted">
-          Four curated entry points. These are not endorsements — they are the sources most useful
-          for deepening, extending, and stress-testing the position your result reflects.
+          Four curated entry points: field-mapping texts, operational resources, serious
+          critiques, and a wider China-and-global lens. These are not endorsements. They are the
+          sources most useful for extending and stress-testing this result.
         </p>
       </div>
 
       <div>
         <ReadingBucket
           heading="Start here"
-          subheading="Foundational framings that map the governance debate regardless of where you sit in it."
+          subheading="Canonical field maps and shared baseline texts before you settle into a camp."
           entries={buckets.startHere}
         />
 
         <ReadingBucket
-          heading="For your type"
-          subheading="Sources that reason from premises close to yours — useful for understanding the strongest version of your position."
-          entries={buckets.forYourType}
+          heading="Practice now"
+          subheading="Operational documents, official frameworks, and live governance tools that show how the debate cashes out in practice."
+          entries={buckets.practiceNow}
         />
 
         <ReadingBucket
           heading="Best critique"
-          subheading="The most serious challenges to the assumptions behind your result. These are worth reading carefully rather than dismissing."
+          subheading="The strongest objections to the instincts your result is likely to reward. These are worth reading carefully rather than dismissing."
           entries={buckets.bestCritique}
         />
 
@@ -118,7 +122,7 @@ function ReadingItem({ entry }: { entry: ReadingEntry }) {
         className="ai-result-body muted"
         style={{ fontSize: "0.85rem", margin: 0 }}
       >
-        {entry.description}
+        {entry.whyItMatters}
       </p>
     </article>
   )
