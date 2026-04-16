@@ -42,6 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       <Link href="/method" className="nav-link">Methods</Link>
                     </div>
                   </div>
+                  <Link href="/feedback" className="nav-cta">Feedback</Link>
                 </nav>
               </div>
             </div>

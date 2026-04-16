@@ -144,6 +144,26 @@ export default async function AiResultPage(
             </p>
           </div>
 
+          <div className="callout stack-xs">
+            <p style={{ fontWeight: 600, margin: 0 }}>Comparing results with someone else?</p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem", margin: 0 }}>
+              Compare the axis profile, tensions, and reading buckets as well as the headline
+              archetype. The most useful disagreements usually show up in the tradeoffs, not only
+              in the top label.
+            </p>
+          </div>
+
+          <p>
+            <Link href="/ai/atlas" style={{ color: "var(--accent)" }}>
+              Browse the AI atlas →
+            </Link>
+          </p>
+          <p>
+            <Link href={`/feedback?module=ai&result=${payload}`} style={{ color: "var(--accent)" }}>
+              Share feedback on this module →
+            </Link>
+          </p>
+
           <AiGovernanceShareActions
             payload={payload}
             archetypeLabel={archetypeLabel}

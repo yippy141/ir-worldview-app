@@ -4,18 +4,25 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Feedback — IR Worldview Inventory",
-  description: "Share feedback on the IR Worldview Inventory pilot and its result architecture.",
+  description: "Share feedback on the Foundation, focus-area modules, and AI companion module.",
 }
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGxaUUwUYmo0YI8mcmqKGnne66MyGhPSWO88lSUwC91NZlyQ/viewform"
 
 interface Props {
-  searchParams: Promise<{ result?: string }>
+  searchParams: Promise<{ module?: string; result?: string }>
 }
 
 export default async function FeedbackPage({ searchParams }: Props) {
-  const { result } = await searchParams
-  const backHref = result ? `/results/${result}` : "/"
+  const { module, result } = await searchParams
+  const aiContext = module === "ai"
+  const backHref = result
+    ? aiContext
+      ? `/ai/results/${result}`
+      : `/results/${result}`
+    : aiContext
+      ? "/ai"
+      : "/"
 
   return (
     <div className="container stack-lg" style={{ paddingTop: "48px" }}>
@@ -25,8 +32,8 @@ export default async function FeedbackPage({ searchParams }: Props) {
 
         <p style={{ lineHeight: "1.7", maxWidth: "580px" }}>
           This pilot is testing the architecture as much as the wording. The most useful feedback
-          is not just whether the top label felt right, but whether the profile, tradition
-          shorthand, style outputs, and overall structure felt honest and useful.
+          is not just whether the top label felt right, but whether the profile, shorthand labels,
+          module structure, and overall framing felt honest and useful.
         </p>
 
         <div className="panel-flush stack-xs" style={{ maxWidth: "580px" }}>
@@ -54,6 +61,23 @@ export default async function FeedbackPage({ searchParams }: Props) {
           <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.6" }}>
             If the whole architecture felt wrong, that is especially useful feedback. You do not
             need to translate it into a better-fitting label first.
+          </p>
+        </div>
+
+        <div
+          className="panel-flush"
+          style={{
+            maxWidth: "580px",
+            padding: "12px 16px",
+            background: "var(--panel-2)",
+            borderRadius: "4px",
+            borderLeft: "3px solid var(--border)",
+          }}
+        >
+          <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.6" }}>
+            <strong>Friend-testing note:</strong> If you tried this with a friend, classmate, or
+            seminar partner, the most useful note is where two people with similar instincts still
+            diverged because of one prompt, tradeoff, or label.
           </p>
         </div>
 
@@ -89,7 +113,7 @@ export default async function FeedbackPage({ searchParams }: Props) {
             Open feedback form →
           </a>
           <Link href={backHref} className="cta-secondary">
-            {result ? "← Back to result" : "← Back to home"}
+            {result ? "← Back to result" : aiContext ? "← Back to AI module" : "← Back to home"}
           </Link>
         </div>
       </div>

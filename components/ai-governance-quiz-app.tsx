@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
@@ -462,6 +463,21 @@ function ModeGate({
             governance dimensions. The result is a structured interpretation — not a personality
             profile or a validated instrument.
           </p>
+          <div className="callout stack-sm" style={{ maxWidth: "720px" }}>
+            <div className="stack-xs">
+              <p style={{ fontWeight: 600, margin: 0 }}>First time here?</p>
+              <p className="muted" style={{ lineHeight: "1.65", margin: 0 }}>
+                Standard is the cleaner first pass. If you are trying the module with a friend or
+                seminar partner, compare the review screen and full result page rather than only
+                the headline archetype.
+              </p>
+            </div>
+            <div className="row gap-sm wrap">
+              <Link href="/ai" className="cta-secondary">About this module</Link>
+              <Link href="/ai/atlas" className="cta-secondary">AI atlas</Link>
+              <Link href="/feedback?module=ai" className="cta-secondary">Feedback</Link>
+            </div>
+          </div>
         </div>
 
         <div className="stack-sm">

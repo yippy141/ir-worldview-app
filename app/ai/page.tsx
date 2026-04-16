@@ -32,7 +32,12 @@ export default function AiPage() {
             <Link href="/ai/atlas" className="cta-secondary">Browse the atlas</Link>
             <Link href="/method" className="cta-secondary">Methods</Link>
             <Link href="/references" className="cta-secondary">Resources</Link>
+            <Link href="/feedback?module=ai" className="cta-secondary">Feedback</Link>
           </div>
+          <p className="muted" style={{ maxWidth: "760px", lineHeight: "1.65", margin: 0, fontSize: "0.9rem" }}>
+            First time here? Standard is the cleaner first pass. If you want the shorthand families
+            before you answer, open the atlas first.
+          </p>
         </section>
 
         <section className="result-section stack-lg">
