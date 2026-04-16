@@ -76,7 +76,7 @@ export default async function ModulesPage(
               Lanes: {moduleDefinition.lanes.map((lane) => lane.label).join(" · ")}
             </p>
             <p style={{ marginTop: "14px", fontSize: "0.82rem", color: "var(--accent-light)", fontWeight: 600 }}>
-              Standard: {moduleDefinition.timeEstimate.standard} · Deep-dive: {moduleDefinition.timeEstimate.analyst}
+              Standard: {moduleDefinition.timeEstimate.standard} · Advanced: {moduleDefinition.timeEstimate.analyst}
             </p>
           </Link>
         ))}

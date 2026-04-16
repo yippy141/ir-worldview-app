@@ -97,7 +97,7 @@ export function ReviewScreen() {
           afterward as issue-specific overlays, not as replacements for the baseline.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-          {session.activeMode === "standard" ? "Standard mode" : "Deep-dive mode"} · {answeredCount} of{" "}
+          {session.activeMode === "standard" ? "Standard mode" : "Advanced mode"} · {answeredCount} of{" "}
           {questions.length} questions answered
         </p>
       </section>

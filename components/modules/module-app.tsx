@@ -128,7 +128,7 @@ export function ModuleApp({
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard keeps the module to nine lane-balanced cases. Deep-dive adds one more case
+              Standard keeps the module to nine lane-balanced cases. Advanced adds one more case
               per lane. In both modes, scenario cards can carry an optional second-most persuasive
               answer as a softer signal once you choose a primary one.
             </p>
@@ -144,7 +144,7 @@ export function ModuleApp({
             <ModeCard
               selected={mode === "analyst"}
               badge="A"
-              title="Deep-dive"
+              title="Advanced"
               description={`12 questions · ${moduleDefinition.timeEstimate.analyst}`}
               onClick={() => handleModeChange("analyst")}
             />

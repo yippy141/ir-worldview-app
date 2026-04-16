@@ -185,7 +185,7 @@ export function AiGovernanceQuizApp() {
           <div className="row gap-sm" style={{ alignItems: "center" }}>
             <p className="eyebrow">AI Governance Compass</p>
             <span className="ai-mode-pill">
-              {state.mode === "analyst" ? "Deep-dive" : "Standard"}
+              {state.mode === "analyst" ? "Advanced" : "Standard"}
             </span>
           </div>
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
@@ -474,7 +474,7 @@ function ModeGate({
               style={{ textAlign: "left" }}
             >
               <span className="option-card-content">
-                <span className="option-card-text" style={{ fontWeight: 600 }}>Deep-dive</span>
+                <span className="option-card-text" style={{ fontWeight: 600 }}>Advanced</span>
                 <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
                   {aiQuestionCountsByMode.analyst} statements · {aiQuestionCountsByMode.analyst + 5} questions total. Adds technically denser questions on interpretability limits, compute governance, verification regimes, and legitimacy deficits.
                 </span>

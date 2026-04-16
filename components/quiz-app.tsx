@@ -227,7 +227,7 @@ export function QuizApp() {
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
                   ? "Standard mode keeps the foundation concise and plain-language."
-                  : "Deep-dive mode adds harder tradeoffs, denser framing, and a second choice on case cards when another argument also fits your judgment."}
+                  : "Advanced mode adds harder tradeoffs, denser framing, and a second choice on case cards when another argument also fits your judgment."}
               </p>
             </div>
             <span className="mode-pill">
@@ -314,7 +314,7 @@ export function QuizApp() {
                 </p>
                 {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
                   <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
-                    In Deep-dive mode, you can also add a second-most persuasive option as a softer
+                    In Advanced mode, you can also add a second-most persuasive option as a softer
                     signal.
                   </p>
                 ) : null}
@@ -526,7 +526,7 @@ function ModeGate({
               />
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
-                title="Deep-dive"
+                title="Advanced"
                 description="About 18 to 25 minutes. More ambiguity, sharper tradeoffs, deeper cases, and optional second choices on case cards."
                 onClick={() => onSetRequestedDepth("analyst")}
               />
@@ -542,7 +542,7 @@ function ModeGate({
             <>
               <h2>
                 {recommendedMode === "analyst"
-                  ? "Deep-dive is the recommended fit."
+                  ? "Advanced is the recommended fit."
                   : "Standard is the recommended fit."}
               </h2>
               <p className="muted" style={{ lineHeight: "1.65" }}>
@@ -572,7 +572,7 @@ function ModeGate({
             onClick={() => onStartMode("analyst")}
             disabled={!ready}
           >
-            Continue in Deep-dive
+            Continue in Advanced
           </button>
         </div>
       </section>
@@ -698,7 +698,7 @@ function hasSupport(question: Question) {
 }
 
 function modeLabel(mode: QuizMode) {
-  return mode === "standard" ? "Standard mode" : "Deep-dive mode"
+  return mode === "standard" ? "Standard mode" : "Advanced mode"
 }
 
 function cardTypeLabel(cardType: Question extends { cardType: infer T } ? T : never) {

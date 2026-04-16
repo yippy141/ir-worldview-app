@@ -159,7 +159,7 @@ export function ModuleResultView({
               <div className="driver-card stack-xs">
                 <p className="eyebrow">Mode</p>
                 <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                  {mode === "standard" ? "Standard" : "Deep-dive"}
+                  {mode === "standard" ? "Standard" : "Advanced"}
                 </p>
                 <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
                   {questionCount} questions · {moduleDefinition.timeEstimate[mode]}
