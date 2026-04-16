@@ -6,6 +6,7 @@ import {
   buildCrossDomainTensions,
   buildIntegratedHeadline,
   buildProfileAssessment,
+  buildProfileSynthesisLite,
 } from "@/lib/profile-helpers"
 import type { ProfileStore } from "@/lib/profile-store"
 
@@ -271,4 +272,44 @@ test("profile narrative builds the expected editorial blocks for true tension st
   assert.equal(narrative.sections.length, 5)
   assert.equal(narrative.sections[2]?.title, "Cross-domain tensions")
   assert.ok(narrative.sections[1]?.text.includes("Security"))
+})
+
+test("profile synthesis lite names the stable thread, pressure shifts, and reasoning style without a master score", () => {
+  const synthesizedProfile: ProfileStore = {
+    ...profile,
+    aiGovernance: {
+      timestamp: 4,
+      payload: "ai",
+      resultPath: "/ai/results/ai",
+      archetypeKey: "stateCapacityBuilder",
+      archetypeLabel: "State Capacity Builder",
+      riskLens: "Pragmatic",
+      paceModifier: "Calibrated",
+      geopoliticsModifier: "Strategic",
+      axisScores: {
+        riskHorizon: 5.1,
+        deploymentPace: 4.1,
+        oversight: 5.6,
+        geopolitics: 5.4,
+        openness: 3.8,
+        militaryRole: 4.9,
+        legitimacy: 5.0,
+        humanFuture: 4.6,
+      },
+      summary: "AI summary",
+      governingInstinct: "Capacity before rhetoric",
+    },
+  }
+
+  const synthesis = buildProfileSynthesisLite(synthesizedProfile)
+
+  assert.deepEqual(
+    synthesis.layers.map((layer) => layer.present),
+    [true, true, true, true],
+  )
+  assert.match(synthesis.stableAcross, /rules, coordination/i)
+  assert.match(synthesis.stableAcross, /public capacity|institutions can actually govern/i)
+  assert.match(synthesis.shiftsUnderPressure, /Security Pressure/)
+  assert.match(synthesis.reasoningStyle, /rules, incentives/i)
+  assert.match(synthesis.reasoningStyle, /carry it out/i)
 })

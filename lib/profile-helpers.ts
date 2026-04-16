@@ -1,8 +1,9 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
+import type { AiArchetypeKey } from "@/lib/ai-governance-types"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import type { ModuleSlug } from "@/lib/modules/types"
 import type { ModuleSnapshot, ProfileStore } from "@/lib/profile-store"
-import type { ChoiceCardType, DimensionKey } from "@/lib/types"
+import type { ChoiceCardType, DimensionKey, FamilyKey } from "@/lib/types"
 
 export type ProfileState =
   | "lowDifferentiation"
@@ -53,6 +54,19 @@ export type ProfileNarrativeSignals = {
   cardTypeTensions: string[]
   totalTensions: string[]
   meaningfulShiftCount: number
+}
+
+export type ProfileSynthesisLayer = {
+  key: "foundation" | "security" | "technology" | "ai"
+  label: string
+  present: boolean
+}
+
+export type ProfileSynthesisLite = {
+  layers: ProfileSynthesisLayer[]
+  stableAcross: string
+  shiftsUnderPressure: string
+  reasoningStyle: string
 }
 
 const SPINE_ENDPOINTS: Record<DimensionKey, { lowLabel: string; highLabel: string }> = {
@@ -117,6 +131,86 @@ const DIRECTION_PHRASES: Record<DimensionKey, { positive: string; negative: stri
   },
 }
 
+const MOSAIC_ANCHOR_LINES: Record<FamilyKey, string> = {
+  realist:
+    "Across the saved layers, you keep coming back to power, leverage, and whether commitments hold under pressure.",
+  institutionalist:
+    "Across the saved layers, you keep coming back to rules, coordination, and whether institutions can change behavior.",
+  constructivist:
+    "Across the saved layers, you keep coming back to legitimacy, framing, and how actors interpret the situation.",
+  criticalPoliticalEconomy:
+    "Across the saved layers, you keep coming back to dependence, concentration, and who gets to set the terms.",
+}
+
+const REASONING_STYLE_LINES: Record<FamilyKey, string> = {
+  realist:
+    "You usually start with leverage, constraint, and whether commitments survive real pressure.",
+  institutionalist:
+    "You usually start with rules, incentives, and whether coordination can survive stress.",
+  constructivist:
+    "You usually start with legitimacy, framing, and how actors define what the case means.",
+  criticalPoliticalEconomy:
+    "You usually start with dependence, concentration, and who absorbs the costs.",
+}
+
+const ASSESSMENT_STYLE_LINES: Record<ProfileState, string> = {
+  lowDifferentiation:
+    "You keep neighboring arguments live and sort between them case by case.",
+  stableModeration:
+    "You stay steady across domains without pretending every issue is identical.",
+  sharplyDifferentiatedBaseline:
+    "You use a clear anchor across issues and treat exceptions as real but limited.",
+  domainConditionedShift:
+    "You reason from a clear baseline, but you change emphasis when the case becomes more concrete.",
+  trueTension:
+    "You do not force one doctrine across every issue. You keep the baseline, then revise it when domain pressure bites.",
+}
+
+const AI_STABLE_LINES: Record<AiArchetypeKey, string> = {
+  precautionarySteward:
+    "In AI, that same thread shows up in a preference for thresholds, evaluation gates, and slower scaling under uncertainty.",
+  strategicCompetitor:
+    "In AI, that same thread shows up in a focus on rivalry, enforcement, and state capability.",
+  coordinationArchitect:
+    "In AI, that same thread shows up in a focus on shared standards, verification, and rules that can last.",
+  democraticGuardrailist:
+    "In AI, that same thread shows up in a focus on public legitimacy, rights, and visible accountability.",
+  stateCapacityBuilder:
+    "In AI, that same thread shows up in a focus on public capacity, procurement, and whether institutions can actually govern.",
+  openEcosystemBuilder:
+    "In AI, that same thread shows up in a focus on openness, anti-concentration, and plural access.",
+}
+
+const AI_PRESSURE_LINES: Record<AiArchetypeKey, string> = {
+  precautionarySteward:
+    "The AI layer adds pressure toward caution and a higher burden of proof before deployment widens.",
+  strategicCompetitor:
+    "The AI layer adds pressure toward rivalry, security institutions, and harder state tools.",
+  coordinationArchitect:
+    "The AI layer adds pressure toward verification and shared rules, even where rivalry makes them hard to sustain.",
+  democraticGuardrailist:
+    "The AI layer adds pressure toward public legitimacy and rights when speed or secrecy starts to dominate.",
+  stateCapacityBuilder:
+    "The AI layer adds pressure toward state capacity and implementation, not just cleaner principle statements.",
+  openEcosystemBuilder:
+    "The AI layer adds pressure toward openness and anti-concentration, even where control instincts stay strong.",
+}
+
+const AI_REASONING_STYLE_LINES: Record<AiArchetypeKey, string> = {
+  precautionarySteward:
+    "When the stakes look hard to reverse, you raise the burden of proof.",
+  strategicCompetitor:
+    "When a field looks strategic, you move quickly to capacity and advantage.",
+  coordinationArchitect:
+    "When unilateral control looks thin, you look for shared rules that can stick.",
+  democraticGuardrailist:
+    "When power expands quickly, you ask how it stays publicly accountable.",
+  stateCapacityBuilder:
+    "When a policy sounds good on paper, you ask whether institutions can carry it out.",
+  openEcosystemBuilder:
+    "When control concentrates, you ask who gets excluded and who sets the terms.",
+}
+
 export function buildIntegratedHeadline(profile: ProfileStore): string {
   const assessment = buildProfileAssessment(profile)
   return assessment.synthesis
@@ -125,6 +219,58 @@ export function buildIntegratedHeadline(profile: ProfileStore): string {
 export function buildCrossDomainTensions(profile: ProfileStore): string[] {
   const assessment = buildProfileAssessment(profile)
   return assessment.state === "trueTension" ? assessment.points : []
+}
+
+export function buildProfileSynthesisLite(profile: ProfileStore): ProfileSynthesisLite {
+  const foundation = profile.foundation
+  const moduleSnapshots = getOrderedModuleSnapshots(profile)
+  const aiSnapshot = profile.aiGovernance ?? null
+  const layers: ProfileSynthesisLayer[] = [
+    { key: "foundation", label: "Foundation", present: Boolean(foundation) },
+    {
+      key: "security",
+      label: "Security",
+      present: moduleSnapshots.some((snapshot) => snapshot.slug === "security"),
+    },
+    {
+      key: "technology",
+      label: "Technology",
+      present: moduleSnapshots.some((snapshot) => snapshot.slug === "technology"),
+    },
+    { key: "ai", label: "AI", present: Boolean(aiSnapshot) },
+  ]
+
+  if (!foundation) {
+    return {
+      layers,
+      stableAcross:
+        "Complete the Foundation first. That baseline is what lets the profile read the other layers without collapsing them into one score.",
+      shiftsUnderPressure:
+        "Pressure shifts only become legible once the Foundation and at least one overlay are saved.",
+      reasoningStyle:
+        "The profile is designed to name a pattern of reasoning, not to infer one before the core baseline exists.",
+    }
+  }
+
+  const assessment = buildProfileAssessment(profile)
+  const signals = getProfileNarrativeSignals(profile)
+
+  return {
+    layers,
+    stableAcross: joinProfileSentences(
+      MOSAIC_ANCHOR_LINES[foundation.familyKey],
+      getModuleContinuityLine(assessment, moduleSnapshots),
+      aiSnapshot
+        ? AI_STABLE_LINES[aiSnapshot.archetypeKey]
+        : "The AI layer is not saved yet, so the governance side of the mosaic is still open.",
+    ),
+    shiftsUnderPressure: buildPressureShiftText(assessment, signals, aiSnapshot?.archetypeKey),
+    reasoningStyle: joinProfileSentences(
+      REASONING_STYLE_LINES[foundation.familyKey],
+      ASSESSMENT_STYLE_LINES[assessment.state],
+      aiSnapshot ? AI_REASONING_STYLE_LINES[aiSnapshot.archetypeKey] : "",
+    ),
+  }
 }
 
 export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment {
@@ -489,4 +635,72 @@ function uniqueStrings(values: string[]) {
 
 function clamp(value: number) {
   return Math.max(1, Math.min(7, Number(value.toFixed(2))))
+}
+
+function getModuleContinuityLine(
+  assessment: ProfileAssessment,
+  moduleSnapshots: ModuleSnapshot[],
+) {
+  const hasSecurity = moduleSnapshots.some((snapshot) => snapshot.slug === "security")
+  const hasTechnology = moduleSnapshots.some((snapshot) => snapshot.slug === "technology")
+
+  if (!hasSecurity && !hasTechnology) {
+    return "No focus-area overlay is saved yet, so the Foundation still carries most of the weight."
+  }
+
+  if (hasSecurity && hasTechnology) {
+    if (assessment.state === "trueTension") {
+      return "Security and Technology do not erase that anchor, but they carry it into different tradeoffs."
+    }
+
+    if (assessment.state === "domainConditionedShift") {
+      return "Security and Technology both keep the baseline in view, even where one domain pulls harder."
+    }
+
+    return "Security and Technology mostly reinforce that same baseline rather than replacing it."
+  }
+
+  const savedModule = moduleSnapshots[0]
+  return `${savedModule.title} works more like a pressure test of the baseline than a separate worldview.`
+}
+
+function buildPressureShiftText(
+  assessment: ProfileAssessment,
+  signals: ProfileNarrativeSignals,
+  aiArchetypeKey: AiArchetypeKey | null | undefined,
+) {
+  const parts: string[] = []
+
+  if (signals.strongestShift) {
+    parts.push(
+      `${signals.strongestShift.moduleLabel} is the clearest pressure point. It pushes you ${signals.strongestShift.direction}.`,
+    )
+  } else if (signals.moduleSnapshots.length > 0) {
+    parts.push("No saved IR overlay creates one dominant break from the Foundation.")
+  } else {
+    parts.push("No strong IR pressure shift is visible yet because the focus-area overlays are still missing.")
+  }
+
+  if (assessment.state === "trueTension") {
+    parts.push("Security and Technology do not pull the same way once the cases get harder.")
+  } else if (assessment.state === "domainConditionedShift") {
+    parts.push("The baseline survives, but one issue domain clearly changes which cost you weight first.")
+  } else if (assessment.state === "lowDifferentiation") {
+    parts.push("Even under pressure, the profile stays more mixed than fixed.")
+  } else if (signals.moduleSnapshots.length > 0) {
+    parts.push("The saved IR overlays change emphasis more than they change direction.")
+  }
+
+  if (aiArchetypeKey) {
+    parts.push(AI_PRESSURE_LINES[aiArchetypeKey])
+  }
+
+  return joinProfileSentences(...parts)
+}
+
+function joinProfileSentences(...parts: string[]) {
+  return parts
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(" ")
 }

@@ -9,6 +9,7 @@ import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
   buildIntegratedHeadline,
   buildProfileAssessment,
+  buildProfileSynthesisLite,
   buildProfileSpineRows,
 } from "@/lib/profile-helpers"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
@@ -34,6 +35,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
     .sort((a, b) => b.timestamp - a.timestamp)
   const assessment = buildProfileAssessment(profile)
+  const profileSynthesis = buildProfileSynthesisLite(profile)
   const profileNarrative = buildProfileNarrative(profile, assessment)
   const spineRows = buildProfileSpineRows(profile)
   const aiSnapshot = profile.aiGovernance
@@ -46,8 +48,6 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     profileState: assessment.state,
     moduleSnapshots,
   })
-  const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security")
-  const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology")
   const soWhatBlock = profileNarrative.sections.find(
     (section) => section.title === "So what this usually means",
   )
@@ -56,10 +56,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   )
   const contextLabel = mode === "local" ? "on this device" : "in this shared profile"
   const topParagraph = soWhatBlock?.text ?? profileNarrative.summary
+  const coverageText = getProfileMosaicCoverageText(profileSynthesis.layers, mode)
 
   return (
     <article className="result-article">
-      <section className="profile-hero stack-md">
+      <section className="profile-hero stack-lg">
         <div className="stack-sm">
           <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
           <h1>{buildIntegratedHeadline(profile)}</h1>
@@ -71,45 +72,49 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </div>
           {actionSlot ? <div style={{ marginTop: "10px" }}>{actionSlot}</div> : null}
         </div>
-        <div className="driver-grid">
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">What stayed stable</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Foundation anchor</p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getStableTraitText(foundation)}
-            </p>
+        <section className="profile-mosaic stack-md">
+          <div className="profile-mosaic-header">
+            <div className="stack-xs">
+              <p className="eyebrow">Worldview mosaic</p>
+              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers read together</h2>
+              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+                This keeps the no-single-score approach. It names the stable thread, the pressure
+                shifts, and the reasoning style that keeps showing up across the saved layers.
+              </p>
+            </div>
+            <div className="profile-layer-strip" aria-label="Saved profile layers">
+              {profileSynthesis.layers.map((layer) => (
+                <span
+                  key={layer.key}
+                  className={`profile-layer-pill${layer.present ? "" : " profile-layer-pill--inactive"}`}
+                >
+                  {layer.label}
+                  {!layer.present ? " pending" : ""}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">Security</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-              {securitySnapshot ? "What hardens under security pressure" : "Security not yet added"}
-            </p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getModuleHighlightText(
-                securitySnapshot,
-                "Security is not saved yet, so the baseline still carries the full weight here.",
-              )}
-            </p>
+
+          <div className="profile-mosaic-grid">
+            <div className="profile-mosaic-card stack-xs">
+              <p className="eyebrow">Stable across layers</p>
+              <p className="profile-mosaic-title">What keeps returning</p>
+              <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
+            </div>
+            <div className="profile-mosaic-card stack-xs">
+              <p className="eyebrow">Shifts under pressure</p>
+              <p className="profile-mosaic-title">Where the emphasis moves</p>
+              <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
+            </div>
+            <div className="profile-mosaic-card stack-xs">
+              <p className="eyebrow">Overall style of reasoning</p>
+              <p className="profile-mosaic-title">How you tend to sort cases</p>
+              <p className="profile-mosaic-body">{profileSynthesis.reasoningStyle}</p>
+            </div>
           </div>
-          <div className="driver-card stack-xs">
-            <p className="eyebrow">Technology</p>
-            <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-              {technologySnapshot ? "What hardens in technology" : "Technology not yet added"}
-            </p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-              {getModuleHighlightText(
-                technologySnapshot,
-                "Technology is not saved yet, so the baseline still carries the full weight here.",
-              )}
-            </p>
-          </div>
-        </div>
-        <div className="callout stack-xs">
-          <p className="eyebrow">Main thing to pressure-test</p>
-          <p style={{ lineHeight: "1.7", marginBottom: 0 }}>
-            {getContestedTraitText(assessment)}
-          </p>
-        </div>
+
+          <p className="muted profile-mosaic-note">{coverageText}</p>
+        </section>
       </section>
 
       <section className="result-section stack-md">
@@ -198,10 +203,10 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>IR + AI synthesis</h2>
+          <h2>IR + AI cross-read</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            This reads the IR Foundation and the AI Governance Compass side by side. It does not
-            create a master score.
+            A more detailed side-by-side read of the IR Foundation and the AI Governance Compass.
+            It still does not create a master score.
           </p>
         </div>
 
@@ -464,54 +469,6 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   )
 }
 
-function getModuleHighlightText(snapshot: ModuleSnapshot | undefined, fallback: string) {
-  if (!snapshot) return fallback
-
-  const dominantLane = snapshot.laneSummaries
-    .slice()
-    .sort((a, b) => Math.abs(b.score - 4) - Math.abs(a.score - 4))[0]
-
-  if (!dominantLane) {
-    return snapshot.summary
-  }
-
-  return `${dominantLane.label}: ${dominantLane.summary}`
-}
-
-function getStableTraitText(foundation: ProfileStore["foundation"]) {
-  if (!foundation) {
-    return "The Foundation baseline is not saved yet."
-  }
-
-  const strongestDriver = foundation.keyDrivers[0]
-  if (strongestDriver) {
-    return `${strongestDriver.label}. ${strongestDriver.description}`
-  }
-
-  const firstLens = foundation.strongLenses[0]
-  if (firstLens) {
-    return `${firstLens.label}. ${firstLens.description}`
-  }
-
-  return "The Foundation remains the anchor until issue overlays complicate it."
-}
-
-function getContestedTraitText(assessment: ReturnType<typeof buildProfileAssessment>) {
-  if (assessment.state === "trueTension") {
-    return assessment.points[0] ?? assessment.changedMost
-  }
-
-  if (assessment.state === "domainConditionedShift") {
-    return assessment.changedMost
-  }
-
-  if (assessment.state === "lowDifferentiation") {
-    return "No single contested trait dominates yet. The main signal remains overlap rather than one sharp split."
-  }
-
-  return "No major contested fault line has opened yet. The completed overlays still sit relatively close to the baseline."
-}
-
 function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows> }) {
   const overlayLegend = Array.from(
     new Map(
@@ -566,4 +523,42 @@ function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows>
       </div>
     </div>
   )
+}
+
+function getProfileMosaicCoverageText(
+  layers: ReturnType<typeof buildProfileSynthesisLite>["layers"],
+  mode: "local" | "shared",
+) {
+  const present = layers.filter((layer) => layer.present).map((layer) => layer.label)
+  const missing = layers.filter((layer) => !layer.present).map((layer) => layer.label)
+
+  if (missing.length === 0) {
+    return "Built from Foundation, Security, Technology, and AI. The page is still reading them as one mosaic, not a master score."
+  }
+
+  const missingLine = missing.length === 1
+    ? mode === "local"
+      ? "is not saved on this device yet."
+      : "is not included in this shared view."
+    : mode === "local"
+      ? "are not saved on this device yet."
+      : "are not included in this shared view."
+
+  return `${formatLabelList(present)} ${present.length === 1 ? "is" : "are"} currently in view. ${formatLabelList(missing)} ${missingLine}`
+}
+
+function formatLabelList(labels: string[]) {
+  if (labels.length === 0) {
+    return "No layers"
+  }
+
+  if (labels.length === 1) {
+    return labels[0]
+  }
+
+  if (labels.length === 2) {
+    return `${labels[0]} and ${labels[1]}`
+  }
+
+  return `${labels.slice(0, -1).join(", ")}, and ${labels.at(-1)}`
 }

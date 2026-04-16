@@ -1672,6 +1672,81 @@ h3 {
   border-bottom: 1px solid var(--line);
 }
 
+.profile-mosaic {
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.profile-mosaic-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px 28px;
+  flex-wrap: wrap;
+}
+
+.profile-layer-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.profile-layer-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent) 32%);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--panel) 78%, white 22%);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.profile-layer-pill--inactive {
+  border-style: dashed;
+  border-color: var(--border);
+  background: transparent;
+  color: var(--muted);
+}
+
+.profile-mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+.profile-mosaic-card {
+  min-width: 0;
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
+}
+
+.profile-mosaic-title {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.profile-mosaic-body {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.67;
+  color: var(--text);
+}
+
+.profile-mosaic-note {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 .profile-spine-card {
   background: color-mix(in srgb, var(--panel) 86%, white 14%);
   border: 1px solid var(--border-soft);
