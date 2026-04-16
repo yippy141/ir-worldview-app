@@ -348,7 +348,7 @@ export default function MethodPage() {
           <div className="stack-xs">
             <p style={{ fontWeight: 600 }}>v0.4 — April 2026</p>
             <p className="muted" style={{ lineHeight: "1.65" }}>
-              Minimal stable Phase 5M pass. Added Standard and Deep-dive Foundation modes, mixed
+              Minimal stable Phase 5M pass. Added Standard and Advanced Foundation modes, mixed
               question types, cleaner plain-language stems, and two focus-area modules for
               Security and Technology.
             </p>

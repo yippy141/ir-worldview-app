@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { getFoundationQuestions, likertScale } from "@/lib/quiz-schema"
+import { getFoundationQuestions, likertScale, questionCountsByMode } from "@/lib/quiz-schema"
 import {
   QUIZ_STORAGE_KEY,
   createEmptySession,
@@ -226,8 +226,8 @@ export function QuizApp() {
               <h1>Foundation</h1>
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
-                  ? "Standard mode keeps the foundation concise and plain-language."
-                  : "Advanced mode adds harder tradeoffs, denser framing, and a second choice on case cards when another argument also fits your judgment."}
+                  ? `${questionCountsByMode.standard} questions with plainer wording and fewer follow-ups.`
+                  : `${questionCountsByMode.analyst} questions with denser cases on political economy, technology, actor lenses, and crisis tradeoffs.`}
               </p>
             </div>
             <span className="mode-pill">
@@ -521,13 +521,13 @@ function ModeGate({
               <ChoiceSelect
                 selected={requestedDepth === "standard"}
                 title="Standard"
-                description="About 10 to 14 minutes. Cleaner wording and fewer follow-ups."
+                description={`${questionCountsByMode.standard} questions. About 10 to 14 minutes. Cleaner wording and fewer follow-ups.`}
                 onClick={() => onSetRequestedDepth("standard")}
               />
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
                 title="Advanced"
-                description="About 18 to 25 minutes. More ambiguity, sharper tradeoffs, deeper cases, and optional second choices on case cards."
+                description={`${questionCountsByMode.analyst} questions. About 25 to 35 minutes. More ambiguity, more actor-lens cases, sharper tradeoffs, and optional second choices on case cards.`}
                 onClick={() => onSetRequestedDepth("analyst")}
               />
             </div>

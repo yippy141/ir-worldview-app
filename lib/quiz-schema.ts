@@ -486,6 +486,71 @@ export const analystQuestions: Question[] = [
     },
   },
   {
+    id: "an_df3",
+    kind: "likert",
+    dimension: "domesticFilters",
+    prompt:
+      "Foreign policy usually turns faster when ruling coalitions shift than when the outside balance moves at the margin.",
+    clarification: {
+      whatItAsks:
+        "Whether changes in who governs and whom they answer to often matter more than small shifts in the external balance.",
+      whatItDoesNotAsk:
+        "This is not saying domestic politics always overrides severe outside pressure.",
+    },
+  },
+  {
+    id: "an_sc4",
+    kind: "likert",
+    dimension: "securityCompetition",
+    prompt:
+      "When rhetoric and force posture point in different directions, force posture is usually the safer guide.",
+    clarification: {
+      whatItAsks:
+        "What evidence should carry more weight when verbal signals and material moves conflict.",
+      whatItDoesNotAsk:
+        "This is not saying rhetoric and diplomacy never reveal anything real.",
+    },
+  },
+  {
+    id: "an_ni3",
+    kind: "likert",
+    dimension: "normsIdentity",
+    prompt:
+      "Status claims and recognition disputes can be evidence, not just rhetoric, when judging a rival's future conduct.",
+    clarification: {
+      whatItAsks:
+        "Whether status language and recognition fights can reveal real motives and likely behavior.",
+      whatItDoesNotAsk:
+        "This is not saying rhetoric should outweigh capabilities in every case.",
+    },
+  },
+  {
+    id: "an_pe4",
+    kind: "likert",
+    dimension: "politicalEconomy",
+    prompt:
+      "Control over data, standards, and digital infrastructure belongs near the center of geopolitical analysis.",
+    clarification: {
+      whatItAsks:
+        "Whether technology systems and market control now shape power in ways IR analysis should treat as central.",
+      whatItDoesNotAsk:
+        "This is not saying military power or territorial issues stopped mattering.",
+    },
+  },
+  {
+    id: "an_in4",
+    kind: "likert",
+    dimension: "institutions",
+    prompt:
+      "Global rules last longer when middle powers and lower-income states help write them, not just follow them.",
+    clarification: {
+      whatItAsks:
+        "Whether broader authorship makes institutions more durable and more widely accepted.",
+      whatItDoesNotAsk:
+        "This is not asking whether every institution can represent every state equally in every decision.",
+    },
+  },
+  {
     id: "an_tradeoff_legitimacy",
     kind: "tradeoff",
     cardType: "explanation",
@@ -638,6 +703,246 @@ export const analystQuestions: Question[] = [
         label:
           "The first correction is to narrow commitments. An alliance that depends on unsustainable guarantees is badly designed.",
         signals: { restraint: 6.3, securityCompetition: 4.6, institutions: 3.6 },
+      },
+    ],
+  },
+  {
+    id: "an_tradeoff_evidence",
+    kind: "tradeoff",
+    cardType: "both",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "When a crisis sends mixed signals, what evidence deserves the most weight?",
+    helpText:
+      "Pick the signal you would trust first, not the one you think should matter in an ideal world.",
+    options: [
+      {
+        id: "capabilities",
+        title: "Capabilities and posture",
+        label:
+          "Deployments, force posture, and hard capability shifts should outweigh softer signals when they point in different directions.",
+        signals: { securityCompetition: 6.3, normsIdentity: 3.0 },
+      },
+      {
+        id: "commitments",
+        title: "Institutions and commitments",
+        label:
+          "Treaty behavior, inspections, and crisis rules tell you more because they change incentives and raise the cost of bluffing.",
+        signals: { institutions: 6.1, securityCompetition: 3.6, restraint: 4.8 },
+      },
+      {
+        id: "coalitions",
+        title: "Domestic staying power",
+        label:
+          "The best clue is whether leaders have the coalition, budget, and public room to sustain the line they are taking.",
+        signals: { domesticFilters: 6.4, institutions: 4.3, restraint: 4.9 },
+      },
+      {
+        id: "status",
+        title: "Status and relationship signals",
+        label:
+          "Changes in status claims, recognition disputes, and political language can shift what behavior means before capabilities do.",
+        signals: { normsIdentity: 6.3, securityCompetition: 3.2, institutions: 4.4 },
+      },
+    ],
+  },
+  {
+    id: "an_tradeoff_tech_order",
+    kind: "tradeoff",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A coalition wants export controls, investment screening, and standards clubs on key technologies. What is the deeper issue?",
+    helpText:
+      "This asks what makes the push most intelligible, not whether any one tool is well designed.",
+    options: [
+      {
+        id: "edge",
+        title: "Preserve the edge",
+        label:
+          "The point is to slow a rival's climb in sectors that feed military and industrial power.",
+        signals: { securityCompetition: 6.2, politicalEconomy: 4.7, restraint: 3.4 },
+      },
+      {
+        id: "chokepoints",
+        title: "Control the chokepoints",
+        label:
+          "What matters most is who controls the bottlenecks, data, and standards others cannot easily replace.",
+        signals: { politicalEconomy: 6.5, securityCompetition: 4.7, institutions: 3.4 },
+      },
+      {
+        id: "narrow",
+        title: "Keep controls narrow",
+        label:
+          "The best route is limited allied rules that protect security without breaking the wider system.",
+        signals: { institutions: 6.2, restraint: 5.0, securityCompetition: 4.3 },
+      },
+      {
+        id: "hierarchy",
+        title: "Do not harden hierarchy",
+        label:
+          "Tech clubs can harden a world where leading states write the rules and others mainly absorb the costs.",
+        signals: { politicalEconomy: 5.9, normsIdentity: 4.9, orderJustice: 3.1 },
+      },
+    ],
+  },
+  {
+    id: "an_case_middle_power",
+    kind: "miniCase",
+    cardType: "actorLens",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A middle power relies on one bloc for security and the other for trade. Which logic looks strongest from its side?",
+    helpText:
+      "Answer from the middle power's own position. Do not answer as either major bloc would prefer.",
+    options: [
+      {
+        id: "shield",
+        title: "Lock in the security shield",
+        label:
+          "Choose the security provider clearly before a crisis forces the decision under worse conditions.",
+        signals: { securityCompetition: 5.9, institutions: 4.2, restraint: 3.7 },
+      },
+      {
+        id: "hedge",
+        title: "Hedge and diversify",
+        label:
+          "Preserve room to maneuver by spreading risk across markets, partners, and supply lines.",
+        signals: { restraint: 5.9, politicalEconomy: 5.2, institutions: 4.7 },
+      },
+      {
+        id: "peers",
+        title: "Write rules with peers",
+        label:
+          "Coalition-building with other middle powers is the best way to widen bargaining room and resist bloc pressure.",
+        signals: { institutions: 6.0, normsIdentity: 5.1, politicalEconomy: 4.6 },
+      },
+      {
+        id: "extract",
+        title: "Exploit the squeeze",
+        label:
+          "Use the country's pivotal position to extract concessions from both sides rather than declare a camp early.",
+        signals: { domesticFilters: 5.4, politicalEconomy: 5.6, restraint: 4.4 },
+      },
+    ],
+  },
+  {
+    id: "an_case_green_finance",
+    kind: "miniCase",
+    cardType: "actorLens",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A lower-income state is offered green-finance money tied to procurement and reform rules. Which logic looks strongest from its side?",
+    helpText:
+      "Answer from the borrowing state's vantage point, not from the donors' preferred narrative.",
+    options: [
+      {
+        id: "stabilize",
+        title: "Stabilize first",
+        label:
+          "Access to finance and policy credibility come first. Bargaining room is thin when fiscal stress is high.",
+        signals: { institutions: 5.8, domesticFilters: 4.9, politicalEconomy: 3.4 },
+      },
+      {
+        id: "space",
+        title: "Protect policy space",
+        label:
+          "The key issue is whether the deal locks the country into dependence and weakens local industry.",
+        signals: { politicalEconomy: 6.5, domesticFilters: 4.8, orderJustice: 3.6 },
+      },
+      {
+        id: "bloc",
+        title: "Bargain with peers",
+        label:
+          "The best leverage comes from negotiating with peers that face the same terms rather than one by one.",
+        signals: { institutions: 5.7, normsIdentity: 5.2, politicalEconomy: 5.0 },
+      },
+      {
+        id: "home",
+        title: "Watch the home coalition",
+        label:
+          "Even a fair external package fails if domestic winners and losers make it politically unsustainable.",
+        signals: { domesticFilters: 6.4, politicalEconomy: 4.9, institutions: 4.3 },
+      },
+    ],
+  },
+  {
+    id: "an_case_maritime_crisis",
+    kind: "miniCase",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "An ally stages risky probes in disputed waters and asks for public backing. What should weigh most?",
+    helpText:
+      "Focus on the governing priority, not on which side seems more sympathetic in the abstract.",
+    options: [
+      {
+        id: "deter",
+        title: "Hold the line on deterrence",
+        label:
+          "Public backing matters because hesitation invites more testing by the rival.",
+        signals: { securityCompetition: 6.3, restraint: 3.3, institutions: 3.8 },
+      },
+      {
+        id: "entrapment",
+        title: "Avoid entrapment",
+        label:
+          "The bigger danger is being pulled into an escalation spiral by an ally's local gambles.",
+        signals: { restraint: 6.3, securityCompetition: 4.2, institutions: 4.0 },
+      },
+      {
+        id: "offramp",
+        title: "Build an off-ramp",
+        label:
+          "The priority is monitoring, crisis rules, and quiet bargaining that let both sides step back.",
+        signals: { institutions: 6.1, restraint: 5.2, securityCompetition: 4.0 },
+      },
+      {
+        id: "ally_politics",
+        title: "Read the ally's politics",
+        label:
+          "Before backing the move, ask whether the probe is being driven by domestic weakness or elite competition at home.",
+        signals: { domesticFilters: 6.2, restraint: 4.8, securityCompetition: 4.1 },
+      },
+    ],
+  },
+  {
+    id: "an_case_digital_stack",
+    kind: "miniCase",
+    cardType: "decision",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "A government must choose between a cheap foreign digital stack and a costlier allied alternative. What should drive the choice?",
+    helpText:
+      "Think about what kind of exposure matters most over time, not only the immediate sticker price.",
+    options: [
+      {
+        id: "security",
+        title: "Security exposure",
+        label:
+          "Choose the costlier stack if it lowers the risk that a rival can coerce or disable critical systems later.",
+        signals: { securityCompetition: 6.0, politicalEconomy: 4.9, restraint: 3.7 },
+      },
+      {
+        id: "dependence",
+        title: "Dependency and standards control",
+        label:
+          "The central issue is who controls the standards, maintenance, and chokepoints once the system becomes hard to replace.",
+        signals: { politicalEconomy: 6.4, securityCompetition: 4.4, institutions: 3.8 },
+      },
+      {
+        id: "interoperability",
+        title: "Interoperability with partners",
+        label:
+          "The best choice is the one that fits shared rules and technical coordination across trusted partners.",
+        signals: { institutions: 6.1, politicalEconomy: 4.6, restraint: 4.8 },
+      },
+      {
+        id: "autonomy",
+        title: "Avoid bloc lock-in",
+        label:
+          "Turning every digital choice into a camp marker can narrow autonomy and harden a divided order.",
+        signals: { normsIdentity: 5.7, restraint: 5.4, securityCompetition: 3.3 },
       },
     ],
   },
