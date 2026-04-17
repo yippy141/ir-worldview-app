@@ -24,12 +24,12 @@ export default async function ModulesPage(
           <div className="lobby-hero-grid">
             <div className="stack-md">
               <p className="section-kicker">Focus-area modules</p>
-              <h1>Issue overlays for the IR Foundation</h1>
+              <h1>Focused issue reads for the IR Foundation</h1>
               <p className="lobby-lead">
-                Security and Technology sit on top of the shared IR baseline. They begin from the
-                policy debates a U.S. or allied reader will usually recognize first, then widen
-                the file with selected counterparty and middle-power lenses where those change the
-                read.
+                Security and Technology start from policy debates many users will recognize first.
+                A smaller set of actor-lens cases checks how your logic holds when the vantage
+                point changes: allied partners, exposed smaller states, rival powers, and
+                nonaligned or development-focused governments.
               </p>
               <div className="row gap-sm wrap">
                 <Link href="/quiz" className="cta-primary">Open the Foundation</Link>
@@ -63,14 +63,13 @@ export default async function ModulesPage(
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
               <strong>What this layer covers</strong>
-              Security and Technology each use lane-based cases rather than one undifferentiated
-              basket of prompts.
+              Security and Technology each use a structured set of cases rather than one large
+              pile of prompts.
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
-              Standard keeps each module compact. Advanced adds a second layer of cases in every
-              lane, with sharper cross-pressure, actor-position, and selected counterparty or
-              middle-power cards.
+              Standard is the shorter issue read. Advanced adds extra cases, including more
+              actor-lens and cross-pressure tests.
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
@@ -83,7 +82,7 @@ export default async function ModulesPage(
         <section className="stack-md">
           <div className="stack-xs">
             <p className="section-kicker">Available modules</p>
-            <h2>Choose the issue file you want to pressure-test first</h2>
+            <h2>Choose the focus area you want to pressure-test first</h2>
           </div>
           <div className="lobby-entry-list">
             {modules.map((moduleDefinition) => (

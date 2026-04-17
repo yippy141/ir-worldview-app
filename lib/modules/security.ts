@@ -837,14 +837,14 @@ export const securityModule: ModuleDefinition = {
   slug: "security",
   shortTitle: "Security",
   title: "Security, Strategy, and Statecraft",
-  subtitle: "Deterrence, alliances, and protection under pressure",
+  subtitle: "A focused read on deterrence, alliances, escalation, and the legitimacy of force",
   shorthand: "Security Pressure",
   timeEstimate: {
     standard: "8 to 10 minutes",
     analyst: "14 to 18 minutes",
   },
   description:
-    "An issue-specific read on deterrence, alliance politics, crisis ceilings, and the legitimacy of force, starting with familiar security debates and widening the file with selected counterparty and middle-power lenses.",
+    "You will be asked what matters most in concrete security cases: coercion, coalition durability, civilian protection, legal authority, and escalation risk.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",

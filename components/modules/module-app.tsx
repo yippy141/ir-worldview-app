@@ -132,11 +132,10 @@ export function ModuleApp({
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard keeps the module to {standardQuestionCount} lane-balanced cases. Advanced
-              expands it to {analystQuestionCount} with {analystAdditionCount} additional
-              cross-pressure and actor-position cases, including selected counterparty and
-              middle-power pressure tests. In both modes, scenario cards can carry an optional
-              second-most persuasive answer as a softer signal once you choose a primary one.
+              Standard gives you {standardQuestionCount} questions in a focused issue read.
+              Advanced expands it to {analystQuestionCount}, with {analystAdditionCount} extra
+              cases and more actor-lens pressure. In both modes, you can add an optional backup
+              choice if a second answer also fits after you pick your main one.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -187,8 +186,8 @@ export function ModuleApp({
           <div className="stack-xs">
             <p style={{ fontWeight: 600 }}>Visible lanes</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              Each case sits inside one lane so the module reads like a structured issue file
-              rather than one large basket of debates.
+              Each case sits inside one lane so the module reads like a structured set of cases,
+              not one large basket of debates.
             </p>
           </div>
           <div className="module-lane-grid">
@@ -204,11 +203,15 @@ export function ModuleApp({
         </div>
 
         <div className="callout stack-xs">
-          <p style={{ fontWeight: 600 }}>Perspective coverage across the full issue file</p>
+          <p style={{ fontWeight: 600 }}>Perspective coverage across the full set of cases</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            This module still starts from the policy debate most users will recognize, but it
-            widens the file with selected rival, allied, middle-power, and development-state
-            lenses so the issue does not collapse into a single coalition view.
+            Most cases start from a policy debate many users will recognize first. A smaller set
+            of actor-lens cases checks how your logic holds when the vantage point changes:
+            allied partners, exposed smaller states, rival powers, and nonaligned or
+            development-focused governments.
+          </p>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+            This keeps the baseline familiar without pretending other actors think the same way.
           </p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.88rem" }}>
             {perspectiveCoverage.map((role) => role.label).join(" · ")}
@@ -230,8 +233,7 @@ export function ModuleApp({
           </ul>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
             Answer from your own analytic judgment, not from what sounds most moderate or most
-            publicly defensible. If another option also fits, add it as your second-most
-            persuasive answer.
+            publicly defensible. If another option also fits, add it as your backup choice.
           </p>
         </div>
 
@@ -239,8 +241,8 @@ export function ModuleApp({
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>Foundation comparison is on</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              This module can compare back to your Foundation result, but it remains an
-              issue-specific read rather than a replacement for the baseline.
+              This module can compare back to your Foundation result, but it stays a focused issue
+              read rather than replacing the baseline.
             </p>
           </div>
         ) : null}

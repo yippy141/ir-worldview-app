@@ -50,12 +50,12 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "domesticFilters",
     prompt:
-      "Changes in leaders and domestic coalitions often shift foreign policy more than slow changes in the external balance do.",
+      "At the margin, foreign policy usually changes faster when leaders and governing coalitions change than when the external balance shifts gradually.",
     clarification: {
       whatItAsks:
-        "Whether foreign policy change is explained more by domestic political turnover than by gradual structural pressure from outside.",
+        "What tends to move policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
       whatItDoesNotAsk:
-        "This is not denying that outside pressure can still dominate in some cases.",
+        "The question is about what tends to move policy first, not about whether outside pressure matters at all.",
     },
   },
   {
@@ -240,9 +240,9 @@ export const standardQuestions: Question[] = [
       "When mass atrocities become severe enough, outside powers can justifiably override a state's sovereignty to stop them.",
     clarification: {
       whatItAsks:
-        "Whether sovereignty should remain a near-absolute barrier or whether extreme civilian harm creates a legitimate exception.",
+        "Whether extreme civilian harm can justify overriding the usual presumption against intervention.",
       whatItDoesNotAsk:
-        "This is not a blanket endorsement of regime change or constant intervention.",
+        "This is about extreme emergency cases, not ordinary intervention or open-ended regime change.",
       terms: [
         {
           term: "Sovereignty",
@@ -538,12 +538,12 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "domesticFilters",
     prompt:
-      "At the margin, foreign policy usually shifts faster when ruling coalitions change than when the external balance moves gradually.",
+      "At the margin, foreign policy usually changes faster when leaders and governing coalitions change than when the external balance shifts gradually.",
     clarification: {
       whatItAsks:
-        "Whether foreign policy change comes more from domestic political turnover than from structural pressure in the international system.",
+        "What tends to move policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
       whatItDoesNotAsk:
-        "This is not saying domestic politics always overrides severe outside pressure.",
+        "The question is about what tends to move policy first, not about whether outside pressure matters at all.",
     },
   },
   {

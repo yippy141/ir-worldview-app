@@ -488,10 +488,10 @@ function ModeGate({
       <section className="panel stack-md">
         <div className="stack-sm">
           <p className="eyebrow">IR Worldview Inventory</p>
-          <h1>Choose how deep you want to go</h1>
+          <h1>Choose your Foundation path</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            The foundation uses one shared scoring model. The choice here changes depth and pacing,
-            not what the result means.
+            Start with the Foundation to map your baseline across core IR debates. The choice here
+            changes depth and pacing, not what the result means.
           </p>
         </div>
 
@@ -526,13 +526,13 @@ function ModeGate({
               <ChoiceSelect
                 selected={requestedDepth === "standard"}
                 title="Standard"
-                description={`${questionCountsByMode.standard} questions. About ${foundationTimeEstimateByMode.standard}. Cleaner wording, fewer follow-ups, and a gentler first pass through the core disputes.`}
+                description={`${questionCountsByMode.standard} questions. About ${foundationTimeEstimateByMode.standard}. Standard gives you the clearest fast read.`}
                 onClick={() => onSetRequestedDepth("standard")}
               />
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
                 title="Advanced"
-                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. More cross-pressure, more actor-lens cases, selected counterparty or development pressure tests, and optional second choices on case cards.`}
+                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. Advanced adds extra cases and more pressure tests.`}
                 onClick={() => onSetRequestedDepth("analyst")}
               />
             </div>

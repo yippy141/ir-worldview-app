@@ -851,14 +851,14 @@ export const technologyModule: ModuleDefinition = {
   slug: "technology",
   shortTitle: "Technology",
   title: "Technology, AI, and Geoeconomics",
-  subtitle: "Technology controls, industrial policy, and AI governance",
+  subtitle: "A focused read on chokepoints, industrial policy, AI governance, and strategic dependence",
   shorthand: "Tech Power",
   timeEstimate: {
     standard: "8 to 10 minutes",
     analyst: "14 to 18 minutes",
   },
   description:
-    "An issue-specific read on chokepoints, industrial capacity, coordinated governance, access gaps, and safety constraints, with selected counterparty and development-state lenses where they change the policy read.",
+    "You will be asked what should matter most when states weigh openness, control, capacity, access, and enforceable rules.",
   measures: [
     "openness versus control",
     "market adaptation versus state-capacity building",

@@ -93,8 +93,8 @@ export function ReviewScreen() {
         <p className="eyebrow">Review your answers</p>
         <h1>Before you generate your foundation result</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Review the full foundation before you generate the result. Focus-area modules come
-          afterward as issue-specific overlays, not as replacements for the baseline.
+          Review the full Foundation before you generate the result. Focus-area modules come
+          afterward as focused issue reads, not replacements for the baseline.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
           {session.activeMode === "standard" ? "Standard mode" : "Advanced mode"} · {answeredCount} of{" "}
