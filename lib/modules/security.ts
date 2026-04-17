@@ -313,16 +313,16 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "alliances",
     cardType: "actorLens",
-    title: "Strategic autonomy under border pressure",
-    prompt: "From this state's strategic position, which logic looks strongest?",
+    title: "Border pressure without full alignment",
+    prompt: "From this government's side, which logic looks strongest?",
     scene:
-      "A large democracy faces a coercive neighbor on its border. It wants weapons, investment, and intelligence help from several major powers, but it does not want one bloc to dictate every trade and diplomatic decision. Its cabinet is deciding how to defend that strategy before outside partners demand a cleaner line.",
+      "A large democracy faces repeated Chinese pressure along a disputed border. It wants weapons, intelligence help, and investment from the United States and other major powers, but it does not want one alignment decision to dictate every trade and diplomatic choice. Its cabinet is deciding how to hold that line before outside partners demand a cleaner break.",
     whyHard:
-      "From outside, this can look evasive. From inside, it may be the state's best way to preserve leverage and avoid new dependence.",
+      "From Washington or other allied capitals, closer alignment can look like the obvious answer. From inside this cabinet, preserving bargaining room may still look like part of security itself.",
     contextBullets: [
       {
         label: "Actor role",
-        text: "Answer from the state's own strategic position, not from what any outside patron would prefer.",
+        text: "This is a pressure test. Answer from the government's own strategic position, not from what Washington or any outside patron would prefer.",
       },
       {
         label: "Crisis stage",
@@ -346,9 +346,9 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
       },
       {
         id: "layered_alignment_is_real",
-        title: "Keep the files separate",
+        title: "Separate security from the rest",
         label:
-          "The state can deepen security ties where needed without turning trade, finance, and diplomacy into the same bloc decision.",
+          "The state can deepen security ties where needed without turning trade, finance, and diplomacy into one bloc decision.",
         signals: { activism: 4.2, escalation: 4.3, alliance: 5.0, legitimacy: 4.9 },
       },
       {
@@ -360,7 +360,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
       },
       {
         id: "problem_based_coalitions",
-        title: "Stay issue by issue",
+        title: "Join coalitions case by case",
         label:
           "The most durable strategy is to join coalitions on specific problems without accepting whole-of-state alignment.",
         signals: { activism: 4.0, escalation: 4.1, alliance: 4.8, legitimacy: 5.5 },
@@ -844,7 +844,7 @@ export const securityModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "You will be asked what matters most in concrete security cases: coercion, coalition durability, civilian protection, legal authority, and escalation risk.",
+    "Most cases begin from security debates that will feel familiar in U.S. and allied policy circles. A smaller set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",

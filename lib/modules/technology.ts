@@ -458,16 +458,16 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "governance",
     cardType: "actorLens",
-    title: "AI access under sanctions and dependence",
-    prompt: "From this state's strategic position, which logic looks strongest?",
+    title: "AI access from a sanctioned state's side",
+    prompt: "From this government's side, which logic looks strongest?",
     scene:
-      "A sanctions-constrained middle-income state wants AI compute and cloud access for education, logistics, and public services. Officials know the fastest outside options could also deepen surveillance exposure and political dependence. The cabinet is deciding which logic best captures its own position before it commits scarce public money.",
+      "The usual debate in Washington and major firms is about trusted suppliers, safeguards, and secure access. A sanctions-constrained middle-income state is looking at the same landscape from a different angle: it wants AI compute and cloud access for education, logistics, and public services, but the fastest outside options could also deepen surveillance exposure and political dependence. Its cabinet is deciding which logic best captures its own position before it commits scarce public money.",
     whyHard:
-      "The state needs more capability, but the cheapest path now may deepen the dependence it most wants to escape later.",
+      "What looks like manageable dependence from the outside can look like future coercive vulnerability from the state's side.",
     contextBullets: [
       {
         label: "Actor role",
-        text: "Answer from the state's own strategic position, not from what a major power or a donor would prefer.",
+        text: "This is a pressure test. Answer from the government's own strategic position, not from what Washington, Beijing, or a donor would prefer.",
       },
       {
         label: "Crisis stage",
@@ -524,16 +524,16 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
     kind: "case",
     lane: "controls",
     cardType: "actorLens",
-    title: "Tech nonalignment under export-control pressure",
-    prompt: "From this government's strategic position, which logic looks strongest?",
+    title: "Nonaligned state under U.S.-China tech pressure",
+    prompt: "From this government's side, which logic looks strongest?",
     scene:
-      "A large nonaligned state is deciding whether to join a new technology-security arrangement after fresh U.S. controls and Chinese retaliation threats. Its policymakers hear Washington call the measures security policy and Beijing call them an attempt to freeze hierarchy. They now have to decide which logic best captures their own strategic read before trade and technology talks begin.",
+      "A large nonaligned state is deciding whether to join a new technology-security arrangement after fresh U.S. controls and Chinese retaliation threats. In Washington the case is framed as security. In Beijing it is framed as an attempt to freeze hierarchy. This government has to decide which logic best captures its own strategic read before trade and technology talks begin.",
     whyHard:
-      "More than one critique can be true at once, but the main diagnosis determines whether the government aligns, pushes back, or keeps room to hedge.",
+      "From the outside, both major powers offer ready-made stories. The government still has to decide which diagnosis matters most for its own room to maneuver.",
     contextBullets: [
       {
         label: "Actor role",
-        text: "Answer from the government's own strategic position, not from Washington's or Beijing's preferred framing.",
+        text: "This is a pressure test. Answer from the government's own strategic position, not from Washington's or Beijing's preferred framing.",
       },
       {
         label: "Crisis stage",
@@ -858,7 +858,7 @@ export const technologyModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "You will be asked what should matter most when states weigh openness, control, capacity, access, and enforceable rules.",
+    "Most cases begin from technology debates that will feel familiar in U.S. and allied policy circles. A smaller set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
   measures: [
     "openness versus control",
     "market adaptation versus state-capacity building",

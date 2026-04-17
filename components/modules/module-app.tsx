@@ -134,8 +134,8 @@ export function ModuleApp({
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard gives you {standardQuestionCount} questions in a focused issue read.
               Advanced expands it to {analystQuestionCount}, with {analystAdditionCount} extra
-              cases and more actor-lens pressure. In both modes, you can add an optional backup
-              choice if a second answer also fits after you pick your main one.
+              cases and a smaller number of actor-lens pressure tests. In both modes, you can add
+              an optional backup choice if a second answer also fits after you pick your main one.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -205,13 +205,13 @@ export function ModuleApp({
         <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>Perspective coverage across the full set of cases</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Most cases start from a policy debate many users will recognize first. A smaller set
-            of actor-lens cases checks how your logic holds when the vantage point changes:
-            allied partners, exposed smaller states, rival powers, and nonaligned or
-            development-focused governments.
+            Most cases are written from debates that will feel familiar in U.S. and allied policy
+            circles. A smaller set of actor-lens pressure tests then asks how the same problem
+            looks from exposed partners, rival powers, and nonaligned or development-focused
+            governments.
           </p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            This keeps the baseline familiar without pretending other actors think the same way.
+            This keeps the baseline legible without pretending other actors think the same way.
           </p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.88rem" }}>
             {perspectiveCoverage.map((role) => role.label).join(" · ")}

@@ -26,10 +26,10 @@ export default async function ModulesPage(
               <p className="section-kicker">Focus-area modules</p>
               <h1>Focused issue reads for the IR Foundation</h1>
               <p className="lobby-lead">
-                Security and Technology start from policy debates many users will recognize first.
-                A smaller set of actor-lens cases checks how your logic holds when the vantage
-                point changes: allied partners, exposed smaller states, rival powers, and
-                nonaligned or development-focused governments.
+                Most cases are written from debates that will feel familiar in Washington,
+                Brussels, and allied policy circles. A smaller set of actor-lens pressure tests
+                then shifts the vantage point to exposed partners, rival powers, and nonaligned
+                governments to see whether your logic still holds.
               </p>
               <div className="row gap-sm wrap">
                 <Link href="/quiz" className="cta-primary">Open the Foundation</Link>
@@ -63,13 +63,13 @@ export default async function ModulesPage(
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
               <strong>What this layer covers</strong>
-              Security and Technology each use a structured set of cases rather than one large
-              pile of prompts.
+              Security and Technology stay anchored in familiar U.S. and allied policy debates,
+              then pressure-test that baseline from a smaller number of other vantage points.
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
-              Standard is the shorter issue read. Advanced adds extra cases, including more
-              actor-lens and cross-pressure tests.
+              Standard is the shorter issue read. Advanced adds extra cases and a smaller number
+              of actor-lens pressure tests.
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
