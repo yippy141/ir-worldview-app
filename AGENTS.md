@@ -133,14 +133,12 @@ Good clarification:
 - Add graceful invalid-result handling, but fix the generator first.
 
 ## Repository rules
-- Do not break existing share payloads unless explicitly asked.
-- Preserve existing scoring semantics unless explicitly asked.
-- Use parallel routes and minimal diffs where possible.
-- Run npm run lint after edits.
-- Run npm run test and npm run build for milestone prompts.
-- Do not run npm run dev unless explicitly asked.
-- Prefer fewer, bigger, high-confidence changes.
-- Keep IR and AI content globally legible, not just US-policy-legible.
+- Do not rewrite scoring or payload formats unless explicitly asked.
+- Keep route structure stable unless explicitly asked.
+- For this pass, prioritize UI, copy, layout, and mobile readability.
+- Quiz and review routes may use a different shell from public pages.
+- Run npm run lint, npm run test, and npm run build after each prompt.
+- Make small, auditable commits after each working step.
 
 ## Expected deliverable quality
 
