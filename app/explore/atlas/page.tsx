@@ -23,20 +23,22 @@ export default function AtlasLitePage() {
         </p>
       </div>
 
-      <div className="callout stack-sm" style={{ marginBottom: "28px" }}>
-        <p style={{ fontWeight: 600 }}>How to read this page</p>
-        <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-          The inventory runs on continuous dimensions. These pattern names are editorial summaries
-          of recurring combinations in the current model, not percentiles or exhaustive IR types.
-        </p>
-        <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+      <div className="atlas-page-intro stack-sm">
+        <div className="stack-xs">
+          <p className="eyebrow">Reading note</p>
+          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.94rem", maxWidth: "760px" }}>
+            The inventory runs on continuous dimensions. These pattern names are editorial summaries
+            of recurring combinations in the current model, not percentiles or exhaustive IR types.
+          </p>
+        </div>
+        <p className="muted atlas-page-intro__note">
           Some traditions and strategic cultures remain under-modeled. The point is to help users
           browse nearby patterns honestly without implying more precision than the instrument can
           support.
         </p>
       </div>
 
-      <div className="atlas-pattern-grid">
+      <div className="atlas-pattern-grid atlas-pattern-grid--browse">
         {patterns.map((pattern) => (
           <AtlasPatternCard key={pattern.id} pattern={pattern} />
         ))}

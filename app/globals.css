@@ -1915,6 +1915,25 @@ h3 {
   gap: 18px;
 }
 
+.atlas-pattern-grid--browse {
+  gap: 30px 36px;
+}
+
+.atlas-page-intro {
+  margin-bottom: 32px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.atlas-page-intro__note {
+  max-width: 760px;
+  margin: 0;
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
 .explore-card {
   background: color-mix(in srgb, var(--panel) 86%, white 14%);
   border: 1px solid var(--border-soft);
@@ -1934,6 +1953,61 @@ h3 {
   border: 1px solid var(--border-soft);
   border-radius: 7px;
   padding: 24px;
+}
+
+.atlas-pattern-card--browse {
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 26px 0 0;
+}
+
+.atlas-pattern-card__lead {
+  display: grid;
+  gap: 18px;
+}
+
+.atlas-pattern-card__summary {
+  max-width: 32rem;
+  margin: 0;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.atlas-pattern-card__family {
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 20%, var(--border) 80%);
+}
+
+.atlas-pattern-card__signals {
+  max-width: 32rem;
+}
+
+.atlas-pattern-card__kicker,
+.profile-section-kicker {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.atlas-pattern-card__pressure {
+  max-width: 34rem;
+  margin: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.atlas-pattern-card__pressure-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-weight: 600;
 }
 
 .atlas-pattern-card__footer {
@@ -2180,6 +2254,11 @@ h3 {
   padding: 24px;
 }
 
+.profile-spine-panel {
+  padding-top: 6px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 74%, var(--accent) 26%);
+}
+
 /* Thin top rule in tradition color — only accent on hero */
 .result-hero-rule {
   height: 3px;
@@ -2206,6 +2285,36 @@ h3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 18px;
+}
+
+.profile-module-grid--report {
+  gap: 30px 34px;
+}
+
+.profile-module-entry {
+  min-width: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.profile-module-lane {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.profile-module-lane:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.profile-module-note {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 16%, var(--border) 84%);
+}
+
+.profile-module-note--accent {
+  border-left-color: color-mix(in srgb, var(--accent) 42%, var(--border) 58%);
 }
 
 .module-lane-summary {
@@ -2325,8 +2434,20 @@ h3 {
   padding: 0 18px;
 }
 
+.profile-details--appendix {
+  border: none;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+
 .profile-details + .profile-details {
   margin-top: 12px;
+}
+
+.profile-details--appendix + .profile-details--appendix {
+  margin-top: 0;
 }
 
 .profile-details summary {
@@ -2343,6 +2464,14 @@ h3 {
 
 .profile-details[open] summary {
   border-bottom: 1px solid var(--border);
+}
+
+.profile-details--appendix summary {
+  padding: 15px 0;
+}
+
+.profile-details--appendix[open] summary {
+  border-bottom-color: var(--border-soft);
 }
 
 .profile-so-what {
@@ -2466,6 +2595,89 @@ h3 {
 
 .profile-details > :not(summary) {
   padding: 16px 0 18px;
+}
+
+.profile-details--appendix > :not(summary) {
+  padding: 14px 0 18px;
+}
+
+.profile-atlas-feature {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.profile-atlas-feature__intro {
+  display: grid;
+  gap: 18px;
+}
+
+.profile-atlas-feature__pressure {
+  margin: 0;
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.profile-atlas-feature__details {
+  display: grid;
+  gap: 22px;
+}
+
+.profile-analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.profile-analysis-card {
+  min-width: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.profile-analysis-note {
+  max-width: 760px;
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 18%, var(--border) 82%);
+}
+
+.profile-appendix {
+  border-top: 1px solid color-mix(in srgb, var(--border) 82%, var(--paper) 18%);
+}
+
+.profile-appendix-note {
+  max-width: 760px;
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.profile-anchor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px 20px;
+}
+
+.profile-anchor-item {
+  min-width: 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.profile-evidence-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-evidence-item {
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.profile-evidence-item:first-child {
+  padding-top: 0;
+  border-top: none;
 }
 
 /* Narrow prose column for body copy */
@@ -2649,6 +2861,32 @@ h3 {
   border: 1px solid var(--border-soft);
   border-radius: 7px;
   padding: 20px;
+}
+
+@media (min-width: 800px) {
+  .atlas-pattern-card__lead,
+  .profile-atlas-feature__intro,
+  .profile-atlas-feature__details {
+    grid-template-columns: minmax(0, 1.45fr) minmax(220px, 0.95fr);
+    align-items: start;
+  }
+}
+
+@media (max-width: 799px) {
+  .profile-analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .atlas-pattern-card__family,
+  .profile-atlas-feature__pressure,
+  .profile-analysis-note,
+  .atlas-page-intro__note,
+  .profile-module-note {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
 }
 
 /* AI governance result deep-dive */

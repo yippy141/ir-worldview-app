@@ -119,7 +119,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       </section>
 
       <section className="result-section stack-md">
-        <section className="profile-spine-card stack-sm">
+        <div className="profile-spine-panel stack-sm">
           <div className="stack-xs">
             <h2>Foundation spine with overlays</h2>
             <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
@@ -131,7 +131,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
             {assessment.changedMost}
           </p>
-        </section>
+        </div>
       </section>
 
       <section className="result-section stack-md">
@@ -142,45 +142,57 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             a rarity claim or live population map.
           </p>
         </div>
-        <div className="atlas-pattern-card atlas-pattern-card--compact stack-sm">
-          <div className="stack-xs">
-            <p className="eyebrow">Nearest Atlas pattern</p>
-            <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
-              {atlasMatch.nearest.name}
-            </p>
-            <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              {atlasMatch.nearest.cardSummary}
-            </p>
-          </div>
-          <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>What usually drives it</p>
-            <div className="atlas-tag-list">
-              {atlasMatch.nearest.cardDrivers.map((driver) => (
-                <span key={driver} className="atlas-tag">
-                  {driver}
-                </span>
-              ))}
+        <div className="profile-atlas-feature stack-md">
+          <div className="profile-atlas-feature__intro">
+            <div className="stack-xs">
+              <p className="eyebrow">Nearest Atlas pattern</p>
+              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
+                {atlasMatch.nearest.name}
+              </p>
+              <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                {atlasMatch.nearest.cardSummary}
+              </p>
             </div>
+            <p className="muted profile-atlas-feature__pressure">
+              <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
+            </p>
           </div>
-          <p className="muted atlas-pressure-note">
-            <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
-          </p>
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>Nearby patterns worth opening</p>
-            <div className="atlas-inline-links">
-              {atlasMatch.neighbors.map((pattern) => (
-                <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                  {pattern.name}
-                </Link>
-              ))}
-              <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
-                Read this pattern
-              </Link>
-              <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                Open Atlas
-              </Link>
+
+          <div className="profile-atlas-feature__details">
+            <div className="stack-xs">
+              <p className="profile-section-kicker">Pattern fingerprint</p>
+              <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
+            </div>
+
+            <div className="stack-md">
+              <div className="stack-xs">
+                <p className="profile-section-kicker">What usually drives it</p>
+                <div className="atlas-tag-list">
+                  {atlasMatch.nearest.cardDrivers.map((driver) => (
+                    <span key={driver} className="atlas-tag">
+                      {driver}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="stack-xs">
+                <p className="profile-section-kicker">Nearby patterns worth opening</p>
+                <div className="atlas-inline-links">
+                  {atlasMatch.neighbors.map((pattern) => (
+                    <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
+                      {pattern.name}
+                    </Link>
+                  ))}
+                  <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
+                    Read this pattern
+                  </Link>
+                  <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
+                    Open Atlas
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -219,15 +231,15 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               <span className="ai-mode-pill">{aiSnapshot.archetypeLabel}</span>
             </div>
 
-            <div className="driver-grid">
-              <div className="driver-card stack-xs">
+            <div className="profile-analysis-grid">
+              <div className="profile-analysis-card stack-xs">
                 <p className="eyebrow">{crossModuleSynthesis.title}</p>
                 <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Short read</p>
                 <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
                   {crossModuleSynthesis.shortReadout}
                 </p>
               </div>
-              <div className="driver-card stack-xs">
+              <div className="profile-analysis-card stack-xs">
                 <p className="eyebrow">Where they align</p>
                 <ul className="content-list" style={{ margin: 0 }}>
                   {crossModuleSynthesis.likelyAlignment.map((item) => (
@@ -237,7 +249,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                   ))}
                 </ul>
               </div>
-              <div className="driver-card stack-xs">
+              <div className="profile-analysis-card stack-xs">
                 <p className="eyebrow">Where they may conflict</p>
                 <ul className="content-list" style={{ margin: 0 }}>
                   {crossModuleSynthesis.likelyTensions.map((item) => (
@@ -249,7 +261,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               </div>
             </div>
 
-            <div className="callout stack-xs">
+            <div className="profile-analysis-note stack-xs">
               <p className="eyebrow">What this combination implies</p>
               <p style={{ lineHeight: "1.7", margin: 0 }}>
                 {crossModuleSynthesis.practicalImplication}
@@ -270,7 +282,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             </div>
           </>
         ) : (
-          <div className="callout stack-xs">
+          <div className="profile-analysis-note stack-xs">
             <p style={{ fontWeight: 600 }}>
               {mode === "local"
                 ? "AI governance not yet added"
@@ -300,9 +312,9 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </p>
         </div>
         {moduleSnapshots.length > 0 ? (
-          <div className="profile-module-grid">
+          <div className="profile-module-grid profile-module-grid--report">
             {moduleSnapshots.map((moduleSnapshot) => (
-              <div key={moduleSnapshot.slug} className="explore-card stack-sm">
+              <article key={moduleSnapshot.slug} className="profile-module-entry stack-md">
                 <div className="stack-xs">
                   <p className="eyebrow">{moduleSnapshot.title}</p>
                   <h3>{moduleSnapshot.headline}</h3>
@@ -317,7 +329,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 {moduleSnapshot.laneSummaries.length > 0 ? (
                   <div className="stack-sm">
                     {moduleSnapshot.laneSummaries.map((lane) => (
-                      <div key={`${moduleSnapshot.slug}-${lane.key}`} className="module-lane-summary stack-xs">
+                      <div key={`${moduleSnapshot.slug}-${lane.key}`} className="profile-module-lane stack-xs">
                         <div className="progress-meta">
                           <span style={{ fontWeight: 600, color: "var(--text)" }}>{lane.label}</span>
                           <span>{lane.score.toFixed(1)} / 7</span>
@@ -349,7 +361,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 ) : null}
 
                 {moduleSnapshot.cardTypeRead ? (
-                  <div className="callout stack-xs">
+                  <div className="profile-module-note stack-xs">
                     <p className="eyebrow">{moduleSnapshot.cardTypeRead.headline}</p>
                     <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
                       {moduleSnapshot.cardTypeRead.summary}
@@ -358,7 +370,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 ) : null}
 
                 {moduleSnapshot.comparison ? (
-                  <div className="callout">
+                  <div className="profile-module-note profile-module-note--accent">
                     <p style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
                       <strong>Baseline delta:</strong> {moduleSnapshot.comparison}
                     </p>
@@ -372,11 +384,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                     </Link>
                   </p>
                 ) : null}
-              </div>
+              </article>
             ))}
           </div>
         ) : (
-          <div className="callout stack-xs">
+          <div className="profile-analysis-note stack-xs">
             <p style={{ fontWeight: 600 }}>No focus-area overlays yet</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
               The Foundation already gives you a complete baseline. Focus-area modules add pressure
@@ -394,16 +406,17 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       </section>
 
       {mode === "local" ? (
-        <section className="result-section stack-md">
+        <section className="result-section profile-appendix stack-md">
           <div className="stack-xs">
+            <p className="eyebrow">Appendix</p>
             <h2>Evidence and detail</h2>
-            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+            <p className="muted profile-appendix-note">
               Open the drawers below for the saved Foundation result and the lower-evidence module
               recall on this device.
             </p>
           </div>
 
-          <details className="profile-details">
+          <details className="profile-details profile-details--appendix">
             <summary>Foundation result</summary>
             <div className="stack-sm">
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
@@ -417,11 +430,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             </div>
           </details>
 
-          <details className="profile-details">
+          <details className="profile-details profile-details--appendix">
             <summary>Foundation anchors</summary>
-            <div className="driver-grid" style={{ marginTop: "16px" }}>
+            <div className="profile-anchor-grid">
               {foundation.keyDrivers.map((driver) => (
-                <div key={driver.label} className="driver-card stack-xs">
+                <div key={driver.label} className="profile-anchor-item stack-xs">
                   <p className="eyebrow">{driver.type}</p>
                   <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
                   <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
@@ -430,7 +443,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 </div>
               ))}
               {foundation.strongLenses.map((lens) => (
-                <div key={lens.label} className="driver-card stack-xs">
+                <div key={lens.label} className="profile-anchor-item stack-xs">
                   <p className="eyebrow">Lens</p>
                   <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
                   <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
@@ -442,7 +455,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </details>
 
           {moduleSnapshots.map((moduleSnapshot) => (
-            <details key={moduleSnapshot.slug} className="profile-details">
+            <details key={moduleSnapshot.slug} className="profile-details profile-details--appendix">
               <summary>{moduleSnapshot.title} evidence log</summary>
               <div className="stack-sm">
                 <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
@@ -451,9 +464,9 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                   What it did not claim: {moduleSnapshot.doesNotClaim.join("; ")}.
                 </p>
-                <div className="stack-xs">
+                <div className="profile-evidence-list">
                   {moduleSnapshot.evidence.map((item) => (
-                    <div key={`${moduleSnapshot.slug}-${item.question}`} className="panel-flush stack-xs">
+                    <div key={`${moduleSnapshot.slug}-${item.question}`} className="profile-evidence-item stack-xs">
                       <p style={{ fontWeight: 600, fontSize: "0.92rem" }}>{item.question}</p>
                       <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
                         Most persuasive: {item.primary}
