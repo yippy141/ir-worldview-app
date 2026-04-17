@@ -6,7 +6,6 @@ import {
   QUIZ_STORAGE_KEY,
   QUIZ_SESSION_EVENT,
   countAnsweredQuestions,
-  notifyQuizSessionUpdated,
   parseQuizSession,
 } from "@/lib/quiz-session"
 
@@ -19,7 +18,6 @@ type DraftState = {
 const NO_DRAFT: DraftState = { hasDraft: false, draftCount: 0 }
 
 let cached: DraftState = NO_DRAFT
-const listeners = new Set<() => void>()
 
 function readFromStorage(): DraftState {
   const session = parseQuizSession(window.localStorage.getItem(QUIZ_STORAGE_KEY))
@@ -36,11 +34,10 @@ function readFromStorage(): DraftState {
 }
 
 function subscribe(callback: () => void) {
-  listeners.add(callback)
   window.addEventListener("storage", callback)
   window.addEventListener(QUIZ_SESSION_EVENT, callback)
+
   return () => {
-    listeners.delete(callback)
     window.removeEventListener("storage", callback)
     window.removeEventListener(QUIZ_SESSION_EVENT, callback)
   }
@@ -64,22 +61,42 @@ function getServerSnapshot(): DraftState {
   return NO_DRAFT
 }
 
-export function QuizMenuCard() {
-  const { hasDraft, draftCount, modeLabel } = useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    getServerSnapshot,
-  )
+function useFoundationDraftState() {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+}
 
-  function clearDraft() {
-    window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-    notifyQuizSessionUpdated()
-  }
+export function FoundationHeroActions() {
+  const { hasDraft, draftCount, modeLabel } = useFoundationDraftState()
+
+  return (
+    <div className="stack-xs">
+      <div className="landing-action-row">
+        <Link href="/quiz" className="cta-primary">
+          Take the Foundation
+        </Link>
+        {hasDraft ? (
+          <Link href="/quiz" className="cta-secondary">
+            Resume Foundation
+          </Link>
+        ) : null}
+      </div>
+      {hasDraft ? (
+        <p className="landing-draft-note">
+          {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered
+          on this device.
+        </p>
+      ) : null}
+    </div>
+  )
+}
+
+export function QuizMenuCard() {
+  const { hasDraft, draftCount, modeLabel } = useFoundationDraftState()
 
   if (!hasDraft) {
     return (
       <Link href="/quiz" className="menu-card">
-        <p className="menu-card-title">Take the foundation</p>
+        <p className="menu-card-title">Foundation</p>
         <p className="menu-card-desc">
           Choose Standard or Advanced mode and map your instincts across seven IR dimensions.
         </p>
@@ -89,29 +106,9 @@ export function QuizMenuCard() {
 
   return (
     <Link href="/quiz" className="menu-card">
-      <p className="menu-card-title">Resume foundation</p>
+      <p className="menu-card-title">Resume Foundation</p>
       <p className="menu-card-desc">
-        {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered.{" "}
-        <button
-          type="button"
-          onClick={(event) => {
-            event.preventDefault()
-            event.stopPropagation()
-            clearDraft()
-          }}
-          style={{
-            background: "none",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            color: "var(--muted)",
-            fontSize: "inherit",
-            textDecoration: "underline",
-            font: "inherit",
-          }}
-        >
-          Start over
-        </button>
+        {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered.
       </p>
     </Link>
   )

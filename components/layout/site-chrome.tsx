@@ -3,17 +3,6 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { siteConfig } from "@/lib/site-config"
-import { NavAutoClose } from "@/components/layout/nav-auto-close"
-
-type NavItem = { href: string; label: string; description: string }
-
-type NavSection = {
-  key: string
-  label: string
-  mobileLabel?: string
-  menuEnd?: boolean
-  items: NavItem[]
-}
 
 type QuizChromeMeta = {
   title: string
@@ -24,96 +13,82 @@ type QuizChromeMeta = {
   activeStep: string
 }
 
-const navSections: NavSection[] = [
+type PublicNavItem = {
+  href: string
+  label: string
+  active: (pathname: string) => boolean
+}
+
+type MobileNavGroup = {
+  label: string
+  intro: string
+  items: Array<{ href: string; label: string }>
+}
+
+const publicNavItems: PublicNavItem[] = [
   {
-    key: "foundation",
-    label: "IR Foundation",
-    mobileLabel: "IR Foundation",
-    items: [
-      {
-        href: "/quiz",
-        label: "Take the Foundation Quiz",
-        description: "Start here. Maps your views on power, institutions, and world order.",
-      },
-      {
-        href: "/method",
-        label: "Methods",
-        description: "How the model, labels, and scoring work.",
-      },
-      {
-        href: "/references",
-        label: "References",
-        description: "Source shelf behind the project.",
-      },
-    ],
+    href: "/quiz",
+    label: "Foundation",
+    active: (pathname) => pathname.startsWith("/results"),
   },
   {
-    key: "focus-areas",
-    label: "Issue Modules",
-    mobileLabel: "Issue Modules",
-    menuEnd: true,
-    items: [
-      {
-        href: "/modules/security",
-        label: "Security & Strategy",
-        description: "Deterrence, alliances, and the use of force.",
-      },
-      {
-        href: "/modules/technology",
-        label: "Technology & Geoeconomics",
-        description: "Tech competition, industrial policy, and trade.",
-      },
-      {
-        href: "/modules",
-        label: "All modules",
-        description: "Overview of both issue modules.",
-      },
-    ],
+    href: "/modules",
+    label: "Focus Areas",
+    active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
   },
   {
-    key: "ai",
+    href: "/ai",
     label: "AI",
-    mobileLabel: "AI",
-    menuEnd: true,
+    active: (pathname) => pathname === "/ai" || pathname.startsWith("/ai/"),
+  },
+  {
+    href: "/explore/atlas",
+    label: "Atlas",
+    active: (pathname) =>
+      pathname === "/explore/atlas" || pathname.startsWith("/explore/atlas/"),
+  },
+]
+
+const profileNavItem: PublicNavItem = {
+  href: "/profile",
+  label: "Profile",
+  active: (pathname) =>
+    pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),
+}
+
+const moreNavItems = [
+  { href: "/explore", label: "Worldview Guide" },
+  { href: "/method", label: "Methods" },
+  { href: "/references", label: "References" },
+  { href: "/feedback", label: "Feedback" },
+] as const
+
+const mobileNavGroups: MobileNavGroup[] = [
+  {
+    label: "Start here",
+    intro: "Begin with the shared baseline, then return to Profile once you have a saved result.",
     items: [
-      {
-        href: "/ai/quiz",
-        label: "Take the AI Quiz",
-        description: "Map your instincts on AI safety and governance.",
-      },
-      {
-        href: "/ai/atlas",
-        label: "AI Atlas",
-        description: "Browse AI governance archetypes.",
-      },
-      {
-        href: "/ai",
-        label: "AI overview",
-        description: "About the AI Governance Compass.",
-      },
+      { href: "/quiz", label: "Foundation" },
+      { href: "/profile", label: "Profile" },
     ],
   },
   {
-    key: "explore",
-    label: "Explore",
-    mobileLabel: "Explore",
-    menuEnd: true,
+    label: "Go deeper",
+    intro: "Issue overlays, the AI companion, and Atlas all sit beside the Foundation rather than replacing it.",
     items: [
-      {
-        href: "/explore",
-        label: "Worldview Guide",
-        description: "Browse the IR theory families behind the quiz.",
-      },
-      {
-        href: "/explore/atlas",
-        label: "IR Atlas",
-        description: "Recurring profile patterns in the current model.",
-      },
-      {
-        href: "/compare",
-        label: "Compare Profiles",
-        description: "Read two shared profiles side by side.",
-      },
+      { href: "/modules", label: "Focus Areas" },
+      { href: "/ai", label: "AI" },
+      { href: "/explore/atlas", label: "Atlas" },
+    ],
+  },
+  {
+    label: "More",
+    intro: "Use the guide, methods, and references when you want context or want to challenge the model.",
+    items: [
+      { href: "/explore", label: "Worldview Guide" },
+      { href: "/method", label: "Methods" },
+      { href: "/references", label: "References" },
+      { href: "/feedback", label: "Feedback" },
     ],
   },
 ]
@@ -123,9 +98,17 @@ const moduleTitles: Record<string, string> = {
   technology: "Technology & Geoeconomics",
 }
 
-function getQuizChromeMeta(
-  pathname: string | null,
-): QuizChromeMeta | null {
+function matchesPath(pathname: string, href: string) {
+  if (href === "/explore") {
+    return pathname === "/explore" || (
+      pathname.startsWith("/explore/") && !pathname.startsWith("/explore/atlas")
+    )
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`)
+}
+
+function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
   if (!pathname) return null
 
   if (pathname === "/quiz" || pathname === "/quiz/review") {
@@ -169,8 +152,10 @@ function getQuizChromeMeta(
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const currentPath = pathname ?? "/"
   const quizMeta = getQuizChromeMeta(pathname)
   const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
+  const moreActive = moreNavItems.some((item) => matchesPath(currentPath, item.href))
 
   if (quizMeta) {
     return (
@@ -223,80 +208,72 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
             <nav className="header-nav header-nav--desktop" aria-label="Primary">
               <div className="header-nav-row">
-                {navSections.map((section) => (
-                  <details
-                    key={section.key}
-                    className={`nav-disclosure${section.menuEnd ? " nav-disclosure--end" : ""}`}
-                  >
-                    <summary className="nav-disclosure-summary">{section.label}</summary>
-                    <div className="nav-disclosure-menu">
-                      {section.items.map((item) => (
-                        <Link key={item.href} href={item.href} className="nav-disclosure-link">
-                          <span className="nav-disclosure-link-title">{item.label}</span>
-                          <span className="nav-disclosure-link-text">{item.description}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </details>
-                ))}
-                <Link href="/profile" className="nav-profile-link">
-                  My Profile
+                {publicNavItems.map((item) => {
+                  const active = item.active(currentPath)
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`nav-link${active ? " nav-link--active" : ""}`}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {item.label}
+                    </Link>
+                  )
+                })}
+                <Link
+                  href={profileNavItem.href}
+                  className={`nav-link${profileNavItem.active(currentPath) ? " nav-link--active" : ""}`}
+                  aria-current={profileNavItem.active(currentPath) ? "page" : undefined}
+                >
+                  {profileNavItem.label}
                 </Link>
+                <details className="nav-disclosure nav-disclosure--end">
+                  <summary
+                    className={`nav-disclosure-summary${moreActive ? " nav-disclosure-summary--active" : ""}`}
+                  >
+                    More
+                  </summary>
+                  <div className="nav-disclosure-menu nav-disclosure-menu--compact">
+                    {moreNavItems.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="nav-disclosure-link nav-disclosure-link--compact"
+                      >
+                        <span className="nav-disclosure-link-title">{item.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </details>
               </div>
             </nav>
 
-            <NavAutoClose />
-
             <details className="mobile-nav">
               <summary className="mobile-nav-summary">Menu</summary>
-              <div className="mobile-nav-sheet">
-                <div className="mobile-nav-group">
-                  <p className="mobile-nav-label">Start here</p>
-                  <div className="mobile-nav-links">
-                    <Link href="/quiz" className="mobile-nav-link mobile-nav-link--primary">
-                      <span className="mobile-nav-link-title">Take the Foundation Quiz</span>
-                      <span className="mobile-nav-link-text">
-                        Map your IR worldview. The starting point for everything else.
-                      </span>
-                    </Link>
-                    <Link href="/profile" className="mobile-nav-link">
-                      <span className="mobile-nav-link-title">My Profile</span>
-                      <span className="mobile-nav-link-text">View your saved results.</span>
-                    </Link>
-                  </div>
-                </div>
-                {navSections.filter((section) => section.key !== "foundation").map((section) => (
-                  <div key={section.key} className="mobile-nav-group">
-                    <p className="mobile-nav-label">{section.mobileLabel ?? section.label}</p>
-                    <div className="mobile-nav-links">
-                      {section.items
-                        .filter(
-                          (item) =>
-                            !item.label.toLowerCase().includes("overview") &&
-                            !item.label.toLowerCase().includes("all module"),
-                        )
-                        .map((item) => (
-                          <Link key={item.href} href={item.href} className="mobile-nav-link">
-                            <span className="mobile-nav-link-title">{item.label}</span>
-                            <span className="mobile-nav-link-text">{item.description}</span>
+              <div className="mobile-nav-sheet mobile-nav-sheet--compact">
+                {mobileNavGroups.map((group) => (
+                  <div key={group.label} className="mobile-nav-group">
+                    <p className="mobile-nav-label">{group.label}</p>
+                    <p className="mobile-nav-group-text">{group.intro}</p>
+                    <div className="mobile-nav-list">
+                      {group.items.map((item) => {
+                        const active = matchesPath(currentPath, item.href)
+
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`mobile-nav-list-link${active ? " mobile-nav-list-link--active" : ""}`}
+                            aria-current={active ? "page" : undefined}
+                          >
+                            {item.label}
                           </Link>
-                        ))}
+                        )
+                      })}
                     </div>
                   </div>
                 ))}
-                <div className="mobile-nav-group">
-                  <p className="mobile-nav-label">Resources</p>
-                  <div className="mobile-nav-links">
-                    <Link href="/method" className="mobile-nav-link">
-                      <span className="mobile-nav-link-title">Methods</span>
-                      <span className="mobile-nav-link-text">How the scoring and labels work.</span>
-                    </Link>
-                    <Link href="/references" className="mobile-nav-link">
-                      <span className="mobile-nav-link-title">References</span>
-                      <span className="mobile-nav-link-text">Source shelf behind the project.</span>
-                    </Link>
-                  </div>
-                </div>
               </div>
             </details>
           </div>

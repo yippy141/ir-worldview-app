@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { QuizMenuCard } from "@/components/landing/resume-cta"
+import { FoundationHeroActions } from "@/components/landing/resume-cta"
 import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
@@ -9,127 +9,263 @@ export const metadata: Metadata = {
     "Find out how you think about world politics — from IR theory to security, technology, and AI governance.",
 }
 
-const lobbyItems = [
+const quickPaths = [
   {
-    href: "/quiz",
-    label: "IR Foundation Quiz",
+    href: "/modules",
+    eyebrow: "Focus Areas",
+    label: "Pressure-test the baseline in Security and Technology",
     description:
-      "The core assessment. Maps your views on power, institutions, identity, and world order across seven dimensions of IR theory.",
-    meta: "15–25 min · Start here",
-    primary: true,
-  },
-  {
-    href: "/modules/security",
-    label: "Security & Strategy",
-    description:
-      "Do your IR instincts hold up when applied to deterrence, alliances, and decisions about force? Tests your Foundation against real security debates.",
-    meta: "15–20 min · Issue module",
-    primary: false,
-  },
-  {
-    href: "/modules/technology",
-    label: "Technology & Geoeconomics",
-    description:
-      "How do you think about tech competition, export controls, and industrial policy? Applies your worldview to the economics and politics of technology.",
-    meta: "15–20 min · Issue module",
-    primary: false,
+      "Issue overlays that ask how your Foundation read travels when the argument turns to force, alliances, tech competition, and industrial policy.",
+    meta: "Open focus areas →",
   },
   {
     href: "/ai",
-    label: "AI Governance Compass",
+    eyebrow: "AI Companion",
+    label: "Run the AI Governance Compass alongside the IR baseline",
     description:
-      "A separate quiz on AI safety, regulation, international competition, and the long-term future of AI. Works alongside the IR quiz or on its own.",
-    meta: "10–20 min · Companion quiz",
-    primary: false,
+      "A separate module on AI safety, regulation, rivalry, military use, and the long-term future of human agency.",
+    meta: "Open AI companion →",
   },
   {
-    href: "/explore",
-    label: "Explore Worldviews",
+    href: "/explore/atlas",
+    eyebrow: "Atlas",
+    label: "Browse recurring profile patterns",
     description:
-      "Browse the theory families behind the quiz — Realism, Liberal Institutionalism, Constructivism, and Critical Political Economy — with thinkers, readings, and profile patterns.",
-    meta: "Browse · Field guide",
-    primary: false,
+      "Editorial summaries of nearby IR profile combinations in the current model, rather than a live user distribution.",
+    meta: "Browse Atlas →",
   },
   {
     href: "/profile",
-    label: "My Profile",
+    eyebrow: "Profile",
+    label: "Keep saved results in one place",
     description:
-      "All your saved results in one place. Share your profile, compare it with others, or keep it as a record of where your instincts land across the whole inventory.",
-    meta: "Your results",
-    primary: false,
+      "See your Foundation, focus-area overlays, and AI result together on this device.",
+    meta: "View Profile →",
+  },
+]
+
+const startHereSignals = [
+  {
+    title: "Foundation first",
+    text:
+      "Start with the shared baseline on power, institutions, identity, and world order before you branch into issue overlays or the AI companion.",
+  },
+  {
+    title: "One baseline, several layers",
+    text:
+      "Security, Technology, and AI sit beside the Foundation. They pressure-test or extend the baseline rather than replacing it.",
+  },
+  {
+    title: "Interpretive, not final",
+    text:
+      "This is an editorial interactive, not a validated instrument. The point is to make theoretical priors visible in plain English.",
+  },
+]
+
+const deepDiveSections = [
+  {
+    eyebrow: "Focus Areas",
+    title: "Security and Technology as issue overlays",
+    description:
+      "These modules begin from live policy debates but stay tied to the shared IR baseline. Use them when you want to see where your instincts hold, sharpen, or shift under pressure.",
+    links: [
+      { href: "/modules", label: "Browse focus areas" },
+      { href: "/modules/security", label: "Open Security & Strategy" },
+      { href: "/modules/technology", label: "Open Technology & Geoeconomics" },
+    ],
+  },
+  {
+    eyebrow: "AI Companion",
+    title: "A separate module on AI governance",
+    description:
+      "The AI Governance Compass sits beside the IR product family rather than inside it. It maps how you think about safety, openness, competition, military use, and the future without folding everything into one master score.",
+    links: [
+      { href: "/ai", label: "Open AI companion" },
+      { href: "/ai/atlas", label: "Browse AI Atlas" },
+    ],
+  },
+]
+
+const exploreLinks = [
+  {
+    href: "/explore",
+    title: "Worldview Guide",
+    text: "Browse modeled traditions, reading lists, and coverage gaps.",
+  },
+  {
+    href: "/explore/atlas",
+    title: "IR Atlas",
+    text: "See recurring patterns and nearby profile families in the current model.",
+  },
+  {
+    href: "/compare",
+    title: "Compare Profiles",
+    text: "Read two shared profiles side by side.",
+  },
+  {
+    href: "/profile",
+    title: "Profile",
+    text: "Keep saved results together in one integrated view.",
+  },
+  {
+    href: "/method",
+    title: "Methods",
+    text: "Read the scope, guardrails, and limits behind the instrument.",
+  },
+  {
+    href: "/references",
+    title: "References",
+    text: "Use the source shelf as a companion reading list.",
+  },
+  {
+    href: "/feedback",
+    title: "Feedback",
+    text: "Send notes while the beta is still being stabilized.",
   },
 ]
 
 export default function LandingPage() {
   return (
-    <div className="landing-page">
-      <section className="landing-hero landing-hero--editorial">
-        <div className="landing-hero-compact stack-lg">
-          <div className="stack-md">
-            <h1 className="landing-display">Map how you view international affairs</h1>
-            <p className="landing-lead">
-              Find out how you think about world politics — from the basics of IR theory to live
-              debates on security, technology, and AI. Takes 15 minutes to start, longer if you
-              want to go deep.
+    <div className="wide-container">
+      <article className="lobby-page stack-xl">
+        <section className="lobby-hero">
+          <div className="lobby-hero-grid">
+            <div className="stack-lg">
+              <div className="stack-md">
+                <p className="section-kicker">IR Worldview Inventory</p>
+                <h1 className="landing-display">Map how you view international affairs</h1>
+                <p className="lobby-lead">
+                  Find out how you think about world politics, from the basics of IR theory to live
+                  debates on security, technology, and AI. Start with the shared Foundation, then
+                  go deeper only where it seems useful.
+                </p>
+              </div>
+              <FoundationHeroActions />
+              <p className="landing-note">
+                An interpretive tool, not a validated instrument. Results make theoretical priors
+                visible without pretending to assign a final verdict.
+              </p>
+            </div>
+
+            <aside className="stack-sm">
+              <div className="stack-xs">
+                <p className="section-kicker">Paths through the project</p>
+                <p className="muted lobby-side-text">
+                  The Foundation is the first action. Everything else exists to pressure-test,
+                  browse, or compare that baseline.
+                </p>
+              </div>
+              <div className="landing-quick-grid">
+                {quickPaths.map((item) => (
+                  <Link key={item.href} href={item.href} className="explore-card stack-sm landing-quick-card">
+                    <div className="stack-xs">
+                      <p className="landing-quick-kicker">{item.eyebrow}</p>
+                      <p className="landing-quick-title">{item.label}</p>
+                    </div>
+                    <p className="landing-quick-text">{item.description}</p>
+                    <span className="landing-quick-meta">{item.meta}</span>
+                  </Link>
+                ))}
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section className="lobby-signals stack-md">
+          <div className="stack-xs">
+            <p className="section-kicker">Start here</p>
+            <h2>The Foundation is the shared baseline</h2>
+          </div>
+          <div className="signal-list signal-list--three">
+            {startHereSignals.map((signal) => (
+              <div key={signal.title} className="signal-list-item">
+                <strong>{signal.title}</strong>
+                {signal.text}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="stack-md">
+          <div className="stack-xs">
+            <p className="section-kicker">Go deeper</p>
+            <h2>Move from the baseline into overlays and companion modules</h2>
+            <p className="muted lobby-side-text">
+              The rest of the product should feel adjacent to the Foundation rather than like a
+              separate directory of unrelated routes.
             </p>
           </div>
-          <div className="landing-hero-ctas">
-            <Link href="/quiz" className="cta-primary">
-              Take the Foundation Quiz
-            </Link>
-            <QuizMenuCard />
+          <div className="lobby-entry-list">
+            {deepDiveSections.map((section) => (
+              <article key={section.title} className="lobby-entry">
+                <div className="lobby-entry-main stack-sm">
+                  <div className="stack-xs">
+                    <p className="section-kicker">{section.eyebrow}</p>
+                    <h3 className="lobby-entry-title">{section.title}</h3>
+                  </div>
+                  <p className="muted lobby-entry-text">{section.description}</p>
+                </div>
+                <div className="lobby-entry-meta">
+                  <div className="lobby-meta-block">
+                    <p className="lobby-meta-label">Open</p>
+                    <div className="atlas-inline-links">
+                      {section.links.map((link) => (
+                        <Link key={link.href} href={link.href} style={{ color: "var(--accent)" }}>
+                          {link.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
-          <p className="landing-note">
-            An interpretive tool, not a validated instrument. Results make theoretical priors
-            visible — they do not assign a final verdict.
-          </p>
-        </div>
-      </section>
+        </section>
 
-      <section className="landing-lobby">
-        <div className="landing-lobby-list">
-          {lobbyItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`lobby-menu-item${item.primary ? " lobby-menu-item--primary" : ""}`}
-            >
-              <div className="lobby-menu-copy">
-                <p className="lobby-menu-label">{item.label}</p>
-                <p className="lobby-menu-desc">{item.description}</p>
-              </div>
-              <div className="lobby-menu-right">
-                <span className="lobby-menu-meta">{item.meta}</span>
-                <span className="lobby-menu-arrow">Open →</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="landing-section landing-section--closing">
-        <div className="landing-closing-grid">
+        <section className="lobby-related-grid">
           <div className="stack-sm">
-            <p className="section-kicker">About the project</p>
-            <p className="landing-closing-text">
-              The {siteConfig.publicTitle} is an editorial interactive built by {siteConfig.author}{" "}
-              for students, researchers, practitioners, and engaged readers who want a clearer
-              account of the theoretical assumptions behind their foreign-policy instincts.
+            <p className="section-kicker">Explore and compare</p>
+            <h2>Use the field guide, Atlas, and Profile to keep the whole picture legible</h2>
+            <p className="muted lobby-side-text">
+              These pages should help users interpret what they have already learned rather than
+              compete with the Foundation for first attention.
             </p>
           </div>
-          <div className="landing-closing-links">
-            <Link href="/method" className="landing-text-link">
-              Read the methods
-            </Link>
-            <Link href="/references" className="landing-text-link">
-              Browse references
-            </Link>
-            <Link href="/feedback" className="landing-text-link">
-              Send feedback
-            </Link>
+          <div className="resource-list">
+            {exploreLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="resource-list-link">
+                <span className="resource-list-copy">
+                  <span className="resource-list-title">{link.title}</span>
+                  <span className="resource-list-text">{link.text}</span>
+                </span>
+              </Link>
+            ))}
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="landing-section landing-section--closing">
+          <div className="landing-closing-grid">
+            <div className="stack-sm">
+              <p className="section-kicker">About the project</p>
+              <p className="landing-closing-text">
+                The {siteConfig.publicTitle} is an editorial interactive built by {siteConfig.author}{" "}
+                for students, researchers, practitioners, and engaged readers who want a clearer
+                account of the theoretical assumptions behind their foreign-policy instincts.
+              </p>
+            </div>
+            <div className="stack-sm">
+              <p className="landing-closing-text">
+                The product is still in beta. The current version aims for trust, clarity, and
+                legibility before it aims for breadth.
+              </p>
+              <p className="landing-closing-text">
+                Start with the Foundation. Then branch into modules, Atlas, or Profile only when
+                you want more depth or comparison.
+              </p>
+            </div>
+          </div>
+        </section>
+      </article>
     </div>
   )
 }

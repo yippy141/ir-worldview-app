@@ -251,13 +251,20 @@ button {
   background: color-mix(in srgb, var(--panel) 78%, white 22%);
 }
 
+.nav-link--active {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--border) 60%, var(--accent) 40%);
+  background: color-mix(in srgb, var(--panel) 78%, white 22%);
+}
+
 .site-brand-link:focus-visible,
 .nav-link:focus-visible,
 .nav-disclosure-summary:focus-visible,
 .nav-disclosure-link:focus-visible,
 .nav-profile-link:focus-visible,
 .mobile-nav-summary:focus-visible,
-.mobile-nav-link:focus-visible {
+.mobile-nav-link:focus-visible,
+.mobile-nav-list-link:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
   outline-offset: 4px;
   border-radius: 4px;
@@ -289,6 +296,12 @@ button {
   content: "▾";
   font-size: 0.72rem;
   color: var(--muted);
+}
+
+.nav-disclosure-summary--active {
+  color: var(--text);
+  border-color: color-mix(in srgb, var(--border) 60%, var(--accent) 40%);
+  background: color-mix(in srgb, var(--panel) 78%, white 22%);
 }
 
 .nav-disclosure:hover .nav-disclosure-summary,
@@ -324,6 +337,11 @@ button {
   right: 0;
 }
 
+.nav-disclosure-menu--compact {
+  min-width: 220px;
+  padding: 8px;
+}
+
 .nav-profile-link {
   font-size: 0.9rem;
   font-weight: 600;
@@ -352,6 +370,10 @@ button {
 .nav-disclosure-link:hover {
   text-decoration: none;
   background: color-mix(in srgb, var(--panel-2) 72%, white 28%);
+}
+
+.nav-disclosure-link--compact {
+  padding: 9px 11px;
 }
 
 .nav-disclosure-link-title {
@@ -401,6 +423,10 @@ button {
   border-top: 1px solid var(--line);
 }
 
+.mobile-nav-sheet--compact {
+  padding: 18px 18px 8px;
+}
+
 .mobile-nav-label {
   margin: 0 0 10px;
   font-size: 0.75rem;
@@ -414,6 +440,36 @@ button {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.mobile-nav-group-text {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.mobile-nav-list {
+  border-top: 1px solid var(--line);
+}
+
+.mobile-nav-list-link {
+  display: block;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.mobile-nav-list-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.mobile-nav-list-link--active {
+  color: var(--accent);
 }
 
 .mobile-nav-link {
@@ -1032,6 +1088,68 @@ h3 {
   font-size: 0.88rem;
   line-height: 1.68;
   color: var(--muted);
+}
+
+.landing-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.landing-draft-note {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.landing-quick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.landing-quick-card {
+  display: block;
+  height: 100%;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.landing-quick-card:hover {
+  text-decoration: none;
+}
+
+.landing-quick-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-light);
+}
+
+.landing-quick-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.landing-quick-text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.62;
+  color: var(--muted);
+}
+
+.landing-quick-meta {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
 }
 
 .landing-route-list {
@@ -3067,6 +3185,15 @@ h3 {
   .landing-display {
     max-width: none;
     font-size: clamp(1.9rem, 9vw, 2.7rem);
+  }
+
+  .landing-action-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .landing-quick-grid {
+    grid-template-columns: 1fr;
   }
 
   .landing-rail-link {
