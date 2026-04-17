@@ -1,18 +1,29 @@
 import "./globals.css"
 import Link from "next/link"
 import { siteConfig } from "@/lib/site-config"
+import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import type { Metadata } from "next"
 
-const navSections = [
+type NavItem = { href: string; label: string; description: string }
+
+type NavSection = {
+  key: string
+  label: string
+  mobileLabel?: string
+  menuEnd?: boolean
+  items: NavItem[]
+}
+
+const navSections: NavSection[] = [
   {
     key: "foundation",
-    label: "Foundation",
-    mobileLabel: "Start here",
+    label: "IR Foundation",
+    mobileLabel: "IR Foundation",
     items: [
       {
         href: "/quiz",
-        label: "Take the Foundation",
-        description: "Start with the shared IR baseline.",
+        label: "Take the Foundation Quiz",
+        description: "Start here. Maps your views on power, institutions, and world order.",
       },
       {
         href: "/method",
@@ -22,29 +33,30 @@ const navSections = [
       {
         href: "/references",
         label: "References",
-        description: "Browse the source shelf behind the project.",
+        description: "Source shelf behind the project.",
       },
     ],
   },
   {
     key: "focus-areas",
-    label: "Focus Areas",
-    mobileLabel: "Focus Areas",
+    label: "Issue Modules",
+    mobileLabel: "Issue Modules",
+    menuEnd: true,
     items: [
       {
-        href: "/modules",
-        label: "Modules overview",
-        description: "Open the Security and Technology overlays.",
-      },
-      {
         href: "/modules/security",
-        label: "Security",
-        description: "Deterrence, alliances, and protection under pressure.",
+        label: "Security & Strategy",
+        description: "Deterrence, alliances, and the use of force.",
       },
       {
         href: "/modules/technology",
-        label: "Technology",
-        description: "Controls, capacity, and AI governance.",
+        label: "Technology & Geoeconomics",
+        description: "Tech competition, industrial policy, and trade.",
+      },
+      {
+        href: "/modules",
+        label: "All modules",
+        description: "Overview of both issue modules.",
       },
     ],
   },
@@ -52,21 +64,22 @@ const navSections = [
     key: "ai",
     label: "AI",
     mobileLabel: "AI",
+    menuEnd: true,
     items: [
       {
-        href: "/ai",
-        label: "AI overview",
-        description: "Open the companion module landing page.",
-      },
-      {
         href: "/ai/quiz",
-        label: "Take the AI module",
-        description: "Run the AI Governance Compass.",
+        label: "Take the AI Quiz",
+        description: "Map your instincts on AI safety and governance.",
       },
       {
         href: "/ai/atlas",
         label: "AI Atlas",
-        description: "Browse recurring AI governance archetypes.",
+        description: "Browse AI governance archetypes.",
+      },
+      {
+        href: "/ai",
+        label: "AI overview",
+        description: "About the AI Governance Compass.",
       },
     ],
   },
@@ -74,35 +87,31 @@ const navSections = [
     key: "explore",
     label: "Explore",
     mobileLabel: "Explore",
+    menuEnd: true,
     items: [
       {
         href: "/explore",
-        label: "Worldview guide",
-        description: "Explore modeled traditions and coverage gaps.",
+        label: "Worldview Guide",
+        description: "Browse the IR theory families behind the quiz.",
       },
       {
         href: "/explore/atlas",
         label: "IR Atlas",
-        description: "Browse recurring IR profile patterns.",
-      },
-      {
-        href: "/profile",
-        label: "Profile",
-        description: "See your saved worldview mosaic.",
+        description: "Recurring profile patterns in the current model.",
       },
       {
         href: "/compare",
-        label: "Compare profiles",
+        label: "Compare Profiles",
         description: "Read two shared profiles side by side.",
       },
     ],
   },
-] as const
+]
 
 export const metadata: Metadata = {
   title: siteConfig.publicTitle,
   description:
-    "An editorial interactive about how you read world politics across the Foundation, focus-area modules, and integrated Profile.",
+    "Map how you think about world politics — IR theory, security, technology, and AI governance.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -117,12 +126,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <div className="header-inner">
                 <Link href="/" className="site-brand-link">
                   <p className="brand">{siteConfig.publicTitle}</p>
-                  <p className="brand-subtitle">{siteConfig.byline}</p>
                 </Link>
+
                 <nav className="header-nav header-nav--desktop" aria-label="Primary">
                   <div className="header-nav-row">
                     {navSections.map((section) => (
-                      <details key={section.key} className="nav-disclosure">
+                      <details
+                        key={section.key}
+                        className={`nav-disclosure${section.menuEnd ? " nav-disclosure--end" : ""}`}
+                      >
                         <summary className="nav-disclosure-summary">{section.label}</summary>
                         <div className="nav-disclosure-menu">
                           {section.items.map((item) => (
@@ -134,29 +146,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         </div>
                       </details>
                     ))}
+                    <Link href="/profile" className="nav-profile-link">
+                      My Profile
+                    </Link>
                   </div>
                 </nav>
-                {/* Auto-close sibling nav dropdowns when one opens */}
-                <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.querySelectorAll('.header-nav .nav-disclosure');d.forEach(function(el){el.addEventListener('toggle',function(){if(el.open){d.forEach(function(o){if(o!==el)o.removeAttribute('open');});}});});})();` }} />
+
+                <NavAutoClose />
+
                 <details className="mobile-nav">
                   <summary className="mobile-nav-summary">Menu</summary>
                   <div className="mobile-nav-sheet">
-                    {navSections.map((section, sectionIndex) => (
+                    <div className="mobile-nav-group">
+                      <p className="mobile-nav-label">Start here</p>
+                      <div className="mobile-nav-links">
+                        <Link href="/quiz" className="mobile-nav-link mobile-nav-link--primary">
+                          <span className="mobile-nav-link-title">Take the Foundation Quiz</span>
+                          <span className="mobile-nav-link-text">Map your IR worldview. The starting point for everything else.</span>
+                        </Link>
+                        <Link href="/profile" className="mobile-nav-link">
+                          <span className="mobile-nav-link-title">My Profile</span>
+                          <span className="mobile-nav-link-text">View your saved results.</span>
+                        </Link>
+                      </div>
+                    </div>
+                    {navSections.filter((s) => s.key !== "foundation").map((section) => (
                       <div key={section.key} className="mobile-nav-group">
-                        <p className="mobile-nav-label">
-                          {section.mobileLabel ?? section.label}
-                        </p>
+                        <p className="mobile-nav-label">{section.mobileLabel ?? section.label}</p>
                         <div className="mobile-nav-links">
-                          {section.items.map((item, itemIndex) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              className={`mobile-nav-link${
-                                sectionIndex === 0 && itemIndex === 0
-                                  ? " mobile-nav-link--primary"
-                                  : ""
-                              }`}
-                            >
+                          {section.items.filter((item) => !item.label.toLowerCase().includes("overview") && !item.label.toLowerCase().includes("all module")).map((item) => (
+                            <Link key={item.href} href={item.href} className="mobile-nav-link">
                               <span className="mobile-nav-link-title">{item.label}</span>
                               <span className="mobile-nav-link-text">{item.description}</span>
                             </Link>
@@ -164,6 +183,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         </div>
                       </div>
                     ))}
+                    <div className="mobile-nav-group">
+                      <p className="mobile-nav-label">Resources</p>
+                      <div className="mobile-nav-links">
+                        <Link href="/method" className="mobile-nav-link">
+                          <span className="mobile-nav-link-title">Methods</span>
+                          <span className="mobile-nav-link-text">How the scoring and labels work.</span>
+                        </Link>
+                        <Link href="/references" className="mobile-nav-link">
+                          <span className="mobile-nav-link-title">References</span>
+                          <span className="mobile-nav-link-text">Source shelf behind the project.</span>
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </details>
               </div>

@@ -116,9 +116,8 @@ export default function AiPage() {
               </div>
               <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
                 {aiQuestionCountsByMode.analyst} statements and {advancedQuestionTotal} questions
-                total. Adds materially deeper prompts on audits, compute governance, incident
-                reporting, security competition, critical infrastructure, legitimacy under
-                pressure, and moral-status or augmentation overlays.
+                total. Deeper prompts on audits, compute governance, security competition, and
+                legitimacy under pressure.
               </p>
               <span className="atlas-pattern-cta">Open Advanced →</span>
             </Link>

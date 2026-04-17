@@ -86,7 +86,7 @@ button {
   display: block;
   text-decoration: none;
   color: inherit;
-  min-width: min(360px, 100%);
+  min-width: fit-content;
 }
 
 .header-nav {
@@ -122,6 +122,7 @@ button {
 .nav-link:focus-visible,
 .nav-disclosure-summary:focus-visible,
 .nav-disclosure-link:focus-visible,
+.nav-profile-link:focus-visible,
 .mobile-nav-summary:focus-visible,
 .mobile-nav-link:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
@@ -185,9 +186,26 @@ button {
   display: flex;
 }
 
-.header-nav-row .nav-disclosure:last-child .nav-disclosure-menu {
+.nav-disclosure--end .nav-disclosure-menu {
   left: auto;
   right: 0;
+}
+
+.nav-profile-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 8px 13px;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border) 70%);
+  border-radius: 999px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.nav-profile-link:hover {
+  background: color-mix(in srgb, var(--panel) 76%, white 24%);
+  border-color: var(--accent);
+  text-decoration: none;
 }
 
 .nav-disclosure-link {
@@ -737,8 +755,105 @@ h3 {
 
 .landing-hero {
   padding: 60px 0 44px;
+  border-bottom: 1px solid var(--line);
 }
 
+.landing-hero-compact {
+  max-width: 640px;
+}
+
+.landing-hero-ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+/* ── Lobby menu ──────────────────────────────────────────────────────────────── */
+
+.landing-lobby {
+  padding: 0;
+}
+
+.landing-lobby-list {
+  border-bottom: 1px solid var(--line);
+}
+
+.lobby-menu-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 22px 0;
+  border-top: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.12s ease;
+}
+
+@media (max-width: 640px) {
+  .lobby-menu-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.lobby-menu-item:hover {
+  text-decoration: none;
+}
+
+.lobby-menu-item:hover .lobby-menu-label {
+  color: var(--accent);
+}
+
+.lobby-menu-item--primary .lobby-menu-label {
+  color: var(--accent);
+}
+
+.lobby-menu-copy {
+  min-width: 0;
+}
+
+.lobby-menu-label {
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.3;
+  transition: color 0.12s ease;
+  margin: 0 0 5px;
+}
+
+.lobby-menu-desc {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 0;
+}
+
+.lobby-menu-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+  min-width: 100px;
+  text-align: right;
+}
+
+.lobby-menu-meta {
+  font-size: 0.76rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.lobby-menu-arrow {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Keep old landing grid styles for backward compat on other pages */
 .landing-hero-grid {
   display: grid;
   grid-template-columns: 1fr;
