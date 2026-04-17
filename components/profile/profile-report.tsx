@@ -178,7 +178,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               </div>
 
               <div className="stack-xs">
-                <p className="profile-section-kicker">Nearby patterns worth opening</p>
+                <p className="profile-section-kicker">Nearby patterns</p>
                 <div className="atlas-inline-links">
                   {atlasMatch.neighbors.map((pattern) => (
                     <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
@@ -189,7 +189,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                     Read this pattern
                   </Link>
                   <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                    Open Atlas
+                    Browse Atlas
                   </Link>
                 </div>
               </div>
@@ -380,7 +380,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 {mode === "local" && moduleSnapshot.resultPath ? (
                   <p>
                     <Link href={moduleSnapshot.resultPath} style={{ color: "var(--accent)" }}>
-                      Open full result →
+                      View full result →
                     </Link>
                   </p>
                 ) : null}
@@ -397,7 +397,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             {mode === "local" ? (
               <p>
                 <Link href={`/modules?foundation=${encodeURIComponent(foundation.payload)}`} style={{ color: "var(--accent)" }}>
-                  Browse focus-area modules →
+                  Browse Focus Areas →
                 </Link>
               </p>
             ) : null}

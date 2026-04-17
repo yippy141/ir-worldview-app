@@ -16,7 +16,7 @@ const quickPaths = [
     label: "Pressure-test the baseline in Security and Technology",
     description:
       "Issue overlays that ask how your Foundation read travels when the argument turns to force, alliances, tech competition, and industrial policy.",
-    meta: "Open focus areas →",
+    meta: "Browse Focus Areas →",
   },
   {
     href: "/ai",
@@ -40,7 +40,7 @@ const quickPaths = [
     label: "Keep saved results in one place",
     description:
       "See your Foundation, focus-area overlays, and AI result together on this device.",
-    meta: "View Profile →",
+    meta: "View your Profile →",
   },
 ]
 

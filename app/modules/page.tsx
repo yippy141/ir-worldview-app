@@ -32,7 +32,7 @@ export default async function ModulesPage(
                 governments to see whether your logic still holds.
               </p>
               <div className="row gap-sm wrap">
-                <Link href="/quiz" className="cta-primary">Open the Foundation</Link>
+                <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
                 <Link href="/profile" className="cta-secondary">View your Profile</Link>
               </div>
             </div>
@@ -50,7 +50,7 @@ export default async function ModulesPage(
                 <div className="callout stack-xs">
                   <p style={{ fontWeight: 600 }}>Foundation comparison is available</p>
                   <p className="muted lobby-side-text">
-                    Open either module from here and the result page will compare it back to your
+                    Choose either module from here and the result page will compare it back to your
                     Foundation baseline.
                   </p>
                 </div>

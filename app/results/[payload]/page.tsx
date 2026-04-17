@@ -165,7 +165,7 @@ export default async function ResultPage(
       key: "start-here",
       heading: "Start here",
       subheading:
-        "Open the modeled tradition page first, then begin with one anchor text before you widen the frame.",
+        "Read the modeled tradition page first, then begin with one anchor text before you widen the frame.",
       entries: readings.slice(0, 1).map((item) => ({
         id: `${result.familyKey}-${item.title}`,
         title: item.title,
@@ -175,7 +175,7 @@ export default async function ResultPage(
       links: [
         {
           href: `/explore/${familySlug(result.familyKey)}`,
-          label: `Open ${familyLabel}`,
+          label: `Read ${familyLabel}`,
           text: "See the tradition guide, issue readings, and critique shelf in one place.",
         },
       ],
@@ -194,7 +194,7 @@ export default async function ResultPage(
       links: [
         {
           href: "/references",
-          label: "Open references",
+          label: "Browse references",
           text: "Use the wider bibliography when you want more than the result-page shelf.",
         },
         {
@@ -219,7 +219,7 @@ export default async function ResultPage(
         {
           href: `/explore/${familySlug(neighborKey)}`,
           label: `Read ${neighborLabel}`,
-          text: "Open the closest alternative tradition and compare its issue logic directly.",
+          text: "Read the closest alternative tradition and compare its issue logic directly.",
         },
         {
           href: `/modules?foundation=${encodeURIComponent(payload)}`,
@@ -332,7 +332,7 @@ export default async function ResultPage(
               Add a focus-area module
             </Link>
             <Link href="/profile" className="cta-secondary">
-              View profile
+              View your Profile
             </Link>
           </div>
         </div>
@@ -371,7 +371,7 @@ export default async function ResultPage(
               <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
             </p>
             <div className="stack-xs">
-              <p style={{ fontWeight: 600 }}>Nearby patterns worth opening</p>
+              <p style={{ fontWeight: 600 }}>Nearby patterns</p>
               <div className="atlas-inline-links">
                 {atlasMatch.neighbors.map((pattern) => (
                   <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
@@ -382,7 +382,7 @@ export default async function ResultPage(
                   Read this pattern
                 </Link>
                 <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                  Open Atlas
+                  Browse Atlas
                 </Link>
               </div>
             </div>
@@ -625,7 +625,7 @@ export default async function ResultPage(
             </p>
           </div>
           <details className="profile-details">
-            <summary>Open glossary</summary>
+            <summary>Read glossary</summary>
             <div style={{ marginTop: "16px" }}>
               {glossaryTerms.map((term) => (
                 <div key={term.term} className="definition-item">

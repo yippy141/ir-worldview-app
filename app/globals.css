@@ -3337,6 +3337,15 @@ h3 {
     flex-direction: column;
   }
 
+  .quiz-shell-actions,
+  .quiz-shell-steps {
+    width: 100%;
+  }
+
+  .quiz-shell-exit {
+    justify-content: center;
+  }
+
   .quiz-shell-main {
     padding-top: 28px;
   }

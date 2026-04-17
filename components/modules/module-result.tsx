@@ -279,7 +279,7 @@ export function ModuleResultView({
               </Link>
             ) : null}
             <Link href="/profile" className="cta-secondary">
-              View profile
+              View your Profile
             </Link>
           </div>
         </section>
