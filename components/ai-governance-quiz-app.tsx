@@ -1,6 +1,5 @@
 "use client"
 
-import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
@@ -472,11 +471,10 @@ function ModeGate({
                 the headline archetype.
               </p>
             </div>
-            <div className="row gap-sm wrap">
-              <Link href="/ai" className="cta-secondary">About this module</Link>
-              <Link href="/ai/atlas" className="cta-secondary">AI atlas</Link>
-              <Link href="/feedback?module=ai" className="cta-secondary">Feedback</Link>
-            </div>
+            <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem", margin: 0 }}>
+              The focused quiz shell keeps navigation light here. Browse pages and feedback remain
+              available after you exit the module.
+            </p>
           </div>
         </div>
 
