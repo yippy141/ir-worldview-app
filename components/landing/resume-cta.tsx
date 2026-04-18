@@ -72,11 +72,11 @@ export function FoundationHeroActions() {
     <div className="stack-xs">
       <div className="landing-action-row">
         <Link href="/quiz" className="cta-primary">
-          Take the Foundation
+          Take the Foundation questionnaire
         </Link>
         {hasDraft ? (
           <Link href="/quiz" className="cta-secondary">
-            Resume Foundation
+            Resume Foundation questionnaire
           </Link>
         ) : null}
       </div>
@@ -96,7 +96,7 @@ export function QuizMenuCard() {
   if (!hasDraft) {
     return (
       <Link href="/quiz" className="menu-card">
-        <p className="menu-card-title">Foundation</p>
+        <p className="menu-card-title">Foundation Questionnaire</p>
         <p className="menu-card-desc">
           Choose Standard or Advanced mode and map your instincts across seven IR dimensions.
         </p>
@@ -106,7 +106,7 @@ export function QuizMenuCard() {
 
   return (
     <Link href="/quiz" className="menu-card">
-      <p className="menu-card-title">Resume Foundation</p>
+      <p className="menu-card-title">Resume Foundation Questionnaire</p>
       <p className="menu-card-desc">
         {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered.
       </p>

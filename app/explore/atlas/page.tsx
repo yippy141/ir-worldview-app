@@ -14,42 +14,44 @@ export default function AtlasLitePage() {
 
   return (
     <div className="wide-container">
-      <div className="article-header stack-sm">
-        <p className="eyebrow">Atlas</p>
-        <h1>Recurring profile patterns in the current model</h1>
-        <p className="muted" style={{ lineHeight: "1.7", fontSize: "1.05rem", maxWidth: "720px" }}>
+      <div className="article-header stack-md">
+        <div className="stack-xs">
+          <p className="eyebrow">Atlas</p>
+          <h1>Recurring profile patterns in the current model</h1>
+        </div>
+        <p className="muted atlas-page-lead">
           This is a browse map of patterns that recur in the current inventory. It is not a live
           user distribution, and it is not a claim that people fit into fixed natural kinds.
         </p>
       </div>
 
-      <div className="atlas-page-intro stack-sm">
+      <section className="atlas-page-intro stack-md">
         <div className="stack-xs">
           <p className="eyebrow">Reading note</p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.94rem", maxWidth: "760px" }}>
+          <p className="muted atlas-page-copy">
             The inventory runs on continuous dimensions. These pattern names are editorial summaries
             of recurring combinations in the current model, not percentiles or exhaustive IR types.
           </p>
         </div>
         <p className="muted atlas-page-intro__note">
-          Some traditions and strategic cultures remain under-modeled. The point is to help users
-          browse nearby patterns honestly without implying more precision than the instrument can
-          support.
+          Some traditions and strategic cultures remain under-modeled. The point here is to help
+          users browse nearby patterns honestly without implying more precision than the instrument
+          can support.
         </p>
-      </div>
+      </section>
 
-      <div className="atlas-pattern-grid atlas-pattern-grid--browse">
+      <div className="atlas-pattern-grid atlas-pattern-grid--browse" role="list">
         {patterns.map((pattern) => (
           <AtlasPatternCard key={pattern.id} pattern={pattern} />
         ))}
       </div>
 
-      <div className="result-section stack-sm">
+      <div className="result-section stack-sm atlas-page-actions">
         <p className="eyebrow">Continue</p>
         <div className="row gap-sm wrap">
-          <Link href="/explore" className="cta-secondary">Back to Explore</Link>
+          <Link href="/explore" className="cta-secondary">Browse the field guide</Link>
           <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
-          <Link href="/profile" className="cta-secondary">View your Profile</Link>
+          <Link href="/profile" className="cta-secondary">View Profile</Link>
         </div>
       </div>
     </div>

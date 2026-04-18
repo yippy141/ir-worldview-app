@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import { siteConfig } from "@/lib/site-config"
 
 type QuizChromeMeta = {
@@ -28,13 +29,21 @@ type MobileNavGroup = {
 const publicNavItems: PublicNavItem[] = [
   {
     href: "/quiz",
-    label: "Foundation",
+    label: "Foundation Questionnaire",
     active: (pathname) => pathname.startsWith("/results"),
   },
   {
     href: "/modules",
     label: "Focus Areas",
     active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
+  },
+  {
+    href: "/explore",
+    label: "Explore",
+    active: (pathname) =>
+      pathname === "/explore" || (
+        pathname.startsWith("/explore/") && !pathname.startsWith("/explore/atlas")
+      ),
   },
   {
     href: "/ai",
@@ -57,7 +66,6 @@ const profileNavItem: PublicNavItem = {
 }
 
 const moreNavItems = [
-  { href: "/explore", label: "Worldview Guide" },
   { href: "/method", label: "Methods" },
   { href: "/references", label: "References" },
   { href: "/feedback", label: "Feedback" },
@@ -68,7 +76,7 @@ const mobileNavGroups: MobileNavGroup[] = [
     label: "Start here",
     intro: "Begin with the shared baseline, then return to Profile once you have a saved result.",
     items: [
-      { href: "/quiz", label: "Foundation" },
+      { href: "/quiz", label: "Foundation Questionnaire" },
       { href: "/profile", label: "Profile" },
     ],
   },
@@ -77,6 +85,7 @@ const mobileNavGroups: MobileNavGroup[] = [
     intro: "Issue overlays, the AI companion, and Atlas all sit beside the Foundation rather than replacing it.",
     items: [
       { href: "/modules", label: "Focus Areas" },
+      { href: "/explore", label: "Explore" },
       { href: "/ai", label: "AI" },
       { href: "/explore/atlas", label: "Atlas" },
     ],
@@ -113,7 +122,7 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
 
   if (pathname === "/quiz" || pathname === "/quiz/review") {
     return {
-      title: "Foundation",
+      title: "Foundation Questionnaire",
       sectionLabel: "IR Worldview Inventory",
       exitHref: "/",
       exitLabel: "Exit to home",
@@ -124,8 +133,8 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
 
   if (pathname === "/ai/quiz" || pathname === "/ai/review") {
     return {
-      title: "AI Governance Compass",
-      sectionLabel: "Companion module",
+      title: "AI Questionnaire",
+      sectionLabel: "AI Governance Compass",
       exitHref: "/ai",
       exitLabel: "Exit to AI home",
       steps: ["Quiz", "Review"],
@@ -138,7 +147,7 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
     const slug = moduleMatch[1]
 
     return {
-      title: moduleTitles[slug] ?? "Focus-area module",
+      title: `${moduleTitles[slug] ?? "Focus-area"} Questionnaire`,
       sectionLabel: "Issue module",
       exitHref: "/modules",
       exitLabel: "Exit to modules",
@@ -163,14 +172,13 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <header className="quiz-shell-header">
           <div className="wide-container">
             <div className="quiz-shell-inner">
-              <div className="quiz-shell-branding">
-                <Link href="/" className="quiz-shell-brand-link">
-                  <span className="quiz-shell-brand">{siteConfig.publicTitle}</span>
-                </Link>
-                <div className="quiz-shell-context">
-                  <p className="quiz-shell-label">{quizMeta.sectionLabel}</p>
-                  <p className="quiz-shell-title">{quizMeta.title}</p>
-                </div>
+              <Link href="/" className="quiz-shell-brand-link">
+                <span className="quiz-shell-brand">{siteConfig.publicTitle}</span>
+              </Link>
+
+              <div className="quiz-shell-heading">
+                <p className="quiz-shell-label">{quizMeta.sectionLabel}</p>
+                <p className="quiz-shell-title">{quizMeta.title}</p>
               </div>
 
               <div className="quiz-shell-actions">
@@ -199,6 +207,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="site-shell">
+      <NavAutoClose />
       <header className="site-header">
         <div className="wide-container">
           <div className="header-inner">

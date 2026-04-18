@@ -15,16 +15,16 @@ const quickPaths = [
     eyebrow: "Focus Areas",
     label: "Pressure-test the baseline in Security and Technology",
     description:
-      "Issue overlays that ask how your Foundation read travels when the argument turns to force, alliances, tech competition, and industrial policy.",
-    meta: "Browse Focus Areas →",
+      "See where the Foundation holds, changes, or shifts when cases turn to force, alliances, tech competition, and industrial policy.",
+    meta: "Browse Focus Areas",
   },
   {
     href: "/ai",
     eyebrow: "AI Companion",
-    label: "Run the AI Governance Compass alongside the IR baseline",
+    label: "Open the AI Governance Compass alongside the IR baseline",
     description:
       "A separate module on AI safety, regulation, rivalry, military use, and the long-term future of human agency.",
-    meta: "Open AI companion →",
+    meta: "Open AI companion",
   },
   {
     href: "/explore/atlas",
@@ -32,7 +32,7 @@ const quickPaths = [
     label: "Browse recurring profile patterns",
     description:
       "Editorial summaries of nearby IR profile combinations in the current model, rather than a live user distribution.",
-    meta: "Browse Atlas →",
+    meta: "Browse Atlas",
   },
   {
     href: "/profile",
@@ -40,7 +40,7 @@ const quickPaths = [
     label: "Keep saved results in one place",
     description:
       "See your Foundation, focus-area overlays, and AI result together on this device.",
-    meta: "View your Profile →",
+    meta: "View Profile",
   },
 ]
 
@@ -68,8 +68,8 @@ const deepDiveSections = [
     title: "Security and Technology as issue overlays",
     description:
       "These modules begin from live policy debates but stay tied to the shared IR baseline. Use them when you want to see where your instincts hold, sharpen, or shift under pressure.",
-    links: [
-      { href: "/modules", label: "Browse focus areas" },
+    primaryLink: { href: "/modules", label: "Browse focus areas" },
+    secondaryLinks: [
       { href: "/modules/security", label: "Open Security & Strategy" },
       { href: "/modules/technology", label: "Open Technology & Geoeconomics" },
     ],
@@ -79,10 +79,8 @@ const deepDiveSections = [
     title: "A separate module on AI governance",
     description:
       "The AI Governance Compass sits beside the IR product family rather than inside it. It maps how you think about safety, openness, competition, military use, and the future without folding everything into one master score.",
-    links: [
-      { href: "/ai", label: "Open AI companion" },
-      { href: "/ai/atlas", label: "Browse AI Atlas" },
-    ],
+    primaryLink: { href: "/ai", label: "Open AI companion" },
+    secondaryLinks: [{ href: "/ai/atlas", label: "Browse AI Atlas" }],
   },
 ]
 
@@ -147,21 +145,19 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <aside className="stack-sm">
+            <aside className="lobby-hero-panel stack-md">
               <div className="stack-xs">
-                <p className="section-kicker">Paths through the project</p>
+                <p className="section-kicker">Keep going after the baseline</p>
                 <p className="muted lobby-side-text">
                   The Foundation is the first action. Everything else exists to pressure-test,
-                  browse, or compare that baseline.
+                  browse, or compare that first read.
                 </p>
               </div>
-              <div className="landing-quick-grid">
+              <div className="lobby-hero-path-grid">
                 {quickPaths.map((item) => (
-                  <Link key={item.href} href={item.href} className="explore-card stack-sm landing-quick-card">
-                    <div className="stack-xs">
-                      <p className="landing-quick-kicker">{item.eyebrow}</p>
-                      <p className="landing-quick-title">{item.label}</p>
-                    </div>
+                  <Link key={item.href} href={item.href} className="lobby-hero-path-card stack-xs">
+                    <p className="landing-quick-kicker">{item.eyebrow}</p>
+                    <p className="landing-quick-title">{item.label}</p>
                     <p className="landing-quick-text">{item.description}</p>
                     <span className="landing-quick-meta">{item.meta}</span>
                   </Link>
@@ -171,50 +167,54 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="lobby-signals stack-md">
-          <div className="stack-xs">
+        <section className="homepage-band stack-lg">
+          <div className="homepage-band-header stack-sm">
             <p className="section-kicker">Start here</p>
-            <h2>The Foundation is the shared baseline</h2>
+            <h2>The Foundation gives the shared language for everything else</h2>
+            <p className="muted lobby-section-copy">
+              Take the baseline first, then use modules, Atlas, and Profile to see where that
+              logic stays stable and where it shifts.
+            </p>
           </div>
-          <div className="signal-list signal-list--three">
+          <div className="homepage-signal-grid">
             {startHereSignals.map((signal) => (
-              <div key={signal.title} className="signal-list-item">
+              <article key={signal.title} className="homepage-signal-card stack-xs">
                 <strong>{signal.title}</strong>
                 {signal.text}
-              </div>
+              </article>
             ))}
           </div>
         </section>
 
-        <section className="stack-md">
-          <div className="stack-xs">
+        <section className="homepage-band stack-lg">
+          <div className="homepage-band-header stack-sm">
             <p className="section-kicker">Go deeper</p>
             <h2>Move from the baseline into overlays and companion modules</h2>
-            <p className="muted lobby-side-text">
+            <p className="muted lobby-section-copy">
               The rest of the product should feel adjacent to the Foundation rather than like a
               separate directory of unrelated routes.
             </p>
           </div>
-          <div className="lobby-entry-list">
+          <div className="homepage-feature-grid">
             {deepDiveSections.map((section) => (
-              <article key={section.title} className="lobby-entry">
-                <div className="lobby-entry-main stack-sm">
+              <article key={section.title} className="homepage-feature-card stack-md">
+                <div className="stack-sm">
                   <div className="stack-xs">
                     <p className="section-kicker">{section.eyebrow}</p>
                     <h3 className="lobby-entry-title">{section.title}</h3>
                   </div>
                   <p className="muted lobby-entry-text">{section.description}</p>
                 </div>
-                <div className="lobby-entry-meta">
-                  <div className="lobby-meta-block">
-                    <p className="lobby-meta-label">Open</p>
-                    <div className="atlas-inline-links">
-                      {section.links.map((link) => (
-                        <Link key={link.href} href={link.href} style={{ color: "var(--accent)" }}>
-                          {link.label}
-                        </Link>
-                      ))}
-                    </div>
+                <div className="stack-sm">
+                  <Link href={section.primaryLink.href} className="cta-secondary homepage-feature-primary">
+                    {section.primaryLink.label}
+                  </Link>
+                  <div className="homepage-inline-links" aria-label={`${section.title} links`}>
+                    {section.secondaryLinks.map((link) => (
+                      <Link key={link.href} href={link.href} className="homepage-inline-link">
+                        {link.label}
+                      </Link>
+                    ))}
                   </div>
                 </div>
               </article>
@@ -222,22 +222,20 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="lobby-related-grid">
-          <div className="stack-sm">
+        <section className="homepage-band stack-lg">
+          <div className="homepage-band-header stack-sm">
             <p className="section-kicker">Explore and compare</p>
             <h2>Use the field guide, Atlas, and Profile to keep the whole picture legible</h2>
-            <p className="muted lobby-side-text">
+            <p className="muted lobby-section-copy">
               These pages should help users interpret what they have already learned rather than
               compete with the Foundation for first attention.
             </p>
           </div>
-          <div className="resource-list">
+          <div className="homepage-resource-grid">
             {exploreLinks.map((link) => (
-              <Link key={link.href} href={link.href} className="resource-list-link">
-                <span className="resource-list-copy">
-                  <span className="resource-list-title">{link.title}</span>
-                  <span className="resource-list-text">{link.text}</span>
-                </span>
+              <Link key={link.href} href={link.href} className="homepage-resource-card stack-xs">
+                <span className="resource-list-title">{link.title}</span>
+                <span className="resource-list-text">{link.text}</span>
               </Link>
             ))}
           </div>

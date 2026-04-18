@@ -40,7 +40,7 @@ export function ProfileDashboard() {
             baseline with any completed focus-area modules on this device.
           </p>
           <div className="row gap-sm wrap">
-            <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
+            <Link href="/quiz" className="cta-primary">Take the Foundation questionnaire</Link>
             <Link href="/explore" className="cta-secondary">Browse the guide</Link>
           </div>
         </section>

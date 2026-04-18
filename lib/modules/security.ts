@@ -267,7 +267,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Maritime pressure short of alliance",
     prompt: "What should carry the most weight when outside states offer support?",
     scene:
-      "A Southeast Asian state faces repeated maritime pressure from a much larger power. It wants help, but not formal bloc alignment that would narrow its diplomatic room or turn every dispute into a camp test.",
+      "A Southeast Asian state faces repeated maritime pressure from a much larger power. It wants help, but not formal bloc alignment that would narrow its diplomatic room or turn every dispute into a choice between opposing blocs.",
     whyHard:
       "Outside backing can strengthen the smaller state, but the wrong form of backing can also reduce the autonomy it is trying to preserve.",
     contextBullets: [
@@ -375,7 +375,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Mass atrocity and outside action",
     prompt: "What should govern the decision?",
     scene:
-      "Mass civilian killing is underway, the Security Council is blocked, and outside military action would be legally contested. Some governments argue that the humanitarian threshold is already clear; others warn that poorly bounded intervention could damage order beyond the immediate crisis.",
+      "Mass civilian killing is underway, the Security Council is blocked, and outside military action would be legally contested. Some governments argue that the level of civilian killing is already so extreme that outside action is justified; others warn that a poorly limited intervention could damage order beyond the immediate crisis.",
     whyHard:
       "The central tension is whether the gravity of the harm justifies acting without the level of legal and political grounding that would normally be required.",
     contextBullets: [
@@ -397,7 +397,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
         id: "limited_protection_can_qualify",
         title: "Allow limited protection",
         label:
-          "If the threshold is truly extreme, narrow action to stop mass killing can still be defensible without perfect consensus.",
+          "If the killing is truly extreme, limited action to stop it can still be defensible even without perfect consensus.",
         signals: { activism: 5.2, escalation: 4.2, alliance: 4.6, legitimacy: 6.2 },
       },
       {
@@ -473,7 +473,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     title: "Ceasefire versus accountability",
     prompt: "What is the strongest framing of the tradeoff?",
     scene:
-      "Mediators think they can likely secure a ceasefire in a brutal war, but only if accountability is delayed and monitors are weaker than many activists want. The debate turns on whether stopping the killing, preserving legal norms, or building a politically workable settlement matters most.",
+      "Mediators think they can likely secure a ceasefire in a brutal war, but only if war-crimes investigations are delayed and monitoring is weaker than many activists want. The debate is over whether stopping the killing, preserving accountability, or building a settlement that can actually hold matters most.",
     whyHard:
       "The same compromise can look like prudence to one camp and norm erosion to another.",
     contextBullets: [
@@ -495,14 +495,14 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
         id: "accountability_sets_limits",
         title: "Accountability sets limits",
         label:
-          "If accountability can always be postponed in the hardest cases, the norm against atrocity steadily weakens where it matters most.",
+          "If accountability can always be delayed in the hardest cases, the norm against atrocity weakens where it matters most.",
         signals: { activism: 3.7, escalation: 3.9, alliance: 4.2, legitimacy: 2.9 },
       },
       {
         id: "regional_monitoring_compromise",
         title: "Use a monitored compromise",
         label:
-          "The better answer is a politically workable ceasefire tied to regional monitoring and a sequenced accountability path.",
+          "The better answer is a politically workable ceasefire with regional monitoring and a staged path to accountability.",
         signals: { activism: 3.8, escalation: 3.8, alliance: 5.0, legitimacy: 5.1 },
       },
       {
@@ -525,9 +525,9 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
     title: "Nuclear threshold and preventive force",
     prompt: "What is the strongest reading of what this case is mainly about?",
     scene:
-      "At a regional crisis review, inspectors report Iran is closer to weapons-grade breakout than six months ago, but intent and weaponization timelines remain disputed. Israel, Gulf partners, and Western governments are arguing over whether this is mainly a failing leverage game, a future containment problem, a coalition-discipline problem, or a legitimacy-boundary problem.",
+      "At a regional crisis review, inspectors report Iran may be closer to being able to cross the nuclear threshold than six months ago, but intent and weaponization timelines remain disputed. Israel, Gulf partners, and Western governments are arguing over whether this is mainly a bargaining problem, a long-run containment problem, an allied coordination problem, or a question about what kind of action could still be defended publicly and legally.",
     whyHard:
-      "The closer threshold status feels, the easier it is for the argument to slide from pressure and bargaining into preventive-war logic.",
+      "The more it feels as if Iran could reach the nuclear threshold soon, the easier it is for the debate to slide from pressure and bargaining into preventive-war logic.",
     contextBullets: [
       { label: "Actor role", text: "You are judging the case from a coalition debating its next line, not from Tehran's internal politics." },
       { label: "Crisis stage", text: "The crisis is still in the threshold-and-signaling phase, before an open strike decision." },
@@ -542,7 +542,7 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
         id: "threshold_is_a_leverage_problem",
         title: "Leverage is evaporating",
         label:
-          "The real issue is that once threshold status feels normal, diplomacy loses pressure faster than it can recover it.",
+          "The real issue is that once it starts to feel normal that Iran could reach the nuclear threshold soon, diplomacy loses pressure faster than it can recover it.",
         signals: { activism: 6.0, escalation: 5.7, alliance: 4.8, legitimacy: 4.0 },
       },
       {
@@ -735,7 +735,7 @@ const securityAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"] =
     title: "Sanctions leakage and swing states",
     prompt: "What is the strongest reading of why several swing states resist tighter enforcement?",
     scene:
-      "A wartime coalition wants third-country firms and ports to enforce sanctions more tightly. Several swing states say that looks like wealthy powers exporting their war discipline through other people's trade networks.",
+      "A wartime coalition wants third-country firms and ports to enforce sanctions more tightly. Several swing states say that looks like wealthy powers exporting the rules and costs of their war through other people's trade networks.",
     whyHard:
       "The same resistance can be read as opportunism, autonomy protection, or a real legitimacy objection to how coercion is being organized.",
     contextBullets: [

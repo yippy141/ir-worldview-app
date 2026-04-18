@@ -78,7 +78,7 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
         Save as PDF
       </button>
       <button type="button" className="secondary-button" onClick={handleRetake}>
-        Retake the Foundation
+        Retake the Foundation questionnaire
       </button>
     </div>
   )

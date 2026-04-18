@@ -50,10 +50,10 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "domesticFilters",
     prompt:
-      "At the margin, foreign policy usually changes faster when leaders and governing coalitions change than when the external balance shifts gradually.",
+      "Foreign policy usually changes faster when leaders and governing coalitions change than when the external balance shifts gradually.",
     clarification: {
       whatItAsks:
-        "What tends to move policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
+        "What usually moves policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
       whatItDoesNotAsk:
         "The question is about what tends to move policy first, not about whether outside pressure matters at all.",
     },
@@ -265,7 +265,7 @@ export const standardQuestions: Question[] = [
         id: "rivalry",
         title: "Rivalry turns ties into leverage",
         label:
-          "Interdependence becomes dangerous mainly when strategic competition sharpens and states start treating exposure as a security risk.",
+          "Interdependence becomes dangerous mainly when strategic competition grows and states start treating economic exposure as a security risk.",
         signals: { securityCompetition: 6.1, politicalEconomy: 4.8, institutions: 3.1 },
       },
       {
@@ -384,7 +384,7 @@ export const standardQuestions: Question[] = [
     cardType: "decision",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A rival power is catching up in advanced semiconductors while your firms stay deeply tied to its supply chain. What should drive the response?",
+      "A rival power is catching up in advanced semiconductors while your firms remain deeply tied to its supply chain. What should your response be built around?",
     helpText:
       "This asks what the response should be built around, not which talking point is easiest to defend publicly.",
     options: [
@@ -531,19 +531,6 @@ export const analystQuestions: Question[] = [
           definition: "The principle that outside states should usually not use force or coercion inside another state's territory.",
         },
       ],
-    },
-  },
-  {
-    id: "an_df3",
-    kind: "likert",
-    dimension: "domesticFilters",
-    prompt:
-      "At the margin, foreign policy usually changes faster when leaders and governing coalitions change than when the external balance shifts gradually.",
-    clarification: {
-      whatItAsks:
-        "What tends to move policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
-      whatItDoesNotAsk:
-        "The question is about what tends to move policy first, not about whether outside pressure matters at all.",
     },
   },
   {
@@ -800,14 +787,14 @@ export const analystQuestions: Question[] = [
     cardType: "explanation",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A coalition wants export controls, investment screening, and standards clubs in key technologies. What is the deeper issue?",
+      "A coalition is debating export controls, investment screening, and shared technology standards against a rival. What is the main issue behind that push?",
     helpText:
-      "This asks what makes the push most intelligible, not whether any one tool is well designed.",
+      "This asks what makes the whole package make sense, not whether each tool is equally wise.",
     clarification: {
       whatItAsks:
-        "Whether the push is best explained by strategic rivalry, control over chokepoints, bounded security coordination, or the risk of hardening hierarchy.",
+        "Whether the package is mainly about slowing a rival, controlling bottlenecks, keeping security rules limited, or avoiding a new hierarchy.",
       whatItDoesNotAsk:
-        "This is not assuming all three tools work equally well or have the same political purpose.",
+        "This is not assuming all of these tools work equally well or serve exactly the same purpose.",
       terms: [
         {
           term: "Export controls",
@@ -818,38 +805,38 @@ export const analystQuestions: Question[] = [
           definition: "Government review of foreign investments that may create security or strategic risks.",
         },
         {
-          term: "Standards clubs",
-          definition: "Groups of states or firms that coordinate technical rules among themselves rather than universally.",
+          term: "Shared standards groups",
+          definition: "Groups of states or firms that coordinate technical rules among themselves instead of waiting for universal agreement.",
         },
       ],
     },
     options: [
       {
         id: "edge",
-        title: "Preserve the edge",
+        title: "Slow a rival's climb",
         label:
-          "The point is to slow a rival's climb in sectors that feed military and industrial power.",
+          "The package is mainly about slowing a rival in sectors that feed military and industrial power.",
         signals: { securityCompetition: 6.2, politicalEconomy: 4.7, restraint: 3.4 },
       },
       {
         id: "chokepoints",
         title: "Control the chokepoints",
         label:
-          "What matters most is who controls the bottlenecks, data, and standards others cannot easily replace.",
+          "The deeper issue is who controls the bottlenecks, data, and standards others cannot easily replace.",
         signals: { politicalEconomy: 6.5, securityCompetition: 4.7, institutions: 3.4 },
       },
       {
         id: "narrow",
-        title: "Keep controls narrow",
+        title: "Keep the rules limited",
         label:
-          "The best route is limited allied rules that protect security without breaking the wider system.",
+          "The better case is for narrow allied rules that protect security without breaking the wider system.",
         signals: { institutions: 6.2, restraint: 5.0, securityCompetition: 4.3 },
       },
       {
         id: "hierarchy",
-        title: "Do not harden hierarchy",
+        title: "Do not create a new hierarchy",
         label:
-          "Tech clubs can harden a world where leading states write the rules and others mainly absorb the costs.",
+          "The risk is a system where a few leading states write the rules and everyone else mainly absorbs the costs.",
         signals: { politicalEconomy: 5.9, normsIdentity: 4.9, orderJustice: 3.1 },
       },
     ],
@@ -1036,9 +1023,9 @@ export const analystQuestions: Question[] = [
     cardType: "explanation",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "Rising powers start building parallel banks, payment rails, and development forums. What is the deeper issue?",
+      "Rising powers start building alternative banks, payment systems, and development forums. What is the deeper issue?",
     helpText:
-      "Choose the logic that best explains why alternative institutions become attractive, not the reform plan you personally prefer.",
+      "Choose the logic that best explains why these alternative institutions become attractive, not the reform plan you personally prefer.",
     options: [
       {
         id: "reform",
@@ -1056,16 +1043,16 @@ export const analystQuestions: Question[] = [
       },
       {
         id: "hierarchy",
-        title: "States want room from hierarchy",
+        title: "States want room outside hierarchy",
         label:
-          "Parallel institutions matter because they create space from credit, payment, and lending systems others already dominate.",
+          "Alternative institutions matter because they create space away from credit, payment, and lending systems others already dominate.",
         signals: { politicalEconomy: 6.4, institutions: 4.0, orderJustice: 3.6 },
       },
       {
         id: "legitimation",
-        title: "Leaders need proof of autonomy",
+        title: "Leaders want visible autonomy",
         label:
-          "Alternative institutions also help ruling coalitions show they are not permanently trapped inside someone else's order.",
+          "Alternative institutions also help leaders show domestic audiences and partners that they are not permanently trapped inside systems dominated by others.",
         signals: { domesticFilters: 6.2, normsIdentity: 5.0, institutions: 4.1 },
       },
     ],
@@ -1116,36 +1103,36 @@ export const analystQuestions: Question[] = [
     cardType: "actorLens",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A post-colonial government sees calls for intervention next door after severe repression. Which logic looks strongest from its side?",
+      "A post-colonial government sees calls for military intervention next door after severe repression. Which line looks strongest from its side?",
     helpText:
       "Answer from that government's vantage point, not from the outside coalition calling for action.",
     options: [
       {
         id: "shield",
-        title: "Keep the sovereignty bar high",
+        title: "Keep the bar for intervention high",
         label:
-          "Force is applied selectively enough that weaker states cannot treat intervention as a neutral rule.",
+          "Because intervention is applied selectively, weaker states cannot treat it as a neutral rule.",
         signals: { orderJustice: 6.3, restraint: 5.4, normsIdentity: 4.8 },
       },
       {
         id: "threshold",
         title: "Extreme harm can still justify action",
         label:
-          "Even from a sovereignty-sensitive position, mass killing can create a real exception when the harm is overwhelming.",
+          "Even a government that is very protective of sovereignty may accept a real exception when mass killing becomes overwhelming.",
         signals: { orderJustice: 2.7, restraint: 3.8, normsIdentity: 4.9 },
       },
       {
         id: "regional",
-        title: "Regional ownership is the key test",
+        title: "Regional backing is the key test",
         label:
-          "The most defensible exception is one bounded by nearby political ownership rather than distant moral language alone.",
+          "An exception is most defensible when nearby states define the aim and limits, not when distant powers frame it alone.",
         signals: { institutions: 6.0, orderJustice: 4.2, restraint: 5.0 },
       },
       {
         id: "aftermath",
-        title: "Judge the aftermath first",
+        title: "Ask what follows after intervention",
         label:
-          "The deciding issue is whether outside force will actually protect people rather than deepen collapse and external control.",
+          "The main question is whether outside force will truly protect people or instead deepen collapse and outside control.",
         signals: { restraint: 6.2, domesticFilters: 4.8, orderJustice: 4.3 },
       },
     ],

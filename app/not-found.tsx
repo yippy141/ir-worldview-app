@@ -19,7 +19,7 @@ export default function NotFound() {
         </div>
 
         <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-          <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
+          <Link href="/quiz" className="cta-primary">Take the Foundation questionnaire</Link>
           <Link href="/explore" className="cta-secondary">Explore the perspectives</Link>
           <Link href="/" className="cta-secondary">Home</Link>
         </div>

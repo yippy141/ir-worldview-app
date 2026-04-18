@@ -319,8 +319,8 @@ export function QuizApp() {
                 </p>
                 {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
                   <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
-                    In Advanced mode, you can also add a second-most persuasive option as a softer
-                    signal.
+                    In Advanced mode, you can also mark a backup answer if a second option still
+                    seems plausible.
                   </p>
                 ) : null}
               </div>
@@ -488,10 +488,10 @@ function ModeGate({
       <section className="panel stack-md">
         <div className="stack-sm">
           <p className="eyebrow">IR Worldview Inventory</p>
-          <h1>Choose your Foundation path</h1>
+          <h1>Choose your Foundation questionnaire path</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            Start with the Foundation to map your baseline across core IR debates. The choice here
-            changes depth and pacing, not what the result means.
+            Start with the Foundation questionnaire to map your baseline across core IR debates.
+            The choice here changes depth and pacing, not what the result means.
           </p>
         </div>
 

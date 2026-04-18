@@ -175,12 +175,12 @@ export const aiCoreQuestions: AiLikertQuestion[] = [
     axis: "militaryRole",
     reverse: true,
     prompt:
-      "Frontier AI safety will be much harder to preserve once military integration becomes normal, so civilian restraint should be the default.",
+      "Once military organizations use frontier AI routinely, it becomes much harder to keep safety protections and civilian restraint in place, so restraint should be the default.",
     clarification: {
       whatItAsks:
-        "Whether military uptake is itself a major source of systemic risk.",
+        "Whether normal military adoption would make it much harder to keep frontier AI development bounded, audited, and politically restrained.",
       whatItDoesNotAsk:
-        "This is not a claim that states will stop pursuing defense applications if rules are absent.",
+        "This is not saying states will voluntarily stop military AI work or that every defense use raises the same level of risk.",
     },
   },
   {

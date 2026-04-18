@@ -15,7 +15,7 @@ export default function AiPage() {
   return (
     <div className="wide-container">
       <article className="lobby-page stack-xl">
-        <section className="lobby-hero">
+        <section className="lobby-hero lobby-hero--plain">
           <div className="lobby-hero-grid">
             <div className="stack-md">
               <p className="section-kicker">Companion module</p>
@@ -29,12 +29,12 @@ export default function AiPage() {
                 instrument or a claim that the field divides neatly into timeless camps.
               </p>
               <div className="row gap-sm wrap">
-                <Link href="/ai/quiz" className="cta-primary">Open the AI module</Link>
+                <Link href="/ai/quiz" className="cta-primary">Open the AI questionnaire</Link>
                 <Link href="/ai/atlas" className="cta-secondary">Browse the AI atlas</Link>
               </div>
             </div>
 
-            <aside className="lobby-side-note stack-sm">
+            <aside className="lobby-side-note lobby-side-note--offset stack-sm">
               <div className="stack-xs">
                 <p className="section-kicker">How it fits in the product family</p>
                 <p className="muted lobby-side-text">
@@ -47,7 +47,7 @@ export default function AiPage() {
           </div>
         </section>
 
-        <section className="lobby-signals">
+        <section className="lobby-signals lobby-signals--plain">
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
               <strong>What it covers</strong>
@@ -136,7 +136,7 @@ export default function AiPage() {
           <div className="resource-list">
             <Link href="/quiz" className="resource-list-link">
               <span className="resource-list-copy">
-                <span className="resource-list-title">IR Foundation</span>
+                <span className="resource-list-title">Foundation Questionnaire</span>
                 <span className="resource-list-text">Open the shared baseline used across the wider product.</span>
               </span>
             </Link>
