@@ -132,13 +132,16 @@ Good clarification:
 - Prefer typed config data over scattered string literals.
 - Add graceful invalid-result handling, but fix the generator first.
 
-## Repository rules
-- Do not rewrite scoring or payload formats unless explicitly asked.
-- Keep route structure stable unless explicitly asked.
-- For this pass, prioritize UI, copy, layout, and mobile readability.
-- Quiz and review routes may use a different shell from public pages.
+## Repo rules for Codex
+- Keep scoring and payload formats stable unless explicitly asked.
+- Prioritize shell, lobby, linkage, copy, and profile clarity in this pass.
+- Do not add new dependencies unless explicitly asked.
+- Keep public pages and quiz routes visually distinct.
+- Treat AI as part of the same project, not a separate codebase.
+- Do not add new live modules in this pass.
+- Planned modules may be shown as non-clickable roadmap cards only.
 - Run npm run lint, npm run test, and npm run build after each prompt.
-- Make small, auditable commits after each working step.
+- Make the smallest auditable set of file changes possible for each prompt.
 
 ## Expected deliverable quality
 
