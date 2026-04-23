@@ -231,7 +231,7 @@ export function QuizApp() {
               <h1>Foundation</h1>
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
-                  ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard} · the cleanest route through the core IR disputes.`
+                  ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard} · the clearest route through the core IR disagreements.`
                   : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases, actor-position cards, and selected counterparty or development lenses.`}
               </p>
             </div>
@@ -490,8 +490,8 @@ function ModeGate({
           <p className="eyebrow">IR Worldview Inventory</p>
           <h1>Choose your Foundation questionnaire path</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            Start with the Foundation questionnaire to map your baseline across core IR debates.
-            The choice here changes depth and pacing, not what the result means.
+            Start with the Foundation to map how you read the main IR debates. The choice here
+            changes depth and pacing, not the logic of the result.
           </p>
         </div>
 

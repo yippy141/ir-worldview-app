@@ -18,7 +18,7 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
       <p className="muted atlas-pattern-card__summary">{pattern.cardSummary}</p>
 
       <div className="atlas-pattern-card__signals stack-xs">
-        <p className="atlas-pattern-card__kicker">Signal cues</p>
+        <p className="atlas-pattern-card__kicker">What to look for</p>
         <div className="atlas-tag-list" aria-label={`${pattern.name} drivers`}>
           {pattern.cardDrivers.slice(0, 3).map((driver) => (
             <span key={driver} className="atlas-tag">
@@ -30,7 +30,7 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
 
       <div className="atlas-pattern-card__footer">
         <Link href={getAtlasPatternHref(pattern.id)} className="atlas-pattern-cta">
-          Read pattern
+          Read this pattern
         </Link>
       </div>
     </article>

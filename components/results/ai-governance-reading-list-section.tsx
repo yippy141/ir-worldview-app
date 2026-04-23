@@ -104,8 +104,8 @@ export function AiGovernanceReadingListSection({
 
   return (
     <ReadingPathSection
-      title="Reading paths"
-      intro="These shelves are not endorsements. They are structured ways to extend, deepen, and stress-test this result without leaving the product's existing source set."
+      title="Where to go next"
+      intro="These readings help you deepen this result, test it against its best critics, and keep exploring inside the project."
       paths={paths}
     />
   )

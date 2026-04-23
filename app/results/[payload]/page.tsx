@@ -258,26 +258,38 @@ export default async function ResultPage(
         />
 
         {/* ── 1. Hero ── */}
-        <div className="result-hero">
-          <div className={`result-hero-rule ${ruleClass}`} />
-          <p className="eyebrow">Foundation result</p>
-          <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
-            {profileTitle}
-          </h1>
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flexWrap: "wrap", marginBottom: "16px" }}>
-            <span className={`tradition-chip ${traditionClass}`}>{familyLabel}</span>
+        <div className="result-hero result-hero--foundation">
+          <div className="result-hero-grid">
+            <div className="result-hero-copy">
+              <div className={`result-hero-rule ${ruleClass}`} />
+              <p className="eyebrow">Foundation result</p>
+              <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
+                {profileTitle}
+              </h1>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flexWrap: "wrap", marginBottom: "16px" }}>
+                <span className={`tradition-chip ${traditionClass}`}>{familyLabel}</span>
+              </div>
+              <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", marginBottom: "10px" }}>
+                {soWhatBlock?.text ?? summary}
+              </p>
+            </div>
+
+            <ResultSignaturePanel
+              familyLabel={familyLabel}
+              strategyModifier={result.strategyModifier}
+              normativeModifier={result.normativeModifier}
+              neighborLabel={neighborLabel}
+              traditionColor={traditionColor}
+            />
           </div>
-          <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", marginBottom: "10px" }}>
-            {soWhatBlock?.text ?? summary}
-          </p>
         </div>
 
         <div className="result-section stack-md">
           <div className="stack-xs">
             <h2>Dimension profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Scores run from 1 to 7 inside this model. They are relative positions, not population
-              percentiles.
+              These scores show where you sit on each dimension in this model. They are positions,
+              not population percentiles.
             </p>
           </div>
           <div>
@@ -304,7 +316,7 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Main signals</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              The clearest pulls in the baseline before the lower-level comparison and method notes.
+              These are the clearest pulls in your baseline before the longer read below.
             </p>
           </div>
           <div className="driver-grid">
@@ -341,8 +353,8 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Atlas</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              A browse map of recurring profile patterns in the model. It is an editorial guide,
-              not a live cluster or rarity map.
+              Atlas gives plain-English names to patterns that show up repeatedly in the current
+              model. It is a browsing aid, not a live map of users.
             </p>
           </div>
           <div className="atlas-pattern-card atlas-pattern-card--compact stack-sm">
@@ -393,8 +405,8 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Add a focus-area overlay</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              The Foundation is the baseline. The modules below stay separate and show how your
-              instincts travel in a harder issue domain before feeding into your local Profile page.
+              Your Foundation result is still the baseline. These modules show where concrete issue
+              cases reinforce it, complicate it, or pull against it.
             </p>
           </div>
           <div className="module-card-grid">
@@ -431,8 +443,8 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Interpretation and comparison</h2>
             <p className="muted" style={{ fontSize: "0.85rem" }}>
-              The shorthand and longer interpretation stay below the main payoff. Open only the
-              parts you want to inspect more closely.
+              Open these if you want the longer read, the nearest overlap, and the questions that
+              could pressure-test this result.
             </p>
           </div>
           <details className="profile-details">
@@ -612,8 +624,8 @@ export default async function ResultPage(
         </div>
 
         <ReadingPathSection
-          title="Reading paths"
-          intro="Use these shelves as guided next steps rather than a bibliography dump. The first path orients you, the second deepens the strongest fit, and the third forces a more serious challenge."
+          title="Where to go next"
+          intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
           paths={readingPaths}
         />
 
@@ -695,4 +707,80 @@ function getFallbackMixedNote(
   }
 
   return "The baseline is clear, but a nearby runner-up still stays live in harder cases. That overlap is part of the result, not noise to be scrubbed out."
+}
+
+function ResultSignaturePanel({
+  familyLabel,
+  strategyModifier,
+  normativeModifier,
+  neighborLabel,
+  traditionColor,
+}: {
+  familyLabel: string
+  strategyModifier: string
+  normativeModifier: string
+  neighborLabel: string
+  traditionColor: string
+}) {
+  return (
+    <aside className="result-signature-panel stack-sm" aria-label="Result signature">
+      <div className="stack-xs">
+        <p className="eyebrow">Result signature</p>
+        <p className="muted" style={{ margin: 0, fontSize: "0.9rem", lineHeight: "1.65" }}>
+          A compact read of the headline family and the modifiers shaping this Foundation result.
+        </p>
+      </div>
+
+      <div className="result-signature-visual">
+        <svg
+          viewBox="0 0 260 150"
+          className="result-signature-svg"
+          aria-hidden="true"
+          role="presentation"
+        >
+          <path
+            d="M24 112 C58 100 86 88 126 88 C164 88 194 99 236 114"
+            fill="none"
+            stroke={traditionColor}
+            strokeOpacity="0.36"
+            strokeWidth="1.6"
+          />
+          <path d="M34 114 H226" fill="none" stroke="var(--border)" strokeWidth="1" />
+          <path
+            d="M78 44 L126 88 L184 58"
+            fill="none"
+            stroke={traditionColor}
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="78" cy="44" r="16" fill="var(--panel)" stroke="var(--border)" strokeWidth="1.2" />
+          <circle cx="126" cy="88" r="28" fill="var(--panel)" stroke={traditionColor} strokeWidth="1.8" />
+          <circle cx="126" cy="88" r="18" fill="none" stroke={traditionColor} strokeOpacity="0.35" strokeWidth="1.2" />
+          <circle cx="184" cy="58" r="16" fill="var(--panel)" stroke="var(--border)" strokeWidth="1.2" />
+          <circle cx="36" cy="114" r="3.5" fill={traditionColor} />
+          <circle cx="224" cy="114" r="3.5" fill={traditionColor} />
+        </svg>
+      </div>
+
+      <dl className="result-signature-meta">
+        <div>
+          <dt>Family</dt>
+          <dd>{familyLabel}</dd>
+        </div>
+        <div>
+          <dt>Strategy</dt>
+          <dd>{strategyModifier}</dd>
+        </div>
+        <div>
+          <dt>Norms</dt>
+          <dd>{normativeModifier}</dd>
+        </div>
+        <div>
+          <dt>Nearest overlap</dt>
+          <dd>{neighborLabel}</dd>
+        </div>
+      </dl>
+    </aside>
+  )
 }

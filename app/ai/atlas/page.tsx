@@ -37,7 +37,7 @@ export default function AiAtlasPage() {
           </p>
           <div className="row gap-sm wrap">
             <Link href="/ai" className="cta-secondary">Back to AI home</Link>
-            <Link href="/ai/quiz" className="cta-primary">Take the inventory</Link>
+            <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
           </div>
         </section>
 
@@ -305,7 +305,7 @@ export default function AiAtlasPage() {
 
           <div className="row gap-sm wrap">
             <Link href="/ai" className="cta-secondary">Back to AI home</Link>
-            <Link href="/ai/quiz" className="cta-primary">Take the inventory</Link>
+            <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
             <Link href="/references" className="cta-secondary">References</Link>
           </div>
         </section>

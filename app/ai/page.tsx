@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { aiQuestionCountsByMode, aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
 import type { Metadata } from "next"
 
@@ -8,7 +9,7 @@ const advancedQuestionTotal = aiTotalQuestionCountsByMode.analyst
 export const metadata: Metadata = {
   title: "AI Governance Compass",
   description:
-    "A first-class entry to the AI Governance Compass: choose Standard or Advanced mode, browse the AI atlas, and continue into methods and references.",
+    "Choose Standard or Advanced mode for the AI Governance Compass, browse the AI atlas, and continue into methods and references.",
 }
 
 export default function AiPage() {
@@ -21,8 +22,9 @@ export default function AiPage() {
               <p className="section-kicker">Companion module</p>
               <h1>AI Governance Compass</h1>
               <p className="lobby-lead">
-                A branching inventory of how you think about AI safety, governance, geopolitical
-                rivalry, openness, military use, and the future of human agency.
+                A frontier-AI overlay inside the same overall project. It uses the same interpretive
+                logic as the IR Foundation, but applies it to AI safety, governance, rivalry,
+                openness, military use, and the future of human agency.
               </p>
               <p className="muted lobby-side-text">
                 Use it as an editorial field guide to governing instincts, not as a validated
@@ -38,14 +40,16 @@ export default function AiPage() {
               <div className="stack-xs">
                 <p className="section-kicker">How it fits in the product family</p>
                 <p className="muted lobby-side-text">
-                  This module sits beside the IR Foundation and its issue overlays. It adds a
-                  parallel technology-governance lens without pretending to replace the IR baseline
-                  or collapse everything into one master score.
+                  This module is part of the same worldview map as the IR Foundation and issue
+                  overlays. It adds an AI-governance stress test without replacing the baseline or
+                  collapsing everything into one master score.
                 </p>
               </div>
             </aside>
           </div>
         </section>
+
+        <AiProjectBridge mode="landing" />
 
         <section className="lobby-signals lobby-signals--plain">
           <div className="signal-list signal-list--three">

@@ -58,6 +58,23 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   const contextLabel = mode === "local" ? "on this device" : "in this shared profile"
   const topParagraph = soWhatBlock?.text ?? profileNarrative.summary
   const coverageText = getProfileMosaicCoverageText(profileSynthesis.layers, mode)
+  const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security") ?? null
+  const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology") ?? null
+  const mosaicNodes = buildProfileMosaicNodes({
+    foundation,
+    securitySnapshot,
+    technologySnapshot,
+    aiSnapshot,
+    crossModuleSynthesis,
+    mode,
+  })
+  const nextSteps = buildProfileNextSteps({
+    foundationPayload: foundation.payload,
+    securitySnapshot,
+    technologySnapshot,
+    aiSnapshot,
+    mode,
+  })
 
   return (
     <article className="result-article">
@@ -77,10 +94,10 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           <div className="profile-mosaic-header">
             <div className="stack-xs">
               <p className="eyebrow">Worldview mosaic</p>
-              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers read together</h2>
+              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
               <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-                This keeps the no-single-score approach. It names the stable thread, the pressure
-                shifts, and the reasoning style that keeps showing up across the saved layers.
+                The Foundation stays at the center. Overlays show where your baseline holds, where
+                it sharpens, and where it starts to pull in different directions.
               </p>
             </div>
             <div className="profile-layer-strip" aria-label="Saved profile layers">
@@ -96,21 +113,56 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             </div>
           </div>
 
-          <div className="profile-mosaic-grid">
-            <div className="profile-mosaic-card stack-xs">
-              <p className="eyebrow">Stable across layers</p>
-              <p className="profile-mosaic-title">What keeps returning</p>
-              <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
+          <div className="profile-mosaic-layout">
+            <div className="profile-constellation" aria-label="Connected worldview layers">
+              <svg className="profile-constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <line x1="50" y1="48" x2="22" y2="22" />
+                <line x1="50" y1="48" x2="78" y2="22" />
+                <line x1="50" y1="48" x2="82" y2="74" />
+              </svg>
+
+              {mosaicNodes.map((node) => (
+                <article
+                  key={node.key}
+                  className={`profile-constellation-node profile-constellation-node--${node.key}${node.pending ? " profile-constellation-node--pending" : ""}`}
+                >
+                  <div className="stack-xs">
+                    <div className="profile-constellation-meta">
+                      <p className="profile-constellation-kicker">{node.label}</p>
+                      <span className={`profile-constellation-status profile-constellation-status--${node.status}`}>
+                        {node.statusLabel}
+                      </span>
+                    </div>
+                    <p className="profile-constellation-title">{node.title}</p>
+                    <p className="profile-constellation-text">{node.text}</p>
+                    {node.href ? (
+                      <p style={{ margin: 0 }}>
+                        <Link href={node.href} style={{ color: "var(--accent)" }}>
+                          {node.linkLabel}
+                        </Link>
+                      </p>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
             </div>
-            <div className="profile-mosaic-card stack-xs">
-              <p className="eyebrow">Shifts under pressure</p>
-              <p className="profile-mosaic-title">Where the emphasis moves</p>
-              <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
-            </div>
-            <div className="profile-mosaic-card stack-xs">
-              <p className="eyebrow">Overall style of reasoning</p>
-              <p className="profile-mosaic-title">How you tend to sort cases</p>
-              <p className="profile-mosaic-body">{profileSynthesis.reasoningStyle}</p>
+
+            <div className="profile-mosaic-summary">
+              <div className="profile-mosaic-card stack-xs">
+                <p className="eyebrow">Continuities</p>
+                <p className="profile-mosaic-title">What keeps returning</p>
+                <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
+              </div>
+              <div className="profile-mosaic-card stack-xs">
+                <p className="eyebrow">Tensions</p>
+                <p className="profile-mosaic-title">Where pressure changes the read</p>
+                <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
+              </div>
+              <div className="profile-mosaic-card stack-xs">
+                <p className="eyebrow">Reasoning style</p>
+                <p className="profile-mosaic-title">How you tend to sort cases</p>
+                <p className="profile-mosaic-body">{profileSynthesis.reasoningStyle}</p>
+              </div>
             </div>
           </div>
 
@@ -119,12 +171,43 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       </section>
 
       <section className="result-section stack-md">
+        <div className="stack-xs">
+          <h2>What stays steady and what shifts</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+            A plain-English read of the Foundation baseline and the completed overlays {contextLabel}.
+          </p>
+        </div>
+        <div className="profile-summary-grid">
+          <article className="profile-summary-card stack-xs">
+            <p className="eyebrow">Stable thread</p>
+            <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
+          </article>
+          <article className="profile-summary-card stack-xs">
+            <p className="eyebrow">Pressure shifts</p>
+            <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
+          </article>
+        </div>
+        <div className="profile-analysis-note stack-xs">
+          <p className="eyebrow">Reasoning style</p>
+          <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.reasoningStyle}</p>
+        </div>
+        <div className="result-prose stack-md">
+          {deepReadSections.map((section) => (
+            <div key={section.title} className="stack-xs">
+              <p className="eyebrow">{section.title}</p>
+              <p style={{ lineHeight: "1.7" }}>{section.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="result-section stack-md">
         <div className="profile-spine-panel stack-sm">
           <div className="stack-xs">
-            <h2>Foundation spine with overlays</h2>
+            <h2>Where the overlays move the baseline</h2>
             <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-              The Foundation stays fixed. Saved modules show where pressure pulls nearby dimensions
-              harder, softer, or in a different direction.
+              Your Foundation result is still the baseline. Saved modules show where issue-specific
+              cases reinforce it, complicate it, or pull against it.
             </p>
           </div>
           <ProfileSpine rows={spineRows} />
@@ -138,8 +221,8 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <div className="stack-xs">
           <h2>Atlas</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            A browse map of recurring profile patterns in the model. It is an editorial guide, not
-            a rarity claim or live population map.
+            Atlas gives plain-English names to patterns that show up repeatedly in the current
+            model. It is a browsing aid, not a live population map.
           </p>
         </div>
         <div className="profile-atlas-feature stack-md">
@@ -200,27 +283,28 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>Integrated interpretation</h2>
+          <h2>What to open next</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            A plain-English read of the Foundation baseline and the completed focus-area overlays {contextLabel}.
+            The profile works best when it gives you one or two clear next moves inside the same map.
           </p>
         </div>
-        <div className="result-prose stack-md">
-          {deepReadSections.map((section) => (
-            <div key={section.title} className="stack-xs">
-              <p className="eyebrow">{section.title}</p>
-              <p style={{ lineHeight: "1.7" }}>{section.text}</p>
-            </div>
+        <div className="profile-next-grid">
+          {nextSteps.map((step) => (
+            <Link key={step.href} href={step.href} className="profile-next-card stack-xs">
+              <span className="profile-next-kicker">{step.kicker}</span>
+              <span className="profile-next-title">{step.title}</span>
+              <span className="profile-next-text">{step.text}</span>
+            </Link>
           ))}
         </div>
       </section>
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>IR + AI cross-read</h2>
+          <h2>AI layer</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            A more detailed side-by-side read of the IR Foundation and the AI Governance Compass.
-            It still does not create a master score.
+            The AI Governance Compass belongs to the same project, but it does not rewrite your IR
+            baseline. Read it as a connected layer, not a replacement label.
           </p>
         </div>
 
@@ -306,9 +390,9 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>Focus-area overlays</h2>
+          <h2>Issue overlays you&apos;ve completed</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            Each completed module is shown as a domain overlay with its internal lane reads.
+            Each completed IR module sits beside the Foundation as a domain-specific pressure test.
           </p>
         </div>
         {moduleSnapshots.length > 0 ? (
@@ -482,6 +566,192 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       ) : null}
     </article>
   )
+}
+
+type MosaicNode = {
+  key: "foundation" | "security" | "technology" | "ai"
+  label: string
+  title: string
+  text: string
+  status: "anchor" | "reinforces" | "complicates" | "diverges" | "pending"
+  statusLabel: string
+  pending: boolean
+  href?: string
+  linkLabel?: string
+}
+
+function buildProfileMosaicNodes({
+  foundation,
+  securitySnapshot,
+  technologySnapshot,
+  aiSnapshot,
+  crossModuleSynthesis,
+  mode,
+}: {
+  foundation: ProfileStore["foundation"]
+  securitySnapshot: ModuleSnapshot | null
+  technologySnapshot: ModuleSnapshot | null
+  aiSnapshot: ProfileStore["aiGovernance"]
+  crossModuleSynthesis: ReturnType<typeof getCrossModuleSynthesis>
+  mode: "local" | "shared"
+}): MosaicNode[] {
+  const canLink = mode === "local"
+
+  return [
+    {
+      key: "foundation",
+      label: "Foundation",
+      title: foundation ? foundation.familyLabel : "No baseline saved",
+      text: foundation
+        ? `${foundation.strategyModifier} · ${foundation.normativeModifier}`
+        : "Complete the Foundation to anchor the rest of the profile.",
+      status: "anchor",
+      statusLabel: "Anchor",
+      pending: !foundation,
+      ...(canLink && foundation?.resultPath
+        ? { href: foundation.resultPath, linkLabel: "Open Foundation result →" }
+        : {}),
+    },
+    buildModuleMosaicNode("security", "Security", securitySnapshot, canLink),
+    buildModuleMosaicNode("technology", "Technology", technologySnapshot, canLink),
+    {
+      key: "ai",
+      label: "AI Governance",
+      title: aiSnapshot ? aiSnapshot.archetypeLabel : "AI layer not yet added",
+      text: aiSnapshot
+        ? crossModuleSynthesis.shortReadout
+        : "Add the AI Governance Compass when you want to see how the baseline travels in frontier AI governance.",
+      status: aiSnapshot ? classifyAiState(crossModuleSynthesis) : "pending",
+      statusLabel: aiSnapshot ? statusLabelFor(classifyAiState(crossModuleSynthesis)) : "Not yet taken",
+      pending: !aiSnapshot,
+      ...(canLink && aiSnapshot?.resultPath
+        ? { href: aiSnapshot.resultPath, linkLabel: "Open AI result →" }
+        : {}),
+    },
+  ]
+}
+
+function buildModuleMosaicNode(
+  key: "security" | "technology",
+  label: string,
+  snapshot: ModuleSnapshot | null,
+  canLink: boolean,
+): MosaicNode {
+  const status = snapshot ? classifyModuleState(snapshot) : "pending"
+
+  return {
+    key,
+    label,
+    title: snapshot ? snapshot.headline : `${label} overlay not yet added`,
+    text: snapshot
+      ? snapshot.summary
+      : `Add the ${label} overlay to see how your Foundation changes once the cases become more concrete.`,
+    status,
+    statusLabel: statusLabelFor(status),
+    pending: !snapshot,
+    ...(canLink && snapshot?.resultPath
+      ? { href: snapshot.resultPath, linkLabel: "Open overlay result →" }
+      : {}),
+  }
+}
+
+function classifyModuleState(snapshot: ModuleSnapshot): MosaicNode["status"] {
+  const comparisonText = `${snapshot.comparison ?? ""} ${snapshot.laneSummaries.map((lane) => lane.delta ?? "").join(" ")}`
+
+  if (/(reinforces|stays visible|still visible|already treats|baseline stays recognizable)/i.test(comparisonText)) {
+    return "reinforces"
+  }
+
+  if (/(pulls you|harder-edged|more control|more capacity|more coordination|more coalition|more protection|more bounded|more order-first|more crisis-limiting)/i.test(comparisonText)) {
+    return "diverges"
+  }
+
+  return "complicates"
+}
+
+function classifyAiState(
+  synthesis: ReturnType<typeof getCrossModuleSynthesis>,
+): MosaicNode["status"] {
+  return /do not collapse into one ideology/i.test(synthesis.shortReadout)
+    ? "complicates"
+    : "reinforces"
+}
+
+function statusLabelFor(status: MosaicNode["status"]) {
+  if (status === "anchor") return "Anchor"
+  if (status === "reinforces") return "Reinforces"
+  if (status === "complicates") return "Complicates"
+  if (status === "diverges") return "Diverges"
+  return "Not yet taken"
+}
+
+function buildProfileNextSteps({
+  foundationPayload,
+  securitySnapshot,
+  technologySnapshot,
+  aiSnapshot,
+  mode,
+}: {
+  foundationPayload: string
+  securitySnapshot: ModuleSnapshot | null
+  technologySnapshot: ModuleSnapshot | null
+  aiSnapshot: ProfileStore["aiGovernance"]
+  mode: "local" | "shared"
+}) {
+  if (mode !== "local") {
+    return [
+      {
+        kicker: "Browse",
+        title: "Open the Atlas",
+        text: "Use Atlas to compare this profile against nearby recurring patterns in the model.",
+        href: "/explore/atlas",
+      },
+      {
+        kicker: "Compare",
+        title: "Compare shared profiles",
+        text: "Read two saved profiles side by side without turning them into one score.",
+        href: "/compare",
+      },
+    ]
+  }
+
+  const steps = []
+
+  if (!securitySnapshot) {
+    steps.push({
+      kicker: "Next overlay",
+      title: "Add Security",
+      text: "Pressure-test the baseline in deterrence, alliances, and protection cases.",
+      href: `/modules/security?foundation=${encodeURIComponent(foundationPayload)}`,
+    })
+  }
+
+  if (!technologySnapshot) {
+    steps.push({
+      kicker: "Next overlay",
+      title: "Add Technology",
+      text: "See how the baseline changes under industrial policy, controls, and governance pressure.",
+      href: `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}`,
+    })
+  }
+
+  if (!aiSnapshot) {
+    steps.push({
+      kicker: "Same project",
+      title: "Add the AI layer",
+      text: "Use the AI Governance Compass as a connected overlay, not a rewritten Foundation label.",
+      href: "/ai",
+    })
+  }
+
+  steps.push({
+    kicker: "Browse",
+    title: "Open the Atlas",
+    text: "Compare this profile against nearby recurring patterns in the model.",
+    href: "/explore/atlas",
+  })
+
+  return steps.slice(0, 3)
 }
 
 function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows> }) {

@@ -39,7 +39,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     lane: "deterrence",
     cardType: "decision",
     title: "Quarantine pressure around Taiwan",
-    prompt: "What should carry the most weight first?",
+    prompt: "What should matter most first?",
     scene:
       "Day three of a quarantine around Taiwan. Insurers are pulling back, container traffic is slowing, and no shots have been fired. In Beijing, leaders are deciding what should govern the next move while they still claim the inspections are lawful and limited.",
     whyHard:
@@ -153,7 +153,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     lane: "deterrence",
     cardType: "decision",
     title: "Retaliation under sanctions pressure",
-    prompt: "What should govern the response?",
+    prompt: "What should matter most in the response?",
     scene:
       "After a covert strike on a sensitive site and a wave of proxy attacks across the region, Tehran is deciding how to respond. Some officials want a visible strike to restore deterrence. Others argue that survival under sanctions matters more than one dramatic answer.",
     whyHard:
@@ -264,8 +264,8 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "alliances",
     cardType: "decision",
-    title: "Maritime pressure short of alliance",
-    prompt: "What should carry the most weight when outside states offer support?",
+    title: "Outside help without formal alignment",
+    prompt: "What should matter most when outside states offer support?",
     scene:
       "A Southeast Asian state faces repeated maritime pressure from a much larger power. It wants help, but not formal bloc alignment that would narrow its diplomatic room or turn every dispute into a choice between opposing blocs.",
     whyHard:
@@ -313,7 +313,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     kind: "case",
     lane: "alliances",
     cardType: "actorLens",
-    title: "Border pressure without full alignment",
+    title: "Border pressure when a state wants help but not full alignment",
     prompt: "From this government's side, which logic looks strongest?",
     scene:
       "A large democracy faces repeated Chinese pressure along a disputed border. It wants weapons, intelligence help, and investment from the United States and other major powers, but it does not want one alignment decision to dictate every trade and diplomatic choice. Its cabinet is deciding how to hold that line before outside partners demand a cleaner break.",
@@ -844,7 +844,7 @@ export const securityModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "Most cases begin from security debates that will feel familiar in U.S. and allied policy circles. A smaller set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
+    "Most cases start from familiar security debates about deterrence, alliances, escalation, and legitimacy. A smaller set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",

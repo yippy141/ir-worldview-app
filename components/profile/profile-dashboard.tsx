@@ -41,7 +41,7 @@ export function ProfileDashboard() {
           </p>
           <div className="row gap-sm wrap">
             <Link href="/quiz" className="cta-primary">Take the Foundation questionnaire</Link>
-            <Link href="/explore" className="cta-secondary">Browse the guide</Link>
+            <Link href="/explore" className="cta-secondary">Browse the field guide</Link>
           </div>
         </section>
       </div>

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { AiProfileSync } from "@/components/profile/ai-profile-sync"
 import { decodeAiPayload, aiPayloadToAxisScores } from "@/lib/ai-governance-share"
 import {
@@ -46,7 +47,7 @@ export default async function AiResultPage(
             The result URL may be incomplete, corrupted, or from an older version of the compass.
           </p>
           <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-            <Link href="/ai/quiz" className="cta-primary">Take the inventory</Link>
+            <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
           </div>
         </div>
       </div>
@@ -92,6 +93,8 @@ export default async function AiResultPage(
           <p className="ai-hero-summary">{summary}</p>
         </div>
 
+        <AiProjectBridge mode="result" aiArchetypeKey={profileResult.archetypeKey} />
+
         {/* ── 2. Explanation ── */}
         <div className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
@@ -107,7 +110,8 @@ export default async function AiResultPage(
             <p className="eyebrow">Eight dimensions</p>
             <h2>Axis profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-              Scores run from 1 to 7 inside this model — positions on each axis, not population percentiles.
+              These scores run from 1 to 7 in this model. They show where you sit on each axis,
+              not where you rank against other people.
             </p>
           </div>
           <div>
@@ -138,9 +142,9 @@ export default async function AiResultPage(
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this profile</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              Archetype labels are shorthand summaries, not verdicts. Scores measure positions
-              inside this model and are not population percentiles. This is an early-stage
-              inventory covering a defined set of AI governance debates — not the full field.
+              Archetype labels are shorthand, not verdicts. The scores show positions in this
+              model, not population percentiles. This is still an early-stage inventory covering a
+              defined set of AI governance debates, not the whole field.
             </p>
           </div>
 

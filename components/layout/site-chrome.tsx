@@ -29,21 +29,14 @@ type MobileNavGroup = {
 const publicNavItems: PublicNavItem[] = [
   {
     href: "/quiz",
-    label: "Foundation Questionnaire",
-    active: (pathname) => pathname.startsWith("/results"),
+    label: "Foundation",
+    active: (pathname) =>
+      pathname === "/quiz" || pathname === "/quiz/review" || pathname.startsWith("/results"),
   },
   {
     href: "/modules",
-    label: "Focus Areas",
+    label: "Modules",
     active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
-  },
-  {
-    href: "/explore",
-    label: "Explore",
-    active: (pathname) =>
-      pathname === "/explore" || (
-        pathname.startsWith("/explore/") && !pathname.startsWith("/explore/atlas")
-      ),
   },
   {
     href: "/ai",
@@ -51,21 +44,16 @@ const publicNavItems: PublicNavItem[] = [
     active: (pathname) => pathname === "/ai" || pathname.startsWith("/ai/"),
   },
   {
-    href: "/explore/atlas",
-    label: "Atlas",
+    href: "/profile",
+    label: "Profile",
     active: (pathname) =>
-      pathname === "/explore/atlas" || pathname.startsWith("/explore/atlas/"),
+      pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),
   },
 ]
 
-const profileNavItem: PublicNavItem = {
-  href: "/profile",
-  label: "Profile",
-  active: (pathname) =>
-    pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),
-}
-
 const moreNavItems = [
+  { href: "/explore/atlas", label: "Atlas" },
+  { href: "/explore", label: "Explore" },
   { href: "/method", label: "Methods" },
   { href: "/references", label: "References" },
   { href: "/feedback", label: "Feedback" },
@@ -74,27 +62,20 @@ const moreNavItems = [
 const mobileNavGroups: MobileNavGroup[] = [
   {
     label: "Start here",
-    intro: "Begin with the shared baseline, then return to Profile once you have a saved result.",
+    intro: "Move through the shared baseline first, then add overlays and return to Profile once you have saved results.",
     items: [
-      { href: "/quiz", label: "Foundation Questionnaire" },
+      { href: "/quiz", label: "Foundation" },
+      { href: "/modules", label: "Modules" },
+      { href: "/ai", label: "AI" },
       { href: "/profile", label: "Profile" },
     ],
   },
   {
-    label: "Go deeper",
-    intro: "Issue overlays, the AI companion, and Atlas all sit beside the Foundation rather than replacing it.",
+    label: "Browse and context",
+    intro: "Use Atlas, the field guide, and methods when you want to browse patterns or challenge the model.",
     items: [
-      { href: "/modules", label: "Focus Areas" },
-      { href: "/explore", label: "Explore" },
-      { href: "/ai", label: "AI" },
       { href: "/explore/atlas", label: "Atlas" },
-    ],
-  },
-  {
-    label: "More",
-    intro: "Use the guide, methods, and references when you want context or want to challenge the model.",
-    items: [
-      { href: "/explore", label: "Worldview Guide" },
+      { href: "/explore", label: "Explore" },
       { href: "/method", label: "Methods" },
       { href: "/references", label: "References" },
       { href: "/feedback", label: "Feedback" },
@@ -230,13 +211,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                     </Link>
                   )
                 })}
-                <Link
-                  href={profileNavItem.href}
-                  className={`nav-link${profileNavItem.active(currentPath) ? " nav-link--active" : ""}`}
-                  aria-current={profileNavItem.active(currentPath) ? "page" : undefined}
-                >
-                  {profileNavItem.label}
-                </Link>
                 <details className="nav-disclosure nav-disclosure--end">
                   <summary
                     className={`nav-disclosure-summary${moreActive ? " nav-disclosure-summary--active" : ""}`}

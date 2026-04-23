@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   countAnsweredModuleQuestions,
@@ -11,6 +11,8 @@ import {
   getModuleQuestions,
   moduleAllowsSecondChoice,
 } from "@/lib/modules/framework"
+import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
+import { resolveFoundationPayload } from "@/lib/share"
 import type { ModuleAnswers, ModuleLane, ModuleSlug } from "@/lib/modules/types"
 import type { ChoiceCardType, QuizMode } from "@/lib/types"
 
@@ -25,6 +27,15 @@ export function ModuleApp({
   const moduleDefinition = getModuleDefinition(slug)
   const [mode, setMode] = useState<QuizMode>("standard")
   const [answers, setAnswers] = useState<ModuleAnswers>({})
+  const [deviceFoundation, setDeviceFoundation] = useState<FoundationSnapshot | null>(null)
+
+  useEffect(() => {
+    const load = () => setDeviceFoundation(loadProfileStore().foundation)
+
+    load()
+    window.addEventListener("storage", load)
+    return () => window.removeEventListener("storage", load)
+  }, [])
 
   const questions = useMemo(
     () => (moduleDefinition ? getModuleQuestions(moduleDefinition, mode) : []),
@@ -60,6 +71,20 @@ export function ModuleApp({
         : [],
     [moduleDefinition],
   )
+  const linkedFoundation = useMemo(() => {
+    if (!foundationPayload) return null
+
+    const resolved = resolveFoundationPayload(foundationPayload)
+    if (!resolved) return null
+
+    return {
+      payload: foundationPayload,
+      familyLabel: resolved.result.familyLabel,
+      strategyModifier: resolved.result.strategyModifier,
+      normativeModifier: resolved.result.normativeModifier,
+      summary: resolved.result.explanation,
+    }
+  }, [foundationPayload])
 
   if (!moduleDefinition) {
     return null
@@ -68,6 +93,24 @@ export function ModuleApp({
   const standardQuestionCount = moduleDefinition.questionsByMode.standard.length
   const analystQuestionCount = moduleDefinition.questionsByMode.analyst.length
   const analystAdditionCount = analystQuestionCount - standardQuestionCount
+  const currentFoundationPayload = foundationPayload ?? deviceFoundation?.payload
+  const currentFoundation = deviceFoundation
+    ? {
+        familyLabel: deviceFoundation.familyLabel,
+        strategyModifier: deviceFoundation.strategyModifier,
+        normativeModifier: deviceFoundation.normativeModifier,
+        summary: deviceFoundation.summary,
+        source: "device" as const,
+      }
+    : linkedFoundation
+      ? {
+          familyLabel: linkedFoundation.familyLabel,
+          strategyModifier: linkedFoundation.strategyModifier,
+          normativeModifier: linkedFoundation.normativeModifier,
+          summary: linkedFoundation.summary,
+          source: "linked" as const,
+        }
+      : null
 
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const ready = questions.length > 0 && completedCount === questions.length
@@ -112,7 +155,7 @@ export function ModuleApp({
       answers,
     })
 
-    const query = foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""
+    const query = currentFoundationPayload ? `?foundation=${encodeURIComponent(currentFoundationPayload)}` : ""
     router.push(`/modules/${slug}/results/${payload}${query}`)
   }
 
@@ -128,12 +171,59 @@ export function ModuleApp({
           </p>
         </div>
 
+        <section className="module-linkage-panel stack-md" aria-label="Foundation linkage">
+          <div className="stack-xs">
+            <p className="eyebrow">Foundation linkage</p>
+            <h2 style={{ margin: 0 }}>How this fits with your Foundation</h2>
+          </div>
+
+          <div className="module-linkage-grid">
+            <div className="module-linkage-card stack-xs">
+              <p className="module-linkage-kicker">Current Foundation baseline</p>
+              {currentFoundation ? (
+                <>
+                  <p className="module-linkage-title">
+                    {currentFoundation.familyLabel}
+                    {currentFoundation.source === "device" ? " on this device" : ""}
+                  </p>
+                  <p className="module-linkage-text">
+                    {currentFoundation.strategyModifier} · {currentFoundation.normativeModifier}
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="module-linkage-title">No saved Foundation baseline yet</p>
+                  <p className="module-linkage-text">
+                    Take the Foundation first if you want this module result to compare back to a baseline on this device.
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="module-linkage-card stack-xs">
+              <p className="module-linkage-kicker">This module pressure-tests</p>
+              <ul className="content-list module-linkage-list">
+                {moduleDefinition.lanes.map((lane) => (
+                  <li key={lane.key}>{lane.label}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="module-linkage-card stack-xs">
+              <p className="module-linkage-kicker">What can change here</p>
+              <p className="module-linkage-text">
+                This result does not replace your Foundation read. It shows how that baseline holds up inside one issue area.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <div className="stack-sm">
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard gives you {standardQuestionCount} questions in a focused issue read.
-              Advanced expands it to {analystQuestionCount}, with {analystAdditionCount} extra
+              Standard gives you {standardQuestionCount} questions and a cleaner first pass.
+              Advanced expands that to {analystQuestionCount}, with {analystAdditionCount} extra
               cases and a smaller number of actor-lens pressure tests. In both modes, you can add
               an optional backup choice if a second answer also fits after you pick your main one.
             </p>
@@ -205,10 +295,9 @@ export function ModuleApp({
         <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>Perspective coverage across the full set of cases</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Most cases are written from debates that will feel familiar in U.S. and allied policy
-            circles. A smaller set of actor-lens pressure tests then asks how the same problem
-            looks from exposed partners, rival powers, and nonaligned or development-focused
-            governments.
+            Most cases start from familiar debates in this issue area. A smaller set of actor-lens
+            pressure tests then asks how the same problem looks from exposed partners, rival
+            powers, and nonaligned or development-focused governments.
           </p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
             This keeps the baseline legible without pretending other actors think the same way.
@@ -237,7 +326,7 @@ export function ModuleApp({
           </p>
         </div>
 
-        {foundationPayload ? (
+        {currentFoundationPayload ? (
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>Foundation comparison is on</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
@@ -413,8 +502,8 @@ export function ModuleApp({
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>
-          Module results stay separate from the Foundation baseline. They show how your instincts
-          travel inside one issue domain.
+          Your Foundation result is still the baseline. This module shows how it holds up inside
+          one issue area.
         </p>
       </section>
     </div>

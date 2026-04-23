@@ -2,6 +2,63 @@ import Link from "next/link"
 import { modules } from "@/lib/modules/framework"
 import type { Metadata } from "next"
 
+const plannedModuleTracks = {
+  functional: [
+    {
+      title: "International Economics and Finance",
+      summary:
+        "A geoeconomic overlay on trade, finance, sanctions, industrial policy, and economic statecraft.",
+    },
+    {
+      title: "Governance, Politics, and Society",
+      summary:
+        "A domestic-order overlay on institutions, legitimacy, polarization, and state capacity under stress.",
+    },
+    {
+      title: "Development, Climate, and Sustainability",
+      summary:
+        "A cross-border overlay on growth, resilience, climate pressure, and competing development priorities.",
+    },
+  ],
+  regional: [
+    {
+      title: "China",
+      summary:
+        "A regional lens on how your baseline travels when Chinese strategy, institutions, and historical memory move to the center.",
+    },
+    {
+      title: "Middle East",
+      summary:
+        "A regional lens on order, rivalry, deterrence, and state survival across a dense security environment.",
+    },
+    {
+      title: "Africa",
+      summary:
+        "A regional lens on development, sovereignty, external influence, and uneven institutional capacity.",
+    },
+    {
+      title: "Europe and Eurasia",
+      summary:
+        "A regional lens on alliance politics, continental security, border revision, and institutional constraint.",
+    },
+    {
+      title: "Asia",
+      summary:
+        "A regional lens on maritime order, balancing behavior, development strategy, and strategic interdependence.",
+    },
+    {
+      title: "Americas",
+      summary:
+        "A regional lens on hemispheric order, democratic stress, migration, and economic integration.",
+    },
+    {
+      title: "United States",
+      summary:
+        "A domestic-regional lens on how baseline assumptions hold up inside U.S. strategic debate and statecraft.",
+    },
+  ],
+} as const
+
 export const metadata: Metadata = {
   title: "Focus-Area Modules — IR Worldview Inventory",
   description:
@@ -23,17 +80,24 @@ export default async function ModulesPage(
         <section className="lobby-hero lobby-hero--plain">
           <div className="lobby-hero-grid">
             <div className="stack-lg">
-              <p className="section-kicker">Focus-area modules</p>
-              <h1>Focused issue reads for the IR Foundation</h1>
+              <p className="section-kicker">Step 2 · Focus-area modules</p>
+              <h1>Add a focused overlay to the Foundation</h1>
               <p className="lobby-lead">
-                Most cases are written from debates that will feel familiar in Washington,
-                Brussels, and allied policy circles. A smaller set of actor-lens pressure tests
-                then shifts the vantage point to exposed partners, rival powers, and nonaligned
-                governments to see whether your logic still holds.
+                Start with your Foundation. Then use these modules to see whether that baseline
+                holds, hardens, or splits once the cases get concrete.
               </p>
               <div className="row gap-sm wrap">
-                <Link href="/quiz" className="cta-primary">Take the Foundation questionnaire</Link>
-                <Link href="/profile" className="cta-secondary">View Profile</Link>
+                {foundation ? (
+                  <>
+                    <Link href="#available-modules" className="cta-primary">Choose a module</Link>
+                    <Link href="/profile" className="cta-secondary">View Profile</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link href="/quiz" className="cta-primary">Take the Foundation first</Link>
+                    <Link href="#available-modules" className="cta-secondary">Browse modules</Link>
+                  </>
+                )}
               </div>
             </div>
 
@@ -41,20 +105,28 @@ export default async function ModulesPage(
               <div className="stack-xs">
                 <p className="section-kicker">How to read this layer</p>
                 <p className="muted lobby-side-text">
-                  Broad priors and issue-specific instincts are related but not identical. This
-                  layer tests how the baseline behaves when it has to answer live arguments rather
-                  than abstract statements.
+                  Broad priors and issue-specific instincts are related but not identical. Start
+                  with the Foundation, then use this layer to see what changes when real policy
+                  tradeoffs replace abstract statements.
                 </p>
               </div>
               {foundation ? (
                 <div className="lobby-note-band stack-xs">
                   <p className="lobby-note-title">Foundation comparison is available</p>
                   <p className="muted lobby-side-text">
-                    Choose either module from here and the result page will compare it back to your
+                    Choose either module here and the result page will compare it back to your
                     Foundation baseline.
                   </p>
                 </div>
-              ) : null}
+              ) : (
+                <div className="lobby-note-band stack-xs">
+                  <p className="lobby-note-title">Foundation still comes first</p>
+                  <p className="muted lobby-side-text">
+                    You can browse the live modules now, but the intended path is baseline first,
+                    overlays second, profile after that.
+                  </p>
+                </div>
+              )}
             </aside>
           </div>
         </section>
@@ -73,19 +145,19 @@ export default async function ModulesPage(
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
-              A module result is an issue read, not a more scientific replacement for the
-              Foundation baseline.
+              A module result is an issue read, not a truer replacement for the Foundation
+              baseline.
             </div>
           </div>
         </section>
 
-        <section className="stack-md lobby-band">
+        <section id="available-modules" className="stack-md lobby-band">
           <div className="stack-xs">
             <p className="section-kicker">Available modules</p>
             <h2>Choose the focus area you want to pressure-test first</h2>
             <p className="muted lobby-section-copy">
-              Each module keeps the shared IR baseline in view, then asks how your read changes
-              when the cases become more domain-specific and politically exposed.
+              Each module keeps your Foundation in view, then asks how your read changes when the
+              cases become more domain-specific and politically exposed.
             </p>
           </div>
           <div className="module-choice-grid">
@@ -98,14 +170,16 @@ export default async function ModulesPage(
                     <p className="lobby-entry-subtitle">{moduleDefinition.subtitle}</p>
                   </div>
                   <p className="muted lobby-entry-text">{moduleDefinition.description}</p>
-                  <div className="row gap-sm wrap">
+                  <div className="stack-xs">
                     <Link
                       href={`/modules/${moduleDefinition.slug}${foundation ? `?foundation=${encodeURIComponent(foundation)}` : ""}`}
                       className="cta-primary"
                     >
                       Open {moduleDefinition.shortTitle} questionnaire
                     </Link>
-                    <Link href="/profile" className="cta-secondary">View Profile</Link>
+                    <p className="module-choice-note">
+                      Use this overlay when you want a more concrete read than the Foundation alone can give.
+                    </p>
                   </div>
                 </div>
 
@@ -135,8 +209,81 @@ export default async function ModulesPage(
 
         <section className="stack-md lobby-band">
           <div className="stack-sm">
+            <p className="section-kicker">Planned next</p>
+            <h2>Future modules stay visible, but they are not live in this round</h2>
+            <p className="muted lobby-section-copy">
+              The next additions are grouped into functional overlays and regional lenses so the
+              catalog stays legible. These are roadmap entries only, not live routes.
+            </p>
+          </div>
+
+          <div className="planned-track-grid">
+            <section className="planned-track stack-md" aria-labelledby="planned-functional-track">
+              <div className="stack-xs">
+                <p className="section-kicker">Functional track</p>
+                <h3 id="planned-functional-track" className="lobby-entry-title">
+                  Add more issue overlays before broadening into regions
+                </h3>
+                <p className="muted lobby-entry-text">
+                  Functional modules are the cleaner next step because they extend the same
+                  Foundation-to-overlay logic without changing the frame of the project.
+                </p>
+              </div>
+              <div className="planned-module-grid">
+                {plannedModuleTracks.functional.map((moduleDefinition) => (
+                  <article key={moduleDefinition.title} className="planned-module-card stack-sm">
+                    <div className="planned-module-header">
+                      <h4 className="planned-module-title">{moduleDefinition.title}</h4>
+                      <span className="planned-module-chip" aria-label="Status: Planned">
+                        Planned
+                      </span>
+                    </div>
+                    <p className="planned-module-text">{moduleDefinition.summary}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="planned-track stack-md" aria-labelledby="planned-regional-track">
+              <div className="stack-xs">
+                <p className="section-kicker">Regional track</p>
+                <h3 id="planned-regional-track" className="lobby-entry-title">
+                  Regional lenses come after the underlying language is clearer
+                </h3>
+                <p className="muted lobby-entry-text">
+                  Regional modules are powerful, but they introduce more interpretation questions.
+                  They stay planned until the core product language is easier to read.
+                </p>
+              </div>
+              <div className="planned-module-grid">
+                {plannedModuleTracks.regional.map((moduleDefinition) => (
+                  <article key={moduleDefinition.title} className="planned-module-card stack-sm">
+                    <div className="planned-module-header">
+                      <h4 className="planned-module-title">{moduleDefinition.title}</h4>
+                      <span className="planned-module-chip" aria-label="Status: Planned">
+                        Planned
+                      </span>
+                    </div>
+                    <p className="planned-module-text">{moduleDefinition.summary}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          <div className="planned-roadmap-note">
+            <p className="muted lobby-section-copy">
+              Best next additions after this round: <strong>International Economics and
+              Finance</strong> on the functional side, then <strong>China</strong> as the first
+              regional flagship.
+            </p>
+          </div>
+        </section>
+
+        <section className="stack-md lobby-band">
+          <div className="stack-sm">
             <p className="section-kicker">Same product family</p>
-            <h2>The AI companion and browse surfaces stay adjacent to the IR modules</h2>
+            <h2>The AI companion and browse surfaces stay adjacent to the IR overlays</h2>
             <p className="muted lobby-section-copy">
               The AI Governance Compass runs alongside the IR Foundation and issue overlays. The
               field guide and Profile keep the whole product legible rather than scattering the

@@ -11,114 +11,64 @@ export const metadata: Metadata = {
 
 const quickPaths = [
   {
-    href: "/modules",
-    eyebrow: "Focus Areas",
-    label: "Pressure-test the baseline in Security and Technology",
+    step: "1",
+    title: "Take the Foundation",
     description:
-      "See where the Foundation holds, changes, or shifts when cases turn to force, alliances, tech competition, and industrial policy.",
-    meta: "Browse Focus Areas",
+      "Get a baseline read on how you explain world politics before you branch into any overlay or companion module.",
   },
   {
-    href: "/ai",
-    eyebrow: "AI Companion",
-    label: "Open the AI Governance Compass alongside the IR baseline",
+    step: "2",
+    title: "Add issue overlays",
     description:
-      "A separate module on AI safety, regulation, rivalry, military use, and the long-term future of human agency.",
-    meta: "Open AI companion",
+      "Pressure-test that baseline in Security, Technology, and other domain-specific cases without replacing it.",
   },
   {
-    href: "/explore/atlas",
-    eyebrow: "Atlas",
-    label: "Browse recurring profile patterns",
+    step: "3",
+    title: "Read the integrated profile",
     description:
-      "Editorial summaries of nearby IR profile combinations in the current model, rather than a live user distribution.",
-    meta: "Browse Atlas",
-  },
-  {
-    href: "/profile",
-    eyebrow: "Profile",
-    label: "Keep saved results in one place",
-    description:
-      "See your Foundation, focus-area overlays, and AI result together on this device.",
-    meta: "View Profile",
+      "Keep the Foundation, completed overlays, and saved AI result together in one device-level profile.",
   },
 ]
 
-const startHereSignals = [
+const availableNow = [
   {
-    title: "Foundation first",
-    text:
-      "Start with the shared baseline on power, institutions, identity, and world order before you branch into issue overlays or the AI companion.",
+    eyebrow: "Issue overlays",
+    title: "Security and Technology",
+    description:
+      "Use the live IR modules to see where your baseline holds, hardens, or starts to split when the cases become more concrete.",
+    primaryLink: { href: "/modules", label: "Browse modules" },
+    supportingText: "Two live overlays are available now.",
   },
   {
-    title: "One baseline, several layers",
-    text:
-      "Security, Technology, and AI sit beside the Foundation. They pressure-test or extend the baseline rather than replacing it.",
-  },
-  {
-    title: "Interpretive, not final",
-    text:
-      "This is an editorial interactive, not a validated instrument. The point is to make theoretical priors visible in plain English.",
+    eyebrow: "AI companion",
+    title: "AI Governance Compass",
+    description:
+      "Apply the same overall project logic to frontier AI governance rather than general IR theory, then read it back against your IR baseline.",
+    primaryLink: { href: "/ai", label: "Open the AI companion" },
+    supportingText: "Lives in the same project family, not as a separate app.",
   },
 ]
 
-const deepDiveSections = [
-  {
-    eyebrow: "Focus Areas",
-    title: "Security and Technology as issue overlays",
-    description:
-      "These modules begin from live policy debates but stay tied to the shared IR baseline. Use them when you want to see where your instincts hold, sharpen, or shift under pressure.",
-    primaryLink: { href: "/modules", label: "Browse focus areas" },
-    secondaryLinks: [
-      { href: "/modules/security", label: "Open Security & Strategy" },
-      { href: "/modules/technology", label: "Open Technology & Geoeconomics" },
-    ],
-  },
-  {
-    eyebrow: "AI Companion",
-    title: "A separate module on AI governance",
-    description:
-      "The AI Governance Compass sits beside the IR product family rather than inside it. It maps how you think about safety, openness, competition, military use, and the future without folding everything into one master score.",
-    primaryLink: { href: "/ai", label: "Open AI companion" },
-    secondaryLinks: [{ href: "/ai/atlas", label: "Browse AI Atlas" }],
-  },
-]
-
-const exploreLinks = [
-  {
-    href: "/explore",
-    title: "Worldview Guide",
-    text: "Browse modeled traditions, reading lists, and coverage gaps.",
-  },
-  {
-    href: "/explore/atlas",
-    title: "IR Atlas",
-    text: "See recurring patterns and nearby profile families in the current model.",
-  },
-  {
-    href: "/compare",
-    title: "Compare Profiles",
-    text: "Read two shared profiles side by side.",
-  },
+const supportSurfaces = [
   {
     href: "/profile",
     title: "Profile",
-    text: "Keep saved results together in one integrated view.",
+    text: "Keep the Foundation, overlays, and any saved AI result together in one integrated view.",
+  },
+  {
+    href: "/explore/atlas",
+    title: "Atlas",
+    text: "Browse recurring profile patterns in the current model without treating them like fixed natural kinds.",
+  },
+  {
+    href: "/explore",
+    title: "Field guide",
+    text: "Read the modeled traditions, coverage gaps, and issue comparisons behind the inventory.",
   },
   {
     href: "/method",
     title: "Methods",
     text: "Read the scope, guardrails, and limits behind the instrument.",
-  },
-  {
-    href: "/references",
-    title: "References",
-    text: "Use the source shelf as a companion reading list.",
-  },
-  {
-    href: "/feedback",
-    title: "Feedback",
-    text: "Send notes while the beta is still being stabilized.",
   },
 ]
 
@@ -133,9 +83,9 @@ export default function LandingPage() {
                 <p className="section-kicker">IR Worldview Inventory</p>
                 <h1 className="landing-display">Map how you view international affairs</h1>
                 <p className="lobby-lead">
-                  Find out how you think about world politics, from the basics of IR theory to live
-                  debates on security, technology, and AI. Start with the shared Foundation, then
-                  go deeper only where it seems useful.
+                  Start with one shared Foundation, then add overlays only where they sharpen the
+                  picture. The goal is to make your baseline read on world politics legible before
+                  you test it in security, technology, and AI governance.
                 </p>
               </div>
               <FoundationHeroActions />
@@ -145,77 +95,56 @@ export default function LandingPage() {
               </p>
             </div>
 
-            <aside className="lobby-hero-panel stack-md">
+            <aside className="lobby-journey-panel stack-md">
               <div className="stack-xs">
-                <p className="section-kicker">Keep going after the baseline</p>
+                <p className="section-kicker">How to use it</p>
                 <p className="muted lobby-side-text">
-                  The Foundation is the first action. Everything else exists to pressure-test,
-                  browse, or compare that first read.
+                  The Foundation is the obvious first step. Everything else is there to test,
+                  extend, or interpret that first read rather than compete with it.
                 </p>
               </div>
-              <div className="lobby-hero-path-grid">
+              <div className="lobby-step-list">
                 {quickPaths.map((item) => (
-                  <Link key={item.href} href={item.href} className="lobby-hero-path-card stack-xs">
-                    <p className="landing-quick-kicker">{item.eyebrow}</p>
-                    <p className="landing-quick-title">{item.label}</p>
-                    <p className="landing-quick-text">{item.description}</p>
-                    <span className="landing-quick-meta">{item.meta}</span>
-                  </Link>
+                  <div key={item.step} className="lobby-step">
+                    <span className="lobby-step-number" aria-hidden="true">{item.step}</span>
+                    <div className="stack-xs">
+                      <p className="lobby-step-title">{item.title}</p>
+                      <p className="lobby-step-text">{item.description}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
+              <p className="lobby-journey-note">
+                Want a quick browse before you start? <Link href="/explore/atlas">Open the Atlas</Link>.
+              </p>
             </aside>
           </div>
         </section>
 
         <section className="homepage-band stack-lg">
           <div className="homepage-band-header stack-sm">
-            <p className="section-kicker">Start here</p>
-            <h2>The Foundation gives the shared language for everything else</h2>
+            <p className="section-kicker">Available now</p>
+            <h2>Move from the baseline into live overlays and companion modules</h2>
             <p className="muted lobby-section-copy">
-              Take the baseline first, then use modules, Atlas, and Profile to see where that
-              logic stays stable and where it shifts.
-            </p>
-          </div>
-          <div className="homepage-signal-grid">
-            {startHereSignals.map((signal) => (
-              <article key={signal.title} className="homepage-signal-card stack-xs">
-                <strong>{signal.title}</strong>
-                {signal.text}
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="homepage-band stack-lg">
-          <div className="homepage-band-header stack-sm">
-            <p className="section-kicker">Go deeper</p>
-            <h2>Move from the baseline into overlays and companion modules</h2>
-            <p className="muted lobby-section-copy">
-              The rest of the product should feel adjacent to the Foundation rather than like a
-              separate directory of unrelated routes.
+              Once you have the Foundation, the next question is where to pressure-test it. These
+              are the live next steps in the current beta.
             </p>
           </div>
           <div className="homepage-feature-grid">
-            {deepDiveSections.map((section) => (
-              <article key={section.title} className="homepage-feature-card stack-md">
+            {availableNow.map((entry) => (
+              <article key={entry.title} className="homepage-feature-card stack-md">
                 <div className="stack-sm">
                   <div className="stack-xs">
-                    <p className="section-kicker">{section.eyebrow}</p>
-                    <h3 className="lobby-entry-title">{section.title}</h3>
+                    <p className="section-kicker">{entry.eyebrow}</p>
+                    <h3 className="lobby-entry-title">{entry.title}</h3>
                   </div>
-                  <p className="muted lobby-entry-text">{section.description}</p>
+                  <p className="muted lobby-entry-text">{entry.description}</p>
                 </div>
-                <div className="stack-sm">
-                  <Link href={section.primaryLink.href} className="cta-secondary homepage-feature-primary">
-                    {section.primaryLink.label}
+                <div className="stack-xs">
+                  <Link href={entry.primaryLink.href} className="cta-secondary homepage-feature-primary">
+                    {entry.primaryLink.label}
                   </Link>
-                  <div className="homepage-inline-links" aria-label={`${section.title} links`}>
-                    {section.secondaryLinks.map((link) => (
-                      <Link key={link.href} href={link.href} className="homepage-inline-link">
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
+                  <p className="homepage-supporting-text">{entry.supportingText}</p>
                 </div>
               </article>
             ))}
@@ -224,15 +153,15 @@ export default function LandingPage() {
 
         <section className="homepage-band stack-lg">
           <div className="homepage-band-header stack-sm">
-            <p className="section-kicker">Explore and compare</p>
-            <h2>Use the field guide, Atlas, and Profile to keep the whole picture legible</h2>
+            <p className="section-kicker">Interpret and compare</p>
+            <h2>Use the browse surfaces once you want context, synthesis, or a wider frame</h2>
             <p className="muted lobby-section-copy">
-              These pages should help users interpret what they have already learned rather than
-              compete with the Foundation for first attention.
+              These pages are there to help you read the map more clearly after the Foundation,
+              not to compete with it for first attention.
             </p>
           </div>
           <div className="homepage-resource-grid">
-            {exploreLinks.map((link) => (
+            {supportSurfaces.map((link) => (
               <Link key={link.href} href={link.href} className="homepage-resource-card stack-xs">
                 <span className="resource-list-title">{link.title}</span>
                 <span className="resource-list-text">{link.text}</span>

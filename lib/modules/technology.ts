@@ -39,7 +39,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     lane: "controls",
     cardType: "decision",
     title: "Tighter chip controls from the target's side",
-    prompt: "What should carry the most weight first?",
+    prompt: "What should matter most first?",
     scene:
       "Restrictions tighten again on advanced chips and tooling. In Beijing, officials are deciding what deserves priority next: domestic substitution, selective outside access, broader ecosystem investment, or restraint against panic.",
     whyHard:
@@ -101,10 +101,10 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     kind: "case",
     lane: "controls",
     cardType: "decision",
-    title: "Open-weight frontier models",
+    title: "Releasing a powerful open-weight model",
     prompt: "What should govern the release decision?",
     scene:
-      "A frontier lab can release a powerful open-weight model. Advocates point to research diffusion and broader access; critics warn about misuse, proliferation, and the difficulty of containing highly capable systems once the weights are public.",
+      "A frontier lab is considering releasing a powerful model with weights that others could freely download and modify. Advocates point to research diffusion and broader access; critics warn about misuse, proliferation, and the difficulty of containing highly capable systems once the weights are public.",
     whyHard:
       "The same release can widen innovation and widen misuse at the same time, so the question is which risk should anchor the policy line.",
     contextBullets: [
@@ -153,7 +153,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
     title: "Foreign clouds and sovereign stacks",
     prompt: "What is the strongest reading of why some states want a sovereign AI stack?",
     scene:
-      "A lower-income state relies on foreign cloud providers, imported data-center hardware, and outside software services for most digital government functions. Officials are debating local storage rules and a modest sovereign AI stack. Critics call it expensive symbolism. Supporters call it the price of not living inside someone else's infrastructure.",
+      "A lower-income state relies on foreign cloud providers, imported data-center hardware, and outside software for most of its digital government functions. Officials are debating local storage rules and a modest sovereign AI stack. Critics call it expensive symbolism. Supporters call it the price of not living inside someone else's infrastructure.",
     whyHard:
       "The same move can be about control, bargaining power, development, or politics. The reason you think is primary changes what policy follows.",
     contextBullets: [
@@ -587,8 +587,8 @@ const technologyAnalystAdditions: ModuleDefinition["questionsByMode"]["analyst"]
     kind: "case",
     lane: "controls",
     cardType: "decision",
-    title: "Foreign cloud and data-center lock-in",
-    prompt: "What should carry the most weight first?",
+    title: "A fast infrastructure deal that could create lock-in",
+    prompt: "What should matter most first?",
     scene:
       "A lower-income state can get fast data-center finance only from one outside provider that would also run cloud security, maintenance, and most public-sector hosting. Ministers must decide what matters most before signing.",
     whyHard:
@@ -858,7 +858,7 @@ export const technologyModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "Most cases begin from technology debates that will feel familiar in U.S. and allied policy circles. A smaller set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
+    "Most cases start from familiar debates about chokepoints, industrial policy, AI governance, and strategic dependence. A smaller set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
   measures: [
     "openness versus control",
     "market adaptation versus state-capacity building",

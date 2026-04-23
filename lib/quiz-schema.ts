@@ -18,7 +18,7 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "securityCompetition",
     prompt:
-      "Long periods of peace between major powers can unravel when the balance of power changes.",
+      "Long stretches of peace between major powers usually depend on conditions that can weaken or disappear.",
     clarification: {
       whatItAsks:
         "Whether peace between major powers is usually conditional rather than permanently solved.",
@@ -37,7 +37,7 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "institutions",
     prompt:
-      "Shared rules can make cooperation last, even when no single state is in charge.",
+      "Even without a world government, shared rules can make cooperation last.",
     clarification: {
       whatItAsks:
         "Whether institutions can shape behavior by setting expectations, monitoring conduct, and lowering uncertainty.",
@@ -50,7 +50,7 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "domesticFilters",
     prompt:
-      "Foreign policy usually changes faster when leaders and governing coalitions change than when the external balance shifts gradually.",
+      "Changes in who governs and whom they answer to often shift foreign policy as much as outside threats do.",
     clarification: {
       whatItAsks:
         "What usually moves policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
@@ -76,7 +76,7 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     prompt:
-      "Trade, finance, and supply chains belong in the main explanation of world politics, not in a separate box.",
+      "Trade, finance, and supply chains should be treated as part of core world politics, not as a side issue.",
     clarification: {
       whatItAsks:
         "Whether economic leverage and dependence are part of the core story, not background detail.",
@@ -478,7 +478,7 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "securityCompetition",
     prompt:
-      "Long periods of peace among major powers usually depend on conditions that can change.",
+      "Long stretches of peace among major powers usually depend on conditions that can weaken or disappear.",
     clarification: {
       whatItAsks:
         "Whether durable peace is often contingent rather than fully solved.",
@@ -506,7 +506,7 @@ export const analystQuestions: Question[] = [
     dimension: "politicalEconomy",
     reverse: true,
     prompt:
-      "You can understand most international crises without looking much at who controls credit, production, or market access.",
+      "To understand most international crises, you do not need to look closely at who controls credit, production, or market access.",
     clarification: {
       whatItAsks:
         "Whether deeper patterns of leverage and dependence are usually secondary when crises unfold.",
@@ -591,7 +591,7 @@ export const analystQuestions: Question[] = [
     cardType: "explanation",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A global institution works technically but is losing legitimacy among rising powers. What is the deeper problem?",
+      "A global institution seems to work reasonably well, but rising powers increasingly reject its legitimacy. What best explains the problem?",
     options: [
       {
         id: "governance",
@@ -629,7 +629,7 @@ export const analystQuestions: Question[] = [
     cardType: "both",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A long-time rival democratizes, joins institutions, and speaks more cooperatively. How much should the threat assessment change?",
+      "A long-time rival democratizes, joins major institutions, and starts talking more cooperatively. How much should your threat assessment change?",
     options: [
       {
         id: "update",

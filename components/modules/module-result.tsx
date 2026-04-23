@@ -36,6 +36,13 @@ export function ModuleResultView({
   ) as Record<string, string>
   const hasActorLens = Boolean(result.cardTypeScores.actorLens)
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
+  const foundationRelation = buildFoundationRelation({
+    moduleTitle: moduleDefinition.shortTitle,
+    comparison: result.comparison,
+    challenge: result.challenge,
+    cardTypeSummary: result.cardTypeRead?.summary,
+    laneSummaries: result.laneSummaries,
+  })
 
   return (
     <div className="stack-lg">
@@ -104,16 +111,60 @@ export function ModuleResultView({
               </div>
             ))}
           </div>
-          {result.comparison ? (
-            <div className="callout stack-xs">
-              <p style={{ fontWeight: 600 }}>How this differs from your Foundation</p>
-              <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.comparison}</p>
-            </div>
-          ) : null}
           <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>What this still does not settle</p>
+            <p style={{ fontWeight: 600 }}>What this still leaves open</p>
             <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.challenge}</p>
           </div>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="stack-xs">
+            <p className="eyebrow">Foundation linkage</p>
+            <h2>How this relates to your Foundation</h2>
+            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+              {foundation
+                ? "This result does not replace your Foundation read. It shows what still tracks, what gets messier, and where this issue area pulls you in a different direction."
+                : "This result was opened without a linked Foundation baseline, so the comparison below stays limited until you run the module from a saved Foundation result or from a device with one saved."}
+            </p>
+          </div>
+
+          {foundation ? (
+            <div className="module-relation-grid">
+              <article className="module-relation-card module-relation-card--reinforce stack-xs">
+                <p className="module-relation-kicker">Reinforces</p>
+                <ul className="content-list module-relation-list">
+                  {foundationRelation.reinforces.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+
+              <article className="module-relation-card module-relation-card--complicate stack-xs">
+                <p className="module-relation-kicker">Complicates</p>
+                <ul className="content-list module-relation-list">
+                  {foundationRelation.complicates.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+
+              <article className="module-relation-card module-relation-card--pull stack-xs">
+                <p className="module-relation-kicker">Pulls away</p>
+                <ul className="content-list module-relation-list">
+                  {foundationRelation.pullsAway.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+          ) : (
+            <div className="callout stack-xs">
+              <p style={{ fontWeight: 600 }}>No linked Foundation baseline was available</p>
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+                This module still gives you its own read, but the reinforce / complicate / pull-away comparison needs a saved or linked Foundation baseline.
+              </p>
+            </div>
+          )}
         </section>
 
         {result.cardTypeRead ? (
@@ -122,8 +173,8 @@ export function ModuleResultView({
               <h2>{result.cardTypeRead.headline}</h2>
               <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
                 {hasActorLens
-                  ? "Actor-lens cards are tracked separately so perspective-modeling does not overwrite your own issue read."
-                  : "How the module changes when the question shifts from diagnosis to choice."}
+                  ? "Actor-lens cards stay separate, so perspective-taking does not overwrite your own issue read."
+                  : "This shows what changes when the question shifts from diagnosis to choice."}
               </p>
             </div>
             <p className="result-prose" style={{ lineHeight: "1.7" }}>
@@ -133,7 +184,7 @@ export function ModuleResultView({
         ) : null}
 
         <section className="result-section stack-md">
-          <h2>Recurring instincts</h2>
+          <h2>What you keep coming back to</h2>
           <ul className="content-list result-prose">
             {result.instincts.map((instinct) => (
               <li key={instinct}>{instinct}</li>
@@ -142,7 +193,7 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <h2>Tensions and caveats</h2>
+          <h2>What stays unresolved</h2>
           <p className="result-prose" style={{ lineHeight: "1.7" }}>{result.challenge}</p>
         </section>
 
@@ -150,7 +201,7 @@ export function ModuleResultView({
           <div className="stack-xs">
             <h2>How to read this module</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Lower-level framing and scope notes kept below the main issue read.
+              Framing and scope notes sit down here if you want them.
             </p>
           </div>
           <details className="profile-details" open={!isStandard}>
@@ -194,8 +245,8 @@ export function ModuleResultView({
           <div className="stack-xs">
             <h2>Module profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Scores run from 1 to 7 inside this module. The labels below are qualitative poles,
-              not population percentiles{hasActorLens ? ", and the main lane read is built from Explanation and Decision cards rather than Actor lens cards." : "."}
+              These scores run from 1 to 7 within this module. The labels below name the two poles,
+              not population percentiles{hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}
             </p>
           </div>
 
@@ -293,4 +344,58 @@ function formatCardType(cardType: "explanation" | "decision" | "actorLens" | "bo
   if (cardType === "decision") return "Decision"
   if (cardType === "actorLens") return "Actor lens"
   return "Both"
+}
+
+function buildFoundationRelation({
+  moduleTitle,
+  comparison,
+  challenge,
+  cardTypeSummary,
+  laneSummaries,
+}: {
+  moduleTitle: string
+  comparison?: string
+  challenge: string
+  cardTypeSummary?: string
+  laneSummaries: Array<{ label: string; delta?: string }>
+}) {
+  const comparisonSentences = splitSentences(comparison)
+  const reinforceCandidates = comparisonSentences.filter((sentence) =>
+    /(reinforces|stays visible|still matters|still shows up)/i.test(sentence),
+  )
+  const pullAwayCandidates = [
+    ...laneSummaries
+      .filter((lane) => lane.delta)
+      .map((lane) => `${lane.label}: ${lane.delta}`),
+    ...comparisonSentences.filter((sentence) =>
+      /(pulls?|harden|harder|more bounded|more comfortable|more control|more capacity|more coordination|more coalition|more protection|more order-first)/i.test(sentence),
+    ),
+  ]
+
+  return {
+    reinforces:
+      reinforceCandidates.length > 0
+        ? reinforceCandidates.slice(0, 2)
+        : [
+            `Your ${moduleTitle} read still looks like an overlay on the same baseline rather than a replacement for it.`,
+          ],
+    complicates: [cardTypeSummary ?? challenge],
+    pullsAway:
+      pullAwayCandidates.length > 0
+        ? uniqueStrings(pullAwayCandidates).slice(0, 3)
+        : ["No strong break from the linked Foundation baseline shows up in this module."],
+  }
+}
+
+function splitSentences(text?: string) {
+  if (!text) return []
+
+  return text
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean)
+}
+
+function uniqueStrings(values: string[]) {
+  return [...new Set(values)]
 }

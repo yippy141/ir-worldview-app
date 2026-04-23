@@ -53,8 +53,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Likely policy package</h2>
           <p className="ai-result-body muted">
-            These are the policy positions that follow most directly from your result. They are not
-            party labels. They show where your judgment is likely to pull when choices get concrete.
+            Given your answers, you are more comfortable with these policy moves, especially when
+            the tradeoffs get sharp.
           </p>
         </div>
 
@@ -76,11 +76,10 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-columns">
           <article className="ai-result-card stack-sm">
             <div className="stack-xs">
-              <h2>International order implications</h2>
+              <h2>What this means for world order</h2>
               <p className="ai-result-body muted">
-                This is where your result meets geopolitics. Use these points to think about
-                rivalry, dependence, standards, and whether rules can travel beyond one lab or one
-                state.
+                This is what your result suggests once the question becomes rivalry, dependence,
+                standards, and coordination.
               </p>
             </div>
             <ul className="ai-result-list">
@@ -94,7 +93,7 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <div className="stack-xs">
               <h2>What would change your mind</h2>
               <p className="ai-result-body muted">
-                A serious view should say what evidence would move it.
+                A strong worldview should also say what evidence could make it rethink itself.
               </p>
             </div>
             <ul className="ai-result-list">
@@ -110,7 +109,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Pressure points</h2>
           <p className="ai-result-body muted">
-            These are the places where your principles and strategic instincts may pull apart.
+            These are the places where your principles and strategic instincts may tug in different
+            directions.
           </p>
         </div>
 
@@ -131,7 +131,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Boundary cases</h2>
           <p className="ai-result-body muted">
-            This shows the nearest alternative to your result and the family from which you are farthest.
+            This shows the nearest alternative to your result and the archetype furthest from your
+            instincts.
           </p>
         </div>
 
