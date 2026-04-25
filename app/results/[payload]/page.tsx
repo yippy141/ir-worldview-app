@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
+import { ScaleBar } from "@/components/visual-primitives"
 import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
 import { resolveFoundationPayload } from "@/lib/share"
 import {
@@ -119,6 +120,7 @@ export default async function ResultPage(
   const profileTitle = buildProfileTitle(dimensionScores)
   const explanation = result.explanation
   const keyDrivers = getKeyDrivers(dimensionScores)
+  const topDimensions = getTopDimensionScores(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
   const tensions = getActiveTensions(dimensionScores)
   const neighborText = neighborOverlapTexts[result.familyKey]?.[neighborKey] ?? ""
@@ -279,7 +281,7 @@ export default async function ResultPage(
               strategyModifier={result.strategyModifier}
               normativeModifier={result.normativeModifier}
               neighborLabel={neighborLabel}
-              traditionColor={traditionColor}
+              topDimensions={topDimensions}
             />
           </div>
         </div>
@@ -341,15 +343,7 @@ export default async function ResultPage(
           <div>
             {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
               <div key={dim} className="dim-row">
-                <div className="progress-meta">
-                  <span style={{ fontWeight: 600, color: "var(--text)" }}>
-                    {dimensionLabels[dim]}
-                  </span>
-                  <span>{value.toFixed(1)} / 7</span>
-                </div>
-                <div className="score-bar" style={{ margin: "6px 0" }} aria-hidden="true">
-                  <div className="score-fill" style={{ width: `${(value / 7) * 100}%` }} />
-                </div>
+                <ScaleBar label={dimensionLabels[dim]} value={value} tone="baseline" />
                 <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
                   {dimensionOneLiners[dim](value)}
                 </p>
@@ -718,58 +712,43 @@ function getFallbackMixedNote(
   return "The baseline is clear, but a nearby runner-up still stays live in harder cases. That overlap is part of the result, not noise to be scrubbed out."
 }
 
+function getTopDimensionScores(dimensionScores: Record<DimensionKey, number>) {
+  return (Object.entries(dimensionScores) as [DimensionKey, number][])
+    .sort(([, a], [, b]) => Math.abs(b - 4) - Math.abs(a - 4))
+    .slice(0, 3)
+}
+
 function ResultSignaturePanel({
   familyLabel,
   strategyModifier,
   normativeModifier,
   neighborLabel,
-  traditionColor,
+  topDimensions,
 }: {
   familyLabel: string
   strategyModifier: string
   normativeModifier: string
   neighborLabel: string
-  traditionColor: string
+  topDimensions: [DimensionKey, number][]
 }) {
   return (
     <aside className="result-signature-panel stack-sm" aria-label="Result signature">
       <div className="stack-xs">
         <p className="eyebrow">Result signature</p>
         <p className="muted" style={{ margin: 0, fontSize: "0.9rem", lineHeight: "1.65" }}>
-          A compact read of the headline family and the modifiers shaping this Foundation result.
+          A compact read of the strongest dimension pulls and modifiers shaping this Foundation result.
         </p>
       </div>
 
-      <div className="result-signature-visual">
-        <svg
-          viewBox="0 0 260 150"
-          className="result-signature-svg"
-          aria-hidden="true"
-          role="presentation"
-        >
-          <path
-            d="M24 112 C58 100 86 88 126 88 C164 88 194 99 236 114"
-            fill="none"
-            stroke={traditionColor}
-            strokeOpacity="0.36"
-            strokeWidth="1.6"
+      <div className="result-signature-scales">
+        {topDimensions.map(([dimension, score]) => (
+          <ScaleBar
+            key={dimension}
+            label={dimensionLabels[dimension]}
+            value={score}
+            tone="baseline"
           />
-          <path d="M34 114 H226" fill="none" stroke="var(--border)" strokeWidth="1" />
-          <path
-            d="M78 44 L126 88 L184 58"
-            fill="none"
-            stroke={traditionColor}
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <circle cx="78" cy="44" r="16" fill="var(--panel)" stroke="var(--border)" strokeWidth="1.2" />
-          <circle cx="126" cy="88" r="28" fill="var(--panel)" stroke={traditionColor} strokeWidth="1.8" />
-          <circle cx="126" cy="88" r="18" fill="none" stroke={traditionColor} strokeOpacity="0.35" strokeWidth="1.2" />
-          <circle cx="184" cy="58" r="16" fill="var(--panel)" stroke="var(--border)" strokeWidth="1.2" />
-          <circle cx="36" cy="114" r="3.5" fill={traditionColor} />
-          <circle cx="224" cy="114" r="3.5" fill={traditionColor} />
-        </svg>
+        ))}
       </div>
 
       <dl className="result-signature-meta">

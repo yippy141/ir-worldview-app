@@ -43,8 +43,8 @@ export function ScaleBar({
   return (
     <div className={classNames("v10-scale-bar", className)} data-tone={tone}>
       {(label || showValue) ? (
-        <div className="v10-scale-bar__meta">
-          {label ? <span className="v10-scale-bar__label">{label}</span> : <span />}
+        <div className={classNames("v10-scale-bar__meta", !label && "v10-scale-bar__meta--value-only")}>
+          {label ? <span className="v10-scale-bar__label">{label}</span> : null}
           {showValue ? <span className="v10-scale-bar__value">{readableValue}</span> : null}
         </div>
       ) : null}

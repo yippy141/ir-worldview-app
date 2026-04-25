@@ -2675,20 +2675,13 @@ h3 {
   min-width: 0;
   padding: 22px 22px 20px;
   border: 1px solid color-mix(in srgb, var(--border-soft) 80%, var(--accent) 20%);
-  border-radius: 18px;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--panel) 92%, white 8%), color-mix(in srgb, var(--panel-2) 72%, white 28%));
-  box-shadow: 0 14px 28px rgba(36, 24, 19, 0.03);
+  border-radius: 8px;
+  background: var(--panel);
 }
 
-.result-signature-visual {
-  padding: 4px 0 0;
-}
-
-.result-signature-svg {
-  display: block;
-  width: 100%;
-  height: auto;
+.result-signature-scales {
+  display: grid;
+  gap: 12px;
 }
 
 .result-signature-meta {
@@ -3323,6 +3316,10 @@ h3 {
   justify-content: space-between;
   gap: 12px;
   min-width: 0;
+}
+
+.v10-scale-bar__meta--value-only {
+  justify-content: flex-end;
 }
 
 .v10-scale-bar__label {

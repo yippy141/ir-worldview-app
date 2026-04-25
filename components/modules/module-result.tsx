@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { ScaleBar } from "@/components/visual-primitives"
 import {
   buildModuleResult,
   getModuleDefinition,
@@ -90,19 +91,13 @@ export function ModuleResultView({
                   <p className="eyebrow">{lane.label}</p>
                   <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{lane.summary}</p>
                 </div>
-                <div className="module-lane-meter stack-xs">
-                  <div className="progress-meta">
-                    <span>{lane.lowLabel}</span>
-                    <span>{lane.score.toFixed(1)} / 7</span>
-                  </div>
-                  <div className="score-bar" aria-hidden="true">
-                    <div className="score-fill" style={{ width: `${(lane.score / 7) * 100}%` }} />
-                  </div>
-                  <div className="progress-meta">
-                    <span>{lane.lowLabel}</span>
-                    <span>{lane.highLabel}</span>
-                  </div>
-                </div>
+                <ScaleBar
+                  value={lane.score}
+                  lowLabel={lane.lowLabel}
+                  highLabel={lane.highLabel}
+                  tone={slug}
+                  className="module-lane-meter"
+                />
                 {lane.delta ? (
                   <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
                     <strong>Relative to Foundation:</strong> {lane.delta}
@@ -253,18 +248,13 @@ export function ModuleResultView({
           <div>
             {moduleDefinition.axes.map((axis) => (
               <div key={axis.key} className="dim-row">
-                <div className="progress-meta">
-                  <span style={{ fontWeight: 600, color: "var(--text)" }}>{axis.label}</span>
-                  <span>{result.scores[axis.key].toFixed(1)} / 7</span>
-                </div>
-                <div className="score-bar" style={{ margin: "6px 0" }} aria-hidden="true">
-                  <div className="score-fill" style={{ width: `${(result.scores[axis.key] / 7) * 100}%` }} />
-                </div>
-                <div className="row gap-sm wrap" style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
-                  <span>{axis.lowLabel}</span>
-                  <span>↔</span>
-                  <span>{axis.highLabel}</span>
-                </div>
+                <ScaleBar
+                  label={axis.label}
+                  value={result.scores[axis.key]}
+                  lowLabel={axis.lowLabel}
+                  highLabel={axis.highLabel}
+                  tone={slug}
+                />
               </div>
             ))}
           </div>
