@@ -194,7 +194,7 @@ export function ModuleApp({
                 <>
                   <p className="module-linkage-title">No saved Foundation baseline yet</p>
                   <p className="module-linkage-text">
-                    Take the Foundation first if you want this module result to compare back to a baseline on this device.
+                    Take the Foundation first if you want this result compared with a saved baseline.
                   </p>
                 </>
               )}
@@ -212,7 +212,8 @@ export function ModuleApp({
             <div className="module-linkage-card stack-xs">
               <p className="module-linkage-kicker">What can change here</p>
               <p className="module-linkage-text">
-                This result does not replace your Foundation read. It shows how that baseline holds up inside one issue area.
+                This result does not replace the Foundation. It shows how the baseline behaves in
+                one issue area.
               </p>
             </div>
           </div>
@@ -224,8 +225,8 @@ export function ModuleApp({
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard gives you {standardQuestionCount} questions and a cleaner first pass.
               Advanced expands that to {analystQuestionCount}, with {analystAdditionCount} extra
-              cases and a smaller number of actor-lens pressure tests. In both modes, you can add
-              an optional backup choice if a second answer also fits after you pick your main one.
+              cases and a small set of actor-lens pressure tests. In both modes, you can add a
+              backup choice when a second answer genuinely fits.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -502,8 +503,8 @@ export function ModuleApp({
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>
-          Your Foundation result is still the baseline. This module shows how it holds up inside
-          one issue area.
+          The Foundation remains the baseline. This module shows what changes inside one issue
+          area.
         </p>
       </section>
     </div>

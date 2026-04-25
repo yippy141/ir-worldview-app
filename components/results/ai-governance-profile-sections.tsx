@@ -30,15 +30,15 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <p className="eyebrow">Profile shape</p>
             <p className="ai-result-card-title">{deepDive.clarityLabel}</p>
             <p className="ai-result-body muted">
-              This names how cleanly the top archetype separates from nearby profiles. It is a
-              reading aid, not a confidence score.
+              This names how far the top archetype sits from nearby profiles. It is a reading aid,
+              not a confidence score.
             </p>
           </aside>
         </div>
 
         <div className="ai-result-summary-grid">
           <article className="ai-result-card ai-result-card--soft stack-xs">
-            <p className="eyebrow">Short readout</p>
+            <p className="eyebrow">Short read</p>
             <p className="ai-result-body">{deepDive.shareBlurb}</p>
           </article>
 
@@ -53,8 +53,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Likely policy package</h2>
           <p className="ai-result-body muted">
-            Given your answers, you are more comfortable with these policy moves, especially when
-            the tradeoffs get sharp.
+            These are the policy moves your answers make easier to defend when the tradeoffs get
+            sharp.
           </p>
         </div>
 
@@ -78,8 +78,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
             <div className="stack-xs">
               <h2>What this means for world order</h2>
               <p className="ai-result-body muted">
-                This is what your result suggests once the question becomes rivalry, dependence,
-                standards, and coordination.
+                How this result reads once the question becomes rivalry, dependence, standards, and
+                coordination.
               </p>
             </div>
             <ul className="ai-result-list">

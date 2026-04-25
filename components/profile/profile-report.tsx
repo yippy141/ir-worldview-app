@@ -143,7 +143,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <div className="stack-xs">
           <h2>What stays steady and what shifts</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            A plain-English read of the Foundation baseline and the completed overlays {contextLabel}.
+            A short read of the Foundation and completed modules {contextLabel}.
           </p>
         </div>
         <div className="profile-summary-grid">
@@ -178,13 +178,13 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       <section className="result-section stack-md">
         <section className="profile-mosaic stack-md">
           <div className="profile-mosaic-header">
-            <div className="stack-xs">
-              <p className="eyebrow">Worldview mosaic</p>
-              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
-              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-                The Foundation stays at the center. Overlays show where your baseline holds, where
-                it sharpens, and where it starts to pull in different directions.
-              </p>
+          <div className="stack-xs">
+            <p className="eyebrow">Worldview mosaic</p>
+            <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
+            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+                The Foundation stays at the center. Saved layers show where it holds, sharpens, or
+                starts to pull in different directions.
+            </p>
             </div>
             <div className="profile-layer-strip" aria-label="Saved profile layers">
               {profileSynthesis.layers.map((layer) => (
@@ -873,7 +873,7 @@ function getProfileMosaicCoverageText(
   const missing = layers.filter((layer) => !layer.present).map((layer) => layer.label)
 
   if (missing.length === 0) {
-    return "Built from Foundation, Security, Technology, and AI. The page is still reading them as one mosaic, not a master score."
+    return "Built from Foundation, Security, Technology, and AI. The page reads them as one mosaic, not a single score."
   }
 
   const missingLine = missing.length === 1

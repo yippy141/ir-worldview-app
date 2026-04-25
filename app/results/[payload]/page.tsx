@@ -288,7 +288,7 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Main signals</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              These are the clearest pulls in your baseline before the longer score readout.
+              Start here: these are the pulls doing the most work in this Foundation result.
             </p>
           </div>
           <div className="driver-grid">
@@ -305,7 +305,7 @@ export default async function ResultPage(
             ))}
           </div>
           <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>How settled this baseline is</p>
+            <p style={{ fontWeight: 600 }}>How settled this result is</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{mixedNote}</p>
           </div>
           <div className="row gap-sm wrap">
@@ -325,8 +325,7 @@ export default async function ResultPage(
           <div className="stack-xs">
             <h2>Dimension profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These scores show where you sit on each dimension in this model. They are positions,
-              not population percentiles.
+              These are model positions, not population percentiles.
             </p>
           </div>
           <div>
@@ -666,7 +665,7 @@ export default async function ResultPage(
           </div>
           <p>
             <Link href="/profile" style={{ color: "var(--accent)" }}>
-              View your integrated profile →
+              View your Profile →
             </Link>
           </p>
           <p>

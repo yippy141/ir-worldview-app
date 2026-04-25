@@ -83,8 +83,8 @@ export default async function ModulesPage(
               <p className="section-kicker">Step 2 · Focus-area modules</p>
               <h1>Add a focused overlay to the Foundation</h1>
               <p className="lobby-lead">
-                Start with your Foundation. Then use these modules to see whether that baseline
-                holds, hardens, or splits once the cases get concrete.
+                Use Security and Technology to see where your Foundation result holds, hardens, or
+                starts to split in concrete cases.
               </p>
               <div className="row gap-sm wrap">
                 {foundation ? (
@@ -105,25 +105,22 @@ export default async function ModulesPage(
               <div className="stack-xs">
                 <p className="section-kicker">How to read this layer</p>
                 <p className="muted lobby-side-text">
-                  Broad priors and issue-specific instincts are related but not identical. Start
-                  with the Foundation, then use this layer to see what changes when real policy
-                  tradeoffs replace abstract statements.
+                  Broad priors and issue instincts are related, but not identical. The point here
+                  is to see what changes when the case becomes specific.
                 </p>
               </div>
               {foundation ? (
                 <div className="lobby-note-band stack-xs">
                   <p className="lobby-note-title">Foundation comparison is available</p>
                   <p className="muted lobby-side-text">
-                    Choose either module here and the result page will compare it back to your
-                    Foundation baseline.
+                    Choose either module and the result page will compare it with your Foundation.
                   </p>
                 </div>
               ) : (
                 <div className="lobby-note-band stack-xs">
                   <p className="lobby-note-title">Foundation still comes first</p>
                   <p className="muted lobby-side-text">
-                    You can browse the live modules now, but the intended path is baseline first,
-                    overlays second, profile after that.
+                    You can browse the modules now. They read best after the Foundation.
                   </p>
                 </div>
               )}
@@ -135,8 +132,8 @@ export default async function ModulesPage(
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
               <strong>What this layer covers</strong>
-              Security and Technology stay anchored in familiar U.S. and allied policy debates,
-              then pressure-test that baseline from a smaller number of other vantage points.
+              Security and Technology begin from familiar policy debates, then test the baseline
+              from a smaller number of other vantage points.
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
@@ -145,8 +142,7 @@ export default async function ModulesPage(
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
-              A module result is an issue read, not a truer replacement for the Foundation
-              baseline.
+              A module result is an issue read, not a better or truer Foundation result.
             </div>
           </div>
         </section>
@@ -156,8 +152,8 @@ export default async function ModulesPage(
             <p className="section-kicker">Available modules</p>
             <h2>Choose the focus area you want to pressure-test first</h2>
             <p className="muted lobby-section-copy">
-              Each module keeps your Foundation in view, then asks how your read changes when the
-              cases become more domain-specific and politically exposed.
+              Each module keeps your Foundation in view while the cases become more specific and
+              politically exposed.
             </p>
           </div>
           <div className="module-choice-grid">
@@ -178,7 +174,7 @@ export default async function ModulesPage(
                       Open {moduleDefinition.shortTitle} questionnaire
                     </Link>
                     <p className="module-choice-note">
-                      Use this overlay when you want a more concrete read than the Foundation alone can give.
+                      Use this when you want a more concrete read than the Foundation alone can give.
                     </p>
                   </div>
                 </div>
@@ -212,8 +208,8 @@ export default async function ModulesPage(
             <p className="section-kicker">Planned next</p>
             <h2>Future modules stay visible, but they are not live in this round</h2>
             <p className="muted lobby-section-copy">
-              The next additions are grouped into functional overlays and regional lenses so the
-              catalog stays legible. These are roadmap entries only, not live routes.
+              The next additions are grouped by function and region. They are roadmap entries, not
+              live routes.
             </p>
           </div>
 
@@ -222,11 +218,11 @@ export default async function ModulesPage(
               <div className="stack-xs">
                 <p className="section-kicker">Functional track</p>
                 <h3 id="planned-functional-track" className="lobby-entry-title">
-                  Add more issue overlays before broadening into regions
+                  Add more issue areas before broadening into regions
                 </h3>
                 <p className="muted lobby-entry-text">
-                  Functional modules are the cleaner next step because they extend the same
-                  Foundation-to-overlay logic without changing the frame of the project.
+                  Functional modules extend the same Foundation-to-module structure without
+                  changing the frame of the project.
                 </p>
               </div>
               <div className="planned-module-grid">
@@ -251,8 +247,8 @@ export default async function ModulesPage(
                   Regional lenses come after the underlying language is clearer
                 </h3>
                 <p className="muted lobby-entry-text">
-                  Regional modules are powerful, but they introduce more interpretation questions.
-                  They stay planned until the core product language is easier to read.
+                  Regional modules introduce harder interpretation questions. They stay planned
+                  until the core product language is clearer.
                 </p>
               </div>
               <div className="planned-module-grid">

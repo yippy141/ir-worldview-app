@@ -9,7 +9,7 @@ const advancedQuestionTotal = aiTotalQuestionCountsByMode.analyst
 export const metadata: Metadata = {
   title: "AI Governance Compass",
   description:
-    "Choose Standard or Advanced mode for the AI Governance Compass, browse the AI atlas, and continue into methods and references.",
+    "Take the AI Governance Compass, browse the AI atlas, and compare the result with the wider IR worldview profile.",
 }
 
 export default function AiPage() {
@@ -22,13 +22,12 @@ export default function AiPage() {
               <p className="section-kicker">Companion module</p>
               <h1>AI Governance Compass</h1>
               <p className="lobby-lead">
-                A frontier-AI overlay inside the same overall project. It uses the same interpretive
-                logic as the IR Foundation, but applies it to AI safety, governance, rivalry,
-                openness, military use, and the future of human agency.
+                A focused read on frontier AI governance inside the same worldview project. It
+                covers safety, rivalry, openness, military use, legitimacy, and human agency.
               </p>
               <p className="muted lobby-side-text">
-                Use it as an editorial field guide to governing instincts, not as a validated
-                instrument or a claim that the field divides neatly into timeless camps.
+                Use it as an editorial guide to governing instincts, not as a claim that the field
+                divides neatly into fixed camps.
               </p>
               <div className="row gap-sm wrap">
                 <Link href="/ai/quiz" className="cta-primary">Open the AI questionnaire</Link>
@@ -40,9 +39,8 @@ export default function AiPage() {
               <div className="stack-xs">
                 <p className="section-kicker">How it fits in the product family</p>
                 <p className="muted lobby-side-text">
-                  This module is part of the same worldview map as the IR Foundation and issue
-                  overlays. It adds an AI-governance stress test without replacing the baseline or
-                  collapsing everything into one master score.
+                  The AI result can stand alone, but it is most useful beside the IR Foundation and
+                  the issue modules. It does not replace either one.
                 </p>
               </div>
             </aside>
@@ -55,18 +53,18 @@ export default function AiPage() {
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
               <strong>What it covers</strong>
-              Position statements and branching scenarios map your stance across eight governance
-              dimensions from risk horizon to human future.
+              Position statements and scenarios map eight governance dimensions, from risk horizon
+              to human future.
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
-              Standard is the cleaner first pass. Advanced adds denser prompts and sharper tradeoffs
-              without changing the underlying axes.
+              Standard is the cleaner first pass. Advanced adds denser prompts and sharper
+              tradeoffs.
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
-              The result is a structured interpretation inside this model. It does not certify
-              expertise or reduce the whole field to one permanent identity.
+              The result does not certify expertise or reduce the whole field to one permanent
+              identity.
             </div>
           </div>
         </section>
@@ -76,9 +74,8 @@ export default function AiPage() {
             <p className="section-kicker">Choose your route</p>
             <h2>Start in Standard or Advanced mode</h2>
             <p className="muted lobby-side-text">
-              Both modes score the same model. Advanced adds technically sharper prompts on audits,
-              compute governance, incident reporting, security competition, critical
-              infrastructure, and legitimacy under pressure.
+              Both modes use the same axes. Advanced adds sharper prompts on audits, compute,
+              incident reporting, security competition, infrastructure, and legitimacy.
             </p>
           </div>
 
@@ -94,12 +91,12 @@ export default function AiPage() {
                     margin: 0,
                   }}
                 >
-                  Clear first pass through the module
+                  Clear first pass
                 </p>
               </div>
               <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
-                {aiQuestionCountsByMode.standard} statements and {standardQuestionTotal} questions
-                total. Plain-language prompts across all eight governance dimensions.
+                {aiQuestionCountsByMode.standard} statements and {standardQuestionTotal} questions.
+                Plain-language prompts across all eight dimensions.
               </p>
               <span className="atlas-pattern-cta">Open Standard →</span>
             </Link>
@@ -131,29 +128,29 @@ export default function AiPage() {
         <section className="lobby-related-grid">
           <div className="stack-sm">
             <p className="section-kicker">Continue through the rest of the product</p>
-            <h2>Keep AI adjacent to the IR baseline, the field guide, and the integrated profile</h2>
+            <h2>Read AI beside the IR baseline and Profile</h2>
             <p className="muted lobby-side-text">
-              The most useful read often comes from comparing the AI result against the IR
-              Foundation, the issue overlays, and the broader methods and reading surfaces.
+              The strongest read often comes from comparing the AI result with the Foundation,
+              issue modules, and methods notes.
             </p>
           </div>
           <div className="resource-list">
             <Link href="/quiz" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Foundation Questionnaire</span>
-                <span className="resource-list-text">Open the shared baseline used across the wider product.</span>
+                <span className="resource-list-text">Open the shared IR baseline.</span>
               </span>
             </Link>
             <Link href="/modules" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Security and Technology</span>
-                <span className="resource-list-text">See the IR issue overlays that sit beside the AI module.</span>
+                <span className="resource-list-text">See the IR issue modules that sit beside AI.</span>
               </span>
             </Link>
             <Link href="/profile" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Profile</span>
-                <span className="resource-list-text">Keep saved IR and AI results in one integrated view.</span>
+                <span className="resource-list-text">Keep saved IR and AI results in one place.</span>
               </span>
             </Link>
             <Link href="/method" className="resource-list-link">
@@ -165,7 +162,7 @@ export default function AiPage() {
             <Link href="/references" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">References</span>
-                <span className="resource-list-text">Use the bibliography as a companion shelf while you compare positions.</span>
+                <span className="resource-list-text">Use the bibliography while comparing positions.</span>
               </span>
             </Link>
             <Link href="/feedback?module=ai" className="resource-list-link">

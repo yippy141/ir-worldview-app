@@ -111,8 +111,8 @@ export default async function AiResultPage(
             <article className="profile-summary-card stack-xs">
               <p className="eyebrow">Next step</p>
               <p className="profile-mosaic-body">
-                Save this beside the IR Foundation inside Profile rather than treating it as a
-                replacement label.
+                Keep this beside the IR Foundation in Profile rather than treating it as a
+                replacement for the baseline.
               </p>
               <p style={{ margin: 0 }}>
                 <Link href="/profile" style={{ color: "var(--accent)" }}>
@@ -128,7 +128,7 @@ export default async function AiResultPage(
         {/* ── 2. Explanation ── */}
         <div className="result-section stack-md">
           <details className="profile-details">
-            <summary>Read the archetype explanation</summary>
+            <summary>Read the longer archetype explanation</summary>
             <div className="ai-result-section-intro stack-xs" style={{ marginTop: "16px" }}>
               <p className="eyebrow">Archetype</p>
               <h2>What this means</h2>
@@ -145,8 +145,8 @@ export default async function AiResultPage(
             <p className="eyebrow">Eight dimensions</p>
             <h2>Axis profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-              These scores run from 1 to 7 in this model. They show where you sit on each axis,
-              not where you rank against other people.
+              These scores run from 1 to 7 in this model. They are positions on the axes, not
+              rankings against other people.
             </p>
           </div>
           <div>

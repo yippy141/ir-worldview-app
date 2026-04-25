@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: siteConfig.publicTitle,
   description:
-    "An editorial interactive for mapping how you read world politics across an IR baseline, issue modules, AI governance, and an integrated profile.",
+    "An editorial interactive for reading your foreign-policy instincts across an IR baseline, issue modules, AI governance, and Profile.",
 }
 
 const quickPaths = [
@@ -14,25 +14,25 @@ const quickPaths = [
     step: "1",
     title: "Foundation",
     description:
-      "Establish the shared IR baseline: how you explain power, institutions, domestic politics, norms, political economy, restraint, and order.",
+      "Build the shared IR baseline: power, institutions, domestic politics, norms, political economy, restraint, and order.",
   },
   {
     step: "2",
     title: "Modules",
     description:
-      "Pressure-test that baseline in Security and Technology without treating a module result as a replacement for the Foundation.",
+      "Test that baseline in Security and Technology without replacing the Foundation result.",
   },
   {
     step: "3",
     title: "AI Governance",
     description:
-      "Take a related governance layer on its own, or read it against the IR baseline when you want the comparison.",
+      "Take the AI layer on its own, or compare it with your IR baseline when that helps.",
   },
   {
     step: "4",
     title: "Profile",
     description:
-      "Return to the accumulating view that keeps the Foundation, completed modules, and any saved AI result together.",
+      "Return to the place where the Foundation, modules, and any AI result sit together.",
   },
 ]
 
@@ -41,7 +41,7 @@ const productLayers = [
     eyebrow: "Step 2",
     title: "Modules: Security and Technology",
     description:
-      "Use the live IR modules to see where your baseline holds, hardens, or splits once the cases become more concrete.",
+      "Use the live IR modules to see whether your baseline holds, hardens, or splits in concrete cases.",
     primaryLink: { href: "/modules", label: "Open modules" },
     supportingText: "Two live focus-area overlays are available now.",
   },
@@ -49,7 +49,7 @@ const productLayers = [
     eyebrow: "Step 3",
     title: "AI Governance Compass",
     description:
-      "Apply the same interpretive project to frontier AI governance. It can stand on its own, but the stronger read comes when it sits beside the IR baseline.",
+      "Read your instincts on frontier AI governance. It stands on its own, but it is sharper beside the IR baseline.",
     primaryLink: { href: "/ai", label: "Open AI Governance" },
     supportingText: "A related layer in the same worldview product.",
   },
@@ -57,7 +57,7 @@ const productLayers = [
     eyebrow: "Step 4",
     title: "Profile",
     description:
-      "Use Profile as the home for saved layers: the Foundation, completed modules, and any AI result stored on this device.",
+      "Use Profile as the home for saved results: the Foundation, completed modules, and any AI result on this device.",
     primaryLink: { href: "/profile", label: "Open Profile" },
     supportingText: "Most useful after at least one result has been saved.",
   },
@@ -67,7 +67,7 @@ const supportSurfaces = [
   {
     href: "/explore/atlas",
     title: "Atlas",
-    text: "Browse recurring profile patterns in the current model without treating them like fixed natural kinds.",
+    text: "Browse recurring profile patterns without treating them as fixed identities.",
   },
   {
     href: "/explore",
@@ -77,7 +77,7 @@ const supportSurfaces = [
   {
     href: "/method",
     title: "Methods",
-    text: "Read the scope, guardrails, and limits behind the instrument.",
+    text: "Read the scope, guardrails, and limits behind the project.",
   },
 ]
 
@@ -90,17 +90,16 @@ export default function LandingPage() {
             <div className="stack-lg">
               <div className="stack-md">
                 <p className="section-kicker">IR Worldview Inventory</p>
-                <h1 className="landing-display">Start with a baseline for how you read world politics</h1>
+                <h1 className="landing-display">Start with how you read world politics</h1>
                 <p className="lobby-lead">
-                  The Foundation is the first read. Modules and AI Governance are optional layers
-                  that test how that baseline travels across concrete policy problems. Profile is
-                  where those saved layers come back together.
+                  The Foundation gives the first read. Modules and AI Governance test it in harder
+                  policy settings. Profile keeps the saved results together.
                 </p>
               </div>
               <FoundationHeroActions />
               <p className="landing-note">
-                An interpretive tool, not a validated instrument. Results make theoretical priors
-                visible without pretending to assign a final verdict.
+                This is an interpretive tool, not a diagnostic. It makes theoretical priors visible
+                without treating them as a final verdict.
               </p>
             </div>
 
@@ -108,8 +107,8 @@ export default function LandingPage() {
               <div className="stack-xs">
                 <p className="section-kicker">How to use it</p>
                 <p className="muted lobby-side-text">
-                  The sequence is simple: establish the baseline, add issue layers only when they
-                  help, and return to Profile for the accumulated read.
+                  Start with the Foundation. Add issue layers only when they help. Return to Profile
+                  for the accumulated read.
                 </p>
               </div>
               <div className="lobby-step-list">
@@ -124,8 +123,8 @@ export default function LandingPage() {
                 ))}
               </div>
               <p className="lobby-journey-note">
-                Browse surfaces stay available, but they are context around the instrument rather
-                than alternate starting points.
+                Atlas, the field guide, and methods pages give context around the inventory; they
+                are not separate places to begin.
               </p>
             </aside>
           </div>
@@ -134,10 +133,10 @@ export default function LandingPage() {
         <section className="homepage-band stack-lg">
           <div className="homepage-band-header stack-sm">
             <p className="section-kicker">After the Foundation</p>
-            <h2>Continue only where another layer clarifies the baseline</h2>
+            <h2>Add another layer only when it clarifies the baseline</h2>
             <p className="muted lobby-section-copy">
-              These are the live continuation points in the current beta. Each one keeps the
-              Foundation in view instead of competing with it for first attention.
+              These are the live continuation points in the current beta. Each keeps the Foundation
+              in view.
             </p>
           </div>
           <div className="lobby-entry-list">
@@ -166,8 +165,8 @@ export default function LandingPage() {
             <p className="section-kicker">Context surfaces</p>
             <h2>Use these once you want a wider frame</h2>
             <p className="muted lobby-section-copy">
-              Atlas, the field guide, and methods pages explain the map. They are not separate
-              starting paths.
+              Atlas, the field guide, and methods pages help you read the map after the baseline is
+              in place.
             </p>
           </div>
           <div className="homepage-resource-grid">
@@ -186,14 +185,14 @@ export default function LandingPage() {
               <p className="section-kicker">About the project</p>
               <p className="landing-closing-text">
                 The {siteConfig.publicTitle} is an editorial interactive built by {siteConfig.author}{" "}
-                for students, researchers, practitioners, and engaged readers who want a clearer
-                account of the theoretical assumptions behind their foreign-policy instincts.
+                for readers who want a clearer account of the assumptions behind their
+                foreign-policy instincts.
               </p>
             </div>
             <div className="stack-sm">
               <p className="landing-closing-text">
-                The product is still in beta. The current version aims for trust, clarity, and
-                legibility before it aims for breadth.
+                The product is still in beta. This version prioritizes trust, clarity, and
+                legibility before breadth.
               </p>
               <p className="landing-closing-text">
                 Use the Foundation as the baseline. Branch into modules, AI Governance, Atlas, or

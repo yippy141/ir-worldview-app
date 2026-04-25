@@ -34,10 +34,10 @@ export function ProfileDashboard() {
       <div className="stack-lg">
         <section className="panel stack-md">
           <p className="eyebrow">Profile</p>
-          <h1>Your integrated profile will appear here</h1>
+          <h1>Your Profile will appear here</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
-            Start with the Foundation. Once you generate a result, this page will combine that
-            baseline with any completed focus-area modules on this device.
+            Start with the Foundation. After that, this page keeps the baseline, completed modules,
+            and any saved AI result together on this device.
           </p>
           <div className="row gap-sm wrap">
             <Link href="/quiz" className="cta-primary">Take the Foundation questionnaire</Link>

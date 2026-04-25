@@ -490,8 +490,8 @@ function ModeGate({
           <p className="eyebrow">IR Worldview Inventory</p>
           <h1>Choose your Foundation questionnaire path</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            Start with the Foundation to map how you read the main IR debates. The choice here
-            changes depth and pacing, not the logic of the result.
+            Start here to locate your baseline view of international politics. The choice below
+            changes depth and pacing, not how the result is scored.
           </p>
         </div>
 
@@ -502,19 +502,19 @@ function ModeGate({
               <ChoiceSelect
                 selected={familiarity === "new"}
                 title="New / casual"
-                description="Best if you want the plainest route through the foundation."
+                description="Best if you want the plainest route through the core debates."
                 onClick={() => onSetFamiliarity("new")}
               />
               <ChoiceSelect
                 selected={familiarity === "some"}
                 title="Some familiarity"
-                description="You know some of the terrain and want a little more pressure."
+                description="You know some of the terrain and want a slightly harder pass."
                 onClick={() => onSetFamiliarity("some")}
               />
               <ChoiceSelect
                 selected={familiarity === "very"}
                 title="Very familiar / study or work in this area"
-                description="Best if you want more ambiguity, tension, and denser cases."
+                description="Best if you want denser cases and more unresolved tradeoffs."
                 onClick={() => onSetFamiliarity("very")}
               />
             </div>
@@ -526,13 +526,13 @@ function ModeGate({
               <ChoiceSelect
                 selected={requestedDepth === "standard"}
                 title="Standard"
-                description={`${questionCountsByMode.standard} questions. About ${foundationTimeEstimateByMode.standard}. Standard gives you the clearest fast read.`}
+                description={`${questionCountsByMode.standard} questions. About ${foundationTimeEstimateByMode.standard}. A clear first read.`}
                 onClick={() => onSetRequestedDepth("standard")}
               />
               <ChoiceSelect
                 selected={requestedDepth === "analyst"}
                 title="Advanced"
-                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. Advanced adds extra cases and more pressure tests.`}
+                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. More cases and sharper pressure tests.`}
                 onClick={() => onSetRequestedDepth("analyst")}
               />
             </div>

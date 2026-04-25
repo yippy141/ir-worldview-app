@@ -33,9 +33,10 @@ export function AiProjectBridge({
       <section className="ai-bridge-panel stack-md" aria-label="AI project bridge">
         <div className="stack-xs">
           <p className="eyebrow">Same overall project</p>
-          <h2 style={{ margin: 0 }}>This is part of the same worldview map</h2>
+          <h2 style={{ margin: 0 }}>AI belongs beside the IR baseline</h2>
           <p className="ai-bridge-note">
-            The Foundation gives you a baseline read on how you explain world politics. The AI Governance Compass uses the same overall project logic, but applies it to frontier AI governance rather than general IR theory.
+            The Foundation names your starting view of world politics. The AI Governance Compass
+            asks how that view travels when the problem is frontier AI.
           </p>
         </div>
 
@@ -53,7 +54,7 @@ export function AiProjectBridge({
               <>
                 <p className="ai-bridge-title">No Foundation result saved yet</p>
                 <p className="ai-bridge-note">
-                  You can take the AI module on its own, but the clearest read comes when you compare it back to a saved IR baseline.
+                  You can take AI on its own. It reads better beside a saved Foundation result.
                 </p>
               </>
             )}
@@ -62,7 +63,8 @@ export function AiProjectBridge({
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">What changes here</p>
             <p className="ai-bridge-note">
-              The AI result does not rewrite your IR Foundation label. It shows how your governing instincts travel when the problem is frontier AI rather than general IR theory.
+              The AI result does not rewrite your Foundation label. It shows how your governing
+              instincts behave in a different policy field.
             </p>
           </article>
         </div>
@@ -77,7 +79,7 @@ export function AiProjectBridge({
         <h2>How this AI result relates to your IR baseline</h2>
         <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
           {foundation
-            ? "Read this as a relationship between two saved layers in the same project, not as a rewritten Foundation identity or a combined master score."
+            ? "Read this as a relationship between two saved layers in the same project, not as a rewritten Foundation identity or a single combined score."
             : "This AI result is part of the same project, but no IR Foundation baseline is saved on this device yet, so the relationship read stays general."}
         </p>
       </div>
