@@ -68,7 +68,7 @@ const profile: ProfileStore = {
         {
           key: "deterrence",
           label: "Deterrence and escalation",
-          summary: "Pressure is accepted, but escalation ceilings stay visible.",
+          summary: "Pressure is accepted \u2014 but escalation ceilings stay visible.",
           score: 5.4,
           lowLabel: "Crisis-limiting",
           highLabel: "Pressure-forward",
@@ -90,7 +90,7 @@ const profile: ProfileStore = {
       },
       cardTypeRead: {
         headline: "Explanation and choice do not land in exactly the same place",
-        summary: "The diagnostic read is somewhat harder than the endorsed policy line.",
+        summary: "The diagnostic read is somewhat harder than the endorsed policy line \u2014 not a contradiction.",
       },
       cardTypeScores: {
         explanation: {
