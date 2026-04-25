@@ -4,6 +4,7 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
+import { ComparisonRow, LayerRelationshipStack } from "@/components/visual-primitives"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -68,6 +69,19 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     crossModuleSynthesis,
     mode,
   })
+  const relationshipItems = mosaicNodes.map((node) => ({
+    id: node.key,
+    label: node.label,
+    title: node.title,
+    status: node.status,
+    statusLabel: node.statusLabel,
+    text: node.text,
+    action: node.href ? (
+      <Link href={node.href} style={{ color: "var(--accent)" }}>
+        {node.linkLabel}
+      </Link>
+    ) : undefined,
+  }))
   const nextSteps = buildProfileNextSteps({
     foundationPayload: foundation.payload,
     securitySnapshot,
@@ -178,60 +192,18 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       <section className="result-section stack-md">
         <section className="profile-mosaic stack-md">
           <div className="profile-mosaic-header">
-          <div className="stack-xs">
-            <p className="eyebrow">Worldview mosaic</p>
-            <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
-            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-                The Foundation stays at the center. Saved layers show where it holds, sharpens, or
+            <div className="stack-xs">
+              <p className="eyebrow">Layer relationships</p>
+              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
+              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+                The Foundation stays as the anchor. Saved layers show where it holds, sharpens, or
                 starts to pull in different directions.
-            </p>
-            </div>
-            <div className="profile-layer-strip" aria-label="Saved profile layers">
-              {profileSynthesis.layers.map((layer) => (
-                <span
-                  key={layer.key}
-                  className={`profile-layer-pill${layer.present ? "" : " profile-layer-pill--inactive"}`}
-                >
-                  {layer.label}
-                  {!layer.present ? " pending" : ""}
-                </span>
-              ))}
+              </p>
             </div>
           </div>
 
           <div className="profile-mosaic-layout">
-            <div className="profile-constellation" aria-label="Connected worldview layers">
-              <svg className="profile-constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-                <line x1="50" y1="48" x2="22" y2="22" />
-                <line x1="50" y1="48" x2="78" y2="22" />
-                <line x1="50" y1="48" x2="82" y2="74" />
-              </svg>
-
-              {mosaicNodes.map((node) => (
-                <article
-                  key={node.key}
-                  className={`profile-constellation-node profile-constellation-node--${node.key}${node.pending ? " profile-constellation-node--pending" : ""}`}
-                >
-                  <div className="stack-xs">
-                    <div className="profile-constellation-meta">
-                      <p className="profile-constellation-kicker">{node.label}</p>
-                      <span className={`profile-constellation-status profile-constellation-status--${node.status}`}>
-                        {node.statusLabel}
-                      </span>
-                    </div>
-                    <p className="profile-constellation-title">{node.title}</p>
-                    <p className="profile-constellation-text">{node.text}</p>
-                    {node.href ? (
-                      <p style={{ margin: 0 }}>
-                        <Link href={node.href} style={{ color: "var(--accent)" }}>
-                          {node.linkLabel}
-                        </Link>
-                      </p>
-                    ) : null}
-                  </div>
-                </article>
-              ))}
-            </div>
+            <LayerRelationshipStack items={relationshipItems} />
 
             <div className="profile-mosaic-summary">
               <div className="profile-mosaic-card stack-xs">
@@ -810,57 +782,32 @@ function buildProfileNextSteps({
 }
 
 function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows> }) {
-  const overlayLegend = Array.from(
-    new Map(
-      rows
-        .flatMap((row) => row.overlays)
-        .map((overlay) => [overlay.slug, overlay]),
-    ).values(),
-  )
-
   return (
     <div className="stack-sm">
-      <div className="profile-spine-legend">
-        <span className="profile-spine-legend-item">
-          <span className="profile-spine-swatch profile-spine-swatch--baseline" />
-          Foundation
-        </span>
-        {overlayLegend.map((overlay) => (
-          <span key={overlay.slug} className="profile-spine-legend-item">
-            <span className={`profile-spine-swatch profile-spine-swatch--${overlay.slug}`} />
-            {overlay.label}
-          </span>
-        ))}
-      </div>
-
-      <div className="profile-spine-table">
-        {rows.map((row) => (
-          <div key={row.dimension} className="profile-spine-row">
-            <div className="profile-spine-label">
-              <p style={{ fontWeight: 600, color: "var(--text)" }}>{row.label}</p>
-            </div>
-            <div className="profile-spine-scale">
-              <span className="profile-spine-end">{row.lowLabel}</span>
-              <div className="profile-spine-track">
-                <div
-                  className="profile-spine-dot profile-spine-dot--baseline"
-                  style={{ left: `${((row.baseline - 1) / 6) * 100}%` }}
-                  title={`Foundation: ${row.baseline.toFixed(1)}`}
-                />
-                {row.overlays.map((overlay) => (
-                  <div
-                    key={`${row.dimension}-${overlay.slug}`}
-                    className={`profile-spine-dot profile-spine-dot--${overlay.slug}`}
-                    style={{ left: `${((overlay.value - 1) / 6) * 100}%` }}
-                    title={`${overlay.label}: ${overlay.value.toFixed(1)}`}
-                  />
-                ))}
-              </div>
-              <span className="profile-spine-end">{row.highLabel}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+      {rows.map((row) => (
+        <ComparisonRow
+          key={row.dimension}
+          label={row.label}
+          baseline={{
+            id: "foundation",
+            label: "Foundation",
+            value: row.baseline,
+            valueLabel: row.baseline.toFixed(1),
+            shape: "bar",
+            tone: "baseline",
+          }}
+          overlays={row.overlays.map((overlay) => ({
+            id: overlay.slug,
+            label: overlay.label,
+            value: overlay.value,
+            valueLabel: overlay.value.toFixed(1),
+            shape: overlay.slug === "security" ? "circle" : "square",
+            tone: overlay.slug,
+          }))}
+          lowLabel={row.lowLabel}
+          highLabel={row.highLabel}
+        />
+      ))}
     </div>
   )
 }
