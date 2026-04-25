@@ -308,6 +308,16 @@ export default async function ResultPage(
             <p style={{ fontWeight: 600 }}>How settled this result is</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{mixedNote}</p>
           </div>
+          <div className="callout stack-xs" aria-label="Trust and coverage note">
+            <p style={{ fontWeight: 600 }}>Trust and coverage</p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+              This is the closest fit among the traditions currently modeled in the inventory, not
+              a final or exhaustive identity. Treat it as one atlas marker in the wider mosaic.{" "}
+              <Link href="/method" style={{ color: "var(--accent)" }}>
+                Methods explains the limits →
+              </Link>
+            </p>
+          </div>
           <div className="row gap-sm wrap">
             <Link
               href={`/modules?foundation=${encodeURIComponent(payload)}`}

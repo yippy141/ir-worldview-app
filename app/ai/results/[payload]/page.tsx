@@ -121,6 +121,17 @@ export default async function AiResultPage(
               </p>
             </article>
           </div>
+          <div className="callout stack-xs" aria-label="Trust and coverage note">
+            <p style={{ fontWeight: 600 }}>Trust and coverage</p>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+              This is a structured read within the current compass, not a claim that the field
+              divides into fixed camps. The archetype is the closest modeled fit, not a final or
+              exhaustive identity.{" "}
+              <Link href="/method" style={{ color: "var(--accent)" }}>
+                Methods explains the limits →
+              </Link>
+            </p>
+          </div>
         </div>
 
         <AiProjectBridge mode="result" aiArchetypeKey={profileResult.archetypeKey} />
