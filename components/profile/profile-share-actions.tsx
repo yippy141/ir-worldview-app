@@ -48,11 +48,7 @@ export function ProfileShareActions({ payload, headline }: Props) {
   return (
     <div className="row gap-sm wrap print-hidden">
       <button type="button" className="primary-button" onClick={handleShare}>
-        {typeof navigator !== "undefined" && typeof navigator.share === "function"
-          ? "Share profile"
-          : copied
-            ? "Copied!"
-            : "Copy share link"}
+        {copied ? "Copied!" : "Share profile"}
       </button>
       <button type="button" className="secondary-button" onClick={handleCopy}>
         {copied ? "Link copied!" : "Copy link"}

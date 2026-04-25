@@ -4500,7 +4500,7 @@ h3 {
 
   .site-brand-link {
     min-width: 0;
-    width: 100%;
+    flex: 1 1 auto;
   }
 
   .reading-path-header {
@@ -4521,11 +4521,12 @@ h3 {
 
   .mobile-nav {
     display: block;
-    width: 100%;
+    flex: 0 0 auto;
   }
 
   .mobile-nav-summary {
-    width: 100%;
+    width: auto;
+    min-width: 96px;
   }
 
   .quiz-shell-inner {
@@ -4636,6 +4637,10 @@ h3 {
   .atlas-fingerprint-row,
   .atlas-fingerprint--compact .atlas-fingerprint-row {
     grid-template-columns: 1fr;
+  }
+
+  .atlas-fingerprint .v10-segmented-level__value {
+    text-align: left;
   }
 
   .compare-grid {
