@@ -75,21 +75,107 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     aiSnapshot,
     mode,
   })
+  const firstNextStep = nextSteps[0] ?? null
+  const completedLayerText = getCompletedLayerText(profileSynthesis.layers)
+  const tensionLabel = assessment.state === "trueTension" ? "Unresolved tension" : "Pressure point"
+  const tensionText = assessment.points[0] ?? profileSynthesis.shiftsUnderPressure
 
   return (
     <article className="result-article">
-      <section className="profile-hero stack-lg">
-        <div className="stack-sm">
-          <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
-          <h1>{buildIntegratedHeadline(profile)}</h1>
-          <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
-            {topParagraph}
-          </p>
-          <div className="row gap-sm wrap">
-            <span className="mode-pill">{foundation.familyLabel}</span>
+      <section className="profile-hero profile-hero--compact stack-lg">
+        <div className="profile-hero-payoff">
+          <div className="stack-sm">
+            <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
+            <h1>{buildIntegratedHeadline(profile)}</h1>
+            <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
+              {topParagraph}
+            </p>
+            <div className="profile-layer-strip" aria-label="Saved profile layers">
+              {profileSynthesis.layers.map((layer) => (
+                <span
+                  key={layer.key}
+                  className={`profile-layer-pill${layer.present ? "" : " profile-layer-pill--inactive"}`}
+                >
+                  {layer.label}
+                  {!layer.present ? " pending" : ""}
+                </span>
+              ))}
+            </div>
+            {actionSlot ? <div style={{ marginTop: "10px" }}>{actionSlot}</div> : null}
           </div>
-          {actionSlot ? <div style={{ marginTop: "10px" }}>{actionSlot}</div> : null}
+
+          <div className="profile-payoff-grid">
+            <article className="profile-payoff-item stack-xs">
+              <p className="eyebrow">Baseline</p>
+              <p className="profile-payoff-title">{foundation.familyLabel}</p>
+              <p className="profile-payoff-text">
+                {foundation.strategyModifier} · {foundation.normativeModifier}
+              </p>
+            </article>
+            <article className="profile-payoff-item stack-xs">
+              <p className="eyebrow">What stayed steady</p>
+              <p className="profile-payoff-text">{profileSynthesis.stableAcross}</p>
+            </article>
+            <article className="profile-payoff-item stack-xs">
+              <p className="eyebrow">Biggest shift</p>
+              <p className="profile-payoff-text">{assessment.changedMost}</p>
+            </article>
+            <article className="profile-payoff-item stack-xs">
+              <p className="eyebrow">{tensionLabel}</p>
+              <p className="profile-payoff-text">{tensionText}</p>
+            </article>
+            <article className="profile-payoff-item stack-xs">
+              <p className="eyebrow">Completed layers</p>
+              <p className="profile-payoff-text">{completedLayerText}</p>
+            </article>
+            {firstNextStep ? (
+              <Link href={firstNextStep.href} className="profile-payoff-item profile-payoff-link stack-xs">
+                <span className="profile-next-kicker">{firstNextStep.kicker}</span>
+                <span className="profile-payoff-title">{firstNextStep.title}</span>
+                <span className="profile-payoff-text">{firstNextStep.text}</span>
+              </Link>
+            ) : null}
+          </div>
         </div>
+      </section>
+
+      <section className="result-section stack-md">
+        <div className="stack-xs">
+          <h2>What stays steady and what shifts</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+            A plain-English read of the Foundation baseline and the completed overlays {contextLabel}.
+          </p>
+        </div>
+        <div className="profile-summary-grid">
+          <article className="profile-summary-card stack-xs">
+            <p className="eyebrow">Stable thread</p>
+            <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
+          </article>
+          <article className="profile-summary-card stack-xs">
+            <p className="eyebrow">Pressure shifts</p>
+            <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
+          </article>
+        </div>
+        <div className="profile-analysis-note stack-xs">
+          <p className="eyebrow">Reasoning style</p>
+          <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.reasoningStyle}</p>
+        </div>
+        {deepReadSections.length > 0 ? (
+          <details className="profile-details">
+            <summary>Longer profile interpretation</summary>
+            <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
+              {deepReadSections.map((section) => (
+                <div key={section.title} className="stack-xs">
+                  <p className="eyebrow">{section.title}</p>
+                  <p style={{ lineHeight: "1.7" }}>{section.text}</p>
+                </div>
+              ))}
+            </div>
+          </details>
+        ) : null}
+      </section>
+
+      <section className="result-section stack-md">
         <section className="profile-mosaic stack-md">
           <div className="profile-mosaic-header">
             <div className="stack-xs">
@@ -168,37 +254,6 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
           <p className="muted profile-mosaic-note">{coverageText}</p>
         </section>
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>What stays steady and what shifts</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            A plain-English read of the Foundation baseline and the completed overlays {contextLabel}.
-          </p>
-        </div>
-        <div className="profile-summary-grid">
-          <article className="profile-summary-card stack-xs">
-            <p className="eyebrow">Stable thread</p>
-            <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
-          </article>
-          <article className="profile-summary-card stack-xs">
-            <p className="eyebrow">Pressure shifts</p>
-            <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
-          </article>
-        </div>
-        <div className="profile-analysis-note stack-xs">
-          <p className="eyebrow">Reasoning style</p>
-          <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.reasoningStyle}</p>
-        </div>
-        <div className="result-prose stack-md">
-          {deepReadSections.map((section) => (
-            <div key={section.title} className="stack-xs">
-              <p className="eyebrow">{section.title}</p>
-              <p style={{ lineHeight: "1.7" }}>{section.text}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       <section className="result-section stack-md">
@@ -830,6 +885,19 @@ function getProfileMosaicCoverageText(
       : "are not included in this shared view."
 
   return `${formatLabelList(present)} ${present.length === 1 ? "is" : "are"} currently in view. ${formatLabelList(missing)} ${missingLine}`
+}
+
+function getCompletedLayerText(
+  layers: ReturnType<typeof buildProfileSynthesisLite>["layers"],
+) {
+  const present = layers.filter((layer) => layer.present).map((layer) => layer.label)
+  const missingCount = layers.length - present.length
+
+  if (missingCount === 0) {
+    return `Saved layers: ${formatLabelList(present)}.`
+  }
+
+  return `Saved layers: ${formatLabelList(present)}. ${missingCount} layer${missingCount === 1 ? "" : "s"} still open.`
 }
 
 function formatLabelList(labels: string[]) {

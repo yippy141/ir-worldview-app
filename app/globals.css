@@ -2596,6 +2596,53 @@ h3 {
   border-bottom: 1px solid var(--line);
 }
 
+.profile-hero--compact {
+  padding-bottom: 42px;
+}
+
+.profile-hero-payoff {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.profile-payoff-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px 24px;
+}
+
+.profile-payoff-item {
+  display: block;
+  min-width: 0;
+  padding-left: 16px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 20%, var(--border) 80%);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.profile-payoff-link:hover {
+  text-decoration: none;
+}
+
+.profile-payoff-title {
+  display: block;
+  margin: 0;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.profile-payoff-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
 .article-header::before,
 .lobby-hero::before,
 .result-hero::before,
@@ -3410,6 +3457,15 @@ h3 {
   .result-hero-grid {
     grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
     gap: 48px;
+  }
+
+  .profile-hero-payoff {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: 48px;
+  }
+
+  .profile-payoff-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .profile-mosaic-layout {

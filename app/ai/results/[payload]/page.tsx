@@ -11,6 +11,7 @@ import {
 import {
   buildAiGovernanceDeepDive,
   buildAiGovernanceResultFromSharePayload,
+  getPrimaryAxisSummary,
 } from "@/lib/ai-governance-results-v2"
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
@@ -93,16 +94,50 @@ export default async function AiResultPage(
           <p className="ai-hero-summary">{summary}</p>
         </div>
 
+        <div className="result-section stack-md">
+          <div className="profile-summary-grid">
+            <article className="profile-summary-card stack-xs">
+              <p className="eyebrow">Governing instinct</p>
+              <p className="profile-mosaic-body">{deepDive.governingInstinct}</p>
+            </article>
+            <article className="profile-summary-card stack-xs">
+              <p className="eyebrow">Main signal</p>
+              <p className="profile-mosaic-body">{getPrimaryAxisSummary(axisScores)}</p>
+            </article>
+            <article className="profile-summary-card stack-xs">
+              <p className="eyebrow">Tension to watch</p>
+              <p className="profile-mosaic-body">{deepDive.tensions[0]?.text ?? explanation}</p>
+            </article>
+            <article className="profile-summary-card stack-xs">
+              <p className="eyebrow">Next step</p>
+              <p className="profile-mosaic-body">
+                Save this beside the IR Foundation inside Profile rather than treating it as a
+                replacement label.
+              </p>
+              <p style={{ margin: 0 }}>
+                <Link href="/profile" style={{ color: "var(--accent)" }}>
+                  Open Profile →
+                </Link>
+              </p>
+            </article>
+          </div>
+        </div>
+
         <AiProjectBridge mode="result" aiArchetypeKey={profileResult.archetypeKey} />
 
         {/* ── 2. Explanation ── */}
         <div className="result-section stack-md">
-          <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Archetype</p>
-            <h2>What this means</h2>
-          </div>
-          <p style={{ lineHeight: "1.78", maxWidth: "680px", fontSize: "0.97rem" }}>{explanation}</p>
+          <details className="profile-details">
+            <summary>Read the archetype explanation</summary>
+            <div className="ai-result-section-intro stack-xs" style={{ marginTop: "16px" }}>
+              <p className="eyebrow">Archetype</p>
+              <h2>What this means</h2>
+            </div>
+            <p style={{ lineHeight: "1.78", maxWidth: "680px", fontSize: "0.97rem" }}>{explanation}</p>
+          </details>
         </div>
+
+        <AiGovernanceProfileSections result={profileResult} />
 
         {/* ── 3. Axis profile ── */}
         <div className="result-section stack-md">
@@ -131,8 +166,6 @@ export default async function AiResultPage(
             ))}
           </div>
         </div>
-
-        <AiGovernanceProfileSections result={profileResult} />
 
         {/* ── 4. Reading list ── */}
         <AiGovernanceReadingListSection archetypeKey={decoded.ak} />

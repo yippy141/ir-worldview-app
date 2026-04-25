@@ -286,37 +286,9 @@ export default async function ResultPage(
 
         <div className="result-section stack-md">
           <div className="stack-xs">
-            <h2>Dimension profile</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These scores show where you sit on each dimension in this model. They are positions,
-              not population percentiles.
-            </p>
-          </div>
-          <div>
-            {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
-              <div key={dim} className="dim-row">
-                <div className="progress-meta">
-                  <span style={{ fontWeight: 600, color: "var(--text)" }}>
-                    {dimensionLabels[dim]}
-                  </span>
-                  <span>{value.toFixed(1)} / 7</span>
-                </div>
-                <div className="score-bar" style={{ margin: "6px 0" }} aria-hidden="true">
-                  <div className="score-fill" style={{ width: `${(value / 7) * 100}%` }} />
-                </div>
-                <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
-                  {dimensionOneLiners[dim](value)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="result-section stack-md">
-          <div className="stack-xs">
             <h2>Main signals</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              These are the clearest pulls in your baseline before the longer read below.
+              These are the clearest pulls in your baseline before the longer score readout.
             </p>
           </div>
           <div className="driver-grid">
@@ -346,6 +318,34 @@ export default async function ResultPage(
             <Link href="/profile" className="cta-secondary">
               View your Profile
             </Link>
+          </div>
+        </div>
+
+        <div className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>Dimension profile</h2>
+            <p className="muted" style={{ fontSize: "0.875rem" }}>
+              These scores show where you sit on each dimension in this model. They are positions,
+              not population percentiles.
+            </p>
+          </div>
+          <div>
+            {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
+              <div key={dim} className="dim-row">
+                <div className="progress-meta">
+                  <span style={{ fontWeight: 600, color: "var(--text)" }}>
+                    {dimensionLabels[dim]}
+                  </span>
+                  <span>{value.toFixed(1)} / 7</span>
+                </div>
+                <div className="score-bar" style={{ margin: "6px 0" }} aria-hidden="true">
+                  <div className="score-fill" style={{ width: `${(value / 7) * 100}%` }} />
+                </div>
+                <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
+                  {dimensionOneLiners[dim](value)}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
 

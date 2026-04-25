@@ -27,11 +27,11 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
           </div>
 
           <aside className="ai-result-card ai-result-card--muted stack-xs">
-            <p className="eyebrow">Profile clarity</p>
-            <p className="ai-result-metric">{result.clarity} / 100</p>
+            <p className="eyebrow">Profile shape</p>
+            <p className="ai-result-card-title">{deepDive.clarityLabel}</p>
             <p className="ai-result-body muted">
-              A higher score means one archetype led clearly. A lower score means this result sits
-              closer to a mixed profile.
+              This names how cleanly the top archetype separates from nearby profiles. It is a
+              reading aid, not a confidence score.
             </p>
           </aside>
         </div>
