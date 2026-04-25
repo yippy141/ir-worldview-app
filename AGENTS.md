@@ -85,32 +85,24 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V8.1 — coherence, payoff, and trust cleanup
+## Current sprint: V10.1
 
-This sprint fixes the gap between the product's intellectual quality and
-its current user experience. Full sprint plan is in `plans/V8_EXEC_PLAN.md`.
-
-- Keep one obvious homepage start path: the IR Foundation. Show one
-  conditional resume action only if a draft exists.
-- Keep Foundation → Modules → AI → Profile legible without adding new
-  duplicate explanation UI. Reuse, simplify, or refactor existing
-  bridge/path components.
-- No new live modules this sprint. Planned modules may appear as
-  non-clickable roadmap cards only.
-- No scoring rewrite, no payload-format rewrite, and no broad
-  question-bank rewrite this sprint. Surface copy humanization is
-  separate from question-stem editing.
-- Compress the top of Profile and result pages so users get the payoff
-  before the system explains itself. Demote the AI clarity score from
-  the hero.
-- Add a compact trust/coverage note to IR and AI result pages, below the
-  main payoff. Not in the hero.
-- Reference voice for surface copy: closer to Foreign Affairs or Lawfare
-  than to a SaaS landing page. Avoid "discover," "unlock," "journey,"
-  "reveal," "explore your."
+- Current sprint is **V10.1 diagram stabilization + visual grammar consolidation**.
+- Audit current diagrams before changing app code.
+- No new modules, no taxonomy changes, no scoring rewrites, no payload rewrites this sprint.
+- Prefer shared robust primitives over one-off chart styles.
+- Comparison legends must use marker **shape**, not just color.
+- If markers in a comparison row nearly coincide, offset them rather than collapsing them.
+- If a decorative hero emblem is removed, replace it with information density or collapse the space; do not add a new decorative element.
+- Atlas cards are the higher-traffic surface and should be checked before Atlas detail pages.
+- Keep known deferred items visible in `plans/V10_DIAGRAM_AUDIT.md`.
+- Run `npm run lint`, `npm run test`, and `npm run build` after meaningful edits.
+- Run one `npx tsc --noEmit` check during cleanup and document the scope if it does not pass.
+- Never import from `tmp/` or packet folders.
+- Keep diffs small and sequential.
 
 ## End-of-sprint discipline
 
-When V8.1 ends, replace the "Current sprint" section above with the next
+When V10.1 ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.
