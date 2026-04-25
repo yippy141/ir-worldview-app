@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { AiProfileSync } from "@/components/profile/ai-profile-sync"
+import { ScaleBar } from "@/components/visual-primitives"
 import { decodeAiPayload, aiPayloadToAxisScores } from "@/lib/ai-governance-share"
 import {
   archetypeLabelFromKey,
@@ -163,13 +164,7 @@ export default async function AiResultPage(
           <div>
             {axisCards.map((card) => (
               <div key={card.axis} className="ai-dim-row">
-                <div className="progress-meta" style={{ marginBottom: "6px" }}>
-                  <span style={{ fontWeight: 600, fontSize: "0.9rem", color: "var(--text)" }}>{card.label}</span>
-                  <span style={{ fontVariantNumeric: "tabular-nums", fontSize: "0.875rem" }}>{card.score.toFixed(1)} / 7</span>
-                </div>
-                <div className="ai-score-bar" aria-hidden="true">
-                  <div className="ai-score-fill" style={{ width: `${(card.score / 7) * 100}%` }} />
-                </div>
+                <ScaleBar label={card.label} value={card.score} tone="ai" />
                 <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55", marginTop: "6px" }}>
                   {card.description}
                 </p>
