@@ -24,6 +24,15 @@
 .DS_Store
 *.pem
 
+# local scratch packets and backup artifacts
+/tmp/
+*.bak
+*.backup
+*.tmp
+*.old
+*.orig
+*~
+
 # debug
 npm-debug.log*
 yarn-debug.log*
