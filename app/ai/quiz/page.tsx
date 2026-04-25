@@ -3,7 +3,7 @@ import { AiGovernanceQuizApp } from "@/components/ai-governance-quiz-app"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Take the Inventory — AI Governance Compass",
+  title: "Questionnaire — AI Governance Compass",
   description:
     "Position statements and branching scenarios map where you stand across eight AI governance dimensions. The result is a structured interpretation, not a validated instrument.",
 }

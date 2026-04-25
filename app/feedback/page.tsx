@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Feedback — IR Worldview Inventory",
-  description: "Share feedback on the Foundation, focus-area modules, and AI companion module.",
+  description: "Share feedback on the Foundation, focus-area modules, and AI Governance Compass.",
 }
 
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGxaUUwUYmo0YI8mcmqKGnne66MyGhPSWO88lSUwC91NZlyQ/viewform"

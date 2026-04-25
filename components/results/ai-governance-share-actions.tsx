@@ -83,7 +83,7 @@ export function AiGovernanceShareActions({
         Save as PDF
       </button>
       <button type="button" className="secondary-button" onClick={handleRetake}>
-        Retake the inventory
+        Retake the AI questionnaire
       </button>
     </div>
   )

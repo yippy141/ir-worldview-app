@@ -109,7 +109,7 @@ export function AiProjectBridge({
             <p className="ai-bridge-note">{synthesis.practicalImplication}</p>
             <p style={{ margin: 0 }}>
               <Link href="/profile" style={{ color: "var(--accent)" }}>
-                Open integrated Profile →
+                Open Profile →
               </Link>
             </p>
           </article>

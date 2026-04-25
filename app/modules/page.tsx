@@ -290,7 +290,7 @@ export default async function ModulesPage(
             <Link href="/ai" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">AI Governance Compass</span>
-                <span className="resource-list-text">Open the companion module and its atlas.</span>
+                <span className="resource-list-text">Open the AI layer and its atlas.</span>
               </span>
             </Link>
             <Link href="/explore" className="resource-list-link">
