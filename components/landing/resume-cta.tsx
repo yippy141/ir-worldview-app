@@ -69,15 +69,20 @@ export function FoundationHeroActions() {
   const { hasDraft, draftCount, modeLabel } = useFoundationDraftState()
 
   return (
-    <div className="stack-xs">
+    <div className="landing-hero-ctas">
       <Link href="/quiz" className="cta-primary landing-primary-cta">
-        {hasDraft ? "Resume the Foundation" : "Start with the Foundation"}
+        Start the IR Foundation
       </Link>
       {hasDraft ? (
-        <p className="landing-draft-note">
-          Saved draft on this device: {modeLabel} mode · {draftCount}{" "}
-          {draftCount === 1 ? "question" : "questions"} answered.
-        </p>
+        <div className="stack-xs">
+          <Link href="/quiz" className="cta-secondary">
+            Resume saved draft
+          </Link>
+          <p className="landing-draft-note">
+            {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered
+            on this device.
+          </p>
+        </div>
       ) : null}
     </div>
   )

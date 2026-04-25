@@ -61,8 +61,8 @@ const moreNavItems = [
 
 const mobileNavGroups: MobileNavGroup[] = [
   {
-    label: "Start here",
-    intro: "Move through the shared baseline first, then add overlays and return to Profile once you have saved results.",
+    label: "Product path",
+    intro: "Start with the Foundation, add Modules and AI where useful, then return to Profile as results accumulate.",
     items: [
       { href: "/quiz", label: "Foundation" },
       { href: "/modules", label: "Modules" },
