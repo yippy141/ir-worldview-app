@@ -90,6 +90,7 @@ const leftProfile: ProfileStore = {
       overlayDeltas: {},
     },
   },
+  aiGovernance: null,
 }
 
 const rightProfile: ProfileStore = {
@@ -179,6 +180,7 @@ const rightProfile: ProfileStore = {
       overlayDeltas: {},
     },
   },
+  aiGovernance: null,
 }
 
 test("profile comparison derives stable overlap and the clearest divergences without a composite score", () => {

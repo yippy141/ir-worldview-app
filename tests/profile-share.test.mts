@@ -162,6 +162,7 @@ const profile: ProfileStore = {
       },
     },
   },
+  aiGovernance: null,
 }
 
 test("shared profile payloads roundtrip and reconstruct a stable integrated profile", () => {

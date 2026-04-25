@@ -167,6 +167,7 @@ const profile: ProfileStore = {
       },
     },
   },
+  aiGovernance: null,
 }
 
 test("integrated headline reflects the new profile-state logic without inventing a total score", () => {
@@ -219,6 +220,7 @@ test("overlap foundation state surfaces honestly before modules exist", () => {
       },
     },
     modules: {},
+    aiGovernance: null,
   }
 
   const assessment = buildProfileAssessment(broadProfile)
@@ -226,9 +228,9 @@ test("overlap foundation state surfaces honestly before modules exist", () => {
   const foundationNarrative = buildFoundationNarrative({
     familyKey: "realist",
     runnerUpKey: "institutionalist",
-    strategyModifier: broadProfile.foundation.strategyModifier,
-    normativeModifier: broadProfile.foundation.normativeModifier,
-    dimensionScores: broadProfile.foundation.dimensionScores,
+    strategyModifier: broadProfile.foundation!.strategyModifier,
+    normativeModifier: broadProfile.foundation!.normativeModifier,
+    dimensionScores: broadProfile.foundation!.dimensionScores,
   })
 
   assert.equal(assessment.state, "lowDifferentiation")
@@ -257,6 +259,7 @@ test("sharply differentiated foundations can surface before modules are added", 
       },
     },
     modules: {},
+    aiGovernance: null,
   }
 
   const assessment = buildProfileAssessment(sharpProfile)
@@ -283,9 +286,9 @@ test("profile synthesis lite names the stable thread, pressure shifts, and reaso
       resultPath: "/ai/results/ai",
       archetypeKey: "stateCapacityBuilder",
       archetypeLabel: "State Capacity Builder",
-      riskLens: "Pragmatic",
-      paceModifier: "Calibrated",
-      geopoliticsModifier: "Strategic",
+      riskLens: "Mixed risk lens",
+      paceModifier: "Threshold guardrails",
+      geopoliticsModifier: "Competitive hedger",
       axisScores: {
         riskHorizon: 5.1,
         deploymentPace: 4.1,

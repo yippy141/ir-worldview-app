@@ -241,6 +241,7 @@ function buildProfileFixture(includeModules = false): ProfileStore {
       strongLenses: [],
     },
     modules: {},
+    aiGovernance: null,
   }
 
   if (!includeModules) {

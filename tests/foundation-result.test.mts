@@ -98,7 +98,7 @@ test("distinct foundation fixtures stay distinct through payload reconstruction"
       dimensionScores: resolved.dimensionScores,
     })
 
-    if (fixture.expectedFamily) {
+    if ("expectedFamily" in fixture) {
       assert.equal(resolved.result.familyKey, fixture.expectedFamily)
     }
 

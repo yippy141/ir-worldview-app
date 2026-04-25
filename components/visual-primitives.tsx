@@ -186,7 +186,6 @@ export function ComparisonRow({
       </div>
 
       <div className="v10-comparison-row__scale">
-        <span className="v10-comparison-row__end">{lowLabel ?? formatValue(min)}</span>
         <div className="v10-comparison-row__track" role="group" aria-label={ariaLabel}>
           <span className="v10-comparison-row__axis" aria-hidden="true" />
           {plottedSeries.map((item) => (
@@ -204,9 +203,12 @@ export function ComparisonRow({
             </span>
           ))}
         </div>
-        <span className="v10-comparison-row__end v10-comparison-row__end--high">
-          {highLabel ?? formatValue(max)}
-        </span>
+        <div className="v10-comparison-row__poles" aria-hidden="true">
+          <span className="v10-comparison-row__end">{lowLabel ?? formatValue(min)}</span>
+          <span className="v10-comparison-row__end v10-comparison-row__end--high">
+            {highLabel ?? formatValue(max)}
+          </span>
+        </div>
       </div>
     </div>
   )

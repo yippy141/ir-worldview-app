@@ -61,6 +61,9 @@ export default async function AiResultPage(
   const explanation = archetypeDescriptions[decoded.ak]
   const summary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
   const axisCards = getAxisCards(axisScores)
+  const heroAxisSignals = [...axisCards]
+    .sort((a, b) => Math.abs(b.score - 4) - Math.abs(a.score - 4))
+    .slice(0, 3)
   const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
   const deepDive = buildAiGovernanceDeepDive(profileResult)
 
@@ -83,16 +86,32 @@ export default async function AiResultPage(
         />
 
         {/* ── 1. Hero ── */}
-        <div className="result-hero">
-          <div className="ai-hero-rule" />
-          <p className="ai-hero-eyebrow">AI Governance Compass</p>
-          <h1 className="ai-hero-h1">{archetypeLabel}</h1>
-          <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "24px" }}>
-            <ModifierChip label={decoded.rl} />
-            <ModifierChip label={decoded.pm} />
-            <ModifierChip label={decoded.gm} />
+        <div className="result-hero ai-result-hero">
+          <div className="ai-result-hero__copy">
+            <div className="ai-hero-rule" />
+            <p className="ai-hero-eyebrow">AI Governance Compass</p>
+            <h1 className="ai-hero-h1">{archetypeLabel}</h1>
+            <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "24px" }}>
+              <ModifierChip label={decoded.rl} />
+              <ModifierChip label={decoded.pm} />
+              <ModifierChip label={decoded.gm} />
+            </div>
+            <p className="ai-hero-summary">{summary}</p>
           </div>
-          <p className="ai-hero-summary">{summary}</p>
+          <aside className="ai-result-hero__signals" aria-label="Strongest AI axis signals">
+            <p className="eyebrow">Strongest axis signals</p>
+            <div className="ai-result-hero__bars">
+              {heroAxisSignals.map((card) => (
+                <ScaleBar
+                  key={card.axis}
+                  label={card.label}
+                  value={card.score}
+                  valueLabel={`${card.score.toFixed(1)} / 7`}
+                  tone="ai"
+                />
+              ))}
+            </div>
+          </aside>
         </div>
 
         <div className="result-section stack-md">

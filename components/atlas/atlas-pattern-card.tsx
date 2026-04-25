@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { getAtlasPatternHref, type AtlasLitePattern } from "@/lib/atlas-lite"
 
@@ -16,6 +17,11 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
       </div>
 
       <p className="muted atlas-pattern-card__summary">{pattern.cardSummary}</p>
+
+      <div className="atlas-pattern-card__fingerprint stack-xs">
+        <p className="atlas-pattern-card__kicker">Pattern fingerprint</p>
+        <AtlasFingerprint fingerprint={pattern.fingerprint} compact />
+      </div>
 
       <div className="atlas-pattern-card__signals stack-xs">
         <p className="atlas-pattern-card__kicker">What to look for</p>

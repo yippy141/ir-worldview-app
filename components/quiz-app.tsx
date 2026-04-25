@@ -13,6 +13,7 @@ import {
 import type {
   AnswerValue,
   Clarification,
+  ChoiceCardType,
   FamiliarityLevel,
   Question,
   QuizMode,
@@ -712,7 +713,7 @@ function modeLabel(mode: QuizMode) {
   return mode === "standard" ? "Standard mode" : "Advanced mode"
 }
 
-function cardTypeLabel(cardType: Question extends { cardType: infer T } ? T : never) {
+function cardTypeLabel(cardType: ChoiceCardType) {
   if (cardType === "explanation") return "Explanation"
   if (cardType === "decision") return "Decision"
   if (cardType === "actorLens") return "Actor lens"

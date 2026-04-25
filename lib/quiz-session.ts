@@ -21,7 +21,15 @@ export function parseQuizSession(raw: string | null): QuizSession | null {
   if (!raw) return null
 
   try {
-    const parsed = JSON.parse(raw) as Partial<QuizSession>
+    const parsed = JSON.parse(raw) as {
+      v?: unknown
+      familiarity?: unknown
+      requestedDepth?: unknown
+      recommendedMode?: unknown
+      activeMode?: unknown
+      contextAssist?: unknown
+      answers?: unknown
+    }
     if (
       typeof parsed !== "object" ||
       parsed === null ||

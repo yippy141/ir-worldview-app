@@ -112,7 +112,12 @@ export function parseProfileStore(raw: string | null): ProfileStore {
   }
 
   try {
-    const parsed = JSON.parse(raw) as Partial<ProfileStore> & { v?: number }
+    const parsed = JSON.parse(raw) as {
+      v?: unknown
+      foundation?: unknown
+      modules?: unknown
+      aiGovernance?: unknown
+    }
 
     if (typeof parsed !== "object" || parsed === null) {
       return emptyProfileStore()
@@ -207,6 +212,7 @@ function normalizeModuleSnapshot(
     laneSummaries?: unknown
     overlayDeltas?: unknown
     cardTypeRead?: unknown
+    cardTypeScores?: unknown
   }
 
   if (
@@ -228,6 +234,8 @@ function normalizeModuleSnapshot(
     return null
   }
 
+  const cardTypeScores = normalizeCardTypeScores(candidate.cardTypeScores)
+
   return {
     timestamp: candidate.timestamp,
     slug,
@@ -247,9 +255,7 @@ function normalizeModuleSnapshot(
     evidence: normalizeEvidence(candidate.evidence),
     laneSummaries: normalizeLaneSummaries(candidate.laneSummaries),
     ...(isCardTypeRead(candidate.cardTypeRead) ? { cardTypeRead: candidate.cardTypeRead } : {}),
-    ...(normalizeCardTypeScores(candidate.cardTypeScores)
-      ? { cardTypeScores: normalizeCardTypeScores(candidate.cardTypeScores) }
-      : {}),
+    ...(cardTypeScores ? { cardTypeScores } : {}),
     overlayDeltas: normalizeOverlayDeltas(candidate.overlayDeltas),
   }
 }
