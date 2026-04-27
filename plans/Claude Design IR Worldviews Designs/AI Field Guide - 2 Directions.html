@@ -1,0 +1,881 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Field Guide — 2 Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-2: #efe9dc;
+    --paper-3: #e9e1ce;
+    --ink: #1a1916;
+    --ink-2: #3a362e;
+    --muted: #6b6356;
+    --rule: #d8cfbb;
+    --rule-strong: #a89b80;
+    --accent: #7a2e1f;
+    --accent-2: #8a6b1d;
+    --accent-3: #2f5d3a;
+    --accent-4: #1f3a5f;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: #ddd5c0;
+    color: var(--ink);
+    margin: 0; padding: 0;
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .showcase { max-width: 1480px; margin: 0 auto; padding: 56px 32px 96px; }
+  .show-head {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 14px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .show-title {
+    margin: 28px 0 6px;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .show-deck { color: var(--ink-2); max-width: 720px; margin: 0 0 32px; }
+
+  .dir-label {
+    display: flex; align-items: baseline; gap: 18px; margin: 56px 0 10px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  }
+  .dir-label .num { font-family: "IBM Plex Mono", monospace; color: var(--ink-2); }
+  .dir-label .name { color: var(--ink); font-weight: 700; letter-spacing: 0.08em; }
+  .dir-rationale {
+    background: var(--paper-2); border: 1px solid var(--rule); border-left: 3px solid var(--ink);
+    padding: 14px 18px 14px 22px; margin: 0 0 18px; max-width: 1100px;
+    font-size: 14.5px; color: var(--ink-2);
+  }
+  .dir-rationale b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); display: block; margin-bottom: 4px; font-weight: 700;
+  }
+
+  .frame {
+    background: var(--paper); border: 1px solid var(--rule-strong);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+  }
+  .nav {
+    border-bottom: 1px solid var(--rule); padding: 14px 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif; font-size: 12.5px; color: var(--ink-2);
+  }
+  .brand { font-family: "Source Serif 4", Georgia, serif; font-weight: 700; font-size: 15px; color: var(--ink); }
+  .brand .beta { margin-left: 8px; font-family: "IBM Plex Mono", monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); font-weight: 500; }
+  .nav-links { display: flex; gap: 24px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-links a { color: var(--ink-2); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; }
+  .nav-links a.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  .frame-inner { padding: 32px 56px 44px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin: 0 0 10px;
+  }
+  .eyebrow .sep { margin: 0 8px; color: var(--rule-strong); }
+  h1.title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 38px; line-height: 1.08; font-weight: 700;
+    letter-spacing: -0.012em; text-wrap: balance; margin: 0 0 12px; max-width: 880px;
+  }
+  h1.title em { font-style: italic; color: var(--ink-2); font-weight: 600; }
+  .deck-line { font-size: 16.5px; color: var(--ink-2); max-width: 720px; margin: 0 0 22px; }
+
+  .non-score-banner {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 6px 12px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-strong);
+    border-left: 3px solid var(--accent-4);
+    margin-bottom: 18px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11.5px; color: var(--ink-2); letter-spacing: 0.04em;
+  }
+  .non-score-banner b {
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-4);
+  }
+
+  /* section heading */
+  h2.sec {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; font-weight: 700; letter-spacing: -0.005em;
+    margin: 36px 0 4px;
+  }
+  h2.sec .num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px; color: var(--muted); margin-right: 12px; font-weight: 500;
+  }
+  .sec-deck {
+    font-size: 14.5px; color: var(--ink-2); font-style: italic; margin: 0 0 16px; max-width: 720px;
+  }
+
+  /* ---------- DIRECTION 01 — Reading Room ---------- */
+  /* Editorial spread: 8-axis index + parts-ways pairs + IR↔AI table + start-here shelf, optional futures */
+
+  .d1-axes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .d1-axis {
+    padding: 14px 16px 14px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .d1-axis .num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px; color: var(--muted); letter-spacing: 0.06em;
+  }
+  .d1-axis .nm {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 16px; font-weight: 700; margin: 2px 0 6px; letter-spacing: -0.005em;
+  }
+  .d1-axis .poles {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px; color: var(--muted); letter-spacing: 0.04em; margin-bottom: 6px;
+  }
+  .d1-axis .desc {
+    font-size: 13px; color: var(--ink-2); line-height: 1.45;
+  }
+
+  .d1-parts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .d1-part {
+    padding: 16px 18px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    background: var(--paper);
+  }
+  .d1-part .pair {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 4px;
+  }
+  .d1-part h4 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.005em; margin: 0 0 8px;
+  }
+  .d1-part .splits {
+    border-top: 1px solid var(--rule); padding-top: 8px; font-size: 13.5px; color: var(--ink-2); line-height: 1.5;
+  }
+  .d1-part .splits b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 2px;
+  }
+
+  .d1-cross {
+    border: 1px solid var(--rule-strong);
+    overflow: hidden;
+  }
+  .d1-cross-row {
+    display: grid; grid-template-columns: 200px 1fr 1fr;
+    border-bottom: 1px solid var(--rule);
+  }
+  .d1-cross-row:last-child { border-bottom: 0; }
+  .d1-cross-row.head {
+    background: var(--paper-2);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .d1-cross-row > div {
+    padding: 12px 16px; border-right: 1px solid var(--rule);
+    font-size: 13.5px; line-height: 1.5; color: var(--ink-2);
+  }
+  .d1-cross-row > div:last-child { border-right: 0; }
+  .d1-cross-row .key {
+    font-family: "Source Serif 4", Georgia, serif; color: var(--ink); font-weight: 600; font-size: 14.5px;
+  }
+
+  .d1-start {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .d1-start-cell {
+    padding: 16px 18px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    background: var(--paper);
+  }
+  .d1-start-cell .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 6px;
+  }
+  .d1-start-cell h4 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 16px; font-weight: 700; letter-spacing: -0.005em; margin: 0 0 6px;
+  }
+  .d1-start-cell p { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin: 0 0 8px; }
+  .d1-start-cell a {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 1px;
+  }
+
+  .d1-futures {
+    margin-top: 22px;
+    border: 1px dashed var(--rule-strong);
+    background: transparent;
+    padding: 14px 18px;
+    color: var(--ink-2);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+  .d1-futures .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 4px;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .d1-futures .lbl .pill {
+    background: var(--paper-2); border: 1px solid var(--rule-strong);
+    padding: 2px 7px; border-radius: 999px; font-size: 9.5px; letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+
+  /* ---------- DIRECTION 02 — Two-Column Explainer ---------- */
+  /* Sticky left rail with sections; right column is the content */
+
+  .d2-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 36px;
+    align-items: start;
+  }
+  .d2-rail {
+    border-right: 1px solid var(--rule);
+    padding-right: 20px;
+    position: sticky;
+    top: 24px;
+  }
+  .d2-rail .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 10px;
+  }
+  .d2-rail ol {
+    list-style: none; padding: 0; margin: 0; counter-reset: rl;
+  }
+  .d2-rail ol li {
+    counter-increment: rl;
+    border-bottom: 1px dotted var(--rule);
+    padding: 9px 0 9px 30px;
+    position: relative;
+    font-size: 13.5px; color: var(--ink); font-family: "Source Serif 4", Georgia, serif;
+    letter-spacing: -0.005em;
+  }
+  .d2-rail ol li::before {
+    content: counter(rl, decimal-leading-zero);
+    position: absolute; left: 0; top: 11px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+  .d2-rail ol li.active { color: var(--accent); font-weight: 700; }
+  .d2-rail ol li.active::before { color: var(--accent); }
+  .d2-rail ol li.optional {
+    color: var(--muted); font-style: italic;
+  }
+  .d2-rail ol li.optional::after {
+    content: "optional";
+    margin-left: 8px;
+    font-family: "IBM Plex Sans", monospace;
+    font-style: normal;
+    font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--rule-strong);
+    padding: 1px 5px; border-radius: 999px;
+    background: var(--paper-2);
+  }
+  .d2-rail .legend {
+    margin-top: 18px;
+    padding: 10px 12px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    color: var(--ink-2); line-height: 1.5;
+  }
+  .d2-rail .legend b { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; font-weight: 700; }
+
+  .d2-content > section { margin-bottom: 38px; }
+
+  /* 8 axes — paired-pole row */
+  .d2-axes-list {
+    border-top: 1px solid var(--rule-strong);
+  }
+  .d2-axis {
+    display: grid;
+    grid-template-columns: 30px 1fr 200px;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+  }
+  .d2-axis .n {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.04em;
+  }
+  .d2-axis .body .nm {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 16.5px; font-weight: 700; letter-spacing: -0.005em; margin-bottom: 1px;
+  }
+  .d2-axis .body .desc {
+    font-size: 13px; color: var(--ink-2); line-height: 1.5;
+  }
+  .d2-axis .poles {
+    text-align: right;
+  }
+  .d2-axis .poles .row {
+    display: flex; justify-content: flex-end; gap: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px; color: var(--muted); letter-spacing: 0.04em;
+  }
+  .d2-axis .poles .scale {
+    margin-top: 4px;
+    height: 4px;
+    border: 1px solid var(--rule-strong);
+    background: linear-gradient(to right, var(--paper-3), var(--paper-2));
+  }
+
+  /* parts-ways pairs as ruled rows */
+  .d2-parts-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .d2-parts-row:first-of-type { border-top: 1px solid var(--rule-strong); }
+  .d2-parts-row.head {
+    background: var(--paper-2);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .d2-parts-row > div { padding: 12px 14px; border-right: 1px solid var(--rule); }
+  .d2-parts-row > div:last-child { border-right: 0; }
+  .d2-parts-row .pair {
+    font-family: "Source Serif 4", Georgia, serif; font-size: 14.5px; font-weight: 600; letter-spacing: -0.005em; color: var(--ink);
+  }
+  .d2-parts-row .pair small { display: block; font-family: "IBM Plex Sans", monospace; font-size: 10.5px; letter-spacing: 0.04em; color: var(--muted); font-weight: 500; margin-top: 2px; }
+  .d2-parts-row .col {
+    font-size: 13.5px; line-height: 1.5; color: var(--ink-2);
+  }
+  .d2-parts-row .col b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); display: block; margin-bottom: 2px; font-weight: 700;
+  }
+
+  /* cross-read mini-grid */
+  .d2-cross {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .d2-cross-cell {
+    padding: 14px 16px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    background: var(--paper);
+  }
+  .d2-cross-cell .ir {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent-4); font-weight: 700;
+  }
+  .d2-cross-cell h5 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 15px; font-weight: 700; letter-spacing: -0.005em; margin: 4px 0 6px;
+  }
+  .d2-cross-cell .desc { font-size: 13px; color: var(--ink-2); line-height: 1.5; }
+  .d2-cross-cell .ai {
+    margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--rule);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--ink); letter-spacing: 0.02em;
+  }
+  .d2-cross-cell .ai b { color: var(--accent); font-weight: 600; }
+
+  /* start-here */
+  .d2-start {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+  .d2-start-cell {
+    padding: 14px 16px;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper);
+  }
+  .d2-start-cell .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 4px;
+  }
+  .d2-start-cell h5 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 15.5px; font-weight: 700; letter-spacing: -0.005em; margin: 0 0 6px;
+  }
+  .d2-start-cell p { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin: 0 0 8px; }
+  .d2-start-cell a {
+    font-family: "IBM Plex Mono", monospace; font-size: 11px;
+    color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 1px;
+  }
+
+  /* futures appendix in d2 */
+  .d2-futures {
+    margin-top: 8px;
+    padding: 16px 18px;
+    border: 1px dashed var(--rule-strong);
+    background: transparent;
+  }
+  .d2-futures .head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .d2-futures .head .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .d2-futures .head .pill {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    background: var(--paper-2); border: 1px solid var(--rule-strong);
+    padding: 2px 8px; border-radius: 999px; color: var(--muted);
+  }
+  .d2-futures p {
+    font-size: 13.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 8px;
+  }
+  .d2-futures .scenarios {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-top: 4px;
+  }
+  .d2-futures .scen {
+    padding: 10px 12px; border: 1px solid var(--rule); background: var(--paper-2);
+  }
+  .d2-futures .scen .ttl {
+    font-family: "Source Serif 4", Georgia, serif; font-size: 13.5px; font-weight: 700; letter-spacing: -0.005em; margin-bottom: 2px;
+  }
+  .d2-futures .scen .meta {
+    font-family: "IBM Plex Mono", monospace; font-size: 10.5px; color: var(--muted); letter-spacing: 0.04em;
+  }
+
+  /* recommendation */
+  .reco {
+    margin-top: 56px; background: var(--paper); border: 1px solid var(--rule-strong);
+    padding: 22px 26px 24px; box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+  }
+  .reco h2 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; margin: 0 0 6px; letter-spacing: -0.005em;
+  }
+  .reco .deck {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 14px;
+  }
+  .reco-row { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .reco-row h3 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin: 0 0 8px;
+  }
+  .reco-row p { margin: 0 0 8px; font-size: 14.5px; line-height: 1.55; color: var(--ink-2); }
+</style>
+</head>
+<body>
+<div class="showcase">
+  <header class="show-head">
+    <span>AI Field Guide · Landing · Desktop</span>
+    <span>2 directions · for review</span>
+  </header>
+  <h1 class="show-title">AI Field Guide — two directions</h1>
+  <p class="show-deck">Two takes on the AI Field Guide landing surface — the explainer that sits beside the AI Atlas. Both explain the 8 axes, where nearby archetypes part ways, how IR and AI cross-read, and where to start. Neither offers a second assessment; the futures appendix is clearly secondary and labeled optional / non-scored.</p>
+
+  <!-- ===========================================================
+       DIRECTION 01 — Reading Room
+       =========================================================== -->
+  <div class="dir-label">
+    <span class="num">01</span>
+    <span class="name">Reading Room</span>
+    <span>Editorial spread · ruled grids · vertical sequence</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this avoids overload</b>
+    Four short, ruled sections in a single column: 8 axes as a 4×2 index, four "where they part ways" pairs, an IR↔AI cross-read table, and a three-cell "start here" shelf. Each section is its own grid; the rules between cells do most of the structural work, so the reader's eye breaks the page into legible bricks instead of facing a wall. Futures sits at the bottom in a dashed-border block, visibly labeled non-scored. No score numbers anywhere.
+  </div>
+
+  <article class="frame" data-screen-label="01 AI Field Guide — Reading Room">
+    <nav class="nav">
+      <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#">Profile</a>
+        <a href="#">Atlas</a>
+        <a href="#" class="active">Field Guide</a>
+      </div>
+      <span style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); letter-spacing:0.06em;">AI Field Guide</span>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">AI Field Guide<span class="sep">/</span>Explainer<span class="sep">/</span>Companion to the Atlas</p>
+      <span class="non-score-banner"><b>Explainer</b> Reading surface only — no scoring, no second assessment.</span>
+      <h1 class="title">A reader's companion to the AI Atlas — <em>not a second assessment</em>.</h1>
+      <p class="deck-line">The Atlas shows the patterns; the Field Guide explains them. Eight axes that organize the patterns, four pairs where nearby archetypes part ways, a short IR ↔ AI cross-read, and a small reading shelf to start with.</p>
+
+      <!-- 8 axes -->
+      <h2 class="sec"><span class="num">§1</span>The eight axes</h2>
+      <p class="sec-deck">What the axes describe — names, opposing poles, one sentence each. No scores; this is the vocabulary the Atlas uses.</p>
+      <div class="d1-axes">
+        <div class="d1-axis"><div class="num">A1</div><div class="nm">Public oversight</div><div class="poles">DELEGATION ── OVERSIGHT</div><div class="desc">How much accountability is required before deployment.</div></div>
+        <div class="d1-axis"><div class="num">A2</div><div class="nm">Capability pace</div><div class="poles">SLOW ── PUSH</div><div class="desc">How aggressively to advance frontier capability against risk.</div></div>
+        <div class="d1-axis"><div class="num">A3</div><div class="nm">Openness</div><div class="poles">CLOSED ── OPEN</div><div class="desc">Default toward release of weights, data, and methods.</div></div>
+        <div class="d1-axis"><div class="num">A4</div><div class="nm">Concentration</div><div class="poles">DIFFUSE ── CONCENTRATED</div><div class="desc">Tolerance for a few labs holding most frontier capability.</div></div>
+        <div class="d1-axis"><div class="num">A5</div><div class="nm">Legitimacy &amp; rule-setting</div><div class="poles">PROCEDURAL ── SUBSTANTIVE</div><div class="desc">Where governance authority is grounded.</div></div>
+        <div class="d1-axis"><div class="num">A6</div><div class="nm">Competition vs coordination</div><div class="poles">COORDINATE ── COMPETE</div><div class="desc">How much to read AI as state competition vs shared problem.</div></div>
+        <div class="d1-axis"><div class="num">A7</div><div class="nm">Harm centering</div><div class="poles">AGGREGATE ── CONCENTRATED</div><div class="desc">Whose harms count first when tradeoffs appear.</div></div>
+        <div class="d1-axis"><div class="num">A8</div><div class="nm">Instruments</div><div class="poles">RIGHTS ── INDUSTRIAL</div><div class="desc">Whether rules act through individual rights or industrial policy.</div></div>
+      </div>
+
+      <!-- Where they part ways -->
+      <h2 class="sec"><span class="num">§2</span>Where nearby archetypes part ways</h2>
+      <p class="sec-deck">Pairs that share most of their fingerprint. The split is what tells them apart.</p>
+      <div class="d1-parts">
+        <div class="d1-part">
+          <div class="pair">Pair · A</div>
+          <h4>Democratic Guardrailist <em>vs</em> Civic Risk Steward</h4>
+          <div class="splits"><b>The split</b>Both center oversight. Guardrailist binds it to procedural legitimacy and public institutions; Steward binds it to specific publics and concentrated harms.</div>
+        </div>
+        <div class="d1-part">
+          <div class="pair">Pair · B</div>
+          <h4>Strategic Competitor <em>vs</em> Industrial Statist</h4>
+          <div class="splits"><b>The split</b>Both treat AI as state-level. Competitor reads it through capability edge; Statist reads it through instruments — procurement, subsidy, standards.</div>
+        </div>
+        <div class="d1-part">
+          <div class="pair">Pair · C</div>
+          <h4>Open Ecosystem Builder <em>vs</em> Civic Risk Steward</h4>
+          <div class="splits"><b>The split</b>Both worry about concentration. Builder defaults to release as the cure; Steward defaults to standing and remedy for affected groups.</div>
+        </div>
+        <div class="d1-part">
+          <div class="pair">Pair · D</div>
+          <h4>Multilateral Coordinator <em>vs</em> Democratic Guardrailist</h4>
+          <div class="splits"><b>The split</b>Both want rules. Coordinator looks outward to regimes and standards bodies; Guardrailist looks inward to domestic accountability.</div>
+        </div>
+      </div>
+
+      <!-- IR x AI cross-read -->
+      <h2 class="sec"><span class="num">§3</span>How IR and AI cross-read</h2>
+      <p class="sec-deck">The Compass is a related layer, not a parallel scoring system. Three places the two views converge — and the move each one makes.</p>
+      <div class="d1-cross">
+        <div class="d1-cross-row head">
+          <div>Where they meet</div>
+          <div>What IR adds</div>
+          <div>What AI adds</div>
+        </div>
+        <div class="d1-cross-row">
+          <div class="key">Public oversight ↔ Legitimacy</div>
+          <div>IR debates whether legitimacy is procedural or substantive across regimes.</div>
+          <div>AI asks who has standing to audit a model and on what authority.</div>
+        </div>
+        <div class="d1-cross-row">
+          <div class="key">Competition ↔ Capability</div>
+          <div>IR names the security dilemma; competition can be self-fulfilling.</div>
+          <div>AI tests how much pace pressure is real vs how much is invoked.</div>
+        </div>
+        <div class="d1-cross-row">
+          <div class="key">Markets ↔ Concentration</div>
+          <div>IR's political economy lens reads dependence and coercion.</div>
+          <div>AI surfaces compute and data concentration as a governance question.</div>
+        </div>
+      </div>
+
+      <!-- Where to start reading -->
+      <h2 class="sec"><span class="num">§4</span>Where to start reading</h2>
+      <p class="sec-deck">Three small entry points, depending on what you came here to do.</p>
+      <div class="d1-start">
+        <div class="d1-start-cell">
+          <div class="lbl">If you took the Compass</div>
+          <h4>Read your archetype's nearest neighbor first</h4>
+          <p>The archetype next to yours is where the editorial argument is sharpest. The Atlas card lists it; the Field Guide explains why.</p>
+          <a href="#">Open neighbor pages →</a>
+        </div>
+        <div class="d1-start-cell">
+          <div class="lbl">If you came from IR</div>
+          <h4>Start with the cross-read above</h4>
+          <p>Three places where IR concepts and AI governance vocabulary meet. The translation is uneven, on purpose.</p>
+          <a href="#">Open IR ↔ AI cross-read →</a>
+        </div>
+        <div class="d1-start-cell">
+          <div class="lbl">If you came to browse</div>
+          <h4>Open the Atlas</h4>
+          <p>The Atlas is the compact map of patterns. Field Guide is the explainer behind each card.</p>
+          <a href="#">Open AI Atlas →</a>
+        </div>
+      </div>
+
+      <!-- Futures appendix -->
+      <div class="d1-futures">
+        <div class="lbl">Appendix · Futures <span class="pill">Optional · Non-scored</span></div>
+        Three short scenarios — Concentration tightens, Open weights win, Multilateral baseline holds — used in Field Guide entries to test the patterns. They are reading prompts, not predictions, and they do not enter any score on any page.
+      </div>
+    </div>
+  </article>
+
+  <!-- ===========================================================
+       DIRECTION 02 — Two-Column Explainer
+       =========================================================== -->
+  <div class="dir-label">
+    <span class="num">02</span>
+    <span class="name">Two-Column Explainer</span>
+    <span>Sticky left rail · numbered sections on the right</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this avoids overload</b>
+    A persistent left rail labels what's on the page (axes, splits, cross-read, start, futures) and lets the reader skip without scrolling. The right column never holds more than one section at a time on the eye; each section uses ruled rows, not paragraphs. Futures is the last item in the rail, marked "optional" with a pill, and visually demoted via dashed border. Everything is reading vocabulary, not assessment.
+  </div>
+
+  <article class="frame" data-screen-label="02 AI Field Guide — Two-Column Explainer">
+    <nav class="nav">
+      <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#">Profile</a>
+        <a href="#">Atlas</a>
+        <a href="#" class="active">Field Guide</a>
+      </div>
+      <span style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); letter-spacing:0.06em;">AI Field Guide</span>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">AI Field Guide<span class="sep">/</span>Explainer<span class="sep">/</span>Companion to the Atlas</p>
+      <span class="non-score-banner"><b>Explainer</b> Reading surface only — no scoring, no second assessment.</span>
+      <h1 class="title">A reader's companion to the AI Atlas — <em>browse, don't measure</em>.</h1>
+      <p class="deck-line">Four short sections, plus an optional futures appendix. Use the left rail to skip; nothing here scores you, and there is no quiz on this page.</p>
+
+      <div class="d2-layout">
+        <aside class="d2-rail">
+          <div class="lbl">On this page</div>
+          <ol>
+            <li class="active">The eight axes</li>
+            <li>Where archetypes part ways</li>
+            <li>IR ↔ AI cross-read</li>
+            <li>Where to start reading</li>
+            <li class="optional">Futures appendix</li>
+          </ol>
+          <div class="legend">
+            <b>What this page is</b>
+            An explainer. No score, no archetype produced. To get an archetype, take the AI Governance Compass.
+          </div>
+        </aside>
+
+        <div class="d2-content">
+
+          <!-- §1 axes -->
+          <section>
+            <h2 class="sec"><span class="num">§1</span>The eight axes</h2>
+            <p class="sec-deck">The vocabulary the Atlas uses. Names and opposing poles only — no positions.</p>
+            <div class="d2-axes-list">
+              <div class="d2-axis">
+                <div class="n">A1</div>
+                <div class="body"><div class="nm">Public oversight</div><div class="desc">How much accountability is required before deployment.</div></div>
+                <div class="poles"><div class="row"><span>DELEGATION</span><span>—</span><span>OVERSIGHT</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A2</div>
+                <div class="body"><div class="nm">Capability pace</div><div class="desc">How aggressively to advance frontier capability against risk.</div></div>
+                <div class="poles"><div class="row"><span>SLOW</span><span>—</span><span>PUSH</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A3</div>
+                <div class="body"><div class="nm">Openness</div><div class="desc">Default toward release of weights, data, and methods.</div></div>
+                <div class="poles"><div class="row"><span>CLOSED</span><span>—</span><span>OPEN</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A4</div>
+                <div class="body"><div class="nm">Concentration</div><div class="desc">Tolerance for a few labs holding most frontier capability.</div></div>
+                <div class="poles"><div class="row"><span>DIFFUSE</span><span>—</span><span>CONCENTRATED</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A5</div>
+                <div class="body"><div class="nm">Legitimacy &amp; rule-setting</div><div class="desc">Where governance authority is grounded.</div></div>
+                <div class="poles"><div class="row"><span>PROCEDURAL</span><span>—</span><span>SUBSTANTIVE</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A6</div>
+                <div class="body"><div class="nm">Competition vs coordination</div><div class="desc">How much to read AI as state competition vs shared problem.</div></div>
+                <div class="poles"><div class="row"><span>COORDINATE</span><span>—</span><span>COMPETE</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A7</div>
+                <div class="body"><div class="nm">Harm centering</div><div class="desc">Whose harms count first when tradeoffs appear.</div></div>
+                <div class="poles"><div class="row"><span>AGGREGATE</span><span>—</span><span>CONCENTRATED</span></div><div class="scale"></div></div>
+              </div>
+              <div class="d2-axis">
+                <div class="n">A8</div>
+                <div class="body"><div class="nm">Instruments</div><div class="desc">Whether rules act through individual rights or industrial policy.</div></div>
+                <div class="poles"><div class="row"><span>RIGHTS</span><span>—</span><span>INDUSTRIAL</span></div><div class="scale"></div></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- §2 parts ways -->
+          <section>
+            <h2 class="sec"><span class="num">§2</span>Where nearby archetypes part ways</h2>
+            <p class="sec-deck">Pairs whose fingerprints overlap; the split is what tells them apart.</p>
+            <div class="d2-parts-row head">
+              <div>Pair</div>
+              <div>What they share</div>
+              <div>Where they split</div>
+            </div>
+            <div class="d2-parts-row">
+              <div class="pair">Guardrailist · Risk Steward<small>Pair A</small></div>
+              <div class="col"><b>shared</b>High oversight; suspicion of frontier-only safety claims.</div>
+              <div class="col"><b>split</b>Procedural legitimacy &amp; institutions vs concentrated harms &amp; standing for affected publics.</div>
+            </div>
+            <div class="d2-parts-row">
+              <div class="pair">Strategic Competitor · Industrial Statist<small>Pair B</small></div>
+              <div class="col"><b>shared</b>State-level reading of AI; tolerant of capability concentration.</div>
+              <div class="col"><b>split</b>Capability edge framing vs procurement / subsidy / standards instruments.</div>
+            </div>
+            <div class="d2-parts-row">
+              <div class="pair">Open Ecosystem · Risk Steward<small>Pair C</small></div>
+              <div class="col"><b>shared</b>Worry about concentration of frontier capability.</div>
+              <div class="col"><b>split</b>Default to release as cure vs standing and remedy for affected groups.</div>
+            </div>
+            <div class="d2-parts-row">
+              <div class="pair">Multilateral · Guardrailist<small>Pair D</small></div>
+              <div class="col"><b>shared</b>Want enforceable rules; skeptical of voluntary commitments alone.</div>
+              <div class="col"><b>split</b>Outward to regimes and standards bodies vs inward to domestic accountability.</div>
+            </div>
+          </section>
+
+          <!-- §3 cross-read -->
+          <section>
+            <h2 class="sec"><span class="num">§3</span>How IR and AI cross-read</h2>
+            <p class="sec-deck">Three meeting points between the IR Foundation and the AI Compass. The two are related layers, not parallel assessments.</p>
+            <div class="d2-cross">
+              <div class="d2-cross-cell">
+                <div class="ir">IR concept</div>
+                <h5>Legitimacy of rule-setting</h5>
+                <p class="desc">In IR, the question is whether legitimacy is procedural (right process) or substantive (right outcomes), and across whose regimes.</p>
+                <div class="ai"><b>AI:</b> Who has standing to audit a model, and on what authority?</div>
+              </div>
+              <div class="d2-cross-cell">
+                <div class="ir">IR concept</div>
+                <h5>Security dilemma</h5>
+                <p class="desc">In IR, competition can be self-fulfilling — defensive moves read as offensive, escalation follows.</p>
+                <div class="ai"><b>AI:</b> Pace pressure can be invoked or actual; the Field Guide names which is which.</div>
+              </div>
+              <div class="d2-cross-cell">
+                <div class="ir">IR concept</div>
+                <h5>Political economy</h5>
+                <p class="desc">In IR, the lens reads market dependence, coercion, and supply-chain leverage.</p>
+                <div class="ai"><b>AI:</b> Compute and data concentration are governance questions, not just market ones.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- §4 start here -->
+          <section>
+            <h2 class="sec"><span class="num">§4</span>Where to start reading</h2>
+            <p class="sec-deck">Three small entry points; pick the one that matches why you arrived.</p>
+            <div class="d2-start">
+              <div class="d2-start-cell">
+                <div class="lbl">From the Compass</div>
+                <h5>Read your nearest neighbor</h5>
+                <p>The argument is sharpest where two archetypes share most of a fingerprint and split on one axis.</p>
+                <a href="#">Open neighbor pages →</a>
+              </div>
+              <div class="d2-start-cell">
+                <div class="lbl">From IR</div>
+                <h5>Start with the cross-read</h5>
+                <p>Three places where IR vocabulary and AI governance meet. The translation is uneven on purpose.</p>
+                <a href="#">Open IR ↔ AI cross-read →</a>
+              </div>
+              <div class="d2-start-cell">
+                <div class="lbl">Browsing</div>
+                <h5>Open the AI Atlas</h5>
+                <p>The Atlas is the compact map of patterns; the Field Guide is the explainer behind each card.</p>
+                <a href="#">Open AI Atlas →</a>
+              </div>
+            </div>
+          </section>
+
+          <!-- Futures appendix -->
+          <section>
+            <div class="d2-futures">
+              <div class="head">
+                <span class="lbl">§5 · Appendix · Futures</span>
+                <span class="pill">Optional · Non-scored</span>
+              </div>
+              <p>Three reading prompts used inside Field Guide entries to test how each archetype responds to a different shape of the next decade. They are not predictions and they do not enter any score on any page in this product.</p>
+              <div class="scenarios">
+                <div class="scen"><div class="ttl">Concentration tightens</div><div class="meta">Frontier capability narrows to fewer labs.</div></div>
+                <div class="scen"><div class="ttl">Open weights win</div><div class="meta">Open releases set the deployment baseline.</div></div>
+                <div class="scen"><div class="ttl">Multilateral holds</div><div class="meta">Standards bodies retain real teeth.</div></div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <!-- recommendation -->
+  <section class="reco">
+    <h2>How each one avoids overloading the reader</h2>
+    <p class="deck">Same content, different rhythms</p>
+    <div class="reco-row">
+      <div>
+        <h3>01 · Reading Room</h3>
+        <p>Vertical sequence. Each section is a ruled grid that the eye can scan as a single unit; the rules between cells do the structural work, so the reader never faces a paragraph longer than three sentences.</p>
+        <p>Best for the user who reads top-to-bottom and wants the page to feel like a printed spread.</p>
+      </div>
+      <div>
+        <h3>02 · Two-Column Explainer</h3>
+        <p>Persistent left rail. The reader can see the whole page's contents without scrolling and skip directly to the section they want. Futures is visibly the last item, pilled "optional," and demoted to dashed border.</p>
+        <p>Best for the user who arrives with a question — "where do Compass and IR meet?" — and wants to land in §3 immediately.</p>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

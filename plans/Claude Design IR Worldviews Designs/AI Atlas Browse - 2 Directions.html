@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Atlas Browse — 2 Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-2: #efe9dc;
+    --paper-3: #e9e1ce;
+    --ink: #1a1916;
+    --ink-2: #3a362e;
+    --muted: #6b6356;
+    --rule: #d8cfbb;
+    --rule-strong: #a89b80;
+    --accent: #7a2e1f;
+    --accent-2: #8a6b1d;
+    --accent-3: #2f5d3a;
+    --accent-4: #1f3a5f;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: #ddd5c0;
+    color: var(--ink);
+    margin: 0; padding: 0;
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .showcase {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 56px 32px 96px;
+  }
+  .show-head {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 14px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .show-title {
+    margin: 28px 0 6px;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .show-deck {
+    color: var(--ink-2);
+    max-width: 720px;
+    margin: 0 0 32px;
+  }
+
+  .dir-label {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin: 56px 0 10px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .dir-label .num { font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink-2); }
+  .dir-label .name { color: var(--ink); font-weight: 700; letter-spacing: 0.08em; }
+  .dir-rationale {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink);
+    padding: 14px 18px 14px 22px;
+    margin: 0 0 18px;
+    max-width: 1100px;
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+  .dir-rationale b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  /* shared frame */
+  .frame {
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+  }
+  .nav {
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .nav .brand {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .nav .brand .beta {
+    margin-left: 8px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .nav-links { display: flex; gap: 24px; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .nav-links a { color: var(--ink-2); text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid transparent; }
+  .nav-links a.active { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+  .frame-inner { padding: 32px 56px 44px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  .eyebrow .sep { margin: 0 8px; color: var(--rule-strong); }
+  h1.title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+    margin: 0 0 10px;
+    max-width: 880px;
+  }
+  .deck-line {
+    font-size: 16px;
+    color: var(--ink-2);
+    max-width: 720px;
+    margin: 0 0 18px;
+  }
+  .deck-line em { font-style: italic; }
+
+  /* tools row (filter + Field Guide route) */
+  .tools {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0 16px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .tools .lbl {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .tools .filters {
+    display: flex; gap: 8px;
+  }
+  .tools .filters span {
+    padding: 4px 9px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    font-size: 11.5px;
+  }
+  .tools .filters span.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .tools .right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .tools a.fg {
+    text-decoration: none;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 7px 12px;
+    border-radius: 2px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-size: 12px;
+    background: var(--paper-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tools a.fg .arr {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .tools .count { color: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.04em; }
+
+  /* ============================================
+     Direction 01 — INDEX SHELF
+     three-column card grid, calm, library-style
+     ============================================ */
+  .d1-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .d1-card {
+    background: var(--paper);
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 20px 22px 18px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+  }
+  .d1-card .hd {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+  .d1-card .num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .d1-card .axis-tag {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent-4);
+    font-weight: 700;
+  }
+  .d1-card h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin: 0 0 8px;
+    text-wrap: balance;
+  }
+  .d1-card .def {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 0 0 14px;
+    text-wrap: pretty;
+  }
+  .d1-card .diff {
+    margin: 0 0 12px;
+  }
+  .d1-card .diff .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .d1-card .diff ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .d1-card .diff li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 3px;
+    line-height: 1.45;
+  }
+  .d1-card .diff li::before {
+    content: "›";
+    position: absolute;
+    left: 2px;
+    top: 0;
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .d1-card .neighbor {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+  }
+  .d1-card .neighbor .nb-l {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .d1-card .neighbor .nb-v {
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .d1-card .open {
+    margin-top: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .d1-card .open .arr { color: var(--muted); }
+
+  /* ============================================
+     Direction 02 — FINGERPRINT ROW
+     compact horizontal cards w/ tiny dimension fingerprint bar
+     ============================================ */
+  .d2-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .d2-card {
+    background: var(--paper);
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 22px 24px 20px;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+    gap: 22px;
+    align-items: start;
+  }
+  .d2-card .left { min-width: 0; }
+  .d2-card .num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .d2-card h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin: 0 0 6px;
+    text-wrap: balance;
+  }
+  .d2-card .def {
+    font-size: 14px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    margin: 0 0 12px;
+  }
+  .d2-card .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    align-items: baseline;
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  .d2-card .meta-row .k {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .d2-card .meta-row .nb {
+    color: var(--ink);
+    font-weight: 600;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 13px;
+    letter-spacing: -0.005em;
+  }
+  .d2-card .meta-row .open {
+    margin-left: auto;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11.5px;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 1px;
+  }
+  .d2-card .diff-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px;
+    font-size: 13.5px;
+    color: var(--ink);
+  }
+  .d2-card .diff-list li {
+    position: relative;
+    padding-left: 16px;
+    margin-bottom: 3px;
+    line-height: 1.45;
+  }
+  .d2-card .diff-list li::before {
+    content: "›";
+    position: absolute;
+    left: 2px; top: 0;
+    color: var(--accent);
+    font-family: "IBM Plex Mono", monospace;
+  }
+  .d2-card .right { min-width: 0; }
+  .fp {
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    padding: 10px 12px 8px;
+  }
+  .fp .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .fp .lbl .scale {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .fp-row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+    font-size: 10px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    color: var(--ink-2);
+  }
+  .fp-row .name {
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
+    text-transform: uppercase;
+    font-size: 9.5px;
+  }
+  .fp-row .track {
+    position: relative;
+    height: 6px;
+    background: var(--paper-3);
+    border: 1px solid var(--rule);
+    border-radius: 1px;
+  }
+  .fp-row .track .v {
+    position: absolute;
+    top: -1px; bottom: -1px;
+    left: 0;
+    background: var(--ink);
+  }
+  .fp-row.high .track .v { background: var(--accent); }
+  .fp-row.low .track .v { background: var(--accent-3); opacity: 0.7; }
+  .fp-row .level {
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--ink);
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    margin-left: 6px;
+  }
+
+  /* shared footer route */
+  .fg-route {
+    margin-top: 22px;
+    padding: 16px 22px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-strong);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .fg-route .body {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    max-width: 720px;
+    line-height: 1.5;
+  }
+  .fg-route .body b {
+    font-family: "Source Serif 4", Georgia, serif;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .fg-route a {
+    flex: 0 0 auto;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    padding: 10px 16px;
+    border-radius: 2px;
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    font-weight: 600;
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .fg-route a .arr { font-family: "IBM Plex Mono", monospace; color: var(--paper-3); }
+
+  /* recommendation card */
+  .reco {
+    margin-top: 56px;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    padding: 22px 26px 24px;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+  }
+  .reco h2 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px;
+    margin: 0 0 6px;
+    letter-spacing: -0.005em;
+  }
+  .reco .deck {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .reco-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .reco-row h3 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+  .reco-row p {
+    margin: 0 0 8px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .reco-verdict {
+    margin-top: 18px;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 14px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .reco-verdict b {
+    font-weight: 700;
+    color: var(--accent);
+  }
+</style>
+</head>
+<body>
+<div class="showcase">
+  <header class="show-head">
+    <span>AI Atlas · Browse · Desktop</span>
+    <span>2 directions · for review</span>
+  </header>
+  <h1 class="show-title">AI Atlas browse — two directions</h1>
+  <p class="show-deck">Two compact takes on the AI Atlas browse map. Six archetypes, named definition, one nearby neighbor, 1–2 differentiators each, and a single obvious route to the AI Field Guide. Same paper, ink and accents as the rest of the product.</p>
+
+  <!-- ===========================================================
+       DIRECTION 01 — INDEX SHELF
+       =========================================================== -->
+  <div class="dir-label">
+    <span class="num">01</span>
+    <span class="name">Index Shelf</span>
+    <span>Three-column gridded shelf · uniform cells · library register</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this works</b>
+    A 3×2 grid of equal-weight cards, ruled like a printed index. Each card carries an archetype number, axis tag, name, one-line definition, two differentiators, and a nearby neighbor — nothing else. No fingerprint chart on the card; that detail lives one click away in the AI Field Guide. The flatness is the point: every archetype gets the same air, so scanning is a horizontal sweep across uniform cells rather than a comparison between unequal posters.
+  </div>
+
+  <article class="frame" data-screen-label="01 AI Atlas — Index Shelf">
+    <nav class="nav">
+      <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#">Profile</a>
+        <a href="#" class="active">Atlas</a>
+        <a href="#">Field Guide</a>
+      </div>
+      <span style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); letter-spacing:0.06em;">AI Atlas · 6 patterns</span>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">AI Atlas<span class="sep">/</span>Browse map<span class="sep">/</span>Not a typology</p>
+      <h1 class="title">Six archetypes that recur in AI governance answers</h1>
+      <p class="deck-line">A browse map of patterns the model encounters often. Continuous-dimension neighborhoods, not natural kinds — read as cartography, not classification. <em>For depth on any archetype, open the AI Field Guide.</em></p>
+
+      <div class="tools">
+        <span class="lbl">Filter</span>
+        <div class="filters">
+          <span class="active">All 6</span>
+          <span>Oversight-leaning</span>
+          <span>Capability-leaning</span>
+          <span>Open-access</span>
+        </div>
+        <div class="right">
+          <span class="count">6 patterns · April 2026 model</span>
+          <a class="fg" href="#">AI Field Guide <span class="arr">→</span></a>
+        </div>
+      </div>
+
+      <div class="d1-grid">
+        <!-- Card 1 -->
+        <div class="d1-card">
+          <div class="hd">
+            <span class="num">01 / 06</span>
+            <span class="axis-tag">Oversight-leaning</span>
+          </div>
+          <h3>Democratic Guardrailist</h3>
+          <p class="def">Treats public oversight, due process, and democratic accountability as binding constraints on AI deployment, even at some capability cost.</p>
+          <div class="diff">
+            <div class="lbl">Differentiators</div>
+            <ul>
+              <li>Insists on enforceable audit and red-team access</li>
+              <li>Accepts slower deployment to preserve legitimacy</li>
+            </ul>
+          </div>
+          <div class="neighbor">
+            <span class="nb-l">Nearest neighbor</span>
+            <span class="nb-v">Civic Risk Steward</span>
+          </div>
+          <a href="#" class="open">Open in Field Guide <span class="arr">↗</span></a>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="d1-card">
+          <div class="hd">
+            <span class="num">02 / 06</span>
+            <span class="axis-tag">Capability-leaning</span>
+          </div>
+          <h3>Strategic Competitor</h3>
+          <p class="def">Reads AI primarily through state competition; legitimacy and oversight are real but subordinate to maintaining a capability edge.</p>
+          <div class="diff">
+            <div class="lbl">Differentiators</div>
+            <ul>
+              <li>Frames frontier capability as national-security infrastructure</li>
+              <li>Tolerates compute and export controls others would not</li>
+            </ul>
+          </div>
+          <div class="neighbor">
+            <span class="nb-l">Nearest neighbor</span>
+            <span class="nb-v">Industrial Statist</span>
+          </div>
+          <a href="#" class="open">Open in Field Guide <span class="arr">↗</span></a>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="d1-card">
+          <div class="hd">
+            <span class="num">03 / 06</span>
+            <span class="axis-tag">Open-access</span>
+          </div>
+          <h3>Open Ecosystem Builder</h3>
+          <p class="def">Bets that broad access, open weights, and many hands beat closed labs on safety, equity, and long-run pace. Concentration is the bigger risk.</p>
+          <div class="diff">
+            <div class="lbl">Differentiators</div>
+            <ul>
+              <li>Defaults to release; restriction needs a specific case</li>
+              <li>Skeptical that frontier-only safety scales to deployers</li>
+            </ul>
+          </div>
+          <div class="neighbor">
+            <span class="nb-l">Nearest neighbor</span>
+            <span class="nb-v">Civic Risk Steward</span>
+          </div>
+          <a href="#" class="open">Open in Field Guide <span class="arr">↗</span></a>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="d1-card">
+          <div class="hd">
+            <span class="num">04 / 06</span>
+            <span class="axis-tag">Capability-leaning</span>
+          </div>
+          <h3>Industrial Statist</h3>
+          <p class="def">Treats AI as a national industrial asset; uses procurement, subsidy, and standards as the main steering instruments rather than rights claims.</p>
+          <div class="diff">
+            <div class="lbl">Differentiators</div>
+            <ul>
+              <li>Centers state capacity over private governance</li>
+              <li>Prefers deployer-side rules to model-side cutoffs</li>
+            </ul>
+          </div>
+          <div class="neighbor">
+            <span class="nb-l">Nearest neighbor</span>
+            <span class="nb-v">Strategic Competitor</span>
+          </div>
+          <a href="#" class="open">Open in Field Guide <span class="arr">↗</span></a>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="d1-card">
+          <div class="hd">
+            <span class="num">05 / 06</span>
+            <span class="axis-tag">Oversight-leaning</span>
+          </div>
+          <h3>Civic Risk Steward</h3>
+          <p class="def">Centers harm to specific publics — workers, minorities, civic infrastructure — over abstract capability or competition framings.</p>
+          <div class="diff">
+            <div class="lbl">Differentiators</div>
+            <ul>
+              <li>Reads concentrated harms before aggregate gains</li>
+              <li>Wants standing and remedy for affected groups</li>
+            </ul>
+          </div>
+          <div class="neighbor">
+            <span class="nb-l">Nearest neighbor</span>
+            <span class="nb-v">Democratic Guardrailist</span>
+          </div>
+          <a href="#" class="open">Open in Field Guide <span class="arr">↗</span></a>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="d1-card">
+          <div class="hd">
+            <span class="num">06 / 06</span>
+            <span class="axis-tag">Cross-pressured</span>
+          </div>
+          <h3>Multilateral Coordinator</h3>
+          <p class="def">Looks for governance traction in regimes, standards bodies, and treaties; willing to trade national autonomy for credible coordination.</p>
+          <div class="diff">
+            <div class="lbl">Differentiators</div>
+            <ul>
+              <li>Prefers shared compute and licensing baselines</li>
+              <li>Names regime weakness rather than hiding it</li>
+            </ul>
+          </div>
+          <div class="neighbor">
+            <span class="nb-l">Nearest neighbor</span>
+            <span class="nb-v">Democratic Guardrailist</span>
+          </div>
+          <a href="#" class="open">Open in Field Guide <span class="arr">↗</span></a>
+        </div>
+      </div>
+
+      <div class="fg-route">
+        <p class="body">The Atlas is the browse map. <b>The AI Field Guide</b> carries the long-form: definitions in depth, the strongest critique of each pattern, and the per-archetype reading shelf — kept off the cards on purpose.</p>
+        <a href="#">Open AI Field Guide <span class="arr">→</span></a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===========================================================
+       DIRECTION 02 — FINGERPRINT ROW
+       =========================================================== -->
+  <div class="dir-label">
+    <span class="num">02</span>
+    <span class="name">Fingerprint Row</span>
+    <span>Two-column wide cards · tiny dimension fingerprint per archetype</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this works</b>
+    Each card is a wider 2-up cell with a small four-row fingerprint to its right — Oversight, Capability, Openness, Multilateral — at High / Mid / Low. The fingerprint is what makes the card scannable as a <em>shape</em> rather than as a paragraph; differentiators stay textual to keep the card honest. Nearby neighbor sits inline. The Field Guide route appears once, at the bottom — the long reading shelf does not appear anywhere on this page.
+  </div>
+
+  <article class="frame" data-screen-label="02 AI Atlas — Fingerprint Row">
+    <nav class="nav">
+      <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#">Profile</a>
+        <a href="#" class="active">Atlas</a>
+        <a href="#">Field Guide</a>
+      </div>
+      <span style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); letter-spacing:0.06em;">AI Atlas · 6 patterns</span>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">AI Atlas<span class="sep">/</span>Browse map<span class="sep">/</span>Not a typology</p>
+      <h1 class="title">Six archetypes that recur in AI governance answers</h1>
+      <p class="deck-line">Each card shows the archetype's relative emphasis across four dimensions — a small fingerprint, not a score. The fingerprint is shape-only; the reading shelf and full critique are in the AI Field Guide.</p>
+
+      <div class="tools">
+        <span class="lbl">Sort</span>
+        <div class="filters">
+          <span class="active">By family</span>
+          <span>By oversight</span>
+          <span>By openness</span>
+        </div>
+        <div class="right">
+          <span class="count">6 patterns · April 2026 model</span>
+          <a class="fg" href="#">AI Field Guide <span class="arr">→</span></a>
+        </div>
+      </div>
+
+      <div class="d2-grid">
+        <!-- 1 -->
+        <div class="d2-card">
+          <div class="left">
+            <div class="num">01 / 06 · Oversight-leaning</div>
+            <h3>Democratic Guardrailist</h3>
+            <p class="def">Treats public oversight, due process, and democratic accountability as binding constraints on AI deployment, even at some capability cost.</p>
+            <ul class="diff-list">
+              <li>Insists on enforceable audit and red-team access</li>
+              <li>Accepts slower deployment to preserve legitimacy</li>
+            </ul>
+            <div class="meta-row">
+              <span><span class="k">Nearest</span><span class="nb">Civic Risk Steward</span></span>
+              <a class="open" href="#">Open in Field Guide ↗</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="fp">
+              <div class="lbl"><span>Fingerprint</span><span class="scale">L · M · H</span></div>
+              <div class="fp-row high"><span class="name">Oversight</span><div class="track"><span class="v" style="width:88%"></span></div></div>
+              <div class="fp-row low"><span class="name">Capability</span><div class="track"><span class="v" style="width:38%"></span></div></div>
+              <div class="fp-row"><span class="name">Openness</span><div class="track"><span class="v" style="width:55%"></span></div></div>
+              <div class="fp-row"><span class="name">Multilat.</span><div class="track"><span class="v" style="width:62%"></span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="d2-card">
+          <div class="left">
+            <div class="num">02 / 06 · Capability-leaning</div>
+            <h3>Strategic Competitor</h3>
+            <p class="def">Reads AI primarily through state competition; legitimacy and oversight are real but subordinate to maintaining a capability edge.</p>
+            <ul class="diff-list">
+              <li>Frames frontier capability as national-security infrastructure</li>
+              <li>Tolerates compute and export controls others would not</li>
+            </ul>
+            <div class="meta-row">
+              <span><span class="k">Nearest</span><span class="nb">Industrial Statist</span></span>
+              <a class="open" href="#">Open in Field Guide ↗</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="fp">
+              <div class="lbl"><span>Fingerprint</span><span class="scale">L · M · H</span></div>
+              <div class="fp-row low"><span class="name">Oversight</span><div class="track"><span class="v" style="width:42%"></span></div></div>
+              <div class="fp-row high"><span class="name">Capability</span><div class="track"><span class="v" style="width:90%"></span></div></div>
+              <div class="fp-row low"><span class="name">Openness</span><div class="track"><span class="v" style="width:32%"></span></div></div>
+              <div class="fp-row"><span class="name">Multilat.</span><div class="track"><span class="v" style="width:48%"></span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="d2-card">
+          <div class="left">
+            <div class="num">03 / 06 · Open-access</div>
+            <h3>Open Ecosystem Builder</h3>
+            <p class="def">Bets that broad access, open weights, and many hands beat closed labs on safety, equity, and long-run pace. Concentration is the bigger risk.</p>
+            <ul class="diff-list">
+              <li>Defaults to release; restriction needs a specific case</li>
+              <li>Skeptical that frontier-only safety scales to deployers</li>
+            </ul>
+            <div class="meta-row">
+              <span><span class="k">Nearest</span><span class="nb">Civic Risk Steward</span></span>
+              <a class="open" href="#">Open in Field Guide ↗</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="fp">
+              <div class="lbl"><span>Fingerprint</span><span class="scale">L · M · H</span></div>
+              <div class="fp-row"><span class="name">Oversight</span><div class="track"><span class="v" style="width:58%"></span></div></div>
+              <div class="fp-row"><span class="name">Capability</span><div class="track"><span class="v" style="width:60%"></span></div></div>
+              <div class="fp-row high"><span class="name">Openness</span><div class="track"><span class="v" style="width:92%"></span></div></div>
+              <div class="fp-row"><span class="name">Multilat.</span><div class="track"><span class="v" style="width:55%"></span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="d2-card">
+          <div class="left">
+            <div class="num">04 / 06 · Capability-leaning</div>
+            <h3>Industrial Statist</h3>
+            <p class="def">Treats AI as a national industrial asset; uses procurement, subsidy, and standards as the main steering instruments rather than rights claims.</p>
+            <ul class="diff-list">
+              <li>Centers state capacity over private governance</li>
+              <li>Prefers deployer-side rules to model-side cutoffs</li>
+            </ul>
+            <div class="meta-row">
+              <span><span class="k">Nearest</span><span class="nb">Strategic Competitor</span></span>
+              <a class="open" href="#">Open in Field Guide ↗</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="fp">
+              <div class="lbl"><span>Fingerprint</span><span class="scale">L · M · H</span></div>
+              <div class="fp-row"><span class="name">Oversight</span><div class="track"><span class="v" style="width:60%"></span></div></div>
+              <div class="fp-row high"><span class="name">Capability</span><div class="track"><span class="v" style="width:82%"></span></div></div>
+              <div class="fp-row low"><span class="name">Openness</span><div class="track"><span class="v" style="width:38%"></span></div></div>
+              <div class="fp-row"><span class="name">Multilat.</span><div class="track"><span class="v" style="width:50%"></span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="d2-card">
+          <div class="left">
+            <div class="num">05 / 06 · Oversight-leaning</div>
+            <h3>Civic Risk Steward</h3>
+            <p class="def">Centers harm to specific publics — workers, minorities, civic infrastructure — over abstract capability or competition framings.</p>
+            <ul class="diff-list">
+              <li>Reads concentrated harms before aggregate gains</li>
+              <li>Wants standing and remedy for affected groups</li>
+            </ul>
+            <div class="meta-row">
+              <span><span class="k">Nearest</span><span class="nb">Democratic Guardrailist</span></span>
+              <a class="open" href="#">Open in Field Guide ↗</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="fp">
+              <div class="lbl"><span>Fingerprint</span><span class="scale">L · M · H</span></div>
+              <div class="fp-row high"><span class="name">Oversight</span><div class="track"><span class="v" style="width:84%"></span></div></div>
+              <div class="fp-row"><span class="name">Capability</span><div class="track"><span class="v" style="width:46%"></span></div></div>
+              <div class="fp-row"><span class="name">Openness</span><div class="track"><span class="v" style="width:62%"></span></div></div>
+              <div class="fp-row"><span class="name">Multilat.</span><div class="track"><span class="v" style="width:55%"></span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="d2-card">
+          <div class="left">
+            <div class="num">06 / 06 · Cross-pressured</div>
+            <h3>Multilateral Coordinator</h3>
+            <p class="def">Looks for governance traction in regimes, standards bodies, and treaties; willing to trade national autonomy for credible coordination.</p>
+            <ul class="diff-list">
+              <li>Prefers shared compute and licensing baselines</li>
+              <li>Names regime weakness rather than hiding it</li>
+            </ul>
+            <div class="meta-row">
+              <span><span class="k">Nearest</span><span class="nb">Democratic Guardrailist</span></span>
+              <a class="open" href="#">Open in Field Guide ↗</a>
+            </div>
+          </div>
+          <div class="right">
+            <div class="fp">
+              <div class="lbl"><span>Fingerprint</span><span class="scale">L · M · H</span></div>
+              <div class="fp-row"><span class="name">Oversight</span><div class="track"><span class="v" style="width:64%"></span></div></div>
+              <div class="fp-row"><span class="name">Capability</span><div class="track"><span class="v" style="width:55%"></span></div></div>
+              <div class="fp-row"><span class="name">Openness</span><div class="track"><span class="v" style="width:60%"></span></div></div>
+              <div class="fp-row high"><span class="name">Multilat.</span><div class="track"><span class="v" style="width:88%"></span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fg-route">
+        <p class="body">The Atlas is the browse map. <b>The AI Field Guide</b> carries the long-form: definitions in depth, the strongest critique of each pattern, and the per-archetype reading shelf — kept off the cards on purpose.</p>
+        <a href="#">Open AI Field Guide <span class="arr">→</span></a>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===========================================================
+       Recommendation
+       =========================================================== -->
+  <section class="reco">
+    <h2>Recommendation for fast scanning</h2>
+    <p class="deck">Which direction to ship</p>
+
+    <div class="reco-row">
+      <div>
+        <h3>01 · Index Shelf</h3>
+        <p>Wins on calm. Six identical cells, no ornament, every archetype gets the same air. Best for a reader who arrives without a question and wants to read the patterns sequentially.</p>
+        <p>Loses on at-a-glance comparison. The reader has to read text to tell two archetypes apart; nothing distinguishes them visually except their words.</p>
+      </div>
+      <div>
+        <h3>02 · Fingerprint Row</h3>
+        <p>Wins on scanning. The four-row fingerprint turns each archetype into a recognizable shape — Strategic Competitor reads as “tall capability, short openness” before the eye reaches the prose. Two passes get you a working map.</p>
+        <p>Loses on density. The wider 2-up grid means the reader sees three archetypes per fold rather than six; comparison is faster but coverage is slower.</p>
+      </div>
+    </div>
+
+    <p class="reco-verdict">For a <b>browse</b> page — where the user is sweeping to find the one or two archetypes that match a real question — <b>Direction 02 (Fingerprint Row)</b> is the better choice. The fingerprint encodes the differentiators visually, so the eye does the comparison and the text confirms; Direction 01 makes the eye work through prose. Direction 01 is the better fallback if the team decides differentiator <em>language</em>, not <em>shape</em>, is the editorial priority — but for fast scanning of six items, shape wins.</p>
+  </section>
+</div>
+</body>
+</html>

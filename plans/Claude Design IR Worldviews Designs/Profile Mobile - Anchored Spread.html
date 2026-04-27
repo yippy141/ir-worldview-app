@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Profile Mobile — Anchored Spread (390px)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-2: #efe9dc;
+    --paper-3: #e9e1ce;
+    --ink: #1a1916;
+    --ink-2: #3a362e;
+    --muted: #6b6356;
+    --rule: #d8cfbb;
+    --rule-strong: #a89b80;
+    --accent: #7a2e1f;
+    --accent-2: #8a6b1d;
+    --accent-3: #2f5d3a;
+    --accent-4: #1f3a5f;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: #ddd5c0;
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Showcase shell — desktop view of the mobile artifact */
+  .showcase {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 28px 96px;
+    display: grid;
+    grid-template-columns: 390px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .showcase { grid-template-columns: 1fr; gap: 32px; }
+  }
+  .show-head {
+    grid-column: 1 / -1;
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 14px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .show-title {
+    grid-column: 1 / -1;
+    margin: 24px 0 4px;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .show-deck {
+    grid-column: 1 / -1;
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0 0 14px;
+    max-width: 720px;
+  }
+
+  /* Phone frame */
+  .phone {
+    width: 390px;
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 28px 48px -32px rgba(40,30,10,0.35);
+    overflow: hidden;
+    border-radius: 36px;
+    position: relative;
+  }
+  .phone .notch {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 110px; height: 22px;
+    background: var(--ink);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    z-index: 5;
+  }
+  .status {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 22px 6px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .status .right { display: flex; gap: 6px; align-items: center; }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--rule);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  .brand {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .brand .beta {
+    margin-left: 6px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .menu {
+    width: 22px; height: 14px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .menu span {
+    display: block;
+    height: 1.5px;
+    background: var(--ink-2);
+  }
+
+  /* Section eyebrow / header tab strip */
+  .seg {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--rule);
+    padding: 0 12px;
+    gap: 14px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    scrollbar-width: none;
+  }
+  .seg::-webkit-scrollbar { display: none; }
+  .seg a {
+    flex: 0 0 auto;
+    padding: 12px 4px;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .seg a.active {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+    font-weight: 700;
+  }
+
+  .content { padding: 18px 18px 28px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  .eyebrow .sep { margin: 0 6px; color: var(--rule-strong); }
+
+  h1.title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 26px;
+    line-height: 1.12;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+    margin: 0 0 12px;
+  }
+  h1.title em {
+    font-style: italic;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .summary {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    margin: 0 0 18px;
+    text-wrap: pretty;
+  }
+
+  /* Chips — wrap cleanly */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 18px;
+  }
+  .chip {
+    flex: 0 0 auto;
+    max-width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+    padding: 7px 10px 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    line-height: 1.25;
+  }
+  .chip .k {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 9.5px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .chip .v {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 600;
+    margin-top: 1px;
+  }
+  .chip.high .v { color: var(--accent); }
+  .chip.stable .v { color: var(--accent-3); }
+
+  /* Anchored spread chart — mobile */
+  .chart {
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    background: #faf6ea;
+    margin: 0 -18px 16px;
+  }
+  .chart-head {
+    padding: 12px 18px 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .chart-head .t {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .chart-head .scale {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .chart-head .scale .c {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .row {
+    border-bottom: 1px solid var(--rule);
+    padding: 11px 18px 12px;
+  }
+  .row:last-of-type { border-bottom: 0; }
+  .row .nm {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .row .anchor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 1px;
+    letter-spacing: 0.02em;
+  }
+  .bar {
+    position: relative;
+    height: 16px;
+    margin: 8px 0 6px;
+  }
+  .bar .axis {
+    position: absolute;
+    top: -2px; bottom: -2px;
+    left: 50%;
+    width: 1px;
+    background: var(--ink);
+  }
+  .bar .grid {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--rule);
+  }
+  .bar .fill {
+    position: absolute;
+    top: 0; bottom: 0;
+    background: var(--accent);
+    opacity: 0.85;
+    border-radius: 1px;
+  }
+  .row.stable .bar .fill { background: var(--accent-3); opacity: 0.85; }
+  .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+  }
+  .meta .delta {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 11px;
+  }
+  .row.stable .meta .delta { color: var(--accent-3); }
+
+  .chart-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    padding: 10px 18px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule-strong);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .chart-foot .sw {
+    display: inline-block;
+    width: 12px; height: 5px;
+    margin-right: 5px;
+    vertical-align: 1px;
+    border-radius: 1px;
+  }
+  .chart-foot .sw.move { background: var(--accent); }
+  .chart-foot .sw.stable { background: var(--accent-3); }
+
+  /* CTA stack */
+  .ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 18px;
+  }
+  .cta {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 13px;
+    padding: 11px 14px;
+    border-radius: 2px;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+  .cta .arr {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .cta.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    font-weight: 600;
+  }
+  .cta.primary .arr { color: var(--paper-3); }
+
+  /* Layer relationship strip — below chart */
+  .layer {
+    margin: 4px 0 14px;
+    padding: 12px 14px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent-4);
+  }
+  .layer .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent-4);
+    margin-bottom: 4px;
+  }
+  .layer .body {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .layer a {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--accent-4);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-4);
+    padding-bottom: 1px;
+  }
+
+  /* Collapsible appendix / evidence */
+  details.appx {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 0;
+    margin: 4px 0 14px;
+  }
+  details.appx summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 2px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  details.appx summary::-webkit-details-marker { display: none; }
+  details.appx summary .lbl-l {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+  details.appx summary .chev {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--muted);
+    font-size: 12px;
+    transition: transform 0.15s ease;
+  }
+  details.appx[open] summary .chev { transform: rotate(90deg); }
+  details.appx .appx-body {
+    padding: 0 2px 14px;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  details.appx + details.appx { border-top: 0; margin-top: -14px; }
+  details.appx ul { margin: 0; padding-left: 16px; }
+  details.appx li { margin-bottom: 5px; }
+
+  /* fold marker on phone */
+  .fold {
+    position: relative;
+    margin: 0 -18px;
+    border-top: 1px dashed var(--rule-strong);
+  }
+  .fold span {
+    position: absolute;
+    top: -8px;
+    right: 18px;
+    background: var(--paper);
+    padding: 0 6px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .home-indicator {
+    height: 5px;
+    width: 134px;
+    margin: 8px auto 8px;
+    border-radius: 3px;
+    background: var(--ink-2);
+    opacity: 0.7;
+  }
+
+  /* Notes panel beside the phone */
+  .notes {
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    padding: 22px 24px 26px;
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+  }
+  .notes h2 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 4px;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .notes .deck {
+    color: var(--muted);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .notes h3 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin: 22px 0 10px;
+  }
+  .notes ol {
+    counter-reset: note;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .notes ol li {
+    counter-increment: note;
+    position: relative;
+    padding: 10px 0 10px 38px;
+    border-bottom: 1px dotted var(--rule);
+    line-height: 1.5;
+  }
+  .notes ol li:last-child { border-bottom: 0; }
+  .notes ol li::before {
+    content: counter(note, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 12px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .notes b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 13.5px;
+  }
+</style>
+</head>
+<body>
+<div class="showcase">
+  <header class="show-head">
+    <span>Profile · Mobile · Anchored Spread</span>
+    <span>390 px · for review</span>
+  </header>
+  <h1 class="show-title">Profile mobile — Direction 03 adapted</h1>
+  <p class="show-deck">The dominant visual still owns the first screen at 390 px. Header furniture is shrunk, the desktop fact card becomes wrapping chips, the layer-relationship section drops below the chart, and evidence is collapsed by default.</p>
+
+  <!-- Phone -->
+  <article class="phone" data-screen-label="Profile mobile · Anchored Spread">
+    <div class="notch"></div>
+
+    <div class="status">
+      <span>9:41</span>
+      <span class="right">●●● <span style="font-family:'IBM Plex Mono', monospace; font-size:10.5px;">5G</span> ▮</span>
+    </div>
+
+    <div class="topbar">
+      <span class="brand">IR Worldview<span class="beta">Beta</span></span>
+      <span class="menu" aria-label="menu"><span></span><span></span><span></span></span>
+    </div>
+
+    <nav class="seg" aria-label="sections">
+      <a href="#">Foundation</a>
+      <a href="#">Modules</a>
+      <a href="#">AI</a>
+      <a href="#" class="active">Profile</a>
+      <a href="#">Atlas</a>
+      <a href="#">Field Guide</a>
+    </nav>
+
+    <div class="content">
+      <p class="eyebrow">Profile<span class="sep">/</span>4 layers<span class="sep">/</span>Apr 26</p>
+      <h1 class="title">Baseline holds on legitimacy and oversight; <em>leans heavily toward competition</em> when Security &amp; Tech apply.</h1>
+      <p class="summary">Foundation places you in the rules-and-institutions liberal family with constructivist overlap. Two lanes — competition and political economy — moved meaningfully under module pressure; the rest sat close to where they started.</p>
+
+      <div class="chips">
+        <span class="chip"><span class="k">Baseline</span><span class="v">Liberal Institutionalist</span></span>
+        <span class="chip high"><span class="k">Changed most</span><span class="v">Competition · +1.8</span></span>
+        <span class="chip stable"><span class="k">Stayed stable</span><span class="v">Oversight</span></span>
+      </div>
+
+      <!-- DOMINANT VISUAL -->
+      <div class="chart" role="img" aria-label="Five lanes — deviation under module pressure, anchored on baseline">
+        <div class="chart-head">
+          <span class="t">Deviation under module pressure</span>
+          <div class="scale">
+            <span>← coord.</span>
+            <span class="c">Baseline</span>
+            <span>compet. →</span>
+          </div>
+        </div>
+
+        <!-- Competition +1.8 right -->
+        <div class="row">
+          <div class="nm">Competition vs Coordination</div>
+          <div class="anchor">3.8 → 5.6 / 7</div>
+          <div class="bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <span class="fill" style="left:50%; width:30%"></span>
+          </div>
+          <div class="meta">
+            <span>Security &amp; Strategy · n = 12</span>
+            <span class="delta">Δ +1.8 leans heavily</span>
+          </div>
+        </div>
+
+        <!-- Institutions -0.5 left -->
+        <div class="row">
+          <div class="nm">Institutions and rules</div>
+          <div class="anchor">5.8 → 5.3 / 7</div>
+          <div class="bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <span class="fill" style="left:41.66%; width:8.34%"></span>
+          </div>
+          <div class="meta">
+            <span>Tech &amp; Geoeconomics · n = 9</span>
+            <span class="delta">Δ −0.5 leans</span>
+          </div>
+        </div>
+
+        <!-- Legitimacy stable +0.2 -->
+        <div class="row stable">
+          <div class="nm">Legitimacy of rule-setting</div>
+          <div class="anchor">4.5 → 4.7 / 7 · stable</div>
+          <div class="bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <span class="fill" style="left:50%; width:3.33%"></span>
+          </div>
+          <div class="meta">
+            <span>All modules · n = 14</span>
+            <span class="delta">Δ +0.2 within band</span>
+          </div>
+        </div>
+
+        <!-- Political econ +1.1 right -->
+        <div class="row">
+          <div class="nm">Political economy</div>
+          <div class="anchor">4.0 → 5.1 / 7</div>
+          <div class="bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <span class="fill" style="left:50%; width:18.33%"></span>
+          </div>
+          <div class="meta">
+            <span>Tech &amp; Geoeconomics · n = 11</span>
+            <span class="delta">Δ +1.1 leans heavily</span>
+          </div>
+        </div>
+
+        <!-- Oversight stable -0.1 -->
+        <div class="row stable">
+          <div class="nm">Public oversight &amp; restraint</div>
+          <div class="anchor">6.4 → 6.3 / 7 · stable</div>
+          <div class="bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <span class="fill" style="left:48.33%; width:1.67%"></span>
+          </div>
+          <div class="meta">
+            <span>AI Compass + Security · n = 10</span>
+            <span class="delta">Δ −0.1 within band</span>
+          </div>
+        </div>
+
+        <div class="chart-foot">
+          <span><span class="sw move"></span>Moved · |Δ| &gt; 0.5</span>
+          <span><span class="sw stable"></span>Stable</span>
+        </div>
+      </div>
+
+      <div class="fold"><span>Fold · 844 px</span></div>
+
+      <!-- Layer relationship — below the main chart -->
+      <div class="layer">
+        <div class="lbl">AI Governance · related layer</div>
+        <p class="body">Your AI Compass result reads as a related but distinct layer — same competition tilt, scored separately, not aggregated into the bars above.</p>
+        <a href="#">Open AI Compass →</a>
+      </div>
+
+      <!-- CTAs -->
+      <div class="ctas">
+        <a href="#" class="cta primary">Open Foundation result <span class="arr">↗</span></a>
+        <a href="#" class="cta">Open the Competition lane <span class="arr">↗</span></a>
+        <a href="#" class="cta">Atlas: nearest pattern <span class="arr">↗</span></a>
+      </div>
+
+      <!-- Collapsed appendix / evidence -->
+      <details class="appx">
+        <summary>
+          <span><span class="lbl-l">Evidence log</span> &nbsp; Items behind these bars · 56</span>
+          <span class="chev">›</span>
+        </summary>
+        <div class="appx-body">
+          <ul>
+            <li>Security &amp; Strategy: 12 items · 4 actor-lens cards tracked separately</li>
+            <li>Tech &amp; Geoeconomics: 20 items · 3 actor-lens cards</li>
+            <li>AI Governance Compass: 14 items · contributes to oversight only</li>
+            <li>Foundation: 10 anchor items repeated for retest reliability</li>
+          </ul>
+        </div>
+      </details>
+      <details class="appx">
+        <summary>
+          <span><span class="lbl-l">Where this result will be wrong</span> &nbsp; Coverage limits</span>
+          <span class="chev">›</span>
+        </summary>
+        <div class="appx-body">
+          If your strongest instincts come from feminist, postcolonial, green, or English School IR, the inventory will place you in the closest of its four modeled families rather than name your actual orientation. Known limit, not a feature of your views.
+        </div>
+      </details>
+      <details class="appx">
+        <summary>
+          <span><span class="lbl-l">Trust &amp; coverage</span> &nbsp; What the numbers are</span>
+          <span class="chev">›</span>
+        </summary>
+        <div class="appx-body">
+          Band positions, not population percentiles. Decimals are model positions. n = number of items behind each lane.
+        </div>
+      </details>
+    </div>
+
+    <div class="home-indicator"></div>
+  </article>
+
+  <!-- Notes -->
+  <aside class="notes">
+    <h2>Structural compromises · desktop → mobile</h2>
+    <p class="deck">What was traded, and why</p>
+
+    <h3>Layout</h3>
+    <ol>
+      <li><b>Desktop two-column head dropped to one.</b> The right-hand fact card on desktop becomes three wrap-friendly chips above the chart. Same three facts (baseline · changed most · stayed stable), tighter typography.</li>
+      <li><b>Chart label column collapsed into the row.</b> Desktop reserves a 320 px label gutter; mobile inlines lane name + anchor numbers above each bar so the bar gets the full width.</li>
+      <li><b>Per-lane meta moved below the bar.</b> Module source and Δ value sit on a single line under the bar instead of beside it.</li>
+      <li><b>Layer-relationship section moved below the chart.</b> On desktop it sat beside the CTA row; on mobile it sits between the chart and the CTAs so the AI layer is acknowledged before the user is asked to act.</li>
+    </ol>
+
+    <h3>Density</h3>
+    <ol>
+      <li><b>Page nav becomes a horizontal segmented strip.</b> Six nav items don’t fit in a top bar at 390 px; they scroll horizontally with Profile pinned active. The hamburger covers everything else.</li>
+      <li><b>Chart scale strip simplified.</b> Long axis labels (“toward coordination / institutions / restraint”) shorten to “← coord.” / “compet. →” to keep the row uncrowded.</li>
+      <li><b>Decimals trimmed in row anchors.</b> “3.8 → 5.6 / 7” instead of two separate “baseline / pressure” lines.</li>
+    </ol>
+
+    <h3>Progressive disclosure</h3>
+    <ol>
+      <li><b>Three appendix-style sections collapsed by default.</b> Evidence log, “Where this result will be wrong,” and Trust &amp; coverage all start closed; tapping rotates the chevron and expands inline. None of them are required for the four above-the-fold questions.</li>
+      <li><b>CTAs stack vertically, three deep.</b> Same three calls as desktop; stacked at 44 px tall hit-targets so they read as buttons without dominating. The fourth desktop CTA (“Field Guide on shifts”) is deferred to the appendix area.</li>
+    </ol>
+
+    <h3>What did not change</h3>
+    <ol>
+      <li><b>Same dominant visual.</b> Anchored spread chart, same five lanes, same encoding (baseline as anchor, deviation as bar, stable lanes muted in forest).</li>
+      <li><b>Same three chips, same modal language.</b> “Leans” and “leans heavily” carry over; “stable” retained as a third category.</li>
+      <li><b>Same noun system.</b> Foundation, Modules, AI Governance, Profile, Atlas, Field Guide — pinned to nav at the top.</li>
+    </ol>
+  </aside>
+</div>
+</body>
+</html>

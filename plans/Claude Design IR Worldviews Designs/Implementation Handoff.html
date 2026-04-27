@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Implementation Handoff — Profile, Atlas, Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-2: #efe9dc;
+    --paper-3: #e9e1ce;
+    --ink: #1a1916;
+    --ink-2: #3a362e;
+    --muted: #6b6356;
+    --rule: #d8cfbb;
+    --rule-strong: #a89b80;
+    --accent: #7a2e1f;
+    --accent-2: #8a6b1d;
+    --accent-3: #2f5d3a;
+    --accent-4: #1f3a5f;
+    --do-not: #7a2e1f;
+    --keep:   #2f5d3a;
+    --change: #8a6b1d;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: #ddd5c0;
+    color: var(--ink);
+    margin: 0;
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    font-size: 15.5px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 1180px; margin: 0 auto; padding: 56px 32px 96px;
+  }
+  .doc {
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+  }
+  .doc-head {
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 18px 56px 14px;
+    display: flex; align-items: baseline; justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .doc-head .brand {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: 0;
+    text-transform: none;
+  }
+  .doc-head .brand .beta {
+    margin-left: 8px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+  }
+  .doc-body {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 36px;
+    padding: 36px 56px 48px;
+    align-items: start;
+  }
+
+  /* sticky rail (matches Field Guide style) */
+  aside.rail {
+    position: sticky; top: 24px;
+    border-right: 1px solid var(--rule);
+    padding-right: 20px;
+  }
+  .rail .lbl {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 10px;
+  }
+  .rail ol {
+    list-style: none; padding: 0; margin: 0; counter-reset: rl;
+  }
+  .rail ol li {
+    counter-increment: rl;
+    border-bottom: 1px dotted var(--rule);
+    padding: 9px 0 9px 30px;
+    position: relative;
+    font-size: 13.5px;
+    color: var(--ink);
+    font-family: "Source Serif 4", Georgia, serif;
+    letter-spacing: -0.005em;
+  }
+  .rail ol li::before {
+    content: counter(rl, decimal-leading-zero);
+    position: absolute; left: 0; top: 11px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted);
+  }
+  .rail ol li a {
+    color: inherit; text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .rail ol li a:hover { border-bottom-color: var(--ink); }
+  .rail .meta {
+    margin-top: 18px;
+    padding: 10px 12px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  .rail .meta b { font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 4px; font-weight: 700; }
+
+  /* main content */
+  .content > .preamble {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 18px; margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin: 0 0 8px;
+  }
+  .eyebrow .sep { margin: 0 8px; color: var(--rule-strong); }
+  h1.title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 32px; line-height: 1.1; font-weight: 700;
+    letter-spacing: -0.012em; text-wrap: balance; margin: 0 0 8px;
+  }
+  h1.title em { font-style: italic; color: var(--ink-2); font-weight: 600; }
+  .deck {
+    font-size: 15.5px; color: var(--ink-2); margin: 0;
+  }
+  .ship-strip {
+    margin-top: 14px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .ship-strip > div {
+    padding: 10px 14px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .ship-strip .k {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin-bottom: 2px;
+  }
+  .ship-strip .v {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; color: var(--ink); letter-spacing: 0.02em;
+  }
+
+  h2.sec {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 22px; font-weight: 700; letter-spacing: -0.005em;
+    margin: 36px 0 4px;
+  }
+  h2.sec .num {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px; color: var(--muted); margin-right: 10px; font-weight: 500;
+  }
+  .sec-deck {
+    font-size: 14px; color: var(--ink-2); font-style: italic; margin: 0 0 14px; max-width: 720px;
+  }
+
+  /* chosen-direction cards */
+  .choice {
+    border-top: 1px solid var(--rule-strong);
+  }
+  .choice-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+    align-items: start;
+  }
+  .choice-row .surf {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; padding-top: 4px;
+  }
+  .choice-row .pick h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 17px; font-weight: 700; letter-spacing: -0.005em;
+    margin: 0 0 4px;
+  }
+  .choice-row .pick h3 .id {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted); margin-right: 8px; font-weight: 500;
+  }
+  .choice-row .pick .why {
+    font-size: 13.5px; color: var(--ink-2); line-height: 1.5; margin: 0;
+  }
+
+  /* hierarchy rules */
+  .rules-list { border-top: 1px solid var(--rule-strong); padding: 0; margin: 0; list-style: none; counter-reset: hr; }
+  .rules-list li {
+    counter-increment: hr;
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 0 12px 40px;
+    position: relative;
+    font-size: 14px; color: var(--ink-2); line-height: 1.55;
+  }
+  .rules-list li::before {
+    content: "R" counter(hr, decimal-leading-zero);
+    position: absolute; left: 0; top: 13px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px; color: var(--muted); letter-spacing: 0.04em;
+  }
+  .rules-list li b {
+    font-family: "Source Serif 4", Georgia, serif;
+    color: var(--ink); font-weight: 700;
+  }
+
+  /* remove/collapse/demote table */
+  .rcd-row {
+    display: grid;
+    grid-template-columns: 110px 200px 1fr;
+    border-bottom: 1px solid var(--rule);
+  }
+  .rcd-row:first-of-type { border-top: 1px solid var(--rule-strong); }
+  .rcd-row.head {
+    background: var(--paper-2);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700;
+  }
+  .rcd-row > div {
+    padding: 10px 14px;
+    border-right: 1px solid var(--rule);
+    font-size: 13.5px; color: var(--ink-2); line-height: 1.5;
+  }
+  .rcd-row > div:last-child { border-right: 0; }
+  .rcd-row .tag {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10.5px; letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .tag.rm { color: var(--do-not); }
+  .tag.col { color: var(--accent-2); }
+  .tag.dem { color: var(--accent-4); }
+  .rcd-row .where {
+    font-family: "Source Serif 4", Georgia, serif; color: var(--ink); font-weight: 600; font-size: 13.5px;
+  }
+
+  /* style vs layout split */
+  .sv-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .sv-grid .col {
+    padding: 14px 16px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .sv-grid .col h4 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; margin: 0 0 8px;
+  }
+  .sv-grid .col h4 .scope {
+    margin-left: 6px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 10px; letter-spacing: 0.06em;
+    color: var(--ink-2); font-weight: 500;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    padding: 1px 6px; border-radius: 999px;
+    text-transform: none;
+  }
+  .sv-grid ul {
+    margin: 0; padding-left: 18px;
+    font-size: 13.5px; color: var(--ink-2); line-height: 1.55;
+  }
+  .sv-grid ul li { margin-bottom: 4px; }
+  .sv-grid ul li code {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    background: var(--paper-2); border: 1px solid var(--rule);
+    padding: 0 4px; border-radius: 2px;
+  }
+
+  /* do-not-touch */
+  .do-not {
+    border: 1px solid var(--do-not);
+    border-left-width: 4px;
+    background: var(--paper);
+    padding: 16px 20px;
+  }
+  .do-not h4 {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--do-not); font-weight: 700; margin: 0 0 8px;
+  }
+  .do-not ol {
+    margin: 0; padding-left: 20px;
+    font-size: 13.5px; color: var(--ink-2); line-height: 1.6;
+  }
+  .do-not ol li { margin-bottom: 4px; }
+  .do-not ol li b {
+    font-family: "Source Serif 4", Georgia, serif; color: var(--ink); font-weight: 700;
+  }
+  .do-not ol li code {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    background: var(--paper-2); border: 1px solid var(--rule);
+    padding: 0 4px; border-radius: 2px;
+  }
+
+  /* shared system block */
+  .system-block {
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 14px;
+  }
+  .system-block .row {
+    display: grid; grid-template-columns: 160px 1fr;
+    padding: 8px 0; border-bottom: 1px dotted var(--rule);
+    font-size: 13.5px; color: var(--ink-2); line-height: 1.5;
+  }
+  .system-block .row .k {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); font-weight: 700; padding-top: 2px;
+  }
+  .system-block .row code {
+    font-family: "IBM Plex Mono", monospace; font-size: 12px;
+    background: var(--paper-2); border: 1px solid var(--rule);
+    padding: 0 4px; border-radius: 2px;
+  }
+
+  /* file refs */
+  .files-row {
+    display: grid; grid-template-columns: 220px 1fr; gap: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .files-row:first-of-type { border-top: 1px solid var(--rule-strong); }
+  .files-row > div { padding: 10px 14px; border-right: 1px solid var(--rule); font-size: 13px; }
+  .files-row > div:last-child { border-right: 0; color: var(--ink-2); }
+  .files-row .file {
+    font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: var(--ink);
+  }
+
+  /* footnote */
+  .foot {
+    margin-top: 36px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+    display: flex; justify-content: space-between;
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+  <article class="doc" data-screen-label="Implementation Handoff">
+
+    <div class="doc-head">
+      <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      <span>Implementation Handoff · v1 · for Claude Code &amp; Codex</span>
+    </div>
+
+    <div class="doc-body">
+
+      <!-- ============ left rail ============ -->
+      <aside class="rail">
+        <div class="lbl">In this handoff</div>
+        <ol>
+          <li><a href="#chosen">Chosen directions</a></li>
+          <li><a href="#hier">Hierarchy rules</a></li>
+          <li><a href="#rcd">Remove · collapse · demote</a></li>
+          <li><a href="#sv">Style vs layout</a></li>
+          <li><a href="#sys">Shared system tokens</a></li>
+          <li><a href="#dnt">Do not change</a></li>
+          <li><a href="#refs">File references</a></li>
+        </ol>
+        <div class="meta">
+          <b>Scope</b>
+          Three landing surfaces only — Profile, AI Atlas (browse), AI Field Guide. Compass quiz, scoring engine, archetype assignment, and route names are out of scope and untouched.
+        </div>
+      </aside>
+
+      <!-- ============ content ============ -->
+      <div class="content">
+
+        <div class="preamble">
+          <p class="eyebrow">Implementation handoff<span class="sep">/</span>v1<span class="sep">/</span>Profile · Atlas · Field Guide</p>
+          <h1 class="title">Three landing surfaces — chosen directions and the rules that hold them together <em>without restyling Compass or scoring.</em></h1>
+          <p class="deck">A short, ruled brief for Claude Code and Codex. Picks first, then the hierarchy and demotion rules; then the styling-vs-layout split and the explicit do-not-touch list for copy, scoring, and route meaning.</p>
+
+          <div class="ship-strip">
+            <div><div class="k">Surfaces</div><div class="v">Profile · Atlas · Field Guide</div></div>
+            <div><div class="k">Out of scope</div><div class="v">Compass · scoring · routes</div></div>
+            <div><div class="k">System</div><div class="v">Shared chrome &amp; type only</div></div>
+            <div><div class="k">Rail use</div><div class="v">≥ 3 peer sections only</div></div>
+          </div>
+        </div>
+
+        <!-- §1 chosen -->
+        <section id="chosen">
+          <h2 class="sec"><span class="num">§1</span>Chosen directions</h2>
+          <p class="sec-deck">One pick per surface. Each pick references the direction id from its respective option file.</p>
+          <div class="choice">
+            <div class="choice-row">
+              <div class="surf">Profile · desktop &amp; mobile</div>
+              <div class="pick">
+                <h3><span class="id">Direction 03</span>Anchored Spread</h3>
+                <p class="why">Baseline becomes the vertical anchor; lanes show only their deviation as bars. Lane copy uses "leans" / "leans heavily" rather than numeric deltas. Mobile keeps the chart dominant on first screen, chips wrap, three appendix sections collapsed by default, CTAs stacked with 44 px hit targets.</p>
+              </div>
+            </div>
+            <div class="choice-row">
+              <div class="surf">AI Atlas · browse</div>
+              <div class="pick">
+                <h3><span class="id">Direction 02</span>Fingerprint Row</h3>
+                <p class="why">2-up cards with a four-row fingerprint per archetype (Oversight / Capability / Openness / Multilateral). Long reading shelf stays off the cards. Single shared "Open AI Field Guide" CTA below the grid.</p>
+              </div>
+            </div>
+            <div class="choice-row">
+              <div class="surf">AI Field Guide · landing</div>
+              <div class="pick">
+                <h3><span class="id">Direction 02</span>Two-Column Explainer</h3>
+                <p class="why">Persistent left rail labels every section; right column holds one ruled section at a time. Futures appendix is the final rail item, pilled "optional," demoted to dashed border. Banner under the title makes "explainer, not assessment" explicit.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- §2 hierarchy -->
+        <section id="hier">
+          <h2 class="sec"><span class="num">§2</span>Hierarchy rules</h2>
+          <p class="sec-deck">Apply across all three surfaces. These keep the family consistent without forcing every page to wear the same skeleton.</p>
+          <ol class="rules-list">
+            <li><b>Rail iff peer sections.</b> Use the sticky left-rail layout only when a page has 3+ peer sections at the same level (Field Guide, Atlas browse). Profile has one dominant artifact (the chart) and uses a no-rail layout.</li>
+            <li><b>One dominant element per first screen.</b> Profile = Anchored Spread chart. Atlas = the 2-up Fingerprint grid. Field Guide = the eight-axis ruled list. Nothing else may compete for first fixation.</li>
+            <li><b>Eyebrow → title → deck.</b> Every page header uses the same three-line opener: uppercase eyebrow with sep dots, serif title with optional italic clause, single-sentence deck under 24 words. No exceptions.</li>
+            <li><b>Banner before title body for non-scoring surfaces.</b> Field Guide and Atlas browse must show the small bordered "Explainer / Browse — no scoring" banner directly under the title. Profile does not need one.</li>
+            <li><b>Ruled rows over cards.</b> Default to ruled rows with hairline dividers; reach for bordered cards only when content is genuinely peer (start-here cells, fingerprint cards). No drop shadows on internal blocks.</li>
+            <li><b>CTAs at the bottom, never floating.</b> A single primary action per page, paired with at most one secondary. Stacked on mobile.</li>
+            <li><b>Appendices visibly demoted.</b> Anything optional uses a dashed border, an "Optional · Non-scored" pill, and lives at the bottom — never inline with peer content.</li>
+            <li><b>Greyscale-print legible.</b> Any element that depends on color to encode meaning fails the rule. Encode via shape, weight, position, or label first; color is reinforcement.</li>
+          </ol>
+        </section>
+
+        <!-- §3 remove / collapse / demote -->
+        <section id="rcd">
+          <h2 class="sec"><span class="num">§3</span>Remove · collapse · demote</h2>
+          <p class="sec-deck">Existing blocks on each surface and what happens to them in the new layout. "Remove" deletes the block; "Collapse" hides it behind a disclosure; "Demote" keeps it visible but lower in hierarchy.</p>
+          <div class="rcd-row head">
+            <div>Action</div>
+            <div>Block</div>
+            <div>Where &amp; why</div>
+          </div>
+
+          <div class="rcd-row">
+            <div class="tag rm">Remove</div>
+            <div class="where">Five parallel scoring strips</div>
+            <div>Profile. Replaced by the Anchored Spread chart. The strips encoded position twice (color + length) and competed with the AI band.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag rm">Remove</div>
+            <div class="where">Numeric deltas next to lanes</div>
+            <div>Profile. False precision. Replaced by "leans / leans heavily" tokens.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag dem">Demote</div>
+            <div class="where">AI governance band</div>
+            <div>Profile. Becomes a thin ruled band under the chart, not a parallel column. Same data, lower visual weight.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag col">Collapse</div>
+            <div class="where">Evidence log · "Where this will be wrong" · Trust &amp; coverage</div>
+            <div>Profile (mobile especially). All three become disclosure sections under the chart and chips. Default closed.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag rm">Remove</div>
+            <div class="where">Long reading-shelf paragraphs on Atlas cards</div>
+            <div>Atlas browse. The fingerprint and one-line caption replace them; the shelf moves into Field Guide entries.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag dem">Demote</div>
+            <div class="where">Per-archetype CTA buttons</div>
+            <div>Atlas browse. Replaced by a single shared "Open AI Field Guide" CTA below the grid.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag rm">Remove</div>
+            <div class="where">Quiz-framed CTAs on Field Guide</div>
+            <div>Field Guide. Anything that resembles a second assessment ("score yourself again," "compare to peers") is removed; replaced with browse / read CTAs.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag dem">Demote</div>
+            <div class="where">Futures scenarios</div>
+            <div>Field Guide. Last rail item, dashed border, "Optional · Non-scored" pill. Never enters scoring.</div>
+          </div>
+          <div class="rcd-row">
+            <div class="tag col">Collapse</div>
+            <div class="where">Method &amp; provenance footnotes</div>
+            <div>All three surfaces. Behind a footer disclosure, not inline with content.</div>
+          </div>
+        </section>
+
+        <!-- §4 style vs layout -->
+        <section id="sv">
+          <h2 class="sec"><span class="num">§4</span>Pure styling vs layout changes</h2>
+          <p class="sec-deck">Telling Codex / Claude Code where to land each change. Style-only changes can ship as token edits; layout changes need DOM restructuring.</p>
+          <div class="sv-grid">
+            <div class="col">
+              <h4>Pure styling <span class="scope">tokens · CSS</span></h4>
+              <ul>
+                <li>Type scale: serif <code>Source Serif 4</code> for titles, <code>IBM Plex Sans</code> for eyebrows/labels, <code>IBM Plex Mono</code> for IDs and metadata.</li>
+                <li>Paper palette: <code>--paper</code>, <code>--paper-2</code>, <code>--paper-3</code>, <code>--rule</code>, <code>--rule-strong</code>.</li>
+                <li>Eyebrow / title / deck pattern, banner pattern, ruled-row dividers — all reused as components, not redrawn.</li>
+                <li>Card chrome: 1 px solid <code>--rule-strong</code>, no drop shadow on inner blocks; outer frame keeps the soft 18px / -28px shadow.</li>
+                <li>CTA pill, footer disclosure caret, "Optional · Non-scored" pill — token-level.</li>
+                <li>Greyscale-print fallback: any color-coded element ships with a paired non-color encoder (shape / weight / label).</li>
+              </ul>
+            </div>
+            <div class="col">
+              <h4>Layout changes <span class="scope">DOM · routes</span></h4>
+              <ul>
+                <li>Profile: replace 5-strip scoring grid with single Anchored Spread chart component; rebuild lane rows with bar / anchor / label structure.</li>
+                <li>Profile: AI band becomes a sibling under the chart, not a column inside it.</li>
+                <li>Profile mobile: rework appendix region into three <code>&lt;details&gt;</code> blocks, default closed; CTAs as a stacked <code>&lt;nav&gt;</code>.</li>
+                <li>Atlas: change card grid from previous direction to 2-up <code>grid-template-columns</code>; introduce <code>FingerprintBars</code> component (Oversight / Capability / Openness / Multilateral).</li>
+                <li>Atlas: collapse multiple per-card CTAs to one shared CTA outside the grid.</li>
+                <li>Field Guide: introduce sticky left rail (220 px) + content column; rail anchors to in-page section ids.</li>
+                <li>Field Guide: futures section moves out of body flow into appendix block at the foot of the content column.</li>
+                <li>All three: header chrome, eyebrow/title/deck and banner are extracted to shared components so future surfaces inherit the family without copy-paste.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- §5 shared system -->
+        <section id="sys">
+          <h2 class="sec"><span class="num">§5</span>Shared system tokens</h2>
+          <p class="sec-deck">The minimum set that must land in tokens / theme before any of the three surfaces ship, so visual consistency is enforced by the system rather than by each page's authoring.</p>
+          <div class="system-block">
+            <div class="row"><div class="k">Type</div><div>Serif <code>Source Serif 4</code> 32–38 px titles, 22 px section heads. Sans <code>IBM Plex Sans</code> 10.5–12.5 px eyebrows/labels, uppercased w/ <code>letter-spacing: 0.12–0.16em</code>. Mono <code>IBM Plex Mono</code> for ids, axis codes, metadata.</div></div>
+            <div class="row"><div class="k">Color</div><div>Paper neutrals only: <code>#f5f1e8</code>, <code>#efe9dc</code>, <code>#e9e1ce</code>, rules <code>#d8cfbb</code> / <code>#a89b80</code>. Accents reserved (<code>#7a2e1f</code> warn / <code>#1f3a5f</code> info / <code>#2f5d3a</code> ok / <code>#8a6b1d</code> caution); never primary fills.</div></div>
+            <div class="row"><div class="k">Frame</div><div>Outer card: 1 px solid rule, soft shadow <code>0 18px 40px -28px rgba(40,30,10,0.25)</code>. Inner blocks: hairline rules only.</div></div>
+            <div class="row"><div class="k">Header</div><div>Eyebrow → title → deck → optional banner. Same component on every surface.</div></div>
+            <div class="row"><div class="k">Rail</div><div>220 px sticky, dotted dividers, decimal-leading-zero counters, "optional" pill on demoted items. Used only on pages with 3+ peer sections.</div></div>
+            <div class="row"><div class="k">CTA</div><div>Single primary per page, optional secondary. Bottom of content; stacked on mobile; 44 px min hit target.</div></div>
+            <div class="row"><div class="k">Appendix</div><div>Dashed border, "Optional · Non-scored" pill, last in section order. Never floats.</div></div>
+          </div>
+        </section>
+
+        <!-- §6 do not -->
+        <section id="dnt">
+          <h2 class="sec"><span class="num">§6</span>Do not change</h2>
+          <p class="sec-deck">The list below is what holds the product's correctness together. Any of these moving in implementation is a bug, not a refinement.</p>
+          <div class="do-not">
+            <h4>Hard constraints — copy · scoring · routes</h4>
+            <ol>
+              <li><b>Archetype names &amp; spellings.</b> Democratic Guardrailist, Civic Risk Steward, Strategic Competitor, Industrial Statist, Open Ecosystem Builder, Multilateral Coordinator. Do not abbreviate, retitle, or pluralize anywhere user-facing.</li>
+              <li><b>Axis names &amp; pole labels.</b> Public oversight (DELEGATION ↔ OVERSIGHT), Capability pace (SLOW ↔ PUSH), Openness (CLOSED ↔ OPEN), Concentration (DIFFUSE ↔ CONCENTRATED), Legitimacy &amp; rule-setting (PROCEDURAL ↔ SUBSTANTIVE), Competition vs coordination (COORDINATE ↔ COMPETE), Harm centering (AGGREGATE ↔ CONCENTRATED), Instruments (RIGHTS ↔ INDUSTRIAL). Locked.</li>
+              <li><b>Scoring engine and archetype assignment.</b> Out of scope. None of these surfaces touch <code>/api/score</code>, <code>/api/archetype</code>, or any persistence of user answers.</li>
+              <li><b>"Explainer, not assessment."</b> Field Guide must never produce, display, or compute a per-user score. Atlas browse must never compute one either. The banner copy is canonical: <code>"Explainer · Reading surface only — no scoring, no second assessment."</code></li>
+              <li><b>Route meaning.</b> <code>/profile</code> = the user's result. <code>/atlas</code> = browse all archetypes. <code>/field-guide</code> = explainer. <code>/compass</code> = the assessment quiz. Do not reuse paths, redirect, or split routes during this work.</li>
+              <li><b>Compass quiz UI.</b> Untouched. Do not restyle the quiz to match this family in this pass — that is a separate decision.</li>
+              <li><b>Futures content.</b> Stays optional and non-scored everywhere it appears. No scenario weight, no "your alignment to scenario X" copy. Ever.</li>
+              <li><b>Numeric precision.</b> Profile must not show numeric deltas next to lanes. Tokens are <code>"leans"</code> and <code>"leans heavily"</code>. Do not reintroduce numbers as tooltips.</li>
+              <li><b>Beta marker.</b> The <code>Beta</code> tag in the brand mark stays on every surface.</li>
+            </ol>
+          </div>
+        </section>
+
+        <!-- §7 file refs -->
+        <section id="refs">
+          <h2 class="sec"><span class="num">§7</span>File references</h2>
+          <p class="sec-deck">Source mockups for each pick. Direction ids match the sections inside each file.</p>
+          <div class="files-row">
+            <div class="file">Profile Desktop - 3 Directions.html</div>
+            <div>Use Direction 03 · Anchored Spread.</div>
+          </div>
+          <div class="files-row">
+            <div class="file">Profile Mobile - Anchored Spread.html</div>
+            <div>Mobile reference for Profile. Implements collapsed appendices and stacked CTAs.</div>
+          </div>
+          <div class="files-row">
+            <div class="file">AI Atlas Browse - 2 Directions.html</div>
+            <div>Use Direction 02 · Fingerprint Row. Wrap inside the shared frame chrome; no rail.</div>
+          </div>
+          <div class="files-row">
+            <div class="file">AI Field Guide - 2 Directions.html</div>
+            <div>Use Direction 02 · Two-Column Explainer. Rail sections must use the in-page anchors listed in §1.</div>
+          </div>
+        </section>
+
+        <div class="foot">
+          <span>Implementation handoff · v1</span>
+          <span>Profile · Atlas · Field Guide · for Claude Code &amp; Codex</span>
+        </div>
+
+      </div>
+    </div>
+  </article>
+</div>
+</body>
+</html>
