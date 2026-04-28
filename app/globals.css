@@ -2819,8 +2819,18 @@ h3 {
   margin: 0;
 }
 
-.profile-hero-action {
-  margin-top: 6px;
+.profile-foundation-subtitle {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.profile-foundation-subtitle strong {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700;
 }
 
 .profile-hero-summary {
@@ -3055,33 +3065,6 @@ h3 {
   color: var(--text);
 }
 
-.profile-hero-callouts {
-  margin-top: 4px;
-}
-
-.profile-callout-line {
-  margin: 0;
-  padding-left: 12px;
-  border-left: 3px solid var(--accent);
-  font-size: 0.92rem;
-  line-height: 1.55;
-  color: var(--text);
-}
-
-.profile-callout-line--stable {
-  border-left-color: var(--t-constructivist);
-}
-
-.profile-callout-kicker {
-  display: inline-block;
-  margin-right: 8px;
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
 .profile-ai-band {
   display: flex;
   flex-wrap: wrap;
@@ -3181,6 +3164,11 @@ h3 {
   padding-top: 4px;
   font-size: 0.78rem;
   line-height: 1.55;
+}
+
+.profile-secondary-actions {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
 }
 
 @media (min-width: 720px) {
@@ -3951,6 +3939,11 @@ h3 {
   padding: 0;
 }
 
+.profile-details--secondary {
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--panel) 92%, white 8%);
+}
+
 .profile-details + .profile-details {
   margin-top: 12px;
 }
@@ -3977,6 +3970,10 @@ h3 {
 
 .profile-details--appendix summary {
   padding: 15px 0;
+}
+
+.profile-details--secondary summary {
+  color: var(--text);
 }
 
 .profile-details--appendix[open] summary {
@@ -4108,6 +4105,10 @@ h3 {
 
 .profile-details--appendix > :not(summary) {
   padding: 14px 0 18px;
+}
+
+.profile-collapsed-detail {
+  margin-top: 0;
 }
 
 .profile-atlas-feature {

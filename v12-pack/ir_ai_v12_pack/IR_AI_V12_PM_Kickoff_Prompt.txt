@@ -1,0 +1,43 @@
+Use the attached V12 materials to run the next sprint for the IR Worldview Inventory / AI Governance Compass project.
+
+This is NOT a generic polish sprint.
+This is a four-track sprint:
+1. Profile payoff + visual truthfulness
+2. Module clarity + question/scoring hardening lite
+3. AI Atlas detail + AI Field Guide / Perspectives
+4. Public trust + release hygiene
+
+Hard constraints:
+- serious editorial product, thin social layer only
+- no new scored IR families
+- no new live IR modules
+- no new scored AI module
+- no scoring rewrite
+- no futures scoring
+- no standalone AI app
+- no giant homepage rewrite
+
+Implementation rules:
+- use current local branch / localhost / latest PDF / repomix as source of truth
+- production and public GitHub are comparison surfaces, not the source of truth
+- Profile should become pattern-first when 2+ layers exist
+- module overlay visuals must not imply fresh Foundation measurements
+- module entry pages should get lighter and less exam-like
+- module results should replace dense selected-framings stacks with a clearer decisive-calls surface plus collapsed evidence log
+- AI Atlas cards must click through to real depth pages
+- AI must get a separate Field Guide / Perspectives page
+- if a discourse/watchlist rail is added, it must be manual-content-driven, not a live feed
+- trust cleanup must include typecheck visibility and repo hygiene
+
+Output needed:
+- PM brief
+- novice implementation guide
+- Claude Code prompts
+- Codex prompts
+- acceptance checklist
+- non-goals / deferred list
+- tiny friend-beta questions
+- any small supporting memo needed for question hardening or module-result trim
+
+Optimize for a solo novice using heavy AI assistance.
+Keep diffs coherent and avoid scope creep.

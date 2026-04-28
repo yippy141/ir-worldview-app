@@ -16,6 +16,7 @@ import {
   type ProfileSpineRow,
 } from "@/lib/profile-helpers"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
+import type { FamilyKey } from "@/lib/types"
 
 const MODULE_COLORS = {
   security: "var(--accent)",
@@ -92,13 +93,26 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   })
   const completedLayerText = getCompletedLayerText(profileSynthesis.layers)
   const spreadHeadline = computeSpreadHeadline(spineRows)
+  const savedLayerCount = profileSynthesis.layers.filter((layer) => layer.present).length
+  const isLayeredProfile = savedLayerCount >= 2
+  const heroTitle = isLayeredProfile ? atlasMatch.nearest.name : buildIntegratedHeadline(profile)
+  const heroSummary = isLayeredProfile
+    ? `${atlasMatch.nearest.soWhat} The chart below shows where saved modules pull against the Foundation anchor; it is a directional read inside this model, not a new combined score.`
+    : topParagraph
 
   return (
     <article className="result-article">
       <section className="profile-hero profile-hero--anchored stack-md">
         <div className="profile-hero-head stack-sm">
           <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
-          <h1>{buildIntegratedHeadline(profile)}</h1>
+          <h1>{heroTitle}</h1>
+          {isLayeredProfile ? (
+            <p className="profile-foundation-subtitle">
+              Closest modeled Foundation family: <strong>{foundation.familyLabel}</strong>
+              {" · "}
+              {foundation.strategyModifier} · {foundation.normativeModifier}
+            </p>
+          ) : null}
           <div className="profile-layer-strip" aria-label="Saved profile layers">
             {profileSynthesis.layers.map((layer) => (
               <span
@@ -110,38 +124,26 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               </span>
             ))}
           </div>
-          {actionSlot ? <div className="profile-hero-action">{actionSlot}</div> : null}
         </div>
 
-        <p className="profile-hero-summary">{topParagraph}</p>
+        <p className="profile-hero-summary">{heroSummary}</p>
 
         <div className="profile-stat-chips" aria-label="Profile facts">
           <span className="profile-stat-chip">
-            <span className="profile-stat-chip__k">Baseline</span>
-            <span className="profile-stat-chip__v">{foundation.familyLabel}</span>
+            <span className="profile-stat-chip__k">Stable thread</span>
+            <span className="profile-stat-chip__v">{stableThreadChip(foundation.familyKey)}</span>
           </span>
           <span className="profile-stat-chip profile-stat-chip--high">
-            <span className="profile-stat-chip__k">Changed most</span>
+            <span className="profile-stat-chip__k">Biggest shift</span>
             <span className="profile-stat-chip__v">{spreadHeadline.changedMostChip}</span>
           </span>
           <span className="profile-stat-chip profile-stat-chip--stable">
-            <span className="profile-stat-chip__k">Stayed stable</span>
-            <span className="profile-stat-chip__v">{spreadHeadline.stayedStableChip}</span>
+            <span className="profile-stat-chip__k">AI layer</span>
+            <span className="profile-stat-chip__v">{aiSnapshot ? "Present" : "Not added"}</span>
           </span>
         </div>
 
         <ProfileAnchoredSpread rows={spineRows} />
-
-        <div className="profile-hero-callouts stack-xs">
-          <p className="profile-callout-line">
-            <span className="profile-callout-kicker">What changed most</span>
-            {spreadHeadline.changedMostLine}
-          </p>
-          <p className="profile-callout-line profile-callout-line--stable">
-            <span className="profile-callout-kicker">What stayed stable</span>
-            {spreadHeadline.stayedStableLine}
-          </p>
-        </div>
 
         {aiSnapshot ? (
           <div className="profile-ai-band">
@@ -171,8 +173,8 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </p>
         )}
 
-        <div className="profile-hero-ctas">
-          {nextSteps.slice(0, 4).map((step, index) => (
+        <nav className="profile-hero-ctas" aria-label="Profile next steps">
+          {nextSteps.slice(0, 3).map((step, index) => (
             <Link
               key={step.href}
               href={step.href}
@@ -182,7 +184,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
             </Link>
           ))}
-        </div>
+        </nav>
 
         <p className="muted profile-hero-meta">{completedLayerText}</p>
       </section>
@@ -310,95 +312,101 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             </Link>
           ))}
         </div>
+        {actionSlot ? <div className="profile-secondary-actions">{actionSlot}</div> : null}
       </section>
 
       <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>AI layer</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            The AI Governance Compass belongs to the same project, but it does not rewrite your IR
-            baseline. Read it as a connected layer, not a replacement label.
-          </p>
-        </div>
-
-        {aiSnapshot ? (
-          <>
-            <div className="row gap-sm wrap">
-              <span className="mode-pill">{foundation.familyLabel}</span>
-              <span className="ai-mode-pill">{aiSnapshot.archetypeLabel}</span>
-            </div>
-
-            <div className="profile-analysis-grid">
-              <div className="profile-analysis-card stack-xs">
-                <p className="eyebrow">{crossModuleSynthesis.title}</p>
-                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Short read</p>
-                <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                  {crossModuleSynthesis.shortReadout}
-                </p>
-              </div>
-              <div className="profile-analysis-card stack-xs">
-                <p className="eyebrow">Where they align</p>
-                <ul className="content-list" style={{ margin: 0 }}>
-                  {crossModuleSynthesis.likelyAlignment.map((item) => (
-                    <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="profile-analysis-card stack-xs">
-                <p className="eyebrow">Where they may conflict</p>
-                <ul className="content-list" style={{ margin: 0 }}>
-                  {crossModuleSynthesis.likelyTensions.map((item) => (
-                    <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            <div className="profile-analysis-note stack-xs">
-              <p className="eyebrow">What this combination implies</p>
-              <p style={{ lineHeight: "1.7", margin: 0 }}>
-                {crossModuleSynthesis.practicalImplication}
-              </p>
-            </div>
-
+        <details className="profile-details profile-details--secondary">
+          <summary>AI layer detail</summary>
+          <div className="stack-md profile-collapsed-detail">
             <div className="stack-xs">
-              <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65", margin: 0 }}>
-                <strong>AI result:</strong> {aiSnapshot.summary}
+              <h2>AI layer</h2>
+              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+                The AI Governance Compass belongs to the same project, but it does not rewrite your
+                IR baseline. Read it as a connected layer, not a replacement label.
               </p>
-              {mode === "local" ? (
-                <p style={{ margin: 0 }}>
-                  <Link href={aiSnapshot.resultPath} style={{ color: "var(--accent)" }}>
-                    Open AI result →
-                  </Link>
-                </p>
-              ) : null}
             </div>
-          </>
-        ) : (
-          <div className="profile-analysis-note stack-xs">
-            <p style={{ fontWeight: 600 }}>
-              {mode === "local"
-                ? "AI governance not yet added"
-                : "AI governance not included in this shared profile"}
-            </p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              {mode === "local"
-                ? "This block appears once this device has a saved AI Governance Compass result. It reads the IR baseline and AI result side by side rather than folding them into one score."
-                : "Shared profiles currently carry the IR foundation and saved IR module overlays only. The synthesis block needs a saved AI result to do more than offer a generic framing."}
-            </p>
-            {mode === "local" ? (
-              <p style={{ margin: 0 }}>
-                <Link href="/ai" style={{ color: "var(--accent)" }}>
-                  Add an AI result →
-                </Link>
-              </p>
-            ) : null}
+
+            {aiSnapshot ? (
+              <>
+                <div className="row gap-sm wrap">
+                  <span className="mode-pill">{foundation.familyLabel}</span>
+                  <span className="ai-mode-pill">{aiSnapshot.archetypeLabel}</span>
+                </div>
+
+                <div className="profile-analysis-grid">
+                  <div className="profile-analysis-card stack-xs">
+                    <p className="eyebrow">{crossModuleSynthesis.title}</p>
+                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Short read</p>
+                    <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                      {crossModuleSynthesis.shortReadout}
+                    </p>
+                  </div>
+                  <div className="profile-analysis-card stack-xs">
+                    <p className="eyebrow">Where they align</p>
+                    <ul className="content-list" style={{ margin: 0 }}>
+                      {crossModuleSynthesis.likelyAlignment.map((item) => (
+                        <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="profile-analysis-card stack-xs">
+                    <p className="eyebrow">Where they may conflict</p>
+                    <ul className="content-list" style={{ margin: 0 }}>
+                      {crossModuleSynthesis.likelyTensions.map((item) => (
+                        <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="profile-analysis-note stack-xs">
+                  <p className="eyebrow">What this combination implies</p>
+                  <p style={{ lineHeight: "1.7", margin: 0 }}>
+                    {crossModuleSynthesis.practicalImplication}
+                  </p>
+                </div>
+
+                <div className="stack-xs">
+                  <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65", margin: 0 }}>
+                    <strong>AI result:</strong> {aiSnapshot.summary}
+                  </p>
+                  {mode === "local" ? (
+                    <p style={{ margin: 0 }}>
+                      <Link href={aiSnapshot.resultPath} style={{ color: "var(--accent)" }}>
+                        Open AI result →
+                      </Link>
+                    </p>
+                  ) : null}
+                </div>
+              </>
+            ) : (
+              <div className="profile-analysis-note stack-xs">
+                <p style={{ fontWeight: 600 }}>
+                  {mode === "local"
+                    ? "AI governance not yet added"
+                    : "AI governance not included in this shared profile"}
+                </p>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                  {mode === "local"
+                    ? "This block appears once this device has a saved AI Governance Compass result. It reads the IR baseline and AI result side by side rather than folding them into one score."
+                    : "Shared profiles currently carry the IR foundation and saved IR module overlays only. The synthesis block needs a saved AI result to do more than offer a generic framing."}
+                </p>
+                {mode === "local" ? (
+                  <p style={{ margin: 0 }}>
+                    <Link href="/ai" style={{ color: "var(--accent)" }}>
+                      Add an AI result →
+                    </Link>
+                  </p>
+                ) : null}
+              </div>
+            )}
           </div>
-        )}
+        </details>
       </section>
 
       <section className="result-section stack-md">
@@ -409,81 +417,84 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </p>
         </div>
         {moduleSnapshots.length > 0 ? (
-          <div className="profile-module-grid profile-module-grid--report">
-            {moduleSnapshots.map((moduleSnapshot) => (
-              <article key={moduleSnapshot.slug} className="profile-module-entry stack-md">
-                <div className="stack-xs">
-                  <p className="eyebrow">{moduleSnapshot.title}</p>
-                  <h3>{moduleSnapshot.headline}</h3>
-                  {moduleSnapshot.subtitle ? (
-                    <p style={{ fontWeight: 600, fontSize: "0.92rem" }}>{moduleSnapshot.subtitle}</p>
-                  ) : null}
-                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {moduleSnapshot.summary}
-                  </p>
-                </div>
+          <details className="profile-details profile-details--secondary">
+            <summary>Open issue overlay summaries</summary>
+            <div className="profile-module-grid profile-module-grid--report profile-collapsed-detail">
+              {moduleSnapshots.map((moduleSnapshot) => (
+                <article key={moduleSnapshot.slug} className="profile-module-entry stack-md">
+                  <div className="stack-xs">
+                    <p className="eyebrow">{moduleSnapshot.title}</p>
+                    <h3>{moduleSnapshot.headline}</h3>
+                    {moduleSnapshot.subtitle ? (
+                      <p style={{ fontWeight: 600, fontSize: "0.92rem" }}>{moduleSnapshot.subtitle}</p>
+                    ) : null}
+                    <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                      {moduleSnapshot.summary}
+                    </p>
+                  </div>
 
-                {moduleSnapshot.laneSummaries.length > 0 ? (
-                  <div className="stack-sm">
-                    {moduleSnapshot.laneSummaries.map((lane) => (
-                      <div key={`${moduleSnapshot.slug}-${lane.key}`} className="profile-module-lane stack-xs">
-                        <div className="progress-meta">
-                          <span style={{ fontWeight: 600, color: "var(--text)" }}>{lane.label}</span>
-                          <span>{lane.score.toFixed(1)} / 7</span>
-                        </div>
-                        <div className="profile-mini-scale" aria-hidden="true">
-                          <div
-                            className="profile-mini-scale-fill"
-                            style={{
-                              width: `${(lane.score / 7) * 100}%`,
-                              background: MODULE_COLORS[moduleSnapshot.slug],
-                            }}
-                          />
-                        </div>
-                        <div className="progress-meta" style={{ fontSize: "0.78rem" }}>
-                          <span>{lane.lowLabel}</span>
-                          <span>{lane.highLabel}</span>
-                        </div>
-                        <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
-                          {lane.summary}
-                        </p>
-                        {lane.delta ? (
-                          <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
-                            <strong>Relative to Foundation:</strong> {lane.delta}
+                  {moduleSnapshot.laneSummaries.length > 0 ? (
+                    <div className="stack-sm">
+                      {moduleSnapshot.laneSummaries.map((lane) => (
+                        <div key={`${moduleSnapshot.slug}-${lane.key}`} className="profile-module-lane stack-xs">
+                          <div className="progress-meta">
+                            <span style={{ fontWeight: 600, color: "var(--text)" }}>{lane.label}</span>
+                            <span>{lane.score.toFixed(1)} / 7</span>
+                          </div>
+                          <div className="profile-mini-scale" aria-hidden="true">
+                            <div
+                              className="profile-mini-scale-fill"
+                              style={{
+                                width: `${(lane.score / 7) * 100}%`,
+                                background: MODULE_COLORS[moduleSnapshot.slug],
+                              }}
+                            />
+                          </div>
+                          <div className="progress-meta" style={{ fontSize: "0.78rem" }}>
+                            <span>{lane.lowLabel}</span>
+                            <span>{lane.highLabel}</span>
+                          </div>
+                          <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
+                            {lane.summary}
                           </p>
-                        ) : null}
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
+                          {lane.delta ? (
+                            <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
+                              <strong>Directional pull:</strong> {lane.delta}
+                            </p>
+                          ) : null}
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
 
-                {moduleSnapshot.cardTypeRead ? (
-                  <div className="profile-module-note stack-xs">
-                    <p className="eyebrow">{moduleSnapshot.cardTypeRead.headline}</p>
-                    <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
-                      {moduleSnapshot.cardTypeRead.summary}
+                  {moduleSnapshot.cardTypeRead ? (
+                    <div className="profile-module-note stack-xs">
+                      <p className="eyebrow">{moduleSnapshot.cardTypeRead.headline}</p>
+                      <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
+                        {moduleSnapshot.cardTypeRead.summary}
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {moduleSnapshot.comparison ? (
+                    <div className="profile-module-note profile-module-note--accent">
+                      <p style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
+                        <strong>Directional read:</strong> {moduleSnapshot.comparison}
+                      </p>
+                    </div>
+                  ) : null}
+
+                  {mode === "local" && moduleSnapshot.resultPath ? (
+                    <p>
+                      <Link href={moduleSnapshot.resultPath} style={{ color: "var(--accent)" }}>
+                        View full result →
+                      </Link>
                     </p>
-                  </div>
-                ) : null}
-
-                {moduleSnapshot.comparison ? (
-                  <div className="profile-module-note profile-module-note--accent">
-                    <p style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
-                      <strong>Baseline delta:</strong> {moduleSnapshot.comparison}
-                    </p>
-                  </div>
-                ) : null}
-
-                {mode === "local" && moduleSnapshot.resultPath ? (
-                  <p>
-                    <Link href={moduleSnapshot.resultPath} style={{ color: "var(--accent)" }}>
-                      View full result →
-                    </Link>
-                  </p>
-                ) : null}
-              </article>
-            ))}
-          </div>
+                  ) : null}
+                </article>
+              ))}
+            </div>
+          </details>
         ) : (
           <div className="profile-analysis-note stack-xs">
             <p style={{ fontWeight: 600 }}>No focus-area overlays yet</p>
@@ -805,13 +816,13 @@ function leansPhrase(magnitude: number): string {
 
 function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
   return (
-    <div className="profile-spread" role="img" aria-label="Lane deviations from the Foundation baseline under module pressure">
+    <div className="profile-spread" role="img" aria-label="Relative directional pulls from the Foundation anchor under saved module pressure">
       <div className="profile-spread__head">
-        <span className="profile-spread__title">Deviation under module pressure</span>
+        <span className="profile-spread__title">Relative pull from the Foundation anchor</span>
         <div className="profile-spread__scale" aria-hidden="true">
-          <span className="profile-spread__scale-l">← toward low pole</span>
-          <span className="profile-spread__scale-c">Baseline</span>
-          <span className="profile-spread__scale-r">toward high pole →</span>
+          <span className="profile-spread__scale-l">Toward low pole</span>
+          <span className="profile-spread__scale-c">Foundation anchor</span>
+          <span className="profile-spread__scale-r">Toward high pole</span>
         </div>
       </div>
 
@@ -829,8 +840,8 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
           : null
         const phrase = dominant ? leansPhrase(dominant.magnitude) : "no overlay"
         const anchorMeta = dominant
-          ? `baseline ${row.baseline.toFixed(1)} / 7 · pressure ${(row.baseline + dominant.delta).toFixed(1)} / 7`
-          : `baseline ${row.baseline.toFixed(1)} / 7 · no overlay yet`
+          ? `Foundation anchor · ${dominant.label} pull`
+          : "Foundation anchor · no saved module pull yet"
 
         return (
           <div
@@ -856,7 +867,7 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
                 ) : null}
               </div>
               <div className="profile-spread__lane-meta">
-                <span>{dominant ? `Source: ${dominant.label}` : "No saved module overlay yet"}</span>
+                <span>{dominant ? `Layer: ${dominant.label}` : "No saved module overlay yet"}</span>
                 <span className="profile-spread__delta">
                   {dominant && directionLabel
                     ? `${phrase} · ${directionLabel.toLowerCase()}`
@@ -871,14 +882,14 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
       <div className="profile-spread__foot">
         <span>
           <span className="profile-spread__sw profile-spread__sw--move" aria-hidden="true" />
-          Moved (|Δ| ≥ 0.5)
+          Noticeable pull
         </span>
         <span>
           <span className="profile-spread__sw profile-spread__sw--stable" aria-hidden="true" />
-          Stable lane
+          Little or no pull
         </span>
         <span className="profile-spread__anchor-key">
-          Anchor = Foundation baseline · bars are deviation under module pressure
+          Bars show direction and relative size inside this model, not a fresh score.
         </span>
       </div>
     </div>
@@ -887,48 +898,36 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
 
 type SpreadHeadline = {
   changedMostChip: string
-  stayedStableChip: string
-  changedMostLine: string
-  stayedStableLine: string
+}
+
+function stableThreadChip(familyKey: FamilyKey) {
+  if (familyKey === "realist") return "Power and constraint"
+  if (familyKey === "institutionalist") return "Rules and coordination"
+  if (familyKey === "constructivist") return "Legitimacy and meaning"
+  return "Dependence and hierarchy"
 }
 
 function computeSpreadHeadline(rows: ProfileSpineRow[]): SpreadHeadline {
   let strongest: { row: ProfileSpineRow; dominant: DominantOverlay } | null = null
-  const stableRowLabels: string[] = []
 
   for (const row of rows) {
     const dominant = pickDominantOverlay(row)
     if (dominant && (!strongest || dominant.magnitude > strongest.dominant.magnitude)) {
       strongest = { row, dominant }
     }
-    if (!dominant || dominant.isStable) {
-      stableRowLabels.push(row.label)
-    }
   }
 
   if (!strongest) {
     return {
       changedMostChip: "No overlay yet",
-      stayedStableChip: "Foundation only",
-      changedMostLine:
-        "No focus-area module is saved yet, so the chart shows the Foundation baseline only.",
-      stayedStableLine:
-        "All lanes still sit on the Foundation baseline. Add a focus-area overlay to see where it bends.",
     }
   }
 
   const { row, dominant } = strongest
-  const direction = dominant.delta >= 0 ? row.highLabel : row.lowLabel
   const phrase = leansPhrase(dominant.magnitude)
-  const stableSummary = stableRowLabels.length === 0
-    ? "No lane stayed within the stable band on this run."
-    : `${formatLabelList(stableRowLabels.slice(0, 3))} stayed within the stable band (|Δ| < ${STABLE_THRESHOLD}).`
 
   return {
     changedMostChip: `${row.label} · ${phrase}`,
-    stayedStableChip: stableRowLabels[0] ?? "None",
-    changedMostLine: `${row.label} ${phrase} ${direction.toLowerCase()} under ${dominant.label}.`,
-    stayedStableLine: stableSummary,
   }
 }
 
