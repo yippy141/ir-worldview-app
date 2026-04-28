@@ -326,6 +326,81 @@ const aiAtlasComparisonNotes: Record<
 
 export const aiAtlasKeys = AI_ATLAS_ARCHETYPES.map((card) => card.id)
 
+export type AiAtlasEmphasisLevel = "low" | "medium" | "high"
+
+export const aiAtlasFingerprintAxes = [
+  "oversight",
+  "geopolitics",
+  "openness",
+  "legitimacy",
+] as const satisfies readonly AiAxisKey[]
+
+const aiAtlasFingerprintShortLabels: Record<AiAxisKey, string> = {
+  riskHorizon: "Risk horizon",
+  deploymentPace: "Pace",
+  oversight: "Oversight",
+  geopolitics: "Coord. ↔ Compet.",
+  openness: "Openness",
+  militaryRole: "Military",
+  legitimacy: "Legitimacy",
+  humanFuture: "Human future",
+}
+
+export function getAiAtlasFingerprintShortLabel(axis: AiAxisKey): string {
+  return aiAtlasFingerprintShortLabels[axis] ?? aiAxisLabels[axis]
+}
+
+export const aiAtlasArchetypeFingerprints: Record<
+  AiArchetypeKey,
+  Record<(typeof aiAtlasFingerprintAxes)[number], AiAtlasEmphasisLevel>
+> = {
+  precautionarySteward: {
+    oversight: "high",
+    geopolitics: "medium",
+    openness: "medium",
+    legitimacy: "medium",
+  },
+  strategicCompetitor: {
+    oversight: "medium",
+    geopolitics: "high",
+    openness: "medium",
+    legitimacy: "medium",
+  },
+  coordinationArchitect: {
+    oversight: "medium",
+    geopolitics: "low",
+    openness: "medium",
+    legitimacy: "high",
+  },
+  democraticGuardrailist: {
+    oversight: "high",
+    geopolitics: "medium",
+    openness: "medium",
+    legitimacy: "high",
+  },
+  stateCapacityBuilder: {
+    oversight: "high",
+    geopolitics: "medium",
+    openness: "medium",
+    legitimacy: "low",
+  },
+  openEcosystemBuilder: {
+    oversight: "low",
+    geopolitics: "medium",
+    openness: "low",
+    legitimacy: "medium",
+  },
+}
+
+export const aiAtlasArchetypeLeaningTag: Record<AiArchetypeKey, string> = {
+  precautionarySteward: "Caution-leaning",
+  strategicCompetitor: "Competition-leaning",
+  coordinationArchitect: "Coordination-leaning",
+  democraticGuardrailist: "Oversight-leaning",
+  stateCapacityBuilder: "Capacity-leaning",
+  openEcosystemBuilder: "Openness-leaning",
+}
+
 export function getAiAtlasEntries(): AiAtlasEntry[] {
   return AI_ATLAS_ARCHETYPES.map((card) => {
     const profile = aiArchetypeDeepProfiles[card.id]

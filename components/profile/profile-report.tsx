@@ -4,7 +4,7 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
-import { ComparisonRow, LayerRelationshipStack } from "@/components/visual-primitives"
+import { LayerRelationshipStack } from "@/components/visual-primitives"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -13,6 +13,7 @@ import {
   buildProfileAssessment,
   buildProfileSynthesisLite,
   buildProfileSpineRows,
+  type ProfileSpineRow,
 } from "@/lib/profile-helpers"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
 
@@ -89,159 +90,144 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     aiSnapshot,
     mode,
   })
-  const firstNextStep = nextSteps[0] ?? null
   const completedLayerText = getCompletedLayerText(profileSynthesis.layers)
-  const tensionLabel = assessment.state === "trueTension" ? "Unresolved tension" : "Pressure point"
-  const tensionText = assessment.points[0] ?? profileSynthesis.shiftsUnderPressure
+  const spreadHeadline = computeSpreadHeadline(spineRows)
 
   return (
     <article className="result-article">
-      <section className="profile-hero profile-hero--compact stack-lg">
-        <div className="profile-hero-payoff">
-          <div className="stack-sm">
-            <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
-            <h1>{buildIntegratedHeadline(profile)}</h1>
-            <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
-              {topParagraph}
-            </p>
-            <div className="profile-layer-strip" aria-label="Saved profile layers">
-              {profileSynthesis.layers.map((layer) => (
-                <span
-                  key={layer.key}
-                  className={`profile-layer-pill${layer.present ? "" : " profile-layer-pill--inactive"}`}
-                >
-                  {layer.label}
-                  {!layer.present ? " pending" : ""}
-                </span>
-              ))}
-            </div>
-            {actionSlot ? <div style={{ marginTop: "10px" }}>{actionSlot}</div> : null}
+      <section className="profile-hero profile-hero--anchored stack-md">
+        <div className="profile-hero-head stack-sm">
+          <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
+          <h1>{buildIntegratedHeadline(profile)}</h1>
+          <div className="profile-layer-strip" aria-label="Saved profile layers">
+            {profileSynthesis.layers.map((layer) => (
+              <span
+                key={layer.key}
+                className={`profile-layer-pill${layer.present ? "" : " profile-layer-pill--inactive"}`}
+              >
+                {layer.label}
+                {!layer.present ? " pending" : ""}
+              </span>
+            ))}
           </div>
+          {actionSlot ? <div className="profile-hero-action">{actionSlot}</div> : null}
+        </div>
 
-          <div className="profile-payoff-grid">
-            <article className="profile-payoff-item stack-xs">
-              <p className="eyebrow">Baseline</p>
-              <p className="profile-payoff-title">{foundation.familyLabel}</p>
-              <p className="profile-payoff-text">
-                {foundation.strategyModifier} · {foundation.normativeModifier}
-              </p>
-            </article>
-            <article className="profile-payoff-item stack-xs">
-              <p className="eyebrow">What stayed steady</p>
-              <p className="profile-payoff-text">{profileSynthesis.stableAcross}</p>
-            </article>
-            <article className="profile-payoff-item stack-xs">
-              <p className="eyebrow">Biggest shift</p>
-              <p className="profile-payoff-text">{assessment.changedMost}</p>
-            </article>
-            <article className="profile-payoff-item stack-xs">
-              <p className="eyebrow">{tensionLabel}</p>
-              <p className="profile-payoff-text">{tensionText}</p>
-            </article>
-            <article className="profile-payoff-item stack-xs">
-              <p className="eyebrow">Completed layers</p>
-              <p className="profile-payoff-text">{completedLayerText}</p>
-            </article>
-            {firstNextStep ? (
-              <Link href={firstNextStep.href} className="profile-payoff-item profile-payoff-link stack-xs">
-                <span className="profile-next-kicker">{firstNextStep.kicker}</span>
-                <span className="profile-payoff-title">{firstNextStep.title}</span>
-                <span className="profile-payoff-text">{firstNextStep.text}</span>
+        <p className="profile-hero-summary">{topParagraph}</p>
+
+        <div className="profile-stat-chips" aria-label="Profile facts">
+          <span className="profile-stat-chip">
+            <span className="profile-stat-chip__k">Baseline</span>
+            <span className="profile-stat-chip__v">{foundation.familyLabel}</span>
+          </span>
+          <span className="profile-stat-chip profile-stat-chip--high">
+            <span className="profile-stat-chip__k">Changed most</span>
+            <span className="profile-stat-chip__v">{spreadHeadline.changedMostChip}</span>
+          </span>
+          <span className="profile-stat-chip profile-stat-chip--stable">
+            <span className="profile-stat-chip__k">Stayed stable</span>
+            <span className="profile-stat-chip__v">{spreadHeadline.stayedStableChip}</span>
+          </span>
+        </div>
+
+        <ProfileAnchoredSpread rows={spineRows} />
+
+        <div className="profile-hero-callouts stack-xs">
+          <p className="profile-callout-line">
+            <span className="profile-callout-kicker">What changed most</span>
+            {spreadHeadline.changedMostLine}
+          </p>
+          <p className="profile-callout-line profile-callout-line--stable">
+            <span className="profile-callout-kicker">What stayed stable</span>
+            {spreadHeadline.stayedStableLine}
+          </p>
+        </div>
+
+        {aiSnapshot ? (
+          <div className="profile-ai-band">
+            <span className="profile-ai-band__lbl">AI Governance</span>
+            <span className="profile-ai-band__body">
+              {aiSnapshot.archetypeLabel} reads as a related layer · {crossModuleSynthesis.shortReadout}
+            </span>
+            {mode === "local" ? (
+              <Link href={aiSnapshot.resultPath} className="profile-ai-band__open">
+                Open AI result →
               </Link>
             ) : null}
           </div>
+        ) : (
+          <p className="profile-ai-band profile-ai-band--pending">
+            <span className="profile-ai-band__lbl">AI Governance</span>
+            <span className="profile-ai-band__body">
+              {mode === "local"
+                ? "Not yet added · open the AI Governance Compass to read it as a connected layer."
+                : "Not included in this shared profile."}
+            </span>
+            {mode === "local" ? (
+              <Link href="/ai" className="profile-ai-band__open">
+                Add AI layer →
+              </Link>
+            ) : null}
+          </p>
+        )}
+
+        <div className="profile-hero-ctas">
+          {nextSteps.slice(0, 4).map((step, index) => (
+            <Link
+              key={step.href}
+              href={step.href}
+              className={`profile-hero-cta${index === 0 ? " profile-hero-cta--primary" : ""}`}
+            >
+              <span className="profile-hero-cta__title">{step.title}</span>
+              <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
+            </Link>
+          ))}
         </div>
+
+        <p className="muted profile-hero-meta">{completedLayerText}</p>
       </section>
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>What stays steady and what shifts</h2>
+          <p className="eyebrow">Layer relationships</p>
+          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            A short read of the Foundation and completed modules {contextLabel}.
+            The Foundation stays as the anchor. Saved layers show where it holds, sharpens, or
+            starts to pull in different directions.
           </p>
         </div>
-        <div className="profile-summary-grid">
-          <article className="profile-summary-card stack-xs">
-            <p className="eyebrow">Stable thread</p>
-            <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
-          </article>
-          <article className="profile-summary-card stack-xs">
-            <p className="eyebrow">Pressure shifts</p>
-            <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
-          </article>
-        </div>
-        <div className="profile-analysis-note stack-xs">
-          <p className="eyebrow">Reasoning style</p>
-          <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.reasoningStyle}</p>
-        </div>
-        {deepReadSections.length > 0 ? (
-          <details className="profile-details">
-            <summary>Longer profile interpretation</summary>
-            <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
-              {deepReadSections.map((section) => (
-                <div key={section.title} className="stack-xs">
-                  <p className="eyebrow">{section.title}</p>
-                  <p style={{ lineHeight: "1.7" }}>{section.text}</p>
-                </div>
-              ))}
-            </div>
-          </details>
-        ) : null}
-      </section>
+        <LayerRelationshipStack items={relationshipItems} />
+        <p className="muted profile-mosaic-note">{coverageText}</p>
 
-      <section className="result-section stack-md">
-        <section className="profile-mosaic stack-md">
-          <div className="profile-mosaic-header">
+        <details className="profile-details">
+          <summary>Longer profile interpretation</summary>
+          <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
             <div className="stack-xs">
-              <p className="eyebrow">Layer relationships</p>
-              <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
-              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-                The Foundation stays as the anchor. Saved layers show where it holds, sharpens, or
-                starts to pull in different directions.
-              </p>
+              <p className="eyebrow">Stable thread</p>
+              <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.stableAcross}</p>
             </div>
-          </div>
-
-          <div className="profile-mosaic-layout">
-            <LayerRelationshipStack items={relationshipItems} />
-
-            <div className="profile-mosaic-summary">
-              <div className="profile-mosaic-card stack-xs">
-                <p className="eyebrow">Continuities</p>
-                <p className="profile-mosaic-title">What keeps returning</p>
-                <p className="profile-mosaic-body">{profileSynthesis.stableAcross}</p>
-              </div>
-              <div className="profile-mosaic-card stack-xs">
-                <p className="eyebrow">Tensions</p>
-                <p className="profile-mosaic-title">Where pressure changes the read</p>
-                <p className="profile-mosaic-body">{profileSynthesis.shiftsUnderPressure}</p>
-              </div>
-              <div className="profile-mosaic-card stack-xs">
-                <p className="eyebrow">Reasoning style</p>
-                <p className="profile-mosaic-title">How you tend to sort cases</p>
-                <p className="profile-mosaic-body">{profileSynthesis.reasoningStyle}</p>
-              </div>
+            <div className="stack-xs">
+              <p className="eyebrow">Pressure shifts</p>
+              <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.shiftsUnderPressure}</p>
             </div>
-          </div>
-
-          <p className="muted profile-mosaic-note">{coverageText}</p>
-        </section>
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="profile-spine-panel stack-sm">
-          <div className="stack-xs">
-            <h2>Where the overlays move the baseline</h2>
-            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-              Your Foundation result is still the baseline. Saved modules show where issue-specific
-              cases reinforce it, complicate it, or pull against it.
+            <div className="stack-xs">
+              <p className="eyebrow">Reasoning style</p>
+              <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.reasoningStyle}</p>
+            </div>
+            {deepReadSections.map((section) => (
+              <div key={section.title} className="stack-xs">
+                <p className="eyebrow">{section.title}</p>
+                <p style={{ lineHeight: "1.7", margin: 0 }}>{section.text}</p>
+              </div>
+            ))}
+            <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.6", margin: 0 }}>
+              {assessment.changedMost}
+            </p>
+            <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6", margin: 0 }}>
+              A short read of the Foundation and completed modules {contextLabel}.
             </p>
           </div>
-          <ProfileSpine rows={spineRows} />
-          <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
-            {assessment.changedMost}
-          </p>
-        </div>
+        </details>
       </section>
 
       <section className="result-section stack-md">
@@ -781,35 +767,169 @@ function buildProfileNextSteps({
   return steps.slice(0, 3)
 }
 
-function ProfileSpine({ rows }: { rows: ReturnType<typeof buildProfileSpineRows> }) {
+const STABLE_THRESHOLD = 0.5
+const HEAVY_THRESHOLD = 1.0
+const HALF_RANGE = 3
+
+type DominantOverlay = {
+  slug: "security" | "technology"
+  label: string
+  delta: number
+  magnitude: number
+  isStable: boolean
+}
+
+function pickDominantOverlay(row: ProfileSpineRow): DominantOverlay | null {
+  let best: DominantOverlay | null = null
+  for (const overlay of row.overlays) {
+    const delta = overlay.value - row.baseline
+    const magnitude = Math.abs(delta)
+    if (!best || magnitude > best.magnitude) {
+      best = {
+        slug: overlay.slug,
+        label: overlay.label,
+        delta,
+        magnitude,
+        isStable: magnitude < STABLE_THRESHOLD,
+      }
+    }
+  }
+  return best
+}
+
+function leansPhrase(magnitude: number): string {
+  if (magnitude < STABLE_THRESHOLD) return "stable"
+  if (magnitude < HEAVY_THRESHOLD) return "leans"
+  return "leans heavily"
+}
+
+function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
   return (
-    <div className="stack-sm">
-      {rows.map((row) => (
-        <ComparisonRow
-          key={row.dimension}
-          label={row.label}
-          baseline={{
-            id: "foundation",
-            label: "Foundation",
-            value: row.baseline,
-            valueLabel: row.baseline.toFixed(1),
-            shape: "bar",
-            tone: "baseline",
-          }}
-          overlays={row.overlays.map((overlay) => ({
-            id: overlay.slug,
-            label: overlay.label,
-            value: overlay.value,
-            valueLabel: overlay.value.toFixed(1),
-            shape: overlay.slug === "security" ? "circle" : "square",
-            tone: overlay.slug,
-          }))}
-          lowLabel={row.lowLabel}
-          highLabel={row.highLabel}
-        />
-      ))}
+    <div className="profile-spread" role="img" aria-label="Lane deviations from the Foundation baseline under module pressure">
+      <div className="profile-spread__head">
+        <span className="profile-spread__title">Deviation under module pressure</span>
+        <div className="profile-spread__scale" aria-hidden="true">
+          <span className="profile-spread__scale-l">← toward low pole</span>
+          <span className="profile-spread__scale-c">Baseline</span>
+          <span className="profile-spread__scale-r">toward high pole →</span>
+        </div>
+      </div>
+
+      {rows.map((row) => {
+        const dominant = pickDominantOverlay(row)
+        const isStable = !dominant || dominant.isStable
+        const widthPercent = dominant
+          ? Math.min(50, (dominant.magnitude / HALF_RANGE) * 50)
+          : 0
+        const leftPercent = dominant && dominant.delta < 0 ? 50 - widthPercent : 50
+        const directionLabel = dominant
+          ? dominant.delta >= 0
+            ? row.highLabel
+            : row.lowLabel
+          : null
+        const phrase = dominant ? leansPhrase(dominant.magnitude) : "no overlay"
+        const anchorMeta = dominant
+          ? `baseline ${row.baseline.toFixed(1)} / 7 · pressure ${(row.baseline + dominant.delta).toFixed(1)} / 7`
+          : `baseline ${row.baseline.toFixed(1)} / 7 · no overlay yet`
+
+        return (
+          <div
+            key={row.dimension}
+            className={`profile-spread__row${isStable ? " profile-spread__row--stable" : ""}`}
+          >
+            <div className="profile-spread__label">
+              <span className="profile-spread__name">{row.label}</span>
+              <span className="profile-spread__anchor">{anchorMeta}</span>
+            </div>
+            <div className="profile-spread__bar">
+              <div className="profile-spread__track" aria-hidden="true">
+                <span className="profile-spread__grid" style={{ left: "16.66%" }} />
+                <span className="profile-spread__grid" style={{ left: "33.33%" }} />
+                <span className="profile-spread__axis" />
+                <span className="profile-spread__grid" style={{ left: "66.66%" }} />
+                <span className="profile-spread__grid" style={{ left: "83.33%" }} />
+                {dominant ? (
+                  <span
+                    className={`profile-spread__fill${isStable ? " profile-spread__fill--stable" : ""}`}
+                    style={{ left: `${leftPercent}%`, width: `${Math.max(widthPercent, 0.6)}%` }}
+                  />
+                ) : null}
+              </div>
+              <div className="profile-spread__lane-meta">
+                <span>{dominant ? `Source: ${dominant.label}` : "No saved module overlay yet"}</span>
+                <span className="profile-spread__delta">
+                  {dominant && directionLabel
+                    ? `${phrase} · ${directionLabel.toLowerCase()}`
+                    : phrase}
+                </span>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+
+      <div className="profile-spread__foot">
+        <span>
+          <span className="profile-spread__sw profile-spread__sw--move" aria-hidden="true" />
+          Moved (|Δ| ≥ 0.5)
+        </span>
+        <span>
+          <span className="profile-spread__sw profile-spread__sw--stable" aria-hidden="true" />
+          Stable lane
+        </span>
+        <span className="profile-spread__anchor-key">
+          Anchor = Foundation baseline · bars are deviation under module pressure
+        </span>
+      </div>
     </div>
   )
+}
+
+type SpreadHeadline = {
+  changedMostChip: string
+  stayedStableChip: string
+  changedMostLine: string
+  stayedStableLine: string
+}
+
+function computeSpreadHeadline(rows: ProfileSpineRow[]): SpreadHeadline {
+  let strongest: { row: ProfileSpineRow; dominant: DominantOverlay } | null = null
+  const stableRowLabels: string[] = []
+
+  for (const row of rows) {
+    const dominant = pickDominantOverlay(row)
+    if (dominant && (!strongest || dominant.magnitude > strongest.dominant.magnitude)) {
+      strongest = { row, dominant }
+    }
+    if (!dominant || dominant.isStable) {
+      stableRowLabels.push(row.label)
+    }
+  }
+
+  if (!strongest) {
+    return {
+      changedMostChip: "No overlay yet",
+      stayedStableChip: "Foundation only",
+      changedMostLine:
+        "No focus-area module is saved yet, so the chart shows the Foundation baseline only.",
+      stayedStableLine:
+        "All lanes still sit on the Foundation baseline. Add a focus-area overlay to see where it bends.",
+    }
+  }
+
+  const { row, dominant } = strongest
+  const direction = dominant.delta >= 0 ? row.highLabel : row.lowLabel
+  const phrase = leansPhrase(dominant.magnitude)
+  const stableSummary = stableRowLabels.length === 0
+    ? "No lane stayed within the stable band on this run."
+    : `${formatLabelList(stableRowLabels.slice(0, 3))} stayed within the stable band (|Δ| < ${STABLE_THRESHOLD}).`
+
+  return {
+    changedMostChip: `${row.label} · ${phrase}`,
+    stayedStableChip: stableRowLabels[0] ?? "None",
+    changedMostLine: `${row.label} ${phrase} ${direction.toLowerCase()} under ${dominant.label}.`,
+    stayedStableLine: stableSummary,
+  }
 }
 
 function getProfileMosaicCoverageText(
