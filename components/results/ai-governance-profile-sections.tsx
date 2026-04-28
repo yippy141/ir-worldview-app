@@ -53,8 +53,8 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-section-intro stack-xs result-prose">
           <h2>Likely policy package</h2>
           <p className="ai-result-body muted">
-            These are the policy moves your answers make easier to defend when the tradeoffs get
-            sharp.
+            These are the policy moves your answers make easier to defend when the tradeoffs become
+            concrete.
           </p>
         </div>
 

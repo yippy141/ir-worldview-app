@@ -1,17 +1,25 @@
 import Link from "next/link"
 import type { Metadata } from "next"
+import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
 import {
   aiAtlasAxisGuide,
   getAiAtlasEntries,
 } from "@/lib/ai-governance-atlas-content"
+import {
+  aiFieldGuideLimits,
+  aiFieldGuideMeasures,
+  aiUnderModeledPerspectives,
+} from "@/lib/ai-governance-field-guide-content"
 
 const atlasEntries = getAiAtlasEntries()
 const labelByKey = Object.fromEntries(atlasEntries.map((entry) => [entry.key, entry.label]))
 
 const sections = [
+  { id: "scope", label: "Scope and limits" },
   { id: "axes", label: "The eight axes" },
   { id: "splits", label: "Where archetypes part ways" },
   { id: "cross-read", label: "IR ↔ AI cross-read" },
+  { id: "under-modeled", label: "Under-modeled perspectives" },
   { id: "start", label: "Where to start reading" },
   { id: "futures", label: "Futures appendix", optional: true },
 ]
@@ -86,7 +94,7 @@ const startReading = [
   {
     kicker: "From the Compass",
     title: "Read your nearest neighbor",
-    text: "Your archetype card already names a neighbor. The argument is sharpest where two archetypes share most of the fingerprint and split on one axis.",
+    text: "Your archetype card already names a neighbor. The useful comparison is where two archetypes share most of the fingerprint but split on one axis.",
     href: "/ai/atlas",
     linkLabel: "Open the AI Atlas",
   },
@@ -124,7 +132,7 @@ const futureScenarios = [
 export const metadata: Metadata = {
   title: "Field Guide — AI Governance Compass",
   description:
-    "Reader's companion to the AI Atlas. Eight axes, where archetypes part ways, IR ↔ AI cross-read, and a small reading shelf. Explainer only — no scoring, no second assessment.",
+    "Reader's companion to the AI Atlas. Scope notes, eight axes, where archetypes part ways, IR ↔ AI cross-read, and under-modeled perspectives. Explainer only — no scoring, no second assessment.",
 }
 
 export default function AiFieldGuidePage() {
@@ -142,12 +150,14 @@ export default function AiFieldGuidePage() {
           </p>
           <h1 className="ai-hero-h1">A reader&rsquo;s companion to the AI Atlas.</h1>
           <p className="ai-hero-summary">
-            Four short sections plus an optional, non-scored futures appendix. Use the rail to
-            skip. To get an archetype, take the AI Governance Compass; this page does not produce
-            one.
+            Scope notes, eight axes, nearby splits, cross-read notes, and perspectives the current
+            Compass only partly covers. Use the rail to skip. To get an archetype, take the AI
+            Governance Compass; this page does not produce one.
           </p>
           <div className="row gap-sm wrap">
+            <AiResultReturnLink />
             <Link href="/ai/atlas" className="cta-secondary">Open the AI Atlas</Link>
+            <Link href="/profile" className="cta-secondary">Profile</Link>
             <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
           </div>
         </section>
@@ -191,9 +201,40 @@ export default function AiFieldGuidePage() {
           </aside>
 
           <div className="ai-fg-content">
-            <section id="axes" className="ai-fg-section stack-md">
+            <section id="scope" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
                 <p className="ai-fg-section__num">§1</p>
+                <h2 className="ai-fg-section__title">What this module measures, and what it does not</h2>
+                <p className="ai-fg-section__deck">
+                  The Compass is a structured reader for AI governance instincts. It is not a
+                  technical exam, expertise credential, or full map of AI politics.
+                </p>
+              </header>
+              <div className="ai-fg-scope-grid">
+                <article className="ai-fg-scope-card stack-sm">
+                  <p className="ai-fg-scope-card__kicker">What it measures</p>
+                  {aiFieldGuideMeasures.map((item) => (
+                    <div key={item.title} className="stack-xs">
+                      <h3>{item.title}</h3>
+                      <p>{item.body}</p>
+                    </div>
+                  ))}
+                </article>
+                <article className="ai-fg-scope-card ai-fg-scope-card--limits stack-sm">
+                  <p className="ai-fg-scope-card__kicker">What it does not fully cover</p>
+                  {aiFieldGuideLimits.map((item) => (
+                    <div key={item.title} className="stack-xs">
+                      <h3>{item.title}</h3>
+                      <p>{item.body}</p>
+                    </div>
+                  ))}
+                </article>
+              </div>
+            </section>
+
+            <section id="axes" className="ai-fg-section stack-md">
+              <header className="ai-fg-section__head">
+                <p className="ai-fg-section__num">§2</p>
                 <h2 className="ai-fg-section__title">The eight axes</h2>
                 <p className="ai-fg-section__deck">
                   The vocabulary the AI module uses. Names, one-line description, and opposing
@@ -223,7 +264,7 @@ export default function AiFieldGuidePage() {
 
             <section id="splits" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§2</p>
+                <p className="ai-fg-section__num">§3</p>
                 <h2 className="ai-fg-section__title">Where nearby archetypes part ways</h2>
                 <p className="ai-fg-section__deck">
                   Pairs whose fingerprints overlap on most axes. The split on one or two axes is
@@ -257,7 +298,7 @@ export default function AiFieldGuidePage() {
 
             <section id="cross-read" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§3</p>
+                <p className="ai-fg-section__num">§4</p>
                 <h2 className="ai-fg-section__title">How IR and AI cross-read</h2>
                 <p className="ai-fg-section__deck">
                   Three meeting points between the IR Foundation and the AI Compass. They are
@@ -279,9 +320,35 @@ export default function AiFieldGuidePage() {
               </div>
             </section>
 
+            <section id="under-modeled" className="ai-fg-section stack-md">
+              <header className="ai-fg-section__head">
+                <p className="ai-fg-section__num">§5</p>
+                <h2 className="ai-fg-section__title">Perspectives the current model only partly covers</h2>
+                <p className="ai-fg-section__deck">
+                  These are not hidden scored archetypes. They are adjacent shelves to keep in view
+                  when the six modeled families feel too narrow.
+                </p>
+              </header>
+              <div className="ai-fg-perspective-grid">
+                {aiUnderModeledPerspectives.map((perspective) => (
+                  <article key={perspective.id} className="ai-fg-perspective stack-sm">
+                    <div className="stack-xs">
+                      <p className="ai-fg-perspective__id">{perspective.id.replaceAll("-", " / ")}</p>
+                      <h3>{perspective.title}</h3>
+                      <p>{perspective.whyItMatters}</p>
+                    </div>
+                    <div className="ai-fg-perspective__limit">
+                      <span>Current coverage:</span> {perspective.currentCoverage}
+                    </div>
+                    <p className="ai-fg-perspective__question">{perspective.readingQuestion}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
+
             <section id="start" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§4</p>
+                <p className="ai-fg-section__num">§6</p>
                 <h2 className="ai-fg-section__title">Where to start reading</h2>
                 <p className="ai-fg-section__deck">
                   Three small entry points. Pick the one that matches why you arrived.
@@ -310,7 +377,7 @@ export default function AiFieldGuidePage() {
             <section id="futures" className="ai-fg-section stack-md">
               <div className="ai-fg-futures">
                 <div className="ai-fg-futures__head">
-                  <span className="ai-fg-futures__lbl">§5 · Appendix · Futures</span>
+                  <span className="ai-fg-futures__lbl">§7 · Appendix · Futures</span>
                   <span className="ai-fg-futures__pill">Optional · Non-scored</span>
                 </div>
                 <p className="ai-fg-futures__intro">

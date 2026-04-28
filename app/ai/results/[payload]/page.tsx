@@ -115,6 +115,15 @@ export default async function AiResultPage(
         </div>
 
         <div className="result-section stack-md">
+          <div className="row gap-sm wrap">
+            <Link href={`/ai/atlas/${decoded.ak}`} className="cta-primary">
+              Read archetype page
+            </Link>
+            <Link href="/ai/atlas" className="cta-secondary">Browse AI Atlas</Link>
+            <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
+            <Link href="/profile" className="cta-secondary">Profile</Link>
+          </div>
+
           <div className="profile-summary-grid">
             <article className="profile-summary-card stack-xs">
               <p className="eyebrow">Governing instinct</p>
@@ -149,6 +158,10 @@ export default async function AiResultPage(
               exhaustive identity.{" "}
               <Link href="/method" style={{ color: "var(--accent)" }}>
                 Methods explains the limits →
+              </Link>
+              {" "}
+              <Link href="/ai/field-guide" style={{ color: "var(--accent)" }}>
+                Field Guide explains the AI scope →
               </Link>
             </p>
           </div>
@@ -220,6 +233,14 @@ export default async function AiResultPage(
               Share feedback on this module →
             </Link>
           </p>
+
+          <div className="row gap-sm wrap">
+            <Link href={`/ai/atlas/${decoded.ak}`} className="cta-secondary">
+              Archetype detail
+            </Link>
+            <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
+            <Link href="/profile" className="cta-secondary">Profile</Link>
+          </div>
 
           <AiGovernanceShareActions
             payload={payload}

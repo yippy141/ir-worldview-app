@@ -4,6 +4,7 @@ import { AiArchetypeFingerprint } from "@/components/atlas/ai-archetype-fingerpr
 import {
   aiAtlasArchetypeLeaningTag,
   getAiAtlasEntries,
+  getAiAtlasHref,
   getAiAtlasLabel,
   getAiAxisLabel,
 } from "@/lib/ai-governance-atlas-content"
@@ -27,10 +28,12 @@ export default function AiAtlasPage() {
           <p className="ai-hero-summary">
             Each card shows the archetype&rsquo;s relative emphasis across four core axes &mdash;
             a small fingerprint, not a score. The shape lets you scan the page; the prose
-            keeps it honest. Comparison depth and reading shelves live one click away.
+            keeps it honest. Definitions, critiques, neighbors, and readings live on the detail pages.
           </p>
           <div className="row gap-sm wrap">
             <Link href="/ai" className="cta-secondary">Back to AI home</Link>
+            <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
+            <Link href="/profile" className="cta-secondary">Profile</Link>
             <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
           </div>
         </section>
@@ -66,12 +69,12 @@ export default function AiAtlasPage() {
                           {nearestKey ? getAiAtlasLabel(nearestKey) : "Mixed"}
                         </span>
                       </span>
-                      <a
-                        href={`#compare-${entry.key}`}
+                      <Link
+                        href={getAiAtlasHref(entry.key)}
                         className="ai-atlas-fingerprint-card__cta"
                       >
-                        Compare nearby <span aria-hidden="true">↗</span>
-                      </a>
+                        Read this archetype <span aria-hidden="true">↗</span>
+                      </Link>
                     </div>
                   </div>
 
@@ -152,6 +155,9 @@ export default function AiAtlasPage() {
                 </div>
 
                 <div className="atlas-inline-links">
+                  <Link href={getAiAtlasHref(entry.key)} style={{ color: "var(--accent)" }}>
+                    Open {entry.label} detail
+                  </Link>
                   <a href={`#family-${entry.key}`} style={{ color: "var(--accent)" }}>
                     Back to {entry.label}
                   </a>
@@ -175,6 +181,8 @@ export default function AiAtlasPage() {
           </div>
           <div className="row gap-sm wrap">
             <Link href="/ai" className="cta-secondary">Back to AI home</Link>
+            <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
+            <Link href="/profile" className="cta-secondary">Profile</Link>
             <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
             <Link href="/references" className="cta-secondary">References</Link>
           </div>

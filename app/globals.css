@@ -2970,9 +2970,31 @@ h3 {
 .profile-spread__scale-r { text-align: right; }
 
 @media (max-width: 480px) {
+  .profile-hero--anchored > .profile-hero-head,
+  .profile-hero--anchored > .profile-hero-summary,
+  .profile-hero--anchored > .profile-stat-chips,
+  .profile-hero--anchored > .profile-spread,
+  .profile-hero--anchored > .profile-hero-ctas,
+  .profile-hero--anchored > .profile-hero-meta,
+  .profile-layer-strip {
+    width: 350px;
+    max-width: 350px;
+  }
+
   .profile-spread__scale {
+    grid-template-columns: 1fr;
     font-size: 0.62rem;
     gap: 6px;
+  }
+
+  .profile-spread__scale-l,
+  .profile-spread__scale-c,
+  .profile-spread__scale-r {
+    text-align: left;
+  }
+
+  .profile-spread__anchor-key {
+    margin-left: 0;
   }
 }
 
@@ -4902,10 +4924,110 @@ h3 {
 /* ── Mobile ──────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 720px) {
+  .quiz-shell-header .wide-container {
+    width: min(100%, 350px);
+    max-width: 350px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .quiz-shell-title {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .wide-container:has(.profile-hero--anchored),
+  .wide-container:has(.module-linkage-strip),
+  .wide-container:has(.module-decisive-list),
+  .wide-container:has(.ai-atlas-fingerprint-grid),
+  .wide-container:has(.ai-atlas-detail-hero-grid),
+  .wide-container:has(.ai-fg-layout),
+  .wide-container:has(.ai-result-hero) {
+    width: min(100%, 350px);
+    max-width: 350px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
   .module-linkage-strip,
   .module-scope-grid,
   .module-decisive-call {
     grid-template-columns: 1fr;
+  }
+
+  .cta-primary,
+  .cta-secondary,
+  .profile-hero-cta {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .profile-hero-cta__title {
+    overflow-wrap: anywhere;
+  }
+
+  .profile-hero--anchored > .profile-hero-head,
+  .profile-hero--anchored > .profile-hero-summary,
+  .profile-hero--anchored > .profile-stat-chips,
+  .profile-hero--anchored > .profile-spread,
+  .profile-hero--anchored > .profile-hero-ctas,
+  .profile-hero--anchored > .profile-hero-meta {
+    width: min(100%, 350px);
+    max-width: 350px;
+  }
+
+  .profile-layer-strip {
+    width: min(100%, 350px);
+    max-width: 100%;
+  }
+
+  .profile-layer-pill {
+    white-space: normal;
+  }
+
+  .profile-hero-head h1,
+  .profile-foundation-subtitle,
+  .profile-hero-summary,
+  .profile-stat-chip__v {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .profile-hero-head h1 {
+    width: min(100%, 16ch);
+    max-width: 16ch;
+    font-size: clamp(1.55rem, 7vw, 1.95rem);
+  }
+
+  .profile-stat-chips {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .profile-spread__lane-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-spread__lane-meta > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .module-decisive-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+  }
+
+  .ai-atlas-fingerprint-card__meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .ai-atlas-fingerprint-card__cta {
+    margin-left: 0;
   }
 
   .likert-grid {
@@ -5232,7 +5354,7 @@ h3 {
   border-top: 1px solid var(--border);
 }
 
-/* Mode pill — sharper for AI quiz */
+/* Mode pill — more defined for AI quiz */
 .ai-mode-pill {
   display: inline-flex;
   align-items: center;
@@ -5484,10 +5606,101 @@ h3 {
   letter-spacing: 0.04em;
 }
 
+.ai-atlas-detail-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.ai-atlas-detail-side {
+  min-width: 0;
+}
+
+.ai-atlas-detail-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.ai-atlas-detail-note {
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.ai-atlas-detail-note .content-list {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+.ai-atlas-detail-lean {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+}
+
+.ai-atlas-detail-neighbor-grid,
+.ai-atlas-detail-reading-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.ai-atlas-detail-neighbor,
+.ai-atlas-detail-reading {
+  padding: 18px 20px;
+  border: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--panel) 90%, white 10%);
+}
+
+.ai-atlas-detail-neighbor h3 {
+  margin: 0;
+  font-size: 1.12rem;
+  line-height: 1.25;
+}
+
+.ai-atlas-detail-reading__title {
+  margin: 0;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.28;
+  text-decoration: none;
+}
+
+.ai-atlas-detail-reading__title:hover {
+  color: var(--accent);
+}
+
+.ai-atlas-detail-reading__meta {
+  margin: 0;
+  color: var(--muted);
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+}
+
 @media (min-width: 720px) {
   .ai-atlas-fingerprint-card {
     grid-template-columns: minmax(0, 1fr) 200px;
     gap: 22px;
+  }
+
+  .ai-atlas-detail-hero-grid {
+    grid-template-columns: minmax(0, 1.45fr) minmax(260px, 0.8fr);
+  }
+
+  .ai-atlas-detail-columns,
+  .ai-atlas-detail-neighbor-grid,
+  .ai-atlas-detail-reading-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -5627,6 +5840,50 @@ h3 {
   line-height: 1.6;
   color: var(--muted);
   max-width: 720px;
+}
+
+.ai-fg-scope-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.ai-fg-scope-card {
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel) 90%, white 10%);
+}
+
+.ai-fg-scope-card--limits {
+  border-left: 3px solid color-mix(in srgb, var(--accent) 58%, var(--border) 42%);
+}
+
+.ai-fg-scope-card__kicker,
+.ai-fg-perspective__id {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ai-fg-scope-card h3,
+.ai-fg-perspective h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.28;
+  color: var(--text);
+}
+
+.ai-fg-scope-card p,
+.ai-fg-perspective p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.58;
 }
 
 .ai-fg-axes {
@@ -5816,6 +6073,38 @@ h3 {
   color: var(--accent);
 }
 
+.ai-fg-perspective-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+.ai-fg-perspective {
+  padding: 18px 20px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 60%, var(--text) 40%);
+  background: color-mix(in srgb, var(--panel) 92%, white 8%);
+}
+
+.ai-fg-perspective__limit {
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
+.ai-fg-perspective__limit span {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.ai-fg-perspective p.ai-fg-perspective__question {
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+}
+
 .ai-fg-start {
   display: grid;
   grid-template-columns: 1fr;
@@ -5966,6 +6255,11 @@ h3 {
   .ai-fg-start,
   .ai-fg-futures__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ai-fg-scope-grid,
+  .ai-fg-perspective-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

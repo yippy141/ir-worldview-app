@@ -190,8 +190,8 @@ export function ModuleApp({
           <p className="module-linkage-strip-text">
             This module tests how that baseline behaves inside {moduleDefinition.shortTitle.toLowerCase()} cases:
             {" "}
-            {moduleDefinition.lanes.map((lane) => lane.label).join(", ")}. It can sharpen or complicate
-            the Foundation, but it does not replace it.
+            {moduleDefinition.lanes.map((lane) => lane.label).join(", ")}. It can confirm, qualify,
+            or complicate the Foundation, but it does not replace it.
           </p>
         </section>
 

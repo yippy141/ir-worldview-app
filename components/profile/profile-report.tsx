@@ -194,7 +194,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           <p className="eyebrow">Layer relationships</p>
           <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            The Foundation stays as the anchor. Saved layers show where it holds, sharpens, or
+            The Foundation stays as the anchor. Saved layers show where it holds, shifts, or
             starts to pull in different directions.
           </p>
         </div>

@@ -34,6 +34,14 @@ repomix-output.*
 *.orig
 *~
 
+# sprint planning artifacts (untracked local copies)
+phase4r-docs/
+phase5m-docs/
+phase5m1-docs/
+phase6b-docs/
+phase6b1-docs/
+phase6b2-docs/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

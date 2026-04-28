@@ -18,12 +18,12 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "securityCompetition",
     prompt:
-      "Long stretches of peace between major powers usually depend on conditions that can weaken or disappear.",
+      "Even sustained periods of major-power peace remain fragile when the underlying balance of capability is shifting.",
     clarification: {
       whatItAsks:
-        "Whether peace between major powers is usually conditional rather than permanently solved.",
+        "Whether shifts in relative capability tend to eventually destabilize relationships, even ones that look settled.",
       whatItDoesNotAsk:
-        "This is not saying war is inevitable or that diplomacy never matters.",
+        "This is not saying war is inevitable or that diplomacy plays no role — only asking how durable its stabilizing effect is when power is moving.",
       terms: [
         {
           term: "Balance of power",
@@ -63,12 +63,12 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "normsIdentity",
     prompt:
-      "The same military move can look threatening in one relationship and reassuring in another.",
+      "Whether a military move signals threat or reassurance depends more on the history and trust between the states involved than on the scale of the force itself.",
     clarification: {
       whatItAsks:
-        "Whether meaning depends partly on trust, recognition, history, and shared expectations.",
+        "Whether relational and historical context carries more weight than raw capability measures when states read each other's military moves.",
       whatItDoesNotAsk:
-        "This is not saying military capabilities stop mattering.",
+        "This is not saying the size of a force is irrelevant, only asking which factor carries more explanatory weight.",
     },
   },
   {
@@ -76,12 +76,12 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     prompt:
-      "Trade, finance, and supply chains should be treated as part of core world politics, not as a side issue.",
+      "Control over credit, production networks, and supply-chain chokepoints shapes what states can do in a crisis more reliably than differences in military capability alone.",
     clarification: {
       whatItAsks:
-        "Whether economic leverage and dependence are part of the core story, not background detail.",
+        "Whether economic leverage and structural dependence explain crisis behavior more reliably than a narrower focus on military power.",
       whatItDoesNotAsk:
-        "This is not saying every crisis is secretly just about economics.",
+        "This is not saying military power stops mattering — only asking which factor carries more weight when they diverge.",
     },
   },
   {
@@ -89,12 +89,12 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "restraint",
     prompt:
-      "Major powers often make themselves less secure when they push for advantages beyond what defense requires.",
+      "A grand strategy that pursues advantages clearly beyond what defense requires tends to generate the countermoves that erode security over time.",
     clarification: {
       whatItAsks:
-        "Whether overextension and pursuit of excess advantage can generate backlash and reduce security.",
+        "Whether pushing beyond clearly defensible limits tends to produce a self-defeating response from rivals and third parties.",
       whatItDoesNotAsk:
-        "This is not asking whether every gain in power is a mistake.",
+        "This is not asking whether states should withdraw from the world — only whether excess accumulation reliably produces backlash.",
     },
   },
   {
@@ -564,12 +564,12 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     prompt:
-      "Control over data, standards, and digital infrastructure belongs near the center of geopolitical analysis.",
+      "Who controls technical standards, platform architectures, and data flows will shape the distribution of geopolitical power more durably than territorial or military contests alone.",
     clarification: {
       whatItAsks:
-        "Whether technology systems and market control now shape power in ways IR analysis should treat as central.",
+        "Whether technology governance and digital infrastructure are becoming structurally more important than conventional military measures of power.",
       whatItDoesNotAsk:
-        "This is not saying military power or territorial issues stopped mattering.",
+        "This is not saying military power and territorial control have ceased to matter.",
     },
   },
   {
@@ -577,12 +577,12 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "institutions",
     prompt:
-      "Global rules last longer when middle powers and lower-income states help write them rather than just follow them.",
+      "International institutions that concentrate rule-writing authority among a few powerful states tend to face legitimacy crises earlier and erode faster than those with broader authorship.",
     clarification: {
       whatItAsks:
-        "Whether broader authorship makes institutions more durable and more widely accepted.",
+        "Whether concentrated authorship in global institutions tends to shorten their effective life by generating resistance from those who must follow rules they did not help shape.",
       whatItDoesNotAsk:
-        "This is not asking whether every institution can represent every state equally in every decision.",
+        "This is not claiming every institution can give every state equal authority in every decision.",
     },
   },
   {

@@ -419,6 +419,14 @@ export function getAiAtlasEntries(): AiAtlasEntry[] {
   })
 }
 
+export function getAiAtlasEntry(id: string): AiAtlasEntry | null {
+  return getAiAtlasEntries().find((entry) => entry.key === id) ?? null
+}
+
+export function getAiAtlasHref(id: AiAtlasArchetypeId) {
+  return `/ai/atlas/${id}`
+}
+
 export function getAiAtlasSharedReadings() {
   return getAiReadingList(aiAtlasKeys[0]).startHere.slice(0, 4)
 }

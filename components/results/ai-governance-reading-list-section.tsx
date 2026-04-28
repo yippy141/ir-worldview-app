@@ -30,6 +30,11 @@ export function AiGovernanceReadingListSection({
           label: "Browse the AI atlas",
           text: "See nearby archetypes and the reading shelves that sit beside them.",
         },
+        {
+          href: "/ai/field-guide",
+          label: "Open the AI field guide",
+          text: "Read the axes, scope limits, and under-modeled perspectives behind the result.",
+        },
       ],
     },
     {

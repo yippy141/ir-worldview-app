@@ -409,6 +409,7 @@ function buildDecisiveCalls({
       return [
         {
           selection,
+          primary: selection.primary,
           strongest,
           rank:
             strongest.strength +
@@ -419,7 +420,7 @@ function buildDecisiveCalls({
     })
     .sort((left, right) => right.rank - left.rank)
     .slice(0, 6)
-    .map(({ selection, strongest }) => {
+    .map(({ selection, primary, strongest }) => {
       const axis = axisMap[strongest.axisKey]
       const leansHigh = strongest.value >= 4
       const direction = leansHigh ? axis.highLabel : axis.lowLabel
@@ -430,7 +431,7 @@ function buildDecisiveCalls({
         caseTitle: selection.question.title,
         laneLabel: laneLabelMap[selection.question.lane] ?? selection.question.lane,
         cardType: formatCardType(selection.question.cardType),
-        framing: selection.primary.title,
+        framing: primary.title,
         implication: buildDecisiveImplication({
           cardType: selection.question.cardType,
           axisLabel: axis.label,

@@ -122,7 +122,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
           <p style={{ lineHeight: "1.65", marginBottom: 0 }}>
             {comparison.biggestSecurityDifference
               ? comparison.biggestSecurityDifference.summary
-              : "No sharp Security gap stands out, or one shared profile does not include the Security module."}
+              : "No clear Security gap stands out, or one shared profile does not include the Security module."}
           </p>
         </article>
         <article className="driver-card stack-xs">
@@ -130,7 +130,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
           <p style={{ lineHeight: "1.65", marginBottom: 0 }}>
             {comparison.biggestTechnologyDifference
               ? comparison.biggestTechnologyDifference.summary
-              : "No sharp Technology gap stands out, or one shared profile does not include the Technology module."}
+              : "No clear Technology gap stands out, or one shared profile does not include the Technology module."}
           </p>
         </article>
       </section>

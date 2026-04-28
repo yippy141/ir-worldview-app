@@ -283,6 +283,38 @@ export default function MethodPage() {
       </section>
 
       <section className="panel stack-md">
+        <h2>What is hand-tuned in this beta</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          Three aspects of the scoring model involve explicit editorial choices that are not derived
+          from calibration data. Naming them plainly is part of honest instrument design.
+        </p>
+        <div>
+          {[
+            {
+              heading: "Second-choice answers count at reduced weight",
+              body: "In Analyst mode, tradeoff and mini-case questions let you pick a second-choice answer after your primary. That secondary answer is scored at 35% of the weight of your primary pick. This reflects the intuition that a genuine second choice is a softer signal than a clear primary commitment — but it is not derived from a validated weighting experiment. It is an authored judgment.",
+            },
+            {
+              heading: "Family weights are authored reference profiles",
+              body: "The four tradition profiles used for classification — realism, institutionalism, constructivism, and critical political economy — are stylized reference points built from editorial judgment about what each tradition centrally holds. They are not derived from a sample of scholars or validated against an external standard. The closest match is an interpretive shorthand, not a certified diagnosis.",
+            },
+            {
+              heading: "Module overlays are editorial transforms, not fresh Foundation measurements",
+              body: "Module results come from module-specific questions and are reported as a domain-specific read of your instincts in that issue area. They do not re-measure the seven Foundation dimensions from scratch. The module overlay is a relative pull — it shifts emphasis within the space the Foundation result already defines rather than replacing it with a more precise measurement. Treating it as additional scientific precision would overstate what the model does.",
+            },
+          ].map((item) => (
+            <div
+              key={item.heading}
+              style={{ padding: "18px 0", borderBottom: "1px solid var(--border)" }}
+            >
+              <p style={{ fontWeight: 600, marginBottom: "7px" }}>{item.heading}</p>
+              <p className="muted" style={{ lineHeight: "1.65" }}>{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel stack-md">
         <h2>Important limitations</h2>
         <div>
           {limitations.map((item) => (

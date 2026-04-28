@@ -32,6 +32,7 @@ export default function AiPage() {
               <div className="row gap-sm wrap">
                 <Link href="/ai/quiz" className="cta-primary">Open the AI questionnaire</Link>
                 <Link href="/ai/atlas" className="cta-secondary">Browse the AI atlas</Link>
+                <Link href="/ai/field-guide" className="cta-secondary">Read the AI field guide</Link>
               </div>
             </div>
 
@@ -58,7 +59,7 @@ export default function AiPage() {
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
-              Standard is the cleaner first pass. Advanced adds denser prompts and sharper
+              Standard is the cleaner first pass. Advanced adds denser prompts and more specific
               tradeoffs.
             </div>
             <div className="signal-list-item">
@@ -74,7 +75,7 @@ export default function AiPage() {
             <p className="section-kicker">Choose your route</p>
             <h2>Start in Standard or Advanced mode</h2>
             <p className="muted lobby-side-text">
-              Both modes use the same axes. Advanced adds sharper prompts on audits, compute,
+              Both modes use the same axes. Advanced adds more specific prompts on audits, compute,
               incident reporting, security competition, infrastructure, and legitimacy.
             </p>
           </div>
@@ -112,7 +113,7 @@ export default function AiPage() {
                     margin: 0,
                   }}
                 >
-                  Denser framing and sharper tradeoffs
+                  Denser framing and more specific tradeoffs
                 </p>
               </div>
               <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
@@ -151,6 +152,12 @@ export default function AiPage() {
               <span className="resource-list-copy">
                 <span className="resource-list-title">Profile</span>
                 <span className="resource-list-text">Keep saved IR and AI results in one place.</span>
+              </span>
+            </Link>
+            <Link href="/ai/field-guide" className="resource-list-link">
+              <span className="resource-list-copy">
+                <span className="resource-list-title">AI Field Guide</span>
+                <span className="resource-list-text">Read the axes, limits, and under-modeled perspectives.</span>
               </span>
             </Link>
             <Link href="/method" className="resource-list-link">
