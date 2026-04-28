@@ -1488,6 +1488,24 @@ h3 {
   background: color-mix(in srgb, var(--panel) 90%, white 10%);
 }
 
+.module-linkage-strip {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.42fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 18px 20px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--panel) 88%, white 12%);
+}
+
+.module-linkage-strip-text {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.94rem;
+  line-height: 1.68;
+}
+
 .module-linkage-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -1551,11 +1569,42 @@ h3 {
   gap: 12px;
 }
 
+.module-lane-grid--compact {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
 .module-lane-card {
   background: color-mix(in srgb, var(--panel) 84%, white 16%);
   border: 1px solid var(--border-soft);
   border-radius: 7px;
   padding: 16px 18px;
+}
+
+.module-scope-details {
+  background: color-mix(in srgb, var(--panel) 94%, white 6%);
+}
+
+.module-scope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 24px;
+  padding: 18px 0 16px;
+}
+
+.module-note-list {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.62;
+}
+
+.module-coverage-line {
+  margin: 0;
+  padding: 14px 0 16px;
+  border-top: 1px solid var(--border-soft);
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.58;
 }
 
 .module-case-frame {
@@ -3268,6 +3317,50 @@ h3 {
   line-height: 1.64;
 }
 
+.module-decisive-list {
+  display: grid;
+  gap: 18px;
+}
+
+.module-decisive-call {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.24fr) minmax(0, 1fr);
+  gap: 22px;
+  padding: 20px 0;
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, var(--accent) 28%);
+}
+
+.module-decisive-call:last-child {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.module-decisive-meta {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.module-decisive-call h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.32;
+}
+
+.module-decisive-framing {
+  margin: 0;
+  color: var(--text);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.42;
+}
+
 @media (min-width: 900px) {
   .atlas-page-intro {
     grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
@@ -4809,6 +4902,12 @@ h3 {
 /* ── Mobile ──────────────────────────────────────────────────────────────────── */
 
 @media (max-width: 720px) {
+  .module-linkage-strip,
+  .module-scope-grid,
+  .module-decisive-call {
+    grid-template-columns: 1fr;
+  }
+
   .likert-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

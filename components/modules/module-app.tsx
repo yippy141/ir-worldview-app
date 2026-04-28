@@ -165,58 +165,34 @@ export function ModuleApp({
         <div className="stack-sm">
           <p className="eyebrow">Focus-area module</p>
           <h1>{moduleDefinition.title}</h1>
-          <p style={{ fontWeight: 600, maxWidth: "760px" }}>{moduleDefinition.subtitle}</p>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "760px" }}>
-            {moduleDefinition.description}
+            <strong>{moduleDefinition.subtitle}.</strong> {moduleDefinition.description}
           </p>
         </div>
 
-        <section className="module-linkage-panel stack-md" aria-label="Foundation linkage">
+        <section className="module-linkage-strip" aria-label="Foundation linkage">
           <div className="stack-xs">
-            <p className="eyebrow">Foundation linkage</p>
-            <h2 style={{ margin: 0 }}>How this fits with your Foundation</h2>
-          </div>
-
-          <div className="module-linkage-grid">
-            <div className="module-linkage-card stack-xs">
-              <p className="module-linkage-kicker">Current Foundation baseline</p>
-              {currentFoundation ? (
-                <>
-                  <p className="module-linkage-title">
-                    {currentFoundation.familyLabel}
-                    {currentFoundation.source === "device" ? " on this device" : ""}
-                  </p>
-                  <p className="module-linkage-text">
-                    {currentFoundation.strategyModifier} · {currentFoundation.normativeModifier}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="module-linkage-title">No saved Foundation baseline yet</p>
-                  <p className="module-linkage-text">
-                    Take the Foundation first if you want this result compared with a saved baseline.
-                  </p>
-                </>
-              )}
-            </div>
-
-            <div className="module-linkage-card stack-xs">
-              <p className="module-linkage-kicker">This module pressure-tests</p>
-              <ul className="content-list module-linkage-list">
-                {moduleDefinition.lanes.map((lane) => (
-                  <li key={lane.key}>{lane.label}</li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="module-linkage-card stack-xs">
-              <p className="module-linkage-kicker">What can change here</p>
-              <p className="module-linkage-text">
-                This result does not replace the Foundation. It shows how the baseline behaves in
-                one issue area.
+            <p className="module-linkage-kicker">Foundation linkage</p>
+            {currentFoundation ? (
+              <p className="module-linkage-title">
+                {currentFoundation.familyLabel}
+                {currentFoundation.source === "device" ? " on this device" : ""}
               </p>
-            </div>
+            ) : (
+              <p className="module-linkage-title">No saved Foundation baseline yet</p>
+            )}
+            <p className="module-linkage-text">
+              {currentFoundation
+                ? `${currentFoundation.strategyModifier} · ${currentFoundation.normativeModifier}`
+                : "Take the Foundation first if you want this module compared with a saved baseline."}
+            </p>
           </div>
+          <p className="module-linkage-strip-text">
+            This module tests how that baseline behaves inside {moduleDefinition.shortTitle.toLowerCase()} cases:
+            {" "}
+            {moduleDefinition.lanes.map((lane) => lane.label).join(", ")}. It can sharpen or complicate
+            the Foundation, but it does not replace it.
+          </p>
         </section>
 
         <div className="stack-sm">
@@ -247,95 +223,55 @@ export function ModuleApp({
           </div>
         </div>
 
-        <div className="module-meta-grid">
-          <div className="callout stack-xs">
-            <p className="eyebrow">In-flow shorthand</p>
-            <p style={{ fontWeight: 600 }}>{moduleDefinition.shorthand}</p>
-            <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-              {questions.length} scored items in this mode.
-            </p>
+        <details className="profile-details module-scope-details">
+          <summary>Scope, lanes, and how to read the cases</summary>
+          <div className="module-scope-grid">
+            <div className="stack-xs">
+              <p className="eyebrow">What it tests</p>
+              <ul className="content-list module-note-list">
+                {moduleDefinition.measures.map((measure) => (
+                  <li key={measure}>{measure}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="stack-xs">
+              <p className="eyebrow">What it does not claim</p>
+              <ul className="content-list module-note-list">
+                {moduleDefinition.doesNotClaim.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div className="stack-xs">
+              <p className="eyebrow">Lanes</p>
+              <div className="module-lane-grid module-lane-grid--compact">
+                {questionsByLane.map(({ lane, questions: laneQuestions }) => (
+                  <LaneProgressCard
+                    key={lane.key}
+                    lane={lane}
+                    answered={answeredByLane[lane.key] ?? 0}
+                    total={laneQuestions.length}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="stack-xs">
+              <p className="eyebrow">Reading rule</p>
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                Read the scene first, then the tradeoff. Explanation cards ask what best explains
+                the case; Decision cards ask what should carry the response; Actor lens cards ask
+                what would look strongest from that actor&apos;s position.
+              </p>
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                Answer from your analytic judgment. A backup choice is available when another option
+                genuinely fits, but it stays secondary.
+              </p>
+            </div>
           </div>
-          <div className="callout stack-xs">
-            <p className="eyebrow">What it measures</p>
-            <ul className="content-list" style={{ margin: 0 }}>
-              {moduleDefinition.measures.map((measure) => (
-                <li key={measure}>{measure}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="callout stack-xs">
-            <p className="eyebrow">What it does not claim</p>
-            <ul className="content-list" style={{ margin: 0 }}>
-              {moduleDefinition.doesNotClaim.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        <div className="callout stack-sm">
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>Visible lanes</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              Each case sits inside one lane so the module reads like a structured set of cases,
-              not one large basket of debates.
-            </p>
-          </div>
-          <div className="module-lane-grid">
-            {questionsByLane.map(({ lane, questions: laneQuestions }) => (
-              <LaneProgressCard
-                key={lane.key}
-                lane={lane}
-                answered={answeredByLane[lane.key] ?? 0}
-                total={laneQuestions.length}
-              />
-            ))}
-          </div>
-        </div>
-
-        <div className="callout stack-xs">
-          <p style={{ fontWeight: 600 }}>Perspective coverage across the full set of cases</p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Most cases start from familiar debates in this issue area. A smaller set of actor-lens
-            pressure tests then asks how the same problem looks from exposed partners, rival
-            powers, and nonaligned or development-focused governments.
+          <p className="module-coverage-line">
+            Perspective coverage in the full set: {perspectiveCoverage.map((role) => role.label).join(" · ")}
           </p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            This keeps the baseline legible without pretending other actors think the same way.
-          </p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.88rem" }}>
-            {perspectiveCoverage.map((role) => role.label).join(" · ")}
-          </p>
-        </div>
-
-        <div className="callout stack-xs">
-          <p style={{ fontWeight: 600 }}>How to answer these cases</p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Read the scene first, then the tradeoff.
-          </p>
-          <ul
-            className="muted"
-            style={{ margin: 0, paddingLeft: "20px", lineHeight: "1.65", fontSize: "0.9rem" }}
-          >
-            <li>On <strong>Explanation</strong> cards, choose the logic that best explains the case.</li>
-            <li>On <strong>Decision</strong> cards, choose the consideration that should carry the most weight in the response.</li>
-            <li>On <strong>Actor lens</strong> cards, choose the logic that would look strongest from that actor&apos;s own strategic position.</li>
-          </ul>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            Answer from your own analytic judgment, not from what sounds most moderate or most
-            publicly defensible. If another option also fits, add it as your backup choice.
-          </p>
-        </div>
-
-        {currentFoundationPayload ? (
-          <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>Foundation comparison is on</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              This module can compare back to your Foundation result, but it stays a focused issue
-              read rather than replacing the baseline.
-            </p>
-          </div>
-        ) : null}
+        </details>
 
         <div className="stack-xs">
           <div className="progress-meta">

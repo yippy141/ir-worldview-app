@@ -7,8 +7,14 @@ import {
   getSelectedModuleOptions,
 } from "@/lib/modules/framework"
 import { ModuleProfileSync } from "@/components/profile/module-profile-sync"
-import type { ModuleAnswers, ModuleSlug } from "@/lib/modules/types"
-import type { DimensionScores, QuizMode } from "@/lib/types"
+import type {
+  ModuleAnswers,
+  ModuleDefinition,
+  ModuleOption,
+  ModuleQuestion,
+  ModuleSlug,
+} from "@/lib/modules/types"
+import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
 
 export function ModuleResultView({
   slug,
@@ -31,12 +37,16 @@ export function ModuleResultView({
   const result = buildModuleResult(moduleDefinition, mode, answers, foundation)
   const selected = getSelectedModuleOptions(moduleDefinition, mode, answers)
   const questionCount = getModuleQuestions(moduleDefinition, mode).length
-  const isStandard = mode === "standard"
   const laneLabelMap = Object.fromEntries(
     moduleDefinition.lanes.map((lane) => [lane.key, lane.label]),
   ) as Record<string, string>
   const hasActorLens = Boolean(result.cardTypeScores.actorLens)
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
+  const decisiveCalls = buildDecisiveCalls({
+    moduleDefinition,
+    selected,
+    laneLabelMap,
+  })
   const foundationRelation = buildFoundationRelation({
     moduleTitle: moduleDefinition.shortTitle,
     comparison: result.comparison,
@@ -162,6 +172,35 @@ export function ModuleResultView({
           )}
         </section>
 
+        <section className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>Decisive calls</h2>
+            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65", maxWidth: "760px" }}>
+              These are the selected choices carrying the clearest information in this result. The
+              full answer record stays below for audit, but quieter calls do not need to lead the
+              page.
+            </p>
+          </div>
+          <div className="module-decisive-list">
+            {decisiveCalls.map((call, index) => (
+              <article key={call.id} className="module-decisive-call">
+                <div className="module-decisive-meta">
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <span>{call.laneLabel}</span>
+                  <span>{call.cardType}</span>
+                </div>
+                <div className="stack-xs">
+                  <h3>{call.caseTitle}</h3>
+                  <p className="module-decisive-framing">{call.framing}</p>
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                    {call.implication}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
         {result.cardTypeRead ? (
           <section className="result-section stack-md">
             <div className="stack-xs">
@@ -188,19 +227,14 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <h2>What stays unresolved</h2>
-          <p className="result-prose" style={{ lineHeight: "1.7" }}>{result.challenge}</p>
-        </section>
-
-        <section className="result-section stack-md">
           <div className="stack-xs">
             <h2>How to read this module</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
               Framing and scope notes sit down here if you want them.
             </p>
           </div>
-          <details className="profile-details" open={!isStandard}>
-            <summary>{isStandard ? "Open framing and scope notes" : "Framing and scope notes"}</summary>
+          <details className="profile-details">
+            <summary>Open framing and scope notes</summary>
             <div className="driver-grid" style={{ marginTop: "16px" }}>
               <div className="driver-card stack-xs">
                 <p className="eyebrow">Mode</p>
@@ -264,11 +298,11 @@ export function ModuleResultView({
           <div className="stack-xs">
             <h2>Evidence log</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Lower-level recall of the framings you selected in this module.
+              The complete record of choices used to produce this module result.
             </p>
           </div>
-          <details className="profile-details" open={!isStandard}>
-            <summary>Selected framings</summary>
+          <details className="profile-details">
+            <summary>Open full evidence log</summary>
             <div className="driver-grid" style={{ marginTop: "16px" }}>
               {selected.map(({ question, primary, secondary }) => (
                 <div key={question.id} className="driver-card stack-sm">
@@ -329,7 +363,115 @@ export function ModuleResultView({
   )
 }
 
-function formatCardType(cardType: "explanation" | "decision" | "actorLens" | "both") {
+type SelectedModuleCall = {
+  question: ModuleQuestion
+  primary: ModuleOption | null
+  secondary: ModuleOption | null
+}
+
+type DecisiveCall = {
+  id: string
+  caseTitle: string
+  laneLabel: string
+  cardType: string
+  framing: string
+  implication: string
+}
+
+function buildDecisiveCalls({
+  moduleDefinition,
+  selected,
+  laneLabelMap,
+}: {
+  moduleDefinition: ModuleDefinition
+  selected: SelectedModuleCall[]
+  laneLabelMap: Record<string, string>
+}): DecisiveCall[] {
+  const axisMap = Object.fromEntries(
+    moduleDefinition.axes.map((axis) => [axis.key, axis]),
+  ) as Record<string, ModuleDefinition["axes"][number]>
+
+  return selected
+    .flatMap((selection) => {
+      if (!selection.primary) return []
+
+      const signalStrength = Object.entries(selection.primary.signals)
+        .map(([axisKey, value]) => ({
+          axisKey,
+          value,
+          strength: Math.abs(value - 4),
+        }))
+        .sort((left, right) => right.strength - left.strength)
+
+      const strongest = signalStrength.find((signal) => axisMap[signal.axisKey])
+      if (!strongest) return []
+
+      return [
+        {
+          selection,
+          strongest,
+          rank:
+            strongest.strength +
+            (signalStrength[1]?.strength ?? 0) * 0.35 +
+            (selection.question.cardType === "actorLens" ? 0.15 : 0),
+        },
+      ]
+    })
+    .sort((left, right) => right.rank - left.rank)
+    .slice(0, 6)
+    .map(({ selection, strongest }) => {
+      const axis = axisMap[strongest.axisKey]
+      const leansHigh = strongest.value >= 4
+      const direction = leansHigh ? axis.highLabel : axis.lowLabel
+      const contrast = leansHigh ? axis.lowLabel : axis.highLabel
+
+      return {
+        id: selection.question.id,
+        caseTitle: selection.question.title,
+        laneLabel: laneLabelMap[selection.question.lane] ?? selection.question.lane,
+        cardType: formatCardType(selection.question.cardType),
+        framing: selection.primary.title,
+        implication: buildDecisiveImplication({
+          cardType: selection.question.cardType,
+          axisLabel: axis.label,
+          direction,
+          contrast,
+        }),
+      }
+    })
+}
+
+function buildDecisiveImplication({
+  cardType,
+  axisLabel,
+  direction,
+  contrast,
+}: {
+  cardType: ChoiceCardType
+  axisLabel: string
+  direction: string
+  contrast: string
+}) {
+  const axis = axisLabel.toLowerCase()
+  const toward = direction.toLowerCase()
+  const away = contrast.toLowerCase()
+
+  if (cardType === "actorLens") {
+    return `From that actor's position, this makes ${axis} the pressure point: closer to ${toward} than ${away}.`
+  }
+
+  if (cardType === "decision") {
+    return `As a decision, this puts the response mainly on ${axis}: closer to ${toward} than ${away}.`
+  }
+
+  if (cardType === "explanation") {
+    return `As an explanation, this reads the case mainly through ${axis}: closer to ${toward} than ${away}.`
+  }
+
+  return `This choice makes ${axis} the clearest pressure point: closer to ${toward} than ${away}.`
+}
+
+function formatCardType(cardType: ChoiceCardType) {
   if (cardType === "explanation") return "Explanation"
   if (cardType === "decision") return "Decision"
   if (cardType === "actorLens") return "Actor lens"
