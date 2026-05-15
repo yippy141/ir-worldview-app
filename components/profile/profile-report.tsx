@@ -3,16 +3,14 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
-import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
-import { LayerRelationshipStack } from "@/components/visual-primitives"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
 import {
-  buildIntegratedHeadline,
   buildProfileAssessment,
   buildProfileSynthesisLite,
   buildProfileSpineRows,
+  buildProfileTriad,
   type ProfileSpineRow,
 } from "@/lib/profile-helpers"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
@@ -41,6 +39,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   const assessment = buildProfileAssessment(profile)
   const profileSynthesis = buildProfileSynthesisLite(profile)
   const profileNarrative = buildProfileNarrative(profile, assessment)
+  const triad = buildProfileTriad(profile)
   const spineRows = buildProfileSpineRows(profile)
   const aiSnapshot = profile.aiGovernance
   const crossModuleSynthesis = getCrossModuleSynthesis(
@@ -55,35 +54,9 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   const soWhatBlock = profileNarrative.sections.find(
     (section) => section.title === "So what this usually means",
   )
-  const deepReadSections = profileNarrative.sections.filter(
-    (section) => section.title !== "So what this usually means",
-  )
-  const contextLabel = mode === "local" ? "on this device" : "in this shared profile"
   const topParagraph = soWhatBlock?.text ?? profileNarrative.summary
-  const coverageText = getProfileMosaicCoverageText(profileSynthesis.layers, mode)
   const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security") ?? null
   const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology") ?? null
-  const mosaicNodes = buildProfileMosaicNodes({
-    foundation,
-    securitySnapshot,
-    technologySnapshot,
-    aiSnapshot,
-    crossModuleSynthesis,
-    mode,
-  })
-  const relationshipItems = mosaicNodes.map((node) => ({
-    id: node.key,
-    label: node.label,
-    title: node.title,
-    status: node.status,
-    statusLabel: node.statusLabel,
-    text: node.text,
-    action: node.href ? (
-      <Link href={node.href} style={{ color: "var(--accent)" }}>
-        {node.linkLabel}
-      </Link>
-    ) : undefined,
-  }))
   const nextSteps = buildProfileNextSteps({
     foundationPayload: foundation.payload,
     securitySnapshot,
@@ -91,14 +64,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     aiSnapshot,
     mode,
   })
-  const completedLayerText = getCompletedLayerText(profileSynthesis.layers)
   const spreadHeadline = computeSpreadHeadline(spineRows)
   const savedLayerCount = profileSynthesis.layers.filter((layer) => layer.present).length
   const isLayeredProfile = savedLayerCount >= 2
-  const heroTitle = isLayeredProfile ? atlasMatch.nearest.name : buildIntegratedHeadline(profile)
-  const heroSummary = isLayeredProfile
-    ? `${atlasMatch.nearest.soWhat} The chart below shows where saved modules pull against the Foundation anchor; it is a directional read inside this model, not a new combined score.`
-    : topParagraph
+  const heroTitle = isLayeredProfile ? atlasMatch.nearest.name : assessment.synthesis
+  const heroSummary = isLayeredProfile ? atlasMatch.nearest.soWhat : topParagraph
 
   return (
     <article className="result-article">
@@ -108,22 +78,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           <h1>{heroTitle}</h1>
           {isLayeredProfile ? (
             <p className="profile-foundation-subtitle">
-              Closest modeled Foundation family: <strong>{foundation.familyLabel}</strong>
+              Closest modeled Foundation baseline: <strong>{foundation.familyLabel}</strong>
               {" · "}
               {foundation.strategyModifier} · {foundation.normativeModifier}
             </p>
           ) : null}
-          <div className="profile-layer-strip" aria-label="Saved profile layers">
-            {profileSynthesis.layers.map((layer) => (
-              <span
-                key={layer.key}
-                className={`profile-layer-pill${layer.present ? "" : " profile-layer-pill--inactive"}`}
-              >
-                {layer.label}
-                {!layer.present ? " pending" : ""}
-              </span>
-            ))}
-          </div>
         </div>
 
         <p className="profile-hero-summary">{heroSummary}</p>
@@ -139,194 +98,107 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </span>
           <span className="profile-stat-chip profile-stat-chip--stable">
             <span className="profile-stat-chip__k">AI layer</span>
-            <span className="profile-stat-chip__v">{aiSnapshot ? "Present" : "Not added"}</span>
+            <span className="profile-stat-chip__v">
+              {aiSnapshot ? aiSnapshot.archetypeLabel : "Not added"}
+            </span>
           </span>
         </div>
 
         <ProfileAnchoredSpread rows={spineRows} />
 
-        {aiSnapshot ? (
-          <div className="profile-ai-band">
-            <span className="profile-ai-band__lbl">AI Governance</span>
-            <span className="profile-ai-band__body">
-              {aiSnapshot.archetypeLabel} reads as a related layer · {crossModuleSynthesis.shortReadout}
-            </span>
-            {mode === "local" ? (
-              <Link href={aiSnapshot.resultPath} className="profile-ai-band__open">
-                Open AI result →
+        {nextSteps.length > 0 ? (
+          <nav className="profile-hero-ctas" aria-label="Profile next steps">
+            {nextSteps.slice(0, 3).map((step, index) => (
+              <Link
+                key={step.href}
+                href={step.href}
+                className={`profile-hero-cta${index === 0 ? " profile-hero-cta--primary" : ""}`}
+              >
+                <span className="profile-hero-cta__title">{step.title}</span>
+                <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
               </Link>
-            ) : null}
-          </div>
-        ) : (
-          <p className="profile-ai-band profile-ai-band--pending">
-            <span className="profile-ai-band__lbl">AI Governance</span>
-            <span className="profile-ai-band__body">
-              {mode === "local"
-                ? "Not yet added · open the AI Governance Compass to read it as a connected layer."
-                : "Not included in this shared profile."}
-            </span>
-            {mode === "local" ? (
-              <Link href="/ai" className="profile-ai-band__open">
-                Add AI layer →
-              </Link>
-            ) : null}
-          </p>
-        )}
-
-        <nav className="profile-hero-ctas" aria-label="Profile next steps">
-          {nextSteps.slice(0, 3).map((step, index) => (
-            <Link
-              key={step.href}
-              href={step.href}
-              className={`profile-hero-cta${index === 0 ? " profile-hero-cta--primary" : ""}`}
-            >
-              <span className="profile-hero-cta__title">{step.title}</span>
-              <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
-            </Link>
-          ))}
-        </nav>
-
-        <p className="muted profile-hero-meta">{completedLayerText}</p>
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <p className="eyebrow">Layer relationships</p>
-          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>How the saved layers connect</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            The Foundation stays as the anchor. Saved layers show where it holds, shifts, or
-            starts to pull in different directions.
-          </p>
-        </div>
-        <LayerRelationshipStack items={relationshipItems} />
-        <p className="muted profile-mosaic-note">{coverageText}</p>
-
-        <details className="profile-details">
-          <summary>Longer profile interpretation</summary>
-          <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
-            <div className="stack-xs">
-              <p className="eyebrow">Stable thread</p>
-              <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.stableAcross}</p>
-            </div>
-            <div className="stack-xs">
-              <p className="eyebrow">Pressure shifts</p>
-              <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.shiftsUnderPressure}</p>
-            </div>
-            <div className="stack-xs">
-              <p className="eyebrow">Reasoning style</p>
-              <p style={{ lineHeight: "1.7", margin: 0 }}>{profileSynthesis.reasoningStyle}</p>
-            </div>
-            {deepReadSections.map((section) => (
-              <div key={section.title} className="stack-xs">
-                <p className="eyebrow">{section.title}</p>
-                <p style={{ lineHeight: "1.7", margin: 0 }}>{section.text}</p>
-              </div>
             ))}
-            <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.6", margin: 0 }}>
-              {assessment.changedMost}
-            </p>
-            <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6", margin: 0 }}>
-              A short read of the Foundation and completed modules {contextLabel}.
-            </p>
-          </div>
-        </details>
+          </nav>
+        ) : null}
       </section>
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2>Atlas</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            Atlas gives plain-English names to patterns that show up repeatedly in the current
-            model. It is a browsing aid, not a live population map.
+          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>What stayed steady, what shifted</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+            One read across the saved layers — what the profile keeps coming back to, where saved
+            modules pull it, and any open tension worth holding onto.
           </p>
         </div>
-        <div className="profile-atlas-feature stack-md">
-          <div className="profile-atlas-feature__intro">
-            <div className="stack-xs">
-              <p className="eyebrow">Nearest Atlas pattern</p>
-              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
-                {atlasMatch.nearest.name}
-              </p>
-              <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                {atlasMatch.nearest.cardSummary}
-              </p>
-            </div>
-            <p className="muted profile-atlas-feature__pressure">
-              <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
-            </p>
+        <div className="profile-triad">
+          <div className="profile-triad__item stack-xs">
+            <p className="eyebrow">What stayed steady</p>
+            <p style={{ lineHeight: "1.7", margin: 0 }}>{triad.steady}</p>
           </div>
-
-          <div className="profile-atlas-feature__details">
-            <div className="stack-xs">
-              <p className="profile-section-kicker">Pattern fingerprint</p>
-              <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
-            </div>
-
-            <div className="stack-md">
-              <div className="stack-xs">
-                <p className="profile-section-kicker">What usually drives it</p>
-                <div className="atlas-tag-list">
-                  {atlasMatch.nearest.cardDrivers.map((driver) => (
-                    <span key={driver} className="atlas-tag">
-                      {driver}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="stack-xs">
-                <p className="profile-section-kicker">Nearby patterns</p>
-                <div className="atlas-inline-links">
-                  {atlasMatch.neighbors.map((pattern) => (
-                    <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                      {pattern.name}
-                    </Link>
-                  ))}
-                  <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
-                    Read this pattern
-                  </Link>
-                  <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                    Browse Atlas
-                  </Link>
-                </div>
-              </div>
-            </div>
+          <div className="profile-triad__item stack-xs">
+            <p className="eyebrow">What shifted</p>
+            <p style={{ lineHeight: "1.7", margin: 0 }}>{triad.shifted}</p>
           </div>
-        </div>
-      </section>
-
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>What to open next</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            The profile works best when it gives you one or two clear next moves inside the same map.
-          </p>
-        </div>
-        <div className="profile-next-grid">
-          {nextSteps.map((step) => (
-            <Link key={step.href} href={step.href} className="profile-next-card stack-xs">
-              <span className="profile-next-kicker">{step.kicker}</span>
-              <span className="profile-next-title">{step.title}</span>
-              <span className="profile-next-text">{step.text}</span>
-            </Link>
-          ))}
+          {triad.tension ? (
+            <div className="profile-triad__item stack-xs">
+              <p className="eyebrow">Open tension</p>
+              <p style={{ lineHeight: "1.7", margin: 0 }}>{triad.tension}</p>
+            </div>
+          ) : null}
         </div>
         {actionSlot ? <div className="profile-secondary-actions">{actionSlot}</div> : null}
       </section>
 
       <section className="result-section stack-md">
+        <div className="stack-xs">
+          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Evidence and saved layers</h2>
+          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
+            The Atlas pattern, AI layer, completed overlays, and Foundation anchors that this
+            profile reads from. Open each drawer when you want to look at the evidence.
+          </p>
+        </div>
+
+        <details className="profile-details profile-details--secondary">
+          <summary>
+            {isLayeredProfile
+              ? `Atlas pattern: ${atlasMatch.nearest.name}`
+              : "Nearest Atlas pattern"}
+          </summary>
+          <div className="profile-collapsed-detail stack-md">
+            {!isLayeredProfile ? (
+              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", margin: 0 }}>
+                {atlasMatch.nearest.name}
+              </p>
+            ) : null}
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+              {atlasMatch.nearest.cardSummary}
+            </p>
+            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6", margin: 0 }}>
+              <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
+            </p>
+            <div className="stack-xs">
+              <p className="profile-section-kicker">Pattern fingerprint</p>
+              <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
+            </div>
+            <div className="atlas-inline-links">
+              <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
+                Read this pattern
+              </Link>
+              {atlasMatch.neighbors.slice(0, 2).map((pattern) => (
+                <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
+                  {pattern.name}
+                </Link>
+              ))}
+              <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
+                Browse Atlas
+              </Link>
+            </div>
+          </div>
+        </details>
+
         <details className="profile-details profile-details--secondary">
           <summary>AI layer detail</summary>
-          <div className="stack-md profile-collapsed-detail">
-            <div className="stack-xs">
-              <h2>AI layer</h2>
-              <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-                The AI Governance Compass belongs to the same project, but it does not rewrite your
-                IR baseline. Read it as a connected layer, not a replacement label.
-              </p>
-            </div>
-
+          <div className="profile-collapsed-detail stack-md">
             {aiSnapshot ? (
               <>
                 <div className="row gap-sm wrap">
@@ -334,67 +206,42 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                   <span className="ai-mode-pill">{aiSnapshot.archetypeLabel}</span>
                 </div>
 
-                <div className="profile-analysis-grid">
-                  <div className="profile-analysis-card stack-xs">
-                    <p className="eyebrow">{crossModuleSynthesis.title}</p>
-                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>Short read</p>
-                    <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                      {crossModuleSynthesis.shortReadout}
-                    </p>
-                  </div>
-                  <div className="profile-analysis-card stack-xs">
-                    <p className="eyebrow">Where they align</p>
-                    <ul className="content-list" style={{ margin: 0 }}>
-                      {crossModuleSynthesis.likelyAlignment.map((item) => (
-                        <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="profile-analysis-card stack-xs">
-                    <p className="eyebrow">Where they may conflict</p>
-                    <ul className="content-list" style={{ margin: 0 }}>
-                      {crossModuleSynthesis.likelyTensions.map((item) => (
-                        <li key={item} className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                <div className="stack-xs">
+                  <p className="eyebrow">{crossModuleSynthesis.title}</p>
+                  <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.6", margin: 0 }}>
+                    {crossModuleSynthesis.shortReadout}
+                  </p>
                 </div>
 
-                <div className="profile-analysis-note stack-xs">
+                <div className="stack-xs">
                   <p className="eyebrow">What this combination implies</p>
                   <p style={{ lineHeight: "1.7", margin: 0 }}>
                     {crossModuleSynthesis.practicalImplication}
                   </p>
                 </div>
 
-                <div className="stack-xs">
-                  <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65", margin: 0 }}>
-                    <strong>AI result:</strong> {aiSnapshot.summary}
+                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65", margin: 0 }}>
+                  <strong>AI result:</strong> {aiSnapshot.summary}
+                </p>
+                {mode === "local" ? (
+                  <p style={{ margin: 0 }}>
+                    <Link href={aiSnapshot.resultPath} style={{ color: "var(--accent)" }}>
+                      Open AI result →
+                    </Link>
                   </p>
-                  {mode === "local" ? (
-                    <p style={{ margin: 0 }}>
-                      <Link href={aiSnapshot.resultPath} style={{ color: "var(--accent)" }}>
-                        Open AI result →
-                      </Link>
-                    </p>
-                  ) : null}
-                </div>
+                ) : null}
               </>
             ) : (
-              <div className="profile-analysis-note stack-xs">
-                <p style={{ fontWeight: 600 }}>
+              <>
+                <p style={{ fontWeight: 600, margin: 0 }}>
                   {mode === "local"
                     ? "AI governance not yet added"
                     : "AI governance not included in this shared profile"}
                 </p>
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
                   {mode === "local"
-                    ? "This block appears once this device has a saved AI Governance Compass result. It reads the IR baseline and AI result side by side rather than folding them into one score."
-                    : "Shared profiles currently carry the IR foundation and saved IR module overlays only. The synthesis block needs a saved AI result to do more than offer a generic framing."}
+                    ? "Add the AI Governance Compass when you want to read it as a connected layer, not a replacement label."
+                    : "Shared profiles currently carry the IR foundation and saved IR module overlays only."}
                 </p>
                 {mode === "local" ? (
                   <p style={{ margin: 0 }}>
@@ -403,22 +250,14 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                     </Link>
                   </p>
                 ) : null}
-              </div>
+              </>
             )}
           </div>
         </details>
-      </section>
 
-      <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2>Issue overlays you&apos;ve completed</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-            Each completed IR module sits beside the Foundation as a domain-specific pressure test.
-          </p>
-        </div>
         {moduleSnapshots.length > 0 ? (
           <details className="profile-details profile-details--secondary">
-            <summary>Open issue overlay summaries</summary>
+            <summary>Completed issue overlays</summary>
             <div className="profile-module-grid profile-module-grid--report profile-collapsed-detail">
               {moduleSnapshots.map((moduleSnapshot) => (
                 <article key={moduleSnapshot.slug} className="profile-module-entry stack-md">
@@ -450,29 +289,11 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                               }}
                             />
                           </div>
-                          <div className="progress-meta" style={{ fontSize: "0.78rem" }}>
-                            <span>{lane.lowLabel}</span>
-                            <span>{lane.highLabel}</span>
-                          </div>
                           <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
                             {lane.summary}
                           </p>
-                          {lane.delta ? (
-                            <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
-                              <strong>Directional pull:</strong> {lane.delta}
-                            </p>
-                          ) : null}
                         </div>
                       ))}
-                    </div>
-                  ) : null}
-
-                  {moduleSnapshot.cardTypeRead ? (
-                    <div className="profile-module-note stack-xs">
-                      <p className="eyebrow">{moduleSnapshot.cardTypeRead.headline}</p>
-                      <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
-                        {moduleSnapshot.cardTypeRead.summary}
-                      </p>
                     </div>
                   ) : null}
 
@@ -495,218 +316,73 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               ))}
             </div>
           </details>
-        ) : (
-          <div className="profile-analysis-note stack-xs">
-            <p style={{ fontWeight: 600 }}>No focus-area overlays yet</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              The Foundation already gives you a complete baseline. Focus-area modules add pressure
-              tests in Security and Technology when you want to see how that baseline travels.
-            </p>
-            {mode === "local" ? (
-              <p>
-                <Link href={`/modules?foundation=${encodeURIComponent(foundation.payload)}`} style={{ color: "var(--accent)" }}>
-                  Browse Focus Areas →
-                </Link>
-              </p>
-            ) : null}
-          </div>
-        )}
-      </section>
+        ) : null}
 
-      {mode === "local" ? (
-        <section className="result-section profile-appendix stack-md">
-          <div className="stack-xs">
-            <p className="eyebrow">Appendix</p>
-            <h2>Evidence and detail</h2>
-            <p className="muted profile-appendix-note">
-              Open the drawers below for the saved Foundation result and the lower-evidence module
-              recall on this device.
-            </p>
-          </div>
-
-          <details className="profile-details profile-details--appendix">
-            <summary>Foundation result</summary>
-            <div className="stack-sm">
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                Closest traditions: {foundation.familyLabel} and {foundation.runnerUpLabel}.
-              </p>
-              <p>
-                <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
-                  Open Foundation result →
-                </Link>
-              </p>
-            </div>
-          </details>
-
-          <details className="profile-details profile-details--appendix">
-            <summary>Foundation anchors</summary>
-            <div className="profile-anchor-grid">
-              {foundation.keyDrivers.map((driver) => (
-                <div key={driver.label} className="profile-anchor-item stack-xs">
-                  <p className="eyebrow">{driver.type}</p>
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
-                  <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                    {driver.description}
-                  </p>
-                </div>
-              ))}
-              {foundation.strongLenses.map((lens) => (
-                <div key={lens.label} className="profile-anchor-item stack-xs">
-                  <p className="eyebrow">Lens</p>
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
-                  <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                    {lens.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </details>
-
-          {moduleSnapshots.map((moduleSnapshot) => (
-            <details key={moduleSnapshot.slug} className="profile-details profile-details--appendix">
-              <summary>{moduleSnapshot.title} evidence log</summary>
-              <div className="stack-sm">
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                  What it measured: {moduleSnapshot.measures.join("; ")}.
+        {mode === "local" ? (
+          <>
+            <details className="profile-details profile-details--secondary">
+              <summary>Foundation result and anchors</summary>
+              <div className="profile-collapsed-detail stack-md">
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+                  Closest traditions: {foundation.familyLabel} and {foundation.runnerUpLabel}.
                 </p>
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                  What it did not claim: {moduleSnapshot.doesNotClaim.join("; ")}.
+                <p style={{ margin: 0 }}>
+                  <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+                    Open Foundation result →
+                  </Link>
                 </p>
-                <div className="profile-evidence-list">
-                  {moduleSnapshot.evidence.map((item) => (
-                    <div key={`${moduleSnapshot.slug}-${item.question}`} className="profile-evidence-item stack-xs">
-                      <p style={{ fontWeight: 600, fontSize: "0.92rem" }}>{item.question}</p>
+                <div className="profile-anchor-grid">
+                  {foundation.keyDrivers.map((driver) => (
+                    <div key={driver.label} className="profile-anchor-item stack-xs">
+                      <p className="eyebrow">{driver.type}</p>
+                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
                       <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                        Most persuasive: {item.primary}
-                        {item.secondary ? ` · Second-most persuasive: ${item.secondary}` : ""}
+                        {driver.description}
+                      </p>
+                    </div>
+                  ))}
+                  {foundation.strongLenses.map((lens) => (
+                    <div key={lens.label} className="profile-anchor-item stack-xs">
+                      <p className="eyebrow">Lens</p>
+                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
+                      <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                        {lens.description}
                       </p>
                     </div>
                   ))}
                 </div>
               </div>
             </details>
-          ))}
-        </section>
-      ) : null}
+
+            {moduleSnapshots.map((moduleSnapshot) => (
+              <details key={moduleSnapshot.slug} className="profile-details profile-details--secondary">
+                <summary>{moduleSnapshot.title} evidence log</summary>
+                <div className="profile-collapsed-detail stack-sm">
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+                    What it measured: {moduleSnapshot.measures.join("; ")}.
+                  </p>
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+                    What it did not claim: {moduleSnapshot.doesNotClaim.join("; ")}.
+                  </p>
+                  <div className="profile-evidence-list">
+                    {moduleSnapshot.evidence.map((item) => (
+                      <div key={`${moduleSnapshot.slug}-${item.question}`} className="profile-evidence-item stack-xs">
+                        <p style={{ fontWeight: 600, fontSize: "0.92rem" }}>{item.question}</p>
+                        <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                          Most persuasive: {item.primary}
+                          {item.secondary ? ` · Second-most persuasive: ${item.secondary}` : ""}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </>
+        ) : null}
+      </section>
     </article>
   )
-}
-
-type MosaicNode = {
-  key: "foundation" | "security" | "technology" | "ai"
-  label: string
-  title: string
-  text: string
-  status: "anchor" | "reinforces" | "complicates" | "diverges" | "pending"
-  statusLabel: string
-  pending: boolean
-  href?: string
-  linkLabel?: string
-}
-
-function buildProfileMosaicNodes({
-  foundation,
-  securitySnapshot,
-  technologySnapshot,
-  aiSnapshot,
-  crossModuleSynthesis,
-  mode,
-}: {
-  foundation: ProfileStore["foundation"]
-  securitySnapshot: ModuleSnapshot | null
-  technologySnapshot: ModuleSnapshot | null
-  aiSnapshot: ProfileStore["aiGovernance"]
-  crossModuleSynthesis: ReturnType<typeof getCrossModuleSynthesis>
-  mode: "local" | "shared"
-}): MosaicNode[] {
-  const canLink = mode === "local"
-
-  return [
-    {
-      key: "foundation",
-      label: "Foundation",
-      title: foundation ? foundation.familyLabel : "No baseline saved",
-      text: foundation
-        ? `${foundation.strategyModifier} · ${foundation.normativeModifier}`
-        : "Complete the Foundation to anchor the rest of the profile.",
-      status: "anchor",
-      statusLabel: "Anchor",
-      pending: !foundation,
-      ...(canLink && foundation?.resultPath
-        ? { href: foundation.resultPath, linkLabel: "Open Foundation result →" }
-        : {}),
-    },
-    buildModuleMosaicNode("security", "Security", securitySnapshot, canLink),
-    buildModuleMosaicNode("technology", "Technology", technologySnapshot, canLink),
-    {
-      key: "ai",
-      label: "AI Governance",
-      title: aiSnapshot ? aiSnapshot.archetypeLabel : "AI layer not yet added",
-      text: aiSnapshot
-        ? crossModuleSynthesis.shortReadout
-        : "Add the AI Governance Compass when you want to see how the baseline travels in frontier AI governance.",
-      status: aiSnapshot ? classifyAiState(crossModuleSynthesis) : "pending",
-      statusLabel: aiSnapshot ? statusLabelFor(classifyAiState(crossModuleSynthesis)) : "Not yet taken",
-      pending: !aiSnapshot,
-      ...(canLink && aiSnapshot?.resultPath
-        ? { href: aiSnapshot.resultPath, linkLabel: "Open AI result →" }
-        : {}),
-    },
-  ]
-}
-
-function buildModuleMosaicNode(
-  key: "security" | "technology",
-  label: string,
-  snapshot: ModuleSnapshot | null,
-  canLink: boolean,
-): MosaicNode {
-  const status = snapshot ? classifyModuleState(snapshot) : "pending"
-
-  return {
-    key,
-    label,
-    title: snapshot ? snapshot.headline : `${label} overlay not yet added`,
-    text: snapshot
-      ? snapshot.summary
-      : `Add the ${label} overlay to see how your Foundation changes once the cases become more concrete.`,
-    status,
-    statusLabel: statusLabelFor(status),
-    pending: !snapshot,
-    ...(canLink && snapshot?.resultPath
-      ? { href: snapshot.resultPath, linkLabel: "Open overlay result →" }
-      : {}),
-  }
-}
-
-function classifyModuleState(snapshot: ModuleSnapshot): MosaicNode["status"] {
-  const comparisonText = `${snapshot.comparison ?? ""} ${snapshot.laneSummaries.map((lane) => lane.delta ?? "").join(" ")}`
-
-  if (/(reinforces|stays visible|still visible|already treats|baseline stays recognizable)/i.test(comparisonText)) {
-    return "reinforces"
-  }
-
-  if (/(pulls you|harder-edged|more control|more capacity|more coordination|more coalition|more protection|more bounded|more order-first|more crisis-limiting)/i.test(comparisonText)) {
-    return "diverges"
-  }
-
-  return "complicates"
-}
-
-function classifyAiState(
-  synthesis: ReturnType<typeof getCrossModuleSynthesis>,
-): MosaicNode["status"] {
-  return /do not collapse into one ideology/i.test(synthesis.shortReadout)
-    ? "complicates"
-    : "reinforces"
-}
-
-function statusLabelFor(status: MosaicNode["status"]) {
-  if (status === "anchor") return "Anchor"
-  if (status === "reinforces") return "Reinforces"
-  if (status === "complicates") return "Complicates"
-  if (status === "diverges") return "Diverges"
-  return "Not yet taken"
 }
 
 function buildProfileNextSteps({
@@ -725,53 +401,41 @@ function buildProfileNextSteps({
   if (mode !== "local") {
     return [
       {
-        kicker: "Browse",
         title: "Open the Atlas",
-        text: "Use Atlas to compare this profile against nearby recurring patterns in the model.",
         href: "/explore/atlas",
       },
       {
-        kicker: "Compare",
         title: "Compare shared profiles",
-        text: "Read two saved profiles side by side without turning them into one score.",
         href: "/compare",
       },
     ]
   }
 
-  const steps = []
+  const steps: { title: string; href: string }[] = []
 
   if (!securitySnapshot) {
     steps.push({
-      kicker: "Next overlay",
-      title: "Add Security",
-      text: "Pressure-test the baseline in deterrence, alliances, and protection cases.",
+      title: "Add Security overlay",
       href: `/modules/security?foundation=${encodeURIComponent(foundationPayload)}`,
     })
   }
 
   if (!technologySnapshot) {
     steps.push({
-      kicker: "Next overlay",
-      title: "Add Technology",
-      text: "See how the baseline changes under industrial policy, controls, and governance pressure.",
+      title: "Add Technology overlay",
       href: `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}`,
     })
   }
 
   if (!aiSnapshot) {
     steps.push({
-      kicker: "Same project",
-      title: "Add the AI layer",
-      text: "Use the AI Governance Compass as a connected overlay, not a rewritten Foundation label.",
+      title: "Add AI layer",
       href: "/ai",
     })
   }
 
   steps.push({
-    kicker: "Browse",
     title: "Open the Atlas",
-    text: "Compare this profile against nearby recurring patterns in the model.",
     href: "/explore/atlas",
   })
 
@@ -889,7 +553,7 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
           Little or no pull
         </span>
         <span className="profile-spread__anchor-key">
-          Bars show direction and relative size inside this model, not a fresh score.
+          Directional pulls inside this model, not a new combined score.
         </span>
       </div>
     </div>
@@ -929,55 +593,4 @@ function computeSpreadHeadline(rows: ProfileSpineRow[]): SpreadHeadline {
   return {
     changedMostChip: `${row.label} · ${phrase}`,
   }
-}
-
-function getProfileMosaicCoverageText(
-  layers: ReturnType<typeof buildProfileSynthesisLite>["layers"],
-  mode: "local" | "shared",
-) {
-  const present = layers.filter((layer) => layer.present).map((layer) => layer.label)
-  const missing = layers.filter((layer) => !layer.present).map((layer) => layer.label)
-
-  if (missing.length === 0) {
-    return "Built from Foundation, Security, Technology, and AI. The page reads them as one mosaic, not a single score."
-  }
-
-  const missingLine = missing.length === 1
-    ? mode === "local"
-      ? "is not saved on this device yet."
-      : "is not included in this shared view."
-    : mode === "local"
-      ? "are not saved on this device yet."
-      : "are not included in this shared view."
-
-  return `${formatLabelList(present)} ${present.length === 1 ? "is" : "are"} currently in view. ${formatLabelList(missing)} ${missingLine}`
-}
-
-function getCompletedLayerText(
-  layers: ReturnType<typeof buildProfileSynthesisLite>["layers"],
-) {
-  const present = layers.filter((layer) => layer.present).map((layer) => layer.label)
-  const missingCount = layers.length - present.length
-
-  if (missingCount === 0) {
-    return `Saved layers: ${formatLabelList(present)}.`
-  }
-
-  return `Saved layers: ${formatLabelList(present)}. ${missingCount} layer${missingCount === 1 ? "" : "s"} still open.`
-}
-
-function formatLabelList(labels: string[]) {
-  if (labels.length === 0) {
-    return "No layers"
-  }
-
-  if (labels.length === 1) {
-    return labels[0]
-  }
-
-  if (labels.length === 2) {
-    return `${labels[0]} and ${labels[1]}`
-  }
-
-  return `${labels.slice(0, -1).join(", ")}, and ${labels.at(-1)}`
 }

@@ -69,6 +69,12 @@ export type ProfileSynthesisLite = {
   reasoningStyle: string
 }
 
+export type ProfileTriad = {
+  steady: string
+  shifted: string
+  tension: string | null
+}
+
 const SPINE_ENDPOINTS: Record<DimensionKey, { lowLabel: string; highLabel: string }> = {
   securityCompetition: {
     lowLabel: "Less rivalry-centered",
@@ -271,6 +277,47 @@ export function buildProfileSynthesisLite(profile: ProfileStore): ProfileSynthes
       aiSnapshot ? AI_REASONING_STYLE_LINES[aiSnapshot.archetypeKey] : "",
     ),
   }
+}
+
+export function buildProfileTriad(profile: ProfileStore): ProfileTriad {
+  const foundation = profile.foundation
+  if (!foundation) {
+    return {
+      steady:
+        "Complete the Foundation first so the profile has a baseline to read against.",
+      shifted:
+        "Pressure shifts only appear once the Foundation and at least one overlay are saved.",
+      tension: null,
+    }
+  }
+
+  const assessment = buildProfileAssessment(profile)
+  const signals = getProfileNarrativeSignals(profile)
+
+  const steady = MOSAIC_ANCHOR_LINES[foundation.familyKey]
+
+  let shifted: string
+  if (signals.strongestShift) {
+    shifted = `${signals.strongestShift.moduleLabel} pushes the profile ${signals.strongestShift.direction}.`
+  } else if (signals.moduleSnapshots.length > 0) {
+    shifted =
+      "The saved overlays move the baseline more in texture than in direction."
+  } else {
+    shifted =
+      "No focus-area overlay is saved yet, so the Foundation is still doing the interpretive work on its own."
+  }
+
+  let tension: string | null = null
+  if (signals.totalTensions.length > 0) {
+    tension = signals.totalTensions[0] ?? null
+  } else if (assessment.state === "lowDifferentiation" && signals.moduleSnapshots.length > 0) {
+    tension =
+      "The closest traditions still sit close together. The label is a starting point, not a fixed box."
+  } else if (assessment.state === "domainConditionedShift" && signals.strongestShift) {
+    tension = `One domain — ${signals.strongestShift.moduleLabel.toLowerCase()} — changes which costs you weight first while the baseline stays recognizable.`
+  }
+
+  return { steady, shifted, tension }
 }
 
 export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment {

@@ -3242,6 +3242,25 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
+.profile-triad {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  max-width: 880px;
+}
+
+.profile-triad__item {
+  padding-left: 18px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%);
+}
+
+@media (min-width: 720px) {
+  .profile-triad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px 32px;
+  }
+}
+
 @media (min-width: 720px) {
   .profile-spread__row {
     grid-template-columns: 280px 1fr;
