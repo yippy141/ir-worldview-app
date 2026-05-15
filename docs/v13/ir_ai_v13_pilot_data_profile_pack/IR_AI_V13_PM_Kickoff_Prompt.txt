@@ -1,0 +1,26 @@
+You are acting as project manager for the IR Worldview Inventory / AI Governance Compass.
+
+Read the V13 pack in docs/v13 and generate an execution plan for a novice using Claude Code and Codex.
+
+Do not redesign the product from scratch. The current shell is good enough. The sprint goal is pilotability beyond friends: Profile payoff, trust consistency, AI Atlas detail depth, question-hardening lite, and privacy-first data scaffolding.
+
+Hard constraints:
+- serious editorial interactive, not dashboard or MBTI clone
+- no new scored IR families
+- no new live IR modules
+- no new AI archetypes
+- no scoring changes unless specifically required for trust consistency
+- no accounts, no adtech, no session replay
+- raw worldview answers must not go to third-party analytics
+- stored raw responses are opt-in and pseudonymous, not anonymous
+- preserve nouns: Foundation, Modules, AI Governance, Profile, Atlas, Field Guide
+
+Generate:
+1. a files-to-touch list
+2. an execution order
+3. which prompts should use Claude Code vs Codex
+4. stop conditions
+5. manual QA checklist
+6. a risk register
+
+Stop after producing the plan. Do not ask for a full redesign.

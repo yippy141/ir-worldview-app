@@ -1,0 +1,88 @@
+# IR + AI V13 Codex prompts
+
+Use these in order. Do not paste all at once.
+
+## Prompt 0 — audit only
+
+Read AGENTS.md, plans/V13_SOURCE_OF_TRUTH.md, docs/v13 if present, and the current files for Profile, Methods, scoring, AI Atlas, AI Field Guide, module results, and privacy/feedback routes. Do not change app code.
+
+Create `plans/V13_AUDIT.md` with:
+1. Profile payoff blockers and duplicated sections.
+2. Method/scoring trust mismatches, including second-choice weighting and AI clarity/settledness language.
+3. AI Atlas/Field Guide routing gaps.
+4. Module result clutter issues.
+5. Data/privacy readiness gaps.
+6. Files-to-touch list, grouped by prompt.
+7. Known deferred items: unsigned share payloads, hand-tuned scoring coefficients, incomplete tradition coverage, and any typecheck blockers.
+
+Stop after writing the audit and summarizing the proposed file list. Do not edit production code.
+
+## Prompt 2 — method truthfulness and precision cleanup
+
+Use `plans/V13_AUDIT.md` and `plans/V13_SOURCE_OF_TRUTH.md`.
+
+Fix trust inconsistencies without changing the product architecture.
+
+Tasks:
+1. Reconcile the public Methods text and code/tests on second-choice weight. If code uses 0.45 and changing scoring would be risky, update Methods to say 45%. If you change code to 0.35, update tests and add a scoring version note. Choose the smallest safe path and document it in `plans/V13_AUDIT.md`.
+2. Demote or remove AI clarity/settledness language from hero/top result surfaces. Avoid phrases like “Mostly settled,” “Hybrid zone,” “clear lead,” or numeric clarity in primary UI. If differentiation logic remains, place it lower and frame it as “nearby alternative,” not precision.
+3. Ensure result surfaces use “closest modeled fit” or equivalent wording where appropriate.
+4. Ensure overlay visuals are described as directional/editorial pulls, not re-measured dimensions.
+
+Do not touch Profile layout in this prompt. Do not add new scoring categories. Run `npm run lint`, `npm run test`, and stop.
+
+## Prompt 4 — question hardening lite
+
+Read the Foundation schema, module schemas, AI schema, and Methods limitations. Do not rewrite the instrument broadly.
+
+Create `plans/V13_QUESTION_HARDENING_AUDIT.md` with:
+1. A table of dimensions/axes and whether their items are mostly forward-coded, reverse-coded, tradeoff, or scenario-based.
+2. The 6–10 highest-risk items for confusion, acquiescence bias, jargon, weak discrimination, or Western/default framing.
+3. Recommended rewrite for each flagged item.
+4. A “fix now” group of no more than 5 items.
+5. A deferred backlog.
+
+Then implement only the “fix now” wording changes if they are local text changes and do not alter scoring keys. Do not change scoring weights. Run `npm run lint`, `npm run test`, and stop.
+
+## Prompt 5 — privacy and research opt-in surfaces
+
+Add privacy-first research opt-in surfaces without activating database storage yet.
+
+Tasks:
+1. Add or update a Privacy / Data Use page or section linked from footer/methods/result opt-in blocks.
+2. Add a reusable research opt-in component for result pages. It must be unchecked by default and product use must work without opt-in.
+3. Use “pseudonymous” or “de-identified” for stored raw response records; do not call raw answer storage truly anonymous.
+4. State clearly: no ads, no sale, no political targeting, no contact info stored with responses.
+5. Add a visible deletion/request path.
+6. Store optional contact email separately in UI state and copy; do not mix with answer payloads.
+
+Do not create a real database client in this prompt. Do not send answers anywhere yet. Run `npm run lint`, `npm run test`, and stop.
+
+## Prompt 6 — research data route scaffolding
+
+Implement first-party research data scaffolding behind environment flags.
+
+Requirements:
+1. Add server-side route handlers under `app/api/research/` for submit and delete. Add event only if it is simple and does not include raw answers.
+2. Add a small server-only storage helper. If env vars are missing or `RESEARCH_STORAGE_ENABLED !== "true"`, routes should return a safe disabled response and the app should still build.
+3. Add request validation. Reject oversized payloads. Do not accept unknown contact fields inside answer payloads.
+4. Add instrumentVersion, scoringVersion, consentVersion, respondentId, sessionId, startedAt/completedAt where possible.
+5. Do not send raw answers to Vercel Analytics or other third-party analytics.
+6. Add `docs/v13/V13_research_schema.sql` or update it if already present.
+7. Add minimal tests for disabled route behavior if the test setup supports it; otherwise document manual test steps in `plans/V13_AUDIT.md`.
+
+Run `npm run lint`, `npm run test`, `npm run build`, and stop.
+
+## Prompt 7 — release hygiene and typecheck visibility
+
+Perform release hygiene only.
+
+Tasks:
+1. Remove committed temp/backup artifacts that are safe to delete.
+2. Update README and repo-facing description to match the current product: editorial interactive, Foundation/Modules/AI/Profile, beta, limitations.
+3. Run `npx tsc --noEmit` once.
+4. If type errors affect fewer than 10 files, fix them.
+5. If more than 10 files fail, create `plans/V13_TYPECHECK_DEFERRED.md` listing the failing files and representative errors. Do not turn type cleanup into a rewrite.
+6. Leave `typescript.ignoreBuildErrors` only if typecheck is not clean; if it remains, mention it in README or a release note as a known beta blocker.
+
+Run `npm run lint`, `npm run test`, `npm run build`, and stop.

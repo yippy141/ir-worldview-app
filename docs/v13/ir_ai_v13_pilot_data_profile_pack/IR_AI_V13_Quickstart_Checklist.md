@@ -1,0 +1,21 @@
+# V13 quickstart checklist
+
+- [ ] Commit current work.
+- [ ] Create backup branch and tag.
+- [ ] Create `feature/v13-pilot-data-profile`.
+- [ ] Copy V13 docs into `docs/v13/`.
+- [ ] Create `plans/V13_SOURCE_OF_TRUTH.md`.
+- [ ] Run Prompt 0 audit.
+- [ ] Review files-to-touch list.
+- [ ] Prompt 1 Profile payoff.
+- [ ] Prompt 2 method/scoring trust cleanup.
+- [ ] Prompt 3 AI Atlas details and Field Guide links.
+- [ ] Prompt 4 question hardening lite.
+- [ ] Prompt 5 privacy/consent UI.
+- [ ] Prompt 6 research route scaffolding.
+- [ ] Optional database setup.
+- [ ] Prompt 7 release hygiene.
+- [ ] Run lint/test/build/typecheck.
+- [ ] Deploy Vercel preview.
+- [ ] Test mobile and share links.
+- [ ] Run 10–20 person beta.

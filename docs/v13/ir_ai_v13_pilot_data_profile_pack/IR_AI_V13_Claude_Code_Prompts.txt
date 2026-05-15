@@ -1,0 +1,71 @@
+# IR + AI V13 Claude Code prompts
+
+Use Claude Code for visual/payoff work when you have usage available. Use Codex versions when Claude usage is exhausted.
+
+## Prompt 0 — audit only
+
+Read AGENTS.md, plans/V13_SOURCE_OF_TRUTH.md, docs/v13 if present, and the current Profile, AI Atlas, AI Field Guide, module result, Methods, and scoring files. Do not change app code.
+
+Create `plans/V13_AUDIT.md` with:
+- Profile payoff blockers and repeated synthesis sections
+- the one Profile layout direction you recommend for V13
+- AI Atlas card/detail gaps
+- module result clutter issues
+- trust/precision inconsistencies to send to Codex
+- files to touch by prompt
+
+Stop after writing the audit. Do not edit components yet.
+
+## Prompt 1 — Profile payoff / anchored-spread implementation
+
+Read `plans/V13_SOURCE_OF_TRUTH.md`, `plans/V13_AUDIT.md`, and any Claude Design handoff files already stored under `docs/design/`.
+
+Implement a Profile payoff pass.
+
+Requirements:
+1. Above the fold, Profile should have one integrated headline, one short synthesis paragraph, one dominant anchored-spread-style visual, and no more than three chips/facts.
+2. If the user has 2+ saved layers, lead with the integrated Atlas-style pattern; show Foundation as “closest modeled baseline” or supporting cue.
+3. If the user only has Foundation, keep Foundation as the main result and show modules/AI as next steps.
+4. Remove duplicated stable/shift/reasoning sections. Keep one concise “what stayed steady / what shifted / open tension” block.
+5. Move evidence, completed overlays, appendix, and full module summaries below the fold and collapse where appropriate.
+6. Do not introduce radar charts, decorative constellations, dashboards, or faux-precise charts.
+7. Preserve existing scoring and payloads.
+8. Ensure mobile around 390px stacks cleanly.
+
+Run `npm run lint`, `npm run test`, and stop. Summarize files changed and any visual compromises.
+
+## Prompt 3 — AI Atlas detail depth and Field Guide cross-links
+
+Read the AI Atlas, AI result copy, AI Field Guide, current AI taxonomy, and `plans/V13_SOURCE_OF_TRUTH.md`.
+
+Make AI Atlas cards useful without turning browse into a result page.
+
+Requirements:
+1. Keep `/ai/atlas` compact and browseable.
+2. Make each AI Atlas card clickable to a detail route/page.
+3. Detail page content should include: short definition, what this perspective prioritizes, nearby archetype, core disagreement, result implications, “current debates to watch,” and readings/resources.
+4. Preserve current archetype names and axis names. Do not invent new archetypes.
+5. Cross-link Atlas detail pages to `/ai/field-guide` and relevant AI result/readings surfaces.
+6. Add a small “current debates to watch” rail that is manually curated. No live feed, scraper, API, or automated news pull.
+7. Do not add any new scored quiz logic.
+
+Run `npm run lint`, `npm run test`, and stop.
+
+## Prompt 8 — final visual and mobile polish
+
+After Prompts 1–7 are complete, do one final visual pass.
+
+Check:
+- Profile desktop and mobile
+- Foundation result
+- Security result
+- Technology result
+- AI result
+- AI Atlas browse
+- AI Atlas detail pages
+- AI Field Guide
+- Privacy/opt-in surfaces
+
+Fix only obvious layout bugs, mobile stacking issues, broken links, awkward duplicated headings, and PDF/grayscale-fragile visuals. Do not rewrite copy broadly. Do not change scoring.
+
+Run `npm run lint`, `npm run test`, `npm run build`, and stop.
