@@ -375,7 +375,7 @@ export const aiAnalystOnlyQuestions: AiLikertQuestion[] = [
     kind: "likert",
     axis: "humanFuture",
     prompt:
-      "If some future AI systems became plausibly sentient or morally considerable, governance should widen beyond human welfare alone.",
+      "If future AI systems appeared able to have experiences or interests that deserve moral weight, governance should look beyond human welfare alone.",
     clarification: {
       whatItAsks:
         "Whether moral status questions could become a legitimate part of governance if future systems seem more than tool-like.",
@@ -451,7 +451,7 @@ export const aiScenarioQuestions: Record<string, AiScenarioQuestion> = {
       {
         id: "C",
         label:
-          "Treat delay as the bigger risk and keep scaling unless concrete harm appears.",
+          "Continue limited deployment and internal mitigation because delay can also create real strategic and social costs.",
         weights: {
           deploymentPace: -0.8,
           riskHorizon: -0.5,

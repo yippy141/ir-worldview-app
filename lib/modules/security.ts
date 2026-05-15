@@ -47,7 +47,7 @@ const securityStandardQuestions: ModuleDefinition["questionsByMode"]["standard"]
     contextBullets: [
       {
         label: "Actor role",
-        text: "Answer from the coercing power's strategic position, not from Taiwan's domestic politics or Washington's preferred response.",
+        text: "Answer from the coercing power's strategic position, not from Taiwan's domestic politics or Washington's preferred response. This is a perspective test, not an endorsement of the action.",
       },
       {
         label: "Crisis stage",

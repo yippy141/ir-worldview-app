@@ -89,7 +89,7 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "restraint",
     prompt:
-      "A grand strategy that pursues advantages clearly beyond what defense requires tends to generate the countermoves that erode security over time.",
+      "When a state keeps pushing for gains beyond what it needs for defense, rivals and bystanders often respond in ways that leave it less secure.",
     clarification: {
       whatItAsks:
         "Whether pushing beyond clearly defensible limits tends to produce a self-defeating response from rivals and third parties.",
@@ -506,7 +506,7 @@ export const analystQuestions: Question[] = [
     dimension: "politicalEconomy",
     reverse: true,
     prompt:
-      "To understand most international crises, you do not need to look closely at who controls credit, production, or market access.",
+      "For most international crises, who controls credit, production, or market access is secondary to the immediate security and diplomatic facts.",
     clarification: {
       whatItAsks:
         "Whether deeper patterns of leverage and dependence are usually secondary when crises unfold.",
