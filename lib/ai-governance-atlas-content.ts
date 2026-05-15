@@ -28,6 +28,11 @@ export type AiAtlasAxisGuide = {
   highLabel: string
 }
 
+export type AiAtlasCurrentDebate = {
+  title: string
+  prompt: string
+}
+
 export type AiAtlasEntry = AiAtlasArchetypeCard & {
   key: AiArchetypeKey
   questionToSitWith: string
@@ -35,6 +40,8 @@ export type AiAtlasEntry = AiAtlasArchetypeCard & {
   critique?: ReadingEntry
   comparisonNote: string
   contrastAxes: AiAxisKey[]
+  resultImplications: string[]
+  currentDebates: AiAtlasCurrentDebate[]
 }
 
 export const AI_ATLAS_ARCHETYPES: AiAtlasArchetypeCard[] = [
@@ -324,6 +331,111 @@ const aiAtlasComparisonNotes: Record<
   },
 }
 
+const aiAtlasCurrentDebates: Record<AiArchetypeKey, AiAtlasCurrentDebate[]> = {
+  precautionarySteward: [
+    {
+      title: "Capability evals before deployment gates",
+      prompt:
+        "Whether external evaluations, red-teaming, and dangerous-capability tests should harden into mandatory release gates rather than voluntary norms.",
+    },
+    {
+      title: "When a pause becomes centralization",
+      prompt:
+        "How to slow or stage frontier rollouts without locking governance authority into the same few labs and agencies the slowdown is meant to constrain.",
+    },
+    {
+      title: "Reversibility of frontier diffusion",
+      prompt:
+        "How much weight to give arguments that open weights, agentic systems, or biosecurity-relevant capabilities are effectively irreversible once released.",
+    },
+  ],
+  strategicCompetitor: [
+    {
+      title: "Export controls and compute chokepoints",
+      prompt:
+        "Whether chip, fab, and model controls are a durable lever or mostly a forcing function for rival self-sufficiency at the next horizon.",
+    },
+    {
+      title: "Defense and intelligence boundaries",
+      prompt:
+        "Where bounded military and intelligence use of frontier AI should sit between civilian restraint and full integration into national-security workflows.",
+    },
+    {
+      title: "Verification under rivalry",
+      prompt:
+        "Whether meaningful capability or training-run verification is possible across rival blocs, or whether competition will keep collapsing it back into bluffing.",
+    },
+  ],
+  coordinationArchitect: [
+    {
+      title: "Multilateral safety institutions vs lab consortia",
+      prompt:
+        "Whether durable governance is more likely to come from treaty-grade institutions, standards bodies, or lab-led safety consortia with state buy-in.",
+    },
+    {
+      title: "Cross-border incident reporting",
+      prompt:
+        "How much weight to put on building shared incident, evaluation, and post-deployment reporting frameworks that actually travel across jurisdictions.",
+    },
+    {
+      title: "Sovereignty against shared rules",
+      prompt:
+        "Where multilateral coordination should yield to sovereign discretion, and where sovereignty arguments are mostly a way to opt out of enforcement.",
+    },
+  ],
+  democraticGuardrailist: [
+    {
+      title: "Public-interest audits of frontier models",
+      prompt:
+        "Whether external auditors, civil society, and regulators should have standing to inspect frontier systems rather than depending on lab disclosure.",
+    },
+    {
+      title: "Emergency executive authority over AI",
+      prompt:
+        "How to draw the line on emergency or national-security AI powers without letting governance default to executive discretion.",
+    },
+    {
+      title: "Rights under pervasive monitoring",
+      prompt:
+        "How to govern surveillance, biometric, and predictive systems deployed by public agencies so that rights protections do not collapse under efficiency arguments.",
+    },
+  ],
+  stateCapacityBuilder: [
+    {
+      title: "Public-sector technical staffing",
+      prompt:
+        "Whether ministries, regulators, and procurement bodies can recruit and retain enough technical staff to actually supervise frontier systems.",
+    },
+    {
+      title: "Sovereign compute and dependency",
+      prompt:
+        "Whether national or regional compute, models, and infrastructure are worth the cost, or whether dependency on foreign labs is an acceptable equilibrium.",
+    },
+    {
+      title: "Audit, procurement, and enforcement teeth",
+      prompt:
+        "Whether AI-specific audit, procurement, and enforcement authorities should be standalone institutions or stay inside existing regulators.",
+    },
+  ],
+  openEcosystemBuilder: [
+    {
+      title: "Open weights against misuse risk",
+      prompt:
+        "Where the line should sit between releasing model weights to widen access and withholding them on safety grounds, especially in dual-use domains.",
+    },
+    {
+      title: "Compute and access concentration",
+      prompt:
+        "How much of the governance problem is really about a small number of cloud, chip, and frontier-lab gatekeepers controlling access.",
+    },
+    {
+      title: "Competition policy as AI governance",
+      prompt:
+        "Whether antitrust and platform-competition tools are a serious lever for AI governance, or whether they are too slow for the timelines.",
+    },
+  ],
+}
+
 export const aiAtlasKeys = AI_ATLAS_ARCHETYPES.map((card) => card.id)
 
 export type AiAtlasEmphasisLevel = "low" | "medium" | "high"
@@ -415,6 +527,8 @@ export function getAiAtlasEntries(): AiAtlasEntry[] {
       critique: readings.bestCritique[0],
       comparisonNote: comparison.comparisonNote,
       contrastAxes: comparison.contrastAxes,
+      resultImplications: profile.policyBundle,
+      currentDebates: aiAtlasCurrentDebates[card.id],
     }
   })
 }

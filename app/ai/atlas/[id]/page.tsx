@@ -129,13 +129,16 @@ export default async function AiAtlasDetailPage(
 
         <section className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Nearest neighbors</p>
-            <h2>Where the neighboring views differ</h2>
+            <p className="eyebrow">Core disagreement</p>
+            <h2>Where this archetype parts ways from nearby views</h2>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              These are the closest modeled neighbors in the current AI Atlas. Use them to see
-              what this archetype shares with nearby views and where it makes a different choice.
+              The closest neighbors share most of the vocabulary. The split usually comes down
+              to a small number of axes where this archetype makes a different call.
             </p>
           </div>
+          <p className="result-prose" style={{ lineHeight: "1.78", maxWidth: "760px" }}>
+            {entry.comparisonNote}
+          </p>
 
           <div className="ai-atlas-detail-neighbor-grid">
             {neighbors.map((neighbor) => (
@@ -151,6 +154,46 @@ export default async function AiAtlasDetailPage(
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
+            <p className="eyebrow">Result implications</p>
+            <h2>What this archetype tends to support in practice</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              If your result reads close to this archetype, these are the kinds of policy and
+              institutional moves it tends to pull toward — not predictions and not endorsements.
+            </p>
+          </div>
+          <ul className="ai-atlas-detail-implications">
+            {entry.resultImplications.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
+            <p className="eyebrow">Current debates to watch</p>
+            <h2>Where this archetype is actively contested</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              A short, manually curated rail of live arguments where this archetype is doing real
+              work right now. Not a news feed and not a forecast — just where to pay attention.
+            </p>
+          </div>
+          <div className="ai-atlas-detail-debates">
+            {entry.currentDebates.map((debate) => (
+              <article key={debate.title} className="ai-atlas-detail-debate stack-xs">
+                <h3>{debate.title}</h3>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+                  {debate.prompt}
+                </p>
+              </article>
+            ))}
+          </div>
+          <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>
+            Curated by the editors. No automated news pull, no scraped feed.
+          </p>
         </section>
 
         <section className="result-section ai-atlas-detail-columns">

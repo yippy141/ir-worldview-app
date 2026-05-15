@@ -46,10 +46,12 @@ export default function AiAtlasPage() {
               const total = atlasEntries.length.toString().padStart(2, "0")
 
               return (
-                <article
+                <Link
                   key={entry.key}
                   id={`family-${entry.key}`}
-                  className="ai-atlas-fingerprint-card"
+                  href={getAiAtlasHref(entry.key)}
+                  className="ai-atlas-fingerprint-card ai-atlas-fingerprint-card--link"
+                  aria-label={`Open ${entry.label} detail`}
                 >
                   <div className="ai-atlas-fingerprint-card__left">
                     <p className="ai-atlas-fingerprint-card__num">
@@ -69,19 +71,16 @@ export default function AiAtlasPage() {
                           {nearestKey ? getAiAtlasLabel(nearestKey) : "Mixed"}
                         </span>
                       </span>
-                      <Link
-                        href={getAiAtlasHref(entry.key)}
-                        className="ai-atlas-fingerprint-card__cta"
-                      >
-                        Read this archetype <span aria-hidden="true">↗</span>
-                      </Link>
+                      <span className="ai-atlas-fingerprint-card__cta" aria-hidden="true">
+                        Read this archetype <span>↗</span>
+                      </span>
                     </div>
                   </div>
 
                   <div className="ai-atlas-fingerprint-card__right">
                     <AiArchetypeFingerprint archetype={entry.key} />
                   </div>
-                </article>
+                </Link>
               )
             })}
           </div>

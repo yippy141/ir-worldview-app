@@ -5576,6 +5576,26 @@ h3 {
   min-width: 0;
 }
 
+.ai-atlas-fingerprint-card--link {
+  color: var(--text);
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ai-atlas-fingerprint-card--link:hover,
+.ai-atlas-fingerprint-card--link:focus-visible {
+  text-decoration: none;
+  border-right-color: var(--text);
+  border-bottom-color: var(--text);
+  background: color-mix(in srgb, var(--panel) 92%, var(--accent) 8%);
+}
+
+.ai-atlas-fingerprint-card--link:hover .ai-atlas-fingerprint-card__cta,
+.ai-atlas-fingerprint-card--link:focus-visible .ai-atlas-fingerprint-card__cta {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 .ai-archetype-fingerprint {
   border: 1px solid var(--border);
   background: color-mix(in srgb, var(--panel) 88%, white 12%);
@@ -5704,6 +5724,76 @@ h3 {
   font-size: 0.74rem;
   letter-spacing: 0.02em;
   line-height: 1.45;
+}
+
+.ai-atlas-detail-implications {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  max-width: 760px;
+}
+
+.ai-atlas-detail-implications li {
+  position: relative;
+  padding: 10px 14px 10px 28px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 40%, var(--border) 60%);
+  background: color-mix(in srgb, var(--panel) 92%, white 8%);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.ai-atlas-detail-implications li::before {
+  content: "›";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.ai-atlas-detail-debates {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.ai-atlas-detail-debate {
+  padding: 14px 18px;
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid color-mix(in srgb, var(--accent) 55%, var(--border) 45%);
+  background: color-mix(in srgb, var(--panel) 90%, white 10%);
+}
+
+.ai-atlas-detail-debate h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.28;
+  color: var(--text);
+}
+
+@media (min-width: 720px) {
+  .ai-atlas-detail-debates {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ai-fg-parts__pair-link {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, var(--border) 65%);
+  padding-bottom: 1px;
+}
+
+.ai-fg-parts__pair-link:hover,
+.ai-fg-parts__pair-link:focus-visible {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
 }
 
 @media (min-width: 720px) {

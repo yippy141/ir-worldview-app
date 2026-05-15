@@ -4,6 +4,7 @@ import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
 import {
   aiAtlasAxisGuide,
   getAiAtlasEntries,
+  getAiAtlasHref,
 } from "@/lib/ai-governance-atlas-content"
 import {
   aiFieldGuideLimits,
@@ -280,7 +281,13 @@ export default function AiFieldGuidePage() {
                 {partWaysPairs.map((entry) => (
                   <div key={entry.pair} className="ai-fg-parts__row">
                     <div className="ai-fg-parts__pair">
-                      {labelByKey[entry.a]} · {labelByKey[entry.b]}
+                      <Link href={getAiAtlasHref(entry.a)} className="ai-fg-parts__pair-link">
+                        {labelByKey[entry.a]}
+                      </Link>
+                      {" · "}
+                      <Link href={getAiAtlasHref(entry.b)} className="ai-fg-parts__pair-link">
+                        {labelByKey[entry.b]}
+                      </Link>
                       <small>Pair {entry.pair}</small>
                     </div>
                     <div className="ai-fg-parts__col">
