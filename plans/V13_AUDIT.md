@@ -99,28 +99,26 @@ Recommended later pass:
 ## 5. Trust and precision inconsistencies for Codex
 
 Second-choice weighting:
-- `app/method/page.tsx` says Analyst-mode second choices count at 35%.
+- Prompt 2 decision: keep scoring stable and make Methods match the code at 45%.
+- `app/method/page.tsx` now says Analyst-mode second choices count at 45%.
 - `lib/scoring.ts` uses `SECOND_CHOICE_WEIGHT = 0.45`.
 - `lib/modules/framework.ts` uses `SECOND_CHOICE_WEIGHT = 0.45`.
 - `lib/ai-governance-scoring.ts` uses `AI_BACKUP_CHOICE_WEIGHT = 0.45`.
 - `components/modules/module-result.tsx` uses `0.35` only to rank "Decisive calls"; that is display ranking, not core scoring.
 
-Smallest safe V13 fix:
-- Update Methods to say 45% unless a later prompt explicitly chooses a scoring-version bump.
-- Do not change scoring weights in V13 unless instructed.
+No scoring weights were changed in Prompt 2, so no scoring-version bump was introduced.
 
 AI clarity/settledness:
-- `lib/ai-governance-results-v2.ts` still creates labels: "Clear lead", "Mostly settled", "Mixed profile", and "Hybrid zone".
-- `components/results/ai-governance-profile-sections.tsx` displays those labels near the top as an eyebrow and as "Profile shape".
-- It also displays "Hybrid signal" when a hybrid label exists.
-- This conflicts with V13's instruction to demote AI clarity/settledness language and replace it with softer nearby-alternative framing.
+- Prompt 2 removed the visible AI settledness/clarity labels from `components/results/ai-governance-profile-sections.tsx`.
+- `lib/ai-governance-results-v2.ts` now exposes nearby-alternative framing rather than named settledness buckets.
+- The AI result section now uses "Closest modeled fit" and "Nearby alternative" language.
 
 Foundation/result wording:
-- `app/results/[payload]/page.tsx` uses "How settled this result is". It is less problematic than the AI clarity labels because it is explanatory copy, but Codex should consider renaming it to a softer "How close the neighboring read is" or similar.
-- Foundation and AI result pages already include useful "closest modeled fit" and not-percentile language. Preserve and standardize it.
+- Prompt 2 renamed the Foundation result callout from "How settled this result is" to "How close the neighboring read is".
+- Foundation and AI result pages now use "closest modeled fit" language where appropriate. Preserve and standardize it.
 
 Overlay precision:
-- `components/profile/profile-report.tsx` and `app/method/page.tsx` already describe overlay visuals as directional pulls, not fresh scores. Keep that language.
+- `components/profile/profile-report.tsx` and `app/method/page.tsx` describe overlay visuals as directional/editorial pulls, not fresh scores. Keep that language.
 - Move the Profile caveat out of the hero summary and keep it attached to the visual or methods note.
 
 Privacy/data language:

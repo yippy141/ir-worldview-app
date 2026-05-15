@@ -307,13 +307,13 @@ export default async function ResultPage(
             ))}
           </div>
           <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>How settled this result is</p>
+            <p style={{ fontWeight: 600 }}>How close the neighboring read is</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{mixedNote}</p>
           </div>
           <div className="callout stack-xs" aria-label="Trust and coverage note">
             <p style={{ fontWeight: 600 }}>Trust and coverage</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              This is the closest fit among the traditions currently modeled in the inventory, not
+              This is the closest modeled fit among the traditions currently in the inventory, not
               a final or exhaustive identity. Treat it as one atlas marker in the wider mosaic.{" "}
               <Link href="/method" style={{ color: "var(--accent)" }}>
                 Methods explains the limits →

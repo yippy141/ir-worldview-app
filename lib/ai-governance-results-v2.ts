@@ -30,13 +30,12 @@ export type ComparisonCard = {
   runnerUpLabel: string
   farthestKey: AiArchetypeKey
   farthestLabel: string
-  hybridLabel: string | null
+  nearbyAlternativeLabel: string | null
   contrastText: string
   farthestText: string
 }
 
 export type AiGovernanceDeepDive = {
-  clarityLabel: string
   governingInstinct: string
   shareBlurb: string
   questionToSitWith: string
@@ -192,7 +191,6 @@ export function buildAiGovernanceDeepDive(result: AiResult): AiGovernanceDeepDiv
   const profile = aiArchetypeDeepProfiles[result.archetypeKey]
 
   return {
-    clarityLabel: getClarityLabel(result.clarity),
     governingInstinct: profile.governingInstinct,
     shareBlurb: profile.shareBlurb,
     questionToSitWith: profile.questionToSitWith,
@@ -205,14 +203,7 @@ export function buildAiGovernanceDeepDive(result: AiResult): AiGovernanceDeepDiv
   }
 }
 
-export function getClarityLabel(clarity: number): string {
-  if (clarity >= 84) return "Clear lead"
-  if (clarity >= 72) return "Mostly settled"
-  if (clarity >= 64) return "Mixed profile"
-  return "Hybrid zone"
-}
-
-export function getHybridLabel(result: AiResult): string | null {
+export function getNearbyAlternativeLabel(result: AiResult): string | null {
   const runnerUpKey = getRunnerUpKey(result)
 
   if (runnerUpKey === result.archetypeKey) return null
@@ -343,7 +334,7 @@ export function buildComparisonCard(result: AiResult): ComparisonCard {
     runnerUpLabel: archetypeLabels[runnerUpKey],
     farthestKey,
     farthestLabel: archetypeLabels[farthestKey],
-    hybridLabel: getHybridLabel(result),
+    nearbyAlternativeLabel: getNearbyAlternativeLabel(result),
     contrastText: buildContrastText(primaryKey, runnerUpKey, contrastAxes, result.axisScores),
     farthestText: buildFarthestText(primaryKey, farthestKey, farthestAxes, result.axisScores),
   }

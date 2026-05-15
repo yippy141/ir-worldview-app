@@ -6,7 +6,7 @@ import { AiResult } from "@/lib/ai-governance-types"
 
 export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
   const deepDive = buildAiGovernanceDeepDive(result)
-  const hybridLabel = deepDive.comparison.hybridLabel
+  const nearbyAlternativeLabel = deepDive.comparison.nearbyAlternativeLabel
 
   return (
     <>
@@ -14,9 +14,9 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-overview">
           <div className="ai-result-overview-main stack-md">
             <div className="ai-result-section-intro stack-xs result-prose">
-              <p className="eyebrow">{deepDive.clarityLabel}</p>
-              {hybridLabel ? (
-                <p className="ai-result-hybrid-note">Hybrid signal: {hybridLabel}</p>
+              <p className="eyebrow">Closest modeled fit</p>
+              {nearbyAlternativeLabel ? (
+                <p className="ai-result-hybrid-note">Nearby alternative: {nearbyAlternativeLabel}</p>
               ) : null}
               <h2>Governing instinct</h2>
             </div>
@@ -27,11 +27,11 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
           </div>
 
           <aside className="ai-result-card ai-result-card--muted stack-xs">
-            <p className="eyebrow">Profile shape</p>
-            <p className="ai-result-card-title">{deepDive.clarityLabel}</p>
+            <p className="eyebrow">Nearby alternative</p>
+            <p className="ai-result-card-title">{deepDive.comparison.runnerUpLabel}</p>
             <p className="ai-result-body muted">
-              This names how far the top archetype sits from nearby profiles. It is a reading aid,
-              not a confidence score.
+              This is the closest neighboring read inside the current AI Atlas. It is a comparison
+              aid, not a confidence score.
             </p>
           </aside>
         </div>

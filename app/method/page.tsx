@@ -292,15 +292,15 @@ export default function MethodPage() {
           {[
             {
               heading: "Second-choice answers count at reduced weight",
-              body: "In Analyst mode, tradeoff and mini-case questions let you pick a second-choice answer after your primary. That secondary answer is scored at 35% of the weight of your primary pick. This reflects the intuition that a genuine second choice is a softer signal than a clear primary commitment — but it is not derived from a validated weighting experiment. It is an authored judgment.",
+              body: "In Analyst mode, tradeoff and mini-case questions let you pick a second-choice answer after your primary. That secondary answer is scored at 45% of the weight of your primary pick. This reflects the intuition that a genuine second choice is a softer signal than a clear primary commitment — but it is not derived from a validated weighting experiment. It is an authored judgment.",
             },
             {
               heading: "Family weights are authored reference profiles",
-              body: "The four tradition profiles used for classification — realism, institutionalism, constructivism, and critical political economy — are stylized reference points built from editorial judgment about what each tradition centrally holds. They are not derived from a sample of scholars or validated against an external standard. The closest match is an interpretive shorthand, not a certified diagnosis.",
+              body: "The four tradition profiles used for classification — realism, institutionalism, constructivism, and critical political economy — are stylized reference points built from editorial judgment about what each tradition centrally holds. They are not derived from a sample of scholars or validated against an external standard. The closest modeled fit is an interpretive shorthand, not a certified diagnosis.",
             },
             {
               heading: "Module overlays are editorial transforms, not fresh Foundation measurements",
-              body: "Module results come from module-specific questions and are reported as a domain-specific read of your instincts in that issue area. They do not re-measure the seven Foundation dimensions from scratch. The module overlay is a relative pull — it shifts emphasis within the space the Foundation result already defines rather than replacing it with a more precise measurement. Treating it as additional scientific precision would overstate what the model does.",
+              body: "Module results come from module-specific questions and are reported as a domain-specific read of your instincts in that issue area. They do not re-measure the seven Foundation dimensions from scratch. The module overlay is an editorial relative pull — it shifts emphasis within the space the Foundation result already defines rather than replacing it with a more precise measurement. Treating it as additional scientific precision would overstate what the model does.",
             },
           ].map((item) => (
             <div
