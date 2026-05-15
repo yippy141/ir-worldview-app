@@ -31,6 +31,7 @@ import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
 import { ReadingPathSection } from "@/components/results/reading-path-section"
+import { ResearchOptIn } from "@/components/research/research-opt-in"
 import { modules } from "@/lib/modules/framework"
 import type { DimensionKey, FamilyKey } from "@/lib/types"
 import type { Metadata } from "next"
@@ -677,6 +678,7 @@ export default async function ResultPage(
               Share feedback on this inventory →
             </Link>
           </p>
+          <ResearchOptIn instrumentLabel="Foundation" />
           <ShareActions
             payload={payload}
             familyLabel={familyLabel}

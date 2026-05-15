@@ -55,6 +55,7 @@ const moreNavItems = [
   { href: "/explore/atlas", label: "Atlas" },
   { href: "/explore", label: "Explore" },
   { href: "/method", label: "Methods" },
+  { href: "/privacy", label: "Privacy" },
   { href: "/references", label: "References" },
   { href: "/feedback", label: "Feedback" },
 ] as const
@@ -77,6 +78,7 @@ const mobileNavGroups: MobileNavGroup[] = [
       { href: "/explore/atlas", label: "Atlas" },
       { href: "/explore", label: "Explore" },
       { href: "/method", label: "Methods" },
+      { href: "/privacy", label: "Privacy" },
       { href: "/references", label: "References" },
       { href: "/feedback", label: "Feedback" },
     ],
@@ -292,6 +294,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
               </Link>
               <Link href="/method" className="footer-link">
                 Methods
+              </Link>
+              <Link href="/privacy" className="footer-link">
+                Privacy
               </Link>
             </div>
           </div>

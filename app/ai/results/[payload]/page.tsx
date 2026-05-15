@@ -17,6 +17,7 @@ import {
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
+import { ResearchOptIn } from "@/components/research/research-opt-in"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -241,6 +242,8 @@ export default async function AiResultPage(
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
           </div>
+
+          <ResearchOptIn instrumentLabel="AI Governance Compass" />
 
           <AiGovernanceShareActions
             payload={payload}

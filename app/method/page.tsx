@@ -1,3 +1,4 @@
+import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -124,6 +125,25 @@ export default function MethodPage() {
             <li>No score is a percentile, and no answer is morally superior.</li>
           </ul>
         </div>
+      </section>
+
+      <section className="panel stack-md">
+        <h2>Privacy and research data</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          The product works without research opt-in. V13 adds opt-in copy and interface
+          scaffolding for future beta research storage, but raw answers should not be sent to
+          third-party analytics, sold, used for ads, or used for political targeting.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          If raw answer records are stored later, they will be described as pseudonymous or
+          de-identified rather than truly anonymous, and optional contact information should stay
+          separate from answer data.
+        </p>
+        <p style={{ margin: 0 }}>
+          <Link href="/privacy" style={{ color: "var(--accent)" }}>
+            Read privacy and data use →
+          </Link>
+        </p>
       </section>
 
       <section className="panel stack-md">

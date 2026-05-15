@@ -99,7 +99,8 @@ export default async function FeedbackPage({ searchParams }: Props) {
           <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.6" }}>
             <strong>Privacy:</strong> The form is anonymous by default. It does not collect your
             email address unless you choose to provide it. Responses are not shared with third
-            parties.
+            parties. If you are requesting deletion of opt-in research data, include your
+            respondent ID, session ID, or result link if available.
           </p>
         </div>
 
