@@ -192,6 +192,13 @@ Prompt 6 - Research route scaffolding:
 - Minimal route tests if the current test setup supports them.
 - Keep routes safely disabled without env vars.
 
+Prompt 6 implementation note:
+- Added disabled-by-default first-party route scaffolding at `app/api/research/submit/route.ts`, `app/api/research/delete/route.ts`, and `app/api/research/event/route.ts`.
+- Added `lib/research/server-storage.ts` as the server-only storage boundary. Without `RESEARCH_STORAGE_ENABLED="true"` plus required storage env vars, the routes return safe disabled responses. Even with flags present, the current build returns a scaffolded adapter-not-configured response rather than silently pretending data was stored.
+- Added strict request validation in `lib/research/validation.ts`: body size limits, required version fields, respondent/session IDs, answer record allowlists, no contact fields nested inside raw answer payloads, and no raw answers in event metadata.
+- Added a repo-local `docs/v13/V13_research_schema.sql` for future first-party, pseudonymous/de-identified storage.
+- Added route/validation tests in `tests/research-routes.test.mts` covering disabled submit/delete behavior, oversized submit rejection, event raw-answer rejection, and contact-field rejection inside answer records.
+
 Prompt 7 - Release hygiene and typecheck visibility:
 - `README.md`
 - `next.config.ts`
