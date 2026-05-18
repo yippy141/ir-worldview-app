@@ -5457,6 +5457,132 @@ h3 {
   }
 }
 
+/* ── AI Governance Compass — standalone landing hero ─────────────────────── */
+
+.ai-landing-hero {
+  margin: 56px 0 24px;
+  padding: 36px 0 0;
+  max-width: 760px;
+}
+
+.ai-landing-hero__eyebrow {
+  margin: 0 0 18px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.ai-landing-hero__h1 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.9rem, 4.2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: var(--text);
+}
+
+.ai-landing-hero__lead {
+  margin: 0 0 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.ai-landing-hero__sub {
+  margin: 0 0 26px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.ai-landing-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 22px;
+  margin-bottom: 20px;
+}
+
+.ai-landing-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  background: var(--accent);
+  color: var(--panel);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.ai-landing-hero__cta:hover {
+  background: color-mix(in srgb, var(--accent) 88%, black 12%);
+  text-decoration: none;
+  color: var(--panel);
+}
+
+.ai-landing-hero__cta-secondary {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.ai-landing-hero__cta-secondary:hover {
+  text-decoration: underline;
+}
+
+.ai-landing-hero__bridge {
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.ai-landing-hero__bridge a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── AI result → IR Foundation bridge ─────────────────────────────────────── */
+
+.ai-foundation-bridge {
+  margin: 18px 0 8px;
+  padding: 16px 22px;
+  background: color-mix(in srgb, var(--panel-2) 70%, white 30%);
+  border: 1px solid var(--border-soft);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 50%, var(--border) 50%);
+  border-radius: 4px;
+}
+
+.ai-foundation-bridge__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 70ch;
+}
+
+.ai-foundation-bridge__cta {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ai-foundation-bridge__cta:hover {
+  text-decoration: underline;
+}
+
 /* ── AI Governance Compass — visual system polish ────────────────────────────
    All classes here are prefixed .ai- and do not affect IR routes.
    ─────────────────────────────────────────────────────────────────────────── */

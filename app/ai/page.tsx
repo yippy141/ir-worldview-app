@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { aiQuestionCountsByMode, aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
 import type { Metadata } from "next"
 
@@ -9,46 +8,36 @@ const advancedQuestionTotal = aiTotalQuestionCountsByMode.analyst
 export const metadata: Metadata = {
   title: "AI Governance Compass",
   description:
-    "Take the AI Governance Compass, browse the AI atlas, and compare the result with the wider IR worldview profile.",
+    "Map your instincts on frontier AI governance — 16 questions, around 8 minutes.",
 }
 
 export default function AiPage() {
   return (
     <div className="wide-container">
       <article className="lobby-page stack-xl">
-        <section className="lobby-hero lobby-hero--plain">
-          <div className="lobby-hero-grid">
-            <div className="stack-md">
-              <p className="section-kicker">Companion module</p>
-              <h1>AI Governance Compass</h1>
-              <p className="lobby-lead">
-                A focused read on frontier AI governance inside the same worldview project. It
-                covers safety, rivalry, openness, military use, legitimacy, and human agency.
-              </p>
-              <p className="muted lobby-side-text">
-                Use it as an editorial guide to governing instincts, not as a claim that the field
-                divides neatly into fixed camps.
-              </p>
-              <div className="row gap-sm wrap">
-                <Link href="/ai/quiz" className="cta-primary">Open the AI questionnaire</Link>
-                <Link href="/ai/atlas" className="cta-secondary">Browse the AI atlas</Link>
-                <Link href="/ai/field-guide" className="cta-secondary">Read the AI field guide</Link>
-              </div>
-            </div>
-
-            <aside className="lobby-side-note lobby-side-note--offset stack-sm">
-              <div className="stack-xs">
-                <p className="section-kicker">How it fits in the product family</p>
-                <p className="muted lobby-side-text">
-                  The AI result can stand alone, but it is most useful beside the IR Foundation and
-                  the issue modules. It does not replace either one.
-                </p>
-              </div>
-            </aside>
+        <section className="ai-landing-hero stack-md">
+          <p className="ai-landing-hero__eyebrow">AI Governance Compass</p>
+          <h1 className="ai-landing-hero__h1">Map your instincts on frontier AI governance</h1>
+          <p className="ai-landing-hero__lead">
+            16 questions. Around 8 minutes.
+          </p>
+          <p className="ai-landing-hero__sub">
+            A structured read across eight axes — risk horizon, deployment pace, oversight,
+            geopolitics, openness, military use, legitimacy, and human future.
+          </p>
+          <div className="ai-landing-hero__actions">
+            <Link href="/ai/quiz" className="ai-landing-hero__cta">
+              Take the AI Compass
+            </Link>
+            <Link href="/ai/atlas" className="ai-landing-hero__cta-secondary">
+              Browse the AI Atlas →
+            </Link>
           </div>
+          <p className="ai-landing-hero__bridge">
+            Want the deeper foreign-policy layer?{" "}
+            <Link href="/quiz">Take the IR Foundation afterward</Link>.
+          </p>
         </section>
-
-        <AiProjectBridge mode="landing" />
 
         <section className="lobby-signals lobby-signals--plain">
           <div className="signal-list signal-list--three">
@@ -128,11 +117,11 @@ export default function AiPage() {
 
         <section className="lobby-related-grid">
           <div className="stack-sm">
-            <p className="section-kicker">Continue through the rest of the product</p>
-            <h2>Read AI beside the IR baseline and Profile</h2>
+            <p className="section-kicker">Optional depth</p>
+            <h2>Where the AI Compass connects to the rest of the project</h2>
             <p className="muted lobby-side-text">
-              The strongest read often comes from comparing the AI result with the Foundation,
-              issue modules, and methods notes.
+              The AI result stands on its own. If you want the deeper foreign-policy layer
+              underneath it, the IR Foundation and issue modules sit one click away.
             </p>
           </div>
           <div className="resource-list">

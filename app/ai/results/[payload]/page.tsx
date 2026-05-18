@@ -115,6 +115,16 @@ export default async function AiResultPage(
           }
         />
 
+        <aside className="ai-foundation-bridge" aria-label="Optional depth: IR Foundation">
+          <p className="ai-foundation-bridge__text">
+            Your AI governance instincts sit on top of deeper foreign-policy assumptions.{" "}
+            <Link href="/quiz" className="ai-foundation-bridge__cta">
+              Take the IR Foundation
+            </Link>{" "}
+            to see where they come from.
+          </p>
+        </aside>
+
         <div className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
             <p className="eyebrow">Strongest axis signals</p>
