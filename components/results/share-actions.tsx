@@ -17,7 +17,7 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
 
   const shareUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/results/${payload}`
+      ? new URL(`/results/${payload}`, window.location.origin).toString()
       : `/results/${payload}`
 
   const resultLabel = `${familyLabel} · ${strategyModifier} · ${normativeModifier}`

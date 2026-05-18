@@ -28,12 +28,37 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { payload } = await params
   const decoded = decodeAiPayload(payload)
-  if (!decoded) return { title: "Result — AI Governance Compass" }
+  if (!decoded) {
+    const title = "Shared AI Governance result — AI Governance Compass"
+    const description =
+      "Open a shared AI Governance Compass result, or take the questionnaire to map your frontier-AI governance instincts."
+
+    return buildAiResultMetadata(title, description)
+  }
 
   const label = archetypeLabelFromKey(decoded.ak)
+  const resultLabel = `${label} · ${decoded.rl} · ${decoded.pm} · ${decoded.gm}`
+  const title = `${label} result — AI Governance Compass`
+  const description =
+    `Shared AI Governance Compass result: ${resultLabel}. See the archetype, modifiers, and axis profile.`
+
+  return buildAiResultMetadata(title, description)
+}
+
+function buildAiResultMetadata(title: string, description: string): Metadata {
   return {
-    title: `${label} — AI Governance Compass`,
-    description: `My AI governance profile: ${label} · ${decoded.rl} · ${decoded.pm}`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   }
 }
 
@@ -283,4 +308,3 @@ export default async function AiResultPage(
     </div>
   )
 }
-

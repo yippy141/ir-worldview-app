@@ -12,12 +12,35 @@ export async function generateMetadata(
   const resolved = resolveProfileSharePayload(payload)
 
   if (!resolved?.profile.foundation) {
-    return { title: "Shared Profile — IR Worldview Inventory" }
+    const title = "Shared Profile — IR Worldview Inventory"
+    const description =
+      "Open a shared IR Worldview Profile, or create your own Foundation result and saved profile layers."
+
+    return buildProfileMetadata(title, description)
   }
 
+  const foundation = resolved.profile.foundation
+  const headline = buildIntegratedHeadline(resolved.profile)
+  const title = `${foundation.familyLabel} profile — IR Worldview Inventory`
+  const description = `Shared IR Worldview Profile for a ${foundation.familyLabel} result: ${headline}`
+
+  return buildProfileMetadata(title, description)
+}
+
+function buildProfileMetadata(title: string, description: string): Metadata {
   return {
-    title: `${resolved.profile.foundation.familyLabel} Profile — IR Worldview Inventory`,
-    description: buildIntegratedHeadline(resolved.profile),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "profile",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   }
 }
 

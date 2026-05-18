@@ -30,7 +30,7 @@ export function AiGovernanceShareActions({
   const resultLabel = `${archetypeLabel} · ${riskLens} · ${paceModifier} · ${geopoliticsModifier}`
 
   function getShareUrl(): string {
-    return `${window.location.origin}/ai/results/${payload}`
+    return new URL(`/ai/results/${payload}`, window.location.origin).toString()
   }
 
   async function handleCopy() {

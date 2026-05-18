@@ -19,7 +19,7 @@ export function ResultCardHeroShare({ shareUrl, title, text }: Props) {
   function resolveUrl(): string {
     if (typeof window === "undefined") return shareUrl
     if (/^https?:\/\//i.test(shareUrl)) return shareUrl
-    return `${window.location.origin}${shareUrl.startsWith("/") ? "" : "/"}${shareUrl}`
+    return new URL(shareUrl, window.location.origin).toString()
   }
 
   async function copyLink() {

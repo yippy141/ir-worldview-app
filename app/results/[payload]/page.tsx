@@ -44,13 +44,37 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { payload } = await params
   const resolved = resolveFoundationPayload(payload)
-  if (!resolved) return { title: "Result — IR Worldview Inventory" }
+  if (!resolved) {
+    const title = "Shared IR result — IR Worldview Inventory"
+    const description =
+      "Open a shared IR Worldview Inventory result, or take the Foundation questionnaire to generate your own profile."
 
-  const familyLabel = familyLabelFromKey(resolved.result.familyKey)
+    return buildResultMetadata(title, description)
+  }
 
+  const familyLabel = resolved.result.familyLabel
+  const resultLabel = `${familyLabel} · ${resolved.result.strategyModifier} · ${resolved.result.normativeModifier}`
+  const title = `${familyLabel} result — IR Worldview Inventory`
+  const description =
+    `Shared IR Worldview result: ${resultLabel}. See the closest modeled tradition, modifiers, and dimension profile.`
+
+  return buildResultMetadata(title, description)
+}
+
+function buildResultMetadata(title: string, description: string): Metadata {
   return {
-    title: `${familyLabel} — IR Worldview Inventory`,
-    description: `My IR Worldview result: ${familyLabel} · ${resolved.result.strategyModifier} · ${resolved.result.normativeModifier}`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
   }
 }
 

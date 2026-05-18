@@ -13,7 +13,7 @@ export function ProfileShareActions({ payload, headline }: Props) {
 
   const shareUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/profile/share/${payload}`
+      ? new URL(`/profile/share/${payload}`, window.location.origin).toString()
       : `/profile/share/${payload}`
 
   async function handleCopy() {
