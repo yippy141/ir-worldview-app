@@ -1,6 +1,6 @@
 # IR Worldview Inventory
 
-IR Worldview Inventory is a Next.js editorial interactive about how people read world politics. The product starts with a seven-dimension IR Foundation result, adds issue-specific Security and Technology modules, includes a related AI Governance Compass, and brings saved layers together in Profile.
+IR Worldview Inventory is a Next.js editorial interactive about how people read world politics. The product has two clear entry points: the IR Foundation and the standalone AI Governance Compass. Security and Technology modules add issue-specific depth, and Profile brings saved layers together on one device.
 
 ## Project overview
 
@@ -8,7 +8,7 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 - Results are generated canonically through `/results/[payload]`, so links can be refreshed, shared, and reopened directly.
 - Explore pages function as a field guide to the modeled worldview families, recurring profile patterns, and important traditions that are not yet fully modeled.
 - Focus-area modules use explanation, decision, and actor-lens cards; actor-lens responses are tracked separately from the main module read.
-- AI Governance can stand alone, but it is framed as a related layer that reads best beside the IR Foundation and saved modules.
+- AI Governance can stand alone as an AI-policy entry point, with the IR Foundation available as optional depth.
 - AI Atlas and AI Field Guide are browse-and-learn surfaces within the AI Governance section.
 
 ## Main routes
@@ -23,8 +23,8 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 - `/ai/quiz` AI governance questionnaire
 - `/ai/review` answer review before AI result generation
 - `/ai/results/[payload]` canonical AI governance result page
-- `/ai/atlas` AI governance schools and traditions overview
-- `/ai/atlas/[id]` AI governance tradition detail pages
+- `/ai/atlas` AI governance archetype overview
+- `/ai/atlas/[id]` AI governance archetype detail pages
 - `/ai/field-guide` AI governance field guide
 - `/profile` local profile built from saved Foundation, module, and AI snapshots
 - `/profile/share/[payload]` canonical shared profile view
