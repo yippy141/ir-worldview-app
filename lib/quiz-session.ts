@@ -38,6 +38,8 @@ export function parseQuizSession(raw: string | null): QuizSession | null {
       return null
     }
 
+    const midpointAcknowledged = (parsed as { midpointAcknowledged?: unknown }).midpointAcknowledged
+
     return {
       v: 4,
       familiarity: isFamiliarityLevel(parsed.familiarity) ? parsed.familiarity : undefined,
@@ -46,6 +48,7 @@ export function parseQuizSession(raw: string | null): QuizSession | null {
       activeMode: isQuizMode(parsed.activeMode) ? parsed.activeMode : undefined,
       contextAssist: Boolean(parsed.contextAssist),
       answers: normalizeAnswers(parsed.answers),
+      midpointAcknowledged: midpointAcknowledged === true ? true : undefined,
     }
   } catch {
     return null

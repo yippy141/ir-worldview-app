@@ -722,6 +722,92 @@ h3 {
   color: var(--accent);
 }
 
+/* ── V14 quiz friction reduction styles ──────────────────────────────────── */
+
+.quiz-controls-row {
+  gap: 12px;
+}
+
+.quiz-mode-link {
+  margin-left: auto;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+}
+
+.quiz-mode-link:hover {
+  text-decoration: underline;
+}
+
+.quiz-section-marker {
+  margin: 0;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* 150ms fade between questions. Triggered on remount via key={questionId}. */
+@keyframes quiz-question-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.quiz-question-frame {
+  animation: quiz-question-fade-in 150ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-question-frame {
+    animation: none;
+  }
+}
+
+/* Midpoint preview interstitial */
+.quiz-midpoint {
+  padding: 32px;
+}
+
+.quiz-midpoint__h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 3vw, 2rem);
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+}
+
+.quiz-midpoint__lead {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text);
+  max-width: 60ch;
+}
+
+.quiz-midpoint__note {
+  margin: 0;
+  padding: 12px 16px;
+  background: color-mix(in srgb, var(--panel-2) 78%, white 22%);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 40%, var(--border) 60%);
+  border-radius: 3px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* Post-Standard upgrade offer on the review screen */
+.analyst-upgrade-offer {
+  border-left: 3px solid var(--accent);
+}
+
 .divider {
   border: none;
   border-top: 1px solid var(--line);

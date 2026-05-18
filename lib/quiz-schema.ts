@@ -175,6 +175,46 @@ export const standardQuestions: Question[] = [
     },
   },
   {
+    id: "tradeoff_interdependence",
+    kind: "tradeoff",
+    cardType: "explanation",
+    allowSecondChoiceInAnalyst: true,
+    prompt:
+      "When economic interdependence becomes dangerous, what is usually the deeper problem?",
+    helpText:
+      "This asks what makes the ties dangerous at the deepest level, not which policy tool you like most.",
+    options: [
+      {
+        id: "rivalry",
+        title: "Rivalry turns ties into leverage",
+        label:
+          "Interdependence becomes dangerous mainly when strategic competition grows and states start treating economic exposure as a security risk.",
+        signals: { securityCompetition: 6.1, politicalEconomy: 4.8, institutions: 3.1 },
+      },
+      {
+        id: "rules",
+        title: "Rules failed to keep up",
+        label:
+          "The danger comes from weak guardrails. Better multilateral rules could preserve openness without so much coercive exposure.",
+        signals: { institutions: 6.2, politicalEconomy: 4.3, restraint: 4.8 },
+      },
+      {
+        id: "domestic",
+        title: "Domestic dependence hardened",
+        label:
+          "The real weakness is political: domestic firms, regions, and interest groups become too embedded to adjust quickly when risk rises.",
+        signals: { domesticFilters: 6.2, politicalEconomy: 5.2, restraint: 4.4 },
+      },
+      {
+        id: "structure",
+        title: "The structure was unequal",
+        label:
+          "The vulnerability is built into who controls credit, production, and chokepoints. Exposure looks mutual until coercion begins.",
+        signals: { politicalEconomy: 6.5, institutions: 2.9, securityCompetition: 4.5 },
+      },
+    ],
+  },
+  {
     id: "df2",
     kind: "likert",
     dimension: "domesticFilters",
@@ -250,46 +290,6 @@ export const standardQuestions: Question[] = [
         },
       ],
     },
-  },
-  {
-    id: "tradeoff_interdependence",
-    kind: "tradeoff",
-    cardType: "explanation",
-    allowSecondChoiceInAnalyst: true,
-    prompt:
-      "When economic interdependence becomes dangerous, what is usually the deeper problem?",
-    helpText:
-      "This asks what makes the ties dangerous at the deepest level, not which policy tool you like most.",
-    options: [
-      {
-        id: "rivalry",
-        title: "Rivalry turns ties into leverage",
-        label:
-          "Interdependence becomes dangerous mainly when strategic competition grows and states start treating economic exposure as a security risk.",
-        signals: { securityCompetition: 6.1, politicalEconomy: 4.8, institutions: 3.1 },
-      },
-      {
-        id: "rules",
-        title: "Rules failed to keep up",
-        label:
-          "The danger comes from weak guardrails. Better multilateral rules could preserve openness without so much coercive exposure.",
-        signals: { institutions: 6.2, politicalEconomy: 4.3, restraint: 4.8 },
-      },
-      {
-        id: "domestic",
-        title: "Domestic dependence hardened",
-        label:
-          "The real weakness is political: domestic firms, regions, and interest groups become too embedded to adjust quickly when risk rises.",
-        signals: { domesticFilters: 6.2, politicalEconomy: 5.2, restraint: 4.4 },
-      },
-      {
-        id: "structure",
-        title: "The structure was unequal",
-        label:
-          "The vulnerability is built into who controls credit, production, and chokepoints. Exposure looks mutual until coercion begins.",
-        signals: { politicalEconomy: 6.5, institutions: 2.9, securityCompetition: 4.5 },
-      },
-    ],
   },
   {
     id: "tradeoff_strategy",
@@ -1271,3 +1271,57 @@ export const questionCountsByMode = {
 } as const
 
 export const likertScale = [1, 2, 3, 4, 5, 6, 7] as const
+
+// ── Foundation Standard sections (V14 friction reduction) ────────────────────
+// Section markers shown to the user during the Standard quiz flow. Each entry
+// lists the question IDs in display order — the standardQuestions array above
+// is ordered to match these section boundaries.
+
+export type FoundationSection = {
+  index: number
+  title: string
+  questionIds: string[]
+}
+
+export const foundationStandardSections: FoundationSection[] = [
+  {
+    index: 1,
+    title: "Your IR baseline",
+    questionIds: ["sc1", "in1", "df1", "ni1", "pe1", "rs1", "oj1"],
+  },
+  {
+    index: 2,
+    title: "Alliances and interdependence",
+    questionIds: ["tradeoff_alliances", "sc2", "in2", "tradeoff_interdependence"],
+  },
+  {
+    index: 3,
+    title: "Domestic politics and identity",
+    questionIds: ["df2", "ni2", "pe2"],
+  },
+  {
+    index: 4,
+    title: "Strategy and values",
+    questionIds: ["rs2", "oj2", "tradeoff_strategy", "tradeoff_intervention"],
+  },
+  {
+    index: 5,
+    title: "Applied cases",
+    questionIds: ["case_semiconductors", "case_protection"],
+  },
+]
+
+export const foundationSectionTotal = foundationStandardSections.length
+
+export function getFoundationSectionForQuestionId(
+  questionId: string,
+): FoundationSection | undefined {
+  return foundationStandardSections.find((section) =>
+    section.questionIds.includes(questionId),
+  )
+}
+
+// Index (0-based) of the last question in section 1 — used to trigger the
+// midpoint preview interstitial after the user finishes the IR baseline block.
+export const foundationMidpointQuestionIndex =
+  foundationStandardSections[0].questionIds.length - 1

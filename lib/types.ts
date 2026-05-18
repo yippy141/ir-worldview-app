@@ -66,6 +66,7 @@ export type QuizSession = {
   activeMode?: QuizMode
   contextAssist: boolean
   answers: Answers
+  midpointAcknowledged?: boolean
 }
 
 export type DimensionScores = Record<DimensionKey, number>

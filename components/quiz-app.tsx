@@ -2,19 +2,28 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { getFoundationQuestions, likertScale, questionCountsByMode } from "@/lib/quiz-schema"
+import {
+  dimensionLabels,
+  foundationMidpointQuestionIndex,
+  foundationSectionTotal,
+  foundationStandardSections,
+  getFoundationQuestions,
+  getFoundationSectionForQuestionId,
+  likertScale,
+  questionCountsByMode,
+} from "@/lib/quiz-schema"
 import {
   QUIZ_STORAGE_KEY,
   createEmptySession,
-  getRecommendedMode,
   notifyQuizSessionUpdated,
   parseQuizSession,
 } from "@/lib/quiz-session"
+import { computeCoreDimensionScores } from "@/lib/scoring"
+import { getTopDimensions } from "@/lib/result-helpers"
 import type {
   AnswerValue,
   Clarification,
   ChoiceCardType,
-  FamiliarityLevel,
   Question,
   QuizMode,
   QuizSession,
@@ -32,6 +41,7 @@ export function QuizApp() {
   const fromReview = searchParams.get("from") === "review"
   const hasIndexedQuestion = searchParams.get("q") !== null
   const initialQ = parseInt(searchParams.get("q") ?? "0", 10)
+  const requestedMode = searchParams.get("mode") === "analyst" ? "analyst" : undefined
 
   const [session, setSession] = useState<QuizSession>(createEmptySession())
   const [currentIndex, setCurrentIndex] = useState(
@@ -39,22 +49,33 @@ export function QuizApp() {
   )
   const [supportOpen, setSupportOpen] = useState(false)
   const [ready, setReady] = useState(false)
+  const [showMidpoint, setShowMidpoint] = useState(false)
 
   useEffect(() => {
     const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
     const parsed = parseQuizSession(raw)
     const timeout = window.setTimeout(() => {
       if (parsed) {
-        setSession(parsed)
-      } else if (raw) {
-        window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+        // V14: if the saved session has no active mode, default to Standard
+        // (or honor an explicit ?mode=analyst URL upgrade).
+        setSession(
+          parsed.activeMode
+            ? parsed
+            : { ...parsed, activeMode: requestedMode ?? "standard" },
+        )
+      } else {
+        if (raw) {
+          window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+        }
+        // First-time user: start in Standard mode without a mode gate.
+        setSession((prev) => ({ ...prev, activeMode: requestedMode ?? "standard" }))
       }
 
       setReady(true)
     }, 0)
 
     return () => window.clearTimeout(timeout)
-  }, [])
+  }, [requestedMode])
 
   useEffect(() => {
     if (!ready) return
@@ -72,32 +93,14 @@ export function QuizApp() {
     setSession((prev) => ({ ...prev, ...patch }))
   }
 
-  function setFamiliarity(familiarity: FamiliarityLevel) {
-    setSession((prev) => {
-      const nextRequestedDepth = prev.requestedDepth
-      return {
-        ...prev,
-        familiarity,
-        recommendedMode: getRecommendedMode(familiarity, nextRequestedDepth),
-      }
-    })
-  }
-
-  function setRequestedDepth(requestedDepth: QuizMode) {
-    setSession((prev) => ({
-      ...prev,
-      requestedDepth,
-      recommendedMode: getRecommendedMode(prev.familiarity, requestedDepth),
-    }))
-  }
-
-  function startMode(mode: QuizMode) {
+  function switchMode(mode: QuizMode) {
     setSession((prev) => ({
       ...prev,
       activeMode: mode,
-      requestedDepth: prev.requestedDepth ?? mode,
-      recommendedMode: getRecommendedMode(prev.familiarity, prev.requestedDepth ?? mode),
+      // Preserve answers when staying in the same mode; clear if switching.
       answers: prev.activeMode && prev.activeMode !== mode ? {} : prev.answers,
+      midpointAcknowledged:
+        prev.activeMode && prev.activeMode !== mode ? undefined : prev.midpointAcknowledged,
     }))
     setCurrentIndex(0)
     setSupportOpen(false)
@@ -166,6 +169,23 @@ export function QuizApp() {
   }
 
   function goNext() {
+    // After section 1 — and only on a clean forward step in Standard — show
+    // the midpoint preview interstitial once.
+    if (
+      session.activeMode === "standard" &&
+      !session.midpointAcknowledged &&
+      effectiveIndex === foundationMidpointQuestionIndex
+    ) {
+      setShowMidpoint(true)
+      return
+    }
+    setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))
+    setSupportOpen(false)
+  }
+
+  function continueFromMidpoint() {
+    setSession((prev) => ({ ...prev, midpointAcknowledged: true }))
+    setShowMidpoint(false)
     setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))
     setSupportOpen(false)
   }
@@ -175,28 +195,16 @@ export function QuizApp() {
   }
 
   function resetQuiz() {
-    setSession(createEmptySession())
+    setSession({ ...createEmptySession(), activeMode: "standard" })
     setCurrentIndex(0)
     setSupportOpen(false)
+    setShowMidpoint(false)
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
     notifyQuizSessionUpdated()
   }
 
-  if (!ready) {
+  if (!ready || !session.activeMode) {
     return <div className="panel" style={{ padding: "40px" }}>Loading your draft…</div>
-  }
-
-  if (!session.activeMode) {
-    return (
-      <ModeGate
-        familiarity={session.familiarity}
-        requestedDepth={session.requestedDepth}
-        recommendedMode={session.recommendedMode}
-        onSetFamiliarity={setFamiliarity}
-        onSetRequestedDepth={setRequestedDepth}
-        onStartMode={startMode}
-      />
-    )
   }
 
   const currentQuestion = questions[effectiveIndex]
@@ -221,6 +229,19 @@ export function QuizApp() {
       : "go-to-review"
     : null
   const supportVisible = session.contextAssist || supportOpen
+  const currentSection =
+    session.activeMode === "standard" && currentQuestion
+      ? getFoundationSectionForQuestionId(currentQuestion.id)
+      : undefined
+
+  if (showMidpoint) {
+    return (
+      <MidpointPreview
+        answers={session.answers}
+        onContinue={continueFromMidpoint}
+      />
+    )
+  }
 
   return (
     <div className="stack-lg">
@@ -232,17 +253,12 @@ export function QuizApp() {
               <h1>Foundation</h1>
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
-                  ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard} · the clearest route through the core IR disagreements.`
-                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases, actor-position cards, and selected counterparty or development lenses.`}
+                  ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard}.`
+                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases and actor-lens questions.`}
               </p>
             </div>
-            <span className="mode-pill">
-              {modeLabel(session.activeMode)}
-            </span>
+            <span className="mode-pill">{modeLabel(session.activeMode)}</span>
           </div>
-          <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-            The recommendation changes pacing and depth only. It does not alter the scoring model.
-          </p>
         </div>
 
         <div className="stack-xs">
@@ -262,7 +278,7 @@ export function QuizApp() {
           </div>
         </div>
 
-        <div className="row gap-sm wrap center">
+        <div className="row gap-sm wrap center quiz-controls-row">
           <button
             type="button"
             className={session.contextAssist ? "primary-button" : "secondary-button"}
@@ -273,6 +289,41 @@ export function QuizApp() {
           <button type="button" className="secondary-button" onClick={resetQuiz}>
             Start over
           </button>
+          {session.activeMode === "standard" ? (
+            <button
+              type="button"
+              className="quiz-mode-link"
+              onClick={() => {
+                if (
+                  Object.keys(session.answers).length === 0 ||
+                  window.confirm(
+                    "Switching to Analyst mode will clear your current answers. Continue?",
+                  )
+                ) {
+                  switchMode("analyst")
+                }
+              }}
+            >
+              Switch to Analyst mode →
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="quiz-mode-link"
+              onClick={() => {
+                if (
+                  Object.keys(session.answers).length === 0 ||
+                  window.confirm(
+                    "Switching back to Standard mode will clear your current Analyst answers. Continue?",
+                  )
+                ) {
+                  switchMode("standard")
+                }
+              }}
+            >
+              ← Back to Standard mode
+            </button>
+          )}
         </div>
       </section>
 
@@ -299,127 +350,135 @@ export function QuizApp() {
             </div>
           ) : null}
 
-          <div className="stack-xs">
-            <p className="eyebrow">
-              {questionLabel(currentQuestion)} · {effectiveIndex + 1} of {questions.length}
+          {currentSection ? (
+            <p className="quiz-section-marker">
+              Part {currentSection.index} of {foundationSectionTotal} — {currentSection.title}
             </p>
-            <h2>{currentQuestion.prompt}</h2>
-          </div>
+          ) : null}
 
-          {currentQuestion.kind !== "likert" ? (
-            <div className="callout stack-sm">
-              <div className="stack-xs">
-                <p className="eyebrow">How to answer this card</p>
-                <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-                  {choiceInstructionCopy(currentQuestion)}
-                </p>
-                <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
-                  Do not answer based on what sounds most publicly defensible, what another actor
-                  in the case would prefer, or what officials currently say unless that is also
-                  your own judgment.
-                </p>
-                {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
-                  <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
-                    In Advanced mode, you can also mark a backup answer if a second option still
-                    seems plausible.
-                  </p>
-                ) : null}
-              </div>
+          <div className="quiz-question-frame" key={currentQuestion.id}>
+            <div className="stack-xs">
+              <p className="eyebrow">
+                {questionLabel(currentQuestion)} · {effectiveIndex + 1} of {questions.length}
+              </p>
+              <h2>{currentQuestion.prompt}</h2>
             </div>
-          ) : null}
 
-          {hasSupport(currentQuestion) ? (
-            <SupportBlock
-              question={currentQuestion}
-              visible={supportVisible}
-              onToggle={() => setSupportOpen((open) => !open)}
-              autoShown={session.contextAssist}
-            />
-          ) : null}
-
-          {currentQuestion.kind === "likert" ? (
-            <div className="stack-sm">
-              <div className="likert-labels">
-                <span>Strongly disagree</span>
-                <span>Strongly agree</span>
+            {currentQuestion.kind !== "likert" ? (
+              <div className="callout stack-sm">
+                <div className="stack-xs">
+                  <p className="eyebrow">How to answer this card</p>
+                  <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+                    {choiceInstructionCopy(currentQuestion)}
+                  </p>
+                  <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
+                    Do not answer based on what sounds most publicly defensible, what another actor
+                    in the case would prefer, or what officials currently say unless that is also
+                    your own judgment.
+                  </p>
+                  {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
+                    <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
+                      In Advanced mode, you can also mark a backup answer if a second option still
+                      seems plausible.
+                    </p>
+                  ) : null}
+                </div>
               </div>
-              <div className="likert-grid">
-                {likertScale.map((value) => {
-                  const selected = session.answers[currentQuestion.id] === value
+            ) : null}
+
+            {hasSupport(currentQuestion) ? (
+              <SupportBlock
+                question={currentQuestion}
+                visible={supportVisible}
+                onToggle={() => setSupportOpen((open) => !open)}
+                autoShown={session.contextAssist}
+              />
+            ) : null}
+
+            {currentQuestion.kind === "likert" ? (
+              <div className="stack-sm">
+                <div className="likert-labels">
+                  <span>Strongly disagree</span>
+                  <span>Strongly agree</span>
+                </div>
+                <div className="likert-grid">
+                  {likertScale.map((value) => {
+                    const selected = session.answers[currentQuestion.id] === value
+                    return (
+                      <button
+                        key={value}
+                        type="button"
+                        className={selected ? "answer-button selected" : "answer-button"}
+                        onClick={() => selectAnswer(value)}
+                        aria-pressed={selected}
+                        aria-label={`${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`}
+                      >
+                        {value}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            ) : (
+              <div className="stack-sm">
+                {currentQuestion.options.map((option, optionIndex) => {
+                  const selected = currentPrimarySelection === option.id
                   return (
                     <button
-                      key={value}
+                      key={option.id}
                       type="button"
-                      className={selected ? "answer-button selected" : "answer-button"}
-                      onClick={() => selectAnswer(value)}
+                      className={selected ? "option-card selected" : "option-card"}
+                      onClick={() => selectAnswer(option.id)}
                       aria-pressed={selected}
-                      aria-label={`${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`}
                     >
-                      {value}
+                      <span className="option-badge">{optionIndex + 1}</span>
+                      <span className="option-card-content">
+                        <span className="option-card-title">{option.title}</span>
+                        <span className="option-card-text">{option.label}</span>
+                      </span>
                     </button>
                   )
                 })}
-              </div>
-            </div>
-          ) : (
-            <div className="stack-sm">
-              {currentQuestion.options.map((option, optionIndex) => {
-                const selected = currentPrimarySelection === option.id
-                return (
-                  <button
-                    key={option.id}
-                    type="button"
-                    className={selected ? "option-card selected" : "option-card"}
-                    onClick={() => selectAnswer(option.id)}
-                    aria-pressed={selected}
-                  >
-                    <span className="option-badge">{optionIndex + 1}</span>
-                    <span className="option-card-content">
-                      <span className="option-card-title">{option.title}</span>
-                      <span className="option-card-text">{option.label}</span>
-                    </span>
-                  </button>
-                )
-              })}
 
-              {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst && currentPrimarySelection ? (
-                <div className="callout stack-sm">
-                  <div className="stack-xs">
-                    <p className="eyebrow">Second-most persuasive</p>
-                    <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-                      Use this only when another option also captures part of your analytic
-                      judgment. It counts less than your main choice.
-                    </p>
-                  </div>
-                  <div className="module-secondary-grid">
-                    {currentQuestion.options
-                      .filter((option) => option.id !== currentPrimarySelection)
-                      .map((option) => {
-                        const selected = currentSecondarySelection === option.id
-                        return (
-                          <button
-                            key={option.id}
-                            type="button"
-                            className={selected ? "secondary-choice-button selected" : "secondary-choice-button"}
-                            onClick={() => setSecondaryChoice(option.id)}
-                            aria-pressed={selected}
-                          >
-                            <span className="option-card-content">
-                              <span className="option-card-title" style={{ fontSize: "0.94rem" }}>
-                                {option.title}
+                {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst && currentPrimarySelection ? (
+                  <div className="callout stack-sm">
+                    <div className="stack-xs">
+                      <p className="eyebrow">Second-most persuasive</p>
+                      <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+                        Use this only when another option also captures part of your analytic
+                        judgment. It counts less than your main choice.
+                      </p>
+                    </div>
+                    <div className="module-secondary-grid">
+                      {currentQuestion.options
+                        .filter((option) => option.id !== currentPrimarySelection)
+                        .map((option) => {
+                          const selected = currentSecondarySelection === option.id
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              className={selected ? "secondary-choice-button selected" : "secondary-choice-button"}
+                              onClick={() => setSecondaryChoice(option.id)}
+                              aria-pressed={selected}
+                            >
+                              <span className="option-card-content">
+                                <span className="option-card-title" style={{ fontSize: "0.94rem" }}>
+                                  {option.title}
+                                </span>
+                                <span className="option-card-text" style={{ fontSize: "0.86rem" }}>
+                                  {option.label}
+                                </span>
                               </span>
-                              <span className="option-card-text" style={{ fontSize: "0.86rem" }}>
-                                {option.label}
-                              </span>
-                            </span>
-                          </button>
-                        )
-                      })}
+                            </button>
+                          )
+                        })}
+                    </div>
                   </div>
-                </div>
-              ) : null}
-            </div>
-          )}
+                ) : null}
+              </div>
+            )}
+          </div>
 
           <hr className="divider" />
 
@@ -467,149 +526,44 @@ export function QuizApp() {
   )
 }
 
-function ModeGate({
-  familiarity,
-  requestedDepth,
-  recommendedMode,
-  onSetFamiliarity,
-  onSetRequestedDepth,
-  onStartMode,
+function MidpointPreview({
+  answers,
+  onContinue,
 }: {
-  familiarity?: FamiliarityLevel
-  requestedDepth?: QuizMode
-  recommendedMode?: QuizMode
-  onSetFamiliarity: (value: FamiliarityLevel) => void
-  onSetRequestedDepth: (value: QuizMode) => void
-  onStartMode: (value: QuizMode) => void
+  answers: QuizSession["answers"]
+  onContinue: () => void
 }) {
-  const ready = Boolean(familiarity && requestedDepth && recommendedMode)
+  const dimensionScores = useMemo(
+    () => computeCoreDimensionScores(answers, "standard"),
+    [answers],
+  )
+  const topTwo = useMemo(() => getTopDimensions(dimensionScores, 2), [dimensionScores])
+
+  const firstLabel = dimensionLabels[topTwo[0]]
+  const secondLabel = dimensionLabels[topTwo[1]]
 
   return (
     <div className="stack-lg">
-      <section className="panel stack-md">
-        <div className="stack-sm">
-          <p className="eyebrow">IR Worldview Inventory</p>
-          <h1>Choose your Foundation questionnaire path</h1>
-          <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            Start here to locate your baseline view of international politics. The choice below
-            changes depth and pacing, not how the result is scored.
-          </p>
+      <section className="panel stack-md quiz-midpoint">
+        <div className="stack-xs">
+          <p className="eyebrow">{foundationStandardSections[0].title} complete</p>
+          <h1 className="quiz-midpoint__h1">Your profile is starting to take shape.</h1>
         </div>
-
-        <div className="stack-lg">
-          <div className="stack-sm">
-            <h2>How familiar are you with IR debates?</h2>
-            <div className="stack-sm">
-              <ChoiceSelect
-                selected={familiarity === "new"}
-                title="New / casual"
-                description="Best if you want the plainest route through the core debates."
-                onClick={() => onSetFamiliarity("new")}
-              />
-              <ChoiceSelect
-                selected={familiarity === "some"}
-                title="Some familiarity"
-                description="You know some of the terrain and want a slightly harder pass."
-                onClick={() => onSetFamiliarity("some")}
-              />
-              <ChoiceSelect
-                selected={familiarity === "very"}
-                title="Very familiar / study or work in this area"
-                description="Best if you want denser cases and more unresolved tradeoffs."
-                onClick={() => onSetFamiliarity("very")}
-              />
-            </div>
-          </div>
-
-          <div className="stack-sm">
-            <h2>How deep do you want to go right now?</h2>
-            <div className="stack-sm">
-              <ChoiceSelect
-                selected={requestedDepth === "standard"}
-                title="Standard"
-                description={`${questionCountsByMode.standard} questions. About ${foundationTimeEstimateByMode.standard}. A clear first read.`}
-                onClick={() => onSetRequestedDepth("standard")}
-              />
-              <ChoiceSelect
-                selected={requestedDepth === "analyst"}
-                title="Advanced"
-                description={`${questionCountsByMode.analyst} questions. About ${foundationTimeEstimateByMode.analyst}. More cases and sharper pressure tests.`}
-                onClick={() => onSetRequestedDepth("analyst")}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="panel stack-md">
-        <div className="stack-sm">
-          <p className="eyebrow">Recommendation</p>
-          {ready ? (
-            <>
-              <h2>
-                {recommendedMode === "analyst"
-                  ? "Advanced is the recommended fit."
-                  : "Standard is the recommended fit."}
-              </h2>
-              <p className="muted" style={{ lineHeight: "1.65" }}>
-                You can still override it. Familiarity helps set expectations, but it does not
-                directly affect the score.
-              </p>
-            </>
-          ) : (
-            <p className="muted" style={{ lineHeight: "1.65" }}>
-              Answer both questions above to see the recommendation and choose your route.
-            </p>
-          )}
-        </div>
-
+        <p className="quiz-midpoint__lead">
+          You have strong pulls on{" "}
+          <strong>{firstLabel}</strong> and <strong>{secondLabel}</strong>.
+        </p>
+        <p className="quiz-midpoint__note">
+          This is a partial read based on your first answers. The remaining questions will sharpen
+          it.
+        </p>
         <div className="row gap-sm wrap">
-          <button
-            type="button"
-            className={recommendedMode === "standard" ? "primary-button" : "secondary-button"}
-            onClick={() => onStartMode("standard")}
-            disabled={!ready}
-          >
-            Continue in Standard
-          </button>
-          <button
-            type="button"
-            className={recommendedMode === "analyst" ? "primary-button" : "secondary-button"}
-            onClick={() => onStartMode("analyst")}
-            disabled={!ready}
-          >
-            Continue in Advanced
+          <button type="button" className="primary-button" onClick={onContinue}>
+            Continue
           </button>
         </div>
       </section>
     </div>
-  )
-}
-
-function ChoiceSelect({
-  selected,
-  title,
-  description,
-  onClick,
-}: {
-  selected: boolean
-  title: string
-  description: string
-  onClick: () => void
-}) {
-  return (
-    <button
-      type="button"
-      className={selected ? "option-card selected" : "option-card"}
-      onClick={onClick}
-      aria-pressed={selected}
-    >
-      <span className="option-badge">{selected ? "✓" : ""}</span>
-      <span className="option-card-content">
-        <span className="option-card-title">{title}</span>
-        <span className="option-card-text">{description}</span>
-      </span>
-    </button>
   )
 }
 
@@ -710,7 +664,7 @@ function supportToggleLabel(question: Question) {
 }
 
 function modeLabel(mode: QuizMode) {
-  return mode === "standard" ? "Standard mode" : "Advanced mode"
+  return mode === "standard" ? "Standard mode" : "Analyst mode"
 }
 
 function cardTypeLabel(cardType: ChoiceCardType) {

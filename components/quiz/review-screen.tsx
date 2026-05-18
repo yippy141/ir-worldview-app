@@ -160,7 +160,44 @@ export function ReviewScreen() {
           browser.
         </p>
       </section>
+
+      {foundationComplete && session.activeMode === "standard" ? (
+        <AnalystUpgradeOffer onUpgrade={handleUpgradeToAnalyst} />
+      ) : null}
     </div>
+  )
+
+  function handleUpgradeToAnalyst() {
+    if (
+      !window.confirm(
+        "Analyst mode replays the Foundation with more cross-pressure cases and actor-lens questions. Your current Standard answers will be cleared. Continue?",
+      )
+    ) {
+      return
+    }
+    window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+    notifyQuizSessionUpdated()
+    router.push("/quiz?mode=analyst")
+  }
+}
+
+function AnalystUpgradeOffer({ onUpgrade }: { onUpgrade: () => void }) {
+  return (
+    <section className="panel stack-sm analyst-upgrade-offer">
+      <p className="eyebrow">Want a deeper read?</p>
+      <h2 style={{ margin: 0 }}>
+        You completed the Standard version.
+      </h2>
+      <p className="muted" style={{ lineHeight: "1.65" }}>
+        Analyst mode adds more cross-pressure cases and actor-lens questions. The scoring model is
+        the same — it just gives the model more to work with.
+      </p>
+      <div className="row gap-sm wrap">
+        <button type="button" className="secondary-button" onClick={onUpgrade}>
+          Try Analyst mode
+        </button>
+      </div>
+    </section>
   )
 }
 
