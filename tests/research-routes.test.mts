@@ -45,6 +45,20 @@ test("research delete route is safely disabled without storage env", async () =>
   assert.equal(body.reason, "flag_disabled")
 })
 
+test("research routes fail safely when enabled but storage env vars are missing", async () => {
+  delete process.env.RESEARCH_STORAGE_URL
+  delete process.env.RESEARCH_STORAGE_SERVICE_KEY
+  process.env.RESEARCH_STORAGE_ENABLED = "true"
+
+  const response = await postSubmit(jsonRequest("/api/research/submit", validSubmission()))
+  const body = await response.json()
+
+  assert.equal(response.status, 200)
+  assert.equal(body.ok, false)
+  assert.equal(body.disabled, true)
+  assert.equal(body.reason, "missing_env")
+})
+
 test("research event route rejects raw answer metadata", () => {
   const result = validateResearchEvent({
     eventName: "result_viewed",

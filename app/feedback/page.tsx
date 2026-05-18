@@ -10,12 +10,13 @@ export const metadata: Metadata = {
 const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeGxaUUwUYmo0YI8mcmqKGnne66MyGhPSWO88lSUwC91NZlyQ/viewform"
 
 interface Props {
-  searchParams: Promise<{ module?: string; result?: string }>
+  searchParams: Promise<{ module?: string; result?: string; topic?: string }>
 }
 
 export default async function FeedbackPage({ searchParams }: Props) {
-  const { module, result } = await searchParams
+  const { module, result, topic } = await searchParams
   const aiContext = module === "ai"
+  const deletionContext = topic === "deletion"
   const backHref = result
     ? aiContext
       ? `/ai/results/${result}`
@@ -29,6 +30,25 @@ export default async function FeedbackPage({ searchParams }: Props) {
       <div className="panel stack-md">
         <p className="eyebrow">Pilot feedback</p>
         <h1>Help improve this inventory</h1>
+
+        {deletionContext ? (
+          <div
+            className="panel-flush"
+            style={{
+              maxWidth: "580px",
+              padding: "12px 16px",
+              background: "var(--panel-2)",
+              borderRadius: "4px",
+              borderLeft: "3px solid var(--accent)",
+            }}
+          >
+            <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.6" }}>
+              <strong>Deletion request:</strong> If you opted into research storage, include a
+              respondent ID, session ID, or result link if you have one. Do not include raw answer
+              text unless it is needed to identify the record.
+            </p>
+          </div>
+        ) : null}
 
         <p style={{ lineHeight: "1.7", maxWidth: "580px" }}>
           This pilot is testing the architecture as much as the wording. The most useful feedback
@@ -97,10 +117,11 @@ export default async function FeedbackPage({ searchParams }: Props) {
           }}
         >
           <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.6" }}>
-            <strong>Privacy:</strong> The form is anonymous by default. It does not collect your
-            email address unless you choose to provide it. Responses are not shared with third
-            parties. If you are requesting deletion of opt-in research data, include your
-            respondent ID, session ID, or result link if available.
+            <strong>Privacy:</strong> The Google Form does not ask for your name or email by
+            default. Do not include identifying details unless you want follow-up or are requesting
+            deletion. Feedback is separate from opt-in research answer storage; raw quiz answers
+            are not sent to third-party analytics. If you are requesting deletion of opt-in
+            research data, include your respondent ID, session ID, or result link if available.
           </p>
         </div>
 
