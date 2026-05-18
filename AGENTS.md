@@ -85,24 +85,19 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V10.1
+## Current sprint: V14
 
-- Current sprint is **V10.1 diagram stabilization + visual grammar consolidation**.
-- Audit current diagrams before changing app code.
-- No new modules, no taxonomy changes, no scoring rewrites, no payload rewrites this sprint.
-- Prefer shared robust primitives over one-off chart styles.
-- Comparison legends must use marker **shape**, not just color.
-- If markers in a comparison row nearly coincide, offset them rather than collapsing them.
-- If a decorative hero emblem is removed, replace it with information density or collapse the space; do not add a new decorative element.
-- Atlas cards are the higher-traffic surface and should be checked before Atlas detail pages.
-- Keep known deferred items visible in `plans/V10_DIAGRAM_AUDIT.md`.
-- Run `npm run lint`, `npm run test`, and `npm run build` after meaningful edits.
-- Run one `npx tsc --noEmit` check during cleanup and document the scope if it does not pass.
-- Never import from `tmp/` or packet folders.
-- Keep diffs small and sequential.
+- Current sprint is **V14 prelaunch payoff, trust, and AI-first wedge**.
+- Typecheck is a hard gate: `npx tsc --noEmit` must pass, `typescript.ignoreBuildErrors` must be removed or false, and `npm run lint`, `npm run test`, and `npm run build` must pass after meaningful edits.
+- Result-card payoff comes first: use one editorial visual spec for IR, AI, and Profile cards, with muted chips, a restrained accent, one plain-English summary, one non-obvious finding, and a clean share action.
+- `/ai` must work as a standalone AI Governance Compass entry point, with IR framed as optional depth rather than a prerequisite.
+- Landing page rewrite should lead with the quiz promise and primary CTA, then move product architecture below the fold with a sample result preview.
+- Quiz friction work should default first-time users to Standard mode, add section markers, and restore a preliminary midpoint preview after section 1 without showing a family label.
+- No scoring rewrites, no payload rewrites, no taxonomy changes, and no new modules this sprint.
+- Research storage remains privacy-first: opt-in unchecked by default, no raw answers to third-party analytics, visible deletion path, safe failure without env vars, and smallest coherent diffs throughout.
 
 ## End-of-sprint discipline
 
-When V10.1 ends, replace the "Current sprint" section above with the next
+When V14 ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.
