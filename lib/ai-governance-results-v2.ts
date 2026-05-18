@@ -458,6 +458,30 @@ function sentenceToTitle(text: string): string {
   return "Internal tension"
 }
 
+export type AiSurprisingFinding = {
+  kind: "tension" | "nearest-alternative"
+  label: string
+  text: string
+}
+
+export function getAiGovernanceSurprisingFinding(
+  result: AiResult,
+): AiSurprisingFinding | null {
+  const tensions = getActiveAiGovernanceTensions(result.axisScores)
+  if (tensions.length > 0) {
+    return { kind: "tension", label: "Tension to watch", text: tensions[0].text }
+  }
+
+  const runnerUpKey = getRunnerUpKey(result)
+  if (runnerUpKey !== result.archetypeKey) {
+    const axes = getTopContrastAxes(result.archetypeKey, runnerUpKey)
+    const text = buildContrastText(result.archetypeKey, runnerUpKey, axes, result.axisScores)
+    return { kind: "nearest-alternative", label: "Nearest alternative", text }
+  }
+
+  return null
+}
+
 export function getPrimaryAxisSummary(axisScores: AiAxisScores): string {
   const ordered = (Object.entries(axisScores) as Array<[AiAxisKey, number]>)
     .sort((a, b) => Math.abs(b[1] - 4) - Math.abs(a[1] - 4))

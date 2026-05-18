@@ -10,6 +10,7 @@ import {
   getClosestTraditions,
   getKeyDrivers,
   getActiveTensions,
+  getFoundationSurprisingFinding,
   neighborOverlapTexts,
   dimensionOneLiners,
   glossaryTerms,
@@ -24,9 +25,11 @@ import {
   getHowYouReadTheWorld,
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
+import { ResultCardHero } from "@/components/results/result-card-hero"
+import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
-import { familySlug, familyTraditionClass } from "@/lib/worldview-config"
+import { familySlug } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
@@ -58,11 +61,11 @@ const TRADITION_COLOR: Record<FamilyKey, string> = {
   criticalPoliticalEconomy: "var(--t-cpe)",
 }
 
-const TRADITION_RULE_CLASS: Record<FamilyKey, string> = {
-  realist: "result-hero-rule--realist",
-  institutionalist: "result-hero-rule--institutionalist",
-  constructivist: "result-hero-rule--constructivist",
-  criticalPoliticalEconomy: "result-hero-rule--cpe",
+const FAMILY_ACCENT: Record<FamilyKey, "realist" | "institutionalist" | "constructivist" | "cpe"> = {
+  realist: "realist",
+  institutionalist: "institutionalist",
+  constructivist: "constructivist",
+  criticalPoliticalEconomy: "cpe",
 }
 
 const STRATEGY_STYLE_NOTES = {
@@ -114,9 +117,8 @@ export default async function ResultPage(
   const familyLabel = result.familyLabel
   const neighborKey = result.runnerUpKey
   const neighborLabel = result.runnerUpLabel
-  const traditionClass = familyTraditionClass(result.familyKey)
   const traditionColor = TRADITION_COLOR[result.familyKey]
-  const ruleClass = TRADITION_RULE_CLASS[result.familyKey]
+  const accentVariant = FAMILY_ACCENT[result.familyKey]
 
   const profileTitle = buildProfileTitle(dimensionScores)
   const explanation = result.explanation
@@ -124,6 +126,11 @@ export default async function ResultPage(
   const topDimensions = getTopDimensionScores(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
   const tensions = getActiveTensions(dimensionScores)
+  const surprisingFinding = getFoundationSurprisingFinding(
+    result.familyKey,
+    neighborKey,
+    dimensionScores,
+  )
   const neighborText = neighborOverlapTexts[result.familyKey]?.[neighborKey] ?? ""
   const readings = suggestedReadings[result.familyKey]
   const neighborReadings = suggestedReadings[neighborKey]
@@ -149,12 +156,7 @@ export default async function ResultPage(
   )
   const pressureQuestions = getPressureTestQuestions(result.familyKey)
   const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
-  const soWhatBlock = foundationNarrative.sections.find(
-    (section) => section.title === "So what this usually means",
-  )
-  const deepFoundationSections = foundationNarrative.sections.filter(
-    (section) => section.title !== "So what this usually means",
-  )
+  const deepFoundationSections = foundationNarrative.sections
   const atlasMatch = matchAtlasLiteFoundation({
     familyKey: result.familyKey,
     runnerUpKey: neighborKey,
@@ -261,30 +263,51 @@ export default async function ResultPage(
         />
 
         {/* ── 1. Hero ── */}
-        <div className="result-hero result-hero--foundation">
-          <div className="result-hero-grid">
-            <div className="result-hero-copy">
-              <div className={`result-hero-rule ${ruleClass}`} />
-              <p className="eyebrow">Foundation result</p>
-              <h1 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", letterSpacing: "-0.02em", marginBottom: "8px" }}>
-                {profileTitle}
-              </h1>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "12px", flexWrap: "wrap", marginBottom: "16px" }}>
-                <span className={`tradition-chip ${traditionClass}`}>{familyLabel}</span>
-              </div>
-              <p style={{ fontSize: "1rem", lineHeight: "1.75", maxWidth: "720px", marginBottom: "10px" }}>
-                {soWhatBlock?.text ?? summary}
-              </p>
-            </div>
+        <ResultCardHero
+          eyebrow="Foundation result"
+          label={familyLabel}
+          accent={accentVariant}
+          modifiers={[result.strategyModifier, result.normativeModifier]}
+          summary={summary}
+          finding={surprisingFinding}
+          actions={
+            <>
+              <Link
+                href={`/modules?foundation=${encodeURIComponent(payload)}`}
+                className="result-card-hero__primary"
+              >
+                Add a focus-area module
+              </Link>
+              <ResultCardHeroShare
+                shareUrl={`/results/${payload}`}
+                title={`IR Worldview: ${familyLabel}`}
+                text={`My IR worldview result: ${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`}
+              />
+              <Link href="/profile" className="result-card-hero__secondary">
+                View Profile →
+              </Link>
+            </>
+          }
+        />
 
-            <ResultSignaturePanel
-              familyLabel={familyLabel}
-              strategyModifier={result.strategyModifier}
-              normativeModifier={result.normativeModifier}
-              neighborLabel={neighborLabel}
-              topDimensions={topDimensions}
-            />
+        <div className="result-section stack-md">
+          <div className="stack-xs">
+            <h2>Profile signature</h2>
+            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+              The headline framing on the card sits on top of this compact read of the dimensions
+              and modifiers shaping the result.
+            </p>
           </div>
+          <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+            Profile shorthand: <em>{profileTitle}</em>.
+          </p>
+          <ResultSignaturePanel
+            familyLabel={familyLabel}
+            strategyModifier={result.strategyModifier}
+            normativeModifier={result.normativeModifier}
+            neighborLabel={neighborLabel}
+            topDimensions={topDimensions}
+          />
         </div>
 
         <div className="result-section stack-md">

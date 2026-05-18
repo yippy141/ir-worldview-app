@@ -3295,6 +3295,166 @@ h3 {
 .result-hero-rule--constructivist { background: var(--t-constructivist); }
 .result-hero-rule--cpe            { background: var(--t-cpe); }
 
+/* ── Reusable result-card hero (Foundation / AI / Profile) ─────────────────
+   An editorial pull-quote panel: contained, restrained, accent on the left
+   rule only. Used as the first screen after a quiz completes. */
+.result-card-hero {
+  --result-card-accent: var(--accent);
+  position: relative;
+  margin: 40px 0 8px;
+  padding: 28px 30px 26px 30px;
+  background: var(--panel);
+  border: 1px solid var(--border-soft);
+  border-left: 3px solid var(--result-card-accent);
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+}
+
+.result-card-hero--realist        { --result-card-accent: var(--t-realist); }
+.result-card-hero--institutionalist { --result-card-accent: var(--t-institutionalist); }
+.result-card-hero--constructivist { --result-card-accent: var(--t-constructivist); }
+.result-card-hero--cpe            { --result-card-accent: var(--t-cpe); }
+.result-card-hero--ai             { --result-card-accent: var(--accent); }
+.result-card-hero--profile        { --result-card-accent: var(--accent-light); }
+
+.result-card-hero__eyebrow {
+  margin: 0 0 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--result-card-accent);
+}
+
+.result-card-hero__label {
+  margin: 0 0 12px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.4rem, 2.6vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+  color: var(--text);
+}
+
+.result-card-hero__modifiers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 18px;
+}
+
+.result-card-hero__chip {
+  display: inline-block;
+  padding: 3px 9px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--panel-2);
+  border: 1px solid var(--border-soft);
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.result-card-hero__summary {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--text);
+  max-width: 64ch;
+}
+
+.result-card-hero__finding {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: color-mix(in srgb, var(--panel-2) 78%, white 22%);
+  border-left: 2px solid color-mix(in srgb, var(--result-card-accent) 40%, var(--border) 60%);
+  border-radius: 3px;
+}
+
+.result-card-hero__finding-label {
+  margin: 0 0 6px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.result-card-hero__finding-text {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+.result-card-hero__actions {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+
+.result-card-hero__primary,
+.result-card-hero__share {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 1.2;
+}
+
+.result-card-hero__primary {
+  background: var(--result-card-accent);
+  color: var(--panel);
+  border: 1px solid var(--result-card-accent);
+}
+
+.result-card-hero__primary:hover {
+  background: color-mix(in srgb, var(--result-card-accent) 88%, black 12%);
+  text-decoration: none;
+  color: var(--panel);
+}
+
+.result-card-hero__share {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.result-card-hero__share:hover {
+  background: var(--panel-2);
+  border-color: color-mix(in srgb, var(--border) 60%, var(--result-card-accent) 40%);
+}
+
+.result-card-hero__secondary {
+  font-size: 0.86rem;
+  color: var(--result-card-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.result-card-hero__secondary:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 720px) {
+  .result-card-hero {
+    padding: 32px 36px 28px 36px;
+  }
+}
+
 .result-section {
   padding: 60px 0;
   border-bottom: 1px solid var(--line);

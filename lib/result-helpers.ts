@@ -442,6 +442,54 @@ export function getActiveTensions(dimensionScores: DimensionScores): TensionRule
   return tensionRules.filter((rule) => rule.condition(dimensionScores))
 }
 
+// ── Surprising finding for the result-card hero ───────────────────────────────
+
+export type SurprisingFinding = {
+  kind: "tension" | "subtradition" | "neighbor"
+  label: string
+  text: string
+}
+
+// True when the user's dimension scores trigger a named subtradition strand
+// rather than the catch-all "mainstream" fallback in getSubtraditionAffinity.
+function hasSpecificSubtradition(familyKey: FamilyKey, d: DimensionScores): boolean {
+  switch (familyKey) {
+    case "realist":
+      return d.restraint >= 5 || d.restraint <= 3 || d.domesticFilters >= 5
+    case "institutionalist":
+      return d.domesticFilters >= 5
+    case "constructivist":
+      return d.politicalEconomy >= 5 || d.normsIdentity >= 6
+    case "criticalPoliticalEconomy":
+      return d.domesticFilters >= 5 || d.institutions >= 4.5
+  }
+}
+
+export function getFoundationSurprisingFinding(
+  familyKey: FamilyKey,
+  runnerUpKey: FamilyKey,
+  dimensionScores: DimensionScores,
+): SurprisingFinding | null {
+  const tensions = getActiveTensions(dimensionScores)
+  if (tensions.length > 0) {
+    return { kind: "tension", label: "Tension to watch", text: tensions[0].text }
+  }
+
+  if (hasSpecificSubtradition(familyKey, dimensionScores)) {
+    const sub = getSubtraditionAffinity(familyKey, dimensionScores)
+    if (sub) {
+      return { kind: "subtradition", label: sub.name, text: sub.note }
+    }
+  }
+
+  const neighbor = neighborOverlapTexts[familyKey]?.[runnerUpKey]
+  if (neighbor) {
+    return { kind: "neighbor", label: "Nearest overlap", text: neighbor }
+  }
+
+  return null
+}
+
 // ── Neighbor overlap text ─────────────────────────────────────────────────────
 
 export const neighborOverlapTexts: Partial<Record<FamilyKey, Partial<Record<FamilyKey, string>>>> =

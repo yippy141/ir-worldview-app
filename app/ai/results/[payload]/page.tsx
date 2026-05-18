@@ -12,8 +12,11 @@ import {
 import {
   buildAiGovernanceDeepDive,
   buildAiGovernanceResultFromSharePayload,
+  getAiGovernanceSurprisingFinding,
   getPrimaryAxisSummary,
 } from "@/lib/ai-governance-results-v2"
+import { ResultCardHero } from "@/components/results/result-card-hero"
+import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
@@ -67,6 +70,7 @@ export default async function AiResultPage(
     .slice(0, 3)
   const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
   const deepDive = buildAiGovernanceDeepDive(profileResult)
+  const surprisingFinding = getAiGovernanceSurprisingFinding(profileResult)
 
   return (
     <div className="wide-container">
@@ -87,42 +91,53 @@ export default async function AiResultPage(
         />
 
         {/* ── 1. Hero ── */}
-        <div className="result-hero ai-result-hero">
-          <div className="ai-result-hero__copy">
-            <div className="ai-hero-rule" />
-            <p className="ai-hero-eyebrow">AI Governance Compass</p>
-            <h1 className="ai-hero-h1">{archetypeLabel}</h1>
-            <div style={{ display: "flex", gap: "6px", flexWrap: "wrap", marginBottom: "24px" }}>
-              <ModifierChip label={decoded.rl} />
-              <ModifierChip label={decoded.pm} />
-              <ModifierChip label={decoded.gm} />
-            </div>
-            <p className="ai-hero-summary">{summary}</p>
-          </div>
-          <aside className="ai-result-hero__signals" aria-label="Strongest AI axis signals">
-            <p className="eyebrow">Strongest axis signals</p>
-            <div className="ai-result-hero__bars">
-              {heroAxisSignals.map((card) => (
-                <ScaleBar
-                  key={card.axis}
-                  label={card.label}
-                  value={card.score}
-                  valueLabel={`${card.score.toFixed(1)} / 7`}
-                  tone="ai"
-                />
-              ))}
-            </div>
-          </aside>
-        </div>
+        <ResultCardHero
+          eyebrow="AI Governance Compass"
+          label={archetypeLabel}
+          accent="ai"
+          modifiers={[decoded.rl, decoded.pm, decoded.gm]}
+          summary={summary}
+          finding={surprisingFinding}
+          actions={
+            <>
+              <Link href={`/ai/atlas/${decoded.ak}`} className="result-card-hero__primary">
+                Read archetype page
+              </Link>
+              <ResultCardHeroShare
+                shareUrl={`/ai/results/${payload}`}
+                title={`AI Governance Compass: ${archetypeLabel}`}
+                text={`My AI governance profile: ${archetypeLabel} · ${decoded.rl} · ${decoded.pm} · ${decoded.gm}`}
+              />
+              <Link href="/profile" className="result-card-hero__secondary">
+                View Profile →
+              </Link>
+            </>
+          }
+        />
 
         <div className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
+            <p className="eyebrow">Strongest axis signals</p>
+            <h2>Where your scores pulled hardest</h2>
+            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+              The three axes furthest from the midpoint in your responses — the signals doing the
+              most work behind the archetype above.
+            </p>
+          </div>
+          <div className="ai-result-hero__bars">
+            {heroAxisSignals.map((card) => (
+              <ScaleBar
+                key={card.axis}
+                label={card.label}
+                value={card.score}
+                valueLabel={`${card.score.toFixed(1)} / 7`}
+                tone="ai"
+              />
+            ))}
+          </div>
           <div className="row gap-sm wrap">
-            <Link href={`/ai/atlas/${decoded.ak}`} className="cta-primary">
-              Read archetype page
-            </Link>
             <Link href="/ai/atlas" className="cta-secondary">Browse AI Atlas</Link>
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
-            <Link href="/profile" className="cta-secondary">Profile</Link>
           </div>
 
           <div className="profile-summary-grid">
@@ -259,6 +274,3 @@ export default async function AiResultPage(
   )
 }
 
-function ModifierChip({ label }: { label: string }) {
-  return <span className="ai-modifier-chip">{label}</span>
-}

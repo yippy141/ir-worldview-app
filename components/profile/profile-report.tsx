@@ -3,6 +3,7 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { ResultCardHero, type ResultCardAccent } from "@/components/results/result-card-hero"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -15,6 +16,13 @@ import {
 } from "@/lib/profile-helpers"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
 import type { FamilyKey } from "@/lib/types"
+
+const FAMILY_ACCENT: Record<FamilyKey, ResultCardAccent> = {
+  realist: "realist",
+  institutionalist: "institutionalist",
+  constructivist: "constructivist",
+  criticalPoliticalEconomy: "cpe",
+}
 
 const MODULE_COLORS = {
   security: "var(--accent)",
@@ -72,21 +80,68 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
   return (
     <article className="result-article">
-      <section className="profile-hero profile-hero--anchored stack-md">
-        <div className="profile-hero-head stack-sm">
-          <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
-          <h1>{heroTitle}</h1>
-          {isLayeredProfile ? (
-            <p className="profile-foundation-subtitle">
-              Closest modeled Foundation baseline: <strong>{foundation.familyLabel}</strong>
-              {" · "}
-              {foundation.strategyModifier} · {foundation.normativeModifier}
-            </p>
+      {isLayeredProfile ? (
+        <ResultCardHero
+          eyebrow={mode === "local" ? "Profile" : "Shared profile"}
+          label={heroTitle}
+          accent={FAMILY_ACCENT[foundation.familyKey]}
+          modifiers={buildProfileModifiers(foundation, aiSnapshot)}
+          summary={heroSummary}
+          finding={
+            triad.tension
+              ? { label: "Open tension", text: triad.tension }
+              : { label: "Under pressure", text: atlasMatch.nearest.cardPressureNote }
+          }
+          actions={
+            nextSteps.length > 0 ? (
+              <>
+                {nextSteps.slice(0, 1).map((step) => (
+                  <Link
+                    key={step.href}
+                    href={step.href}
+                    className="result-card-hero__primary"
+                  >
+                    {step.title}
+                  </Link>
+                ))}
+                {nextSteps.slice(1, 3).map((step) => (
+                  <Link
+                    key={step.href}
+                    href={step.href}
+                    className="result-card-hero__secondary"
+                  >
+                    {step.title} →
+                  </Link>
+                ))}
+              </>
+            ) : null
+          }
+        />
+      ) : (
+        <section className="profile-hero profile-hero--anchored stack-md">
+          <div className="profile-hero-head stack-sm">
+            <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
+            <h1>{heroTitle}</h1>
+          </div>
+          <p className="profile-hero-summary">{heroSummary}</p>
+          {nextSteps.length > 0 ? (
+            <nav className="profile-hero-ctas" aria-label="Profile next steps">
+              {nextSteps.slice(0, 3).map((step, index) => (
+                <Link
+                  key={step.href}
+                  href={step.href}
+                  className={`profile-hero-cta${index === 0 ? " profile-hero-cta--primary" : ""}`}
+                >
+                  <span className="profile-hero-cta__title">{step.title}</span>
+                  <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
+                </Link>
+              ))}
+            </nav>
           ) : null}
-        </div>
+        </section>
+      )}
 
-        <p className="profile-hero-summary">{heroSummary}</p>
-
+      <section className="result-section stack-md">
         <div className="profile-stat-chips" aria-label="Profile facts">
           <span className="profile-stat-chip">
             <span className="profile-stat-chip__k">Stable thread</span>
@@ -105,21 +160,6 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         </div>
 
         <ProfileAnchoredSpread rows={spineRows} />
-
-        {nextSteps.length > 0 ? (
-          <nav className="profile-hero-ctas" aria-label="Profile next steps">
-            {nextSteps.slice(0, 3).map((step, index) => (
-              <Link
-                key={step.href}
-                href={step.href}
-                className={`profile-hero-cta${index === 0 ? " profile-hero-cta--primary" : ""}`}
-              >
-                <span className="profile-hero-cta__title">{step.title}</span>
-                <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
-              </Link>
-            ))}
-          </nav>
-        ) : null}
       </section>
 
       <section className="result-section stack-md">
@@ -383,6 +423,15 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       </section>
     </article>
   )
+}
+
+function buildProfileModifiers(
+  foundation: NonNullable<ProfileStore["foundation"]>,
+  aiSnapshot: ProfileStore["aiGovernance"],
+): string[] {
+  const modifiers: string[] = [foundation.familyLabel]
+  if (aiSnapshot) modifiers.push(aiSnapshot.archetypeLabel)
+  return modifiers
 }
 
 function buildProfileNextSteps({
