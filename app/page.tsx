@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { FoundationHeroActions } from "@/components/landing/resume-cta"
+import { ResultCardHero } from "@/components/results/result-card-hero"
 import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
@@ -85,48 +86,67 @@ export default function LandingPage() {
   return (
     <div className="wide-container">
       <article className="lobby-page stack-xl">
-        <section className="lobby-hero">
-          <div className="lobby-hero-grid">
-            <div className="stack-lg">
-              <div className="stack-md">
-                <p className="section-kicker">IR Worldview Inventory</p>
-                <h1 className="landing-display">Start with how you read world politics</h1>
-                <p className="lobby-lead">
-                  The Foundation gives the first read. Modules and AI Governance test it in harder
-                  policy settings. Profile keeps the saved results together.
-                </p>
-              </div>
-              <FoundationHeroActions />
-              <p className="landing-note">
-                This is an interpretive tool, not a diagnostic. It makes theoretical priors visible
-                without treating them as a final verdict.
-              </p>
-            </div>
+        <section className="landing-hero-v14 stack-md">
+          <p className="landing-hero-v14__eyebrow">IR Worldview Inventory</p>
+          <h1 className="landing-hero-v14__h1">What&rsquo;s your foreign policy worldview?</h1>
+          <p className="landing-hero-v14__lead">
+            25 questions. 12 minutes. Find out which IR tradition shapes your instincts.
+          </p>
+          <p className="landing-hero-v14__audience">
+            Designed for students, analysts, and anyone curious about how they think about
+            international politics.
+          </p>
+          <FoundationHeroActions />
+          <p className="landing-hero-v14__alt">
+            Or start with{" "}
+            <Link href="/ai" className="landing-hero-v14__alt-link">
+              AI Governance (8 min)
+            </Link>
+            .
+          </p>
+        </section>
 
-            <aside className="lobby-journey-panel stack-md">
-              <div className="stack-xs">
-                <p className="section-kicker">How to use it</p>
-                <p className="muted lobby-side-text">
-                  Start with the Foundation. Add issue layers only when they help. Return to Profile
-                  for the accumulated read.
-                </p>
+        <section className="landing-preview stack-md">
+          <div className="stack-xs">
+            <p className="section-kicker">Sample result</p>
+            <h2 className="landing-preview__heading">Here&rsquo;s what your result will look like</h2>
+            <p className="muted landing-preview__caption">
+              A fictional example. Your own result will name the tradition that fits your answers
+              and surface one non-obvious tension from your scores.
+            </p>
+          </div>
+          <ResultCardHero
+            eyebrow="Foundation result"
+            label="Liberal Institutionalist"
+            accent="institutionalist"
+            modifiers={["Hedger", "Conditional Solidarist"]}
+            summary="Liberal Institutionalist is the clearest shorthand here. The profile invests in rules and monitoring, but it keeps strategic competition live rather than assuming institutions can hold it down."
+            finding={{
+              label: "Tension to watch",
+              text: "When the issue turns strategic, rivalry reasserts itself. You believe institutions matter, but so does positional advantage. Which one wins depends on the issue — a coherent position, but one that is harder to apply in advance.",
+            }}
+          />
+        </section>
+
+        <section className="homepage-band stack-lg">
+          <div className="homepage-band-header stack-sm">
+            <p className="section-kicker">How to use it</p>
+            <h2>Start with the Foundation, add layers when they help</h2>
+            <p className="muted lobby-section-copy">
+              Atlas, the field guide, and methods pages give context around the inventory; they are
+              not separate places to begin.
+            </p>
+          </div>
+          <div className="lobby-step-list lobby-step-list--row">
+            {quickPaths.map((item) => (
+              <div key={item.step} className="lobby-step">
+                <span className="lobby-step-number" aria-hidden="true">{item.step}</span>
+                <div className="stack-xs">
+                  <p className="lobby-step-title">{item.title}</p>
+                  <p className="lobby-step-text">{item.description}</p>
+                </div>
               </div>
-              <div className="lobby-step-list">
-                {quickPaths.map((item) => (
-                  <div key={item.step} className="lobby-step">
-                    <span className="lobby-step-number" aria-hidden="true">{item.step}</span>
-                    <div className="stack-xs">
-                      <p className="lobby-step-title">{item.title}</p>
-                      <p className="lobby-step-text">{item.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="lobby-journey-note">
-                Atlas, the field guide, and methods pages give context around the inventory; they
-                are not separate places to begin.
-              </p>
-            </aside>
+            ))}
           </div>
         </section>
 

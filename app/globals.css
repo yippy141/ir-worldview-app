@@ -1078,6 +1078,112 @@ h3 {
   max-width: 22ch;
 }
 
+/* ── V14 minimal landing hero ─────────────────────────────────────────────── */
+
+.landing-hero-v14 {
+  margin: 56px 0 28px;
+  padding: 36px 0 0;
+  max-width: 760px;
+}
+
+.landing-hero-v14__eyebrow {
+  margin: 0 0 16px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.landing-hero-v14__h1 {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 4.6vw, 2.85rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+.landing-hero-v14__lead {
+  margin: 0 0 18px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.18rem;
+  line-height: 1.45;
+  color: var(--text);
+  max-width: 60ch;
+}
+
+.landing-hero-v14__audience {
+  margin: 0 0 26px;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.landing-hero-v14__alt {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.landing-hero-v14__alt-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.landing-hero-v14__alt-link:hover {
+  text-decoration: underline;
+}
+
+/* Sample-result preview band */
+.landing-preview {
+  padding-top: 12px;
+}
+
+.landing-preview__heading {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: -0.02em;
+}
+
+.landing-preview__caption {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  max-width: 60ch;
+}
+
+/* Step list rendered horizontally below the fold */
+.lobby-step-list--row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+@media (min-width: 760px) {
+  .lobby-step-list--row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 32px;
+  }
+  .lobby-step-list--row .lobby-step:nth-child(2) {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
+@media (min-width: 1060px) {
+  .lobby-step-list--row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .lobby-step-list--row .lobby-step {
+    border-top: none;
+    padding-top: 0;
+  }
+}
+
 .landing-lead {
   max-width: 50ch;
   font-size: 1rem;

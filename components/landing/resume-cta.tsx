@@ -71,7 +71,7 @@ export function FoundationHeroActions() {
   return (
     <div className="landing-hero-ctas">
       <Link href="/quiz" className="cta-primary landing-primary-cta">
-        Start the IR Foundation
+        Take the quiz
       </Link>
       {hasDraft ? (
         <div className="stack-xs">
