@@ -13,14 +13,15 @@ import {
   buildAiGovernanceDeepDive,
   buildAiGovernanceResultFromSharePayload,
   getAiGovernanceSurprisingFinding,
-  getPrimaryAxisSummary,
 } from "@/lib/ai-governance-results-v2"
 import { ResultCardHero } from "@/components/results/result-card-hero"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
+import { AiGovernancePayoffSections } from "@/components/results/ai-governance-payoff-sections"
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
 import { ResearchOptIn } from "@/components/research/research-opt-in"
+import { buildAiGovernancePayoff } from "@/lib/results/ai-governance-payoff"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -36,11 +37,11 @@ export async function generateMetadata(
     return buildAiResultMetadata(title, description)
   }
 
+  const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
+  const deepDive = buildAiGovernanceDeepDive(profileResult)
   const label = archetypeLabelFromKey(decoded.ak)
-  const resultLabel = `${label} · ${decoded.rl} · ${decoded.pm} · ${decoded.gm}`
   const title = `${label} result — AI Governance Compass`
-  const description =
-    `Shared AI Governance Compass result: ${resultLabel}. See the archetype, modifiers, and axis profile.`
+  const description = `Shared AI Governance Compass result: ${deepDive.governingInstinct}`
 
   return buildAiResultMetadata(title, description)
 }
@@ -88,13 +89,14 @@ export default async function AiResultPage(
   const axisScores = aiPayloadToAxisScores(decoded)
   const archetypeLabel = archetypeLabelFromKey(decoded.ak)
   const explanation = archetypeDescriptions[decoded.ak]
-  const summary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
+  const profileSummary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
   const axisCards = getAxisCards(axisScores)
   const heroAxisSignals = [...axisCards]
     .sort((a, b) => Math.abs(b.score - 4) - Math.abs(a.score - 4))
     .slice(0, 3)
   const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
   const deepDive = buildAiGovernanceDeepDive(profileResult)
+  const payoff = buildAiGovernancePayoff(profileResult)
   const surprisingFinding = getAiGovernanceSurprisingFinding(profileResult)
 
   return (
@@ -110,7 +112,7 @@ export default async function AiResultPage(
             paceModifier: decoded.pm,
             geopoliticsModifier: decoded.gm,
             axisScores,
-            summary,
+            summary: profileSummary,
             governingInstinct: deepDive.governingInstinct,
           }}
         />
@@ -122,7 +124,7 @@ export default async function AiResultPage(
           accent="ai"
           modifiers={[decoded.rl, decoded.pm, decoded.gm]}
           verdict={deepDive.governingInstinct}
-          summary={summary}
+          summary={deepDive.shareBlurb}
           finding={surprisingFinding}
           actions={
             <>
@@ -141,19 +143,21 @@ export default async function AiResultPage(
           }
         />
 
+        <AiGovernancePayoffSections payoff={payoff} />
+
         <aside className="ai-foundation-bridge" aria-label="Optional depth: IR Foundation">
           <p className="ai-foundation-bridge__text">
-            Your AI governance instincts sit on top of deeper foreign-policy assumptions.{" "}
+            Optional depth: pair this AI policy profile with the IR Foundation to see which
+            foreign-policy assumptions sit underneath it.{" "}
             <Link href="/quiz" className="ai-foundation-bridge__cta">
               Take the IR Foundation
-            </Link>{" "}
-            to see where they come from.
+            </Link>
           </p>
         </aside>
 
         <div className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Strongest axis signals</p>
+            <p className="eyebrow">Signals behind the read</p>
             <h2>Where your scores pulled hardest</h2>
             <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
               The three axes furthest from the midpoint in your responses — the signals doing the
@@ -174,33 +178,6 @@ export default async function AiResultPage(
           <div className="row gap-sm wrap">
             <Link href="/ai/atlas" className="cta-secondary">Browse AI Atlas</Link>
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
-          </div>
-
-          <div className="profile-summary-grid">
-            <article className="profile-summary-card stack-xs">
-              <p className="eyebrow">Governing instinct</p>
-              <p className="profile-mosaic-body">{deepDive.governingInstinct}</p>
-            </article>
-            <article className="profile-summary-card stack-xs">
-              <p className="eyebrow">Main signal</p>
-              <p className="profile-mosaic-body">{getPrimaryAxisSummary(axisScores)}</p>
-            </article>
-            <article className="profile-summary-card stack-xs">
-              <p className="eyebrow">Tension to watch</p>
-              <p className="profile-mosaic-body">{deepDive.tensions[0]?.text ?? explanation}</p>
-            </article>
-            <article className="profile-summary-card stack-xs">
-              <p className="eyebrow">Next step</p>
-              <p className="profile-mosaic-body">
-                Keep this beside the IR Foundation in Profile rather than treating it as a
-                replacement for the baseline.
-              </p>
-              <p style={{ margin: 0 }}>
-                <Link href="/profile" style={{ color: "var(--accent)" }}>
-                  Open Profile →
-                </Link>
-              </p>
-            </article>
           </div>
           <div className="callout stack-xs" aria-label="Trust and coverage note">
             <p style={{ fontWeight: 600 }}>Trust and coverage</p>

@@ -14,47 +14,52 @@ export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
         <div className="ai-result-overview">
           <div className="ai-result-overview-main stack-md">
             <div className="ai-result-section-intro stack-xs result-prose">
-              <p className="eyebrow">Closest modeled fit</p>
+              <p className="eyebrow">Supporting profile detail</p>
               {nearbyAlternativeLabel ? (
-                <p className="ai-result-hybrid-note">Nearby alternative: {nearbyAlternativeLabel}</p>
+                <p className="ai-result-hybrid-note">Neighboring read: {nearbyAlternativeLabel}</p>
               ) : null}
-              <h2>Governing instinct</h2>
+              <h2>How the model names the pattern</h2>
             </div>
 
-            <article className="ai-result-lead-card">
-              <p className="ai-result-lead">{deepDive.governingInstinct}</p>
+            <article className="ai-result-lead-card stack-xs">
+              <p className="eyebrow">Modeled archetype</p>
+              <h3 className="ai-result-card-title">{result.archetypeLabel}</h3>
+              <p className="ai-result-body">{deepDive.shareBlurb}</p>
             </article>
           </div>
 
           <aside className="ai-result-card ai-result-card--muted stack-xs">
-            <p className="eyebrow">Nearby alternative</p>
+            <p className="eyebrow">Neighboring read</p>
             <p className="ai-result-card-title">{deepDive.comparison.runnerUpLabel}</p>
             <p className="ai-result-body muted">
               This is the closest neighboring read inside the current AI Atlas. It is a comparison
-              aid, not a confidence score.
+              aid, not a confidence score or a second identity.
             </p>
           </aside>
         </div>
 
         <div className="ai-result-summary-grid">
           <article className="ai-result-card ai-result-card--soft stack-xs">
-            <p className="eyebrow">Short read</p>
-            <p className="ai-result-body">{deepDive.shareBlurb}</p>
+            <p className="eyebrow">Main signals</p>
+            <p className="ai-result-body">{getPrimaryAxisSummary(result.axisScores)}</p>
           </article>
 
           <article className="ai-result-card ai-result-card--soft stack-xs">
-            <p className="eyebrow">Main signals</p>
-            <p className="ai-result-body">{getPrimaryAxisSummary(result.axisScores)}</p>
+            <p className="eyebrow">What stays unsettled</p>
+            <p className="ai-result-body">
+              {deepDive.tensions[0]?.text ??
+                "The profile is useful only if you keep testing where its default should change."}
+            </p>
           </article>
         </div>
       </section>
 
       <section className="result-section stack-md">
         <div className="ai-result-section-intro stack-xs result-prose">
-          <h2>Likely policy package</h2>
+          <h2>Policy package detail</h2>
           <p className="ai-result-body muted">
-            These are the policy moves your answers make easier to defend when the tradeoffs become
-            concrete.
+            These are the policy moves your answers make easier to defend once the tradeoffs become
+            concrete. They are implications to inspect, not instructions to adopt.
           </p>
         </div>
 
