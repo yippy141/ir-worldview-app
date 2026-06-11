@@ -87,13 +87,13 @@ depends more on the issue and relationship involved."
 
 ## Current sprint: V15 coherence and payoff
 
-- Result-card payoff comes first: IR, AI, Profile, and Compare should lead with a plain-English judgment pattern before labels, modifiers, or technical caveats.
-- Landing page should explain the product as a scenario-based inventory for geopolitical judgment, not a personality test and not a stack of unrelated quizzes.
-- Do not change scoring, payload formats, family taxonomy, or module schema unless explicitly asked in a separate migration task.
-- Do not add new modules, Three.js, accounts, or real research-data storage this sprint.
-- Preserve share-link compatibility for Foundation, modules, AI Governance, Profile, and Compare.
-- Research storage remains inactive. Opt-in copy may be clarified, but no server storage should be activated.
-- Use existing tests and add small tests only when helper logic changes.
+- V15 is about coherence and payoff.
+- Results should be verdict-first and plain-English before labels.
+- Landing page should frame the product as a scenario-based inventory for
+  geopolitical judgment.
+- Do not change scoring, payloads, taxonomy, module schema, or add new modules.
+- Do not add Three.js, accounts, or real research-data storage.
+- Preserve share-link compatibility.
 - After meaningful edits, run `npm run lint`, `npm run test`, `npx tsc --noEmit`, and `npm run build`.
 
 ## End-of-sprint discipline

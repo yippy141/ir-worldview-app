@@ -121,6 +121,7 @@ export default async function AiResultPage(
           label={archetypeLabel}
           accent="ai"
           modifiers={[decoded.rl, decoded.pm, decoded.gm]}
+          verdict={deepDive.governingInstinct}
           summary={summary}
           finding={surprisingFinding}
           actions={

@@ -292,6 +292,7 @@ export default async function ResultPage(
           label={familyLabel}
           accent={accentVariant}
           modifiers={[result.strategyModifier, result.normativeModifier]}
+          verdict={profileTitle}
           summary={summary}
           finding={surprisingFinding}
           actions={

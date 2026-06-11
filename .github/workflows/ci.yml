@@ -3,9 +3,6 @@ name: CI
 on:
   pull_request:
   push:
-    branches:
-      - main
-      - feature/v15-coherence-payoff
 
 jobs:
   verify:
