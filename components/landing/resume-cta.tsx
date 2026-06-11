@@ -71,12 +71,12 @@ export function FoundationHeroActions() {
   return (
     <div className="landing-hero-ctas">
       <Link href="/quiz" className="cta-primary landing-primary-cta">
-        Take the quiz
+        Start the Foundation
       </Link>
       {hasDraft ? (
         <div className="stack-xs">
           <Link href="/quiz" className="cta-secondary">
-            Resume saved draft
+            Resume Foundation draft
           </Link>
           <p className="landing-draft-note">
             {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered

@@ -1,84 +1,83 @@
 import Link from "next/link"
 import { FoundationHeroActions } from "@/components/landing/resume-cta"
-import { ResultCardHero } from "@/components/results/result-card-hero"
 import { siteConfig } from "@/lib/site-config"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: siteConfig.publicTitle,
   description:
-    "An editorial interactive for reading your foreign-policy instincts across an IR baseline, issue modules, AI governance, and Profile.",
+    "A scenario-based inventory for geopolitical judgment, built to turn foreign-policy instincts into a personal briefing.",
 }
 
-const quickPaths = [
+const entryPaths = [
   {
-    step: "1",
-    title: "Foundation",
+    eyebrow: "Default path",
+    title: "Start the Foundation",
     description:
-      "Build the shared IR baseline: power, institutions, domestic politics, norms, political economy, restraint, and order.",
+      "Answer the core scenarios first. This builds the baseline used by the rest of the inventory.",
+    href: "/quiz",
+    action: "Start the Foundation",
   },
   {
-    step: "2",
-    title: "Modules",
+    eyebrow: "Parallel entry",
+    title: "Try AI Governance",
     description:
-      "Test that baseline in Security and Technology without replacing the Foundation result.",
+      "Use the same judgment-mapping frame for frontier AI policy. It stands alone, and it is sharper beside the Foundation.",
+    href: "/ai",
+    action: "Try AI Governance",
   },
   {
-    step: "3",
-    title: "AI Governance",
+    eyebrow: "Read first",
+    title: "Explore the field guide",
     description:
-      "Take the AI layer on its own, or compare it with your IR baseline when that helps.",
+      "Read the traditions, debates, and limits behind the map. Useful even if you never finish a quiz.",
+    href: "/explore",
+    action: "Open the field guide",
+  },
+]
+
+const briefingSignals = [
+  {
+    title: "The arguments you trust",
+    description:
+      "Which claims carry weight for you: balance-of-power logic, institutions, norms, domestic politics, political economy, or restraint.",
   },
   {
-    step: "4",
-    title: "Profile",
+    title: "The tradeoffs you accept",
     description:
-      "Return to the place where the Foundation, modules, and any AI result sit together.",
+      "Where you are willing to pay costs: sovereignty for protection, speed for coordination, leverage for legitimacy, order for justice.",
+  },
+  {
+    title: "The places your instincts split",
+    description:
+      "Where one issue pulls you toward caution, another toward competition, and another toward rules or solidarity.",
   },
 ]
 
 const productLayers = [
   {
-    eyebrow: "Step 2",
-    title: "Modules: Security and Technology",
+    eyebrow: "Baseline",
+    title: "Foundation",
     description:
-      "Use the live IR modules to see whether your baseline holds, hardens, or splits in concrete cases.",
-    primaryLink: { href: "/modules", label: "Open modules" },
-    supportingText: "Two live focus-area overlays are available now.",
+      "The core inventory maps geopolitical judgment across power, institutions, domestic politics, norms, political economy, restraint, and order.",
+    href: "/quiz",
+    action: "Start the Foundation",
   },
   {
-    eyebrow: "Step 3",
-    title: "AI Governance Compass",
+    eyebrow: "Policy layer",
+    title: "AI Governance",
     description:
-      "Read your instincts on frontier AI governance. It stands on its own, but it is sharper beside the IR baseline.",
-    primaryLink: { href: "/ai", label: "Open AI Governance" },
-    supportingText: "A related layer in the same worldview product.",
+      "A parallel entry point for readers focused on frontier AI policy, using the same product logic rather than a separate personality frame.",
+    href: "/ai",
+    action: "Open AI Governance",
   },
   {
-    eyebrow: "Step 4",
-    title: "Profile",
-    description:
-      "Use Profile as the home for saved results: the Foundation, completed modules, and any AI result on this device.",
-    primaryLink: { href: "/profile", label: "Open Profile" },
-    supportingText: "Most useful after at least one result has been saved.",
-  },
-]
-
-const supportSurfaces = [
-  {
-    href: "/explore/atlas",
-    title: "Atlas",
-    text: "Browse recurring profile patterns without treating them as fixed identities.",
-  },
-  {
-    href: "/explore",
+    eyebrow: "Context",
     title: "Field guide",
-    text: "Read the modeled traditions, coverage gaps, and issue comparisons behind the inventory.",
-  },
-  {
-    href: "/method",
-    title: "Methods",
-    text: "Read the scope, guardrails, and limits behind the project.",
+    description:
+      "An educational route through the traditions, arguments, and coverage gaps behind the inventory, with or without a completed result.",
+    href: "/explore",
+    action: "Read the guide",
   },
 ]
 
@@ -86,94 +85,82 @@ export default function LandingPage() {
   return (
     <div className="wide-container">
       <article className="lobby-page stack-xl">
-        <section className="landing-hero-v14 stack-md">
-          <p className="landing-hero-v14__eyebrow">IR Worldview Inventory</p>
-          <h1 className="landing-hero-v14__h1">What&rsquo;s your foreign policy worldview?</h1>
-          <p className="landing-hero-v14__lead">
-            25 questions. 12 minutes. Find out which IR tradition shapes your instincts.
-          </p>
-          <p className="landing-hero-v14__audience">
-            Designed for students, analysts, and anyone curious about how they think about
-            international politics.
-          </p>
-          <FoundationHeroActions />
-          <p className="landing-hero-v14__alt">
-            Or start with{" "}
-            <Link href="/ai" className="landing-hero-v14__alt-link">
-              AI Governance (8 min)
-            </Link>
-            .
-          </p>
-        </section>
-
-        <section className="landing-preview stack-md">
-          <div className="stack-xs">
-            <p className="section-kicker">Sample result</p>
-            <h2 className="landing-preview__heading">Here&rsquo;s what your result will look like</h2>
-            <p className="muted landing-preview__caption">
-              A fictional example. Your own result will name the tradition that fits your answers
-              and surface one non-obvious tension from your scores.
+        <section className="landing-hero-v15">
+          <div className="landing-hero-v15__copy stack-md">
+            <p className="landing-hero-v15__eyebrow">IR Worldview Inventory</p>
+            <h1 className="landing-hero-v15__h1">
+              A scenario-based inventory for geopolitical judgment.
+            </h1>
+            <p className="landing-hero-v15__lead">
+              Work through concrete foreign-policy scenarios and receive a personal briefing on
+              the arguments you trust, the tradeoffs you accept, and the places your instincts
+              split.
+            </p>
+            <p className="landing-hero-v15__note">
+              This is not a personality test, a diagnosis, or a claim about your true ideology. It
+              is a structured way to read your judgment under pressure.
             </p>
           </div>
-          <ResultCardHero
-            eyebrow="Foundation result"
-            label="Liberal Institutionalist"
-            accent="institutionalist"
-            modifiers={["Hedger", "Conditional Solidarist"]}
-            summary="Liberal Institutionalist is the clearest shorthand here. The profile invests in rules and monitoring, but it keeps strategic competition live rather than assuming institutions can hold it down."
-            finding={{
-              label: "Tension to watch",
-              text: "When the issue turns strategic, rivalry reasserts itself. You believe institutions matter, but so does positional advantage. Which one wins depends on the issue — a coherent position, but one that is harder to apply in advance.",
-            }}
-          />
-        </section>
 
-        <section className="homepage-band stack-lg">
-          <div className="homepage-band-header stack-sm">
-            <p className="section-kicker">How to use it</p>
-            <h2>Start with the Foundation, add layers when they help</h2>
-            <p className="muted lobby-section-copy">
-              Atlas, the field guide, and methods pages give context around the inventory; they are
-              not separate places to begin.
-            </p>
-          </div>
-          <div className="lobby-step-list lobby-step-list--row">
-            {quickPaths.map((item) => (
-              <div key={item.step} className="lobby-step">
-                <span className="lobby-step-number" aria-hidden="true">{item.step}</span>
-                <div className="stack-xs">
-                  <p className="lobby-step-title">{item.title}</p>
-                  <p className="lobby-step-text">{item.description}</p>
-                </div>
-              </div>
+          <div className="landing-entry-panel" aria-label="Ways to begin">
+            <div className="landing-entry-card landing-entry-card--primary">
+              <p className="section-kicker">{entryPaths[0].eyebrow}</p>
+              <h2>{entryPaths[0].title}</h2>
+              <p>{entryPaths[0].description}</p>
+              <FoundationHeroActions />
+            </div>
+            {entryPaths.slice(1).map((path) => (
+              <Link key={path.href} href={path.href} className="landing-entry-card">
+                <span className="section-kicker">{path.eyebrow}</span>
+                <strong>{path.title}</strong>
+                <span>{path.description}</span>
+                <em>{path.action}</em>
+              </Link>
             ))}
           </div>
         </section>
 
         <section className="homepage-band stack-lg">
           <div className="homepage-band-header stack-sm">
-            <p className="section-kicker">After the Foundation</p>
-            <h2>Add another layer only when it clarifies the baseline</h2>
+            <p className="section-kicker">What it returns</p>
+            <h2>A briefing before a label</h2>
             <p className="muted lobby-section-copy">
-              These are the live continuation points in the current beta. Each keeps the Foundation
-              in view.
+              The payoff is a plain-English account of how you reason about international politics,
+              not a badge to wear or a box to defend.
+            </p>
+          </div>
+          <div className="landing-briefing-grid">
+            {briefingSignals.map((signal) => (
+              <article key={signal.title} className="landing-briefing-item stack-xs">
+                <h3>{signal.title}</h3>
+                <p>{signal.description}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="homepage-band stack-lg">
+          <div className="homepage-band-header stack-sm">
+            <p className="section-kicker">Ways through the project</p>
+            <h2>One inventory, three useful entrances</h2>
+            <p className="muted lobby-section-copy">
+              The Foundation remains the default route. AI Governance is a parallel policy layer.
+              The field guide is there for readers who want the map before, during, or after a
+              result.
             </p>
           </div>
           <div className="lobby-entry-list">
             {productLayers.map((entry) => (
               <article key={entry.title} className="lobby-entry">
-                <div className="stack-sm">
-                  <div className="stack-xs">
-                    <p className="section-kicker">{entry.eyebrow}</p>
-                    <h3 className="lobby-entry-title">{entry.title}</h3>
-                  </div>
+                <div className="stack-xs">
+                  <p className="section-kicker">{entry.eyebrow}</p>
+                  <h3 className="lobby-entry-title">{entry.title}</h3>
                   <p className="muted lobby-entry-text">{entry.description}</p>
                 </div>
                 <div className="lobby-entry-meta">
-                  <Link href={entry.primaryLink.href} className="cta-secondary lobby-band-primary">
-                    {entry.primaryLink.label}
+                  <Link href={entry.href} className="cta-secondary lobby-band-primary">
+                    {entry.action}
                   </Link>
-                  <p className="homepage-supporting-text">{entry.supportingText}</p>
                 </div>
               </article>
             ))}
@@ -185,12 +172,28 @@ export default function LandingPage() {
             <p className="section-kicker">Context surfaces</p>
             <h2>Use these once you want a wider frame</h2>
             <p className="muted lobby-section-copy">
-              Atlas, the field guide, and methods pages help you read the map after the baseline is
-              in place.
+              These pages make the model more legible. They are designed for reading, checking
+              assumptions, and understanding where the inventory is deliberately limited.
             </p>
           </div>
           <div className="homepage-resource-grid">
-            {supportSurfaces.map((link) => (
+            {[
+              {
+                href: "/explore/atlas",
+                title: "Atlas",
+                text: "Browse recurring profile patterns without treating them as fixed identities.",
+              },
+              {
+                href: "/explore",
+                title: "Field guide",
+                text: "Read the modeled traditions, coverage gaps, and issue comparisons behind the inventory.",
+              },
+              {
+                href: "/method",
+                title: "Methods",
+                text: "Read the scope, guardrails, and limits behind the project.",
+              },
+            ].map((link) => (
               <Link key={link.href} href={link.href} className="homepage-resource-card stack-xs">
                 <span className="resource-list-title">{link.title}</span>
                 <span className="resource-list-text">{link.text}</span>
@@ -215,8 +218,8 @@ export default function LandingPage() {
                 legibility before breadth.
               </p>
               <p className="landing-closing-text">
-                Use the Foundation as the baseline. Branch into modules, AI Governance, Atlas, or
-                Profile when they add useful depth or comparison.
+                Use the Foundation as the baseline. Branch into AI Governance, the field guide,
+                modules, Atlas, or Profile when they add useful depth or comparison.
               </p>
             </div>
           </div>
