@@ -85,19 +85,19 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V14
+## Current sprint: V15 coherence and payoff
 
-- Current sprint is **V14 prelaunch payoff, trust, and AI-first wedge**.
-- Typecheck is a hard gate: `npx tsc --noEmit` must pass, `typescript.ignoreBuildErrors` must be removed or false, and `npm run lint`, `npm run test`, and `npm run build` must pass after meaningful edits.
-- Result-card payoff comes first: use one editorial visual spec for IR, AI, and Profile cards, with muted chips, a restrained accent, one plain-English summary, one non-obvious finding, and a clean share action.
-- `/ai` must work as a standalone AI Governance Compass entry point, with IR framed as optional depth rather than a prerequisite.
-- Landing page rewrite should lead with the quiz promise and primary CTA, then move product architecture below the fold with a sample result preview.
-- Quiz friction work should default first-time users to Standard mode, add section markers, and restore a preliminary midpoint preview after section 1 without showing a family label.
-- No scoring rewrites, no payload rewrites, no taxonomy changes, and no new modules this sprint.
-- Research storage remains privacy-first: opt-in unchecked by default, no raw answers to third-party analytics, visible deletion path, safe failure without env vars, and smallest coherent diffs throughout.
+- Result-card payoff comes first: IR, AI, Profile, and Compare should lead with a plain-English judgment pattern before labels, modifiers, or technical caveats.
+- Landing page should explain the product as a scenario-based inventory for geopolitical judgment, not a personality test and not a stack of unrelated quizzes.
+- Do not change scoring, payload formats, family taxonomy, or module schema unless explicitly asked in a separate migration task.
+- Do not add new modules, Three.js, accounts, or real research-data storage this sprint.
+- Preserve share-link compatibility for Foundation, modules, AI Governance, Profile, and Compare.
+- Research storage remains inactive. Opt-in copy may be clarified, but no server storage should be activated.
+- Use existing tests and add small tests only when helper logic changes.
+- After meaningful edits, run `npm run lint`, `npm run test`, `npx tsc --noEmit`, and `npm run build`.
 
 ## End-of-sprint discipline
 
-When V14 ends, replace the "Current sprint" section above with the next
+When V15 ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.
