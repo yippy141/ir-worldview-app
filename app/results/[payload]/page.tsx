@@ -27,8 +27,10 @@ import {
 } from "@/lib/result-helpers"
 import { ResultCardHero } from "@/components/results/result-card-hero"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
+import { FoundationPayoffSections } from "@/components/results/foundation-payoff-sections"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
+import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { familySlug } from "@/lib/worldview-config"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
@@ -178,6 +180,15 @@ export default async function ResultPage(
     result.strategyModifier,
     result.normativeModifier,
   )
+  const foundationPayoff = buildFoundationPayoff({
+    dimensionScores,
+    familyKey: result.familyKey,
+    familyLabel,
+    runnerUpKey: neighborKey,
+    runnerUpLabel: neighborLabel,
+    strategyModifier: result.strategyModifier,
+    normativeModifier: result.normativeModifier,
+  })
   const pressureQuestions = getPressureTestQuestions(result.familyKey)
   const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
   const deepFoundationSections = foundationNarrative.sections
@@ -314,6 +325,8 @@ export default async function ResultPage(
             </>
           }
         />
+
+        <FoundationPayoffSections payoff={foundationPayoff} foundationPayload={payload} />
 
         <div className="result-section stack-md">
           <div className="stack-xs">

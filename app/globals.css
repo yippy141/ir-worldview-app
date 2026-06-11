@@ -3734,6 +3734,95 @@ h3 {
   }
 }
 
+/* ── Foundation payoff sections ───────────────────────────────────────────── */
+
+.foundation-payoff {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.foundation-payoff__intro {
+  max-width: 760px;
+}
+
+.foundation-payoff__intro h2,
+.foundation-payoff__block h3,
+.foundation-payoff__card h4 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+.foundation-payoff__intro h2 {
+  font-size: clamp(1.45rem, 2.5vw, 1.9rem);
+}
+
+.foundation-payoff__intro p {
+  max-width: 70ch;
+  line-height: 1.7;
+}
+
+.foundation-payoff__block {
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.foundation-payoff__block h3 {
+  font-size: clamp(1.15rem, 2vw, 1.42rem);
+  line-height: 1.25;
+}
+
+.foundation-payoff__card-grid,
+.foundation-payoff__lens-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+.foundation-payoff__card {
+  min-width: 0;
+  padding: 18px 18px 16px;
+  border: 1px solid var(--border-soft);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 38%, var(--border) 62%);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--panel) 88%, white 12%);
+}
+
+.foundation-payoff__card h4 {
+  font-size: 1rem;
+  line-height: 1.3;
+}
+
+.foundation-payoff__card p,
+.foundation-payoff__tension p,
+.foundation-payoff__next p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.66;
+}
+
+.foundation-payoff__tension,
+.foundation-payoff__next {
+  max-width: 820px;
+}
+
+.foundation-payoff__tension > p:first-of-type,
+.foundation-payoff__next > p:first-of-type {
+  color: var(--text);
+}
+
+@media (min-width: 760px) {
+  .foundation-payoff__card-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .foundation-payoff__lens-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .result-section {
   padding: 60px 0;
   border-bottom: 1px solid var(--line);

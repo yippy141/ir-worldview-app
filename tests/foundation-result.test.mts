@@ -2,6 +2,7 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import { getFoundationQuestions } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
+import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import {
   familyProfiles,
   generateResult,
@@ -143,10 +144,56 @@ test("canonical foundation reconstruction ignores stale payload labels and uses 
   assert.equal(resolved.result.normativeModifier, generated.normativeModifier)
 })
 
+test("foundation payoff derives from decoded share-link result data", () => {
+  const realistPayoff = buildShareSafePayoff(buildAlignedAnswers("realist"))
+  const institutionalistPayoff = buildShareSafePayoff(buildAlignedAnswers("institutionalist"))
+  const broadPayoff = buildShareSafePayoff(buildLowDifferentiationAnswers())
+
+  for (const payoff of [realistPayoff, institutionalistPayoff, broadPayoff]) {
+    assert.equal(payoff.liveDebates.length, 4)
+    assert.ok(payoff.corePattern.noticeFirst.length > 0)
+    assert.ok(payoff.corePattern.distrust.length > 0)
+    assert.ok(payoff.corePattern.underweight.length > 0)
+    assert.ok(payoff.mainTension.title.length > 0)
+    assert.ok(payoff.mainTension.body.length > 0)
+    assert.ok(payoff.mainTension.rivalArgument.length > 0)
+    assert.ok(payoff.nextStep.href.startsWith("/"))
+  }
+
+  assert.notEqual(realistPayoff.corePattern.noticeFirst, institutionalistPayoff.corePattern.noticeFirst)
+  assert.equal(broadPayoff.mainTension.title, "A broad map, not a hard center")
+  assert.equal(broadPayoff.nextStep.href, "/explore/atlas")
+})
+
 function buildAlignedAnswers(family: FamilyKey): Answers {
   return Object.fromEntries(
     standardQuestions.map((question) => [question.id, chooseForFamily(question, family)]),
   )
+}
+
+function buildShareSafePayoff(answers: Answers) {
+  const generated = generateResult(answers, "standard")
+  const payload = encodePayload({
+    v: 2,
+    ds: dimensionScoresToArray(generated.dimensionScores),
+    fk: generated.familyKey,
+    nk: getNeighboringFamilyKey(generated.familyKey, generated.familyScores),
+    sm: generated.strategyModifier,
+    nm: generated.normativeModifier,
+  })
+  const resolved = resolveFoundationPayload(payload)
+
+  assert.ok(resolved)
+
+  return buildFoundationPayoff({
+    dimensionScores: resolved.dimensionScores,
+    familyKey: resolved.result.familyKey,
+    familyLabel: resolved.result.familyLabel,
+    runnerUpKey: resolved.result.runnerUpKey,
+    runnerUpLabel: resolved.result.runnerUpLabel,
+    strategyModifier: resolved.result.strategyModifier,
+    normativeModifier: resolved.result.normativeModifier,
+  })
 }
 
 function buildLowDifferentiationAnswers(): Answers {
