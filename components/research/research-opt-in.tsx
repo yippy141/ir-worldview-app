@@ -17,10 +17,10 @@ export function ResearchOptIn({ instrumentLabel }: Props) {
         <p className="eyebrow">Optional research contribution</p>
         <h2 style={{ margin: 0, fontSize: "1.05rem" }}>Help improve the inventory</h2>
         <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-          You can use and share this {instrumentLabel} result without contributing answers to a
-          research dataset. In a later beta, opt-in responses may be stored as pseudonymous
-          research records for question testing and aggregate analysis. This build does not send
-          your answers anywhere from this block.
+          You can use, save, and share this {instrumentLabel} result without contributing answers
+          to a research dataset. In a later beta, opt-in responses may be stored as pseudonymous or
+          de-identified research records for question testing and aggregate analysis. This build
+          does not submit your answers from this block.
         </p>
       </div>
 
@@ -48,8 +48,8 @@ export function ResearchOptIn({ instrumentLabel }: Props) {
       {researchConsent ? (
         <div className="stack-xs">
           <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.85rem" }}>
-            Contact is optional and should stay separate from answer data. No ads, no sale of
-            profile data, no political targeting, and no contact info stored with responses.
+            Contact details are optional and for follow-up only. They should stay separate from
+            answer and result data. No ads, no sale of profile data, no political targeting.
           </p>
           <label className="stack-xs" style={{ fontSize: "0.86rem", fontWeight: 600 }}>
             Optional contact email for follow-up only
@@ -71,13 +71,13 @@ export function ResearchOptIn({ instrumentLabel }: Props) {
             />
           </label>
           <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.8rem" }}>
-            Current state: opt-in UI only. Your checkbox and email value are local to this page
-            state and are not submitted.
+            Current state: opt-in UI only. The checkbox and email field stay in this page state and
+            are not submitted or stored by this build.
           </p>
         </div>
       ) : (
         <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.85rem", margin: 0 }}>
-          No opt-in selected. Your result still works normally.
+          No opt-in selected. You can still use, save, and share your result normally.
         </p>
       )}
 
