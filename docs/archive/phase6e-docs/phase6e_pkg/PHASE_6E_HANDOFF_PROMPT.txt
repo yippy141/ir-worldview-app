@@ -1,0 +1,23 @@
+Project: IR Worldview Inventory
+Current intended phase: Phase 6E — Plain-English Payoff, Actor Lens, and Public Surface Alignment
+
+What has already happened:
+- The product evolved from a simple IR worldview quiz into a Foundation + Focus-area modules + Profile architecture.
+- Foundation scoring trust was repaired in 6B2.
+- 6C and 6C.1 improved Atlas clarity and surface payoff.
+- 6D expanded share/compare direction, but a red-team review said the core language and module perspective balance still need work before broader testing.
+
+Current priorities:
+1. Rewrite the top of the Profile and result pages in plain English.
+2. Add an `Actor lens` card type.
+3. Rewrite the most underdetermined Security and Technology cases.
+4. Reduce label clutter and architecture-speak above the fold.
+5. Align the public home / Explore / Methods / README surfaces with the actual current product.
+
+Do not:
+- add new modules
+- start crisis-lab work
+- add percentile or popularity features
+- broaden compare/share beyond what already exists
+
+When you respond, first summarize the current goal and phase in 5–8 lines and do not edit anything until approved.

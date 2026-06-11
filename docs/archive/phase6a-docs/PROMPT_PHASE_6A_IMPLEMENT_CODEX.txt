@@ -1,0 +1,38 @@
+You are implementing Phase 6A.
+
+Read PHASE_6A_SPEC.md first and follow it closely.
+
+Important rules:
+- Preserve the current app architecture where possible.
+- Keep the product name and noun system consistent with the spec.
+- Do not add more modules.
+- Do not add backend auth or a database.
+- Do not add nationality-adjusted scoring.
+- Do not collapse Foundation + modules into one fake total score.
+- Do not build full ranking for every question.
+- Do not overbuild.
+
+Implementation goals:
+1. Unify naming across the product.
+2. Replace “Flagship modules” with “Focus-area modules” and remove “The Isms Quiz.”
+3. Add the discreet focus-area inspiration note.
+4. Clarify scenario instructions and tag case cards as Explanation / Decision / Both.
+5. Extend primary + second-choice handling to case cards in Deep-dive mode where appropriate.
+6. Build a minimum viable integrated profile surface that combines Foundation + completed module overlays.
+7. Reframe module outputs as issue reads / stress tests rather than stable identity types.
+8. Redesign module result hierarchy so “How this differs from your Foundation” is near the top.
+9. Improve hierarchy so the integrated profile feels like a destination, not a stack of equal cards.
+10. Use a lightweight local profile store rather than backend complexity.
+
+Before editing:
+1. List the files you will change.
+2. Explain what will be fully implemented vs lightly scaffolded.
+3. Identify what should still be deferred.
+4. Explain how the profile store and integrated dashboard will work.
+5. Then wait for approval.
+
+After approval:
+- Implement the minimum stable version.
+- Keep the code readable and consistent with the app.
+- Run lint, test, and build at the end.
+- Report outputs clearly.

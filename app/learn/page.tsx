@@ -1,6 +1,6 @@
 export default function LearnPage() {
   return (
-    <div className="stack-lg">
+    <div className="container stack-lg">
       <section className="panel stack-md">
         <p className="eyebrow">How this project is organized</p>
         <h1>Learn the moving parts</h1>

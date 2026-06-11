@@ -1,18 +1,24 @@
-import { coreQuestions, dimensionLabels, rootScenarioOrder, scenarioQuestions } from "@/lib/quiz-schema"
-import {
+import { dimensionLabels, getFoundationQuestions } from "@/lib/quiz-schema"
+import type {
   Answers,
+  AnswerValue,
+  ChoiceQuestion,
   DimensionKey,
   DimensionScores,
   FamilyKey,
+  LikertQuestion,
+  Question,
+  QuizMode,
   QuizResult,
-  ScenarioQuestion,
   StrategyModifier,
   NormativeModifier,
+  RankedChoiceAnswer,
 } from "@/lib/types"
 
 const DIMENSIONS = Object.keys(dimensionLabels) as DimensionKey[]
+const SECOND_CHOICE_WEIGHT = 0.45
 
-const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
+export const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
   realist: {
     securityCompetition: 1,
     institutions: -0.55,
@@ -41,19 +47,19 @@ const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> =
     orderJustice: 0.2,
   },
   criticalPoliticalEconomy: {
-    securityCompetition: 0.05,
-    institutions: 0.1,
-    domesticFilters: 0.4,
-    normsIdentity: 0.05,
-    politicalEconomy: 1,
-    restraint: 0.15,
-    orderJustice: -0.05,
+    securityCompetition: -0.1,
+    institutions: -0.4,
+    domesticFilters: 0.55,
+    normsIdentity: 0.15,
+    politicalEconomy: 0.8,
+    restraint: 0.1,
+    orderJustice: -0.2,
   },
 }
 
 const familyLabels: Record<FamilyKey, string> = {
   realist: "Strategic Realist",
-  institutionalist: "Critical Institutionalist",
+  institutionalist: "Liberal Institutionalist",
   constructivist: "Social Constructivist",
   criticalPoliticalEconomy: "Critical Political Economist",
 }
@@ -66,7 +72,23 @@ export const familyDescriptions: Record<FamilyKey, string> = {
   constructivist:
     "You give major causal weight to identity, recognition, and legitimacy, and you think the meaning of rivalry is shaped socially rather than fixed in advance.",
   criticalPoliticalEconomy:
-    "You explain world politics through production, finance, dependence, and structural leverage more than through security competition alone.",
+    "You read world politics less as a neutral arena than as a hierarchy shaped by leverage, dependence, and unequal control over production and finance.",
+}
+
+export type CoreDimensionAudit = {
+  sums: Record<DimensionKey, number>
+  weights: Record<DimensionKey, number>
+  rawAverages: Record<DimensionKey, number>
+  roundedAverages: DimensionScores
+}
+
+export type ScoreShapeAnalysis = {
+  familyScores: Record<FamilyKey, number>
+  orderedFamilies: [FamilyKey, number][]
+  nearestFitGap: number
+  averageDistanceFromCenter: number
+  maxDistanceFromCenter: number
+  sharpDimensionCount: number
 }
 
 export function scoreLikert(rawValue: number, reverse?: boolean): number {
@@ -77,87 +99,146 @@ export function scoreLikert(rawValue: number, reverse?: boolean): number {
   return reverse ? 8 - rawValue : rawValue
 }
 
-export function computeCoreDimensionScores(answers: Answers): DimensionScores {
-  const buckets: Record<DimensionKey, number[]> = {
-    securityCompetition: [],
-    institutions: [],
-    domesticFilters: [],
-    normsIdentity: [],
-    politicalEconomy: [],
-    restraint: [],
-    orderJustice: [],
+function collectLikertSignal(question: LikertQuestion, raw: number) {
+  return { dimension: question.dimension, value: scoreLikert(raw, question.reverse), weight: 1 }
+}
+
+function collectChoiceSignals(question: ChoiceQuestion, answer: string) {
+  const option = question.options.find((candidate) => candidate.id === answer)
+  if (!option) return []
+
+  return (Object.entries(option.signals) as [DimensionKey, number][])
+    .filter(([, value]) => typeof value === "number")
+    .map(([dimension, value]) => ({ dimension, value }))
+}
+
+function collectQuestionSignals(
+  question: Question,
+  answer: AnswerValue | undefined,
+  mode: QuizMode,
+) {
+  if (question.kind === "likert") {
+    return typeof answer === "number" ? [collectLikertSignal(question, answer)] : []
   }
 
-  for (const question of coreQuestions) {
-    const raw = answers[question.id]
-
-    if (typeof raw !== "number") continue
-
-    buckets[question.dimension].push(scoreLikert(raw, question.reverse))
+  if (typeof answer === "string") {
+    return collectChoiceSignals(question, answer).map((signal) => ({ ...signal, weight: 1 }))
   }
 
+  if (!isRankedChoiceAnswer(answer)) {
+    return []
+  }
+
+  const signals = collectChoiceSignals(question, answer.primary).map((signal) => ({
+    ...signal,
+    weight: 1,
+  }))
+
+  if (
+    mode === "analyst" &&
+    question.allowSecondChoiceInAnalyst &&
+    answer.secondary &&
+    answer.secondary !== answer.primary
+  ) {
+    signals.push(
+      ...collectChoiceSignals(question, answer.secondary).map((signal) => ({
+        ...signal,
+        weight: SECOND_CHOICE_WEIGHT,
+      })),
+    )
+  }
+
+  return signals
+}
+
+function createEmptyDimensionMap() {
+  return {
+    securityCompetition: 0,
+    institutions: 0,
+    domesticFilters: 0,
+    normsIdentity: 0,
+    politicalEconomy: 0,
+    restraint: 0,
+    orderJustice: 0,
+  } as Record<DimensionKey, number>
+}
+
+function computeDimensionAggregates(
+  answers: Answers,
+  mode: QuizMode = "standard",
+) {
+  const sums = createEmptyDimensionMap()
+  const weights = createEmptyDimensionMap()
+
+  for (const question of getFoundationQuestions(mode)) {
+    for (const signal of collectQuestionSignals(question, answers[question.id], mode)) {
+      sums[signal.dimension] += signal.value * signal.weight
+      weights[signal.dimension] += signal.weight
+    }
+  }
+
+  return { sums, weights }
+}
+
+function getRawDimensionAverages({
+  sums,
+  weights,
+}: ReturnType<typeof computeDimensionAggregates>) {
   return DIMENSIONS.reduce((accumulator, dimension) => {
-    const values = buckets[dimension]
-    const average = values.length > 0 ? values.reduce((sum, value) => sum + value, 0) / values.length : 4
-    accumulator[dimension] = Number(average.toFixed(2))
+    accumulator[dimension] = weights[dimension] > 0
+      ? sums[dimension] / weights[dimension]
+      : 4
+    return accumulator
+  }, {} as Record<DimensionKey, number>)
+}
+
+export function computeCoreDimensionScores(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): DimensionScores {
+  const rawAverages = getRawDimensionAverages(computeDimensionAggregates(answers, mode))
+  return DIMENSIONS.reduce((accumulator, dimension) => {
+    accumulator[dimension] = Number(rawAverages[dimension].toFixed(2))
     return accumulator
   }, {} as DimensionScores)
 }
 
-export function getScenarioSequence(answers: Answers): ScenarioQuestion[] {
-  const sequence: ScenarioQuestion[] = []
-  const seen = new Set<string>()
-
-  const addScenario = (scenarioId: string) => {
-    if (seen.has(scenarioId)) return
-    const scenario = scenarioQuestions[scenarioId]
-    if (!scenario) return
-    sequence.push(scenario)
-    seen.add(scenarioId)
-
-    const choice = answers[scenarioId]
-    if (!choice || typeof choice === "number") return
-
-    const chosenOption = scenario.options.find((option) => option.id === choice)
-    if (chosenOption?.followUpId) {
-      addScenario(chosenOption.followUpId)
-    }
-  }
-
-  for (const scenarioId of rootScenarioOrder) {
-    addScenario(scenarioId)
-  }
-
-  return sequence
-}
-
-function applyScenarioWeights(baseScores: DimensionScores, answers: Answers): DimensionScores {
-  const adjustedScores: DimensionScores = { ...baseScores }
-
-  for (const scenario of getScenarioSequence(answers)) {
-    const choice = answers[scenario.id]
-    if (!choice || typeof choice === "number") continue
-
-    const option = scenario.options.find((candidate) => candidate.id === choice)
-    if (!option) continue
-
-    for (const [dimension, weight] of Object.entries(option.weights) as [DimensionKey, number][]) {
-      adjustedScores[dimension] = clamp(adjustedScores[dimension] + weight, 1, 7)
-    }
-  }
-
-  return DIMENSIONS.reduce((accumulator, dimension) => {
-    accumulator[dimension] = Number(adjustedScores[dimension].toFixed(2))
+export function computeCoreDimensionAudit(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): CoreDimensionAudit {
+  const aggregates = computeDimensionAggregates(answers, mode)
+  const rawAverages = getRawDimensionAverages(aggregates)
+  const roundedAverages = DIMENSIONS.reduce((accumulator, dimension) => {
+    accumulator[dimension] = Number(rawAverages[dimension].toFixed(2))
     return accumulator
   }, {} as DimensionScores)
+
+  return {
+    sums: aggregates.sums,
+    weights: aggregates.weights,
+    rawAverages,
+    roundedAverages,
+  }
 }
 
 function centerScore(score: number): number {
   return score - 4
 }
 
-function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
-  return (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
+function computeCriticalSystemicSignal(dimensionScores: DimensionScores): number {
+  return Number(
+    (
+      centerScore(dimensionScores.politicalEconomy) * 0.55 +
+      centerScore(dimensionScores.domesticFilters) * 0.25 -
+      centerScore(dimensionScores.institutions) * 0.35 -
+      centerScore(dimensionScores.orderJustice) * 0.15
+    ).toFixed(2),
+  )
+}
+
+export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
+  const scores = (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
     const weights = familyProfiles[family]
     const score = DIMENSIONS.reduce((sum, dimension) => {
       const weight = weights[dimension] ?? 0
@@ -167,32 +248,59 @@ function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, numb
     accumulator[family] = Number(score.toFixed(2))
     return accumulator
   }, {} as Record<FamilyKey, number>)
+
+  const criticalSignal = computeCriticalSystemicSignal(dimensionScores)
+  const runnerUp = Math.max(scores.realist, scores.institutionalist, scores.constructivist)
+  const cpeLead = scores.criticalPoliticalEconomy - runnerUp
+
+  if (scores.criticalPoliticalEconomy > runnerUp && (criticalSignal < 1.8 || cpeLead < 0.75)) {
+    scores.criticalPoliticalEconomy = Number((runnerUp - 0.05).toFixed(2))
+  }
+
+  return scores
 }
 
-function getStrategyModifier(dimensionScores: DimensionScores, answers: Answers): StrategyModifier {
-  const restraint = dimensionScores.restraint
-  const strategicTech = answers.strategicTechnology
+export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeAnalysis {
+  const familyScores = scoreFamilies(dimensionScores)
+  const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
+  const distances = Object.values(dimensionScores).map((score) => Math.abs(score - 4))
+  const nearestFitGap = orderedFamilies[0][1] - orderedFamilies[1][1]
+  const maxDistanceFromCenter = Math.max(...distances)
+  const sharpDimensionCount = distances.filter((distance) => distance >= 1.15).length
 
-  if (restraint >= 5.2 && (strategicTech === "A" || strategicTech === "B" || !strategicTech)) {
+  return {
+    familyScores,
+    orderedFamilies,
+    nearestFitGap,
+    averageDistanceFromCenter: distances.reduce((sum, distance) => sum + distance, 0) / distances.length,
+    maxDistanceFromCenter,
+    sharpDimensionCount,
+  }
+}
+
+function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {
+  const restraint = dimensionScores.restraint
+
+  if (restraint >= 5.15) {
     return "Restrainer"
   }
 
-  if (restraint <= 3.8 && strategicTech === "C") {
+  if (restraint <= 3.85) {
     return "Maximizer"
   }
 
   return "Hedger"
 }
 
-function getNormativeModifier(dimensionScores: DimensionScores, answers: Answers): NormativeModifier {
+function getNormativeModifier(dimensionScores: DimensionScores): NormativeModifier {
   const orderJustice = dimensionScores.orderJustice
-  const intervention = answers.humanitarianIntervention
 
-  if (orderJustice >= 5.2 && (intervention === "A" || intervention === "B" || !intervention)) {
+  if (orderJustice >= 5.15) {
     return "Pluralist"
   }
 
-  if (orderJustice <= 3.8 && intervention === "C") {
+  if (orderJustice <= 3.85) {
     return "Universalist"
   }
 
@@ -212,15 +320,22 @@ function getNeighboringFamily(familyKey: FamilyKey, familyScores: Record<FamilyK
   return runnerUp ? familyLabels[runnerUp[0]] : familyLabels[familyKey]
 }
 
-export function generateResult(answers: Answers): QuizResult {
-  const coreScores = computeCoreDimensionScores(answers)
-  const dimensionScores = applyScenarioWeights(coreScores, answers)
+export type CanonicalFoundationResult = QuizResult & {
+  runnerUpKey: FamilyKey
+  runnerUpLabel: string
+}
+
+export function buildCanonicalFoundationResult(
+  dimensionScores: DimensionScores,
+): CanonicalFoundationResult {
   const familyScores = scoreFamilies(dimensionScores)
-  const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][]).sort((a, b) => b[1] - a[1])
+  const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
   const familyKey = orderedFamilies[0][0]
+  const runnerUpKey = orderedFamilies.find(([key]) => key !== familyKey)?.[0] ?? familyKey
   const familyLabel = familyLabels[familyKey]
-  const strategyModifier = getStrategyModifier(dimensionScores, answers)
-  const normativeModifier = getNormativeModifier(dimensionScores, answers)
+  const strategyModifier = getStrategyModifier(dimensionScores)
+  const normativeModifier = getNormativeModifier(dimensionScores)
   const clarity = computeClarity(familyScores)
   const neighboringFamily = getNeighboringFamily(familyKey, familyScores)
 
@@ -234,19 +349,27 @@ export function generateResult(answers: Answers): QuizResult {
     familyScores,
     explanation: familyDescriptions[familyKey],
     neighboringFamily,
+    runnerUpKey,
+    runnerUpLabel: familyLabels[runnerUpKey],
   }
+}
+
+export function generateResult(
+  answers: Answers,
+  mode: QuizMode = "standard",
+): CanonicalFoundationResult {
+  return buildCanonicalFoundationResult(computeCoreDimensionScores(answers, mode))
 }
 
 export function getNeighboringFamilyKey(
   familyKey: FamilyKey,
   familyScores: Record<FamilyKey, number>,
 ): FamilyKey {
-  const ordered = (Object.entries(familyScores) as [FamilyKey, number][]).sort(
-    (a, b) => b[1] - a[1],
-  )
+  const ordered = (Object.entries(familyScores) as [FamilyKey, number][])
+    .sort((a, b) => b[1] - a[1])
   return ordered.find(([key]) => key !== familyKey)?.[0] ?? familyKey
 }
 
-function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max)
+function isRankedChoiceAnswer(value: AnswerValue | undefined): value is RankedChoiceAnswer {
+  return typeof value === "object" && value !== null && typeof value.primary === "string"
 }

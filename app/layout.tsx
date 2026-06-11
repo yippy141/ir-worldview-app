@@ -1,35 +1,25 @@
 import "./globals.css"
-import Link from "next/link"
+import { siteConfig } from "@/lib/site-config"
+import { SiteChrome } from "@/components/layout/site-chrome"
 import type { Metadata } from "next"
+import type { Viewport } from "next"
 
 export const metadata: Metadata = {
-  title: "IR Worldview Inventory",
+  title: siteConfig.publicTitle,
   description:
-    "A prototype classification tool that maps how you think about world politics across seven analytical dimensions from International Relations theory.",
+    "Map how you think about world politics — IR theory, security, technology, and AI governance.",
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <div className="site-shell">
-          <header className="site-header">
-            <div className="container" style={{ padding: "0" }}>
-              <div className="header-inner">
-                <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
-                  <p className="brand">IR Worldview Inventory</p>
-                  <p className="brand-subtitle">A prototype classification tool</p>
-                </Link>
-                <nav className="header-nav">
-                  <Link href="/explore" className="nav-link">Explore</Link>
-                  <Link href="/method" className="nav-link">Methods</Link>
-                  <Link href="/quiz" className="nav-cta">Take the quiz</Link>
-                </nav>
-              </div>
-            </div>
-          </header>
-          <main className="container page-space">{children}</main>
-        </div>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )

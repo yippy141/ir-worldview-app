@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
+import { QUIZ_STORAGE_KEY, notifyQuizSessionUpdated } from "@/lib/quiz-session"
 
 type Props = {
   payload: string
@@ -17,7 +17,7 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
 
   const shareUrl =
     typeof window !== "undefined"
-      ? `${window.location.origin}/results/${payload}`
+      ? new URL(`/results/${payload}`, window.location.origin).toString()
       : `/results/${payload}`
 
   const resultLabel = `${familyLabel} · ${strategyModifier} · ${normativeModifier}`
@@ -54,11 +54,12 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
 
   function handleRetake() {
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+    notifyQuizSessionUpdated()
     router.push("/quiz")
   }
 
   return (
-    <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
+    <div className="row gap-sm print-hidden" style={{ flexWrap: "wrap" }}>
       <button type="button" className="primary-button" onClick={handleShare}>
         {typeof navigator !== "undefined" && typeof navigator.share === "function"
           ? "Share result"
@@ -69,8 +70,15 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
       <button type="button" className="secondary-button" onClick={handleCopy}>
         {copied ? "Link copied!" : "Copy link"}
       </button>
+      <button
+        type="button"
+        className="secondary-button"
+        onClick={() => window.print()}
+      >
+        Save as PDF
+      </button>
       <button type="button" className="secondary-button" onClick={handleRetake}>
-        Retake the quiz
+        Retake the Foundation questionnaire
       </button>
     </div>
   )

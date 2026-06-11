@@ -1,0 +1,31 @@
+Project: IR Worldview Inventory
+Current phase: Phase 6C.1 — Atlas Clarity, Copy Hygiene, and Visual Storytelling
+
+Current state:
+- Foundation baseline, focus-area modules, and integrated Profile already exist.
+- Phase 6C added Atlas Lite, but the Atlas cards are still too verbose, too memo-like, and too hard for a lay reader to scan quickly.
+- We now want to keep the architecture stable and improve clarity, tone, and visual payoff.
+
+What this phase should do:
+- make Atlas cards into short executive summaries
+- add clickable Atlas detail pages at `/explore/atlas/[id]`
+- improve visible copy tone so it sounds more natural and less AI-coded
+- add one restrained visual improvement to Atlas/detail surfaces
+- add lightweight copy-hygiene tests/guardrails
+
+What this phase should NOT do:
+- compare-with-friends
+- rarity/percentiles
+- crisis lab
+- new modules
+- large repo-wide copy rewrite
+- analytics/data collection
+
+Files to read first:
+- `PHASE_6C1_SPEC.md`
+- `COPY_TONE_GUIDE_PHASE_6C1.md`
+- `PROMPT_PHASE_6C1_ONEPASS_CODEX.txt` or `PROMPT_PHASE_6C1_QA.txt`
+
+Instruction:
+Summarize the current goal and likely implementation scope in 6–8 lines.
+Do not edit anything until I approve.

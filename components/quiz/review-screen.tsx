@@ -1,77 +1,62 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { coreQuestions, dimensionLabels, scenarioQuestions } from "@/lib/quiz-schema"
-import { generateResult, getNeighboringFamilyKey, getScenarioSequence } from "@/lib/scoring"
+import { getFoundationQuestions } from "@/lib/quiz-schema"
+import { generateResult, getNeighboringFamilyKey } from "@/lib/scoring"
 import { encodePayload, dimensionScoresToArray } from "@/lib/share"
-import { Answers, Question } from "@/lib/types"
-import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
+import {
+  QUIZ_STORAGE_KEY,
+  countAnsweredQuestions,
+  notifyQuizSessionUpdated,
+  parseQuizSession,
+} from "@/lib/quiz-session"
+import type { AnswerValue, Question, QuizSession, RankedChoiceAnswer } from "@/lib/types"
 
 type AnswerRow = {
   question: Question
   index: number
-  sectionLabel: string
   answerDisplay: string
 }
 
 export function ReviewScreen() {
   const router = useRouter()
-  const [answers, setAnswers] = useState<Answers | null>(null)
-  const [ready, setReady] = useState(false)
+  const [session] = useState<QuizSession | null>(() => {
+    if (typeof window === "undefined") return null
+    return parseQuizSession(window.localStorage.getItem(QUIZ_STORAGE_KEY))
+  })
   const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
-    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
-    if (!raw) {
+    if (session === null || !session.activeMode) {
       router.replace("/quiz")
-      return
     }
-    try {
-      const parsed = JSON.parse(raw) as Answers
-      setAnswers(parsed)
-    } catch {
-      router.replace("/quiz")
-      return
-    }
-    setReady(true)
-  }, [router])
+  }, [router, session])
 
-  const scenarioSequence = useMemo(
-    () => (answers ? getScenarioSequence(answers) : []),
-    [answers],
-  )
+  const questions = session?.activeMode ? getFoundationQuestions(session.activeMode) : []
 
-  const allQuestions = useMemo<Question[]>(
-    () => [...coreQuestions, ...scenarioSequence],
-    [scenarioSequence],
-  )
+  const answerRows: AnswerRow[] = session
+    ? questions.map((question, index) => ({
+        question,
+        index,
+        answerDisplay: formatAnswer(question, session.answers[question.id]),
+      }))
+    : []
 
-  const answerRows = useMemo<AnswerRow[]>(() => {
-    if (!answers) return []
-    return allQuestions.map((q, index) => ({
-      question: q,
-      index,
-      sectionLabel: index < coreQuestions.length ? "Core question" : "Scenario",
-      answerDisplay: formatAnswer(q, answers[q.id]),
-    }))
-  }, [allQuestions, answers])
-
-  const coreRows = answerRows.filter((r) => r.sectionLabel === "Core question")
-  const scenarioRows = answerRows.filter((r) => r.sectionLabel === "Scenario")
-
-  const completedCount = allQuestions.filter((q) => answers?.[q.id] !== undefined).length
-  const isComplete = allQuestions.length > 0 && completedCount === allQuestions.length
+  const answeredCount = session ? countAnsweredQuestions(session) : 0
+  const foundationComplete = session ? answeredCount >= questions.length : false
 
   function handleEdit(index: number) {
     router.push(`/quiz?q=${index}&from=review`)
   }
 
   function handleGenerate() {
-    if (!answers || !isComplete) return
+    if (!session || !session.activeMode || !foundationComplete) return
+
     setGenerating(true)
+
     try {
-      const result = generateResult(answers)
+      const result = generateResult(session.answers, session.activeMode)
       const nk = getNeighboringFamilyKey(result.familyKey, result.familyScores)
       const payload = encodePayload({
         v: 2,
@@ -81,6 +66,7 @@ export function ReviewScreen() {
         sm: result.strategyModifier,
         nm: result.normativeModifier,
       })
+
       router.push(`/results/${payload}`)
     } catch {
       setGenerating(false)
@@ -91,36 +77,36 @@ export function ReviewScreen() {
     router.push("/quiz")
   }
 
-  if (!ready) {
+  function handleReset() {
+    window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+    notifyQuizSessionUpdated()
+    router.push("/quiz")
+  }
+
+  if (session === null || !session.activeMode) {
     return <div className="panel" style={{ padding: "40px" }}>Loading your answers…</div>
   }
 
   return (
     <div className="stack-lg">
-      {/* Header */}
       <section className="panel stack-sm">
         <p className="eyebrow">Review your answers</p>
-        <h1>Before you see your result</h1>
+        <h1>Before you generate your foundation result</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Check your answers below. You can edit any response before generating your result. Your
-          result is only generated when you click the button at the bottom.
+          Review the full Foundation before you generate the result. Focus-area modules come
+          afterward as focused issue reads, not replacements for the baseline.
         </p>
-        <p className="muted" style={{ fontSize: "0.875rem" }}>
-          {completedCount} of {allQuestions.length} questions answered
-          {!isComplete && (
-            <span style={{ color: "var(--accent-light)", marginLeft: "8px" }}>
-              — some questions are unanswered
-            </span>
-          )}
+        <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
+          {session.activeMode === "standard" ? "Standard mode" : "Advanced mode"} · {answeredCount} of{" "}
+          {questions.length} questions answered
         </p>
       </section>
 
-      {/* Core questions */}
-      {coreRows.length > 0 ? (
+      {answerRows.length > 0 ? (
         <section className="panel stack-md">
-          <h2>Core questions</h2>
+          <h2>Foundation questions</h2>
           <div className="review-table">
-            {coreRows.map((row) => (
+            {answerRows.map((row) => (
               <ReviewRow
                 key={row.question.id}
                 row={row}
@@ -131,71 +117,106 @@ export function ReviewScreen() {
         </section>
       ) : null}
 
-      {/* Scenario questions */}
-      {scenarioRows.length > 0 ? (
-        <section className="panel stack-md">
-          <h2>Scenarios</h2>
-          <div className="review-table">
-            {scenarioRows.map((row) => (
-              <ReviewRow
-                key={row.question.id}
-                row={row}
-                onEdit={() => handleEdit(row.index)}
-              />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      {/* Actions */}
       <section className="panel stack-md">
-        {!isComplete ? (
+        {!foundationComplete ? (
           <div
             className="callout"
             style={{ borderLeft: "3px solid var(--accent-light)", borderRadius: "0 5px 5px 0" }}
           >
             <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-              You have unanswered questions. You can still generate a result, but unanswered items
-              will default to the neutral midpoint (4). For the most accurate classification, we
-              recommend completing all questions.
+              Finish every foundation question before generating the result.
             </p>
           </div>
-        ) : null}
+        ) : (
+          <div
+            className="callout"
+            style={{ borderLeft: "3px solid var(--accent-light)", borderRadius: "0 5px 5px 0" }}
+          >
+            <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+              Your foundation result is ready. Afterward you can take Security or Technology as
+              separate focus-area modules.
+            </p>
+          </div>
+        )}
 
-        <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
+        <div className="row gap-sm wrap">
           <button
             type="button"
             className="primary-button"
             onClick={handleGenerate}
-            disabled={generating}
+            disabled={generating || !foundationComplete}
           >
             {generating ? "Generating…" : "Generate my result →"}
           </button>
           <button type="button" className="secondary-button" onClick={handleBackToQuiz}>
-            Back to quiz
+            Back to foundation
+          </button>
+          <button type="button" className="secondary-button" onClick={handleReset}>
+            Start over
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-          Your result is only computed when you click "Generate." No data is sent anywhere — all
-          processing happens in your browser.
+          The result is computed only when you click “Generate.” All processing stays in your
+          browser.
         </p>
       </section>
+
+      {foundationComplete && session.activeMode === "standard" ? (
+        <AnalystUpgradeOffer onUpgrade={handleUpgradeToAnalyst} />
+      ) : null}
     </div>
+  )
+
+  function handleUpgradeToAnalyst() {
+    if (
+      !window.confirm(
+        "Analyst mode replays the Foundation with more cross-pressure cases and actor-lens questions. Your current Standard answers will be cleared. Continue?",
+      )
+    ) {
+      return
+    }
+    window.localStorage.removeItem(QUIZ_STORAGE_KEY)
+    notifyQuizSessionUpdated()
+    router.push("/quiz?mode=analyst")
+  }
+}
+
+function AnalystUpgradeOffer({ onUpgrade }: { onUpgrade: () => void }) {
+  return (
+    <section className="panel stack-sm analyst-upgrade-offer">
+      <p className="eyebrow">Want a deeper read?</p>
+      <h2 style={{ margin: 0 }}>
+        You completed the Standard version.
+      </h2>
+      <p className="muted" style={{ lineHeight: "1.65" }}>
+        Analyst mode adds more cross-pressure cases and actor-lens questions. The scoring model is
+        the same — it just gives the model more to work with.
+      </p>
+      <div className="row gap-sm wrap">
+        <button type="button" className="secondary-button" onClick={onUpgrade}>
+          Try Analyst mode
+        </button>
+      </div>
+    </section>
   )
 }
 
-// ── Row component ─────────────────────────────────────────────────────────────
-
 function ReviewRow({ row, onEdit }: { row: AnswerRow; onEdit: () => void }) {
   const answered = row.answerDisplay !== "—"
+
   return (
     <div className="review-row">
       <div className="review-row-content">
         <p
           className="muted"
-          style={{ fontSize: "0.72rem", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: "3px" }}
+          style={{
+            fontSize: "0.72rem",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            marginBottom: "3px",
+          }}
         >
-          {dimensionOrScenarioLabel(row.question)}
+          {questionLabel(row.question)}
         </p>
         <p style={{ lineHeight: "1.5", fontSize: "0.95rem" }}>{row.question.prompt}</p>
         <p
@@ -221,9 +242,7 @@ function ReviewRow({ row, onEdit }: { row: AnswerRow; onEdit: () => void }) {
   )
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-function formatAnswer(question: Question, answer: number | "A" | "B" | "C" | undefined): string {
+function formatAnswer(question: Question, answer: QuizSession["answers"][string] | undefined): string {
   if (answer === undefined) return "—"
 
   if (question.kind === "likert") {
@@ -237,21 +256,43 @@ function formatAnswer(question: Question, answer: number | "A" | "B" | "C" | und
       6: "Agree",
       7: "Strongly agree",
     }
+
     return `${n} — ${labels[n] ?? ""}`
   }
 
-  // Scenario: find the option label
-  if (question.kind === "scenario") {
-    const option = question.options.find((o) => o.id === answer)
-    return option ? `${option.id}: ${option.label}` : String(answer)
+  const primaryId = typeof answer === "string" ? answer : getRankedChoiceAnswer(answer)?.primary
+  const secondaryId = getRankedChoiceAnswer(answer)?.secondary
+  const primary = question.options.find((candidate) => candidate.id === primaryId)
+  const secondary = question.options.find((candidate) => candidate.id === secondaryId)
+
+  if (!primary) {
+    return String(primaryId ?? answer)
   }
 
-  return String(answer)
+  if (!secondary) {
+    return `Most persuasive: ${primary.title} — ${primary.label}`
+  }
+
+  return `Most persuasive: ${primary.title} · Second-most persuasive: ${secondary.title}`
 }
 
-function dimensionOrScenarioLabel(question: Question): string {
-  if (question.kind === "likert") {
-    return dimensionLabels[question.dimension]
+function questionLabel(question: Question) {
+  if (question.kind === "tradeoff") return `Tradeoff · ${cardTypeLabel(question.cardType)}`
+  if (question.kind === "miniCase") return `Mini-case · ${cardTypeLabel(question.cardType)}`
+  return "Foundation statement"
+}
+
+function cardTypeLabel(cardType: "explanation" | "decision" | "actorLens" | "both") {
+  if (cardType === "explanation") return "Explanation"
+  if (cardType === "decision") return "Decision"
+  if (cardType === "actorLens") return "Actor lens"
+  return "Both"
+}
+
+function getRankedChoiceAnswer(answer: AnswerValue | undefined): RankedChoiceAnswer | null {
+  if (typeof answer !== "object" || answer === null || typeof answer.primary !== "string") {
+    return null
   }
-  return "Scenario"
+
+  return answer
 }

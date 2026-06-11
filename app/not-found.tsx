@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div style={{ maxWidth: "560px", paddingTop: "48px" }}>
+    <div className="container" style={{ paddingTop: "48px" }}>
       <div className="stack-md">
         <div className="stack-sm">
           <p className="eyebrow">404 — Page not found</p>
@@ -19,7 +19,7 @@ export default function NotFound() {
         </div>
 
         <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-          <Link href="/quiz" className="cta-primary">Take the quiz</Link>
+          <Link href="/quiz" className="cta-primary">Take the Foundation questionnaire</Link>
           <Link href="/explore" className="cta-secondary">Explore the perspectives</Link>
           <Link href="/" className="cta-secondary">Home</Link>
         </div>

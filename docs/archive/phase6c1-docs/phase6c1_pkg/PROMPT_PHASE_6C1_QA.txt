@@ -1,0 +1,26 @@
+Read:
+- `PHASE_6C1_SPEC.md`
+- `COPY_TONE_GUIDE_PHASE_6C1.md`
+
+Review the current branch against the spec.
+Do not do a broad rewrite.
+
+Focus on:
+1. Atlas card scanability
+2. Atlas detail-page usefulness
+3. copy tone and AI-coded phrasing
+4. whether the new visuals are actually helping
+5. whether visible Standard-mode summaries are cleaner
+6. regressions or broken links/routes
+7. whether the implementation is ready for another friend round
+
+Required output:
+- what improved
+- what still feels weak
+- any regressions or awkward routes
+- whether the cards are now lay-readable
+- whether the detail pages add value beyond the cards
+- any copy phrases that still need rewriting
+- go / no-go for the next friend round
+
+If fixes are needed, recommend only the minimum focused fixes.

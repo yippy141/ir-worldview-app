@@ -1,0 +1,27 @@
+PROMPT 0 — V14 PLANNING AND AGENTS GUARDRAILS
+Read AGENTS.md and docs/v14/IR_AI_V14_Project_Manager_Brief.md. Create or update plans/V14_EXEC_PLAN.md. Merge a short V14 sprint section into AGENTS.md without duplicating old sprint instructions. Keep it to 8 bullets max: typecheck gate, result-card payoff with visual spec, AI standalone entry, landing page rewrite, quiz friction with section markers and midpoint preview, no scoring rewrite, no new modules, privacy-first research storage, smallest coherent diffs. Do not change app code. Stop after summarizing the plan and files changed.
+
+PROMPT 1 — HARD TYPECHECK GATE
+Fix the TypeScript/build trust issue before any feature work. Run npx tsc --noEmit and catalog errors. Fix all type errors needed for npx tsc --noEmit to pass. Then remove typescript.ignoreBuildErrors from next.config.ts or set it to false. Do not change scoring behavior unless a type bug forces a safe fix. After fixes, run npx tsc --noEmit, npm run lint, npm run test, and npm run build. Stop and summarize every file changed.
+
+PROMPT 2 — QUIZ-TO-RESULT INTEGRATION TESTS
+Add 4 to 6 integration tests that take hardcoded Foundation answer sets through the full result-generation pipeline and assert family, modifiers, and score-shape expectations. Include at least one realist-like, institutionalist-like, constructivist-like, critical-political-economy-like, and mixed profile fixture. These tests should protect the existing scoring contract; do not change scoring unless a genuine bug is found. Run npm run test, npm run lint, and npm run build. Stop and summarize.
+
+PROMPT 3 — AI STANDALONE ENTRYPOINT SUPPORT
+Revise /ai so it can function as a standalone top-of-funnel product inside the same app. Lead with standalone value: "Map your instincts on frontier AI governance" and a clear time estimate. Mention the IR Foundation as optional depth, not a prerequisite. Add a concise bridge CTA on AI result pages: take the IR Foundation to see the deeper foreign-policy assumptions behind your AI governance result. Do not change AI scoring, axis names, archetype names, or payloads. Run lint/test/build.
+
+PROMPT 4 — STATIC SOCIAL METADATA PASS
+Improve result sharing without breaking payload routes. Add route-specific metadata for IR result pages, AI result pages, and Profile share pages. Each route should have a specific title and description that includes the user's result label when decodable from the payload. Make sure share buttons copy clean URLs. Verify shared result links refresh correctly in a fresh browser.
+
+Do NOT attempt dynamic per-result OG images in this prompt. Dynamic OG using opengraph-image.tsx / ImageResponse is deferred to V14.1 because the fixed-viewport and font constraints will compromise the browser card design if built simultaneously. For V14, ship accurate static route-level metadata. If the result card from Claude Prompt 1 looks good, users can screenshot it for sharing.
+
+Run lint/test/build and manually verify result links refresh.
+
+PROMPT 4B — OPTIONAL SIGNED SHARE PAYLOAD AUDIT ONLY
+Do not implement yet. Audit how share payloads are encoded/decoded for IR, modules, AI, and Profile. Write plans/V14_SHARE_PAYLOAD_SECURITY.md describing the smallest path to add HMAC-signed payloads without breaking existing links. Include whether signing requires a server route because client-side signing cannot protect a secret. Do not change app code.
+
+PROMPT 5 — DATA AND PRIVACY PREFLIGHT
+Audit the V13 research/data layer. Verify product use works without research opt-in, research opt-in is unchecked by default, raw answers are not sent to third-party analytics, contact info is separate, deletion path is visible, and endpoints fail safely when env vars are missing. Fix only copy or guardrail issues needed for safe beta. Use pseudonymous/de-identified language, not anonymous, unless the data is truly anonymous. Run lint/test/build.
+
+PROMPT 6 — FINAL PRELAUNCH QA AND RELEASE HYGIENE
+Do a final prelaunch blocker pass. Verify no tmp/backup artifacts are imported or committed, README reflects current product, key routes work, result links refresh, AI Atlas/detail/Field Guide links work, data opt-in can be accepted/declined, and mobile around 390px is usable. Check that the landing page hero is clean and leads with a short question + CTA rather than a product architecture explanation. Do not redesign. Fix only blockers. Run npx tsc --noEmit, npm run lint, npm run test, and npm run build. Stop with a final go/no-go summary.

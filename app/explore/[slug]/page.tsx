@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { exploreFamilies, getFamilyBySlug, coverageLevelLabels } from "@/lib/explore-content"
+import { coverageLevelLabels, getFamilyByKey, getFamilyBySlug } from "@/lib/explore-content"
+import { familySlug, familyTraditionClass, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 import type { Metadata } from "next"
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export function generateStaticParams() {
-  return exploreFamilies.map((f) => ({ slug: f.slug }))
+  return MODELED_FAMILY_KEYS.map((familyKey) => ({ slug: familySlug(familyKey) }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -21,15 +22,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const tocItems = [
+  { id: "overview", label: "Overview" },
+  { id: "core-claims", label: "Core claims" },
+  { id: "subtraditions", label: "Subtraditions" },
+  { id: "emphasizes", label: "What it emphasizes" },
+  { id: "underweights", label: "What it underweights" },
+  { id: "issue-readings", label: "How it reads major issues" },
+  { id: "neighbors", label: "Neighboring traditions" },
+  { id: "thinkers", label: "Associated thinkers" },
+  { id: "readings", label: "Reading list" },
+  { id: "quiz-coverage", label: "How the Foundation models it" },
+]
+
 export default async function ExploreDetailPage({ params }: Props) {
   const { slug } = await params
   const family = getFamilyBySlug(slug)
   if (!family) notFound()
 
   return (
-    <div className="article-page">
+    <div className="wide-container">
       {/* Back link */}
-      <div style={{ marginBottom: "32px" }}>
+      <div style={{ marginBottom: "28px" }}>
         <Link
           href="/explore"
           style={{ fontSize: "0.85rem", color: "var(--muted)", textDecoration: "none" }}
@@ -38,136 +52,320 @@ export default async function ExploreDetailPage({ params }: Props) {
         </Link>
       </div>
 
-      {/* Header */}
-      <div className="article-header stack-sm">
+      {/* Page header (full width, above atlas grid) */}
+      <div className="article-header stack-sm" style={{ maxWidth: "680px", marginBottom: "48px" }}>
         <p className="eyebrow">Worldview library</p>
+        <span className={`tradition-chip ${familyTraditionClass(family.familyKey)}`}>
+          {family.name}
+        </span>
         <h1>{family.name}</h1>
-        <p
-          style={{
-            fontSize: "1.1rem",
-            lineHeight: "1.65",
-            color: "var(--muted)",
-            maxWidth: "560px",
-          }}
-        >
+        <p style={{ fontSize: "1.1rem", lineHeight: "1.65", color: "var(--muted)" }}>
           {family.tagline}
         </p>
       </div>
 
-      <hr className="divider" />
-
-      {/* Summary */}
-      <div className="article-section">
-        {family.summary.split("\n\n").map((para, i) => (
-          <p key={i} style={{ lineHeight: "1.75", marginBottom: "16px" }}>
-            {para}
-          </p>
-        ))}
-      </div>
-
-      <hr className="divider" />
-
-      {/* What it emphasizes */}
-      <div className="article-section stack-md">
-        <h2>What it emphasizes</h2>
-        <ul className="content-list">
-          {family.emphasizes.map((item) => (
-            <li key={item}>{item}</li>
+      {/* Atlas two-column layout */}
+      <div className="atlas-layout">
+        {/* Sticky TOC */}
+        <nav className="atlas-toc">
+          {tocItems.map((item) => (
+            <a key={item.id} href={`#${item.id}`} className="atlas-toc-link">
+              {item.label}
+            </a>
           ))}
-        </ul>
-      </div>
+        </nav>
 
-      <hr className="divider" />
-
-      {/* What it underweights */}
-      <div className="article-section stack-md">
-        <h2>What it often underweights</h2>
-        <ul className="content-list">
-          {family.underweights.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      <hr className="divider" />
-
-      {/* Persuasive arguments */}
-      <div className="article-section stack-md">
-        <h2>Arguments this tradition tends to find persuasive</h2>
-        <ul className="content-list">
-          {family.persuasiveArguments.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
-      </div>
-
-      <hr className="divider" />
-
-      {/* Neighboring traditions */}
-      <div className="article-section stack-md">
-        <h2>Neighboring traditions</h2>
-        <div className="stack-md">
-          {family.neighbors.map((neighbor) => (
-            <div key={neighbor.name} className="neighbor-entry">
-              <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
-                {neighbor.name}
+        {/* Main body */}
+        <div className="atlas-body">
+          {/* Overview */}
+          <section id="overview" className="article-section">
+            <h2 style={{ marginBottom: "20px" }}>Overview</h2>
+            {family.summary.split("\n\n").map((para, i) => (
+              <p key={i} style={{ lineHeight: "1.75", marginBottom: "16px" }}>
+                {para}
               </p>
-              <p className="muted" style={{ lineHeight: "1.65" }}>
-                {neighbor.contrast}
+            ))}
+          </section>
+
+          <hr className="divider" />
+
+          {/* Core claims */}
+          <section id="core-claims" className="article-section stack-md">
+            <h2>Core claims</h2>
+            <ul className="content-list">
+              {family.coreClaims.map((claim) => (
+                <li key={claim}>{claim}</li>
+              ))}
+            </ul>
+          </section>
+
+          <hr className="divider" />
+
+          {/* Subtraditions */}
+          <section id="subtraditions" className="article-section stack-md">
+            <h2>Subtraditions</h2>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              This tradition is not monolithic. These are the main strands within it.
+            </p>
+            <div>
+              {family.subtraditions.map((sub) => (
+                <div key={sub.name} className="subtradition-entry">
+                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
+                    {sub.name}
+                  </p>
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                    {sub.note}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <hr className="divider" />
+
+          {/* Emphasizes */}
+          <section id="emphasizes" className="article-section stack-md">
+            <h2>What it emphasizes</h2>
+            <ul className="content-list">
+              {family.emphasizes.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          <hr className="divider" />
+
+          {/* Underweights */}
+          <section id="underweights" className="article-section stack-md">
+            <h2>What it often underweights</h2>
+            <ul className="content-list">
+              {family.underweights.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          <hr className="divider" />
+
+          {/* How it reads major issues */}
+          <section id="issue-readings" className="article-section stack-md">
+            <h2>How it reads major issues</h2>
+            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              Arguments this tradition tends to find persuasive, and how it interprets three
+              recurring debates in contemporary foreign policy.
+            </p>
+            <div>
+              {family.issueReadings.map((ir) => (
+                <div key={ir.issue} className="neighbor-entry">
+                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
+                    {ir.issue}
+                  </p>
+                  <p className="muted" style={{ lineHeight: "1.65" }}>
+                    {ir.note}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: "20px" }}>
+              <p
+                style={{
+                  fontSize: "0.8rem",
+                  fontWeight: 600,
+                  color: "var(--muted)",
+                  marginBottom: "10px",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.06em",
+                }}
+              >
+                Arguments this tradition finds persuasive
+              </p>
+              <ul className="content-list">
+                {family.persuasiveArguments.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
+          <hr className="divider" />
+
+          {/* Neighboring traditions */}
+          <section id="neighbors" className="article-section stack-md">
+            <h2>Neighboring traditions</h2>
+            <div>
+              {family.neighbors.map((neighbor) => (
+                <div key={neighbor.familyKey} className="neighbor-entry">
+                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
+                    <Link href={`/explore/${familySlug(neighbor.familyKey)}`} style={{ color: "inherit" }}>
+                      {getFamilyByKey(neighbor.familyKey)?.name ?? "Related perspective"}
+                    </Link>
+                  </p>
+                  <p className="muted" style={{ lineHeight: "1.65" }}>
+                    {neighbor.contrast}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <hr className="divider" />
+
+          {/* Associated thinkers */}
+          {family.associatedThinkers && family.associatedThinkers.length > 0 && (
+            <>
+              <section id="thinkers" className="article-section stack-md">
+                <h2>Associated thinkers</h2>
+                <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+                  Scholars whose work is central to this tradition. These are illustrative, not
+                  exhaustive. Real thinkers frequently draw on multiple frameworks and revise their
+                  positions over a career — these associations point to their primary contributions,
+                  not to fixed labels.
+                </p>
+                <div>
+                  {family.associatedThinkers.map((thinker) => (
+                    <div key={thinker.name} className="thinker-entry">
+                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{thinker.name}</p>
+                      <p className="muted" style={{ fontSize: "0.8rem", marginTop: "2px" }}>
+                        {thinker.role}
+                      </p>
+                      <p style={{ fontSize: "0.875rem", lineHeight: "1.65", marginTop: "6px" }}>
+                        {thinker.note}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <hr className="divider" />
+            </>
+          )}
+
+          {/* Readings — tiered */}
+          <section id="readings" className="article-section stack-md">
+            <h2>Reading list</h2>
+
+            <div className="stack-md">
+              {/* Starter */}
+              <div>
+                <p className="reading-tier-label">Starter</p>
+                <div>
+                  {family.readings.map((reading) => (
+                    <div key={reading.title} className="reading-bib">
+                      <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                      <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
+                        {reading.author}
+                      </p>
+                      <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
+                        {reading.note}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Go deeper */}
+              {family.advancedReadings && family.advancedReadings.length > 0 && (
+                <div>
+                  <p className="reading-tier-label">Go deeper</p>
+                  <div>
+                    {family.advancedReadings.map((reading) => (
+                      <div key={reading.title} className="reading-bib">
+                        <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                        <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
+                          {reading.author}
+                        </p>
+                        <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
+                          {reading.note}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Read the critique */}
+              {family.counterReadings && family.counterReadings.length > 0 && (
+                <div>
+                  <p className="reading-tier-label">Read the critique</p>
+                  <div>
+                    {family.counterReadings.map((reading) => (
+                      <div key={reading.title} className="reading-bib">
+                        <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                        <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
+                          {reading.author}
+                        </p>
+                        <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
+                          {reading.note}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <p style={{ fontSize: "0.875rem", marginTop: "8px" }}>
+              <Link href="/references" style={{ color: "var(--accent)" }}>
+                Full bibliography →
+              </Link>
+            </p>
+          </section>
+
+          <hr className="divider" />
+
+          {/* Quiz coverage */}
+          <section id="quiz-coverage" className="article-section stack-sm">
+            <h2>How the Foundation models it</h2>
+            <div className="callout stack-xs">
+              <p
+                style={{
+                  fontSize: "0.72rem",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.1em",
+                  fontWeight: 600,
+                  color: "var(--accent-light)",
+                }}
+              >
+                {coverageLevelLabels[family.quizCoverage.level]}
+              </p>
+              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                {family.quizCoverage.note}
               </p>
             </div>
-          ))}
+            {family.modelingNote ? (
+              <div
+                className="callout"
+                style={{
+                  borderLeft: "3px solid var(--accent-light)",
+                  marginTop: "12px",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "0.72rem",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.1em",
+                    fontWeight: 600,
+                    color: "var(--muted)",
+                    marginBottom: "8px",
+                  }}
+                >
+                  What this page models (and what it does not)
+                </p>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                  {family.modelingNote}
+                </p>
+              </div>
+            ) : null}
+          </section>
+
+          <hr className="divider" />
+
+          <div className="article-section row gap-sm" style={{ flexWrap: "wrap" }}>
+            <Link href="/quiz" className="cta-primary">Take the Foundation →</Link>
+            <Link href="/explore" className="cta-secondary">← All perspectives</Link>
+          </div>
         </div>
-      </div>
-
-      <hr className="divider" />
-
-      {/* Readings */}
-      <div className="article-section stack-md">
-        <h2>Suggested starting points</h2>
-        <div>
-          {family.readings.map((reading) => (
-            <div key={reading.title} className="reading-bib">
-              <p style={{ fontWeight: 600 }}>{reading.title}</p>
-              <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
-                {reading.author}
-              </p>
-              <p style={{ fontSize: "0.875rem", lineHeight: "1.55", marginTop: "6px" }}>
-                {reading.note}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <hr className="divider" />
-
-      {/* Quiz coverage note */}
-      <div className="article-section stack-sm">
-        <h2>How this quiz models it</h2>
-        <div className="callout stack-xs">
-          <p
-            style={{
-              fontSize: "0.72rem",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              fontWeight: 600,
-              color: "var(--accent-light)",
-            }}
-          >
-            {coverageLevelLabels[family.quizCoverage.level]}
-          </p>
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-            {family.quizCoverage.note}
-          </p>
-        </div>
-      </div>
-
-      <hr className="divider" />
-
-      <div className="article-section row gap-sm" style={{ flexWrap: "wrap" }}>
-        <Link href="/quiz" className="cta-primary">Take the quiz →</Link>
-        <Link href="/explore" className="cta-secondary">← All perspectives</Link>
       </div>
     </div>
   )

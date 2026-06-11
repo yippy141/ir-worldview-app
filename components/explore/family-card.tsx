@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ExploreFamily } from "@/lib/explore-content"
 import { coverageLevelLabels } from "@/lib/explore-content"
+import { familySlug } from "@/lib/worldview-config"
 
 type Props = {
   family: ExploreFamily
@@ -9,7 +10,7 @@ type Props = {
 export function FamilyCard({ family }: Props) {
   return (
     <Link
-      href={`/explore/${family.slug}`}
+      href={`/explore/${familySlug(family.familyKey)}`}
       style={{ textDecoration: "none", color: "inherit", display: "block" }}
     >
       <div className="explore-card">

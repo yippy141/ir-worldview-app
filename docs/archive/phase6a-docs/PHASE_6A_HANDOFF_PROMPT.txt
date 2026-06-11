@@ -1,0 +1,37 @@
+You are continuing work on the IR Worldview Inventory.
+
+Current state:
+- The project already has a Foundation questionnaire and two focus-area modules:
+  1. Security, Strategy, and Statecraft
+  2. Technology, AI, and Geoeconomics
+- The current branch being preserved before new work is the latest Phase 5M.1 state.
+- Phase 6A is the next implementation phase.
+- The goal is not to add more modules or reopen taxonomy.
+- The goal is to unify naming, clarify scenario semantics, and build one integrated profile surface that combines Foundation + module overlays without collapsing everything into one fake master score.
+
+Read these files first:
+- PHASE_6A_SPEC.md
+- [one of] PROMPT_PHASE_6A_AUDIT.txt / PROMPT_PHASE_6A_IMPLEMENT_CODEX.txt / PROMPT_PHASE_6A_IMPLEMENT_CLAUDE.txt / PROMPT_PHASE_6A_QA.txt
+
+Important constraints:
+- no backend auth or accounts
+- no database
+- no new modules
+- no nationality-adjusted scoring
+- no fake total worldview score
+- no full ranking system
+
+The naming system should be:
+- IR Worldview Inventory = whole product
+- Foundation = baseline questionnaire
+- Focus-area modules = domain stress tests
+- Profile = integrated user takeaway
+- Results = individual result pages
+
+Before doing anything, summarize:
+1. the project goal,
+2. the current phase goal,
+3. the file areas you expect to inspect,
+4. and what is explicitly out of scope.
+
+Do not edit any files until I approve.

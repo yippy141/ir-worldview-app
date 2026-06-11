@@ -1,0 +1,80 @@
+PROMPT 1 — RESULT-CARD HERO SYSTEM
+Read docs/v14/IR_AI_V14_Project_Manager_Brief.md and inspect the current IR result page (app/results/[payload]/page.tsx), AI result page (app/ai/results/[payload]/page.tsx), and Profile (components/profile/profile-report.tsx). Implement a reusable result-card hero pattern that makes the first screen after completion feel like a reward rather than a report.
+
+Visual direction: the card should feel editorial, not gamified. Specifically:
+- A contained panel with the tradition/archetype color as a left border or top accent bar (2-4px). Use the existing CSS variables: --t-realist, --t-institutionalist, --t-constructivist, --t-cpe for Foundation; pick a tasteful accent for AI results.
+- The label (e.g. "Strategic Realist") in Georgia serif at roughly 1.4-1.6rem, letter-spacing tight.
+- Modifier chips ("Hedger", "Conditional Solidarist") as small muted pill elements below the label. Not bright colored badges. Use the existing tradition-chip pattern but keep it understated.
+- A one-sentence summary in system-ui body font at standard size with comfortable line height.
+- A tension/surprise callout in a slightly inset box or with a subtle left-border accent. Visually distinct from the summary but not loud.
+- Share and "What's next" actions at the bottom of the card, not competing with the main read.
+- Background: --panel or very close. No gradients, no heavy shadows.
+- The card must NOT look like a Bootstrap card with a centered heading and "Your result is..." preamble. It should look like a pull-quote panel in a serious publication. Think Financial Times or The Economist data callouts.
+
+Surprising finding logic for Foundation results:
+1. First, check getActiveTensions(dimensionScores). If one or more tensions fire, use the first one. These fire when two strong dimensions contradict (e.g. high institutions + high security competition). They are the most interesting signal.
+2. If no tension fires, use getSubtraditionAffinity(familyKey, dimensionScores). This tells the user which strand within their tradition they land in (e.g. "defensive realism" within realism).
+3. If subtradition returns the generic fallback and feels uninformative, fall back to neighborOverlapTexts[familyKey][runnerUpKey].
+Keep the callout under two sentences. Example: "You scored as a Strategic Realist, but your high restraint pull is unusual for that profile. That combination points toward defensive realism — the argument that overextension provokes more danger than it prevents." No caveat sentence in the card. Caveats go lower.
+
+Surprising finding logic for AI Governance results:
+Use getActiveAiGovernanceTensions(axisScores). If a tension fires, use it. If none fire, use nearest-alternative framing from lib/ai-governance-results-v2.ts. Same constraint: under two sentences, no caveat.
+
+Apply to Foundation result page and AI result page first. If Profile has 2+ saved layers, use the same card grammar for the top Profile payoff. Move existing dense sections (dimension bars, atlas match, readings, flip analysis, pressure tests) below the card. Do not delete important content unless it is redundant.
+
+Do not change scoring, schemas, payloads, or routes. Run npm run lint, npm run test, and npm run build.
+
+PROMPT 2 — AI LANDING AND AI RESULT VISUAL PAYOFF
+Make the AI Governance Compass feel like a standalone product surface inside the same site. The /ai page should lead with the AI Compass itself, not with its relationship to IR. It should still link to IR Foundation as optional depth.
+
+Rewrite the /ai hero to lead with:
+- "Map your instincts on frontier AI governance"
+- A clear time estimate: "16 questions. Around 8 minutes."
+- A strong primary CTA to take the AI quiz
+- A secondary note: "Want the deeper foreign-policy layer? Take the IR Foundation afterward."
+
+The AI result page should have a shareable result-card hero that works without the IR baseline, using the same visual system from Prompt 1. Add a bridge CTA below the AI result card: "Your AI governance instincts sit on top of deeper foreign-policy assumptions. Take the IR Foundation to see where they come from."
+
+Preserve current archetype names, axes, Field Guide, and Atlas. Do not create a separate repo, subdomain, or new product noun. Run lint/test/build.
+
+PROMPT 3 — LANDING PAGE REWRITE
+The current landing page tries to explain the full product architecture (Foundation, Modules, AI Governance, Profile) before the user has decided to do anything. Rewrite the hero:
+
+- Lead with a short question: "What's your foreign policy worldview?"
+- One sentence: "25 questions. 12 minutes. Find out which IR tradition shapes your instincts."
+- One big CTA: "Take the quiz" (links to /quiz)
+- One secondary link: "Or start with AI Governance (8 min)" (links to /ai)
+- Move the how-to-use sidebar, quick-paths panel, and product-layer sections below the fold.
+
+Below the fold, add a sample result preview. Render one fictional result card using the same visual system from Prompt 1, with made-up but plausible data (e.g. a "Liberal Institutionalist · Hedger · Conditional Solidarist" with a tension about institutions and security competition). Label it: "Here's what your result will look like." This shows users the payoff before they invest.
+
+Keep the existing product-layer sections and support-surface links below the preview. Do not delete them. Just move them down so the hero is clean.
+
+Add a brief audience signal near the top: "Designed for students, analysts, and anyone curious about how they think about international politics."
+
+Run lint/test/build.
+
+PROMPT 4 — QUIZ FRICTION REDUCTION WITHOUT QUESTION REWRITE
+Improve the quiz-taking experience without changing the question bank or scoring.
+
+1. Default first-time users to Standard mode. Remove the mode gate as an upfront barrier. Instead, after a user finishes Standard, offer: "You completed the Standard version. Want a deeper read? Analyst mode adds more cross-pressure cases and actor-lens questions." Make Analyst accessible from a small secondary link on the quiz page, but do not block entry with a familiarity/mode selection panel.
+
+2. Add visible section markers to the Foundation Standard quiz flow. Use these groupings:
+   - Section 1: "Your IR baseline" — questions sc1, in1, df1, ni1, pe1, rs1, oj1 (questions 1-7)
+   - Section 2: "Alliances and interdependence" — questions tradeoff_alliances, sc2, in2, tradeoff_interdependence (questions 8-11)
+   - Section 3: "Domestic politics and identity" — questions df2, ni2, pe2 (questions 12-14)
+   - Section 4: "Strategy and values" — questions rs2, oj2, tradeoff_strategy, tradeoff_intervention (questions 15-18)
+   - Section 5: "Applied cases" — questions case_semiconductors, case_protection (questions 19-20)
+   Display as a compact label above the question area: "Part 2 of 5 — Alliances and interdependence". Keep it small and unobtrusive. Update when the user crosses a section boundary.
+
+3. Add a subtle 150ms CSS fade transition between questions. Do not use a heavy slide animation. Just opacity transition so progress feels tangible.
+
+4. Add a midpoint preview interstitial after the user completes section 1 (the first 7 Likert items). Show: "Your profile is starting to take shape. You have strong pulls on [top 2 dimensions]." Use computeCoreDimensionScores on the partial answers (unanswered dimensions default to 4.0) and getTopDimensions(scores, 2) from lib/result-helpers.ts to pick the two most pronounced signals. Use the dimension labels from dimensionLabels for display. Mark it as preliminary: "This is a partial read. The remaining questions will sharpen it." Include a "Continue" button. Do NOT show a family label yet — just dimensions.
+
+Do not change question IDs, option text, scoring, or payloads. Run lint/test/build.
+
+PROMPT 5 — RESULT COPY PAYOFF PASS
+Tighten only the top of result pages and Profile after the result-card implementation. Remove phrases that sound AI-generated or generic. Replace method-like intros with direct editorial language. Examples: replace "These are the policy positions that follow most directly..." with "Given your answers, you are more likely to back these positions when the tradeoff gets concrete." Do not rewrite question stems. Do not expand caveats. Run lint/test/build.
+
+PROMPT 6 — MOBILE VISUAL QA FIXES
+Run a targeted mobile visual polish pass for the surfaces touched in V14: homepage, Foundation result, AI home, AI result, Profile. Focus on 390px width. Fix overflow, cramped chips, awkward CTA stacking, and too-tall hero cards. Do not redesign the whole site. Run lint/test/build and summarize remaining rough edges.

@@ -1,0 +1,26 @@
+You are reviewing Phase 6A.
+
+Read PHASE_6A_SPEC.md first.
+
+This is a QA / review pass, not a broad rewrite.
+Focus on:
+- naming consistency
+- scenario instruction clarity
+- top-2 response logic on case cards
+- integrated profile coherence
+- Foundation-vs-module synthesis
+- regression risks
+- copy clarity
+- profile hierarchy / visual payoff
+- whether the product is ready for another friend round
+
+Required output:
+1. What improved
+2. What is still weak
+3. Any logic or UI regressions
+4. Whether the integrated dashboard is coherent
+5. Whether module rhetoric still overclaims
+6. Go / no-go for the next friend round
+7. Minimal fixes still needed before that round
+
+Do not do a broad redesign unless explicitly asked.

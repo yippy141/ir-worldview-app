@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Profile Desktop — 3 Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-2: #efe9dc;
+    --paper-3: #e9e1ce;
+    --ink: #1a1916;
+    --ink-2: #3a362e;
+    --muted: #6b6356;
+    --rule: #d8cfbb;
+    --rule-strong: #a89b80;
+    --accent: #7a2e1f;
+    --accent-2: #8a6b1d;
+    --accent-3: #2f5d3a;
+    --accent-4: #1f3a5f;
+    --tag-bg: #e9e1ce;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    background: #ddd5c0;
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Showcase shell */
+  .showcase {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 56px 32px 96px;
+  }
+  .showcase-head {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 14px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .showcase-title {
+    margin: 32px 0 6px;
+    font-size: 38px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .showcase-deck {
+    color: var(--ink-2);
+    font-size: 17px;
+    max-width: 720px;
+    margin: 0 0 48px;
+    text-wrap: pretty;
+  }
+
+  .dir-label {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin: 56px 0 14px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .dir-label .num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--ink-2);
+  }
+  .dir-label .name {
+    color: var(--ink);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+  .dir-rationale {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--ink);
+    padding: 14px 18px 14px 22px;
+    margin: 0 0 18px;
+    max-width: 1100px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .dir-rationale b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  /* ---------- Profile frame (shared) ---------- */
+  .frame {
+    background: var(--paper);
+    border: 1px solid var(--rule-strong);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.04), 0 18px 40px -28px rgba(40,30,10,0.25);
+    margin: 0 0 12px;
+    overflow: hidden;
+  }
+  .frame-inner { padding: 36px 56px 44px; }
+
+  .nav {
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    background: var(--paper);
+  }
+  .nav .brand {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+  }
+  .nav .brand .beta {
+    margin-left: 8px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: var(--ink-2);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+  .nav-links a.active {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+    font-weight: 600;
+  }
+  .nav .meta-r {
+    color: var(--muted);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+  }
+
+  .eyebrow {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+    margin: 0 0 12px;
+  }
+  .eyebrow .sep {
+    margin: 0 8px;
+    color: var(--rule-strong);
+  }
+
+  .h-title {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 40px;
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.012em;
+    text-wrap: balance;
+    margin: 0 0 14px;
+    max-width: 880px;
+  }
+  .h-title em {
+    font-style: italic;
+    color: var(--ink-2);
+    font-weight: 600;
+  }
+  .summary {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 720px;
+    text-wrap: pretty;
+    margin: 0 0 22px;
+  }
+
+  /* Stat / fact chips */
+  .chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 26px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 12px 8px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .chip .k {
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    font-size: 10.5px;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .chip .v {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .chip.high .v { color: var(--accent); }
+  .chip.med .v { color: var(--accent-2); }
+  .chip.low .v { color: var(--accent-3); }
+  .chip.struct .v { color: var(--accent-4); }
+
+  /* CTA row */
+  .cta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rule);
+  }
+  .cta {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    padding: 10px 16px;
+    border-radius: 2px;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+    color: var(--ink);
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
+    font-weight: 500;
+  }
+  .cta .arr {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .cta.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    font-weight: 600;
+  }
+  .cta.primary .arr { color: var(--paper-3); }
+  .cta:hover { border-color: var(--ink); }
+
+  /* ----- Direction 01: Strip Atlas (stacked horizontal scales) ----- */
+  .d1-chart {
+    margin: 6px 0 4px;
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    background: #faf6ea;
+  }
+  .d1-axis {
+    display: grid;
+    grid-template-columns: 220px 1fr 110px;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+  }
+  .d1-axis:last-child { border-bottom: 0; }
+  .d1-axis .lane {
+    padding: 0 18px 0 22px;
+  }
+  .d1-axis .lane .nm {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+  .d1-axis .lane .poles {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.04em;
+  }
+  .d1-track {
+    position: relative;
+    height: 28px;
+    margin: 0 22px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .d1-track::before, .d1-track::after, .d1-track .mid {
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    background: var(--rule-strong);
+    height: 6px;
+  }
+  .d1-track::before { left: 0; }
+  .d1-track::after { right: 0; }
+  .d1-track .mid { left: 50%; height: 4px; background: var(--rule); }
+  .d1-track .tick {
+    position: absolute;
+    bottom: 0;
+    width: 1px;
+    height: 3px;
+    background: var(--rule);
+  }
+  .d1-base, .d1-pres {
+    position: absolute;
+    top: 6px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .d1-base .dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+  }
+  .d1-pres .dot {
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .d1-base .lbl, .d1-pres .lbl {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .d1-pres .lbl { color: var(--accent); font-weight: 600; }
+  .d1-link {
+    position: absolute;
+    top: 11px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.5;
+  }
+  .d1-axis .delta {
+    text-align: right;
+    padding-right: 22px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--ink-2);
+    letter-spacing: 0.02em;
+  }
+  .d1-axis .delta .v {
+    font-size: 13px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .d1-axis.stable .delta .v { color: var(--accent-3); }
+  .d1-axis.stable .d1-pres .dot { background: var(--accent-3); border-color: var(--accent-3); }
+  .d1-axis.stable .d1-link { background: var(--accent-3); }
+  .d1-axis.stable .d1-pres .lbl { color: var(--accent-3); }
+
+  .d1-legend {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    padding: 10px 22px;
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .d1-legend .sw {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: -1px;
+  }
+  .d1-legend .sw.base { background: var(--paper); border: 1.5px solid var(--ink); }
+  .d1-legend .sw.pres { background: var(--accent); border: 1.5px solid var(--accent); }
+  .d1-legend .sw.stable { background: var(--accent-3); border: 1.5px solid var(--accent-3); }
+  .d1-legend .right { margin-left: auto; font-family: "IBM Plex Mono", ui-monospace, monospace; letter-spacing: 0.04em; text-transform: none; }
+
+  .d1-aiband {
+    margin-top: 18px;
+    padding: 12px 18px;
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent-4);
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-2);
+  }
+  .d1-aiband .lbl {
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent-4);
+    flex: 0 0 auto;
+  }
+  .d1-aiband .body {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .d1-aiband .open {
+    margin-left: auto;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--accent-4);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-4);
+    padding-bottom: 1px;
+    flex: 0 0 auto;
+  }
+
+  /* ----- Direction 02: Then / Now Overlay (single ridge chart) ----- */
+  .d2-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .d2-left .summary { margin-bottom: 18px; }
+  .d2-chart-wrap {
+    border: 1px solid var(--rule-strong);
+    background: #faf6ea;
+    padding: 20px 24px 18px;
+  }
+  .d2-chart-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .d2-chart-head .t {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 15px;
+    text-transform: none;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .d2-svg {
+    display: block;
+    width: 100%;
+    height: 280px;
+  }
+  .d2-axis-labels {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-top: 6px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    border-top: 1px solid var(--rule-strong);
+    padding-top: 8px;
+  }
+  .d2-axis-labels span { font-weight: 600; color: var(--ink-2); }
+  .d2-legend {
+    display: flex;
+    gap: 22px;
+    margin-top: 14px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-top: 1px solid var(--rule);
+    padding-top: 12px;
+  }
+  .d2-legend .ln {
+    display: inline-block;
+    width: 22px; height: 0;
+    margin-right: 8px;
+    vertical-align: 4px;
+    border-top: 1.5px solid var(--ink);
+  }
+  .d2-legend .ln.pres { border-top: 1.5px solid var(--accent); border-top-style: dashed; }
+  .d2-callout {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--rule);
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .d2-callout b {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .d2-ai-line {
+    margin-top: 18px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .d2-ai-line a {
+    color: var(--accent-4);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-4);
+    padding-bottom: 1px;
+  }
+
+  /* ----- Direction 03: Anchored Spread (deviation bars left/right) ----- */
+  .d3-head-row {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+    align-items: start;
+    margin-bottom: 22px;
+  }
+  .d3-fact {
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-2);
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .d3-fact .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: baseline;
+    border-bottom: 1px dotted var(--rule);
+    padding-bottom: 8px;
+  }
+  .d3-fact .row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .d3-fact .k {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .d3-fact .v {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 600;
+    text-align: right;
+    line-height: 1.3;
+    max-width: 200px;
+  }
+  .d3-fact .v.high { color: var(--accent); }
+  .d3-fact .v.stable { color: var(--accent-3); }
+
+  .d3-chart {
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    background: #faf6ea;
+  }
+  .d3-chart-head {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    align-items: end;
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 22px 10px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .d3-chart-head .t {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 15px;
+    text-transform: none;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .d3-chart-head .scale {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: 10px;
+  }
+  .d3-chart-head .scale .l { text-align: left; }
+  .d3-chart-head .scale .c { text-align: center; color: var(--ink); font-weight: 700; }
+  .d3-chart-head .scale .r { text-align: right; }
+
+  .d3-row {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    align-items: stretch;
+    border-bottom: 1px solid var(--rule);
+  }
+  .d3-row:last-child { border-bottom: 0; }
+  .d3-row .label {
+    padding: 14px 22px;
+    border-right: 1px solid var(--rule);
+  }
+  .d3-row .label .nm {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .d3-row .label .anchor {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+  .d3-bar {
+    position: relative;
+    padding: 14px 22px;
+  }
+  .d3-bar .axis {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: var(--ink);
+  }
+  .d3-bar .grid {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--rule);
+  }
+  .d3-seg {
+    position: relative;
+    height: 18px;
+    margin-top: 6px;
+  }
+  .d3-seg .fill {
+    position: absolute;
+    top: 0; bottom: 0;
+    background: var(--accent);
+    opacity: 0.85;
+    border-radius: 1px;
+  }
+  .d3-seg.stable .fill { background: var(--accent-3); opacity: 0.85; }
+  .d3-seg .tip {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .d3-bar .lane-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+  }
+  .d3-bar .lane-meta .delta {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .d3-row.stable .lane-meta .delta { color: var(--accent-3); }
+  .d3-foot {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 12px 22px;
+    border-top: 1px solid var(--rule-strong);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--paper-2);
+  }
+  .d3-foot .sw {
+    display: inline-block;
+    width: 12px; height: 6px;
+    margin-right: 6px;
+    vertical-align: 1px;
+    border-radius: 1px;
+  }
+  .d3-foot .sw.move { background: var(--accent); }
+  .d3-foot .sw.stable { background: var(--accent-3); }
+  .d3-foot .anchor-key {
+    margin-left: auto;
+    text-transform: none;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    letter-spacing: 0.02em;
+    color: var(--ink-2);
+  }
+  .d3-foot .anchor-key b { color: var(--ink); font-weight: 600; }
+
+  .d3-ai-strip {
+    margin-top: 18px;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--ink-2);
+    padding: 10px 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .d3-ai-strip .lbl {
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent-4);
+  }
+  .d3-ai-strip a {
+    margin-left: auto;
+    color: var(--accent-4);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-4);
+    padding-bottom: 1px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px;
+  }
+
+  /* fold marker */
+  .fold {
+    position: relative;
+    margin: 0;
+    border-top: 1px dashed var(--rule-strong);
+  }
+  .fold span {
+    position: absolute;
+    top: -8px;
+    right: 22px;
+    background: var(--paper);
+    padding: 0 8px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* below-fold ghost (very faint, just to imply continuation) */
+  .below-fold {
+    padding: 22px 56px 36px;
+    background: linear-gradient(to bottom, var(--paper) 0%, var(--paper) 60%, transparent 100%);
+    border-top: 0;
+  }
+  .below-fold .ghost {
+    height: 14px;
+    background: var(--paper-2);
+    border-radius: 1px;
+    margin-bottom: 8px;
+    opacity: 0.6;
+  }
+  .below-fold .ghost.short { width: 40%; }
+  .below-fold .ghost.mid { width: 70%; }
+</style>
+</head>
+<body>
+<div class="showcase">
+  <header class="showcase-head">
+    <span>Profile · Above the fold · Desktop</span>
+    <span>3 directions · for review</span>
+  </header>
+  <h1 class="showcase-title">Profile, top of page — three directions</h1>
+  <p class="showcase-deck">Each frame answers the four orientation questions — <em>baseline, what changed under pressure, what stayed stable, what to open next</em> — with a single dominant horizontal comparison and at most three small chips. AI is acknowledged as a thin band, not a parallel section. Same noun system, same editorial register as the rest of the product.</p>
+
+  <!-- =========================================================
+       DIRECTION 01 — STRIP ATLAS
+       ========================================================= -->
+  <div class="dir-label">
+    <span class="num">01</span>
+    <span class="name">Strip Atlas</span>
+    <span>Stacked horizontal scales · baseline ↔ under-pressure markers per dimension</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this reduces synthesis burden</b>
+    The reader gets every answer from a single visual. Each lane is its own scale; the open dot is where you started, the filled dot is where you ended up under module pressure, and a hairline links them. A glance gives you (1) overall shape — your baseline — (2) which dot pair has the longest link — what changed most — (3) which dot pair is shortest or absent — what stayed stable. The eye does the synthesis; the prose just confirms. AI sits as one quiet line below the chart, not a competing column.
+  </div>
+
+  <article class="frame" data-screen-label="01 Profile — Strip Atlas">
+    <nav class="nav">
+      <div>
+        <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#" class="active">Profile</a>
+        <a href="#">Atlas</a>
+        <a href="#">Field Guide</a>
+      </div>
+      <div class="meta-r">Saved to this device · 4 layers</div>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">Profile<span class="sep">/</span>Foundation + 3 modules<span class="sep">/</span>April 26, 2026</p>
+      <h1 class="h-title">A rules-and-institutions baseline that <em>stiffens toward competition</em> when the case turns to security and technology.</h1>
+      <p class="summary">Across four saved layers, your instincts cluster as a Liberal Institutionalist with constructivist overlap. Under module pressure your reading shifts toward competition and material capability; your commitments to public oversight and to legitimacy of rule-setting move barely at all. Read this as a stable spine with two pressure-sensitive lanes, not a contradiction.</p>
+
+      <div class="chips">
+        <span class="chip"><span class="k">Baseline family</span><span class="v">Liberal Institutionalist</span></span>
+        <span class="chip high"><span class="k">Largest shift</span><span class="v">Competition · +1.8</span></span>
+        <span class="chip low"><span class="k">Most stable</span><span class="v">Public oversight</span></span>
+      </div>
+
+      <!-- The dominant visual -->
+      <div class="d1-chart" role="img" aria-label="Five lanes showing baseline and under-pressure positions">
+        <!-- LANE: Competition / Coordination -->
+        <div class="d1-axis">
+          <div class="lane">
+            <div class="nm">Competition vs Coordination</div>
+            <div class="poles">COORDINATION ── COMPETITION</div>
+          </div>
+          <div class="d1-track">
+            <span class="tick" style="left:25%"></span>
+            <span class="mid"></span>
+            <span class="tick" style="left:75%"></span>
+            <!-- baseline at 38%, pressure at 71% -->
+            <span class="d1-link" style="left:38%; width:33%"></span>
+            <div class="d1-base" style="left:38%"><span class="dot"></span><span class="lbl">Baseline</span></div>
+            <div class="d1-pres" style="left:71%"><span class="dot"></span><span class="lbl">Under pressure</span></div>
+          </div>
+          <div class="delta">shift <span class="v">+1.8</span></div>
+        </div>
+
+        <!-- LANE: Institutions -->
+        <div class="d1-axis">
+          <div class="lane">
+            <div class="nm">Institutions and rules</div>
+            <div class="poles">SKEPTICAL ── ANCHORING</div>
+          </div>
+          <div class="d1-track">
+            <span class="tick" style="left:25%"></span>
+            <span class="mid"></span>
+            <span class="tick" style="left:75%"></span>
+            <span class="d1-link" style="left:64%; width:8%"></span>
+            <div class="d1-base" style="left:72%"><span class="dot"></span><span class="lbl">Baseline</span></div>
+            <div class="d1-pres" style="left:64%"><span class="dot"></span><span class="lbl">Under pressure</span></div>
+          </div>
+          <div class="delta">shift <span class="v">−0.5</span></div>
+        </div>
+
+        <!-- LANE: Legitimacy -->
+        <div class="d1-axis stable">
+          <div class="lane">
+            <div class="nm">Legitimacy of rule-setting</div>
+            <div class="poles">PROCEDURAL ── SUBSTANTIVE</div>
+          </div>
+          <div class="d1-track">
+            <span class="tick" style="left:25%"></span>
+            <span class="mid"></span>
+            <span class="tick" style="left:75%"></span>
+            <span class="d1-link" style="left:54%; width:3%"></span>
+            <div class="d1-base" style="left:54%"><span class="dot"></span><span class="lbl">Baseline</span></div>
+            <div class="d1-pres" style="left:57%"><span class="dot"></span><span class="lbl">Under pressure</span></div>
+          </div>
+          <div class="delta">shift <span class="v">+0.2</span></div>
+        </div>
+
+        <!-- LANE: Political economy -->
+        <div class="d1-axis">
+          <div class="lane">
+            <div class="nm">Political economy</div>
+            <div class="poles">MARKETS ── DEPENDENCE</div>
+          </div>
+          <div class="d1-track">
+            <span class="tick" style="left:25%"></span>
+            <span class="mid"></span>
+            <span class="tick" style="left:75%"></span>
+            <span class="d1-link" style="left:48%; width:21%"></span>
+            <div class="d1-base" style="left:48%"><span class="dot"></span><span class="lbl">Baseline</span></div>
+            <div class="d1-pres" style="left:69%"><span class="dot"></span><span class="lbl">Under pressure</span></div>
+          </div>
+          <div class="delta">shift <span class="v">+1.1</span></div>
+        </div>
+
+        <!-- LANE: Restraint -->
+        <div class="d1-axis stable">
+          <div class="lane">
+            <div class="nm">Public oversight &amp; restraint</div>
+            <div class="poles">DELEGATION ── OVERSIGHT</div>
+          </div>
+          <div class="d1-track">
+            <span class="tick" style="left:25%"></span>
+            <span class="mid"></span>
+            <span class="tick" style="left:75%"></span>
+            <span class="d1-link" style="left:81%; width:1%"></span>
+            <div class="d1-base" style="left:82%"><span class="dot"></span><span class="lbl">Baseline</span></div>
+            <div class="d1-pres" style="left:81%"><span class="dot"></span><span class="lbl">Under pressure</span></div>
+          </div>
+          <div class="delta">shift <span class="v">−0.1</span></div>
+        </div>
+
+        <div class="d1-legend">
+          <span><span class="sw base"></span>Baseline (Foundation)</span>
+          <span><span class="sw pres"></span>Under module pressure</span>
+          <span><span class="sw stable"></span>Stable lane (|Δ| ≤ 0.5)</span>
+          <span class="right">Five lanes · band positions, not population percentiles · n shown on each result page</span>
+        </div>
+      </div>
+
+      <div class="d1-aiband">
+        <span class="lbl">AI Governance</span>
+        <span class="body">Your AI Compass result reads as a related but distinct layer — Democratic Guardrailist, with a competition-leaning tilt that mirrors what the chart shows above.</span>
+        <a href="#" class="open">Open AI layer →</a>
+      </div>
+
+      <div class="cta-row">
+        <a href="#" class="cta primary">Open Foundation result <span class="arr">↗</span></a>
+        <a href="#" class="cta">Read the largest shift · Competition <span class="arr">↗</span></a>
+        <a href="#" class="cta">Atlas: nearest pattern <span class="arr">↗</span></a>
+        <a href="#" class="cta">Compare a saved profile <span class="arr">↗</span></a>
+      </div>
+    </div>
+
+    <div class="fold"><span>Fold · 900 px</span></div>
+    <div class="below-fold">
+      <div class="ghost mid"></div>
+      <div class="ghost short"></div>
+      <div class="ghost mid"></div>
+    </div>
+  </article>
+
+  <!-- =========================================================
+       DIRECTION 02 — THEN / NOW OVERLAY
+       ========================================================= -->
+  <div class="dir-label">
+    <span class="num">02</span>
+    <span class="name">Then / Now Overlay</span>
+    <span>Two thin lines across all five lanes · the gap between them is the reading</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this reduces synthesis burden</b>
+    Movement is the message. A single chart shows your <em>baseline</em> as a solid line and your <em>under-pressure</em> reading as a dashed line; where the lines hug, that lane was stable, where they pull apart, that lane shifted. The reader does not have to compare row to row; the entire shape is grasped in one look. The summary paragraph beside it does the editorial interpretation; the chips do the bookkeeping. AI is acknowledged in a single line of text, not a chart.
+  </div>
+
+  <article class="frame" data-screen-label="02 Profile — Then/Now Overlay">
+    <nav class="nav">
+      <div>
+        <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#" class="active">Profile</a>
+        <a href="#">Atlas</a>
+        <a href="#">Field Guide</a>
+      </div>
+      <div class="meta-r">Saved to this device · 4 layers</div>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">Profile<span class="sep">/</span>Foundation + 3 modules<span class="sep">/</span>April 26, 2026</p>
+
+      <div class="d2-grid">
+        <div class="d2-left">
+          <h1 class="h-title" style="font-size:36px;">Your baseline is a <em>rules-leaning institutionalist</em>; under pressure it bends toward competition and material capability.</h1>
+          <p class="summary">The two lines on the right are the same reader, scored twice — once on Foundation alone, once after three modules of cases that put baseline instincts under specific pressure. Where the lines pull apart, the case material moved you. Where they overlap, your view held.</p>
+
+          <div class="chips">
+            <span class="chip"><span class="k">Baseline</span><span class="v">Liberal Institutionalist</span></span>
+            <span class="chip high"><span class="k">Largest shift</span><span class="v">Competition</span></span>
+            <span class="chip low"><span class="k">Most stable</span><span class="v">Oversight</span></span>
+          </div>
+
+          <div class="cta-row" style="margin-top:18px; padding-top:18px;">
+            <a href="#" class="cta primary">Open Foundation result <span class="arr">↗</span></a>
+            <a href="#" class="cta">Where you moved most <span class="arr">↗</span></a>
+            <a href="#" class="cta">Atlas: nearest pattern <span class="arr">↗</span></a>
+          </div>
+
+          <p class="d2-ai-line">AI Governance read as a related layer · <a href="#">open AI Compass result →</a></p>
+        </div>
+
+        <div class="d2-right">
+          <div class="d2-chart-wrap">
+            <div class="d2-chart-head">
+              <span class="t">Baseline vs under-pressure · five lanes</span>
+              <span>Coordination ←→ Competition / similar polarity per lane</span>
+            </div>
+            <svg class="d2-svg" viewBox="0 0 600 280" preserveAspectRatio="none" aria-label="Two overlaid lines showing baseline and under-pressure positions">
+              <!-- background grid -->
+              <g stroke="#d8cfbb" stroke-width="0.5" fill="none">
+                <line x1="0" y1="40" x2="600" y2="40" />
+                <line x1="0" y1="100" x2="600" y2="100" />
+                <line x1="0" y1="160" x2="600" y2="160" />
+                <line x1="0" y1="220" x2="600" y2="220" />
+              </g>
+              <!-- center reference -->
+              <line x1="0" y1="140" x2="600" y2="140" stroke="#a89b80" stroke-width="0.7" stroke-dasharray="2 4" />
+              <!-- 5 lane separators -->
+              <g stroke="#d8cfbb" stroke-width="0.5">
+                <line x1="120" y1="20" x2="120" y2="240" />
+                <line x1="240" y1="20" x2="240" y2="240" />
+                <line x1="360" y1="20" x2="360" y2="240" />
+                <line x1="480" y1="20" x2="480" y2="240" />
+              </g>
+              <!-- y-axis labels: high/low markers on left -->
+              <g font-family="IBM Plex Mono, monospace" font-size="9" fill="#6b6356" letter-spacing="0.5">
+                <text x="4" y="24">HIGH</text>
+                <text x="4" y="142">MID</text>
+                <text x="4" y="238">LOW</text>
+              </g>
+
+              <!-- BASELINE LINE (solid) -->
+              <!-- Points (5 lanes at x = 60, 180, 300, 420, 540) y range 20 (high) → 240 (low) -->
+              <!-- Competition baseline mid-low (38% across competition pole), Institutions high (72%), Legitimacy mid (54%), Political econ mid (48%), Restraint very high (82%) -->
+              <!-- Map to y: position 0=low(240), 1=high(20), so y = 240 - pos*220 -->
+              <polyline
+                points="60,156 180,82 300,121 420,134 540,60"
+                fill="none"
+                stroke="#1a1916"
+                stroke-width="2"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+              />
+              <!-- baseline dots -->
+              <g fill="#f5f1e8" stroke="#1a1916" stroke-width="1.5">
+                <circle cx="60" cy="156" r="4.5" />
+                <circle cx="180" cy="82" r="4.5" />
+                <circle cx="300" cy="121" r="4.5" />
+                <circle cx="420" cy="134" r="4.5" />
+                <circle cx="540" cy="60" r="4.5" />
+              </g>
+
+              <!-- UNDER-PRESSURE LINE (dashed) -->
+              <!-- Competition: 71% → y = 240 - 0.71*220 = 84.8 -->
+              <!-- Institutions: 64% → 99.2 -->
+              <!-- Legitimacy: 57% → 114.6 -->
+              <!-- Political econ: 69% → 88.2 -->
+              <!-- Restraint: 81% → 61.8 -->
+              <polyline
+                points="60,85 180,99 300,115 420,88 540,62"
+                fill="none"
+                stroke="#7a2e1f"
+                stroke-width="2"
+                stroke-dasharray="6 4"
+                stroke-linejoin="round"
+                stroke-linecap="round"
+              />
+              <g fill="#7a2e1f" stroke="#7a2e1f" stroke-width="1.5">
+                <circle cx="60" cy="85" r="4.5" />
+                <circle cx="180" cy="99" r="4.5" />
+                <circle cx="300" cy="115" r="4.5" />
+                <circle cx="420" cy="88" r="4.5" />
+                <circle cx="540" cy="62" r="4.5" />
+              </g>
+
+              <!-- annotation: largest gap on Competition lane -->
+              <g>
+                <line x1="60" y1="156" x2="60" y2="85" stroke="#7a2e1f" stroke-width="0.8" stroke-dasharray="1 2" />
+                <text x="70" y="124" font-family="IBM Plex Mono, monospace" font-size="10" fill="#7a2e1f" font-weight="600">Δ +1.8</text>
+              </g>
+              <g>
+                <line x1="540" y1="60" x2="540" y2="62" stroke="#2f5d3a" stroke-width="0.8" stroke-dasharray="1 2" />
+                <text x="498" y="44" font-family="IBM Plex Mono, monospace" font-size="10" fill="#2f5d3a" font-weight="600">Δ −0.1</text>
+              </g>
+            </svg>
+            <div class="d2-axis-labels">
+              <span>Competition</span>
+              <span>Institutions</span>
+              <span>Legitimacy</span>
+              <span>Political econ</span>
+              <span>Oversight</span>
+            </div>
+            <div class="d2-legend">
+              <span><span class="ln"></span>Baseline · Foundation</span>
+              <span><span class="ln pres"></span>Under module pressure</span>
+            </div>
+            <p class="d2-callout">
+              The widest gap is on <b>Competition</b> — module cases pulled you toward a more competition-centered read than your Foundation answers alone suggested. <b>Oversight</b> barely moved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fold"><span>Fold · 900 px</span></div>
+    <div class="below-fold">
+      <div class="ghost mid"></div>
+      <div class="ghost short"></div>
+      <div class="ghost mid"></div>
+    </div>
+  </article>
+
+  <!-- =========================================================
+       DIRECTION 03 — ANCHORED SPREAD
+       ========================================================= -->
+  <div class="dir-label">
+    <span class="num">03</span>
+    <span class="name">Anchored Spread</span>
+    <span>Baseline is the vertical anchor · lanes deviate left or right under pressure</span>
+  </div>
+  <div class="dir-rationale">
+    <b>Why this reduces synthesis burden</b>
+    The chart treats the baseline as the reference and shows only the <em>deviation</em> under pressure. Long bar = changed most; no bar = stayed stable; left vs right tells you which way you bent. This makes the four questions answerable in one downward scan: the headline labels the baseline, the longest bar names what changed most, the empty rows name what held, and the CTA row routes to the relevant result page for whichever lane the reader wants to open. AI is one strip below the chart — present, not pretending to be parallel.
+  </div>
+
+  <article class="frame" data-screen-label="03 Profile — Anchored Spread">
+    <nav class="nav">
+      <div>
+        <span class="brand">IR Worldview Inventory<span class="beta">Beta</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#">Foundation</a>
+        <a href="#">Modules</a>
+        <a href="#">AI Governance</a>
+        <a href="#" class="active">Profile</a>
+        <a href="#">Atlas</a>
+        <a href="#">Field Guide</a>
+      </div>
+      <div class="meta-r">Saved to this device · 4 layers</div>
+    </nav>
+
+    <div class="frame-inner">
+      <p class="eyebrow">Profile<span class="sep">/</span>Foundation + 3 modules<span class="sep">/</span>April 26, 2026</p>
+
+      <div class="d3-head-row">
+        <div>
+          <h1 class="h-title">Your baseline holds on legitimacy and oversight; it <em>leans heavily toward competition</em> when Security &amp; Strategy and Tech &amp; Geoeconomics apply.</h1>
+          <p class="summary">Foundation places you in the rules-and-institutions liberal family with constructivist overlap. Three modules later, two lanes have moved meaningfully — competition and political economy — while the rest sit close to where they started. The chart below shows only the deviation: each bar is how far a lane moved, in which direction, and which module pulled it.</p>
+        </div>
+        <aside class="d3-fact" aria-label="Three small facts">
+          <div class="row"><span class="k">Baseline</span><span class="v">Liberal Institutionalist · constructivist overlap</span></div>
+          <div class="row"><span class="k">Changed most</span><span class="v high">Competition lane · +1.8 toward competition</span></div>
+          <div class="row"><span class="k">Stayed stable</span><span class="v stable">Oversight · Legitimacy</span></div>
+        </aside>
+      </div>
+
+      <!-- The dominant visual -->
+      <div class="d3-chart" role="img" aria-label="Five lanes showing deviation from baseline under module pressure">
+        <div class="d3-chart-head">
+          <span class="t">Deviation under module pressure</span>
+          <div class="scale">
+            <span class="l">← Toward coordination / institutions / restraint</span>
+            <span class="c">Baseline</span>
+            <span class="r">Toward competition / capability / autonomy →</span>
+          </div>
+        </div>
+
+        <!-- Competition: shifted right (toward competition) +1.8 -->
+        <div class="d3-row">
+          <div class="label">
+            <div class="nm">Competition vs Coordination</div>
+            <div class="anchor">baseline 3.8 / 7 · pressure 5.6 / 7</div>
+          </div>
+          <div class="d3-bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <div class="d3-seg">
+              <span class="fill" style="left:50%; width:30%"></span>
+              <span class="tip" style="left:calc(50% + 30% + 8px)">+1.8 · competition</span>
+            </div>
+            <div class="lane-meta">
+              <span>Source: Security &amp; Strategy module · n = 12 items</span>
+              <span class="delta">Δ +1.8</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Institutions: -0.5 left -->
+        <div class="d3-row">
+          <div class="label">
+            <div class="nm">Institutions and rules</div>
+            <div class="anchor">baseline 5.8 / 7 · pressure 5.3 / 7</div>
+          </div>
+          <div class="d3-bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <div class="d3-seg">
+              <span class="fill" style="left:41.66%; width:8.34%"></span>
+              <span class="tip" style="right:calc(50% + 8.34% + 8px); left:auto">−0.5 · skeptical</span>
+            </div>
+            <div class="lane-meta">
+              <span>Source: Tech &amp; Geoeconomics module · n = 9 items</span>
+              <span class="delta">Δ −0.5</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legitimacy: stable +0.2 -->
+        <div class="d3-row stable">
+          <div class="label">
+            <div class="nm">Legitimacy of rule-setting</div>
+            <div class="anchor">baseline 4.5 / 7 · pressure 4.7 / 7 · stable</div>
+          </div>
+          <div class="d3-bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <div class="d3-seg stable">
+              <span class="fill" style="left:50%; width:3.33%"></span>
+              <span class="tip" style="left:calc(50% + 3.33% + 8px); color:#3a362e">+0.2 · within band</span>
+            </div>
+            <div class="lane-meta">
+              <span>All three modules · n = 14 items</span>
+              <span class="delta">Δ +0.2</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Political econ: +1.1 right -->
+        <div class="d3-row">
+          <div class="label">
+            <div class="nm">Political economy</div>
+            <div class="anchor">baseline 4.0 / 7 · pressure 5.1 / 7</div>
+          </div>
+          <div class="d3-bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <div class="d3-seg">
+              <span class="fill" style="left:50%; width:18.33%"></span>
+              <span class="tip" style="left:calc(50% + 18.33% + 8px)">+1.1 · dependence</span>
+            </div>
+            <div class="lane-meta">
+              <span>Source: Tech &amp; Geoeconomics module · n = 11 items</span>
+              <span class="delta">Δ +1.1</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Oversight: stable -0.1 -->
+        <div class="d3-row stable">
+          <div class="label">
+            <div class="nm">Public oversight &amp; restraint</div>
+            <div class="anchor">baseline 6.4 / 7 · pressure 6.3 / 7 · stable</div>
+          </div>
+          <div class="d3-bar">
+            <span class="grid" style="left:16.66%"></span>
+            <span class="grid" style="left:33.33%"></span>
+            <span class="axis"></span>
+            <span class="grid" style="left:66.66%"></span>
+            <span class="grid" style="left:83.33%"></span>
+            <div class="d3-seg stable">
+              <span class="fill" style="left:48.33%; width:1.67%"></span>
+              <span class="tip" style="right:calc(50% + 1.67% + 8px); left:auto; color:#3a362e">−0.1 · within band</span>
+            </div>
+            <div class="lane-meta">
+              <span>AI Compass + Security · n = 10 items</span>
+              <span class="delta">Δ −0.1</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d3-foot">
+          <span><span class="sw move"></span>Moved (|Δ| &gt; 0.5)</span>
+          <span><span class="sw stable"></span>Stable lane</span>
+          <span class="anchor-key">Anchor = <b>baseline (Foundation)</b> · bars are deviation under module pressure</span>
+        </div>
+      </div>
+
+      <div class="d3-ai-strip">
+        <span class="lbl">AI Governance</span>
+        <span>Compass result reads as a related layer · same competition tilt, separate scoring · not aggregated into the bars above.</span>
+        <a href="#">Open AI Compass →</a>
+      </div>
+
+      <div class="cta-row">
+        <a href="#" class="cta primary">Open Foundation result <span class="arr">↗</span></a>
+        <a href="#" class="cta">Open the Competition lane <span class="arr">↗</span></a>
+        <a href="#" class="cta">Atlas: nearest pattern <span class="arr">↗</span></a>
+        <a href="#" class="cta">Field Guide on shifts <span class="arr">↗</span></a>
+      </div>
+    </div>
+
+    <div class="fold"><span>Fold · 900 px</span></div>
+    <div class="below-fold">
+      <div class="ghost mid"></div>
+      <div class="ghost short"></div>
+      <div class="ghost mid"></div>
+    </div>
+  </article>
+
+  <footer style="margin-top:64px; padding-top:24px; border-top:1px solid var(--rule-strong); font-family:'IBM Plex Sans', system-ui, sans-serif; font-size:12px; color:var(--muted); letter-spacing:0.04em;">
+    Profile · above-the-fold · 3 directions · same noun system, same editorial register, no gradients, no decorative emblems · designed to survive PDF and grayscale print.
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,105 @@
+You are implementing **Phase 6C.1 — Atlas Clarity, Copy Hygiene, and Visual Storytelling** in the existing IR Worldview Inventory repo.
+
+Read these files first:
+- `PHASE_6C1_SPEC.md`
+- `COPY_TONE_GUIDE_PHASE_6C1.md`
+
+## Required workflow
+
+Do this in two stages.
+
+### Stage 1 — plan only
+Before editing anything, return:
+1. the files you expect to change
+2. what you will fully implement vs lightly scaffold
+3. the proposed Atlas data-model changes
+4. the exact routes/pages you will add or touch
+5. how you will keep the Atlas card surface short while making detail pages richer
+6. how you will implement copy-hygiene guardrails/tests
+7. what you are explicitly deferring
+
+Then stop and wait for approval.
+
+### Stage 2 — implement after approval
+After approval, implement the minimum stable Phase 6C.1 version.
+
+## What to implement
+
+### 1. Atlas card simplification
+Refactor Atlas content so cards become brief executive summaries.
+
+Target card structure:
+- pattern name
+- one plain-English summary line
+- 2–3 short driver bullets or tags
+- one short note about likely pressure/shift
+- CTA to open detail page
+
+Cards should be understandable to a smart lay reader in a few seconds.
+
+### 2. Atlas detail pages
+Add clickable detail routes:
+- `/explore/atlas/[id]`
+
+Each pattern detail page should include:
+- hero summary
+- one simple illustrative visual fingerprint
+- what usually drives this pattern
+- how it often looks in Security
+- how it often looks in Technology
+- where it is often confused with neighboring patterns
+- pressure-test questions
+- links to neighboring patterns
+
+Do not overbuild. Keep the layout editorial and clean.
+
+### 3. Copy hygiene pass
+Tighten Atlas and visible Standard-mode summaries so they sound more natural and less AI-coded.
+
+Use the copy guide.
+Avoid phrases like:
+- “X matters”
+- “you think X matters”
+- “you place real emphasis…”
+- “nearest-fit shorthand” above the fold
+- repetitive “conditional / selective / mixed” phrasing without concrete explanation
+
+### 4. Light visual storytelling improvement
+Add at least one meaningful visual improvement to Atlas/detail surfaces.
+Examples:
+- a small fingerprint strip
+- concise tilt rows
+- compact driver/shift visualization
+
+Do not use radar charts.
+Do not add decorative dashboard clutter.
+
+### 5. Copy guardrail test
+Add a small test or set of tests that scan the relevant Atlas / visible summary surfaces for clearly flagged phrases.
+Keep this lightweight and practical.
+
+## Constraints
+
+Do NOT add in this pass:
+- compare-with-friends
+- live profile atlas from user data
+- rarity / percentile features
+- crisis lab
+- new modules
+- big repo-wide wording sweep
+- analytics or data collection
+
+## Result-surface scope
+
+This phase may lightly update visible Atlas-related and top summary copy on Foundation/Profile/module results, but do not redesign those pages from scratch.
+
+## Verification
+At the end, run and report clearly:
+- `npm run lint`
+- `npm run test`
+- `npm run build`
+
+Then summarize:
+1. what changed
+2. what was intentionally deferred
+3. any prudent next-step suggestions (without implementing them)

@@ -1,83 +1,113 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useSyncExternalStore } from "react"
 import Link from "next/link"
-import { QUIZ_STORAGE_KEY } from "@/components/quiz-app"
-import { Answers } from "@/lib/types"
+import {
+  QUIZ_STORAGE_KEY,
+  QUIZ_SESSION_EVENT,
+  countAnsweredQuestions,
+  parseQuizSession,
+} from "@/lib/quiz-session"
 
-export function ResumeCta() {
-  const [hasDraft, setHasDraft] = useState(false)
-  const [draftCount, setDraftCount] = useState(0)
+type DraftState = {
+  hasDraft: boolean
+  draftCount: number
+  modeLabel?: string
+}
 
-  useEffect(() => {
-    const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
-    if (!raw) return
-    try {
-      const parsed = JSON.parse(raw) as Answers
-      const count = Object.keys(parsed).length
-      if (count > 0) {
-        setHasDraft(true)
-        setDraftCount(count)
-      }
-    } catch {
-      // Corrupt data — ignore.
-    }
-  }, [])
+const NO_DRAFT: DraftState = { hasDraft: false, draftCount: 0 }
 
-  function clearDraft() {
-    window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-    setHasDraft(false)
-    setDraftCount(0)
+let cached: DraftState = NO_DRAFT
+
+function readFromStorage(): DraftState {
+  const session = parseQuizSession(window.localStorage.getItem(QUIZ_STORAGE_KEY))
+  if (!session || !session.activeMode) return NO_DRAFT
+
+  const draftCount = countAnsweredQuestions(session)
+  if (draftCount === 0) return NO_DRAFT
+
+  return {
+    hasDraft: true,
+    draftCount,
+    modeLabel: session.activeMode === "standard" ? "Standard" : "Advanced",
   }
+}
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback)
+  window.addEventListener(QUIZ_SESSION_EVENT, callback)
+
+  return () => {
+    window.removeEventListener("storage", callback)
+    window.removeEventListener(QUIZ_SESSION_EVENT, callback)
+  }
+}
+
+function getSnapshot(): DraftState {
+  const next = readFromStorage()
+  if (
+    next.hasDraft === cached.hasDraft &&
+    next.draftCount === cached.draftCount &&
+    next.modeLabel === cached.modeLabel
+  ) {
+    return cached
+  }
+
+  cached = next
+  return cached
+}
+
+function getServerSnapshot(): DraftState {
+  return NO_DRAFT
+}
+
+function useFoundationDraftState() {
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+}
+
+export function FoundationHeroActions() {
+  const { hasDraft, draftCount, modeLabel } = useFoundationDraftState()
+
+  return (
+    <div className="landing-hero-ctas">
+      <Link href="/quiz" className="cta-primary landing-primary-cta">
+        Start the Foundation
+      </Link>
+      {hasDraft ? (
+        <div className="stack-xs">
+          <Link href="/quiz" className="cta-secondary">
+            Resume Foundation draft
+          </Link>
+          <p className="landing-draft-note">
+            {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered
+            on this device.
+          </p>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+export function QuizMenuCard() {
+  const { hasDraft, draftCount, modeLabel } = useFoundationDraftState()
 
   if (!hasDraft) {
     return (
-      <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-        <Link href="/quiz" className="cta-primary">
-          Take the quiz
-        </Link>
-        <Link href="/explore" className="cta-secondary">
-          Explore the perspectives
-        </Link>
-      </div>
+      <Link href="/quiz" className="menu-card">
+        <p className="menu-card-title">Foundation Questionnaire</p>
+        <p className="menu-card-desc">
+          Choose Standard or Advanced mode and map your instincts across seven IR dimensions.
+        </p>
+      </Link>
     )
   }
 
   return (
-    <div className="stack-sm">
-      <div
-        className="callout"
-        style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}
-      >
-        <p style={{ fontSize: "0.9rem", lineHeight: "1.55" }}>
-          You have a draft in progress — <strong>{draftCount}</strong>{" "}
-          {draftCount === 1 ? "question" : "questions"} answered.
-        </p>
-        <button
-          type="button"
-          onClick={clearDraft}
-          style={{
-            background: "none",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-            color: "var(--muted)",
-            fontSize: "0.8rem",
-            textDecoration: "underline",
-            flexShrink: 0,
-          }}
-        >
-          Start over
-        </button>
-      </div>
-      <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-        <Link href="/quiz" className="cta-primary">
-          Resume quiz
-        </Link>
-        <Link href="/explore" className="cta-secondary">
-          Explore the perspectives
-        </Link>
-      </div>
-    </div>
+    <Link href="/quiz" className="menu-card">
+      <p className="menu-card-title">Resume Foundation Questionnaire</p>
+      <p className="menu-card-desc">
+        {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered.
+      </p>
+    </Link>
   )
 }

@@ -1,0 +1,100 @@
+You are implementing Phase 6D in the IR Worldview Inventory repo.
+
+Read these open files first:
+- PHASE_6D_SPEC.md
+- COPY_TONE_GUIDE_PHASE_6D.md
+
+Your job is to make the product more interpretable, shareable, and comparable without adding backend complexity or new modules.
+
+## Workflow requirements
+
+Before editing anything:
+1. list the files you will change
+2. explain what you will fully implement vs lightly scaffold
+3. explain the share-payload model you plan to use
+4. explain the compare-page shape you plan to build
+5. call out any risky migrations or URL-contract changes
+6. then wait for approval
+
+Do not start editing until approval is given.
+
+## Phase goals
+
+### 1. Atlas clarity
+- Keep Atlas cards brief and lay-readable.
+- Detail pages should add real value and not repeat the opening summary twice.
+- Clean up visible slugs if possible without breaking routing badly; if route stability is a concern, use redirect or alias logic rather than silently breaking links.
+- Add one stronger but restrained visual fingerprint.
+
+### 2. So-what language
+Across visible surfaces only:
+- Foundation result
+- Profile page
+- Atlas detail page
+- any top visible module summary block you touch
+
+Rewrite toward:
+- what this usually means
+- what this pattern tends to emphasize
+- what it often underestimates
+- how it often shifts under Security / Technology pressure
+
+Avoid recurring phrases like:
+- `X matters`
+- `You think X matters`
+- `nearest-fit shorthand`
+- `case by case`
+- repetitive `conditional / mixed / selective`
+
+### 3. Shareable integrated profile
+Implement a lightweight share mechanism for the integrated profile.
+Preferred shape:
+- encode Foundation snapshot + module snapshots + relevant integrated profile state into a URL-safe payload
+- create a shared-profile route that renders read-only from that payload
+- fail safely if malformed
+
+Do not add backend storage.
+Do not expose raw answer logs if result-state sharing is enough.
+
+### 4. Compare page
+Implement a lightweight compare page for two shared profiles.
+Preferred minimum viable features:
+- paste or accept two payload links / payloads
+- show both one-line summaries
+- show Foundation spine comparison
+- show one biggest Security difference
+- show one biggest Technology difference
+- show one shared stable trait
+- show one clear divergence
+- show nearest Atlas pattern for each
+
+No compatibility score.
+No percentile or rarity logic.
+
+### 5. Visual refinement
+Keep the design restrained.
+Use stronger contrast, not more color noise.
+The main visual should do real work.
+Evidence/methods should stay lower or collapsed.
+
+## Testing requirements
+Add or update tests so that:
+- shared profile payloads roundtrip correctly
+- malformed shared payloads fail safely
+- compare-page helpers can derive stable differences from two profile states
+- Atlas copy guardrails still pass
+- any slug alias/redirect logic is covered if implemented
+
+## Output discipline
+- Keep scope tight.
+- Do not add new modules.
+- Do not add social accounts or databases.
+- Do not add crisis-lab code.
+- Do not broaden Foundation scoring quietly.
+
+At the end:
+- run lint
+- run test
+- run build
+- report the outputs clearly
+- list any prudent follow-up suggestions without implementing them

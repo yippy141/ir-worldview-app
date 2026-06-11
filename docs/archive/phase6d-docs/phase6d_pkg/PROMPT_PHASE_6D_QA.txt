@@ -1,0 +1,21 @@
+Read these open files first:
+- PHASE_6D_SPEC.md
+- COPY_TONE_GUIDE_PHASE_6D.md
+
+Review the current branch against the spec.
+Do not do a broad rewrite.
+
+Focus on:
+1. whether Atlas cards are actually lay-readable
+2. whether Atlas detail pages add value without repetition
+3. whether the new `so what` language is clearer and less AI-coded
+4. whether shared profile links are stable and safe
+5. whether the compare page is understandable and worthwhile
+6. whether the main visual hierarchy improved rather than just adding more features
+
+Give me:
+- what improved
+- what is still weak
+- any regressions
+- go / no-go for a friend round after this pass
+- the 3 highest-value polish fixes if there are any

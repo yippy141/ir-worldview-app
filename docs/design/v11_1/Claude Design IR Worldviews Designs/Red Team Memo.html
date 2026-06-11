@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Red Team Memo — IR Worldview Inventory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --paper: #f5f1e8;
+    --paper-2: #efe9dc;
+    --ink: #1a1916;
+    --ink-2: #3a362e;
+    --muted: #6b6356;
+    --rule: #d8cfbb;
+    --rule-strong: #a89b80;
+    --accent: #7a2e1f;     /* oxblood — for severity High */
+    --accent-2: #8a6b1d;   /* ochre — Medium */
+    --accent-3: #2f5d3a;   /* forest — Low / nice-to-have */
+    --accent-4: #1f3a5f;   /* navy — Structural */
+    --tag-bg: #e9e1ce;
+    --callout-bg: #ece4d0;
+    --callout-edge: #b8a984;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body {
+    font-family: "Source Serif 4", "Iowan Old Style", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.62;
+    margin: 0;
+    padding: 0;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 72px 56px 120px;
+  }
+
+  .masthead {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 14px 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .masthead .right { color: var(--muted); }
+
+  .doc-title {
+    margin: 36px 0 8px;
+    font-size: 44px;
+    line-height: 1.08;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .doc-sub {
+    font-size: 19px;
+    color: var(--ink-2);
+    line-height: 1.45;
+    max-width: 640px;
+    text-wrap: pretty;
+    margin: 0 0 28px;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 6px 24px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12.5px;
+    color: var(--ink-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+    margin-bottom: 36px;
+  }
+  .meta-grid dt {
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-size: 11px;
+    padding-top: 2px;
+  }
+  .meta-grid dd {
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  /* Section structure */
+  h2 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 28px;
+    line-height: 1.18;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    margin: 56px 0 6px;
+    text-wrap: balance;
+  }
+  h2 .num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 14px;
+    color: var(--muted);
+    margin-right: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    vertical-align: 4px;
+  }
+  h2 + .deck {
+    color: var(--ink-2);
+    font-size: 17px;
+    margin: 0 0 24px;
+    line-height: 1.55;
+    font-style: italic;
+    max-width: 640px;
+  }
+  h3 {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin: 36px 0 4px;
+    text-wrap: balance;
+  }
+
+  .section-rule {
+    border: 0;
+    border-top: 1px solid var(--rule-strong);
+    margin: 56px 0 0;
+  }
+
+  p { margin: 0 0 14px; text-wrap: pretty; }
+  p + p { margin-top: 0; }
+
+  /* Drop cap on the first paragraph after the lead */
+  .lead p:first-of-type::first-letter {
+    font-family: "Source Serif 4", Georgia, serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 0.86;
+    float: left;
+    padding: 6px 8px 0 0;
+    color: var(--ink);
+  }
+
+  /* Severity / category chips on findings */
+  .finding {
+    margin: 18px 0 28px;
+    padding: 18px 20px 18px 22px;
+    background: #fbf7ec;
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--rule-strong);
+    border-radius: 2px;
+  }
+  .finding.high { border-left-color: var(--accent); }
+  .finding.med  { border-left-color: var(--accent-2); }
+  .finding.low  { border-left-color: var(--accent-3); }
+  .finding.struct { border-left-color: var(--accent-4); }
+
+  .finding-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .chip {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--tag-bg);
+    color: var(--ink-2);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-size: 10.5px;
+    border: 1px solid var(--rule-strong);
+  }
+  .chip.high   { background: #f5dad2; color: #6e2516; border-color: #d59c8b; }
+  .chip.med    { background: #f0e3bd; color: #6a510f; border-color: #cdb672; }
+  .chip.low    { background: #d8e6d6; color: #234e2c; border-color: #91b29a; }
+  .chip.struct { background: #d6def0; color: #1a3354; border-color: #8ea0c4; }
+
+  .finding h4 {
+    margin: 0 0 8px;
+    font-size: 18px;
+    line-height: 1.3;
+    font-weight: 700;
+    text-wrap: balance;
+  }
+  .finding p { margin-bottom: 10px; }
+  .finding p:last-child { margin-bottom: 0; }
+  .finding .fix {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--rule);
+    font-size: 15.5px;
+  }
+  .finding .fix b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* Pull quote / lifted phrase */
+  blockquote {
+    margin: 18px 0;
+    padding: 4px 0 4px 20px;
+    border-left: 3px solid var(--rule-strong);
+    color: var(--ink-2);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  blockquote .src {
+    display: block;
+    margin-top: 6px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Two-column layout for "the strongest objection" boxes */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 18px 0;
+  }
+  .two-col .col {
+    padding: 14px 16px;
+    background: var(--callout-bg);
+    border: 1px solid var(--callout-edge);
+    border-radius: 2px;
+  }
+  .two-col .col h5 {
+    margin: 0 0 6px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .two-col .col p { font-size: 15.5px; line-height: 1.55; margin: 0; }
+
+  /* Compact lists with hanging numerals */
+  ol.hang {
+    counter-reset: item;
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  ol.hang > li {
+    counter-increment: item;
+    position: relative;
+    padding: 0 0 0 38px;
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  ol.hang > li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0;
+  }
+
+  ul.tick {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 18px;
+  }
+  ul.tick li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 8px;
+    line-height: 1.55;
+  }
+  ul.tick li::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 11px;
+    width: 8px;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  /* TOC */
+  .toc {
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin: 28px 0 12px;
+  }
+  .toc-title {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .toc ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+  .toc li {
+    counter-increment: toc;
+    display: flex;
+    gap: 14px;
+    padding: 7px 0;
+    border-bottom: 1px dotted var(--rule);
+    font-size: 15.5px;
+    line-height: 1.4;
+  }
+  .toc li:last-child { border-bottom: 0; }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 22px;
+  }
+  .toc a {
+    color: var(--ink);
+    text-decoration: none;
+    flex: 1;
+    border-bottom: 1px solid transparent;
+  }
+  .toc a:hover { border-bottom-color: var(--ink); }
+  .toc .pg {
+    color: var(--muted);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12px;
+  }
+
+  /* Severity-key strip */
+  .key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    margin: 22px 0 0;
+    padding: 12px 16px;
+    background: #ece5d3;
+    border: 1px solid var(--rule);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 12px;
+    color: var(--ink-2);
+  }
+  .key .swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    vertical-align: 1px;
+    border-radius: 1px;
+  }
+  .key .swatch.high { background: var(--accent); }
+  .key .swatch.med  { background: var(--accent-2); }
+  .key .swatch.low  { background: var(--accent-3); }
+  .key .swatch.struct { background: var(--accent-4); }
+
+  /* Footnote / aside */
+  .aside {
+    font-size: 14.5px;
+    color: var(--ink-2);
+    background: transparent;
+    border-left: 2px solid var(--rule-strong);
+    padding: 4px 0 4px 16px;
+    margin: 18px 0 22px;
+    line-height: 1.55;
+  }
+  .aside b {
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Closing block */
+  .closing {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 3px double var(--rule-strong);
+  }
+  .signoff {
+    margin-top: 28px;
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .signoff em {
+    display: block;
+    font-family: "Source Serif 4", Georgia, serif;
+    font-style: italic;
+    color: var(--ink-2);
+    font-size: 18px;
+    margin-bottom: 6px;
+    letter-spacing: 0;
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .page { padding: 24mm 18mm; max-width: none; }
+    .finding { break-inside: avoid; }
+    h2, h3 { break-after: avoid; }
+    .toc { break-after: page; }
+  }
+
+  @media (max-width: 720px) {
+    .page { padding: 36px 22px 80px; }
+    .doc-title { font-size: 32px; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<article class="page">
+
+  <header class="masthead">
+    <span>Editorial Red Team · Confidential Draft</span>
+    <span class="right">v1 · For author review</span>
+  </header>
+
+  <h1 class="doc-title">A worldview about worldviews — and what to question in it</h1>
+  <p class="doc-sub">A red team of the IR Worldview Inventory beta. Read the headline label as a finished verdict and you miss the careful machinery underneath; read the machinery uncritically and you risk treating an editorial heuristic as a measurement instrument. This memo is the friction in between.</p>
+
+  <dl class="meta-grid">
+    <dt>Subject</dt><dd>IR Worldview Inventory · Beta · By JinHua Yip</dd>
+    <dt>Surfaces reviewed</dt><dd>Landing, Foundation questionnaire, Foundation result, Security &amp; Strategy module, Technology &amp; Geoeconomics module, AI Governance Compass, Profile, Atlas, Field guide</dd>
+    <dt>Posture</dt><dd>Adversarial but constructive. The aim is to harden the product, not to talk it out of existing.</dd>
+    <dt>Severity key</dt><dd>High = trust risk · Medium = polish or precision risk · Low = nice-to-have · Structural = scope-level</dd>
+  </dl>
+
+  <section class="lead">
+    <p>This is a serious editorial product. It is unusually careful about what it does <em>not</em> claim — the Methods note, the &ldquo;not yet modeled&rdquo; section on feminist, postcolonial, green and English School IR, the explicit framing that Atlas is &ldquo;a browse map, not a live user distribution&rdquo; — and that care is doing real work. Most online quizzes drape themselves in the costume of measurement and do not earn it. This one keeps stripping the costume off.</p>
+    <p>Which is exactly why it is worth red-teaming hard. The product&rsquo;s strongest move — telling the user this is an interpretive instrument, not a diagnostic — is also its most fragile, because almost every other surface still <em>behaves</em> like a diagnostic: scored axes to one decimal, named archetypes in serif caps, a Profile that aggregates &ldquo;saved layers,&rdquo; a result-page reading shelf curated to the label. The disclaimer fights an uphill battle against the visual grammar.</p>
+    <p>The findings below are organized from most consequential to least: what could erode user trust if a thoughtful reader pushed on it, what would sharpen the editorial voice, and what to flag for next-version scope. Where useful, I&rsquo;ve drafted concrete revision language rather than gestured at it.</p>
+  </section>
+
+  <div class="key" aria-label="Severity key">
+    <span><span class="swatch high"></span>High — trust risk</span>
+    <span><span class="swatch med"></span>Medium — precision / polish</span>
+    <span><span class="swatch low"></span>Low — nice-to-have</span>
+    <span><span class="swatch struct"></span>Structural — scope-level</span>
+  </div>
+
+  <nav class="toc" aria-label="Contents">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#s1">The headline tension: interpretive tool, diagnostic UI</a><span class="pg">High</span></li>
+      <li><a href="#s2">The four-tradition Foundation is doing more work than its disclaimers admit</a><span class="pg">High</span></li>
+      <li><a href="#s3">Decimal-precise scores on a seven-item Likert surface</a><span class="pg">High</span></li>
+      <li><a href="#s4">Atlas: a browsing aid that quietly behaves like a typology</a><span class="pg">Medium</span></li>
+      <li><a href="#s5">Actor-lens cards: separation is asserted, not demonstrated</a><span class="pg">Medium</span></li>
+      <li><a href="#s6">Reading shelves: the reinforcement risk</a><span class="pg">Medium</span></li>
+      <li><a href="#s7">The AI Compass sits awkwardly inside an IR product</a><span class="pg">Medium</span></li>
+      <li><a href="#s8">Question writing: pressure points to revisit</a><span class="pg">Medium</span></li>
+      <li><a href="#s9">Beta hygiene: localStorage-only state, retake semantics, leakage</a><span class="pg">Low</span></li>
+      <li><a href="#s10">Scope honesty: the Western-canon footnote needs to stop being a footnote</a><span class="pg">Structural</span></li>
+      <li><a href="#s11">What I would prioritize before the next public push</a><span class="pg">—</span></li>
+    </ol>
+  </nav>
+
+  <hr class="section-rule" />
+
+  <!-- 1 -->
+  <h2 id="s1"><span class="num">01</span>The headline tension: interpretive tool, diagnostic UI</h2>
+  <p class="deck">The product says one thing in copy and a different thing in chrome. The chrome usually wins.</p>
+
+  <p>The landing page calls this &ldquo;an interpretive tool, not a diagnostic.&rdquo; Methods reinforces that. Every result page has a &ldquo;Trust and coverage&rdquo; line that disowns the label. So far, so honest.</p>
+  <p>But the rest of the design is a textbook diagnostic experience: a multi-stage instrument, named axes, decimal scores, archetypes set in capitalized serif, a runner-up label, a &ldquo;most distant archetype,&rdquo; a likely policy package, and a pressure-point box. A user moving through the flow at normal speed will internalize the label long before they read the disclaimer, because the visual rhetoric is louder than the prose.</p>
+
+  <div class="finding high">
+    <div class="finding-head"><span class="chip high">High</span><span>§1 · Trust risk</span></div>
+    <h4>The disclaimers and the chrome are pulling against each other.</h4>
+    <p>If a sophisticated reader from, say, an IR department screenshots the Foundation result page and posts it sarcastically — &ldquo;apparently I am a 5.3/7 Liberal Institutionalist Hedger Conditional Solidarist with nearest overlap Critical Political Economist&rdquo; — the joke writes itself. The page <em>can</em> defend itself, but only by demanding the reader scroll past the verdict to find the methodological humility. That is the wrong order of operations for an editorial product that wants to be taken seriously.</p>
+    <div class="fix">
+      <b>Concrete revision</b>
+      Move the &ldquo;Trust and coverage&rdquo; framing <em>above</em> the Result Signature on the Foundation result, not below. Demote the decimal scores from headline numerals to a smaller, secondary &ldquo;dimension positions&rdquo; row. Reserve the largest type for the qualitative one-paragraph read (&ldquo;In live debates, this profile tends to attend first to&hellip;&rdquo;) — that paragraph is the actual product. The label is a wayfinding aid for it.
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <h2 id="s2"><span class="num">02</span>The four-tradition Foundation is doing more work than its disclaimers admit</h2>
+  <p class="deck">&ldquo;Strongly modeled · Moderately modeled · Partially modeled&rdquo; is honest about coverage, but the scoring still forces every respondent into one of four buckets.</p>
+
+  <p>The Field Guide is admirably clear that the Foundation only directly scores Realism, Institutionalism, Constructivism, and Critical Political Economy, with the latter two flagged as moderate or partial. But the result page architecture — a single Family label, a Strategy label, a Norms label, a Nearest Overlap — implies that any respondent&rsquo;s instincts can be located within that four-tradition space. The &ldquo;not yet modeled&rdquo; traditions (Feminist, Postcolonial, Green, English School) are essentially diagnostic blind spots, not scoring options.</p>
+  <p>This is the single biggest source of structural classification error in the instrument. A respondent whose primary orientation is postcolonial or feminist IR will not be told &ldquo;your strongest commitments are not modeled here.&rdquo; They will be told they are a Liberal Institutionalist or a Critical Political Economist with some constructivist overlap, because those are the closest available buckets. The Field Guide acknowledges exactly this risk, but it acknowledges it on a page most users will never reach.</p>
+
+  <blockquote>
+    The current instrument is likely to misclassify people whose primary orientation is postcolonial — they may land in critical PE or constructivism as the closest available buckets.
+    <span class="src">Field Guide · Postcolonial and Decolonial IR · &ldquo;Why not yet modeled&rdquo;</span>
+  </blockquote>
+
+  <div class="finding high">
+    <div class="finding-head"><span class="chip high">High</span><span>§2 · Coverage honesty</span></div>
+    <h4>Surface this caveat <em>on the result page</em>, not only in the field guide.</h4>
+    <p>If the respondent&rsquo;s primary instinct is one of the unmodeled traditions, the result page will be wrong in a specific, knowable way — and the product already knows that. It is a legibility failure, not a measurement failure, that this acknowledgement only appears two clicks deep.</p>
+    <div class="fix">
+      <b>Concrete revision</b>
+      Add a short panel on every Foundation result page, under &ldquo;Trust and coverage,&rdquo; titled <em>Where this result will be wrong</em>. Two sentences: &ldquo;If your strongest instincts come from feminist, postcolonial / decolonial, green, or English School IR, this inventory will place you in the closest of its four modeled families rather than name your actual orientation. That is a known limit of the current instrument, not a feature of your views.&rdquo; Link to Field Guide. This single move neutralizes the most legitimate critique of the product.
+    </div>
+  </div>
+
+  <div class="finding med">
+    <div class="finding-head"><span class="chip med">Medium</span><span>§2 · Family naming</span></div>
+    <h4>&ldquo;Liberal Institutionalist&rdquo; is doing two jobs: a tradition name and an inventory archetype.</h4>
+    <p>In the Field Guide, &ldquo;Liberal Institutionalist&rdquo; is a sub-strand of liberalism, distinguished from commercial, republican, and sociological liberalism. On the result page it functions as the <em>full</em> liberal family stand-in. That conflation will read as imprecise to anyone who knows the distinction, and will read as correct-but-unsupported to anyone who does not. Either give the result-page label a different word (e.g. &ldquo;Rules-and-Institutions Liberal&rdquo;), or add a one-line rider explaining that the inventory tests institutionalist instincts specifically and does not separately score the other liberal strands.</p>
+  </div>
+
+  <!-- 3 -->
+  <h2 id="s3"><span class="num">03</span>Decimal-precise scores on a seven-item Likert surface</h2>
+  <p class="deck">5.3 / 7 reads like a measurement. It is an averaged ordinal preference. The user cannot tell the difference from the page.</p>
+
+  <p>Across Foundation, Security, Technology, and AI Compass result pages, dimension positions are reported to one decimal place: &ldquo;Markets and dependence 5.8 / 7,&rdquo; &ldquo;Public oversight 7.0 / 7,&rdquo; &ldquo;Order and justice 4.7 / 7.&rdquo; The decimal precision is a typographic claim about resolution that the underlying instrument cannot support.</p>
+
+  <p>The methods page (correctly) calls these &ldquo;model positions, not population percentiles.&rdquo; That clarifies what the score is <em>not</em>; it does not clarify what the score <em>is</em>. To a reader without psychometric training, &ldquo;5.8 / 7&rdquo; reads as a measured quantity with a meaningful unit. In an instrument with a couple dozen items per dimension, mostly forced-choice or 7-point Likert, that decimal is doing rhetorical work the data cannot.</p>
+
+  <div class="finding high">
+    <div class="finding-head"><span class="chip high">High</span><span>§3 · Scoring rhetoric</span></div>
+    <h4>Drop the decimal, or earn it.</h4>
+    <p>Two reasonable paths:</p>
+    <ol class="hang">
+      <li><b>Editorial path.</b> Replace decimal scores with a five-band qualitative scale per dimension — e.g. <em>Strongly competition-centered · Leaning competition · Mixed · Leaning rules · Strongly rules-centered</em> — and an unlabeled position bar. This matches the editorial voice of the rest of the product and removes the spurious-precision problem at a stroke.</li>
+      <li><b>Psychometric path.</b> Keep the numbers but add a confidence band per dimension based on item count and within-respondent variance. Show &ldquo;5.8 ± 0.6&rdquo; or a shaded range on the bar. This is the right move only if the team is willing to commit to a real reliability story, including pilot data.</li>
+    </ol>
+    <p>The current middle position — decimals without bands — is the worst of both options.</p>
+  </div>
+
+  <div class="finding med">
+    <div class="finding-head"><span class="chip med">Medium</span><span>§3 · Per-dimension item counts</span></div>
+    <h4>Tell the user how many items each dimension actually rests on.</h4>
+    <p>Some Foundation dimensions are likely supported by 4–6 items, others perhaps by 8–10. The Field Guide implies this asymmetry but does not surface it. A small &ldquo;n =&rdquo; near each dimension on the result page would do more to inoculate against over-interpretation than another paragraph of methodological prose. It also tells sophisticated readers exactly which dimensions to weight more heavily.</p>
+  </div>
+
+  <!-- 4 -->
+  <h2 id="s4"><span class="num">04</span>Atlas: a browsing aid that quietly behaves like a typology</h2>
+  <p class="deck">Atlas insists it is not a typology. The page itself reads like a typology.</p>
+
+  <p>Atlas&rsquo;s framing line is exactly right: &ldquo;a browse map of patterns that show up repeatedly in the current model&hellip; it is not a live user distribution, and it is not claiming that people fall into fixed natural kinds.&rdquo; The patterns themselves are well drawn — Bridge Builder, Constraint-First Realist, Coalition Pragmatist, Cross-Pressured Synthesizer. The fingerprints (Competition / Institutions / Legitimacy / Political economy / Restraint, each High/Medium/Low) are crisp.</p>
+  <p>But each pattern card has a single &ldquo;Read this pattern&rdquo; CTA, lives next to a &ldquo;Nearest Atlas pattern&rdquo; placement on the result page, and is named like a folk taxonomy. The architecture is doing what the disclaimer denies. A user lands on Atlas via &ldquo;Nearest Atlas pattern: Coalition Pragmatist&rdquo; and now has a thing called Coalition Pragmatist with attributes — it is functionally a type, regardless of what the headline says.</p>
+
+  <div class="two-col">
+    <div class="col">
+      <h5>What the disclaimer does</h5>
+      <p>Says Atlas is a browse aid; patterns are continuous-dimension neighborhoods, not natural kinds.</p>
+    </div>
+    <div class="col">
+      <h5>What the user experiences</h5>
+      <p>Receives a named pattern with a fingerprint, a driver list, and nearby siblings — i.e. a type.</p>
+    </div>
+  </div>
+
+  <div class="finding med">
+    <div class="finding-head"><span class="chip med">Medium</span><span>§4 · Atlas semantics</span></div>
+    <h4>Two cheap moves to keep Atlas honest.</h4>
+    <ul class="tick">
+      <li><b>Show the neighborhood, not the point.</b> When sending the user from a Foundation result to an Atlas pattern, render their actual position as a dot inside the pattern&rsquo;s region in dimension space, not as &ldquo;you are this pattern.&rdquo; The dot can sit between two patterns, or at the edge of one. This is cheap with the data you already have and reframes Atlas as cartography rather than classification.</li>
+      <li><b>Include &ldquo;you are not cleanly any of these&rdquo; as a result.</b> Cross-Pressured Synthesizer already does some of this work, but it is named like another type rather than as a meta-result. Consider an &ldquo;Off-map&rdquo; or &ldquo;Between patterns&rdquo; result that signals the inventory itself thinks the respondent doesn&rsquo;t fit, rather than naming the not-fitting as another fit.</li>
+    </ul>
+  </div>
+
+  <!-- 5 -->
+  <h2 id="s5"><span class="num">05</span>Actor-lens cards: separation is asserted, not demonstrated</h2>
+  <p class="deck">The repeated promise that &ldquo;perspective-modeling does not overwrite your own issue read&rdquo; is the right design instinct. The user has to take it on faith.</p>
+
+  <p>Both modules tell the user, in nearly identical language, that actor-lens cards are tracked separately so modeling another state&rsquo;s incentives does not contaminate the issue read. This is a real and important distinction — possibly the cleverest design move in the whole product. It is also invisible. The user sees actor-lens cards mixed into the same lane progress bars, the same scoring summary, the same evidence log, and is then told by editorial copy that the system has kept them separate behind the scenes.</p>
+
+  <div class="finding med">
+    <div class="finding-head"><span class="chip med">Medium</span><span>§5 · Make the separation visible</span></div>
+    <h4>If the architecture is the feature, show the architecture.</h4>
+    <p>On the module result page, render the actor-lens scoring as a parallel small panel — &ldquo;Perspective-taking read&rdquo; — alongside the main lane scores, with its own short explanation. Right now the only evidence the user has that actor-lens cards were treated differently is the editorial assertion. A second visible panel turns the assertion into observable design.</p>
+    <p>Bonus: this also gives you a place to make a substantive interpretive claim — e.g. &ldquo;Your actor-lens picks suggest you can model adversary or non-aligned logic without endorsing it. Some respondents will find this gap larger than they expect.&rdquo; That is the kind of one-line insight that turns a quiz into an editorial product.</p>
+  </div>
+
+  <!-- 6 -->
+  <h2 id="s6"><span class="num">06</span>Reading shelves: the reinforcement risk</h2>
+  <p class="deck">Curating a bibliography to a label is convenient. It is also exactly the move that turns a soft heuristic into a hardened identity.</p>
+
+  <p>Each Foundation result page comes with a tiered reading list — Start Here, Go Deeper, Challenge Your View, Widen the Frame. The intent is clearly good: the &ldquo;Challenge Your View&rdquo; tier exists, it is real, and on the AI Compass page it includes serious critics (Bender et al., Acemoglu, Crawford, Horowitz on military pace pressures, Hadfield on regulatory incompleteness). That is not the issue.</p>
+  <p>The issue is the upstream structural choice: the bibliography is keyed to <em>your label</em>. A Liberal Institutionalist sees Keohane first; a Strategic Realist would presumably see different anchor texts. Even when the &ldquo;Challenge Your View&rdquo; tier is rigorous, the overall shelf shape reinforces the identity by curating to it. An IR student using this product weekly will, over time, read more of what aligns with their result than what challenges it — because the alignment readings are tier 1 and the challenges are tier 3.</p>
+
+  <div class="finding med">
+    <div class="finding-head"><span class="chip med">Medium</span><span>§6 · Reading shelf architecture</span></div>
+    <h4>Invert the tier order, or at least balance it.</h4>
+    <p>Two options, in increasing order of editorial conviction:</p>
+    <ol class="hang">
+      <li>Keep the four tiers but make &ldquo;Challenge Your View&rdquo; the default-expanded section on the result page, with the others collapsible. The tier you most want a confident respondent to read should not be the third one down.</li>
+      <li>Reorganize the shelf around <em>tradition pairs</em> rather than <em>your label</em>. For a Liberal Institutionalist result, the shelf reads: &ldquo;The strongest realist case against your view&rdquo; / &ldquo;The strongest critical-PE case against your view&rdquo; / &ldquo;Inside your tradition&rdquo; / &ldquo;The methods debate.&rdquo; This routes the user&rsquo;s next reading session through the disagreement rather than the agreement.</li>
+    </ol>
+  </div>
+
+  <!-- 7 -->
+  <h2 id="s7"><span class="num">07</span>The AI Compass sits awkwardly inside an IR product</h2>
+  <p class="deck">It is structurally good. It is also competing with the IR Foundation for the same conceptual real estate.</p>
+
+  <p>The AI Governance Compass is the strongest single module by execution: eight named axes, a clean archetype model (Democratic Guardrailist, Strategic Competitor, Open Ecosystem Builder, etc.), tension-points language that genuinely captures pressure, a &ldquo;Best critique of your worldview&rdquo; box that earns its place, and reading shelves that are notably better balanced than the Foundation&rsquo;s. The &ldquo;What would change your mind&rdquo; box is a model of editorial discipline — every result page in the product should have one.</p>
+
+  <div class="aside">
+    <b>Lift this everywhere</b>
+    The &ldquo;What would change your mind&rdquo; pattern from the AI Compass result page belongs on the Foundation, Security, and Technology result pages too. It is the single best implementation of &ldquo;interpretive tool, not diagnostic&rdquo; in the whole product.
+  </div>
+
+  <p>That said, the Compass has a structural problem the rest of the product cannot fully solve: it is a self-contained instrument that produces its own archetype, then has to be reconciled with the IR Foundation in a separate &ldquo;IR relationship&rdquo; section that mostly just compares two labels with bullet lists. The current copy — &ldquo;Read this as a related layer in the same worldview product&rdquo; — papers over the real question, which is whether the Compass result and the Foundation result are <em>commensurable</em>.</p>
+
+  <div class="finding med">
+    <div class="finding-head"><span class="chip med">Medium</span><span>§7 · AI ↔ IR commensurability</span></div>
+    <h4>Either commit to integration or commit to separation. The middle is confusing.</h4>
+    <p>If the AI Compass is meant to <em>extend</em> the IR Foundation, then at least one or two of its axes (Public oversight, Legitimacy and rule-setting, Competition vs coordination) should map cleanly onto Foundation dimensions, and Profile should show that mapping explicitly. If it is meant to be a <em>standalone companion</em> &mdash; the way the landing page actually frames it &mdash; then the &ldquo;IR relationship&rdquo; section is doing more harm than good, because it implies a relationship the model is not actually producing. Pick one.</p>
+    <p>My recommendation, given the rest of the product&rsquo;s emphasis on the IR Foundation as the anchor: the Compass should publish a short, honest &ldquo;What this result would imply <em>for</em> your IR baseline&rdquo; paragraph rather than a left-right alignment table. The table reads as a forced reconciliation; a paragraph can be more candid about partial fit.</p>
+  </div>
+
+  <!-- 8 -->
+  <h2 id="s8"><span class="num">08</span>Question writing: pressure points to revisit</h2>
+  <p class="deck">The case-writing is genuinely strong. A handful of items still skew, lead, or compress two questions into one.</p>
+
+  <p>The case prose is the best part of the product&rsquo;s craft. &ldquo;What makes this hard&rdquo; is doing real work; the four-option structure mostly resists the standard quiz failure mode of one obvious right answer and three straw men. Specific items I want to flag:</p>
+
+  <h3>Coercion below blockade (Security, Deterrence and escalation, Explanation 5/5)</h3>
+  <p>All four options are read as Beijing&rsquo;s likely intent. Three of them (normalize a baseline, split the coalition, probe thresholds) are essentially the same explanation with different verbs; the fourth (keep the ceiling low) is the only restraint-flavored option. The lane will tend to score pressure-forward almost regardless of analytic preference, because the option set is unbalanced. Consider rewriting one of options 1–3 as a <em>defensive</em> rather than offensive reading (e.g. &ldquo;Hold a position without committing to escalation Beijing cannot win&rdquo;).</p>
+
+  <h3>Outside help without formal alignment (Security, Alliances and autonomy, Decision 2/5)</h3>
+  <p>Option 1 (&ldquo;Use hard external backing&rdquo;) is framed in absolute terms — &ldquo;Without stronger outside balancing, legal claims and coast guards <em>will not</em> offset material asymmetry for long&rdquo; — while options 2–4 are hedged. A respondent who agrees with the framing of option 1 but not its absolute reading has nowhere to go. Soften option 1 to match the others&rsquo; modal register.</p>
+
+  <h3>Releasing a powerful open-weight model (Tech, Controls and dependence, Decision 2/5)</h3>
+  <p>This is one of the items where the four options come closest to being a real four-corner space (restrict-above-threshold / staged release / broad access / regulate deployers). Worth using as a model for revisions of the unbalanced items above. The phrasing &ldquo;Once capability crosses a line&rdquo; is also nicely specific without being technical-jargon-y.</p>
+
+  <h3>Allied subsidy races (Tech, Capacity and industrial policy, Decision 4/5)</h3>
+  <p>Options 1 and 3 (&ldquo;Accept some duplication&rdquo;, &ldquo;Keep national depth&rdquo;) are nearly synonymous to anyone not deep in industrial policy debates. A respondent picking option 1 vs option 3 may be making a coin flip on which of two near-paraphrases sounds slightly more correct. Either merge or sharpen the contrast — option 3 should specifically be about <em>national</em> as opposed to <em>allied</em> redundancy, with the tradeoff named.</p>
+
+  <h3>Mass atrocity and outside action (Security, Order/legitimacy/protection, Decision 1/5)</h3>
+  <p>This is the most ethically charged item in the product, and the four options handle it well — but option 4 (&ldquo;Reduce harm without widening&rdquo;) bundles relief, sanctions, monitoring, <em>and</em> documentation. Those are not the same instrument. Consider splitting documentation/monitoring into a fifth lane, or dropping it from option 4 to keep the option as a clean &ldquo;non-military pressure&rdquo; choice. The current version slightly biases the option toward agreement because it offers four things that are each individually defensible.</p>
+
+  <div class="finding low">
+    <div class="finding-head"><span class="chip low">Low</span><span>§8 · Voice consistency</span></div>
+    <h4>Modal language across options.</h4>
+    <p>Across many items the &ldquo;hard&rdquo; or &ldquo;activist&rdquo; option is written in declarative absolutes (&ldquo;will not&rdquo;, &ldquo;must&rdquo;, &ldquo;should&rdquo;) while the more cautious options are written in conditional language (&ldquo;may&rdquo;, &ldquo;can&rdquo;, &ldquo;often&rdquo;). This is a small but systematic asymmetry that nudges a careful respondent toward the cautious option even when their substantive view is closer to the activist one. A pass for modal-verb consistency would tighten the instrument materially.</p>
+  </div>
+
+  <!-- 9 -->
+  <h2 id="s9"><span class="num">09</span>Beta hygiene: localStorage-only state, retake semantics, leakage</h2>
+  <p class="deck">Several mechanics that read as &ldquo;beta&rdquo; today will read as &ldquo;sloppy&rdquo; once the product is shared more widely.</p>
+
+  <p>From the implementation surfaced in the questionnaire app:</p>
+
+  <ul class="tick">
+    <li><b>State is per-device, no account.</b> &ldquo;Saved to this device&rdquo; is the only persistence model. This is fine for beta. It will not survive any user-testing session that involves &ldquo;send me what you got.&rdquo; Plan for a shareable result-permalink (encoded answers in a URL fragment, no server) before the next public push. This also gives the product a viral surface it currently lacks entirely.</li>
+    <li><b>Mode-switch wipes answers.</b> The quiz code clears <code>answers</code> when <code>activeMode</code> changes, with no warning. A user toggling from Standard to Advanced mid-quiz to &ldquo;see what the harder version looks like&rdquo; will silently lose their work. Either preserve overlapping answers across modes (the obvious move, since Advanced is a superset of Standard for many items) or surface a confirm dialog.</li>
+    <li><b>Recommended-mode rhetoric.</b> The mode gate asks two questions (familiarity, requested depth) and then makes a recommendation. The copy says &ldquo;the recommendation changes pacing and depth only. It does not alter the scoring model.&rdquo; Good. But the recommendation is currently framed as a soft endorsement of one path; in practice, sophisticated users will mostly pick Advanced regardless. Consider making the recommendation more candid: &ldquo;Most respondents who self-identify as &lsquo;very familiar&rsquo; choose Advanced. Standard exists primarily for first-time IR readers.&rdquo;</li>
+    <li><b>Foundation result leakage into Profile.</b> The Profile page dynamically references modules the user has completed (&ldquo;Saved layers: Foundation, Security, Technology, and AI&rdquo;). If a user completes only Foundation, the Profile page is structurally thin and reads as a stub. Consider an explicit empty-state for Profile that frames it as a destination-after-modules rather than a thing the user can navigate to early and find half-built.</li>
+    <li><b>Beta watermark.</b> &ldquo;IR Worldview Inventory · Beta&rdquo; in the footer is good. A subtle beta marker on result pages themselves (next to the archetype name, not in microcopy) would help calibrate sharing behavior — users will share the screenshot regardless, and right now nothing in that screenshot tells the receiving reader the product self-identifies as beta.</li>
+  </ul>
+
+  <!-- 10 -->
+  <h2 id="s10"><span class="num">10</span>Scope honesty: the Western-canon footnote needs to stop being a footnote</h2>
+  <p class="deck">The Field Guide&rsquo;s closing note on canon limitations is the most intellectually honest paragraph in the entire product. Almost no one will read it.</p>
+
+  <p>The Field Guide closes with a paragraph that names, plainly, that the inventory measures theoretical orientation as expressed through the Anglo-American IR canon, that it does not adjust for national background, and that it does not claim to capture how respondents from non-Western strategic cultures approach world politics. This is the kind of paragraph most editorial products would never write.</p>
+  <p>It is also the third-from-last paragraph on a page most users will not visit. As currently sited, it reads as a scholarly conscience-clearing — necessary for the author&rsquo;s integrity, invisible to the audience.</p>
+
+  <div class="finding struct">
+    <div class="finding-head"><span class="chip struct">Structural</span><span>§10 · Canon scope</span></div>
+    <h4>Make the canon scope visible at the top of the funnel.</h4>
+    <p>Add a short — three or four sentences — &ldquo;What this inventory measures and what it does not&rdquo; block on the landing page itself, above the &ldquo;Start the IR Foundation&rdquo; CTA. Specifically name the Anglo-American canon scope and the absence of feminist / postcolonial / green / English School scoring. This costs the product nothing it does not already concede and gains it the kind of trust that survives a screenshot.</p>
+    <p>The current landing-page copy says this is &ldquo;an interpretive tool, not a diagnostic.&rdquo; That is necessary. It is not sufficient. The follow-up sentence the user actually needs is: <em>&ldquo;It locates your instincts within four traditions of mainstream IR theory. If your strongest priors come from outside that canon, the inventory will say so on your result page rather than placing you in the closest available box.&rdquo;</em> &mdash; and then the result page has to actually do that.</p>
+  </div>
+
+  <div class="finding struct">
+    <div class="finding-head"><span class="chip struct">Structural</span><span>§10 · Roadmap honesty</span></div>
+    <h4>If feminist / postcolonial / green / English School are coming, say so.</h4>
+    <p>The Field Guide&rsquo;s &ldquo;not yet modeled&rdquo; framing implies a roadmap. If that roadmap exists, even at coarse resolution, name it &mdash; &ldquo;The next planned dimension extension is X, expected Y.&rdquo; If it does not, say that too. The current language reads as deferral; readers who care about these traditions will read it as either a promise or a hedge depending on their priors, and the product cannot afford either of those misreadings.</p>
+  </div>
+
+  <!-- 11 -->
+  <h2 id="s11"><span class="num">11</span>What I would prioritize before the next public push</h2>
+  <p class="deck">If only one of these gets done.</p>
+
+  <ol class="hang">
+    <li><b>Add a &ldquo;Where this result will be wrong&rdquo; panel to every Foundation result page.</b> Single highest-leverage move. Neutralizes the strongest legitimate critique of the product, and costs almost nothing to ship.</li>
+    <li><b>Drop the decimal scores, or earn them.</b> Replace 5.8 / 7 with a five-band qualitative position bar, or commit to confidence intervals. Either is better than the current middle.</li>
+    <li><b>Move the canon-scope paragraph from the field guide footer to the landing page.</b> Three sentences. Material trust gain.</li>
+    <li><b>Lift &ldquo;What would change your mind&rdquo; from the AI Compass to the Foundation and module result pages.</b> Already drafted, already working on one surface, already the most editorially confident pattern in the product.</li>
+    <li><b>Ship a shareable result permalink.</b> Encoded URL, no account. The product has no viral surface today; this is the cheapest way to give it one without compromising the no-account stance.</li>
+  </ol>
+
+  <div class="aside">
+    <b>What I am deliberately not saying</b>
+    Nothing in this memo is an argument that the inventory is the wrong shape, or that the four-tradition Foundation is a poor anchor, or that the case-writing should be redone. The case-writing is, in places, the best of any IR-adjacent online artifact I have seen. The instrument&rsquo;s problems are problems of <em>presentation discipline</em> &mdash; a successful editorial product talked into believing, against its better judgment, that it was also a measurement instrument.
+  </div>
+
+  <section class="closing">
+    <p>The product&rsquo;s strongest line, repeated across surfaces, is that the result is &ldquo;one atlas marker in the wider mosaic.&rdquo; The work in front of you is to make the rest of the design behave like that line. Every change above is a version of the same instruction.</p>
+
+    <div class="signoff">
+      <em>Filed in good faith, against the grain.</em>
+      Editorial red team · for JinHua Yip · Beta review pass
+    </div>
+  </section>
+
+</article>
+</body>
+</html>
