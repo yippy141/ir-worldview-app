@@ -36,7 +36,8 @@ export default async function ComparePage(
         <h1>Compare two shared profiles</h1>
         <p className="muted" style={{ lineHeight: "1.72", fontSize: "1.02rem", maxWidth: "760px" }}>
           Paste two shared-profile links or payloads. The page compares the two read-only profiles
-          side by side without a backend, account system, or compatibility score.
+          by naming the argument they would probably have, then showing the detailed deltas without
+          a backend, account system, or compatibility score.
         </p>
       </div>
 

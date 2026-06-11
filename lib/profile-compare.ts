@@ -20,8 +20,18 @@ export type DomainDifference = {
   summary: string
 } | null
 
+export type ProbableArgument = {
+  dimension: DimensionKey | null
+  dimensionLabel: string
+  summary: string
+  leftStartsFrom: string
+  rightStartsFrom: string
+  caseThatExposesSplit: string
+}
+
 export type ProfileComparison = {
   foundationRows: FoundationComparisonRow[]
+  probableArgument: ProbableArgument
   sharedStableTrait: string
   biggestDivergence: string
   biggestSecurityDifference: DomainDifference
@@ -76,11 +86,70 @@ const FOUNDATION_SIDE_TEXT: Record<
   },
 }
 
+const FOUNDATION_ARGUMENT_TEXT: Record<
+  DimensionKey,
+  {
+    topic: string
+    highStart: string
+    lowStart: string
+    caseTest: string
+  }
+> = {
+  securityCompetition: {
+    topic: "rivalry and threat assessment",
+    highStart:
+      "rivalry, uncertainty, and credible leverage have to be handled before reassurance can work",
+    lowStart:
+      "some rivalries are contingent enough that diplomacy, issue design, or restraint can change the stakes",
+    caseTest: "a rival makes a partly cooperative offer while both sides still face security pressure",
+  },
+  institutions: {
+    topic: "institutions and rules",
+    highStart:
+      "rules, monitoring, and repeated interaction can change incentives rather than merely decorate power",
+    lowStart: "rules usually survive only when power and interests keep supporting them",
+    caseTest: "a powerful actor has a clear incentive to defect from a bargain it once accepted",
+  },
+  domesticFilters: {
+    topic: "domestic politics inside foreign policy",
+    highStart:
+      "regime politics, coalitions, and state capacity filter what the outside world means",
+    lowStart: "external pressure and strategic position do more work than internal variation",
+    caseTest: "two similarly placed states respond differently to the same outside pressure",
+  },
+  normsIdentity: {
+    topic: "legitimacy and identity",
+    highStart:
+      "status, legitimacy, and social expectations shape what actors think they can do",
+    lowStart: "norm language matters less than interests, coercion, and material costs",
+    caseTest: "public legitimacy pulls against the materially efficient option",
+  },
+  politicalEconomy: {
+    topic: "markets, hierarchy, and dependence",
+    highStart: "ownership, finance, supply chains, and unequal dependence are part of the cause",
+    lowStart: "security and diplomacy explain more than deeper economic structure",
+    caseTest: "a policy creates winners, losers, and chokepoints beneath the official rationale",
+  },
+  restraint: {
+    topic: "restraint versus pressing advantage",
+    highStart: "overextension and unintended escalation are often the first danger to manage",
+    lowStart: "openings should be pressed before opponents adapt or the advantage closes",
+    caseTest: "action looks promising but could expand commitments or escalation risk",
+  },
+  orderJustice: {
+    topic: "order, sovereignty, and justice",
+    highStart: "order, sovereignty, and precedent carry weight even under moral pressure",
+    lowStart: "severe harm can justify overriding sovereignty-first rules",
+    caseTest: "stopping harm would weaken a rule that also protects wider order",
+  },
+}
+
 export function buildProfileComparison(left: ProfileStore, right: ProfileStore): ProfileComparison {
   const foundationRows = buildFoundationComparisonRows(left, right)
 
   return {
     foundationRows,
+    probableArgument: buildProbableArgument(foundationRows),
     sharedStableTrait: buildSharedStableTrait(foundationRows),
     biggestDivergence: buildBiggestDivergence(foundationRows),
     biggestSecurityDifference: buildDomainDifference(left, right, "security"),
@@ -128,19 +197,56 @@ function buildSharedStableTrait(rows: FoundationComparisonRow[]) {
   return `Both stay relatively close on ${closest.label.toLowerCase()}, even if they emphasize different things elsewhere.`
 }
 
+function buildProbableArgument(rows: FoundationComparisonRow[]): ProbableArgument {
+  const widest = getWidestFoundationDifference(rows)
+
+  if (!widest) {
+    return {
+      dimension: null,
+      dimensionLabel: "the available profile data",
+      summary:
+        "You two do not mainly disagree about a label. The comparison needs two Foundation baselines before it can name the argument cleanly.",
+      leftStartsFrom: "Left does not provide enough Foundation data to name a starting point.",
+      rightStartsFrom: "Right does not provide enough Foundation data to name a starting point.",
+      caseThatExposesSplit:
+        "The split would become clearer after both profiles include the same baseline layer.",
+    }
+  }
+
+  const frame = FOUNDATION_ARGUMENT_TEXT[widest.dimension]
+  const leftSide = sideOfCenter(widest.left)
+  const rightSide = sideOfCenter(widest.right)
+  const sameDirection = leftSide === rightSide
+
+  return {
+    dimension: widest.dimension,
+    dimensionLabel: widest.label,
+    summary: sameDirection
+      ? `You two do not mainly disagree about the label. You split on how much weight to give ${frame.topic}.`
+      : `You two do not mainly disagree about the label. You split on ${frame.topic}.`,
+    leftStartsFrom: `Left starts from ${frame[leftSide === "high" ? "highStart" : "lowStart"]}.`,
+    rightStartsFrom: `Right starts from ${frame[rightSide === "high" ? "highStart" : "lowStart"]}.`,
+    caseThatExposesSplit: `The split will show up most when ${frame.caseTest}.`,
+  }
+}
+
 function buildBiggestDivergence(rows: FoundationComparisonRow[]) {
-  const widest = rows
-    .slice()
-    .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))[0]
+  const widest = getWidestFoundationDifference(rows)
 
   if (!widest) {
     return "No meaningful baseline divergence could be derived."
   }
 
-  const leftSide = widest.left >= 4 ? "high" : "low"
-  const rightSide = widest.right >= 4 ? "high" : "low"
+  const leftSide = sideOfCenter(widest.left)
+  const rightSide = sideOfCenter(widest.right)
 
   return `The clearest baseline gap is on ${widest.label}: left starts from ${FOUNDATION_SIDE_TEXT[widest.dimension][leftSide]}, while right starts from ${FOUNDATION_SIDE_TEXT[widest.dimension][rightSide]}.`
+}
+
+function getWidestFoundationDifference(rows: FoundationComparisonRow[]) {
+  return rows
+    .slice()
+    .sort((a, b) => Math.abs(b.diff) - Math.abs(a.diff))[0]
 }
 
 function buildDomainDifference(
@@ -217,6 +323,10 @@ function moduleLabel(slug: ModuleSlug) {
 
 function onSameSideOfCenter(left: number, right: number) {
   return (left >= 4 && right >= 4) || (left < 4 && right < 4)
+}
+
+function sideOfCenter(score: number) {
+  return score >= 4 ? "high" : "low"
 }
 
 function average(left: number, right: number) {

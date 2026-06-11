@@ -35,6 +35,29 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
 
   return (
     <section className="stack-lg">
+      <section className="panel stack-md compare-argument-card" aria-labelledby="compare-argument-heading">
+        <div className="stack-xs">
+          <p className="eyebrow">Main disagreement</p>
+          <h2 id="compare-argument-heading">The argument you would probably have.</h2>
+          <p className="compare-argument-card__summary">{comparison.probableArgument.summary}</p>
+        </div>
+
+        <div className="compare-argument-grid">
+          <article className="compare-argument-point stack-xs">
+            <p className="eyebrow">Left starts from</p>
+            <p>{comparison.probableArgument.leftStartsFrom}</p>
+          </article>
+          <article className="compare-argument-point stack-xs">
+            <p className="eyebrow">Right starts from</p>
+            <p>{comparison.probableArgument.rightStartsFrom}</p>
+          </article>
+          <article className="compare-argument-point compare-argument-point--wide stack-xs">
+            <p className="eyebrow">Case that exposes the split</p>
+            <p>{comparison.probableArgument.caseThatExposesSplit}</p>
+          </article>
+        </div>
+      </section>
+
       <section className="compare-summary-grid">
         <article className="panel stack-sm">
           <p className="eyebrow">Left profile</p>
