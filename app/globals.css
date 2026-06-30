@@ -1,22 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700;6..72,800&family=Space+Mono:wght@400;700&display=swap");
+
 :root {
-  --bg: #f7f2ec;
-  --panel: #fffdf9;
-  --panel-2: #f2ece4;
-  --text: #1b1716;
-  --muted: #6f6762;
-  --accent: #6b1f1a;
-  --accent-light: #8b2a24;
-  --border: #ddd3ca;
-  --border-soft: color-mix(in srgb, var(--border) 72%, white 28%);
-  --line: color-mix(in srgb, var(--border) 84%, white 16%);
-  --shadow: 0 10px 24px rgba(36, 24, 19, 0.04);
-  color-scheme: light;
+  --bg: #0a1322;
+  --raised: #0e1a2e;
+  --panel: #0e1a2e;
+  --panel-2: #122139;
+  --text: #eef2f7;
+  --ink: #eef2f7;
+  --ink-subtle: #c7d2e0;
+  --muted: #8295ab;
+  --faint: #5a6c84;
+  --accent: #cea857;
+  --accent-light: #9a7d3e;
+  --brass: #cea857;
+  --brass-dim: #9a7d3e;
+  --steel: #86abd2;
+  --border: #304563;
+  --border-soft: color-mix(in srgb, var(--line) 72%, var(--bg) 28%);
+  --line: #22344f;
+  --shadow: 0 10px 24px rgba(2, 8, 18, 0.28);
+  --font-heading: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-ui: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sans: var(--font-ui);
+  --font-mono: "Space Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  color-scheme: dark;
 
   /* Tradition-specific accent colors — used for chips, rules, and subtle callouts */
-  --t-realist: #6b1f1a;        /* oxblood — matches site accent */
-  --t-institutionalist: #2d4a6e; /* slate blue */
-  --t-constructivist: #1e5f5c;   /* deep teal */
-  --t-cpe: #7a4e28;              /* bronze/umber */
+  --t-realist: #d98a5a;
+  --t-institutionalist: #7aa8d8;
+  --t-constructivist: #62c2a3;
+  --t-cpe: #c198d8;
 }
 
 * {
@@ -27,7 +41,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;
@@ -36,7 +50,7 @@ body {
 h1,
 h2,
 h3 {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
 }
 
 a {
@@ -112,7 +126,7 @@ button {
 
 .quiz-shell-brand {
   display: inline-block;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -611,7 +625,7 @@ button {
 
 .brand {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-weight: 700;
   font-size: 1.22rem;
   letter-spacing: -0.02em;
@@ -705,7 +719,7 @@ h2 {
 
 h3 {
   font-size: 1rem;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
 }
 
 .muted { color: var(--muted); }
@@ -777,7 +791,7 @@ h3 {
 
 .quiz-midpoint__h1 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: clamp(1.55rem, 3vw, 2rem);
   letter-spacing: -0.02em;
   line-height: 1.18;
@@ -930,7 +944,7 @@ h3 {
 .option-card-title {
   display: block;
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   line-height: 1.35;
   color: var(--text);
@@ -1094,7 +1108,7 @@ h3 {
 .lobby-menu-label {
   font-size: 1.05rem;
   font-weight: 700;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   line-height: 1.3;
   transition: color 0.12s ease;
   margin: 0 0 5px;
@@ -1190,7 +1204,7 @@ h3 {
 
 .landing-hero-v15__h1 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 2.35rem;
   font-weight: 700;
   letter-spacing: 0;
@@ -1201,7 +1215,7 @@ h3 {
 .landing-hero-v15__lead {
   margin: 0;
   max-width: 66ch;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.22rem;
   line-height: 1.5;
   color: var(--text);
@@ -1239,7 +1253,7 @@ h3 {
 .landing-entry-card strong {
   display: block;
   margin: 7px 0 8px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.24rem;
   font-weight: 700;
   line-height: 1.24;
@@ -1286,7 +1300,7 @@ h3 {
 
 .landing-briefing-item h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.08rem;
   line-height: 1.28;
   letter-spacing: 0;
@@ -1398,7 +1412,7 @@ h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   line-height: 1.35;
   color: var(--text);
 }
@@ -1427,7 +1441,7 @@ h3 {
 
 .landing-route-title {
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.96rem;
 }
 
@@ -1458,7 +1472,7 @@ h3 {
 
 .menu-card-title {
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   margin: 0 0 4px;
   color: var(--text);
@@ -1531,7 +1545,7 @@ h3 {
   display: block;
   margin-bottom: 6px;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.98rem;
   font-weight: 600;
 }
@@ -1572,7 +1586,7 @@ h3 {
 .landing-rail-title {
   font-size: 1rem;
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
 }
 
 .landing-rail-text {
@@ -1774,7 +1788,7 @@ h3 {
 .module-linkage-title {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   line-height: 1.3;
 }
@@ -2186,7 +2200,7 @@ h3 {
   border-radius: 999px;
   background: color-mix(in srgb, var(--panel-2) 82%, white 18%);
   color: var(--accent);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.96rem;
   font-weight: 700;
 }
@@ -2194,7 +2208,7 @@ h3 {
 .lobby-step-title {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   line-height: 1.28;
 }
@@ -2286,7 +2300,7 @@ h3 {
 .homepage-signal-card strong {
   display: block;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.05rem;
   line-height: 1.28;
 }
@@ -2505,7 +2519,7 @@ h3 {
 .resource-list-title {
   display: block;
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
 }
 
 .resource-list-copy {
@@ -2947,7 +2961,7 @@ h3 {
 .result-signature-meta dd {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.96rem;
   line-height: 1.35;
 }
@@ -3013,7 +3027,7 @@ h3 {
 
 .profile-mosaic-title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.98rem;
   font-weight: 700;
   line-height: 1.45;
@@ -3083,7 +3097,7 @@ h3 {
 
 .profile-next-title {
   display: block;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 700;
   color: var(--text);
@@ -3120,7 +3134,7 @@ h3 {
 
 .profile-foundation-subtitle strong {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-weight: 700;
 }
 
@@ -3160,7 +3174,7 @@ h3 {
 }
 
 .profile-stat-chip__v {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.92rem;
   font-weight: 700;
   color: var(--text);
@@ -3190,7 +3204,7 @@ h3 {
 }
 
 .profile-spread__title {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.96rem;
   font-weight: 700;
   color: var(--text);
@@ -3262,7 +3276,7 @@ h3 {
 }
 
 .profile-spread__anchor {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.02em;
   color: var(--muted);
@@ -3320,7 +3334,7 @@ h3 {
   justify-content: space-between;
   gap: 4px 12px;
   min-width: 0;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.7rem;
   letter-spacing: 0.02em;
   color: var(--muted);
@@ -3373,7 +3387,7 @@ h3 {
   margin-left: auto;
   text-transform: none;
   letter-spacing: 0.02em;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-weight: 500;
   color: var(--text);
 }
@@ -3405,7 +3419,7 @@ h3 {
 
 .profile-ai-band__body {
   flex: 1 1 240px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.92rem;
   line-height: 1.55;
   color: var(--text);
@@ -3414,7 +3428,7 @@ h3 {
 .profile-ai-band__open {
   flex: 0 0 auto;
   margin-left: auto;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--t-institutionalist);
   text-decoration: none;
@@ -3467,7 +3481,7 @@ h3 {
 }
 
 .profile-hero-cta__arr {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.84rem;
   color: var(--muted);
 }
@@ -3567,7 +3581,7 @@ h3 {
 }
 
 .profile-state-action__label {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.04rem;
   line-height: 1.28;
   color: inherit;
@@ -3685,7 +3699,7 @@ h3 {
 .result-card-hero__label,
 .result-card-hero__verdict {
   margin: 0 0 12px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: clamp(1.4rem, 2.6vw, 1.65rem);
   font-weight: 700;
   letter-spacing: 0;
@@ -3777,7 +3791,7 @@ h3 {
 
 .result-card-hero__finding-text {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.95rem;
   line-height: 1.65;
   color: var(--text);
@@ -3798,7 +3812,7 @@ h3 {
   display: inline-flex;
   align-items: center;
   padding: 8px 14px;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.86rem;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -3863,7 +3877,7 @@ h3 {
 .foundation-payoff__block h3,
 .foundation-payoff__card h4 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   letter-spacing: 0;
   color: var(--text);
 }
@@ -3952,7 +3966,7 @@ h3 {
 .ai-governance-payoff__block h3,
 .ai-governance-payoff__card h4 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   letter-spacing: 0;
   color: var(--text);
 }
@@ -4128,7 +4142,7 @@ h3 {
 .module-decisive-framing {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.98rem;
   font-weight: 600;
   line-height: 1.42;
@@ -4672,7 +4686,7 @@ h3 {
 
 .planned-module-title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   line-height: 1.34;
   color: var(--text);
@@ -4737,7 +4751,7 @@ h3 {
 .ai-bridge-title {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.35;
@@ -4823,7 +4837,7 @@ h3 {
   list-style: none;
   padding: 16px 0;
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
 }
 
 .profile-details summary::-webkit-details-marker {
@@ -4893,7 +4907,7 @@ h3 {
 .compare-argument-card__summary {
   max-width: 820px;
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: clamp(1.08rem, 1.8vw, 1.28rem);
   line-height: 1.7;
   color: var(--text);
@@ -5190,7 +5204,7 @@ h3 {
 
 .issue-module-title {
   font-weight: 600;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.95rem;
   margin-bottom: 6px;
 }
@@ -5423,7 +5437,7 @@ h3 {
 
 .ai-result-card-title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.1rem;
   line-height: 1.35;
   color: var(--text);
@@ -5613,7 +5627,7 @@ h3 {
 .reading-path-subheading {
   margin: 0;
   max-width: 720px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.98rem;
   line-height: 1.62;
   color: var(--text);
@@ -5660,7 +5674,7 @@ h3 {
 
 .reading-entry-title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 700;
   line-height: 1.45;
@@ -6100,7 +6114,7 @@ h3 {
 
 .ai-landing-hero__h1 {
   margin: 0 0 18px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: clamp(1.9rem, 4.2vw, 2.6rem);
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -6110,7 +6124,7 @@ h3 {
 
 .ai-landing-hero__lead {
   margin: 0 0 12px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.18rem;
   line-height: 1.45;
   color: var(--text);
@@ -6334,7 +6348,7 @@ h3 {
   letter-spacing: -0.025em;
   line-height: 1.12;
   margin: 0 0 16px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
 }
 
 .ai-lobby-card-link {
@@ -6385,7 +6399,7 @@ h3 {
 
 .ai-atlas-fingerprint-card__num {
   margin: 0;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   color: var(--muted);
@@ -6393,7 +6407,7 @@ h3 {
 
 .ai-atlas-fingerprint-card__name {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.3rem;
   font-weight: 700;
   line-height: 1.18;
@@ -6430,7 +6444,7 @@ h3 {
   left: 2px;
   top: 0;
   color: var(--accent);
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-weight: 600;
 }
 
@@ -6461,7 +6475,7 @@ h3 {
 }
 
 .ai-atlas-fingerprint-card__meta-v {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--text);
@@ -6469,7 +6483,7 @@ h3 {
 
 .ai-atlas-fingerprint-card__cta {
   margin-left: auto;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--text);
   text-decoration: none;
@@ -6524,7 +6538,7 @@ h3 {
 }
 
 .ai-archetype-fingerprint__scale {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   letter-spacing: 0.06em;
 }
 
@@ -6586,7 +6600,7 @@ h3 {
 
 .ai-atlas-detail-lean {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   font-weight: 700;
   line-height: 1.3;
@@ -6616,7 +6630,7 @@ h3 {
 .ai-atlas-detail-reading__title {
   margin: 0;
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   font-weight: 700;
   line-height: 1.28;
@@ -6630,7 +6644,7 @@ h3 {
 .ai-atlas-detail-reading__meta {
   margin: 0;
   color: var(--muted);
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.02em;
   line-height: 1.45;
@@ -6660,7 +6674,7 @@ h3 {
   position: absolute;
   left: 12px;
   top: 10px;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-weight: 600;
   color: var(--accent);
 }
@@ -6680,7 +6694,7 @@ h3 {
 
 .ai-atlas-detail-debate h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   font-weight: 700;
   line-height: 1.28;
@@ -6834,7 +6848,7 @@ h3 {
 
 .ai-fg-section__num {
   margin: 0;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -6843,7 +6857,7 @@ h3 {
 
 .ai-fg-section__title {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.012em;
@@ -6890,7 +6904,7 @@ h3 {
 .ai-fg-scope-card h3,
 .ai-fg-perspective h3 {
   margin: 0;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   font-weight: 700;
   line-height: 1.28;
@@ -6923,7 +6937,7 @@ h3 {
 }
 
 .ai-fg-axis__n {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.04em;
   color: var(--muted);
@@ -6935,7 +6949,7 @@ h3 {
 
 .ai-fg-axis__nm {
   margin: 0 0 2px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.02rem;
   font-weight: 700;
   letter-spacing: -0.005em;
@@ -6962,7 +6976,7 @@ h3 {
   justify-content: space-between;
   gap: 2px 8px;
   min-width: 0;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -7005,7 +7019,7 @@ h3 {
 }
 
 .ai-fg-parts__pair {
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: -0.005em;
@@ -7015,7 +7029,7 @@ h3 {
 .ai-fg-parts__pair small {
   display: block;
   margin-top: 2px;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.68rem;
   letter-spacing: 0.04em;
   font-weight: 500;
@@ -7064,7 +7078,7 @@ h3 {
 
 .ai-fg-cross__title {
   margin: 4px 0 6px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.04rem;
   font-weight: 700;
   letter-spacing: -0.005em;
@@ -7120,7 +7134,7 @@ h3 {
 
 .ai-fg-perspective p.ai-fg-perspective__question {
   color: var(--text);
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-style: italic;
 }
 
@@ -7147,7 +7161,7 @@ h3 {
 
 .ai-fg-start__title {
   margin: 0 0 6px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: -0.005em;
@@ -7162,7 +7176,7 @@ h3 {
 }
 
 .ai-fg-start__link {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text);
   text-decoration: none;
@@ -7231,7 +7245,7 @@ h3 {
 
 .ai-fg-futures__scen-ttl {
   margin: 0 0 2px;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-heading);
   font-size: 0.96rem;
   font-weight: 700;
   letter-spacing: -0.005em;
@@ -7240,7 +7254,7 @@ h3 {
 
 .ai-fg-futures__scen-meta {
   margin: 0;
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-family: var(--font-mono);
   font-size: 0.74rem;
   letter-spacing: 0.02em;
   color: var(--muted);
@@ -7321,7 +7335,7 @@ h3 {
     position: relative;
     border-bottom: 1px dotted var(--line);
     padding: 8px 0 8px 28px;
-    font-family: Georgia, "Times New Roman", serif;
+    font-family: var(--font-heading);
     font-size: 0.92rem;
     letter-spacing: -0.005em;
     color: var(--text);
@@ -7332,7 +7346,7 @@ h3 {
     position: absolute;
     left: 0;
     top: 10px;
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-family: var(--font-mono);
     font-size: 0.72rem;
     color: var(--muted);
   }
@@ -7353,7 +7367,7 @@ h3 {
 
   .ai-fg-rail__pill {
     margin-left: 8px;
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-family: var(--font-mono);
     font-style: normal;
     font-size: 0.6rem;
     letter-spacing: 0.08em;
