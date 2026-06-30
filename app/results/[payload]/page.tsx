@@ -2,6 +2,7 @@ import Link from "next/link"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { ScaleBar } from "@/components/visual-primitives"
+import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
 import { resolveFoundationPayload } from "@/lib/share"
 import {
@@ -25,9 +26,6 @@ import {
   getHowYouReadTheWorld,
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
-import { ResultCardHero } from "@/components/results/result-card-hero"
-import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
-import { FoundationPayoffSections } from "@/components/results/foundation-payoff-sections"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
@@ -297,465 +295,334 @@ export default async function ResultPage(
           }}
         />
 
-        {/* ── 1. Hero ── */}
-        <ResultCardHero
-          eyebrow="Foundation result"
-          label={familyLabel}
-          accent={accentVariant}
-          modifiers={[result.strategyModifier, result.normativeModifier]}
-          verdict={profileTitle}
-          summary={summary}
-          finding={surprisingFinding}
-          actions={
-            <>
-              <Link
-                href={`/modules?foundation=${encodeURIComponent(payload)}`}
-                className="result-card-hero__primary"
-              >
-                Add a focus-area module
-              </Link>
-              <ResultCardHeroShare
-                shareUrl={`/results/${payload}`}
-                title={`IR Worldview: ${familyLabel}`}
-                text={`My IR worldview result: ${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`}
-              />
-              <Link href="/profile" className="result-card-hero__secondary">
-                View Profile →
-              </Link>
-            </>
-          }
-        />
-
-        <FoundationPayoffSections payoff={foundationPayoff} foundationPayload={payload} />
-
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Profile signature</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              The headline framing on the card sits on top of this compact read of the dimensions
-              and modifiers shaping the result.
+        <section className="result-section stack-lg" aria-labelledby="foundation-result-heading">
+          <div className="stack-md">
+            <p className="eyebrow">Foundation result</p>
+            <h1
+              id="foundation-result-heading"
+              style={{
+                fontFamily: "Georgia, serif",
+                fontSize: "clamp(2.1rem, 5vw, 4.8rem)",
+                lineHeight: 1.02,
+                letterSpacing: "-0.045em",
+                maxWidth: "980px",
+              }}
+            >
+              {foundationNarrative.state === "lowDifferentiation"
+                ? "Your answers keep several ways of reading world politics in play."
+                : foundationPayoff.corePattern.noticeFirst}
+            </h1>
+            <p className="muted" style={{ maxWidth: "760px", fontSize: "1.05rem", lineHeight: "1.7" }}>
+              {foundationNarrative.state === "lowDifferentiation"
+                ? "The reward is the map: which questions remain open when the scenarios get harder."
+                : foundationPayoff.mainTension.body}
             </p>
+            <div className="row gap-sm wrap" aria-label="Technical result labels">
+              <span className="atlas-tag">{familyLabel}</span>
+              <span className="atlas-tag">{result.strategyModifier}</span>
+              <span className="atlas-tag">{result.normativeModifier}</span>
+              <span className="atlas-tag">Nearest overlap: {neighborLabel}</span>
+            </div>
           </div>
-          <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-            Profile shorthand: <em>{profileTitle}</em>.
-          </p>
-          <ResultSignaturePanel
-            familyLabel={familyLabel}
-            strategyModifier={result.strategyModifier}
-            normativeModifier={result.normativeModifier}
-            neighborLabel={neighborLabel}
-            topDimensions={topDimensions}
-          />
-        </div>
 
-        <div className="result-section stack-md">
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(0, 1.25fr) minmax(280px, 0.75fr)",
+              gap: "24px",
+              alignItems: "stretch",
+            }}
+          >
+            <div className="panel stack-md" style={{ padding: "24px" }}>
+              <div className="stack-xs">
+                <p className="eyebrow">Dimension map</p>
+                <h2 style={{ margin: 0 }}>The shape behind the sentence</h2>
+                <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+                  The outline shows where your answers pull away from the middle and where
+                  they stay closer to the center of the map.
+                </p>
+              </div>
+              <FoundationDimensionRadar dimensionScores={dimensionScores} />
+            </div>
+
+            <aside className="panel stack-md" style={{ padding: "24px" }} aria-label="Trust and coverage">
+              <div className="stack-xs">
+                <p className="eyebrow">Where this may be wrong</p>
+                <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.1rem" }}>
+                  Closest modeled fit within the current map.
+                </p>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                  If your strongest instincts come from feminist, postcolonial or decolonial,
+                  green, or English School IR, this inventory will place you near one of its four
+                  modeled families rather than name that orientation directly.
+                </p>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                  {foundationNarrative.state === "lowDifferentiation"
+                    ? "Your answers leave several centers plausible in this model, so read the family label lightly."
+                    : "Use the label as shorthand for the dimension pattern, then test it against concrete issue areas."}
+                </p>
+                <Link href="/method" style={{ color: "var(--accent)", fontWeight: 600 }}>
+                  Read methods and coverage limits →
+                </Link>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section className="result-section stack-md" aria-labelledby="foundation-payoff-heading">
           <div className="stack-xs">
-            <h2>Main signals</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              Start here: these are the pulls doing the most work in this Foundation result.
-            </p>
+            <p className="eyebrow">Payoff</p>
+            <h2 id="foundation-payoff-heading">What to do with this result</h2>
           </div>
           <div className="driver-grid">
-            {keyDrivers.map((driver) => (
-              <div key={driver.dimension} className="driver-card stack-xs">
-                <p className="eyebrow">{driver.type}</p>
-                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginTop: "6px" }}>
-                  {driver.label}
-                </p>
-                <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55", marginTop: "6px" }}>
-                  {driver.description}
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>How close the neighboring read is</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>{mixedNote}</p>
-          </div>
-          <div className="callout stack-xs" aria-label="Trust and coverage note">
-            <p style={{ fontWeight: 600 }}>Trust and coverage</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              This is the closest modeled fit among the traditions currently in the inventory, not
-              a final or exhaustive identity. Treat it as one atlas marker in the wider mosaic.{" "}
-              <Link href="/method" style={{ color: "var(--accent)" }}>
-                Methods explains the limits →
-              </Link>
-            </p>
-          </div>
-          <div className="row gap-sm wrap">
-            <Link
-              href={`/modules?foundation=${encodeURIComponent(payload)}`}
-              className="cta-primary"
-            >
-              Add a focus-area module
-            </Link>
-            <Link href="/profile" className="cta-secondary">
-              View your Profile
-            </Link>
-          </div>
-        </div>
-
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Dimension profile</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These are model positions, not population percentiles.
-            </p>
-          </div>
-          <div>
-            {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
-              <div key={dim} className="dim-row">
-                <ScaleBar label={dimensionLabels[dim]} value={value} tone="baseline" />
-                <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
-                  {dimensionOneLiners[dim](value)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Atlas</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              Atlas gives plain-English names to patterns that show up repeatedly in the current
-              model. It is a browsing aid, not a live map of users.
-            </p>
-          </div>
-          <div className="atlas-pattern-card atlas-pattern-card--compact stack-sm">
-            <div className="stack-xs">
-              <p className="eyebrow">Nearest Atlas pattern</p>
-              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
-                {atlasMatch.nearest.name}
+            <article className="driver-card stack-xs">
+              <p className="eyebrow">What would change this</p>
+              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif" }}>{foundationPayoff.mainTension.title}</p>
+              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+                {foundationPayoff.mainTension.rivalArgument}
               </p>
+              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+                {foundationNarrative.state === "lowDifferentiation"
+                  ? "A focused module may reveal which tradeoff actually matters once the issue is specific."
+                  : foundationPayoff.corePattern.underweight}
+              </p>
+            </article>
+
+            <article className="driver-card stack-xs">
+              <p className="eyebrow">Nearest Atlas pattern</p>
+              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif" }}>{atlasMatch.nearest.name}</p>
               <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
                 {atlasMatch.nearest.cardSummary}
               </p>
-            </div>
-            <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
-            <div className="stack-xs">
-              <p style={{ fontWeight: 600 }}>What usually drives it</p>
-              <div className="atlas-tag-list">
-                {atlasMatch.nearest.cardDrivers.map((driver) => (
-                  <span key={driver} className="atlas-tag">
-                    {driver}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <p className="muted atlas-pressure-note">
-              <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
-            </p>
-            <div className="stack-xs">
-              <p style={{ fontWeight: 600 }}>Nearby patterns</p>
-              <div className="atlas-inline-links">
-                {atlasMatch.neighbors.map((pattern) => (
-                  <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                    {pattern.name}
-                  </Link>
-                ))}
-                <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
-                  Read this pattern
+              <p>
+                <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)", fontWeight: 600 }}>
+                  Read this pattern →
                 </Link>
-                <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                  Browse Atlas
-                </Link>
-              </div>
-            </div>
+              </p>
+            </article>
           </div>
-        </div>
 
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Add a focus-area overlay</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Your Foundation result is still the baseline. These modules show where concrete issue
-              cases reinforce it, complicate it, or pull against it.
-            </p>
+          <div className="row gap-sm wrap">
+            <Link href={`/modules?foundation=${encodeURIComponent(payload)}`} className="cta-primary">
+              Add a focus-area module
+            </Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open Atlas field map</Link>
+            <Link href="/profile" className="cta-secondary">View Profile</Link>
+            <ResultCardHeroShare
+              shareUrl={`/results/${payload}`}
+              title={`IR Worldview: ${familyLabel}`}
+              text={`My IR worldview result: ${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`}
+            />
           </div>
-          <div className="module-card-grid">
-            {modules.map((moduleDefinition) => (
-              <Link
-                key={moduleDefinition.slug}
-                href={`/modules/${moduleDefinition.slug}?foundation=${encodeURIComponent(payload)}`}
-                className="explore-card"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <p className="eyebrow" style={{ marginBottom: "10px" }}>Focus-area module</p>
-                <p
-                  style={{
-                    fontFamily: "Georgia, serif",
-                    fontWeight: 700,
-                    fontSize: "1.05rem",
-                    marginBottom: "8px",
-                  }}
-                >
-                  {moduleDefinition.title}
-                </p>
-                <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.88rem" }}>
-                  {moduleDefinition.description}
-                </p>
-                <p style={{ marginTop: "12px", fontSize: "0.82rem", color: "var(--accent-light)", fontWeight: 600 }}>
-                  Standard: {moduleDefinition.timeEstimate.standard} · Advanced: {moduleDefinition.timeEstimate.analyst}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
+        </section>
 
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Interpretation and comparison</h2>
-            <p className="muted" style={{ fontSize: "0.85rem" }}>
-              Open these if you want the longer read, the nearest overlap, and the questions that
-              could pressure-test this result.
-            </p>
-          </div>
+        <section className="result-section stack-md">
           <details className="profile-details">
-            <summary>Closest traditions and why this shorthand fits</summary>
-            <div className="stack-md" style={{ marginTop: "16px" }}>
-              <p className="muted" style={{ fontSize: "0.875rem" }}>{closestTraditions.note}</p>
-              <div className="driver-grid">
-                <div className="driver-card stack-xs">
-                  <p className="eyebrow">Strategic style</p>
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{result.strategyModifier}</p>
-                  <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-                    {STRATEGY_STYLE_NOTES[result.strategyModifier]}
-                  </p>
-                </div>
-                <div className="driver-card stack-xs">
-                  <p className="eyebrow">Normative style</p>
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{result.normativeModifier}</p>
-                  <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-                    {NORMATIVE_STYLE_NOTES[result.normativeModifier]}
-                  </p>
-                </div>
-              </div>
-              {strongLenses.length > 0 ? (
-                <div className="stack-sm">
-                  <p className="eyebrow">Other lenses that stay active</p>
-                  <div className="driver-grid">
-                    {strongLenses.map((lens) => (
-                      <div key={lens.key} className="driver-card stack-xs">
-                        <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
-                        <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.55" }}>
-                          {lens.description}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-              <div className="neighbor-columns">
-                <div className="stack-xs">
-                  <p className="eyebrow">Closest shorthand</p>
-                  <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
-                    {familyLabel}
-                  </p>
-                </div>
-                <div className="stack-xs">
-                  <p className="eyebrow">{closestTraditions.showBoth ? "Also very close" : "Nearest overlap"}</p>
-                  <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.05rem" }}>
-                    {neighborLabel}
-                  </p>
-                </div>
-              </div>
-              <div className="result-prose stack-md">
-                <p style={{ lineHeight: "1.65" }}>{explanation}</p>
-                {neighborText ? (
-                  <p className="muted" style={{ lineHeight: "1.65" }}>{neighborText}</p>
-                ) : null}
-                {foundationNarrative.state !== "lowDifferentiation" && runnerUpSeparation ? (
-                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {runnerUpSeparation}
-                  </p>
-                ) : null}
-                {foundationNarrative.state !== "lowDifferentiation" && flipAnalysis ? (
-                  <div className="flip-note">
-                    <p style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>{flipAnalysis}</p>
-                  </div>
-                ) : null}
-                {subtraditionAffinity ? (
-                  <div className="stack-xs">
-                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.95rem" }}>
-                      {subtraditionAffinity.name}
-                    </p>
-                    <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-                      {subtraditionAffinity.note}
-                    </p>
-                  </div>
-                ) : null}
-                <div className="stack-xs">
-                  <p className="muted" style={{ fontSize: "0.85rem" }}>
-                    {foundationNarrative.state === "lowDifferentiation"
-                      ? "What still pulls the profile toward the nearest fit:"
-                      : "Why this shorthand won over the runner-up:"}
-                  </p>
-                  <ul className="content-list" style={{ margin: 0 }}>
-                    {whyThisResult.map((bullet, index) => <li key={index}>{bullet}</li>)}
-                  </ul>
-                </div>
-              </div>
-              <div>
-                <p className="muted" style={{ fontSize: "0.85rem", marginBottom: "10px" }}>
-                  Dimensions where {familyLabel} and {neighborLabel} diverge most:
-                </p>
-                <div className="comparison-strip">
-                  <div className="comparison-header">
-                    <span className="comparison-label" />
-                    <span className="comparison-family">{familyLabel}</span>
-                    <span className="comparison-score-head">Your score</span>
-                    <span className="comparison-family">{neighborLabel}</span>
-                  </div>
-                  {comparisonDims.map((cd) => (
-                    <div key={cd.dim} className="comparison-row">
-                      <span className="comparison-label">{cd.label}</span>
-                      <span className={`comparison-expected comparison-expected--${cd.primaryExpected}`}>
-                        {cd.primaryExpected === "high" ? "Higher" : cd.primaryExpected === "low" ? "Lower" : "Neutral"}
-                      </span>
-                      <span className="comparison-score">{cd.userScore.toFixed(1)}</span>
-                      <span className={`comparison-expected comparison-expected--${cd.runnerUpExpected}`}>
-                        {cd.runnerUpExpected === "high" ? "Higher" : cd.runnerUpExpected === "low" ? "Lower" : "Neutral"}
-                      </span>
+            <summary>Read full analysis</summary>
+            <div className="stack-lg" style={{ marginTop: "18px" }}>
+              <div className="stack-md">
+                <h2>Dimension profile</h2>
+                <div>
+                  {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
+                    <div key={dim} className="dim-row">
+                      <ScaleBar label={dimensionLabels[dim]} value={value} tone="baseline" />
+                      <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
+                        {dimensionOneLiners[dim](value)}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
-              <p style={{ fontSize: "0.875rem" }}>
-                <Link href={`/explore/${familySlug(neighborKey)}`} style={{ color: "var(--accent)" }}>
-                  Learn more about {neighborLabel} →
-                </Link>
-              </p>
-            </div>
-          </details>
-          <details className="profile-details">
-            <summary>Longer interpretation, issue bridges, and pressure-test questions</summary>
-            <div className="result-prose stack-md" style={{ marginTop: "16px" }}>
-              {deepFoundationSections.map((section) => (
-                <div key={section.title} className="stack-xs">
-                  <p className="eyebrow">{section.title}</p>
-                  <p style={{ lineHeight: "1.7" }}>{section.text}</p>
-                </div>
-              ))}
-              <div className="stack-xs">
-                <p className="eyebrow">Pressure-test your worldview</p>
+
+              <ResultSignaturePanel
+                familyLabel={familyLabel}
+                strategyModifier={result.strategyModifier}
+                normativeModifier={result.normativeModifier}
+                neighborLabel={neighborLabel}
+                topDimensions={topDimensions}
+              />
+
+              <div className="result-prose stack-md">
+                <p>{explanation}</p>
+                {neighborText ? <p className="muted">{neighborText}</p> : null}
+                <p className="muted">{mixedNote}</p>
+                <ul className="content-list" style={{ margin: 0 }}>
+                  {whyThisResult.map((bullet, index) => <li key={index}>{bullet}</li>)}
+                </ul>
+              </div>
+
+              <div className="stack-md">
+                <h2>Pressure-test questions</h2>
                 <ol className="pressure-list result-prose">
                   {pressureQuestions.map((question, index) => (
-                    <li key={index} className="pressure-q">
-                      <p>{question}</p>
-                    </li>
+                    <li key={index} className="pressure-q"><p>{question}</p></li>
                   ))}
                 </ol>
               </div>
-              <div className="stack-xs">
-                <p className="eyebrow">How this profile may travel across issues</p>
+            </div>
+          </details>
+        </section>
+
+        <section className="result-section stack-md">
+          <details className="profile-details">
+            <summary>More resources, glossary, and saved-result tools</summary>
+            <div className="stack-lg" style={{ marginTop: "18px" }}>
+              <ReadingPathSection
+                title="Where to go next"
+                intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
+                paths={readingPaths}
+              />
+
+              <div className="stack-md">
+                <div className="stack-xs">
+                  <h2>Glossary</h2>
+                  <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+                    Short definitions for the recurring terms on this page.
+                  </p>
+                </div>
                 <div>
-                  {issueStances.map((stance) => (
-                    <div key={stance.issue} className="issue-module">
-                      <p className="issue-module-title">{stance.issue}</p>
-                      <p className="issue-module-text">{stance.text}</p>
+                  {glossaryTerms.map((term) => (
+                    <div key={term.term} className="definition-item">
+                      <p style={{ fontWeight: 600, marginBottom: "4px" }}>{term.term}</p>
+                      <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                        {term.definition}
+                      </p>
                     </div>
                   ))}
                 </div>
               </div>
-              {issueAreaTilts.length > 0 ? (
-                <div className="stack-xs">
-                  <p className="muted" style={{ fontSize: "0.8rem", fontStyle: "italic" }}>
-                    Where your scores suggest a different instinct than the primary shorthand alone
-                    would predict:
-                  </p>
-                  <div>
-                    {issueAreaTilts.map((tilt) => (
-                      <div key={tilt.issue} className="issue-tilt-row">
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: "12px", flexWrap: "wrap", marginBottom: "4px" }}>
-                          <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", fontSize: "0.875rem" }}>
-                            {tilt.issue}
-                          </p>
-                          <p style={{ fontSize: "0.68rem", fontWeight: 600, color: traditionColor, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0 }}>
-                            {tilt.tilt}
-                          </p>
-                        </div>
-                        <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.85rem" }}>
-                          {tilt.note}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </div>
-          </details>
-        </div>
 
-        <ReadingPathSection
-          title="Where to go next"
-          intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
-          paths={readingPaths}
-        />
-
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Glossary</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              Short definitions for the recurring terms on this page.
-            </p>
-          </div>
-          <details className="profile-details">
-            <summary>Read glossary</summary>
-            <div style={{ marginTop: "16px" }}>
-              {glossaryTerms.map((term) => (
-                <div key={term.term} className="definition-item">
-                  <p style={{ fontWeight: 600, marginBottom: "4px" }}>{term.term}</p>
-                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {term.definition}
+              <div className="stack-md">
+                <div className="callout stack-xs">
+                  <p style={{ fontWeight: 600 }}>About this classification</p>
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+                    Structured thought exercise with interpretive labels rather than a validated scientific diagnostic. Tradition labels
+                    are shorthand for a multidimensional profile, and case-based readings stay separate
+                    from the foundation result. Scores are comparative positions within this model rather than population
+                    percentiles.{" "}
+                    <Link href="/method" style={{ color: "var(--accent)" }}>
+                      Full methods note →
+                    </Link>
                   </p>
                 </div>
-              ))}
+                <p>
+                  <Link href={`/feedback?result=${payload}`} style={{ color: "var(--accent)" }}>
+                    Share feedback on this inventory →
+                  </Link>
+                </p>
+                <ResearchOptIn instrumentLabel="Foundation" />
+                <ShareActions
+                  payload={payload}
+                  familyLabel={familyLabel}
+                  strategyModifier={result.strategyModifier}
+                  normativeModifier={result.normativeModifier}
+                />
+                <HistoryCompare
+                  familyKey={result.familyKey}
+                  neighborKey={neighborKey}
+                  strategyModifier={result.strategyModifier}
+                  normativeModifier={result.normativeModifier}
+                  dimensionScores={dimensionScores}
+                />
+              </div>
             </div>
           </details>
-        </div>
-
-        <div className="result-section stack-md">
-          <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>About this classification</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              Structured thought exercise, not a validated scientific diagnostic. Tradition labels
-              are shorthand for a multidimensional profile, and case-based readings stay separate
-              from the foundation result. Scores are comparative within this model, not population
-              percentiles.{" "}
-              <Link href="/method" style={{ color: "var(--accent)" }}>
-                Full methods note →
-              </Link>
-            </p>
-          </div>
-          <p>
-            <Link href="/profile" style={{ color: "var(--accent)" }}>
-              View your Profile →
-            </Link>
-          </p>
-          <p>
-            <Link href={`/feedback?result=${payload}`} style={{ color: "var(--accent)" }}>
-              Share feedback on this inventory →
-            </Link>
-          </p>
-          <ResearchOptIn instrumentLabel="Foundation" />
-          <ShareActions
-            payload={payload}
-            familyLabel={familyLabel}
-            strategyModifier={result.strategyModifier}
-            normativeModifier={result.normativeModifier}
-          />
-          <HistoryCompare
-            familyKey={result.familyKey}
-            neighborKey={neighborKey}
-            strategyModifier={result.strategyModifier}
-            normativeModifier={result.normativeModifier}
-            dimensionScores={dimensionScores}
-          />
-        </div>
+        </section>
 
       </article>
+    </div>
+  )
+}
+
+function FoundationDimensionRadar({
+  dimensionScores,
+}: {
+  dimensionScores: Record<DimensionKey, number>
+}) {
+  const dimensions = Object.entries(dimensionScores) as [DimensionKey, number][]
+  const size = 420
+  const center = size / 2
+  const maxRadius = 150
+  const rings = [1, 2, 3]
+  const points = dimensions.map(([dimension, score], index) => {
+    const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
+    const radius = (score / 7) * maxRadius
+
+    return {
+      dimension,
+      score,
+      x: center + Math.cos(angle) * radius,
+      y: center + Math.sin(angle) * radius,
+      labelX: center + Math.cos(angle) * (maxRadius + 34),
+      labelY: center + Math.sin(angle) * (maxRadius + 34),
+    }
+  })
+  const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(" ")
+  const values = dimensions.map(([, score]) => score)
+  const scoreSpread = Math.max(...values) - Math.min(...values)
+  const averageDistanceFromMiddle = values.reduce((sum, score) => sum + Math.abs(score - 4), 0) / values.length
+
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        role="img"
+        aria-label="Radar chart of Foundation dimension scores"
+        style={{ width: "100%", minWidth: "340px", maxWidth: "560px", display: "block", margin: "0 auto" }}
+      >
+        {rings.map((ring) => {
+          const radius = (ring / rings.length) * maxRadius
+          const ringPoints = dimensions.map((_, index) => {
+            const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
+            return `${center + Math.cos(angle) * radius},${center + Math.sin(angle) * radius}`
+          })
+
+          return (
+            <polygon
+              key={ring}
+              points={ringPoints.join(" ")}
+              fill="none"
+              stroke="var(--border)"
+              strokeWidth={1}
+            />
+          )
+        })}
+        {points.map((point) => (
+          <line
+            key={point.dimension}
+            x1={center}
+            y1={center}
+            x2={point.labelX - (point.labelX > center ? 22 : -22)}
+            y2={point.labelY - (point.labelY > center ? 12 : -12)}
+            stroke="var(--border)"
+            strokeWidth={1}
+          />
+        ))}
+        <polygon
+          points={polygonPoints}
+          fill="rgba(122, 42, 30, 0.16)"
+          stroke="var(--accent)"
+          strokeWidth={2}
+        />
+        {points.map((point) => (
+          <g key={`${point.dimension}-point`}>
+            <circle cx={point.x} cy={point.y} r={4} fill="var(--accent)" />
+            <text
+              x={point.labelX}
+              y={point.labelY}
+              textAnchor={point.labelX > center + 12 ? "start" : point.labelX < center - 12 ? "end" : "middle"}
+              dominantBaseline="middle"
+              style={{ fontSize: "11px", fill: "var(--muted)", fontFamily: "var(--font-sans, system-ui)" }}
+            >
+              {dimensionLabels[point.dimension]} · {point.score.toFixed(1)}
+            </text>
+          </g>
+        ))}
+      </svg>
+      <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55", textAlign: "center", marginTop: "8px" }}>
+        Score spread: {scoreSpread.toFixed(1)} points · average distance from the center: {averageDistanceFromMiddle.toFixed(1)}.
+      </p>
     </div>
   )
 }
