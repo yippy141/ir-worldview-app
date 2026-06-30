@@ -187,6 +187,11 @@ test("profile comparison derives stable overlap and the clearest divergences wit
   const comparison = buildProfileComparison(leftProfile, rightProfile)
 
   assert.equal(comparison.foundationRows.length, 7)
+  assert.equal(comparison.probableArgument.dimension, "institutions")
+  assert.match(comparison.probableArgument.summary, /institutions and rules/i)
+  assert.match(comparison.probableArgument.leftStartsFrom, /rules, monitoring/i)
+  assert.match(comparison.probableArgument.rightStartsFrom, /power and interests/i)
+  assert.match(comparison.probableArgument.caseThatExposesSplit, /defect from a bargain/i)
   assert.match(comparison.sharedStableTrait, /order|sovereignty/i)
   assert.match(comparison.biggestDivergence, /Institutions/i)
   assert.equal(comparison.biggestSecurityDifference?.laneKey, "alliances")
