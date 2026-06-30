@@ -314,7 +314,7 @@ export default async function ResultPage(
             </h1>
             <p className="muted" style={{ maxWidth: "760px", fontSize: "1.05rem", lineHeight: "1.7" }}>
               {foundationNarrative.state === "lowDifferentiation"
-                ? "The reward here is not a tidy identity. It is a map of the questions that remain open when the scenarios get harder."
+                ? "The reward is the map: which questions remain open when the scenarios get harder."
                 : foundationPayoff.mainTension.body}
             </p>
             <div className="row gap-sm wrap" aria-label="Technical result labels">
@@ -338,8 +338,8 @@ export default async function ResultPage(
                 <p className="eyebrow">Dimension map</p>
                 <h2 style={{ margin: 0 }}>The shape behind the sentence</h2>
                 <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
-                  This is the one dominant visual for the result. It uses your actual Foundation
-                  dimension scores and shows model positions, not population percentiles.
+                  The outline shows where your answers pull away from the middle and where
+                  they stay closer to the center of the map.
                 </p>
               </div>
               <FoundationDimensionRadar dimensionScores={dimensionScores} />
@@ -349,7 +349,7 @@ export default async function ResultPage(
               <div className="stack-xs">
                 <p className="eyebrow">Where this may be wrong</p>
                 <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.1rem" }}>
-                  Closest modeled fit, not a final identity.
+                  Closest modeled fit within the current map.
                 </p>
                 <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                   If your strongest instincts come from feminist, postcolonial or decolonial,
@@ -358,7 +358,7 @@ export default async function ResultPage(
                 </p>
                 <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                   {foundationNarrative.state === "lowDifferentiation"
-                    ? "Your answers also do not form a sharp center in this model, so the family label should be read especially lightly."
+                    ? "Your answers leave several centers plausible in this model, so read the family label lightly."
                     : "Use the label as shorthand for the dimension pattern, then test it against concrete issue areas."}
                 </p>
                 <Link href="/method" style={{ color: "var(--accent)", fontWeight: 600 }}>
@@ -407,7 +407,8 @@ export default async function ResultPage(
             <Link href={`/modules?foundation=${encodeURIComponent(payload)}`} className="cta-primary">
               Add a focus-area module
             </Link>
-            <Link href="/profile" className="cta-secondary">Save to Profile</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open Atlas field map</Link>
+            <Link href="/profile" className="cta-secondary">View Profile</Link>
             <ResultCardHeroShare
               shareUrl={`/results/${payload}`}
               title={`IR Worldview: ${familyLabel}`}
@@ -463,74 +464,165 @@ export default async function ResultPage(
           </details>
         </section>
 
-        <ReadingPathSection
-          title="Where to go next"
-          intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
-          paths={readingPaths}
-        />
-
-        <div className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Glossary</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-              Short definitions for the recurring terms on this page.
-            </p>
-          </div>
+        <section className="result-section stack-md">
           <details className="profile-details">
-            <summary>Read glossary</summary>
-            <div style={{ marginTop: "16px" }}>
-              {glossaryTerms.map((term) => (
-                <div key={term.term} className="definition-item">
-                  <p style={{ fontWeight: 600, marginBottom: "4px" }}>{term.term}</p>
-                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {term.definition}
+            <summary>More resources, glossary, and saved-result tools</summary>
+            <div className="stack-lg" style={{ marginTop: "18px" }}>
+              <ReadingPathSection
+                title="Where to go next"
+                intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
+                paths={readingPaths}
+              />
+
+              <div className="stack-md">
+                <div className="stack-xs">
+                  <h2>Glossary</h2>
+                  <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+                    Short definitions for the recurring terms on this page.
                   </p>
                 </div>
-              ))}
+                <div>
+                  {glossaryTerms.map((term) => (
+                    <div key={term.term} className="definition-item">
+                      <p style={{ fontWeight: 600, marginBottom: "4px" }}>{term.term}</p>
+                      <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                        {term.definition}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="stack-md">
+                <div className="callout stack-xs">
+                  <p style={{ fontWeight: 600 }}>About this classification</p>
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+                    Structured thought exercise with interpretive labels rather than a validated scientific diagnostic. Tradition labels
+                    are shorthand for a multidimensional profile, and case-based readings stay separate
+                    from the foundation result. Scores are comparative positions within this model rather than population
+                    percentiles.{" "}
+                    <Link href="/method" style={{ color: "var(--accent)" }}>
+                      Full methods note →
+                    </Link>
+                  </p>
+                </div>
+                <p>
+                  <Link href={`/feedback?result=${payload}`} style={{ color: "var(--accent)" }}>
+                    Share feedback on this inventory →
+                  </Link>
+                </p>
+                <ResearchOptIn instrumentLabel="Foundation" />
+                <ShareActions
+                  payload={payload}
+                  familyLabel={familyLabel}
+                  strategyModifier={result.strategyModifier}
+                  normativeModifier={result.normativeModifier}
+                />
+                <HistoryCompare
+                  familyKey={result.familyKey}
+                  neighborKey={neighborKey}
+                  strategyModifier={result.strategyModifier}
+                  normativeModifier={result.normativeModifier}
+                  dimensionScores={dimensionScores}
+                />
+              </div>
             </div>
           </details>
-        </div>
-
-        <div className="result-section stack-md">
-          <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>About this classification</p>
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              Structured thought exercise, not a validated scientific diagnostic. Tradition labels
-              are shorthand for a multidimensional profile, and case-based readings stay separate
-              from the foundation result. Scores are comparative within this model, not population
-              percentiles.{" "}
-              <Link href="/method" style={{ color: "var(--accent)" }}>
-                Full methods note →
-              </Link>
-            </p>
-          </div>
-          <p>
-            <Link href="/profile" style={{ color: "var(--accent)" }}>
-              View your Profile →
-            </Link>
-          </p>
-          <p>
-            <Link href={`/feedback?result=${payload}`} style={{ color: "var(--accent)" }}>
-              Share feedback on this inventory →
-            </Link>
-          </p>
-          <ResearchOptIn instrumentLabel="Foundation" />
-          <ShareActions
-            payload={payload}
-            familyLabel={familyLabel}
-            strategyModifier={result.strategyModifier}
-            normativeModifier={result.normativeModifier}
-          />
-          <HistoryCompare
-            familyKey={result.familyKey}
-            neighborKey={neighborKey}
-            strategyModifier={result.strategyModifier}
-            normativeModifier={result.normativeModifier}
-            dimensionScores={dimensionScores}
-          />
-        </div>
+        </section>
 
       </article>
+    </div>
+  )
+}
+
+function FoundationDimensionRadar({
+  dimensionScores,
+}: {
+  dimensionScores: Record<DimensionKey, number>
+}) {
+  const dimensions = Object.entries(dimensionScores) as [DimensionKey, number][]
+  const size = 420
+  const center = size / 2
+  const maxRadius = 150
+  const rings = [1, 2, 3]
+  const points = dimensions.map(([dimension, score], index) => {
+    const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
+    const radius = (score / 7) * maxRadius
+
+    return {
+      dimension,
+      score,
+      x: center + Math.cos(angle) * radius,
+      y: center + Math.sin(angle) * radius,
+      labelX: center + Math.cos(angle) * (maxRadius + 34),
+      labelY: center + Math.sin(angle) * (maxRadius + 34),
+    }
+  })
+  const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(" ")
+  const values = dimensions.map(([, score]) => score)
+  const scoreSpread = Math.max(...values) - Math.min(...values)
+  const averageDistanceFromMiddle = values.reduce((sum, score) => sum + Math.abs(score - 4), 0) / values.length
+
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        role="img"
+        aria-label="Radar chart of Foundation dimension scores"
+        style={{ width: "100%", minWidth: "340px", maxWidth: "560px", display: "block", margin: "0 auto" }}
+      >
+        {rings.map((ring) => {
+          const radius = (ring / rings.length) * maxRadius
+          const ringPoints = dimensions.map((_, index) => {
+            const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
+            return `${center + Math.cos(angle) * radius},${center + Math.sin(angle) * radius}`
+          })
+
+          return (
+            <polygon
+              key={ring}
+              points={ringPoints.join(" ")}
+              fill="none"
+              stroke="var(--border)"
+              strokeWidth={1}
+            />
+          )
+        })}
+        {points.map((point) => (
+          <line
+            key={point.dimension}
+            x1={center}
+            y1={center}
+            x2={point.labelX - (point.labelX > center ? 22 : -22)}
+            y2={point.labelY - (point.labelY > center ? 12 : -12)}
+            stroke="var(--border)"
+            strokeWidth={1}
+          />
+        ))}
+        <polygon
+          points={polygonPoints}
+          fill="rgba(122, 42, 30, 0.16)"
+          stroke="var(--accent)"
+          strokeWidth={2}
+        />
+        {points.map((point) => (
+          <g key={`${point.dimension}-point`}>
+            <circle cx={point.x} cy={point.y} r={4} fill="var(--accent)" />
+            <text
+              x={point.labelX}
+              y={point.labelY}
+              textAnchor={point.labelX > center + 12 ? "start" : point.labelX < center - 12 ? "end" : "middle"}
+              dominantBaseline="middle"
+              style={{ fontSize: "11px", fill: "var(--muted)", fontFamily: "var(--font-sans, system-ui)" }}
+            >
+              {dimensionLabels[point.dimension]} · {point.score.toFixed(1)}
+            </text>
+          </g>
+        ))}
+      </svg>
+      <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55", textAlign: "center", marginTop: "8px" }}>
+        Score spread: {scoreSpread.toFixed(1)} points · average distance from the center: {averageDistanceFromMiddle.toFixed(1)}.
+      </p>
     </div>
   )
 }
