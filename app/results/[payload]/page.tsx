@@ -627,6 +627,92 @@ function FoundationDimensionRadar({
   )
 }
 
+function FoundationDimensionRadar({
+  dimensionScores,
+}: {
+  dimensionScores: Record<DimensionKey, number>
+}) {
+  const dimensions = Object.entries(dimensionScores) as [DimensionKey, number][]
+  const size = 420
+  const center = size / 2
+  const maxRadius = 150
+  const rings = [1, 2, 3]
+  const points = dimensions.map(([dimension, score], index) => {
+    const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
+    const radius = (score / 7) * maxRadius
+
+    return {
+      dimension,
+      score,
+      x: center + Math.cos(angle) * radius,
+      y: center + Math.sin(angle) * radius,
+      labelX: center + Math.cos(angle) * (maxRadius + 34),
+      labelY: center + Math.sin(angle) * (maxRadius + 34),
+    }
+  })
+  const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(" ")
+
+  return (
+    <div style={{ overflowX: "auto" }}>
+      <svg
+        viewBox={`0 0 ${size} ${size}`}
+        role="img"
+        aria-label="Radar chart of Foundation dimension scores"
+        style={{ width: "100%", minWidth: "340px", maxWidth: "560px", display: "block", margin: "0 auto" }}
+      >
+        {rings.map((ring) => {
+          const radius = (ring / rings.length) * maxRadius
+          const ringPoints = dimensions.map((_, index) => {
+            const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
+            return `${center + Math.cos(angle) * radius},${center + Math.sin(angle) * radius}`
+          })
+
+          return (
+            <polygon
+              key={ring}
+              points={ringPoints.join(" ")}
+              fill="none"
+              stroke="var(--border)"
+              strokeWidth={1}
+            />
+          )
+        })}
+        {points.map((point) => (
+          <line
+            key={point.dimension}
+            x1={center}
+            y1={center}
+            x2={point.labelX - (point.labelX > center ? 22 : -22)}
+            y2={point.labelY - (point.labelY > center ? 12 : -12)}
+            stroke="var(--border)"
+            strokeWidth={1}
+          />
+        ))}
+        <polygon
+          points={polygonPoints}
+          fill="rgba(122, 42, 30, 0.16)"
+          stroke="var(--accent)"
+          strokeWidth={2}
+        />
+        {points.map((point) => (
+          <g key={`${point.dimension}-point`}>
+            <circle cx={point.x} cy={point.y} r={4} fill="var(--accent)" />
+            <text
+              x={point.labelX}
+              y={point.labelY}
+              textAnchor={point.labelX > center + 12 ? "start" : point.labelX < center - 12 ? "end" : "middle"}
+              dominantBaseline="middle"
+              style={{ fontSize: "11px", fill: "var(--muted)", fontFamily: "var(--font-sans, system-ui)" }}
+            >
+              {dimensionLabels[point.dimension]} · {point.score.toFixed(1)}
+            </text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  )
+}
+
 function getFallbackMixedNote(
   state: "lowDifferentiation" | "stableModeration" | "sharplyDifferentiated",
   closestTraditionsNote: string,
