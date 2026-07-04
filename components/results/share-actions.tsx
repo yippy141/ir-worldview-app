@@ -59,7 +59,7 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
   }
 
   return (
-    <div className="row gap-sm print-hidden" style={{ flexWrap: "wrap" }}>
+    <div className="row gap-sm print-hidden wrap">
       <button type="button" className="primary-button" onClick={handleShare}>
         {typeof navigator !== "undefined" && typeof navigator.share === "function"
           ? "Share result"

@@ -7561,3 +7561,116 @@ h3 {
     text-decoration: none;
   }
 }
+
+/* ── W2 Foundation result — extracted inline-style patterns ───────────────────
+   Semantic classes for repeated inline styles previously scattered across
+   app/results/[payload]/page.tsx and components/results/*. Values preserved
+   verbatim so the page renders identically, except where an inline style
+   opted out of the Direction B serif token (--font-serif / Newsreader) by
+   hardcoding "Georgia, serif". Those now inherit the token: base h1/body
+   already supply the serif stack, so the emphasis/hero classes only carry
+   size, weight, and rhythm. */
+
+.result-invalid {
+  padding-top: 48px;
+}
+
+/* Hero heading + lead — inherits the serif token from base h1/body */
+.result-hero-title {
+  font-size: clamp(2.1rem, 5vw, 4.8rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  max-width: 980px;
+}
+
+.result-lead {
+  max-width: 760px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Two-column hero grid: dimension map + trust aside */
+.result-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* Compact panel padding override (default .panel is 40px) */
+.result-panel {
+  padding: 24px;
+}
+
+/* Serif emphasis line — inherits the serif token from body */
+.result-emphasis {
+  font-weight: 700;
+}
+
+.result-emphasis--lg {
+  font-size: 1.1rem;
+}
+
+/* Muted note text at the sizes used across result surfaces */
+.result-note {
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.result-note-snug {
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.result-note-sm {
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.result-note-xs {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* Emphasized label/link on result surfaces (color comes from base a / text) */
+.result-strong {
+  font-weight: 600;
+}
+
+/* Body revealed inside a <details> block */
+.result-details-body {
+  margin-top: 18px;
+}
+
+/* Glossary term line */
+.definition-term {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* History-compare surfaces */
+.history-compare {
+  margin-top: 32px;
+}
+
+.history-line {
+  line-height: 1.65;
+}
+
+.history-saved-note {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.history-compare-date {
+  font-size: 0.875rem;
+}
+
+.history-shift-label {
+  font-size: 0.875rem;
+}
+
+.history-shift-delta {
+  font-size: 0.75rem;
+}

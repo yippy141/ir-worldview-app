@@ -75,7 +75,7 @@ export function HistoryCompare(props: HistoryCompareProps) {
 
   return (
     <>
-      <p style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "8px" }}>
+      <p className="history-saved-note">
         Saved to this device
       </p>
       {prior && <CompareSection current={props} prior={prior} />}
@@ -115,17 +115,17 @@ function CompareSection({
   const nothingChanged = !familyChanged && !stratChanged && !normChanged && shifts.length === 0
 
   return (
-    <div className="result-section stack-md" style={{ marginTop: "32px" }}>
+    <div className="result-section stack-md history-compare">
       <div className="stack-xs">
         <h2>Compared with your last saved result</h2>
-        <p className="muted" style={{ fontSize: "0.875rem" }}>
+        <p className="muted history-compare-date">
           From {priorDate} — {fLabel(prior.familyKey)} · {prior.strategyModifier} ·{" "}
           {prior.normativeModifier}
         </p>
       </div>
 
       {nothingChanged ? (
-        <p className="muted" style={{ lineHeight: "1.65" }}>
+        <p className="muted history-line">
           Your result is consistent with the previous one — no meaningful changes across family,
           modifiers, or dimension scores.
         </p>
@@ -134,14 +134,14 @@ function CompareSection({
           <div>
             <p className="compare-section-label">Primary family</p>
             {familyChanged ? (
-              <p style={{ lineHeight: "1.65" }}>
+              <p className="history-line">
                 Changed from{" "}
-                <span style={{ fontWeight: 600 }}>{fLabel(prior.familyKey)}</span> to{" "}
-                <span style={{ fontWeight: 600 }}>{fLabel(current.familyKey)}</span>.
+                <span className="result-strong">{fLabel(prior.familyKey)}</span> to{" "}
+                <span className="result-strong">{fLabel(current.familyKey)}</span>.
               </p>
             ) : (
-              <p style={{ lineHeight: "1.65" }}>
-                Unchanged — <span style={{ fontWeight: 600 }}>{fLabel(current.familyKey)}</span>.
+              <p className="history-line">
+                Unchanged — <span className="result-strong">{fLabel(current.familyKey)}</span>.
               </p>
             )}
           </div>
@@ -150,12 +150,12 @@ function CompareSection({
             <div>
               <p className="compare-section-label">Modifiers</p>
               {stratChanged && (
-                <p style={{ lineHeight: "1.65" }}>
+                <p className="history-line">
                   Strategy: {prior.strategyModifier} → {current.strategyModifier}
                 </p>
               )}
               {normChanged && (
-                <p style={{ lineHeight: "1.65" }}>
+                <p className="history-line">
                   Normative: {prior.normativeModifier} → {current.normativeModifier}
                 </p>
               )}
@@ -168,10 +168,10 @@ function CompareSection({
               <div>
                 {shifts.map((s) => (
                   <div key={s.dim} className="history-shift-row">
-                    <span style={{ fontSize: "0.875rem" }}>{s.label}</span>
+                    <span className="history-shift-label">{s.label}</span>
                     <span className="history-shift-value">
                       {s.prev.toFixed(1)} → {s.curr.toFixed(1)}{" "}
-                      <span style={{ fontSize: "0.75rem" }}>
+                      <span className="history-shift-delta">
                         ({s.diff > 0 ? "+" : ""}
                         {s.diff.toFixed(1)})
                       </span>

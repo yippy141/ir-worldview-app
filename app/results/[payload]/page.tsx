@@ -118,14 +118,14 @@ export default async function ResultPage(
 
   if (!resolved) {
     return (
-      <div className="container stack-lg" style={{ paddingTop: "48px" }}>
+      <div className="container stack-lg result-invalid">
         <div className="panel stack-md">
           <p className="eyebrow">Invalid result</p>
           <h1>This link could not be decoded.</h1>
-          <p className="muted" style={{ lineHeight: "1.65" }}>
+          <p className="muted history-line">
             The result URL may be incomplete, corrupted, or from an older version of the inventory.
           </p>
-          <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
+          <div className="row gap-sm wrap">
             <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
             <Link href="/explore" className="cta-secondary">Explore the perspectives</Link>
             <Link href="/method" className="cta-secondary">Methods</Link>
@@ -298,21 +298,12 @@ export default async function ResultPage(
         <section className="result-section stack-lg" aria-labelledby="foundation-result-heading">
           <div className="stack-md">
             <p className="eyebrow">Foundation result</p>
-            <h1
-              id="foundation-result-heading"
-              style={{
-                fontFamily: "Georgia, serif",
-                fontSize: "clamp(2.1rem, 5vw, 4.8rem)",
-                lineHeight: 1.02,
-                letterSpacing: "-0.045em",
-                maxWidth: "980px",
-              }}
-            >
+            <h1 id="foundation-result-heading" className="result-hero-title">
               {foundationNarrative.state === "lowDifferentiation"
                 ? "Your answers keep several ways of reading world politics in play."
                 : foundationPayoff.corePattern.noticeFirst}
             </h1>
-            <p className="muted" style={{ maxWidth: "760px", fontSize: "1.05rem", lineHeight: "1.7" }}>
+            <p className="muted result-lead">
               {foundationNarrative.state === "lowDifferentiation"
                 ? "The reward is the map: which questions remain open when the scenarios get harder."
                 : foundationPayoff.mainTension.body}
@@ -325,19 +316,12 @@ export default async function ResultPage(
             </div>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1.25fr) minmax(280px, 0.75fr)",
-              gap: "24px",
-              alignItems: "stretch",
-            }}
-          >
-            <div className="panel stack-md" style={{ padding: "24px" }}>
+          <div className="result-hero-grid">
+            <div className="panel result-panel stack-md">
               <div className="stack-xs">
                 <p className="eyebrow">Dimension map</p>
-                <h2 style={{ margin: 0 }}>The shape behind the sentence</h2>
-                <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65" }}>
+                <h2>The shape behind the sentence</h2>
+                <p className="muted result-note">
                   The outline shows where your answers pull away from the middle and where
                   they stay closer to the center of the map.
                 </p>
@@ -345,23 +329,23 @@ export default async function ResultPage(
               <FoundationDimensionRadar dimensionScores={dimensionScores} />
             </div>
 
-            <aside className="panel stack-md" style={{ padding: "24px" }} aria-label="Trust and coverage">
+            <aside className="panel result-panel stack-md" aria-label="Trust and coverage">
               <div className="stack-xs">
                 <p className="eyebrow">Where this may be wrong</p>
-                <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", fontSize: "1.1rem" }}>
+                <p className="result-emphasis result-emphasis--lg">
                   Closest modeled fit within the current map.
                 </p>
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                <p className="muted result-note">
                   If your strongest instincts come from feminist, postcolonial or decolonial,
                   green, or English School IR, this inventory will place you near one of its four
                   modeled families rather than name that orientation directly.
                 </p>
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                <p className="muted result-note">
                   {foundationNarrative.state === "lowDifferentiation"
                     ? "Your answers leave several centers plausible in this model, so read the family label lightly."
                     : "Use the label as shorthand for the dimension pattern, then test it against concrete issue areas."}
                 </p>
-                <Link href="/method" style={{ color: "var(--accent)", fontWeight: 600 }}>
+                <Link href="/method" className="result-strong">
                   Read methods and coverage limits →
                 </Link>
               </div>
@@ -377,11 +361,11 @@ export default async function ResultPage(
           <div className="driver-grid">
             <article className="driver-card stack-xs">
               <p className="eyebrow">What would change this</p>
-              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif" }}>{foundationPayoff.mainTension.title}</p>
-              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+              <p className="result-emphasis">{foundationPayoff.mainTension.title}</p>
+              <p className="muted result-note-snug">
                 {foundationPayoff.mainTension.rivalArgument}
               </p>
-              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+              <p className="muted result-note-snug">
                 {foundationNarrative.state === "lowDifferentiation"
                   ? "A focused module may reveal which tradeoff actually matters once the issue is specific."
                   : foundationPayoff.corePattern.underweight}
@@ -390,13 +374,13 @@ export default async function ResultPage(
 
             <article className="driver-card stack-xs">
               <p className="eyebrow">Nearest Atlas pattern</p>
-              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif" }}>{atlasMatch.nearest.name}</p>
+              <p className="result-emphasis">{atlasMatch.nearest.name}</p>
               <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
-              <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
+              <p className="muted result-note-snug">
                 {atlasMatch.nearest.cardSummary}
               </p>
               <p>
-                <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)", fontWeight: 600 }}>
+                <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} className="result-strong">
                   Read this pattern →
                 </Link>
               </p>
@@ -420,14 +404,14 @@ export default async function ResultPage(
         <section className="result-section stack-md">
           <details className="profile-details">
             <summary>Read full analysis</summary>
-            <div className="stack-lg" style={{ marginTop: "18px" }}>
+            <div className="stack-lg result-details-body">
               <div className="stack-md">
                 <h2>Dimension profile</h2>
                 <div>
                   {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
                     <div key={dim} className="dim-row">
                       <ScaleBar label={dimensionLabels[dim]} value={value} tone="baseline" />
-                      <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.5" }}>
+                      <p className="muted result-note-xs">
                         {dimensionOneLiners[dim](value)}
                       </p>
                     </div>
@@ -447,7 +431,7 @@ export default async function ResultPage(
                 <p>{explanation}</p>
                 {neighborText ? <p className="muted">{neighborText}</p> : null}
                 <p className="muted">{mixedNote}</p>
-                <ul className="content-list" style={{ margin: 0 }}>
+                <ul className="content-list">
                   {whyThisResult.map((bullet, index) => <li key={index}>{bullet}</li>)}
                 </ul>
               </div>
@@ -467,7 +451,7 @@ export default async function ResultPage(
         <section className="result-section stack-md">
           <details className="profile-details">
             <summary>More resources, glossary, and saved-result tools</summary>
-            <div className="stack-lg" style={{ marginTop: "18px" }}>
+            <div className="stack-lg result-details-body">
               <ReadingPathSection
                 title="Where to go next"
                 intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
@@ -477,15 +461,15 @@ export default async function ResultPage(
               <div className="stack-md">
                 <div className="stack-xs">
                   <h2>Glossary</h2>
-                  <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+                  <p className="muted result-note-sm">
                     Short definitions for the recurring terms on this page.
                   </p>
                 </div>
                 <div>
                   {glossaryTerms.map((term) => (
                     <div key={term.term} className="definition-item">
-                      <p style={{ fontWeight: 600, marginBottom: "4px" }}>{term.term}</p>
-                      <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
+                      <p className="definition-term">{term.term}</p>
+                      <p className="muted result-note">
                         {term.definition}
                       </p>
                     </div>
@@ -495,19 +479,19 @@ export default async function ResultPage(
 
               <div className="stack-md">
                 <div className="callout stack-xs">
-                  <p style={{ fontWeight: 600 }}>About this classification</p>
-                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
+                  <p className="result-strong">About this classification</p>
+                  <p className="muted result-note-sm">
                     Structured thought exercise with interpretive labels rather than a validated scientific diagnostic. Tradition labels
                     are shorthand for a multidimensional profile, and case-based readings stay separate
                     from the foundation result. Scores are comparative positions within this model rather than population
                     percentiles.{" "}
-                    <Link href="/method" style={{ color: "var(--accent)" }}>
+                    <Link href="/method">
                       Full methods note →
                     </Link>
                   </p>
                 </div>
                 <p>
-                  <Link href={`/feedback?result=${payload}`} style={{ color: "var(--accent)" }}>
+                  <Link href={`/feedback?result=${payload}`}>
                     Share feedback on this inventory →
                   </Link>
                 </p>
@@ -665,7 +649,7 @@ function ResultSignaturePanel({
     <aside className="result-signature-panel stack-sm" aria-label="Result signature">
       <div className="stack-xs">
         <p className="eyebrow">Result signature</p>
-        <p className="muted" style={{ margin: 0, fontSize: "0.9rem", lineHeight: "1.65" }}>
+        <p className="muted result-note">
           A compact read of the strongest dimension pulls and modifiers shaping this Foundation result.
         </p>
       </div>

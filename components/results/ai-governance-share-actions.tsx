@@ -68,7 +68,7 @@ export function AiGovernanceShareActions({
   }
 
   return (
-    <div className="row gap-sm print-hidden" style={{ flexWrap: "wrap" }}>
+    <div className="row gap-sm print-hidden wrap">
       <button type="button" className="primary-button" onClick={handleShare}>
         {canNativeShare ? "Share result" : copied ? "Copied!" : "Copy share link"}
       </button>
