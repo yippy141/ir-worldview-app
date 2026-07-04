@@ -2812,6 +2812,50 @@ h3 {
   margin-bottom: 0;
 }
 
+/* Plain-language glosses for interpretive modifier labels */
+.modifier-glosses {
+  display: grid;
+  gap: 8px;
+  margin: 10px 0 0;
+}
+
+.modifier-gloss {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: baseline;
+}
+
+.modifier-gloss dt {
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.82rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.modifier-gloss dd {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+@media (max-width: 520px) {
+  .modifier-gloss {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+.result-signature-meta dd.result-signature-gloss {
+  margin-top: 4px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
 .atlas-fingerprint {
   display: grid;
   gap: 10px;
