@@ -29,6 +29,7 @@ import {
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
+import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
 import { familySlug } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
 import { ShareActions } from "@/components/results/share-actions"
@@ -37,7 +38,7 @@ import { FoundationProfileSync } from "@/components/profile/foundation-profile-s
 import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchOptIn } from "@/components/research/research-opt-in"
 import { modules } from "@/lib/modules/framework"
-import type { DimensionKey, FamilyKey } from "@/lib/types"
+import type { DimensionKey, FamilyKey, NormativeModifier, StrategyModifier } from "@/lib/types"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -92,24 +93,6 @@ const FAMILY_ACCENT: Record<FamilyKey, "realist" | "institutionalist" | "constru
   constructivist: "constructivist",
   criticalPoliticalEconomy: "cpe",
 }
-
-const STRATEGY_STYLE_NOTES = {
-  Restrainer:
-    "You lean toward limiting commitments and avoiding overextension rather than pressing every available advantage.",
-  Hedger:
-    "You keep both competition and restraint live. The strategic answer depends on the case, not a fixed rule.",
-  Maximizer:
-    "You are comparatively more willing to press for durable advantage when the strategic opening looks real.",
-} as const
-
-const NORMATIVE_STYLE_NOTES = {
-  Pluralist:
-    "You usually give order, sovereignty, and precedent more weight than wider moral claims when they collide.",
-  "Conditional Solidarist":
-    "You treat order and justice as a live tension. Neither side settles the question in advance.",
-  Universalist:
-    "You are more willing to let severe moral stakes override sovereignty in extreme cases.",
-} as const
 
 export default async function ResultPage(
   { params }: { params: Promise<{ payload: string }> },
@@ -316,6 +299,16 @@ export default async function ResultPage(
               <span className="atlas-tag">{result.normativeModifier}</span>
               <span className="atlas-tag">Nearest overlap: {neighborLabel}</span>
             </div>
+            <dl className="modifier-glosses" aria-label="What the modifier labels mean">
+              <div className="modifier-gloss">
+                <dt>{result.strategyModifier}</dt>
+                <dd>{strategyModifierGloss(result.strategyModifier)}</dd>
+              </div>
+              <div className="modifier-gloss">
+                <dt>{result.normativeModifier}</dt>
+                <dd>{normativeModifierGloss(result.normativeModifier)}</dd>
+              </div>
+            </dl>
           </div>
 
           <div className="result-hero-grid">
@@ -554,8 +547,8 @@ function ResultSignaturePanel({
   topDimensions,
 }: {
   familyLabel: string
-  strategyModifier: string
-  normativeModifier: string
+  strategyModifier: StrategyModifier
+  normativeModifier: NormativeModifier
   neighborLabel: string
   topDimensions: [DimensionKey, number][]
 }) {
@@ -587,10 +580,12 @@ function ResultSignaturePanel({
         <div>
           <dt>Strategy</dt>
           <dd>{strategyModifier}</dd>
+          <dd className="result-signature-gloss">{strategyModifierGloss(strategyModifier)}</dd>
         </div>
         <div>
           <dt>Norms</dt>
           <dd>{normativeModifier}</dd>
+          <dd className="result-signature-gloss">{normativeModifierGloss(normativeModifier)}</dd>
         </div>
         <div>
           <dt>Nearest overlap</dt>
