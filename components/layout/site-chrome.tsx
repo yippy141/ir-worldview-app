@@ -54,6 +54,7 @@ const publicNavItems: PublicNavItem[] = [
 const moreNavItems = [
   { href: "/explore/atlas", label: "Atlas" },
   { href: "/explore", label: "Explore" },
+  { href: "/futures", label: "Futures" },
   { href: "/method", label: "Methods" },
   { href: "/privacy", label: "Privacy" },
   { href: "/references", label: "References" },
@@ -77,6 +78,7 @@ const mobileNavGroups: MobileNavGroup[] = [
     items: [
       { href: "/explore/atlas", label: "Atlas" },
       { href: "/explore", label: "Explore" },
+      { href: "/futures", label: "Futures" },
       { href: "/method", label: "Methods" },
       { href: "/privacy", label: "Privacy" },
       { href: "/references", label: "References" },

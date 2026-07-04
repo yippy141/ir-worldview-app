@@ -189,6 +189,11 @@ export default function LandingPage() {
                 text: "Read the modeled traditions, coverage gaps, and issue comparisons behind the inventory.",
               },
               {
+                href: "/futures",
+                title: "Twelve Trajectories",
+                text: "An editorial field map of where advanced AI could take us, adapted from Tegmark and updated with 2026 signals.",
+              },
+              {
                 href: "/method",
                 title: "Methods",
                 text: "Read the scope, guardrails, and limits behind the project.",

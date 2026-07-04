@@ -7723,3 +7723,205 @@ h3 {
   line-height: 1.5;
   text-align: center;
 }
+
+/* ============================================================
+   Twelve Trajectories (editorial futures field map)
+   ============================================================ */
+
+.trajectory-map {
+  margin: 8px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.trajectory-map__svg {
+  width: 100%;
+  min-width: 300px;
+  max-width: 720px;
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.trajectory-map__axis {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  fill: var(--muted);
+}
+
+.trajectory-map__point {
+  cursor: pointer;
+  outline: none;
+}
+
+.trajectory-map__dot {
+  fill: var(--accent-dim);
+  stroke: var(--panel);
+  stroke-width: 1;
+  transition: fill 0.15s ease, r 0.15s ease;
+}
+
+.trajectory-map__label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--muted);
+  transition: fill 0.15s ease, opacity 0.15s ease;
+}
+
+.trajectory-map__point--active .trajectory-map__dot {
+  fill: var(--accent);
+}
+
+.trajectory-map__point--active .trajectory-map__label {
+  fill: var(--accent-light);
+  font-weight: 700;
+}
+
+.trajectory-map__point--dimmed .trajectory-map__label {
+  opacity: 0.32;
+}
+
+.trajectory-map__point:focus-visible .trajectory-map__dot {
+  stroke: var(--accent-light);
+  stroke-width: 2.5;
+}
+
+.trajectory-map__caption {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.trajectory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.trajectory-card {
+  background: color-mix(in srgb, var(--panel) 86%, white 14%);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  padding: 24px;
+  scroll-margin-top: 96px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trajectory-card:target {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border) 45%);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.trajectory-card__origin {
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--muted);
+  margin: 0 0 6px;
+}
+
+.trajectory-card__name {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: 1.2rem;
+  color: var(--text);
+  margin: 0 0 10px;
+}
+
+.trajectory-card__plain {
+  line-height: 1.6;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.trajectory-card__details {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 4px;
+}
+
+.trajectory-card__disclosure {
+  cursor: pointer;
+  list-style: none;
+  padding: 12px 0 4px;
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.trajectory-card__disclosure::-webkit-details-marker {
+  display: none;
+}
+
+.trajectory-card__disclosure::before {
+  content: "＋ ";
+  color: var(--accent);
+}
+
+.trajectory-card__details[open] .trajectory-card__disclosure::before {
+  content: "－ ";
+}
+
+.trajectory-card__disclosure:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.trajectory-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.trajectory-card__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.trajectory-card__group-title {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  color: var(--accent-light);
+  margin: 0;
+}
+
+.trajectory-card__list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trajectory-card__list li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-2);
+}
+
+.trajectory-card__prose {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.trajectory-card__prose-label {
+  font-weight: 700;
+  color: var(--text);
+}
