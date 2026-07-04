@@ -30,6 +30,7 @@ import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { familySlug } from "@/lib/worldview-config"
+import { DimensionFieldMap } from "@/components/results/dimension-field-map"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
@@ -172,6 +173,7 @@ export default async function ResultPage(
     dimensionScores,
   })
   const summary = foundationNarrative.summary
+  const lowDifferentiation = foundationNarrative.state === "lowDifferentiation"
 
   const issueStances = getHowYouReadTheWorld(
     result.familyKey,
@@ -320,13 +322,17 @@ export default async function ResultPage(
             <div className="panel result-panel stack-md">
               <div className="stack-xs">
                 <p className="eyebrow">Dimension map</p>
-                <h2>The shape behind the sentence</h2>
+                <h2>Where your answers place you</h2>
                 <p className="muted result-note">
-                  The outline shows where your answers pull away from the middle and where
-                  they stay closer to the center of the map.
+                  This map projects your seven dimension scores onto two reading axes and places
+                  you among the four modeled traditions. The dashed ring shows how loosely that
+                  placement is fixed.
                 </p>
               </div>
-              <FoundationDimensionRadar dimensionScores={dimensionScores} />
+              <DimensionFieldMap
+                dimensionScores={dimensionScores}
+                lowDifferentiation={lowDifferentiation}
+              />
             </div>
 
             <aside className="panel result-panel stack-md" aria-label="Trust and coverage">
@@ -515,98 +521,6 @@ export default async function ResultPage(
         </section>
 
       </article>
-    </div>
-  )
-}
-
-function FoundationDimensionRadar({
-  dimensionScores,
-}: {
-  dimensionScores: Record<DimensionKey, number>
-}) {
-  const dimensions = Object.entries(dimensionScores) as [DimensionKey, number][]
-  const size = 420
-  const center = size / 2
-  const maxRadius = 150
-  const rings = [1, 2, 3]
-  const points = dimensions.map(([dimension, score], index) => {
-    const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
-    const radius = (score / 7) * maxRadius
-
-    return {
-      dimension,
-      score,
-      x: center + Math.cos(angle) * radius,
-      y: center + Math.sin(angle) * radius,
-      labelX: center + Math.cos(angle) * (maxRadius + 34),
-      labelY: center + Math.sin(angle) * (maxRadius + 34),
-    }
-  })
-  const polygonPoints = points.map((point) => `${point.x},${point.y}`).join(" ")
-  const values = dimensions.map(([, score]) => score)
-  const scoreSpread = Math.max(...values) - Math.min(...values)
-  const averageDistanceFromMiddle = values.reduce((sum, score) => sum + Math.abs(score - 4), 0) / values.length
-
-  return (
-    <div style={{ overflowX: "auto" }}>
-      <svg
-        viewBox={`0 0 ${size} ${size}`}
-        role="img"
-        aria-label="Radar chart of Foundation dimension scores"
-        style={{ width: "100%", minWidth: "340px", maxWidth: "560px", display: "block", margin: "0 auto" }}
-      >
-        {rings.map((ring) => {
-          const radius = (ring / rings.length) * maxRadius
-          const ringPoints = dimensions.map((_, index) => {
-            const angle = (Math.PI * 2 * index) / dimensions.length - Math.PI / 2
-            return `${center + Math.cos(angle) * radius},${center + Math.sin(angle) * radius}`
-          })
-
-          return (
-            <polygon
-              key={ring}
-              points={ringPoints.join(" ")}
-              fill="none"
-              stroke="var(--border)"
-              strokeWidth={1}
-            />
-          )
-        })}
-        {points.map((point) => (
-          <line
-            key={point.dimension}
-            x1={center}
-            y1={center}
-            x2={point.labelX - (point.labelX > center ? 22 : -22)}
-            y2={point.labelY - (point.labelY > center ? 12 : -12)}
-            stroke="var(--border)"
-            strokeWidth={1}
-          />
-        ))}
-        <polygon
-          points={polygonPoints}
-          fill="rgba(122, 42, 30, 0.16)"
-          stroke="var(--accent)"
-          strokeWidth={2}
-        />
-        {points.map((point) => (
-          <g key={`${point.dimension}-point`}>
-            <circle cx={point.x} cy={point.y} r={4} fill="var(--accent)" />
-            <text
-              x={point.labelX}
-              y={point.labelY}
-              textAnchor={point.labelX > center + 12 ? "start" : point.labelX < center - 12 ? "end" : "middle"}
-              dominantBaseline="middle"
-              style={{ fontSize: "11px", fill: "var(--muted)", fontFamily: "var(--font-sans, system-ui)" }}
-            >
-              {dimensionLabels[point.dimension]} · {point.score.toFixed(1)}
-            </text>
-          </g>
-        ))}
-      </svg>
-      <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55", textAlign: "center", marginTop: "8px" }}>
-        Score spread: {scoreSpread.toFixed(1)} points · average distance from the center: {averageDistanceFromMiddle.toFixed(1)}.
-      </p>
     </div>
   )
 }
