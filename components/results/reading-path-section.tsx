@@ -42,7 +42,7 @@ export function ReadingPathSection({
     <section className="result-section stack-md">
       <div className="stack-xs">
         <h2>{title}</h2>
-        <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
+        <p className="muted result-note-sm">
           {intro}
         </p>
       </div>
