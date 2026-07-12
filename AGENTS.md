@@ -85,19 +85,23 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V15 coherence and payoff
+## Current sprint: V16 Perspective Field
 
-- V15 is about coherence and payoff.
-- Results should be verdict-first and plain-English before labels.
-- Landing page should frame the product as a scenario-based inventory for
-  geopolitical judgment.
-- Do not change scoring, payloads, taxonomy, module schema, or add new modules.
-- Do not add Three.js, accounts, or real research-data storage.
-- Preserve share-link compatibility.
+- Keep the Foundation personal and preserve its scoring, family selection,
+  payload contract, and existing share links.
+- Add Perspective Runs as contextual overlays across the same seven dimensions.
+  They must never assign a second permanent identity or mutate the baseline.
+- Add evidence-coded Reference Profile architecture. IR positions must use the
+  existing Foundation projection; AI-governance profiles stay on their own axes.
+- Add migration-safe ProfileStore v4 history and Profile Share V2 while keeping
+  v1–v3 stores and Profile Share V1 readable.
+- Add UI-independent Field layer, filtering, selection, and movement-hull helpers.
+- Do not add a database, accounts, Commons submission, Three.js, new Foundation
+  families, new modules, or invented current political content.
 - After meaningful edits, run `npm run lint`, `npm run test`, `npx tsc --noEmit`, and `npm run build`.
 
 ## End-of-sprint discipline
 
-When V15 ends, replace the "Current sprint" section above with the next
+When V16 ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.

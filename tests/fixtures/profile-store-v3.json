@@ -1,0 +1,27 @@
+{
+  "v": 3,
+  "foundation": null,
+  "modules": {},
+  "aiGovernance": {
+    "timestamp": 1730000000000,
+    "payload": "legacy-ai-v1",
+    "resultPath": "/ai/results/legacy-ai-v1",
+    "archetypeKey": "coordinationArchitect",
+    "archetypeLabel": "Coordination Architect",
+    "riskLens": "Mixed risk lens",
+    "paceModifier": "Threshold guardrails",
+    "geopoliticsModifier": "Coordination-first",
+    "axisScores": {
+      "riskHorizon": 4.8,
+      "deploymentPace": 4.2,
+      "oversight": 5.7,
+      "geopolitics": 5.3,
+      "openness": 4.5,
+      "militaryRole": 4.1,
+      "legitimacy": 5.8,
+      "humanFuture": 5.1
+    },
+    "summary": "Legacy AI Governance snapshot",
+    "governingInstinct": "Coordinate around shared thresholds."
+  }
+}

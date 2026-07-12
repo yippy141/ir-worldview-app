@@ -5,6 +5,9 @@ import { securityModule } from "@/lib/modules/security"
 import { technologyModule } from "@/lib/modules/technology"
 import type { ModuleAnalytics } from "@/lib/modules/types"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
+import { perspectiveCatalog } from "@/lib/perspectives/catalog"
+import { buildPerspectiveResultCopy } from "@/lib/perspectives/result-helpers"
+import { scorePerspectiveRun } from "@/lib/perspectives/scoring"
 import { buildProfileAssessment } from "@/lib/profile-helpers"
 import type { ProfileStore } from "@/lib/profile-store"
 
@@ -14,7 +17,75 @@ const FLAGGED_PATTERNS = [
   { label: '"nearest-fit shorthand"', pattern: /nearest-fit shorthand/i },
   { label: '"broad-spectrum"', pattern: /\bbroad-spectrum\b/i },
   { label: '"matters"', pattern: /\bmatters\b/i },
+  {
+    label: '"X, not Y"',
+    pattern: /\b[^.!?\n,]{1,90},\s+not\s+[^.!?\n]{1,90}/i,
+  },
+  {
+    label: '"This is not X. It is Y."',
+    pattern: /\b(?:this|it|that) is not\b[^.!?]{1,90}[.!?]\s+(?:this|it|that) is\b/i,
+  },
+  { label: '"not just"', pattern: /\bnot just\b/i },
+  {
+    label: '"less about … more about"',
+    pattern: /\bless about\b[^.!?]{0,90}\bmore about\b/i,
+  },
+  { label: '"rather than"', pattern: /\brather than\b/i },
+  {
+    label: '"doesn’t merely"',
+    pattern: /\bdoes(?:n['’]t| not)\s+(?:just|merely)\b/i,
+  },
+  { label: '"the point is not"', pattern: /\bthe point is not\b/i },
+  { label: '"more than a/an"', pattern: /\bmore than (?:a|an)\b/i },
+  { label: '"not a verdict"', pattern: /\bnot a verdict\b/i },
 ]
+
+// Exact public strings only. These two privacy statements need a direct data
+// boundary; allowing the matching rule for any other sentence would hide copy
+// regressions elsewhere.
+const COPY_ALLOWLIST = new Map<string, ReadonlySet<string>>([
+  [
+    "Stored raw answer records, if activated in beta, are pseudonymous or de-identified rather than strictly anonymous.",
+    new Set(['"rather than"']),
+  ],
+  [
+    "It is meant for question improvement, model testing, and aggregate insight posts, not advertising or targeting.",
+    new Set(['"X, not Y"']),
+  ],
+])
+
+test("contrastive-antithesis guardrails catch every target template", () => {
+  const cases = [
+    ['"X, not Y"', "The result is a map, not a verdict."],
+    ['"This is not X. It is Y."', "This is not a label. It is a field position."],
+    ['"not just"', "This is not just a quiz."],
+    ['"less about … more about"', "It is less about identity and more about choices."],
+    ['"rather than"', "Use evidence rather than instinct."],
+    ['"doesn’t merely"', "The result doesn’t merely summarize."],
+    ['"the point is not"', "The point is not classification."],
+    ['"more than a/an"', "This is more than an inventory."],
+    ['"not a verdict"', "This result is not a verdict."],
+  ] as const
+
+  for (const [expected, copy] of cases) {
+    assert.ok(
+      findFlaggedPatterns(copy).includes(expected),
+      `expected ${expected} to be detected in: ${copy}`,
+    )
+  }
+})
+
+test("the copy allowlist is exact and limited to necessary privacy language", () => {
+  for (const copy of COPY_ALLOWLIST.keys()) {
+    assertCleanCopy("allowlisted privacy copy", copy)
+  }
+
+  assert.ok(
+    findFlaggedPatterns("This profile is descriptive rather than predictive.").includes(
+      '"rather than"',
+    ),
+  )
+})
 
 test("atlas and visible summary surfaces avoid flagged copy patterns", () => {
   for (const pattern of getAtlasLitePatterns()) {
@@ -182,15 +253,48 @@ test("atlas and visible summary surfaces avoid flagged copy patterns", () => {
   for (const [index, summary] of technologySummaries.entries()) {
     assertCleanCopy(`technology summary ${index}`, summary)
   }
+
+  const perspectiveBaseline = foundationCases[1].dimensionScores
+  for (const perspective of perspectiveCatalog) {
+    assertCleanCopy(`perspective description ${perspective.id}`, perspective.description)
+    const answers = Object.fromEntries(
+      perspective.scenarios.map((scenario) => [scenario.id, scenario.options[0].id]),
+    )
+    const copy = buildPerspectiveResultCopy(
+      scorePerspectiveRun(perspective, perspectiveBaseline, answers),
+    )
+
+    for (const [field, value] of Object.entries(copy)) {
+      assertCleanCopy(`perspective result ${perspective.id} ${field}`, value)
+    }
+
+    for (const scenario of perspective.scenarios) {
+      assertCleanCopy(`perspective actor ${scenario.id}`, scenario.actor)
+      assertCleanCopy(`perspective objective ${scenario.id}`, scenario.objective)
+      assertCleanCopy(`perspective constraint ${scenario.id}`, scenario.constraint)
+      assertCleanCopy(`perspective uncertainty ${scenario.id}`, scenario.uncertainty)
+      assertCleanCopy(`perspective task ${scenario.id}`, scenario.task)
+      for (const option of scenario.options) {
+        assertCleanCopy(`perspective option ${scenario.id} ${option.id}`, option.response)
+      }
+    }
+  }
 })
 
 function assertCleanCopy(label: string, text: string) {
+  const allowed = COPY_ALLOWLIST.get(text) ?? new Set<string>()
   for (const flagged of FLAGGED_PATTERNS) {
     assert.ok(
-      !flagged.pattern.test(text),
+      !flagged.pattern.test(text) || allowed.has(flagged.label),
       `${label} should avoid ${flagged.label}. Received: ${text}`,
     )
   }
+}
+
+function findFlaggedPatterns(text: string) {
+  return FLAGGED_PATTERNS
+    .filter((flagged) => flagged.pattern.test(text))
+    .map((flagged) => flagged.label)
 }
 
 function makeAnalytics(
@@ -206,7 +310,7 @@ function makeAnalytics(
 
 function buildProfileFixture(includeModules = false): ProfileStore {
   const profile: ProfileStore = {
-    v: 2,
+    v: 4,
     foundation: {
       timestamp: 1,
       payload: "payload",
@@ -240,8 +344,12 @@ function buildProfileFixture(includeModules = false): ProfileStore {
       keyDrivers: [],
       strongLenses: [],
     },
+    foundationHistory: [],
     modules: {},
+    moduleHistory: [],
     aiGovernance: null,
+    aiHistory: [],
+    perspectiveRuns: [],
   }
 
   if (!includeModules) {

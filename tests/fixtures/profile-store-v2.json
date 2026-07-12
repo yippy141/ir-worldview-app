@@ -1,0 +1,60 @@
+{
+  "v": 2,
+  "foundation": {
+    "timestamp": 1720000000000,
+    "mode": "analyst",
+    "payload": "legacy-foundation-v2",
+    "resultPath": "/results/legacy-foundation-v2",
+    "familyKey": "institutionalist",
+    "familyLabel": "Liberal Institutionalist",
+    "runnerUpKey": "constructivist",
+    "runnerUpLabel": "Social Constructivist",
+    "summary": "Legacy Foundation snapshot",
+    "dimensionScores": {
+      "securityCompetition": 4.1,
+      "institutions": 5.9,
+      "domesticFilters": 5.1,
+      "normsIdentity": 4.8,
+      "politicalEconomy": 4.6,
+      "restraint": 5.3,
+      "orderJustice": 4.5
+    },
+    "strategyModifier": "Restrainer",
+    "normativeModifier": "Conditional Solidarist",
+    "keyDrivers": [],
+    "strongLenses": []
+  },
+  "modules": {
+    "technology": {
+      "timestamp": 1720000001000,
+      "slug": "technology",
+      "title": "Technology",
+      "subtitle": "Power, dependence, and governance",
+      "shorthand": "Tech Power",
+      "mode": "analyst",
+      "headline": "Legacy technology result",
+      "summary": "Saved with the v2 module overlay fields.",
+      "resultPath": "/modules/technology/results/legacy-v2",
+      "scores": { "control": 5.2, "governance": 4.9 },
+      "instincts": ["Build shared capacity."],
+      "challenge": "Define the limits of control.",
+      "measures": ["controls", "capacity"],
+      "doesNotClaim": ["technical expertise"],
+      "evidence": [],
+      "laneSummaries": [
+        {
+          "key": "controls",
+          "label": "Controls and dependence",
+          "summary": "Controls remain selective.",
+          "score": 5.2,
+          "lowLabel": "Open by default",
+          "highLabel": "Control-first"
+        }
+      ],
+      "overlayDeltas": {
+        "securityCompetition": 0.4,
+        "politicalEconomy": 0.3
+      }
+    }
+  }
+}

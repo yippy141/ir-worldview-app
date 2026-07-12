@@ -43,6 +43,11 @@ import type { DimensionKey, DimensionScores, FamilyKey } from "@/lib/types"
 
 type AxisWeights = Partial<Record<DimensionKey, number>>
 
+// Bump only when the authored projection coefficients or normalization change.
+// Profile Share V2 records this value so a shared field can be interpreted
+// against the projection that produced it.
+export const FIELD_PROJECTION_VERSION = 1
+
 // Horizontal axis: rules/institutions (+) vs power/competition (-).
 const X_WEIGHTS: AxisWeights = {
   institutions: 0.5,

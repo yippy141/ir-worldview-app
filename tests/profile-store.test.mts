@@ -1,0 +1,201 @@
+import test from "node:test"
+import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
+import {
+  addAiGovernanceSnapshot,
+  addFoundationSnapshot,
+  addModuleSnapshot,
+  addPerspectiveRunSnapshot,
+  emptyProfileStore,
+  parseProfileStore,
+  removePerspectiveRunSnapshot,
+  type AiGovernanceSnapshot,
+  type FoundationSnapshot,
+  type ModuleSnapshot,
+} from "@/lib/profile-store"
+import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
+
+function readFixture(version: 1 | 2 | 3) {
+  return readFileSync(
+    new URL(`./fixtures/profile-store-v${version}.json`, import.meta.url),
+    "utf8",
+  )
+}
+
+test("an empty profile uses the v4 history shape", () => {
+  assert.deepEqual(emptyProfileStore(), {
+    v: 4,
+    foundation: null,
+    foundationHistory: [],
+    modules: {},
+    moduleHistory: [],
+    aiGovernance: null,
+    aiHistory: [],
+    perspectiveRuns: [],
+  })
+})
+
+test("real v1 fixture migrates its current Foundation and legacy module safely", () => {
+  const profile = parseProfileStore(readFixture(1))
+
+  assert.equal(profile.v, 4)
+  assert.equal(profile.foundation?.payload, "legacy-foundation-v1")
+  assert.deepEqual(profile.foundationHistory, [profile.foundation])
+  assert.equal(profile.modules.security?.headline, "Legacy security result")
+  assert.deepEqual(profile.modules.security?.laneSummaries, [])
+  assert.deepEqual(profile.modules.security?.overlayDeltas, {})
+  assert.deepEqual(profile.moduleHistory, [])
+  assert.equal(profile.aiGovernance, null)
+  assert.deepEqual(profile.aiHistory, [])
+  assert.deepEqual(profile.perspectiveRuns, [])
+})
+
+test("real v2 fixture preserves current module overlay fields", () => {
+  const profile = parseProfileStore(readFixture(2))
+
+  assert.equal(profile.v, 4)
+  assert.equal(profile.foundationHistory.length, 1)
+  assert.equal(profile.modules.technology?.laneSummaries[0]?.key, "controls")
+  assert.deepEqual(profile.modules.technology?.overlayDeltas, {
+    securityCompetition: 0.4,
+    politicalEconomy: 0.3,
+  })
+  assert.deepEqual(profile.moduleHistory, [])
+})
+
+test("real v3 fixture preserves the current AI snapshot without inventing history", () => {
+  const profile = parseProfileStore(readFixture(3))
+
+  assert.equal(profile.v, 4)
+  assert.equal(profile.aiGovernance?.archetypeKey, "coordinationArchitect")
+  assert.equal(profile.aiGovernance?.axisScores.oversight, 5.7)
+  assert.deepEqual(profile.aiHistory, [])
+})
+
+test("invalid optional v4 histories never erase valid current snapshots", () => {
+  const legacy = parseProfileStore(readFixture(2))
+  const parsed = parseProfileStore(
+    JSON.stringify({
+      ...legacy,
+      foundationHistory: "corrupt",
+      moduleHistory: [{ timestamp: "invalid" }],
+      aiHistory: { bad: true },
+      perspectiveRuns: [null, { id: "broken" }],
+    }),
+  )
+
+  assert.equal(parsed.foundation?.payload, legacy.foundation?.payload)
+  assert.deepEqual(parsed.foundationHistory, [parsed.foundation])
+  assert.equal(parsed.modules.technology?.headline, "Legacy technology result")
+  assert.deepEqual(parsed.moduleHistory, [])
+  assert.deepEqual(parsed.aiHistory, [])
+  assert.deepEqual(parsed.perspectiveRuns, [])
+})
+
+test("v4 histories filter malformed entries independently", () => {
+  const legacy = parseProfileStore(readFixture(1))
+  const parsed = parseProfileStore(
+    JSON.stringify({
+      ...legacy,
+      foundationHistory: [legacy.foundation, { timestamp: "bad" }],
+      moduleHistory: [legacy.modules.security, { slug: "unknown" }],
+    }),
+  )
+
+  assert.equal(parsed.foundationHistory.length, 1)
+  assert.equal(parsed.moduleHistory.length, 1)
+  assert.equal(parsed.moduleHistory[0]?.slug, "security")
+})
+
+test("snapshot updates keep current views and append deduplicated histories", () => {
+  const legacyV1 = parseProfileStore(readFixture(1))
+  const oldFoundation = legacyV1.foundation as FoundationSnapshot
+  const nextFoundation: FoundationSnapshot = {
+    ...oldFoundation,
+    timestamp: oldFoundation.timestamp + 10,
+    payload: "foundation-next",
+    resultPath: "/results/foundation-next",
+  }
+  const withFoundation = addFoundationSnapshot(legacyV1, nextFoundation)
+  const duplicateFoundation = addFoundationSnapshot(withFoundation, nextFoundation)
+
+  assert.equal(withFoundation.foundation?.payload, "foundation-next")
+  assert.equal(withFoundation.foundationHistory.length, 2)
+  assert.equal(duplicateFoundation.foundationHistory.length, 2)
+
+  const oldModule = legacyV1.modules.security as ModuleSnapshot
+  const nextModule: ModuleSnapshot = {
+    ...oldModule,
+    timestamp: oldModule.timestamp + 10,
+    headline: "New security result",
+    resultPath: "/modules/security/results/new",
+  }
+  const withModule = addModuleSnapshot(legacyV1, nextModule)
+  assert.equal(withModule.modules.security?.headline, "New security result")
+  assert.deepEqual(
+    withModule.moduleHistory.map((snapshot) => snapshot.headline),
+    ["Legacy security result", "New security result"],
+  )
+
+  const legacyV3 = parseProfileStore(readFixture(3))
+  const oldAi = legacyV3.aiGovernance as AiGovernanceSnapshot
+  const nextAi: AiGovernanceSnapshot = {
+    ...oldAi,
+    timestamp: oldAi.timestamp + 10,
+    payload: "ai-next",
+    resultPath: "/ai/results/ai-next",
+  }
+  const withAi = addAiGovernanceSnapshot(legacyV3, nextAi)
+  assert.equal(withAi.aiGovernance?.payload, "ai-next")
+  assert.deepEqual(
+    withAi.aiHistory.map((snapshot) => snapshot.payload),
+    ["legacy-ai-v1", "ai-next"],
+  )
+})
+
+test("Perspective Runs append by stable id and can be removed", () => {
+  const run: PerspectiveRunSnapshot = {
+    id: "run-1",
+    timestamp: 1740000000000,
+    perspectiveId: "exposed-ally",
+    perspectiveLabel: "Exposed ally or vulnerable small state",
+    scenarioSetVersion: 1,
+    dimensionScores: {
+      securityCompetition: 5,
+      institutions: 5,
+      domesticFilters: 4,
+      normsIdentity: 4,
+      politicalEconomy: 4,
+      restraint: 3.5,
+      orderJustice: 4,
+    },
+    baselineDeltas: {
+      securityCompetition: 1,
+      institutions: 1,
+      restraint: -0.5,
+    },
+    strongestShiftKeys: ["securityCompetition", "institutions", "restraint"],
+    resultPath: "/perspectives/exposed-ally/result/example",
+  }
+
+  const added = addPerspectiveRunSnapshot(emptyProfileStore(), run)
+  const replaced = addPerspectiveRunSnapshot(added, {
+    ...run,
+    timestamp: run.timestamp + 1,
+  })
+
+  assert.equal(replaced.perspectiveRuns.length, 1)
+  assert.equal(replaced.perspectiveRuns[0]?.timestamp, run.timestamp + 1)
+  assert.deepEqual(removePerspectiveRunSnapshot(replaced, run.id).perspectiveRuns, [])
+})
+
+test("unknown versions, malformed JSON, and invalid current snapshots fail safely", () => {
+  assert.deepEqual(parseProfileStore("not-json"), emptyProfileStore())
+  assert.deepEqual(parseProfileStore(JSON.stringify({ v: 99 })), emptyProfileStore())
+
+  const legacy = JSON.parse(readFixture(1))
+  legacy.foundation.dimensionScores.institutions = 8
+  const parsed = parseProfileStore(JSON.stringify(legacy))
+  assert.equal(parsed.foundation, null)
+  assert.equal(parsed.modules.security?.slug, "security")
+})

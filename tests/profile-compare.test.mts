@@ -4,7 +4,7 @@ import { buildProfileComparison } from "@/lib/profile-compare"
 import type { ProfileStore } from "@/lib/profile-store"
 
 const leftProfile: ProfileStore = {
-  v: 2,
+  v: 4,
   foundation: {
     timestamp: 1,
     payload: "left",
@@ -90,11 +90,15 @@ const leftProfile: ProfileStore = {
       overlayDeltas: {},
     },
   },
+  foundationHistory: [],
+  moduleHistory: [],
   aiGovernance: null,
+  aiHistory: [],
+  perspectiveRuns: [],
 }
 
 const rightProfile: ProfileStore = {
-  v: 2,
+  v: 4,
   foundation: {
     timestamp: 1,
     payload: "right",
@@ -180,7 +184,11 @@ const rightProfile: ProfileStore = {
       overlayDeltas: {},
     },
   },
+  foundationHistory: [],
+  moduleHistory: [],
   aiGovernance: null,
+  aiHistory: [],
+  perspectiveRuns: [],
 }
 
 test("profile comparison derives stable overlap and the clearest divergences without a composite score", () => {

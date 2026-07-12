@@ -1,0 +1,44 @@
+{
+  "v": 1,
+  "foundation": {
+    "timestamp": 1710000000000,
+    "mode": "standard",
+    "payload": "legacy-foundation-v1",
+    "resultPath": "/results/legacy-foundation-v1",
+    "familyKey": "realist",
+    "familyLabel": "Strategic Realist",
+    "runnerUpKey": "institutionalist",
+    "runnerUpLabel": "Liberal Institutionalist",
+    "summary": "Legacy Foundation snapshot",
+    "dimensionScores": {
+      "securityCompetition": 5.8,
+      "institutions": 3.1,
+      "domesticFilters": 3.7,
+      "normsIdentity": 3.4,
+      "politicalEconomy": 4.2,
+      "restraint": 4.6,
+      "orderJustice": 4.9
+    },
+    "strategyModifier": "Hedger",
+    "normativeModifier": "Conditional Solidarist",
+    "keyDrivers": [],
+    "strongLenses": []
+  },
+  "modules": {
+    "security": {
+      "timestamp": 1710000001000,
+      "slug": "security",
+      "title": "Security",
+      "mode": "standard",
+      "headline": "Legacy security result",
+      "summary": "Saved before module overlays were added.",
+      "resultPath": "/modules/security/results/legacy-v1",
+      "scores": { "activism": 4.8, "escalation": 4.2 },
+      "instincts": ["Keep escalation ceilings visible."],
+      "challenge": "State the stopping rule.",
+      "measures": ["deterrence"],
+      "doesNotClaim": ["prediction"],
+      "evidence": []
+    }
+  }
+}
