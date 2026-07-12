@@ -11,6 +11,7 @@ import {
 } from "@/lib/profile-store"
 import {
   buildProfileSharePayload,
+  buildProfileSharePayloadV1,
   encodeProfileSharePayload,
 } from "@/lib/profile-share"
 
@@ -77,8 +78,13 @@ export function ProfileDashboard() {
     )
   }
 
+  // Share V2 carries AI results and Perspective Runs. Profiles without that
+  // new data keep emitting the V1 payload so older readers stay compatible.
   const sharePayload = (() => {
-    const payload = buildProfileSharePayload(profile)
+    const hasV2Data = Boolean(profile.aiGovernance) || profile.perspectiveRuns.length > 0
+    const payload = hasV2Data
+      ? buildProfileSharePayload(profile)
+      : buildProfileSharePayloadV1(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
 

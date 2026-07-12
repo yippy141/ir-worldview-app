@@ -3,7 +3,9 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
+import { PerspectiveRunsSection } from "@/components/profile/perspective-runs-section"
 import { ResultCardHero, type ResultCardAccent } from "@/components/results/result-card-hero"
+import { formatFieldDate } from "@/lib/field/items"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -188,6 +190,13 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         </div>
         {actionSlot ? <div className="profile-secondary-actions">{actionSlot}</div> : null}
       </section>
+
+      <PerspectiveRunsSection
+        key={`${mode}-${profile.perspectiveRuns.length}`}
+        initialRuns={profile.perspectiveRuns}
+        baselineScores={foundation.dimensionScores}
+        mode={mode}
+      />
 
       <section className="result-section stack-md">
         <div className="stack-xs">
@@ -394,6 +403,8 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               </div>
             </details>
 
+            <ResultHistoryDrawer profile={profile} />
+
             {moduleSnapshots.map((moduleSnapshot) => (
               <details key={moduleSnapshot.slug} className="profile-details profile-details--secondary">
                 <summary>{moduleSnapshot.title} evidence log</summary>
@@ -422,6 +433,79 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         ) : null}
       </section>
     </article>
+  )
+}
+
+function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
+  const foundation = profile.foundation
+  const earlierFoundation = profile.foundationHistory.filter(
+    (snapshot) => snapshot.timestamp !== foundation?.timestamp,
+  )
+  const earlierAi = profile.aiHistory.filter(
+    (snapshot) => snapshot.timestamp !== profile.aiGovernance?.timestamp,
+  )
+  const currentModuleTimestamps = new Set(
+    Object.values(profile.modules)
+      .filter((snapshot): snapshot is ModuleSnapshot => Boolean(snapshot))
+      .map((snapshot) => snapshot.timestamp),
+  )
+  const earlierModules = profile.moduleHistory.filter(
+    (snapshot) => !currentModuleTimestamps.has(snapshot.timestamp),
+  )
+
+  const totalEarlier = earlierFoundation.length + earlierAi.length + earlierModules.length
+  if (totalEarlier === 0) return null
+
+  return (
+    <details className="profile-details profile-details--secondary">
+      <summary>Baseline history · {totalEarlier} earlier {totalEarlier === 1 ? "result" : "results"}</summary>
+      <div className="profile-collapsed-detail stack-sm">
+        <p className="muted profile-history-note">
+          Earlier results saved on this device. The current snapshots above stay the live read.
+        </p>
+        <ul className="profile-history-list">
+          {earlierFoundation
+            .slice()
+            .sort((a, b) => b.timestamp - a.timestamp)
+            .map((snapshot) => (
+              <li key={`f-${snapshot.timestamp}`} className="profile-history-row">
+                <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
+                <span className="profile-history-row__label">
+                  Foundation · {snapshot.familyLabel}
+                  {snapshot.mode ? ` · ${snapshot.mode === "analyst" ? "Analyst" : "Standard"}` : ""}
+                </span>
+                <Link href={snapshot.resultPath} className="profile-history-row__view">
+                  View
+                </Link>
+              </li>
+            ))}
+          {earlierModules
+            .slice()
+            .sort((a, b) => b.timestamp - a.timestamp)
+            .map((snapshot) => (
+              <li key={`m-${snapshot.slug}-${snapshot.timestamp}`} className="profile-history-row">
+                <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
+                <span className="profile-history-row__label">{snapshot.title} · {snapshot.headline}</span>
+                <Link href={snapshot.resultPath} className="profile-history-row__view">
+                  View
+                </Link>
+              </li>
+            ))}
+          {earlierAi
+            .slice()
+            .sort((a, b) => b.timestamp - a.timestamp)
+            .map((snapshot) => (
+              <li key={`a-${snapshot.timestamp}`} className="profile-history-row">
+                <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
+                <span className="profile-history-row__label">AI Governance · {snapshot.archetypeLabel}</span>
+                <Link href={snapshot.resultPath} className="profile-history-row__view">
+                  View
+                </Link>
+              </li>
+            ))}
+        </ul>
+      </div>
+    </details>
   )
 }
 
@@ -484,7 +568,12 @@ function buildProfileNextSteps({
   }
 
   steps.push({
-    title: "Open the Atlas",
+    title: "Try another vantage point",
+    href: "/perspectives",
+  })
+
+  steps.push({
+    title: "Open the Field Explorer",
     href: "/explore/atlas",
   })
 

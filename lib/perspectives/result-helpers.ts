@@ -121,7 +121,7 @@ export function buildPerspectiveResultCopy(result: PerspectiveRunResult): Perspe
   return {
     headline: `${roleLabel} shifted your emphasis on ${lead.label.toLowerCase()}`,
     summary: supportingText
-      ? `The role moved you toward ${lead.direction}. ${supportingText} also shifted.`
+      ? `The role moved you toward ${lead.direction}. Shifts also appeared in ${supportingText}.`
       : `The role moved you toward ${lead.direction}.`,
     stableThread: buildStableThread(result),
     largestMovement: buildLargestMovementLine(result),

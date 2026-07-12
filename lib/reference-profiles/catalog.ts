@@ -599,7 +599,7 @@ export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
         ),
       },
       disputes: [
-        "The selected works preserve a significant role for state power while tracing authority beyond states.",
+        "The selected works keep state power central while tracing authority beyond states.",
         "Several dimensions remain sparse because the source pack emphasizes political economy.",
       ],
       versionHistory: initialVersion("Imported as a research draft from the supplied V16 source pack."),

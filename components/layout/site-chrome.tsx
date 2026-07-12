@@ -52,7 +52,8 @@ const publicNavItems: PublicNavItem[] = [
 ]
 
 const moreNavItems = [
-  { href: "/explore/atlas", label: "Atlas" },
+  { href: "/perspectives", label: "Perspectives" },
+  { href: "/explore/atlas", label: "Field Explorer" },
   { href: "/explore", label: "Explore" },
   { href: "/futures", label: "Futures" },
   { href: "/method", label: "Methods" },
@@ -64,19 +65,21 @@ const moreNavItems = [
 const mobileNavGroups: MobileNavGroup[] = [
   {
     label: "Product path",
-    intro: "Start with the Foundation, add Modules and AI where useful, then return to Profile as results accumulate.",
+    intro: "Start with the Foundation, add Modules, AI, and Perspective Runs where useful, then return to Profile as results accumulate.",
     items: [
       { href: "/quiz", label: "Foundation" },
       { href: "/modules", label: "Modules" },
       { href: "/ai", label: "AI" },
+      { href: "/perspectives", label: "Perspectives" },
       { href: "/profile", label: "Profile" },
     ],
   },
   {
     label: "Browse and context",
-    intro: "Use Atlas, the field guide, and methods when you want to browse patterns or challenge the model.",
+    intro: "Use the Field Explorer, the field guide, and methods when you want to browse patterns or challenge the model.",
     items: [
-      { href: "/explore/atlas", label: "Atlas" },
+      { href: "/explore/atlas", label: "Field Explorer" },
+      { href: "/explore/reference", label: "Reference profiles" },
       { href: "/explore", label: "Explore" },
       { href: "/futures", label: "Futures" },
       { href: "/method", label: "Methods" },
@@ -127,6 +130,19 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
     }
   }
 
+  const perspectiveMatch = pathname.match(/^\/perspectives\/([^/]+)$/)
+  if (perspectiveMatch) {
+    return {
+      title: "Perspective Brief",
+      sectionLabel: "Perspective Run",
+      exitHref: "/perspectives",
+      exitLabel: "Exit to briefs",
+      // The run flow shows its own scenario/review progress strip.
+      steps: [],
+      activeStep: "",
+    }
+  }
+
   const moduleMatch = pathname.match(/^\/modules\/([^/]+)$/)
   if (moduleMatch) {
     const slug = moduleMatch[1]
@@ -154,6 +170,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   if (quizMeta) {
     return (
       <div className="site-shell site-shell--quiz">
+        <a href="#site-main" className="skip-link">Skip to content</a>
         <header className="quiz-shell-header">
           <div className="wide-container">
             <div className="quiz-shell-inner">
@@ -185,13 +202,14 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <main className="site-main page-space quiz-shell-main">{children}</main>
+        <main id="site-main" className="site-main page-space quiz-shell-main">{children}</main>
       </div>
     )
   }
 
   return (
     <div className="site-shell">
+      <a href="#site-main" className="skip-link">Skip to content</a>
       <NavAutoClose />
       <header className="site-header">
         <div className="wide-container">
@@ -267,7 +285,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         </div>
       </header>
 
-      <main className="site-main page-space">{children}</main>
+      <main id="site-main" className="site-main page-space">{children}</main>
 
       <footer className="site-footer">
         <div className="wide-container">
