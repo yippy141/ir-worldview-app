@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
 
@@ -54,7 +55,7 @@ const publicNavItems: PublicNavItem[] = [
 
 const moreNavItems = [
   { href: "/perspectives", label: "Perspectives" },
-  { href: "/explore/atlas", label: "Field Explorer" },
+  { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
   { href: "/explore", label: "Explore" },
   { href: "/futures", label: "Futures" },
   { href: "/method", label: "Methods" },
@@ -66,7 +67,7 @@ const moreNavItems = [
 const mobileNavGroups: MobileNavGroup[] = [
   {
     label: "Product path",
-    intro: "Start with the Foundation, add Modules, AI, and Perspective Runs where useful, then return to Profile as results accumulate.",
+    intro: "Start with the Foundation, add Modules, AI, and perspective shifts where useful, then return to Profile as results accumulate.",
     items: [
       { href: "/quiz", label: "Foundation" },
       { href: "/modules", label: "Modules" },
@@ -77,10 +78,10 @@ const mobileNavGroups: MobileNavGroup[] = [
   },
   {
     label: "Browse and context",
-    intro: "Use the Field Explorer, the field guide, and methods when you want to browse patterns or challenge the model.",
+    intro: `Use the ${WORLDVIEW_MAP_LABEL}, the field guide, and methods when you want to browse profiles or challenge the model.`,
     items: [
-      { href: "/explore/atlas", label: "Field Explorer" },
-      { href: "/explore/reference", label: "Reference profiles" },
+      { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
+      { href: "/explore/reference", label: "Thinkers & public positions" },
       { href: "/explore", label: "Explore" },
       { href: "/futures", label: "Futures" },
       { href: "/method", label: "Methods" },
@@ -137,7 +138,7 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
   if (perspectiveMatch) {
     return {
       title: "Perspective Brief",
-      sectionLabel: "Perspective Run",
+      sectionLabel: "Perspective shift",
       exitHref: "/perspectives",
       exitLabel: "Exit to briefs",
       // The run flow shows its own scenario/review progress strip.

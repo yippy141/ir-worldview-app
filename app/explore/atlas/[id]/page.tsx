@@ -152,7 +152,7 @@ export default async function AtlasPatternDetailPage(
       <section className="result-section stack-md">
         <div className="stack-xs">
           <p className="eyebrow">Neighbors</p>
-          <h2>Nearby Atlas patterns</h2>
+          <h2>Nearby worldview profiles</h2>
           <p className="muted" style={{ lineHeight: "1.65", maxWidth: "720px" }}>
             These are the closest neighboring reads in the current model. They are useful comparison
             points when the line between patterns still feels live.

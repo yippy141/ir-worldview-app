@@ -66,7 +66,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
     return (
       <section className="result-section stack-sm" aria-labelledby="perspective-runs-heading">
         <div className="stack-xs">
-          <p className="eyebrow">Perspective runs</p>
+          <p className="eyebrow">My perspective shifts</p>
           <h2 id="perspective-runs-heading" className="profile-section-title">
             Try another vantage point
           </h2>
@@ -85,7 +85,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
   return (
     <section className="result-section stack-md" aria-labelledby="perspective-runs-heading">
       <div className="stack-xs">
-        <p className="eyebrow">Perspective runs</p>
+        <p className="eyebrow">My perspective shifts</p>
         <h2 id="perspective-runs-heading" className="profile-section-title">
           How context moved your answers
         </h2>
@@ -97,7 +97,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
 
       <div className="profile-perspective-map panel result-panel">
         <FieldMap
-          ariaLabel="Field map showing the current Foundation baseline and the latest saved Perspective runs. A line links a run only when it was generated from the current baseline. Each run is listed below."
+          ariaLabel="Map showing the current Foundation baseline and the latest saved perspective shifts. A line links a shift only when it was generated from the current baseline. Each shift is listed below."
           markers={[
             {
               key: "baseline",

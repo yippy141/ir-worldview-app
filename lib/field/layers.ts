@@ -16,7 +16,7 @@ export const FIELD_LAYER_IDS = [
 
 export type FieldLayerId = (typeof FIELD_LAYER_IDS)[number]
 export type FieldLayerKind = "personal" | "contextual" | "aggregate"
-export type FieldLayerReleaseStatus = "available" | "later"
+export type FieldLayerReleaseStatus = "available" | "hidden"
 
 export type FieldLayerConfig = {
   id: FieldLayerId
@@ -27,32 +27,33 @@ export type FieldLayerConfig = {
 }
 
 export const MAX_ACTIVE_FIELD_LAYERS = 2
+export const WORLDVIEW_MAP_LABEL = "Worldview Map"
 
 export const FIELD_LAYER_CONFIGS = [
   {
     id: "my-profile",
-    label: "My profile",
+    label: "My baseline",
     kind: "personal",
     releaseStatus: "available",
     defaultAvailable: true,
   },
   {
     id: "atlas-patterns",
-    label: "Atlas patterns",
+    label: "Worldview profiles",
     kind: "contextual",
     releaseStatus: "available",
     defaultAvailable: true,
   },
   {
     id: "perspective-runs",
-    label: "Perspective Runs",
+    label: "My perspective shifts",
     kind: "contextual",
     releaseStatus: "available",
     defaultAvailable: true,
   },
   {
     id: "reference-profiles",
-    label: "Reference Profiles",
+    label: "Thinkers & public positions",
     kind: "contextual",
     releaseStatus: "available",
     defaultAvailable: true,
@@ -61,17 +62,22 @@ export const FIELD_LAYER_CONFIGS = [
     id: "friends",
     label: "Friends",
     kind: "contextual",
-    releaseStatus: "available",
-    defaultAvailable: true,
+    releaseStatus: "hidden",
+    defaultAvailable: false,
   },
   {
     id: "commons",
-    label: "Commons — later",
+    label: "Commons",
     kind: "aggregate",
-    releaseStatus: "later",
+    releaseStatus: "hidden",
     defaultAvailable: false,
   },
 ] as const satisfies readonly FieldLayerConfig[]
+
+/** Public controls intentionally omit future social and aggregate layers. */
+export const PUBLIC_FIELD_LAYER_CONFIGS = FIELD_LAYER_CONFIGS.filter(
+  (config) => config.releaseStatus === "available",
+)
 
 export const FIELD_LAYER_CONFIG_BY_ID: Readonly<
   Record<FieldLayerId, FieldLayerConfig>
@@ -137,10 +143,9 @@ function fallbackLayerId(
 /**
  * Enforce the Field's layer contract.
  *
- * A contextual or aggregate layer keeps My profile beside it whenever that
- * baseline is available. This means a profile-bearing Field has one contextual
- * slot. When no personal baseline is available, the first two requested layers
- * remain active. Unknown, duplicate, and unavailable layer IDs are removed.
+ * One or two explicitly requested layers remain active. Unknown, duplicate,
+ * hidden, and unavailable layer IDs are removed. The fallback keeps the map
+ * usable without forcing a saved baseline beside every contextual layer.
  */
 export function normalizeActiveFieldLayers(
   requested: readonly unknown[],
@@ -151,14 +156,6 @@ export function normalizeActiveFieldLayers(
   if (available.length === 0) {
     const fallback = fallbackLayerId(availability)
     return fallback ? [fallback] : []
-  }
-
-  const contextual = available.find((layerId) => layerId !== "my-profile")
-  if (
-    contextual &&
-    isFieldLayerAvailable("my-profile", availability)
-  ) {
-    return ["my-profile", contextual]
   }
 
   return available.slice(0, MAX_ACTIVE_FIELD_LAYERS)
@@ -181,18 +178,8 @@ export function toggleActiveFieldLayer(
     )
   }
 
-  if (
-    layerId !== "my-profile" &&
-    isFieldLayerAvailable("my-profile", availability)
-  ) {
-    return normalizeActiveFieldLayers(
-      ["my-profile", layerId],
-      availability,
-    )
-  }
-
-  // Without a personal baseline, activating a third layer replaces the oldest
-  // active layer. This keeps the newly requested layer visible.
+  // Activating a third layer replaces the oldest active layer. This keeps the
+  // newly requested layer visible and permits contextual-only comparisons.
   return normalizeActiveFieldLayers(
     [...current.slice(-(MAX_ACTIVE_FIELD_LAYERS - 1)), layerId],
     availability,
@@ -449,6 +436,14 @@ export function parseFieldSelectionKey(
   }
 }
 
+/** Select a new item, or clear the drawer when the selected item is chosen again. */
+export function toggleFieldSelectionKey(
+  current: FieldSelectionKey | null,
+  requested: FieldSelectionKey,
+): FieldSelectionKey | null {
+  return current === requested ? null : requested
+}
+
 function compareFieldItems(
   left: FieldSelectableItem,
   right: FieldSelectableItem,
@@ -481,6 +476,34 @@ export function getStableFieldItems<T extends FieldSelectableItem>(
     seen.add(key)
     return true
   })
+}
+
+export type FieldListGroup<T extends FieldSelectableItem> = {
+  layerId: FieldLayerId
+  label: string
+  items: T[]
+}
+
+/**
+ * Build the semantic-list groups from the same stable visible-item set used by
+ * keyboard selection. Hidden future layers are never exposed as public groups.
+ */
+export function getFieldListGroups<T extends FieldSelectableItem>(
+  items: readonly T[],
+  activeLayerIds: readonly FieldLayerId[],
+): FieldListGroup<T>[] {
+  const activeLayers = new Set(activeLayerIds)
+  const stableItems = getStableFieldItems(items).filter((item) =>
+    activeLayers.has(item.layerId),
+  )
+
+  return PUBLIC_FIELD_LAYER_CONFIGS.filter((config) =>
+    activeLayers.has(config.id),
+  ).map((config) => ({
+    layerId: config.id,
+    label: config.label,
+    items: stableItems.filter((item) => item.layerId === config.id),
+  }))
 }
 
 /** Resolve an exact selection key. Missing or malformed keys return null. */

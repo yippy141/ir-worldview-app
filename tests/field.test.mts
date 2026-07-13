@@ -1,11 +1,14 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import {
+  DEFAULT_FIELD_LAYER_AVAILABILITY,
   FIELD_LAYER_CONFIGS,
   MAX_ACTIVE_FIELD_LAYERS,
+  PUBLIC_FIELD_LAYER_CONFIGS,
   fieldSelectionKey,
   filterFieldItems,
   findSelectedFieldItem,
+  getFieldListGroups,
   getNextFieldItem,
   getNextFieldSelectionKey,
   getStableFieldItems,
@@ -18,10 +21,19 @@ import {
   serializeFieldFilters,
   serializeFieldLayerIds,
   toggleActiveFieldLayer,
+  toggleFieldSelectionKey,
   type FieldFilterableItem,
 } from "@/lib/field/layers"
 import {
+  parseWorldviewMapQuery,
+  serializeWorldviewMapQuery,
+  WORLDVIEW_MAP_FAMILY_KEYS,
+} from "@/lib/field/map-state"
+import {
+  FIELD_MARKER_OVERLAP_DISTANCE,
+  calculateFieldMarkerFanOffset,
   calculateMovementHull,
+  groupOverlappingMapItems,
   isPointInOrOnMovementHull,
   toMapPosition as toFieldMapPosition,
   type MapPosition,
@@ -29,40 +41,53 @@ import {
 import { toMapPosition as toCanonicalMapPosition } from "@/lib/results/position"
 import type { DimensionScores } from "@/lib/types"
 
-test("Field layer config includes every V16 layer and marks Commons for later", () => {
+test("Worldview Map keeps legacy layer IDs with the reviewed V17 public labels", () => {
   assert.deepEqual(
-    FIELD_LAYER_CONFIGS.map(({ id, label }) => ({ id, label })),
+    FIELD_LAYER_CONFIGS.map(({ id, label, releaseStatus }) => ({
+      id,
+      label,
+      releaseStatus,
+    })),
     [
-      { id: "my-profile", label: "My profile" },
-      { id: "atlas-patterns", label: "Atlas patterns" },
-      { id: "perspective-runs", label: "Perspective Runs" },
-      { id: "reference-profiles", label: "Reference Profiles" },
-      { id: "friends", label: "Friends" },
-      { id: "commons", label: "Commons — later" },
+      { id: "my-profile", label: "My baseline", releaseStatus: "available" },
+      { id: "atlas-patterns", label: "Worldview profiles", releaseStatus: "available" },
+      { id: "perspective-runs", label: "My perspective shifts", releaseStatus: "available" },
+      { id: "reference-profiles", label: "Thinkers & public positions", releaseStatus: "available" },
+      { id: "friends", label: "Friends", releaseStatus: "hidden" },
+      { id: "commons", label: "Commons", releaseStatus: "hidden" },
     ],
   )
-  assert.equal(
-    FIELD_LAYER_CONFIGS.find(({ id }) => id === "commons")?.releaseStatus,
-    "later",
+  assert.deepEqual(
+    PUBLIC_FIELD_LAYER_CONFIGS.map(({ id }) => id),
+    ["my-profile", "atlas-patterns", "perspective-runs", "reference-profiles"],
   )
+  assert.equal(DEFAULT_FIELD_LAYER_AVAILABILITY.friends, false)
+  assert.equal(DEFAULT_FIELD_LAYER_AVAILABILITY.commons, false)
+  assert.deepEqual(parseFieldLayerIds("friends,commons"), ["my-profile"])
 })
 
-test("active layers keep My profile and one contextual layer", () => {
+test("active layers keep one or two explicit layers without forcing a baseline", () => {
   const active = normalizeActiveFieldLayers([
     "reference-profiles",
     "friends",
     "atlas-patterns",
   ])
 
-  assert.deepEqual(active, ["my-profile", "reference-profiles"])
+  assert.deepEqual(active, ["reference-profiles", "atlas-patterns"])
   assert.ok(active.length <= MAX_ACTIVE_FIELD_LAYERS)
 
   assert.deepEqual(
     normalizeActiveFieldLayers(["perspective-runs", "perspective-runs"]),
-    ["my-profile", "perspective-runs"],
+    ["perspective-runs"],
   )
   assert.deepEqual(normalizeActiveFieldLayers(["commons", "unknown"]), [
     "my-profile",
+  ])
+  assert.deepEqual(normalizeActiveFieldLayers(["atlas-patterns"]), [
+    "atlas-patterns",
+  ])
+  assert.deepEqual(normalizeActiveFieldLayers(["reference-profiles"]), [
+    "reference-profiles",
   ])
 })
 
@@ -106,6 +131,40 @@ test("layer state has a stable URL value and applies availability on parse", () 
     parseFieldLayerIds(encoded, { "reference-profiles": false }),
     ["my-profile"],
   )
+})
+
+test("the shared Worldview Map query codec preserves legacy keys and canonical selection", () => {
+  const familyKey = WORLDVIEW_MAP_FAMILY_KEYS[0]
+  const selection = fieldSelectionKey({
+    layerId: "reference-profiles",
+    itemId: "alpha/with:punctuation",
+  })
+  const params = new URLSearchParams()
+  params.set("layers", "atlas-patterns,reference-profiles")
+  params.set("q", "strategic restraint")
+  params.append("family", familyKey)
+  params.set("reviewed", "12")
+  params.set("sel", selection)
+  params.set("view", "map")
+
+  const parsed = parseWorldviewMapQuery(params)
+  assert.equal(parsed.layerParam, "atlas-patterns,reference-profiles")
+  assert.deepEqual(parsed.familyKeys, [familyKey])
+  assert.equal(parsed.reviewedWithin, "12")
+  assert.equal(parsed.selectedKey, selection)
+  assert.equal(parsed.view, "map")
+
+  const encoded = serializeWorldviewMapQuery({
+    activeLayerIds: parseFieldLayerIds(parsed.layerParam),
+    filters: parsed.filters,
+    familyKeys: parsed.familyKeys,
+    reviewedWithin: parsed.reviewedWithin,
+    selectedKey: parsed.selectedKey,
+    view: parsed.view,
+  })
+  const reparsed = parseWorldviewMapQuery(encoded)
+  assert.deepEqual(reparsed, parsed)
+  assert.equal(parseWorldviewMapQuery("sel=not-a-selection").selectedKey, null)
 })
 
 test("Field filters round-trip through a canonical URL query string", () => {
@@ -235,6 +294,59 @@ test("selection keys round-trip and stable order ignores source order", () => {
     resolveSelectedFieldItem(selectionItems, "bad-key")?.id,
     "mine",
   )
+
+  assert.equal(toggleFieldSelectionKey(null, alphaKey), alphaKey)
+  assert.equal(toggleFieldSelectionKey(alphaKey, alphaKey), null)
+  assert.equal(
+    toggleFieldSelectionKey(alphaKey, fieldSelectionKey(selectionItems[0])),
+    fieldSelectionKey(selectionItems[0]),
+  )
+})
+
+test("selection and semantic-list groups remain layer-scoped and complete", () => {
+  const sameIdAcrossLayers: FieldFilterableItem[] = [
+    {
+      id: "shared-id",
+      layerId: "atlas-patterns",
+      label: "Worldview profile",
+    },
+    {
+      id: "shared-id",
+      layerId: "reference-profiles",
+      label: "Public position",
+    },
+    {
+      id: "future",
+      layerId: "friends",
+      label: "Hidden future item",
+    },
+  ]
+
+  const groups = getFieldListGroups(sameIdAcrossLayers, [
+    "atlas-patterns",
+    "reference-profiles",
+    "friends",
+  ])
+  assert.deepEqual(
+    groups.map(({ layerId, items }) => ({
+      layerId,
+      keys: items.map(fieldSelectionKey),
+    })),
+    [
+      {
+        layerId: "atlas-patterns",
+        keys: ["atlas-patterns::shared-id"],
+      },
+      {
+        layerId: "reference-profiles",
+        keys: ["reference-profiles::shared-id"],
+      },
+    ],
+  )
+  assert.notEqual(
+    fieldSelectionKey(sameIdAcrossLayers[0]),
+    fieldSelectionKey(sameIdAcrossLayers[1]),
+  )
 })
 
 test("next-selection helpers wrap in both directions", () => {
@@ -258,6 +370,15 @@ test("next-selection helpers wrap in both directions", () => {
     getNextFieldItem(selectionItems, null, "previous")?.id,
     "beta",
   )
+
+  const traversed: string[] = []
+  let current: string | null = null
+  for (let index = 0; index < stable.length; index += 1) {
+    current = getNextFieldSelectionKey(selectionItems, current, "next")
+    assert.ok(current)
+    traversed.push(current)
+  }
+  assert.deepEqual(traversed, stable.map(fieldSelectionKey))
 })
 
 test("Field projection is the canonical Foundation projection", () => {
@@ -272,6 +393,60 @@ test("Field projection is the canonical Foundation projection", () => {
   }
 
   assert.deepEqual(toFieldMapPosition(scores), toCanonicalMapPosition(scores))
+})
+
+test("overlap grouping is deterministic, lossless, and leaves coordinates untouched", () => {
+  const points = [
+    { key: "b", position: { x: 0.05, y: 0 } },
+    { key: "a", position: { x: 0, y: 0 } },
+    {
+      key: "selected",
+      position: { x: FIELD_MARKER_OVERLAP_DISTANCE, y: 0 },
+    },
+    { key: "separate", position: { x: 0.5, y: 0.5 } },
+  ]
+  const original = structuredClone(points)
+  const forward = groupOverlappingMapItems(points)
+  const reversed = groupOverlappingMapItems([...points].reverse())
+
+  assert.deepEqual(forward, reversed)
+  assert.deepEqual(points, original)
+  assert.deepEqual(
+    forward.map((group) => group.items.map((item) => item.key)),
+    [["a", "b", "selected"], ["separate"]],
+  )
+  assert.deepEqual(
+    forward.flatMap((group) => group.items.map((item) => item.key)).sort(),
+    points.map((point) => point.key).sort(),
+  )
+  assert.equal(
+    forward[0].items.some((item) => item.key === "selected"),
+    true,
+  )
+
+  const beyond = groupOverlappingMapItems([
+    { key: "left", position: { x: 0, y: 0 } },
+    {
+      key: "right",
+      position: { x: FIELD_MARKER_OVERLAP_DISTANCE + 0.0001, y: 0 },
+    },
+  ])
+  assert.equal(beyond.length, 2)
+})
+
+test("overlap fan offsets are finite and distinct", () => {
+  assert.deepEqual(calculateFieldMarkerFanOffset(0, 1), { x: 0, y: 0 })
+  const offsets = Array.from({ length: 12 }, (_, index) =>
+    calculateFieldMarkerFanOffset(index, 12),
+  )
+  assert.equal(
+    offsets.every(({ x, y }) => Number.isFinite(x) && Number.isFinite(y)),
+    true,
+  )
+  assert.equal(
+    new Set(offsets.map(({ x, y }) => `${x.toFixed(6)}:${y.toFixed(6)}`)).size,
+    offsets.length,
+  )
 })
 
 test("movement hull handles zero, one, two, duplicate, and collinear points", () => {

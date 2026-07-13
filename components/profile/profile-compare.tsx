@@ -161,7 +161,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
       <section className="compare-summary-grid">
         <article className="atlas-pattern-card stack-sm">
           <div className="stack-xs">
-            <p className="eyebrow">Left Atlas pattern</p>
+            <p className="eyebrow">Left worldview profile</p>
             <h2 style={{ marginBottom: 0 }}>{leftAtlas.nearest.name}</h2>
             <AtlasPatternFamily pattern={leftAtlas.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
@@ -183,7 +183,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
 
         <article className="atlas-pattern-card stack-sm">
           <div className="stack-xs">
-            <p className="eyebrow">Right Atlas pattern</p>
+            <p className="eyebrow">Right worldview profile</p>
             <h2 style={{ marginBottom: 0 }}>{rightAtlas.nearest.name}</h2>
             <AtlasPatternFamily pattern={rightAtlas.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>

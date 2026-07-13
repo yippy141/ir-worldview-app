@@ -83,7 +83,7 @@ test("the six production menu rows keep their reviewed order, lenses, and routes
       {
         index: "03",
         id: "perspective-runs",
-        label: "Perspective Runs",
+        label: "My perspective shifts",
         sceneId: "perspectives",
         lens: "Judgment under context",
         href: "/perspectives",

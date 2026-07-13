@@ -6,6 +6,7 @@ import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { PerspectiveRunsSection } from "@/components/profile/perspective-runs-section"
 import { ResultCardHero, type ResultCardAccent } from "@/components/results/result-card-hero"
 import { formatFieldDate } from "@/lib/field/items"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -202,7 +203,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <div className="stack-xs">
           <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Evidence and saved layers</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            The Atlas pattern, AI layer, completed overlays, and Foundation anchors that this
+            The worldview profile, AI layer, completed overlays, and Foundation anchors that this
             profile reads from. Open each drawer when you want to look at the evidence.
           </p>
         </div>
@@ -210,8 +211,8 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <details className="profile-details profile-details--secondary">
           <summary>
             {isLayeredProfile
-              ? `Atlas pattern: ${atlasMatch.nearest.name}`
-              : "Nearest Atlas pattern"}
+              ? `Worldview profile: ${atlasMatch.nearest.name}`
+              : "Nearest worldview profile"}
           </summary>
           <div className="profile-collapsed-detail stack-md">
             {!isLayeredProfile ? (
@@ -573,7 +574,7 @@ function buildProfileNextSteps({
   })
 
   steps.push({
-    title: "Open the Field Explorer",
+    title: `Open the ${WORLDVIEW_MAP_LABEL}`,
     href: "/explore/atlas",
   })
 

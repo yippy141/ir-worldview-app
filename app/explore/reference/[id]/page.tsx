@@ -14,6 +14,7 @@ import {
   referenceEntityTypeLabel,
 } from "@/lib/field/items"
 import { calculateMovementHull } from "@/lib/field/position"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { aiAxisLabels } from "@/lib/ai-governance-schema"
 import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
 import {
@@ -44,7 +45,7 @@ export async function generateMetadata(
     title,
     description: entity
       ? `Evidence-coded public posture: ${entity.name}.`
-      : "Browse evidence-coded reference profiles in the IR Worldview field.",
+      : "Browse evidence-coded thinkers and public positions in the Worldview Map.",
   }
 }
 
@@ -64,8 +65,8 @@ export default async function ReferenceDetailPage(
             The link may be outdated, or the profile may have been withdrawn for re-coding.
           </p>
           <div className="row gap-sm wrap">
-            <Link href="/explore/reference" className="cta-primary">Browse reference profiles</Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open the Field Explorer</Link>
+            <Link href="/explore/reference" className="cta-primary">Browse thinkers &amp; public positions</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open the {WORLDVIEW_MAP_LABEL}</Link>
           </div>
         </div>
       </div>
@@ -286,7 +287,7 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
             >
               See this profile in the field
             </Link>
-            <Link href="/explore/reference" className="cta-secondary">All reference profiles</Link>
+            <Link href="/explore/reference" className="cta-secondary">All thinkers &amp; public positions</Link>
             <Link href="/method" className="cta-secondary">Coding method</Link>
           </div>
         </section>
@@ -394,8 +395,8 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
         <section className="result-section stack-sm">
           <p className="eyebrow">Continue</p>
           <div className="row gap-sm wrap">
-            <Link href="/explore/reference" className="cta-secondary">All reference profiles</Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open the Field Explorer</Link>
+            <Link href="/explore/reference" className="cta-secondary">All thinkers &amp; public positions</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open the {WORLDVIEW_MAP_LABEL}</Link>
           </div>
         </section>
       </article>
