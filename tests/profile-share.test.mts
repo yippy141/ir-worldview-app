@@ -35,6 +35,10 @@ const foundationPayload = encodePayload({
 const resolvedFoundation = resolveFoundationPayload(foundationPayload)
 assert.ok(resolvedFoundation, "expected canonical foundation payload to resolve in test fixture")
 
+// Captured before V16; this must remain a literal compatibility fixture.
+const PRE_V16_PROFILE_SHARE_V1 =
+  "eyJ2IjoxLCJmIjoiZXlKMklqb3lMQ0prY3lJNld6WXVNalVzTWk0MUxEUXNNeTQzTlN3MUxqVXNOQzR5TlN3eUxqYzFYU3dpWm1zaU9pSnlaV0ZzYVhOMElpd2libXNpT2lKcGJuTjBhWFIxZEdsdmJtRnNhWE4wSWl3aWMyMGlPaUpJWldSblpYSWlMQ0p1YlNJNklrTnZibVJwZEdsdmJtRnNJRk52Ykdsa1lYSnBjM1FpZlEiLCJtcyI6W10sInBzIjoic3RhYmxlTW9kZXJhdGlvbiJ9"
+
 const profile: ProfileStore = {
   v: 4,
   foundation: {
@@ -281,6 +285,26 @@ test("Profile Share V2 roundtrips optional AI and Perspective Run data with date
   assert.equal(resolved.profile.perspectiveRuns[0]?.perspectiveLabel, "Exposed ally or vulnerable small state")
 })
 
+test("Profile Share V2 keeps the latest fifty valid Perspective Runs", () => {
+  const seed = profileWithV2Overlays.perspectiveRuns[0]
+  assert.ok(seed)
+  const manyRuns = Array.from({ length: 60 }, (_, index) => ({
+    ...seed,
+    id: `run-exposed-ally-${index + 1}`,
+    timestamp: index + 11,
+  }))
+
+  const payload = buildProfileSharePayload({
+    ...profileWithV2Overlays,
+    perspectiveRuns: manyRuns,
+  })
+  assert.ok(payload)
+  assert.equal(payload.pr?.length, 50)
+  assert.equal(payload.pr?.[0]?.t, 21)
+  assert.equal(payload.pr?.at(-1)?.t, 70)
+  assert.ok(resolveProfileSharePayload(encodeProfileSharePayload(payload)))
+})
+
 test("Profile Share V1 still decodes and reconstructs a v4 read-only profile", () => {
   const legacy = buildProfileSharePayloadV1(profile)
   assert.ok(legacy)
@@ -294,6 +318,16 @@ test("Profile Share V1 still decodes and reconstructs a v4 read-only profile", (
   assert.equal(resolved.profile.foundationHistory.length, 1)
   assert.equal(resolved.profile.aiGovernance, null)
   assert.deepEqual(resolved.profile.perspectiveRuns, [])
+})
+
+test("a frozen pre-V16 Profile Share V1 link remains readable", () => {
+  const decoded = decodeProfileSharePayload(PRE_V16_PROFILE_SHARE_V1)
+  assert.ok(decoded)
+  assert.equal(decoded.v, 1)
+  const resolved = resolveProfileSharePayload(PRE_V16_PROFILE_SHARE_V1)
+  assert.ok(resolved)
+  assert.equal(resolved.payload.v, 1)
+  assert.equal(resolved.profile.foundation?.familyKey, "realist")
 })
 
 test("invalid local optional overlays do not block sharing a valid Foundation", () => {
@@ -364,6 +398,8 @@ test("malformed Profile Share V2 optional fields and projection metadata fail sa
 
   const malformed = [
     { ...valid, pv: FIELD_PROJECTION_VERSION + 1 },
+    { ...valid, ft: 1e308 },
+    { ...valid, ft: 1.5 },
     { ...valid, unexpected: true },
     { ...valid, ai: { ...valid.ai, p: "bad-ai-payload" } },
     { ...valid, pr: null },

@@ -178,12 +178,22 @@ export function parseProfileStore(raw: string | null): ProfileStore {
 
 export function loadProfileStore(): ProfileStore {
   if (typeof window === "undefined") return emptyProfileStore()
-  return parseProfileStore(window.localStorage.getItem(PROFILE_STORAGE_KEY))
+  try {
+    return parseProfileStore(window.localStorage.getItem(PROFILE_STORAGE_KEY))
+  } catch {
+    return emptyProfileStore()
+  }
 }
 
-export function saveProfileStore(store: ProfileStore): void {
-  if (typeof window === "undefined") return
-  window.localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(store))
+export function saveProfileStore(store: ProfileStore): boolean {
+  if (typeof window === "undefined") return false
+  try {
+    window.localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(store))
+    return true
+  } catch {
+    // Blocked or full local storage must not crash a canonical result page.
+    return false
+  }
 }
 
 export function addFoundationSnapshot(
@@ -254,24 +264,37 @@ export function removePerspectiveRunSnapshot(store: ProfileStore, id: string): P
   }
 }
 
-export function saveFoundationSnapshot(snapshot: FoundationSnapshot): void {
-  saveProfileStore(addFoundationSnapshot(loadProfileStore(), snapshot))
+export function saveFoundationSnapshot(snapshot: FoundationSnapshot): boolean {
+  return saveProfileStore(addFoundationSnapshot(loadProfileStore(), snapshot))
 }
 
-export function saveModuleSnapshot(snapshot: ModuleSnapshot): void {
-  saveProfileStore(addModuleSnapshot(loadProfileStore(), snapshot))
+export function saveModuleSnapshot(snapshot: ModuleSnapshot): boolean {
+  return saveProfileStore(addModuleSnapshot(loadProfileStore(), snapshot))
 }
 
-export function saveAiGovernanceSnapshot(snapshot: AiGovernanceSnapshot): void {
-  saveProfileStore(addAiGovernanceSnapshot(loadProfileStore(), snapshot))
+export function saveAiGovernanceSnapshot(snapshot: AiGovernanceSnapshot): boolean {
+  return saveProfileStore(addAiGovernanceSnapshot(loadProfileStore(), snapshot))
 }
 
-export function savePerspectiveRunSnapshot(snapshot: PerspectiveRunSnapshot): void {
-  saveProfileStore(addPerspectiveRunSnapshot(loadProfileStore(), snapshot))
+export function savePerspectiveRunSnapshot(snapshot: PerspectiveRunSnapshot): boolean {
+  return saveProfileStore(addPerspectiveRunSnapshot(loadProfileStore(), snapshot))
 }
 
-export function removePerspectiveRun(id: string): void {
-  saveProfileStore(removePerspectiveRunSnapshot(loadProfileStore(), id))
+export function removePerspectiveRun(id: string): boolean {
+  return saveProfileStore(removePerspectiveRunSnapshot(loadProfileStore(), id))
+}
+
+/** JavaScript Date's inclusive millisecond limit. */
+const MAX_PROFILE_TIMESTAMP = 8_640_000_000_000_000
+
+export function isValidProfileTimestamp(value: unknown): value is number {
+  return (
+    typeof value === "number" &&
+    Number.isFinite(value) &&
+    Number.isInteger(value) &&
+    value >= 0 &&
+    value <= MAX_PROFILE_TIMESTAMP
+  )
 }
 
 function appendSnapshots<T>(
@@ -608,7 +631,7 @@ function isStringArray(value: unknown): value is string[] {
 }
 
 function isTimestamp(value: unknown): value is number {
-  return isFiniteNumber(value) && value >= 0
+  return isValidProfileTimestamp(value)
 }
 
 function isFiniteNumber(value: unknown): value is number {

@@ -113,11 +113,16 @@ test("atlas fingerprint mapping leaves unmapped dimensions at the midpoint", () 
 
 test("reference field items reuse the canonical reference projection", () => {
   const items = buildReferenceFieldItems()
+  assert.equal(items.length, 4)
+
   for (const profile of REFERENCE_PROFILE_CATALOG.profiles) {
     const item = items.find((candidate) => candidate.id === profile.id)
-    if (!item) continue
+    assert.ok(item)
     assert.deepEqual(item.position, getReferenceProfilePosition(profile))
   }
+
+  assert.equal(items.find((item) => item.id === "alexander-wendt")?.position, null)
+  assert.equal(items.filter((item) => item.position !== null).length, 3)
 })
 
 test("non-public-demo catalogs are excluded from catalog views", () => {
@@ -133,7 +138,10 @@ test("non-public-demo catalogs are excluded from catalog views", () => {
 })
 
 test("internal-review entries stay visible and are marked as drafts", () => {
-  const entities = getVisibleReferenceEntities()
+  const catalog = internalReviewCatalog()
+  const entities = getVisibleReferenceEntities(catalog, {
+    includeInternalReview: true,
+  })
   assert.ok(entities.length > 0)
   for (const entity of entities) {
     assert.notEqual(entity.publicationStatus, "withdrawn")
@@ -141,13 +149,52 @@ test("internal-review entries stay visible and are marked as drafts", () => {
   }
 })
 
-test("public catalogs surface only publishable entries", () => {
-  const publicCatalog: ReferenceCatalog = {
+test("internal-review entries require an explicit preview outside catalog editing", () => {
+  const catalog = internalReviewCatalog()
+  assert.deepEqual(
+    getVisibleReferenceEntities(catalog, {
+      includeInternalReview: false,
+    }),
+    [],
+  )
+  assert.deepEqual(
+    buildReferenceFieldItems(catalog, {
+      includeInternalReview: false,
+    }),
+    [],
+  )
+})
+
+test("invalid catalogs fail closed before entries reach the Field", () => {
+  const invalidCatalog: ReferenceCatalog = {
     ...REFERENCE_PROFILE_CATALOG,
-    dataStatus: "public",
+    profiles: [
+      ...REFERENCE_PROFILE_CATALOG.profiles,
+      REFERENCE_PROFILE_CATALOG.profiles[0],
+    ],
   }
-  // Current entries are pending review, so a public catalog hides them all.
-  assert.deepEqual(getVisibleReferenceEntities(publicCatalog), [])
+
+  assert.deepEqual(
+    getVisibleReferenceEntities(invalidCatalog, { includeInternalReview: true }),
+    [],
+  )
+  assert.deepEqual(
+    buildReferenceFieldItems(invalidCatalog, { includeInternalReview: true }),
+    [],
+  )
+})
+
+test("public catalogs surface only publishable entries", () => {
+  const publicCatalog = structuredClone(REFERENCE_PROFILE_CATALOG)
+  publicCatalog.profiles[0].public = false
+  publicCatalog.profiles[0].publicationStatus = "pending-review"
+
+  const visible = getVisibleReferenceEntities(publicCatalog)
+  assert.equal(visible.length, 3)
+  assert.equal(
+    visible.some((entity) => entity.id === publicCatalog.profiles[0].id),
+    false,
+  )
 })
 
 test("extended facets narrow contextual items and never hide the baseline", () => {
@@ -190,3 +237,13 @@ test("extended facets narrow contextual items and never hide the baseline", () =
   )
   assert.deepEqual(staleFiltered, [baseline])
 })
+
+function internalReviewCatalog(): ReferenceCatalog {
+  const catalog = structuredClone(REFERENCE_PROFILE_CATALOG)
+  catalog.dataStatus = "internal-review"
+  for (const profile of catalog.profiles) {
+    profile.public = false
+    profile.publicationStatus = "pending-review"
+  }
+  return catalog
+}

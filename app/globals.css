@@ -200,7 +200,7 @@ button {
 .quiz-shell-exit {
   display: inline-flex;
   align-items: center;
-  min-height: 34px;
+  min-height: 44px;
   padding: 0 12px;
   border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--border) 70%);
   border-radius: 999px;
@@ -5979,6 +5979,37 @@ h3 {
     padding-top: 28px;
   }
 
+  .site-shell--perspective-run .quiz-shell-inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .site-shell--perspective-run .quiz-shell-heading {
+    order: 1;
+    text-align: left;
+  }
+
+  .site-shell--perspective-run .quiz-shell-actions {
+    order: 2;
+    justify-self: end;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .site-shell--perspective-run .quiz-shell-steps {
+    display: none;
+  }
+
+  .site-shell--perspective-run .quiz-shell-brand-link {
+    display: none;
+  }
+
+  .site-shell--perspective-run .quiz-shell-exit {
+    width: auto;
+    max-width: none;
+  }
+
   .panel {
     padding: 20px;
   }
@@ -8074,8 +8105,12 @@ h3 {
 }
 
 .field-canvas__marker-link:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
-  outline-offset: 2px;
+  outline: none;
+}
+
+.field-canvas__marker-link:focus-visible .field-canvas__marker-hit {
+  stroke: color-mix(in srgb, var(--accent) 70%, white 30%);
+  stroke-width: 2px;
 }
 
 .field-canvas__caption {
@@ -8303,7 +8338,7 @@ h3 {
 
 .field-layer-toggle--later {
   cursor: default;
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .field-layer-toggle__hint {
@@ -8328,7 +8363,7 @@ h3 {
 
 .field-filters__input {
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   padding: 8px 10px;
   background: var(--bg-2);
   border: 1px solid var(--border);
@@ -8361,7 +8396,7 @@ h3 {
 }
 
 .field-filter-chip {
-  min-height: 36px;
+  min-height: 44px;
   padding: 7px 12px;
   background: transparent;
   border: 1px solid var(--border);
@@ -8496,7 +8531,7 @@ h3 {
 }
 
 .field-list__group-count {
-  color: var(--faint);
+  color: var(--muted);
   font-weight: 400;
 }
 
@@ -8574,7 +8609,7 @@ h3 {
 .field-list__meta {
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .field-list__open {
@@ -8608,6 +8643,10 @@ h3 {
 /* Explorer responsive behavior: list is the mobile default view. */
 
 @media (max-width: 899px) {
+  .field-map-panel .field-canvas__marker-label:not(.field-canvas__marker-label--selected) {
+    display: none;
+  }
+
   .field-explorer--list .field-map-panel {
     display: none;
   }
@@ -8723,7 +8762,7 @@ h3 {
   margin: 0;
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .perspective-page-footnote {
@@ -8743,7 +8782,7 @@ h3 {
 .perspective-context-strip {
   /* Sits below the sticky quiz-shell header; offset tracks its height. */
   position: sticky;
-  top: 62px;
+  top: 67px;
   z-index: 9;
   display: flex;
   align-items: center;
@@ -8788,7 +8827,7 @@ h3 {
 
 @media (max-width: 720px) {
   .perspective-context-strip {
-    top: 58px;
+    top: 65px;
   }
 }
 
@@ -9000,7 +9039,7 @@ h3 {
 .reference-card__coding {
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .reference-card__link {
@@ -9176,7 +9215,7 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
 }
 
 .reference-support--sparse {
-  color: var(--faint);
+  color: var(--muted);
 }
 
 .reference-dimension-row__body {
@@ -9450,4 +9489,34 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
   font-family: var(--sans);
   font-size: 0.8rem;
   font-weight: 600;
+}
+
+.share-copy-control {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.share-copy-fallback {
+  display: grid;
+  gap: 0.3rem;
+  width: min(100%, 32rem);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.share-copy-fallback input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line-2);
+  border-radius: 2px;
+  background: var(--bg-2);
+  color: var(--text);
+  font: 0.76rem/1.35 var(--font-mono), ui-monospace, monospace;
+  padding: 0.6rem 0.7rem;
+}
+
+.share-copy-fallback input:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
+  outline-offset: 2px;
 }

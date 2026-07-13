@@ -5,7 +5,7 @@ import type {
   PerspectiveRunSnapshot,
   PerspectiveScenarioMovement,
 } from "@/lib/perspectives/types"
-import type { DimensionKey } from "@/lib/types"
+import type { DimensionKey, DimensionScores } from "@/lib/types"
 
 export const perspectiveDimensionLabels: Record<DimensionKey, string> = {
   securityCompetition: "Security rivalry",
@@ -71,6 +71,51 @@ export type PerspectiveSnapshotMetadata = {
   id: string
   timestamp: number
   resultPath: string
+}
+
+const BASELINE_MATCH_TOLERANCE = 0.011
+
+/**
+ * Perspective snapshots store the contextual score and its change from the
+ * Foundation. Reconstruct the Foundation that the run actually used so an old
+ * run is never silently connected to a newer personal baseline.
+ */
+export function derivePerspectiveRunBaselineScores(
+  run: PerspectiveRunSnapshot,
+): DimensionScores | null {
+  const scores = {} as DimensionScores
+
+  for (const dimension of PERSPECTIVE_DIMENSIONS) {
+    const contextual = run.dimensionScores[dimension]
+    const delta = run.baselineDeltas[dimension]
+    if (!Number.isFinite(contextual) || typeof delta !== "number" || !Number.isFinite(delta)) {
+      return null
+    }
+
+    const baseline = Number((contextual - delta).toFixed(2))
+    if (baseline < 1 || baseline > 7) return null
+    scores[dimension] = baseline
+  }
+
+  return scores
+}
+
+export function perspectiveBaselineScoresMatch(
+  left: DimensionScores,
+  right: DimensionScores,
+): boolean {
+  return PERSPECTIVE_DIMENSIONS.every(
+    (dimension) =>
+      Math.abs(left[dimension] - right[dimension]) <= BASELINE_MATCH_TOLERANCE,
+  )
+}
+
+export function perspectiveRunMatchesBaseline(
+  run: PerspectiveRunSnapshot,
+  baselineScores: DimensionScores,
+): boolean {
+  const runBaseline = derivePerspectiveRunBaselineScores(run)
+  return runBaseline !== null && perspectiveBaselineScoresMatch(runBaseline, baselineScores)
 }
 
 export function getPerspectiveShiftRows(result: PerspectiveRunResult): PerspectiveShiftRow[] {
@@ -167,7 +212,7 @@ function buildLargestMovementLine(result: PerspectiveRunResult) {
   const option = scenario?.options.find((candidate) => candidate.id === movement?.optionId)
 
   if (!movement || !scenario || !option || movement.movement < 0.01) {
-    return "No single scenario pulled the profile away from the baseline."
+    return "No single scenario produced a modeled shift from the baseline."
   }
 
   return `The largest movement came from “${option.title}” in the task: ${scenario.task}`

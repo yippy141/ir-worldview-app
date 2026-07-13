@@ -4,16 +4,18 @@ import type {
   ReferenceSource,
   ReferenceVersionRecord,
 } from "@/lib/reference-profiles/types"
+import { assertValidReferenceCatalog } from "@/lib/reference-profiles/validation"
 
 export const REFERENCE_PROFILE_SCHEMA_VERSION = 1
-export const REFERENCE_PROFILE_CATALOG_VERSION = 1
+export const REFERENCE_PROFILE_CATALOG_VERSION = 2
 
-const SOURCE_PACK_REVIEW_DATE = "2026-07-12"
+const REFERENCE_RESEARCH_DATE = "2026-07-12"
+const REFERENCE_REVIEW_DATE = "2026-07-13"
 
 const sources: ReferenceSource[] = [
   {
     id: "S1",
-    title: "International Institutions",
+    title: "The False Promise of International Institutions",
     author: "John J. Mearsheimer",
     publisher: "International Security; author-hosted PDF",
     publishedAt: "1994-01-01",
@@ -125,8 +127,8 @@ const sources: ReferenceSource[] = [
     id: "S12",
     title: "States and Markets",
     author: "Susan Strange",
-    publisher: "Bloomsbury Academic edition page",
-    publishedAt: "2015-10-29",
+    publisher: "Basil Blackwell; Bloomsbury Academic edition page",
+    publishedAt: "1988-01-01",
     url: "https://www.bloomsbury.com/us/states-and-markets-9781474236935/",
     kind: "canonical-work",
     tier: 3,
@@ -163,46 +165,58 @@ function estimate(
   return { value, support, sourceIds, evidenceIds, note }
 }
 
-function initialVersion(changeNote: string): ReferenceVersionRecord[] {
-  return [{ version: 1, changedAt: SOURCE_PACK_REVIEW_DATE, changeNote }]
+function publishedVersionHistory(changeNote: string): ReferenceVersionRecord[] {
+  return [
+    { version: 1, changedAt: REFERENCE_RESEARCH_DATE, changeNote },
+    {
+      version: 2,
+      changedAt: REFERENCE_REVIEW_DATE,
+      changeNote: "Published after second-person evidence review against the approved source pack.",
+    },
+  ]
 }
 
-const draftReview = {
-  public: false,
-  publicationStatus: "pending-review" as const,
-  reviewedAt: SOURCE_PACK_REVIEW_DATE,
+const publishedReviewRecord = {
+  public: true,
+  publicationStatus: "published" as const,
+  reviewedAt: REFERENCE_REVIEW_DATE,
   reviewers: [
     {
-      reviewerId: "v16-source-pack-coder",
+      reviewerId: "v16-initial-coder",
       role: "coder" as const,
-      reviewedAt: SOURCE_PACK_REVIEW_DATE,
+      reviewedAt: REFERENCE_RESEARCH_DATE,
+    },
+    {
+      reviewerId: "v16-approved-source-pack-second-reader",
+      role: "second-reader" as const,
+      reviewedAt: REFERENCE_REVIEW_DATE,
     },
   ],
-  version: 1,
+  version: 2,
 }
 
 export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
   schemaVersion: REFERENCE_PROFILE_SCHEMA_VERSION,
   catalogVersion: REFERENCE_PROFILE_CATALOG_VERSION,
-  generatedAt: SOURCE_PACK_REVIEW_DATE,
-  dataStatus: "internal-review",
+  generatedAt: REFERENCE_REVIEW_DATE,
+  dataStatus: "public",
   notice:
-    "Non-public research drafts imported from the supplied V16 source pack. Publication requires independent editorial review and dimension-level source verification.",
+    "Published thinker profiles are evidence-coded interpretations of canonical works, reviewed against the approved V16 source pack.",
   sources,
   profiles: [
     {
-      ...draftReview,
+      ...publishedReviewRecord,
       id: "john-mearsheimer",
       name: "John Mearsheimer",
       shortName: "Mearsheimer",
       entityType: "thinker",
       scope: "foundation",
-      asOf: SOURCE_PACK_REVIEW_DATE,
+      asOf: REFERENCE_RESEARCH_DATE,
       evidenceWindow: { start: "1994-01-01", end: "2021-01-01" },
       domain: "International relations theory and U.S. grand strategy",
-      scopeNote: "Canonical theory and later grand-strategy essays in the supplied source pack.",
+      scopeNote: "Canonical theory and later grand-strategy essays in the coded source record.",
       summary:
-        "This research draft codes an offensive-realist account of competition alongside later arguments for offshore balancing.",
+        "This profile codes an offensive-realist account of competition alongside later arguments for offshore balancing.",
       sourceIds: ["S1", "S2", "S3", "S4"],
       evidence: [
         {
@@ -251,70 +265,70 @@ export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
           "strong",
           ["S1", "S2", "S3"],
           ["mearsheimer-e1", "mearsheimer-e2", "mearsheimer-e3"],
-          "Competition under anarchy forms the core explanatory baseline.",
+          "Security competition is the core of his theory. Survival under anarchy pushes states to compete for power.",
         ),
         institutions: estimate(
           1,
           "strong",
           ["S1", "S2"],
           ["mearsheimer-e1", "mearsheimer-e2"],
-          "Formal institutions receive little causal independence from state power.",
+          "Institutions are treated as weak constraints relative to power and nationalism.",
         ),
         domesticFilters: estimate(
           2,
           "partial",
           ["S1", "S4"],
           ["mearsheimer-e1", "mearsheimer-e4"],
-          "Domestic factors supplement a primarily systemic framework.",
+          "Domestic politics can matter, but mainly outside the core realist baseline.",
         ),
         normsIdentity: estimate(
           3,
           "partial",
           ["S2", "S4"],
           ["mearsheimer-e2", "mearsheimer-e4"],
-          "Nationalism constrains projects of liberal order in the later work.",
+          "Nationalism matters in later work, but identity is not his main constitutive variable.",
         ),
         politicalEconomy: estimate(
           3,
           "partial",
           ["S2", "S3"],
           ["mearsheimer-e2", "mearsheimer-e3"],
-          "Economic interdependence remains subordinate to security competition.",
+          "He recognises the world economy, but places security competition above interdependence.",
         ),
         restraint: estimate(
           4,
           "partial",
           ["S3"],
           ["mearsheimer-e3"],
-          "Offensive-realist theory and offshore-balancing policy pull in different directions.",
+          "Theory leans advantage-seeking; later policy writing leans restraint through offshore balancing.",
         ),
         orderJustice: estimate(
           6,
           "strong",
           ["S2", "S3", "S4"],
           ["mearsheimer-e2", "mearsheimer-e3", "mearsheimer-e4"],
-          "Prudence, sovereignty, and stability outweigh transformative projects.",
+          "He favours stability and prudence over liberal-democratic transformation abroad.",
         ),
       },
       disputes: [
-        "Theoretical advantage-seeking and policy restraint require separate interpretation.",
-        "Later nationalism work broadens the source base beyond the original systemic theory.",
+        "Offensive realism points toward power maximisation.",
+        "Offshore balancing points toward selective restraint.",
       ],
-      versionHistory: initialVersion("Imported as a research draft from the supplied V16 source pack."),
+      versionHistory: publishedVersionHistory("Created as a non-public research draft."),
     },
     {
-      ...draftReview,
+      ...publishedReviewRecord,
       id: "robert-keohane",
       name: "Robert Keohane",
       shortName: "Keohane",
       entityType: "thinker",
       scope: "foundation",
-      asOf: SOURCE_PACK_REVIEW_DATE,
+      asOf: REFERENCE_RESEARCH_DATE,
       evidenceWindow: { start: "1984-01-01", end: "2001-03-01" },
       domain: "Institutions, interdependence, and global governance",
-      scopeNote: "Canonical institutionalist works and later governance writing in the supplied source pack.",
+      scopeNote: "Canonical institutionalist works and later governance writing in the coded source record.",
       summary:
-        "This research draft codes institutions as durable channels for cooperation and gives later work added weight on legitimacy and accountability.",
+        "This profile codes institutions as durable channels for cooperation and gives later work added weight on legitimacy and accountability.",
       sourceIds: ["S5", "S6", "S7", "S8"],
       evidence: [
         {
@@ -352,70 +366,70 @@ export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
           "partial",
           ["S5", "S6"],
           ["keohane-e1", "keohane-e2"],
-          "Anarchy and power set constraints while leaving room for institutional effects.",
+          "He takes anarchy and power seriously but not as the whole story.",
         ),
         institutions: estimate(
           7,
           "strong",
           ["S5", "S6", "S7"],
           ["keohane-e1", "keohane-e2", "keohane-e3"],
-          "Rules, expectations, and repeated interaction sit at the center of the framework.",
+          "Institutions, expectations and rules are central to cooperation.",
         ),
         domesticFilters: estimate(
           5,
           "partial",
           ["S8"],
           ["keohane-e4"],
-          "Later governance work gives accountability and participation visible weight.",
+          "Later work gives visible weight to accountability and participation.",
         ),
         normsIdentity: estimate(
           4,
           "partial",
           ["S6", "S8"],
           ["keohane-e2", "keohane-e4"],
-          "Beliefs and legitimacy support durable governance arrangements.",
+          "Legitimacy and beliefs matter, though not in a full constructivist way.",
         ),
         politicalEconomy: estimate(
           5,
           "strong",
           ["S5", "S7"],
           ["keohane-e1", "keohane-e3"],
-          "Managed interdependence and the world political economy form central terrain.",
+          "World political economy and regime-managed interdependence are central terrain.",
         ),
         restraint: estimate(
           4,
           "partial",
           ["S7", "S8"],
           ["keohane-e3", "keohane-e4"],
-          "Coordination and negotiated cooperation receive support when mutual gains are available.",
+          "He prefers negotiated cooperation but does not elevate strategic restraint as a doctrine.",
         ),
         orderJustice: estimate(
           4,
           "partial",
           ["S8"],
           ["keohane-e4"],
-          "Effective governance is paired with legitimacy and accountability concerns.",
+          "He wants effective governance with legitimacy and accountability, not mere order-preservation.",
         ),
       },
       disputes: [
-        "The relative weight of legitimacy grows in the later governance work.",
-        "The selected works leave the grand-strategy restraint dimension only partially supported.",
+        "Early work can be read as relatively thin and state-centric.",
+        "Later governance work broadens the role of legitimacy and belief.",
       ],
-      versionHistory: initialVersion("Imported as a research draft from the supplied V16 source pack."),
+      versionHistory: publishedVersionHistory("Created as a non-public research draft."),
     },
     {
-      ...draftReview,
+      ...publishedReviewRecord,
       id: "alexander-wendt",
       name: "Alexander Wendt",
       shortName: "Wendt",
       entityType: "thinker",
       scope: "foundation",
-      asOf: SOURCE_PACK_REVIEW_DATE,
+      asOf: REFERENCE_RESEARCH_DATE,
       evidenceWindow: { start: "1992-01-01", end: "1999-01-01" },
       domain: "Constructivist international relations theory",
-      scopeNote: "Canonical texts on identity formation and cultures of anarchy in the supplied source pack.",
+      scopeNote: "Canonical texts on identity formation and cultures of anarchy in the coded source record.",
       summary:
-        "This research draft codes rivalry as socially contingent and gives identity its greatest explanatory weight.",
+        "This profile codes rivalry as socially contingent and gives identity its greatest explanatory weight.",
       sourceIds: ["S9", "S10", "S11"],
       evidence: [
         {
@@ -459,63 +473,66 @@ export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
           "partial",
           ["S9", "S10"],
           ["wendt-e1", "wendt-e2"],
-          "Rivalry depends on social roles and shared understandings.",
+          "Rivalry is contingent, not inherent in anarchy.",
         ),
         institutions: estimate(
           5,
           "partial",
           ["S9", "S10", "S11"],
           ["wendt-e1", "wendt-e2", "wendt-e3"],
-          "Rules form part of the social structure that shapes action.",
+          "Rules matter as part of social structure, though regime design is not the main concern.",
         ),
         domesticFilters: estimate(
           2,
           "sparse",
           ["S10"],
           ["wendt-e2"],
-          "The selected framework is chiefly systemic.",
+          "The main framework is systemic, not domestic.",
         ),
         normsIdentity: estimate(
           7,
           "strong",
           ["S9", "S10", "S11"],
           ["wendt-e1", "wendt-e2", "wendt-e3"],
-          "Identity and interest formation drive the core argument.",
+          "Identities and interests are socially produced and reproduced in interaction.",
         ),
         restraint: estimate(
           4,
           "sparse",
           ["S9", "S10"],
           ["wendt-e1", "wendt-e2"],
-          "Strategic prescriptions vary across the cultures described by the theory.",
+          "The score depends on which culture of anarchy is in view.",
         ),
         orderJustice: estimate(
           3,
           "partial",
           ["S9", "S10", "S11"],
           ["wendt-e1", "wendt-e2", "wendt-e3"],
-          "The framework allows solidaristic changes in international order.",
+          "The work allows movement toward friendship, mutual aid and more solidaristic order forms.",
         ),
       },
       disputes: [
-        "The political-economy dimension remains uncoded in the supplied source pack.",
-        "The framework permits enemy, rival, and friend cultures with distinct prescriptions.",
+        "The political-economy dimension remains uncoded because the source base is too thin for reliable coding.",
+        "Wendt leaves room for rivalry and enmity as well as friendship.",
+        "The framework is contingent rather than normatively linear.",
       ],
-      versionHistory: initialVersion("Imported as a reading-card research draft with one uncoded dimension."),
+      versionHistory: publishedVersionHistory(
+        "Imported as a reading-card research draft with one uncoded dimension.",
+      ),
     },
     {
-      ...draftReview,
+      ...publishedReviewRecord,
       id: "susan-strange",
       name: "Susan Strange",
       shortName: "Strange",
       entityType: "thinker",
       scope: "foundation",
-      asOf: SOURCE_PACK_REVIEW_DATE,
-      evidenceWindow: { start: "1988-01-01", end: "2015-10-29" },
+      asOf: REFERENCE_RESEARCH_DATE,
+      evidenceWindow: { start: "1988-01-01", end: "1998-01-01" },
       domain: "International political economy and structural power",
-      scopeNote: "Core works on structural power, markets, finance, and diffused authority in the supplied source pack.",
+      scopeNote: "Core works on structural power, markets, finance, and diffused authority in the coded source record.",
       summary:
-        "This research draft centers structural power in production, finance, knowledge, and the changing authority of states and markets.",
+        "This profile centers structural power in production, finance, knowledge, and the changing authority of states and markets.",
       sourceIds: ["S12", "S13", "S14"],
       evidence: [
         {
@@ -553,60 +570,62 @@ export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
           "partial",
           ["S12"],
           ["strange-e1"],
-          "Security is one structure of power among several.",
+          "Security is one structure of power, but not automatically the dominant one.",
         ),
         institutions: estimate(
           2,
           "partial",
           ["S13"],
           ["strange-e2"],
-          "Structural power and informal authority receive greater explanatory weight than formal regimes.",
+          "Formal rules matter less than structural power and non-state authority.",
         ),
         domesticFilters: estimate(
           4,
           "sparse",
           ["S13"],
           ["strange-e2"],
-          "Domestic and international authority appear as connected fields.",
+          "Domestic and international authority are entangled, though this is not her primary coding axis.",
         ),
         normsIdentity: estimate(
           3,
           "sparse",
           ["S13"],
           ["strange-e2"],
-          "Identity receives limited direct treatment in the selected works.",
+          "Not central to the framework used here.",
         ),
         politicalEconomy: estimate(
           7,
           "strong",
           ["S12", "S13", "S14"],
           ["strange-e1", "strange-e2", "strange-e3"],
-          "Production, finance, knowledge, and market authority form the central account.",
+          "Production, finance, knowledge and non-state structural power define her worldview.",
         ),
         restraint: estimate(
           4,
           "sparse",
           ["S13"],
           ["strange-e2"],
-          "The selected works diagnose structures of power more extensively than grand strategy.",
+          "The framework is diagnostic rather than grand-strategic.",
         ),
         orderJustice: estimate(
           3,
           "partial",
           ["S13", "S14"],
           ["strange-e2", "strange-e3"],
-          "Hierarchy, volatility, and distributive consequences shape the coding.",
+          "Her work is sensitive to hierarchy, volatility and who benefits from the system.",
         ),
       },
       disputes: [
-        "The selected works keep state power central while tracing authority beyond states.",
-        "Several dimensions remain sparse because the source pack emphasizes political economy.",
+        "She continues to see state power, especially U.S. structural power, as real.",
+        "She also argues that authority has diffused sharply toward non-state actors.",
       ],
-      versionHistory: initialVersion("Imported as a research draft from the supplied V16 source pack."),
+      versionHistory: publishedVersionHistory("Created as a non-public research draft."),
     },
   ],
   movements: [],
 }
+
+assertValidReferenceCatalog(REFERENCE_PROFILE_CATALOG)
 
 export const referenceProfileCatalog = REFERENCE_PROFILE_CATALOG
 

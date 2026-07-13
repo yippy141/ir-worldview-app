@@ -98,7 +98,9 @@ const moduleTitles: Record<string, string> = {
 function matchesPath(pathname: string, href: string) {
   if (href === "/explore") {
     return pathname === "/explore" || (
-      pathname.startsWith("/explore/") && !pathname.startsWith("/explore/atlas")
+      pathname.startsWith("/explore/") &&
+      !pathname.startsWith("/explore/atlas") &&
+      !pathname.startsWith("/explore/reference")
     )
   }
 
@@ -168,8 +170,13 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   const moreActive = moreNavItems.some((item) => matchesPath(currentPath, item.href))
 
   if (quizMeta) {
+    const perspectiveRunChrome = quizMeta.steps.length === 0
     return (
-      <div className="site-shell site-shell--quiz">
+      <div
+        className={`site-shell site-shell--quiz${
+          perspectiveRunChrome ? " site-shell--perspective-run" : ""
+        }`}
+      >
         <a href="#site-main" className="skip-link">Skip to content</a>
         <header className="quiz-shell-header">
           <div className="wide-container">

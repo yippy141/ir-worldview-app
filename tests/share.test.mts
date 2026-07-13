@@ -22,6 +22,15 @@ const payloads: SharePayload[] = [
   },
 ]
 
+// Captured before V16. Keeping this literal prevents a changed encoder and
+// decoder from making the same incompatible mistake while tests still pass.
+const PRE_V16_FOUNDATION_SHARE =
+  "eyJ2IjoyLCJkcyI6WzYuMjUsMi41LDQsMy43NSw1LjUsNC4yNSwyLjc1XSwiZmsiOiJyZWFsaXN0IiwibmsiOiJpbnN0aXR1dGlvbmFsaXN0Iiwic20iOiJIZWRnZXIiLCJubSI6IkNvbmRpdGlvbmFsIFNvbGlkYXJpc3QifQ"
+
+test("a frozen pre-V16 Foundation share still decodes", () => {
+  assert.deepEqual(decodePayload(PRE_V16_FOUNDATION_SHARE), payloads[0])
+})
+
 test("share payloads roundtrip through URL-safe base64 encoding", () => {
   const encodedPayloads = payloads.map((payload) => ({
     payload,

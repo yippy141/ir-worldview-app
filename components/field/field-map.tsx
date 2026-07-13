@@ -214,6 +214,17 @@ export function FieldMap({
           const labelY = labelBelow ? cy + 18 : cy - 13
           const content = (
             <>
+              {interactive ? (
+                <circle
+                  className="field-canvas__marker-hit"
+                  cx={cx}
+                  cy={cy}
+                  r={25}
+                  fill="transparent"
+                  stroke="transparent"
+                  aria-hidden="true"
+                />
+              ) : null}
               {marker.selected ? (
                 <circle
                   className="field-canvas__selection-ring"
@@ -232,7 +243,7 @@ export function FieldMap({
                     marker.kind === "baseline" || marker.kind === "perspective-run"
                       ? " field-canvas__marker-label--own"
                       : ""
-                  }`}
+                  }${marker.selected ? " field-canvas__marker-label--selected" : ""}`}
                   x={cx}
                   y={labelY}
                   textAnchor={labelAnchor(cx)}
@@ -308,7 +319,7 @@ function MarkerGlyph({
 
   if (kind === "atlas-pattern") {
     return (
-      <g stroke="var(--faint)" strokeWidth={1.5}>
+      <g stroke="var(--muted)" strokeWidth={1.5}>
         <line x1={cx - 4} y1={cy} x2={cx + 4} y2={cy} />
         <line x1={cx} y1={cy - 4} x2={cx} y2={cy + 4} />
       </g>
@@ -395,7 +406,7 @@ export function FieldMapKey({
         <div className="field-key__row">
           <dt aria-hidden="true">
             <svg viewBox="0 0 16 16" className="field-key__glyph">
-              <g stroke="var(--faint)" strokeWidth={1.5}>
+              <g stroke="var(--muted)" strokeWidth={1.5}>
                 <line x1={3.5} y1={8} x2={12.5} y2={8} />
                 <line x1={8} y1={3.5} x2={8} y2={12.5} />
               </g>

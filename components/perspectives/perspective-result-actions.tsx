@@ -2,7 +2,10 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { buildPerspectiveRunSnapshot } from "@/lib/perspectives/result-helpers"
+import {
+  buildPerspectiveRunSnapshot,
+  perspectiveBaselineScoresMatch,
+} from "@/lib/perspectives/result-helpers"
 import type { PerspectiveRunResult } from "@/lib/perspectives/types"
 import {
   loadProfileStore,
@@ -15,7 +18,13 @@ type Props = {
   resultPath: string
 }
 
-type SavedState = "loading" | "saved" | "unsaved"
+type SavedState =
+  | "loading"
+  | "saved"
+  | "eligible"
+  | "missing-baseline"
+  | "baseline-mismatch"
+  | "storage-error"
 
 function makeRunId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -29,37 +38,54 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
 
   useEffect(() => {
     const load = () => {
-      const store = loadProfileStore()
-      setSaved(
-        store.perspectiveRuns.some((run) => run.resultPath === resultPath)
-          ? "saved"
-          : "unsaved",
-      )
+      setSaved(getSavedState(result, resultPath))
     }
 
     load()
     window.addEventListener("storage", load)
     return () => window.removeEventListener("storage", load)
-  }, [resultPath])
+  }, [result, resultPath])
 
   function handleSave() {
-    const snapshot = buildPerspectiveRunSnapshot(result, {
-      id: makeRunId(),
-      timestamp: Date.now(),
-      resultPath,
-    })
-    savePerspectiveRunSnapshot(snapshot)
-    setSaved("saved")
+    const currentState = getSavedState(result, resultPath)
+    if (currentState !== "eligible") {
+      setSaved(currentState)
+      return
+    }
+
+    try {
+      const snapshot = buildPerspectiveRunSnapshot(result, {
+        id: makeRunId(),
+        timestamp: Date.now(),
+        resultPath,
+      })
+      if (!savePerspectiveRunSnapshot(snapshot)) {
+        setSaved("storage-error")
+        return
+      }
+      setSaved("saved")
+    } catch {
+      setSaved("storage-error")
+    }
   }
 
   function handleRemove() {
-    const store = loadProfileStore()
-    for (const run of store.perspectiveRuns) {
-      if (run.resultPath === resultPath) {
-        removePerspectiveRun(run.id)
+    try {
+      const store = loadProfileStore()
+      let removed = true
+      for (const run of store.perspectiveRuns) {
+        if (run.resultPath === resultPath) {
+          removed = removePerspectiveRun(run.id) && removed
+        }
       }
+      if (!removed) {
+        setSaved("storage-error")
+        return
+      }
+      setSaved(getSavedState(result, resultPath))
+    } catch {
+      setSaved("storage-error")
     }
-    setSaved("unsaved")
   }
 
   return (
@@ -71,7 +97,7 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
             Remove from profile
           </button>
         </>
-      ) : (
+      ) : saved === "eligible" || saved === "loading" ? (
         <button
           type="button"
           className="primary-button"
@@ -80,8 +106,43 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
         >
           Save this run to your profile
         </button>
+      ) : saved === "missing-baseline" ? (
+        <>
+          <p className="muted result-note-snug">
+            Save is available after you create a Foundation baseline on this device.
+          </p>
+          <Link href="/quiz" className="cta-secondary">Take the Foundation</Link>
+        </>
+      ) : saved === "baseline-mismatch" ? (
+        <p className="muted result-note-snug">
+          This run used a different Foundation baseline. It remains readable here, but it cannot
+          be attached to your current profile.
+        </p>
+      ) : (
+        <p className="muted result-note-snug" role="alert">
+          Profile storage is unavailable in this browser. The result remains available at this
+          link.
+        </p>
       )}
       <Link href="/perspectives" className="cta-secondary">Try another brief</Link>
     </div>
   )
+}
+
+function getSavedState(result: PerspectiveRunResult, resultPath: string): SavedState {
+  try {
+    const store = loadProfileStore()
+    if (store.perspectiveRuns.some((run) => run.resultPath === resultPath)) {
+      return "saved"
+    }
+    if (!store.foundation) return "missing-baseline"
+    return perspectiveBaselineScoresMatch(
+      result.baselineScores,
+      store.foundation.dimensionScores,
+    )
+      ? "eligible"
+      : "baseline-mismatch"
+  } catch {
+    return "storage-error"
+  }
 }

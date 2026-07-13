@@ -6,9 +6,12 @@ import {
 } from "@/lib/reference-profiles/catalog"
 import type {
   AiGovernanceReferenceProfile,
+  CodedEstimate,
+  IrReferenceProfile,
   ReferenceCatalog,
   ReferenceMovement,
 } from "@/lib/reference-profiles/types"
+import type { DimensionKey } from "@/lib/types"
 import {
   getReferenceProfileDimensionScores,
   getReferenceProfilePosition,
@@ -19,29 +22,203 @@ import {
 } from "@/lib/reference-profiles/validation"
 import { toMapPosition } from "@/lib/results/position"
 
-test("the internal-review thinker catalog passes structural validation", () => {
+test("the four reviewed thinker profiles pass publication validation", () => {
   const validation = validateReferenceCatalog(REFERENCE_PROFILE_CATALOG)
 
   assert.equal(validation.ok, true, JSON.stringify(validation.errors, null, 2))
-  assert.equal(REFERENCE_PROFILE_CATALOG.dataStatus, "internal-review")
+  assert.equal(REFERENCE_PROFILE_CATALOG.dataStatus, "public")
   assert.equal(REFERENCE_PROFILE_CATALOG.movements.length, 0)
-  assert.ok(REFERENCE_PROFILE_CATALOG.profiles.length >= 2)
+  assert.equal(REFERENCE_PROFILE_CATALOG.profiles.length, 4)
 
   for (const profile of REFERENCE_PROFILE_CATALOG.profiles) {
     assert.equal(profile.entityType, "thinker")
-    assert.equal(profile.public, false)
-    assert.equal(profile.publicationStatus, "pending-review")
-    assert.equal(isReferenceProfilePublishable(profile), false)
+    assert.equal(profile.public, true)
+    assert.equal(profile.publicationStatus, "published")
+    assert.equal(
+      profile.reviewers.some(
+        (review) =>
+          review.role === "second-reader" && review.reviewedAt === profile.reviewedAt,
+      ),
+      true,
+    )
+    assert.equal(isReferenceProfilePublishable(profile), true)
   }
 })
 
-test("mappable IR profiles use the canonical Foundation projection", () => {
-  const mappable = REFERENCE_PROFILE_CATALOG.profiles.filter(isReferenceProfileMappable)
-  assert.ok(mappable.length > 0)
+test("published thinker coding matches the approved source pack exactly", () => {
+  const expected = {
+    "john-mearsheimer": {
+      sourceIds: ["S1", "S2", "S3", "S4"],
+      estimates: {
+        securityCompetition: [
+          7,
+          "strong",
+          "Security competition is the core of his theory. Survival under anarchy pushes states to compete for power.",
+        ],
+        institutions: [
+          1,
+          "strong",
+          "Institutions are treated as weak constraints relative to power and nationalism.",
+        ],
+        domesticFilters: [
+          2,
+          "partial",
+          "Domestic politics can matter, but mainly outside the core realist baseline.",
+        ],
+        normsIdentity: [
+          3,
+          "partial",
+          "Nationalism matters in later work, but identity is not his main constitutive variable.",
+        ],
+        politicalEconomy: [
+          3,
+          "partial",
+          "He recognises the world economy, but places security competition above interdependence.",
+        ],
+        restraint: [
+          4,
+          "partial",
+          "Theory leans advantage-seeking; later policy writing leans restraint through offshore balancing.",
+        ],
+        orderJustice: [
+          6,
+          "strong",
+          "He favours stability and prudence over liberal-democratic transformation abroad.",
+        ],
+      },
+    },
+    "robert-keohane": {
+      sourceIds: ["S5", "S6", "S7", "S8"],
+      estimates: {
+        securityCompetition: [
+          3,
+          "partial",
+          "He takes anarchy and power seriously but not as the whole story.",
+        ],
+        institutions: [
+          7,
+          "strong",
+          "Institutions, expectations and rules are central to cooperation.",
+        ],
+        domesticFilters: [
+          5,
+          "partial",
+          "Later work gives visible weight to accountability and participation.",
+        ],
+        normsIdentity: [
+          4,
+          "partial",
+          "Legitimacy and beliefs matter, though not in a full constructivist way.",
+        ],
+        politicalEconomy: [
+          5,
+          "strong",
+          "World political economy and regime-managed interdependence are central terrain.",
+        ],
+        restraint: [
+          4,
+          "partial",
+          "He prefers negotiated cooperation but does not elevate strategic restraint as a doctrine.",
+        ],
+        orderJustice: [
+          4,
+          "partial",
+          "He wants effective governance with legitimacy and accountability, not mere order-preservation.",
+        ],
+      },
+    },
+    "alexander-wendt": {
+      sourceIds: ["S9", "S10", "S11"],
+      estimates: {
+        securityCompetition: [2, "partial", "Rivalry is contingent, not inherent in anarchy."],
+        institutions: [
+          5,
+          "partial",
+          "Rules matter as part of social structure, though regime design is not the main concern.",
+        ],
+        domesticFilters: [2, "sparse", "The main framework is systemic, not domestic."],
+        normsIdentity: [
+          7,
+          "strong",
+          "Identities and interests are socially produced and reproduced in interaction.",
+        ],
+        restraint: [
+          4,
+          "sparse",
+          "The score depends on which culture of anarchy is in view.",
+        ],
+        orderJustice: [
+          3,
+          "partial",
+          "The work allows movement toward friendship, mutual aid and more solidaristic order forms.",
+        ],
+      },
+    },
+    "susan-strange": {
+      sourceIds: ["S12", "S13", "S14"],
+      estimates: {
+        securityCompetition: [
+          4,
+          "partial",
+          "Security is one structure of power, but not automatically the dominant one.",
+        ],
+        institutions: [
+          2,
+          "partial",
+          "Formal rules matter less than structural power and non-state authority.",
+        ],
+        domesticFilters: [
+          4,
+          "sparse",
+          "Domestic and international authority are entangled, though this is not her primary coding axis.",
+        ],
+        normsIdentity: [3, "sparse", "Not central to the framework used here."],
+        politicalEconomy: [
+          7,
+          "strong",
+          "Production, finance, knowledge and non-state structural power define her worldview.",
+        ],
+        restraint: [4, "sparse", "The framework is diagnostic rather than grand-strategic."],
+        orderJustice: [
+          3,
+          "partial",
+          "Her work is sensitive to hierarchy, volatility and who benefits from the system.",
+        ],
+      },
+    },
+  } as const
 
-  for (const profile of mappable) {
+  for (const [id, expectedProfile] of Object.entries(expected)) {
+    const profile = getReferenceProfileById(id)
+    assert.ok(profile)
+    if (profile.scope === "ai-governance") {
+      assert.fail(`Expected an IR thinker profile for ${id}.`)
+    }
+    assert.deepEqual(profile.sourceIds, expectedProfile.sourceIds)
+    assert.deepEqual(Object.keys(profile.dimensionEstimates), Object.keys(expectedProfile.estimates))
+
+    for (const [key, [value, support, note]] of Object.entries(expectedProfile.estimates)) {
+      const estimate: CodedEstimate | undefined =
+        profile.dimensionEstimates[key as DimensionKey]
+      assert.ok(estimate)
+      assert.deepEqual(
+        { value: estimate.value, support: estimate.support, note: estimate.note },
+        { value, support, note },
+      )
+    }
+  }
+})
+
+test("complete published thinker profiles use the canonical Foundation projection", () => {
+  const mappableIds = ["john-mearsheimer", "robert-keohane", "susan-strange"]
+
+  for (const id of mappableIds) {
+    const profile = getReferenceProfileById(id)
+    assert.ok(profile)
     const scores = getReferenceProfileDimensionScores(profile)
+
     assert.ok(scores)
+    assert.equal(isReferenceProfileMappable(profile), true)
     assert.deepEqual(getReferenceProfilePosition(profile), toMapPosition(scores))
     assert.equal("x" in profile, false)
     assert.equal("y" in profile, false)
@@ -49,9 +226,30 @@ test("mappable IR profiles use the canonical Foundation projection", () => {
   }
 })
 
-test("an incomplete IR draft remains a reading card without a map position", () => {
+test("map eligibility requires complete linked evidence and second-person review", () => {
+  const noSecondReader = reviewedPublicIrProfile()
+  noSecondReader.reviewers = noSecondReader.reviewers.filter(
+    (review) => review.role !== "second-reader",
+  )
+  assert.equal(isReferenceProfileMappable(noSecondReader), false)
+
+  const missingDimension = reviewedPublicIrProfile()
+  delete missingDimension.dimensionEstimates.restraint
+  assert.equal(isReferenceProfileMappable(missingDimension), false)
+
+  const unlinkedEvidence = reviewedPublicIrProfile()
+  unlinkedEvidence.dimensionEstimates.restraint!.evidenceIds = ["mearsheimer-e1"]
+  assert.equal(isReferenceProfileMappable(unlinkedEvidence), false)
+})
+
+test("published Wendt remains a reading card with political economy uncoded", () => {
   const wendt = getReferenceProfileById("alexander-wendt")
   assert.ok(wendt)
+  if (wendt.scope === "ai-governance") {
+    assert.fail("Expected Wendt to use Foundation dimensions.")
+  }
+  assert.equal(isReferenceProfilePublishable(wendt), true)
+  assert.equal(wendt.dimensionEstimates.politicalEconomy, undefined)
   assert.equal(isReferenceProfileMappable(wendt), false)
   assert.equal(getReferenceProfileDimensionScores(wendt), null)
   assert.equal(getReferenceProfilePosition(wendt), null)
@@ -150,12 +348,23 @@ test("validation rejects estimates outside the shared 1 through 7 scale", () => 
   assert.equal(hasReferenceValidationError(validation, "estimate.bounds"), true)
 })
 
+test("the thinker source ledger uses original-work dates for catalog windows", () => {
+  const s1 = REFERENCE_PROFILE_CATALOG.sources.find((source) => source.id === "S1")
+  const s12 = REFERENCE_PROFILE_CATALOG.sources.find((source) => source.id === "S12")
+  const strange = getReferenceProfileById("susan-strange")
+
+  assert.equal(s1?.title, "The False Promise of International Institutions")
+  assert.equal(s12?.publishedAt, "1988-01-01")
+  assert.equal(strange?.evidenceWindow.end, "1998-01-01")
+})
+
 test("review, publication, and version records are structurally enforced", () => {
   const catalog = cloneCatalog()
   const profile = catalog.profiles[0]
-  profile.public = true
+  catalog.dataStatus = "internal-review"
+  profile.public = false
   profile.reviewers = []
-  profile.version = 2
+  profile.version = 3
 
   const validation = validateReferenceCatalog(catalog)
   assert.equal(validation.ok, false)
@@ -166,6 +375,22 @@ test("review, publication, and version records are structurally enforced", () =>
   )
   assert.equal(hasReferenceValidationError(validation, "review.required"), true)
   assert.equal(hasReferenceValidationError(validation, "version.current"), true)
+})
+
+test("publication requires a second reader on the current reviewed version", () => {
+  const catalog = cloneCatalog()
+  const profile = catalog.profiles[0]
+  profile.reviewers = profile.reviewers.filter((review) => review.role !== "second-reader")
+  profile.reviewers.push({
+    reviewerId: "stale-second-reader",
+    role: "second-reader",
+    reviewedAt: "2026-07-11",
+  })
+
+  const validation = validateReferenceCatalog(catalog)
+  assert.equal(validation.ok, false)
+  assert.equal(hasReferenceValidationError(validation, "review.second-reader"), true)
+  assert.equal(isReferenceProfilePublishable(profile), false)
 })
 
 test("synthetic movements require existing same-scope members and a bounded scope", () => {
@@ -200,6 +425,15 @@ function cloneCatalog(
   catalog: ReferenceCatalog = REFERENCE_PROFILE_CATALOG,
 ): ReferenceCatalog {
   return structuredClone(catalog)
+}
+
+function reviewedPublicIrProfile(): IrReferenceProfile {
+  const profile = getReferenceProfileById("john-mearsheimer")
+  if (!profile || profile.scope === "ai-governance") {
+    throw new Error("Expected a Foundation reference fixture.")
+  }
+
+  return structuredClone(profile)
 }
 
 function syntheticMovement(): ReferenceMovement {

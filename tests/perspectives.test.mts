@@ -8,7 +8,9 @@ import {
 import {
   buildPerspectiveResultCopy,
   buildPerspectiveRunSnapshot,
+  derivePerspectiveRunBaselineScores,
   getPerspectiveShiftRows,
+  perspectiveRunMatchesBaseline,
 } from "@/lib/perspectives/result-helpers"
 import {
   PERSPECTIVE_DIMENSIONS,
@@ -324,6 +326,31 @@ test("result helpers expose comparison rows, editorial copy, and a detached snap
   snapshot.strongestShiftKeys.length = 0
   assert.notEqual(result.dimensionScores.securityCompetition, 1)
   assert.ok(result.strongestShiftKeys.length > 0)
+})
+
+test("saved Perspective runs retain and match only their original Foundation baseline", () => {
+  const perspective = perspectiveCatalog[1]
+  const result = scorePerspectiveRun(perspective, baseline, firstAnswers(perspective))
+  const snapshot = buildPerspectiveRunSnapshot(result, {
+    id: "run-baseline-contract",
+    timestamp: 1_786_000_000_000,
+    resultPath: "/perspectives/rising-peer-competitor/result/demo",
+  })
+
+  assert.deepEqual(derivePerspectiveRunBaselineScores(snapshot), baseline)
+  assert.equal(perspectiveRunMatchesBaseline(snapshot, baseline), true)
+  assert.equal(
+    perspectiveRunMatchesBaseline(snapshot, {
+      ...baseline,
+      institutions: baseline.institutions + 0.02,
+    }),
+    false,
+  )
+
+  const incompleteSnapshot = structuredClone(snapshot)
+  delete incompleteSnapshot.baselineDeltas.restraint
+  assert.equal(derivePerspectiveRunBaselineScores(incompleteSnapshot), null)
+  assert.equal(perspectiveRunMatchesBaseline(incompleteSnapshot, baseline), false)
 })
 
 function encodeRaw(value: unknown) {

@@ -7,8 +7,10 @@ import {
   addModuleSnapshot,
   addPerspectiveRunSnapshot,
   emptyProfileStore,
+  loadProfileStore,
   parseProfileStore,
   removePerspectiveRunSnapshot,
+  saveProfileStore,
   type AiGovernanceSnapshot,
   type FoundationSnapshot,
   type ModuleSnapshot,
@@ -198,4 +200,37 @@ test("unknown versions, malformed JSON, and invalid current snapshots fail safel
   const parsed = parseProfileStore(JSON.stringify(legacy))
   assert.equal(parsed.foundation, null)
   assert.equal(parsed.modules.security?.slug, "security")
+
+  const impossibleDate = JSON.parse(readFixture(1))
+  impossibleDate.foundation.timestamp = 1e308
+  const impossibleDateProfile = parseProfileStore(JSON.stringify(impossibleDate))
+  assert.equal(impossibleDateProfile.foundation, null)
+})
+
+test("blocked browser storage fails safely", () => {
+  const previousWindow = Object.getOwnPropertyDescriptor(globalThis, "window")
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem() {
+          throw new Error("blocked")
+        },
+        setItem() {
+          throw new Error("blocked")
+        },
+      },
+    },
+  })
+
+  try {
+    assert.deepEqual(loadProfileStore(), emptyProfileStore())
+    assert.equal(saveProfileStore(emptyProfileStore()), false)
+  } finally {
+    if (previousWindow) {
+      Object.defineProperty(globalThis, "window", previousWindow)
+    } else {
+      delete (globalThis as { window?: unknown }).window
+    }
+  }
 })

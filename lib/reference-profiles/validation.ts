@@ -168,16 +168,62 @@ export function isReferenceProfileMappable(
 ): profile is IrReferenceProfile & {
   dimensionEstimates: Record<DimensionKey, CodedEstimate>
 } {
-  if (profile.scope === "ai-governance") return false
+  if (profile.scope === "ai-governance" || !isReferenceProfilePublishable(profile)) {
+    return false
+  }
+
+  if (
+    !isIsoDate(profile.asOf) ||
+    !isIsoDate(profile.reviewedAt) ||
+    !isIsoDate(profile.evidenceWindow.end)
+  ) {
+    return false
+  }
+
+  const profileSourceIds = new Set(profile.sourceIds)
 
   return REFERENCE_DIMENSION_KEYS.every((key) => {
     const estimate = profile.dimensionEstimates[key]
-    return Boolean(
-      estimate &&
-        typeof estimate.value === "number" &&
-        Number.isFinite(estimate.value) &&
-        estimate.value >= 1 &&
-        estimate.value <= 7,
+    if (
+      !estimate ||
+      typeof estimate.value !== "number" ||
+      !Number.isFinite(estimate.value) ||
+      estimate.value < 1 ||
+      estimate.value > 7 ||
+      !EVIDENCE_SUPPORT_LEVELS.includes(estimate.support) ||
+      estimate.sourceIds.length === 0 ||
+      estimate.evidenceIds.length === 0
+    ) {
+      return false
+    }
+
+    const sourceIds = new Set(estimate.sourceIds)
+    const evidenceIds = new Set(estimate.evidenceIds)
+    if (
+      sourceIds.size !== estimate.sourceIds.length ||
+      evidenceIds.size !== estimate.evidenceIds.length ||
+      [...sourceIds].some((sourceId) => !profileSourceIds.has(sourceId)) ||
+      (estimate.support === "strong" && (sourceIds.size < 2 || evidenceIds.size < 2))
+    ) {
+      return false
+    }
+
+    const linkedEvidence = estimate.evidenceIds
+      .map((evidenceId) =>
+        profile.evidence.find(
+          (evidence) =>
+            evidence.id === evidenceId &&
+            evidence.dimensionKeys.includes(key) &&
+            sourceIds.has(evidence.sourceId),
+        ),
+      )
+      .filter((evidence): evidence is IrReferenceProfile["evidence"][number] =>
+        Boolean(evidence),
+      )
+
+    return (
+      linkedEvidence.length === estimate.evidenceIds.length &&
+      new Set(linkedEvidence.map((evidence) => evidence.sourceId)).size === sourceIds.size
     )
   })
 }
@@ -213,7 +259,12 @@ export function isReferenceProfilePublishable(profile: ReferenceProfile): boolea
   return (
     profile.public === true &&
     profile.publicationStatus === "published" &&
-    profile.reviewers.some((review) => review.role === "second-reader") &&
+    profile.reviewers.some(
+      (review) =>
+        review.role === "second-reader" &&
+        review.reviewedAt === profile.reviewedAt &&
+        isIsoDate(review.reviewedAt),
+    ) &&
     supportedDimensionCount >= 5 &&
     profile.disputes.length > 0
   )
@@ -771,12 +822,17 @@ function validateEditorialState(
   }
   if (
     record.publicationStatus === "published" &&
-    !reviewerRecords.some((review) => isRecord(review) && review.role === "second-reader")
+    !reviewerRecords.some(
+      (review) =>
+        isRecord(review) &&
+        review.role === "second-reader" &&
+        review.reviewedAt === record.reviewedAt,
+    )
   ) {
     add(
       "review.second-reader",
       `${path}.reviewers`,
-      "Published records require a second-reader review.",
+      "Published records require a second-reader review at the current review date.",
     )
   }
 

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
+import { markProfileSaveIntent } from "@/lib/profile-save-intent"
 import {
   countAnsweredModuleQuestions,
   countAnsweredModuleQuestionsByLane,
@@ -156,7 +157,9 @@ export function ModuleApp({
     })
 
     const query = currentFoundationPayload ? `?foundation=${encodeURIComponent(currentFoundationPayload)}` : ""
-    router.push(`/modules/${slug}/results/${payload}${query}`)
+    const resultPath = `/modules/${slug}/results/${payload}${query}`
+    markProfileSaveIntent("module", resultPath)
+    router.push(resultPath)
   }
 
   return (

@@ -20,6 +20,7 @@ import type {
 import {
   getReferenceProfilePosition,
   isReferenceProfilePublishable,
+  validateReferenceCatalog,
 } from "@/lib/reference-profiles/validation"
 import { FAMILY_LABELS } from "@/lib/worldview-config"
 import type { DimensionScores, FamilyKey } from "@/lib/types"
@@ -180,13 +181,19 @@ export function buildAtlasPatternFieldItems(): FieldItem[] {
 // ---------------------------------------------------------------------------
 
 /**
- * Demo fixtures never reach catalog views. Draft and internal-review entries
- * remain visible with an explicit draft marking; published catalogs surface
- * only entries that pass the full publication rule unmarked.
+ * Demo fixtures never reach catalog views. Internal-review entries are opt-in
+ * outside production; published catalogs surface only validated, publishable
+ * records. This prevents a status-label mistake from exposing draft research.
  */
+export type ReferenceVisibilityOptions = {
+  includeInternalReview?: boolean
+}
+
 export function getVisibleReferenceEntities(
   catalog: ReferenceCatalog = REFERENCE_PROFILE_CATALOG,
+  options: ReferenceVisibilityOptions = {},
 ): ReferenceEntity[] {
+  if (!validateReferenceCatalog(catalog).ok) return []
   if (catalog.dataStatus === "non-public-demo") return []
 
   const entities: ReferenceEntity[] = [...catalog.profiles, ...catalog.movements]
@@ -195,6 +202,10 @@ export function getVisibleReferenceEntities(
       isMovement(entity) ? entity.public && entity.publicationStatus === "published" : isReferenceProfilePublishable(entity),
     )
   }
+
+  const includeInternalReview =
+    options.includeInternalReview ?? process.env.NODE_ENV !== "production"
+  if (!includeInternalReview) return []
 
   return entities.filter((entity) => entity.publicationStatus !== "withdrawn")
 }
@@ -209,9 +220,10 @@ export function isReferenceEntityDraft(entity: ReferenceEntity): boolean {
 export function getVisibleReferenceEntityById(
   id: string,
   catalog: ReferenceCatalog = REFERENCE_PROFILE_CATALOG,
+  options: ReferenceVisibilityOptions = {},
 ): ReferenceEntity | null {
   return (
-    getVisibleReferenceEntities(catalog).find((entity) => entity.id === id) ?? null
+    getVisibleReferenceEntities(catalog, options).find((entity) => entity.id === id) ?? null
   )
 }
 
@@ -235,8 +247,9 @@ export function referenceEntityTypeLabel(entityType: ReferenceEntityType): strin
 
 export function buildReferenceFieldItems(
   catalog: ReferenceCatalog = REFERENCE_PROFILE_CATALOG,
+  options: ReferenceVisibilityOptions = {},
 ): FieldItem[] {
-  const entities = getVisibleReferenceEntities(catalog)
+  const entities = getVisibleReferenceEntities(catalog, options)
   const profileById = new Map(
     catalog.profiles.map((profile) => [profile.id, profile]),
   )
@@ -255,7 +268,7 @@ export function buildReferenceFieldItems(
         position: null,
         summary: entity.scopeNote,
         href: `/explore/reference/${entity.id}`,
-        metaLine: `Reviewed ${formatFieldDateString(entity.reviewedAt)}`,
+        metaLine: `${referenceDateLabel(entity)} ${formatFieldDateString(entity.reviewedAt)}`,
         reviewedAt: entity.reviewedAt,
         draft: isReferenceEntityDraft(entity),
         memberProfileIds: entity.memberProfileIds,
@@ -280,7 +293,7 @@ export function buildReferenceFieldItems(
       position: getReferenceProfilePosition(profile),
       summary: profile.summary,
       href: `/explore/reference/${profile.id}`,
-      metaLine: `Reviewed ${formatFieldDateString(profile.reviewedAt)}`,
+      metaLine: `${referenceDateLabel(profile)} ${formatFieldDateString(profile.reviewedAt)}`,
       reviewedAt: profile.reviewedAt,
       draft: isReferenceEntityDraft(profile),
       movementIds: catalog.movements
@@ -288,6 +301,10 @@ export function buildReferenceFieldItems(
         .map((movement) => movement.id),
     }
   })
+}
+
+function referenceDateLabel(entity: ReferenceEntity): "Reviewed" | "Research dated" {
+  return isReferenceEntityDraft(entity) ? "Research dated" : "Reviewed"
 }
 
 /** Positions for a movement hull, computed from its mappable members. */
@@ -351,10 +368,12 @@ const FIELD_DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
   month: "short",
   year: "numeric",
+  timeZone: "UTC",
 })
 
 export function formatFieldDate(timestamp: number): string {
-  return FIELD_DATE_FORMAT.format(new Date(timestamp))
+  const date = new Date(timestamp)
+  return Number.isFinite(date.getTime()) ? FIELD_DATE_FORMAT.format(date) : "Unknown date"
 }
 
 export function formatFieldDateString(isoDate: string): string {

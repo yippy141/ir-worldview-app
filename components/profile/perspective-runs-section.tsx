@@ -9,6 +9,7 @@ import { getPerspectiveDefinition, isPerspectiveId } from "@/lib/perspectives/ca
 import {
   getPerspectiveShiftDirection,
   perspectiveDimensionLabels,
+  perspectiveRunMatchesBaseline,
 } from "@/lib/perspectives/result-helpers"
 import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 import { removePerspectiveRun } from "@/lib/profile-store"
@@ -38,16 +39,24 @@ function topShiftPhrase(run: PerspectiveRunSnapshot): string | null {
 export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Props) {
   const [runs, setRuns] = useState(initialRuns)
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
+  const [storageError, setStorageError] = useState(false)
 
   const baselinePosition = toMapPosition(baselineScores)
   const latestRuns = latestRunPerPerspective(runs)
+  const latestRunsWithBaseline = latestRuns.map((run) => ({
+    run,
+    matchesCurrentBaseline: perspectiveRunMatchesBaseline(run, baselineScores),
+  }))
 
   function handleRemove(id: string) {
     if (confirmingId !== id) {
       setConfirmingId(id)
       return
     }
-    removePerspectiveRun(id)
+    if (!removePerspectiveRun(id)) {
+      setStorageError(true)
+      return
+    }
     setRuns((current) => current.filter((run) => run.id !== id))
     setConfirmingId(null)
   }
@@ -81,14 +90,14 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
           How context moved your answers
         </h2>
         <p className="muted profile-section-note">
-          Contextual shifts recorded beside your baseline. Each run keeps its own date and scenario
-          set. The baseline stays the anchor.
+          Each run keeps the Foundation baseline used to generate it. Lines appear only for runs
+          that match your current baseline; earlier-baseline runs remain available below.
         </p>
       </div>
 
       <div className="profile-perspective-map panel result-panel">
         <FieldMap
-          ariaLabel="Field map showing saved perspective runs as open dots connected to the Foundation baseline. Each run is listed below with its date and largest shift."
+          ariaLabel="Field map showing the current Foundation baseline and the latest saved Perspective runs. A line links a run only when it was generated from the current baseline. Each run is listed below."
           markers={[
             {
               key: "baseline",
@@ -97,7 +106,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
               position: baselinePosition,
               labeled: true,
             },
-            ...latestRuns.map((run) => ({
+            ...latestRunsWithBaseline.map(({ run }) => ({
               key: run.id,
               kind: "perspective-run" as const,
               label: runShortLabel(run),
@@ -105,11 +114,13 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
               labeled: true,
             })),
           ]}
-          connectors={latestRuns.map((run) => ({
-            from: baselinePosition,
-            to: toMapPosition(run.dimensionScores),
-          }))}
-          caption="Each open dot is one run, connected to your baseline. Distance shows how far that role pulled your answers."
+          connectors={latestRunsWithBaseline
+            .filter(({ matchesCurrentBaseline }) => matchesCurrentBaseline)
+            .map(({ run }) => ({
+              from: baselinePosition,
+              to: toMapPosition(run.dimensionScores),
+            }))}
+          caption="Each open dot is the latest saved run for a brief. A line marks a shared current Foundation baseline; it is not a measured quantity."
         />
       </div>
 
@@ -118,6 +129,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
           .sort((left, right) => right.timestamp - left.timestamp)
           .map((run) => {
             const shift = topShiftPhrase(run)
+            const matchesCurrentBaseline = perspectiveRunMatchesBaseline(run, baselineScores)
             return (
               <li key={run.id} className="profile-run-row">
                 <div className="profile-run-row__main">
@@ -126,6 +138,9 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
                     <span className="profile-run-row__date"> · {formatFieldDate(run.timestamp)}</span>
                     {run.scenarioSetVersion > 0 ? (
                       <span className="profile-run-row__set"> · set v{run.scenarioSetVersion}</span>
+                    ) : null}
+                    {!matchesCurrentBaseline ? (
+                      <span className="profile-run-row__set"> · earlier baseline</span>
                     ) : null}
                   </p>
                   <p className="muted profile-run-row__shift">
@@ -151,6 +166,12 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
             )
           })}
       </ul>
+
+      {storageError ? (
+        <p className="muted result-note-snug" role="alert">
+          This browser could not update local profile storage. The saved run remains in place.
+        </p>
+      ) : null}
 
       {mode === "local" ? (
         <div className="row gap-sm wrap">

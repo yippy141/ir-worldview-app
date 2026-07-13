@@ -36,7 +36,7 @@ export function ReferenceProfileCard({ entity }: { entity: ReferenceEntity }) {
           {referenceEntityTypeLabel(entity.entityType)} · {referenceScopeLabel(entity.scope)}
         </span>
         <span className="reference-card__reviewed">
-          Reviewed {formatFieldDateString(entity.reviewedAt)}
+          {draft ? "Research dated" : "Reviewed"} {formatFieldDateString(entity.reviewedAt)}
         </span>
       </div>
       <h3 className="reference-card__name">{entity.name}</h3>

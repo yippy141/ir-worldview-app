@@ -35,6 +35,7 @@ import {
   type FieldSelectionKey,
 } from "@/lib/field/layers"
 import { calculateMovementHull, type MapPosition } from "@/lib/field/position"
+import { perspectiveRunMatchesBaseline } from "@/lib/perspectives/result-helpers"
 import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
 import {
   IR_REFERENCE_SCOPES,
@@ -106,18 +107,25 @@ export function FieldExplorer() {
       ? parseFieldLayerIds(urlLayerParam ?? DEFAULT_LAYERS.join(","), availability)
       : DEFAULT_LAYERS)
 
-  // Keep filter, layer, selection, and view state shareable in the URL.
-  useEffect(() => {
-    if (profile === null) return
+  const shareableQuery = useMemo(() => {
     const params = new URLSearchParams(serializeFieldFilters(filters))
     params.set("layers", serializeFieldLayerIds(resolvedLayers, availability))
     for (const familyKey of familyKeys) params.append("family", familyKey)
     if (reviewedWithin) params.set("reviewed", reviewedWithin)
     if (selectedKey) params.set("sel", selectedKey)
     if (view === "map") params.set("view", "map")
-    const query = params.toString()
-    window.history.replaceState(null, "", query ? `${pathname}?${query}` : pathname)
-  })
+    return params.toString()
+  }, [availability, familyKeys, filters, resolvedLayers, reviewedWithin, selectedKey, view])
+
+  // Keep filter, layer, selection, and view state shareable in the URL while
+  // retaining any router metadata stored in the current history entry.
+  useEffect(() => {
+    if (profile === null) return
+    const nextUrl = shareableQuery ? `${pathname}?${shareableQuery}` : pathname
+    const currentUrl = `${window.location.pathname}${window.location.search}`
+    if (currentUrl === nextUrl) return
+    window.history.replaceState(window.history.state, "", nextUrl)
+  }, [pathname, profile, shareableQuery])
 
   const baselineItem = useMemo(
     () => buildBaselineFieldItem(profile?.foundation ?? null),
@@ -163,6 +171,16 @@ export function FieldExplorer() {
     [profile],
   )
 
+  const currentBaselineRunIds = useMemo(() => {
+    const foundationScores = profile?.foundation?.dimensionScores
+    if (!foundationScores) return new Set<string>()
+    return new Set(
+      latestRunPerPerspective(profile?.perspectiveRuns ?? [])
+        .filter((run) => perspectiveRunMatchesBaseline(run, foundationScores))
+        .map((run) => run.id),
+    )
+  }, [profile])
+
   const mappableItems = visibleItems.filter(
     (item) =>
       item.position !== null &&
@@ -207,7 +225,10 @@ export function FieldExplorer() {
   const connectors =
     baselineItem?.position && resolvedLayers.includes("perspective-runs")
       ? mappableItems
-          .filter((item) => item.kind === "perspective-run")
+          .filter(
+            (item) =>
+              item.kind === "perspective-run" && currentBaselineRunIds.has(item.id),
+          )
           .map((item) => ({
             from: baselineItem.position as MapPosition,
             to: item.position as MapPosition,
@@ -242,6 +263,7 @@ export function FieldExplorer() {
     filters.query !== "" ||
     filters.entityTypes.length > 0 ||
     filters.scopes.length > 0 ||
+    filters.movementIds.length > 0 ||
     familyKeys.length > 0 ||
     reviewedWithin !== ""
 
@@ -300,12 +322,13 @@ export function FieldExplorer() {
               markers={markers}
               connectors={connectors}
               hulls={hulls}
+              showAnchors={false}
               onSelect={(key) => handleSelect(key as FieldSelectionKey)}
               markerHrefPrefix="field-item-"
               caption={
                 filters.scopes.includes("ai-governance" as ReferenceScope)
                   ? "AI-governance profiles use their own axes and appear in the list."
-                  : "Labels show for your baseline, the selected item, and its nearest neighbors. Select any mark for details."
+                  : "On wider screens, labels show for your baseline, the selected item, and up to three nearby marks. On smaller screens, labels appear after selection. Lines connect only runs made from the current Foundation baseline. Placement is an authored comparison. Map spacing has no calibrated unit."
               }
             />
           ) : (
@@ -428,7 +451,7 @@ export function FieldExplorer() {
               </fieldset>
 
               <label className="field-filters__label">
-                Reviewed
+                Reference date
                 <select
                   className="field-filters__input"
                   value={reviewedWithin}
@@ -463,7 +486,9 @@ export function FieldExplorer() {
       </div>
 
       <p className="sr-only" role="status">
-        {loading ? "Loading saved layers." : `${visibleItems.length} items shown.`}
+        {loading
+          ? "Loading saved layers."
+          : `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
       </p>
 
       <section className="field-list-region" aria-label="All field items as a list">

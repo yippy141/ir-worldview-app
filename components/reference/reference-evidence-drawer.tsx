@@ -74,15 +74,6 @@ export function ReferenceEvidenceByDimension({ profile, sources }: Props) {
           <details key={dimension} className="reference-dimension-row" id={`evidence-${dimension}`}>
             <summary className="reference-dimension-row__head">
               <span className="reference-dimension-row__label">{dimensionLabels[dimension]}</span>
-              <span className="reference-dimension-row__track" aria-hidden="true">
-                <span
-                  className="reference-dimension-row__tick"
-                  style={{ left: `${((estimate.value - 1) / 6) * 100}%` }}
-                />
-              </span>
-              <span className="reference-dimension-row__value">
-                {estimate.value.toFixed(0)} / 7
-              </span>
               <SupportBadge support={estimate.support} />
             </summary>
             <div className="reference-dimension-row__body stack-sm">

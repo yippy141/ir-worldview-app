@@ -222,6 +222,82 @@ export default function MethodPage() {
       </section>
 
       <section className="panel stack-md">
+        <h2>How Perspective Runs work</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          A Perspective Run starts from the saved Foundation scores and applies authored signals
+          from three mirrored scenarios. The result shows how judgment moves under a defined
+          actor&apos;s constraints across the same seven dimensions.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          The saved Foundation remains the personal baseline. Perspective results are contextual
+          overlays, and each run keeps its own scenario-set version. They do not assign another
+          worldview family or feed points back into Foundation scoring.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          The shifts are editorial transforms built from the scenario signals. Small changes should
+          be read lightly. The result names the scenario associated with the largest modeled
+          movement and the dimensions that stayed close to the baseline.
+        </p>
+      </section>
+
+      <section className="panel stack-md">
+        <h2>How the Field map is built</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          The Field projection converts seven Foundation values into two screen axes with authored
+          coefficients. Every personal baseline, Perspective Run, and eligible IR Reference Profile
+          passes through the same projection.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          The map supports orientation and side-by-side reading. It has no validated metric for
+          distance, population density, uncertainty, or statistical similarity. Screen space
+          between two marks carries no measured amount of ideological difference.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Atlas patterns use authored fingerprints. Low, medium, and high levels become 2.5, 4, and
+          5.5 on the internal Foundation scale. Dimensions absent from an Atlas fingerprint use the
+          midpoint of 4 for projection. Atlas marks are authored editorial examples; no population
+          sample underlies them.
+        </p>
+      </section>
+
+      <section className="panel stack-md">
+        <h2>How Reference Profiles are coded</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          Reference Profiles summarize public postures from a dated source ledger. Each record
+          carries an evidence window, dimension-level support, dispute notes, version history, and
+          a second-person review before publication.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          A public reading card needs support on at least five Foundation dimensions. A map position
+          requires linked evidence on all seven dimensions because the projection consumes all
+          seven values. Missing values remain missing, and the profile stays off the map.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          The internal coding stores values on the Foundation&apos;s 1–7 scale. The public default view
+          shows support levels, coding notes, sources, and disputes while keeping the coefficients
+          hidden. Strong support requires linked evidence from at least two source records.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          AI-governance profiles use the separate AI Governance axes and their own visualization.
+          Values from the two instruments are never merged into a single coordinate.
+        </p>
+      </section>
+
+      <section className="panel stack-md">
+        <h2>Local history and shared links</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          ProfileStore v4 keeps the current snapshots, prior Foundation and module results, AI
+          history, and Perspective Runs in the existing local browser storage slot. The reader
+          migrates ProfileStore v1, v2, and v3 records when they are opened.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Profile Share V2 can include AI Governance and Perspective Runs with their dates and
+          projection version. The decoder continues to read Profile Share V1 and existing
+          Foundation result links. Older links simply omit fields introduced in V2.
+        </p>
+      </section>
+
+      <section className="panel stack-md">
         <h2>Why the module layer is separate</h2>
         <p style={{ lineHeight: "1.7" }}>
           Broad priors and domain-specific instincts are related, but they are not the same thing.

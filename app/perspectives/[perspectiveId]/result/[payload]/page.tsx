@@ -71,14 +71,14 @@ export default async function PerspectiveResultPage(
   const runPosition = toMapPosition(result.dimensionScores)
 
   const movement = result.largestMovement
-  const decisiveScenario = movement
+  const largestMovementScenario = movement
     ? perspective.scenarios.find((scenario) => scenario.id === movement.scenarioId) ?? null
     : null
-  const decisiveOption = decisiveScenario
-    ? decisiveScenario.options.find((option) => option.id === movement?.optionId) ?? null
+  const largestMovementOption = largestMovementScenario
+    ? largestMovementScenario.options.find((option) => option.id === movement?.optionId) ?? null
     : null
-  const hasDecisiveMovement = Boolean(
-    movement && decisiveScenario && decisiveOption && movement.movement >= 0.01,
+  const hasLargestMovement = Boolean(
+    movement && largestMovementScenario && largestMovementOption && movement.movement >= 0.01,
   )
 
   return (
@@ -89,7 +89,7 @@ export default async function PerspectiveResultPage(
           label={copy.headline}
           accent="profile"
           summary={`${copy.summary} Your Foundation baseline stays saved and unchanged.`}
-          finding={{ label: "The decisive scenario", text: copy.largestMovement }}
+          finding={{ label: "Largest modeled movement", text: copy.largestMovement }}
           actions={
             <>
               <PerspectiveResultActions result={result} resultPath={resultPath} />
@@ -109,7 +109,7 @@ export default async function PerspectiveResultPage(
           </div>
           <div className="perspective-result-map panel result-panel stack-md">
             <FieldMap
-              ariaLabel={`Field map comparing the Foundation baseline with the ${perspective.label} run. The connecting line shows the distance and direction of the contextual shift.`}
+              ariaLabel={`Field map comparing the Foundation baseline with the ${perspective.label} run. A line links the two authored placements.`}
               markers={[
                 {
                   key: "baseline",
@@ -127,7 +127,7 @@ export default async function PerspectiveResultPage(
                 },
               ]}
               connectors={[{ from: baselinePosition, to: runPosition }]}
-              caption="The solid dot is your baseline. The open dot is this run. The line shows the distance and direction of the shift."
+              caption="The solid dot is your baseline. The open dot is this run. The line links their authored placements; its length is not a calibrated distance."
             />
           </div>
         </section>
@@ -167,18 +167,14 @@ export default async function PerspectiveResultPage(
                     showLegend={index === 0}
                   />
                   <p className="muted perspective-shift-row__read">
-                    <span className="perspective-shift-row__delta">
-                      {row.delta > 0 ? "+" : ""}
-                      {row.delta.toFixed(2)}
-                    </span>{" "}
-                    {row.direction}
+                    {row.direction}. Read the amount as a modeled indication, not a measured gap.
                   </p>
                 </div>
               ))}
             </div>
           ) : (
             <p className="muted result-note">
-              This run stayed within noise range of your baseline on every dimension.
+              This run stayed close to your baseline on every modeled dimension.
             </p>
           )}
 
@@ -225,15 +221,15 @@ export default async function PerspectiveResultPage(
             </article>
 
             <article className="driver-card stack-xs">
-              <p className="eyebrow">The decisive scenario</p>
-              {hasDecisiveMovement && decisiveScenario && decisiveOption ? (
+              <p className="eyebrow">Scenario behind the largest modeled movement</p>
+              {hasLargestMovement && largestMovementScenario && largestMovementOption ? (
                 <>
-                  <p className="result-emphasis">{situationLabel(decisiveScenario)}</p>
-                  <p className="muted result-note-snug">{decisiveScenario.task}</p>
+                  <p className="result-emphasis">{situationLabel(largestMovementScenario)}</p>
+                  <p className="muted result-note-snug">{largestMovementScenario.task}</p>
                   <p className="perspective-decisive__choice">
-                    Your call: {decisiveOption.title}
+                    Your call: {largestMovementOption.title}
                   </p>
-                  <p className="muted result-note-snug">{decisiveOption.response}</p>
+                  <p className="muted result-note-snug">{largestMovementOption.response}</p>
                 </>
               ) : (
                 <p className="muted result-note-snug">{copy.largestMovement}</p>
@@ -245,7 +241,7 @@ export default async function PerspectiveResultPage(
         <section className="result-section stack-sm">
           <p className="muted perspective-result-note">
             This run scores {perspective.scenarios.length} scenarios. It reads as a contextual
-            overlay beside your baseline. Treat small shifts as noise.{" "}
+            overlay beside your baseline. Read small movements lightly.{" "}
             <Link href="/method">Read methods</Link>
           </p>
         </section>

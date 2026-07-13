@@ -257,15 +257,14 @@ test("atlas and visible summary surfaces avoid flagged copy patterns", () => {
   const perspectiveBaseline = foundationCases[1].dimensionScores
   for (const perspective of perspectiveCatalog) {
     assertCleanCopy(`perspective description ${perspective.id}`, perspective.description)
-    const answers = Object.fromEntries(
-      perspective.scenarios.map((scenario) => [scenario.id, scenario.options[0].id]),
-    )
-    const copy = buildPerspectiveResultCopy(
-      scorePerspectiveRun(perspective, perspectiveBaseline, answers),
-    )
+    for (const answers of getPerspectiveAnswerCombinations(perspective)) {
+      const copy = buildPerspectiveResultCopy(
+        scorePerspectiveRun(perspective, perspectiveBaseline, answers),
+      )
 
-    for (const [field, value] of Object.entries(copy)) {
-      assertCleanCopy(`perspective result ${perspective.id} ${field}`, value)
+      for (const [field, value] of Object.entries(copy)) {
+        assertCleanCopy(`perspective result ${perspective.id} ${field}`, value)
+      }
     }
 
     for (const scenario of perspective.scenarios) {
@@ -280,6 +279,21 @@ test("atlas and visible summary surfaces avoid flagged copy patterns", () => {
     }
   }
 })
+
+function getPerspectiveAnswerCombinations(
+  perspective: (typeof perspectiveCatalog)[number],
+) {
+  return perspective.scenarios.reduce<Array<Record<string, string>>>(
+    (combinations, scenario) =>
+      combinations.flatMap((answers) =>
+        scenario.options.map((option) => ({
+          ...answers,
+          [scenario.id]: option.id,
+        })),
+      ),
+    [{}],
+  )
+}
 
 function assertCleanCopy(label: string, text: string) {
   const allowed = COPY_ALLOWLIST.get(text) ?? new Set<string>()

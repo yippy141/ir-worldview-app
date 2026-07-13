@@ -4,7 +4,7 @@ import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { situationLabel } from "@/lib/perspectives/situations"
-import { getPerspectiveDefinition } from "@/lib/perspectives/catalog"
+import { getPerspectiveDefinition, isPerspectiveId } from "@/lib/perspectives/catalog"
 import {
   encodePerspectivePayload,
   perspectiveDimensionScoresToTuple,
@@ -27,6 +27,8 @@ type PerspectiveDraft = {
 
 type DraftStore = Record<string, PerspectiveDraft>
 
+const MAX_DRAFT_TIMESTAMP = 8_640_000_000_000_000
+
 type Stage = "start" | "scenario" | "review"
 
 type BaselineState =
@@ -38,21 +40,62 @@ function readDrafts(): DraftStore {
   try {
     const raw = window.localStorage.getItem(PERSPECTIVE_DRAFT_KEY)
     const parsed = raw ? (JSON.parse(raw) as unknown) : null
-    if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) return {}
-    return parsed as DraftStore
+    return normalizeDraftStore(parsed)
   } catch {
     return {}
   }
 }
 
-function writeDraft(perspectiveId: string, draft: PerspectiveDraft | null) {
-  const drafts = readDrafts()
-  if (draft) {
-    drafts[perspectiveId] = draft
-  } else {
-    delete drafts[perspectiveId]
+function writeDraft(perspectiveId: string, draft: PerspectiveDraft | null): boolean {
+  try {
+    const drafts = readDrafts()
+    if (draft) {
+      drafts[perspectiveId] = draft
+    } else {
+      delete drafts[perspectiveId]
+    }
+    window.localStorage.setItem(PERSPECTIVE_DRAFT_KEY, JSON.stringify(drafts))
+    return true
+  } catch {
+    return false
   }
-  window.localStorage.setItem(PERSPECTIVE_DRAFT_KEY, JSON.stringify(drafts))
+}
+
+function normalizeDraftStore(value: unknown): DraftStore {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return {}
+
+  const drafts: DraftStore = {}
+  for (const [perspectiveId, rawDraft] of Object.entries(value)) {
+    if (!isPerspectiveId(perspectiveId)) continue
+    if (typeof rawDraft !== "object" || rawDraft === null || Array.isArray(rawDraft)) continue
+
+    const candidate = rawDraft as Record<string, unknown>
+    if (
+      !Number.isInteger(candidate.scenarioSetVersion) ||
+      (candidate.scenarioSetVersion as number) < 1 ||
+      !Number.isInteger(candidate.updatedAt) ||
+      (candidate.updatedAt as number) < 0 ||
+      (candidate.updatedAt as number) > MAX_DRAFT_TIMESTAMP ||
+      typeof candidate.answers !== "object" ||
+      candidate.answers === null ||
+      Array.isArray(candidate.answers)
+    ) {
+      continue
+    }
+
+    const answers = Object.fromEntries(
+      Object.entries(candidate.answers).filter(
+        ([scenarioId, optionId]) =>
+          scenarioId.length > 0 && typeof optionId === "string" && optionId.length > 0,
+      ),
+    )
+    drafts[perspectiveId] = {
+      scenarioSetVersion: candidate.scenarioSetVersion as number,
+      answers,
+      updatedAt: candidate.updatedAt as number,
+    }
+  }
+  return drafts
 }
 
 export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveId }) {
@@ -68,8 +111,10 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
   const [scenarioIndex, setScenarioIndex] = useState(0)
   const [returnToReview, setReturnToReview] = useState(false)
   const [draftDiscarded, setDraftDiscarded] = useState(false)
+  const [draftStorageError, setDraftStorageError] = useState(false)
   const [ready, setReady] = useState(false)
   const [generating, setGenerating] = useState(false)
+  const [generationError, setGenerationError] = useState(false)
 
   useEffect(() => {
     if (!definition) return
@@ -102,7 +147,7 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
             setScenarioIndex(Math.max(0, firstUnanswered))
           }
         } else {
-          writeDraft(definition.id, null)
+          if (!writeDraft(definition.id, null)) setDraftStorageError(true)
           setDraftDiscarded(true)
         }
       }
@@ -116,11 +161,12 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
   useEffect(() => {
     if (!ready || !definition) return
     if (Object.keys(answers).length === 0) return
-    writeDraft(definition.id, {
+    const stored = writeDraft(definition.id, {
       scenarioSetVersion: definition.scenarioSetVersion,
       answers,
       updatedAt: Date.now(),
     })
+    if (!stored) queueMicrotask(() => setDraftStorageError(true))
   }, [ready, definition, answers])
 
   if (!definition) {
@@ -193,12 +239,14 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
     setScenarioIndex(0)
     setStage("start")
     setReturnToReview(false)
-    writeDraft(activeDefinition.id, null)
+    if (!writeDraft(activeDefinition.id, null)) setDraftStorageError(true)
+    setGenerationError(false)
   }
 
   function generateResult() {
     if (!isComplete || baseline.status !== "present") return
     setGenerating(true)
+    setGenerationError(false)
     try {
       const payload = encodePerspectivePayload({
         v: 1,
@@ -207,10 +255,11 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
         baselineScores: perspectiveDimensionScoresToTuple(baseline.scores),
         answers,
       })
-      writeDraft(activeDefinition.id, null)
+      if (!writeDraft(activeDefinition.id, null)) setDraftStorageError(true)
       router.push(`/perspectives/${activeDefinition.id}/result/${payload}`)
     } catch {
       setGenerating(false)
+      setGenerationError(true)
     }
   }
 
@@ -237,6 +286,13 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
       {draftDiscarded ? (
         <p className="muted perspective-run__note">
           The scenario set was updated since your earlier draft, so this run starts fresh.
+        </p>
+      ) : null}
+
+      {draftStorageError ? (
+        <p className="muted perspective-run__note" role="status">
+          Draft saving is unavailable in this browser. Keep this page open until you finish the
+          run.
         </p>
       ) : null}
 
@@ -408,6 +464,11 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
                 Start over
               </button>
             </div>
+            {generationError ? (
+              <p className="muted perspective-run__note" role="alert">
+                We could not create this result. Your recommendations are still here; try again.
+              </p>
+            ) : null}
             <p className="muted perspective-run__footnote">
               The result is computed only when you generate it. All processing stays in your
               browser.
@@ -443,7 +504,7 @@ function BaselineGate({ definition }: { definition: PerspectiveDefinition }) {
             This run needs a Foundation baseline for comparison.
           </p>
           <p className="muted perspective-run__instruction">
-            Take the Foundation first so a run has a baseline to measure against.
+            Take the Foundation first so a run has a baseline for comparison.
           </p>
         </div>
 

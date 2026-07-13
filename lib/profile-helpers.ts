@@ -426,7 +426,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       stateLabel: "Domain-conditioned shift",
       synthesis: `Your baseline stays closest to ${foundation.familyLabel}, but ${strongestModule.toLowerCase()} changes the emphasis.`,
       summary:
-        "The baseline remains recognizable. At least one module produces a consistent directional shift beyond ordinary noise around the center.",
+        "The baseline remains recognizable. At least one module produces a consistent directional shift across the scored items.",
       changedMost,
       panelTitle: "Shift mode",
       panelIntro:

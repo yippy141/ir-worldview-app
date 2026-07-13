@@ -23,7 +23,7 @@ export default function ReferenceBrowsePage() {
         </div>
         <p className="muted atlas-page-lead">
           Each profile codes a public posture from cited sources: enacted policy, official
-          statements, and canonical work. Every entry shows its scope, review date, evidence
+          statements, and canonical work. Every entry shows its scope, record date, evidence
           support, and open disputes.
         </p>
       </div>
@@ -56,7 +56,7 @@ export default function ReferenceBrowsePage() {
         <p className="eyebrow">Continue</p>
         <div className="row gap-sm wrap">
           <Link href="/explore/atlas?layers=my-profile,reference-profiles" className="cta-primary">
-            See them in the field
+            Open the Field Explorer
           </Link>
           <Link href="/method" className="cta-secondary">Coding method</Link>
           <Link href="/perspectives" className="cta-secondary">Try another vantage point</Link>

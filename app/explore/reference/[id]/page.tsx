@@ -136,7 +136,9 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
             Evidence window: {profile.evidenceWindow.start?.slice(0, 4) ?? "…"}–
             {profile.evidenceWindow.end.slice(0, 4)}
           </span>
-          <span>Reviewed {formatFieldDateString(profile.reviewedAt)}</span>
+          <span>
+            {draft ? "Research dated" : "Reviewed"} {formatFieldDateString(profile.reviewedAt)}
+          </span>
           <span>Version {profile.version}</span>
         </div>
 
@@ -168,8 +170,8 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
             </div>
           ) : (
             <p className="muted reference-detail__map-note">
-              This profile appears as a reading card. Fewer than the required dimensions currently
-              meet the evidence rule, so it has no map position.
+              This profile appears as a reading card. A map position requires all seven Foundation
+              dimensions, linked evidence, and a completed second-person review.
             </p>
           )}
         </section>
@@ -201,9 +203,6 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
                   <div key={axis} className="reference-dimension-row">
                     <div className="reference-dimension-row__head">
                       <span className="reference-dimension-row__label">{aiAxisLabels[axis]}</span>
-                      <span className="reference-dimension-row__value">
-                        {estimate.value.toFixed(0)} / 7
-                      </span>
                       <SupportBadge support={estimate.support} />
                     </div>
                     <p className="reference-dimension-row__note-inline">{estimate.note}</p>
@@ -319,7 +318,9 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
 
         <div className="reference-record-strip" aria-label="Coding record">
           <span>Scope: {referenceScopeLabel(movement.scope)}</span>
-          <span>Reviewed {formatFieldDateString(movement.reviewedAt)}</span>
+          <span>
+            {draft ? "Research dated" : "Reviewed"} {formatFieldDateString(movement.reviewedAt)}
+          </span>
           <span>Version {movement.version}</span>
         </div>
 

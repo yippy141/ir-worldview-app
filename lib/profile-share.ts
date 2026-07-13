@@ -10,6 +10,7 @@ import type {
 import type { ModuleLaneSummary, ModuleSlug } from "@/lib/modules/types"
 import { buildProfileAssessment, type ProfileState } from "@/lib/profile-helpers"
 import type { ProfileAssessment } from "@/lib/profile-helpers"
+import { isValidProfileTimestamp } from "@/lib/profile-store"
 import type {
   AiGovernanceSnapshot,
   FoundationSnapshot,
@@ -116,6 +117,9 @@ export function buildProfileSharePayload(profile: ProfileStore): ProfileSharePay
     : undefined
   const ai = aiCandidate && isProfileShareAiV2(aiCandidate) ? aiCandidate : undefined
   const perspectiveRuns = profile.perspectiveRuns
+    .slice()
+    .sort((left, right) => left.timestamp - right.timestamp)
+    .slice(-MAX_SHARED_PERSPECTIVE_RUNS)
     .map(toSharedPerspectiveRun)
     .filter((run): run is ProfileSharePerspectiveRunV2 => run !== null)
 
@@ -637,7 +641,7 @@ function isFiniteNumber(value: unknown): value is number {
 }
 
 function isTimestamp(value: unknown): value is number {
-  return isFiniteNumber(value) && value >= 0
+  return isValidProfileTimestamp(value)
 }
 
 function isDimensionKey(value: string): value is DimensionKey {

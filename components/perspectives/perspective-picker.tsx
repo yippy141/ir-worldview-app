@@ -101,7 +101,7 @@ function BaselineStatusStrip({ baseline }: { baseline: BaselineState }) {
           No Foundation baseline is saved on this device.
         </p>
         <p className="muted perspective-baseline-strip__note">
-          Take the Foundation first so a run has a baseline to measure against.
+          Take the Foundation first so a run has a baseline for comparison.
         </p>
         <div className="row gap-sm wrap">
           <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
