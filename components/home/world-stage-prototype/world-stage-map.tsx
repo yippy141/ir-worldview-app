@@ -1,14 +1,13 @@
+import type { WorldStageSceneId } from "@/lib/world-stage/types"
 import styles from "./world-stage-prototype.module.css"
 
-export type WorldStageScene = "foundation" | "perspectives" | "futures"
-
 type WorldStageMapProps = {
-  activeScene: WorldStageScene
+  activeScene: WorldStageSceneId
 }
 
 type SceneGroupProps = {
-  scene: WorldStageScene
-  activeScene: WorldStageScene
+  scene: WorldStageSceneId
+  activeScene: WorldStageSceneId
   children: React.ReactNode
 }
 
