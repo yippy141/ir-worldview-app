@@ -923,7 +923,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: coordinated governance",
         summary:
-          "You generally believe the stronger technology strategy is coordinated rather than purely national: shared standards, narrow controls, and durable alignment among capable partners.",
+          "You generally favor a coordinated technology strategy: shared standards, narrow controls, and durable alignment among capable partners.",
         instincts: [
           "You prefer tools that partners can actually implement together.",
           "You treat governance capacity as part of strategic power, not a soft add-on.",

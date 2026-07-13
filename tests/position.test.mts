@@ -2,6 +2,7 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import {
   answerSpread,
+  FIELD_PROJECTION_VERSION,
   spreadRingFraction,
   toDisplayPosition,
   toMapPosition,
@@ -63,6 +64,10 @@ const flatProfile: DimensionScores = {
 function quadrant(x: number, y: number) {
   return { horizontal: Math.sign(x), vertical: Math.sign(y) }
 }
+
+test("the field projection has a stable compatibility version", () => {
+  assert.equal(FIELD_PROJECTION_VERSION, 1)
+})
 
 test("a flat profile lands exactly at the center of the map", () => {
   const position = toMapPosition(flatProfile)

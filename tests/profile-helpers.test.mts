@@ -11,7 +11,7 @@ import {
 import type { ProfileStore } from "@/lib/profile-store"
 
 const profile: ProfileStore = {
-  v: 2,
+  v: 4,
   foundation: {
     timestamp: 1,
     payload: "payload",
@@ -167,7 +167,11 @@ const profile: ProfileStore = {
       },
     },
   },
+  foundationHistory: [],
+  moduleHistory: [],
   aiGovernance: null,
+  aiHistory: [],
+  perspectiveRuns: [],
 }
 
 test("integrated headline reflects the new profile-state logic without inventing a total score", () => {
@@ -201,7 +205,7 @@ test("cross-domain tensions surface both domain conflict and card-type splits", 
 
 test("overlap foundation state surfaces honestly before modules exist", () => {
   const broadProfile: ProfileStore = {
-    v: 2,
+    v: 4,
     foundation: {
       ...profile.foundation!,
       familyKey: "realist",
@@ -219,8 +223,12 @@ test("overlap foundation state surfaces honestly before modules exist", () => {
         orderJustice: 3.8,
       },
     },
+    foundationHistory: [],
     modules: {},
+    moduleHistory: [],
     aiGovernance: null,
+    aiHistory: [],
+    perspectiveRuns: [],
   }
 
   const assessment = buildProfileAssessment(broadProfile)
@@ -240,7 +248,7 @@ test("overlap foundation state surfaces honestly before modules exist", () => {
 
 test("sharply differentiated foundations can surface before modules are added", () => {
   const sharpProfile: ProfileStore = {
-    v: 2,
+    v: 4,
     foundation: {
       ...profile.foundation!,
       familyKey: "realist",
@@ -258,8 +266,12 @@ test("sharply differentiated foundations can surface before modules are added", 
         orderJustice: 4.7,
       },
     },
+    foundationHistory: [],
     modules: {},
+    moduleHistory: [],
     aiGovernance: null,
+    aiHistory: [],
+    perspectiveRuns: [],
   }
 
   const assessment = buildProfileAssessment(sharpProfile)

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { AI_GOVERNANCE_STORAGE_KEY, getAiCoreQuestions, getScenarioOptions } from "@/lib/ai-governance-schema"
 import { generateAiGovernanceResult, getAiScenarioSequence, getNeighboringArchetypeKey } from "@/lib/ai-governance-scoring"
 import { encodeAiPayload, aiAxisScoresToArray } from "@/lib/ai-governance-share"
+import { markProfileSaveIntent } from "@/lib/profile-save-intent"
 import type { AiAnswers, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
 import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 
@@ -41,14 +42,23 @@ function loadState(): AiQuizState | null {
 
 export function AiGovernanceReviewScreen() {
   const router = useRouter()
-  const [state] = useState<AiQuizState | null>(() => loadState())
+  const [state, setState] = useState<AiQuizState | null>(null)
+  const [ready, setReady] = useState(false)
   const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
-    if (state === null || !state.started) {
+    const timeout = window.setTimeout(() => {
+      setState(loadState())
+      setReady(true)
+    }, 0)
+    return () => window.clearTimeout(timeout)
+  }, [])
+
+  useEffect(() => {
+    if (ready && (state === null || !state.started)) {
       router.replace("/ai")
     }
-  }, [router, state])
+  }, [ready, router, state])
 
   const mode: AiQuizMode = state?.mode ?? "standard"
   const answers = state?.answers ?? {}
@@ -88,6 +98,7 @@ export function AiGovernanceReviewScreen() {
         pm: result.paceModifier,
         gm: result.geopoliticsModifier,
       })
+      markProfileSaveIntent("ai-governance", payload)
       router.push(`/ai/results/${payload}`)
     } catch {
       setGenerating(false)
@@ -103,7 +114,7 @@ export function AiGovernanceReviewScreen() {
     router.push("/ai/quiz")
   }
 
-  if (state === null || !state.started) {
+  if (!ready || state === null || !state.started) {
     return <div className="panel" style={{ padding: "40px" }}>Loading your answers…</div>
   }
 

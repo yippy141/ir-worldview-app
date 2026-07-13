@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useSyncExternalStore } from "react"
 import { useRouter } from "next/navigation"
+import { copyText } from "@/lib/clipboard"
 import { QUIZ_STORAGE_KEY, notifyQuizSessionUpdated } from "@/lib/quiz-session"
 
 type Props = {
@@ -13,35 +14,36 @@ type Props = {
 
 export function ShareActions({ payload, familyLabel, strategyModifier, normativeModifier }: Props) {
   const router = useRouter()
-  const [copied, setCopied] = useState(false)
-
-  const shareUrl =
-    typeof window !== "undefined"
-      ? new URL(`/results/${payload}`, window.location.origin).toString()
-      : `/results/${payload}`
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle")
+  const canNativeShare = useSyncExternalStore(
+    () => () => {},
+    () => typeof navigator.share === "function",
+    () => false,
+  )
 
   const resultLabel = `${familyLabel} · ${strategyModifier} · ${normativeModifier}`
 
+  function getShareUrl() {
+    return new URL(`/results/${payload}`, window.location.origin).toString()
+  }
+
   async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(shareUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
-    } catch {
-      // Fallback: copy the label text
-      await navigator.clipboard.writeText(resultLabel)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
+    const copied = (await copyText(getShareUrl())) || (await copyText(resultLabel))
+    if (!copied) {
+      setCopyState("error")
+      return
     }
+    setCopyState("copied")
+    setTimeout(() => setCopyState("idle"), 2500)
   }
 
   async function handleShare() {
-    if (typeof navigator.share === "function") {
+    if (canNativeShare) {
       try {
         await navigator.share({
           title: `IR Worldview: ${familyLabel}`,
           text: `My IR worldview result: ${resultLabel}`,
-          url: shareUrl,
+          url: getShareUrl(),
         })
       } catch {
         // User cancelled or share failed — fall back to copy.
@@ -61,14 +63,23 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
   return (
     <div className="row gap-sm print-hidden wrap">
       <button type="button" className="primary-button" onClick={handleShare}>
-        {typeof navigator !== "undefined" && typeof navigator.share === "function"
+        {copyState === "copied"
+          ? "Copied!"
+          : canNativeShare
           ? "Share result"
-          : copied
-            ? "Copied!"
-            : "Copy share link"}
+          : "Copy share link"}
       </button>
-      <button type="button" className="secondary-button" onClick={handleCopy}>
-        {copied ? "Link copied!" : "Copy link"}
+      <button
+        type="button"
+        className="secondary-button"
+        onClick={handleCopy}
+        aria-live="polite"
+      >
+        {copyState === "copied"
+          ? "Link copied!"
+          : copyState === "error"
+            ? "Copy unavailable"
+            : "Copy link"}
       </button>
       <button
         type="button"
@@ -80,6 +91,17 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
       <button type="button" className="secondary-button" onClick={handleRetake}>
         Retake the Foundation questionnaire
       </button>
+      {copyState === "error" ? (
+        <label className="share-copy-fallback">
+          Foundation share link
+          <input
+            type="text"
+            readOnly
+            value={getShareUrl()}
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </label>
+      ) : null}
     </div>
   )
 }

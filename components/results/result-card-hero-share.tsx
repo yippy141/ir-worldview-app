@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useSyncExternalStore } from "react"
+import { copyText } from "@/lib/clipboard"
 
 type Props = {
   shareUrl: string
@@ -9,7 +10,7 @@ type Props = {
 }
 
 export function ResultCardHeroShare({ shareUrl, title, text }: Props) {
-  const [copied, setCopied] = useState(false)
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle")
   const canNativeShare = useSyncExternalStore(
     () => () => {},
     () => typeof navigator.share === "function",
@@ -24,13 +25,13 @@ export function ResultCardHeroShare({ shareUrl, title, text }: Props) {
 
   async function copyLink() {
     const url = resolveUrl()
-    try {
-      await navigator.clipboard.writeText(url)
-    } catch {
-      await navigator.clipboard.writeText(text)
+    const copied = (await copyText(url)) || (await copyText(text))
+    if (!copied) {
+      setCopyState("error")
+      return
     }
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2500)
+    setCopyState("copied")
+    setTimeout(() => setCopyState("idle"), 2500)
   }
 
   async function handleClick() {
@@ -45,20 +46,35 @@ export function ResultCardHeroShare({ shareUrl, title, text }: Props) {
     await copyLink()
   }
 
-  const label = canNativeShare
-    ? "Share result"
-    : copied
-      ? "Link copied"
-      : "Copy share link"
+  const label = copyState === "copied"
+    ? "Link copied"
+    : copyState === "error"
+      ? "Copy unavailable"
+      : canNativeShare
+        ? "Share result"
+        : "Copy share link"
 
   return (
-    <button
-      type="button"
-      className="result-card-hero__share print-hidden"
-      onClick={handleClick}
-      aria-live="polite"
-    >
-      {label}
-    </button>
+    <div className="share-copy-control print-hidden">
+      <button
+        type="button"
+        className="result-card-hero__share"
+        onClick={handleClick}
+        aria-live="polite"
+      >
+        {label}
+      </button>
+      {copyState === "error" ? (
+        <label className="share-copy-fallback">
+          Share link
+          <input
+            type="text"
+            readOnly
+            value={resolveUrl()}
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </label>
+      ) : null}
+    </div>
   )
 }

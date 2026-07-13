@@ -384,6 +384,20 @@ export default async function ResultPage(
                 </Link>
               </p>
             </article>
+
+            <article className="driver-card stack-xs">
+              <p className="eyebrow">Try another vantage point</p>
+              <p className="result-emphasis">Advise from a defined strategic seat</p>
+              <p className="muted result-note-snug">
+                See how your answers move when you advise from a defined strategic position. The
+                run plots beside this baseline and leaves it unchanged.
+              </p>
+              <p>
+                <Link href="/perspectives" className="result-strong">
+                  Open the briefs →
+                </Link>
+              </p>
+            </article>
           </div>
 
           <div className="row gap-sm wrap">

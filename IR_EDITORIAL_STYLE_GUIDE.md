@@ -78,6 +78,33 @@ Avoid:
 - overbalanced “both/and” phrasing
 - sentences that sound polished but empty
 
+### Contrastive antithesis
+
+Avoid polished oppositions that position one claim against a weaker foil.
+Common forms include “X, not Y,” “not just,” “less about … more about,”
+“rather than,” “doesn’t merely,” “the point is not,” “more than a,” and
+“not a verdict.” These constructions often add symmetry without adding
+information.
+
+Rewrite them in this order:
+
+1. State the useful claim directly.
+2. Put a real limitation in a separate sentence.
+3. Use concrete nouns and verbs.
+4. Remove self-conscious product positioning from result copy.
+5. Preserve plain legal, privacy, safety, and methodology limits when they
+   carry necessary information.
+
+Bad:
+- “This is a structured interpretation, not a verdict.”
+- “The point is not to classify you.”
+- “The Profile is more than a quiz.”
+
+Better:
+- “This result summarizes patterns across your answers. The family label is shorthand.”
+- “The profile shows where your judgments stay stable and where context changes them.”
+- “The Profile combines your baseline, issue modules, and contextual shifts.”
+
 ## Question-writing rules
 - 12–24 words is ideal
 - one claim, not two or three

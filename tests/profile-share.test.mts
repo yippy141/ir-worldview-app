@@ -2,13 +2,18 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import {
   buildProfileSharePayload,
+  buildProfileSharePayloadV1,
+  decodeProfileSharePayload,
   encodeProfileSharePayload,
   normalizeProfileShareInput,
   resolveProfileSharePayload,
 } from "@/lib/profile-share"
+import { aiAxisScoresToArray, encodeAiPayload } from "@/lib/ai-governance-share"
 import { buildProfileAssessment } from "@/lib/profile-helpers"
+import { FIELD_PROJECTION_VERSION } from "@/lib/results/position"
 import { dimensionScoresToArray, encodePayload, resolveFoundationPayload } from "@/lib/share"
 import type { ProfileStore } from "@/lib/profile-store"
+import { encodeUrlPayload } from "@/lib/url-payload"
 
 const foundationPayload = encodePayload({
   v: 2,
@@ -30,8 +35,12 @@ const foundationPayload = encodePayload({
 const resolvedFoundation = resolveFoundationPayload(foundationPayload)
 assert.ok(resolvedFoundation, "expected canonical foundation payload to resolve in test fixture")
 
+// Captured before V16; this must remain a literal compatibility fixture.
+const PRE_V16_PROFILE_SHARE_V1 =
+  "eyJ2IjoxLCJmIjoiZXlKMklqb3lMQ0prY3lJNld6WXVNalVzTWk0MUxEUXNNeTQzTlN3MUxqVXNOQzR5TlN3eUxqYzFYU3dpWm1zaU9pSnlaV0ZzYVhOMElpd2libXNpT2lKcGJuTjBhWFIxZEdsdmJtRnNhWE4wSWl3aWMyMGlPaUpJWldSblpYSWlMQ0p1YlNJNklrTnZibVJwZEdsdmJtRnNJRk52Ykdsa1lYSnBjM1FpZlEiLCJtcyI6W10sInBzIjoic3RhYmxlTW9kZXJhdGlvbiJ9"
+
 const profile: ProfileStore = {
-  v: 2,
+  v: 4,
   foundation: {
     timestamp: 1,
     payload: foundationPayload,
@@ -162,7 +171,78 @@ const profile: ProfileStore = {
       },
     },
   },
+  foundationHistory: [],
+  moduleHistory: [],
   aiGovernance: null,
+  aiHistory: [],
+  perspectiveRuns: [],
+}
+
+const aiScores = {
+  riskHorizon: 5.1,
+  deploymentPace: 4.8,
+  oversight: 5.9,
+  geopolitics: 4.6,
+  openness: 4.2,
+  militaryRole: 3.8,
+  legitimacy: 5.7,
+  humanFuture: 5.2,
+}
+
+const aiPayload = encodeAiPayload({
+  v: 1,
+  as: aiAxisScoresToArray(aiScores),
+  ak: "coordinationArchitect",
+  nk: "precautionarySteward",
+  rl: "Mixed risk lens",
+  pm: "Threshold guardrails",
+  gm: "Coordination-first",
+})
+
+const profileWithV2Overlays: ProfileStore = {
+  ...profile,
+  aiGovernance: {
+    timestamp: 10,
+    payload: aiPayload,
+    resultPath: `/ai/results/${aiPayload}`,
+    archetypeKey: "coordinationArchitect",
+    archetypeLabel: "Coordination Architect",
+    riskLens: "Mixed risk lens",
+    paceModifier: "Threshold guardrails",
+    geopoliticsModifier: "Coordination-first",
+    axisScores: aiScores,
+    summary: "Coordination remains the central governance instinct.",
+    governingInstinct: "Build rules that can travel across borders.",
+  },
+  perspectiveRuns: [
+    {
+      id: "run-exposed-ally-1",
+      timestamp: 11,
+      perspectiveId: "exposed-ally",
+      perspectiveLabel: "Exposed ally or vulnerable small state",
+      scenarioSetVersion: 1,
+      dimensionScores: {
+        securityCompetition: 5.2,
+        institutions: 6.1,
+        domesticFilters: 4.9,
+        normsIdentity: 5.1,
+        politicalEconomy: 4.7,
+        restraint: 4.6,
+        orderJustice: 5.3,
+      },
+      baselineDeltas: {
+        securityCompetition: 0.9,
+        institutions: 0.3,
+        domesticFilters: 0,
+        normsIdentity: 0,
+        politicalEconomy: 0,
+        restraint: -0.8,
+        orderJustice: 0,
+      },
+      strongestShiftKeys: ["securityCompetition", "restraint", "institutions"],
+      resultPath: "/perspectives/exposed-ally/result/abc123",
+    },
+  ],
 }
 
 test("shared profile payloads roundtrip and reconstruct a stable integrated profile", () => {
@@ -173,6 +253,7 @@ test("shared profile payloads roundtrip and reconstruct a stable integrated prof
   const resolved = resolveProfileSharePayload(encoded)
 
   assert.ok(resolved)
+  assert.equal(resolved.payload.v, 2)
   assert.equal(resolved.profile.foundation?.familyKey, profile.foundation?.familyKey)
   assert.equal(
     resolved.assessment.state,
@@ -181,6 +262,92 @@ test("shared profile payloads roundtrip and reconstruct a stable integrated prof
   assert.equal(resolved.profile.modules.security?.laneSummaries[0]?.key, "deterrence")
   assert.equal(resolved.profile.modules.technology?.laneSummaries[0]?.key, "controls")
   assert.equal(resolved.profile.modules.technology?.cardTypeScores?.actorLens?.control, 5.7)
+})
+
+test("Profile Share V2 roundtrips optional AI and Perspective Run data with dates", () => {
+  const payload = buildProfileSharePayload(profileWithV2Overlays)
+  assert.ok(payload)
+  assert.equal(payload.v, 2)
+  assert.equal(payload.pv, FIELD_PROJECTION_VERSION)
+  assert.equal(payload.ai?.t, 10)
+  assert.equal(payload.pr?.[0]?.t, 11)
+
+  const decoded = decodeProfileSharePayload(encodeProfileSharePayload(payload))
+  assert.deepEqual(decoded, payload)
+
+  const resolved = resolveProfileSharePayload(encodeProfileSharePayload(payload))
+  assert.ok(resolved)
+  assert.equal(resolved.profile.v, 4)
+  assert.equal(resolved.profile.aiGovernance?.payload, aiPayload)
+  assert.equal(resolved.profile.aiGovernance?.timestamp, 10)
+  assert.equal(resolved.profile.perspectiveRuns[0]?.id, "run-exposed-ally-1")
+  assert.equal(resolved.profile.perspectiveRuns[0]?.timestamp, 11)
+  assert.equal(resolved.profile.perspectiveRuns[0]?.perspectiveLabel, "Exposed ally or vulnerable small state")
+})
+
+test("Profile Share V2 keeps the latest fifty valid Perspective Runs", () => {
+  const seed = profileWithV2Overlays.perspectiveRuns[0]
+  assert.ok(seed)
+  const manyRuns = Array.from({ length: 60 }, (_, index) => ({
+    ...seed,
+    id: `run-exposed-ally-${index + 1}`,
+    timestamp: index + 11,
+  }))
+
+  const payload = buildProfileSharePayload({
+    ...profileWithV2Overlays,
+    perspectiveRuns: manyRuns,
+  })
+  assert.ok(payload)
+  assert.equal(payload.pr?.length, 50)
+  assert.equal(payload.pr?.[0]?.t, 21)
+  assert.equal(payload.pr?.at(-1)?.t, 70)
+  assert.ok(resolveProfileSharePayload(encodeProfileSharePayload(payload)))
+})
+
+test("Profile Share V1 still decodes and reconstructs a v4 read-only profile", () => {
+  const legacy = buildProfileSharePayloadV1(profile)
+  assert.ok(legacy)
+  const encoded = encodeProfileSharePayload(legacy)
+
+  assert.deepEqual(decodeProfileSharePayload(encoded), legacy)
+  const resolved = resolveProfileSharePayload(encoded)
+  assert.ok(resolved)
+  assert.equal(resolved.payload.v, 1)
+  assert.equal(resolved.profile.v, 4)
+  assert.equal(resolved.profile.foundationHistory.length, 1)
+  assert.equal(resolved.profile.aiGovernance, null)
+  assert.deepEqual(resolved.profile.perspectiveRuns, [])
+})
+
+test("a frozen pre-V16 Profile Share V1 link remains readable", () => {
+  const decoded = decodeProfileSharePayload(PRE_V16_PROFILE_SHARE_V1)
+  assert.ok(decoded)
+  assert.equal(decoded.v, 1)
+  const resolved = resolveProfileSharePayload(PRE_V16_PROFILE_SHARE_V1)
+  assert.ok(resolved)
+  assert.equal(resolved.payload.v, 1)
+  assert.equal(resolved.profile.foundation?.familyKey, "realist")
+})
+
+test("invalid local optional overlays do not block sharing a valid Foundation", () => {
+  const profileWithInvalidOptionalData: ProfileStore = {
+    ...profileWithV2Overlays,
+    aiGovernance: {
+      ...profileWithV2Overlays.aiGovernance!,
+      payload: "invalid-ai-token",
+    },
+    perspectiveRuns: profileWithV2Overlays.perspectiveRuns.map((run) => ({
+      ...run,
+      resultPath: "/invalid-perspective-result",
+    })),
+  }
+
+  const payload = buildProfileSharePayload(profileWithInvalidOptionalData)
+  assert.ok(payload)
+  assert.equal(payload.ai, undefined)
+  assert.equal(payload.pr, undefined)
+  assert.ok(resolveProfileSharePayload(encodeProfileSharePayload(payload)))
 })
 
 test("shared profile inputs can be normalized from raw payloads, paths, and full URLs", () => {
@@ -225,6 +392,42 @@ test("malformed shared profile payloads fail safely", () => {
   }
 })
 
+test("malformed Profile Share V2 optional fields and projection metadata fail safely", () => {
+  const valid = buildProfileSharePayload(profileWithV2Overlays)
+  assert.ok(valid)
+
+  const malformed = [
+    { ...valid, pv: FIELD_PROJECTION_VERSION + 1 },
+    { ...valid, ft: 1e308 },
+    { ...valid, ft: 1.5 },
+    { ...valid, unexpected: true },
+    { ...valid, ai: { ...valid.ai, p: "bad-ai-payload" } },
+    { ...valid, pr: null },
+    {
+      ...valid,
+      pr: valid.pr?.map((run) => ({ ...run, ds: [8, ...run.ds.slice(1)] })),
+    },
+    {
+      ...valid,
+      pr: valid.pr?.map((run) => ({ ...run, r: "https://example.test/result" })),
+    },
+    {
+      ...valid,
+      pr: valid.pr ? [valid.pr[0], valid.pr[0]] : [],
+    },
+    {
+      ...valid,
+      ms: valid.ms.length > 0 ? [valid.ms[0], valid.ms[0]] : [],
+    },
+  ]
+
+  for (const candidate of malformed) {
+    const encoded = encodeRawPayload(candidate)
+    assert.equal(decodeProfileSharePayload(encoded), null)
+    assert.equal(resolveProfileSharePayload(encoded), null)
+  }
+})
+
 function encodeRawPayload(payload: unknown) {
-  return btoa(JSON.stringify(payload)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "")
+  return encodeUrlPayload(payload)
 }

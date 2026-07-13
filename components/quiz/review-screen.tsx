@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { getFoundationQuestions } from "@/lib/quiz-schema"
 import { generateResult, getNeighboringFamilyKey } from "@/lib/scoring"
 import { encodePayload, dimensionScoresToArray } from "@/lib/share"
+import { markProfileSaveIntent } from "@/lib/profile-save-intent"
 import {
   QUIZ_STORAGE_KEY,
   countAnsweredQuestions,
@@ -21,17 +22,23 @@ type AnswerRow = {
 
 export function ReviewScreen() {
   const router = useRouter()
-  const [session] = useState<QuizSession | null>(() => {
-    if (typeof window === "undefined") return null
-    return parseQuizSession(window.localStorage.getItem(QUIZ_STORAGE_KEY))
-  })
+  const [session, setSession] = useState<QuizSession | null>(null)
+  const [ready, setReady] = useState(false)
   const [generating, setGenerating] = useState(false)
 
   useEffect(() => {
-    if (session === null || !session.activeMode) {
+    const timeout = window.setTimeout(() => {
+      setSession(parseQuizSession(window.localStorage.getItem(QUIZ_STORAGE_KEY)))
+      setReady(true)
+    }, 0)
+    return () => window.clearTimeout(timeout)
+  }, [])
+
+  useEffect(() => {
+    if (ready && (session === null || !session.activeMode)) {
       router.replace("/quiz")
     }
-  }, [router, session])
+  }, [ready, router, session])
 
   const questions = session?.activeMode ? getFoundationQuestions(session.activeMode) : []
 
@@ -67,6 +74,7 @@ export function ReviewScreen() {
         nm: result.normativeModifier,
       })
 
+      markProfileSaveIntent("foundation", payload, { mode: session.activeMode })
       router.push(`/results/${payload}`)
     } catch {
       setGenerating(false)
@@ -83,7 +91,7 @@ export function ReviewScreen() {
     router.push("/quiz")
   }
 
-  if (session === null || !session.activeMode) {
+  if (!ready || session === null || !session.activeMode) {
     return <div className="panel" style={{ padding: "40px" }}>Loading your answers…</div>
   }
 
@@ -97,7 +105,7 @@ export function ReviewScreen() {
           afterward as focused issue reads, not replacements for the baseline.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-          {session.activeMode === "standard" ? "Standard mode" : "Advanced mode"} · {answeredCount} of{" "}
+          {session.activeMode === "standard" ? "Standard mode" : "Analyst mode"} · {answeredCount} of{" "}
           {questions.length} questions answered
         </p>
       </section>

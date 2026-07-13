@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { copyText } from "@/lib/clipboard"
 
 type Props = {
   payload: string
@@ -9,7 +10,7 @@ type Props = {
 }
 
 export function ProfileShareActions({ payload, headline }: Props) {
-  const [copied, setCopied] = useState(false)
+  const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle")
 
   const shareUrl =
     typeof window !== "undefined"
@@ -17,15 +18,13 @@ export function ProfileShareActions({ payload, headline }: Props) {
       : `/profile/share/${payload}`
 
   async function handleCopy() {
-    try {
-      await navigator.clipboard.writeText(shareUrl)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
-    } catch {
-      await navigator.clipboard.writeText(headline)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2500)
+    const copied = (await copyText(shareUrl)) || (await copyText(headline))
+    if (!copied) {
+      setCopyState("error")
+      return
     }
+    setCopyState("copied")
+    setTimeout(() => setCopyState("idle"), 2500)
   }
 
   async function handleShare() {
@@ -48,10 +47,19 @@ export function ProfileShareActions({ payload, headline }: Props) {
   return (
     <div className="row gap-sm wrap print-hidden">
       <button type="button" className="primary-button" onClick={handleShare}>
-        {copied ? "Copied!" : "Share profile"}
+        {copyState === "copied" ? "Copied!" : "Share profile"}
       </button>
-      <button type="button" className="secondary-button" onClick={handleCopy}>
-        {copied ? "Link copied!" : "Copy link"}
+      <button
+        type="button"
+        className="secondary-button"
+        onClick={handleCopy}
+        aria-live="polite"
+      >
+        {copyState === "copied"
+          ? "Link copied!"
+          : copyState === "error"
+            ? "Copy unavailable"
+            : "Copy link"}
       </button>
       <Link href="/compare" className="secondary-button">
         Compare profiles
@@ -59,6 +67,17 @@ export function ProfileShareActions({ payload, headline }: Props) {
       <button type="button" className="secondary-button" onClick={() => window.print()}>
         Save as PDF
       </button>
+      {copyState === "error" ? (
+        <label className="share-copy-fallback">
+          Profile share link
+          <input
+            type="text"
+            readOnly
+            value={shareUrl}
+            onFocus={(event) => event.currentTarget.select()}
+          />
+        </label>
+      ) : null}
     </div>
   )
 }

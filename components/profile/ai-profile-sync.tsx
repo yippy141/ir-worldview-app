@@ -5,6 +5,7 @@ import {
   saveAiGovernanceSnapshot,
   type AiGovernanceSnapshot,
 } from "@/lib/profile-store"
+import { consumeProfileSaveIntent } from "@/lib/profile-save-intent"
 
 export function AiProfileSync({
   snapshot,
@@ -12,6 +13,7 @@ export function AiProfileSync({
   snapshot: Omit<AiGovernanceSnapshot, "timestamp">
 }) {
   useEffect(() => {
+    if (!consumeProfileSaveIntent("ai-governance", snapshot.payload)) return
     saveAiGovernanceSnapshot({
       ...snapshot,
       timestamp: Date.now(),

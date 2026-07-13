@@ -271,7 +271,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     detailSummary:
       "This pattern is not idealistic about institutions. It trusts them most when they can hold a coalition together and keep policy usable over time.",
     soWhat:
-      "In practice, this pattern is likely to judge policy by whether partners can sustain it, not just by whether it looks strategically clean on day one.",
+      "In practice, this pattern asks first whether partners can sustain a policy. Strategic neatness on day one carries less weight.",
     detailDrivers: [
       "Institutional tools are valued for coordination, signaling, and burden-sharing.",
       "Restraint is often preferred to dramatic moves that partners cannot sustain.",
@@ -326,7 +326,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     cardPressureNote:
       "Security makes authorization and reassurance harder, while Technology usually strengthens support for shared governance and narrow controls.",
     detailSummary:
-      "This pattern believes well-built institutions can do real work. It is more willing than Coalition Pragmatist to treat rules and monitoring as stabilizing forces in their own right, not only as tools of coalition management.",
+      "This pattern believes well-built institutions can do real work. It assigns rules and monitoring independent stabilizing force. Coalition management remains important.",
     soWhat:
       "In practice, this pattern is likely to ask whether better rules, monitoring, and coordination can still carry the case before it gives up on the institutional route.",
     detailDrivers: [

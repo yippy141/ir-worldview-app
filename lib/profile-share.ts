@@ -1,15 +1,28 @@
+import { aiPayloadToAxisScores, decodeAiPayload } from "@/lib/ai-governance-share"
 import { getModuleDefinition } from "@/lib/modules/framework"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
+import { getPerspectiveDefinition, isPerspectiveId } from "@/lib/perspectives/catalog"
+import { perspectiveTupleToDimensionScores } from "@/lib/perspectives/share"
+import type {
+  PerspectiveDimensionTuple,
+  PerspectiveRunSnapshot,
+} from "@/lib/perspectives/types"
 import type { ModuleLaneSummary, ModuleSlug } from "@/lib/modules/types"
 import { buildProfileAssessment, type ProfileState } from "@/lib/profile-helpers"
 import type { ProfileAssessment } from "@/lib/profile-helpers"
+import { isValidProfileTimestamp } from "@/lib/profile-store"
 import type {
+  AiGovernanceSnapshot,
   FoundationSnapshot,
   ModuleSnapshot,
   ProfileStore,
 } from "@/lib/profile-store"
 import { getKeyDrivers, getStrongLenses } from "@/lib/result-helpers"
-import { resolveFoundationPayload } from "@/lib/share"
+import { FIELD_PROJECTION_VERSION } from "@/lib/results/position"
+import {
+  dimensionScoresToArray,
+  resolveFoundationPayload,
+} from "@/lib/share"
 import type { ChoiceCardType, DimensionKey, QuizMode } from "@/lib/types"
 import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
 
@@ -35,12 +48,48 @@ export type ProfileShareModule = {
   ct?: Partial<Record<ChoiceCardType, Record<string, number>>>
 }
 
-export type ProfileSharePayload = {
+export type ProfileShareModuleV2 = ProfileShareModule & {
+  t: number
+}
+
+export type ProfileSharePayloadV1 = {
   v: 1
   f: string
   ms: ProfileShareModule[]
   ps: ProfileState
 }
+
+export type ProfileShareAiV2 = {
+  t: number
+  p: string
+  l: string
+  s: string
+  gi: string
+}
+
+export type ProfileSharePerspectiveRunV2 = {
+  i: string
+  t: number
+  p: string
+  sv: number
+  ds: PerspectiveDimensionTuple
+  bd: Partial<Record<DimensionKey, number>>
+  sk: DimensionKey[]
+  r: string
+}
+
+export type ProfileSharePayloadV2 = {
+  v: 2
+  f: string
+  ft: number
+  ms: ProfileShareModuleV2[]
+  ps: ProfileState
+  pv: number
+  ai?: ProfileShareAiV2
+  pr?: ProfileSharePerspectiveRunV2[]
+}
+
+export type ProfileSharePayload = ProfileSharePayloadV1 | ProfileSharePayloadV2
 
 export type ResolvedProfileShare = {
   payload: ProfileSharePayload
@@ -50,83 +99,149 @@ export type ResolvedProfileShare = {
 
 const PROFILE_SHARE_PATH_PATTERN = /\/profile\/share\/([A-Za-z0-9\-_]+)/i
 const MODULE_ORDER: ModuleSlug[] = ["security", "technology"]
+const MAX_V2_PAYLOAD_TOKEN_LENGTH = 50_000
+const MAX_SHARED_PERSPECTIVE_RUNS = 50
+const RUN_ID_PATTERN = /^[A-Za-z0-9](?:[A-Za-z0-9._:-]{0,127})$/
 
-export function buildProfileSharePayload(profile: ProfileStore): ProfileSharePayload | null {
-  if (!profile.foundation) {
-    return null
+export function buildProfileSharePayload(profile: ProfileStore): ProfileSharePayloadV2 | null {
+  if (!profile.foundation) return null
+
+  const aiCandidate = profile.aiGovernance
+    ? {
+        t: profile.aiGovernance.timestamp,
+        p: profile.aiGovernance.payload,
+        l: profile.aiGovernance.archetypeLabel,
+        s: profile.aiGovernance.summary,
+        gi: profile.aiGovernance.governingInstinct,
+      }
+    : undefined
+  const ai = aiCandidate && isProfileShareAiV2(aiCandidate) ? aiCandidate : undefined
+  const perspectiveRuns = profile.perspectiveRuns
+    .slice()
+    .sort((left, right) => left.timestamp - right.timestamp)
+    .slice(-MAX_SHARED_PERSPECTIVE_RUNS)
+    .map(toSharedPerspectiveRun)
+    .filter((run): run is ProfileSharePerspectiveRunV2 => run !== null)
+
+  return {
+    v: 2,
+    f: profile.foundation.payload,
+    ft: profile.foundation.timestamp,
+    ms: buildSharedModules(profile, true) as ProfileShareModuleV2[],
+    ps: buildProfileAssessment(profile).state,
+    pv: FIELD_PROJECTION_VERSION,
+    ...(ai ? { ai } : {}),
+    ...(perspectiveRuns.length > 0 ? { pr: perspectiveRuns } : {}),
   }
+}
 
+export function buildProfileSharePayloadV1(profile: ProfileStore): ProfileSharePayloadV1 | null {
+  if (!profile.foundation) return null
   return {
     v: 1,
     f: profile.foundation.payload,
-    ms: MODULE_ORDER.map((slug) => profile.modules[slug])
-      .filter((snapshot): snapshot is ModuleSnapshot => Boolean(snapshot))
-      .map((snapshot) => ({
-        s: snapshot.slug,
-        m: snapshot.mode,
-        h: snapshot.headline,
-        u: snapshot.summary,
-        ls: snapshot.laneSummaries.map((lane) => ({
-          k: lane.key,
-          sc: Number(lane.score.toFixed(2)),
-          su: lane.summary,
-          ...(lane.delta ? { d: lane.delta } : {}),
-        })),
-        od: snapshot.overlayDeltas,
-        ...(snapshot.comparison ? { cp: snapshot.comparison } : {}),
-        ...(snapshot.cardTypeRead
-          ? {
-              cr: {
-                h: snapshot.cardTypeRead.headline,
-                s: snapshot.cardTypeRead.summary,
-              },
-            }
-          : {}),
-        ...(snapshot.cardTypeScores ? { ct: snapshot.cardTypeScores } : {}),
-      })),
+    ms: buildSharedModules(profile, false) as ProfileShareModule[],
     ps: buildProfileAssessment(profile).state,
   }
 }
 
+function buildSharedModules(profile: ProfileStore, includeTimestamp: boolean) {
+  return MODULE_ORDER.map((slug) => profile.modules[slug])
+    .filter((snapshot): snapshot is ModuleSnapshot => Boolean(snapshot))
+    .map((snapshot) => ({
+      ...(includeTimestamp ? { t: snapshot.timestamp } : {}),
+      s: snapshot.slug,
+      m: snapshot.mode,
+      h: snapshot.headline,
+      u: snapshot.summary,
+      ls: snapshot.laneSummaries.map((lane) => ({
+        k: lane.key,
+        sc: Number(lane.score.toFixed(2)),
+        su: lane.summary,
+        ...(lane.delta ? { d: lane.delta } : {}),
+      })),
+      od: snapshot.overlayDeltas,
+      ...(snapshot.comparison ? { cp: snapshot.comparison } : {}),
+      ...(snapshot.cardTypeRead
+        ? { cr: { h: snapshot.cardTypeRead.headline, s: snapshot.cardTypeRead.summary } }
+        : {}),
+      ...(snapshot.cardTypeScores ? { ct: snapshot.cardTypeScores } : {}),
+    }))
+}
+
+function toSharedPerspectiveRun(
+  snapshot: PerspectiveRunSnapshot,
+): ProfileSharePerspectiveRunV2 | null {
+  const shared = {
+    i: snapshot.id,
+    t: snapshot.timestamp,
+    p: snapshot.perspectiveId,
+    sv: snapshot.scenarioSetVersion,
+    ds: dimensionScoresToArray(snapshot.dimensionScores),
+    bd: snapshot.baselineDeltas,
+    sk: snapshot.strongestShiftKeys,
+    r: snapshot.resultPath,
+  }
+  return isProfileSharePerspectiveRunV2(shared) ? shared : null
+}
+
 export function encodeProfileSharePayload(payload: ProfileSharePayload): string {
+  if (!isProfileSharePayloadV1(payload) && !isProfileSharePayloadV2(payload)) {
+    throw new TypeError("Cannot encode an invalid Profile Share payload.")
+  }
   return encodeUrlPayload(payload)
 }
 
 export function decodeProfileSharePayload(encoded: string): ProfileSharePayload | null {
   const parsed = decodeUrlPayload(encoded)
-
-  if (!isProfileSharePayload(parsed)) {
-    return null
-  }
-
-  return parsed
+  if (isProfileSharePayloadV1(parsed) || isProfileSharePayloadV2(parsed)) return parsed
+  return null
 }
 
 export function resolveProfileSharePayload(encoded: string): ResolvedProfileShare | null {
   const payload = decodeProfileSharePayload(encoded)
-  if (!payload) {
-    return null
-  }
+  if (!payload) return null
 
-  const foundation = buildFoundationSnapshot(payload.f)
-  if (!foundation) {
-    return null
-  }
+  const foundation = buildFoundationSnapshot(payload.f, payload.v === 2 ? payload.ft : 1)
+  if (!foundation) return null
 
   const modules = Object.fromEntries(
     payload.ms
       .map((sharedModule, index) => {
-        const snapshot = buildModuleSnapshot(sharedModule, index + 2)
+        const timestamp =
+          payload.v === 2 && "t" in sharedModule ? sharedModule.t : index + 2
+        const snapshot = buildModuleSnapshot(sharedModule, timestamp)
         return snapshot ? [snapshot.slug, snapshot] : null
       })
       .filter((entry): entry is [ModuleSlug, ModuleSnapshot] => Boolean(entry)),
   ) as ProfileStore["modules"]
 
+  const aiGovernance = payload.v === 2 && payload.ai
+    ? buildAiGovernanceSnapshot(payload.ai)
+    : null
+  if (payload.v === 2 && payload.ai && !aiGovernance) return null
+
+  const perspectiveRuns = payload.v === 2 && payload.pr
+    ? payload.pr.map(buildPerspectiveRunSnapshot)
+    : []
+  if (perspectiveRuns.some((run) => run === null)) return null
+
+  const validPerspectiveRuns = perspectiveRuns.filter(
+    (run): run is PerspectiveRunSnapshot => run !== null,
+  )
+  const moduleHistory = MODULE_ORDER.map((slug) => modules[slug]).filter(
+    (snapshot): snapshot is ModuleSnapshot => Boolean(snapshot),
+  )
+
   const profile: ProfileStore = {
-    v: 3,
+    v: 4,
     foundation,
+    foundationHistory: [foundation],
     modules,
-    aiGovernance: null,
+    moduleHistory,
+    aiGovernance,
+    aiHistory: aiGovernance ? [aiGovernance] : [],
+    perspectiveRuns: validPerspectiveRuns,
   }
 
   return {
@@ -138,35 +253,25 @@ export function resolveProfileSharePayload(encoded: string): ResolvedProfileShar
 
 export function normalizeProfileShareInput(raw: string): string | null {
   const trimmed = decodeURIComponentSafe(raw.trim())
-  if (!trimmed) {
-    return null
-  }
-
-  if (isPayloadToken(trimmed)) {
-    return trimmed
-  }
+  if (!trimmed) return null
+  if (isPayloadToken(trimmed)) return trimmed
 
   const matchedPath = extractPayloadFromPath(trimmed)
-  if (matchedPath) {
-    return matchedPath
-  }
+  if (matchedPath) return matchedPath
 
   try {
     const url = trimmed.startsWith("/")
       ? new URL(trimmed, "https://inventory.local")
       : new URL(trimmed)
-
     return extractPayloadFromPath(url.pathname)
   } catch {
     return null
   }
 }
 
-function buildFoundationSnapshot(payload: string): FoundationSnapshot | null {
+function buildFoundationSnapshot(payload: string, timestamp: number): FoundationSnapshot | null {
   const resolved = resolveFoundationPayload(payload)
-  if (!resolved) {
-    return null
-  }
+  if (!resolved) return null
 
   const { dimensionScores, result } = resolved
   const foundationNarrative = buildFoundationNarrative({
@@ -178,7 +283,7 @@ function buildFoundationSnapshot(payload: string): FoundationSnapshot | null {
   })
 
   return {
-    timestamp: 1,
+    timestamp,
     payload,
     resultPath: `/results/${payload}`,
     familyKey: result.familyKey,
@@ -206,9 +311,7 @@ function buildModuleSnapshot(
   timestamp: number,
 ): ModuleSnapshot | null {
   const moduleDefinition = getModuleDefinition(sharedModule.s)
-  if (!moduleDefinition) {
-    return null
-  }
+  if (!moduleDefinition) return null
 
   const laneSummaries = sharedModule.ls
     .map((lane) => mapLaneSummary(moduleDefinition.slug, lane))
@@ -233,28 +336,54 @@ function buildModuleSnapshot(
     evidence: [],
     laneSummaries,
     ...(sharedModule.cr
-      ? {
-          cardTypeRead: {
-            headline: sharedModule.cr.h,
-            summary: sharedModule.cr.s,
-          },
-        }
+      ? { cardTypeRead: { headline: sharedModule.cr.h, summary: sharedModule.cr.s } }
       : {}),
     ...(sharedModule.ct ? { cardTypeScores: sharedModule.ct } : {}),
     overlayDeltas: sharedModule.od,
   }
 }
 
-function mapLaneSummary(
-  slug: ModuleSlug,
-  lane: ProfileShareLane,
-): ModuleLaneSummary | null {
+function buildAiGovernanceSnapshot(shared: ProfileShareAiV2): AiGovernanceSnapshot | null {
+  const decoded = decodeAiPayload(shared.p)
+  if (!decoded) return null
+  return {
+    timestamp: shared.t,
+    payload: shared.p,
+    resultPath: `/ai/results/${shared.p}`,
+    archetypeKey: decoded.ak,
+    archetypeLabel: shared.l,
+    riskLens: decoded.rl,
+    paceModifier: decoded.pm,
+    geopoliticsModifier: decoded.gm,
+    axisScores: aiPayloadToAxisScores(decoded),
+    summary: shared.s,
+    governingInstinct: shared.gi,
+  }
+}
+
+function buildPerspectiveRunSnapshot(
+  shared: ProfileSharePerspectiveRunV2,
+): PerspectiveRunSnapshot | null {
+  const perspective = getPerspectiveDefinition(shared.p)
+  if (!perspective || perspective.scenarioSetVersion !== shared.sv) return null
+
+  return {
+    id: shared.i,
+    timestamp: shared.t,
+    perspectiveId: perspective.id,
+    perspectiveLabel: perspective.label,
+    scenarioSetVersion: shared.sv,
+    dimensionScores: perspectiveTupleToDimensionScores(shared.ds),
+    baselineDeltas: shared.bd,
+    strongestShiftKeys: shared.sk,
+    resultPath: shared.r,
+  }
+}
+
+function mapLaneSummary(slug: ModuleSlug, lane: ProfileShareLane): ModuleLaneSummary | null {
   const moduleDefinition = getModuleDefinition(slug)
   const definitionLane = moduleDefinition?.lanes.find((candidate) => candidate.key === lane.k)
-
-  if (!definitionLane) {
-    return null
-  }
+  if (!definitionLane) return null
 
   return {
     key: lane.k,
@@ -281,96 +410,238 @@ function decodeURIComponentSafe(value: string) {
 }
 
 function isPayloadToken(value: string) {
-  return /^[A-Za-z0-9\-_]+$/.test(value)
+  return value.length > 0 && /^[A-Za-z0-9\-_]+$/.test(value)
 }
 
-function isProfileSharePayload(value: unknown): value is ProfileSharePayload {
-  if (typeof value !== "object" || value === null) {
-    return false
-  }
+function isBoundedV2PayloadToken(value: string) {
+  return value.length <= MAX_V2_PAYLOAD_TOKEN_LENGTH && isPayloadToken(value)
+}
 
-  const candidate = value as Partial<ProfileSharePayload>
-
+function isProfileSharePayloadV1(value: unknown): value is ProfileSharePayloadV1 {
+  if (!isRecord(value)) return false
   return (
-    candidate.v === 1 &&
-    typeof candidate.f === "string" &&
-    Array.isArray(candidate.ms) &&
-    candidate.ms.every(isProfileShareModule) &&
-    isProfileState(candidate.ps)
+    value.v === 1 &&
+    typeof value.f === "string" &&
+    isPayloadToken(value.f) &&
+    Array.isArray(value.ms) &&
+    value.ms.every((module) => isProfileShareModule(module, false)) &&
+    isProfileState(value.ps)
   )
 }
 
-function isProfileShareModule(value: unknown): value is ProfileShareModule {
-  if (typeof value !== "object" || value === null) {
+function isProfileSharePayloadV2(value: unknown): value is ProfileSharePayloadV2 {
+  if (!isRecord(value)) return false
+  if (!hasOnlyKeys(value, ["v", "f", "ft", "ms", "ps", "pv", "ai", "pr"])) return false
+  if (
+    value.v !== 2 ||
+    typeof value.f !== "string" ||
+    !isBoundedV2PayloadToken(value.f) ||
+    !isTimestamp(value.ft) ||
+    value.pv !== FIELD_PROJECTION_VERSION ||
+    !isProfileState(value.ps) ||
+    !Array.isArray(value.ms) ||
+    value.ms.length > MODULE_ORDER.length ||
+    !value.ms.every((module) => isProfileShareModule(module, true)) ||
+    hasDuplicateModuleSlugs(value.ms)
+  ) {
     return false
   }
 
-  const candidate = value as Partial<ProfileShareModule>
+  if (value.ai !== undefined && !isProfileShareAiV2(value.ai)) return false
+  if (
+    value.pr !== undefined &&
+    (!Array.isArray(value.pr) ||
+      value.pr.length > MAX_SHARED_PERSPECTIVE_RUNS ||
+      !value.pr.every(isProfileSharePerspectiveRunV2) ||
+      new Set(value.pr.map((run) => run.i)).size !== value.pr.length)
+  ) {
+    return false
+  }
 
+  return true
+}
+
+function isProfileShareModule(value: unknown, strictV2: boolean): value is ProfileShareModuleV2 {
+  if (!isRecord(value)) return false
+  if (
+    strictV2 &&
+    (!hasExactRequiredKeys(value, ["t", "s", "m", "h", "u", "ls", "od"], ["cp", "cr", "ct"]) ||
+      !isTimestamp(value.t))
+  ) {
+    return false
+  }
+
+  if (
+    !isModuleSlug(value.s) ||
+    !isQuizMode(value.m) ||
+    typeof value.h !== "string" ||
+    typeof value.u !== "string" ||
+    !Array.isArray(value.ls) ||
+    !value.ls.every((lane) => isProfileShareLane(lane, strictV2)) ||
+    !isDimensionDeltaRecord(value.od, strictV2) ||
+    (value.cp !== undefined && typeof value.cp !== "string") ||
+    (value.cr !== undefined && !isSharedCardTypeRead(value.cr)) ||
+    (value.ct !== undefined && !isCardTypeScores(value.ct, strictV2))
+  ) {
+    return false
+  }
+
+  if (strictV2) {
+    const definition = getModuleDefinition(value.s)
+    const laneKeys = new Set(definition?.lanes.map((lane) => lane.key) ?? [])
+    if (value.ls.some((lane) => !laneKeys.has(lane.k))) return false
+  }
+
+  return true
+}
+
+function isProfileShareLane(value: unknown, strictV2: boolean): value is ProfileShareLane {
+  if (!isRecord(value)) return false
+  if (strictV2 && !hasExactRequiredKeys(value, ["k", "sc", "su"], ["d"])) return false
   return (
-    isModuleSlug(candidate.s) &&
-    isQuizMode(candidate.m) &&
-    typeof candidate.h === "string" &&
-    typeof candidate.u === "string" &&
-    Array.isArray(candidate.ls) &&
-    candidate.ls.every(isProfileShareLane) &&
-    isDimensionDeltaRecord(candidate.od) &&
-    (candidate.cp === undefined || typeof candidate.cp === "string") &&
-    (candidate.cr === undefined ||
-      (typeof candidate.cr === "object" &&
-        candidate.cr !== null &&
-        typeof candidate.cr.h === "string" &&
-        typeof candidate.cr.s === "string")) &&
-    (candidate.ct === undefined || isCardTypeScores(candidate.ct))
+    typeof value.k === "string" &&
+    isFiniteNumber(value.sc) &&
+    (!strictV2 || (value.sc >= 1 && value.sc <= 7)) &&
+    typeof value.su === "string" &&
+    (value.d === undefined || typeof value.d === "string")
   )
 }
 
-function isProfileShareLane(value: unknown): value is ProfileShareLane {
-  if (typeof value !== "object" || value === null) {
-    return false
-  }
-
-  const candidate = value as Partial<ProfileShareLane>
-
+function isProfileShareAiV2(value: unknown): value is ProfileShareAiV2 {
   return (
-    typeof candidate.k === "string" &&
-    typeof candidate.sc === "number" &&
-    Number.isFinite(candidate.sc) &&
-    typeof candidate.su === "string" &&
-    (candidate.d === undefined || typeof candidate.d === "string")
+    isRecord(value) &&
+    hasExactRequiredKeys(value, ["t", "p", "l", "s", "gi"], []) &&
+    isTimestamp(value.t) &&
+    typeof value.p === "string" &&
+    isBoundedV2PayloadToken(value.p) &&
+    typeof value.l === "string" &&
+    value.l.length > 0 &&
+    typeof value.s === "string" &&
+    typeof value.gi === "string" &&
+    decodeAiPayload(value.p) !== null
   )
 }
 
-function isDimensionDeltaRecord(value: unknown): value is Partial<Record<DimensionKey, number>> {
-  if (typeof value !== "object" || value === null) {
+function isProfileSharePerspectiveRunV2(
+  value: unknown,
+): value is ProfileSharePerspectiveRunV2 {
+  if (
+    !isRecord(value) ||
+    !hasExactRequiredKeys(value, ["i", "t", "p", "sv", "ds", "bd", "sk", "r"], []) ||
+    typeof value.i !== "string" ||
+    !RUN_ID_PATTERN.test(value.i) ||
+    !isTimestamp(value.t) ||
+    !isPerspectiveId(value.p) ||
+    !Number.isInteger(value.sv) ||
+    !isDimensionScoreTuple(value.ds) ||
+    !isDimensionDeltaRecord(value.bd, true) ||
+    !isDimensionKeyArray(value.sk) ||
+    typeof value.r !== "string"
+  ) {
     return false
   }
 
+  const definition = getPerspectiveDefinition(value.p)
+  if (!definition || value.sv !== definition.scenarioSetVersion) return false
+  if (!isPerspectiveResultPath(value.r, value.p)) return false
+  const deltas = value.bd as Partial<Record<DimensionKey, number>>
+  return value.sk.every((key) => Object.hasOwn(deltas, key))
+}
+
+function isPerspectiveResultPath(value: string, perspectiveId: string) {
+  const prefix = `/perspectives/${perspectiveId}/result/`
+  return value.startsWith(prefix) && isBoundedV2PayloadToken(value.slice(prefix.length))
+}
+
+function isSharedCardTypeRead(value: unknown) {
+  return (
+    isRecord(value) &&
+    hasExactRequiredKeys(value, ["h", "s"], []) &&
+    typeof value.h === "string" &&
+    typeof value.s === "string"
+  )
+}
+
+function isDimensionScoreTuple(value: unknown): value is PerspectiveDimensionTuple {
+  return (
+    Array.isArray(value) &&
+    value.length === 7 &&
+    value.every((score) => isFiniteNumber(score) && score >= 1 && score <= 7)
+  )
+}
+
+function isDimensionDeltaRecord(
+  value: unknown,
+  scaleBounded: boolean,
+): value is Partial<Record<DimensionKey, number>> {
+  if (!isRecord(value)) return false
   return Object.entries(value).every(
-    ([key, raw]) => isDimensionKey(key) && typeof raw === "number" && Number.isFinite(raw),
+    ([key, raw]) =>
+      isDimensionKey(key) &&
+      isFiniteNumber(raw) &&
+      (!scaleBounded || (raw >= -6 && raw <= 6)),
+  )
+}
+
+function isDimensionKeyArray(value: unknown): value is DimensionKey[] {
+  return (
+    Array.isArray(value) &&
+    value.length <= 3 &&
+    value.every((key) => typeof key === "string" && isDimensionKey(key)) &&
+    new Set(value).size === value.length
   )
 }
 
 function isCardTypeScores(
   value: unknown,
+  strictV2: boolean,
 ): value is Partial<Record<ChoiceCardType, Record<string, number>>> {
-  if (typeof value !== "object" || value === null) {
-    return false
-  }
-
+  if (!isRecord(value)) return false
   return Object.entries(value).every(
     ([key, record]) =>
-      (key === "explanation" || key === "decision" || key === "actorLens" || key === "both") &&
-      isNumberRecord(record),
+      isChoiceCardType(key) &&
+      isNumberRecord(record, strictV2),
   )
 }
 
-function isNumberRecord(value: unknown): value is Record<string, number> {
+function isNumberRecord(value: unknown, scaleBounded: boolean): value is Record<string, number> {
   return (
-    typeof value === "object" &&
-    value !== null &&
-    Object.values(value).every((entry) => typeof entry === "number" && Number.isFinite(entry))
+    isRecord(value) &&
+    Object.values(value).every(
+      (entry) =>
+        isFiniteNumber(entry) && (!scaleBounded || (entry >= 1 && entry <= 7)),
+    )
   )
+}
+
+function hasDuplicateModuleSlugs(modules: unknown[]) {
+  const slugs = modules.map((module) => (module as { s: ModuleSlug }).s)
+  return new Set(slugs).size !== slugs.length
+}
+
+function hasOnlyKeys(value: Record<string, unknown>, allowed: readonly string[]) {
+  return Object.keys(value).every((key) => allowed.includes(key))
+}
+
+function hasExactRequiredKeys(
+  value: Record<string, unknown>,
+  required: readonly string[],
+  optional: readonly string[],
+) {
+  return required.every((key) => Object.hasOwn(value, key)) &&
+    hasOnlyKeys(value, [...required, ...optional])
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+}
+
+function isFiniteNumber(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value)
+}
+
+function isTimestamp(value: unknown): value is number {
+  return isValidProfileTimestamp(value)
 }
 
 function isDimensionKey(value: string): value is DimensionKey {
@@ -391,6 +662,10 @@ function isModuleSlug(value: unknown): value is ModuleSlug {
 
 function isQuizMode(value: unknown): value is QuizMode {
   return value === "standard" || value === "analyst"
+}
+
+function isChoiceCardType(value: string): value is ChoiceCardType {
+  return value === "explanation" || value === "decision" || value === "actorLens" || value === "both"
 }
 
 function isProfileState(value: unknown): value is ProfileState {

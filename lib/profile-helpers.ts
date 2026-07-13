@@ -197,7 +197,7 @@ const AI_PRESSURE_LINES: Record<AiArchetypeKey, string> = {
   democraticGuardrailist:
     "The AI layer adds pressure toward public legitimacy and rights when speed or secrecy starts to dominate.",
   stateCapacityBuilder:
-    "The AI layer adds pressure toward state capacity and implementation, not just cleaner principle statements.",
+    "The AI layer adds pressure toward state capacity and implementation. It asks for concrete action beyond cleaner principle statements.",
   openEcosystemBuilder:
     "The AI layer adds pressure toward openness and anti-concentration, even where control instincts stay strong.",
 }
@@ -254,7 +254,7 @@ export function buildProfileSynthesisLite(profile: ProfileStore): ProfileSynthes
       shiftsUnderPressure:
         "Pressure shifts only become legible once the Foundation and at least one overlay are saved.",
       reasoningStyle:
-        "The profile is designed to name a pattern of reasoning, not to infer one before the core baseline exists.",
+        "The profile names a pattern of reasoning after the core baseline exists.",
     }
   }
 
@@ -312,7 +312,7 @@ export function buildProfileTriad(profile: ProfileStore): ProfileTriad {
     tension = signals.totalTensions[0] ?? null
   } else if (assessment.state === "lowDifferentiation" && signals.moduleSnapshots.length > 0) {
     tension =
-      "The closest traditions still sit close together. The label is a starting point, not a fixed box."
+      "The closest traditions still sit close together. The label is an initial reference point with loose boundaries."
   } else if (assessment.state === "domainConditionedShift" && signals.strongestShift) {
     tension = `One domain — ${signals.strongestShift.moduleLabel.toLowerCase()} — changes which costs you weight first while the baseline stays recognizable.`
   }
@@ -352,7 +352,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
         stateLabel: "Overlap baseline",
         synthesis: `${foundation.familyLabel} is the closest shorthand, but the baseline still reads as overlap.`,
         summary:
-          "The Foundation is not sorting this profile into one firm camp yet. The honest read is overlap, with the tradition label serving as a starting point rather than a fixed box.",
+          "The Foundation shows substantial overlap between nearby traditions. The tradition label is an initial reference point with loose boundaries.",
         changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
         panelTitle: "Overlap mode",
         panelIntro:
@@ -360,7 +360,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
         points: [
           "The Foundation stays closest to one tradition, but the separation is narrow.",
           "No saved module overlays yet exist to tell you whether a domain-specific stress test sharpens the profile.",
-          "The strongest signal right now is overlap and moderation rather than doctrinal sharpness.",
+          "The strongest signal right now is overlap and moderation. Doctrinal sharpness is limited.",
         ],
       }
     }
@@ -395,7 +395,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       panelIntro: "With no module overlays yet, the stable takeaway is simply what the Foundation is already telling you.",
       points: [
         "Your current profile is anchored entirely in the Foundation baseline.",
-        "Focus-area modules are optional overlays, not requirements for a valid result.",
+        "Focus-area modules add optional overlays. The Foundation alone produces a valid result.",
       ],
     }
   }
@@ -410,7 +410,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       stateLabel: "True tension",
       synthesis: `Your baseline still reads ${foundation.familyLabel}, but the saved modules pull it in different directions.`,
       summary:
-        "Your saved results do not just show mild variation. They pull in meaningfully different directions across issue areas or card types.",
+        "Your saved results pull in meaningfully different directions across issue areas or card types. The variation exceeds a mild shift.",
       changedMost,
       panelTitle: "Tension mode",
       panelIntro:
@@ -426,7 +426,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       stateLabel: "Domain-conditioned shift",
       synthesis: `Your baseline stays closest to ${foundation.familyLabel}, but ${strongestModule.toLowerCase()} changes the emphasis.`,
       summary:
-        "The baseline is still recognizable, but at least one module produces a consistent directional shift rather than just a little noise around the center.",
+        "The baseline remains recognizable. At least one module produces a consistent directional shift across the scored items.",
       changedMost,
       panelTitle: "Shift mode",
       panelIntro:
@@ -449,7 +449,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       points: [
         "The gap between the closest Foundation traditions remains narrow.",
         "The completed module overlays do not sharply separate the profile into a cleaner box.",
-        "What is stable here is moderation and overlap rather than doctrinal sharpness.",
+        "Moderation and overlap remain stable. Doctrinal sharpness stays limited.",
       ],
     }
   }
@@ -704,7 +704,7 @@ function getModuleContinuityLine(
       return "Security and Technology both keep the baseline in view, even where one domain pulls harder."
     }
 
-    return "Security and Technology mostly reinforce that same baseline rather than replacing it."
+    return "Security and Technology mostly reinforce that same baseline."
   }
 
   const savedModule = moduleSnapshots[0]
