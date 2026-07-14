@@ -169,6 +169,15 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
   const moreActive = moreNavItems.some((item) => matchesPath(currentPath, item.href))
 
+  if (currentPath === "/world-stage-prototype") {
+    return (
+      <div className="site-shell">
+        <a href="#site-main" className="skip-link">Skip to content</a>
+        {children}
+      </div>
+    )
+  }
+
   if (quizMeta) {
     const perspectiveRunChrome = quizMeta.steps.length === 0
     return (

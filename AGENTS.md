@@ -85,19 +85,18 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V16 Perspective Field
+## Current sprint: V17 World Stage
 
-- Keep the Foundation personal and preserve its scoring, family selection,
-  payload contract, and existing share links.
-- Add Perspective Runs as contextual overlays across the same seven dimensions.
-  They must never assign a second permanent identity or mutate the baseline.
-- Add evidence-coded Reference Profile architecture. IR positions must use the
-  existing Foundation projection; AI-governance profiles stay on their own axes.
-- Add migration-safe ProfileStore v4 history and Profile Share V2 while keeping
-  v1–v3 stores and Profile Share V1 readable.
-- Add UI-independent Field layer, filtering, selection, and movement-hull helpers.
-- Do not add a database, accounts, Commons submission, Three.js, new Foundation
-  families, new modules, or invented current political content.
+- Establish typed product contracts for the World Stage visual and naming system.
+- Add Atlas display fields without changing current IDs, names, matching rules,
+  or URLs.
+- Add a small reviewed scene set, clearly marked editorial demo data, and
+  validators for scene, route, node, menu, and ISO-3 integrity.
+- Preserve scoring, payload formats, ProfileStore migrations, and legacy shared
+  links.
+- Add a minimal `/about` route without redesigning the homepage.
+- Do not add a map library, large visual changes, or unmarked current political
+  claims.
 - After meaningful edits, run `npm run lint`, `npm run test`, `npx tsc --noEmit`, and `npm run build`.
 
 ## End-of-sprint discipline

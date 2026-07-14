@@ -53,6 +53,9 @@ export const atlasFingerprintLabels: Record<AtlasFingerprintKey, string> = {
 export type AtlasLitePattern = {
   id: string
   name: string
+  publicName: string
+  technicalDescriptor: string
+  decisionRule: string
   primaryFamily: FamilyKey
   secondaryFamilies?: FamilyKey[]
   cardSummary: string
@@ -91,6 +94,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "broad-spectrum-bridge-builder",
     name: "Bridge Builder",
+    publicName: "Several Lenses",
+    technicalDescriptor: "Bridge Builder",
+    decisionRule: "Keep several explanations in play until the case clearly favors one.",
     primaryFamily: "institutionalist",
     secondaryFamilies: ["constructivist", "realist"],
     cardSummary:
@@ -148,6 +154,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "constraint-first-realist",
     name: "Constraint-First Realist",
+    publicName: "Power with Limits",
+    technicalDescriptor: "Constraint-First Realist",
+    decisionRule: "Protect strategic position while setting firm limits on escalation and overreach.",
     primaryFamily: "realist",
     cardSummary:
       "This pattern starts from rivalry and constraint, but it stays wary of overreach and looks for ceilings before it reaches for a harder line.",
@@ -203,6 +212,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "competitive-balancer",
     name: "Competitive Balancer",
+    publicName: "Power and Leverage",
+    technicalDescriptor: "Competitive Balancer",
+    decisionRule: "Use credible pressure when it can convert advantage into durable position.",
     primaryFamily: "realist",
     cardSummary:
       "This pattern returns quickly to rivalry, leverage, and credible positioning, with more willingness to press advantage when the opening looks real.",
@@ -257,6 +269,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "coalition-pragmatist",
     name: "Coalition Pragmatist",
+    publicName: "Coalitions First",
+    technicalDescriptor: "Coalition Pragmatist",
+    decisionRule: "Choose the course that partners can sustain together over time.",
     primaryFamily: "institutionalist",
     secondaryFamilies: ["realist", "constructivist"],
     cardSummary:
@@ -314,6 +329,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "institution-builder",
     name: "Institution Builder",
+    publicName: "Rules and Cooperation",
+    technicalDescriptor: "Institution Builder",
+    decisionRule: "Try rules, monitoring, and repeated cooperation before abandoning the institutional route.",
     primaryFamily: "institutionalist",
     secondaryFamilies: ["constructivist"],
     cardSummary:
@@ -370,6 +388,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "legitimacy-attuned-reader",
     name: "Legitimacy Reader",
+    publicName: "Meaning and Legitimacy",
+    technicalDescriptor: "Legitimacy Reader",
+    decisionRule: "Judge a move by how identity, history, and legitimacy shape its meaning.",
     primaryFamily: "constructivist",
     secondaryFamilies: ["institutionalist"],
     cardSummary:
@@ -424,6 +445,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "justice-forward-solidarist",
     name: "Justice-Forward Solidarist",
+    publicName: "Justice and Protection",
+    technicalDescriptor: "Justice-Forward Solidarist",
+    decisionRule: "Let severe risks to people outweigh sovereignty only when legitimacy and limits support action.",
     primaryFamily: "constructivist",
     secondaryFamilies: ["institutionalist"],
     cardSummary:
@@ -479,6 +503,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "structural-inequality-critic",
     name: "Structural Inequality Critic",
+    publicName: "Power Behind the Rules",
+    technicalDescriptor: "Structural Inequality Critic",
+    decisionRule: "Ask who sets the terms, who benefits, and who bears the cost behind formal rules.",
     primaryFamily: "criticalPoliticalEconomy",
     cardSummary:
       "This pattern reads world politics through leverage, dependence, and unequal control over finance, production, and rule-setting.",
@@ -532,6 +559,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "development-sovereignty-builder",
     name: "Development-Sovereignty Builder",
+    publicName: "Capacity and Autonomy",
+    technicalDescriptor: "Development-Sovereignty Builder",
+    decisionRule: "Favor choices that build capacity and preserve future room to maneuver.",
     primaryFamily: "criticalPoliticalEconomy",
     secondaryFamilies: ["institutionalist"],
     cardSummary:
@@ -587,6 +617,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "cross-pressured-synthesizer",
     name: "Cross-Pressured Synthesizer",
+    publicName: "Different by Domain",
+    technicalDescriptor: "Cross-Pressured Synthesizer",
+    decisionRule: "Use the logic that fits the domain instead of forcing one rule across every case.",
     primaryFamily: "institutionalist",
     secondaryFamilies: ["constructivist", "criticalPoliticalEconomy"],
     cardSummary:

@@ -14,6 +14,7 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 ## Main routes
 
 - `/` landing page and product framing
+- `/about` project overview and editorial limits
 - `/quiz` quiz flow
 - `/quiz/review` required answer review before result generation
 - `/results/[payload]` canonical result page for encoded share payloads
