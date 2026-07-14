@@ -290,7 +290,7 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
   if (tensionKey === "low-differentiation") {
     return {
       href: "/explore/atlas",
-      label: "Browse worldview profiles",
+      label: "Browse Atlas patterns",
       reason:
         "Start by comparing nearby profile patterns before forcing a sharper label than the baseline supports.",
     }

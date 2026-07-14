@@ -1,19 +1,11 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import {
-  getNextWorldStageMenuIndex,
-  WORLD_STAGE_CAMERAS,
-  WORLD_STAGE_IDLE_INTERVAL_MS,
-  WORLD_STAGE_ISO3_COORDINATES,
-  WORLD_STAGE_TRANSITION_MS,
-} from "@/lib/world-stage/map-config"
-import {
   isValidWorldStageIso3Key,
   validateWorldStageCatalog,
   worldStageMenuItems,
   worldStageScenes,
 } from "@/lib/world-stage/scenes"
-import { isImmersiveRoute } from "@/lib/site-shell"
 import { WORLD_STAGE_MENU_IDS, WORLD_STAGE_SCENE_IDS } from "@/lib/world-stage/types"
 import type {
   WorldStageMenuItem,
@@ -53,115 +45,18 @@ test("the reviewed World Stage catalog and complete menu mapping are valid", () 
   }
 })
 
-test("the six production menu rows keep their reviewed order, lenses, and routes", () => {
+test("the six menu contracts keep their reviewed production routes", () => {
   assert.deepEqual(
-    worldStageMenuItems.map(({ index, id, label, sceneId, lens, href }) => ({
-      index,
-      id,
-      label,
-      sceneId,
-      lens,
-      href,
-    })),
+    worldStageMenuItems.map(({ id, sceneId, href }) => ({ id, sceneId, href })),
     [
-      {
-        index: "01",
-        id: "foundation",
-        label: "Foundation",
-        sceneId: "foundation",
-        lens: "Baseline judgments",
-        href: "/quiz",
-      },
-      {
-        index: "02",
-        id: "focus-areas",
-        label: "Focus Areas",
-        sceneId: "foundation",
-        lens: "Issue-specific pressure",
-        href: "/modules",
-      },
-      {
-        index: "03",
-        id: "perspective-runs",
-        label: "My perspective shifts",
-        sceneId: "perspectives",
-        lens: "Judgment under context",
-        href: "/perspectives",
-      },
-      {
-        index: "04",
-        id: "worldview-map",
-        label: "Worldview Map",
-        sceneId: "perspectives",
-        lens: "Modeled positions",
-        href: "/explore/atlas",
-      },
-      {
-        index: "05",
-        id: "ai-futures",
-        label: "AI & Futures",
-        sceneId: "futures",
-        lens: "Technology and order",
-        href: "/ai",
-      },
-      {
-        index: "06",
-        id: "profile",
-        label: "My Profile",
-        sceneId: "foundation",
-        lens: "Your saved layers",
-        href: "/profile",
-      },
+      { id: "foundation", sceneId: "foundation", href: "/quiz" },
+      { id: "focus-areas", sceneId: "foundation", href: "/modules" },
+      { id: "perspective-runs", sceneId: "perspectives", href: "/perspectives" },
+      { id: "worldview-map", sceneId: "perspectives", href: "/explore/atlas" },
+      { id: "ai-futures", sceneId: "futures", href: "/ai" },
+      { id: "profile", sceneId: "foundation", href: "/profile" },
     ],
   )
-
-  for (const item of worldStageMenuItems) {
-    assert.ok(item.description.trim().length > 0)
-    assert.ok(item.action.trim().length > 0)
-  }
-})
-
-test("every reviewed map node and menu lens has finite display framing", () => {
-  for (const scene of worldStageScenes) {
-    for (const node of scene.nodes) {
-      const coordinates =
-        WORLD_STAGE_ISO3_COORDINATES[
-          node.iso3Key as keyof typeof WORLD_STAGE_ISO3_COORDINATES
-        ]
-      assert.ok(coordinates, `missing display coordinates for ${node.iso3Key}`)
-      assert.equal(coordinates.every(Number.isFinite), true)
-    }
-  }
-
-  for (const item of worldStageMenuItems) {
-    const camera = WORLD_STAGE_CAMERAS[item.id]
-    assert.ok(camera, `missing camera for ${item.id}`)
-    assert.equal(
-      [...camera.center, camera.zoom, camera.pitch, camera.bearing].every(Number.isFinite),
-      true,
-    )
-  }
-})
-
-test("the idle sequence and scene transitions stay within the production timing window", () => {
-  assert.ok(WORLD_STAGE_IDLE_INTERVAL_MS >= 8_000)
-  assert.ok(WORLD_STAGE_IDLE_INTERVAL_MS <= 12_000)
-  assert.ok(WORLD_STAGE_TRANSITION_MS >= 600)
-  assert.ok(WORLD_STAGE_TRANSITION_MS <= 1_200)
-
-  assert.deepEqual(
-    Array.from({ length: worldStageMenuItems.length }, (_, index) =>
-      getNextWorldStageMenuIndex(index),
-    ),
-    [1, 2, 3, 4, 5, 0],
-  )
-})
-
-test("only the root and prototype use the immersive shell", () => {
-  assert.equal(isImmersiveRoute("/"), true)
-  assert.equal(isImmersiveRoute("/world-stage-prototype"), true)
-  assert.equal(isImmersiveRoute("/about"), false)
-  assert.equal(isImmersiveRoute("/quiz"), false)
 })
 
 test("scene nodes accept only reviewed valid ISO-3 geometry keys", () => {

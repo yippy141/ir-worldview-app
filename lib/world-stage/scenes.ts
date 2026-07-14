@@ -59,7 +59,7 @@ export const worldStageScenes = [
   },
   {
     id: "perspectives",
-    title: "My perspective shifts",
+    title: "Perspective Runs",
     summary: "A visual entry point for revisiting the baseline from a defined situation.",
     dataStatus: "editorial-demo",
     qualification: editorialDemoQualification,
@@ -135,12 +135,12 @@ export const worldStageMenuItems = [
   {
     id: "perspective-runs",
     index: "03",
-    label: "My perspective shifts",
+    label: "Perspective Runs",
     sceneId: "perspectives",
     lens: "Judgment under context",
     description: "Revisit the same dimensions from a defined strategic situation.",
     href: "/perspectives",
-    action: "Open my perspective shifts",
+    action: "Open Perspective Runs",
   },
   {
     id: "worldview-map",

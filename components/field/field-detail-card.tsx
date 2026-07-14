@@ -3,12 +3,11 @@
 import Link from "next/link"
 import { referenceEntityTypeLabel, type FieldItem } from "@/lib/field/items"
 import { FIELD_LAYER_CONFIG_BY_ID } from "@/lib/field/layers"
-import styles from "./worldview-map.module.css"
 
 const KIND_ACTION_LABELS: Record<FieldItem["kind"], string> = {
   baseline: "Open Foundation result",
   "perspective-run": "View run result",
-  "atlas-pattern": "Read this worldview profile",
+  "atlas-pattern": "Read this pattern",
   "reference-profile": "Read the profile",
   "reference-movement": "Read the movement",
 }
@@ -16,39 +15,38 @@ const KIND_ACTION_LABELS: Record<FieldItem["kind"], string> = {
 type Props = {
   item: FieldItem
   onClose: () => void
-  headingId?: string
 }
 
-export function FieldDetailCard({ item, onClose, headingId = "field-detail-heading" }: Props) {
+export function FieldDetailCard({ item, onClose }: Props) {
   const layerLabel = FIELD_LAYER_CONFIG_BY_ID[item.layerId].label
 
   return (
-    <section className={styles.detailCard} aria-labelledby={headingId}>
-      <div className={styles.detailHead}>
-        <p className={styles.detailContext}>
+    <section className="field-detail-card stack-xs" aria-label={`Selected: ${item.label}`}>
+      <div className="field-detail-card__head">
+        <p className="field-detail-card__kicker">
           {item.entityType ? referenceEntityTypeLabel(item.entityType) : layerLabel}
         </p>
         <button
           type="button"
-          className={styles.detailClose}
+          className="field-detail-card__close"
           onClick={onClose}
           aria-label="Close details"
         >
           Close
         </button>
       </div>
-      <h2 id={headingId} className={styles.detailTitle}>{item.label}</h2>
-      <p className={styles.detailSummary}>{item.summary}</p>
-      {item.metaLine ? <p className={styles.detailMeta}>{item.metaLine}</p> : null}
+      <h3 className="field-detail-card__title">{item.label}</h3>
+      <p className="field-detail-card__summary">{item.summary}</p>
+      {item.metaLine ? <p className="field-detail-card__meta">{item.metaLine}</p> : null}
       {item.draft ? (
         <p className="reference-draft-tag">Research draft · pending editorial review</p>
       ) : null}
       {item.position === null ? (
-        <p className={styles.detailNote}>
+        <p className="muted field-detail-card__note">
           This entry appears in the list only. It has no position on this map.
         </p>
       ) : null}
-      <p className={styles.detailAction}>
+      <p className="field-detail-card__action">
         <Link href={item.href}>{KIND_ACTION_LABELS[item.kind]} →</Link>
       </p>
     </section>

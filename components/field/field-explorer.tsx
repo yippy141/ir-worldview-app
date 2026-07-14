@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { FieldDetailCard } from "@/components/field/field-detail-card"
 import { FieldList } from "@/components/field/field-list"
@@ -19,15 +19,6 @@ import {
   type FieldItem,
 } from "@/lib/field/items"
 import {
-  parseWorldviewMapQuery,
-  serializeWorldviewMapQuery,
-  WORLDVIEW_MAP_FAMILY_KEYS,
-  type WorldviewMapReviewWindow,
-  type WorldviewMapView,
-} from "@/lib/field/map-state"
-import {
-  PUBLIC_FIELD_LAYER_CONFIGS,
-  WORLDVIEW_MAP_LABEL,
   fieldSelectionKey,
   filterFieldItems,
   findSelectedFieldItem,
@@ -35,8 +26,9 @@ import {
   getStableFieldItems,
   parseFieldFilters,
   parseFieldLayerIds,
+  serializeFieldFilters,
+  serializeFieldLayerIds,
   toggleActiveFieldLayer,
-  toggleFieldSelectionKey,
   type FieldFilters,
   type FieldLayerAvailability,
   type FieldLayerId,
@@ -53,38 +45,42 @@ import {
 import { loadProfileStore, type ProfileStore } from "@/lib/profile-store"
 import { FAMILY_LABELS } from "@/lib/worldview-config"
 import type { FamilyKey } from "@/lib/types"
-import styles from "./worldview-map.module.css"
 
 const DEFAULT_LAYERS: FieldLayerId[] = ["my-profile", "atlas-patterns"]
-const REVIEWED_OPTIONS: readonly {
-  value: WorldviewMapReviewWindow
-  label: string
-}[] = [
+const FAMILY_KEYS = Object.keys(FAMILY_LABELS) as FamilyKey[]
+const REVIEWED_OPTIONS = [
   { value: "", label: "Any time" },
   { value: "12", label: "Last 12 months" },
   { value: "24", label: "Last 24 months" },
-]
+] as const
+
+type ViewMode = "list" | "map"
 
 export function FieldExplorer() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const [initialQuery] = useState(() =>
-    parseWorldviewMapQuery(searchParams.toString()),
-  )
 
   const [profile, setProfile] = useState<ProfileStore | null>(null)
-  const [profileLoaded, setProfileLoaded] = useState(false)
   const [activeLayerIds, setActiveLayerIds] = useState<FieldLayerId[] | null>(null)
-  const [filters, setFilters] = useState<FieldFilters>(initialQuery.filters)
-  const [familyKeys, setFamilyKeys] = useState<FamilyKey[]>(initialQuery.familyKeys)
-  const [reviewedWithin, setReviewedWithin] =
-    useState<WorldviewMapReviewWindow>(initialQuery.reviewedWithin)
-  const [selectedKey, setSelectedKey] = useState<FieldSelectionKey | null>(
-    initialQuery.selectedKey,
+  const [filters, setFilters] = useState<FieldFilters>(() =>
+    parseFieldFilters(searchParams.toString()),
   )
-  const [view, setView] = useState<WorldviewMapView>(initialQuery.view)
-  const focusReturnKeyRef = useRef<FieldSelectionKey | null>(null)
-  const detailDrawerRef = useRef<HTMLElement | null>(null)
+  const [familyKeys, setFamilyKeys] = useState<FamilyKey[]>(() =>
+    (searchParams.getAll("family") ?? []).filter((value): value is FamilyKey =>
+      FAMILY_KEYS.includes(value as FamilyKey),
+    ),
+  )
+  const [reviewedWithin, setReviewedWithin] = useState<string>(() => {
+    const value = searchParams.get("reviewed") ?? ""
+    return value === "12" || value === "24" ? value : ""
+  })
+  const [selectedKey, setSelectedKey] = useState<FieldSelectionKey | null>(() => {
+    const raw = searchParams.get("sel")
+    return raw ? (raw as FieldSelectionKey) : null
+  })
+  const [view, setView] = useState<ViewMode>(() =>
+    searchParams.get("view") === "map" ? "map" : "list",
+  )
 
   const availability: FieldLayerAvailability = useMemo(
     () => ({
@@ -96,61 +92,40 @@ export function FieldExplorer() {
   )
 
   useEffect(() => {
-    const load = () => {
-      setProfile(loadProfileStore())
-      setProfileLoaded(true)
-    }
+    const load = () => setProfile(loadProfileStore())
     load()
     window.addEventListener("storage", load)
     return () => window.removeEventListener("storage", load)
   }, [])
 
-  // Lock the document only for the dedicated small-screen map state.
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 899px)")
-    const applyLock = () => {
-      document.body.style.overflow = view === "map" && media.matches ? "hidden" : ""
-    }
-    applyLock()
-    media.addEventListener("change", applyLock)
-    return () => {
-      media.removeEventListener("change", applyLock)
-      document.body.style.overflow = ""
-    }
-  }, [view])
-
+  // Layers resolve from the URL until the user toggles one; the URL parse
+  // waits for the profile so availability rules apply to the saved layers.
+  const urlLayerParam = searchParams.get("layers")
   const resolvedLayers: FieldLayerId[] =
     activeLayerIds ??
-    (profileLoaded
-      ? parseFieldLayerIds(
-          initialQuery.layerParam ?? DEFAULT_LAYERS.join(","),
-          availability,
-        )
+    (profile !== null
+      ? parseFieldLayerIds(urlLayerParam ?? DEFAULT_LAYERS.join(","), availability)
       : DEFAULT_LAYERS)
 
-  const shareableQuery = useMemo(
-    () =>
-      serializeWorldviewMapQuery(
-        {
-          activeLayerIds: resolvedLayers,
-          filters,
-          familyKeys,
-          reviewedWithin,
-          selectedKey,
-          view,
-        },
-        availability,
-      ),
-    [availability, familyKeys, filters, resolvedLayers, reviewedWithin, selectedKey, view],
-  )
+  const shareableQuery = useMemo(() => {
+    const params = new URLSearchParams(serializeFieldFilters(filters))
+    params.set("layers", serializeFieldLayerIds(resolvedLayers, availability))
+    for (const familyKey of familyKeys) params.append("family", familyKey)
+    if (reviewedWithin) params.set("reviewed", reviewedWithin)
+    if (selectedKey) params.set("sel", selectedKey)
+    if (view === "map") params.set("view", "map")
+    return params.toString()
+  }, [availability, familyKeys, filters, resolvedLayers, reviewedWithin, selectedKey, view])
 
+  // Keep filter, layer, selection, and view state shareable in the URL while
+  // retaining any router metadata stored in the current history entry.
   useEffect(() => {
-    if (!profileLoaded) return
+    if (profile === null) return
     const nextUrl = shareableQuery ? `${pathname}?${shareableQuery}` : pathname
     const currentUrl = `${window.location.pathname}${window.location.search}`
     if (currentUrl === nextUrl) return
     window.history.replaceState(window.history.state, "", nextUrl)
-  }, [pathname, profileLoaded, shareableQuery])
+  }, [pathname, profile, shareableQuery])
 
   const baselineItem = useMemo(
     () => buildBaselineFieldItem(profile?.foundation ?? null),
@@ -180,38 +155,19 @@ export function FieldExplorer() {
       familyKeys,
       reviewedWithinMonths: reviewedWithin ? Number(reviewedWithin) : null,
     })
-    // Facets never hide the user's baseline when its layer is explicitly active.
+    // The baseline bypasses narrowing facets: the layer contract keeps the
+    // user position visible whenever the My profile layer is active.
     const withBaseline =
       baselineItem && resolvedLayers.includes("my-profile")
         ? [baselineItem, ...narrowed]
         : narrowed
     return getStableFieldItems(withBaseline)
-  }, [
-    atlasItems,
-    baselineItem,
-    familyKeys,
-    filters,
-    referenceItems,
-    resolvedLayers,
-    reviewedWithin,
-    runItems,
-  ])
+  }, [runItems, atlasItems, referenceItems, filters, resolvedLayers, familyKeys, reviewedWithin, baselineItem])
 
   const selectedItem = findSelectedFieldItem(visibleItems, selectedKey)
-  const selectedItemKey = selectedItem ? fieldSelectionKey(selectedItem) : null
-
-  useEffect(() => {
-    if (!selectedItem || !window.matchMedia("(max-width: 899px)").matches) return
-    window.requestAnimationFrame(() => {
-      detailDrawerRef.current?.querySelector<HTMLButtonElement>("button")?.focus()
-    })
-  }, [selectedItem])
 
   const mapRunIds = useMemo(
-    () =>
-      new Set(
-        latestRunPerPerspective(profile?.perspectiveRuns ?? []).map((run) => run.id),
-      ),
+    () => new Set(latestRunPerPerspective(profile?.perspectiveRuns ?? []).map((run) => run.id)),
     [profile],
   )
 
@@ -231,6 +187,24 @@ export function FieldExplorer() {
       (item.kind !== "perspective-run" || mapRunIds.has(item.id)),
   )
 
+  const neighborKeys = useMemo(() => {
+    if (!selectedItem?.position) return new Set<FieldSelectionKey>()
+    const selected = fieldSelectionKey(selectedItem)
+    return new Set(
+      mappableItems
+        .filter((item) => fieldSelectionKey(item) !== selected)
+        .map((item) => ({
+          key: fieldSelectionKey(item),
+          distance: squaredDistance(item.position as MapPosition, selectedItem.position as MapPosition),
+        }))
+        .sort((left, right) => left.distance - right.distance)
+        .slice(0, 3)
+        .map((entry) => entry.key),
+    )
+  }, [mappableItems, selectedItem])
+
+  const selectedItemKey = selectedItem ? fieldSelectionKey(selectedItem) : null
+
   const markers: FieldMapMarker[] = mappableItems.map((item) => {
     const key = fieldSelectionKey(item)
     return {
@@ -240,6 +214,10 @@ export function FieldExplorer() {
       label: item.label,
       position: item.position as MapPosition,
       selected: key === selectedItemKey,
+      labeled:
+        item.kind === "baseline" ||
+        key === selectedItemKey ||
+        neighborKeys.has(key),
       draft: item.draft,
     }
   })
@@ -289,50 +267,20 @@ export function FieldExplorer() {
     familyKeys.length > 0 ||
     reviewedWithin !== ""
 
-  const activeLayerSummary = PUBLIC_FIELD_LAYER_CONFIGS.filter((config) =>
-    resolvedLayers.includes(config.id),
-  )
-    .map((config) => config.label)
-    .join(" + ")
-
   function handleToggleLayer(layerId: FieldLayerId) {
     setActiveLayerIds(toggleActiveFieldLayer(resolvedLayers, layerId, availability))
   }
 
   function handleSelect(key: FieldSelectionKey) {
-    focusReturnKeyRef.current = key
-    setSelectedKey((current) => toggleFieldSelectionKey(current, key))
+    setSelectedKey((current) => (current === key ? null : key))
   }
 
-  function handleCloseDetails() {
-    const returnKey = focusReturnKeyRef.current ?? selectedItemKey
-    setSelectedKey(null)
-    if (!returnKey) return
-
-    window.requestAnimationFrame(() => {
-      const listButton = document
-        .getElementById(`field-item-${returnKey}`)
-        ?.querySelector<HTMLButtonElement>("button")
-      const marker = Array.from(
-        document.querySelectorAll<HTMLElement>("[data-field-marker-key]"),
-      ).find((element) => element.dataset.fieldMarkerKey === returnKey)
-      const target = view === "map" ? marker ?? listButton : listButton ?? marker
-      target?.focus()
-    })
-  }
-
-  function handleArrowNavigate(
-    direction: "next" | "previous",
-    fromKey: FieldSelectionKey,
-  ) {
-    const nextKey = getNextFieldSelectionKey(visibleItems, fromKey, direction)
+  function handleArrowNavigate(direction: "next" | "previous") {
+    const nextKey = getNextFieldSelectionKey(visibleItems, selectedKey, direction)
     if (!nextKey) return
-    focusReturnKeyRef.current = nextKey
     setSelectedKey(nextKey)
-    document
-      .getElementById(`field-item-${nextKey}`)
-      ?.querySelector<HTMLButtonElement>("button")
-      ?.focus()
+    const row = document.getElementById(`field-item-${nextKey}`)
+    row?.querySelector("button")?.focus()
   }
 
   function clearFilters() {
@@ -341,284 +289,200 @@ export function FieldExplorer() {
     setReviewedWithin("")
   }
 
-  const loading = !profileLoaded
-  const emptyLine = filtersActive
-    ? "No items match these filters. Clear one or more to widen the view."
-    : "Nothing to show yet. Activate a layer with saved or reviewed entries."
+  const loading = profile === null
 
   return (
-    <div
-      className={styles.explorer}
-      data-view={view}
-      aria-busy={loading}
-    >
-      <div className={styles.toolbar} aria-label="Map workspace toolbar">
-        <div className={styles.toolbarSummary}>
-          <span className={styles.toolbarLabel}>Active layers</span>
-          <strong>{activeLayerSummary || "No active layers"}</strong>
-          <span className={styles.toolbarMeta}>
-            {visibleItems.length} {visibleItems.length === 1 ? "item" : "items"}
-          </span>
-        </div>
-        <div className={styles.toolbarActions}>
-          <a className={styles.listJump} href="#worldview-map-list">
-            Complete list ↓
-          </a>
-          <div className={styles.viewToggle} role="group" aria-label="View">
-            <button
-              type="button"
-              className={`${styles.viewButton}${view === "list" ? ` ${styles.viewButtonActive}` : ""}`}
-              aria-pressed={view === "list"}
-              onClick={() => setView("list")}
-            >
-              List
-            </button>
-            <button
-              type="button"
-              className={`${styles.viewButton}${view === "map" ? ` ${styles.viewButtonActive}` : ""}`}
-              aria-pressed={view === "map"}
-              onClick={() => setView("map")}
-            >
-              Map
-            </button>
-          </div>
-        </div>
+    <div className={`field-explorer field-explorer--${view}`} aria-busy={loading}>
+      <div className="field-view-toggle" role="group" aria-label="View">
+        <button
+          type="button"
+          className={`field-view-toggle__button${view === "list" ? " field-view-toggle__button--active" : ""}`}
+          aria-pressed={view === "list"}
+          onClick={() => setView("list")}
+        >
+          List view
+        </button>
+        <button
+          type="button"
+          className={`field-view-toggle__button${view === "map" ? " field-view-toggle__button--active" : ""}`}
+          aria-pressed={view === "map"}
+          onClick={() => setView("map")}
+        >
+          Map view
+        </button>
       </div>
 
-      <div
-        className={`${styles.workspace}${selectedItem ? ` ${styles.workspaceWithDrawer}` : ""}`}
-      >
-        <main className={styles.mapColumn}>
-          <section className={styles.mapStage} aria-label={WORLDVIEW_MAP_LABEL}>
-            <div className={styles.mobileMapHeader}>
-              <button
-                type="button"
-                className={styles.mapBack}
-                onClick={() => setView("list")}
-              >
-                ← Back to list
-              </button>
-              <strong>{WORLDVIEW_MAP_LABEL}</strong>
-            </div>
-            <div className={styles.mapStageBody}>
-              {loading ? (
-                <p className={styles.mapLoading}>Loading saved layers…</p>
-              ) : mappableItems.length > 0 ? (
-                <FieldMap
-                  ariaLabel="Layered worldview map. Every plotted item also appears in the complete semantic list with the same details."
-                  markers={markers}
-                  connectors={connectors}
-                  hulls={hulls}
-                  showAnchors
-                  onSelect={(key) => handleSelect(key as FieldSelectionKey)}
-                  markerHrefPrefix="field-item-"
-                  caption={
-                    filters.scopes.includes("ai-governance" as ReferenceScope)
-                      ? "AI-governance positions use different axes and remain available in the list."
-                      : "Spacing is comparative, not calibrated. Overlapping marks show a count and fan open for selection."
+      <div className="field-explorer-grid">
+        <div className="field-map-panel panel">
+          {loading ? (
+            <p className="muted field-map-panel__loading">Loading saved layers…</p>
+          ) : mappableItems.length > 0 ? (
+            <FieldMap
+              ariaLabel="Layered field map. Every plotted item also appears in the list below with the same details."
+              markers={markers}
+              connectors={connectors}
+              hulls={hulls}
+              showAnchors={false}
+              onSelect={(key) => handleSelect(key as FieldSelectionKey)}
+              markerHrefPrefix="field-item-"
+              caption={
+                filters.scopes.includes("ai-governance" as ReferenceScope)
+                  ? "AI-governance profiles use their own axes and appear in the list."
+                  : "On wider screens, labels show for your baseline, the selected item, and up to three nearby marks. On smaller screens, labels appear after selection. Lines connect only runs made from the current Foundation baseline. Placement is an authored comparison. Map spacing has no calibrated unit."
+              }
+            />
+          ) : (
+            <p className="muted field-map-panel__empty">
+              {filtersActive
+                ? "No items match these filters. Clear one or more to widen the view."
+                : "Nothing to plot yet. Activate a layer with saved or coded entries."}
+            </p>
+          )}
+        </div>
+
+        <aside className="field-rail stack-md">
+          {selectedItem ? (
+            <FieldDetailCard item={selectedItem} onClose={() => setSelectedKey(null)} />
+          ) : null}
+
+          <LayerControls
+            activeLayerIds={resolvedLayers}
+            availability={availability}
+            counts={layerCounts}
+            onToggle={handleToggleLayer}
+          />
+
+          <details className="field-rail-section">
+            <summary className="field-rail__heading field-rail-section__summary">
+              Filters{filtersActive ? " · on" : ""}
+            </summary>
+            <div className="field-filters stack-sm">
+              <label className="field-filters__label">
+                Search
+                <input
+                  type="search"
+                  className="field-filters__input"
+                  value={filters.query}
+                  onChange={(event) =>
+                    setFilters((current) => ({ ...current, query: event.target.value }))
                   }
+                  placeholder="Name or topic"
                 />
-              ) : (
-                <p className={styles.mapEmpty}>{emptyLine}</p>
-              )}
-            </div>
-          </section>
+              </label>
 
-          <section
-            id="worldview-map-list"
-            className={styles.listRegion}
-            aria-labelledby="worldview-map-list-heading"
-          >
-            <div className={styles.listHeader}>
-              <h2 id="worldview-map-list-heading" className={styles.listTitle}>
-                Complete list
-              </h2>
-              <p className={styles.listNote}>
-                All visible and list-only entries. Use ↑ and ↓ from an item to move.
-              </p>
-            </div>
-            <FieldList
-              items={visibleItems}
-              activeLayerIds={resolvedLayers}
-              selectedKey={selectedItemKey}
-              onSelect={handleSelect}
-              onArrowNavigate={handleArrowNavigate}
-              emptyLine={emptyLine}
-            />
-          </section>
-        </main>
-
-        <aside className={styles.controls} aria-label="Map controls">
-          <div className={styles.controlsInner}>
-            <LayerControls
-              activeLayerIds={resolvedLayers}
-              availability={availability}
-              counts={layerCounts}
-              onToggle={handleToggleLayer}
-            />
-
-            <details className={styles.filterDetails}>
-              <summary className={styles.filterSummary}>
-                Filters{filtersActive ? " · active" : ""}
-              </summary>
-              <div className={styles.filterPanel}>
-                <label className={styles.filterLabel}>
-                  Search
-                  <input
-                    type="search"
-                    className={styles.filterInput}
-                    value={filters.query}
-                    onChange={(event) =>
-                      setFilters((current) => ({
-                        ...current,
-                        query: event.target.value,
-                      }))
-                    }
-                    placeholder="Name or topic"
-                  />
-                </label>
-
-                {presentEntityTypes.length > 0 ? (
-                  <fieldset className={styles.filterGroup}>
-                    <legend>Type</legend>
-                    {presentEntityTypes.map((entityType) => {
-                      const active = filters.entityTypes.includes(entityType)
-                      return (
-                        <button
-                          key={entityType}
-                          type="button"
-                          className={`${styles.filterOption}${active ? ` ${styles.filterOptionActive}` : ""}`}
-                          aria-pressed={active}
-                          onClick={() =>
-                            setFilters((current) => ({
-                              ...current,
-                              entityTypes: active
-                                ? current.entityTypes.filter(
-                                    (value) => value !== entityType,
-                                  )
-                                : [...current.entityTypes, entityType],
-                            }))
-                          }
-                        >
-                          {referenceEntityTypeLabel(entityType)}
-                        </button>
-                      )
-                    })}
-                  </fieldset>
-                ) : null}
-
-                <fieldset className={styles.filterGroup}>
-                  <legend>Scope</legend>
-                  {[...IR_REFERENCE_SCOPES, "ai-governance" as ReferenceScope].map(
-                    (scope) => {
-                      const active = filters.scopes.includes(scope)
-                      const label =
-                        scope === "ai-governance"
-                          ? "AI governance"
-                          : scope.charAt(0).toUpperCase() + scope.slice(1)
-                      return (
-                        <button
-                          key={scope}
-                          type="button"
-                          className={`${styles.filterOption}${active ? ` ${styles.filterOptionActive}` : ""}`}
-                          aria-pressed={active}
-                          onClick={() =>
-                            setFilters((current) => ({
-                              ...current,
-                              scopes: active
-                                ? current.scopes.filter((value) => value !== scope)
-                                : [...current.scopes, scope],
-                            }))
-                          }
-                        >
-                          {label}
-                        </button>
-                      )
-                    },
-                  )}
-                </fieldset>
-
-                <fieldset className={styles.filterGroup}>
-                  <legend>Family</legend>
-                  {WORLDVIEW_MAP_FAMILY_KEYS.map((familyKey) => {
-                    const active = familyKeys.includes(familyKey)
+              {presentEntityTypes.length > 0 ? (
+                <fieldset className="field-filters__group">
+                  <legend>Type</legend>
+                  {presentEntityTypes.map((entityType) => {
+                    const active = filters.entityTypes.includes(entityType)
                     return (
                       <button
-                        key={familyKey}
+                        key={entityType}
                         type="button"
-                        className={`${styles.filterOption}${active ? ` ${styles.filterOptionActive}` : ""}`}
+                        className={`field-filter-chip${active ? " field-filter-chip--active" : ""}`}
                         aria-pressed={active}
                         onClick={() =>
-                          setFamilyKeys((current) =>
-                            active
-                              ? current.filter((value) => value !== familyKey)
-                              : [...current, familyKey],
-                          )
+                          setFilters((current) => ({
+                            ...current,
+                            entityTypes: active
+                              ? current.entityTypes.filter((value) => value !== entityType)
+                              : [...current.entityTypes, entityType],
+                          }))
                         }
                       >
-                        {FAMILY_LABELS[familyKey]}
+                        {referenceEntityTypeLabel(entityType)}
                       </button>
                     )
                   })}
                 </fieldset>
+              ) : null}
 
-                <label className={styles.filterLabel}>
-                  Reference date
-                  <select
-                    className={styles.filterInput}
-                    value={reviewedWithin}
-                    onChange={(event) =>
-                      setReviewedWithin(
-                        event.target.value as WorldviewMapReviewWindow,
-                      )
-                    }
-                  >
-                    {REVIEWED_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
+              <fieldset className="field-filters__group">
+                <legend>Scope</legend>
+                {[...IR_REFERENCE_SCOPES, "ai-governance" as ReferenceScope].map((scope) => {
+                  const active = filters.scopes.includes(scope)
+                  const label =
+                    scope === "ai-governance"
+                      ? "AI governance"
+                      : scope.charAt(0).toUpperCase() + scope.slice(1)
+                  return (
+                    <button
+                      key={scope}
+                      type="button"
+                      className={`field-filter-chip${active ? " field-filter-chip--active" : ""}`}
+                      aria-pressed={active}
+                      onClick={() =>
+                        setFilters((current) => ({
+                          ...current,
+                          scopes: active
+                            ? current.scopes.filter((value) => value !== scope)
+                            : [...current.scopes, scope],
+                        }))
+                      }
+                    >
+                      {label}
+                    </button>
+                  )
+                })}
+              </fieldset>
 
-                {filtersActive ? (
-                  <button
-                    type="button"
-                    className={styles.clearFilters}
-                    onClick={clearFilters}
-                  >
-                    Clear filters
-                  </button>
-                ) : null}
-              </div>
-            </details>
+              <fieldset className="field-filters__group">
+                <legend>Family</legend>
+                {FAMILY_KEYS.map((familyKey) => {
+                  const active = familyKeys.includes(familyKey)
+                  return (
+                    <button
+                      key={familyKey}
+                      type="button"
+                      className={`field-filter-chip${active ? " field-filter-chip--active" : ""}`}
+                      aria-pressed={active}
+                      onClick={() =>
+                        setFamilyKeys((current) =>
+                          active
+                            ? current.filter((value) => value !== familyKey)
+                            : [...current, familyKey],
+                        )
+                      }
+                    >
+                      {FAMILY_LABELS[familyKey]}
+                    </button>
+                  )
+                })}
+              </fieldset>
 
-            <details className={styles.keyDetails}>
-              <summary className={styles.filterSummary}>Map key</summary>
-              <FieldMapKey
-                kinds={["baseline", "perspective-run", "atlas-pattern", "reference"]}
-              />
-            </details>
+              <label className="field-filters__label">
+                Reference date
+                <select
+                  className="field-filters__input"
+                  value={reviewedWithin}
+                  onChange={(event) => setReviewedWithin(event.target.value)}
+                >
+                  {REVIEWED_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-            <p className={styles.railFoot}>
-              <Link href="/perspectives">Try another vantage point</Link> to see how a
-              defined context shifts your baseline judgments.
-            </p>
-          </div>
+              {filtersActive ? (
+                <button type="button" className="field-filters__clear" onClick={clearFilters}>
+                  Clear filters
+                </button>
+              ) : null}
+            </div>
+          </details>
+
+          <details className="field-rail-section">
+            <summary className="field-rail__heading field-rail-section__summary">Key</summary>
+            <FieldMapKey kinds={["baseline", "perspective-run", "atlas-pattern", "reference"]} />
+          </details>
+
+          <p className="muted field-rail__foot">
+            <Link href="/perspectives">Try another vantage point</Link> — advise from a defined
+            position and see the shift plotted beside your baseline.
+          </p>
         </aside>
-
-        {selectedItem ? (
-          <aside
-            ref={detailDrawerRef}
-            className={styles.detailDrawer}
-            aria-label="Selected item details"
-            onKeyDown={(event) => {
-              if (event.key === "Escape") handleCloseDetails()
-            }}
-          >
-            <FieldDetailCard item={selectedItem} onClose={handleCloseDetails} />
-          </aside>
-        ) : null}
       </div>
 
       <p className="sr-only" role="status">
@@ -626,6 +490,27 @@ export function FieldExplorer() {
           ? "Loading saved layers."
           : `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
       </p>
+
+      <section className="field-list-region" aria-label="All field items as a list">
+        <FieldList
+          items={visibleItems}
+          activeLayerIds={resolvedLayers}
+          selectedKey={selectedItemKey}
+          onSelect={handleSelect}
+          onArrowNavigate={handleArrowNavigate}
+          emptyLine={
+            filtersActive
+              ? "No items match these filters. Clear one or more to widen the view."
+              : "Nothing to list yet. Activate a layer with saved or coded entries."
+          }
+        />
+      </section>
     </div>
   )
+}
+
+function squaredDistance(left: MapPosition, right: MapPosition): number {
+  const x = left.x - right.x
+  const y = left.y - right.y
+  return x * x + y * y
 }

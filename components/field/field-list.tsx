@@ -4,18 +4,18 @@ import Link from "next/link"
 import type { KeyboardEvent } from "react"
 import { referenceEntityTypeLabel, type FieldItem } from "@/lib/field/items"
 import {
+  FIELD_LAYER_CONFIG_BY_ID,
+  FIELD_LAYER_IDS,
   fieldSelectionKey,
-  getFieldListGroups,
   type FieldLayerId,
   type FieldSelectionKey,
 } from "@/lib/field/layers"
-import styles from "./worldview-map.module.css"
 
 const KIND_TAGS: Record<FieldItem["kind"], string> = {
   baseline: "Baseline",
-  "perspective-run": "Perspective shift",
-  "atlas-pattern": "Worldview profile",
-  "reference-profile": "Public position",
+  "perspective-run": "Perspective run",
+  "atlas-pattern": "Atlas pattern",
+  "reference-profile": "Reference profile",
   "reference-movement": "Movement",
 }
 
@@ -24,10 +24,7 @@ type Props = {
   activeLayerIds: readonly FieldLayerId[]
   selectedKey: FieldSelectionKey | null
   onSelect: (key: FieldSelectionKey) => void
-  onArrowNavigate?: (
-    direction: "next" | "previous",
-    fromKey: FieldSelectionKey,
-  ) => void
+  onArrowNavigate?: (direction: "next" | "previous") => void
   emptyLine?: string
 }
 
@@ -45,45 +42,39 @@ export function FieldList({
 }: Props) {
   function handleKeyDown(event: KeyboardEvent<HTMLUListElement>) {
     if (!onArrowNavigate) return
-    const target = event.target
-    if (!(target instanceof HTMLElement) || !target.closest(`.${styles.listSelect}`)) {
-      return
-    }
-    const rowId = target.closest<HTMLElement>("[id^='field-item-']")?.id
-    const fromKey = rowId?.slice("field-item-".length) as
-      | FieldSelectionKey
-      | undefined
-    if (!fromKey) return
     if (event.key === "ArrowDown") {
       event.preventDefault()
-      onArrowNavigate("next", fromKey)
+      onArrowNavigate("next")
     } else if (event.key === "ArrowUp") {
       event.preventDefault()
-      onArrowNavigate("previous", fromKey)
+      onArrowNavigate("previous")
     }
   }
 
-  const groups = getFieldListGroups(items, activeLayerIds)
+  const layersInOrder = FIELD_LAYER_IDS.filter((layerId) =>
+    activeLayerIds.includes(layerId),
+  )
 
   if (items.length === 0) {
     return (
-      <div className={styles.listEmpty}>
-        <p>{emptyLine ?? "No items match these filters. Clear one or more to widen the view."}</p>
+      <div className="field-list-empty stack-xs">
+        <p className="muted">{emptyLine ?? "No items match these filters. Clear one or more to widen the view."}</p>
       </div>
     )
   }
 
   return (
-    <div className={styles.fieldList}>
-      {groups.map(({ layerId, label, items: layerItems }) => {
+    <div className="field-list stack-md">
+      {layersInOrder.map((layerId) => {
+        const layerItems = items.filter((item) => item.layerId === layerId)
         return (
-          <section key={layerId} className={styles.listGroup}>
-            <h3 className={styles.listGroupHeading}>
-              {label}
-              <span className={styles.listGroupCount}>{layerItems.length}</span>
+          <section key={layerId} className="field-list__group stack-xs">
+            <h3 className="field-list__group-heading">
+              {FIELD_LAYER_CONFIG_BY_ID[layerId].label}
+              <span className="field-list__group-count"> · {layerItems.length}</span>
             </h3>
             {layerItems.length > 0 ? (
-              <ul className={styles.listItems} onKeyDown={handleKeyDown}>
+              <ul className="field-list__items" onKeyDown={handleKeyDown}>
                 {layerItems.map((item) => {
                   const key = fieldSelectionKey(item)
                   const selected = key === selectedKey
@@ -91,33 +82,33 @@ export function FieldList({
                     <li
                       key={key}
                       id={`field-item-${key}`}
-                      className={`${styles.listRow}${selected ? ` ${styles.listRowSelected}` : ""}`}
+                      className={`field-list__row${selected ? " field-list__row--selected" : ""}`}
                     >
                       <button
                         type="button"
-                        className={styles.listSelect}
+                        className="field-list__select"
                         aria-pressed={selected}
                         onClick={() => onSelect(key)}
                       >
-                        <span className={styles.listName}>{item.label}</span>
-                        <span className={styles.listTags}>
-                          <span className={styles.listTag}>
+                        <span className="field-list__name">{item.label}</span>
+                        <span className="field-list__tags">
+                          <span className="field-list__tag">
                             {item.entityType
                               ? referenceEntityTypeLabel(item.entityType)
                               : KIND_TAGS[item.kind]}
                           </span>
                           {item.draft ? (
-                            <span className={`${styles.listTag} ${styles.listTagDraft}`}>Draft</span>
+                            <span className="field-list__tag field-list__tag--draft">Draft</span>
                           ) : null}
                           {item.position === null ? (
-                            <span className={styles.listTag}>List only</span>
+                            <span className="field-list__tag">List only</span>
                           ) : null}
                         </span>
                         {item.metaLine ? (
-                          <span className={styles.listMeta}>{item.metaLine}</span>
+                          <span className="field-list__meta">{item.metaLine}</span>
                         ) : null}
                       </button>
-                      <Link href={item.href} className={styles.listOpen}>
+                      <Link href={item.href} className="field-list__open">
                         Open →
                       </Link>
                     </li>
@@ -125,7 +116,7 @@ export function FieldList({
                 })}
               </ul>
             ) : (
-              <p className={styles.listGroupEmpty}>
+              <p className="muted field-list__group-empty">
                 {layerId === "my-profile"
                   ? "Your profile is missing from this map. Take the Foundation to place it."
                   : layerId === "perspective-runs"
