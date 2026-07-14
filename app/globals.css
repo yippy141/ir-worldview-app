@@ -2583,6 +2583,12 @@ h3 {
   margin-bottom: 0;
 }
 
+/* Seat recommendations inside result driver cards (V17 perspective next steps) */
+.result-seat-list li {
+  font-size: 0.9rem;
+  margin-bottom: 7px;
+}
+
 .neighbor-entry {
   padding: 16px 0;
   border-bottom: 1px solid var(--border);

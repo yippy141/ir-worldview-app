@@ -8,6 +8,7 @@ import {
   getSelectedModuleOptions,
 } from "@/lib/modules/framework"
 import { ModuleProfileSync } from "@/components/profile/module-profile-sync"
+import { getModulePerspectiveNextSteps } from "@/lib/perspectives/next-steps"
 import type {
   ModuleAnswers,
   ModuleDefinition,
@@ -48,6 +49,7 @@ export function ModuleResultView({
     selected,
     laneLabelMap,
   })
+  const perspectiveNextSteps = getModulePerspectiveNextSteps(slug)
   const foundationRelation = buildFoundationRelation({
     moduleTitle: moduleDefinition.shortTitle,
     comparison: result.comparison,
@@ -338,6 +340,27 @@ export function ModuleResultView({
           </details>
         </section>
 
+        <section className="result-section stack-md" aria-labelledby="module-next-seat-heading">
+          <div className="stack-xs">
+            <p className="eyebrow">Try the same problem from another seat</p>
+            <h2 id="module-next-seat-heading">Seats that pressure-test this {moduleDefinition.shortTitle} read</h2>
+            <p className="muted" style={{ maxWidth: "70ch", lineHeight: "1.65" }}>
+              A Perspective Run asks you to advise from a defined strategic position. It plots
+              beside your baseline and leaves this result unchanged.
+            </p>
+          </div>
+          <ul className="content-list result-seat-list" style={{ maxWidth: "72ch" }}>
+            {perspectiveNextSteps.map(({ perspective, reason }) => (
+              <li key={perspective.id}>
+                <Link href={`/perspectives/${perspective.id}`} className="result-strong">
+                  {perspective.shortLabel} →
+                </Link>{" "}
+                <span className="muted">{reason}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <section className="result-section stack-md">
           <div className="row gap-sm wrap">
             <Link
@@ -345,6 +368,9 @@ export function ModuleResultView({
               className="cta-primary"
             >
               Try another focus-area module
+            </Link>
+            <Link href="/explore/atlas" className="cta-secondary">
+              Open Worldview Map
             </Link>
             <Link href={`/modules/${slug}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`} className="cta-secondary">
               Retake this module

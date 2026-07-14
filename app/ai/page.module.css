@@ -1,0 +1,100 @@
+/* AI & Futures landing — Governance Compass and Twelve Trajectories share
+   the first screen above one World Stage excerpt. */
+
+.hero {
+  padding-top: 26px;
+}
+
+.heroLead {
+  max-width: 62ch;
+  font-size: 1.06rem;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.stageBand {
+  margin-top: 6px;
+}
+
+.entryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 26px 28px 28px;
+  background: color-mix(in srgb, var(--panel) 68%, transparent);
+}
+
+.entry + .entry {
+  border-left: 1px solid var(--line);
+}
+
+.entryTitle {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.42rem;
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+}
+
+.entryText {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--muted);
+  flex: 1;
+}
+
+.entryMeta {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--faint);
+}
+
+.entryActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.entryNote {
+  margin: 0;
+  max-width: 64ch;
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.entryAltLink {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+@media (max-width: 820px) {
+  .entryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .entry + .entry {
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .entry {
+    padding: 20px 18px 22px;
+  }
+}

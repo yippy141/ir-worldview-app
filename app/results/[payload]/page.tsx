@@ -29,6 +29,7 @@ import {
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
+import { getFoundationPerspectiveNextSteps } from "@/lib/perspectives/next-steps"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
 import { familySlug } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
@@ -173,6 +174,7 @@ export default async function ResultPage(
     normativeModifier: result.normativeModifier,
   })
   const pressureQuestions = getPressureTestQuestions(result.familyKey)
+  const perspectiveNextSteps = getFoundationPerspectiveNextSteps(result.familyKey)
   const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
   const deepFoundationSections = foundationNarrative.sections
   const atlasMatch = matchAtlasLiteFoundation({
@@ -373,29 +375,33 @@ export default async function ResultPage(
 
             <article className="driver-card stack-xs">
               <p className="eyebrow">Nearest worldview profile</p>
-              <p className="result-emphasis">{atlasMatch.nearest.name}</p>
+              <p className="result-emphasis">{atlasMatch.nearest.publicName}</p>
               <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
               <p className="muted result-note-snug">
                 {atlasMatch.nearest.cardSummary}
               </p>
               <p>
                 <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} className="result-strong">
-                  Read this pattern →
+                  Read {atlasMatch.nearest.publicName} →
                 </Link>
               </p>
             </article>
 
             <article className="driver-card stack-xs">
-              <p className="eyebrow">Try another vantage point</p>
-              <p className="result-emphasis">Advise from a defined strategic seat</p>
+              <p className="eyebrow">Try the same problem from another seat</p>
+              <p className="result-emphasis">Three seats that pressure-test this baseline</p>
+              <ul className="content-list result-seat-list">
+                {perspectiveNextSteps.map(({ perspective, reason }) => (
+                  <li key={perspective.id}>
+                    <Link href={`/perspectives/${perspective.id}`} className="result-strong">
+                      {perspective.shortLabel} →
+                    </Link>{" "}
+                    <span className="muted">{reason}</span>
+                  </li>
+                ))}
+              </ul>
               <p className="muted result-note-snug">
-                See how your answers move when you advise from a defined strategic position. The
-                run plots beside this baseline and leaves it unchanged.
-              </p>
-              <p>
-                <Link href="/perspectives" className="result-strong">
-                  Open the briefs →
-                </Link>
+                A run plots beside this baseline and leaves it unchanged.
               </p>
             </article>
           </div>
@@ -404,7 +410,7 @@ export default async function ResultPage(
             <Link href={`/modules?foundation=${encodeURIComponent(payload)}`} className="cta-primary">
               Add a focus-area module
             </Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open Atlas field map</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open Worldview Map</Link>
             <Link href="/profile" className="cta-secondary">View Profile</Link>
             <ResultCardHeroShare
               shareUrl={`/results/${payload}`}

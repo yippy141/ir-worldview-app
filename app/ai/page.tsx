@@ -1,124 +1,91 @@
 import Link from "next/link"
-import { aiQuestionCountsByMode, aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
+import { SectionStage } from "@/components/landing/section-stage"
+import { aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
+import { trajectories, trajectoriesUpdated } from "@/lib/futures/trajectories"
+import { getSectionStage } from "@/lib/world-stage/section-stages"
 import type { Metadata } from "next"
+import styles from "./page.module.css"
 
 const standardQuestionTotal = aiTotalQuestionCountsByMode.standard
 const advancedQuestionTotal = aiTotalQuestionCountsByMode.analyst
+const futuresStage = getSectionStage("ai-futures")
 
 export const metadata: Metadata = {
-  title: "AI Governance Compass",
+  title: "AI & Futures — IR Worldview Inventory",
   description:
-    "Map your instincts on frontier AI governance — 16 questions, around 8 minutes.",
+    "Map your instincts on frontier AI governance, then read twelve editorial trajectories for where advanced AI could go.",
 }
 
 export default function AiPage() {
   return (
     <div className="wide-container">
       <article className="lobby-page stack-xl">
-        <section className="ai-landing-hero stack-md">
-          <p className="ai-landing-hero__eyebrow">AI Governance Compass</p>
-          <h1 className="ai-landing-hero__h1">Map your instincts on frontier AI governance</h1>
-          <p className="ai-landing-hero__lead">
-            16 questions. Around 8 minutes.
+        <section className={`stack-md ${styles.hero}`} aria-labelledby="ai-futures-heading">
+          <p className="section-kicker">AI &amp; Futures</p>
+          <h1 id="ai-futures-heading">The AI layer: governance choices and where they lead</h1>
+          <p className={styles.heroLead}>
+            Two entry points share this layer. The Compass maps your own instincts on frontier AI
+            governance. The Trajectories read the longer arc those governance choices could bend.
           </p>
-          <p className="ai-landing-hero__sub">
-            A structured read across eight axes — risk horizon, deployment pace, oversight,
-            geopolitics, openness, military use, legitimacy, and human future.
-          </p>
-          <div className="ai-landing-hero__actions">
-            <Link href="/ai/quiz" className="ai-landing-hero__cta">
-              Take the AI Compass
-            </Link>
-            <Link href="/ai/atlas" className="ai-landing-hero__cta-secondary">
-              Browse the AI Atlas →
-            </Link>
-          </div>
-          <p className="ai-landing-hero__bridge">
-            Want the deeper foreign-policy layer?{" "}
-            <Link href="/quiz">Take the IR Foundation afterward</Link>.
-          </p>
-        </section>
 
-        <section className="lobby-signals lobby-signals--plain">
-          <div className="signal-list signal-list--three">
-            <div className="signal-list-item">
-              <strong>What it covers</strong>
-              Position statements and scenarios map eight governance dimensions, from risk horizon
-              to human future.
-            </div>
-            <div className="signal-list-item">
-              <strong>How long it takes</strong>
-              Standard is the cleaner first pass. Advanced adds denser prompts and more specific
-              tradeoffs.
-            </div>
-            <div className="signal-list-item">
-              <strong>What it does not claim</strong>
-              The result does not certify expertise or reduce the whole field to one permanent
-              identity.
-            </div>
-          </div>
-        </section>
+          <SectionStage stage={futuresStage} variant="band" className={styles.stageBand} />
 
-        <section className="stack-md">
-          <div className="stack-xs">
-            <p className="section-kicker">Choose your route</p>
-            <h2>Start in Standard or Advanced mode</h2>
-            <p className="muted lobby-side-text">
-              Both modes use the same axes. Advanced adds more specific prompts on audits, compute,
-              incident reporting, security competition, infrastructure, and legitimacy.
-            </p>
-          </div>
-
-          <div className="atlas-pattern-grid">
-            <Link href="/ai/quiz?mode=standard" className="explore-card ai-lobby-card-link stack-sm">
-              <div className="stack-xs">
-                <p className="option-card-meta">Standard</p>
-                <p
-                  style={{
-                    fontWeight: 600,
-                    fontFamily: "Georgia, 'Times New Roman', serif",
-                    fontSize: "1.1rem",
-                    margin: 0,
-                  }}
-                >
-                  Clear first pass
-                </p>
-              </div>
-              <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
-                {aiQuestionCountsByMode.standard} statements and {standardQuestionTotal} questions.
-                Plain-language prompts across all eight dimensions.
+          <div className={styles.entryGrid}>
+            <div className={styles.entry}>
+              <p className="eyebrow">Questionnaire</p>
+              <h2 className={styles.entryTitle}>AI Governance Compass</h2>
+              <p className={styles.entryText}>
+                A structured read of your instincts across eight governance axes, from risk horizon
+                to human future. Advanced mode adds denser prompts on audits, compute, security
+                competition, and legitimacy.
               </p>
-              <span className="atlas-pattern-cta">Open Standard →</span>
-            </Link>
-
-            <Link href="/ai/quiz?mode=advanced" className="explore-card ai-lobby-card-link stack-sm">
-              <div className="stack-xs">
-                <p className="option-card-meta">Advanced</p>
-                <p
-                  style={{
-                    fontWeight: 600,
-                    fontFamily: "Georgia, 'Times New Roman', serif",
-                    fontSize: "1.1rem",
-                    margin: 0,
-                  }}
-                >
-                  Denser framing and more specific tradeoffs
-                </p>
-              </div>
-              <p className="muted" style={{ lineHeight: "1.68", margin: 0 }}>
-                {aiQuestionCountsByMode.analyst} statements and {advancedQuestionTotal} questions
-                total. Deeper prompts on audits, compute governance, security competition, and
-                legitimacy under pressure.
+              <p className={styles.entryMeta}>
+                {standardQuestionTotal} questions · about 8 min · advanced: {advancedQuestionTotal}
               </p>
-              <span className="atlas-pattern-cta">Open Advanced →</span>
-            </Link>
+              <div className={styles.entryActions}>
+                <Link href="/ai/quiz?mode=standard" className="cta-primary">
+                  Take the AI Compass
+                </Link>
+                <Link href="/ai/quiz?mode=advanced" className={styles.entryAltLink}>
+                  Start in Advanced instead →
+                </Link>
+              </div>
+            </div>
+
+            <div className={styles.entry}>
+              <p className="eyebrow">Editorial field map</p>
+              <h2 className={styles.entryTitle}>Twelve Trajectories</h2>
+              <p className={styles.entryText}>
+                Twelve outcome scenarios for where sustained progress in advanced AI could take us,
+                adapted with attribution from Life 3.0 and updated with current signals. Not
+                predictions, and not scored.
+              </p>
+              <p className={styles.entryMeta}>
+                {trajectories.length} scenarios · reading, not a quiz · updated {trajectoriesUpdated}
+              </p>
+              <div className={styles.entryActions}>
+                <Link href="/futures" className="cta-primary">
+                  Read the Trajectories
+                </Link>
+                <Link href="/ai/field-guide" className={styles.entryAltLink}>
+                  Open the field guide →
+                </Link>
+              </div>
+            </div>
           </div>
+
+          <p className={styles.entryNote}>
+            Neither surface certifies expertise or reduces the field to one permanent identity. The
+            Compass result is a structured read of your answers; the Trajectories are editorial
+            scenarios with named sources. The <Link href="/ai/atlas">AI Atlas</Link> holds the
+            Compass&rsquo;s reference positions.
+          </p>
         </section>
 
         <section className="lobby-related-grid">
           <div className="stack-sm">
             <p className="section-kicker">Optional depth</p>
-            <h2>Where the AI Compass connects to the rest of the project</h2>
+            <h2>Where the AI layer connects to the rest of the project</h2>
             <p className="muted lobby-side-text">
               The AI result stands on its own. If you want the deeper foreign-policy layer
               underneath it, the IR Foundation and issue modules sit one click away.
@@ -133,20 +100,14 @@ export default function AiPage() {
             </Link>
             <Link href="/modules" className="resource-list-link">
               <span className="resource-list-copy">
-                <span className="resource-list-title">Security and Technology</span>
-                <span className="resource-list-text">See the IR issue modules that sit beside AI.</span>
+                <span className="resource-list-title">Focus Areas</span>
+                <span className="resource-list-text">See the Security and Technology theatres that sit beside AI.</span>
               </span>
             </Link>
             <Link href="/profile" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Profile</span>
                 <span className="resource-list-text">Keep saved IR and AI results in one place.</span>
-              </span>
-            </Link>
-            <Link href="/ai/field-guide" className="resource-list-link">
-              <span className="resource-list-copy">
-                <span className="resource-list-title">AI Field Guide</span>
-                <span className="resource-list-text">Read the axes, limits, and under-modeled perspectives.</span>
               </span>
             </Link>
             <Link href="/method" className="resource-list-link">
