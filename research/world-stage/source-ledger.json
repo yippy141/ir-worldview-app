@@ -1,0 +1,362 @@
+[
+  {
+    "sourceId": "SRC01",
+    "title": "MOFA: Japan-U.S. Security Treaty",
+    "publisher": "Ministry of Foreign Affairs of Japan",
+    "date": "n.d.",
+    "url": "https://www.mofa.go.jp/region/n-america/us/q%26a/ref/1.html",
+    "claimCoverage": "1960 U.S.-Japan treaty text; legal basis for formal treaty-ally classification."
+  },
+  {
+    "sourceId": "SRC02",
+    "title": "Agreement regarding the Status of United States Armed Forces in Japan",
+    "publisher": "Ministry of Foreign Affairs of Japan",
+    "date": "n.d.",
+    "url": "https://www.mofa.go.jp/region/n-america/us/q%26a/ref/2.html",
+    "claimCoverage": "Article VI facilities-and-areas framework; rationale for Japan as a host-country infrastructure node."
+  },
+  {
+    "sourceId": "SRC03",
+    "title": "Mutual Defense Treaty Between the United States and the Republic of Korea",
+    "publisher": "Avalon Project, Yale Law School",
+    "date": "1953-10-01",
+    "url": "https://avalon.law.yale.edu/20th_century/kor001.asp",
+    "claimCoverage": "Treaty basis for U.S.-ROK formal treaty-ally classification."
+  },
+  {
+    "sourceId": "SRC04",
+    "title": "Mutual Defense Treaty",
+    "publisher": "Lawphil Project, Republic of the Philippines",
+    "date": "1951-08-30",
+    "url": "https://lawphil.net/international/treaties/mutdef.html",
+    "claimCoverage": "Treaty basis for U.S.-Philippines formal treaty-ally classification."
+  },
+  {
+    "sourceId": "SRC05",
+    "title": "Joint Statement on the Philippines-United States Fourth 2+2 Ministerial Dialogue",
+    "publisher": "U.S. Department of Defense",
+    "date": "2024-07-30",
+    "url": "https://www.defense.gov/News/Releases/Release/Article/3854902/joint-statement-on-the-philippines-united-states-fourth-22-ministerial-dialogue/",
+    "claimCoverage": "Current alliance framing for the Philippines; MDT reaffirmation, VFA/EDCA significance, South China Sea applicability."
+  },
+  {
+    "sourceId": "SRC06",
+    "title": "United States of America country brief",
+    "publisher": "Australian Department of Foreign Affairs and Trade",
+    "date": "n.d.",
+    "url": "https://www.dfat.gov.au/geo/united-states-of-america/united-states-of-america-country-brief",
+    "claimCoverage": "ANZUS characterization and Australian formal treaty-ally status."
+  },
+  {
+    "sourceId": "SRC07",
+    "title": "United States Force Posture Initiatives and Marine Rotational Force – Darwin",
+    "publisher": "Australian Department of Defence",
+    "date": "n.d.",
+    "url": "https://www.defence.gov.au/defence-activities/programs-initiatives/united-states-force-posture-initiatives",
+    "claimCoverage": "Darwin posture role; rotational access vs permanent-basing nuance."
+  },
+  {
+    "sourceId": "SRC08",
+    "title": "Pacific Deterrence Initiative FY2026",
+    "publisher": "U.S. Department of Defense Comptroller",
+    "date": "2025-06-12",
+    "url": "https://comptroller.defense.gov/Portals/45/Documents/defbudget/FY2026/FY2026_Pacific_Deterrence_Initiative.pdf",
+    "claimCoverage": "Distributed and resilient Indo-Pacific posture; explicit deterrence-against-PRC framing."
+  },
+  {
+    "sourceId": "SRC09",
+    "title": "Homepage of Kadena Air Base",
+    "publisher": "U.S. Air Force",
+    "date": "n.d.",
+    "url": "https://www.kadena.af.mil/",
+    "claimCoverage": "Kadena as Pacific airpower hub; node importance in the U.S.-alliance security scene."
+  },
+  {
+    "sourceId": "SRC10",
+    "title": "Welcome Aboard Yokosuka",
+    "publisher": "Commander, Navy Region Japan",
+    "date": "n.d.",
+    "url": "https://cnrj.cnic.navy.mil/Installations/CFA-Yokosuka/Welcome-Aboard/",
+    "claimCoverage": "Yokosuka as 7th Fleet HQ and forward-deployed carrier strike group node."
+  },
+  {
+    "sourceId": "SRC11",
+    "title": "USAG Humphreys - Army Garrisons",
+    "publisher": "U.S. Army",
+    "date": "n.d.",
+    "url": "https://home.army.mil/humphreys/",
+    "claimCoverage": "Camp Humphreys location and role as largest overseas U.S. military installation."
+  },
+  {
+    "sourceId": "SRC12",
+    "title": "36th Wing and Andersen Air Force Base Guam official pages",
+    "publisher": "U.S. Air Force",
+    "date": "n.d.",
+    "url": "https://www.andersen.af.mil/About-Us/Fact-Sheets/Display/Article/414606/36th-wing/",
+    "claimCoverage": "Guam as Joint Region Marianas/Andersen AFB power-projection hub."
+  },
+  {
+    "sourceId": "SRC13",
+    "title": "Taiwan Relations Act and U.S.-Taiwan Relations",
+    "publisher": "American Institute in Taiwan",
+    "date": "1979 text; 2026 explanatory letters and policy pages",
+    "url": "https://www.ait.org.tw/policy-history/taiwan-relations-act/",
+    "claimCoverage": "Unofficial but robust U.S.-Taiwan relationship; justification for exposed/dependent rather than treaty-ally labeling."
+  },
+  {
+    "sourceId": "SRC14",
+    "title": "India-US Bilateral Relations and 2025 Joint Statement",
+    "publisher": "Ministry of External Affairs of India",
+    "date": "2025-01 to 2025-02",
+    "url": "https://www.mea.gov.in/Portal/ForeignRelation/US_Bilateral_Brief_0125.pdf",
+    "claimCoverage": "India-U.S. comprehensive global strategic partnership; basis for strategic-partner classification."
+  },
+  {
+    "sourceId": "SRC15",
+    "title": "《新时代的中国国防》白皮书全文",
+    "publisher": "Ministry of National Defense of the People's Republic of China",
+    "date": "2019-07-24",
+    "url": "https://www.mod.gov.cn/gfbw/fgwx/bps/4846424.html",
+    "claimCoverage": "PRC defense-policy framing of regional security, sovereignty, and external pressure."
+  },
+  {
+    "sourceId": "SRC16",
+    "title": "全球安全倡议概念文件",
+    "publisher": "Ministry of Foreign Affairs of the People's Republic of China",
+    "date": "2023-02-21",
+    "url": "https://www.mfa.gov.cn/wjbxw_new/202302/t20230221_11028322.shtml",
+    "claimCoverage": "PRC global and regional security framing; diplomatic rationale for Beijing-centered lens."
+  },
+  {
+    "sourceId": "SRC17",
+    "title": "中华人民共和国和俄罗斯联邦在两国建交75周年之际关于进一步深化中俄新时代全面战略协作伙伴关系的联合声明",
+    "publisher": "Ministry of Foreign Affairs of the People's Republic of China",
+    "date": "2024-05-16",
+    "url": "https://www.mfa.gov.cn/zyxw/202405/t20240516_11305860.shtml",
+    "claimCoverage": "Official PRC-Russia relationship label; strategic-partner rather than formal-alliance classification."
+  },
+  {
+    "sourceId": "SRC18",
+    "title": "中华人民共和国和巴基斯坦伊斯兰共和国关于建立全天候战略合作伙伴关系的联合声明",
+    "publisher": "Ministry of Foreign Affairs of the People's Republic of China",
+    "date": "2015-04-21",
+    "url": "https://www.mfa.gov.cn/gjhdq_676201/gj_676203/yz_676205/1206_676308/1207_676320/201504/t20150421_9288487.shtml",
+    "claimCoverage": "Official China-Pakistan all-weather strategic cooperative partnership designation."
+  },
+  {
+    "sourceId": "SRC19",
+    "title": "Gwadar Projects Under CPEC",
+    "publisher": "China-Pakistan Economic Corridor Official Website, Government of Pakistan",
+    "date": "n.d.",
+    "url": "https://cpec.gov.pk/gwadar",
+    "claimCoverage": "Gwadar as official CPEC node and justification for its importance in the Beijing-centered and infrastructure scenes."
+  },
+  {
+    "sourceId": "SRC20",
+    "title": "中国和菲律宾举行南海问题双边磋商机制第十次会议",
+    "publisher": "Ministry of Foreign Affairs of the People's Republic of China",
+    "date": "2025-01-16",
+    "url": "https://www.mfa.gov.cn/web/wjbxw_new/202501/t20250116_11536598.shtml",
+    "claimCoverage": "Official China-Philippines BCM channel; contested relationship plus governance flow."
+  },
+  {
+    "sourceId": "SRC21",
+    "title": "台湾问题白皮书",
+    "publisher": "Ministry of Foreign Affairs of the People's Republic of China",
+    "date": "portal page with 2022 white paper link",
+    "url": "https://www.mfa.gov.cn/web/ziliao_674904/zt_674979/dnzt_674981/qtzt/twwt/twwtbps/",
+    "claimCoverage": "PRC official framing of Taiwan as a sovereignty issue; basis for contested-relationship classification in Beijing lens."
+  },
+  {
+    "sourceId": "SRC22",
+    "title": "Cambodia-China Joint Logistics and Training Centre / PRC MOD briefings on Ream",
+    "publisher": "Agence Kampuchea Presse and Ministry of National Defense of the PRC",
+    "date": "2025-04-05 and 2025-04-24",
+    "url": "https://akp.gov.kh/post/detail/333548",
+    "claimCoverage": "Ream joint logistics/training center; open-source basis for Cambodia/Ream node with medium confidence."
+  },
+  {
+    "sourceId": "SRC23",
+    "title": "东部战区组织陆海空火等兵力位台岛周边开展联合演训",
+    "publisher": "Ministry of National Defense of the People's Republic of China",
+    "date": "2025-04-01",
+    "url": "https://www.mod.gov.cn/gfbw/qwfb/16378133.html",
+    "claimCoverage": "Eastern Theater role in Taiwan-centered pressure/signaling."
+  },
+  {
+    "sourceId": "SRC24",
+    "title": "南部战区海军与广东省湛江市探索推动新时代双拥工作实践",
+    "publisher": "Ministry of National Defense of the People's Republic of China",
+    "date": "2024-11-16",
+    "url": "https://www.mod.gov.cn/gfbw/gfdy/zzdy/16352506.html",
+    "claimCoverage": "Southern Theater Navy and Zhanjiang linkage."
+  },
+  {
+    "sourceId": "SRC25",
+    "title": "Indonesia's Foreign Policy",
+    "publisher": "Ministry of Foreign Affairs of the Republic of Indonesia",
+    "date": "n.d.",
+    "url": "https://kemlu.go.id/washington/kebijakan/kebijakan-luar-negeri-ri",
+    "claimCoverage": "Official bebas aktif doctrine; basis for Indonesian hedging-actor classification."
+  },
+  {
+    "sourceId": "SRC26",
+    "title": "General Secretary Nguyen Phu Trong - an eminent diplomat of international stature / bamboo diplomacy explanations",
+    "publisher": "Ministry of Foreign Affairs of Viet Nam",
+    "date": "2024-07-24 and related 2024 pages",
+    "url": "https://mofa.gov.vn/web/ministry-of-foreign-affairs/detail/chi-tiet/general-secretary-nguyen-phu-trong-an-eminent-diplomat-of-international-stature-minister-of-foreign-affairs-47-88.html",
+    "claimCoverage": "Independent, self-reliant, diversified, multilateralized foreign policy and bamboo-diplomacy framing."
+  },
+  {
+    "sourceId": "SRC27",
+    "title": "Remarks of Minister of State Shri Kirti Vardhan Singh at the 11th Raisina Dialogue 2026",
+    "publisher": "Ministry of External Affairs of India",
+    "date": "2026-03-06",
+    "url": "https://www.mea.gov.in/Speeches-Statements.htm?dtl%2F40857%2FRemarks_of_Minister_of_State_Shri_Kirti_Vardhan_Singh_at_the_11th_Raisina_Dialogue_2026_March_06_2026=",
+    "claimCoverage": "Current official Indian use of strategic autonomy language."
+  },
+  {
+    "sourceId": "SRC28",
+    "title": "Brazil assumes the presidency of BRICS in 2025 / Rio chosen to host BRICS Summit",
+    "publisher": "Government of Brazil",
+    "date": "2025-01-01 and 2025-03-14",
+    "url": "https://www.gov.br/planalto/en/latest-news/2025/01/brazil-assumes-the-presidency-of-brics-in-2025",
+    "claimCoverage": "Brazil's governance-entrepreneur role and Rio summit node."
+  },
+  {
+    "sourceId": "SRC29",
+    "title": "Foreign Policy",
+    "publisher": "Ministry of Foreign Affairs of the United Arab Emirates",
+    "date": "updated 2026-07",
+    "url": "https://www.mofa.gov.ae/en/missions/paris/the-uae/foreign-policy",
+    "claimCoverage": "Official UAE foreign-policy principles; basis for hedging and multi-vector classification."
+  },
+  {
+    "sourceId": "SRC30",
+    "title": "Saudi-China summit / Saudi Vision 2030 / U.S.-Saudi strategic partnership materials",
+    "publisher": "Saudi Ministry of Foreign Affairs and The White House",
+    "date": "2022-12-09, 2022-06-09, 2025-11-18",
+    "url": "https://www.mofa.gov.sa/en/ministry/statements/Pages/Joint-Statement-at-the-Conclusion-of-the-Saudi-Chinese-Summit.aspx",
+    "claimCoverage": "Saudi multi-vector external relationships; evidence for hedging-actor classification."
+  },
+  {
+    "sourceId": "SRC31",
+    "title": "ASEAN Secretariat contact and mandate pages",
+    "publisher": "ASEAN",
+    "date": "n.d.",
+    "url": "https://asean.org/general-inquiries/",
+    "claimCoverage": "ASEAN Secretariat as a Jakarta governance node."
+  },
+  {
+    "sourceId": "SRC32",
+    "title": "TSMC 2025 Annual Report and TSMC fab/location pages",
+    "publisher": "Taiwan Semiconductor Manufacturing Company",
+    "date": "2026-02 to 2026-04",
+    "url": "https://investor.tsmc.com/static/annualReports/2025/english/index.html",
+    "claimCoverage": "Taiwan fabs, Arizona, Kumamoto, foundry overseas expansion, advanced-node and packaging ecosystem."
+  },
+  {
+    "sourceId": "SRC33",
+    "title": "ASML 2025 Annual Report / Veldhoven HQ pages / Dutch export-control updates",
+    "publisher": "ASML and Government of the Netherlands",
+    "date": "2025-2026",
+    "url": "https://www.asml.com/investors/annual-report/2025",
+    "claimCoverage": "ASML bottleneck role, Veldhoven node, and Dutch export-control significance."
+  },
+  {
+    "sourceId": "SRC34",
+    "title": "Samsung reporting and semiconductor site materials",
+    "publisher": "Samsung Electronics / Samsung Semiconductor",
+    "date": "2025-2026",
+    "url": "https://semiconductor.samsung.com/about-us/our-story/",
+    "claimCoverage": "Pyeongtaek as world-scale semiconductor complex; AI memory/HBM relevance."
+  },
+  {
+    "sourceId": "SRC35",
+    "title": "Outline of Semiconductor Revitalization Strategy in Japan and related METI materials",
+    "publisher": "Ministry of Economy, Trade and Industry of Japan",
+    "date": "2024-07 and 2025-06",
+    "url": "https://www.meti.go.jp/english/policy/index_information_policy.html",
+    "claimCoverage": "Japan industrial-policy role in semiconductor revitalization and support for Kumamoto node."
+  },
+  {
+    "sourceId": "SRC36",
+    "title": "Malaysia semiconductor strategy and Penang ecosystem materials",
+    "publisher": "Malaysian Investment Development Authority",
+    "date": "2024-2026",
+    "url": "https://www.mida.gov.my/mida-news/national-semiconductor-strategy-to-guide-industry-up-value-chain/",
+    "claimCoverage": "Malaysia NSS, Penang advanced packaging and test expansion, backend-node importance."
+  },
+  {
+    "sourceId": "SRC38",
+    "title": "NVIDIA 2025 Annual Report",
+    "publisher": "NVIDIA Corporation",
+    "date": "2025-05-13",
+    "url": "https://s201.q4cdn.com/141608511/files/doc_financials/2025/annual/NVIDIA-2025-Annual-Report.pdf",
+    "claimCoverage": "Frontier-AI hardware and data-center business scale; Santa Clara ecosystem relevance."
+  },
+  {
+    "sourceId": "SRC39",
+    "title": "Microsoft 2025 Annual Report and Azure global infrastructure pages",
+    "publisher": "Microsoft",
+    "date": "2025",
+    "url": "https://www.microsoft.com/investor/reports/ar25/index.html",
+    "claimCoverage": "Cloud/AI infrastructure scale, 400+ datacenters in 70 regions, Azure geography relevance."
+  },
+  {
+    "sourceId": "SRC40",
+    "title": "AWS Global Infrastructure",
+    "publisher": "Amazon Web Services",
+    "date": "n.d.",
+    "url": "https://aws.amazon.com/about-aws/global-infrastructure/",
+    "claimCoverage": "AWS regions/AZs and Northern Virginia as a cloud-region anchor."
+  },
+  {
+    "sourceId": "SRC41",
+    "title": "The AI Security Institute",
+    "publisher": "Government of the United Kingdom",
+    "date": "2025-2026",
+    "url": "https://www.aisi.gov.uk/",
+    "claimCoverage": "UK role in frontier-AI evaluation and governance."
+  },
+  {
+    "sourceId": "SRC42",
+    "title": "EU AI Act and AI Factories pages",
+    "publisher": "European Union",
+    "date": "2024-2026",
+    "url": "https://eur-lex.europa.eu/eli/reg/2024/1689/oj/eng",
+    "claimCoverage": "EU AI-governance infrastructure, implementation timeline, and AI Factories initiative."
+  },
+  {
+    "sourceId": "SRC43",
+    "title": "Center for AI Standards and Innovation and NIST AI Consortium",
+    "publisher": "National Institute of Standards and Technology",
+    "date": "2024-2026",
+    "url": "https://www.nist.gov/caisi",
+    "claimCoverage": "U.S. AI-governance, standards, and evaluation infrastructure."
+  },
+  {
+    "sourceId": "SRC44",
+    "title": "Microsoft-G42-Khazna and MBZUAI materials",
+    "publisher": "G42 / MBZUAI",
+    "date": "2024-2026",
+    "url": "https://www.g42.ai/resources/news/microsoft-and-g42-accelerate-uaes-digital-future-major-data-centre-expansion",
+    "claimCoverage": "Abu Dhabi compute, sovereign-cloud, research, and AI-campus growth."
+  },
+  {
+    "sourceId": "SRC45",
+    "title": "OpenAI compute-infrastructure publications",
+    "publisher": "OpenAI",
+    "date": "2025-2026",
+    "url": "https://openai.com/index/building-the-compute-infrastructure-for-the-intelligence-age/",
+    "claimCoverage": "Public framing of large-scale frontier-AI compute buildout and U.S.-centered infrastructure expansion."
+  },
+  {
+    "sourceId": "SRC46",
+    "title": "MGX official site and portfolio materials",
+    "publisher": "MGX",
+    "date": "2025-2026",
+    "url": "https://www.mgx.ae/",
+    "claimCoverage": "UAE AI-capital role, investment platform, and Abu Dhabi's rise as a finance/compute node."
+  }
+]

@@ -81,11 +81,16 @@ uncommitted), then restart the development server:
 
 ```bash
 NEXT_PUBLIC_MAPBOX_TOKEN=your_public_token_here
+NEXT_PUBLIC_MAPBOX_STYLE=mapbox://styles/YOUR_ACCOUNT/YOUR_STYLE_ID
 ```
+
+`NEXT_PUBLIC_MAPBOX_STYLE` is optional. When it is unset, the World Stage uses
+`mapbox://styles/mapbox/dark-v11`.
 
 For Vercel, add `NEXT_PUBLIC_MAPBOX_TOKEN` in Project Settings → Environment
 Variables for Production and any Preview/Development environments that should
-render the live map, then redeploy. Never place the token in source files.
+render the live map. Add `NEXT_PUBLIC_MAPBOX_STYLE` there when using a custom
+style, then redeploy. Never place the token in source files.
 
 ## Verification
 

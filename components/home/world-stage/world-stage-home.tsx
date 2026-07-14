@@ -6,7 +6,7 @@ import {
   getNextWorldStageMenuIndex,
   WORLD_STAGE_IDLE_INTERVAL_MS,
 } from "@/lib/world-stage/map-config"
-import { worldStageMenuItems, worldStageScenes } from "@/lib/world-stage/scenes"
+import { getWorldStageScene, worldStageMenuItems } from "@/lib/world-stage/scenes"
 import { WorldStageMap } from "./world-stage-map"
 import styles from "./world-stage.module.css"
 
@@ -35,7 +35,8 @@ function getReducedMotionServerSnapshot() {
 
 export function WorldStageHome() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [idlePaused, setIdlePaused] = useState(false)
+  const [motionOverride, setMotionOverride] = useState<boolean | null>(null)
+  const [menuAutoPaused, setMenuAutoPaused] = useState(false)
   const idleIntervalRef = useRef<number | null>(null)
   const reducedMotion = useSyncExternalStore(
     subscribeToReducedMotion,
@@ -43,26 +44,33 @@ export function WorldStageHome() {
     getReducedMotionServerSnapshot,
   )
   const activeItem = worldStageMenuItems[activeIndex]
-  const activeScene = worldStageScenes.find((scene) => scene.id === activeItem.sceneId)
+  const activeScene = getWorldStageScene(activeItem.sceneId)
+  const motionPaused = motionOverride ?? reducedMotion
 
-  const pauseIdle = useCallback(() => {
+  const clearMenuInterval = useCallback(() => {
     if (idleIntervalRef.current !== null) {
       window.clearInterval(idleIntervalRef.current)
       idleIntervalRef.current = null
     }
-    setIdlePaused(true)
   }, [])
 
   const selectItem = useCallback(
-    (index: number) => {
-      pauseIdle()
+    (index: number, deliberate = false) => {
+      if (deliberate) {
+        clearMenuInterval()
+        setMenuAutoPaused(true)
+      }
       setActiveIndex(index)
     },
-    [pauseIdle],
+    [clearMenuInterval],
   )
 
+  const toggleMotion = useCallback(() => {
+    setMotionOverride(!motionPaused)
+  }, [motionPaused])
+
   useEffect(() => {
-    if (idlePaused || reducedMotion) return
+    if (menuAutoPaused || motionPaused) return
 
     const interval = window.setInterval(() => {
       setActiveIndex((current) => getNextWorldStageMenuIndex(current))
@@ -73,42 +81,53 @@ export function WorldStageHome() {
       window.clearInterval(interval)
       if (idleIntervalRef.current === interval) idleIntervalRef.current = null
     }
-  }, [idlePaused, reducedMotion])
+  }, [menuAutoPaused, motionPaused])
 
   return (
     <main
       className={styles.stage}
       id="site-main"
-      data-sequence={idlePaused || reducedMotion ? "paused" : "running"}
+      data-sequence={menuAutoPaused || motionPaused ? "paused" : "running"}
     >
       <WorldStageMap
         activeItem={activeItem}
-        idlePaused={idlePaused}
+        motionPaused={motionPaused}
         reducedMotion={reducedMotion}
-        onDirectInteraction={pauseIdle}
       />
 
       <header className={styles.header}>
         <Link href="/" className={styles.brand} aria-label="IR Worldview Inventory home">
-          <span className={styles.brandMark} aria-hidden="true">
-            IR
-          </span>
-          <span>Worldview Inventory</span>
+          IR Worldview Inventory
         </Link>
-        <div className={styles.stageMeta} aria-label="Section">
-          <span>World Stage</span>
-          <span>Editorial navigation</span>
-        </div>
+        <button
+          type="button"
+          className={styles.motionControl}
+          aria-label={`${motionPaused ? "Resume" : "Pause"} automatic globe rotation and menu cycling`}
+          aria-pressed={motionPaused}
+          onClick={toggleMotion}
+        >
+          {motionPaused ? "Resume motion" : "Pause motion"}
+        </button>
       </header>
 
       <div className={styles.mapMeta} key={`lens-${activeItem.id}`}>
         <p className={styles.lensLabel}>
-          <span>Current lens</span>
-          {activeItem.lens}
+          {activeScene?.publicLabel ?? "Reviewed scene unavailable"}
         </p>
-        <p className={styles.mapQualification}>
-          {activeScene?.qualification ?? "Illustrative editorial scene · not live intelligence"}
-        </p>
+        {activeScene ? (
+          <>
+            <p className={styles.mapDate}>
+              As of <time dateTime={activeScene.asOf}>{activeScene.asOf}</time> ·{" "}
+              {activeScene.sourceRefs.length} sources · reviewed editorial map, not live
+              intelligence
+            </p>
+            <p className={styles.mapQualification}>{activeScene.caption}</p>
+          </>
+        ) : (
+          <p className={styles.mapQualification}>
+            This layer failed closed because its reviewed record is incomplete.
+          </p>
+        )}
       </div>
 
       <div className={styles.primaryLayout}>
@@ -132,10 +151,10 @@ export function WorldStageHome() {
                       }`}
                       data-active={isActive ? "true" : "false"}
                       aria-describedby={`world-stage-description-${item.id}`}
-                      onFocus={() => selectItem(index)}
+                      onFocus={() => selectItem(index, true)}
                       onPointerEnter={() => selectItem(index)}
-                      onPointerDown={() => selectItem(index)}
-                      onClick={() => selectItem(index)}
+                      onPointerDown={() => selectItem(index, true)}
+                      onClick={() => selectItem(index, true)}
                     >
                       <span className={styles.menuIndex}>{item.index}</span>
                       <span className={styles.menuLabel}>{item.label}</span>
@@ -159,15 +178,11 @@ export function WorldStageHome() {
 
         <aside
           className={styles.detail}
-          aria-labelledby={`world-stage-detail-${activeItem.id}`}
+          aria-label={`${activeItem.label} details`}
           key={`detail-${activeItem.id}`}
         >
-          <div>
-            <p className={styles.detailIndex}>{activeItem.index} / 06</p>
-            <h2 id={`world-stage-detail-${activeItem.id}`}>{activeItem.label}</h2>
-            <p className={styles.detailDescription}>{activeItem.description}</p>
-          </div>
-          <Link className={styles.routeLink} href={activeItem.href} onClick={pauseIdle}>
+          <p className={styles.detailDescription}>{activeItem.description}</p>
+          <Link className={styles.routeLink} href={activeItem.href}>
             {activeItem.action}
             <span aria-hidden="true">→</span>
           </Link>
@@ -177,19 +192,11 @@ export function WorldStageHome() {
       <footer className={styles.footer}>
         <nav className={styles.secondaryNav} aria-label="Secondary">
           {secondaryLinks.map((link) => (
-            <Link key={link.label} href={link.href} onClick={pauseIdle}>
+            <Link key={link.label} href={link.href}>
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className={styles.legend} aria-label="Map symbol key">
-          <span>
-            <i className={styles.nodeSymbol} /> Nodes: editorial prompts
-          </span>
-          <span>
-            <i className={styles.routeSymbol} /> Routes: thematic links
-          </span>
-        </div>
       </footer>
     </main>
   )
