@@ -85,19 +85,23 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V17 World Stage
+## Current sprint: V17.1 World Stage recovery
 
-- Establish typed product contracts for the World Stage visual and naming system.
-- Add Atlas display fields without changing current IDs, names, matching rules,
-  or URLs.
-- Add a small reviewed scene set, clearly marked editorial demo data, and
-  validators for scene, route, node, menu, and ISO-3 integrity.
-- Preserve scoring, payload formats, ProfileStore migrations, and legacy shared
-  links.
-- Add a minimal `/about` route without redesigning the homepage.
-- Do not add a map library, large visual changes, or unmarked current political
-  claims.
-- After meaningful edits, run `npm run lint`, `npm run test`, `npx tsc --noEmit`, and `npm run build`.
+- The production root route intentionally becomes the full-screen World Stage menu.
+- Mapbox GL is approved for the root World Stage background.
+- The accepted source implementation lives on feature/v18-world-stage-ui.
+- Recover the homepage selectively onto current main; do not merge or restore the
+  entire source branch.
+- Preserve the current Next.js version and install only the Mapbox dependency.
+- Keep a local SVG fallback for missing token, Mapbox failure, and unsupported WebGL.
+- Reduced-motion users should receive a static real map when Mapbox is available.
+- Preserve scoring, payloads, ProfileStore migrations, quiz content, existing share
+  links, and Reference Profile evidence data.
+- This visual scope is an explicit product decision. Release review may fix blockers
+  but must not revert the World Stage homepage or remove approved Mapbox files.
+- Do not change Focus Areas, Perspectives, Worldview Map, profile learning pages,
+  or case content in this recovery PR.
+- Run npm run lint, npm run test, npx tsc --noEmit, and npm run build.
 
 ## End-of-sprint discipline
 
