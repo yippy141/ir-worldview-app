@@ -4,6 +4,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import { siteConfig } from "@/lib/site-config"
+import { isImmersiveRoute } from "@/lib/site-shell"
 
 type QuizChromeMeta = {
   title: string
@@ -169,7 +170,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
   const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
   const moreActive = moreNavItems.some((item) => matchesPath(currentPath, item.href))
 
-  if (currentPath === "/world-stage-prototype") {
+  if (isImmersiveRoute(currentPath)) {
     return (
       <div className="site-shell">
         <a href="#site-main" className="skip-link">Skip to content</a>

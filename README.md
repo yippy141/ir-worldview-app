@@ -13,7 +13,7 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 
 ## Main routes
 
-- `/` landing page and product framing
+- `/` full-screen World Stage navigation
 - `/about` project overview and editorial limits
 - `/quiz` quiz flow
 - `/quiz/review` required answer review before result generation
@@ -67,6 +67,25 @@ npm run dev
 ```
 
 Open `http://localhost:3000`.
+
+### Optional Mapbox background
+
+Set `NEXT_PUBLIC_MAPBOX_TOKEN` to enable the live World Stage map. The token is
+public by design and must be restricted by allowed URL referrers in the Mapbox
+dashboard, including the production domain, preview domains, and local hosts
+used for development. If the token is absent, rejected, or WebGL is unavailable,
+the homepage keeps its local SVG map.
+
+For local development, add the token to `.env.local` (which must remain
+uncommitted), then restart the development server:
+
+```bash
+NEXT_PUBLIC_MAPBOX_TOKEN=your_public_token_here
+```
+
+For Vercel, add `NEXT_PUBLIC_MAPBOX_TOKEN` in Project Settings → Environment
+Variables for Production and any Preview/Development environments that should
+render the live map, then redeploy. Never place the token in source files.
 
 ## Verification
 
