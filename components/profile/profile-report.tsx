@@ -6,6 +6,7 @@ import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { PerspectiveRunsSection } from "@/components/profile/perspective-runs-section"
 import { ResultCardHero, type ResultCardAccent } from "@/components/results/result-card-hero"
 import { formatFieldDate } from "@/lib/field/items"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
 import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
 import { buildProfileNarrative } from "@/lib/narrative/profile"
@@ -573,7 +574,7 @@ function buildProfileNextSteps({
   })
 
   steps.push({
-    title: "Open the Field Explorer",
+    title: `Open the ${WORLDVIEW_MAP_LABEL}`,
     href: "/explore/atlas",
   })
 

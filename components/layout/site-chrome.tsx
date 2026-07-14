@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
 
@@ -54,7 +55,7 @@ const publicNavItems: PublicNavItem[] = [
 
 const moreNavItems = [
   { href: "/perspectives", label: "Perspectives" },
-  { href: "/explore/atlas", label: "Field Explorer" },
+  { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
   { href: "/explore", label: "Explore" },
   { href: "/futures", label: "Futures" },
   { href: "/method", label: "Methods" },
@@ -77,9 +78,9 @@ const mobileNavGroups: MobileNavGroup[] = [
   },
   {
     label: "Browse and context",
-    intro: "Use the Field Explorer, the field guide, and methods when you want to browse patterns or challenge the model.",
+    intro: `Use the ${WORLDVIEW_MAP_LABEL}, the field guide, and methods when you want to browse profiles or challenge the model.`,
     items: [
-      { href: "/explore/atlas", label: "Field Explorer" },
+      { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
       { href: "/explore/reference", label: "Reference profiles" },
       { href: "/explore", label: "Explore" },
       { href: "/futures", label: "Futures" },
