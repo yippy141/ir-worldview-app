@@ -1,93 +1,85 @@
-import { WORLD_STAGE_REVIEWED_ISO3_KEYS } from "@/lib/world-stage/scenes"
 import {
-  WORLD_STAGE_MENU_IDS,
-  type WorldStageMenuId,
-  type WorldStageSceneId,
+  WORLD_STAGE_SCENE_IDS,
+  type CountryRole,
+  type WorldStageFlowWeight,
 } from "@/lib/world-stage/types"
 
-export type WorldStageLngLat = readonly [longitude: number, latitude: number]
-
-export type WorldStageMapCamera = {
-  center: WorldStageLngLat
-  zoom: number
-  pitch: number
-  bearing: number
-}
-
-type WorldStageReviewedIso3Key = (typeof WORLD_STAGE_REVIEWED_ISO3_KEYS)[number]
-
 // NEXT_PUBLIC_ tokens are intentionally visible in the browser. Restrict this
-// token to the production, preview, and local-development URL referrers in the
-// Mapbox dashboard. An empty or rejected token leaves the local SVG map visible.
+// token to production, preview, and local-development URL referrers in Mapbox.
+// A missing or rejected token leaves the complete local SVG fallback visible.
 export const WORLD_STAGE_MAPBOX_TOKEN =
   process.env.NEXT_PUBLIC_MAPBOX_TOKEN?.trim() ?? ""
 
-export const WORLD_STAGE_MAPBOX_STYLE = "mapbox://styles/mapbox/dark-v11"
-export const WORLD_STAGE_IDLE_INTERVAL_MS = 10_000
+export const WORLD_STAGE_MAPBOX_STYLE =
+  process.env.NEXT_PUBLIC_MAPBOX_STYLE?.trim() || "mapbox://styles/mapbox/dark-v11"
+
+export const WORLD_STAGE_SCENE_INTERVAL_MS = 8_000
+export const WORLD_STAGE_SCENE_IDLE_RESUME_MS = 18_000
 export const WORLD_STAGE_TRANSITION_MS = 900
+export const WORLD_STAGE_SECONDS_PER_REVOLUTION = 240
+export const WORLD_STAGE_GLOBE_IDLE_RESUME_MS = 4_000
+export const WORLD_STAGE_MAX_SPIN_ZOOM = 3.5
+export const WORLD_STAGE_SPIN_SEGMENT_MS = 1_000
 
-/**
- * Display coordinates only. They place the reviewed editorial-demo nodes and
- * never participate in worldview scoring, matching, or profile persistence.
- */
-export const WORLD_STAGE_ISO3_COORDINATES = {
-  AUS: [133.7751, -25.2744],
-  BRA: [-51.9253, -14.235],
-  CAN: [-106.3468, 56.1304],
-  DEU: [10.4515, 51.1657],
-  IND: [78.9629, 20.5937],
-  JPN: [138.2529, 36.2048],
-  KEN: [37.9062, -0.0236],
-  SGP: [103.8198, 1.3521],
-  USA: [-98.5795, 39.8283],
-} as const satisfies Record<WorldStageReviewedIso3Key, WorldStageLngLat>
+export const WORLD_STAGE_ROLE_COLORS = {
+  focus: "#e0b95f",
+  partner: "#79a8d2",
+  competitor: "#c16f56",
+  hedging: "#c2a46c",
+  exposed: "#9d89b6",
+  contested: "#a67b76",
+  neutral: "#162b45",
+} as const satisfies Record<CountryRole, string>
 
-/** Distinct framing for every menu lens, including items that share a scene. */
-export const WORLD_STAGE_CAMERAS = {
-  foundation: {
-    center: [18, 17],
-    zoom: 1.32,
-    pitch: 10,
-    bearing: -7,
-  },
-  "focus-areas": {
-    center: [70, 27],
-    zoom: 1.58,
-    pitch: 18,
-    bearing: 5,
-  },
-  "perspective-runs": {
-    center: [-14, 24],
-    zoom: 1.25,
-    pitch: 12,
-    bearing: -12,
-  },
-  "worldview-map": {
-    center: [48, 13],
-    zoom: 1.48,
-    pitch: 20,
-    bearing: 9,
-  },
-  "ai-futures": {
-    center: [-171, 13],
-    zoom: 1.18,
-    pitch: 16,
-    bearing: 12,
-  },
-  profile: {
-    center: [-42, 10],
-    zoom: 1.38,
-    pitch: 8,
-    bearing: -3,
-  },
-} as const satisfies Record<WorldStageMenuId, WorldStageMapCamera>
+export const WORLD_STAGE_FLOW_WIDTHS = {
+  1: 1.15,
+  2: 1.8,
+  3: 2.5,
+} as const satisfies Record<WorldStageFlowWeight, number>
 
-export const WORLD_STAGE_SCENE_COLORS = {
-  foundation: "#d7b465",
-  perspectives: "#91b8df",
-  futures: "#d9855d",
-} as const satisfies Record<WorldStageSceneId, string>
+type WorldStageSpinState = {
+  longitude: number
+  zoom: number
+  reducedMotion: boolean
+  motionPaused: boolean
+  now: number
+  idleResumeAt: number
+  segmentDurationMs?: number
+}
 
-export function getNextWorldStageMenuIndex(index: number) {
-  return (index + 1 + WORLD_STAGE_MENU_IDS.length) % WORLD_STAGE_MENU_IDS.length
+export function getWorldStageIdleResumeAt(interactionAt: number) {
+  return interactionAt + WORLD_STAGE_GLOBE_IDLE_RESUME_MS
+}
+
+export function isWorldStageIdleResumeReady(now: number, idleResumeAt: number) {
+  return now >= idleResumeAt
+}
+
+export function getNextWorldStageSpinLongitude({
+  longitude,
+  zoom,
+  reducedMotion,
+  motionPaused,
+  now,
+  idleResumeAt,
+  segmentDurationMs = WORLD_STAGE_SPIN_SEGMENT_MS,
+}: WorldStageSpinState) {
+  if (
+    reducedMotion ||
+    motionPaused ||
+    zoom >= WORLD_STAGE_MAX_SPIN_ZOOM ||
+    !isWorldStageIdleResumeReady(now, idleResumeAt)
+  ) {
+    return null
+  }
+
+  const degreesPerMillisecond =
+    360 / (WORLD_STAGE_SECONDS_PER_REVOLUTION * 1_000)
+  const nextLongitude = longitude - degreesPerMillisecond * segmentDurationMs
+
+  return ((nextLongitude + 540) % 360) - 180
+}
+
+export function getNextWorldStageSceneIndex(index: number) {
+  return (index + 1 + WORLD_STAGE_SCENE_IDS.length) % WORLD_STAGE_SCENE_IDS.length
 }

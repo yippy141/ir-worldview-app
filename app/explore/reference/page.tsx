@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ReferenceProfileCard } from "@/components/reference/reference-profile-card"
 import { getVisibleReferenceEntities } from "@/lib/field/items"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
 import type { Metadata } from "next"
 
@@ -56,7 +57,7 @@ export default function ReferenceBrowsePage() {
         <p className="eyebrow">Continue</p>
         <div className="row gap-sm wrap">
           <Link href="/explore/atlas?layers=my-profile,reference-profiles" className="cta-primary">
-            Open the Field Explorer
+            Open the {WORLDVIEW_MAP_LABEL}
           </Link>
           <Link href="/method" className="cta-secondary">Coding method</Link>
           <Link href="/perspectives" className="cta-secondary">Try another vantage point</Link>

@@ -7,8 +7,9 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
   return (
     <article className="atlas-pattern-card atlas-pattern-card--browse stack-sm">
       <div className="stack-xs">
-        <p className="eyebrow">Atlas pattern</p>
-        <h2 className="atlas-pattern-card__title">{pattern.name}</h2>
+        <p className="eyebrow">Worldview profile</p>
+        <h2 className="atlas-pattern-card__title">{pattern.publicName}</h2>
+        <p className="atlas-pattern-card__descriptor">{pattern.technicalDescriptor}</p>
       </div>
 
       <div className="atlas-pattern-card__family stack-xs">
@@ -25,7 +26,7 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
 
       <div className="atlas-pattern-card__signals stack-xs">
         <p className="atlas-pattern-card__kicker">What to look for</p>
-        <div className="atlas-tag-list" aria-label={`${pattern.name} drivers`}>
+        <div className="atlas-tag-list" aria-label={`${pattern.publicName} drivers`}>
           {pattern.cardDrivers.slice(0, 3).map((driver) => (
             <span key={driver} className="atlas-tag">
               {driver}
@@ -36,7 +37,7 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
 
       <div className="atlas-pattern-card__footer">
         <Link href={getAtlasPatternHref(pattern.id)} className="atlas-pattern-cta">
-          Read this pattern
+          Read {pattern.publicName}
         </Link>
       </div>
     </article>

@@ -1,54 +1,57 @@
 import Link from "next/link"
 import { Suspense } from "react"
 import { FieldExplorer } from "@/components/field/field-explorer"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import type { Metadata } from "next"
+import styles from "./page.module.css"
 
 export const metadata: Metadata = {
-  title: "Field Explorer — IR Worldview Inventory",
+  title: `${WORLDVIEW_MAP_LABEL} — IR Worldview Inventory`,
   description:
-    "A layered field map: your saved profile, recurring Atlas patterns, Perspective Runs, and evidence-coded reference profiles on one shared projection.",
+    "Compare your baseline, worldview profiles, perspective shifts, and evidence-coded public positions on one shared projection.",
 }
 
 export default function FieldExplorerPage() {
   return (
-    <div className="wide-container">
-      <div className="article-header stack-md">
-        <div className="stack-xs">
-          <p className="eyebrow">Field</p>
-          <h1>Browse the field in layers.</h1>
+    <div className={`wide-container ${styles.page}`}>
+      <header className={styles.header}>
+        <div className={styles.headerCopy}>
+          <h1>{WORLDVIEW_MAP_LABEL}</h1>
+          <p>
+            Locate your baseline, compare nearby worldview profiles, and examine how context or
+            public positions shift the same underlying judgments.
+          </p>
         </div>
-        <p className="muted atlas-page-lead">
-          Plot your saved profile beside recurring Atlas patterns, saved Perspective Runs, and
-          evidence-coded reference profiles. Two layers can be active at once. Every point on the
-          map also appears in the list.
-        </p>
-        <p className="muted atlas-page-intro__note">
-          Atlas patterns are authored reading aids that describe recurring answer patterns in the
-          current model. Reference profiles are coded public postures with cited sources. Some
-          traditions and strategic cultures are still under-modeled — see{" "}
-          <Link href="/method">Methods</Link>.
-        </p>
-      </div>
+        <Link href="/method" className={styles.methodLink}>How the map works →</Link>
+      </header>
 
       <Suspense
         fallback={
-          <div className="panel field-map-panel__loading-panel">
-            <p className="muted">Loading the field…</p>
-          </div>
+          <div className={styles.loading}>Loading the worldview map…</div>
         }
       >
         <FieldExplorer />
       </Suspense>
 
-      <div className="result-section stack-sm atlas-page-actions">
-        <p className="eyebrow">Continue</p>
-        <div className="row gap-sm wrap">
-          <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
-          <Link href="/perspectives" className="cta-secondary">Try another vantage point</Link>
-          <Link href="/explore/reference" className="cta-secondary">Browse reference profiles</Link>
-          <Link href="/profile" className="cta-secondary">View Profile</Link>
+      <section className={styles.trustNote} aria-labelledby="worldview-map-method-note">
+        <h2 id="worldview-map-method-note">What this map can show</h2>
+        <p>
+          Worldview profiles are authored reading aids, not population types. Public positions are
+          evidence-coded snapshots, and some traditions remain under-modeled. Coordinates use the
+          same Foundation projection throughout; spacing is not a calibrated measure of difference.{" "}
+          <Link href="/method">Read the methods and limits.</Link>
+        </p>
+      </section>
+
+      <section className={styles.actions} aria-labelledby="worldview-map-continue">
+        <h2 id="worldview-map-continue">Continue exploring</h2>
+        <div className={styles.actionLinks}>
+          <Link href="/quiz">Take the Foundation →</Link>
+          <Link href="/perspectives">Try another vantage point →</Link>
+          <Link href="/explore/reference">Browse thinkers &amp; public positions →</Link>
+          <Link href="/profile">View profile →</Link>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

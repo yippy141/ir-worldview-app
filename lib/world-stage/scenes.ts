@@ -1,115 +1,279 @@
+import sceneLedgerJson from "@/research/world-stage/scene-ledger.json" with {
+  type: "json",
+}
+import sourceLedgerJson from "@/research/world-stage/source-ledger.json" with {
+  type: "json",
+}
 import {
+  WORLD_STAGE_CONFIDENCE_LEVELS,
+  WORLD_STAGE_COUNTRY_ROLES,
+  WORLD_STAGE_FLOW_KINDS,
   WORLD_STAGE_MENU_IDS,
+  WORLD_STAGE_NODE_KINDS,
   WORLD_STAGE_SCENE_IDS,
+  type CountryRole,
+  type WorldStageConfidence,
+  type WorldStageCountryRole,
+  type WorldStageFlow,
+  type WorldStageFlowDirection,
+  type WorldStageFlowWeight,
   type WorldStageMenuItem,
+  type WorldStageNode,
   type WorldStageScene,
+  type WorldStageSceneId,
+  type WorldStageSceneOption,
   type WorldStageValidationError,
   type WorldStageValidationResult,
 } from "@/lib/world-stage/types"
 
-/**
- * ISO-3 geometry keys reviewed for the initial scene set. Keeping this explicit
- * prevents a plausible-looking but unsupported map key from silently rendering.
- */
-export const WORLD_STAGE_REVIEWED_ISO3_KEYS = [
-  "AUS",
-  "BRA",
-  "CAN",
-  "DEU",
-  "IND",
-  "JPN",
-  "KEN",
-  "SGP",
-  "USA",
-] as const
+type RawCountryRole = {
+  iso3: string
+  role: string
+  rationale: string
+  confidence: string
+  sourceIds: string[]
+}
 
-const reviewedIso3Keys = new Set<string>(WORLD_STAGE_REVIEWED_ISO3_KEYS)
+type RawNode = {
+  id: string
+  kind: string
+  label: string
+  /** Research ledger convention: [latitude, longitude]. */
+  coordinates: [number, number]
+  importance: number
+  whyItMatters: string
+  confidence: string
+  sourceIds: string[]
+}
+
+type RawFlow = {
+  id: string
+  kind: string
+  label: string
+  from: string
+  to: string
+  direction: string
+  weight: number
+  "plain-language meaning": string
+  confidence: string
+  sourceIds: string[]
+}
+
+type RawScene = {
+  sceneId: string
+  publicLabel: string
+  oneSentencePurpose: string
+  lensOwner: string
+  evidenceWindow: string
+  countryRoles: RawCountryRole[]
+  nodes: RawNode[]
+  flows: RawFlow[]
+  caveats: string[]
+  sensitiveOrDisputedClassifications: string[]
+  missingEvidence: string[]
+}
+
+type RawSceneLedger = {
+  researchRunDate: string
+  scenes: RawScene[]
+}
+
+const sceneLedger = sceneLedgerJson as unknown as RawSceneLedger
+const rawScenes = sceneLedger.scenes
+const knownSourceRefs = new Set(
+  (sourceLedgerJson as Array<{ sourceId: string }>).map((source) => source.sourceId),
+)
 const expectedSceneIds = new Set<string>(WORLD_STAGE_SCENE_IDS)
 const expectedMenuIds = new Set<string>(WORLD_STAGE_MENU_IDS)
 
-const editorialDemoQualification =
-  "Illustrative editorial demo for product navigation; map placement does not describe current policy and is not live intelligence."
+const rawRoleMap: Record<string, CountryRole> = {
+  "lens owner": "focus",
+  "formal treaty ally": "partner",
+  "strategic partner": "partner",
+  competitor: "competitor",
+  "hedging actor": "hedging",
+  "exposed or dependent actor": "exposed",
+  "contested relationship": "contested",
+}
 
-export const worldStageScenes = [
+/**
+ * These records describe a bottleneck that other actors depend on. Rendering
+ * them as `exposed` would reverse the rationale, so the map uses the
+ * non-relational `focus` role while preserving the ledger text and evidence.
+ */
+export const WORLD_STAGE_ROLE_ADJUSTMENTS = {
+  "semiconductor_advanced_manufacturing_networks:NLD": "focus",
+  "frontier_ai_compute_chips_cloud_governance:TWN": "focus",
+  "frontier_ai_compute_chips_cloud_governance:NLD": "focus",
+} as const satisfies Record<string, CountryRole>
+
+/** Flow claims intentionally withheld because the cited records are parallel, not bilateral. */
+export const WORLD_STAGE_OMITTED_FLOW_IDS = {
+  f_us_uk_governance:
+    "SRC41 and SRC43 document separate national institutions, not a direct Washington-London flow.",
+} as const
+
+type SceneBinding = {
+  id: WorldStageSceneId
+  researchSceneId: string
+  variantOf: WorldStageSceneId | null
+  captionSuffix?: string
+  camera: WorldStageScene["camera"]
+}
+
+const sceneBindings = [
   {
     id: "foundation",
-    title: "Foundation",
-    summary: "A visual entry point to the seven recurring dimensions in the baseline inventory.",
-    dataStatus: "editorial-demo",
-    qualification: editorialDemoQualification,
-    nodes: [
-      { id: "foundation-bra", iso3Key: "BRA", label: "Brazil · illustrative anchor" },
-      { id: "foundation-deu", iso3Key: "DEU", label: "Germany · illustrative anchor" },
-      { id: "foundation-ind", iso3Key: "IND", label: "India · illustrative anchor" },
-    ],
-    routes: [
-      {
-        id: "foundation-route-one",
-        fromNodeId: "foundation-bra",
-        toNodeId: "foundation-deu",
-        label: "Illustrative baseline route",
-      },
-      {
-        id: "foundation-route-two",
-        fromNodeId: "foundation-deu",
-        toNodeId: "foundation-ind",
-        label: "Illustrative baseline route",
-      },
-    ],
+    researchSceneId: "us_alliance_security_lens",
+    variantOf: null,
+    camera: { center: [123, 23], zoom: 1.28, pitch: 10, bearing: -7 },
+  },
+  {
+    id: "focus-areas",
+    researchSceneId: "semiconductor_advanced_manufacturing_networks",
+    variantOf: null,
+    camera: { center: [112, 29], zoom: 1.58, pitch: 18, bearing: 5 },
   },
   {
     id: "perspectives",
-    title: "Perspective Runs",
-    summary: "A visual entry point for revisiting the baseline from a defined situation.",
-    dataStatus: "editorial-demo",
-    qualification: editorialDemoQualification,
-    nodes: [
-      { id: "perspectives-can", iso3Key: "CAN", label: "Canada · illustrative anchor" },
-      { id: "perspectives-ken", iso3Key: "KEN", label: "Kenya · illustrative anchor" },
-      { id: "perspectives-sgp", iso3Key: "SGP", label: "Singapore · illustrative anchor" },
-    ],
-    routes: [
-      {
-        id: "perspectives-route-one",
-        fromNodeId: "perspectives-can",
-        toNodeId: "perspectives-ken",
-        label: "Illustrative context route",
-      },
-      {
-        id: "perspectives-route-two",
-        fromNodeId: "perspectives-ken",
-        toNodeId: "perspectives-sgp",
-        label: "Illustrative context route",
-      },
-    ],
+    researchSceneId: "beijing_regional_security_lens",
+    variantOf: null,
+    camera: { center: [103, 30], zoom: 1.42, pitch: 12, bearing: -10 },
+  },
+  {
+    id: "worldview-map",
+    researchSceneId: "middle_power_hedging_nonalignment",
+    variantOf: null,
+    captionSuffix:
+      " This geographic lens is separate from the app’s conceptual Worldview Map.",
+    camera: { center: [54, 11], zoom: 1.16, pitch: 16, bearing: 8 },
   },
   {
     id: "futures",
-    title: "AI & Futures",
-    summary: "A visual entry point to AI-governance choices and longer-run trajectories.",
-    dataStatus: "editorial-demo",
-    qualification: editorialDemoQualification,
-    nodes: [
-      { id: "futures-usa", iso3Key: "USA", label: "United States · illustrative anchor" },
-      { id: "futures-jpn", iso3Key: "JPN", label: "Japan · illustrative anchor" },
-      { id: "futures-aus", iso3Key: "AUS", label: "Australia · illustrative anchor" },
-    ],
-    routes: [
-      {
-        id: "futures-route-one",
-        fromNodeId: "futures-usa",
-        toNodeId: "futures-jpn",
-        label: "Illustrative futures route",
-      },
-      {
-        id: "futures-route-two",
-        fromNodeId: "futures-jpn",
-        toNodeId: "futures-aus",
-        label: "Illustrative futures route",
-      },
-    ],
+    researchSceneId: "frontier_ai_compute_chips_cloud_governance",
+    variantOf: null,
+    camera: { center: [-22, 31], zoom: 1.12, pitch: 14, bearing: 12 },
   },
-] as const satisfies readonly WorldStageScene[]
+  {
+    id: "profile",
+    researchSceneId: "us_alliance_security_lens",
+    variantOf: "foundation",
+    captionSuffix:
+      " This repeated research lens is a navigation backdrop, not an inference about your saved profile.",
+    camera: { center: [-164, 19], zoom: 1.2, pitch: 7, bearing: -3 },
+  },
+] as const satisfies readonly SceneBinding[]
+
+export const WORLD_STAGE_RESEARCH_SCENE_IDS = rawScenes.map((scene) => scene.sceneId)
+
+export const WORLD_STAGE_REVIEWED_ISO3_KEYS = Array.from(
+  new Set(rawScenes.flatMap((scene) => scene.countryRoles.map((role) => role.iso3))),
+).sort()
+
+const reviewedIso3Keys = new Set<string>(WORLD_STAGE_REVIEWED_ISO3_KEYS)
+
+function uniqueSourceRefs(refs: readonly string[]) {
+  return Array.from(new Set(refs)).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
+}
+
+function parseAsOf(evidenceWindow: string) {
+  return evidenceWindow.match(/\basOf\s+(\d{4}-\d{2}-\d{2})\b/)?.[1] ?? ""
+}
+
+function normalizeConfidence(value: string): WorldStageConfidence {
+  return WORLD_STAGE_CONFIDENCE_LEVELS.includes(value as WorldStageConfidence)
+    ? (value as WorldStageConfidence)
+    : (value as WorldStageConfidence)
+}
+
+function normalizeCountryRole(rawSceneId: string, role: RawCountryRole): CountryRole {
+  const adjustmentKey = `${rawSceneId}:${role.iso3}`
+  const adjusted = WORLD_STAGE_ROLE_ADJUSTMENTS[
+    adjustmentKey as keyof typeof WORLD_STAGE_ROLE_ADJUSTMENTS
+  ]
+
+  return adjusted ?? rawRoleMap[role.role] ?? (role.role as CountryRole)
+}
+
+function compileScene(binding: SceneBinding): WorldStageScene {
+  const rawScene = rawScenes.find((scene) => scene.sceneId === binding.researchSceneId)
+
+  if (!rawScene) {
+    throw new Error(`Missing reviewed World Stage research scene: ${binding.researchSceneId}.`)
+  }
+
+  const asOf = parseAsOf(rawScene.evidenceWindow)
+  const nodeId = (researchId: string) => `${binding.id}--${researchId}`
+  const countryRoles: WorldStageCountryRole[] = rawScene.countryRoles.map((role) => ({
+    iso3: role.iso3,
+    role: normalizeCountryRole(rawScene.sceneId, role),
+    rationale: role.rationale,
+    confidence: normalizeConfidence(role.confidence),
+    sourceRefs: uniqueSourceRefs(role.sourceIds),
+  }))
+  const nodes: WorldStageNode[] = rawScene.nodes.map((node) => ({
+    id: nodeId(node.id),
+    researchId: node.id,
+    kind: node.kind as WorldStageNode["kind"],
+    label: node.label,
+    coordinates: [node.coordinates[1], node.coordinates[0]],
+    whyItMatters: node.whyItMatters,
+    confidence: normalizeConfidence(node.confidence),
+    sourceRefs: uniqueSourceRefs(node.sourceIds),
+  }))
+  const flows: WorldStageFlow[] = rawScene.flows
+    .filter(
+      (flow) =>
+        !(flow.id in WORLD_STAGE_OMITTED_FLOW_IDS),
+    )
+    .map((flow) => ({
+      id: nodeId(flow.id),
+      researchId: flow.id,
+      kind: flow.kind as WorldStageFlow["kind"],
+      label: flow.label,
+      fromNodeId: nodeId(flow.from),
+      toNodeId: nodeId(flow.to),
+      meaning: flow["plain-language meaning"],
+      direction: flow.direction as WorldStageFlowDirection,
+      weight: flow.weight as WorldStageFlowWeight,
+      confidence: normalizeConfidence(flow.confidence),
+      asOf,
+      sourceRefs: uniqueSourceRefs(flow.sourceIds),
+    }))
+  const sourceRefs = uniqueSourceRefs([
+    ...countryRoles.flatMap((role) => role.sourceRefs),
+    ...nodes.flatMap((node) => node.sourceRefs),
+    ...flows.flatMap((flow) => flow.sourceRefs),
+  ])
+
+  return {
+    id: binding.id,
+    researchSceneId: rawScene.sceneId,
+    variantOf: binding.variantOf,
+    publicLabel: rawScene.publicLabel,
+    caption: `${rawScene.oneSentencePurpose}${binding.captionSuffix ?? ""}`,
+    lensOwner: rawScene.lensOwner,
+    asOf,
+    dataStatus: "reviewed-editorial",
+    sourceRefs,
+    countryRoles,
+    nodes,
+    flows,
+    caveats: [...rawScene.caveats],
+    camera: binding.camera,
+  }
+}
+
+export const worldStageScenes = sceneBindings.map(compileScene)
+
+export const worldStageSceneOptions = [
+  { sceneId: "foundation", label: "Pacific alliances" },
+  { sceneId: "focus-areas", label: "Chip networks" },
+  { sceneId: "perspectives", label: "Regional security" },
+  { sceneId: "worldview-map", label: "Hedging states" },
+  { sceneId: "futures", label: "AI infrastructure" },
+  { sceneId: "profile", label: "Atlantic alliances" },
+] as const satisfies readonly WorldStageSceneOption[]
 
 export const worldStageMenuItems = [
   {
@@ -126,7 +290,7 @@ export const worldStageMenuItems = [
     id: "focus-areas",
     index: "02",
     label: "Focus Areas",
-    sceneId: "foundation",
+    sceneId: "focus-areas",
     lens: "Issue-specific pressure",
     description: "Test how security, technology, and geoeconomics change the argument.",
     href: "/modules",
@@ -146,7 +310,7 @@ export const worldStageMenuItems = [
     id: "worldview-map",
     index: "04",
     label: "Worldview Map",
-    sceneId: "perspectives",
+    sceneId: "worldview-map",
     lens: "Modeled positions",
     description: "Browse nearby profiles, contextual movement, and the model’s limits.",
     href: "/explore/atlas",
@@ -166,7 +330,7 @@ export const worldStageMenuItems = [
     id: "profile",
     index: "06",
     label: "My Profile",
-    sceneId: "foundation",
+    sceneId: "profile",
     lens: "Your saved layers",
     description: "Return to your baseline, issue results, and contextual shifts on this device.",
     href: "/profile",
@@ -175,7 +339,23 @@ export const worldStageMenuItems = [
 ] as const satisfies readonly WorldStageMenuItem[]
 
 export function isValidWorldStageIso3Key(value: unknown): value is string {
-  return typeof value === "string" && reviewedIso3Keys.has(value)
+  return typeof value === "string" && /^[A-Z]{3}$/.test(value) && reviewedIso3Keys.has(value)
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0
+}
+
+function hasValidSourceRefs(value: unknown) {
+  return (
+    Array.isArray(value) &&
+    value.length > 0 &&
+    value.every((ref) => typeof ref === "string" && /^SRC\d{2}$/.test(ref))
+  )
+}
+
+function hasValidConfidence(value: unknown) {
+  return WORLD_STAGE_CONFIDENCE_LEVELS.includes(value as WorldStageConfidence)
 }
 
 export function validateWorldStageCatalog(
@@ -184,115 +364,296 @@ export function validateWorldStageCatalog(
 ): WorldStageValidationResult {
   const errors: WorldStageValidationError[] = []
   const sceneIds = new Set<string>()
-  const nodeIds = new Set<string>()
-  const routeIds = new Set<string>()
+  const entityIds = new Map<string, "node" | "flow">()
 
-  function addError(error: WorldStageValidationError) {
-    errors.push(error)
+  function addError(code: WorldStageValidationError["code"], path: string, message: string) {
+    errors.push({ code, path, message })
+  }
+
+  function validateSourceRefs(value: unknown, path: string) {
+    if (!Array.isArray(value) || value.length === 0) {
+      addError("source-ref.missing", path, "At least one source reference is required.")
+      return
+    }
+
+    value.forEach((ref, index) => {
+      if (
+        typeof ref !== "string" ||
+        !/^SRC\d{2}$/.test(ref) ||
+        !knownSourceRefs.has(ref)
+      ) {
+        addError(
+          "source-ref.invalid",
+          `${path}[${index}]`,
+          `Invalid World Stage source reference: ${String(ref)}.`,
+        )
+      }
+    })
   }
 
   scenes.forEach((scene, sceneIndex) => {
     const scenePath = `scenes[${sceneIndex}]`
 
-    if (!expectedSceneIds.has(scene.id)) {
-      addError({
-        code: "scene.id.unknown",
-        path: `${scenePath}.id`,
-        message: `Unknown World Stage scene ID: ${scene.id}.`,
-      })
+    if (!isNonEmptyString(scene.id)) {
+      addError("scene.field.missing", `${scenePath}.id`, "Scene ID is required.")
+    } else if (!expectedSceneIds.has(scene.id)) {
+      addError("scene.id.unknown", `${scenePath}.id`, `Unknown World Stage scene ID: ${scene.id}.`)
     }
 
     if (sceneIds.has(scene.id)) {
-      addError({
-        code: "scene.id.duplicate",
-        path: `${scenePath}.id`,
-        message: `Scene ID must be unique: ${scene.id}.`,
-      })
+      addError("scene.id.duplicate", `${scenePath}.id`, `Scene ID must be unique: ${scene.id}.`)
     }
     sceneIds.add(scene.id)
 
-    if (scene.dataStatus !== "editorial-demo") {
-      addError({
-        code: "scene.data-status.invalid",
-        path: `${scenePath}.dataStatus`,
-        message: "Initial World Stage scenes must be marked editorial-demo.",
-      })
+    if (!isNonEmptyString(scene.researchSceneId)) {
+      addError(
+        "scene.research-id.missing",
+        `${scenePath}.researchSceneId`,
+        "A reviewed research-scene ID is required.",
+      )
     }
 
-    if (!scene.qualification.trim()) {
-      addError({
-        code: "scene.qualification.missing",
-        path: `${scenePath}.qualification`,
-        message: "Editorial demo scenes require a visible qualification.",
-      })
+    for (const field of ["publicLabel", "caption", "lensOwner"] as const) {
+      if (!isNonEmptyString(scene[field])) {
+        addError("scene.field.missing", `${scenePath}.${field}`, `Scene ${field} is required.`)
+      }
+    }
+
+    if (!isNonEmptyString(scene.asOf) || !/^\d{4}-\d{2}-\d{2}$/.test(scene.asOf)) {
+      addError("scene.as-of.invalid", `${scenePath}.asOf`, "Scene asOf must be an ISO date.")
+    }
+
+    if (scene.dataStatus !== "reviewed-editorial") {
+      addError(
+        "scene.data-status.invalid",
+        `${scenePath}.dataStatus`,
+        "World Stage scenes must be marked reviewed-editorial.",
+      )
+    }
+
+    validateSourceRefs(scene.sourceRefs, `${scenePath}.sourceRefs`)
+
+    if (!Array.isArray(scene.caveats) || scene.caveats.length === 0) {
+      addError("scene.field.missing", `${scenePath}.caveats`, "Scene caveats are required.")
+    }
+
+    const camera = scene.camera
+    if (
+      !camera ||
+      !Array.isArray(camera.center) ||
+      camera.center.length !== 2 ||
+      !Number.isFinite(camera.center[0]) ||
+      !Number.isFinite(camera.center[1]) ||
+      camera.center[0] < -180 ||
+      camera.center[0] > 180 ||
+      camera.center[1] < -90 ||
+      camera.center[1] > 90 ||
+      !Number.isFinite(camera.zoom) ||
+      camera.zoom < 0 ||
+      camera.zoom > 22 ||
+      !Number.isFinite(camera.pitch) ||
+      camera.pitch < 0 ||
+      camera.pitch > 85 ||
+      !Number.isFinite(camera.bearing) ||
+      camera.bearing < -180 ||
+      camera.bearing > 180
+    ) {
+      addError("camera.invalid", `${scenePath}.camera`, "Scene camera is incomplete or invalid.")
     }
 
     const localNodeIds = new Set<string>()
+    const childSourceRefs = new Set<string>()
+    const countryIso3Keys = new Set<string>()
+    const countryRoles = Array.isArray(scene.countryRoles) ? scene.countryRoles : []
 
-    scene.nodes.forEach((node, nodeIndex) => {
-      const nodePath = `${scenePath}.nodes[${nodeIndex}]`
+    if (!Array.isArray(scene.countryRoles) || scene.countryRoles.length === 0) {
+      addError(
+        "scene.field.missing",
+        `${scenePath}.countryRoles`,
+        "Scene country roles are required.",
+      )
+    }
 
-      if (nodeIds.has(node.id)) {
-        addError({
-          code: "node.id.duplicate",
-          path: `${nodePath}.id`,
-          message: `Node ID must be globally unique: ${node.id}.`,
-        })
+    countryRoles.forEach((country, countryIndex) => {
+      const countryPath = `${scenePath}.countryRoles[${countryIndex}]`
+
+      if (!isValidWorldStageIso3Key(country.iso3)) {
+        addError(
+          "country.iso3.invalid",
+          `${countryPath}.iso3`,
+          `ISO-3 key is not in the reviewed scene set: ${country.iso3}.`,
+        )
       }
-      nodeIds.add(node.id)
-      localNodeIds.add(node.id)
-
-      if (routeIds.has(node.id)) {
-        addError({
-          code: "entity.id.collision",
-          path: `${nodePath}.id`,
-          message: `Node and route IDs share one namespace: ${node.id}.`,
-        })
+      if (countryIso3Keys.has(country.iso3)) {
+        addError(
+          "country.iso3.duplicate",
+          `${countryPath}.iso3`,
+          `Country role must be unique inside the scene: ${country.iso3}.`,
+        )
       }
+      countryIso3Keys.add(country.iso3)
 
-      if (!isValidWorldStageIso3Key(node.iso3Key)) {
-        addError({
-          code: "node.iso3.invalid",
-          path: `${nodePath}.iso3Key`,
-          message: `ISO-3 key is not in the reviewed scene allowlist: ${node.iso3Key}.`,
-        })
+      if (!WORLD_STAGE_COUNTRY_ROLES.includes(country.role)) {
+        addError(
+          "country.role.invalid",
+          `${countryPath}.role`,
+          `Unsupported country role: ${country.role}.`,
+        )
+      }
+      if (!isNonEmptyString(country.rationale)) {
+        addError(
+          "country.field.missing",
+          `${countryPath}.rationale`,
+          "Country-role rationale is required.",
+        )
+      }
+      if (!hasValidConfidence(country.confidence)) {
+        addError(
+          "confidence.invalid",
+          `${countryPath}.confidence`,
+          "Country-role confidence is invalid.",
+        )
+      }
+      validateSourceRefs(country.sourceRefs, `${countryPath}.sourceRefs`)
+      if (Array.isArray(country.sourceRefs)) {
+        country.sourceRefs.forEach((ref: string) => childSourceRefs.add(ref))
       }
     })
 
-    scene.routes.forEach((route, routeIndex) => {
-      const routePath = `${scenePath}.routes[${routeIndex}]`
+    const nodes = Array.isArray(scene.nodes) ? scene.nodes : []
+    if (!Array.isArray(scene.nodes) || scene.nodes.length === 0) {
+      addError("scene.field.missing", `${scenePath}.nodes`, "Scene nodes are required.")
+    }
 
-      if (routeIds.has(route.id)) {
-        addError({
-          code: "route.id.duplicate",
-          path: `${routePath}.id`,
-          message: `Route ID must be globally unique: ${route.id}.`,
-        })
+    nodes.forEach((node, nodeIndex) => {
+      const nodePath = `${scenePath}.nodes[${nodeIndex}]`
+
+      for (const field of ["id", "researchId", "label", "whyItMatters"] as const) {
+        if (!isNonEmptyString(node[field])) {
+          addError("node.field.missing", `${nodePath}.${field}`, `Node ${field} is required.`)
+        }
       }
-      routeIds.add(route.id)
 
-      if (nodeIds.has(route.id)) {
-        addError({
-          code: "entity.id.collision",
-          path: `${routePath}.id`,
-          message: `Node and route IDs share one namespace: ${route.id}.`,
-        })
+      if (entityIds.has(node.id)) {
+        addError(
+          entityIds.get(node.id) === "node" ? "node.id.duplicate" : "entity.id.collision",
+          `${nodePath}.id`,
+          `World Stage entity ID must be globally unique: ${node.id}.`,
+        )
+      }
+      entityIds.set(node.id, "node")
+      localNodeIds.add(node.id)
+
+      if (!WORLD_STAGE_NODE_KINDS.includes(node.kind)) {
+        addError("node.kind.invalid", `${nodePath}.kind`, `Unsupported node kind: ${node.kind}.`)
+      }
+      if (
+        !Array.isArray(node.coordinates) ||
+        node.coordinates.length !== 2 ||
+        !Number.isFinite(node.coordinates[0]) ||
+        !Number.isFinite(node.coordinates[1]) ||
+        node.coordinates[0] < -180 ||
+        node.coordinates[0] > 180 ||
+        node.coordinates[1] < -90 ||
+        node.coordinates[1] > 90
+      ) {
+        addError(
+          "node.coordinates.invalid",
+          `${nodePath}.coordinates`,
+          "Node coordinates must be [longitude, latitude].",
+        )
+      }
+      if (!hasValidConfidence(node.confidence)) {
+        addError("confidence.invalid", `${nodePath}.confidence`, "Node confidence is invalid.")
+      }
+      validateSourceRefs(node.sourceRefs, `${nodePath}.sourceRefs`)
+      if (Array.isArray(node.sourceRefs)) {
+        node.sourceRefs.forEach((ref: string) => childSourceRefs.add(ref))
+      }
+    })
+
+    const flows = Array.isArray(scene.flows) ? scene.flows : []
+    if (!Array.isArray(scene.flows)) {
+      addError("scene.field.missing", `${scenePath}.flows`, "Scene flows are required.")
+    }
+
+    flows.forEach((flow, flowIndex) => {
+      const flowPath = `${scenePath}.flows[${flowIndex}]`
+
+      for (const field of ["id", "researchId", "label", "meaning", "asOf"] as const) {
+        if (!isNonEmptyString(flow[field])) {
+          addError("flow.field.missing", `${flowPath}.${field}`, `Flow ${field} is required.`)
+        }
+      }
+
+      if (entityIds.has(flow.id)) {
+        addError(
+          entityIds.get(flow.id) === "flow" ? "flow.id.duplicate" : "entity.id.collision",
+          `${flowPath}.id`,
+          `World Stage entity ID must be globally unique: ${flow.id}.`,
+        )
+      }
+      entityIds.set(flow.id, "flow")
+
+      if (!WORLD_STAGE_FLOW_KINDS.includes(flow.kind)) {
+        addError("flow.kind.invalid", `${flowPath}.kind`, `Unsupported flow kind: ${flow.kind}.`)
+      }
+      if (!(flow.direction === "one-way" || flow.direction === "two-way")) {
+        addError(
+          "flow.direction.invalid",
+          `${flowPath}.direction`,
+          `Unsupported flow direction: ${flow.direction}.`,
+        )
+      }
+      if (!(flow.weight === 1 || flow.weight === 2 || flow.weight === 3)) {
+        addError(
+          "flow.weight.invalid",
+          `${flowPath}.weight`,
+          `Flow weight must be the editorial ordinal 1, 2, or 3: ${flow.weight}.`,
+        )
+      }
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(flow.asOf)) {
+        addError("flow.field.missing", `${flowPath}.asOf`, "Flow asOf must be an ISO date.")
+      }
+      if (!hasValidConfidence(flow.confidence)) {
+        addError("confidence.invalid", `${flowPath}.confidence`, "Flow confidence is invalid.")
+      }
+      validateSourceRefs(flow.sourceRefs, `${flowPath}.sourceRefs`)
+      if (Array.isArray(flow.sourceRefs)) {
+        flow.sourceRefs.forEach((ref: string) => childSourceRefs.add(ref))
       }
 
       for (const [endpoint, nodeId] of [
-        ["fromNodeId", route.fromNodeId],
-        ["toNodeId", route.toNodeId],
+        ["fromNodeId", flow.fromNodeId],
+        ["toNodeId", flow.toNodeId],
       ] as const) {
-        if (!localNodeIds.has(nodeId)) {
-          addError({
-            code: "route.endpoint.missing",
-            path: `${routePath}.${endpoint}`,
-            message: `Route endpoint must resolve inside scene ${scene.id}: ${nodeId}.`,
-          })
+        if (!isNonEmptyString(nodeId) || !localNodeIds.has(nodeId)) {
+          addError(
+            "flow.endpoint.missing",
+            `${flowPath}.${endpoint}`,
+            `Flow endpoint must resolve inside scene ${scene.id}: ${String(nodeId)}.`,
+          )
         }
       }
     })
+
+    if (
+      hasValidSourceRefs(scene.sourceRefs) &&
+      Array.from(childSourceRefs).some((ref) => !scene.sourceRefs.includes(ref))
+    ) {
+      addError(
+        "scene.source-ref.incomplete",
+        `${scenePath}.sourceRefs`,
+        "Scene sourceRefs must include every visible child reference.",
+      )
+    }
   })
+
+  for (const sceneId of WORLD_STAGE_SCENE_IDS) {
+    if (!sceneIds.has(sceneId)) {
+      addError("scene.id.missing", "scenes", `World Stage scene is missing: ${sceneId}.`)
+    }
+  }
 
   const menuIds = new Set<string>()
   const mappedSceneIds = new Set<string>()
@@ -301,28 +662,19 @@ export function validateWorldStageCatalog(
     const menuPath = `menuItems[${menuIndex}]`
 
     if (!expectedMenuIds.has(item.id)) {
-      addError({
-        code: "menu.id.unknown",
-        path: `${menuPath}.id`,
-        message: `Unknown World Stage menu ID: ${item.id}.`,
-      })
+      addError("menu.id.unknown", `${menuPath}.id`, `Unknown World Stage menu ID: ${item.id}.`)
     }
-
     if (menuIds.has(item.id)) {
-      addError({
-        code: "menu.id.duplicate",
-        path: `${menuPath}.id`,
-        message: `Menu ID must map exactly once: ${item.id}.`,
-      })
+      addError("menu.id.duplicate", `${menuPath}.id`, `Menu ID must map exactly once: ${item.id}.`)
     }
     menuIds.add(item.id)
 
     if (!sceneIds.has(item.sceneId)) {
-      addError({
-        code: "menu.scene.missing",
-        path: `${menuPath}.sceneId`,
-        message: `Menu item references an unknown scene: ${item.sceneId}.`,
-      })
+      addError(
+        "menu.scene.missing",
+        `${menuPath}.sceneId`,
+        `Menu item references an unknown scene: ${item.sceneId}.`,
+      )
     } else {
       mappedSceneIds.add(item.sceneId)
     }
@@ -330,25 +682,21 @@ export function validateWorldStageCatalog(
 
   for (const menuId of WORLD_STAGE_MENU_IDS) {
     if (!menuIds.has(menuId)) {
-      addError({
-        code: "menu.id.missing",
-        path: "menuItems",
-        message: `Menu-to-scene mapping is missing: ${menuId}.`,
-      })
+      addError("menu.id.missing", "menuItems", `Menu-to-scene mapping is missing: ${menuId}.`)
     }
   }
 
   for (const sceneId of sceneIds) {
     if (!mappedSceneIds.has(sceneId)) {
-      addError({
-        code: "scene.menu.unmapped",
-        path: "menuItems",
-        message: `Scene is not reachable from the menu: ${sceneId}.`,
-      })
+      addError("scene.menu.unmapped", "menuItems", `Scene is not reachable from the menu: ${sceneId}.`)
     }
   }
 
   return errors.length === 0 ? { ok: true, errors: [] } : { ok: false, errors }
+}
+
+export function getWorldStageScene(sceneId: string) {
+  return worldStageScenes.find((scene) => scene.id === sceneId) ?? null
 }
 
 const shippedCatalogValidation = validateWorldStageCatalog()

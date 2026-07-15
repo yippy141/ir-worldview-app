@@ -161,8 +161,9 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
       <section className="compare-summary-grid">
         <article className="atlas-pattern-card stack-sm">
           <div className="stack-xs">
-            <p className="eyebrow">Left Atlas pattern</p>
-            <h2 style={{ marginBottom: 0 }}>{leftAtlas.nearest.name}</h2>
+            <p className="eyebrow">Left worldview profile</p>
+            <h2 style={{ marginBottom: 0 }}>{leftAtlas.nearest.publicName}</h2>
+            <p className="muted" style={{ fontSize: "0.8rem" }}>{leftAtlas.nearest.technicalDescriptor}</p>
             <AtlasPatternFamily pattern={leftAtlas.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
               {leftAtlas.nearest.cardSummary}
@@ -175,7 +176,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
             </Link>
             {leftAtlas.neighbors.map((pattern) => (
               <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                {pattern.name}
+                {pattern.publicName}
               </Link>
             ))}
           </div>
@@ -183,8 +184,9 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
 
         <article className="atlas-pattern-card stack-sm">
           <div className="stack-xs">
-            <p className="eyebrow">Right Atlas pattern</p>
-            <h2 style={{ marginBottom: 0 }}>{rightAtlas.nearest.name}</h2>
+            <p className="eyebrow">Right worldview profile</p>
+            <h2 style={{ marginBottom: 0 }}>{rightAtlas.nearest.publicName}</h2>
+            <p className="muted" style={{ fontSize: "0.8rem" }}>{rightAtlas.nearest.technicalDescriptor}</p>
             <AtlasPatternFamily pattern={rightAtlas.nearest} compact />
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
               {rightAtlas.nearest.cardSummary}
@@ -197,7 +199,7 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
             </Link>
             {rightAtlas.neighbors.map((pattern) => (
               <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                {pattern.name}
+                {pattern.publicName}
               </Link>
             ))}
           </div>

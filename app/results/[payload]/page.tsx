@@ -372,15 +372,15 @@ export default async function ResultPage(
             </article>
 
             <article className="driver-card stack-xs">
-              <p className="eyebrow">Nearest Atlas pattern</p>
-              <p className="result-emphasis">{atlasMatch.nearest.name}</p>
+              <p className="eyebrow">Nearest worldview profile</p>
+              <p className="result-emphasis">{atlasMatch.nearest.publicName}</p>
               <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
               <p className="muted result-note-snug">
                 {atlasMatch.nearest.cardSummary}
               </p>
               <p>
                 <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} className="result-strong">
-                  Read this pattern →
+                  Read {atlasMatch.nearest.publicName} →
                 </Link>
               </p>
             </article>

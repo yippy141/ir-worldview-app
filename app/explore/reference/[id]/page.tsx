@@ -13,6 +13,7 @@ import {
   isReferenceEntityDraft,
   referenceEntityTypeLabel,
 } from "@/lib/field/items"
+import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { calculateMovementHull } from "@/lib/field/position"
 import { aiAxisLabels } from "@/lib/ai-governance-schema"
 import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
@@ -65,7 +66,7 @@ export default async function ReferenceDetailPage(
           </p>
           <div className="row gap-sm wrap">
             <Link href="/explore/reference" className="cta-primary">Browse reference profiles</Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open the Field Explorer</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open the {WORLDVIEW_MAP_LABEL}</Link>
           </div>
         </div>
       </div>
@@ -395,7 +396,7 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
           <p className="eyebrow">Continue</p>
           <div className="row gap-sm wrap">
             <Link href="/explore/reference" className="cta-secondary">All reference profiles</Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open the Field Explorer</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open the {WORLDVIEW_MAP_LABEL}</Link>
           </div>
         </section>
       </article>

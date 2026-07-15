@@ -85,22 +85,19 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V17.1 World Stage recovery
+## Current sprint: V18 Worldview Profile learning
 
-- The production root route intentionally becomes the full-screen World Stage menu.
-- Mapbox GL is approved for the root World Stage background.
-- The accepted source implementation lives on feature/v18-world-stage-ui.
-- Recover the homepage selectively onto current main; do not merge or restore the
-  entire source branch.
-- Preserve the current Next.js version and install only the Mapbox dependency.
-- Keep a local SVG fallback for missing token, Mapbox failure, and unsupported WebGL.
-- Reduced-motion users should receive a static real map when Mapbox is available.
-- Preserve scoring, payloads, ProfileStore migrations, quiz content, existing share
-  links, and Reference Profile evidence data.
-- This visual scope is an explicit product decision. Release review may fix blockers
-  but must not revert the World Stage homepage or remove approved Mapbox files.
-- Do not change Focus Areas, Perspectives, Worldview Map, profile learning pages,
-  or case content in this recovery PR.
+- Use public profile names while preserving all stable IDs, matching rules, and URLs.
+- Render only case content that has passed source verification.
+- Source records must include working URLs and claim coverage.
+- The same case should expose several competing readings.
+- Every profile page needs a decision rule, concrete case, strongest rival reading,
+  analogy with a limit, strengths, blind spots, and domain shifts.
+- Keep optional depth below the first payoff.
+- Add an in-page contents control for long pages.
+- Avoid repeated kickers, bordered cards, and stacked callouts.
+- Use typography, rules, and whitespace for hierarchy.
+- Preserve scoring, payloads, ProfileStore, and legacy shared links.
 - Run npm run lint, npm run test, npx tsc --noEmit, and npm run build.
 
 ## End-of-sprint discipline
