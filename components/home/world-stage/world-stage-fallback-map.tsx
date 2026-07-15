@@ -27,8 +27,10 @@ export type WorldStageInspectionPosition = { x: number; y: number }
 
 type WorldStageFallbackMapProps = {
   scene: WorldStageScene
+  zoom: number
   onInspect: (item: WorldStageTooltipItem, position: WorldStageInspectionPosition) => void
   onClearInspection: () => void
+  onInteraction: () => void
 }
 
 function pointerPosition(event: PointerEvent<SVGElement>): WorldStageInspectionPosition {
@@ -44,20 +46,37 @@ function pointerPosition(event: PointerEvent<SVGElement>): WorldStageInspectionP
 
 export function WorldStageFallbackMap({
   scene,
+  zoom,
   onInspect,
   onClearInspection,
+  onInteraction,
 }: WorldStageFallbackMapProps) {
   const countryRoles = new Map(scene.countryRoles.map((country) => [country.iso3, country]))
   const nodes = getWorldStageFallbackNodes(scene)
   const nodeById = new Map(scene.nodes.map((node) => [node.id, node]))
   const flows = getWorldStageFallbackFlows(scene)
+  const cameraCenter = projectWorldStagePoint(scene.camera.center)
+  const effectiveZoom = Math.max(1, scene.camera.zoom * zoom)
+  const viewWidth = WORLD_STAGE_MAP_WIDTH / effectiveZoom
+  const viewHeight = WORLD_STAGE_MAP_HEIGHT / effectiveZoom
+  const viewX = Math.max(
+    0,
+    Math.min(WORLD_STAGE_MAP_WIDTH - viewWidth, cameraCenter.x - viewWidth / 2),
+  )
+  const viewY = Math.max(
+    0,
+    Math.min(WORLD_STAGE_MAP_HEIGHT - viewHeight, cameraCenter.y - viewHeight / 2),
+  )
 
   return (
     <svg
       className={styles.mapSvg}
-      viewBox={`0 0 ${WORLD_STAGE_MAP_WIDTH} ${WORLD_STAGE_MAP_HEIGHT}`}
+      viewBox={`${viewX.toFixed(1)} ${viewY.toFixed(1)} ${viewWidth.toFixed(
+        1,
+      )} ${viewHeight.toFixed(1)}`}
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
+      onPointerDown={onInteraction}
     >
       <g className={styles.graticule}>
         {WORLD_STAGE_GRATICULE_PATHS.map((d) => (

@@ -1,5 +1,5 @@
 import {
-  WORLD_STAGE_MENU_IDS,
+  WORLD_STAGE_SCENE_IDS,
   type CountryRole,
   type WorldStageFlowWeight,
 } from "@/lib/world-stage/types"
@@ -13,7 +13,8 @@ export const WORLD_STAGE_MAPBOX_TOKEN =
 export const WORLD_STAGE_MAPBOX_STYLE =
   process.env.NEXT_PUBLIC_MAPBOX_STYLE?.trim() || "mapbox://styles/mapbox/dark-v11"
 
-export const WORLD_STAGE_IDLE_INTERVAL_MS = 10_000
+export const WORLD_STAGE_SCENE_INTERVAL_MS = 8_000
+export const WORLD_STAGE_SCENE_IDLE_RESUME_MS = 18_000
 export const WORLD_STAGE_TRANSITION_MS = 900
 export const WORLD_STAGE_SECONDS_PER_REVOLUTION = 240
 export const WORLD_STAGE_GLOBE_IDLE_RESUME_MS = 4_000
@@ -21,13 +22,13 @@ export const WORLD_STAGE_MAX_SPIN_ZOOM = 3.5
 export const WORLD_STAGE_SPIN_SEGMENT_MS = 1_000
 
 export const WORLD_STAGE_ROLE_COLORS = {
-  focus: "#c6a25c",
-  partner: "#6f96b9",
-  competitor: "#9a5e4b",
-  hedging: "#a99573",
-  exposed: "#81778f",
-  contested: "#756f73",
-  neutral: "#142238",
+  focus: "#e0b95f",
+  partner: "#79a8d2",
+  competitor: "#c16f56",
+  hedging: "#c2a46c",
+  exposed: "#9d89b6",
+  contested: "#a67b76",
+  neutral: "#162b45",
 } as const satisfies Record<CountryRole, string>
 
 export const WORLD_STAGE_FLOW_WIDTHS = {
@@ -79,6 +80,6 @@ export function getNextWorldStageSpinLongitude({
   return ((nextLongitude + 540) % 360) - 180
 }
 
-export function getNextWorldStageMenuIndex(index: number) {
-  return (index + 1 + WORLD_STAGE_MENU_IDS.length) % WORLD_STAGE_MENU_IDS.length
+export function getNextWorldStageSceneIndex(index: number) {
+  return (index + 1 + WORLD_STAGE_SCENE_IDS.length) % WORLD_STAGE_SCENE_IDS.length
 }

@@ -16,6 +16,7 @@ import {
   WORLD_STAGE_FALLBACK_NODE_LIMIT,
 } from "@/lib/world-stage/map-data"
 import {
+  getNextWorldStageSceneIndex,
   getNextWorldStageSpinLongitude,
   getWorldStageIdleResumeAt,
   isWorldStageIdleResumeReady,
@@ -29,6 +30,7 @@ import {
   WORLD_STAGE_RESEARCH_SCENE_IDS,
   WORLD_STAGE_REVIEWED_ISO3_KEYS,
   worldStageMenuItems,
+  worldStageSceneOptions,
   worldStageScenes,
 } from "@/lib/world-stage/scenes"
 import {
@@ -166,6 +168,22 @@ test("the six menu contracts keep their reviewed routes and distinct scene state
   assert.equal(profile?.variantOf, "foundation")
   assert.equal(profile?.researchSceneId, foundation?.researchSceneId)
   assert.match(profile?.caption ?? "", /not an inference about your saved profile/i)
+})
+
+test("map controls expose independent, complete scene labels", () => {
+  assert.deepEqual(
+    worldStageSceneOptions.map((option) => option.sceneId),
+    WORLD_STAGE_SCENE_IDS,
+  )
+  assert.equal(new Set(worldStageSceneOptions.map((option) => option.label)).size, 6)
+
+  const navigationLabels = new Set<string>(worldStageMenuItems.map((item) => item.label))
+  for (const option of worldStageSceneOptions) {
+    assert.equal(navigationLabels.has(option.label), false)
+  }
+
+  assert.equal(getNextWorldStageSceneIndex(0), 1)
+  assert.equal(getNextWorldStageSceneIndex(worldStageSceneOptions.length - 1), 0)
 })
 
 test("every scene has a valid, scene-specific camera", () => {

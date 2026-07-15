@@ -145,6 +145,11 @@ export type WorldStageMenuItem = {
   action: string
 }
 
+export type WorldStageSceneOption = {
+  sceneId: WorldStageSceneId
+  label: string
+}
+
 export type WorldStageTooltipItem = {
   id: string
   kind: "country" | "node" | "flow"

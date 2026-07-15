@@ -35,10 +35,10 @@
   content: "";
   background: linear-gradient(
     90deg,
-    rgba(7, 17, 31, 0.98) 0%,
-    rgba(7, 17, 31, 0.92) 34%,
-    rgba(7, 17, 31, 0.52) 64%,
-    rgba(7, 17, 31, 0.08) 100%
+    rgba(7, 17, 31, 0.97) 0%,
+    rgba(7, 17, 31, 0.86) 31%,
+    rgba(7, 17, 31, 0.26) 58%,
+    rgba(7, 17, 31, 0) 78%
   );
   pointer-events: none;
 }
@@ -149,7 +149,7 @@
 .menuItem {
   position: relative;
   display: grid;
-  grid-template-columns: 42px minmax(150px, 1fr) minmax(126px, 0.62fr) 24px;
+  grid-template-columns: minmax(150px, 1fr) minmax(126px, 0.62fr) 24px;
   gap: 10px;
   align-items: center;
   min-height: clamp(49px, 6.1vh, 66px);
@@ -172,13 +172,13 @@
   transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.menuItem:hover,
-.menuItemActive {
+.menuItem:hover {
   color: var(--stage-text);
   text-decoration: none;
 }
 
-.menuItemActive::after {
+.menuItem:hover::after,
+.menuItem:focus-visible::after {
   width: 22px;
 }
 
@@ -186,18 +186,6 @@
   z-index: 1;
   outline: 2px solid var(--stage-steel);
   outline-offset: 4px;
-}
-
-.menuIndex {
-  color: var(--stage-muted);
-  font-family: var(--font-sans), system-ui, sans-serif;
-  font-size: 0.68rem;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: 0.04em;
-}
-
-.menuItemActive .menuIndex {
-  color: var(--stage-brass-bright);
 }
 
 .menuLabel {
@@ -216,10 +204,6 @@
   text-align: right;
 }
 
-.menuItemActive .menuLens {
-  color: var(--stage-text-soft);
-}
-
 .menuIndicator {
   color: var(--stage-faint);
   font-family: var(--font-sans), system-ui, sans-serif;
@@ -232,7 +216,7 @@
 }
 
 .menuItem:hover .menuIndicator,
-.menuItemActive .menuIndicator {
+.menuItem:focus-visible .menuIndicator {
   color: var(--stage-brass-bright);
   transform: translateX(0);
 }
@@ -244,7 +228,7 @@
   right: max(22px, calc(env(safe-area-inset-right) + 18px));
   width: min(370px, 33vw);
   text-align: right;
-  animation: stateReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: stateReveal 220ms ease-out both;
 }
 
 .lensLabel {
@@ -284,7 +268,7 @@
   margin: 0 0 1.5vh auto;
   padding: 20px 0 0;
   border-top: 1px solid rgba(145, 184, 223, 0.65);
-  animation: stateReveal 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: stateReveal 220ms ease-out both;
 }
 
 .detailDescription {
@@ -320,6 +304,8 @@
 .brand:focus-visible,
 .motionControl:focus-visible,
 .secondaryNav a:focus-visible,
+.mapSelect:focus-visible,
+.zoomButton:focus-visible,
 .mapAttribution a:focus-visible {
   outline: 2px solid var(--stage-steel);
   outline-offset: 4px;
@@ -334,6 +320,71 @@
   gap: 28px;
   padding-top: 10px;
   border-top: 1px solid rgba(51, 72, 99, 0.78);
+}
+
+.mapControls {
+  position: absolute;
+  z-index: 4;
+  right: max(22px, calc(env(safe-area-inset-right) + 18px));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.mapControlLabel {
+  color: var(--stage-muted);
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+.mapSelect {
+  max-width: 190px;
+  min-height: 36px;
+  padding: 0 28px 0 10px;
+  border: 1px solid rgba(145, 184, 223, 0.52);
+  border-radius: 2px;
+  color: var(--stage-text-soft);
+  background: rgba(7, 17, 31, 0.92);
+  font: inherit;
+  font-size: 0.72rem;
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.zoomControls {
+  display: flex;
+  gap: 4px;
+  padding-left: 9px;
+  border-left: 1px solid rgba(51, 72, 99, 0.78);
+}
+
+.zoomButton {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(145, 184, 223, 0.52);
+  border-radius: 2px;
+  place-items: center;
+  color: var(--stage-text-soft);
+  background: rgba(7, 17, 31, 0.92);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.mapSelect:hover,
+.zoomButton:hover {
+  border-color: var(--stage-brass);
+  color: var(--stage-text);
 }
 
 .secondaryNav {
@@ -372,7 +423,7 @@
 }
 
 .fallbackMap {
-  opacity: 0.9;
+  opacity: 1;
   pointer-events: auto;
   transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -392,16 +443,16 @@
 .graticule path,
 .graticule ellipse {
   fill: none;
-  stroke: rgba(101, 119, 142, 0.24);
+  stroke: rgba(145, 184, 223, 0.34);
   stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
 
 .fallbackCountry {
-  fill: var(--world-stage-country-fill, #142238);
+  fill: var(--world-stage-country-fill, #162b45);
   fill-rule: evenodd;
-  stroke: rgba(145, 184, 223, 0.34);
-  stroke-width: 0.65;
+  stroke: rgba(173, 199, 225, 0.52);
+  stroke-width: 0.75;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
   transition:
@@ -416,18 +467,18 @@
 
 .fallbackCountryAssigned:hover {
   stroke: var(--stage-brass-bright);
-  stroke-width: 1.35;
+  stroke-width: 1.6;
 }
 
 .fallbackCountryContested {
-  stroke: #c5ae8a;
-  stroke-width: 1.05;
+  stroke: #e2c38d;
+  stroke-width: 1.25;
   stroke-dasharray: 2.5 2.5;
 }
 
 .fallbackFlow {
   fill: none;
-  stroke: rgba(184, 200, 216, 0.74);
+  stroke: rgba(213, 226, 239, 0.92);
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
@@ -449,8 +500,8 @@
 
 .fallbackNodeHalo {
   fill: rgba(7, 17, 31, 0.9);
-  stroke: rgba(215, 180, 101, 0.8);
-  stroke-width: 1;
+  stroke: rgba(231, 202, 141, 0.96);
+  stroke-width: 1.25;
   vector-effect: non-scaling-stroke;
 }
 
@@ -519,7 +570,7 @@
 }
 
 .mapboxHostReady {
-  opacity: 0.92;
+  opacity: 1;
   pointer-events: auto;
 }
 
@@ -617,7 +668,7 @@
   }
 
   .menuItem {
-    grid-template-columns: 38px minmax(145px, 1fr) 24px;
+    grid-template-columns: minmax(145px, 1fr) 24px;
   }
 
   .menuLens {
@@ -744,7 +795,7 @@
   .primaryLayout {
     display: block;
     min-height: 0;
-    padding: 216px 0 16px;
+    padding: 310px 0 16px;
   }
 
   .menuRegion {
@@ -768,14 +819,10 @@
   }
 
   .menuItem {
-    grid-template-columns: 34px minmax(0, 1fr) 22px;
+    grid-template-columns: minmax(0, 1fr) 22px;
     gap: 8px;
     min-height: 50px;
     padding-inline: 3px;
-  }
-
-  .menuIndex {
-    font-size: 0.62rem;
   }
 
   .menuLabel {
@@ -814,6 +861,35 @@
     padding-top: 8px;
   }
 
+  .mapControls {
+    top: 306px;
+    right: max(16px, calc(env(safe-area-inset-right) + 12px));
+    bottom: auto;
+    left: max(16px, calc(env(safe-area-inset-left) + 12px));
+    width: 100%;
+    max-width: calc(
+      100% - max(16px, calc(env(safe-area-inset-left) + 12px)) -
+        max(16px, calc(env(safe-area-inset-right) + 12px))
+    );
+    margin: 0;
+  }
+
+  .mapControlLabel {
+    flex: 0 0 auto;
+  }
+
+  .mapSelect {
+    flex: 1 1 auto;
+    max-width: none;
+    min-width: 0;
+    min-height: 44px;
+  }
+
+  .zoomButton {
+    width: 44px;
+    height: 44px;
+  }
+
   .secondaryNav {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -833,6 +909,7 @@
   .menuItem,
   .menuItem::after,
   .menuIndicator,
+  .zoomButton,
   .mapAttribution {
     transition: none;
   }
@@ -852,7 +929,9 @@
   .routeLink:focus-visible,
   .brand:focus-visible,
   .motionControl:focus-visible,
-  .secondaryNav a:focus-visible {
+  .secondaryNav a:focus-visible,
+  .mapSelect:focus-visible,
+  .zoomButton:focus-visible {
     outline-color: Highlight;
   }
 }

@@ -1,7 +1,15 @@
 "use client"
 
 import "mapbox-gl/dist/mapbox-gl.css"
-import { useEffect, useRef, useState, type CSSProperties } from "react"
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+  type CSSProperties,
+  type Ref,
+} from "react"
 import type { GeoJSONSource, MapLayerMouseEvent } from "mapbox-gl"
 import {
   buildWorldStageCountryData,
@@ -19,9 +27,7 @@ import {
   WORLD_STAGE_SPIN_SEGMENT_MS,
   WORLD_STAGE_TRANSITION_MS,
 } from "@/lib/world-stage/map-config"
-import { getWorldStageScene } from "@/lib/world-stage/scenes"
 import type {
-  WorldStageMenuItem,
   WorldStageScene,
   WorldStageTooltipItem,
 } from "@/lib/world-stage/types"
@@ -33,12 +39,19 @@ import styles from "./world-stage.module.css"
 
 type MapboxModule = typeof import("mapbox-gl")
 type MapboxMap = import("mapbox-gl").Map
-type AutomaticTransition = "scene" | "spin" | null
+type AutomaticTransition = "scene" | "spin" | "zoom" | null
 
 type WorldStageMapProps = {
-  activeItem: WorldStageMenuItem
+  ref?: Ref<WorldStageMapHandle>
+  scene: WorldStageScene | null
   motionPaused: boolean
   reducedMotion: boolean
+  onInteraction: () => void
+}
+
+export type WorldStageMapHandle = {
+  zoomIn: () => void
+  zoomOut: () => void
 }
 
 type MapDiagnosticState =
@@ -63,6 +76,12 @@ const COUNTRY_HOVER_LAYER_ID = "world-stage-country-hover"
 const FLOW_LAYER_ID = "world-stage-flow"
 const NODE_HALO_LAYER_ID = "world-stage-node-halo"
 const NODE_LAYER_ID = "world-stage-node"
+const FALLBACK_MIN_ZOOM = 0.5
+const FALLBACK_MAX_ZOOM = 2
+const FALLBACK_ZOOM_STEP = 0.25
+const FALLBACK_INITIAL_ZOOM = 1
+const LIVE_MIN_ZOOM = 0.65
+const LIVE_MAX_ZOOM = 3.25
 
 function hasWebGlSupport() {
   try {
@@ -119,11 +138,12 @@ function propertiesToTooltip(
 }
 
 export function WorldStageMap({
-  activeItem,
+  ref,
+  scene,
   motionPaused,
   reducedMotion,
+  onInteraction,
 }: WorldStageMapProps) {
-  const scene = getWorldStageScene(activeItem.sceneId)
   const mapFrameRef = useRef<HTMLDivElement>(null)
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapboxMap | null>(null)
@@ -139,7 +159,10 @@ export function WorldStageMap({
     () => undefined,
   )
   const syncMotionRef = useRef<() => void>(() => undefined)
+  const zoomMapRef = useRef<((delta: number) => boolean) | null>(null)
+  const onInteractionRef = useRef(onInteraction)
   const [mapReady, setMapReady] = useState(false)
+  const [fallbackZoom, setFallbackZoom] = useState(FALLBACK_INITIAL_ZOOM)
   const [showDiagnostic, setShowDiagnostic] = useState(false)
   const [diagnostic, setDiagnostic] = useState<MapDiagnosticState>("live-map")
   const [inspection, setInspection] = useState<Inspection | null>(null)
@@ -147,6 +170,28 @@ export function WorldStageMap({
   activeSceneRef.current = scene
   motionPausedRef.current = motionPaused
   reducedMotionRef.current = reducedMotion
+  onInteractionRef.current = onInteraction
+
+  const zoomBy = useCallback((delta: number) => {
+    onInteractionRef.current()
+    if (zoomMapRef.current?.(delta)) return
+
+    setFallbackZoom((current) =>
+      Math.max(
+        FALLBACK_MIN_ZOOM,
+        Math.min(FALLBACK_MAX_ZOOM, current + delta * FALLBACK_ZOOM_STEP),
+      ),
+    )
+  }, [])
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      zoomIn: () => zoomBy(1),
+      zoomOut: () => zoomBy(-1),
+    }),
+    [zoomBy],
+  )
 
   function positionInspection(
     item: WorldStageTooltipItem,
@@ -168,6 +213,7 @@ export function WorldStageMap({
 
   useEffect(() => {
     setInspection(null)
+    setFallbackZoom(FALLBACK_INITIAL_ZOOM)
     if (scene) transitionToSceneRef.current(scene)
   }, [scene])
 
@@ -257,7 +303,7 @@ export function WorldStageMap({
       const completedTransition = automaticTransitionRef.current
       automaticTransitionRef.current = null
 
-      if (completedTransition === "scene") {
+      if (completedTransition === "scene" || completedTransition === "zoom") {
         idleResumeAtRef.current = getWorldStageIdleResumeAt(Date.now())
         scheduleSpin(WORLD_STAGE_GLOBE_IDLE_RESUME_MS)
         return
@@ -269,11 +315,31 @@ export function WorldStageMap({
     function markDirectInteraction() {
       if (!map || cancelled || !loaded) return
 
+      onInteractionRef.current()
       clearSpinTimer()
       idleResumeAtRef.current = getWorldStageIdleResumeAt(Date.now())
       automaticTransitionRef.current = null
       map.stop()
       scheduleSpin(WORLD_STAGE_GLOBE_IDLE_RESUME_MS)
+    }
+
+    function zoomMap(delta: number) {
+      if (!map || cancelled || !loaded) return false
+
+      clearSpinTimer()
+      idleResumeAtRef.current = getWorldStageIdleResumeAt(Date.now())
+      automaticTransitionRef.current = null
+      map.stop()
+      automaticTransitionRef.current = "zoom"
+      map.easeTo({
+        zoom: Math.max(
+          LIVE_MIN_ZOOM,
+          Math.min(LIVE_MAX_ZOOM, map.getZoom() + delta * 0.5),
+        ),
+        duration: reducedMotionRef.current ? 0 : 220,
+        essential: false,
+      })
+      return true
     }
 
     function handlePointerDown() {
@@ -458,8 +524,8 @@ export function WorldStageMap({
           "fill-opacity": [
             "case",
             ["==", ["get", "role"], "neutral"],
-            0.48,
-            0.78,
+            0.64,
+            0.92,
           ],
         },
       })
@@ -468,9 +534,9 @@ export function WorldStageMap({
         type: "line",
         source: COUNTRY_SOURCE_ID,
         paint: {
-          "line-color": "#63758a",
-          "line-width": 0.65,
-          "line-opacity": 0.55,
+          "line-color": "#8197ae",
+          "line-width": 0.72,
+          "line-opacity": 0.68,
         },
       })
       map.addLayer({
@@ -479,9 +545,9 @@ export function WorldStageMap({
         source: COUNTRY_SOURCE_ID,
         filter: ["==", ["get", "role"], "contested"],
         paint: {
-          "line-color": "#c5ae8a",
-          "line-width": 1.15,
-          "line-opacity": 0.9,
+          "line-color": "#e2c38d",
+          "line-width": 1.35,
+          "line-opacity": 0.96,
           "line-dasharray": [1.2, 1.4],
         },
       })
@@ -502,17 +568,17 @@ export function WorldStageMap({
         source: FLOW_SOURCE_ID,
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
-          "line-color": "#b8c8d8",
+          "line-color": "#d5e2ef",
           "line-width": [
             "match",
             ["get", "weight"],
             1,
-            1.15,
+            1.35,
             2,
-            1.8,
-            2.5,
+            2.1,
+            2.8,
           ],
-          "line-opacity": 0.72,
+          "line-opacity": 0.9,
         },
       })
       map.addLayer({
@@ -520,12 +586,12 @@ export function WorldStageMap({
         type: "circle",
         source: NODE_SOURCE_ID,
         paint: {
-          "circle-radius": 6.6,
+          "circle-radius": 7.2,
           "circle-color": "#07111f",
           "circle-opacity": 0.86,
           "circle-stroke-color": "#d7b465",
-          "circle-stroke-width": 1,
-          "circle-stroke-opacity": 0.75,
+          "circle-stroke-width": 1.25,
+          "circle-stroke-opacity": 0.92,
         },
       })
       map.addLayer({
@@ -579,6 +645,7 @@ export function WorldStageMap({
       scheduleSpinRef.current = () => undefined
       transitionToSceneRef.current = () => undefined
       syncMotionRef.current = () => undefined
+      zoomMapRef.current = null
       automaticTransitionRef.current = null
       pointerActive = false
 
@@ -634,6 +701,7 @@ export function WorldStageMap({
     scheduleSpinRef.current = scheduleSpin
     transitionToSceneRef.current = transitionToScene
     syncMotionRef.current = syncMotion
+    zoomMapRef.current = zoomMap
 
     void import("mapbox-gl")
       .then((module: MapboxModule) => {
@@ -737,8 +805,10 @@ export function WorldStageMap({
       >
         <WorldStageFallbackMap
           scene={scene}
+          zoom={fallbackZoom}
           onInspect={positionInspection}
           onClearInspection={() => setInspection(null)}
+          onInteraction={onInteraction}
         />
       </div>
 

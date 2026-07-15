@@ -21,6 +21,7 @@ import {
   type WorldStageNode,
   type WorldStageScene,
   type WorldStageSceneId,
+  type WorldStageSceneOption,
   type WorldStageValidationError,
   type WorldStageValidationResult,
 } from "@/lib/world-stage/types"
@@ -264,6 +265,15 @@ function compileScene(binding: SceneBinding): WorldStageScene {
 }
 
 export const worldStageScenes = sceneBindings.map(compileScene)
+
+export const worldStageSceneOptions = [
+  { sceneId: "foundation", label: "Pacific alliances" },
+  { sceneId: "focus-areas", label: "Chip networks" },
+  { sceneId: "perspectives", label: "Regional security" },
+  { sceneId: "worldview-map", label: "Hedging states" },
+  { sceneId: "futures", label: "AI infrastructure" },
+  { sceneId: "profile", label: "Atlantic alliances" },
+] as const satisfies readonly WorldStageSceneOption[]
 
 export const worldStageMenuItems = [
   {
