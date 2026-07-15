@@ -244,7 +244,6 @@ export function WorldStageMap({
     let map: MapboxMap | null = null
     let canvas: HTMLCanvasElement | null = null
     let loaded = false
-    let pointerActive = false
     let hoveredIso3 = ""
 
     function clearSpinTimer() {
@@ -312,14 +311,16 @@ export function WorldStageMap({
       scheduleSpin()
     }
 
-    function markDirectInteraction() {
+    function beginDirectInteraction() {
       if (!map || cancelled || !loaded) return
 
       onInteractionRef.current()
       clearSpinTimer()
       idleResumeAtRef.current = getWorldStageIdleResumeAt(Date.now())
-      automaticTransitionRef.current = null
-      map.stop()
+      if (automaticTransitionRef.current !== null) {
+        automaticTransitionRef.current = null
+        map.stop()
+      }
       scheduleSpin(WORLD_STAGE_GLOBE_IDLE_RESUME_MS)
     }
 
@@ -343,34 +344,16 @@ export function WorldStageMap({
     }
 
     function handlePointerDown() {
-      pointerActive = true
-      markDirectInteraction()
+      beginDirectInteraction()
     }
 
-    function handlePointerMove() {
-      if (pointerActive) markDirectInteraction()
-    }
+    function finishDirectInteraction(event: { originalEvent?: unknown }) {
+      if (!map || cancelled || !loaded || !event.originalEvent) return
 
-    function handlePointerEnd() {
-      if (!pointerActive) return
-      pointerActive = false
-      markDirectInteraction()
-    }
-
-    function handleTouchInteraction() {
-      markDirectInteraction()
-    }
-
-    function handleWheelInteraction() {
-      markDirectInteraction()
-    }
-
-    function handleMapInteraction(event: { originalEvent?: unknown }) {
-      if (event.originalEvent) markDirectInteraction()
-    }
-
-    function handleMapZoomInteraction() {
-      if (automaticTransitionRef.current === null) markDirectInteraction()
+      onInteractionRef.current()
+      clearSpinTimer()
+      idleResumeAtRef.current = getWorldStageIdleResumeAt(Date.now())
+      scheduleSpin(WORLD_STAGE_GLOBE_IDLE_RESUME_MS)
     }
 
     function setSceneData(nextScene: WorldStageScene) {
@@ -524,8 +507,8 @@ export function WorldStageMap({
           "fill-opacity": [
             "case",
             ["==", ["get", "role"], "neutral"],
-            0.64,
-            0.92,
+            0.78,
+            0.96,
           ],
         },
       })
@@ -534,9 +517,9 @@ export function WorldStageMap({
         type: "line",
         source: COUNTRY_SOURCE_ID,
         paint: {
-          "line-color": "#8197ae",
-          "line-width": 0.72,
-          "line-opacity": 0.68,
+          "line-color": "#8db5d3",
+          "line-width": 0.82,
+          "line-opacity": 0.8,
         },
       })
       map.addLayer({
@@ -545,8 +528,8 @@ export function WorldStageMap({
         source: COUNTRY_SOURCE_ID,
         filter: ["==", ["get", "role"], "contested"],
         paint: {
-          "line-color": "#e2c38d",
-          "line-width": 1.35,
+          "line-color": "#f0cf86",
+          "line-width": 1.45,
           "line-opacity": 0.96,
           "line-dasharray": [1.2, 1.4],
         },
@@ -557,8 +540,8 @@ export function WorldStageMap({
         source: COUNTRY_SOURCE_ID,
         filter: ["==", ["get", "iso3"], ""],
         paint: {
-          "line-color": "#f0d49a",
-          "line-width": 1.8,
+          "line-color": "#ffe2a1",
+          "line-width": 2,
           "line-opacity": 0.95,
         },
       })
@@ -568,7 +551,7 @@ export function WorldStageMap({
         source: FLOW_SOURCE_ID,
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
-          "line-color": "#d5e2ef",
+          "line-color": "#87d5dd",
           "line-width": [
             "match",
             ["get", "weight"],
@@ -578,7 +561,7 @@ export function WorldStageMap({
             2.1,
             2.8,
           ],
-          "line-opacity": 0.9,
+          "line-opacity": 0.96,
         },
       })
       map.addLayer({
@@ -588,10 +571,10 @@ export function WorldStageMap({
         paint: {
           "circle-radius": 7.2,
           "circle-color": "#07111f",
-          "circle-opacity": 0.86,
-          "circle-stroke-color": "#d7b465",
-          "circle-stroke-width": 1.25,
-          "circle-stroke-opacity": 0.92,
+          "circle-opacity": 0.94,
+          "circle-stroke-color": "#f0c96f",
+          "circle-stroke-width": 1.5,
+          "circle-stroke-opacity": 1,
         },
       })
       map.addLayer({
@@ -599,9 +582,9 @@ export function WorldStageMap({
         type: "circle",
         source: NODE_SOURCE_ID,
         paint: {
-          "circle-radius": 3.1,
-          "circle-color": "#e7ca8d",
-          "circle-opacity": 0.96,
+          "circle-radius": 3.3,
+          "circle-color": "#ffe09a",
+          "circle-opacity": 1,
         },
       })
 
@@ -621,12 +604,19 @@ export function WorldStageMap({
 
       try {
         loaded = true
+        const backgroundLayer = map
+          .getStyle()
+          .layers?.find((layer) => layer.type === "background")
+        if (backgroundLayer) {
+          map.setPaintProperty(backgroundLayer.id, "background-color", "#07111f")
+          map.setPaintProperty(backgroundLayer.id, "background-opacity", 1)
+        }
         map.setFog({
-          color: "#0a1728",
-          "high-color": "#182d47",
-          "space-color": "#050c16",
-          "horizon-blend": 0.08,
-          "star-intensity": 0.05,
+          color: "#07111f",
+          "high-color": "#17395a",
+          "space-color": "#07111f",
+          "horizon-blend": 0.04,
+          "star-intensity": 0.08,
         })
         addEditorialLayers(activeSceneRef.current)
         renderedSceneIdRef.current = activeSceneRef.current.id
@@ -647,18 +637,9 @@ export function WorldStageMap({
       syncMotionRef.current = () => undefined
       zoomMapRef.current = null
       automaticTransitionRef.current = null
-      pointerActive = false
 
       if (canvas) canvas.removeEventListener("webglcontextlost", handleContextLost)
       mapHost.removeEventListener("pointerdown", handlePointerDown, true)
-      mapHost.removeEventListener("pointermove", handlePointerMove, true)
-      mapHost.removeEventListener("pointerup", handlePointerEnd, true)
-      mapHost.removeEventListener("pointercancel", handlePointerEnd, true)
-      mapHost.removeEventListener("touchstart", handleTouchInteraction, true)
-      mapHost.removeEventListener("touchmove", handleTouchInteraction, true)
-      mapHost.removeEventListener("touchend", handleTouchInteraction, true)
-      mapHost.removeEventListener("touchcancel", handleTouchInteraction, true)
-      mapHost.removeEventListener("wheel", handleWheelInteraction, true)
       mapRef.current = null
 
       if (map) {
@@ -666,15 +647,8 @@ export function WorldStageMap({
           map.off("error", handleMapError)
           map.off("load", handleMapLoad)
           map.off("moveend", handleMoveEnd)
-          map.off("dragstart", handleMapInteraction)
-          map.off("drag", handleMapInteraction)
-          map.off("dragend", handleMapInteraction)
-          map.off("rotatestart", handleMapInteraction)
-          map.off("rotate", handleMapInteraction)
-          map.off("rotateend", handleMapInteraction)
-          map.off("zoomstart", handleMapZoomInteraction)
-          map.off("zoom", handleMapZoomInteraction)
-          map.off("zoomend", handleMapZoomInteraction)
+          map.off("dragend", finishDirectInteraction)
+          map.off("rotateend", finishDirectInteraction)
           map.stop()
           map.remove()
         } catch {
@@ -727,7 +701,7 @@ export function WorldStageMap({
             pitchWithRotate: false,
             touchPitch: false,
             scrollZoom: false,
-            touchZoomRotate: !reducedMotion,
+            touchZoomRotate: true,
             cooperativeGestures: false,
             fadeDuration: reducedMotion ? 0 : WORLD_STAGE_TRANSITION_MS,
           })
@@ -743,24 +717,9 @@ export function WorldStageMap({
         canvas.addEventListener("webglcontextlost", handleContextLost)
         map.on("error", handleMapError)
         map.on("moveend", handleMoveEnd)
-        map.on("dragstart", handleMapInteraction)
-        map.on("drag", handleMapInteraction)
-        map.on("dragend", handleMapInteraction)
-        map.on("rotatestart", handleMapInteraction)
-        map.on("rotate", handleMapInteraction)
-        map.on("rotateend", handleMapInteraction)
-        map.on("zoomstart", handleMapZoomInteraction)
-        map.on("zoom", handleMapZoomInteraction)
-        map.on("zoomend", handleMapZoomInteraction)
+        map.on("dragend", finishDirectInteraction)
+        map.on("rotateend", finishDirectInteraction)
         mapHost.addEventListener("pointerdown", handlePointerDown, passiveCapture)
-        mapHost.addEventListener("pointermove", handlePointerMove, passiveCapture)
-        mapHost.addEventListener("pointerup", handlePointerEnd, passiveCapture)
-        mapHost.addEventListener("pointercancel", handlePointerEnd, passiveCapture)
-        mapHost.addEventListener("touchstart", handleTouchInteraction, passiveCapture)
-        mapHost.addEventListener("touchmove", handleTouchInteraction, passiveCapture)
-        mapHost.addEventListener("touchend", handleTouchInteraction, passiveCapture)
-        mapHost.addEventListener("touchcancel", handleTouchInteraction, passiveCapture)
-        mapHost.addEventListener("wheel", handleWheelInteraction, passiveCapture)
 
         map.once("load", handleMapLoad)
       })

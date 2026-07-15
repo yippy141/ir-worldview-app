@@ -22,13 +22,13 @@ export const WORLD_STAGE_MAX_SPIN_ZOOM = 3.5
 export const WORLD_STAGE_SPIN_SEGMENT_MS = 1_000
 
 export const WORLD_STAGE_ROLE_COLORS = {
-  focus: "#e0b95f",
-  partner: "#79a8d2",
-  competitor: "#c16f56",
-  hedging: "#c2a46c",
-  exposed: "#9d89b6",
-  contested: "#a67b76",
-  neutral: "#162b45",
+  focus: "#f0c75e",
+  partner: "#55a7dc",
+  competitor: "#df725b",
+  hedging: "#d0a253",
+  exposed: "#ad86d3",
+  contested: "#c77e82",
+  neutral: "#173654",
 } as const satisfies Record<CountryRole, string>
 
 export const WORLD_STAGE_FLOW_WIDTHS = {
