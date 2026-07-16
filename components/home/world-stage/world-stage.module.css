@@ -309,7 +309,7 @@
 
 .mapControls {
   position: absolute;
-  z-index: 4;
+  z-index: 5;
   right: max(22px, calc(env(safe-area-inset-right) + 18px));
   bottom: max(18px, env(safe-area-inset-bottom));
   display: flex;
@@ -396,9 +396,23 @@
 .mapFrame {
   position: absolute;
   z-index: 0;
-  inset: 5.5vh -4vw 8.5vh 27vw;
+  inset: 3.5vh -4vw 8.5vh 18vw;
   overflow: hidden;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.16) 9%,
+    rgba(0, 0, 0, 0.72) 22%,
+    #000 34%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.16) 9%,
+    rgba(0, 0, 0, 0.72) 22%,
+    #000 34%
+  );
 }
 
 .fallbackMap,
@@ -592,6 +606,10 @@
   cursor: grabbing;
 }
 
+.mapboxHost :global(.mapboxgl-ctrl-bottom-left) {
+  left: 34%;
+}
+
 .mapAttribution {
   position: absolute;
   z-index: 2;
@@ -733,6 +751,12 @@
     bottom: auto;
     left: -96px;
     height: 238px;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .mapboxHost :global(.mapboxgl-ctrl-bottom-left) {
+    left: 112px;
   }
 
   .mapMeta {

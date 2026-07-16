@@ -10,7 +10,7 @@
     {
       "sceneId": "us_alliance_security_lens",
       "publicLabel": "Familiar U.S.-alliance security lens",
-      "oneSentencePurpose": "Show the Indo-Pacific as a treaty-and-posture system centered on U.S. forward presence, host-nation infrastructure, and distributed deterrence.",
+      "oneSentencePurpose": "The Indo-Pacific treaty system links U.S. forward forces, host-nation infrastructure, and distributed deterrence.",
       "lensOwner": "Washington-centered security planning view",
       "evidenceWindow": "asOf 2026-07-14; treaty texts remain in force, posture details use latest public material cited",
       "countryRoles": [
@@ -106,7 +106,7 @@
             -77.037
           ],
           "importance": 3,
-          "whyItMatters": "Treaty, budget, and force-posture decisions that structure the alliance map are made here.",
+          "whyItMatters": "Washington sets U.S. treaty policy, defense budgets, and regional force posture.",
           "confidence": "high",
           "sourceIds": [
             "SRC05",
@@ -123,7 +123,7 @@
             139.667
           ],
           "importance": 3,
-          "whyItMatters": "Home to Fleet Activities Yokosuka, 7th Fleet headquarters, and the U.S. Navy's only permanently forward-deployed carrier strike group.",
+          "whyItMatters": "Yokosuka hosts the U.S. 7th Fleet and the Navy's only permanently forward-deployed carrier strike group.",
           "confidence": "high",
           "sourceIds": [
             "SRC10"
@@ -138,7 +138,7 @@
             127.768
           ],
           "importance": 3,
-          "whyItMatters": "Officially described as the hub of airpower in the Pacific, Kadena symbolizes the air component of the alliance lens.",
+          "whyItMatters": "Kadena is a major U.S. air-power hub in the Pacific.",
           "confidence": "high",
           "sourceIds": [
             "SRC09"
@@ -168,7 +168,7 @@
             120.984
           ],
           "importance": 2,
-          "whyItMatters": "Alliance diplomacy, VFA/EDCA implementation, and maritime-security coordination are politically routed through Manila.",
+          "whyItMatters": "Manila manages alliance diplomacy, VFA and EDCA implementation, and maritime-security coordination.",
           "confidence": "high",
           "sourceIds": [
             "SRC04",
@@ -199,7 +199,7 @@
             144.93
           ],
           "importance": 3,
-          "whyItMatters": "Guam is a public, official hub for Indo-Pacific power projection and distributed posture resilience.",
+          "whyItMatters": "Guam supports Indo-Pacific power projection and a more dispersed U.S. force posture.",
           "confidence": "high",
           "sourceIds": [
             "SRC12"
@@ -214,7 +214,7 @@
             139.65
           ],
           "importance": 2,
-          "whyItMatters": "The treaty is bilateral, but alliance politics, host-nation support, and force-modernization choices are also political decisions made in Tokyo.",
+          "whyItMatters": "Tokyo decides host-nation support, force modernization, and the politics of the bilateral alliance.",
           "confidence": "high",
           "sourceIds": [
             "SRC01",
@@ -231,7 +231,7 @@
           "to": "n_jp_tokyo",
           "direction": "two-way",
           "weight": 3,
-          "plain-language meaning": "Washington and Tokyo are linked by a standing mutual-security treaty plus facilities-and-areas arrangements that make Japan a core host for U.S. forces.",
+          "plain-language meaning": "A mutual-security treaty and basing agreements make Japan a core host for U.S. forces.",
           "confidence": "high",
           "sourceIds": [
             "SRC01",
@@ -246,7 +246,7 @@
           "to": "n_kr_humphreys",
           "direction": "two-way",
           "weight": 3,
-          "plain-language meaning": "The U.S.-ROK treaty underwrites the continued stationing of U.S. land, air, and sea forces in and about South Korea.",
+          "plain-language meaning": "The U.S.-ROK treaty supports the continued stationing of U.S. land, air, and sea forces in South Korea.",
           "confidence": "high",
           "sourceIds": [
             "SRC03",
@@ -261,7 +261,7 @@
           "to": "n_ph_manila",
           "direction": "two-way",
           "weight": 3,
-          "plain-language meaning": "The alliance with the Philippines combines the 1951 treaty with EDCA access and infrastructure arrangements that expand practical interoperability.",
+          "plain-language meaning": "The 1951 treaty and EDCA give U.S. forces access to Philippine sites and support joint operations.",
           "confidence": "high",
           "sourceIds": [
             "SRC04",
@@ -276,7 +276,7 @@
           "to": "n_au_darwin",
           "direction": "two-way",
           "weight": 2,
-          "plain-language meaning": "Darwin is a recurring rotational posture node rather than a classic treaty-base equivalent, which is why it should be mapped as alliance infrastructure, not as identical to Japan or Korea.",
+          "plain-language meaning": "Darwin provides recurring rotational access, not a permanent treaty base like those in Japan or South Korea.",
           "confidence": "high",
           "sourceIds": [
             "SRC06",
@@ -291,7 +291,7 @@
           "to": "n_jp_kadena",
           "direction": "two-way",
           "weight": 2,
-          "plain-language meaning": "A simplified homepage version can depict Guam and Japan as linked posture nodes in a distributed U.S. forward network, though the underlying authorities and missions differ by location.",
+          "plain-language meaning": "Guam and Japan form linked nodes in a dispersed U.S. forward network, though their legal authorities and missions differ.",
           "confidence": "medium",
           "sourceIds": [
             "SRC08",
@@ -317,7 +317,7 @@
     {
       "sceneId": "beijing_regional_security_lens",
       "publicLabel": "Beijing-centered regional-security lens",
-      "oneSentencePurpose": "Show regional security as Beijing might editorially center it: sovereignty disputes, nearby theaters, strategic partnerships, and selective external-access infrastructure.",
+      "oneSentencePurpose": "Beijing's regional security map centers sovereignty disputes, nearby theaters, strategic partnerships, and selective overseas access.",
       "lensOwner": "Beijing-centered regional-security view",
       "evidenceWindow": "asOf 2026-07-14; uses PRC official white papers, MFA statements, MOD briefings, and partner-government material",
       "countryRoles": [
@@ -400,7 +400,7 @@
             116.407
           ],
           "importance": 3,
-          "whyItMatters": "Beijing is the political and doctrinal center of this lens, where sovereignty, security concepts, and partnership designations are articulated.",
+          "whyItMatters": "Beijing sets the sovereignty claims, security concepts, and partnership labels that organize this view.",
           "confidence": "high",
           "sourceIds": [
             "SRC15",
@@ -417,7 +417,7 @@
             118.797
           ],
           "importance": 3,
-          "whyItMatters": "Public Eastern Theater statements make this axis the most visible operational reference point for cross-strait pressure and signaling.",
+          "whyItMatters": "Eastern Theater Command directs cross-strait military pressure and signaling.",
           "confidence": "high",
           "sourceIds": [
             "SRC23"
@@ -432,7 +432,7 @@
             110.359
           ],
           "importance": 2,
-          "whyItMatters": "Official PRC material links the Southern Theater Navy to Zhanjiang, making it a practical anchor for the South China Sea part of the lens.",
+          "whyItMatters": "Zhanjiang anchors Southern Theater Navy operations in the South China Sea.",
           "confidence": "medium",
           "sourceIds": [
             "SRC24"
@@ -462,7 +462,7 @@
             103.6
           ],
           "importance": 2,
-          "whyItMatters": "Ream is now publicly tied to the Cambodia-China joint logistics and training center, making it a key external-access node in this lens.",
+          "whyItMatters": "Ream hosts a Cambodia-China joint logistics and training center.",
           "confidence": "medium",
           "sourceIds": [
             "SRC22"
@@ -477,7 +477,7 @@
             62.325
           ],
           "importance": 2,
-          "whyItMatters": "Gwadar is a perennial symbol node for CPEC, strategic depth, and westward connectivity in Beijing-centered mapping.",
+          "whyItMatters": "Gwadar links CPEC to the Arabian Sea and China's westward economic corridor.",
           "confidence": "high",
           "sourceIds": [
             "SRC19"
@@ -492,7 +492,7 @@
             37.617
           ],
           "importance": 2,
-          "whyItMatters": "Moscow matters here not because it is a regional Asian node, but because public PRC documents elevate Moscow as Beijing's highest-level strategic partner.",
+          "whyItMatters": "Moscow is Beijing's highest-level strategic partner, though not a formal ally.",
           "confidence": "high",
           "sourceIds": [
             "SRC17"
@@ -507,7 +507,7 @@
             120.984
           ],
           "importance": 2,
-          "whyItMatters": "From the Beijing-centered viewpoint, Manila is both dispute counterpart and dialogue counterpart.",
+          "whyItMatters": "Manila is both a rival claimant and a formal dialogue partner.",
           "confidence": "high",
           "sourceIds": [
             "SRC20"
@@ -523,7 +523,7 @@
           "to": "n_ru_moscow",
           "direction": "two-way",
           "weight": 3,
-          "plain-language meaning": "PRC and Russian official texts describe a very high-level strategic partnership, but not a formal mutual-defense alliance.",
+          "plain-language meaning": "China and Russia maintain a high-level strategic partnership without a mutual-defense treaty.",
           "confidence": "high",
           "sourceIds": [
             "SRC17"
@@ -537,7 +537,7 @@
           "to": "n_pk_gwadar",
           "direction": "two-way",
           "weight": 2,
-          "plain-language meaning": "Gwadar is best shown as a CPEC-linked strategic connectivity node rather than as proof of a public PRC overseas naval base claim.",
+          "plain-language meaning": "Gwadar connects CPEC to the Arabian Sea; it is not an acknowledged Chinese naval base.",
           "confidence": "high",
           "sourceIds": [
             "SRC18",
@@ -552,7 +552,7 @@
           "to": "n_kh_ream",
           "direction": "two-way",
           "weight": 2,
-          "plain-language meaning": "Public Cambodia and PRC material now openly links Ream to a Cambodia-China joint logistics and training center, even while Cambodia rejects the idea of a foreign-exclusive base.",
+          "plain-language meaning": "Ream hosts a Cambodia-China logistics and training center. Cambodia says the base is not exclusive to China.",
           "confidence": "medium",
           "sourceIds": [
             "SRC22"
@@ -566,7 +566,7 @@
           "to": "n_ph_manila_2",
           "direction": "two-way",
           "weight": 1,
-          "plain-language meaning": "Even in a contested relationship, an official bilateral consultation mechanism exists and should be shown as a governance channel rather than as normal strategic trust.",
+          "plain-language meaning": "The Xiamen-Manila consultation channel supports formal talks despite the South China Sea dispute.",
           "confidence": "high",
           "sourceIds": [
             "SRC20"
@@ -590,7 +590,7 @@
     {
       "sceneId": "middle_power_hedging_nonalignment",
       "publicLabel": "Middle-power hedging and nonalignment",
-      "oneSentencePurpose": "Show a world organized less by formal camp membership than by selective engagement, issue-based coalitions, and autonomy-preserving diplomacy.",
+      "oneSentencePurpose": "These states preserve autonomy through selective engagement and issue-based coalitions rather than fixed bloc membership.",
       "lensOwner": "No single owner; editorially centered on autonomous middle-power statecraft",
       "evidenceWindow": "asOf 2026-07-14; uses official foreign-policy doctrines and summit materials",
       "countryRoles": [
@@ -661,7 +661,7 @@
             77.209
           ],
           "importance": 3,
-          "whyItMatters": "New Delhi is where strategic autonomy is articulated and practiced across competing relationships.",
+          "whyItMatters": "New Delhi pursues strategic autonomy across competing relationships.",
           "confidence": "high",
           "sourceIds": [
             "SRC14",
@@ -677,7 +677,7 @@
             106.846
           ],
           "importance": 3,
-          "whyItMatters": "Jakarta symbolizes Indonesia's bebas aktif doctrine and its role as an ASEAN-centered balancer.",
+          "whyItMatters": "Jakarta anchors Indonesia's bebas aktif doctrine and its ASEAN diplomacy.",
           "confidence": "high",
           "sourceIds": [
             "SRC25",
@@ -693,7 +693,7 @@
             106.799
           ],
           "importance": 2,
-          "whyItMatters": "ASEAN's Jakarta secretariat is a visible institutional anchor for non-bloc, consensus-heavy regional diplomacy.",
+          "whyItMatters": "The ASEAN Secretariat coordinates the bloc's consensus-based, nonaligned diplomacy.",
           "confidence": "high",
           "sourceIds": [
             "SRC31"
@@ -708,7 +708,7 @@
             105.854
           ],
           "importance": 2,
-          "whyItMatters": "Hanoi is the political center of Vietnam's diversified and self-reliant diplomacy.",
+          "whyItMatters": "Hanoi directs Vietnam's diversified, self-reliant foreign policy.",
           "confidence": "high",
           "sourceIds": [
             "SRC26"
@@ -723,7 +723,7 @@
             -47.882
           ],
           "importance": 2,
-          "whyItMatters": "Brasília provides the executive center of Brazil's governance activism and BRICS presidency framing.",
+          "whyItMatters": "Brasília directs Brazil's BRICS diplomacy and global-governance agenda.",
           "confidence": "high",
           "sourceIds": [
             "SRC28"
@@ -738,7 +738,7 @@
             -43.173
           ],
           "importance": 2,
-          "whyItMatters": "Rio hosted the 2025 BRICS summit, giving the city editorial value as a convening node of plural alignments.",
+          "whyItMatters": "Rio de Janeiro hosted the 2025 BRICS summit.",
           "confidence": "high",
           "sourceIds": [
             "SRC28"
@@ -753,7 +753,7 @@
             46.675
           ],
           "importance": 2,
-          "whyItMatters": "Riyadh matters because energy, investment, and summit diplomacy let Saudi Arabia keep multiple great-power channels open at once.",
+          "whyItMatters": "Energy, investment, and summit diplomacy let Riyadh keep channels open with multiple great powers.",
           "confidence": "medium",
           "sourceIds": [
             "SRC30"
@@ -768,7 +768,7 @@
             54.377
           ],
           "importance": 2,
-          "whyItMatters": "Abu Dhabi is the clearest Gulf node for capital-driven hedging across commerce, technology, and diplomacy.",
+          "whyItMatters": "Abu Dhabi uses capital, technology ties, and diplomacy to hedge across major powers.",
           "confidence": "high",
           "sourceIds": [
             "SRC29",
@@ -794,7 +794,7 @@
     {
       "sceneId": "semiconductor_advanced_manufacturing_networks",
       "publicLabel": "Semiconductor and advanced-manufacturing networks",
-      "oneSentencePurpose": "Show the chip system as a cross-border production network in which bottlenecks sit at different stages rather than in one sovereign center.",
+      "oneSentencePurpose": "Chip production is a cross-border network with bottlenecks at different stages and in different countries.",
       "lensOwner": "Supply-chain and industrial-capacity view",
       "evidenceWindow": "asOf 2026-07-14; uses company annual reports, official factory pages, and government industrial-policy material",
       "countryRoles": [
@@ -864,7 +864,7 @@
             121.003
           ],
           "importance": 3,
-          "whyItMatters": "Hsinchu remains one of the densest public symbols of Taiwan's foundry and R&D concentration.",
+          "whyItMatters": "Hsinchu concentrates Taiwan's semiconductor foundries and research.",
           "confidence": "high",
           "sourceIds": [
             "SRC32"
@@ -879,7 +879,7 @@
             120.277
           ],
           "importance": 3,
-          "whyItMatters": "Fab 18 is a flagship advanced-node complex and an editorial shorthand for Taiwan's continuing leading-edge concentration.",
+          "whyItMatters": "Fab 18 is a flagship advanced-node manufacturing complex.",
           "confidence": "high",
           "sourceIds": [
             "SRC32"
@@ -894,7 +894,7 @@
             -112.155
           ],
           "importance": 2,
-          "whyItMatters": "Phoenix captures the U.S. re-shoring push and TSMC's stated effort to strengthen the U.S. semiconductor ecosystem.",
+          "whyItMatters": "TSMC's Phoenix fabs extend Taiwan-centered foundry production into the United States.",
           "confidence": "high",
           "sourceIds": [
             "SRC32"
@@ -909,7 +909,7 @@
             127.112
           ],
           "importance": 3,
-          "whyItMatters": "Samsung identifies Pyeongtaek as the world's largest semiconductor production complex and a core site for memory and foundry scale.",
+          "whyItMatters": "Pyeongtaek is Samsung's largest semiconductor production complex for memory and foundry manufacturing.",
           "confidence": "high",
           "sourceIds": [
             "SRC34"
@@ -924,7 +924,7 @@
             5.406
           ],
           "importance": 3,
-          "whyItMatters": "Veldhoven is a bottleneck manufacturing and R&D node because ASML's headquarters is also its biggest R&D and manufacturing site.",
+          "whyItMatters": "ASML's largest research and manufacturing site makes Veldhoven a bottleneck for advanced lithography.",
           "confidence": "high",
           "sourceIds": [
             "SRC33"
@@ -939,7 +939,7 @@
             130.816
           ],
           "importance": 2,
-          "whyItMatters": "Kumamoto represents Japan's semiconductor revival through a TSMC-linked manufacturing foothold backed by Japanese policy.",
+          "whyItMatters": "The TSMC-linked Kumamoto fab anchors Japan's semiconductor revival.",
           "confidence": "high",
           "sourceIds": [
             "SRC32",
@@ -955,7 +955,7 @@
             100.282
           ],
           "importance": 2,
-          "whyItMatters": "Penang captures Malaysia's backend strength, especially advanced packaging and testing expansions.",
+          "whyItMatters": "Penang is a major center for semiconductor packaging and testing.",
           "confidence": "high",
           "sourceIds": [
             "SRC36"
@@ -971,7 +971,7 @@
           "to": "n_tw_tainan",
           "direction": "one-way",
           "weight": 3,
-          "plain-language meaning": "A simplified map can show Veldhoven feeding leading-edge Taiwanese fabs because Dutch lithography capability is a major upstream bottleneck for advanced manufacturing.",
+          "plain-language meaning": "ASML in Veldhoven supplies lithography systems used by Taiwan's leading-edge fabs.",
           "confidence": "medium",
           "sourceIds": [
             "SRC33",
@@ -986,7 +986,7 @@
           "to": "n_kr_pyeongtaek",
           "direction": "one-way",
           "weight": 3,
-          "plain-language meaning": "Samsung's advanced production base depends on a tool ecosystem in which ASML is a critical upstream supplier.",
+          "plain-language meaning": "Samsung's Pyeongtaek fabs depend on advanced lithography systems supplied by ASML.",
           "confidence": "medium",
           "sourceIds": [
             "SRC33",
@@ -1001,7 +1001,7 @@
           "to": "n_us_phoenix",
           "direction": "one-way",
           "weight": 2,
-          "plain-language meaning": "Phoenix should be shown as an overseas extension of a Taiwan-centered foundry system, not as a substitute for it.",
+          "plain-language meaning": "TSMC's Phoenix fabs extend its Taiwan-centered production network into the United States.",
           "confidence": "high",
           "sourceIds": [
             "SRC32"
@@ -1015,7 +1015,7 @@
           "to": "n_jp_kumamoto",
           "direction": "one-way",
           "weight": 2,
-          "plain-language meaning": "Kumamoto is best understood as a Japan-based extension of a Taiwan-led foundry network operating under a different state-policy setting.",
+          "plain-language meaning": "The Kumamoto fab extends a Taiwan-led foundry network into Japan.",
           "confidence": "high",
           "sourceIds": [
             "SRC32",
@@ -1030,7 +1030,7 @@
           "to": "n_my_penang",
           "direction": "two-way",
           "weight": 1,
-          "plain-language meaning": "Penang belongs on the map because frontend chip leadership still relies on backend packaging, test, and handling ecosystems across Asia.",
+          "plain-language meaning": "Leading-edge chip production still relies on packaging, testing, and handling in Penang.",
           "confidence": "medium",
           "sourceIds": [
             "SRC36"
@@ -1040,10 +1040,10 @@
       "caveats": [
         "Stale≤6mo: fab ramp status, product-node roadmaps, backend capacity additions, and export-control coverage can change quickly.",
         "A simplified homepage map may wrongly imply a single linear chain; real semiconductor production depends on many parallel supplier, design, packaging, and equipment relationships.",
-        "Country-level color fills can hide the fact that a few specific sites matter far more than national averages."
+        "Country-level color fills obscure how production is concentrated in a few sites."
       ],
       "sensitiveOrDisputedClassifications": [
-        "Tool flows from Veldhoven to end fabs are editorial shorthand for upstream dependence, not public transaction-by-transaction shipment records.",
+        "Tool flows show upstream dependence, not transaction-by-transaction shipments.",
         "Phoenix should not be depicted as evidence of U.S. independence from Taiwanese production concentration."
       ],
       "missingEvidence": [
@@ -1054,7 +1054,7 @@
     {
       "sceneId": "frontier_ai_compute_chips_cloud_governance",
       "publicLabel": "Frontier-AI compute, chips, cloud, research, and governance infrastructure",
-      "oneSentencePurpose": "Show frontier AI as an infrastructure stack in which compute buildout, advanced chips, cloud regions, research clusters, and governance institutions depend on each other.",
+      "oneSentencePurpose": "Frontier AI depends on a linked stack of compute, advanced chips, cloud regions, research hubs, and governance institutions.",
       "lensOwner": "Infrastructure and model-development view",
       "evidenceWindow": "asOf 2026-07-14; uses company filings, cloud-region pages, official AI-governance documents, and public compute announcements",
       "countryRoles": [
@@ -1130,7 +1130,7 @@
             -77.487
           ],
           "importance": 3,
-          "whyItMatters": "Northern Virginia is a canonical U.S. cloud-region anchor for hyperscale compute and a reasonable homepage shorthand for frontier inference and training infrastructure.",
+          "whyItMatters": "Northern Virginia is a major U.S. cloud region for hyperscale AI training and inference.",
           "confidence": "high",
           "sourceIds": [
             "SRC39",
@@ -1146,7 +1146,7 @@
             -121.955
           ],
           "importance": 3,
-          "whyItMatters": "Santa Clara stands in for the Bay Area's dense frontier-AI hardware, software, and capital ecosystem, including NVIDIA.",
+          "whyItMatters": "Santa Clara concentrates frontier-AI hardware, software, and investment, including NVIDIA.",
           "confidence": "high",
           "sourceIds": [
             "SRC38"
@@ -1161,7 +1161,7 @@
             -77.037
           ],
           "importance": 2,
-          "whyItMatters": "Federal AI standard-setting, export framing, and policy architecture remain heavily Washington-driven.",
+          "whyItMatters": "Washington sets federal AI standards and export policy.",
           "confidence": "high",
           "sourceIds": [
             "SRC43",
@@ -1177,7 +1177,7 @@
             120.64
           ],
           "importance": 3,
-          "whyItMatters": "A homepage map can merge Taiwan's key advanced-fab zones into one axis to indicate where frontier-AI chips are physically manufactured.",
+          "whyItMatters": "The Hsinchu-Tainan corridor produces advanced chips used in frontier AI systems.",
           "confidence": "medium",
           "sourceIds": [
             "SRC32"
@@ -1192,7 +1192,7 @@
             127.112
           ],
           "importance": 2,
-          "whyItMatters": "Pyeongtaek matters because HBM and server-memory scaling have become core constraints in AI infrastructure.",
+          "whyItMatters": "Pyeongtaek produces high-bandwidth and server memory used in AI systems.",
           "confidence": "high",
           "sourceIds": [
             "SRC34"
@@ -1207,7 +1207,7 @@
             5.406
           ],
           "importance": 3,
-          "whyItMatters": "Veldhoven remains a bottleneck site for the equipment stack beneath frontier-AI chips.",
+          "whyItMatters": "Veldhoven supplies lithography equipment required to make frontier-AI chips.",
           "confidence": "high",
           "sourceIds": [
             "SRC33"
@@ -1238,7 +1238,7 @@
             -0.128
           ],
           "importance": 2,
-          "whyItMatters": "London belongs on the map because the UK's AI Security Institute has become one of the most visible public institutions for frontier-AI evaluation and governance.",
+          "whyItMatters": "London hosts the UK AI Security Institute, a major center for AI evaluation and governance.",
           "confidence": "high",
           "sourceIds": [
             "SRC41"
@@ -1254,7 +1254,7 @@
           "to": "n_tw_hsinchu_ai",
           "direction": "one-way",
           "weight": 3,
-          "plain-language meaning": "A homepage line from Veldhoven to Taiwan captures the public fact that frontier chips rely on advanced lithography capability concentrated in the Netherlands.",
+          "plain-language meaning": "Advanced lithography from Veldhoven supports frontier-chip production in Taiwan.",
           "confidence": "medium",
           "sourceIds": [
             "SRC33",
@@ -1269,7 +1269,7 @@
           "to": "n_us_nova",
           "direction": "one-way",
           "weight": 3,
-          "plain-language meaning": "This is an editorial inference showing that U.S. frontier cloud capacity depends on chips manufactured through Taiwan-centered advanced fab capacity.",
+          "plain-language meaning": "U.S. cloud infrastructure depends on advanced chips made in Taiwan.",
           "confidence": "medium",
           "sourceIds": [
             "SRC32",
@@ -1287,7 +1287,7 @@
           "to": "n_us_nova",
           "direction": "one-way",
           "weight": 2,
-          "plain-language meaning": "This flow is a homepage shorthand for the dependence of frontier compute on AI-oriented memory and HBM supply from Korean production complexes.",
+          "plain-language meaning": "Korean high-bandwidth and server memory feed U.S. AI compute.",
           "confidence": "medium",
           "sourceIds": [
             "SRC34",
@@ -1303,7 +1303,7 @@
           "to": "n_us_nova",
           "direction": "one-way",
           "weight": 2,
-          "plain-language meaning": "NVIDIA's data-center business and U.S. hyperscale cloud infrastructure should be shown as linked layers of one frontier-AI stack.",
+          "plain-language meaning": "NVIDIA hardware designed in the Bay Area is deployed across U.S. hyperscale cloud infrastructure.",
           "confidence": "high",
           "sourceIds": [
             "SRC38",
@@ -1319,7 +1319,7 @@
           "to": "n_us_nova",
           "direction": "two-way",
           "weight": 2,
-          "plain-language meaning": "UAE capital and infrastructure partnerships with Microsoft, G42, Khazna, MGX, and U.S.-linked AI projects make Abu Dhabi a real frontier-AI node, not just an investor outpost.",
+          "plain-language meaning": "UAE capital and infrastructure partnerships connect Abu Dhabi to Microsoft and other U.S.-linked AI projects.",
           "confidence": "high",
           "sourceIds": [
             "SRC44",
@@ -1334,7 +1334,7 @@
           "to": "n_gb_london_ai",
           "direction": "two-way",
           "weight": 1,
-          "plain-language meaning": "The U.S. and UK should be linked as governance actors because both maintain public institutions dedicated to frontier-AI evaluation and international coordination.",
+          "plain-language meaning": "U.S. and UK AI safety institutes coordinate on model evaluation and international standards.",
           "confidence": "high",
           "sourceIds": [
             "SRC41",
@@ -1345,7 +1345,7 @@
       "caveats": [
         "Stale≤6mo: compute-capacity announcements, data-center buildouts, AI-campus timelines, cloud-region capacity claims, and governance implementation calendars can change very quickly.",
         "A simplified homepage map may falsely imply that training compute, inference compute, fab output, memory supply, and governance institutions move at the same pace; they do not.",
-        "Some flows here are explicitly editorial inferences from public dependencies rather than published shipment routes."
+        "The flow lines show infrastructure dependencies, not published shipment routes."
       ],
       "sensitiveOrDisputedClassifications": [
         "Taiwan's role in frontier-AI chip supply is undeniable in public sources, but any map should avoid implying diplomatic recognition from technical dependence.",

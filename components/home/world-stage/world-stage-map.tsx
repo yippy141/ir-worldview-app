@@ -20,6 +20,8 @@ import {
 import {
   getNextWorldStageSpinLongitude,
   getWorldStageIdleResumeAt,
+  WORLD_STAGE_BASEMAP_CONFIG,
+  WORLD_STAGE_DEFAULT_ZOOM_OFFSET,
   WORLD_STAGE_GLOBE_IDLE_RESUME_MS,
   WORLD_STAGE_MAPBOX_STYLE,
   WORLD_STAGE_MAPBOX_TOKEN,
@@ -79,7 +81,7 @@ const NODE_LAYER_ID = "world-stage-node"
 const FALLBACK_MIN_ZOOM = 0.5
 const FALLBACK_MAX_ZOOM = 2
 const FALLBACK_ZOOM_STEP = 0.25
-const FALLBACK_INITIAL_ZOOM = 1
+const FALLBACK_INITIAL_ZOOM = 1.15
 const LIVE_MIN_ZOOM = 0.65
 const LIVE_MAX_ZOOM = 3.25
 
@@ -97,7 +99,7 @@ function cameraFor(scene: WorldStageScene) {
 
   return {
     center: [...scene.camera.center] as [number, number],
-    zoom: scene.camera.zoom - (mobile ? 0.42 : 0),
+    zoom: scene.camera.zoom + (mobile ? -0.42 : WORLD_STAGE_DEFAULT_ZOOM_OFFSET),
     pitch: mobile ? 0 : scene.camera.pitch,
     bearing: scene.camera.bearing,
   }
@@ -507,9 +509,10 @@ export function WorldStageMap({
           "fill-opacity": [
             "case",
             ["==", ["get", "role"], "neutral"],
-            0.78,
-            0.96,
+            0.84,
+            0.98,
           ],
+          "fill-emissive-strength": 0.82,
         },
       })
       map.addLayer({
@@ -520,6 +523,7 @@ export function WorldStageMap({
           "line-color": "#8db5d3",
           "line-width": 0.82,
           "line-opacity": 0.8,
+          "line-emissive-strength": 0.72,
         },
       })
       map.addLayer({
@@ -532,6 +536,7 @@ export function WorldStageMap({
           "line-width": 1.45,
           "line-opacity": 0.96,
           "line-dasharray": [1.2, 1.4],
+          "line-emissive-strength": 0.9,
         },
       })
       map.addLayer({
@@ -543,6 +548,7 @@ export function WorldStageMap({
           "line-color": "#ffe2a1",
           "line-width": 2,
           "line-opacity": 0.95,
+          "line-emissive-strength": 1,
         },
       })
       map.addLayer({
@@ -562,6 +568,7 @@ export function WorldStageMap({
             2.8,
           ],
           "line-opacity": 0.96,
+          "line-emissive-strength": 0.92,
         },
       })
       map.addLayer({
@@ -575,6 +582,7 @@ export function WorldStageMap({
           "circle-stroke-color": "#f0c96f",
           "circle-stroke-width": 1.5,
           "circle-stroke-opacity": 1,
+          "circle-emissive-strength": 0.94,
         },
       })
       map.addLayer({
@@ -585,6 +593,7 @@ export function WorldStageMap({
           "circle-radius": 3.3,
           "circle-color": "#ffe09a",
           "circle-opacity": 1,
+          "circle-emissive-strength": 1,
         },
       })
 
@@ -604,6 +613,16 @@ export function WorldStageMap({
 
       try {
         loaded = true
+        const hasStandardBasemap = map
+          .getStyle()
+          .imports?.some((styleImport) => styleImport.id === "basemap")
+        if (hasStandardBasemap) {
+          for (const [property, value] of Object.entries(
+            WORLD_STAGE_BASEMAP_CONFIG,
+          )) {
+            map.setConfigProperty("basemap", property, value)
+          }
+        }
         const backgroundLayer = map
           .getStyle()
           .layers?.find((layer) => layer.type === "background")
@@ -613,10 +632,10 @@ export function WorldStageMap({
         }
         map.setFog({
           color: "#07111f",
-          "high-color": "#17395a",
+          "high-color": "#1c4568",
           "space-color": "#07111f",
-          "horizon-blend": 0.04,
-          "star-intensity": 0.08,
+          "horizon-blend": 0.025,
+          "star-intensity": 0.12,
         })
         addEditorialLayers(activeSceneRef.current)
         renderedSceneIdRef.current = activeSceneRef.current.id
@@ -782,8 +801,7 @@ export function WorldStageMap({
           <p className={styles.mapTooltipLabel}>{inspection.item.label}</p>
           <p className={styles.mapTooltipMeaning}>{inspection.item.meaning}</p>
           <p className={styles.mapTooltipMeta}>
-            As of {inspection.item.asOf} · {inspection.item.sourceCount}{" "}
-            {inspection.item.sourceCount === 1 ? "source" : "sources"}
+            Reviewed through {inspection.item.asOf}
           </p>
         </div>
       ) : null}
@@ -796,8 +814,7 @@ export function WorldStageMap({
         <ul>
           {tooltipItems.map((item) => (
             <li key={`${item.kind}-${item.id}`}>
-              {item.label}: {item.meaning} As of {item.asOf}; {item.sourceCount}{" "}
-              {item.sourceCount === 1 ? "source" : "sources"}.
+              {item.label}: {item.meaning}
             </li>
           ))}
         </ul>
