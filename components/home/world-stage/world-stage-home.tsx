@@ -162,9 +162,7 @@ export function WorldStageHome() {
         {activeScene ? (
           <>
             <p className={styles.mapDate}>
-              As of <time dateTime={activeScene.asOf}>{activeScene.asOf}</time> ·{" "}
-              {activeScene.sourceRefs.length} sources · reviewed editorial map, not live
-              intelligence
+              Reviewed through <time dateTime={activeScene.asOf}>{activeScene.asOf}</time>
             </p>
             <p className={styles.mapQualification}>{activeScene.caption}</p>
           </>

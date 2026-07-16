@@ -175,6 +175,10 @@ test("map controls expose independent, complete scene labels", () => {
     worldStageSceneOptions.map((option) => option.sceneId),
     WORLD_STAGE_SCENE_IDS,
   )
+  assert.equal(
+    worldStageSceneOptions.find((option) => option.sceneId === "profile")?.label,
+    "Trans-Pacific alliance network",
+  )
   assert.equal(new Set(worldStageSceneOptions.map((option) => option.label)).size, 6)
 
   const navigationLabels = new Set<string>(worldStageMenuItems.map((item) => item.label))

@@ -626,7 +626,7 @@ function SupportBlock({
 function ClarificationCopy({ clarification }: { clarification: Clarification }) {
   return (
     <div className="stack-xs">
-      <p style={{ fontWeight: 600 }}>What this is really asking</p>
+      <p style={{ fontWeight: 600 }}>Plain-language explanation</p>
       <p>{clarification.whatItAsks}</p>
       {clarification.whatItDoesNotAsk ? (
         <p className="muted">{clarification.whatItDoesNotAsk}</p>
@@ -660,7 +660,7 @@ function hasSupport(question: Question) {
 }
 
 function supportToggleLabel(question: Question) {
-  return question.clarification ? "What this is really asking" : "Quick explainer"
+  return question.clarification ? "Plain-language explanation" : "Quick explainer"
 }
 
 function modeLabel(mode: QuizMode) {

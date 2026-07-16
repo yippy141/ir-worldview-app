@@ -17,13 +17,10 @@ export const standardQuestions: Question[] = [
     id: "sc1",
     kind: "likert",
     dimension: "securityCompetition",
-    prompt:
-      "Even sustained periods of major-power peace remain fragile when the underlying balance of capability is shifting.",
+    prompt: "Major-power peace remains fragile when the balance of power is shifting.",
     clarification: {
       whatItAsks:
-        "Whether shifts in relative capability tend to eventually destabilize relationships, even ones that look settled.",
-      whatItDoesNotAsk:
-        "This is not saying war is inevitable or that diplomacy plays no role — only asking how durable its stabilizing effect is when power is moving.",
+        "Does a shift in power make a peaceful relationship harder to maintain?",
       terms: [
         {
           term: "Balance of power",
@@ -40,9 +37,7 @@ export const standardQuestions: Question[] = [
       "Even without a world government, shared rules can make cooperation last.",
     clarification: {
       whatItAsks:
-        "Whether institutions can shape behavior by setting expectations, monitoring conduct, and lowering uncertainty.",
-      whatItDoesNotAsk:
-        "This is not claiming institutions always work or that power stops mattering.",
+        "Can shared rules help states cooperate when no higher authority can enforce them?",
     },
   },
   {
@@ -53,9 +48,7 @@ export const standardQuestions: Question[] = [
       "Changes in who governs and whom they answer to often shift foreign policy as much as outside threats do.",
     clarification: {
       whatItAsks:
-        "What usually moves policy first: leadership and coalition change at home, or gradual shifts in the external balance.",
-      whatItDoesNotAsk:
-        "The question is about what tends to move policy first, not about whether outside pressure matters at all.",
+        "Can elections, leadership changes, and domestic coalitions shift foreign policy as much as events abroad?",
     },
   },
   {
@@ -63,12 +56,10 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "normsIdentity",
     prompt:
-      "Whether a military move signals threat or reassurance depends more on the history and trust between the states involved than on the scale of the force itself.",
+      "The meaning of a military buildup depends more on the states' history and mutual trust than on the size of the force.",
     clarification: {
       whatItAsks:
-        "Whether relational and historical context carries more weight than raw capability measures when states read each other's military moves.",
-      whatItDoesNotAsk:
-        "This is not saying the size of a force is irrelevant, only asking which factor carries more explanatory weight.",
+        "When states judge a military move, do past relations and trust tell us more than the size of the force?",
     },
   },
   {
@@ -76,12 +67,10 @@ export const standardQuestions: Question[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     prompt:
-      "Control over credit, production networks, and supply-chain chokepoints shapes what states can do in a crisis more reliably than differences in military capability alone.",
+      "In a crisis, control over credit, production, and supply-chain chokepoints shapes state choices more than military capability alone.",
     clarification: {
       whatItAsks:
-        "Whether economic leverage and structural dependence explain crisis behavior more reliably than a narrower focus on military power.",
-      whatItDoesNotAsk:
-        "This is not saying military power stops mattering — only asking which factor carries more weight when they diverge.",
+        "Do finance and supply-chain dependence constrain states more than military differences do?",
     },
   },
   {
@@ -92,9 +81,7 @@ export const standardQuestions: Question[] = [
       "When a state keeps pushing for gains beyond what it needs for defense, rivals and bystanders often respond in ways that leave it less secure.",
     clarification: {
       whatItAsks:
-        "Whether pushing beyond clearly defensible limits tends to produce a self-defeating response from rivals and third parties.",
-      whatItDoesNotAsk:
-        "This is not asking whether states should withdraw from the world — only whether excess accumulation reliably produces backlash.",
+        "Does seeking gains beyond defense usually trigger resistance and leave a state less secure?",
     },
   },
   {
@@ -105,8 +92,7 @@ export const standardQuestions: Question[] = [
       "A stable international order is often worth preserving even when serious injustice remains unresolved.",
     clarification: {
       whatItAsks:
-        "Whether stability and precedent should usually take priority when they collide with broader moral goals.",
-      whatItDoesNotAsk: "This is not saying injustice is unimportant.",
+        "When stability and justice conflict, should preserving order usually come first?",
     },
   },
   {
@@ -115,8 +101,7 @@ export const standardQuestions: Question[] = [
     cardType: "explanation",
     allowSecondChoiceInAnalyst: true,
     prompt: "What most often keeps alliances together under real pressure?",
-    helpText:
-      "Choose the logic you find most persuasive, not the sentence that sounds nicest in the abstract.",
+    helpText: "Choose the explanation you would use first.",
     options: [
       {
         id: "power",
@@ -156,9 +141,7 @@ export const standardQuestions: Question[] = [
       "States often prepare for danger because they cannot be sure others will stay benign.",
     clarification: {
       whatItAsks:
-        "Whether uncertainty about future intentions pushes states toward self-protective behavior.",
-      whatItDoesNotAsk:
-        "This is not saying trust never matters or that alliances are useless.",
+        "Does uncertainty about another state's future behavior push states to prepare for conflict?",
     },
   },
   {
@@ -169,9 +152,7 @@ export const standardQuestions: Question[] = [
       "Monitoring and repeated contact can keep international agreements alive even when trust is thin.",
     clarification: {
       whatItAsks:
-        "Whether transparency and repeated interaction can reduce cheating and support cooperation.",
-      whatItDoesNotAsk:
-        "This is not asking whether every agreement is equally credible.",
+        "Can monitoring and regular contact keep an agreement working when the parties do not trust each other?",
     },
   },
   {
@@ -181,8 +162,7 @@ export const standardQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "When economic interdependence becomes dangerous, what is usually the deeper problem?",
-    helpText:
-      "This asks what makes the ties dangerous at the deepest level, not which policy tool you like most.",
+    helpText: "Choose the cause, not a policy response.",
     options: [
       {
         id: "rivalry",
@@ -222,9 +202,7 @@ export const standardQuestions: Question[] = [
       "States facing similar outside pressure can still act very differently because their internal politics differ.",
     clarification: {
       whatItAsks:
-        "Whether institutions, elites, and social coalitions inside a state filter the same outside world differently.",
-      whatItDoesNotAsk:
-        "This is not saying domestic politics always outweighs external pressure.",
+        "Do different political systems and coalitions lead states facing the same pressure to respond differently?",
     },
   },
   {
@@ -235,8 +213,7 @@ export const standardQuestions: Question[] = [
       "Status, recognition, and legitimacy help shape what states want, not just how they pursue fixed interests.",
     clarification: {
       whatItAsks:
-        "Whether interests are partly socially formed rather than fully given in advance.",
-      whatItDoesNotAsk: "This is not denying that material interests exist.",
+        "Are a state's interests shaped partly by status, identity, and recognition?",
     },
   },
   {
@@ -247,9 +224,7 @@ export const standardQuestions: Question[] = [
       "Economic rules often give stronger states lasting structural advantages that weaker states must work around.",
     clarification: {
       whatItAsks:
-        "Whether hierarchy is built into major economic arrangements, not just used tactically from case to case.",
-      whatItDoesNotAsk:
-        "This is not asking whether weaker states have no room to maneuver.",
+        "Do global economic rules give some states built-in advantages over others?",
       terms: [
         {
           term: "Structural advantage",
@@ -266,9 +241,7 @@ export const standardQuestions: Question[] = [
       "Avoiding overextension is usually more important than pressing every opening for lasting advantage.",
     clarification: {
       whatItAsks:
-        "Whether a safer grand strategy usually comes from limiting commitments rather than exploiting every opportunity.",
-      whatItDoesNotAsk:
-        "This is not asking whether states should withdraw from the world.",
+        "Is it usually safer to limit commitments than to take every chance for advantage?",
     },
   },
   {
@@ -280,7 +253,7 @@ export const standardQuestions: Question[] = [
       "When mass atrocities become severe enough, outside powers can justifiably override a state's sovereignty to stop them.",
     clarification: {
       whatItAsks:
-        "Whether extreme civilian harm can justify overriding the usual presumption against intervention.",
+        "Can extreme harm to civilians justify military action without the government's consent?",
       whatItDoesNotAsk:
         "This is about extreme emergency cases, not ordinary intervention or open-ended regime change.",
       terms: [
@@ -334,12 +307,12 @@ export const standardQuestions: Question[] = [
     cardType: "decision",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A state is committing mass atrocities, but outside action could weaken legal restraints in other cases. What should govern the decision?",
+      "A government is committing mass atrocities. Military action could save lives but weaken legal restraints on future interventions. What should govern the decision?",
     clarification: {
       whatItAsks:
-        "Whether legality, civilian protection, legitimate authority, or likely consequences should carry the most weight when they point in different directions.",
+        "Which should guide the choice when law, civilian protection, authority, and likely outcomes point in different directions?",
       whatItDoesNotAsk:
-        "This is not assuming intervention is easy, clean, or automatically more moral than restraint.",
+        "This is limited to severe mass atrocities, not ordinary disputes or open-ended regime change.",
       terms: [
         {
           term: "Mandate",
@@ -384,9 +357,8 @@ export const standardQuestions: Question[] = [
     cardType: "decision",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A rival power is catching up in advanced semiconductors while your firms remain deeply tied to its supply chain. What should your response be built around?",
-    helpText:
-      "This asks what the response should be built around, not which talking point is easiest to defend publicly.",
+      "A rival is catching up in advanced semiconductors while your firms depend on its supply chain. What should guide the response?",
+    helpText: "Choose the main goal of the response.",
     options: [
       {
         id: "edge",
@@ -424,14 +396,13 @@ export const standardQuestions: Question[] = [
     cardType: "decision",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "Mass killing is underway. A UN Security Council veto blocks authorization, but a credible regional body backs limited action. What matters most?",
-    helpText:
-      "Focus on the principle you think should govern the response, not on whether any real-world coalition would execute it well.",
+      "Mass killing is underway. A Security Council veto blocks UN authorization, but a regional body backs limited action. What should guide the response?",
+    helpText: "Choose the principle that should guide the response.",
     clarification: {
       whatItAsks:
-        "Whether legal authorization, civilian protection, bounded regional legitimacy, or prudential consequences should carry the most weight in an emergency.",
+        "Which should carry most weight: UN authorization, stopping the killing, regional backing, or the risk of making things worse?",
       whatItDoesNotAsk:
-        "This is not saying regional backing is the same thing as universal legal approval.",
+        "Regional backing is not the same as UN authorization.",
       terms: [
         {
           term: "Authorization",
@@ -481,9 +452,7 @@ export const analystQuestions: Question[] = [
       "Long stretches of peace among major powers usually depend on conditions that can weaken or disappear.",
     clarification: {
       whatItAsks:
-        "Whether durable peace is often contingent rather than fully solved.",
-      whatItDoesNotAsk:
-        "This is not denying that diplomacy, trade, or institutions can help preserve peace.",
+        "Does peace last only while the conditions supporting it remain in place?",
     },
   },
   {
@@ -495,9 +464,7 @@ export const analystQuestions: Question[] = [
       "Many international institutions mostly reflect what powerful states already want.",
     clarification: {
       whatItAsks:
-        "Whether institutions have little independent effect beyond the preferences of the strongest actors.",
-      whatItDoesNotAsk:
-        "This is not asking whether powerful states influence institutions at all.",
+        "Do international institutions shape behavior on their own, or mainly reflect what powerful states want?",
     },
   },
   {
@@ -509,9 +476,7 @@ export const analystQuestions: Question[] = [
       "For most international crises, who controls credit, production, or market access is secondary to the immediate security and diplomatic facts.",
     clarification: {
       whatItAsks:
-        "Whether deeper patterns of leverage and dependence are usually secondary when crises unfold.",
-      whatItDoesNotAsk:
-        "This is not claiming every crisis is reducible to economics.",
+        "In a fast-moving crisis, do security and diplomacy usually explain more than economic dependence?",
     },
   },
   {
@@ -522,9 +487,7 @@ export const analystQuestions: Question[] = [
       "There should usually be a strong default rule against outside intervention in another state's internal affairs.",
     clarification: {
       whatItAsks:
-        "Whether non-intervention should usually be the baseline even in morally difficult cases.",
-      whatItDoesNotAsk:
-        "This is not asking whether intervention is never justified.",
+        "Should non-intervention be the usual rule, including in morally difficult cases?",
       terms: [
         {
           term: "Non-intervention",
@@ -541,9 +504,7 @@ export const analystQuestions: Question[] = [
       "When what states say and what they deploy point in different directions, deployments are usually the safer guide.",
     clarification: {
       whatItAsks:
-        "What evidence should carry more weight when verbal signals and material moves conflict.",
-      whatItDoesNotAsk:
-        "This is not saying rhetoric and diplomacy never reveal anything real.",
+        "When words and military deployments conflict, which is more reliable?",
     },
   },
   {
@@ -554,9 +515,7 @@ export const analystQuestions: Question[] = [
       "Status claims and recognition disputes can reveal something real about a rival's future conduct, not just decorate the rhetoric.",
     clarification: {
       whatItAsks:
-        "Whether status language and recognition fights can reveal real motives and likely behavior.",
-      whatItDoesNotAsk:
-        "This is not saying rhetoric should outweigh capabilities in every case.",
+        "Can disputes over status and recognition help predict how a rival will act?",
     },
   },
   {
@@ -564,12 +523,10 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     prompt:
-      "Who controls technical standards, platform architectures, and data flows will shape the distribution of geopolitical power more durably than territorial or military contests alone.",
+      "Control over technical standards, platforms, and data will shape geopolitical power more deeply than military or territorial contests alone.",
     clarification: {
       whatItAsks:
-        "Whether technology governance and digital infrastructure are becoming structurally more important than conventional military measures of power.",
-      whatItDoesNotAsk:
-        "This is not saying military power and territorial control have ceased to matter.",
+        "Will control of standards, platforms, and data shape power more deeply than territory and military force?",
     },
   },
   {
@@ -577,12 +534,10 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "institutions",
     prompt:
-      "International institutions that concentrate rule-writing authority among a few powerful states tend to face legitimacy crises earlier and erode faster than those with broader authorship.",
+      "Institutions lose legitimacy faster when a few powerful states write rules for everyone else.",
     clarification: {
       whatItAsks:
-        "Whether concentrated authorship in global institutions tends to shorten their effective life by generating resistance from those who must follow rules they did not help shape.",
-      whatItDoesNotAsk:
-        "This is not claiming every institution can give every state equal authority in every decision.",
+        "Do institutions weaken faster when most states must follow rules they had little role in writing?",
     },
   },
   {
@@ -649,7 +604,7 @@ export const analystQuestions: Question[] = [
         id: "integration",
         title: "Watch institutional integration",
         label:
-          "Membership in shared institutions matters more than declared values because it changes incentives and raises the cost of aggression.",
+          "Membership in shared institutions gives stronger evidence than declared values because it changes incentives and raises the cost of aggression.",
         signals: { institutions: 6.1, securityCompetition: 3.6, normsIdentity: 4.5 },
       },
       {
@@ -668,8 +623,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A middle-income country faces collapse after capital flight and creditor pressure for austerity. What is the most persuasive reading?",
-    helpText:
-      "Answer this as an argument about the crisis, not as a guess about what international markets would currently reward.",
+    helpText: "Choose the best explanation of the crisis.",
     options: [
       {
         id: "credibility",
@@ -696,7 +650,7 @@ export const analystQuestions: Question[] = [
         id: "coalitions",
         title: "Domestic distributional conflict",
         label:
-          "The real fight is over who inside the country absorbs the adjustment. Financial pressure matters, but politics decides the path.",
+          "Financial pressure sets the constraint, but domestic politics decides who absorbs the adjustment.",
         signals: { domesticFilters: 6.4, politicalEconomy: 5.2, institutions: 4.3 },
       },
     ],
@@ -708,8 +662,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A major ally keeps underspending on defense while relying on your guarantees. What is the most persuasive response?",
-    helpText:
-      "Treat this as a question about alliance politics under stress, not about whether you personally like the ally.",
+    helpText: "Choose the response regardless of how you feel about the ally.",
     options: [
       {
         id: "credibility",
@@ -748,8 +701,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "In a crisis with mixed signals, what evidence deserves the most weight?",
-    helpText:
-      "Pick the signal you would trust first, not the one you think should matter in an ideal world.",
+    helpText: "Choose the signal you would trust first.",
     options: [
       {
         id: "capabilities",
@@ -788,13 +740,10 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A coalition is debating export controls, investment screening, and shared technology standards against a rival. What is the main issue behind that push?",
-    helpText:
-      "This asks what makes the whole package make sense, not whether each tool is equally wise.",
+    helpText: "Choose what best explains the package as a whole.",
     clarification: {
       whatItAsks:
-        "Whether the package is mainly about slowing a rival, controlling bottlenecks, keeping security rules limited, or avoiding a new hierarchy.",
-      whatItDoesNotAsk:
-        "This is not assuming all of these tools work equally well or serve exactly the same purpose.",
+        "Which best explains the package: slowing a rival, controlling chokepoints, limiting security rules, or preventing a new hierarchy?",
       terms: [
         {
           term: "Export controls",
@@ -848,8 +797,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A middle power relies on one bloc for security and the other for trade. Which logic looks strongest from its side?",
-    helpText:
-      "Answer from the middle power's own position. Do not answer as either major bloc would prefer.",
+    helpText: "Answer from the middle power's position.",
     options: [
       {
         id: "shield",
@@ -888,8 +836,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A lower-income state is offered green-finance money tied to procurement and reform rules. Which logic looks strongest from its side?",
-    helpText:
-      "Answer from the borrowing state's vantage point, not from the donors' preferred narrative.",
+    helpText: "Answer from the borrowing state's position.",
     options: [
       {
         id: "stabilize",
@@ -928,14 +875,13 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "An ally stages risky probes in disputed waters and asks for public backing. What should weigh most?",
-    helpText:
-      "Focus on the governing priority, not on which side seems more sympathetic in the abstract.",
+    helpText: "Choose the priority that should guide the response.",
     options: [
       {
         id: "deter",
         title: "Hold the line on deterrence",
         label:
-          "Public backing matters because hesitation invites more testing by the rival.",
+          "Public backing deters more testing by the rival.",
         signals: { securityCompetition: 6.3, restraint: 3.3, institutions: 3.8 },
       },
       {
@@ -968,13 +914,10 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A government must choose between a cheap foreign digital stack and a costlier allied alternative. What should drive the choice?",
-    helpText:
-      "Think about what kind of exposure matters most over time, not only the immediate sticker price.",
+    helpText: "Consider long-term exposure, not only the upfront price.",
     clarification: {
       whatItAsks:
-        "Whether security exposure, long-run dependence, coordination with partners, or room for autonomy should carry the most weight in a high-stakes technology choice.",
-      whatItDoesNotAsk:
-        "This is not asking whether the cheaper option is always careless or the allied option is always wise.",
+        "Which risk should lead: security exposure, long-term dependence, coordination with allies, or loss of autonomy?",
       terms: [
         {
           term: "Digital stack",
@@ -1024,8 +967,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "Rising powers start building alternative banks, payment systems, and development forums. What is the deeper issue?",
-    helpText:
-      "Choose the logic that best explains why these alternative institutions become attractive, not the reform plan you personally prefer.",
+    helpText: "Choose why the alternatives are attractive, not your preferred reform.",
     options: [
       {
         id: "reform",
@@ -1045,7 +987,7 @@ export const analystQuestions: Question[] = [
         id: "hierarchy",
         title: "States want room outside hierarchy",
         label:
-          "Alternative institutions matter because they create space away from credit, payment, and lending systems others already dominate.",
+          "Alternative institutions give states options beyond credit, payment, and lending systems controlled by others.",
         signals: { politicalEconomy: 6.4, institutions: 4.0, orderJustice: 3.6 },
       },
       {
@@ -1064,8 +1006,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A nonaligned state condemns aggression but relies on the aggressor for cheap energy and fertilizer. Which logic looks strongest from its side?",
-    helpText:
-      "Answer from the state's own position, not from what either camp wants it to say in public.",
+    helpText: "Answer from the nonaligned state's position.",
     options: [
       {
         id: "norm",
@@ -1078,7 +1019,7 @@ export const analystQuestions: Question[] = [
         id: "stability",
         title: "Protect domestic stability first",
         label:
-          "Energy, food, and coalition stability at home matter first because a line the government cannot sustain will quickly collapse.",
+          "Protect energy, food, and coalition stability at home; the government cannot sustain a line that breaks its domestic base.",
         signals: { domesticFilters: 6.4, restraint: 5.1, politicalEconomy: 4.9 },
       },
       {
@@ -1104,8 +1045,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A post-colonial government sees calls for military intervention next door after severe repression. Which line looks strongest from its side?",
-    helpText:
-      "Answer from that government's vantage point, not from the outside coalition calling for action.",
+    helpText: "Answer from that government's position.",
     options: [
       {
         id: "shield",
@@ -1144,8 +1084,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A rising power demands more voice in global rules while expanding military reach. What is the most persuasive reading?",
-    helpText:
-      "Pick the logic that best explains the pattern, not the response you would recommend.",
+    helpText: "Choose the explanation, not your preferred policy response.",
     options: [
       {
         id: "security_transition",
@@ -1184,8 +1123,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A government condemns aggression abroad, but breaking economic ties quickly would cause severe price shocks at home. What should govern its line?",
-    helpText:
-      "This asks what should come first in the decision, not what sounds most principled in a speech.",
+    helpText: "Choose the priority, not the most defensible public message.",
     options: [
       {
         id: "defend_rule",
@@ -1224,8 +1162,7 @@ export const analystQuestions: Question[] = [
     allowSecondChoiceInAnalyst: true,
     prompt:
       "A brutal war may end only if outside powers delay accountability and accept an unequal settlement. What is the deeper issue?",
-    helpText:
-      "Choose the logic that best captures the hard tradeoff, not the outcome that feels most satisfying on paper.",
+    helpText: "Choose the central tradeoff, not your preferred outcome.",
     options: [
       {
         id: "stop_harm_now",
