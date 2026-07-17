@@ -149,20 +149,20 @@ test("the reviewed World Stage catalog and complete six-menu mapping are valid",
   }
 })
 
-test("the six menu contracts keep their reviewed routes without duplicating a Profile scene", () => {
+test("the six menu contracts keep five reviewed map routes plus the Current Case destination", () => {
   assert.deepEqual(
     worldStageMenuItems.map(({ id, sceneId, href }) => ({ id, sceneId, href })),
     [
+      { id: "current-case", sceneId: "foundation", href: "/current" },
       { id: "foundation", sceneId: "foundation", href: "/quiz" },
       { id: "focus-areas", sceneId: "focus-areas", href: "/modules" },
       { id: "perspective-runs", sceneId: "perspectives", href: "/perspectives" },
       { id: "worldview-map", sceneId: "worldview-map", href: "/explore/atlas" },
       { id: "ai-futures", sceneId: "futures", href: "/ai" },
-      { id: "profile", sceneId: "foundation", href: "/profile" },
     ],
   )
   assert.equal(new Set(worldStageMenuItems.map((item) => item.sceneId)).size, 5)
-  assert.equal(worldStageScenes.some((scene) => scene.id === ("profile" as string)), false)
+  assert.equal(worldStageScenes.some((scene) => scene.id === ("current-case" as string)), false)
 })
 
 test("map controls expose the five independent public map views", () => {
@@ -473,7 +473,7 @@ test("menu validation requires every known item and keeps every public scene rea
   hasCode(validationCodes(worldStageScenes, missingScene), "menu.scene.missing")
 
   const unreachableScene = structuredClone(worldStageMenuItems) as unknown as WorldStageMenuItem[]
-  unreachableScene[1].sceneId = "foundation"
+  unreachableScene[2].sceneId = "foundation"
   hasCode(validationCodes(worldStageScenes, unreachableScene), "scene.menu.unmapped")
 })
 

@@ -66,6 +66,22 @@ export default function PrivacyPage() {
         </p>
       </section>
 
+      <section className="panel stack-md">
+        <h2>Current Case challenge links</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          A challenge link is created only after you explicitly choose to share your Current Case
+          reading. It encrypts the case ID, your final option and confidence, its issued-at and expiry
+          times, and a random nonce. It does not contain Foundation data, worldview labels,
+          dimension scores, contact details, free text, or an IP address.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          The service stores no challenge record in a database. The link expires after 30 days,
+          cannot be revoked individually, and works as a bearer link: anyone who receives it can
+          complete the case and reveal the shared answer. Rotating the server encryption secret
+          invalidates all outstanding links.
+        </p>
+      </section>
+
       <section id="delete-data" className="panel stack-md">
         <h2>Delete stored research data</h2>
         <p style={{ lineHeight: "1.7" }}>

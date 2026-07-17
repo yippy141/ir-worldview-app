@@ -1,4 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
+import { getLatestPublishedCurrentCase } from "../lib/current-cases/catalog"
+import { CURRENT_CASE_CHALLENGE_LIFETIME_SECONDS } from "../lib/current-cases/challenge"
+import { createCurrentCaseChallengeToken } from "../lib/current-cases/challenge-token.server"
 
 async function answerCurrentFoundationQuestion(page: Page) {
   const choiceCards = page.locator("button.option-card")
@@ -38,6 +41,27 @@ async function completeFoundation(page: Page) {
   throw new Error("Foundation did not reach review within the expected question limit.")
 }
 
+async function completeLoadedCurrentCase(
+  page: Page,
+  finalOptionId: string,
+  finalConfidence = "4",
+) {
+  await page.getByRole("button", { name: "Make your first judgment" }).click()
+  await page.locator('input[name="initial-option"][value="o1"]').check()
+  await page.locator('input[name="initial-confidence"][value="3"]').check()
+  await page.getByRole("button", { name: "Continue", exact: true }).click()
+  await page.getByRole("button", { name: "See the worldview readings" }).click()
+  await page.getByRole("button", { name: "Test an assumption" }).click()
+  await page.getByRole("radio", {
+    name: "It changes the priority, not the conclusion.",
+  }).check()
+  await page.getByRole("button", { name: "Make your final judgment" }).click()
+  await page.locator(`input[name="final-option"][value="${finalOptionId}"]`).check()
+  await page.locator(`input[name="final-confidence"][value="${finalConfidence}"]`).check()
+  await page.getByRole("button", { name: "See what moved" }).click()
+  await expect(page.getByRole("heading", { name: "What moved" })).toBeVisible()
+}
+
 test("World Stage opens the Foundation and a draft resumes after reload", async ({ page }) => {
   await page.goto("/")
 
@@ -51,6 +75,129 @@ test("World Stage opens the Foundation and a draft resumes after reload", async 
   await page.reload()
   await expect(page.getByText(/1 of \d+ answered/)).toBeVisible()
   await expect(page.locator('button[aria-pressed="true"]')).toHaveCount(1)
+})
+
+test("Current Case resumes, records movement, and appears in My Profile", async ({ page }) => {
+  await page.goto("/current")
+  await expect(page).toHaveURL(/\/cases\/europe-missile-defence-coalition-ukraine$/)
+
+  await page.getByRole("button", { name: "Make your first judgment" }).click()
+  await page.locator('input[name="initial-option"][value="o1"]').check()
+  await page.locator('input[name="initial-confidence"][value="3"]').check()
+  await page.getByRole("button", { name: "Continue", exact: true }).click()
+  await page.getByRole("checkbox", { name: "Urgent capability" }).check()
+
+  await page.reload()
+  await expect(page.getByText("Draft restored from this browser.")).toBeVisible()
+  await expect(page.getByRole("checkbox", { name: "Urgent capability" })).toBeChecked()
+
+  await page.getByRole("button", { name: "See the worldview readings" }).click()
+  await expect(page.getByRole("heading", { name: "Four ways to read the same case" })).toBeVisible()
+  await page.getByRole("button", { name: "Test an assumption" }).click()
+  await page.getByRole("radio", {
+    name: "It changes the priority, not the conclusion.",
+  }).check()
+  await page.getByRole("button", { name: "Make your final judgment" }).click()
+  await page.locator('input[name="final-option"][value="o2"]').check()
+  await page.locator('input[name="final-confidence"][value="4"]').check()
+  await page.getByRole("button", { name: "See what moved" }).click()
+
+  await expect(page.getByRole("heading", { name: "What moved" })).toBeVisible()
+  await expect(page.getByText(/You moved from/)).toBeVisible()
+  await expect(page.getByText("Judgment saved on this device.")).toBeVisible()
+
+  await page.getByRole("link", { name: "View current judgments in My Profile" }).click()
+  await expect(page).toHaveURL(/\/profile$/)
+  await expect(page.getByRole("heading", { name: "How your calls moved in live cases" })).toBeVisible()
+  await expect(page.getByText(/You moved from/)).toBeVisible()
+})
+
+test("Current Case creates a challenge only after explicit reading selection", async ({ page }) => {
+  await page.goto("/current")
+  await completeLoadedCurrentCase(page, "o2")
+
+  await expect(page.getByRole("button", { name: "Share my reading" })).toHaveCount(0)
+  await expect(page.getByRole("button", { name: "Challenge a friend" })).toHaveCount(0)
+  await page.getByRole("checkbox", { name: /Include my final choice/ }).check()
+  const challengeResponse = page.waitForResponse(
+    (response) =>
+      response.url().endsWith("/api/current-cases/challenge") &&
+      response.request().method() === "POST",
+  )
+  await page.getByRole("button", { name: "Challenge a friend" }).click()
+
+  await expect(page.getByText("Challenge link copied.")).toBeVisible()
+  const body = await (await challengeResponse).json()
+  expect(body.ok).toBe(true)
+  expect(body.token).toMatch(/^cc1\./)
+})
+
+test("a friend completes the case before the inviter answer is revealed", async ({ page }) => {
+  const record = getLatestPublishedCurrentCase()
+  expect(record).not.toBeNull()
+  if (!record) return
+  const secret = process.env.CURRENT_CASE_CHALLENGE_SECRET
+  expect(secret).toBeTruthy()
+  const created = createCurrentCaseChallengeToken(
+    {
+      caseId: record.id,
+      inviterFinalOptionId: "o2",
+      inviterConfidence: 4,
+    },
+    { secret },
+  )
+  expect(created.ok).toBe(true)
+  if (!created.ok) return
+
+  const navigationRequests: string[] = []
+  page.on("request", (request) => {
+    if (request.isNavigationRequest()) navigationRequests.push(request.url())
+  })
+  await page.goto(`/cases/${record.slug}/challenge#${created.token}`)
+  expect(navigationRequests.some((url) => url.includes(created.token))).toBe(false)
+  await expect(
+    page.getByRole("heading", { name: "Make your call before seeing theirs" }),
+  ).toBeVisible()
+  await expect(page.getByText("Inviter’s final judgment")).toHaveCount(0)
+
+  await completeLoadedCurrentCase(page, "o1")
+
+  await expect(page.getByText("Inviter’s final judgment")).toBeVisible()
+  const inviterRow = page.locator("div").filter({
+    has: page.getByText("Inviter’s final judgment", { exact: true }),
+  }).last()
+  await expect(inviterRow).toContainText(record.decision.options[1].label)
+  await expect(inviterRow).toContainText("Confidence 4/5")
+})
+
+test("an expired Current Case challenge recovers to the ordinary case", async ({ page }) => {
+  const record = getLatestPublishedCurrentCase()
+  expect(record).not.toBeNull()
+  if (!record) return
+  const secret = process.env.CURRENT_CASE_CHALLENGE_SECRET
+  expect(secret).toBeTruthy()
+  const now = new Date()
+  const created = createCurrentCaseChallengeToken(
+    {
+      caseId: record.id,
+      inviterFinalOptionId: "o2",
+      inviterConfidence: 4,
+    },
+    {
+      secret,
+      now: new Date(now.valueOf() - (CURRENT_CASE_CHALLENGE_LIFETIME_SECONDS + 60) * 1000),
+    },
+  )
+  expect(created.ok).toBe(true)
+  if (!created.ok) return
+
+  await page.goto(`/cases/${record.slug}/challenge#${created.token}`)
+  await expect(
+    page.getByRole("heading", { name: "This challenge link has expired." }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("link", { name: "Open the case without the challenge" }),
+  ).toHaveAttribute("href", `/cases/${record.slug}`)
 })
 
 test("Foundation review generates a result, share link, and saved Profile", async ({
@@ -139,6 +286,16 @@ test.describe("390px viewport", () => {
       .getByRole("link", { name: /Foundation/ })
       .click()
     await expect(page.getByRole("heading", { name: "Foundation", exact: true })).toBeVisible()
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
+    ).toBe(true)
+  })
+
+  test("Current Case brief remains within the viewport", async ({ page }) => {
+    await page.goto("/current")
+
+    await expect(page.getByRole("heading", { name: "The case" })).toBeVisible()
+    await expect(page.getByRole("link", { name: "Read the claim and source ledger" })).toBeVisible()
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
     ).toBe(true)

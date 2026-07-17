@@ -16,8 +16,10 @@ Complete this checklist from a clean checkout after the release changes are on
 - [ ] In Vercel, confirm the matching deployment is marked **Production** and
       has finished successfully.
 - [ ] Confirm required Production environment variables are present, including
-      `NEXT_PUBLIC_MAPBOX_TOKEN` and any configured
-      `NEXT_PUBLIC_MAPBOX_STYLE`.
+      the server-only `CURRENT_CASE_CHALLENGE_SECRET`, canonical `SITE_URL`,
+      `NEXT_PUBLIC_MAPBOX_TOKEN`, and any configured `NEXT_PUBLIC_MAPBOX_STYLE`.
+      Confirm the challenge secret is a 32-byte base64url value and is not exposed
+      with a `NEXT_PUBLIC_` prefix.
 - [ ] Open the immutable Vercel deployment URL and confirm the World Stage,
       Foundation, Profile, and Worldview Map load without console errors.
 
@@ -36,6 +38,13 @@ Complete this checklist from a clean checkout after the release changes are on
       authenticated Vercel session.
 - [ ] Complete the critical smoke path: World Stage → Foundation → review →
       result → share link → Profile.
+- [ ] Complete a Current Case, create a challenge, open it in a separate private
+      window, and confirm the inviter answer appears only after the friend submits
+      a final answer.
+- [ ] Confirm an invalid or expired Current Case challenge shows a plain recovery
+      route to the ordinary case.
+- [ ] Open a Current Case print preview and confirm the briefing, decision options,
+      uncertainties, and source ledger render as a legible summary.
 - [ ] Open the Worldview Map and switch between List and Map.
 - [ ] Open an invalid result URL and confirm a plain recovery path appears.
 - [ ] Confirm the five World Stage map views are Pacific alliances, Chip

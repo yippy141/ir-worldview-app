@@ -46,6 +46,8 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 - `/learn` additional explanatory content
 - `/references` key sources and reading list
 - `/feedback` feedback form
+- `/cases` published Current Case archive
+- `/cases/[slug]` evidence-backed Current Case judgment flow, sharing, and print summary
 
 ## Methodology limitations
 
@@ -99,6 +101,24 @@ For Vercel, add `NEXT_PUBLIC_MAPBOX_TOKEN` in Project Settings → Environment
 Variables for Production and any Preview/Development environments that should
 render the live map. Add `NEXT_PUBLIC_MAPBOX_STYLE` there when using a custom
 style, then redeploy. Never place the token in source files.
+
+### Current Case challenge encryption
+
+Challenge links require a server-only `CURRENT_CASE_CHALLENGE_SECRET`. Generate a
+32-byte base64url secret and keep it in `.env.local` or the deployment platform's
+encrypted environment settings:
+
+```bash
+node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+```
+
+Never prefix this variable with `NEXT_PUBLIC_` or commit its value. Rotating it
+immediately invalidates every unexpired challenge link. Challenge links otherwise
+expire after 30 days and are not stored in a database.
+
+Set the server-only `SITE_URL` to the canonical HTTPS origin in production so
+Open Graph image and canonical URLs use the public domain. On Vercel, the app falls
+back to `VERCEL_PROJECT_PRODUCTION_URL` when `SITE_URL` is absent.
 
 ## Verification
 

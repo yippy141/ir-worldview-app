@@ -9,12 +9,12 @@ export const WORLD_STAGE_SCENE_IDS = [
 export type WorldStageSceneId = (typeof WORLD_STAGE_SCENE_IDS)[number]
 
 export const WORLD_STAGE_MENU_IDS = [
+  "current-case",
   "foundation",
   "focus-areas",
   "perspective-runs",
   "worldview-map",
   "ai-futures",
-  "profile",
 ] as const
 
 export type WorldStageMenuId = (typeof WORLD_STAGE_MENU_IDS)[number]
@@ -142,6 +142,12 @@ export type WorldStageMenuItem = {
   description: string
   href: string
   action: string
+}
+
+export type WorldStageUtilityDestination = {
+  id: "profile"
+  label: string
+  href: "/profile"
 }
 
 export type WorldStageSceneOption = {

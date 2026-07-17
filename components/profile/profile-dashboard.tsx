@@ -2,8 +2,11 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { CurrentJudgmentsSection } from "@/components/profile/current-judgments-section"
 import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
+import { loadCurrentCaseResponseStore } from "@/lib/current-cases/response-store"
+import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
 import { buildIntegratedHeadline } from "@/lib/profile-helpers"
 import {
   loadProfileStore,
@@ -17,16 +20,20 @@ import {
 
 export function ProfileDashboard() {
   const [profile, setProfile] = useState<ProfileStore | null>(null)
+  const [currentCases, setCurrentCases] = useState<CurrentCaseResponseStore | null>(null)
 
   useEffect(() => {
-    const load = () => setProfile(loadProfileStore())
+    const load = () => {
+      setProfile(loadProfileStore())
+      setCurrentCases(loadCurrentCaseResponseStore())
+    }
 
     load()
     window.addEventListener("storage", load)
     return () => window.removeEventListener("storage", load)
   }, [])
 
-  if (profile === null) {
+  if (profile === null || currentCases === null) {
     return (
       <section className="profile-state-panel profile-state-panel--loading stack-md" aria-busy="true">
         <p className="eyebrow">Profile</p>
@@ -74,6 +81,7 @@ export function ProfileDashboard() {
             No account is required. This page reads saved results from this browser.
           </p>
         </section>
+        <CurrentJudgmentsSection store={currentCases} />
       </div>
     )
   }
@@ -89,17 +97,20 @@ export function ProfileDashboard() {
   })()
 
   return (
-    <ProfileReport
-      profile={profile}
-      mode="local"
-      actionSlot={
-        sharePayload ? (
-          <ProfileShareActions
-            payload={sharePayload}
-            headline={buildIntegratedHeadline(profile)}
-          />
-        ) : undefined
-      }
-    />
+    <>
+      <ProfileReport
+        profile={profile}
+        mode="local"
+        actionSlot={
+          sharePayload ? (
+            <ProfileShareActions
+              payload={sharePayload}
+              headline={buildIntegratedHeadline(profile)}
+            />
+          ) : undefined
+        }
+      />
+      <CurrentJudgmentsSection store={currentCases} />
+    </>
   )
 }

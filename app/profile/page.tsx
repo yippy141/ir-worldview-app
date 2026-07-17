@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Profile — IR Worldview Inventory",
   description:
-    "Your saved IR Foundation baseline, Focus Areas, and AI governance result in one place.",
+    "Your saved Foundation baseline, Focus Areas, Perspective Runs, AI result, and Current Case judgments in one place.",
 }
 
 export default function ProfilePage() {

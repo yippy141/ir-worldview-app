@@ -11,6 +11,7 @@ import {
   getWorldStageScene,
   worldStageMenuItems,
   worldStageSceneOptions,
+  worldStageUtilityDestinations,
 } from "@/lib/world-stage/scenes"
 import { WorldStageMap, type WorldStageMapHandle } from "./world-stage-map"
 import styles from "./world-stage.module.css"
@@ -144,15 +145,22 @@ export function WorldStageHome() {
         <Link href="/" className={styles.brand} aria-label="IR Worldview Inventory home">
           IR Worldview Inventory
         </Link>
-        <button
-          type="button"
-          className={styles.motionControl}
-          aria-label={`${motionPaused ? "Resume" : "Pause"} automatic globe rotation and map cycling`}
-          aria-pressed={motionPaused}
-          onClick={toggleMotion}
-        >
-          {motionPaused ? "Resume motion" : "Pause motion"}
-        </button>
+        <div className={styles.headerActions}>
+          {worldStageUtilityDestinations.map((destination) => (
+            <Link key={destination.id} href={destination.href} className={styles.profileUtility}>
+              {destination.label}
+            </Link>
+          ))}
+          <button
+            type="button"
+            className={styles.motionControl}
+            aria-label={`${motionPaused ? "Resume" : "Pause"} automatic globe rotation and map cycling`}
+            aria-pressed={motionPaused}
+            onClick={toggleMotion}
+          >
+            {motionPaused ? "Resume motion" : "Pause motion"}
+          </button>
+        </div>
       </header>
 
       <div className={styles.mapMeta} key={`map-${activeSceneOption.sceneId}`}>
@@ -192,6 +200,7 @@ export function WorldStageHome() {
                       onFocus={() => setPreviewIndex(index)}
                       onPointerEnter={() => setPreviewIndex(index)}
                     >
+                      <span className={styles.menuIndex} aria-hidden="true">{item.index}</span>
                       <span className={styles.menuLabel}>{item.label}</span>
                       <span className={styles.menuLens}>{item.lens}</span>
                       <span className={styles.menuIndicator} aria-hidden="true">

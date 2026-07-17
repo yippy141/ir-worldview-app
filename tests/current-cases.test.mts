@@ -1,0 +1,304 @@
+import test from "node:test"
+import assert from "node:assert/strict"
+import {
+  CURRENT_CASE_CATALOG_STATUS,
+  currentCaseCatalog,
+  getLatestPublishedCurrentCase,
+  getPublishedCurrentCases,
+  getSourcesForCurrentCaseClaim,
+  validateCurrentCaseCatalogForPublication,
+} from "@/lib/current-cases/catalog"
+import { compareCompletedCaseWithFoundation } from "@/lib/current-cases/profile-connection"
+import type {
+  CompletedCurrentCaseResponse,
+  CurrentCase,
+} from "@/lib/current-cases/types"
+import {
+  getCurrentCaseOptionDifferentiationIssues,
+  validateCurrentCaseForPublication,
+} from "@/lib/current-cases/validation"
+import type { FoundationSnapshot } from "@/lib/profile-store"
+import {
+  validateWorldStageCatalog,
+  worldStageMenuItems,
+  worldStageMenuItemsWithCurrentCase,
+  worldStageUtilityDestinations,
+} from "@/lib/world-stage/scenes"
+
+function words(count: number, stem: string) {
+  return Array.from({ length: count }, (_, index) => `${stem}${index}`).join(" ")
+}
+
+function reviewedCase(): CurrentCase {
+  return {
+    schemaVersion: 1,
+    id: "case-001",
+    slug: "tested-strategic-choice",
+    version: 1,
+    publicationStatus: "published",
+    launchRole: "launch",
+    title: "A tested strategic choice",
+    dek: "A neutral description of a consequential choice.",
+    category: "security",
+    publishedAt: "2026-07-17",
+    updatedAt: "2026-07-17",
+    evidenceWindow: { start: "2026-07-01", end: "2026-07-16" },
+    briefing: words(260, "briefing"),
+    actors: ["Actor A", "Actor B"],
+    perspectives: {
+      global: "The choice affects rules and expectations beyond the immediate parties.",
+      counterparties: [
+        { actor: "Actor B", perspective: "Actor B disputes the premise and bears distinct costs." },
+      ],
+    },
+    factualClaims: [
+      { id: "c1", text: "Claim one." },
+      { id: "c2", text: "Claim two." },
+      { id: "c3", text: "Claim three." },
+      { id: "c4", text: "Claim four." },
+    ],
+    knownUncertainties: ["The counterparty's implementation threshold remains uncertain."],
+    reasoningTags: ["Capability", "Institutions", "Escalation"],
+    decision: {
+      prompt: "Which course should the actor take?",
+      options: [
+        {
+          id: "coordinate",
+          label: "Coordinate a bounded response with partners.",
+          logic: "Coalition durability",
+          acceptedTradeoff: "Slower action and a narrower initial measure.",
+        },
+        {
+          id: "signal",
+          label: "Act early to establish a credible limit.",
+          logic: "Deterrent signaling",
+          acceptedTradeoff: "Higher near-term escalation risk.",
+        },
+        {
+          id: "defer",
+          label: "Defer action while testing the disputed premise.",
+          logic: "Information preservation",
+          acceptedTradeoff: "The opportunity to act may narrow.",
+        },
+      ],
+    },
+    worldviewReadings: [
+      {
+        profileId: "broad-spectrum-bridge-builder",
+        noticesFirst: "Several mechanisms remain plausible.",
+        interpretation: "The case rewards a course that preserves room to update.",
+        recommendation: "Coordinate a bounded response.",
+        recommendedOptionIds: ["coordinate"],
+        strongestObjection: "A blended response can obscure which threat matters most.",
+        updateCondition: "Clear evidence that delay irreversibly weakens deterrence.",
+      },
+      {
+        profileId: "competitive-balancer",
+        noticesFirst: "The counterparty may be testing resolve.",
+        interpretation: "The immediate mechanism is competitive leverage.",
+        recommendation: "Act early to establish a limit.",
+        recommendedOptionIds: ["signal"],
+        strongestObjection: "Visible pressure can harden the behavior it seeks to change.",
+        updateCondition: "Evidence that the counterparty is seeking a negotiated off-ramp.",
+      },
+      {
+        profileId: "institution-builder",
+        noticesFirst: "A durable response needs a usable rule.",
+        interpretation: "Legitimacy and repeatability shape the strategic payoff.",
+        recommendation: "Coordinate a bounded response.",
+        recommendedOptionIds: ["coordinate"],
+        strongestObjection: "Process may move too slowly for a closing window.",
+        updateCondition: "Evidence that coordination cannot occur before the relevant threshold.",
+      },
+    ],
+    assumptionChallenge: {
+      newInformation: "New evidence weakens the original estimate of urgency.",
+      prompt: "How does this affect your first judgment?",
+      options: [
+        { id: "weakens", label: "It weakens my first read." },
+        { id: "priority", label: "It changes the priority, not the conclusion." },
+        { id: "strengthens", label: "It strengthens my first read." },
+        { id: "unsure", label: "I remain unsure." },
+      ],
+    },
+    nextRoutes: [
+      { href: "/profile", label: "My Profile", reason: "Compare the case with a saved baseline." },
+    ],
+    sources: [
+      {
+        id: "s1",
+        title: "Primary record one",
+        publisher: "Institution A",
+        publishedAt: "2026-07-10",
+        accessedAt: "2026-07-17",
+        url: "https://example.com/records/one?view=full#claim",
+        kind: "primary",
+        claimIds: ["c1"],
+      },
+      {
+        id: "s2",
+        title: "Primary record two",
+        publisher: "Institution B",
+        publishedAt: "2026-07-11",
+        accessedAt: "2026-07-17",
+        url: "https://example.org/records/two",
+        kind: "primary",
+        claimIds: ["c2", "c3"],
+      },
+      {
+        id: "s3",
+        title: "Authoritative analysis",
+        publisher: "Research institute",
+        publishedAt: "2026-07-15",
+        accessedAt: "2026-07-17",
+        url: "https://research.example.net/analysis",
+        kind: "authoritative-research",
+        claimIds: ["c4"],
+      },
+    ],
+    disputes: { factual: [], interpretive: ["Analysts disagree about the likely response."] },
+    sensitiveWording: [
+      { term: "crisis", guidance: "Use only for the bounded episode described in the evidence." },
+    ],
+    correctionRisks: [
+      { risk: "An official timeline may change.", mitigation: "Check primary notices before release." },
+    ],
+    editorialMemo: words(150, "memo"),
+    editorialReview: {
+      researchReviewedAt: "2026-07-17",
+      sourceCheckedAt: "2026-07-17",
+      copyReviewedAt: "2026-07-17",
+      approvedAt: "2026-07-17",
+      reviewerIds: ["research-editor", "copy-editor"],
+    },
+  }
+}
+
+const foundation: FoundationSnapshot = {
+  timestamp: 1,
+  payload: "payload",
+  resultPath: "/results/payload",
+  familyKey: "realist",
+  familyLabel: "Realist",
+  runnerUpKey: "institutionalist",
+  runnerUpLabel: "Institutionalist",
+  summary: "Several lenses remain close.",
+  dimensionScores: {
+    securityCompetition: 4.2,
+    institutions: 4.1,
+    domesticFilters: 4,
+    normsIdentity: 4,
+    politicalEconomy: 4.1,
+    restraint: 4,
+    orderJustice: 4,
+  },
+  strategyModifier: "Hedger",
+  normativeModifier: "Conditional Solidarist",
+  keyDrivers: [],
+  strongLenses: [],
+}
+
+const response: CompletedCurrentCaseResponse = {
+  caseId: "case-001",
+  caseSlug: "tested-strategic-choice",
+  caseVersion: 1,
+  initialOptionId: "signal",
+  initialConfidence: 2,
+  selectedOptionId: "coordinate",
+  confidence: 3,
+  reasoningTags: ["coalition durability"],
+  challengeResponseId: "priority",
+  openedReadingProfileIds: ["broad-spectrum-bridge-builder"],
+  completedAt: "2026-07-17T10:00:00.000Z",
+}
+
+test("the production catalog publishes the three approved records and resolves the launch case", () => {
+  assert.equal(CURRENT_CASE_CATALOG_STATUS, "approved-research-pack")
+  assert.equal(currentCaseCatalog.length, 3)
+  assert.deepEqual(validateCurrentCaseCatalogForPublication(), { ok: true, errors: [] })
+  assert.equal(getPublishedCurrentCases().length, 3)
+  assert.equal(
+    getLatestPublishedCurrentCase()?.slug,
+    "europe-missile-defence-coalition-ukraine",
+  )
+})
+
+test("a complete reviewed case satisfies the publication contract", () => {
+  const record = reviewedCase()
+  assert.deepEqual(validateCurrentCaseForPublication(record), { ok: true, errors: [] })
+  assert.equal(getPublishedCurrentCases([record])[0], record)
+})
+
+test("publication fails closed on uncovered claims and preserves recorded URLs", () => {
+  const record = reviewedCase()
+  const recordedUrl = record.sources[0].url
+  assert.equal(getSourcesForCurrentCaseClaim(record, "c1")[0].url, recordedUrl)
+
+  record.sources[0].claimIds = []
+  const validation = validateCurrentCaseForPublication(record)
+  assert.equal(validation.ok, false)
+  assert.equal(validation.errors.some((error) => error.code === "claim.uncovered"), true)
+  assert.deepEqual(getPublishedCurrentCases([record]), [])
+})
+
+test("readings require objections, update conditions, and stable Atlas IDs", () => {
+  const record = reviewedCase()
+  record.worldviewReadings[0].strongestObjection = ""
+  record.worldviewReadings[1].updateCondition = ""
+  record.worldviewReadings[2].profileId = "invented-family"
+
+  const validation = validateCurrentCaseForPublication(record)
+  assert.equal(validation.ok, false)
+  assert.equal(validation.errors.some((error) => error.path.endsWith("strongestObjection")), true)
+  assert.equal(validation.errors.some((error) => error.path.endsWith("updateCondition")), true)
+  assert.equal(validation.errors.some((error) => error.code === "reading.profile-unknown"), true)
+})
+
+test("answer-option validation rejects duplicated logics and tradeoffs", () => {
+  const record = reviewedCase()
+  record.decision.options[2].logic = record.decision.options[0].logic
+  record.decision.options[2].acceptedTradeoff = record.decision.options[0].acceptedTradeoff
+  const issues = getCurrentCaseOptionDifferentiationIssues(record.decision.options)
+  assert.equal(issues.some((issue) => issue.code === "option.duplicate-logic"), true)
+  assert.equal(issues.some((issue) => issue.code === "option.duplicate-tradeoff"), true)
+})
+
+test("Foundation comparison is pure and does not create a new score", () => {
+  const record = reviewedCase()
+  const recordBefore = structuredClone(record)
+  const responseBefore = structuredClone(response)
+  const foundationBefore = structuredClone(foundation)
+
+  const connection = compareCompletedCaseWithFoundation(record, response, foundation)
+  assert.equal(connection.kind, "consistent")
+  assert.equal(connection.foundationPatternId, "broad-spectrum-bridge-builder")
+  assert.equal(connection.readingProfileId, "broad-spectrum-bridge-builder")
+  assert.equal("score" in connection, false)
+  assert.deepEqual(record, recordBefore)
+  assert.deepEqual(response, responseBefore)
+  assert.deepEqual(foundation, foundationBefore)
+})
+
+test("Current Case leads the live numbered menu and My Profile remains a visible utility", () => {
+  assert.equal(worldStageMenuItems[0]?.id, "current-case")
+  assert.equal(worldStageMenuItems[0]?.href, "/current")
+  assert.deepEqual(worldStageMenuItemsWithCurrentCase, worldStageMenuItems)
+  assert.deepEqual(
+    worldStageMenuItems.map(({ index, label }) => ({ index, label })),
+    [
+      { index: "01", label: "Current Case" },
+      { index: "02", label: "Foundation" },
+      { index: "03", label: "Focus Areas" },
+      { index: "04", label: "Perspective Runs" },
+      { index: "05", label: "Worldview Map" },
+      { index: "06", label: "AI & Futures" },
+    ],
+  )
+  assert.deepEqual(validateWorldStageCatalog(undefined, worldStageMenuItemsWithCurrentCase), {
+    ok: true,
+    errors: [],
+  })
+  assert.deepEqual(worldStageUtilityDestinations, [
+    { id: "profile", label: "My Profile", href: "/profile" },
+  ])
+})
