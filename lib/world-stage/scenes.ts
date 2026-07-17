@@ -272,7 +272,6 @@ export const worldStageSceneOptions = [
   { sceneId: "perspectives", label: "Regional security" },
   { sceneId: "worldview-map", label: "Hedging states" },
   { sceneId: "futures", label: "AI infrastructure" },
-  { sceneId: "profile", label: "Trans-Pacific alliance network" },
 ] as const satisfies readonly WorldStageSceneOption[]
 
 export const worldStageMenuItems = [
