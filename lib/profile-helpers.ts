@@ -371,7 +371,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
         stateLabel: "Sharply differentiated baseline",
         synthesis: `Your baseline already reads clearly ${foundation.familyLabel} before any module is added.`,
         summary:
-          "The Foundation already produces a clearer baseline than an overlap result. Modules may complicate it later, but they are not needed to make the core read intelligible.",
+          "The Foundation already produces a clearer baseline than an overlap result. Focus Areas may complicate it later, but they are not needed to make the core read intelligible.",
         changedMost: "No focus-area overlays yet. The Foundation remains the anchor.",
         panelTitle: "Baseline mode",
         panelIntro:
@@ -379,7 +379,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
         points: [
           "The baseline dimensions point in a more mutually reinforcing direction than a flat profile does.",
           "The result is still shorthand, but it is a clearer shorthand than a narrow edge between traditions.",
-          "Modules now matter most as pressure tests: they can reinforce, qualify, or complicate an already coherent baseline.",
+          "Focus Areas now matter most as pressure tests: they can reinforce, qualify, or complicate an already coherent baseline.",
         ],
       }
     }
@@ -395,7 +395,7 @@ export function buildProfileAssessment(profile: ProfileStore): ProfileAssessment
       panelIntro: "With no module overlays yet, the stable takeaway is simply what the Foundation is already telling you.",
       points: [
         "Your current profile is anchored entirely in the Foundation baseline.",
-        "Focus-area modules add optional overlays. The Foundation alone produces a valid result.",
+        "Focus Areas add optional overlays. The Foundation alone produces a valid result.",
       ],
     }
   }

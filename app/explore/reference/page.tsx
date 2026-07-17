@@ -6,7 +6,7 @@ import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Reference profiles — IR Worldview Inventory",
+  title: "Thinkers & public positions — IR Worldview Inventory",
   description:
     "Evidence-coded public postures of thinkers, doctrines, and governance currents, placed in the same field as the Foundation.",
 }
@@ -19,7 +19,7 @@ export default function ReferenceBrowsePage() {
     <div className="wide-container">
       <div className="article-header stack-md">
         <div className="stack-xs">
-          <p className="eyebrow">Reference profiles</p>
+          <p className="eyebrow">Thinkers &amp; public positions</p>
           <h1>Evidence-coded public postures</h1>
         </div>
         <p className="muted atlas-page-lead">
@@ -48,7 +48,7 @@ export default function ReferenceBrowsePage() {
         <section className="panel stack-sm">
           <p className="eyebrow">Nothing published yet</p>
           <p className="muted">
-            Reference profiles appear here once they pass independent editorial review.
+            Thinkers and public positions appear here once they pass independent editorial review.
           </p>
         </section>
       )}

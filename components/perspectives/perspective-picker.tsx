@@ -30,7 +30,7 @@ export function PerspectivePicker() {
     <div className="stack-lg">
       <header className="article-header stack-md">
         <div className="stack-xs">
-          <p className="eyebrow">Perspectives</p>
+          <p className="eyebrow">Perspective Runs</p>
           <h1>Advise from a different seat.</h1>
         </div>
         <p className="muted perspective-page-lead">

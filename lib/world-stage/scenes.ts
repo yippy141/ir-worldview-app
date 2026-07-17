@@ -154,14 +154,6 @@ const sceneBindings = [
     variantOf: null,
     camera: { center: [-22, 31], zoom: 1.12, pitch: 14, bearing: 12 },
   },
-  {
-    id: "profile",
-    researchSceneId: "us_alliance_security_lens",
-    variantOf: "foundation",
-    captionSuffix:
-      " This repeated research lens is a navigation backdrop, not an inference about your saved profile.",
-    camera: { center: [-164, 19], zoom: 1.2, pitch: 7, bearing: -3 },
-  },
 ] as const satisfies readonly SceneBinding[]
 
 export const WORLD_STAGE_RESEARCH_SCENE_IDS = rawScenes.map((scene) => scene.sceneId)
@@ -329,7 +321,7 @@ export const worldStageMenuItems = [
     id: "profile",
     index: "06",
     label: "My Profile",
-    sceneId: "profile",
+    sceneId: "foundation",
     lens: "Your saved layers",
     description: "Return to your baseline, issue results, and contextual shifts on this device.",
     href: "/profile",

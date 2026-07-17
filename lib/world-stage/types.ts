@@ -4,7 +4,6 @@ export const WORLD_STAGE_SCENE_IDS = [
   "perspectives",
   "worldview-map",
   "futures",
-  "profile",
 ] as const
 
 export type WorldStageSceneId = (typeof WORLD_STAGE_SCENE_IDS)[number]
@@ -119,7 +118,7 @@ export type WorldStageScene = {
   id: WorldStageSceneId
   /** The reviewed record in research/world-stage/scene-ledger.json. */
   researchSceneId: string
-  /** Set when a sixth menu state deliberately reuses a reviewed research scene. */
+  /** Set only when a public map view deliberately reuses another reviewed scene. */
   variantOf: WorldStageSceneId | null
   publicLabel: string
   caption: string

@@ -37,7 +37,7 @@ const publicNavItems: PublicNavItem[] = [
   },
   {
     href: "/modules",
-    label: "Modules",
+    label: "Focus Areas",
     active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
   },
   {
@@ -54,7 +54,7 @@ const publicNavItems: PublicNavItem[] = [
 ]
 
 const moreNavItems = [
-  { href: "/perspectives", label: "Perspectives" },
+  { href: "/perspectives", label: "Perspective Runs" },
   { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
   { href: "/explore", label: "Explore" },
   { href: "/futures", label: "Futures" },
@@ -67,12 +67,12 @@ const moreNavItems = [
 const mobileNavGroups: MobileNavGroup[] = [
   {
     label: "Product path",
-    intro: "Start with the Foundation, add Modules, AI, and Perspective Runs where useful, then return to Profile as results accumulate.",
+    intro: "Start with the Foundation, add Focus Areas, AI, and Perspective Runs where useful, then return to Profile as results accumulate.",
     items: [
       { href: "/quiz", label: "Foundation" },
-      { href: "/modules", label: "Modules" },
+      { href: "/modules", label: "Focus Areas" },
       { href: "/ai", label: "AI" },
-      { href: "/perspectives", label: "Perspectives" },
+      { href: "/perspectives", label: "Perspective Runs" },
       { href: "/profile", label: "Profile" },
     ],
   },
@@ -81,7 +81,7 @@ const mobileNavGroups: MobileNavGroup[] = [
     intro: `Use the ${WORLDVIEW_MAP_LABEL}, the field guide, and methods when you want to browse profiles or challenge the model.`,
     items: [
       { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
-      { href: "/explore/reference", label: "Reference profiles" },
+      { href: "/explore/reference", label: "Thinkers & public positions" },
       { href: "/explore", label: "Explore" },
       { href: "/futures", label: "Futures" },
       { href: "/method", label: "Methods" },

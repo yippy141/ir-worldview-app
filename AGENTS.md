@@ -85,23 +85,24 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V18 Worldview Profile learning
+## Current sprint: V19 production readiness
 
-- Use public profile names while preserving all stable IDs, matching rules, and URLs.
-- Render only case content that has passed source verification.
-- Source records must include working URLs and claim coverage.
-- The same case should expose several competing readings.
-- Every profile page needs a decision rule, concrete case, strongest rival reading,
-  analogy with a limit, strengths, blind spots, and domain shifts.
-- Keep optional depth below the first payoff.
-- Add an in-page contents control for long pages.
-- Avoid repeated kickers, bordered cards, and stacked callouts.
-- Use typography, rules, and whitespace for hierarchy.
-- Preserve scoring, payloads, ProfileStore, and legacy shared links.
-- Run npm run lint, npm run test, npx tsc --noEmit, and npm run build.
+- Keep public language consistent across Focus Areas, Perspective Runs, the
+  Worldview Map, Worldview profiles, and Thinkers & public positions.
+- Keep the five reviewed public World Stage map views distinct from menu-only
+  destinations.
+- Preserve scoring, payloads, question content, research records, Mapbox data,
+  the profile model, ProfileStore, and legacy shared links.
+- Do not promote the verified case library beyond its recorded human review.
+- Keep deployment verification reproducible from the release commit through
+  the production domain.
+- Maintain critical browser smoke coverage for the Foundation, Profile,
+  Worldview Map, invalid results, sharing, draft resume, and a 390px viewport.
+- Run npm run lint, npm run test, npx tsc --noEmit, npm run build, and
+  npx playwright test.
 
 ## End-of-sprint discipline
 
-When V16 ends, replace the "Current sprint" section above with the next
+When V19 ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.

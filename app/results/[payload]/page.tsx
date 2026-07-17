@@ -404,7 +404,7 @@ export default async function ResultPage(
             <Link href={`/modules?foundation=${encodeURIComponent(payload)}`} className="cta-primary">
               Add a focus-area module
             </Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open Atlas field map</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open Worldview Map</Link>
             <Link href="/profile" className="cta-secondary">View Profile</Link>
             <ResultCardHeroShare
               shareUrl={`/results/${payload}`}

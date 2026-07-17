@@ -137,7 +137,7 @@ test("the reviewed World Stage catalog and complete six-menu mapping are valid",
     worldStageMenuItems.map((item) => item.id),
     WORLD_STAGE_MENU_IDS,
   )
-  assert.equal(worldStageScenes.length, 6)
+  assert.equal(worldStageScenes.length, 5)
 
   for (const scene of worldStageScenes) {
     assert.equal(scene.dataStatus, "reviewed-editorial")
@@ -149,7 +149,7 @@ test("the reviewed World Stage catalog and complete six-menu mapping are valid",
   }
 })
 
-test("the six menu contracts keep their reviewed routes and distinct scene states", () => {
+test("the six menu contracts keep their reviewed routes without duplicating a Profile scene", () => {
   assert.deepEqual(
     worldStageMenuItems.map(({ id, sceneId, href }) => ({ id, sceneId, href })),
     [
@@ -158,28 +158,29 @@ test("the six menu contracts keep their reviewed routes and distinct scene state
       { id: "perspective-runs", sceneId: "perspectives", href: "/perspectives" },
       { id: "worldview-map", sceneId: "worldview-map", href: "/explore/atlas" },
       { id: "ai-futures", sceneId: "futures", href: "/ai" },
-      { id: "profile", sceneId: "profile", href: "/profile" },
+      { id: "profile", sceneId: "foundation", href: "/profile" },
     ],
   )
-  assert.equal(new Set(worldStageMenuItems.map((item) => item.sceneId)).size, 6)
-
-  const profile = worldStageScenes.find((scene) => scene.id === "profile")
-  const foundation = worldStageScenes.find((scene) => scene.id === "foundation")
-  assert.equal(profile?.variantOf, "foundation")
-  assert.equal(profile?.researchSceneId, foundation?.researchSceneId)
-  assert.match(profile?.caption ?? "", /not an inference about your saved profile/i)
+  assert.equal(new Set(worldStageMenuItems.map((item) => item.sceneId)).size, 5)
+  assert.equal(worldStageScenes.some((scene) => scene.id === ("profile" as string)), false)
 })
 
-test("map controls expose independent, complete scene labels", () => {
+test("map controls expose the five independent public map views", () => {
   assert.deepEqual(
     worldStageSceneOptions.map((option) => option.sceneId),
     WORLD_STAGE_SCENE_IDS,
   )
-  assert.equal(
-    worldStageSceneOptions.find((option) => option.sceneId === "profile")?.label,
-    "Trans-Pacific alliance network",
+  assert.deepEqual(
+    worldStageSceneOptions.map((option) => option.label),
+    [
+      "Pacific alliances",
+      "Chip networks",
+      "Regional security",
+      "Hedging states",
+      "AI infrastructure",
+    ],
   )
-  assert.equal(new Set(worldStageSceneOptions.map((option) => option.label)).size, 6)
+  assert.equal(new Set(worldStageSceneOptions.map((option) => option.label)).size, 5)
 
   const navigationLabels = new Set<string>(worldStageMenuItems.map((item) => item.label))
   for (const option of worldStageSceneOptions) {
@@ -454,7 +455,7 @@ test("scene and entity uniqueness validation rejects duplicate records", () => {
   hasCode(validationCodes(duplicateFlowId), "flow.id.duplicate")
 })
 
-test("menu validation requires every known item and scene exactly once", () => {
+test("menu validation requires every known item and keeps every public scene reachable", () => {
   const missingMenuItem = worldStageMenuItems.slice(0, -1)
   hasCode(
     validationCodes(worldStageScenes, missingMenuItem as readonly WorldStageMenuItem[]),
@@ -472,7 +473,7 @@ test("menu validation requires every known item and scene exactly once", () => {
   hasCode(validationCodes(worldStageScenes, missingScene), "menu.scene.missing")
 
   const unreachableScene = structuredClone(worldStageMenuItems) as unknown as WorldStageMenuItem[]
-  unreachableScene[0].sceneId = "focus-areas"
+  unreachableScene[1].sceneId = "foundation"
   hasCode(validationCodes(worldStageScenes, unreachableScene), "scene.menu.unmapped")
 })
 

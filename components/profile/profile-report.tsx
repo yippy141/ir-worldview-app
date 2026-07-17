@@ -535,7 +535,7 @@ function buildProfileNextSteps({
   if (mode !== "local") {
     return [
       {
-        title: "Open the Atlas",
+        title: "Open the Worldview Map",
         href: "/explore/atlas",
       },
       {

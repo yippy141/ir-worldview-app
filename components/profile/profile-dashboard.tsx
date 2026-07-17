@@ -50,7 +50,7 @@ export function ProfileDashboard() {
             <h1>Your Profile builds as you complete layers.</h1>
             <p className="profile-state-panel__body">
               Start with the Foundation. Your results stay on this device unless you choose to
-              share them. After that, focus-area modules and AI Governance can sit beside the
+              share them. After that, Focus Areas and AI Governance can sit beside the
               baseline without becoming one fake master score.
             </p>
           </div>

@@ -23,8 +23,8 @@ export default function PrivacyPage() {
         <h1>Use the inventory without contributing research data.</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
           The IR Worldview Inventory stores normal results in your browser so Profile can work on
-          this device. V13 adds copy and interface scaffolding for an optional research layer, but
-          database storage is not activated in this build.
+          this device. The interface describes an optional future research layer, but database
+          storage is not activated in this build.
         </p>
       </section>
 
