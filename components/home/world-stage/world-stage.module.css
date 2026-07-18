@@ -56,6 +56,31 @@
   text-decoration: none;
 }
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profileUtility {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 1px;
+  border-bottom: 1px solid rgba(215, 180, 101, 0.58);
+  color: var(--stage-text-soft);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.profileUtility:hover {
+  border-color: var(--stage-brass);
+  color: var(--stage-text);
+  text-decoration: none;
+}
+
 .motionControl {
   min-height: 44px;
   padding: 0 1px;
@@ -134,7 +159,7 @@
 .menuItem {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) minmax(126px, 0.62fr) 24px;
+  grid-template-columns: 32px minmax(150px, 1fr) minmax(126px, 0.62fr) 24px;
   gap: 10px;
   align-items: center;
   min-height: clamp(49px, 6.1vh, 66px);
@@ -144,6 +169,14 @@
   background: transparent;
   text-decoration: none;
   transition: color 220ms ease;
+}
+
+.menuIndex {
+  color: var(--stage-faint);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 .menuItem::after {
@@ -287,6 +320,7 @@
 
 .routeLink:focus-visible,
 .brand:focus-visible,
+.profileUtility:focus-visible,
 .motionControl:focus-visible,
 .secondaryNav a:focus-visible,
 .mapSelect:focus-visible,
@@ -673,7 +707,7 @@
   }
 
   .menuItem {
-    grid-template-columns: minmax(145px, 1fr) 24px;
+    grid-template-columns: 30px minmax(145px, 1fr) 24px;
   }
 
   .menuLens {
@@ -817,7 +851,7 @@
   }
 
   .menuItem {
-    grid-template-columns: minmax(0, 1fr) 22px;
+    grid-template-columns: 27px minmax(0, 1fr) 22px;
     gap: 8px;
     min-height: 50px;
     padding-inline: 3px;
@@ -825,6 +859,10 @@
 
   .menuLabel {
     font-size: clamp(1.18rem, 5.1vw, 1.42rem);
+  }
+
+  .menuIndex {
+    font-size: 0.6rem;
   }
 
   .menuIndicator {
@@ -926,6 +964,7 @@
   .menuItem:focus-visible,
   .routeLink:focus-visible,
   .brand:focus-visible,
+  .profileUtility:focus-visible,
   .motionControl:focus-visible,
   .secondaryNav a:focus-visible,
   .mapSelect:focus-visible,

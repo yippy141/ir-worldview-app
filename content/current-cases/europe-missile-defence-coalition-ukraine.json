@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "id": "security-europe-anti-ballistic-coalition-ukraine-2026-07",
+  "slug": "europe-missile-defence-coalition-ukraine",
+  "version": 1,
+  "publicationStatus": "published",
+  "launchRole": "launch",
+  "title": "Europe’s integrated anti-ballistic-missile coalition for Ukraine",
+  "dek": "Ten European states and Ukraine are testing whether urgent wartime demand can become a credible European missile-defence architecture.",
+  "category": "security",
+  "publishedAt": "2026-07-17",
+  "updatedAt": "2026-07-17",
+  "evidenceWindow": {
+    "start": "2026-06-26",
+    "end": "2026-07-17"
+  },
+  "briefing": "On 13–14 July 2026, a group of European states and Ukraine moved from general support rhetoric to a more structured anti-ballistic-missile agenda. The Paris coalition declaration created a ten-country defensive coalition to develop a shared anti-ballistic capability for Europe, while a separate France–Ukraine declaration committed to prioritizing Ukrainian air and anti-ballistic missile defence, including SAMP/T NG, Aster 30 production licensing, and radar deliveries. This came immediately after NATO’s Ankara summit, which highlighted major new procurement, higher defence spending, and a sizeable 2026 Ukraine support pledge, but against a backdrop of active U.S. review and reduction of some NATO-assigned capabilities and broader allied concern about future U.S. force availability in Europe.\n\nThe case is consequential because it is no longer just about helping Ukraine survive the next wave of strikes. It is also about whether Europe can turn Ukrainian wartime demand into a scalable, interoperable, partly sovereign missile-defence architecture before a wider deterrence gap opens on NATO’s eastern flank. The decision is not morally simple: faster European autonomy can strengthen resilience, but duplication, fragmented command systems, and the loss of U.S.-provided enablers could also weaken deterrence if political ambition outruns industrial and operational integration. Russia’s own missile campaign, the timing of delivery pipelines, and the credibility of ceasefire-linked security guarantees all shape the threshold judgment.\n\nThe coalition must now decide how much effort goes to urgent Ukrainian throughput, how much to a longer-term European architecture, and how tightly the project remains tied to NATO planning. Its answer will show whether this is partial substitution for U.S. capacity or a thinner European hedge built on continued American support.",
+  "actors": [
+    "Ukraine",
+    "France",
+    "European missile-defence coalition members",
+    "NATO",
+    "United States",
+    "Russia"
+  ],
+  "perspectives": {
+    "global": "The coalition tests whether allied industrial coordination can close a defence gap before political commitments or existing inventories weaken.",
+    "counterparties": [
+      {
+        "actor": "Ukraine",
+        "perspective": "Kyiv needs interceptors, radars, licences, and training quickly; a long design process has little value if near-term protection does not improve."
+      },
+      {
+        "actor": "Russia",
+        "perspective": "Moscow may treat the coalition as a defensive hedge or as a durable change in Europe’s force posture requiring counter-deployment."
+      },
+      {
+        "actor": "United States",
+        "perspective": "Washington may welcome greater European burden-sharing while retaining decisive influence through command, sensing, and other enabling systems."
+      }
+    ]
+  },
+  "factualClaims": [
+    {
+      "id": "c1",
+      "text": "On 13 July 2026, Denmark, France, Germany, Italy, the Netherlands, Norway, Spain, Sweden, Ukraine, and the United Kingdom announced the establishment of a purely defensive anti-ballistic-missile coalition for Europe."
+    },
+    {
+      "id": "c2",
+      "text": "The coalition declaration says the effort will establish common operational requirements, joint technical working groups, governance mechanisms, and a roadmap toward first operational capabilities."
+    },
+    {
+      "id": "c3",
+      "text": "On 14 July 2026, France and Ukraine said they would prioritize projects that enhance combat aviation and air and anti-ballistic missile defence capabilities, and they set out SAMP/T NG and Aster 30-related steps."
+    },
+    {
+      "id": "c4",
+      "text": "NATO’s Ankara summit page says Allies announced more than USD 50 billion in new procurements and pledged EUR 70 billion in military equipment, assistance, and training for Ukraine in 2026."
+    },
+    {
+      "id": "c5",
+      "text": "Reuters reported on 18 June 2026 that the United States had already reduced some capabilities available to NATO crisis forces and launched a review of U.S. troop deployments in Europe."
+    },
+    {
+      "id": "c6",
+      "text": "Reuters reported on 13 July 2026 that the Paris coalition sought a cheaper alternative or complement to Patriot and that the initiative was shaped by Ukraine’s urgent need to counter Russian ballistic strikes."
+    }
+  ],
+  "knownUncertainties": [
+    "Whether the coalition’s first operational capability will be real within 12–24 months or stay at the concept-and-industry-study stage.",
+    "How far Washington’s ongoing Europe-force review will go in practice, beyond the crisis-force reductions already acknowledged by NATO.",
+    "Whether European command, sensing, data, and interceptor supply chains can function at scale without continued U.S. enablers.",
+    "Whether Russia interprets the coalition as a defensive hedge or as escalation requiring counter-deployment."
+  ],
+  "reasoningTags": [
+    "Urgent capability",
+    "Alliance reliability",
+    "Industrial capacity",
+    "Interoperability",
+    "Escalation risk",
+    "Long-term autonomy"
+  ],
+  "decision": {
+    "prompt": "What should the coalition prioritize as it turns the declaration into policy?",
+    "options": [
+      {
+        "id": "o1",
+        "label": "Accelerate a European-first missile-defence buildout",
+        "logic": "Front-load joint procurement, industrial licensing, and common architecture so that Europe can cover more of its own deterrence burden regardless of future U.S. volatility.",
+        "acceptedTradeoff": "Higher short-run cost, duplication risk, and possible friction with NATO interoperability."
+      },
+      {
+        "id": "o2",
+        "label": "Keep the coalition tightly nested inside NATO planning",
+        "logic": "Use the coalition as an industrial and procurement accelerator, but preserve U.S.-linked command-and-control assumptions for as long as possible.",
+        "acceptedTradeoff": "Slower movement toward autonomy and continued dependence on U.S. political reliability."
+      },
+      {
+        "id": "o3",
+        "label": "Prioritize urgent Ukrainian throughput over longer-term architecture",
+        "logic": "Treat the coalition mainly as a vehicle to get radars, interceptors, licences, and training into Ukraine quickly rather than as a grand European design exercise.",
+        "acceptedTradeoff": "Better near-term wartime utility, but weaker long-run European strategic transformation."
+      },
+      {
+        "id": "o4",
+        "label": "Sequence deterrence with diplomacy and burden-sharing tests",
+        "logic": "Use the coalition to signal resolve while conditioning larger post-war security guarantees on demonstrated European procurement, data-sharing, and force-readiness milestones.",
+        "acceptedTradeoff": "More disciplined promises, but weaker immediate reassurance for Kyiv."
+      }
+    ]
+  },
+  "worldviewReadings": [
+    {
+      "profileId": "competitive-balancer",
+      "noticesFirst": "Russia’s missile pressure and the risk that future U.S. availability narrows.",
+      "interpretation": "The coalition is a power-balancing response to two simultaneous pressures: Russia’s missile threat and uncertainty about future U.S. support. The main mechanism is deterrence through partial substitution.",
+      "recommendation": "Accelerate a European-first buildout that can replace vulnerable capabilities over time.",
+      "recommendedOptionIds": ["o1"],
+      "strongestObjection": "It may over-read strategic autonomy and understate how dependent any usable architecture remains on NATO’s U.S.-enabled operating system.",
+      "updateCondition": "A clear U.S. recommitment that reverses recent capability reductions, or evidence that the coalition stalls without procurement or deployment."
+    },
+    {
+      "profileId": "institution-builder",
+      "noticesFirst": "Common requirements, working groups, governance, and financing can reduce fragmentation.",
+      "interpretation": "The important mechanism is institutionalisation: common requirements, working groups, governance, and financing can turn fragmented national inventories into a more durable security good.",
+      "recommendation": "Keep the coalition nested inside NATO planning while building common European procurement and operating standards.",
+      "recommendedOptionIds": ["o2"],
+      "strongestObjection": "Institutions cannot substitute for absent radars, interceptors, data fusion, and battle-management enablers.",
+      "updateCondition": "Interoperability exercises that show real integration gains, or repeated governance disputes that prevent common standards."
+    },
+    {
+      "profileId": "coalition-pragmatist",
+      "noticesFirst": "The decisive test is whether aligned states, firms, licences, and money produce usable output.",
+      "interpretation": "The coalition matters if it produces enough aligned states, firms, licences, and money to narrow the gap quickly. Purity matters less than usable coalition output.",
+      "recommendation": "Prioritize urgent Ukrainian throughput and judge the coalition by deliveries and training.",
+      "recommendedOptionIds": ["o3"],
+      "strongestObjection": "A coalition can look broad while still lacking the hardest contributors and the most critical enabling functions.",
+      "updateCondition": "Major members joining with money and inventory commitments, or persistent fragmentation over command, financing, or industrial champions."
+    },
+    {
+      "profileId": "constraint-first-realist",
+      "noticesFirst": "Europe faces limited time, inventory, and alliance certainty.",
+      "interpretation": "The coalition is a hedge born of scarcity. Europe is trying to stretch limited time, inventory, and alliance certainty without overpromising what it can actually field.",
+      "recommendation": "Sequence larger guarantees behind clear procurement, data-sharing, and readiness milestones.",
+      "recommendedOptionIds": ["o4"],
+      "strongestObjection": "This reading may be too pessimistic about Europe’s ability to learn from Ukraine and compress timelines under pressure.",
+      "updateCondition": "Verified accelerated deliveries and Ukrainian production by the end of 2026, or demonstrated replacement of specific U.S. enablers."
+    }
+  ],
+  "assumptionChallenge": {
+    "newInformation": "Industrial licensing and common design are advancing, but data integration and command authority remain the binding constraint.",
+    "prompt": "How does this affect your first judgment?",
+    "options": [
+      { "id": "weakens", "label": "It weakens my first read." },
+      { "id": "priority", "label": "It changes the priority, not the conclusion." },
+      { "id": "strengthens", "label": "It strengthens my first read." },
+      { "id": "unsure", "label": "I remain unsure." }
+    ]
+  },
+  "nextRoutes": [
+    {
+      "href": "/modules/security",
+      "label": "Security & Strategy Focus Area",
+      "reason": "Pressure-test how you weigh deterrence, alliance reliability, and strategic limits."
+    },
+    {
+      "href": "/perspectives",
+      "label": "Perspective Runs",
+      "reason": "Revisit the same tradeoffs from a defined strategic seat."
+    },
+    {
+      "href": "/explore/atlas",
+      "label": "Worldview Map",
+      "reason": "Compare the four readings with nearby modeled profiles."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "title": "Joint Declaration on the Establishment of the Integrated Anti-Ballistic Missile Coalition",
+      "publisher": "Élysée",
+      "publishedAt": "2026-07-13",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.elysee.fr/en/emmanuel-macron/2026/07/13/joint-declaration-on-the-establishment-of-the-integrated-anti-ballistic-missile-coalition",
+      "kind": "primary",
+      "claimIds": ["c1", "c2"]
+    },
+    {
+      "id": "S2",
+      "title": "Joint declaration by the President of the French Republic and the President of Ukraine",
+      "publisher": "Élysée",
+      "publishedAt": "2026-07-14",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.elysee.fr/en/emmanuel-macron/2026/07/14/joint-declaration-by-the-president-of-the-french-republic-and-the-president-of-ukraine",
+      "kind": "primary",
+      "claimIds": ["c3"]
+    },
+    {
+      "id": "S3",
+      "title": "NATO summits topic page with 2026 Ankara summit summary",
+      "publisher": "NATO",
+      "publishedAt": "2026-07-08",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.nato.int/en/what-we-do/introduction-to-nato/nato-summits",
+      "kind": "primary",
+      "claimIds": ["c4"]
+    },
+    {
+      "id": "S4",
+      "title": "Hegseth announces review of US troops in Europe, scorns some allies",
+      "publisher": "Reuters",
+      "publishedAt": "2026-06-18",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.reuters.com/business/finance/hegseth-announces-review-us-troops-europe-scorns-some-allies-2026-06-18/",
+      "kind": "high-quality-reporting",
+      "claimIds": ["c5"]
+    },
+    {
+      "id": "S5",
+      "title": "Ukraine and allies set up coalition to tackle Russia ballistic missile threat",
+      "publisher": "Reuters",
+      "publishedAt": "2026-07-13",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.reuters.com/business/aerospace-defense/allies-muster-more-air-defence-aid-ukraine-battlefield-momentum-shifts-2026-07-13/",
+      "kind": "high-quality-reporting",
+      "claimIds": ["c6"]
+    }
+  ],
+  "disputes": {
+    "factual": [
+      "The United States has not publicly released a fully authoritative inventory of all capability reductions to NATO crisis forces, so some reporting still depends on allied and military-source accounts."
+    ],
+    "interpretive": [
+      "One reading treats the coalition as a strategic-autonomy turn; another sees a supplement that leaves Europe dependent on U.S. data, command, and enabling systems.",
+      "Supporters see Ukrainian wartime adaptation as proof that Europe can compress timelines; sceptics think wartime urgency does not solve integration and sustainment constraints."
+    ]
+  },
+  "sensitiveWording": [
+    {
+      "term": "U.S. abandonment",
+      "guidance": "Use ‘hedging against U.S. variability’ unless a formal commitment is explicitly revoked."
+    },
+    {
+      "term": "Russia’s war of aggression",
+      "guidance": "When using the phrase from coalition sources, make clear that it is the coalition’s framing and is not neutral language from all parties."
+    },
+    {
+      "term": "offensive coalition",
+      "guidance": "Do not imply the coalition is offensive; the founding document explicitly calls it purely defensive."
+    }
+  ],
+  "correctionRisks": [
+    {
+      "risk": "Delivery and financing schedules for SAMP/T NG, Aster 30, and Rafale-related items may change quickly.",
+      "mitigation": "Recheck official delivery and financing notices before any content update."
+    },
+    {
+      "risk": "Membership in the coalition may expand within days or weeks.",
+      "mitigation": "Treat the ten-state list as dated to the evidence window and verify membership before revision."
+    },
+    {
+      "risk": "The U.S. Europe-force review may be clarified, narrowed, or partly reversed.",
+      "mitigation": "Distinguish confirmed reductions from reported review options in every revision."
+    }
+  ],
+  "editorialMemo": "This is the strongest launch case because it compresses alliance politics, industrial statecraft, military innovation, and uncertainty about U.S. commitments into one decision-grade question. The official sources are unusually rich: there is a real coalition, a real French-Ukrainian industrial package, and a clear NATO summit frame. At the same time, the Reuters and IISS material keep the case honest by showing that Europe’s sharpest constraint is not only money or intent. It is the continuing dependence on U.S.-provided enablers, integration architecture, and force availability. That creates a clean threshold test for users: are they looking at the first serious layer of strategic substitution, or at a politically useful but incomplete hedge? The case also lets several worldview profiles disagree without any one answer being morally preloaded. It is timely, concrete, and likely to remain decision-relevant over the next 30–90 days.",
+  "editorialReview": {
+    "researchReviewedAt": "2026-07-17",
+    "sourceCheckedAt": "2026-07-17",
+    "copyReviewedAt": "2026-07-17",
+    "approvedAt": "2026-07-17",
+    "reviewerIds": ["research-editor", "approving-editor"]
+  }
+}

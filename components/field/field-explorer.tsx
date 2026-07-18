@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { FieldDetailCard } from "@/components/field/field-detail-card"
 import { FieldList } from "@/components/field/field-list"
 import { FieldMap, FieldMapKey, type FieldMapMarker } from "@/components/field/field-map"
@@ -85,6 +86,7 @@ export function FieldExplorer() {
   const [view, setView] = useState<WorldviewMapView>(initialQuery.view)
   const focusReturnKeyRef = useRef<FieldSelectionKey | null>(null)
   const detailDrawerRef = useRef<HTMLElement | null>(null)
+  const viewTracked = useRef(false)
 
   const availability: FieldLayerAvailability = useMemo(
     () => ({
@@ -96,6 +98,10 @@ export function FieldExplorer() {
   )
 
   useEffect(() => {
+    if (!viewTracked.current) {
+      viewTracked.current = true
+      trackProductEvent("worldview_map_viewed")
+    }
     const load = () => {
       setProfile(loadProfileStore())
       setProfileLoaded(true)

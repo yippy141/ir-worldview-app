@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Methods — IR Worldview Inventory",
   description:
-    "How the IR Worldview Inventory works across the Foundation, focus-area modules, integrated Profile, and editorial limitations.",
+    "How the IR Worldview Inventory works across the Foundation, Focus Areas, integrated Profile, and editorial limitations.",
 }
 
 const dimensions = [
@@ -59,8 +59,8 @@ const resultLayers = [
     body: "The result also reports a strategic style and a normative style. These modifiers sit alongside the profile. They are not separate worldview families.",
   },
   {
-    heading: "4. Focus-area modules",
-    body: "Security and Technology modules test the baseline in concrete issue files. Their top-line read stays separate from the Foundation result rather than pretending to be a more scientific replacement for it.",
+    heading: "4. Focus Areas",
+    body: "Security and Technology Focus Areas test the baseline in concrete issue files. Their top-line read stays separate from the Foundation result rather than pretending to be a more scientific replacement for it.",
   },
 ]
 
@@ -78,8 +78,8 @@ const limitations = [
     body: "This version distinguishes broad political-economy salience from a stronger critical or systemic commitment. Thinking economics matters does not automatically make someone a Critical Political Economy result.",
   },
   {
-    heading: "Modules are separate",
-    body: "The focus-area modules are meant to surface domain-specific instinct, not to masquerade as extra scientific precision. Their readouts are kept separate from the Foundation result.",
+    heading: "Focus Areas are separate",
+    body: "Focus Areas are meant to surface domain-specific instinct, not to masquerade as extra scientific precision. Their readouts are kept separate from the Foundation result.",
   },
   {
     heading: "Scores are relative, not absolute",
@@ -130,14 +130,15 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>Privacy and research data</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The product works without research opt-in. V13 adds opt-in copy and interface
-          scaffolding for future beta research storage, but raw answers should not be sent to
-          third-party analytics, sold, used for ads, or used for political targeting.
+          V19 keeps results and histories in this browser unless you explicitly share them. It has
+          no active research-response intake, persistent research ID, research contact field, or
+          mock consent control.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          If raw answer records are stored later, they will be described as pseudonymous or
-          de-identified rather than truly anonymous, and optional contact information should stay
-          separate from answer data.
+          Any later study requires a separately reviewed data dictionary, purpose-specific consent,
+          per-run identifiers, automatic retention, authenticated deletion, and protected access.
+          Product analytics remain coarse and cannot accept answers, profiles, result payloads, or
+          free text.
         </p>
         <p style={{ margin: 0 }}>
           <Link href="/privacy" style={{ color: "var(--accent)" }}>
@@ -241,10 +242,11 @@ export default function MethodPage() {
       </section>
 
       <section className="panel stack-md">
-        <h2>How the Field map is built</h2>
+        <h2>How the Worldview Map is built</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The Field projection converts seven Foundation values into two screen axes with authored
-          coefficients. Every personal baseline, Perspective Run, and eligible IR Reference Profile
+          The Worldview Map projection converts seven Foundation values into two screen axes with
+          authored coefficients. Every personal baseline, Perspective Run, and eligible thinker or
+          public position
           passes through the same projection.
         </p>
         <p style={{ lineHeight: "1.7" }}>
@@ -253,17 +255,17 @@ export default function MethodPage() {
           between two marks carries no measured amount of ideological difference.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Atlas patterns use authored fingerprints. Low, medium, and high levels become 2.5, 4, and
-          5.5 on the internal Foundation scale. Dimensions absent from an Atlas fingerprint use the
-          midpoint of 4 for projection. Atlas marks are authored editorial examples; no population
-          sample underlies them.
+          Worldview profiles use authored fingerprints. Low, medium, and high levels become 2.5,
+          4, and 5.5 on the internal Foundation scale. Dimensions absent from a profile fingerprint
+          use the midpoint of 4 for projection. Profile marks are authored editorial examples; no
+          population sample underlies them.
         </p>
       </section>
 
       <section className="panel stack-md">
-        <h2>How Reference Profiles are coded</h2>
+        <h2>How thinkers and public positions are coded</h2>
         <p style={{ lineHeight: "1.7" }}>
-          Reference Profiles summarize public postures from a dated source ledger. Each record
+          Thinkers and public positions summarize public postures from a dated source ledger. Each record
           carries an evidence window, dimension-level support, dispute notes, version history, and
           a second-person review before publication.
         </p>
@@ -477,7 +479,7 @@ export default function MethodPage() {
             <p style={{ fontWeight: 600 }}>v0.4 — April 2026</p>
             <p className="muted" style={{ lineHeight: "1.65" }}>
               Minimal stable Phase 5M pass. Added Standard and Advanced Foundation modes, mixed
-              question types, cleaner plain-language stems, and two focus-area modules for
+              question types, cleaner plain-language stems, and two Focus Areas for
               Security and Technology.
             </p>
           </div>

@@ -1,9 +1,13 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { trackProductEvent } from "@/lib/analytics/adapter"
+import { CurrentJudgmentsSection } from "@/components/profile/current-judgments-section"
 import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
+import { loadCurrentCaseResponseStore } from "@/lib/current-cases/response-store"
+import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
 import { buildIntegratedHeadline } from "@/lib/profile-helpers"
 import {
   loadProfileStore,
@@ -17,16 +21,25 @@ import {
 
 export function ProfileDashboard() {
   const [profile, setProfile] = useState<ProfileStore | null>(null)
+  const [currentCases, setCurrentCases] = useState<CurrentCaseResponseStore | null>(null)
+  const viewTracked = useRef(false)
 
   useEffect(() => {
-    const load = () => setProfile(loadProfileStore())
+    if (!viewTracked.current) {
+      viewTracked.current = true
+      trackProductEvent("profile_viewed")
+    }
+    const load = () => {
+      setProfile(loadProfileStore())
+      setCurrentCases(loadCurrentCaseResponseStore())
+    }
 
     load()
     window.addEventListener("storage", load)
     return () => window.removeEventListener("storage", load)
   }, [])
 
-  if (profile === null) {
+  if (profile === null || currentCases === null) {
     return (
       <section className="profile-state-panel profile-state-panel--loading stack-md" aria-busy="true">
         <p className="eyebrow">Profile</p>
@@ -50,7 +63,7 @@ export function ProfileDashboard() {
             <h1>Your Profile builds as you complete layers.</h1>
             <p className="profile-state-panel__body">
               Start with the Foundation. Your results stay on this device unless you choose to
-              share them. After that, focus-area modules and AI Governance can sit beside the
+              share them. After that, Focus Areas and AI Governance can sit beside the
               baseline without becoming one fake master score.
             </p>
           </div>
@@ -74,6 +87,7 @@ export function ProfileDashboard() {
             No account is required. This page reads saved results from this browser.
           </p>
         </section>
+        <CurrentJudgmentsSection store={currentCases} />
       </div>
     )
   }
@@ -89,17 +103,20 @@ export function ProfileDashboard() {
   })()
 
   return (
-    <ProfileReport
-      profile={profile}
-      mode="local"
-      actionSlot={
-        sharePayload ? (
-          <ProfileShareActions
-            payload={sharePayload}
-            headline={buildIntegratedHeadline(profile)}
-          />
-        ) : undefined
-      }
-    />
+    <>
+      <ProfileReport
+        profile={profile}
+        mode="local"
+        actionSlot={
+          sharePayload ? (
+            <ProfileShareActions
+              payload={sharePayload}
+              headline={buildIntegratedHeadline(profile)}
+            />
+          ) : undefined
+        }
+      />
+      <CurrentJudgmentsSection store={currentCases} />
+    </>
   )
 }

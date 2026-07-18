@@ -60,7 +60,7 @@ const plannedModuleTracks = {
 } as const
 
 export const metadata: Metadata = {
-  title: "Focus-Area Modules — IR Worldview Inventory",
+  title: "Focus Areas — IR Worldview Inventory",
   description:
     "Take a focus-area module in Security or Technology and compare the result back to your Foundation baseline.",
 }
@@ -80,7 +80,7 @@ export default async function ModulesPage(
         <section className="lobby-hero lobby-hero--plain">
           <div className="lobby-hero-grid">
             <div className="stack-lg">
-              <p className="section-kicker">Step 2 · Focus-area modules</p>
+              <p className="section-kicker">Step 2 · Focus Areas</p>
               <h1>Add a focused overlay to the Foundation</h1>
               <p className="lobby-lead">
                 Use Security and Technology to see where your Foundation result holds, hardens, or
@@ -89,13 +89,13 @@ export default async function ModulesPage(
               <div className="row gap-sm wrap">
                 {foundation ? (
                   <>
-                    <Link href="#available-modules" className="cta-primary">Choose a module</Link>
+                    <Link href="#available-modules" className="cta-primary">Choose a focus area</Link>
                     <Link href="/profile" className="cta-secondary">View Profile</Link>
                   </>
                 ) : (
                   <>
                     <Link href="/quiz" className="cta-primary">Take the Foundation first</Link>
-                    <Link href="#available-modules" className="cta-secondary">Browse modules</Link>
+                    <Link href="#available-modules" className="cta-secondary">Browse Focus Areas</Link>
                   </>
                 )}
               </div>
@@ -120,7 +120,7 @@ export default async function ModulesPage(
                 <div className="lobby-note-band stack-xs">
                   <p className="lobby-note-title">Foundation still comes first</p>
                   <p className="muted lobby-side-text">
-                    You can browse the modules now. They read best after the Foundation.
+                    You can browse the Focus Areas now. They read best after the Foundation.
                   </p>
                 </div>
               )}
@@ -149,7 +149,7 @@ export default async function ModulesPage(
 
         <section id="available-modules" className="stack-md lobby-band">
           <div className="stack-xs">
-            <p className="section-kicker">Available modules</p>
+            <p className="section-kicker">Available Focus Areas</p>
             <h2>Choose the focus area you want to pressure-test first</h2>
             <p className="muted lobby-section-copy">
               Each module keeps your Foundation in view while the cases become more specific and

@@ -1,5 +1,8 @@
 import type { DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
 import { SCHEMA_VERSION } from "@/lib/quiz-schema"
+import { RESULT_HISTORY_STORAGE_KEY } from "@/lib/storage-keys"
+
+export { RESULT_HISTORY_STORAGE_KEY } from "@/lib/storage-keys"
 
 export type ResultSnapshot = {
   timestamp: number
@@ -11,7 +14,6 @@ export type ResultSnapshot = {
   dimensionScores: DimensionScores
 }
 
-const STORAGE_KEY = "ir-worldview-history"
 const MAX_SNAPSHOTS = 5
 
 export function saveSnapshot(snapshot: ResultSnapshot): void {
@@ -19,7 +21,7 @@ export function saveSnapshot(snapshot: ResultSnapshot): void {
   const history = loadHistory()
   const updated = [snapshot, ...history].slice(0, MAX_SNAPSHOTS)
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+    window.localStorage.setItem(RESULT_HISTORY_STORAGE_KEY, JSON.stringify(updated))
   } catch {
     // localStorage unavailable or full — skip silently
   }
@@ -28,7 +30,7 @@ export function saveSnapshot(snapshot: ResultSnapshot): void {
 export function loadHistory(): ResultSnapshot[] {
   if (typeof window === "undefined") return []
   try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
+    const raw = window.localStorage.getItem(RESULT_HISTORY_STORAGE_KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []

@@ -7,7 +7,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Explore — IR Worldview Inventory",
   description:
-    "A field guide to the worldview families and canonical profile patterns the inventory draws on — what each tradition emphasizes, what it misses, and where the current model is strongest or partial.",
+    "A field guide to the worldview families and Worldview profiles the inventory draws on — what each tradition emphasizes, what it misses, and where the current model is strongest or partial.",
 }
 
 export default function ExplorePage() {
@@ -28,15 +28,15 @@ export default function ExplorePage() {
       <hr className="divider" />
 
       <div className="article-section stack-sm">
-        <h2>Atlas</h2>
+        <h2>Worldview Map</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The inventory runs on continuous dimensions. The Atlas is a browse map of recurring
-          profile patterns in the current model: nearby combinations from the Foundation-plus-Profile
+          The inventory runs on continuous dimensions. The Worldview Map lets you browse Worldview
+          profiles in the current model: nearby combinations from the Foundation-plus-Profile
           architecture, not a rarity chart or a live user distribution.
         </p>
         <p>
           <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-            Open Atlas →
+            Open Worldview Map →
           </Link>
         </p>
       </div>

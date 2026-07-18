@@ -7,15 +7,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --cache",
-    "test": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts"
+    "test": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "mapbox-gl": "^3.26.0",
     "next": "16.2.10",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -25,5 +28,16 @@
     "impeccable": "^2.3.2",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.19",
+    "picomatch@<=2.3.1": "2.3.2",
+    "picomatch@>=4.0.0 <4.0.4": "4.0.5",
+    "minimatch@3.1.5": {
+      "brace-expansion": "1.1.16"
+    },
+    "minimatch@10.2.4": {
+      "brace-expansion": "5.0.7"
+    }
   }
 }

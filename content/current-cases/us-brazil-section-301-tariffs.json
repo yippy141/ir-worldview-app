@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "id": "economic-statecraft-us-brazil-section301-2026-07",
+  "slug": "us-brazil-section-301-tariffs",
+  "version": 1,
+  "publicationStatus": "published",
+  "launchRole": "archive",
+  "title": "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate",
+  "dek": "A selective U.S. tariff package forces Brazil to choose between retaliation, domestic cushioning, negotiation, and a wider rules-based response.",
+  "category": "economic-statecraft",
+  "publishedAt": "2026-07-17",
+  "updatedAt": "2026-07-17",
+  "evidenceWindow": {
+    "start": "2026-06-26",
+    "end": "2026-07-17"
+  },
+  "briefing": "On 15–16 July 2026, the United States escalated a yearlong Section 301 investigation into Brazil by unveiling a new 25% tariff package on selected Brazilian imports, to take effect on 22 July. USTR’s formal case ties the action to digital trade, electronic payments, preferential tariffs, anti-corruption enforcement, intellectual property, ethanol market access, and illegal deforestation. Reuters and AP reporting indicate that the tariff package is substantial but selective: key exports such as beef, coffee, and aircraft-related items are exempt, while a broad range of other products, including ethanol, sugar, machinery, and furniture, are affected.\n\nThe timing matters. The administration is rebuilding tariff leverage after a legal defeat over broader emergency tariffs, and Brookings notes that Section 301 offers a narrower but more judicially durable route. Brazil has rejected the move as unjust and politically motivated, signalled possible retaliation under its reciprocity law, and reportedly considered measures such as limiting U.S. audiovisual operations or suspending some patents rather than defaulting to across-the-board import tariffs that would hit Brazilian consumers directly. At the same time, Brazil has been expanding emergency financing support through the BNDES-backed Plano Brasil Soberano. The decision threshold is therefore not simply whether tariffs are good or bad. It is whether this confrontation becomes a durable example of selective geoeconomic coercion that other states must hedge against, or whether Brazil can contain the pressure through calibration, coalition-building, and diversification without validating Washington’s method.\n\nBrazil’s response must balance domestic costs, bargaining credibility, and the wider precedent created by selective Section 301 pressure. A narrow countermeasure could impose political costs with limited inflation at home. Cushioning, negotiation, or multilateral action would each preserve different forms of flexibility while accepting slower or less visible relief.",
+  "actors": [
+    "Brazil",
+    "United States",
+    "Office of the U.S. Trade Representative",
+    "Brazilian exporters",
+    "Brazilian consumers"
+  ],
+  "perspectives": {
+    "global": "The dispute tests whether selective trade pressure becomes a durable tool of statecraft and how exposed states can answer without deepening their own economic costs.",
+    "counterparties": [
+      {
+        "actor": "United States",
+        "perspective": "Washington says the listed Brazilian practices burden U.S. commerce and views Section 301 as a lawful route to seek changes."
+      },
+      {
+        "actor": "Brazil",
+        "perspective": "Brasília rejects the package as unjustified and politically motivated while trying to preserve policy room and limit harm to domestic firms and consumers."
+      }
+    ]
+  },
+  "factualClaims": [
+    {
+      "id": "c1",
+      "text": "USTR’s 15 July 2026 action says a yearlong Section 301 investigation found certain Brazilian practices unreasonable and burdensome to U.S. commerce."
+    },
+    {
+      "id": "c2",
+      "text": "The USTR case covers digital trade and electronic payment services, unfair preferential tariffs, anti-corruption enforcement, intellectual property protection, ethanol market access, and illegal deforestation."
+    },
+    {
+      "id": "c3",
+      "text": "Reuters and AP reported that the new U.S. tariffs are 25%, are due to start on 22 July 2026, and exempt products such as coffee, beef, and aircraft-related items."
+    },
+    {
+      "id": "c4",
+      "text": "Reuters reported that the package affects around 18% of Brazil’s exports to the United States."
+    },
+    {
+      "id": "c5",
+      "text": "Reuters reported that Brazil is preparing retaliation under its reciprocity law and considering options such as measures against audiovisual companies and some patents rather than broad import tariffs."
+    },
+    {
+      "id": "c6",
+      "text": "Official BNDES material shows Brazil has already revived financing support under Plano Brasil Soberano 2026 for firms affected by tariffs and wider international instability."
+    }
+  ],
+  "knownUncertainties": [
+    "Whether the exemption list or practical customs implementation changes before 22 July.",
+    "Whether further U.S. Section 301 actions, including forced-labour related measures, add materially to the Brazil package.",
+    "Whether Brazil uses legal and regulatory retaliation rather than tariff retaliation, and how markets price that choice.",
+    "How much of the confrontation is bargaining theatre tied to the Brazilian election versus a durable long-term trade reset."
+  ],
+  "reasoningTags": [
+    "Economic leverage",
+    "Domestic costs",
+    "Policy autonomy",
+    "Negotiating room",
+    "Rules and precedent",
+    "Coalition support"
+  ],
+  "decision": {
+    "prompt": "How should Brazil answer the new U.S. tariff package?",
+    "options": [
+      {
+        "id": "o1",
+        "label": "Brazil retaliates narrowly but asymmetrically",
+        "logic": "Use the reciprocity law against politically salient U.S. interests while avoiding broad import tariffs that raise Brazilian consumer costs.",
+        "acceptedTradeoff": "Greater legal and diplomatic escalation risk in exchange for lower domestic inflation pain."
+      },
+      {
+        "id": "o2",
+        "label": "Brazil cushions and diversifies rather than retaliates hard",
+        "logic": "Expand domestic support for affected sectors, redirect trade, and treat the tariff package as a diversification shock rather than a contest to be won head-on.",
+        "acceptedTradeoff": "More short-term coercion absorbed now in exchange for strategic flexibility later."
+      },
+      {
+        "id": "o3",
+        "label": "Negotiate a staged carve-out bargain",
+        "logic": "Pursue sector-specific concessions, monitoring, or technical understandings with Washington to reduce tariff scope while preserving core sovereignty positions.",
+        "acceptedTradeoff": "Partial de-escalation at the cost of visible compromise under pressure."
+      },
+      {
+        "id": "o4",
+        "label": "Multilateralise the dispute",
+        "logic": "Take the case through WTO and partner coordination channels to raise the reputational and legal cost of expansive Section 301 use.",
+        "acceptedTradeoff": "Slower and less certain relief in exchange for a stronger rules-based counter-argument."
+      }
+    ]
+  },
+  "worldviewReadings": [
+    {
+      "profileId": "competitive-balancer",
+      "noticesFirst": "Washington is rebuilding bargaining leverage with a targeted and durable legal instrument.",
+      "interpretation": "The case is a leverage play: Washington is rebuilding bargaining power with a tool that is more targeted and legally durable than its struck-down emergency tariffs.",
+      "recommendation": "Retaliate narrowly against politically salient U.S. interests to restore bargaining leverage without broad domestic pain.",
+      "recommendedOptionIds": ["o1"],
+      "strongestObjection": "This can overestimate coercive leverage by underestimating exemptions, target adaptation, and the political risk of overuse.",
+      "updateCondition": "Rapid de-escalation after modest concessions, or evidence that the tariffs change little while pushing Brazil toward other partners."
+    },
+    {
+      "profileId": "development-sovereignty-builder",
+      "noticesFirst": "Brazil’s central problem is preserving policy room and reducing future exposure.",
+      "interpretation": "Brazil’s key problem is policy-space defence: the response should reduce vulnerability, protect domestic industry, and avoid countermeasures that create greater self-harm.",
+      "recommendation": "Cushion affected sectors and diversify trade while building more domestic bargaining capacity.",
+      "recommendedOptionIds": ["o2"],
+      "strongestObjection": "This can underweight the value of negotiated market access and overstate autonomy when financial and trade realities remain constraining.",
+      "updateCondition": "A settlement that preserves Brazilian room for manoeuvre without major retaliation, or evidence that diversification tools are too slow to offset the shock."
+    },
+    {
+      "profileId": "coalition-pragmatist",
+      "noticesFirst": "Brazil needs a calibrated mix of bargaining, domestic support, and outside partners.",
+      "interpretation": "A workable response combines bargaining, support for affected sectors, and coalition-building with other exposed economies.",
+      "recommendation": "Pursue a staged carve-out bargain while organizing partner support for a wider response if talks fail.",
+      "recommendedOptionIds": ["o3", "o4"],
+      "strongestObjection": "Calibration may satisfy nobody and can still leave Brazil looking weak if Washington keeps escalating.",
+      "updateCondition": "Third-country partners joining Brazil’s push, or a U.S. decision to broaden the package despite restrained Brazilian behaviour."
+    },
+    {
+      "profileId": "structural-inequality-critic",
+      "noticesFirst": "A powerful state can use trade law selectively while preserving exemptions that suit its own domestic interests.",
+      "interpretation": "The deeper mechanism is hierarchy: powerful states are using trade law selectively to discipline others while preserving exemptions for their own domestic convenience.",
+      "recommendation": "Multilateralise the dispute so the response contests the precedent as well as the immediate tariff burden.",
+      "recommendedOptionIds": ["o4"],
+      "strongestObjection": "This reading can flatten real Brazilian policy disputes and ignore areas where Brazil may genuinely impose foreign market frictions.",
+      "updateCondition": "Transparent reciprocal negotiations with neutral monitoring, or evidence that Brazilian measures are the main economic cause of the dispute."
+    }
+  ],
+  "assumptionChallenge": {
+    "newInformation": "Any credible non-tariff retaliation is likely to impose larger costs on Brazilian firms and consumers than first expected.",
+    "prompt": "How does this affect your first judgment?",
+    "options": [
+      { "id": "weakens", "label": "It weakens my first read." },
+      { "id": "priority", "label": "It changes the priority, not the conclusion." },
+      { "id": "strengthens", "label": "It strengthens my first read." },
+      { "id": "unsure", "label": "I remain unsure." }
+    ]
+  },
+  "nextRoutes": [
+    {
+      "href": "/modules/technology",
+      "label": "Technology & Geoeconomics Focus Area",
+      "reason": "Test how you weigh trade leverage, dependence, and domestic policy room."
+    },
+    {
+      "href": "/explore/atlas",
+      "label": "Worldview Map",
+      "reason": "Compare leverage-first, autonomy-first, coalition, and hierarchy readings."
+    },
+    {
+      "href": "/profile",
+      "label": "My Profile",
+      "reason": "Return to your saved baseline and earlier current judgments."
+    }
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "title": "USTR Section 301 Action on Brazil’s Unreasonable Acts, Policies, and Practices",
+      "publisher": "USTR",
+      "publishedAt": "2026-07-15",
+      "accessedAt": "2026-07-17",
+      "url": "https://ustr.gov/about/policy-offices/press-office/press-releases/2026/july/ustr-section-301-action-brazils-unreasonable-acts-policies-and-practices",
+      "kind": "primary",
+      "claimIds": ["c1", "c2"]
+    },
+    {
+      "id": "S2",
+      "title": "Section 301 – Brazil’s Acts, Policies, and Practices Related to Digital Trade and Electronic Payment Services; Unfair, Preferential Tariffs; Anti-Corruption Enforcement; Intellectual Property Protection; Ethanol Market Access; and Illegal Deforestation",
+      "publisher": "USTR",
+      "publishedAt": "2026-07-15",
+      "accessedAt": "2026-07-17",
+      "url": "https://ustr.gov/trade-topics/enforcement/section-301-investigations/section-301-brazils-acts-policies-and-practices-related-digital-trade-and-electronic-payment",
+      "kind": "primary",
+      "claimIds": ["c1", "c2"]
+    },
+    {
+      "id": "S3",
+      "title": "US imposes new 25% tariffs on Brazil, expands exemptions list",
+      "publisher": "Reuters",
+      "publishedAt": "2026-07-16",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.reuters.com/world/americas/us-imposes-25-tariff-some-goods-brazil-2026-07-16/",
+      "kind": "high-quality-reporting",
+      "claimIds": ["c3", "c4"]
+    },
+    {
+      "id": "S4",
+      "title": "US imposing a 25% tariff on some Brazilian imports starting July 22, citing unfair trade practices",
+      "publisher": "AP",
+      "publishedAt": "2026-07-16",
+      "accessedAt": "2026-07-17",
+      "url": "https://apnews.com/article/99e8c52a44c75f31c343d7ebad41f614",
+      "kind": "high-quality-reporting",
+      "claimIds": ["c3"]
+    },
+    {
+      "id": "S5",
+      "title": "Brazil readies 'tough' response to new Trump tariffs, sources say",
+      "publisher": "Reuters",
+      "publishedAt": "2026-07-16",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.reuters.com/world/americas/brazil-readies-tough-retaliation-new-trump-tariffs-sources-say-2026-07-16/",
+      "kind": "high-quality-reporting",
+      "claimIds": ["c5"]
+    },
+    {
+      "id": "S6",
+      "title": "Plano Brasil Soberano 2026 - medidas do BNDES frente à instabilidade internacional",
+      "publisher": "BNDES",
+      "publishedAt": "2026-07-15",
+      "accessedAt": "2026-07-17",
+      "url": "https://www.bndes.gov.br/wps/portal/site/home/emergenciais/brasil-soberano",
+      "kind": "primary",
+      "claimIds": ["c6"]
+    }
+  ],
+  "disputes": {
+    "factual": [
+      "Washington says Brazil’s practices are unreasonable and trade-distorting; Brazil says the action is unjustified and politically motivated."
+    ],
+    "interpretive": [
+      "Some analysts see the package as a narrow bargaining tool; others see it as a template for wider post-IEEPA tariff reconstruction.",
+      "Brazil’s asymmetrical retaliation may be read either as prudent statecraft or as evidence of limited leverage."
+    ]
+  },
+  "sensitiveWording": [
+    {
+      "term": "trade war",
+      "guidance": "Use ‘retaliation under the reciprocity law’ or ‘countermeasures’ unless escalation broadens materially."
+    },
+    {
+      "term": "USTR findings",
+      "guidance": "Describe the listed categories as U.S. allegations and determinations contested by Brazil; do not present every category as settled fact."
+    },
+    {
+      "term": "election politics",
+      "guidance": "Treat election politics as one factor in the case and preserve the legal and economic mechanisms."
+    }
+  ],
+  "correctionRisks": [
+    {
+      "risk": "Tariff coverage and exemptions may still adjust before implementation.",
+      "mitigation": "Verify the effective schedule and exemption list against official customs material before revision."
+    },
+    {
+      "risk": "Brazilian countermeasures under consideration may differ from the measures formally announced.",
+      "mitigation": "Label reported options as under consideration until an official act is published."
+    },
+    {
+      "risk": "Further Section 301 actions could materially change total effective tariff exposure.",
+      "mitigation": "Recalculate the described scope whenever a new USTR action enters the record."
+    }
+  ],
+  "editorialMemo": "This is a strong archive case because it captures a live shift in American economic-statecraft technique. The legal and policy story matters as much as the tariff headline. After the administration’s broader emergency-tariff route was curtailed, Section 301 became the more durable instrument for selective pressure. Brazil is an especially useful counterparty because it is neither a tiny economy nor a peer superpower; it is large enough to resist, exposed enough to feel pain, and politically motivated to answer without obvious self-harm. That gives the case a genuinely interesting strategic menu rather than a single obvious response. It also permits several worldview profiles to illuminate different mechanisms: coercive leverage, policy-space defence, coalition management, and structural hierarchy. I would not lead with it only because the core logic is narrower than the launch case. But it is an excellent archive record for users thinking about tariffs as statecraft rather than as simple trade policy.",
+  "editorialReview": {
+    "researchReviewedAt": "2026-07-17",
+    "sourceCheckedAt": "2026-07-17",
+    "copyReviewedAt": "2026-07-17",
+    "approvedAt": "2026-07-17",
+    "reviewerIds": ["research-editor", "approving-editor"]
+  }
+}

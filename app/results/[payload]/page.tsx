@@ -36,7 +36,7 @@ import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
 import { ReadingPathSection } from "@/components/results/reading-path-section"
-import { ResearchOptIn } from "@/components/research/research-opt-in"
+import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { modules } from "@/lib/modules/framework"
 import type { DimensionKey, FamilyKey, NormativeModifier, StrategyModifier } from "@/lib/types"
 import type { Metadata } from "next"
@@ -404,7 +404,7 @@ export default async function ResultPage(
             <Link href={`/modules?foundation=${encodeURIComponent(payload)}`} className="cta-primary">
               Add a focus-area module
             </Link>
-            <Link href="/explore/atlas" className="cta-secondary">Open Atlas field map</Link>
+            <Link href="/explore/atlas" className="cta-secondary">Open Worldview Map</Link>
             <Link href="/profile" className="cta-secondary">View Profile</Link>
             <ResultCardHeroShare
               shareUrl={`/results/${payload}`}
@@ -504,11 +504,11 @@ export default async function ResultPage(
                   </p>
                 </div>
                 <p>
-                  <Link href={`/feedback?result=${payload}`}>
-                    Share feedback on this inventory →
+                  <Link href="/feedback">
+                    Report a factual or interface problem →
                   </Link>
                 </p>
-                <ResearchOptIn instrumentLabel="Foundation" />
+                <ResearchStatusNotice instrumentLabel="Foundation" />
                 <ShareActions
                   payload={payload}
                   familyLabel={familyLabel}

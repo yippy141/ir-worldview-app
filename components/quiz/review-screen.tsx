@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getFoundationQuestions } from "@/lib/quiz-schema"
 import { generateResult, getNeighboringFamilyKey } from "@/lib/scoring"
 import { encodePayload, dimensionScoresToArray } from "@/lib/share"
@@ -75,6 +76,7 @@ export function ReviewScreen() {
       })
 
       markProfileSaveIntent("foundation", payload, { mode: session.activeMode })
+      trackProductEvent("foundation_completed")
       router.push(`/results/${payload}`)
     } catch {
       setGenerating(false)
@@ -101,7 +103,7 @@ export function ReviewScreen() {
         <p className="eyebrow">Review your answers</p>
         <h1>Before you generate your foundation result</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Review the full Foundation before you generate the result. Focus-area modules come
+          Review the full Foundation before you generate the result. Focus Areas come
           afterward as focused issue reads, not replacements for the baseline.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
@@ -142,7 +144,7 @@ export function ReviewScreen() {
           >
             <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
               Your foundation result is ready. Afterward you can take Security or Technology as
-              separate focus-area modules.
+              separate Focus Areas.
             </p>
           </div>
         )}

@@ -1,25 +1,30 @@
 # IR Worldview Inventory
 
-IR Worldview Inventory is a Next.js editorial interactive about how people read world politics. The product has two clear entry points: the IR Foundation and the standalone AI Governance Compass. Security and Technology modules add issue-specific depth, and Profile brings saved layers together on one device.
+IR Worldview Inventory is a Next.js editorial interactive about how people read world politics. The product has two clear entry points: the IR Foundation and the standalone AI Governance Compass. Security and Technology Focus Areas add issue-specific depth, Perspective Runs test contextual shifts, and Profile brings saved layers together on one device.
 
 ## Project overview
 
 - The quiz produces an interpretive summary, not a natural-kind identity.
 - Results are generated canonically through `/results/[payload]`, so links can be refreshed, shared, and reopened directly.
-- Explore pages function as a field guide to the modeled worldview families, recurring profile patterns, and important traditions that are not yet fully modeled.
-- Focus-area modules use explanation, decision, and actor-lens cards; actor-lens responses are tracked separately from the main module read.
+- Explore pages function as a field guide to modeled worldview families, Worldview profiles, and important traditions that are not yet fully modeled.
+- Focus Areas use explanation, decision, and actor-lens cards; actor-lens responses are tracked separately from the main issue read.
+- Perspective Runs compare contextual advice with the saved Foundation baseline without changing Foundation scoring.
 - AI Governance can stand alone as an AI-policy entry point, with the IR Foundation available as optional depth.
 - AI Atlas and AI Field Guide are browse-and-learn surfaces within the AI Governance section.
 
 ## Main routes
 
-- `/` full-screen World Stage navigation
+- `/` full-screen World Stage navigation with five reviewed public map views
 - `/about` project overview and editorial limits
-- `/quiz` quiz flow
-- `/quiz/review` required answer review before result generation
+- `/quiz` Foundation questionnaire with local draft resume
+- `/quiz/review` required Foundation answer review before result generation
 - `/results/[payload]` canonical result page for encoded share payloads
-- `/modules` Security and Technology issue files
-- `/modules/[slug]/results/[payload]` canonical module result pages
+- `/modules` Security and Technology Focus Areas
+- `/modules/[slug]` Focus Area questionnaire
+- `/modules/[slug]/results/[payload]` canonical Focus Area result page
+- `/perspectives` available Perspective Runs
+- `/perspectives/[perspectiveId]` contextual decision run
+- `/perspectives/[perspectiveId]/result/[payload]` canonical Perspective Run result page
 - `/ai` AI Governance Compass landing page
 - `/ai/quiz` AI governance questionnaire
 - `/ai/review` answer review before AI result generation
@@ -27,17 +32,22 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 - `/ai/atlas` AI governance archetype overview
 - `/ai/atlas/[id]` AI governance archetype detail pages
 - `/ai/field-guide` AI governance field guide
-- `/profile` local profile built from saved Foundation, module, and AI snapshots
+- `/profile` local profile built from saved Foundation, Focus Area, Perspective Run, and AI snapshots
 - `/profile/share/[payload]` canonical shared profile view
 - `/compare` side-by-side profile comparison
+- `/explore/atlas` Worldview Map with list and map views
+- `/explore/atlas/[id]` Worldview profile detail page
+- `/explore/reference` Thinkers & public positions
+- `/explore/reference/[id]` evidence-coded thinker or public-position detail page
 - `/explore` worldview field guide overview
 - `/explore/[slug]` modeled worldview detail pages
-- `/explore/atlas` IR worldview pattern atlas overview
-- `/explore/atlas/[id]` IR worldview pattern detail pages
+- `/futures` editorial scenarios for possible world orders
 - `/method` methodology and limitations
 - `/learn` additional explanatory content
 - `/references` key sources and reading list
 - `/feedback` feedback form
+- `/cases` published Current Case archive
+- `/cases/[slug]` evidence-backed Current Case judgment flow, sharing, and print summary
 
 ## Methodology limitations
 
@@ -92,6 +102,16 @@ Variables for Production and any Preview/Development environments that should
 render the live map. Add `NEXT_PUBLIC_MAPBOX_STYLE` there when using a custom
 style, then redeploy. Never place the token in source files.
 
+### Current Case invitations
+
+V19 shares ordinary case-only invitations. The former encrypted, answer-bearing
+friend challenge is retired; its legacy routes return `410` without reading request
+bodies, and no challenge encryption secret is used.
+
+Set the server-only `SITE_URL` to the canonical HTTPS origin in production so
+Open Graph image and canonical URLs use the public domain. On Vercel, the app falls
+back to `VERCEL_PROJECT_PRODUCTION_URL` when `SITE_URL` is absent.
+
 ## Verification
 
 Run linting:
@@ -106,11 +126,28 @@ Run the focused hardening tests:
 npm run test
 ```
 
+Run the TypeScript check:
+
+```bash
+npx tsc --noEmit
+```
+
 Run the production build:
 
 ```bash
 npm run build
 ```
+
+Run the critical browser smoke suite:
+
+```bash
+npx playwright test
+```
+
+Before a production release, complete
+[`docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md`](docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md).
+The V19 event catalog, privacy boundary, data-flow diagram, and aggregate funnel queries live in
+[`docs/analytics/V19_PRODUCT_MEASUREMENT.md`](docs/analytics/V19_PRODUCT_MEASUREMENT.md).
 
 ## Repository notes
 

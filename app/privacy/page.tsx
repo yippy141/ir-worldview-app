@@ -1,18 +1,20 @@
 import Link from "next/link"
 import type { Metadata } from "next"
+import { AnalyticsOptOut } from "@/components/privacy/analytics-opt-out"
+import { LocalDataControls } from "@/components/privacy/local-data-controls"
 
 export const metadata: Metadata = {
   title: "Privacy and Data Use — IR Worldview Inventory",
   description:
-    "How the IR Worldview Inventory handles local results, optional research storage, contact information, and deletion requests.",
+    "How the IR Worldview Inventory handles local results, sharing, coarse measurement, and research collection.",
 }
 
 const commitments = [
-  "Product use works without research opt-in.",
-  "Raw answers are never sent to third-party analytics.",
-  "No ads, no sale of profile data, no political targeting, and no session replay.",
-  "Optional contact information is handled separately from answer and result records.",
-  "Stored raw answer records, if activated in beta, are pseudonymous or de-identified rather than strictly anonymous.",
+  "Foundation, Focus Area, AI, Perspective, Profile, and Current Case histories remain browser-local.",
+  "V19 has no active research-response intake or research contact form.",
+  "Research routes do not read request bodies and cannot be activated with environment variables.",
+  "Product measurement uses a closed event and property allowlist with a browser opt-out.",
+  "No ads, profile-data sale, political targeting, session replay, or individual scoring dashboard.",
 ]
 
 export default function PrivacyPage() {
@@ -20,21 +22,15 @@ export default function PrivacyPage() {
     <div className="container stack-lg">
       <section className="panel stack-md">
         <p className="eyebrow">Privacy and data use</p>
-        <h1>Use the inventory without contributing research data.</h1>
+        <h1>Your results stay in this browser unless you choose to share them.</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
-          The IR Worldview Inventory stores normal results in your browser so Profile can work on
-          this device. V13 adds copy and interface scaffolding for an optional research layer, but
-          database storage is not activated in this build.
+          The inventory requires no account. Saved layers and Current Case judgments support your
+          Profile on this device. Research-response collection is unavailable in V19.
         </p>
       </section>
 
       <section className="panel stack-md">
-        <h2>Current default</h2>
-        <p style={{ lineHeight: "1.7" }}>
-          Your Foundation, module, AI, and Profile flows should work whether or not you opt into
-          research. Result links encode the result data needed to open the page. Local Profile data
-          stays in browser storage on the device unless you clear it.
-        </p>
+        <h2>Current boundary</h2>
         <ul className="content-list">
           {commitments.map((item) => (
             <li key={item}>{item}</li>
@@ -43,45 +39,80 @@ export default function PrivacyPage() {
       </section>
 
       <section className="panel stack-md">
-        <h2>Optional research layer</h2>
+        <h2>Research collection is not active</h2>
         <p style={{ lineHeight: "1.7" }}>
-          During a later beta, you may be asked whether you want to contribute answers and derived
-          results to a first-party research dataset. That storage must be explicit opt-in and
-          unchecked by default. It is meant for question improvement, model testing, and aggregate
-          insight posts, not advertising or targeting.
+          The previous scaffold allowed persistent respondent and session IDs, contact email,
+          exact times, derived profiles, arbitrary JSON, and natural-language fields. That contract
+          has been removed. The legacy submit, event, and deletion routes now return a fixed
+          unavailable response without reading the body.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Because raw answers plus a persistent respondent or session ID can still be linked within
-          the dataset, stored research records will be described as pseudonymous or de-identified,
-          not truly anonymous.
+          A future study needs an owner-approved data dictionary and separate legal, ethics,
+          consent, retention, deletion, security, and access review. The default proposal is one
+          server-issued ID per run with no cross-run linkage. No future-study consent control is
+          shown now because it would suggest a collection path that does not exist.
         </p>
       </section>
 
       <section className="panel stack-md">
-        <h2>Contact information</h2>
+        <h2>Coarse product measurement</h2>
         <p style={{ lineHeight: "1.7" }}>
-          Optional contact email, if offered, is for follow-up only. It should be kept separate from
-          answer and result records. Do not put email, name, employer, or other contact details
-          inside answer payloads.
+          Vercel Web Analytics receives a small set of named interactions through a first-party
+          validator. Automatic pageview tracking is not installed. The only custom properties are
+          a published Current Case ID when relevant, broad route category, device class, referrer
+          category, and broad return-age bucket.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Full URLs, result payloads, answer IDs, confidence, reasoning tags, profile families,
+          saved-result flags, dimension scores, email, free text, custom timestamps, and app-owned
+          IP records are rejected. Referrer URLs are reduced to categories in the browser, and the
+          provider wrapper does not forward request IP, cookie, user-agent, or referrer headers.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          A first-seen UTC date stays in this browser to create the return-age bucket. It is not sent
+          as an identifier and is deleted when you opt out or delete local history.
+        </p>
+        <AnalyticsOptOut />
+      </section>
+
+      <section className="panel stack-md">
+        <h2>Sharing</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          Foundation, AI, module, Perspective, and shared Profile links encode the data needed to
+          reopen the shared view. Treat those URLs as disclosures you control. Removing local
+          history does not retract a link already sent or remove it from browser or message history.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Ordinary Current Case links contain no answer. You may explicitly add your own final
+          reading to native share or copied text. The former encrypted friend-challenge link has
+          been retired because it was a non-revocable bearer disclosure of choice and confidence.
+          V19 now offers a case-only invitation for direct comparison after both readers finish.
+        </p>
+      </section>
+
+      <section className="panel stack-md">
+        <h2>Corrections and contact</h2>
+        <p style={{ lineHeight: "1.7" }}>
+          The prior Google Form accepted free text and optional contact details, so the product no
+          longer links to it. The narrow contact route is for factual corrections, privacy
+          questions, and security reports. It is not automatically linked to a result, Profile,
+          Current Case response, or analytics event.
+        </p>
+        <p style={{ margin: 0 }}>
+          <Link href="/feedback">Read the corrections and contact boundary →</Link>
         </p>
       </section>
 
       <section id="delete-data" className="panel stack-md">
-        <h2>Delete stored research data</h2>
+        <h2>Delete local history</h2>
         <p style={{ lineHeight: "1.7" }}>
-          If you opted into research storage and want stored responses deleted, use the feedback
-          form and include your respondent ID, result link, or session ID if you have it. If you did
-          not opt into research storage, clearing browser data is enough to remove local Profile
-          continuity from your device.
+          This control removes app-owned results, drafts, and judgment history from this browser.
+          There is no server-side research record to request or identify in V19.
         </p>
-        <div className="row gap-sm wrap">
-          <Link href="/feedback?topic=deletion" className="cta-primary">
-            Request deletion
-          </Link>
-          <Link href="/method" className="cta-secondary">
-            Read Methods
-          </Link>
-        </div>
+        <LocalDataControls />
+        <p style={{ margin: 0 }}>
+          <Link href="/method">Read Methods →</Link>
+        </p>
       </section>
     </div>
   )

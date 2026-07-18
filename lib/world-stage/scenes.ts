@@ -24,6 +24,7 @@ import {
   type WorldStageSceneOption,
   type WorldStageValidationError,
   type WorldStageValidationResult,
+  type WorldStageUtilityDestination,
 } from "@/lib/world-stage/types"
 
 type RawCountryRole = {
@@ -84,7 +85,7 @@ const knownSourceRefs = new Set(
   (sourceLedgerJson as Array<{ sourceId: string }>).map((source) => source.sourceId),
 )
 const expectedSceneIds = new Set<string>(WORLD_STAGE_SCENE_IDS)
-const expectedMenuIds = new Set<string>(WORLD_STAGE_MENU_IDS)
+const supportedMenuIds = new Set<string>(WORLD_STAGE_MENU_IDS)
 
 const rawRoleMap: Record<string, CountryRole> = {
   "lens owner": "focus",
@@ -153,14 +154,6 @@ const sceneBindings = [
     researchSceneId: "frontier_ai_compute_chips_cloud_governance",
     variantOf: null,
     camera: { center: [-22, 31], zoom: 1.12, pitch: 14, bearing: 12 },
-  },
-  {
-    id: "profile",
-    researchSceneId: "us_alliance_security_lens",
-    variantOf: "foundation",
-    captionSuffix:
-      " This repeated research lens is a navigation backdrop, not an inference about your saved profile.",
-    camera: { center: [-164, 19], zoom: 1.2, pitch: 7, bearing: -3 },
   },
 ] as const satisfies readonly SceneBinding[]
 
@@ -272,13 +265,24 @@ export const worldStageSceneOptions = [
   { sceneId: "perspectives", label: "Regional security" },
   { sceneId: "worldview-map", label: "Hedging states" },
   { sceneId: "futures", label: "AI infrastructure" },
-  { sceneId: "profile", label: "Trans-Pacific alliance network" },
 ] as const satisfies readonly WorldStageSceneOption[]
 
+export const currentCaseWorldStageMenuItem = {
+  id: "current-case",
+  index: "01",
+  label: "Current Case",
+  sceneId: "foundation",
+  lens: "Judgment in the present",
+  description: "Work through one sourced international-affairs choice and test your assumptions.",
+  href: "/current",
+  action: "Open Current Case",
+} as const satisfies WorldStageMenuItem
+
 export const worldStageMenuItems = [
+  currentCaseWorldStageMenuItem,
   {
     id: "foundation",
-    index: "01",
+    index: "02",
     label: "Foundation",
     sceneId: "foundation",
     lens: "Baseline judgments",
@@ -288,7 +292,7 @@ export const worldStageMenuItems = [
   },
   {
     id: "focus-areas",
-    index: "02",
+    index: "03",
     label: "Focus Areas",
     sceneId: "focus-areas",
     lens: "Issue-specific pressure",
@@ -298,7 +302,7 @@ export const worldStageMenuItems = [
   },
   {
     id: "perspective-runs",
-    index: "03",
+    index: "04",
     label: "Perspective Runs",
     sceneId: "perspectives",
     lens: "Judgment under context",
@@ -308,7 +312,7 @@ export const worldStageMenuItems = [
   },
   {
     id: "worldview-map",
-    index: "04",
+    index: "05",
     label: "Worldview Map",
     sceneId: "worldview-map",
     lens: "Modeled positions",
@@ -318,7 +322,7 @@ export const worldStageMenuItems = [
   },
   {
     id: "ai-futures",
-    index: "05",
+    index: "06",
     label: "AI & Futures",
     sceneId: "futures",
     lens: "Technology and order",
@@ -326,17 +330,14 @@ export const worldStageMenuItems = [
     href: "/ai",
     action: "Open AI Governance",
   },
-  {
-    id: "profile",
-    index: "06",
-    label: "My Profile",
-    sceneId: "profile",
-    lens: "Your saved layers",
-    description: "Return to your baseline, issue results, and contextual shifts on this device.",
-    href: "/profile",
-    action: "Open My Profile",
-  },
 ] as const satisfies readonly WorldStageMenuItem[]
+
+/** Kept as an alias for the V19 contract tests introduced before activation. */
+export const worldStageMenuItemsWithCurrentCase = worldStageMenuItems
+
+export const worldStageUtilityDestinations = [
+  { id: "profile", label: "My Profile", href: "/profile" },
+] as const satisfies readonly WorldStageUtilityDestination[]
 
 export function isValidWorldStageIso3Key(value: unknown): value is string {
   return typeof value === "string" && /^[A-Z]{3}$/.test(value) && reviewedIso3Keys.has(value)
@@ -661,7 +662,7 @@ export function validateWorldStageCatalog(
   menuItems.forEach((item, menuIndex) => {
     const menuPath = `menuItems[${menuIndex}]`
 
-    if (!expectedMenuIds.has(item.id)) {
+    if (!supportedMenuIds.has(item.id)) {
       addError("menu.id.unknown", `${menuPath}.id`, `Unknown World Stage menu ID: ${item.id}.`)
     }
     if (menuIds.has(item.id)) {

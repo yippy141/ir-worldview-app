@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { ScaleBar } from "@/components/visual-primitives"
-import { ResearchOptIn } from "@/components/research/research-opt-in"
+import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import {
   buildModuleResult,
   getModuleDefinition,
@@ -358,7 +358,7 @@ export function ModuleResultView({
               View your Profile
             </Link>
           </div>
-          <ResearchOptIn instrumentLabel={`${moduleDefinition.shortTitle} module`} />
+          <ResearchStatusNotice instrumentLabel={`${moduleDefinition.shortTitle} module`} />
         </section>
       </article>
     </div>

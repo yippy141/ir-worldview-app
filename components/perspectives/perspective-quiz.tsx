@@ -15,9 +15,8 @@ import type {
   PerspectiveId,
 } from "@/lib/perspectives/types"
 import { loadProfileStore } from "@/lib/profile-store"
+import { PERSPECTIVE_DRAFT_STORAGE_KEY } from "@/lib/perspectives/storage"
 import type { DimensionScores } from "@/lib/types"
-
-export const PERSPECTIVE_DRAFT_KEY = "ir-perspective-drafts-v1"
 
 type PerspectiveDraft = {
   scenarioSetVersion: number
@@ -38,7 +37,7 @@ type BaselineState =
 
 function readDrafts(): DraftStore {
   try {
-    const raw = window.localStorage.getItem(PERSPECTIVE_DRAFT_KEY)
+    const raw = window.localStorage.getItem(PERSPECTIVE_DRAFT_STORAGE_KEY)
     const parsed = raw ? (JSON.parse(raw) as unknown) : null
     return normalizeDraftStore(parsed)
   } catch {
@@ -54,7 +53,7 @@ function writeDraft(perspectiveId: string, draft: PerspectiveDraft | null): bool
     } else {
       delete drafts[perspectiveId]
     }
-    window.localStorage.setItem(PERSPECTIVE_DRAFT_KEY, JSON.stringify(drafts))
+    window.localStorage.setItem(PERSPECTIVE_DRAFT_STORAGE_KEY, JSON.stringify(drafts))
     return true
   } catch {
     return false

@@ -161,7 +161,7 @@ export default function AiPage() {
                 <span className="resource-list-text">Use the bibliography while comparing positions.</span>
               </span>
             </Link>
-            <Link href="/feedback?module=ai" className="resource-list-link">
+            <Link href="/feedback" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Feedback</span>
                 <span className="resource-list-text">Send notes on the AI module while this beta polish pass is in progress.</span>

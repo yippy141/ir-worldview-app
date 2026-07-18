@@ -27,9 +27,22 @@ const spaceMono = Space_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: resolveMetadataBase(),
   title: siteConfig.publicTitle,
   description:
     "Map how you think about world politics — IR theory, security, technology, and AI governance.",
+}
+
+function resolveMetadataBase() {
+  const configured = process.env.SITE_URL?.trim()
+  const vercelProductionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
+  const candidate = configured || (vercelProductionHost ? `https://${vercelProductionHost}` : "")
+
+  try {
+    return new URL(candidate || "http://localhost:3000")
+  } catch {
+    return new URL("http://localhost:3000")
+  }
 }
 
 export const viewport: Viewport = {

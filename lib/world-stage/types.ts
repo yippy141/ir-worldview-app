@@ -4,18 +4,17 @@ export const WORLD_STAGE_SCENE_IDS = [
   "perspectives",
   "worldview-map",
   "futures",
-  "profile",
 ] as const
 
 export type WorldStageSceneId = (typeof WORLD_STAGE_SCENE_IDS)[number]
 
 export const WORLD_STAGE_MENU_IDS = [
+  "current-case",
   "foundation",
   "focus-areas",
   "perspective-runs",
   "worldview-map",
   "ai-futures",
-  "profile",
 ] as const
 
 export type WorldStageMenuId = (typeof WORLD_STAGE_MENU_IDS)[number]
@@ -119,7 +118,7 @@ export type WorldStageScene = {
   id: WorldStageSceneId
   /** The reviewed record in research/world-stage/scene-ledger.json. */
   researchSceneId: string
-  /** Set when a sixth menu state deliberately reuses a reviewed research scene. */
+  /** Set only when a public map view deliberately reuses another reviewed scene. */
   variantOf: WorldStageSceneId | null
   publicLabel: string
   caption: string
@@ -143,6 +142,12 @@ export type WorldStageMenuItem = {
   description: string
   href: string
   action: string
+}
+
+export type WorldStageUtilityDestination = {
+  id: "profile"
+  label: string
+  href: "/profile"
 }
 
 export type WorldStageSceneOption = {

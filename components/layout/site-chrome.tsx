@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
@@ -30,6 +31,11 @@ type MobileNavGroup = {
 
 const publicNavItems: PublicNavItem[] = [
   {
+    href: "/cases",
+    label: "Current Case",
+    active: (pathname) => pathname === "/current" || pathname.startsWith("/cases"),
+  },
+  {
     href: "/quiz",
     label: "Foundation",
     active: (pathname) =>
@@ -37,7 +43,7 @@ const publicNavItems: PublicNavItem[] = [
   },
   {
     href: "/modules",
-    label: "Modules",
+    label: "Focus Areas",
     active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
   },
   {
@@ -47,14 +53,14 @@ const publicNavItems: PublicNavItem[] = [
   },
   {
     href: "/profile",
-    label: "Profile",
+    label: "My Profile",
     active: (pathname) =>
       pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),
   },
 ]
 
 const moreNavItems = [
-  { href: "/perspectives", label: "Perspectives" },
+  { href: "/perspectives", label: "Perspective Runs" },
   { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
   { href: "/explore", label: "Explore" },
   { href: "/futures", label: "Futures" },
@@ -67,13 +73,14 @@ const moreNavItems = [
 const mobileNavGroups: MobileNavGroup[] = [
   {
     label: "Product path",
-    intro: "Start with the Foundation, add Modules, AI, and Perspective Runs where useful, then return to Profile as results accumulate.",
+    intro: "Use Current Case for live judgment, build a Foundation baseline, and add Focus Areas, AI, or Perspective Runs where useful.",
     items: [
+      { href: "/cases", label: "Current Case" },
       { href: "/quiz", label: "Foundation" },
-      { href: "/modules", label: "Modules" },
+      { href: "/modules", label: "Focus Areas" },
       { href: "/ai", label: "AI" },
-      { href: "/perspectives", label: "Perspectives" },
-      { href: "/profile", label: "Profile" },
+      { href: "/perspectives", label: "Perspective Runs" },
+      { href: "/profile", label: "My Profile" },
     ],
   },
   {
@@ -81,7 +88,7 @@ const mobileNavGroups: MobileNavGroup[] = [
     intro: `Use the ${WORLDVIEW_MAP_LABEL}, the field guide, and methods when you want to browse profiles or challenge the model.`,
     items: [
       { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
-      { href: "/explore/reference", label: "Reference profiles" },
+      { href: "/explore/reference", label: "Thinkers & public positions" },
       { href: "/explore", label: "Explore" },
       { href: "/futures", label: "Futures" },
       { href: "/method", label: "Methods" },
@@ -323,6 +330,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   className="footer-link"
                   target={link.href.startsWith("mailto:") ? undefined : "_blank"}
                   rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                  onClick={() => {
+                    if (link.label === "Substack") trackProductEvent("newsletter_clicked")
+                  }}
                 >
                   {link.label}
                 </a>
