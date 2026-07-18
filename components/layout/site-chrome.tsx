@@ -318,8 +318,6 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <div className="footer-brand">
               <strong>{siteConfig.publicTitle}</strong>
               <span className="footer-sep">·</span>
-              Beta
-              <span className="footer-sep">·</span>
               {siteConfig.byline}
             </div>
             <div className="footer-links">

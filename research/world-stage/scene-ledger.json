@@ -71,7 +71,7 @@
         {
           "iso3": "IND",
           "role": "strategic partner",
-          "rationale": "Official U.S.-India and Indian statements describe a comprehensive global strategic partnership, but not a formal mutual-defense treaty.",
+          "rationale": "Official U.S.-India and Indian statements describe a comprehensive global strategic partnership. The relationship has no formal mutual-defense treaty.",
           "confidence": "high",
           "sourceIds": [
             "SRC14"
@@ -276,7 +276,7 @@
           "to": "n_au_darwin",
           "direction": "two-way",
           "weight": 2,
-          "plain-language meaning": "Darwin provides recurring rotational access, not a permanent treaty base like those in Japan or South Korea.",
+          "plain-language meaning": "Darwin provides recurring rotational access. It does not have the status of a permanent treaty base like those in Japan or South Korea.",
           "confidence": "high",
           "sourceIds": [
             "SRC06",
@@ -307,7 +307,7 @@
       ],
       "sensitiveOrDisputedClassifications": [
         "Taiwan classification is highly sensitive; 'exposed or dependent actor' is used here to avoid implying diplomatic recognition or a mutual-defense treaty.",
-        "Darwin is a rotational posture site, not a sovereign transfer of control; mapping it like a permanent U.S. base would mislead."
+        "Darwin is a rotational posture site under Australian control; mapping it like a permanent U.S. base would mislead."
       ],
       "missingEvidence": [
         "Public sources do not provide a single authoritative point-to-point map of legal access, command authorities, and contingency commitments across all alliance nodes.",
@@ -335,7 +335,7 @@
         {
           "iso3": "RUS",
           "role": "strategic partner",
-          "rationale": "Official PRC statements define the relationship as a 'new-era comprehensive strategic partnership of coordination' while explicitly saying it is not a Cold War-style alliance.",
+          "rationale": "Official PRC statements define the relationship as a 'new-era comprehensive strategic partnership of coordination' and explicitly deny that it is a Cold War-style alliance.",
           "confidence": "high",
           "sourceIds": [
             "SRC17"
@@ -372,7 +372,7 @@
         {
           "iso3": "TWN",
           "role": "contested relationship",
-          "rationale": "PRC white papers and Eastern Theater statements treat Taiwan as a sovereignty issue and a core military-theater focus, not as an external peer state.",
+          "rationale": "PRC white papers and Eastern Theater statements treat Taiwan as a sovereignty issue and a core military-theater focus. They do not treat it as an external peer state.",
           "confidence": "high",
           "sourceIds": [
             "SRC21",
@@ -492,7 +492,7 @@
             37.617
           ],
           "importance": 2,
-          "whyItMatters": "Moscow is Beijing's highest-level strategic partner, though not a formal ally.",
+          "whyItMatters": "Moscow is Beijing's highest-level strategic partner. The relationship has no formal alliance treaty.",
           "confidence": "high",
           "sourceIds": [
             "SRC17"
@@ -576,7 +576,7 @@
       "caveats": [
         "Stale≤6mo: PRC military exercises around Taiwan, rhetoric in regular press briefings, and the public framing of Ream can shift quickly.",
         "A simplified homepage map may wrongly imply that all PRC partnerships are equivalent; PRC-Russia, PRC-Pakistan, and PRC-Cambodia relationships differ in legal form, capability depth, and strategic purpose.",
-        "This lens should not convert sovereignty claims into internationally settled facts; it should depict Beijing's view, not adjudicate disputes."
+        "This lens depicts Beijing's view. Sovereignty claims remain disputed and are not presented as internationally settled facts."
       ],
       "sensitiveOrDisputedClassifications": [
         "Taiwan classification is highly sensitive; wording here reflects PRC official framing without endorsing it.",
@@ -590,7 +590,7 @@
     {
       "sceneId": "middle_power_hedging_nonalignment",
       "publicLabel": "Middle-power hedging and nonalignment",
-      "oneSentencePurpose": "These states preserve autonomy through selective engagement and issue-based coalitions rather than fixed bloc membership.",
+      "oneSentencePurpose": "These states preserve autonomy through selective engagement and issue-based coalitions while avoiding fixed bloc membership.",
       "lensOwner": "No single owner; editorially centered on autonomous middle-power statecraft",
       "evidenceWindow": "asOf 2026-07-14; uses official foreign-policy doctrines and summit materials",
       "countryRoles": [
@@ -780,7 +780,7 @@
       "caveats": [
         "Stale≤6mo: summit calendars, rotating presidencies, and transactional openings can shift fast and should not be treated as fixed structural alignments.",
         "A simplified homepage map may overstate coherence among 'hedgers'; India's autonomy, Indonesia's bebas aktif, Vietnam's bamboo diplomacy, Brazil's governance entrepreneurship, and Gulf multi-vector diplomacy are not the same strategy.",
-        "This scene is intentionally thinner on militarized flows because the editorial point is choice-preservation, not a single institutionalized network."
+        "This scene is intentionally thinner on militarized flows because it examines how states preserve choice across several relationships. A single institutionalized network would misstate that pattern."
       ],
       "sensitiveOrDisputedClassifications": [
         "Saudi and Emirati roles are best treated as hedging rather than as stable attachment to any single external pole.",
@@ -1345,7 +1345,7 @@
       "caveats": [
         "Stale≤6mo: compute-capacity announcements, data-center buildouts, AI-campus timelines, cloud-region capacity claims, and governance implementation calendars can change very quickly.",
         "A simplified homepage map may falsely imply that training compute, inference compute, fab output, memory supply, and governance institutions move at the same pace; they do not.",
-        "The flow lines show infrastructure dependencies, not published shipment routes."
+        "The flow lines represent infrastructure dependencies. They do not represent published shipment routes."
       ],
       "sensitiveOrDisputedClassifications": [
         "Taiwan's role in frontier-AI chip supply is undeniable in public sources, but any map should avoid implying diplomatic recognition from technical dependence.",

@@ -76,7 +76,7 @@ export default async function AiResultPage(
           <p className="eyebrow">Invalid result</p>
           <h1>This link could not be decoded.</h1>
           <p className="muted" style={{ lineHeight: "1.65" }}>
-            The result URL may be incomplete, corrupted, or from an older version of the compass.
+                The result URL may be incomplete or corrupted.
           </p>
           <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
             <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
@@ -182,9 +182,9 @@ export default async function AiResultPage(
           <div className="callout stack-xs" aria-label="Trust and coverage note">
             <p style={{ fontWeight: 600 }}>Trust and coverage</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              This is a structured read within the current compass, not a claim that the field
-              divides into fixed camps. The archetype is the closest modeled fit, not a final or
-              exhaustive identity.{" "}
+              This result compares your answers across the Compass dimensions. The archetype is
+              the closest fit among the six authored profiles; it does not claim that AI politics
+              divides into fixed camps.{" "}
               <Link href="/method" style={{ color: "var(--accent)" }}>
                 Methods explains the limits →
               </Link>
@@ -204,7 +204,7 @@ export default async function AiResultPage(
             <summary>Read the longer archetype explanation</summary>
             <div className="ai-result-section-intro stack-xs" style={{ marginTop: "16px" }}>
               <p className="eyebrow">Archetype</p>
-              <h2>What this means</h2>
+              <h2>How this profile weighs AI governance</h2>
             </div>
             <p style={{ lineHeight: "1.78", maxWidth: "680px", fontSize: "0.97rem" }}>{explanation}</p>
           </details>
@@ -242,9 +242,9 @@ export default async function AiResultPage(
           <div className="callout stack-xs">
             <p style={{ fontWeight: 600 }}>About this profile</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-              Archetype labels are shorthand, not verdicts. The scores show positions in this
-              model, not population percentiles. This is still an early-stage inventory covering a
-              defined set of AI governance debates, not the whole field.
+                  Archetype labels summarize this result. The scores show positions within the
+                  model and have no population-percentile meaning. The inventory covers a defined
+                  set of AI governance debates and leaves others outside its scope.
             </p>
           </div>
 
@@ -252,8 +252,8 @@ export default async function AiResultPage(
             <p style={{ fontWeight: 600, margin: 0 }}>Comparing results with someone else?</p>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem", margin: 0 }}>
               Compare the axis profile, tensions, and reading buckets as well as the headline
-              archetype. The most useful disagreements usually show up in the tradeoffs, not only
-              in the top label.
+                  archetype. The tradeoffs usually reveal more useful disagreements than the top
+                  label alone.
             </p>
           </div>
 

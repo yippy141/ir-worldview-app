@@ -87,8 +87,8 @@ export const verifiedCaseLibraryMeta = {
   language: verifiedCaseLibrary.language,
   asOfDate: verifiedCaseLibrary.asOfDate,
   recordCount: verifiedCaseLibrary.cases.length,
-  researchStatus: "Source-verified research record",
-  editorialStatus: "V18 proposed library",
+  researchStatus: "Reviewed case evidence",
+  editorialStatus: "Reviewed case library",
 } as const
 
 export function getReviewedCasesForPattern(patternId: string): ReviewedPatternCase[] {

@@ -263,7 +263,7 @@ export function QuizApp() {
               <p className="muted" style={{ lineHeight: "1.65" }}>
                 {session.activeMode === "standard"
                   ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard}.`
-                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases and actor-lens questions.`}
+                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more scenarios that require tradeoffs and more questions asked from a defined actor’s position.`}
               </p>
             </div>
             <span className="mode-pill">{modeLabel(session.activeMode)}</span>

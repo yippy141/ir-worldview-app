@@ -95,7 +95,7 @@ export function buildAiGovernanceSummary(
     .slice(0, 2)
     .map(([axis]) => aiAxisLabels[axis].toLowerCase())
 
-  return `You read AI governance mainly through ${archetypeLabels[archetypeKey].toLowerCase()} logic. Your strongest signals sit around ${strongestAxes[0]} and ${strongestAxes[1]}. In practical terms, you lean toward ${riskLens.toLowerCase()} and ${paceModifier.toLowerCase()} rather than treating AI as a simple pro- or anti-technology question.`
+  return `You read AI governance mainly through ${archetypeLabels[archetypeKey].toLowerCase()} logic. Your strongest signals sit around ${strongestAxes[0]} and ${strongestAxes[1]}. Those scores align most closely with ${riskLens.toLowerCase()} and ${paceModifier.toLowerCase()}.`
 }
 
 export type TensionRule = {

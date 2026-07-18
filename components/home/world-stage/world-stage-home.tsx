@@ -184,8 +184,11 @@ export function WorldStageHome() {
       <div className={styles.primaryLayout}>
         <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
           <div className={styles.introduction}>
-            <h1 id="world-stage-heading">Choose where to begin.</h1>
-            <p>Map your judgments, test them in context, or read the field.</p>
+            <h1 id="world-stage-heading">Choose a starting point.</h1>
+            <p>
+              Answer the Foundation, work through a current decision, or compare the arguments
+              behind the profiles.
+            </p>
           </div>
 
           <nav aria-label="World Stage sections">

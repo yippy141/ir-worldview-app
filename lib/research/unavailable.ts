@@ -10,7 +10,7 @@ export function researchUnavailableResponse() {
       ok: false,
       disabled: true,
       reason: RESEARCH_UNAVAILABLE_REASON,
-      message: "Research-response collection is not available in this release.",
+      message: "This site does not collect research responses.",
     },
     {
       status: 410,

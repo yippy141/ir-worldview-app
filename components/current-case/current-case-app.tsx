@@ -340,8 +340,8 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             Four ways to read the same case
           </h2>
           <p className={styles.sectionLead}>
-            Each reading notices a different mechanism. Open the ones that help you pressure-test
-            your first judgment.
+            Each reading emphasizes a different cause and policy risk. Open any that challenge the
+            reasons behind your first judgment.
           </p>
           <div className={styles.readingList}>
             {record.worldviewReadings.map((reading) => {
@@ -527,7 +527,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
           ) : null}
 
           <nav className={styles.nextRoutes} aria-labelledby="next-routes-heading">
-            <h3 id="next-routes-heading">Where to go next</h3>
+            <h3 id="next-routes-heading">Compare this judgment elsewhere</h3>
             <ul>
               {record.nextRoutes.map((route) => (
                 <li key={route.href}>

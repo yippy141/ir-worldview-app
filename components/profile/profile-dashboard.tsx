@@ -60,11 +60,11 @@ export function ProfileDashboard() {
         <section className="profile-state-panel profile-state-panel--empty stack-lg">
           <div className="profile-state-panel__intro stack-sm">
             <p className="eyebrow">Profile</p>
-            <h1>Your Profile builds as you complete layers.</h1>
+            <h1>Your Profile begins with the Foundation.</h1>
             <p className="profile-state-panel__body">
               Start with the Foundation. Your results stay on this device unless you choose to
-              share them. After that, Focus Areas and AI Governance can sit beside the
-              baseline without becoming one fake master score.
+              share them. Afterward, you can add Focus Area and AI results. Each remains separate
+              so you can compare where your judgments agree or diverge.
             </p>
           </div>
 
@@ -75,11 +75,11 @@ export function ProfileDashboard() {
             </Link>
             <Link href="/ai" className="profile-state-action">
               <span className="profile-state-action__label">Try AI Governance</span>
-              <span className="profile-state-action__meta">Map your AI-policy instincts.</span>
+              <span className="profile-state-action__meta">Compare your AI-policy judgments.</span>
             </Link>
             <Link href="/explore" className="profile-state-action">
               <span className="profile-state-action__label">Browse the field guide</span>
-              <span className="profile-state-action__meta">Read the traditions before taking a quiz.</span>
+              <span className="profile-state-action__meta">Read the profiles before answering questions.</span>
             </Link>
           </div>
 

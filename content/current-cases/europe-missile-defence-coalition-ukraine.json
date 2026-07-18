@@ -14,7 +14,7 @@
     "start": "2026-06-26",
     "end": "2026-07-17"
   },
-  "briefing": "On 13–14 July 2026, a group of European states and Ukraine moved from general support rhetoric to a more structured anti-ballistic-missile agenda. The Paris coalition declaration created a ten-country defensive coalition to develop a shared anti-ballistic capability for Europe, while a separate France–Ukraine declaration committed to prioritizing Ukrainian air and anti-ballistic missile defence, including SAMP/T NG, Aster 30 production licensing, and radar deliveries. This came immediately after NATO’s Ankara summit, which highlighted major new procurement, higher defence spending, and a sizeable 2026 Ukraine support pledge, but against a backdrop of active U.S. review and reduction of some NATO-assigned capabilities and broader allied concern about future U.S. force availability in Europe.\n\nThe case is consequential because it is no longer just about helping Ukraine survive the next wave of strikes. It is also about whether Europe can turn Ukrainian wartime demand into a scalable, interoperable, partly sovereign missile-defence architecture before a wider deterrence gap opens on NATO’s eastern flank. The decision is not morally simple: faster European autonomy can strengthen resilience, but duplication, fragmented command systems, and the loss of U.S.-provided enablers could also weaken deterrence if political ambition outruns industrial and operational integration. Russia’s own missile campaign, the timing of delivery pipelines, and the credibility of ceasefire-linked security guarantees all shape the threshold judgment.\n\nThe coalition must now decide how much effort goes to urgent Ukrainian throughput, how much to a longer-term European architecture, and how tightly the project remains tied to NATO planning. Its answer will show whether this is partial substitution for U.S. capacity or a thinner European hedge built on continued American support.",
+  "briefing": "On 13–14 July 2026, a group of European states and Ukraine moved from general support rhetoric to a more structured anti-ballistic-missile agenda. The Paris coalition declaration created a ten-country defensive coalition to develop a shared anti-ballistic capability for Europe, while a separate France–Ukraine declaration committed to prioritizing Ukrainian air and anti-ballistic missile defence, including SAMP/T NG, Aster 30 production licensing, and radar deliveries. This came immediately after NATO’s Ankara summit, which highlighted major new procurement, higher defence spending, and a sizeable 2026 Ukraine support pledge, but against a backdrop of active U.S. review and reduction of some NATO-assigned capabilities and broader allied concern about future U.S. force availability in Europe.\n\nEuropean governments now face two linked demands: supplying Ukraine against the next wave of strikes and building a missile-defence system that European forces can produce, integrate, and operate at scale. The coalition links urgent procurement with production licensing, radar deliveries, and a longer-term shared architecture. Faster European autonomy can strengthen resilience. Duplication, fragmented command systems, and the loss of U.S.-provided enablers could also weaken deterrence if political ambition outruns industrial and operational integration. Russia’s own missile campaign, the timing of delivery pipelines, and the credibility of ceasefire-linked security guarantees all shape the threshold judgment.\n\nThe coalition must now decide how much effort goes to urgent Ukrainian throughput, how much to a longer-term European architecture, and how tightly the project remains tied to NATO planning. Its answer will show whether this is partial substitution for U.S. capacity or a thinner European hedge built on continued American support.",
   "actors": [
     "Ukraine",
     "France",
@@ -98,7 +98,7 @@
       {
         "id": "o3",
         "label": "Prioritize urgent Ukrainian throughput over longer-term architecture",
-        "logic": "Treat the coalition mainly as a vehicle to get radars, interceptors, licences, and training into Ukraine quickly rather than as a grand European design exercise.",
+        "logic": "Use the coalition mainly to get radars, interceptors, licences, and training into Ukraine quickly; defer a wider European design project.",
         "acceptedTradeoff": "Better near-term wartime utility, but weaker long-run European strategic transformation."
       },
       {
@@ -152,7 +152,7 @@
     "prompt": "How does this affect your first judgment?",
     "options": [
       { "id": "weakens", "label": "It weakens my first read." },
-      { "id": "priority", "label": "It changes the priority, not the conclusion." },
+      { "id": "priority", "label": "It changes which option comes first; my conclusion stays the same." },
       { "id": "strengthens", "label": "It strengthens my first read." },
       { "id": "unsure", "label": "I remain unsure." }
     ]
@@ -161,7 +161,7 @@
     {
       "href": "/modules/security",
       "label": "Security & Strategy Focus Area",
-      "reason": "Pressure-test how you weigh deterrence, alliance reliability, and strategic limits."
+      "reason": "Compare how you weigh deterrence, alliance reliability, and strategic limits."
     },
     {
       "href": "/perspectives",

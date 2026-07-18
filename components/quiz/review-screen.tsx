@@ -101,10 +101,10 @@ export function ReviewScreen() {
     <div className="stack-lg">
       <section className="panel stack-sm">
         <p className="eyebrow">Review your answers</p>
-        <h1>Before you generate your foundation result</h1>
+        <h1>Review your Foundation answers</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Review the full Foundation before you generate the result. Focus Areas come
-          afterward as focused issue reads, not replacements for the baseline.
+          Check each answer before generating your result. You can add separate Security and
+          Technology readings afterward.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
           {session.activeMode === "standard" ? "Standard mode" : "Analyst mode"} · {answeredCount} of{" "}
@@ -180,7 +180,7 @@ export function ReviewScreen() {
   function handleUpgradeToAnalyst() {
     if (
       !window.confirm(
-        "Analyst mode replays the Foundation with more cross-pressure cases and actor-lens questions. Your current Standard answers will be cleared. Continue?",
+        "Analyst mode repeats the Foundation with more scenarios that require tradeoffs and more questions asked from a defined actor’s position. Your current Standard answers will be cleared. Continue?",
       )
     ) {
       return
@@ -199,8 +199,8 @@ function AnalystUpgradeOffer({ onUpgrade }: { onUpgrade: () => void }) {
         You completed the Standard version.
       </h2>
       <p className="muted" style={{ lineHeight: "1.65" }}>
-        Analyst mode adds more cross-pressure cases and actor-lens questions. The scoring model is
-        the same — it just gives the model more to work with.
+        The scoring method is the same. Analyst mode adds more evidence from specific tradeoffs and
+        questions asked from a defined actor’s position.
       </p>
       <div className="row gap-sm wrap">
         <button type="button" className="secondary-button" onClick={onUpgrade}>

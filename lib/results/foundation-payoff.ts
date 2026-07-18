@@ -299,7 +299,7 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
   if (tensionKey === "rules-leverage" || tensionKey === "dependence-diplomacy") {
     return {
       href: "/modules/technology",
-      label: "Pressure-test in Technology",
+      label: "Compare in Technology",
       reason:
         "Technology cases make rules, dependence, chokepoints, and enforcement tradeoffs harder to avoid.",
     }
@@ -310,13 +310,13 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
       href: "/ai",
       label: "Try AI Governance",
       reason:
-        "AI governance is a useful stress test for legitimacy, rule-setting, and authority under uncertainty.",
+        "AI governance makes legitimacy, rule-setting, and authority under uncertainty concrete.",
     }
   }
 
   return {
     href: "/modules/security",
-    label: "Pressure-test in Security",
+    label: "Compare in Security",
     reason:
       "Security cases make rivalry, restraint, escalation, order, and advantage show up quickly.",
   }

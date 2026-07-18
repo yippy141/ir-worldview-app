@@ -306,7 +306,7 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
           <ol className="perspective-run__contract">
             <li>The Foundation recorded how you judge these tradeoffs yourself. That baseline stays fixed.</li>
             <li>This run asks you to advise from a defined strategic position. The role and its constraints stay on screen throughout.</li>
-            <li>The result appears beside your baseline as a contextual shift. You can remove it at any time.</li>
+            <li>The result compares these role-based answers with your saved Foundation scores. You can remove it at any time.</li>
           </ol>
 
           <div className="stack-xs">

@@ -201,7 +201,7 @@ export const REFERENCE_PROFILE_CATALOG: ReferenceCatalog = {
   generatedAt: REFERENCE_REVIEW_DATE,
   dataStatus: "public",
   notice:
-    "Published thinker profiles are evidence-coded interpretations of canonical works, reviewed against the approved V16 source pack.",
+    "Published thinker profiles are evidence-coded interpretations reviewed against the listed canonical works and sources.",
   sources,
   profiles: [
     {

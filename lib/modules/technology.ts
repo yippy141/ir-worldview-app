@@ -188,7 +188,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
         id: "development_room_logic",
         title: "It is about development room",
         label:
-          "For many states the issue is not strategic closure but building enough local room to avoid permanent digital dependence.",
+          "For many states the issue is building enough local capacity to avoid permanent digital dependence.",
         signals: { control: 4.2, governance: 4.8, industrial: 5.4, safety: 4.2 },
       },
       {
@@ -448,7 +448,7 @@ const technologyStandardQuestions: ModuleDefinition["questionsByMode"]["standard
         id: "protect_human_accountability",
         title: "Keep responsibility legible",
         label:
-          "The deepest risk is not only technical error but the erosion of responsibility once command decisions become opaque.",
+          "The deepest risk combines technical error with the erosion of responsibility once command decisions become opaque.",
         signals: { control: 4.4, governance: 5.0, industrial: 4.0, safety: 6.0 },
       },
     ],

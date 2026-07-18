@@ -99,13 +99,13 @@ export const archetypeDescriptions: Record<AiArchetypeKey, string> = {
   precautionarySteward:
     "You center severe frontier risks, prefer threshold-based caution, and are comparatively willing to accept slower deployment in exchange for stronger control.",
   strategicCompetitor:
-    "You see AI governance through a hard strategic lens: rivalry is durable, capability advantage matters, and safety measures have to work under competition rather than wish it away.",
+    "You treat rivalry as durable, give capability advantages substantial weight, and expect safety measures to work under competitive pressure.",
   coordinationArchitect:
     "You think the hardest AI problems are fundamentally transnational and that durable legitimacy comes from coordination, shared standards, and institutions that can outlast one country's advantage.",
   democraticGuardrailist:
-    "You want strong public rules, visible accountability, and governance that remains answerable to democratic and civic institutions rather than frontier labs alone.",
+    "You want strong public rules, visible accountability, and governance answerable to democratic and civic institutions as well as frontier labs.",
   stateCapacityBuilder:
-    "You think the key governance bottleneck is not abstract principle but practical state capacity: who can supervise, procure, verify, and absorb AI without becoming dependent.",
+    "You give greatest weight to practical state capacity: who can supervise, procure, verify, and adopt AI without becoming dependent.",
   openEcosystemBuilder:
     "You worry that excessive control will entrench incumbents and choke off social value; you are more willing to back openness, diffusion, and iterative learning.",
 }

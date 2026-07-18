@@ -98,7 +98,7 @@ export function buildSummary(familyKey: FamilyKey, dimensionScores: DimensionSco
   const top2 = getTopExplanatoryDimensions(dimensionScores, 2)
   const dim0 = dimensionLabels[top2[0]].toLowerCase()
   const dim1 = dimensionLabels[top2[1]].toLowerCase()
-  return `The strongest signals in your foundation profile are ${dim0} and ${dim1}. ${familyLabel(familyKey)} is the closest tradition-level shorthand for that pattern. Read the label as an interpretation of the profile, not a permanent box.`
+  return `The strongest signals in your Foundation profile are ${dim0} and ${dim1}. ${familyLabel(familyKey)} is the closest tradition-level shorthand for that pattern. The label summarizes this result and does not define a permanent identity.`
 }
 
 // ── Closest traditions ────────────────────────────────────────────────────────

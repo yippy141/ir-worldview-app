@@ -92,27 +92,27 @@ function buildIntegratedRead(
   foundationState: ReturnType<typeof assessFoundationNarrative>["state"],
 ) {
   if (assessment.state === "trueTension") {
-    return `${familyLabelValue} still anchors the profile, but the saved modules do not point in one tidy direction. Different domains pull different parts of your reasoning harder, so the useful read is where the shifts appear, not how to force a cleaner label.`
+    return `${familyLabelValue} still anchors the profile. The saved Focus Areas emphasize different parts of your reasoning, so the result reports where those differences appear.`
   }
 
   if (assessment.state === "domainConditionedShift") {
-    return `${familyLabelValue} still anchors the profile, but one module changes the emphasis enough to matter. The story is not that the Foundation was wrong. It is that your baseline hardens differently once the questions become more concrete.`
+    return `${familyLabelValue} still anchors the profile, while one Focus Area changes the emphasis enough to matter. The Foundation remains informative, and the baseline hardens differently once the questions become more concrete.`
   }
 
   if (assessment.state === "lowDifferentiation") {
-    return "The integrated profile still reads as overlap more than one settled camp. Even with saved modules layered in, more than one neighboring line of argument stays active."
+    return "The integrated profile still shows overlap among nearby traditions. Even after the saved Focus Areas are included, several neighboring lines of argument stay active."
   }
 
   if (assessment.state === "sharplyDifferentiatedBaseline" || foundationState === "sharplyDifferentiated") {
     return "The integrated profile starts from a clear baseline and mostly keeps that shape once the saved modules are added. The issue files qualify the read, but they do not scramble it into a midpoint blend."
   }
 
-  return `${familyLabelValue} remains the best shorthand for the integrated profile. The saved modules add texture, but the same broad starting point keeps showing up across the layers you have completed.`
+  return `${familyLabelValue} remains the best shorthand for the integrated profile. The saved Focus Areas add issue-specific differences, while the same broad starting point recurs across your results.`
 }
 
 function buildModuleChangeText(moduleSummaries: string[], strongestShiftText: string) {
   if (moduleSummaries.length === 0) {
-    return "No focus-area module is saved yet, so the integrated picture is still mostly the Foundation viewed on its own. The next real question is not which label sounds best, but whether Security or Technology consistently sharpens, softens, or complicates the baseline."
+    return "No Focus Area is saved yet, so the integrated picture still comes from the Foundation alone. Security or Technology can show whether the baseline consistently sharpens, softens, or becomes more complicated in a specific domain."
   }
 
   return `${strongestShiftText} ${moduleSummaries.join(" ")}`

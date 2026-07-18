@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint . --cache",
     "test": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "diagnostics:build-sha": "node scripts/print-build-sha.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",

@@ -75,7 +75,7 @@ const limitations = [
   },
   {
     heading: "Political economy is not a catch-all",
-    body: "This version distinguishes broad political-economy salience from a stronger critical or systemic commitment. Thinking economics matters does not automatically make someone a Critical Political Economy result.",
+    body: "The model distinguishes broad political-economy salience from a stronger critical or systemic commitment. Thinking economics matters does not automatically make someone a Critical Political Economy result.",
   },
   {
     heading: "Focus Areas are separate",
@@ -98,28 +98,27 @@ export default function MethodPage() {
         <p className="eyebrow">Methodology</p>
         <h1>How this inventory works</h1>
         <p className="muted" style={{ lineHeight: "1.7" }}>
-          This inventory is a structured thought exercise about how you read world politics. It is
-          meant to surface patterns in your answers, not to diagnose a hidden essence or certify a
-          single correct school of thought.
+          This editorial questionnaire compares your answers across seven foreign-policy
+          tradeoffs. It shows which arguments recur and where your judgments pull in different
+          directions.
         </p>
       </section>
 
       <section className="panel stack-md">
-        <h2>What this is — and what it is not</h2>
+        <h2>What the result can tell you</h2>
         <p style={{ lineHeight: "1.7" }}>
           The IR Worldview Inventory is best read as an editorially designed interpretation tool. It
           asks which arguments you tend to find more convincing, where your instincts cluster, and
           where they pull in different directions.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          It is not a scientific diagnostic, not a personality test, and not a measure of knowledge
-          or expertise. The result is a structured read of your answers, not objective truth about
-          you.
+          The result summarizes your answers. It has not been validated as a scientific diagnostic
+          or a measure of expertise, and it does not identify a permanent personality type.
         </p>
         <div className="panel-flush stack-xs">
           <p style={{ fontWeight: 600 }}>In short</p>
           <ul style={{ margin: "8px 0 0", paddingLeft: "20px", lineHeight: "1.85", color: "var(--muted)" }}>
-            <li>This is a structured thought exercise, not a validated instrument.</li>
+            <li>This editorial questionnaire has not been validated as a scientific instrument.</li>
             <li>Tradition labels are shorthand for a multidimensional profile.</li>
             <li>Mixed outputs are normal and can be meaningful.</li>
             <li>No score is a percentile, and no answer is morally superior.</li>
@@ -130,15 +129,13 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>Privacy and research data</h2>
         <p style={{ lineHeight: "1.7" }}>
-          V19 keeps results and histories in this browser unless you explicitly share them. It has
-          no active research-response intake, persistent research ID, research contact field, or
-          mock consent control.
+          Results and histories stay in this browser unless you explicitly share them. The site
+          does not collect research responses or connect contact details to results.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Any later study requires a separately reviewed data dictionary, purpose-specific consent,
-          per-run identifiers, automatic retention, authenticated deletion, and protected access.
-          Product analytics remain coarse and cannot accept answers, profiles, result payloads, or
-          free text.
+          Any future study would require separate information about its purpose, data, consent,
+          retention, deletion, security, and access rules. Product analytics remain coarse and do
+          not accept answers, profiles, result links, or free text.
         </p>
         <p style={{ margin: 0 }}>
           <Link href="/privacy" style={{ color: "var(--accent)" }}>
@@ -151,8 +148,8 @@ export default function MethodPage() {
         <div className="stack-xs">
           <h2>How to read a result</h2>
           <p className="muted" style={{ lineHeight: "1.65" }}>
-            The result has layers. The point is to show the profile first, then use tradition names
-            as shorthand rather than as rigid boxes.
+            Read the profile first. Tradition names provide concise references for nearby patterns
+            across the seven dimensions.
           </p>
         </div>
         <div>
@@ -225,19 +222,16 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>How Perspective Runs work</h2>
         <p style={{ lineHeight: "1.7" }}>
-          A Perspective Run starts from the saved Foundation scores and applies authored signals
-          from three mirrored scenarios. The result shows how judgment moves under a defined
-          actor&apos;s constraints across the same seven dimensions.
+          Each Perspective Run answer adds a predefined change to one or more Foundation
+          dimensions. The result compares those adjusted scores with your saved baseline.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          The saved Foundation remains the personal baseline. Perspective results are contextual
-          overlays, and each run keeps its own scenario-set version. They do not assign another
+          The saved Foundation remains your baseline. Perspective Runs do not assign another
           worldview family or feed points back into Foundation scoring.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          The shifts are editorial transforms built from the scenario signals. Small changes should
-          be read lightly. The result names the scenario associated with the largest modeled
-          movement and the dimensions that stayed close to the baseline.
+          Small differences should be read lightly. The result names the scenario responsible for
+          the largest change and the dimensions that stayed close to the baseline.
         </p>
       </section>
 
@@ -266,7 +260,7 @@ export default function MethodPage() {
         <h2>How thinkers and public positions are coded</h2>
         <p style={{ lineHeight: "1.7" }}>
           Thinkers and public positions summarize public postures from a dated source ledger. Each record
-          carries an evidence window, dimension-level support, dispute notes, version history, and
+          carries an evidence window, dimension-level support, dispute notes, dated updates, and
           a second-person review before publication.
         </p>
         <p style={{ lineHeight: "1.7" }}>
@@ -286,16 +280,14 @@ export default function MethodPage() {
       </section>
 
       <section className="panel stack-md">
-        <h2>Local history and shared links</h2>
+        <h2>Saved history and shared links</h2>
         <p style={{ lineHeight: "1.7" }}>
-          ProfileStore v4 keeps the current snapshots, prior Foundation and module results, AI
-          history, and Perspective Runs in the existing local browser storage slot. The reader
-          migrates ProfileStore v1, v2, and v3 records when they are opened.
+          Your browser can retain current and earlier Foundation, Focus Area, AI, and Perspective
+          Run results. You can remove that history from the Privacy page.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Profile Share V2 can include AI Governance and Perspective Runs with their dates and
-          projection version. The decoder continues to read Profile Share V1 and existing
-          Foundation result links. Older links simply omit fields introduced in V2.
+          Shared Profile links can include AI Governance and Perspective Runs with their dates.
+          Older shared links may contain fewer result types.
         </p>
       </section>
 
@@ -340,8 +332,9 @@ export default function MethodPage() {
           optional explainers, not in the main question stem.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          This matters because jargon-heavy wording can accidentally test training rather than
-          instinct. Plain language reduces that problem and makes disagreement easier to interpret.
+          Jargon-heavy prompts can reward prior training instead of revealing the judgment the
+          question is meant to test. Plain language reduces that problem and makes disagreement
+          easier to interpret.
         </p>
       </section>
 
@@ -373,15 +366,14 @@ export default function MethodPage() {
         </p>
         <div className="panel-flush">
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-            <strong>On precision:</strong> Earlier versions used a &ldquo;clarity&rdquo; figure.
-            That metric has been removed because it risked sounding more scientific than the model
-            is.
+            <strong>On precision:</strong> The inventory does not report a confidence or
+            &ldquo;clarity&rdquo; figure because the model has no validated measure for either claim.
           </p>
         </div>
       </section>
 
       <section className="panel stack-md">
-        <h2>What is hand-tuned in this beta</h2>
+        <h2>Which choices are authored</h2>
         <p style={{ lineHeight: "1.7" }}>
           Three aspects of the scoring model involve explicit editorial choices that are not derived
           from calibration data. Naming them plainly is part of honest instrument design.
@@ -472,42 +464,6 @@ export default function MethodPage() {
         </p>
       </section>
 
-      <section className="panel stack-md">
-        <h2>Version history</h2>
-        <div className="stack-md">
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>v0.4 — April 2026</p>
-            <p className="muted" style={{ lineHeight: "1.65" }}>
-              Minimal stable Phase 5M pass. Added Standard and Advanced Foundation modes, mixed
-              question types, cleaner plain-language stems, and two Focus Areas for
-              Security and Technology.
-            </p>
-          </div>
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>v0.3 — April 2026</p>
-            <p className="muted" style={{ lineHeight: "1.65" }}>
-              Phase 4R pass 2. Results are now framed profile-first and tradition-second. Methods
-              copy now describes the tool as a structured thought exercise, clarifies that mixed
-              outputs are meaningful, and keeps the applied layer separate from the foundation result.
-            </p>
-          </div>
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>v0.2 — March 2026</p>
-            <p className="muted" style={{ lineHeight: "1.65" }}>
-              Editorial light-theme redesign. Added clearer navigation, plain-English result
-              sections, glossary, suggested reading, and the first methods page. Removed the
-              earlier clarity display.
-            </p>
-          </div>
-          <div className="stack-xs">
-            <p style={{ fontWeight: 600 }}>v0.1 — Initial release</p>
-            <p className="muted" style={{ lineHeight: "1.65" }}>
-              Schema-driven MVP with core Likert items and branching scenarios. Dark theme.
-              Results centered on family fit and dimension bars.
-            </p>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

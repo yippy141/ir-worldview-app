@@ -315,8 +315,9 @@ export const worldStageMenuItems = [
     index: "05",
     label: "Worldview Map",
     sceneId: "worldview-map",
-    lens: "Modeled positions",
-    description: "Browse nearby profiles, contextual movement, and the model’s limits.",
+    lens: "Profiles and public postures",
+    description:
+      "Compare your baseline with nearby worldview profiles, Perspective Runs, and reviewed public postures.",
     href: "/explore/atlas",
     action: "Open Worldview Map",
   },

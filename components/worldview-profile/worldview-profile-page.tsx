@@ -83,7 +83,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             <>
               <h2>{primaryCase.caseStudy.title}</h2>
               <p className={styles.casePreviewRole}>
-                {roleLabel(primaryCase.currentReading.role)} · source-verified record
+                {roleLabel(primaryCase.currentReading.role)} · reviewed case
               </p>
               <p>{primaryCase.caseStudy.neutralContext}</p>
               <a href={`#${caseAnchorId(primaryCase.caseStudy.caseId)}`}>
@@ -135,7 +135,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               <div className={styles.emptyCase}>
                 <h3>Case coverage remains open</h3>
                 <p>
-                  No source-verified record currently names {pattern.publicName} in one of the two
+                  No reviewed case currently names {pattern.publicName} in one of the two
                   reviewed reading positions. Cases attached to other profiles stay off this page.
                 </p>
               </div>
@@ -189,7 +189,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
           <section id="domain-shifts" className={styles.section} aria-labelledby="domains-heading">
             <div className={styles.sectionHeading}>
               <h2 id="domains-heading">Where the profile can change by domain</h2>
-              <p>Domain results are saved as separate layers; they do not rewrite the baseline.</p>
+              <p>Domain results are saved separately and do not change the Foundation.</p>
             </div>
             <div className={styles.domainList}>
               <DomainEntry
@@ -206,13 +206,13 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               />
               <DomainEntry
                 title="AI"
-                body="This profile has no profile-specific AI reading. The AI Governance Compass can add a separate governance layer when you have completed it."
+                body="This profile has no profile-specific AI reading. The AI Governance Compass adds a separate AI result when you complete it."
                 href="/ai"
                 linkLabel="Open the AI Governance Compass"
               />
               <DomainEntry
                 title="Perspective"
-                body="Perspective Runs test the same judgments from a defined strategic seat and keep that contextual shift separate from your baseline."
+                body="Perspective Runs compare role-based answers with the Foundation without changing it."
                 href="/perspectives"
                 linkLabel="Browse Perspective Runs"
               />
@@ -269,9 +269,8 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
                 continuous, interpretive profiles rather than population types or fixed identities.
               </p>
               <p>
-                This page renders {coverage.renderedRecordCount} of the {verifiedCaseLibraryMeta.recordCount}
-                {" "}verified case records. The other {coverage.withheldRecordCount} do not explicitly
-                name this profile as their best fit or strongest rival, so they are withheld from this page.
+                Only cases that explicitly name this profile as the best fit or strongest rival
+                appear here. Other reviewed cases remain off this page.
               </p>
               <p>
                 Historical case readings are teaching comparisons. They do not validate the scoring
@@ -464,11 +463,11 @@ function buildClaimLabels(claims: VerifiedCaseClaim[]) {
 
 function coverageCopy(level: "several" | "thin" | "none", count: number) {
   if (level === "several") {
-    return `${count} source-verified records offer more than one test of this profile’s logic.`
+    return `${count} reviewed cases test this profile’s logic from more than one setting.`
   }
 
   if (level === "thin") {
-    return "Thin coverage: one source-verified record is available. Treat it as an example, not comprehensive support for the profile."
+    return "Thin coverage: one reviewed case is available. Treat it as an example; it cannot provide comprehensive support for the profile."
   }
 
   return "No reviewed case currently names this profile as a best fit or strongest rival."
