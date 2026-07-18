@@ -1,10 +1,9 @@
 "use client"
 
-import Link from "next/link"
+import { useLocale, useTranslations } from "next-intl"
 import { useEffect, useState } from "react"
+import { Link } from "@/i18n/navigation"
 import {
-  CURRENT_CASE_CATEGORY_LABELS,
-  formatCurrentCaseDate,
   type CurrentCasePublicRecord,
 } from "@/lib/current-cases/presentation"
 import {
@@ -14,11 +13,22 @@ import {
   isResponseForCurrentCase,
   loadCurrentCaseResponseStore,
 } from "@/lib/current-cases/response-store"
-import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
+import type {
+  CurrentCaseCategory,
+  CurrentCaseResponseStore,
+} from "@/lib/current-cases/types"
 import styles from "./current-case.module.css"
+
+const CATEGORY_MESSAGE_KEYS = {
+  security: "security",
+  "economic-statecraft": "economicStatecraft",
+  "institutions-and-governance": "institutionsAndGovernance",
+} as const satisfies Record<CurrentCaseCategory, string>
 
 export function CurrentCaseArchive({ records }: { records: CurrentCasePublicRecord[] }) {
   const [store, setStore] = useState<CurrentCaseResponseStore | null>(null)
+  const locale = useLocale()
+  const t = useTranslations("casesArchive")
 
   useEffect(() => {
     const load = () => setStore(loadCurrentCaseResponseStore())
@@ -36,20 +46,28 @@ export function CurrentCaseArchive({ records }: { records: CurrentCasePublicReco
         const validDraft =
           draft && draft.step !== "brief" && isDraftForCurrentCase(draft, record) ? draft : null
         const status = validResponse
-          ? `Completed ${formatCompletionDate(validResponse.completedAt)}`
+          ? t("completed", { date: formatCompletionDate(validResponse.completedAt, locale) })
           : validDraft
-            ? "Draft saved on this device"
+            ? t("draft")
             : record.launchRole === "launch"
-              ? "Current case"
-              : "Archive case"
-        const action = validResponse ? "Review judgment" : validDraft ? "Resume case" : "Open case"
+              ? t("current")
+              : t("archive")
+        const action = validResponse ? t("review") : validDraft ? t("resume") : t("open")
 
         return (
           <li key={record.id} className={styles.archiveRow}>
             <p className={styles.archiveMeta}>
-              {CURRENT_CASE_CATEGORY_LABELS[record.category]}
+              {t(CATEGORY_MESSAGE_KEYS[record.category])}
               <br />
-              Evidence through {formatCurrentCaseDate(record.evidenceWindow.end)}
+              {t("evidenceThrough", {
+                date: formatEvidenceDate(record.evidenceWindow.end, locale),
+              })}
+              {locale === "zh-Hans" ? (
+                <>
+                  <br />
+                  {t("englishRecord")}
+                </>
+              ) : null}
             </p>
             <div className={styles.archiveMain}>
               <h2>
@@ -69,9 +87,16 @@ export function CurrentCaseArchive({ records }: { records: CurrentCasePublicReco
   )
 }
 
-function formatCompletionDate(timestamp: string) {
-  return new Intl.DateTimeFormat("en", {
+function formatCompletionDate(timestamp: string, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
     timeZone: "UTC",
   }).format(new Date(timestamp))
+}
+
+function formatEvidenceDate(value: string, locale: string) {
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: "long",
+    timeZone: "UTC",
+  }).format(new Date(`${value}T00:00:00Z`))
 }

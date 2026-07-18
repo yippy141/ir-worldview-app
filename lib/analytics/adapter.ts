@@ -1,3 +1,5 @@
+import { internalPath } from "@/i18n/paths"
+
 export const ANALYTICS_EVENT_NAMES = [
   "current_case_viewed",
   "current_case_started",
@@ -251,19 +253,21 @@ export function setAnalyticsOptOut(optedOut: boolean) {
 }
 
 export function categorizeRoute(pathname: string): RouteCategory {
-  if (pathname === "/") return "home"
-  if (pathname === "/current" || pathname.startsWith("/cases")) return "current-case"
-  if (pathname.startsWith("/quiz") || pathname.startsWith("/results")) return "foundation"
-  if (pathname.startsWith("/profile") || pathname.startsWith("/compare")) return "profile"
-  if (pathname.startsWith("/explore/atlas")) return "worldview-map"
-  if (pathname.startsWith("/explore") || pathname.startsWith("/learn")) return "field-guide"
-  if (pathname.startsWith("/modules")) return "focus-area"
-  if (pathname.startsWith("/ai")) return "ai-governance"
-  if (pathname.startsWith("/perspectives")) return "perspective-run"
-  if (pathname.startsWith("/futures")) return "futures"
-  if (pathname.startsWith("/method")) return "methods"
-  if (pathname.startsWith("/privacy")) return "privacy"
-  if (pathname.startsWith("/feedback")) return "feedback"
+  const normalized = internalPath(pathname)
+
+  if (normalized === "/") return "home"
+  if (normalized === "/current" || normalized.startsWith("/cases")) return "current-case"
+  if (normalized.startsWith("/quiz") || normalized.startsWith("/results")) return "foundation"
+  if (normalized.startsWith("/profile") || normalized.startsWith("/compare")) return "profile"
+  if (normalized.startsWith("/explore/atlas")) return "worldview-map"
+  if (normalized.startsWith("/explore") || normalized.startsWith("/learn")) return "field-guide"
+  if (normalized.startsWith("/modules")) return "focus-area"
+  if (normalized.startsWith("/ai")) return "ai-governance"
+  if (normalized.startsWith("/perspectives")) return "perspective-run"
+  if (normalized.startsWith("/futures")) return "futures"
+  if (normalized.startsWith("/method")) return "methods"
+  if (normalized.startsWith("/privacy")) return "privacy"
+  if (normalized.startsWith("/feedback")) return "feedback"
   return "other"
 }
 

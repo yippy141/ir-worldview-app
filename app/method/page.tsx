@@ -1,11 +1,12 @@
 import Link from "next/link"
 import type { Metadata } from "next"
+import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createEnglishApprovedMetadata("/method", {
   title: "Methods — IR Worldview Inventory",
   description:
     "How the IR Worldview Inventory works across the Foundation, Focus Areas, integrated Profile, and editorial limitations.",
-}
+})
 
 const dimensions = [
   {
@@ -460,7 +461,7 @@ export default function MethodPage() {
           ))}
         </div>
         <p style={{ fontSize: "0.875rem" }}>
-          <a href="/references" style={{ color: "var(--accent)" }}>Full bibliography by tradition →</a>
+          <Link href="/references" style={{ color: "var(--accent)" }}>Full bibliography by tradition →</Link>
         </p>
       </section>
 

@@ -1,11 +1,12 @@
 import Link from "next/link"
 import type { Metadata } from "next"
+import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 import { siteConfig } from "@/lib/site-config"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createEnglishApprovedMetadata("/feedback", {
   title: "Corrections and Contact — IR Worldview Inventory",
   description: "How to report a factual, privacy, or security problem without submitting result data.",
-}
+})
 
 export default function FeedbackPage() {
   const email = siteConfig.links.find(

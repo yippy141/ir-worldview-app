@@ -1,24 +1,12 @@
 import type { NextConfig } from "next"
+import createNextIntlPlugin from "next-intl/plugin"
+import {
+  localizedSensitiveShareRoutes,
+  privacyHeaders,
+  privateNoStoreHeader,
+} from "./lib/http-headers"
 
-const privacyHeaders = [
-  { key: "Referrer-Policy", value: "no-referrer" },
-  { key: "X-Content-Type-Options", value: "nosniff" },
-  { key: "X-Frame-Options", value: "DENY" },
-  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-  {
-    key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
-  },
-] as const
-
-const sensitiveShareRoutes = [
-  "/results/:path*",
-  "/ai/results/:path*",
-  "/modules/:slug/results/:path*",
-  "/perspectives/:perspectiveId/result/:path*",
-  "/profile/share/:path*",
-  "/cases/:slug/challenge",
-] as const
+const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
 
 const nextConfig: NextConfig = {
   turbopack: {
@@ -30,14 +18,14 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: [...privacyHeaders],
       },
-      ...sensitiveShareRoutes.map((source) => ({
+      ...localizedSensitiveShareRoutes.map((source) => ({
         source,
         headers: [
-          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "Cache-Control", value: privateNoStoreHeader },
         ],
       })),
     ]
   },
 }
 
-export default nextConfig
+export default withNextIntl(nextConfig)

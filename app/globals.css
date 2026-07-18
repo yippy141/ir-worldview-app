@@ -35,6 +35,25 @@
   --sans: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+html:lang(zh-Hans) {
+  --font-serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --font-mono: "SFMono-Regular", "Cascadia Mono", "Noto Sans Mono CJK SC", monospace;
+  --sans: var(--font-sans);
+}
+
+html:lang(zh-Hans) body {
+  line-height: 1.75;
+  text-autospace: normal;
+}
+
+html:lang(zh-Hans) h1,
+html:lang(zh-Hans) h2,
+html:lang(zh-Hans) h3 {
+  line-height: 1.38;
+  letter-spacing: 0;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -1097,6 +1116,190 @@ h3 {
   .lobby-menu-item {
     grid-template-columns: 1fr;
     gap: 10px;
+  }
+}
+
+/* ── V19.2 locale shell ──────────────────────────────────────────────────── */
+
+.language-switcher:not(.cta-primary) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 0 8px;
+  border-radius: 4px;
+  color: var(--text-2);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 4px;
+}
+
+.language-switcher:hover {
+  color: var(--text);
+  text-decoration-color: currentColor;
+}
+
+.language-switcher:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 72%, white 28%);
+  outline-offset: 3px;
+}
+
+.immersive-language-switcher {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 13;
+  padding: 2px 5px;
+  border: 1px solid color-mix(in srgb, var(--line-2) 78%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+}
+
+.mobile-nav-language {
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.locale-home {
+  min-height: 100vh;
+  padding: 84px 0 56px;
+  background: var(--bg);
+}
+
+.locale-editorial-page {
+  text-wrap: pretty;
+}
+
+.locale-editorial-page > .panel {
+  padding-right: 0;
+  padding-left: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.locale-editorial-page > .panel + .panel {
+  border-top: 1px solid var(--line-2);
+}
+
+.locale-home-page {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 48px;
+}
+
+.locale-home-page .locale-editorial-hero {
+  grid-column: 1 / -1;
+  padding-top: 36px;
+  padding-bottom: 52px;
+}
+
+.locale-home-page > .panel:not(.locale-editorial-hero) {
+  padding-top: 32px;
+}
+
+html:lang(zh-Hans) .locale-editorial-page .muted,
+html:lang(zh-Hans) .translation-status-notice .muted,
+html:lang(zh-Hans) .locale-cases-page .muted {
+  color: var(--text-2);
+}
+
+.locale-editorial-hero h1,
+.translation-status-notice h1 {
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.locale-editorial-intro,
+.locale-editorial-paragraph {
+  max-width: 72ch;
+  line-height: 1.75;
+}
+
+.locale-editorial-items {
+  border-top: 1px solid var(--border);
+}
+
+.locale-editorial-item {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.locale-editorial-item h3 {
+  margin: 0 0 7px;
+  font-size: 1rem;
+}
+
+.locale-editorial-item p {
+  margin: 0;
+}
+
+.translation-status-page {
+  padding-top: 48px;
+}
+
+.translation-status-notice {
+  max-width: 780px;
+}
+
+.translation-scope-note {
+  margin: 0 0 28px;
+  padding: 16px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--panel) 82%, var(--bg) 18%);
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+html:lang(zh-Hans) .eyebrow,
+html:lang(zh-Hans) .mobile-nav-label,
+html:lang(zh-Hans) .quiz-shell-label {
+  letter-spacing: 0.06em;
+}
+
+@media (max-width: 640px) {
+  .immersive-language-switcher {
+    top: 10px;
+    right: 12px;
+  }
+
+  .locale-home {
+    padding-top: 64px;
+  }
+
+  .locale-editorial-page .panel,
+  .translation-status-notice {
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .locale-editorial-page .panel {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .translation-status-notice {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .locale-home-page {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .locale-home-page .locale-editorial-hero {
+    padding-top: 24px;
+    padding-bottom: 32px;
+  }
+
+  .locale-editorial-hero h1,
+  .translation-status-notice h1 {
+    max-width: none;
   }
 }
 

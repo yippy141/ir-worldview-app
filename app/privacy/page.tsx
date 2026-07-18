@@ -2,12 +2,13 @@ import Link from "next/link"
 import type { Metadata } from "next"
 import { AnalyticsOptOut } from "@/components/privacy/analytics-opt-out"
 import { LocalDataControls } from "@/components/privacy/local-data-controls"
+import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createEnglishApprovedMetadata("/privacy", {
   title: "Privacy and Data Use — IR Worldview Inventory",
   description:
     "How the IR Worldview Inventory handles local results, sharing, coarse measurement, and research collection.",
-}
+})
 
 const commitments = [
   "Foundation, Focus Area, AI, Perspective, Profile, and Current Case histories remain browser-local.",

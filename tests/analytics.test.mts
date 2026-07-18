@@ -124,6 +124,9 @@ test("missing providers degrade to an accepted no-op", async () => {
 test("route, device, and referrer inputs are reduced to coarse categories", () => {
   assert.equal(categorizeRoute("/cases/example/challenge"), "current-case")
   assert.equal(categorizeRoute("/results/private-payload"), "foundation")
+  assert.equal(categorizeRoute("/zh/cases/example/challenge"), "current-case")
+  assert.equal(categorizeRoute("/zh/results/private-payload"), "foundation")
+  assert.equal(categorizeRoute("/zh"), "home")
   assert.equal(categorizeDevice(390), "mobile")
   assert.equal(categorizeDevice(820), "tablet")
   assert.equal(categorizeDevice(1440), "desktop")

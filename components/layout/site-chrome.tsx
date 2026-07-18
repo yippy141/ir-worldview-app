@@ -1,10 +1,12 @@
 "use client"
 
-import Link from "next/link"
+import { useLocale, useTranslations } from "next-intl"
 import { usePathname } from "next/navigation"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
+import { Link } from "@/i18n/navigation"
+import { internalPath } from "@/i18n/paths"
 import { trackProductEvent } from "@/lib/analytics/adapter"
-import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
 
@@ -19,82 +21,82 @@ type QuizChromeMeta = {
 
 type PublicNavItem = {
   href: string
-  label: string
+  labelKey: string
   active: (pathname: string) => boolean
 }
 
 type MobileNavGroup = {
-  label: string
-  intro: string
-  items: Array<{ href: string; label: string }>
+  labelKey: string
+  introKey: string
+  items: Array<{ href: string; labelKey: string }>
 }
 
 const publicNavItems: PublicNavItem[] = [
   {
     href: "/cases",
-    label: "Current Case",
+    labelKey: "nav.currentCase",
     active: (pathname) => pathname === "/current" || pathname.startsWith("/cases"),
   },
   {
     href: "/quiz",
-    label: "Foundation",
+    labelKey: "nav.foundation",
     active: (pathname) =>
       pathname === "/quiz" || pathname === "/quiz/review" || pathname.startsWith("/results"),
   },
   {
     href: "/modules",
-    label: "Focus Areas",
+    labelKey: "nav.focusAreas",
     active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
   },
   {
     href: "/ai",
-    label: "AI",
+    labelKey: "nav.ai",
     active: (pathname) => pathname === "/ai" || pathname.startsWith("/ai/"),
   },
   {
     href: "/profile",
-    label: "My Profile",
+    labelKey: "nav.profile",
     active: (pathname) =>
       pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),
   },
 ]
 
 const moreNavItems = [
-  { href: "/perspectives", label: "Perspective Runs" },
-  { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
-  { href: "/explore", label: "Explore" },
-  { href: "/futures", label: "Futures" },
-  { href: "/method", label: "Methods" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/references", label: "References" },
-  { href: "/feedback", label: "Feedback" },
+  { href: "/perspectives", labelKey: "nav.perspectives" },
+  { href: "/explore/atlas", labelKey: "nav.worldviewMap" },
+  { href: "/explore", labelKey: "nav.explore" },
+  { href: "/futures", labelKey: "nav.futures" },
+  { href: "/method", labelKey: "nav.methods" },
+  { href: "/privacy", labelKey: "nav.privacy" },
+  { href: "/references", labelKey: "nav.references" },
+  { href: "/feedback", labelKey: "nav.feedback" },
 ] as const
 
 const mobileNavGroups: MobileNavGroup[] = [
   {
-    label: "Product path",
-    intro: "Use Current Case for live judgment, build a Foundation baseline, and add Focus Areas, AI, or Perspective Runs where useful.",
+    labelKey: "productPath",
+    introKey: "productIntro",
     items: [
-      { href: "/cases", label: "Current Case" },
-      { href: "/quiz", label: "Foundation" },
-      { href: "/modules", label: "Focus Areas" },
-      { href: "/ai", label: "AI" },
-      { href: "/perspectives", label: "Perspective Runs" },
-      { href: "/profile", label: "My Profile" },
+      { href: "/cases", labelKey: "nav.currentCase" },
+      { href: "/quiz", labelKey: "nav.foundation" },
+      { href: "/modules", labelKey: "nav.focusAreas" },
+      { href: "/ai", labelKey: "nav.ai" },
+      { href: "/perspectives", labelKey: "nav.perspectives" },
+      { href: "/profile", labelKey: "nav.profile" },
     ],
   },
   {
-    label: "Browse and context",
-    intro: `Use the ${WORLDVIEW_MAP_LABEL}, the field guide, and methods when you want to browse profiles or challenge the model.`,
+    labelKey: "browseContext",
+    introKey: "browseIntro",
     items: [
-      { href: "/explore/atlas", label: WORLDVIEW_MAP_LABEL },
-      { href: "/explore/reference", label: "Thinkers & public positions" },
-      { href: "/explore", label: "Explore" },
-      { href: "/futures", label: "Futures" },
-      { href: "/method", label: "Methods" },
-      { href: "/privacy", label: "Privacy" },
-      { href: "/references", label: "References" },
-      { href: "/feedback", label: "Feedback" },
+      { href: "/explore/atlas", labelKey: "nav.worldviewMap" },
+      { href: "/explore/reference", labelKey: "nav.publicPositions" },
+      { href: "/explore", labelKey: "nav.explore" },
+      { href: "/futures", labelKey: "nav.futures" },
+      { href: "/method", labelKey: "nav.methods" },
+      { href: "/privacy", labelKey: "nav.privacy" },
+      { href: "/references", labelKey: "nav.references" },
+      { href: "/feedback", labelKey: "nav.feedback" },
     ],
   },
 ]
@@ -148,7 +150,6 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
       sectionLabel: "Perspective Run",
       exitHref: "/perspectives",
       exitLabel: "Exit to briefs",
-      // The run flow shows its own scenario/review progress strip.
       steps: [],
       activeStep: "",
     }
@@ -173,15 +174,20 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
 
 export function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const currentPath = pathname ?? "/"
-  const quizMeta = getQuizChromeMeta(pathname)
+  const locale = useLocale()
+  const t = useTranslations("chrome")
+  const currentPath = internalPath(pathname ?? "/")
+  const quizMeta = locale === "en" ? getQuizChromeMeta(currentPath) : null
   const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
   const moreActive = moreNavItems.some((item) => matchesPath(currentPath, item.href))
 
   if (isImmersiveRoute(currentPath)) {
     return (
       <div className="site-shell">
-        <a href="#site-main" className="skip-link">Skip to content</a>
+        <a href="#site-main" className="skip-link">{t("skip")}</a>
+        <div className="immersive-language-switcher">
+          <LanguageSwitcher />
+        </div>
         {children}
       </div>
     )
@@ -195,12 +201,12 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           perspectiveRunChrome ? " site-shell--perspective-run" : ""
         }`}
       >
-        <a href="#site-main" className="skip-link">Skip to content</a>
+        <a href="#site-main" className="skip-link">{t("skip")}</a>
         <header className="quiz-shell-header">
           <div className="wide-container">
             <div className="quiz-shell-inner">
               <Link href="/" className="quiz-shell-brand-link">
-                <span className="quiz-shell-brand">{siteConfig.publicTitle}</span>
+                <span className="quiz-shell-brand">{t("brand")}</span>
               </Link>
 
               <div className="quiz-shell-heading">
@@ -234,16 +240,16 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="site-shell">
-      <a href="#site-main" className="skip-link">Skip to content</a>
+      <a href="#site-main" className="skip-link">{t("skip")}</a>
       <NavAutoClose />
       <header className="site-header">
         <div className="wide-container">
           <div className="header-inner">
             <Link href="/" className="site-brand-link">
-              <p className="brand">{siteConfig.publicTitle}</p>
+              <p className="brand">{t("brand")}</p>
             </Link>
 
-            <nav className="header-nav header-nav--desktop" aria-label="Primary">
+            <nav className="header-nav header-nav--desktop" aria-label={t("primary")}>
               <div className="header-nav-row">
                 {publicNavItems.map((item) => {
                   const active = item.active(currentPath)
@@ -254,7 +260,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                       className={`nav-link${active ? " nav-link--active" : ""}`}
                       aria-current={active ? "page" : undefined}
                     >
-                      {item.label}
+                      {t(item.labelKey)}
                     </Link>
                   )
                 })}
@@ -262,7 +268,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   <summary
                     className={`nav-disclosure-summary${moreActive ? " nav-disclosure-summary--active" : ""}`}
                   >
-                    More
+                    {t("more")}
                   </summary>
                   <div className="nav-disclosure-menu nav-disclosure-menu--compact">
                     {moreNavItems.map((item) => (
@@ -271,21 +277,22 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                         href={item.href}
                         className="nav-disclosure-link nav-disclosure-link--compact"
                       >
-                        <span className="nav-disclosure-link-title">{item.label}</span>
+                        <span className="nav-disclosure-link-title">{t(item.labelKey)}</span>
                       </Link>
                     ))}
                   </div>
                 </details>
+                <LanguageSwitcher />
               </div>
             </nav>
 
             <details className="mobile-nav">
-              <summary className="mobile-nav-summary">Menu</summary>
+              <summary className="mobile-nav-summary">{t("menu")}</summary>
               <div className="mobile-nav-sheet mobile-nav-sheet--compact">
                 {mobileNavGroups.map((group) => (
-                  <div key={group.label} className="mobile-nav-group">
-                    <p className="mobile-nav-label">{group.label}</p>
-                    <p className="mobile-nav-group-text">{group.intro}</p>
+                  <div key={group.labelKey} className="mobile-nav-group">
+                    <p className="mobile-nav-label">{t(group.labelKey)}</p>
+                    <p className="mobile-nav-group-text">{t(group.introKey)}</p>
                     <div className="mobile-nav-list">
                       {group.items.map((item) => {
                         const active = matchesPath(currentPath, item.href)
@@ -297,13 +304,16 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                             className={`mobile-nav-list-link${active ? " mobile-nav-list-link--active" : ""}`}
                             aria-current={active ? "page" : undefined}
                           >
-                            {item.label}
+                            {t(item.labelKey)}
                           </Link>
                         )
                       })}
                     </div>
                   </div>
                 ))}
+                <div className="mobile-nav-language">
+                  <LanguageSwitcher />
+                </div>
               </div>
             </details>
           </div>
@@ -316,9 +326,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <div className="wide-container">
           <div className="footer-inner">
             <div className="footer-brand">
-              <strong>{siteConfig.publicTitle}</strong>
+              <strong>{t("brand")}</strong>
               <span className="footer-sep">·</span>
-              {siteConfig.byline}
+              {t("byline")}
             </div>
             <div className="footer-links">
               {contactLinks.map((link) => (
@@ -336,13 +346,13 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                 </a>
               ))}
               <Link href="/feedback" className="footer-link">
-                Feedback
+                {t("nav.feedback")}
               </Link>
               <Link href="/method" className="footer-link">
-                Methods
+                {t("nav.methods")}
               </Link>
               <Link href="/privacy" className="footer-link">
-                Privacy
+                {t("nav.privacy")}
               </Link>
             </div>
           </div>
