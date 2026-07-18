@@ -302,6 +302,58 @@ export const chineseShellContent = {
     emptyTitle: "目前没有已发布案例",
     emptyBody: "只有完成来源核查和编辑审读的记录才会进入公开档案。",
   },
+  profileShare: {
+    familyLabels: {
+      realist: "战略现实主义",
+      institutionalist: "自由制度主义",
+      constructivist: "社会建构主义",
+      criticalPoliticalEconomy: "批判政治经济学",
+    },
+    strategyLabels: {
+      Restrainer: "克制型",
+      Hedger: "对冲型",
+      Maximizer: "优势扩大型",
+    },
+    normativeLabels: {
+      Pluralist: "多元秩序取向",
+      "Conditional Solidarist": "有条件共同体取向",
+      Universalist: "普遍主义取向",
+    },
+    moduleLabels: {
+      security: "安全",
+      technology: "技术与权力",
+    },
+    aiLabels: {
+      precautionarySteward: "审慎治理者",
+      strategicCompetitor: "战略竞争者",
+      coordinationArchitect: "协调架构者",
+      democraticGuardrailist: "民主护栏倡导者",
+      stateCapacityBuilder: "国家能力建设者",
+      openEcosystemBuilder: "开放生态建设者",
+    },
+    perspectiveLabels: {
+      "incumbent-great-power": "守成大国",
+      "rising-peer-competitor": "崛起中的同级竞争者",
+      "exposed-ally": "处于暴露位置的盟友或脆弱小国",
+      "middle-power-hedger": "采取对冲策略的中等强国",
+      "capacity-constrained-state": "能力受限国家",
+      "protection-authority": "保护或法律授权机构",
+    },
+    eyebrow: "共享世界观档案",
+    title: (familyLabel) => `${familyLabel}：一份连续画像`,
+    intro:
+      "这份链接保存的是稳定标识、分数与版本信息。页面文字按当前语言即时生成；它不是人口排名，也不把解释性标签当作固定身份。",
+    foundationHeading: "基础画像",
+    foundationSummary: (familyLabel, runnerUpLabel) =>
+      `在本工具覆盖的四个理论家族中，这组分数最接近${familyLabel}；${runnerUpLabel}是最近的相邻参照。标签只是七个维度组合的简写。`,
+    moduleSummary:
+      "该专题记录保留了答题标识与分析分数；解释文字按当前语言版本生成，并保持与基础画像分开。",
+    aiTitle: "人工智能治理",
+    aiSummary:
+      "这一结果描述治理取舍的最近解释性组合，不把人工智能政治划分为固定阵营。",
+    provenanceNotice:
+      "这份档案包含来自不同语言或文案版本的完成记录。它们可以并列查看，但不会被表述为研究上等价的测量。",
+  },
   unavailable: {
     metadata: {
       title: "中文内容状态｜国际关系世界观清单",

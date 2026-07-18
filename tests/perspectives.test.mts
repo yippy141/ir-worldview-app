@@ -303,6 +303,9 @@ test("result helpers expose comparison rows, editorial copy, and a detached snap
     id: "run-demo",
     timestamp: 1_786_000_000_000,
     resultPath: "/perspectives/exposed-ally/result/demo",
+    payload: "demo",
+    locale: "en",
+    localeCopyVersion: 1,
   })
 
   assert.equal(rows.length, PERSPECTIVE_DIMENSIONS.length)
@@ -320,6 +323,9 @@ test("result helpers expose comparison rows, editorial copy, and a detached snap
     baselineDeltas: result.baselineDeltas,
     strongestShiftKeys: result.strongestShiftKeys,
     resultPath: "/perspectives/exposed-ally/result/demo",
+    payload: "demo",
+    locale: "en",
+    localeCopyVersion: 1,
   })
 
   snapshot.dimensionScores.securityCompetition = 1
@@ -335,6 +341,9 @@ test("saved Perspective runs retain and match only their original Foundation bas
     id: "run-baseline-contract",
     timestamp: 1_786_000_000_000,
     resultPath: "/perspectives/rising-peer-competitor/result/demo",
+    payload: "demo",
+    locale: "en",
+    localeCopyVersion: 1,
   })
 
   assert.deepEqual(derivePerspectiveRunBaselineScores(snapshot), baseline)

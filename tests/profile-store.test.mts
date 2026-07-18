@@ -11,22 +11,23 @@ import {
   parseProfileStore,
   removePerspectiveRunSnapshot,
   saveProfileStore,
+  serializeProfileStore,
   type AiGovernanceSnapshot,
   type FoundationSnapshot,
   type ModuleSnapshot,
 } from "@/lib/profile-store"
 import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 
-function readFixture(version: 1 | 2 | 3) {
+function readFixture(version: 1 | 2 | 3 | 4 | 5) {
   return readFileSync(
     new URL(`./fixtures/profile-store-v${version}.json`, import.meta.url),
     "utf8",
   )
 }
 
-test("an empty profile uses the v4 history shape", () => {
+test("an empty profile uses the v5 canonical history shape", () => {
   assert.deepEqual(emptyProfileStore(), {
-    v: 4,
+    v: 5,
     foundation: null,
     foundationHistory: [],
     modules: {},
@@ -40,7 +41,9 @@ test("an empty profile uses the v4 history shape", () => {
 test("real v1 fixture migrates its current Foundation and legacy module safely", () => {
   const profile = parseProfileStore(readFixture(1))
 
-  assert.equal(profile.v, 4)
+  assert.equal(profile.v, 5)
+  assert.equal(profile.foundation?.locale, "en")
+  assert.equal(profile.foundation?.localeCopyVersion, 0)
   assert.equal(profile.foundation?.payload, "legacy-foundation-v1")
   assert.deepEqual(profile.foundationHistory, [profile.foundation])
   assert.equal(profile.modules.security?.headline, "Legacy security result")
@@ -55,7 +58,7 @@ test("real v1 fixture migrates its current Foundation and legacy module safely",
 test("real v2 fixture preserves current module overlay fields", () => {
   const profile = parseProfileStore(readFixture(2))
 
-  assert.equal(profile.v, 4)
+  assert.equal(profile.v, 5)
   assert.equal(profile.foundationHistory.length, 1)
   assert.equal(profile.modules.technology?.laneSummaries[0]?.key, "controls")
   assert.deepEqual(profile.modules.technology?.overlayDeltas, {
@@ -68,14 +71,58 @@ test("real v2 fixture preserves current module overlay fields", () => {
 test("real v3 fixture preserves the current AI snapshot without inventing history", () => {
   const profile = parseProfileStore(readFixture(3))
 
-  assert.equal(profile.v, 4)
+  assert.equal(profile.v, 5)
   assert.equal(profile.aiGovernance?.archetypeKey, "coordinationArchitect")
   assert.equal(profile.aiGovernance?.axisScores.oversight, 5.7)
   assert.deepEqual(profile.aiHistory, [])
 })
 
+test("all frozen ProfileStore generations migrate or hydrate as V5", () => {
+  for (const version of [1, 2, 3, 4, 5] as const) {
+    assert.equal(parseProfileStore(readFixture(version)).v, 5)
+  }
+
+  const legacyV4 = parseProfileStore(readFixture(4))
+  assert.equal(legacyV4.foundation?.locale, "en")
+  assert.equal(legacyV4.foundation?.localeCopyVersion, 0)
+  assert.equal(legacyV4.modules.security?.legacyEnglishCopy?.headline, "V4 security interpretation")
+
+  const canonicalV5 = parseProfileStore(readFixture(5), "zh-Hans")
+  assert.equal(canonicalV5.foundation?.locale, "zh-Hans")
+  assert.equal(canonicalV5.foundation?.localeCopyVersion, 1)
+  assert.match(canonicalV5.foundation?.resultPath ?? "", /^\/zh\/results\//)
+})
+
+test("new V5 persistence strips render-time display copy", () => {
+  const canonicalV5 = parseProfileStore(readFixture(5), "en")
+  const persisted = JSON.parse(serializeProfileStore(canonicalV5))
+
+  assert.equal(persisted.v, 5)
+  assert.equal(persisted.foundation.familyLabel, undefined)
+  assert.equal(persisted.foundation.summary, undefined)
+  assert.equal(persisted.foundation.resultPath, undefined)
+  assert.equal(persisted.foundation.familyKey, "institutionalist")
+  assert.equal(persisted.foundation.locale, "zh-Hans")
+})
+
+test("migrated non-regenerable English copy survives only in the legacy fallback", () => {
+  const migrated = parseProfileStore(readFixture(1))
+  const persisted = JSON.parse(serializeProfileStore(migrated))
+
+  assert.equal(
+    persisted.foundation.legacyEnglishCopy.summary,
+    "Legacy Foundation snapshot",
+  )
+  assert.equal(
+    persisted.modules.security.legacyEnglishCopy.headline,
+    "Legacy security result",
+  )
+  assert.equal(persisted.modules.security.headline, undefined)
+  assert.equal(persisted.modules.security.evidence, undefined)
+})
+
 test("invalid optional v4 histories never erase valid current snapshots", () => {
-  const legacy = parseProfileStore(readFixture(2))
+  const legacy = JSON.parse(readFixture(4))
   const parsed = parseProfileStore(
     JSON.stringify({
       ...legacy,
@@ -86,16 +133,16 @@ test("invalid optional v4 histories never erase valid current snapshots", () => 
     }),
   )
 
-  assert.equal(parsed.foundation?.payload, legacy.foundation?.payload)
+  assert.equal(parsed.foundation?.payload, legacy.foundation.payload)
   assert.deepEqual(parsed.foundationHistory, [parsed.foundation])
-  assert.equal(parsed.modules.technology?.headline, "Legacy technology result")
+  assert.equal(parsed.modules.security?.headline, "V4 security interpretation")
   assert.deepEqual(parsed.moduleHistory, [])
   assert.deepEqual(parsed.aiHistory, [])
   assert.deepEqual(parsed.perspectiveRuns, [])
 })
 
 test("v4 histories filter malformed entries independently", () => {
-  const legacy = parseProfileStore(readFixture(1))
+  const legacy = JSON.parse(readFixture(4))
   const parsed = parseProfileStore(
     JSON.stringify({
       ...legacy,
@@ -157,6 +204,8 @@ test("snapshot updates keep current views and append deduplicated histories", ()
 
 test("Perspective Runs append by stable id and can be removed", () => {
   const run: PerspectiveRunSnapshot = {
+    locale: "en",
+    localeCopyVersion: 1,
     id: "run-1",
     timestamp: 1740000000000,
     perspectiveId: "exposed-ally",
@@ -178,6 +227,7 @@ test("Perspective Runs append by stable id and can be removed", () => {
     },
     strongestShiftKeys: ["securityCompetition", "institutions", "restraint"],
     resultPath: "/perspectives/exposed-ally/result/example",
+    payload: "example",
   }
 
   const added = addPerspectiveRunSnapshot(emptyProfileStore(), run)

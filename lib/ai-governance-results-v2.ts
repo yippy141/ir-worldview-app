@@ -1,18 +1,19 @@
-import { aiPayloadToAxisScores, AiSharePayload } from "./ai-governance-share"
-import { aiArchetypeDeepProfiles } from "./ai-governance-profile-copy"
-import { getActiveAiGovernanceTensions } from "./ai-governance-results"
-import { aiAxisLabels } from "./ai-governance-schema"
+import { aiPayloadToAxisScores } from "@/lib/ai-governance-share"
+import type { AiSharePayload } from "@/lib/ai-governance-share"
+import { aiArchetypeDeepProfiles } from "@/lib/ai-governance-profile-copy"
+import { getActiveAiGovernanceTensions } from "@/lib/ai-governance-results"
+import { aiAxisLabels } from "@/lib/ai-governance-schema"
 import {
   archetypeDescriptions,
   archetypeLabels,
   scoreArchetypes,
-} from "./ai-governance-scoring"
-import {
+} from "@/lib/ai-governance-scoring"
+import type {
   AiArchetypeKey,
   AiAxisKey,
   AiAxisScores,
   AiResult,
-} from "./ai-governance-types"
+} from "@/lib/ai-governance-types"
 
 export type PolicySignal = {
   title: string

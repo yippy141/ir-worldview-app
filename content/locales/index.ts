@@ -1,5 +1,6 @@
 export { chineseShellContent } from "@/content/locales/zh-Hans"
 export type {
+  ChineseProfileShareContent,
   ChineseShellContent,
   LocaleAction,
   LocaleEditorialPage,

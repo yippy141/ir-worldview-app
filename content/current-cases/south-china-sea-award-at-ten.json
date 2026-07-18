@@ -72,12 +72,12 @@
     "Whether negotiations on a South China Sea Code of Conduct can remain legally meaningful while the parties disagree on the status of the award."
   ],
   "reasoningTags": [
-    "Legal authority",
-    "Operational enforcement",
-    "Coalition signalling",
-    "Regional diplomacy",
-    "Legitimacy",
-    "Escalation risk"
+    { "id": "legal-authority", "label": "Legal authority" },
+    { "id": "operational-enforcement", "label": "Operational enforcement" },
+    { "id": "coalition-signalling", "label": "Coalition signalling" },
+    { "id": "regional-diplomacy", "label": "Regional diplomacy" },
+    { "id": "legitimacy", "label": "Legitimacy" },
+    { "id": "escalation-risk", "label": "Escalation risk" }
   ],
   "decision": {
     "prompt": "How should supporters use the award after its tenth anniversary?",

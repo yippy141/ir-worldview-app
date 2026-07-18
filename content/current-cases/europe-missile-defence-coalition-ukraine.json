@@ -73,12 +73,12 @@
     "Whether Russia interprets the coalition as a defensive hedge or as escalation requiring counter-deployment."
   ],
   "reasoningTags": [
-    "Urgent capability",
-    "Alliance reliability",
-    "Industrial capacity",
-    "Interoperability",
-    "Escalation risk",
-    "Long-term autonomy"
+    { "id": "urgent-capability", "label": "Urgent capability" },
+    { "id": "alliance-reliability", "label": "Alliance reliability" },
+    { "id": "industrial-capacity", "label": "Industrial capacity" },
+    { "id": "interoperability", "label": "Interoperability" },
+    { "id": "escalation-risk", "label": "Escalation risk" },
+    { "id": "long-term-autonomy", "label": "Long-term autonomy" }
   ],
   "decision": {
     "prompt": "What should the coalition prioritize as it turns the declaration into policy?",

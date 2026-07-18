@@ -14,7 +14,10 @@ import { getTopDimensions } from "@/lib/result-helpers"
  * does not rescore the Foundation, modify the snapshot, or infer a new family.
  */
 export function compareCompletedCaseWithFoundation(
-  record: Pick<CurrentCase, "id" | "slug" | "version" | "decision" | "worldviewReadings">,
+  record: Pick<
+    CurrentCase,
+    "id" | "slug" | "version" | "decision" | "worldviewReadings" | "reasoningTags"
+  >,
   response: CompletedCurrentCaseResponse,
   foundation: FoundationSnapshot | null,
 ): CurrentCaseFoundationConnection {

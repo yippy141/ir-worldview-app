@@ -1,15 +1,15 @@
-import { aiAxisLabels } from "./ai-governance-schema"
+import { aiAxisLabels } from "@/lib/ai-governance-schema"
 import {
   archetypeDescriptions,
   archetypeLabels,
-} from "./ai-governance-scoring"
-import {
+} from "@/lib/ai-governance-scoring"
+import type {
   AiArchetypeKey,
   AiAxisKey,
   AiAxisScores,
   PaceModifier,
   RiskLens,
-} from "./ai-governance-types"
+} from "@/lib/ai-governance-types"
 
 export function archetypeLabelFromKey(key: AiArchetypeKey): string {
   return archetypeLabels[key]

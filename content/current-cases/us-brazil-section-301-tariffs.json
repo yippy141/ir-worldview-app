@@ -68,12 +68,12 @@
     "How much of the confrontation is bargaining theatre tied to the Brazilian election versus a durable long-term trade reset."
   ],
   "reasoningTags": [
-    "Economic leverage",
-    "Domestic costs",
-    "Policy autonomy",
-    "Negotiating room",
-    "Rules and precedent",
-    "Coalition support"
+    { "id": "economic-leverage", "label": "Economic leverage" },
+    { "id": "domestic-costs", "label": "Domestic costs" },
+    { "id": "policy-autonomy", "label": "Policy autonomy" },
+    { "id": "negotiating-room", "label": "Negotiating room" },
+    { "id": "rules-and-precedent", "label": "Rules and precedent" },
+    { "id": "coalition-support", "label": "Coalition support" }
   ],
   "decision": {
     "prompt": "How should Brazil answer the new U.S. tariff package?",

@@ -1,4 +1,4 @@
-import { AiArchetypeKey } from "./ai-governance-types"
+import type { AiArchetypeKey } from "@/lib/ai-governance-types"
 
 export type AiArchetypeDeepProfile = {
   governingInstinct: string

@@ -9,6 +9,10 @@ const approvedPairs = [
   { en: "/cases", zh: "/zh/cases", heading: "在正在发生的事务中作出判断" },
 ] as const
 
+// Frozen tests/fixtures/profile-share-v3.json encoded with the shared codec.
+const PROFILE_SHARE_V3_TOKEN =
+  "eyJ2IjozLCJmIjp7InQiOjE3NTAwMDAwMDAwMDAsInAiOiJleUoySWpveUxDSmtjeUk2V3pRdU15dzFMamdzTkM0NUxEVXVNU3cwTGpjc05TNDBMRFV1TTEwc0ltWnJJam9pYVc1emRHbDBkWFJwYjI1aGJHbHpkQ0lzSW01cklqb2lZMjl1YzNSeWRXTjBhWFpwYzNRaUxDSnpiU0k2SWxKbGMzUnlZV2x1WlhJaUxDSnViU0k2SWxCc2RYSmhiR2x6ZENKOSIsImwiOiJlbiIsImN2IjoxfSwibXMiOltdLCJwdiI6MX0"
+
 test("approved English and Simplified Chinese route pairs remain distinct", async ({ page }) => {
   await page.goto("/")
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
@@ -39,7 +43,6 @@ test("unapproved Chinese payload routes preserve opaque segments and show the st
     "/zh/ai/results/ai_A-b.9_payload",
     "/zh/modules/security/results/module_A-b.9_payload?foundation=f_123",
     "/zh/perspectives/exposed-ally/result/run_A-b.9_payload",
-    "/zh/profile/share/profile_A-b.9_payload",
   ]
 
   for (const pathname of paths) {
@@ -54,6 +57,31 @@ test("unapproved Chinese payload routes preserve opaque segments and show the st
   await page.goto("/zh/results/switch_A-b.9?source=share#reading-path")
   await page.getByRole("link", { name: "切换至英文" }).last().click()
   await expect(page).toHaveURL(/\/results\/switch_A-b\.9\?source=share#reading-path$/)
+})
+
+test("one canonical Profile Share V3 payload renders in English and Chinese", async ({ page }) => {
+  const englishPath = `/profile/share/${PROFILE_SHARE_V3_TOKEN}`
+  const chinesePath = `/zh${englishPath}`
+
+  await page.goto(englishPath)
+  await expect(page.locator("html")).toHaveAttribute("lang", "en")
+  await expect(page.getByRole("heading", {
+    name: /clearly Liberal Institutionalist/,
+  })).toBeVisible()
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${englishPath}$`))
+  await expect(page.locator('link[rel="alternate"][hreflang="zh-Hans"]')).toHaveAttribute(
+    "href",
+    new RegExp(`${chinesePath}$`),
+  )
+
+  await page.goto(`${chinesePath}?source=shared-profile#foundation`)
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
+  await expect(page.getByRole("heading", { name: "自由制度主义：一份连续画像" })).toBeVisible()
+  await expect(page.getByText("5.80 / 7")).toBeVisible()
+  await page.getByRole("link", { name: "切换至英文" }).last().click()
+  await expect(page).toHaveURL(
+    new RegExp(`${englishPath}\\?source=shared-profile#foundation$`),
+  )
 })
 
 test("English and Chinese /current redirects preserve route slugs and locale", async ({ page }) => {
@@ -123,7 +151,12 @@ test("English and Chinese share routes are private and no-store", async ({ reque
 test.describe("390px Simplified Chinese shell", () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
-  for (const pathname of ["/zh", "/zh/method", "/zh/results/mobile_payload"] as const) {
+  for (const pathname of [
+    "/zh",
+    "/zh/method",
+    "/zh/results/mobile_payload",
+    `/zh/profile/share/${PROFILE_SHARE_V3_TOKEN}`,
+  ] as const) {
     test(`${pathname} stays within the viewport`, async ({ page }) => {
       await page.goto(pathname)
       const dimensions = await page.evaluate(() => ({

@@ -9,6 +9,15 @@ import {
   type CurrentCaseDraft,
   type CurrentCaseResponseStore,
 } from "@/lib/current-cases/types"
+import {
+  isReasoningTagId,
+  migrateLegacyReasoningTag,
+} from "@/lib/current-cases/reasoning-tags"
+import {
+  LEGACY_ENGLISH_PROVENANCE,
+  isCompletionLocale,
+  isLocaleCopyVersion,
+} from "@/lib/locale-provenance"
 
 export function emptyCurrentCaseResponseStore(): CurrentCaseResponseStore {
   return {
@@ -19,8 +28,8 @@ export function emptyCurrentCaseResponseStore(): CurrentCaseResponseStore {
 }
 
 /**
- * V1 has no legacy production predecessor. Unknown, future, and unversioned
- * payloads fail closed to an empty store instead of being guessed into shape.
+ * V1 stored Current Case reasoning labels as identity. V2 migrates those
+ * labels through a frozen alias registry and adds completion provenance.
  */
 export function parseCurrentCaseResponseStore(
   raw: string | null,
@@ -29,15 +38,16 @@ export function parseCurrentCaseResponseStore(
 
   try {
     const parsed = JSON.parse(raw) as unknown
-    if (!isRecord(parsed) || parsed.v !== CURRENT_CASE_RESPONSE_STORE_VERSION) {
+    if (!isRecord(parsed) || (parsed.v !== 1 && parsed.v !== 2)) {
       return emptyCurrentCaseResponseStore()
     }
+    const legacy = parsed.v === 1
     if (!isRecord(parsed.responses)) return emptyCurrentCaseResponseStore()
 
     const drafts: Record<string, CurrentCaseDraft> = {}
     if (isRecord(parsed.drafts)) {
       for (const [caseId, value] of Object.entries(parsed.drafts)) {
-        const draft = normalizeCurrentCaseDraft(value)
+        const draft = normalizeCurrentCaseDraft(value, legacy)
         if (draft && draft.caseId === caseId) drafts[caseId] = draft
       }
     }
@@ -46,7 +56,7 @@ export function parseCurrentCaseResponseStore(
     for (const [caseId, history] of Object.entries(parsed.responses)) {
       if (!Array.isArray(history)) continue
       const normalized = history
-        .map(normalizeCompletedCurrentCaseResponse)
+        .map((response) => normalizeCompletedCurrentCaseResponse(response, legacy))
         .filter(
           (response): response is CompletedCurrentCaseResponse =>
             response !== null && response.caseId === caseId,
@@ -69,7 +79,7 @@ export function addCompletedCurrentCaseResponse(
   store: CurrentCaseResponseStore,
   response: CompletedCurrentCaseResponse,
 ): CurrentCaseResponseStore {
-  const normalized = normalizeCompletedCurrentCaseResponse(response)
+  const normalized = normalizeCompletedCurrentCaseResponse(response, false)
   if (!normalized) return store
 
   const existing = store.responses[normalized.caseId] ?? []
@@ -87,7 +97,7 @@ export function saveCurrentCaseDraft(
   store: CurrentCaseResponseStore,
   draft: CurrentCaseDraft,
 ): CurrentCaseResponseStore {
-  const normalized = normalizeCurrentCaseDraft(draft)
+  const normalized = normalizeCurrentCaseDraft(draft, false)
   if (!normalized) return store
 
   return {
@@ -126,10 +136,14 @@ export function getLatestCurrentCaseResponse(
 
 export function isResponseForCurrentCase(
   response: CompletedCurrentCaseResponse,
-  record: Pick<CurrentCase, "id" | "slug" | "version" | "decision" | "worldviewReadings">,
+  record: Pick<
+    CurrentCase,
+    "id" | "slug" | "version" | "decision" | "worldviewReadings" | "reasoningTags"
+  >,
 ) {
   const optionIds = new Set(record.decision.options.map((option) => option.id))
   const readingIds = new Set(record.worldviewReadings.map((reading) => reading.profileId))
+  const reasoningTagIds = new Set(record.reasoningTags.map((tag) => tag.id))
 
   return (
     response.caseId === record.id &&
@@ -137,6 +151,11 @@ export function isResponseForCurrentCase(
     response.caseVersion === record.version &&
     optionIds.has(response.initialOptionId) &&
     optionIds.has(response.selectedOptionId) &&
+    response.reasoningTagIds.every(
+      (tagId) =>
+        reasoningTagIds.has(tagId) ||
+        Object.hasOwn(response.legacyReasoningTagLabels ?? {}, tagId),
+    ) &&
     response.openedReadingProfileIds.every((profileId) => readingIds.has(profileId))
   )
 }
@@ -150,7 +169,7 @@ export function isDraftForCurrentCase(
 ) {
   const optionIds = new Set(record.decision.options.map((option) => option.id))
   const readingIds = new Set(record.worldviewReadings.map((reading) => reading.profileId))
-  const reasoningTags = new Set(record.reasoningTags)
+  const reasoningTagIds = new Set(record.reasoningTags.map((tag) => tag.id))
 
   return (
     draft.caseId === record.id &&
@@ -158,7 +177,11 @@ export function isDraftForCurrentCase(
     draft.caseVersion === record.version &&
     (draft.initialOptionId === undefined || optionIds.has(draft.initialOptionId)) &&
     (draft.finalOptionId === undefined || optionIds.has(draft.finalOptionId)) &&
-    draft.reasoningTags.every((tag) => reasoningTags.has(tag)) &&
+    draft.reasoningTagIds.every(
+      (tagId) =>
+        reasoningTagIds.has(tagId) ||
+        Object.hasOwn(draft.legacyReasoningTagLabels ?? {}, tagId),
+    ) &&
     draft.openedReadingProfileIds.every((profileId) => readingIds.has(profileId))
   )
 }
@@ -197,8 +220,10 @@ export function recordCurrentCaseDraft(draft: CurrentCaseDraft) {
 
 function normalizeCompletedCurrentCaseResponse(
   value: unknown,
+  legacy: boolean,
 ): CompletedCurrentCaseResponse | null {
   if (!isRecord(value)) return null
+  const reasoning = normalizeReasoningTags(value, legacy)
   if (
     !isNonEmptyString(value.caseId) ||
     !isNonEmptyString(value.caseSlug) ||
@@ -208,10 +233,13 @@ function normalizeCompletedCurrentCaseResponse(
     !isCurrentCaseConfidence(value.initialConfidence) ||
     !isNonEmptyString(value.selectedOptionId) ||
     !isCurrentCaseConfidence(value.confidence) ||
-    !isStringArray(value.reasoningTags) ||
+    !reasoning ||
     !CURRENT_CASE_CHALLENGE_RESPONSE_IDS.includes(value.challengeResponseId as never) ||
     !isStringArray(value.openedReadingProfileIds) ||
-    !isIsoTimestamp(value.completedAt)
+    !isIsoTimestamp(value.completedAt) ||
+    (!legacy &&
+      (!isCompletionLocale(value.locale) ||
+        !isLocaleCopyVersion(value.localeCopyVersion)))
   ) {
     return null
   }
@@ -224,23 +252,36 @@ function normalizeCompletedCurrentCaseResponse(
     initialConfidence: value.initialConfidence,
     selectedOptionId: value.selectedOptionId,
     confidence: value.confidence,
-    reasoningTags: unique(value.reasoningTags),
+    reasoningTagIds: reasoning.ids,
+    ...(Object.keys(reasoning.legacyLabels).length > 0
+      ? { legacyReasoningTagLabels: reasoning.legacyLabels }
+      : {}),
     challengeResponseId:
       value.challengeResponseId as CompletedCurrentCaseResponse["challengeResponseId"],
     openedReadingProfileIds: unique(value.openedReadingProfileIds),
     completedAt: value.completedAt,
+    ...(legacy
+      ? LEGACY_ENGLISH_PROVENANCE
+      : {
+          locale: value.locale as CompletedCurrentCaseResponse["locale"],
+          localeCopyVersion: value.localeCopyVersion as number,
+        }),
   }
 }
 
-function normalizeCurrentCaseDraft(value: unknown): CurrentCaseDraft | null {
+function normalizeCurrentCaseDraft(
+  value: unknown,
+  legacy: boolean,
+): CurrentCaseDraft | null {
   if (!isRecord(value)) return null
+  const reasoning = normalizeReasoningTags(value, legacy)
   if (
     !isNonEmptyString(value.caseId) ||
     !isNonEmptyString(value.caseSlug) ||
     !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(value.caseSlug) ||
     !isPositiveInteger(value.caseVersion) ||
     !CURRENT_CASE_STEP_IDS.includes(value.step as never) ||
-    !isStringArray(value.reasoningTags) ||
+    !reasoning ||
     !isStringArray(value.openedReadingProfileIds) ||
     !isIsoTimestamp(value.updatedAt) ||
     (value.initialOptionId !== undefined && !isNonEmptyString(value.initialOptionId)) ||
@@ -262,7 +303,10 @@ function normalizeCurrentCaseDraft(value: unknown): CurrentCaseDraft | null {
     ...(value.initialConfidence
       ? { initialConfidence: value.initialConfidence }
       : {}),
-    reasoningTags: unique(value.reasoningTags),
+    reasoningTagIds: reasoning.ids,
+    ...(Object.keys(reasoning.legacyLabels).length > 0
+      ? { legacyReasoningTagLabels: reasoning.legacyLabels }
+      : {}),
     ...(value.challengeResponseId
       ? {
           challengeResponseId:
@@ -274,6 +318,35 @@ function normalizeCurrentCaseDraft(value: unknown): CurrentCaseDraft | null {
     ...(value.finalConfidence ? { finalConfidence: value.finalConfidence } : {}),
     updatedAt: value.updatedAt,
   }
+}
+
+function normalizeReasoningTags(
+  value: Record<string, unknown>,
+  legacy: boolean,
+): { ids: string[]; legacyLabels: Record<string, string> } | null {
+  const raw = legacy ? value.reasoningTags : value.reasoningTagIds
+  if (!Array.isArray(raw)) return null
+
+  const ids: string[] = []
+  const legacyLabels: Record<string, string> = {}
+  if (legacy) {
+    if (!raw.every(isNonEmptyString)) return null
+    for (const label of raw) {
+      const migrated = migrateLegacyReasoningTag(label)
+      ids.push(migrated.id)
+      if (migrated.legacyLabel) legacyLabels[migrated.id] = migrated.legacyLabel
+    }
+  } else {
+    if (!raw.every(isReasoningTagId)) return null
+    ids.push(...raw)
+    if (isRecord(value.legacyReasoningTagLabels)) {
+      for (const [id, label] of Object.entries(value.legacyReasoningTagLabels)) {
+        if (ids.includes(id) && isNonEmptyString(label)) legacyLabels[id] = label
+      }
+    }
+  }
+
+  return { ids: unique(ids), legacyLabels }
 }
 
 function deduplicateVersions(history: CompletedCurrentCaseResponse[]) {

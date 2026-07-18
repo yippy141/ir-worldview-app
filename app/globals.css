@@ -9726,3 +9726,46 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
   outline: 2px solid color-mix(in srgb, var(--accent) 70%, white 30%);
   outline-offset: 2px;
 }
+
+/* ── Locale-neutral shared Profile rendering ─────────────────────────────── */
+
+.locale-profile-share {
+  padding-block: clamp(2rem, 6vw, 4.5rem);
+}
+
+.locale-profile-dimensions {
+  margin: 0;
+  border-top: 1px solid var(--border);
+}
+
+.locale-profile-dimensions > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.72rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.locale-profile-dimensions dt {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.locale-profile-dimensions dd {
+  margin: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+@media (max-width: 480px) {
+  .locale-profile-share {
+    padding-block: 1.5rem 2.5rem;
+  }
+
+  .locale-profile-dimensions > div {
+    gap: 0.65rem;
+  }
+}

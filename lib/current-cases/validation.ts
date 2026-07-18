@@ -8,6 +8,7 @@ import {
   type CurrentCase,
   type CurrentCaseOption,
 } from "@/lib/current-cases/types"
+import { isReasoningTagId } from "@/lib/current-cases/reasoning-tags"
 
 export type CurrentCaseValidationCode =
   | "record.invalid"
@@ -248,9 +249,11 @@ export function validateCurrentCaseForPublication(
     )
   }
   if (
-    !isStringArray(value.reasoningTags, 3) ||
+    !isReasoningTagArray(value.reasoningTags) ||
     value.reasoningTags.length > 8 ||
-    new Set(value.reasoningTags.map(normalizeDifferentiator)).size !== value.reasoningTags.length
+    new Set(value.reasoningTags.map((tag) => tag.id)).size !== value.reasoningTags.length ||
+    new Set(value.reasoningTags.map((tag) => normalizeDifferentiator(tag.label))).size !==
+      value.reasoningTags.length
   ) {
     add(
       "field.invalid",
@@ -285,6 +288,21 @@ export function validateCurrentCaseForPublication(
   validateRevisit(value.revisit, sourceIds, add)
 
   return errors.length === 0 ? { ok: true, errors: [] } : { ok: false, errors }
+}
+
+function isReasoningTagArray(
+  value: unknown,
+): value is Array<{ id: string; label: string }> {
+  return (
+    Array.isArray(value) &&
+    value.length >= 3 &&
+    value.every(
+      (tag) =>
+        isRecord(tag) &&
+        isReasoningTagId(tag.id) &&
+        isNonEmptyString(tag.label),
+    )
+  )
 }
 
 /** Publication validation is the only public type guard: invalid records stay private. */

@@ -1,4 +1,12 @@
-import type { DimensionKey } from "@/lib/types"
+import type { AiArchetypeKey } from "@/lib/ai-governance-types"
+import type { ModuleSlug } from "@/lib/modules/types"
+import type { PerspectiveId } from "@/lib/perspectives/types"
+import type {
+  DimensionKey,
+  FamilyKey,
+  NormativeModifier,
+  StrategyModifier,
+} from "@/lib/types"
 
 export type LocalePageMetadata = {
   title: string
@@ -34,6 +42,24 @@ export type LocaleEditorialPage = {
   sections: readonly LocaleSection[]
 }
 
+export type ChineseProfileShareContent = {
+  familyLabels: Readonly<Record<FamilyKey, string>>
+  strategyLabels: Readonly<Record<StrategyModifier, string>>
+  normativeLabels: Readonly<Record<NormativeModifier, string>>
+  moduleLabels: Readonly<Record<ModuleSlug, string>>
+  aiLabels: Readonly<Record<AiArchetypeKey, string>>
+  perspectiveLabels: Readonly<Record<PerspectiveId, string>>
+  eyebrow: string
+  title: (familyLabel: string) => string
+  intro: string
+  foundationHeading: string
+  foundationSummary: (familyLabel: string, runnerUpLabel: string) => string
+  moduleSummary: string
+  aiTitle: string
+  aiSummary: string
+  provenanceNotice: string
+}
+
 export type ChineseShellContent = {
   home: LocaleEditorialPage
   about: LocaleEditorialPage
@@ -52,6 +78,7 @@ export type ChineseShellContent = {
     emptyTitle: string
     emptyBody: string
   }
+  profileShare: ChineseProfileShareContent
   unavailable: {
     metadata: LocalePageMetadata
     eyebrow: string

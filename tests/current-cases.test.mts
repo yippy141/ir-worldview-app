@@ -58,7 +58,11 @@ function reviewedCase(): CurrentCase {
       { id: "c4", text: "Claim four." },
     ],
     knownUncertainties: ["The counterparty's implementation threshold remains uncertain."],
-    reasoningTags: ["Capability", "Institutions", "Escalation"],
+    reasoningTags: [
+      { id: "capability", label: "Capability" },
+      { id: "institutions", label: "Institutions" },
+      { id: "escalation", label: "Escalation" },
+    ],
     decision: {
       prompt: "Which course should the actor take?",
       options: [
@@ -196,6 +200,8 @@ const foundation: FoundationSnapshot = {
   normativeModifier: "Conditional Solidarist",
   keyDrivers: [],
   strongLenses: [],
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
 const response: CompletedCurrentCaseResponse = {
@@ -206,10 +212,12 @@ const response: CompletedCurrentCaseResponse = {
   initialConfidence: 2,
   selectedOptionId: "coordinate",
   confidence: 3,
-  reasoningTags: ["coalition durability"],
+  reasoningTagIds: ["institutions"],
   challengeResponseId: "priority",
   openedReadingProfileIds: ["broad-spectrum-bridge-builder"],
   completedAt: "2026-07-17T10:00:00.000Z",
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
 test("the production catalog publishes the three approved records and resolves the launch case", () => {

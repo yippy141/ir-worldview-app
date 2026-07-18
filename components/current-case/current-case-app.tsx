@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { useLocale } from "next-intl"
 import {
   useEffect,
   useMemo,
@@ -34,6 +35,8 @@ import type {
   CurrentCaseStepId,
 } from "@/lib/current-cases/types"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
+import { completionProvenance } from "@/lib/locale-provenance"
+import type { Locale } from "@/i18n/routing"
 import styles from "./current-case.module.css"
 
 const FLOW_STEPS: Array<{ id: CurrentCaseStepId; label: string }> = [
@@ -47,6 +50,7 @@ const FLOW_STEPS: Array<{ id: CurrentCaseStepId; label: string }> = [
 ]
 
 export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) {
+  const locale = useLocale() as Locale
   const [draft, setDraft] = useState<CurrentCaseDraft>(() => initialDraft(record))
   const [completed, setCompleted] = useState<CompletedCurrentCaseResponse | null>(null)
   const [foundation, setFoundation] = useState<FoundationSnapshot | null>(null)
@@ -63,7 +67,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
     const store = loadCurrentCaseResponseStore()
     const savedDraft = getCurrentCaseDraft(store, record.id)
     const savedResponse = getLatestCurrentCaseResponse(store, record.id)
-    const savedFoundation = loadProfileStore().foundation
+    const savedFoundation = loadProfileStore(locale).foundation
     let cancelled = false
 
     queueMicrotask(() => {
@@ -83,7 +87,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
     return () => {
       cancelled = true
     }
-  }, [record])
+  }, [locale, record])
 
   useEffect(() => {
     if (!ready || draft.step === "result") return
@@ -158,10 +162,14 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       initialConfidence: draft.initialConfidence,
       selectedOptionId: draft.finalOptionId,
       confidence: draft.finalConfidence,
-      reasoningTags: draft.reasoningTags,
+      reasoningTagIds: draft.reasoningTagIds,
+      ...(draft.legacyReasoningTagLabels
+        ? { legacyReasoningTagLabels: draft.legacyReasoningTagLabels }
+        : {}),
       challengeResponseId: draft.challengeResponseId,
       openedReadingProfileIds: draft.openedReadingProfileIds,
       completedAt: new Date().toISOString(),
+      ...completionProvenance("currentCase", locale),
     }
 
     if (!recordCompletedCurrentCaseResponse(response)) setStorageError(true)
@@ -305,21 +313,23 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             <legend className="sr-only">Optional reasoning tags</legend>
             <div className={styles.tags}>
               {record.reasoningTags.map((tag) => {
-                const checked = draft.reasoningTags.includes(tag)
+                const checked = draft.reasoningTagIds.includes(tag.id)
                 return (
-                  <label key={tag} className={styles.tag}>
+                  <label key={tag.id} className={styles.tag}>
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() =>
                         updateDraft({
-                          reasoningTags: checked
-                            ? draft.reasoningTags.filter((candidate) => candidate !== tag)
-                            : [...draft.reasoningTags, tag],
+                          reasoningTagIds: checked
+                            ? draft.reasoningTagIds.filter(
+                                (candidate) => candidate !== tag.id,
+                              )
+                            : [...draft.reasoningTagIds, tag.id],
                         })
                       }
                     />
-                    <span>{tag}</span>
+                    <span>{tag.label}</span>
                   </label>
                 )
               })}
@@ -491,10 +501,10 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             </div>
             <div>
               <h3>Reasons you marked</h3>
-              {completed.reasoningTags.length > 0 ? (
+              {completed.reasoningTagIds.length > 0 ? (
                 <ul className={styles.resultTags} aria-label="Saved reasoning tags">
-                  {completed.reasoningTags.map((tag) => (
-                    <li key={tag}>{tag}</li>
+                  {completed.reasoningTagIds.map((tagId) => (
+                    <li key={tagId}>{reasoningTagLabel(record, completed, tagId)}</li>
                   ))}
                 </ul>
               ) : (
@@ -677,7 +687,7 @@ function initialDraft(record: CurrentCasePublicRecord): CurrentCaseDraft {
     caseSlug: record.slug,
     caseVersion: record.version,
     step: "brief",
-    reasoningTags: [],
+    reasoningTagIds: [],
     openedReadingProfileIds: [],
     updatedAt: "1970-01-01T00:00:00.000Z",
   }
@@ -694,13 +704,26 @@ function draftFromResponse(
     step: "result",
     initialOptionId: response.initialOptionId,
     initialConfidence: response.initialConfidence,
-    reasoningTags: response.reasoningTags,
+    reasoningTagIds: response.reasoningTagIds,
+    ...(response.legacyReasoningTagLabels
+      ? { legacyReasoningTagLabels: response.legacyReasoningTagLabels }
+      : {}),
     challengeResponseId: response.challengeResponseId,
     openedReadingProfileIds: response.openedReadingProfileIds,
     finalOptionId: response.selectedOptionId,
     finalConfidence: response.confidence,
     updatedAt: response.completedAt,
   }
+}
+
+function reasoningTagLabel(
+  record: CurrentCasePublicRecord,
+  response: CompletedCurrentCaseResponse,
+  tagId: string,
+) {
+  return record.reasoningTags.find((tag) => tag.id === tagId)?.label ??
+    response.legacyReasoningTagLabels?.[tagId] ??
+    tagId
 }
 
 function connectionLabel(kind: "consistent" | "tension" | "not-covered" | "unavailable") {

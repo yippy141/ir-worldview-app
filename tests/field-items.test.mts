@@ -46,9 +46,13 @@ const foundationSnapshot: FoundationSnapshot = {
   normativeModifier: "Pluralist",
   keyDrivers: [],
   strongLenses: [],
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
 const runSnapshot: PerspectiveRunSnapshot = {
+  locale: "en",
+  localeCopyVersion: 1,
   id: "run-1",
   timestamp: 1720000001000,
   perspectiveId: "exposed-ally",
@@ -58,6 +62,7 @@ const runSnapshot: PerspectiveRunSnapshot = {
   baselineDeltas: { securityCompetition: 0.8 },
   strongestShiftKeys: ["securityCompetition"],
   resultPath: "/perspectives/exposed-ally/result/abc",
+  payload: "abc",
 }
 
 test("baseline field item projects through the shared projection", () => {

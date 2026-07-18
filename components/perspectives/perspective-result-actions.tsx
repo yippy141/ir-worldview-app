@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useLocale } from "next-intl"
 import {
   buildPerspectiveRunSnapshot,
   perspectiveBaselineScoresMatch,
@@ -12,10 +13,13 @@ import {
   removePerspectiveRun,
   savePerspectiveRunSnapshot,
 } from "@/lib/profile-store"
+import { completionProvenance } from "@/lib/locale-provenance"
+import type { Locale } from "@/i18n/routing"
 
 type Props = {
   result: PerspectiveRunResult
   resultPath: string
+  payload: string
 }
 
 type SavedState =
@@ -33,21 +37,22 @@ function makeRunId(): string {
   return `run-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`
 }
 
-export function PerspectiveResultActions({ result, resultPath }: Props) {
+export function PerspectiveResultActions({ result, resultPath, payload }: Props) {
+  const locale = useLocale() as Locale
   const [saved, setSaved] = useState<SavedState>("loading")
 
   useEffect(() => {
     const load = () => {
-      setSaved(getSavedState(result, resultPath))
+      setSaved(getSavedState(result, resultPath, locale))
     }
 
     load()
     window.addEventListener("storage", load)
     return () => window.removeEventListener("storage", load)
-  }, [result, resultPath])
+  }, [locale, result, resultPath])
 
   function handleSave() {
-    const currentState = getSavedState(result, resultPath)
+    const currentState = getSavedState(result, resultPath, locale)
     if (currentState !== "eligible") {
       setSaved(currentState)
       return
@@ -58,6 +63,8 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
         id: makeRunId(),
         timestamp: Date.now(),
         resultPath,
+        payload,
+        ...completionProvenance("perspective", locale),
       })
       if (!savePerspectiveRunSnapshot(snapshot)) {
         setSaved("storage-error")
@@ -71,7 +78,7 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
 
   function handleRemove() {
     try {
-      const store = loadProfileStore()
+      const store = loadProfileStore(locale)
       let removed = true
       for (const run of store.perspectiveRuns) {
         if (run.resultPath === resultPath) {
@@ -82,7 +89,7 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
         setSaved("storage-error")
         return
       }
-      setSaved(getSavedState(result, resultPath))
+      setSaved(getSavedState(result, resultPath, locale))
     } catch {
       setSaved("storage-error")
     }
@@ -129,9 +136,13 @@ export function PerspectiveResultActions({ result, resultPath }: Props) {
   )
 }
 
-function getSavedState(result: PerspectiveRunResult, resultPath: string): SavedState {
+function getSavedState(
+  result: PerspectiveRunResult,
+  resultPath: string,
+  locale: Locale,
+): SavedState {
   try {
-    const store = loadProfileStore()
+    const store = loadProfileStore(locale)
     if (store.perspectiveRuns.some((run) => run.resultPath === resultPath)) {
       return "saved"
     }

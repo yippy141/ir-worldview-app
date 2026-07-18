@@ -1,4 +1,6 @@
 import type { DimensionKey } from "@/lib/types"
+import type { Locale } from "@/i18n/routing"
+import type { CurrentCaseReasoningTag } from "@/lib/current-cases/reasoning-tags"
 
 export const CURRENT_CASE_SCHEMA_VERSION = 1 as const
 
@@ -167,7 +169,7 @@ export type CurrentCase = {
   perspectives: CurrentCasePerspectiveContext
   factualClaims: CurrentCaseClaim[]
   knownUncertainties: string[]
-  reasoningTags: string[]
+  reasoningTags: CurrentCaseReasoningTag[]
   decision: CurrentCaseDecision
   worldviewReadings: CurrentCaseWorldviewReading[]
   assumptionChallenge: CurrentCaseAssumptionChallenge
@@ -182,7 +184,7 @@ export type CurrentCase = {
   revisit?: CurrentCaseRevisit
 }
 
-export const CURRENT_CASE_RESPONSE_STORE_VERSION = 1 as const
+export const CURRENT_CASE_RESPONSE_STORE_VERSION = 2 as const
 export { CURRENT_CASE_RESPONSE_STORAGE_KEY } from "@/lib/storage-keys"
 
 export type CurrentCaseConfidence = 1 | 2 | 3 | 4 | 5
@@ -218,7 +220,8 @@ export type CurrentCaseDraft = {
   step: CurrentCaseStepId
   initialOptionId?: string
   initialConfidence?: CurrentCaseConfidence
-  reasoningTags: string[]
+  reasoningTagIds: string[]
+  legacyReasoningTagLabels?: Record<string, string>
   challengeResponseId?: CurrentCaseChallengeResponseId
   openedReadingProfileIds: string[]
   finalOptionId?: string
@@ -236,10 +239,13 @@ export type CompletedCurrentCaseResponse = {
   selectedOptionId: string
   /** The reader's final confidence after the assumption challenge. */
   confidence: CurrentCaseConfidence
-  reasoningTags: string[]
+  reasoningTagIds: string[]
+  legacyReasoningTagLabels?: Record<string, string>
   challengeResponseId: CurrentCaseChallengeResponseId
   openedReadingProfileIds: string[]
   completedAt: string
+  locale: Locale
+  localeCopyVersion: number
 }
 
 export type CurrentCaseResponseStore = {

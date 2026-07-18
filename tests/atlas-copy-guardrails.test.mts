@@ -480,7 +480,10 @@ function currentCasePublicCopy(record: CurrentCase): Array<[string, string]> {
       [`counterparty ${index + 1} perspective`, entry.perspective],
     ] as Array<[string, string]>),
     ...record.knownUncertainties.map((copy, index) => [`uncertainty ${index + 1}`, copy] as [string, string]),
-    ...record.reasoningTags.map((copy, index) => [`reasoning tag ${index + 1}`, copy] as [string, string]),
+    ...record.reasoningTags.map((tag, index) => [
+      `reasoning tag ${index + 1}`,
+      tag.label,
+    ] as [string, string]),
     ["decision prompt", record.decision.prompt],
     ...record.decision.options.flatMap((option, index) => [
       [`option ${index + 1} label`, option.label],
@@ -575,7 +578,7 @@ function makeAnalytics(
 
 function buildProfileFixture(includeModules = false): ProfileStore {
   const profile: ProfileStore = {
-    v: 4,
+    v: 5,
     foundation: {
       timestamp: 1,
       payload: "payload",
@@ -608,6 +611,8 @@ function buildProfileFixture(includeModules = false): ProfileStore {
       normativeModifier: includeModules ? "Pluralist" : "Conditional Solidarist",
       keyDrivers: [],
       strongLenses: [],
+      locale: "en",
+      localeCopyVersion: 1,
     },
     foundationHistory: [],
     modules: {},
@@ -624,6 +629,10 @@ function buildProfileFixture(includeModules = false): ProfileStore {
   profile.modules.security = {
     timestamp: 2,
     slug: "security",
+    instrumentVersion: 2,
+    locale: "en",
+    localeCopyVersion: 1,
+    laneScores: {},
     title: "Security",
     shorthand: "Security Pressure",
     mode: "standard",
@@ -663,6 +672,10 @@ function buildProfileFixture(includeModules = false): ProfileStore {
   profile.modules.technology = {
     timestamp: 3,
     slug: "technology",
+    instrumentVersion: 2,
+    locale: "en",
+    localeCopyVersion: 1,
+    laneScores: {},
     title: "Technology",
     shorthand: "Tech Power",
     mode: "standard",

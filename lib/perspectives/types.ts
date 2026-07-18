@@ -1,4 +1,5 @@
 import type { DimensionKey, DimensionScores } from "@/lib/types"
+import type { CompletionProvenance } from "@/lib/locale-provenance"
 
 export type PerspectiveId =
   | "incumbent-great-power"
@@ -66,7 +67,7 @@ export type PerspectiveRunResult = {
  * Stored Perspective Run contract from the V16 Perspective Field spec.
  * Keep this shape stable because ProfileStore migrations and profile shares use it.
  */
-export type PerspectiveRunSnapshot = {
+export type PerspectiveRunSnapshot = CompletionProvenance & {
   id: string
   timestamp: number
   perspectiveId: string
@@ -76,6 +77,12 @@ export type PerspectiveRunSnapshot = {
   baselineDeltas: Partial<Record<DimensionKey, number>>
   strongestShiftKeys: DimensionKey[]
   resultPath: string
+  /** Canonical Perspective share token. */
+  payload?: string
+  legacyEnglishCopy?: {
+    perspectiveLabel: string
+    resultPath: string
+  }
 }
 
 export type PerspectiveDimensionTuple = [

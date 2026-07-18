@@ -1,9 +1,9 @@
-import {
+import type {
   AiLikertQuestion,
   AiQuizMode,
   AiScenarioOption,
   AiScenarioQuestion,
-} from "./ai-governance-types"
+} from "@/lib/ai-governance-types"
 
 export const AI_GOVERNANCE_SCHEMA_VERSION = 1
 export { AI_GOVERNANCE_STORAGE_KEY } from "@/lib/storage-keys"

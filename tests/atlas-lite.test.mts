@@ -137,12 +137,18 @@ test("true-tension profiles map to the cross-pressured atlas pattern", () => {
     normativeModifier: "Pluralist",
     keyDrivers: [],
     strongLenses: [],
+    locale: "en",
+    localeCopyVersion: 1,
   }
 
   const moduleSnapshots: ModuleSnapshot[] = [
     {
       timestamp: 2,
       slug: "security",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Security",
       shorthand: "Security Pressure",
       mode: "standard",
@@ -171,6 +177,10 @@ test("true-tension profiles map to the cross-pressured atlas pattern", () => {
     {
       timestamp: 3,
       slug: "technology",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Technology",
       shorthand: "Tech Power",
       mode: "standard",

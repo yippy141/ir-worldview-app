@@ -85,26 +85,24 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V19.2 Simplified Chinese architecture
+## Current sprint: V19.3 Locale-neutral persistence
 
-- English public URLs remain unprefixed.
-- Simplified Chinese uses /zh and internal locale zh-Hans.
-- Do not auto-detect locale or set a locale cookie.
-- Preserve route slugs, encoded payloads, query strings, and hash fragments.
-- API routes remain outside locale routing.
-- Use next-intl with Next 16 proxy.ts.
-- Long analytical prose belongs in typed locale content. Messages JSON is limited
-  to short reusable UI strings.
-- No CJK webfont payload. Use system Chinese font stacks and test line height,
-  wrapping, tracking, and punctuation.
-- Do not expose a Chinese route until its copy is approved or it has a clear,
-  specific status notice.
-- Do not machine-translate scored instruments in this sprint.
-- Preserve scoring, payloads, ProfileStore, Current Case records, privacy controls,
-  research tombstones, analytics boundaries, and legacy URLs.
-- Add canonical and alternate metadata, sitemap language alternates, and locale-aware
-  private/no-store headers for share routes.
-- Run the full verification and Playwright suites in English and Chinese.
+- ProfileStore V5 persists canonical identifiers, scores, payloads, and completion
+  provenance; current display copy is derived when records are read.
+- Migrate V1-V4 without discarding meaningful saved copy. Quarantine copy that
+  cannot be regenerated in an explicit legacy English fallback.
+- Profile Share V3 contains no embedded analytical prose. Preserve V1/V2 decoding
+  and legacy links.
+- Store stable Current Case reasoning-tag IDs and retain unknown retired labels
+  behind deterministic legacy IDs.
+- Record locale and locale-copy version for completed instruments.
+- Render one canonical shared payload in English or Simplified Chinese according
+  to the route, while preserving V19.2 URL and privacy behavior.
+- Never treat completions from different locales or copy versions as
+  research-equivalent observations.
+- Do not change scoring or duplicate scoring definitions and structural catalogs.
+- Maintain frozen ProfileStore V1-V5 and Profile Share V1-V3 fixtures and run the
+  full verification and Playwright suites.
 
 ## End-of-sprint discipline
 

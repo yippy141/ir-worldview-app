@@ -5,8 +5,9 @@ import {
   getAiCoreQuestions,
   getAiScenarioOrder,
   getScenarioOptions,
-} from "./ai-governance-schema"
-import {
+} from "@/lib/ai-governance-schema"
+import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
+import type {
   AiAnswers,
   AiArchetypeKey,
   AiAxisKey,
@@ -16,10 +17,9 @@ import {
   AiResult,
   AiScenarioQuestion,
   GeopoliticsModifier,
-  isAiRankedChoiceAnswer,
   PaceModifier,
   RiskLens,
-} from "./ai-governance-types"
+} from "@/lib/ai-governance-types"
 
 const AXES = Object.keys(aiAxisLabels) as AiAxisKey[]
 
