@@ -74,6 +74,12 @@
   cursor: pointer;
 }
 
+.utilityButton {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
 .utilityButton:hover,
 .textButton:hover {
   text-decoration-color: currentColor;

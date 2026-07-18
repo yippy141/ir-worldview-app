@@ -20,7 +20,7 @@ import { AiGovernancePayoffSections } from "@/components/results/ai-governance-p
 import { AiGovernanceProfileSections } from "@/components/results/ai-governance-profile-sections"
 import { AiGovernanceShareActions } from "@/components/results/ai-governance-share-actions"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
-import { ResearchOptIn } from "@/components/research/research-opt-in"
+import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { buildAiGovernancePayoff } from "@/lib/results/ai-governance-payoff"
 import type { Metadata } from "next"
 
@@ -258,8 +258,8 @@ export default async function AiResultPage(
           </div>
 
           <p>
-            <Link href={`/feedback?module=ai&result=${payload}`} style={{ color: "var(--accent)" }}>
-              Share feedback on this module →
+            <Link href="/feedback" style={{ color: "var(--accent)" }}>
+              Report a factual or interface problem →
             </Link>
           </p>
 
@@ -271,7 +271,7 @@ export default async function AiResultPage(
             <Link href="/profile" className="cta-secondary">Profile</Link>
           </div>
 
-          <ResearchOptIn instrumentLabel="AI Governance Compass" />
+          <ResearchStatusNotice instrumentLabel="AI Governance Compass" />
 
           <AiGovernanceShareActions
             payload={payload}

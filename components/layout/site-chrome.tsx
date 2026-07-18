@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
@@ -329,6 +330,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                   className="footer-link"
                   target={link.href.startsWith("mailto:") ? undefined : "_blank"}
                   rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                  onClick={() => {
+                    if (link.label === "Substack") trackProductEvent("newsletter_clicked")
+                  }}
                 >
                   {link.label}
                 </a>

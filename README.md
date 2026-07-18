@@ -102,19 +102,11 @@ Variables for Production and any Preview/Development environments that should
 render the live map. Add `NEXT_PUBLIC_MAPBOX_STYLE` there when using a custom
 style, then redeploy. Never place the token in source files.
 
-### Current Case challenge encryption
+### Current Case invitations
 
-Challenge links require a server-only `CURRENT_CASE_CHALLENGE_SECRET`. Generate a
-32-byte base64url secret and keep it in `.env.local` or the deployment platform's
-encrypted environment settings:
-
-```bash
-node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
-```
-
-Never prefix this variable with `NEXT_PUBLIC_` or commit its value. Rotating it
-immediately invalidates every unexpired challenge link. Challenge links otherwise
-expire after 30 days and are not stored in a database.
+V19 shares ordinary case-only invitations. The former encrypted, answer-bearing
+friend challenge is retired; its legacy routes return `410` without reading request
+bodies, and no challenge encryption secret is used.
 
 Set the server-only `SITE_URL` to the canonical HTTPS origin in production so
 Open Graph image and canonical URLs use the public domain. On Vercel, the app falls
@@ -154,6 +146,8 @@ npx playwright test
 
 Before a production release, complete
 [`docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md`](docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md).
+The V19 event catalog, privacy boundary, data-flow diagram, and aggregate funnel queries live in
+[`docs/analytics/V19_PRODUCT_MEASUREMENT.md`](docs/analytics/V19_PRODUCT_MEASUREMENT.md).
 
 ## Repository notes
 

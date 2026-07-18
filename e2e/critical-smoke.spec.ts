@@ -1,7 +1,10 @@
 import { expect, test, type Page } from "@playwright/test"
 import { getLatestPublishedCurrentCase } from "../lib/current-cases/catalog"
-import { CURRENT_CASE_CHALLENGE_LIFETIME_SECONDS } from "../lib/current-cases/challenge"
-import { createCurrentCaseChallengeToken } from "../lib/current-cases/challenge-token.server"
+import {
+  LOCAL_HISTORY_STORAGE_KEYS,
+  SESSION_HISTORY_STORAGE_KEYS,
+} from "../lib/local-data"
+import { ANALYTICS_OPT_OUT_STORAGE_KEY } from "../lib/storage-keys"
 
 async function answerCurrentFoundationQuestion(page: Page) {
   const choiceCards = page.locator("button.option-card")
@@ -112,91 +115,42 @@ test("Current Case resumes, records movement, and appears in My Profile", async 
   await expect(page.getByText(/You moved from/)).toBeVisible()
 })
 
-test("Current Case creates a challenge only after explicit reading selection", async ({ page }) => {
+test("Current Case shares a case-only invitation without an answer-bearing API", async ({ page }) => {
+  let challengeApiCalls = 0
+  await page.route("**/api/current-cases/challenge**", async (route) => {
+    challengeApiCalls += 1
+    await route.fulfill({ status: 500, body: "legacy challenge API must not be called" })
+  })
+
   await page.goto("/current")
   await completeLoadedCurrentCase(page, "o2")
 
   await expect(page.getByRole("button", { name: "Share my reading" })).toHaveCount(0)
-  await expect(page.getByRole("button", { name: "Challenge a friend" })).toHaveCount(0)
-  await page.getByRole("checkbox", { name: /Include my final choice/ }).check()
-  const challengeResponse = page.waitForResponse(
-    (response) =>
-      response.url().endsWith("/api/current-cases/challenge") &&
-      response.request().method() === "POST",
-  )
-  await page.getByRole("button", { name: "Challenge a friend" }).click()
+  await page.getByRole("button", { name: "Invite someone to this case" }).click()
+  await expect(page.getByText("Case invitation copied.")).toBeVisible()
+  expect(challengeApiCalls).toBe(0)
 
-  await expect(page.getByText("Challenge link copied.")).toBeVisible()
-  const body = await (await challengeResponse).json()
-  expect(body.ok).toBe(true)
-  expect(body.token).toMatch(/^cc1\./)
+  await page.getByRole("checkbox", { name: /Include my final choice/ }).check()
+  await expect(page.getByRole("button", { name: "Share my reading" })).toBeVisible()
+  expect(challengeApiCalls).toBe(0)
 })
 
-test("a friend completes the case before the inviter answer is revealed", async ({ page }) => {
+test("legacy answer-bearing challenge links recover to the ordinary case", async ({ page }) => {
   const record = getLatestPublishedCurrentCase()
   expect(record).not.toBeNull()
   if (!record) return
-  const secret = process.env.CURRENT_CASE_CHALLENGE_SECRET
-  expect(secret).toBeTruthy()
-  const created = createCurrentCaseChallengeToken(
-    {
-      caseId: record.id,
-      inviterFinalOptionId: "o2",
-      inviterConfidence: 4,
-    },
-    { secret },
-  )
-  expect(created.ok).toBe(true)
-  if (!created.ok) return
 
   const navigationRequests: string[] = []
   page.on("request", (request) => {
     if (request.isNavigationRequest()) navigationRequests.push(request.url())
   })
-  await page.goto(`/cases/${record.slug}/challenge#${created.token}`)
-  expect(navigationRequests.some((url) => url.includes(created.token))).toBe(false)
+  await page.goto(`/cases/${record.slug}/challenge#legacy-answer-bearing-token`)
+  expect(navigationRequests.some((url) => url.includes("legacy-answer-bearing-token"))).toBe(false)
   await expect(
-    page.getByRole("heading", { name: "Make your call before seeing theirs" }),
-  ).toBeVisible()
-  await expect(page.getByText("Inviter’s final judgment")).toHaveCount(0)
-
-  await completeLoadedCurrentCase(page, "o1")
-
-  await expect(page.getByText("Inviter’s final judgment")).toBeVisible()
-  const inviterRow = page.locator("div").filter({
-    has: page.getByText("Inviter’s final judgment", { exact: true }),
-  }).last()
-  await expect(inviterRow).toContainText(record.decision.options[1].label)
-  await expect(inviterRow).toContainText("Confidence 4/5")
-})
-
-test("an expired Current Case challenge recovers to the ordinary case", async ({ page }) => {
-  const record = getLatestPublishedCurrentCase()
-  expect(record).not.toBeNull()
-  if (!record) return
-  const secret = process.env.CURRENT_CASE_CHALLENGE_SECRET
-  expect(secret).toBeTruthy()
-  const now = new Date()
-  const created = createCurrentCaseChallengeToken(
-    {
-      caseId: record.id,
-      inviterFinalOptionId: "o2",
-      inviterConfidence: 4,
-    },
-    {
-      secret,
-      now: new Date(now.valueOf() - (CURRENT_CASE_CHALLENGE_LIFETIME_SECONDS + 60) * 1000),
-    },
-  )
-  expect(created.ok).toBe(true)
-  if (!created.ok) return
-
-  await page.goto(`/cases/${record.slug}/challenge#${created.token}`)
-  await expect(
-    page.getByRole("heading", { name: "This challenge link has expired." }),
+    page.getByRole("heading", { name: "Answer-bearing challenge links have been retired." }),
   ).toBeVisible()
   await expect(
-    page.getByRole("link", { name: "Open the case without the challenge" }),
+    page.getByRole("link", { name: "Open the ordinary case" }),
   ).toHaveAttribute("href", `/cases/${record.slug}`)
 })
 
@@ -261,6 +215,111 @@ test("invalid Foundation result shows a plain recovery path", async ({ page }) =
     page.getByRole("heading", { name: "This link could not be decoded." }),
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "Take the Foundation" })).toBeVisible()
+})
+
+test("coarse measurement uses the allowlist and honors local opt-out", async ({ page }) => {
+  const record = getLatestPublishedCurrentCase()
+  expect(record).not.toBeNull()
+  if (!record) return
+  const events: Array<{
+    name: string
+    properties: Record<string, unknown>
+    referer?: string
+  }> = []
+
+  await page.route("**/api/analytics/event", async (route) => {
+    const request = route.request()
+    const body = request.postDataJSON() as {
+      name: string
+      properties: Record<string, unknown>
+    }
+    events.push({
+      ...body,
+      referer: request.headers().referer,
+    })
+    await route.fulfill({
+      status: 202,
+      contentType: "application/json",
+      body: JSON.stringify({ ok: true }),
+    })
+  })
+
+  await page.goto(`/cases/${record.slug}`)
+  await expect
+    .poll(() => events.some((event) => event.name === "current_case_viewed"))
+    .toBe(true)
+
+  const viewed = events.find((event) => event.name === "current_case_viewed")
+  expect(viewed).toBeDefined()
+  expect(Object.keys(viewed?.properties ?? {}).sort()).toEqual([
+    "caseId",
+    "deviceClass",
+    "referrerCategory",
+    "returningAgeBucket",
+    "routeCategory",
+  ])
+  expect(viewed?.referer).toBeUndefined()
+  await expect(page.locator('script[src*="insights"]')).toHaveCount(0)
+
+  await page.goto("/privacy")
+  await page.getByRole("button", { name: "Opt out on this browser" }).click()
+  await expect(page.getByText(/Coarse product measurement is off/)).toBeVisible()
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        window.localStorage.getItem("ir-worldview-analytics-opt-out-v1"),
+      ),
+    )
+    .toBe("true")
+
+  events.length = 0
+  await page.goto(`/cases/${record.slug}`)
+  await expect(page.getByRole("heading", { name: "The case" })).toBeVisible()
+  expect(
+    await page.evaluate(() =>
+      window.localStorage.getItem("ir-worldview-analytics-opt-out-v1"),
+    ),
+  ).toBe("true")
+  await page.waitForTimeout(250)
+  expect(events).toEqual([])
+})
+
+test("privacy control deletes app history while preserving analytics opt-out", async ({ page }) => {
+  await page.goto("/privacy")
+  await page.evaluate(
+    ({ localKeys, sessionKeys, optOutKey }) => {
+      for (const key of localKeys) window.localStorage.setItem(key, "sensitive-local-state")
+      for (const key of sessionKeys) window.sessionStorage.setItem(key, "sensitive-session-state")
+      window.localStorage.setItem(optOutKey, "true")
+    },
+    {
+      localKeys: LOCAL_HISTORY_STORAGE_KEYS,
+      sessionKeys: SESSION_HISTORY_STORAGE_KEYS,
+      optOutKey: ANALYTICS_OPT_OUT_STORAGE_KEY,
+    },
+  )
+
+  await page.getByRole("button", { name: "Delete local history" }).click()
+  await expect(page.getByRole("button", { name: "Delete local history now" })).toBeVisible()
+  await page.getByRole("button", { name: "Delete local history now" }).click()
+  await expect(page.getByText("Local results and drafts were deleted.")).toBeVisible()
+
+  const stored = await page.evaluate(
+    ({ localKeys, sessionKeys, optOutKey }) => ({
+      localValues: localKeys.map((key) => window.localStorage.getItem(key)),
+      sessionValues: sessionKeys.map((key) => window.sessionStorage.getItem(key)),
+      optOut: window.localStorage.getItem(optOutKey),
+    }),
+    {
+      localKeys: LOCAL_HISTORY_STORAGE_KEYS,
+      sessionKeys: SESSION_HISTORY_STORAGE_KEYS,
+      optOutKey: ANALYTICS_OPT_OUT_STORAGE_KEY,
+    },
+  )
+
+  expect(stored.localValues.every((value) => value === null)).toBe(true)
+  expect(stored.sessionValues.every((value) => value === null)).toBe(true)
+  expect(stored.optOut).toBe("true")
 })
 
 test.describe("390px viewport", () => {

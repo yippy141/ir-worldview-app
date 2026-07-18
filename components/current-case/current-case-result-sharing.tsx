@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useSyncExternalStore } from "react"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { copyText } from "@/lib/clipboard"
 import { CURRENT_CASE_CONFIDENCE_LABELS } from "@/lib/current-cases/presentation"
 import type {
@@ -19,10 +20,6 @@ type CurrentCaseResultSharingProps = {
   selectedOption: CurrentCaseOption
 }
 
-type ChallengeCreationResponse =
-  | { ok: true; token: string; expiresAt: number }
-  | { ok: false; error: string }
-
 const subscribeToNothing = () => () => {}
 
 export function CurrentCaseResultSharing({
@@ -31,10 +28,8 @@ export function CurrentCaseResultSharing({
   selectedOption,
 }: CurrentCaseResultSharingProps) {
   const [readingSelected, setReadingSelected] = useState(false)
-  const [challengeUrl, setChallengeUrl] = useState("")
   const [status, setStatus] = useState("")
   const [error, setError] = useState("")
-  const [creatingChallenge, setCreatingChallenge] = useState(false)
   const canNativeShare = useSyncExternalStore(
     subscribeToNothing,
     () => typeof navigator.share === "function",
@@ -54,6 +49,7 @@ export function CurrentCaseResultSharing({
     const copied = await copyText(`${readingText()}\n${caseUrl()}`)
     setError(copied ? "" : "Automatic copy is unavailable. Use your browser’s share controls.")
     setStatus(copied ? "Reading and case link copied." : "")
+    if (copied) trackProductEvent("case_shared", { caseId: record.id })
   }
 
   async function shareReading() {
@@ -71,75 +67,35 @@ export function CurrentCaseResultSharing({
       })
       setError("")
       setStatus("Reading shared.")
+      trackProductEvent("case_shared", { caseId: record.id })
     } catch (shareError) {
       if (shareError instanceof DOMException && shareError.name === "AbortError") return
       await copyReading()
     }
   }
 
-  async function createChallenge() {
-    if (!readingSelected || creatingChallenge) return
-    setCreatingChallenge(true)
-    setError("")
-    setStatus("")
-
-    try {
-      let nextChallengeUrl = challengeUrl
-      if (!nextChallengeUrl) {
-        const responseFromServer = await fetch("/api/current-cases/challenge", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            caseId: record.id,
-            optionId: response.selectedOptionId,
-            confidence: response.confidence,
-          }),
+  async function inviteToCase() {
+    const invitation = "Make your own judgment on this Current Case, then compare with me directly."
+    if (canNativeShare) {
+      try {
+        await navigator.share({
+          title: record.title,
+          text: invitation,
+          url: caseUrl(),
         })
-        const body = (await responseFromServer.json()) as ChallengeCreationResponse
-        if (!responseFromServer.ok || !body.ok) {
-          throw new Error(body.ok ? "Challenge link could not be created." : body.error)
-        }
-        const challengeLocation = new URL(
-          `/cases/${record.slug}/challenge`,
-          window.location.origin,
-        )
-        challengeLocation.hash = body.token
-        nextChallengeUrl = challengeLocation.toString()
-        setChallengeUrl(nextChallengeUrl)
+        setError("")
+        setStatus("Case invitation shared.")
+        trackProductEvent("case_shared", { caseId: record.id })
+        return
+      } catch (shareError) {
+        if (shareError instanceof DOMException && shareError.name === "AbortError") return
       }
-
-      if (canNativeShare) {
-        try {
-          await navigator.share({
-            title: `Challenge: ${record.title}`,
-            text: "Make your own judgment before seeing mine.",
-            url: nextChallengeUrl,
-          })
-          setStatus("Challenge shared.")
-          return
-        } catch (shareError) {
-          if (shareError instanceof DOMException && shareError.name === "AbortError") return
-        }
-      }
-
-      const copied = await copyText(nextChallengeUrl)
-      if (!copied) throw new Error("Automatic copy is unavailable. Select the challenge link below.")
-      setStatus("Challenge link copied.")
-    } catch (challengeError) {
-      setError(
-        challengeError instanceof Error
-          ? challengeError.message
-          : "Challenge link could not be created.",
-      )
-    } finally {
-      setCreatingChallenge(false)
     }
-  }
 
-  async function copyChallenge() {
-    const copied = await copyText(challengeUrl)
-    setError(copied ? "" : "Automatic copy is unavailable. Select the challenge link below.")
-    setStatus(copied ? "Challenge link copied." : "")
+    const copied = await copyText(`${invitation}\n${caseUrl()}`)
+    setError(copied ? "" : "Automatic copy is unavailable. Use your browser’s share controls.")
+    setStatus(copied ? "Case invitation copied." : "")
+    if (copied) trackProductEvent("case_shared", { caseId: record.id })
   }
 
   return (
@@ -148,6 +104,15 @@ export function CurrentCaseResultSharing({
       <p>
         Nothing about your judgment is shared until you select it below. The ordinary case link
         contains no answer data.
+      </p>
+      <div className={styles.challengeControl}>
+        <button type="button" className={styles.secondaryButton} onClick={inviteToCase}>
+          Invite someone to this case
+        </button>
+      </div>
+      <p className={styles.challengeNote}>
+        This sends the ordinary case link only. Compare judgments directly after both of you finish;
+        the service does not hold either person’s answer for the comparison.
       </p>
       <label className={styles.readingConsent}>
         <input
@@ -175,26 +140,6 @@ export function CurrentCaseResultSharing({
               Copy my reading
             </button>
           </div>
-          <div className={styles.challengeControl}>
-            <button
-              type="button"
-              className={styles.secondaryButton}
-              disabled={creatingChallenge}
-              onClick={createChallenge}
-            >
-              {creatingChallenge ? "Creating challenge…" : "Challenge a friend"}
-            </button>
-            {challengeUrl ? (
-              <button type="button" className={styles.textButton} onClick={copyChallenge}>
-                Copy challenge link
-              </button>
-            ) : null}
-          </div>
-          <p className={styles.challengeNote}>
-            A challenge encrypts only this case ID, final choice, confidence, issued-at and expiry
-            times, and a random nonce. It expires after 30 days and cannot be revoked because no
-            challenge record is stored.
-          </p>
         </div>
       ) : null}
 
@@ -205,17 +150,6 @@ export function CurrentCaseResultSharing({
         <p className={styles.shareError} role="alert">
           {error}
         </p>
-      ) : null}
-      {challengeUrl && error ? (
-        <label className={styles.copyFallback}>
-          Challenge link
-          <input
-            type="text"
-            readOnly
-            value={challengeUrl}
-            onFocus={(event) => event.currentTarget.select()}
-          />
-        </label>
       ) : null}
     </section>
   )

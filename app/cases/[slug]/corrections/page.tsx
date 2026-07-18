@@ -55,8 +55,8 @@ export default async function CurrentCaseCorrectionsPage({
       </section>
 
       <p className={styles.pageDek}>
-        To flag a factual problem, use the <Link href="/feedback">feedback form</Link>. Include the
-        case title, claim, and supporting source.
+        To flag a factual problem, use the <Link href="/feedback">corrections page</Link>. Include
+        only the public case title, disputed claim, and supporting source.
       </p>
       <Link className={styles.documentBack} href={`/cases/${record.slug}`}>
         ← Return to the case

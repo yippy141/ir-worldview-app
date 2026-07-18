@@ -1,10 +1,12 @@
 "use client"
 
 import { useState, useSyncExternalStore } from "react"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { copyText } from "@/lib/clipboard"
 import styles from "./current-case.module.css"
 
 type CurrentCasePublicActionsProps = {
+  caseId: string
   title: string
   dek: string
   slug: string
@@ -13,6 +15,7 @@ type CurrentCasePublicActionsProps = {
 const subscribeToNothing = () => () => {}
 
 export function CurrentCasePublicActions({
+  caseId,
   title,
   dek,
   slug,
@@ -33,6 +36,7 @@ export function CurrentCasePublicActions({
     const copied = await copyText(caseUrl())
     setCopyFailed(!copied)
     setStatus(copied ? "Case link copied." : "Automatic copy is unavailable. Select the link below.")
+    if (copied) trackProductEvent("case_shared", { caseId })
   }
 
   async function shareCase() {
@@ -44,6 +48,7 @@ export function CurrentCasePublicActions({
     try {
       await navigator.share({ title, text: dek, url: caseUrl() })
       setStatus("Case shared.")
+      trackProductEvent("case_shared", { caseId })
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return
       await copyCaseLink()

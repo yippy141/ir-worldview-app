@@ -40,19 +40,8 @@ const FLAGGED_PATTERNS = [
   { label: '"not a verdict"', pattern: /\bnot a verdict\b/i },
 ]
 
-// Exact public strings only. These two privacy statements need a direct data
-// boundary; allowing the matching rule for any other sentence would hide copy
-// regressions elsewhere.
-const COPY_ALLOWLIST = new Map<string, ReadonlySet<string>>([
-  [
-    "Stored raw answer records, if activated in beta, are pseudonymous or de-identified rather than strictly anonymous.",
-    new Set(['"rather than"']),
-  ],
-  [
-    "It is meant for question improvement, model testing, and aggregate insight posts, not advertising or targeting.",
-    new Set(['"X, not Y"']),
-  ],
-])
+// Public copy currently needs no exception to the contrastive-antithesis rules.
+const COPY_ALLOWLIST = new Map<string, ReadonlySet<string>>()
 
 test("contrastive-antithesis guardrails catch every target template", () => {
   const cases = [

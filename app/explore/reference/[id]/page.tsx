@@ -92,11 +92,11 @@ function DraftNotice({ draft }: { draft: boolean }) {
   )
 }
 
-function CorrectionsLine({ entityId }: { entityId: string }) {
+function CorrectionsLine() {
   return (
     <p className="muted reference-corrections">
-      See an error in this coding? Send the source and the disputed dimension through{" "}
-      <Link href={`/feedback?reference=${encodeURIComponent(entityId)}`}>the feedback page</Link>.
+      See an error in this coding? Send the public source and disputed dimension through{" "}
+      <Link href="/feedback">the corrections page</Link>.
       Accepted corrections appear under Revisions.
     </p>
   )
@@ -275,7 +275,7 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
               </li>
             ))}
           </ol>
-          <CorrectionsLine entityId={profile.id} />
+          <CorrectionsLine />
         </section>
 
         <section className="result-section stack-sm">
@@ -389,7 +389,7 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
               </li>
             ))}
           </ul>
-          <CorrectionsLine entityId={movement.id} />
+          <CorrectionsLine />
         </section>
 
         <section className="result-section stack-sm">

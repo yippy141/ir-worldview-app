@@ -9,11 +9,8 @@ import {
   type SyntheticEvent,
 } from "react"
 import { CurrentCaseResultSharing } from "@/components/current-case/current-case-result-sharing"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getAtlasLitePattern, getAtlasPatternHref } from "@/lib/atlas-lite"
-import type {
-  CurrentCaseChallengeContext,
-  CurrentCaseChallengeReveal,
-} from "@/lib/current-cases/challenge"
 import { compareCompletedCaseWithFoundation } from "@/lib/current-cases/profile-connection"
 import {
   CURRENT_CASE_CONFIDENCE_LABELS,
@@ -49,30 +46,18 @@ const FLOW_STEPS: Array<{ id: CurrentCaseStepId; label: string }> = [
   { id: "result", label: "Movement" },
 ]
 
-type CurrentCaseAppProps = {
-  record: CurrentCasePublicRecord
-  challenge?: CurrentCaseChallengeContext
-}
-
-type ChallengeRevealState =
-  | { status: "idle" }
-  | { status: "loading" }
-  | { status: "revealed"; reveal: CurrentCaseChallengeReveal }
-  | { status: "error"; message: string }
-
-export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
+export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) {
   const [draft, setDraft] = useState<CurrentCaseDraft>(() => initialDraft(record))
   const [completed, setCompleted] = useState<CompletedCurrentCaseResponse | null>(null)
   const [foundation, setFoundation] = useState<FoundationSnapshot | null>(null)
   const [ready, setReady] = useState(false)
   const [resumed, setResumed] = useState(false)
   const [storageError, setStorageError] = useState(false)
-  const [challengeReveal, setChallengeReveal] = useState<ChallengeRevealState>({
-    status: "idle",
-  })
   const headingRef = useRef<HTMLHeadingElement>(null)
   const shouldFocusHeading = useRef(false)
-  const revealAttempted = useRef(false)
+  const viewedCaseId = useRef<string | null>(null)
+  const startTracked = useRef(false)
+  const challengeTracked = useRef(false)
 
   useEffect(() => {
     const store = loadCurrentCaseResponseStore()
@@ -110,62 +95,16 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
   }, [draft, ready])
 
   useEffect(() => {
+    if (!ready || viewedCaseId.current === record.id) return
+    viewedCaseId.current = record.id
+    trackProductEvent("current_case_viewed", { caseId: record.id })
+  }, [ready, record.id])
+
+  useEffect(() => {
     if (!shouldFocusHeading.current) return
     shouldFocusHeading.current = false
     headingRef.current?.focus()
   }, [draft.step])
-
-  useEffect(() => {
-    if (!challenge || !completed || revealAttempted.current) return
-    revealAttempted.current = true
-    let cancelled = false
-
-    async function revealInviterAnswer() {
-      setChallengeReveal({ status: "loading" })
-      try {
-        const response = await fetch("/api/current-cases/challenge/reveal", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            token: challenge?.token,
-            caseId: record.id,
-            friendOptionId: completed?.selectedOptionId,
-            friendConfidence: completed?.confidence,
-          }),
-        })
-        const body = (await response.json()) as
-          | ({ ok: true } & CurrentCaseChallengeReveal)
-          | { ok: false; error: string }
-        if (cancelled) return
-        if (!response.ok || !body.ok) {
-          setChallengeReveal({
-            status: "error",
-            message: body.ok ? "The inviter’s answer could not be revealed." : body.error,
-          })
-          return
-        }
-        setChallengeReveal({
-          status: "revealed",
-          reveal: {
-            inviterFinalOptionId: body.inviterFinalOptionId,
-            inviterConfidence: body.inviterConfidence,
-          },
-        })
-      } catch {
-        if (!cancelled) {
-          setChallengeReveal({
-            status: "error",
-            message: "The inviter’s answer could not be retrieved. Your own judgment is saved.",
-          })
-        }
-      }
-    }
-
-    void revealInviterAnswer()
-    return () => {
-      cancelled = true
-    }
-  }, [challenge, completed, record.id])
 
   const stepIndex = FLOW_STEPS.findIndex((step) => step.id === draft.step)
   const movement = completed ? describeCurrentCaseMovement(record, completed) : null
@@ -192,6 +131,7 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
 
   function openReading(profileId: string, event: SyntheticEvent<HTMLDetailsElement>) {
     if (!event.currentTarget.open) return
+    trackProductEvent("reading_opened", { caseId: record.id })
     updateDraft({
       openedReadingProfileIds: Array.from(
         new Set([...draft.openedReadingProfileIds, profileId]),
@@ -225,6 +165,7 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
     }
 
     if (!recordCompletedCurrentCaseResponse(response)) setStorageError(true)
+    trackProductEvent("current_case_completed", { caseId: record.id })
     setCompleted(response)
     setResumed(false)
     shouldFocusHeading.current = true
@@ -234,10 +175,26 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
   function restartCase() {
     setCompleted(null)
     setResumed(false)
-    revealAttempted.current = false
-    setChallengeReveal({ status: "idle" })
+    startTracked.current = false
+    challengeTracked.current = false
     shouldFocusHeading.current = true
     setDraft({ ...initialDraft(record), step: "brief", updatedAt: new Date().toISOString() })
+  }
+
+  function startCase() {
+    if (!startTracked.current) {
+      startTracked.current = true
+      trackProductEvent("current_case_started", { caseId: record.id })
+    }
+    goTo("initial")
+  }
+
+  function openChallenge() {
+    if (!challengeTracked.current) {
+      challengeTracked.current = true
+      trackProductEvent("challenge_opened", { caseId: record.id })
+    }
+    goTo("challenge")
   }
 
   if (!ready) {
@@ -302,7 +259,7 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
           </p>
           <FlowActions
             primaryLabel="Make your first judgment"
-            onPrimary={() => goTo("initial")}
+            onPrimary={startCase}
           />
         </section>
       ) : null}
@@ -435,7 +392,7 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
             backLabel="Back"
             onBack={() => goTo("reasoning")}
             primaryLabel="Test an assumption"
-            onPrimary={() => goTo("challenge")}
+            onPrimary={openChallenge}
           />
         </section>
       ) : null}
@@ -545,14 +502,6 @@ export function CurrentCaseApp({ record, challenge }: CurrentCaseAppProps) {
               )}
             </div>
           </div>
-
-          {challenge ? (
-            <ChallengeComparison
-              record={record}
-              response={completed}
-              revealState={challengeReveal}
-            />
-          ) : null}
 
           {foundationConnection ? (
             <section className={styles.foundationComparison} aria-labelledby="foundation-compare-heading">
@@ -759,65 +708,4 @@ function connectionLabel(kind: "consistent" | "tension" | "not-covered" | "unava
   if (kind === "tension") return "Contextual tension"
   if (kind === "not-covered") return "Coverage limit"
   return "Foundation comparison"
-}
-
-function ChallengeComparison({
-  record,
-  response,
-  revealState,
-}: {
-  record: CurrentCasePublicRecord
-  response: CompletedCurrentCaseResponse
-  revealState: ChallengeRevealState
-}) {
-  if (revealState.status === "idle" || revealState.status === "loading") {
-    return (
-      <section className={styles.challengeComparison} aria-labelledby="challenge-compare-heading">
-        <h3 id="challenge-compare-heading">Comparing the challenge</h3>
-        <p role="status" aria-live="polite">
-          Your final answer is recorded. Revealing the inviter’s judgment…
-        </p>
-      </section>
-    )
-  }
-
-  if (revealState.status === "error") {
-    return (
-      <section className={styles.challengeComparison} aria-labelledby="challenge-compare-heading">
-        <h3 id="challenge-compare-heading">The comparison is unavailable</h3>
-        <p role="alert">{revealState.message}</p>
-        <Link href={`/cases/${record.slug}`}>Open the ordinary case link</Link>
-      </section>
-    )
-  }
-
-  const friendOption = getCurrentCaseOption(record, response.selectedOptionId)
-  const inviterOption = getCurrentCaseOption(
-    record,
-    revealState.reveal.inviterFinalOptionId,
-  )
-  if (!friendOption || !inviterOption) return null
-
-  return (
-    <section className={styles.challengeComparison} aria-labelledby="challenge-compare-heading">
-      <p className={styles.comparisonLabel}>Challenge revealed</p>
-      <h3 id="challenge-compare-heading">Your judgments, side by side</h3>
-      <dl className={styles.challengeComparisonRows}>
-        <div>
-          <dt>Your final judgment</dt>
-          <dd>
-            {friendOption.label}
-            <span>Confidence {response.confidence}/5</span>
-          </dd>
-        </div>
-        <div>
-          <dt>Inviter’s final judgment</dt>
-          <dd>
-            {inviterOption.label}
-            <span>Confidence {revealState.reveal.inviterConfidence}/5</span>
-          </dd>
-        </div>
-      </dl>
-    </section>
-  )
 }

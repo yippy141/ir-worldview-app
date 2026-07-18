@@ -1,8 +1,9 @@
 import type { QuizMode } from "@/lib/types"
+import { PROFILE_SAVE_INTENT_KEY } from "@/lib/storage-keys"
+
+export { PROFILE_SAVE_INTENT_KEY } from "@/lib/storage-keys"
 
 export type ProfileSaveIntentKind = "foundation" | "module" | "ai-governance"
-
-const PROFILE_SAVE_INTENT_KEY = "ir-worldview-profile-save-intents-v1"
 
 export type ProfileSaveIntent = {
   identity: string

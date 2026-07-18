@@ -183,8 +183,7 @@ export type CurrentCase = {
 }
 
 export const CURRENT_CASE_RESPONSE_STORE_VERSION = 1 as const
-export const CURRENT_CASE_RESPONSE_STORAGE_KEY =
-  "ir-worldview-current-case-responses-v1"
+export { CURRENT_CASE_RESPONSE_STORAGE_KEY } from "@/lib/storage-keys"
 
 export type CurrentCaseConfidence = 1 | 2 | 3 | 4 | 5
 

@@ -21,9 +21,9 @@ export async function generateMetadata({
   const record = getPublishedCurrentCaseBySlug(slug)
   return {
     title: record
-      ? `Challenge: ${record.title} — IR Worldview Inventory`
-      : "Current Case challenge — IR Worldview Inventory",
-    description: "Make your own judgment before comparing it with a friend's reading.",
+      ? `Invitation: ${record.title} — IR Worldview Inventory`
+      : "Current Case invitation — IR Worldview Inventory",
+    description: "Open the ordinary Current Case without an answer-bearing link.",
     robots: { index: false, follow: false },
     referrer: "no-referrer",
   }

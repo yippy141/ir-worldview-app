@@ -16,10 +16,9 @@ Complete this checklist from a clean checkout after the release changes are on
 - [ ] In Vercel, confirm the matching deployment is marked **Production** and
       has finished successfully.
 - [ ] Confirm required Production environment variables are present, including
-      the server-only `CURRENT_CASE_CHALLENGE_SECRET`, canonical `SITE_URL`,
-      `NEXT_PUBLIC_MAPBOX_TOKEN`, and any configured `NEXT_PUBLIC_MAPBOX_STYLE`.
-      Confirm the challenge secret is a 32-byte base64url value and is not exposed
-      with a `NEXT_PUBLIC_` prefix.
+      canonical `SITE_URL`, `NEXT_PUBLIC_MAPBOX_TOKEN`, and any configured
+      `NEXT_PUBLIC_MAPBOX_STYLE`. V19 uses case-only invitations and does not use
+      a Current Case challenge secret.
 - [ ] Open the immutable Vercel deployment URL and confirm the World Stage,
       Foundation, Profile, and Worldview Map load without console errors.
 
@@ -38,11 +37,11 @@ Complete this checklist from a clean checkout after the release changes are on
       authenticated Vercel session.
 - [ ] Complete the critical smoke path: World Stage → Foundation → review →
       result → share link → Profile.
-- [ ] Complete a Current Case, create a challenge, open it in a separate private
-      window, and confirm the inviter answer appears only after the friend submits
-      a final answer.
-- [ ] Confirm an invalid or expired Current Case challenge shows a plain recovery
-      route to the ordinary case.
+- [ ] Complete a Current Case, share the case-only invitation, and confirm its URL
+      contains no choice, confidence, result payload, or answer-bearing token.
+- [ ] Open a legacy answer-bearing Current Case challenge URL and confirm it shows
+      a plain recovery route to the ordinary case without sending the fragment to
+      the server or calling the retired challenge APIs.
 - [ ] Open a Current Case print preview and confirm the briefing, decision options,
       uncertainties, and source ledger render as a legible summary.
 - [ ] Open the Worldview Map and switch between List and Map.

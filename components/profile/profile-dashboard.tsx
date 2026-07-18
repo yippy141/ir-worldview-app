@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { CurrentJudgmentsSection } from "@/components/profile/current-judgments-section"
 import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
@@ -21,8 +22,13 @@ import {
 export function ProfileDashboard() {
   const [profile, setProfile] = useState<ProfileStore | null>(null)
   const [currentCases, setCurrentCases] = useState<CurrentCaseResponseStore | null>(null)
+  const viewTracked = useRef(false)
 
   useEffect(() => {
+    if (!viewTracked.current) {
+      viewTracked.current = true
+      trackProductEvent("profile_viewed")
+    }
     const load = () => {
       setProfile(loadProfileStore())
       setCurrentCases(loadCurrentCaseResponseStore())

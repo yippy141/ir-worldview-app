@@ -130,14 +130,15 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>Privacy and research data</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The product works without research opt-in. The interface includes opt-in copy for
-          possible future beta research storage, but raw answers should not be sent to third-party
-          analytics, sold, used for ads, or used for political targeting.
+          V19 keeps results and histories in this browser unless you explicitly share them. It has
+          no active research-response intake, persistent research ID, research contact field, or
+          mock consent control.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          If raw answer records are stored later, they will be described as pseudonymous or
-          de-identified rather than truly anonymous, and optional contact information should stay
-          separate from answer data.
+          Any later study requires a separately reviewed data dictionary, purpose-specific consent,
+          per-run identifiers, automatic retention, authenticated deletion, and protected access.
+          Product analytics remain coarse and cannot accept answers, profiles, result payloads, or
+          free text.
         </p>
         <p style={{ margin: 0 }}>
           <Link href="/privacy" style={{ color: "var(--accent)" }}>

@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import {
   dimensionLabels,
   foundationMidpointQuestionIndex,
@@ -50,6 +51,7 @@ export function QuizApp() {
   const [supportOpen, setSupportOpen] = useState(false)
   const [ready, setReady] = useState(false)
   const [showMidpoint, setShowMidpoint] = useState(false)
+  const foundationStartTracked = useRef(false)
 
   useEffect(() => {
     const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
@@ -104,11 +106,17 @@ export function QuizApp() {
     }))
     setCurrentIndex(0)
     setSupportOpen(false)
+    foundationStartTracked.current = false
   }
 
   function selectAnswer(value: AnswerValue) {
     const currentQuestion = questions[effectiveIndex]
     if (!currentQuestion) return
+
+    if (!foundationStartTracked.current && Object.keys(session.answers).length === 0) {
+      foundationStartTracked.current = true
+      trackProductEvent("foundation_started")
+    }
 
     if (currentQuestion.kind === "likert") {
       setSession((prev) => ({
@@ -199,6 +207,7 @@ export function QuizApp() {
     setCurrentIndex(0)
     setSupportOpen(false)
     setShowMidpoint(false)
+    foundationStartTracked.current = false
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
     notifyQuizSessionUpdated()
   }

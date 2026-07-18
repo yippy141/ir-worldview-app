@@ -17,11 +17,12 @@ import type {
   QuizMode,
   StrategyModifier,
 } from "@/lib/types"
+import { PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
+
+export { PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
 
 // The key is intentionally stable. Its suffix predates the schema version and
 // changing it would strand existing profiles in a different localStorage slot.
-export const PROFILE_STORAGE_KEY = "ir-worldview-profile-v1"
-
 export type ProfileKeyDriver = {
   label: string
   description: string

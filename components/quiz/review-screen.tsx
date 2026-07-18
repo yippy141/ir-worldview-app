@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getFoundationQuestions } from "@/lib/quiz-schema"
 import { generateResult, getNeighboringFamilyKey } from "@/lib/scoring"
 import { encodePayload, dimensionScoresToArray } from "@/lib/share"
@@ -75,6 +76,7 @@ export function ReviewScreen() {
       })
 
       markProfileSaveIntent("foundation", payload, { mode: session.activeMode })
+      trackProductEvent("foundation_completed")
       router.push(`/results/${payload}`)
     } catch {
       setGenerating(false)

@@ -29,6 +29,7 @@ export function CurrentCasePageHeader({ record }: { record: CurrentCasePublicRec
           </Link>
         </p>
         <CurrentCasePublicActions
+          caseId={record.id}
           title={record.title}
           dek={record.dek}
           slug={record.slug}

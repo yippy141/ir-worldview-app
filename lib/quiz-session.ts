@@ -6,7 +6,7 @@ import type {
   QuizSession,
 } from "@/lib/types"
 
-export const QUIZ_STORAGE_KEY = "ir-worldview-session-v3"
+export { QUIZ_STORAGE_KEY } from "@/lib/storage-keys"
 export const QUIZ_SESSION_EVENT = "ir-worldview-session-updated"
 
 export function createEmptySession(): QuizSession {
