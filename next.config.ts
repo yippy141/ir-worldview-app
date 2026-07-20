@@ -19,7 +19,9 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: [...privacyHeaders],
       },
-      ...["/", "/zh-Hans"].map((source) => ({
+      // Vercel matches the public prefix while local Next starts may match the
+      // internal locale key after next-intl rewrites it. Cover both forms.
+      ...["/", "/zh", "/zh-Hans"].map((source) => ({
         source,
         headers: [mapReferrerHeader],
       })),
