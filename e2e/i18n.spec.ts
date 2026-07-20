@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test, type Page } from "@playwright/test"
 import { getLatestPublishedCurrentCase } from "../lib/current-cases/catalog"
 import { PROFILE_STORAGE_KEY, QUIZ_STORAGE_KEY } from "../lib/storage-keys"
 import profileStoreV5 from "../tests/fixtures/profile-store-v5.json"
@@ -32,6 +32,24 @@ const FOUNDATION_SHARE_V3_TOKEN = encodePayload({
   cv: 1,
   cl: "zh-Hans",
 })
+
+async function settleVisualSnapshot(page: Page) {
+  await page.addStyleTag({
+    content: `
+      *, *::before, *::after {
+        animation: none !important;
+        caret-color: transparent !important;
+        transition: none !important;
+      }
+      nextjs-portal { display: none !important; }
+    `,
+  })
+  await page.evaluate(async () => {
+    await document.fonts.ready
+    window.scrollTo(0, 0)
+  })
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+}
 
 test("approved English and Simplified Chinese route pairs remain distinct", async ({ page }) => {
   await page.goto("/")
@@ -409,20 +427,26 @@ test.describe("390px Simplified Chinese shell", () => {
 
   test("approved Chinese editorial and source-ledger snapshots", async ({ page }) => {
     await page.goto("/zh/method")
-    await page.addStyleTag({ content: "nextjs-portal { display: none !important; }" })
+    await expect(page.getByRole("heading", { name: "这项清单如何工作" })).toBeVisible()
+    await settleVisualSnapshot(page)
     await expect(page).toHaveScreenshot("zh-method-390.png")
 
     await page.goto("/zh/quiz")
-    await page.addStyleTag({ content: "nextjs-portal { display: none !important; }" })
+    await expect(page.getByRole("heading", {
+      name: getZhHansFoundationQuestions("standard")[0].prompt,
+    })).toBeVisible()
+    await settleVisualSnapshot(page)
     await expect(page).toHaveScreenshot("zh-foundation-quiz-390.png")
 
     await page.goto(`/zh/results/${FOUNDATION_SHARE_V3_TOKEN}`)
-    await page.addStyleTag({ content: "nextjs-portal { display: none !important; }" })
+    await expect(page.locator("main h1")).toBeVisible()
+    await settleVisualSnapshot(page)
     await expect(page).toHaveScreenshot("zh-foundation-result-390.png")
 
     if (current) {
       await page.goto(`/zh/cases/${current.slug}/sources`)
-      await page.addStyleTag({ content: "nextjs-portal { display: none !important; }" })
+      await expect(page.locator("main h1")).toBeVisible()
+      await settleVisualSnapshot(page)
       await expect(page).toHaveScreenshot("zh-current-case-sources-390.png")
     }
   })
@@ -435,9 +459,10 @@ test.describe("390px Simplified Chinese shell", () => {
           --font-serif: "Microsoft YaHei", "SimSun", "Noto Serif CJK SC", serif;
           --font-sans: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
         }
-        nextjs-portal { display: none !important; }
       `,
     })
+    await expect(page.locator("main h1")).toBeVisible()
+    await settleVisualSnapshot(page)
     await expect(page).toHaveScreenshot("zh-foundation-result-windows-font-390.png")
   })
 })
