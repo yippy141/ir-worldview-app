@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useState, type CSSProperties, type ReactNode } from "react"
 import type { FieldItemKind } from "@/lib/field/items"
+import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
 import {
   calculateFieldMarkerFanOffset,
   groupOverlappingMapItems,
@@ -54,6 +55,7 @@ type Props = {
   onSelect?: (key: string) => void
   /** Anchor prefix for focusable marker links into the semantic list. */
   markerHrefPrefix?: string
+  copy?: typeof zhHansWorldviewMapUi
 }
 
 type RenderedMarker = {
@@ -107,6 +109,7 @@ export function FieldMap({
   showAnchors = true,
   onSelect,
   markerHrefPrefix,
+  copy,
 }: Props) {
   const tooltipId = useId()
   const interactive = Boolean(onSelect || markerHrefPrefix)
@@ -163,7 +166,9 @@ export function FieldMap({
           cx: rendered.cx,
           cy: rendered.cy,
           label: rendered.marker.label,
-          secondary: rendered.marker.draft ? "Research draft" : undefined,
+          secondary: rendered.marker.draft
+            ? copy?.detail.draft ?? "Research draft"
+            : undefined,
           own:
             rendered.marker.kind === "baseline" ||
             rendered.marker.kind === "perspective-run",
@@ -180,7 +185,8 @@ export function FieldMap({
           targetId: activeTargetId,
           cx: anchor.cx,
           cy: anchor.cy,
-          label: `${group.items.length} overlapping items`,
+          label: copy?.key.overlappingItems(group.items.length)
+            ?? `${group.items.length} overlapping items`,
           secondary: group.items.map((marker) => marker.label).join(" · "),
         }
       }
@@ -193,12 +199,12 @@ export function FieldMap({
       cx: selected.cx,
       cy: selected.cy,
       label: selected.marker.label,
-      secondary: selected.marker.draft ? "Research draft" : undefined,
+      secondary: selected.marker.draft ? copy?.detail.draft ?? "Research draft" : undefined,
       own:
         selected.marker.kind === "baseline" ||
         selected.marker.kind === "perspective-run",
     }
-  }, [activeTargetId, overlapGroups, renderedMarkers])
+  }, [activeTargetId, copy, overlapGroups, renderedMarkers])
 
   const staticLabels = interactive
     ? []
@@ -240,18 +246,24 @@ export function FieldMap({
           />
 
           <text className={styles.axisLabel} x={CENTER_X} y={CENTER_Y - R - 12} textAnchor="middle">
-            {AXIS_LABELS.top}
+            {copy?.axes.top ?? AXIS_LABELS.top}
           </text>
           <text className={styles.axisLabel} x={CENTER_X} y={CENTER_Y + R + 22} textAnchor="middle">
-            {AXIS_LABELS.bottom}
+            {copy?.axes.bottom ?? AXIS_LABELS.bottom}
           </text>
           <text className={styles.axisLabel} x={8} y={CENTER_Y - 6} textAnchor="start">
-            <tspan x={8} dy={0}>Power &amp;</tspan>
-            <tspan x={8} dy={12}>competition</tspan>
+            {copy ? (
+              <tspan x={8} dy={0}>{copy.axes.left}</tspan>
+            ) : (
+              <><tspan x={8} dy={0}>Power &amp;</tspan><tspan x={8} dy={12}>competition</tspan></>
+            )}
           </text>
           <text className={styles.axisLabel} x={VIEW_W - 8} y={CENTER_Y - 6} textAnchor="end">
-            <tspan x={VIEW_W - 8} dy={0}>Rules &amp;</tspan>
-            <tspan x={VIEW_W - 8} dy={12}>institutions</tspan>
+            {copy ? (
+              <tspan x={VIEW_W - 8} dy={0}>{copy.axes.right}</tspan>
+            ) : (
+              <><tspan x={VIEW_W - 8} dy={0}>Rules &amp;</tspan><tspan x={VIEW_W - 8} dy={12}>institutions</tspan></>
+            )}
           </text>
 
           {showAnchors
@@ -269,7 +281,7 @@ export function FieldMap({
                       textAnchor="middle"
                       fill={color}
                     >
-                      {FAMILY_LABELS[anchor.key]}
+                      {copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key]}
                     </text>
                   </g>
                 )
@@ -362,7 +374,9 @@ export function FieldMap({
                   data-field-cluster-key={group.key}
                   aria-expanded={false}
                   aria-describedby={describedBy}
-                  aria-label={`Show ${group.items.length} overlapping items: ${group.items.map((marker) => marker.label).join(", ")}`}
+                  aria-label={copy
+                    ? `${copy.key.overlappingItems(group.items.length)}：${group.items.map((marker) => marker.label).join("、")}`
+                    : `Show ${group.items.length} overlapping items: ${group.items.map((marker) => marker.label).join(", ")}`}
                   onClick={(event) => {
                     event.preventDefault()
                     setExpandedGroupKey(group.key)
@@ -418,7 +432,9 @@ export function FieldMap({
                 href={markerHrefPrefix ? `#${markerHrefPrefix}${marker.key}` : "#"}
                 className={styles.markerLink}
                 data-field-marker-key={marker.key}
-                aria-label={`${marker.label}${marker.draft ? " (research draft)" : ""}: open details`}
+                aria-label={copy
+                  ? `${marker.label}${marker.draft ? `（${copy.detail.draft}）` : ""}：${copy.list.open}`
+                  : `${marker.label}${marker.draft ? " (research draft)" : ""}: open details`}
                 aria-describedby={describedBy}
                 aria-current={marker.selected ? "true" : undefined}
                 onClick={(event) => {
@@ -543,23 +559,25 @@ function MarkerGlyph({
 
 export function FieldMapKey({
   kinds,
+  copy,
 }: {
   kinds: readonly ("baseline" | "perspective-run" | "atlas-pattern" | "reference")[]
+  copy?: typeof zhHansWorldviewMapUi
 }) {
   return (
-    <dl className={styles.mapKey} aria-label="Map key">
+    <dl className={styles.mapKey} aria-label={copy?.map.mapKey ?? "Map key"}>
       {kinds.includes("baseline") ? (
-        <KeyRow label="My baseline">
+        <KeyRow label={copy?.key.myBaseline ?? "My baseline"}>
           <circle cx={8} cy={8} r={5} fill="var(--accent)" />
         </KeyRow>
       ) : null}
       {kinds.includes("perspective-run") ? (
-        <KeyRow label="My perspective shift">
+        <KeyRow label={copy?.key.perspectiveShift ?? "My perspective shift"}>
           <circle cx={8} cy={8} r={5} fill="var(--bg)" stroke="var(--accent)" strokeWidth={1.8} />
         </KeyRow>
       ) : null}
       {kinds.includes("atlas-pattern") ? (
-        <KeyRow label="Worldview profile">
+        <KeyRow label={copy?.key.worldviewProfile ?? "Worldview profile"}>
           <g stroke="var(--muted)" strokeWidth={1.5}>
             <line x1={3.5} y1={8} x2={12.5} y2={8} />
             <line x1={8} y1={3.5} x2={8} y2={12.5} />
@@ -568,12 +586,12 @@ export function FieldMapKey({
       ) : null}
       {kinds.includes("reference") ? (
         <>
-          <KeyRow label="Thinker"><rect x={3.5} y={3.5} width={9} height={9} fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
-          <KeyRow label="Leader"><path d="M 8 2.5 L 13 12.5 L 3 12.5 Z" fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
-          <KeyRow label="Government"><rect x={3.5} y={3.5} width={9} height={9} fill="var(--steel)" /></KeyRow>
-          <KeyRow label="Doctrine"><path d="M 8 2.5 L 13.5 8 L 8 13.5 L 2.5 8 Z" fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
-          <KeyRow label="Institution"><path d="M 5.25 3.25 L 10.75 3.25 L 13.5 8 L 10.75 12.75 L 5.25 12.75 L 2.5 8 Z" fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
-          <KeyRow label="Movement span"><polygon points="3,12 6,4 13,6 11,13" fill="var(--steel)" fillOpacity={0.08} stroke="var(--steel)" strokeWidth={1} strokeDasharray="3 3" /></KeyRow>
+          <KeyRow label={copy?.key.thinker ?? "Thinker"}><rect x={3.5} y={3.5} width={9} height={9} fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
+          <KeyRow label={copy?.key.leader ?? "Leader"}><path d="M 8 2.5 L 13 12.5 L 3 12.5 Z" fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
+          <KeyRow label={copy?.key.government ?? "Government"}><rect x={3.5} y={3.5} width={9} height={9} fill="var(--steel)" /></KeyRow>
+          <KeyRow label={copy?.key.doctrine ?? "Doctrine"}><path d="M 8 2.5 L 13.5 8 L 8 13.5 L 2.5 8 Z" fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
+          <KeyRow label={copy?.key.institution ?? "Institution"}><path d="M 5.25 3.25 L 10.75 3.25 L 13.5 8 L 10.75 12.75 L 5.25 12.75 L 2.5 8 Z" fill="none" stroke="var(--steel)" strokeWidth={1.5} /></KeyRow>
+          <KeyRow label={copy?.key.movementSpan ?? "Movement span"}><polygon points="3,12 6,4 13,6 11,13" fill="var(--steel)" fillOpacity={0.08} stroke="var(--steel)" strokeWidth={1} strokeDasharray="3 3" /></KeyRow>
         </>
       ) : null}
     </dl>

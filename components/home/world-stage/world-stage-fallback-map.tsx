@@ -12,6 +12,7 @@ import {
   getWorldStageFallbackFlows,
   getWorldStageFallbackNodes,
   getWorldStageRoleLabel,
+  type WorldStageMapPresentation,
 } from "@/lib/world-stage/map-data"
 import {
   WORLD_STAGE_FLOW_WIDTHS,
@@ -31,6 +32,7 @@ type WorldStageFallbackMapProps = {
   onInspect: (item: WorldStageTooltipItem, position: WorldStageInspectionPosition) => void
   onClearInspection: () => void
   onInteraction: () => void
+  presentation?: WorldStageMapPresentation
 }
 
 function pointerPosition(event: PointerEvent<SVGElement>): WorldStageInspectionPosition {
@@ -50,6 +52,7 @@ export function WorldStageFallbackMap({
   onInspect,
   onClearInspection,
   onInteraction,
+  presentation,
 }: WorldStageFallbackMapProps) {
   const countryRoles = new Map(scene.countryRoles.map((country) => [country.iso3, country]))
   const nodes = getWorldStageFallbackNodes(scene)
@@ -95,7 +98,7 @@ export function WorldStageFallbackMap({
             ? {
                 id: assigned.iso3,
                 kind: "country",
-                label: `${country.name} · ${getWorldStageRoleLabel(assigned.role)}`,
+                label: `${presentation?.countryNames?.[country.iso3] ?? country.name} · ${presentation?.roleLabels?.[assigned.role] ?? getWorldStageRoleLabel(assigned.role)}`,
                 meaning: assigned.rationale,
                 asOf: scene.asOf,
                 sourceCount: assigned.sourceRefs.length,

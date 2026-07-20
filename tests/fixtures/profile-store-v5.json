@@ -4,6 +4,8 @@
     "timestamp": 1750000000000,
     "mode": "standard",
     "payload": "eyJ2IjoyLCJkcyI6WzQuMyw1LjgsNC45LDUuMSw0LjcsNS40LDUuM10sImZrIjoiaW5zdGl0dXRpb25hbGlzdCIsIm5rIjoiY29uc3RydWN0aXZpc3QiLCJzbSI6IlJlc3RyYWluZXIiLCJubSI6IlBsdXJhbGlzdCJ9",
+    "instrumentStructuralVersion": 3,
+    "scoringVersion": 1,
     "familyKey": "institutionalist",
     "runnerUpKey": "constructivist",
     "dimensionScores": {

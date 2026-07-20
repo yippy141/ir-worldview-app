@@ -1,18 +1,19 @@
 import type { Metadata } from "next"
 import { CurrentCaseArchive } from "@/components/current-case/current-case-archive"
-import { chineseShellContent } from "@/content/locales"
+import { zhHansCurrentCaseArchive } from "@/content/locales/zh-Hans/current-cases/archive"
+import { zhHansCurrentCases } from "@/content/locales/zh-Hans/current-cases/index"
+import { zhHansRouteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createLocalizedMetadata } from "@/i18n/metadata"
-import { getPublishedCurrentCases } from "@/lib/current-cases/catalog"
-import { toCurrentCasePublicRecord } from "@/lib/current-cases/presentation"
+import { toZhHansCurrentCasePublicRecord } from "@/lib/current-cases/zh-hans"
 import styles from "@/components/current-case/current-case.module.css"
 
 export function generateMetadata(): Metadata {
-  return createLocalizedMetadata("zh-Hans", "/cases", chineseShellContent.cases.metadata)
+  return createLocalizedMetadata("zh-Hans", "/cases", zhHansRouteMetadata.cases)
 }
 
 export default function ChineseCurrentCasesPage() {
-  const cases = getPublishedCurrentCases()
-  const content = chineseShellContent.cases
+  const cases = zhHansCurrentCases.filter((record) => record.publicationStatus === "published")
+  const content = zhHansCurrentCaseArchive
 
   return (
     <div className={`${styles.page} locale-cases-page`}>
@@ -25,17 +26,13 @@ export default function ChineseCurrentCasesPage() {
         <p className={styles.pageMeta}>{content.privacyNote}</p>
       </header>
 
-      <aside className="translation-scope-note" aria-label="中文内容范围">
-        {content.englishContentNotice}
-      </aside>
-
       {cases.length === 0 ? (
         <section className={styles.correctionStatus} aria-labelledby="case-status-heading">
           <h2 id="case-status-heading">{content.emptyTitle}</h2>
           <p>{content.emptyBody}</p>
         </section>
       ) : (
-        <CurrentCaseArchive records={cases.map(toCurrentCasePublicRecord)} />
+        <CurrentCaseArchive records={cases.map(toZhHansCurrentCasePublicRecord)} />
       )}
     </div>
   )

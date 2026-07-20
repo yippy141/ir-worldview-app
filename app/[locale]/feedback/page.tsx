@@ -1,12 +1,13 @@
 import type { Metadata } from "next"
-import { LocaleEditorialPageView } from "@/components/i18n/locale-editorial-page"
-import { chineseShellContent } from "@/content/locales"
+import { ZhHansEditorialPage } from "@/components/i18n/zh-hans-editorial-page"
+import { zhHansCorrectionsPage } from "@/content/locales/zh-Hans/editorial-pages"
+import { zhHansRouteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createLocalizedMetadata } from "@/i18n/metadata"
 
 export function generateMetadata(): Metadata {
-  return createLocalizedMetadata("zh-Hans", "/feedback", chineseShellContent.corrections.metadata)
+  return createLocalizedMetadata("zh-Hans", "/feedback", zhHansRouteMetadata.corrections)
 }
 
 export default function CorrectionsPage() {
-  return <LocaleEditorialPageView content={chineseShellContent.corrections} />
+  return <ZhHansEditorialPage content={zhHansCorrectionsPage} />
 }

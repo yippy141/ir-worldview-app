@@ -1,6 +1,7 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
 import {
   PUBLIC_FIELD_LAYER_CONFIGS,
   isFieldLayerAvailable,
@@ -14,14 +15,15 @@ type Props = {
   availability: FieldLayerAvailability
   counts: Partial<Record<FieldLayerId, number>>
   onToggle: (layerId: FieldLayerId) => void
+  copy?: typeof zhHansWorldviewMapUi
 }
 
-export function LayerControls({ activeLayerIds, availability, counts, onToggle }: Props) {
+export function LayerControls({ activeLayerIds, availability, counts, onToggle, copy }: Props) {
   return (
     <fieldset className={styles.layerControls}>
-      <legend className={styles.sectionHeading}>Layers</legend>
+      <legend className={styles.sectionHeading}>{copy?.layers.heading ?? "Layers"}</legend>
       <p className={styles.controlNote}>
-        Choose one or two layers. Each uses the same projection.
+        {copy?.layers.note ?? "Choose one or two layers. Each uses the same projection."}
       </p>
       <div className={styles.layerRows}>
       {PUBLIC_FIELD_LAYER_CONFIGS.map((config) => {
@@ -31,9 +33,13 @@ export function LayerControls({ activeLayerIds, availability, counts, onToggle }
         if (config.id === "my-profile" && !available) {
           return (
             <div key={config.id} className={styles.unavailableLayer}>
-              <span className={styles.layerLabel}>{config.label}</span>
+              <span className={styles.layerLabel}>{copy?.layers.labels[config.id] ?? config.label}</span>
               <span className={styles.layerHint}>
-                <Link href="/quiz">Take the Foundation</Link> to place your marker.
+                {copy ? (
+                  <Link href="/quiz">{copy.layers.takeFoundation}</Link>
+                ) : (
+                  <><Link href="/quiz">Take the Foundation</Link> to place your marker.</>
+                )}
               </span>
             </div>
           )
@@ -50,8 +56,13 @@ export function LayerControls({ activeLayerIds, availability, counts, onToggle }
             <span className={styles.layerCheck} aria-hidden="true">
               {active ? "✓" : ""}
             </span>
-            <span className={styles.layerLabel}>{config.label}</span>
-            <span className={styles.layerCount} aria-label={`${counts[config.id] ?? 0} items`}>
+            <span className={styles.layerLabel}>{copy?.layers.labels[config.id] ?? config.label}</span>
+            <span
+              className={styles.layerCount}
+              aria-label={copy
+                ? copy.layers.itemCountAria(counts[config.id] ?? 0)
+                : `${counts[config.id] ?? 0} items`}
+            >
               {counts[config.id] ?? 0}
             </span>
           </button>

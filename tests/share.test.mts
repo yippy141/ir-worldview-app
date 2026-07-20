@@ -1,6 +1,12 @@
 import test from "node:test"
 import assert from "node:assert/strict"
-import { decodePayload, encodePayload } from "@/lib/share"
+import {
+  buildFoundationSharePayload,
+  decodePayload,
+  encodePayload,
+  resolveFoundationPayload,
+} from "@/lib/share"
+import { buildCanonicalFoundationResult } from "@/lib/scoring"
 import type { SharePayload } from "@/lib/types"
 
 const payloads: SharePayload[] = [
@@ -19,6 +25,18 @@ const payloads: SharePayload[] = [
     nk: "criticalPoliticalEconomy",
     sm: "Restrainer",
     nm: "Pluralist",
+  },
+  {
+    v: 3,
+    ds: [4.3, 5.8, 4.9, 5.1, 4.7, 5.4, 5.3],
+    fk: "institutionalist",
+    nk: "constructivist",
+    sm: "Restrainer",
+    nm: "Pluralist",
+    iv: 3,
+    sv: 1,
+    cv: 1,
+    cl: "zh-Hans",
   },
 ]
 
@@ -48,6 +66,43 @@ test("share payloads roundtrip through URL-safe base64 encoding", () => {
   }
 })
 
+test("canonical Foundation V3 records structural, scoring, copy, and completion-locale provenance", () => {
+  const encoded = encodePayload(payloads[2])
+  const resolved = resolveFoundationPayload(encoded)
+
+  assert.ok(resolved)
+  assert.deepEqual(resolved.provenance, {
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
+    localeCopyVersion: 1,
+    completionLocale: "zh-Hans",
+  })
+  assert.equal(Object.values(resolved.payload).some((value) => /[㐀-鿿]/u.test(String(value))), false)
+})
+
+test("Foundation payload generation changes provenance by locale without changing canonical results", () => {
+  const result = buildCanonicalFoundationResult({
+    securityCompetition: 4.3,
+    institutions: 5.8,
+    domesticFilters: 4.9,
+    normsIdentity: 5.1,
+    politicalEconomy: 4.7,
+    restraint: 5.4,
+    orderJustice: 5.3,
+  })
+  const english = buildFoundationSharePayload(result, "en")
+  const chinese = buildFoundationSharePayload(result, "zh-Hans")
+
+  assert.deepEqual(
+    { ...chinese, cl: english.cl, cv: english.cv },
+    english,
+  )
+  assert.equal(english.cl, "en")
+  assert.equal(chinese.cl, "zh-Hans")
+  assert.equal(english.iv, 3)
+  assert.equal(chinese.sv, 1)
+})
+
 test("malformed payloads fail safely instead of decoding to a fabricated result", () => {
   const malformedPayloads = [
     "%%%bad%%%payload",
@@ -66,6 +121,14 @@ test("malformed payloads fail safely instead of decoding to a fabricated result"
     encodeRawPayload({
       ...payloads[0],
       sm: "Balancer",
+    }),
+    encodeRawPayload({
+      ...payloads[2],
+      sv: 0,
+    }),
+    encodeRawPayload({
+      ...payloads[2],
+      cl: "zh",
     }),
   ]
 

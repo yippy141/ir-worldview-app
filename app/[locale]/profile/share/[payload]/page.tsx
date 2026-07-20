@@ -4,6 +4,7 @@ import { LanguageSwitcher } from "@/components/language-switcher"
 import { publicPath } from "@/i18n/paths"
 import { buildLocalizedProfileShareView } from "@/lib/profile-share-locale"
 import { resolveProfileSharePayload } from "@/lib/profile-share"
+import { zhHansProfileRecordsUi } from "@/content/locales/zh-Hans/profile-records"
 
 type Props = {
   params: Promise<{ locale: string; payload: string }>
@@ -17,12 +18,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     : null
   const englishPath = `/profile/share/${payload}`
   const chinesePath = publicPath("zh-Hans", englishPath)
+  const copy = zhHansProfileRecordsUi.share
 
   return {
     title: view
-      ? `${view.foundation.familyLabel}｜共享世界观档案`
-      : "共享档案无法读取｜国际关系世界观清单",
-    description: view?.intro ?? "此共享档案链接无法解码。",
+      ? copy.metadataTitle(view.foundation.familyLabel)
+      : copy.invalidMetadataTitle,
+    description: view?.intro ?? copy.invalidMetadataDescription,
     robots: { index: false, follow: false },
     alternates: {
       canonical: chinesePath,
@@ -41,16 +43,17 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
   const view = resolved
     ? buildLocalizedProfileShareView(resolved.profile, "zh-Hans")
     : null
+  const copy = zhHansProfileRecordsUi.share
 
   if (!view) {
     return (
       <div className="container stack-lg result-invalid">
         <section className="panel stack-md">
-          <p className="eyebrow">共享档案无效</p>
-          <h1>这个链接无法解码。</h1>
-          <p className="muted">链接可能不完整、已损坏，或来自无法识别的版本。</p>
+          <p className="eyebrow">{copy.invalidEyebrow}</p>
+          <h1>{copy.invalidTitle}</h1>
+          <p className="muted">{copy.invalidBody}</p>
           <div className="row gap-sm wrap">
-            <Link href="/zh" className="cta-primary">返回中文首页</Link>
+            <Link href="/" className="cta-primary">{copy.home}</Link>
             <LanguageSwitcher label="englishPage" className="cta-secondary" />
           </div>
         </section>
@@ -75,9 +78,9 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
             <p className="eyebrow">{view.foundation.heading}</p>
             <h2>{view.foundation.familyLabel}</h2>
             <p>{view.foundation.summary}</p>
-            <p className="muted">最近的相邻参照：{view.foundation.runnerUpLabel}</p>
+            <p className="muted">{copy.runnerUp}：{view.foundation.runnerUpLabel}</p>
           </div>
-          <div className="row gap-sm wrap" aria-label="结果修饰项">
+          <div className="row gap-sm wrap" aria-label={copy.modifiersAria}>
             {view.foundation.modifiers.map((modifier) => (
               <span key={modifier} className="atlas-tag">{modifier}</span>
             ))}
@@ -95,8 +98,8 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
         {view.modules.length > 0 ? (
           <section className="result-section stack-md">
             <div className="stack-xs">
-              <p className="eyebrow">专题画像</p>
-              <h2>情境如何改变侧重点</h2>
+              <p className="eyebrow">{copy.modulesEyebrow}</p>
+              <h2>{copy.modulesTitle}</h2>
             </div>
             <div className="driver-grid">
               {view.modules.map((module) => (
@@ -119,8 +122,8 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
 
         {view.perspectives.length > 0 ? (
           <section className="result-section stack-sm">
-            <p className="eyebrow">视角演练</p>
-            <h2>已保存的情境视角</h2>
+            <p className="eyebrow">{copy.perspectivesEyebrow}</p>
+            <h2>{copy.perspectivesTitle}</h2>
             <ul className="content-list">
               {view.perspectives.map((run) => <li key={run.id}>{run.label}</li>)}
             </ul>
@@ -129,7 +132,7 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
 
         {view.provenanceNotice ? (
           <aside className="callout stack-xs" role="note">
-            <p className="eyebrow">版本说明</p>
+            <p className="eyebrow">{copy.provenance}</p>
             <p>{view.provenanceNotice}</p>
           </aside>
         ) : null}

@@ -1,7 +1,8 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
 import type { KeyboardEvent } from "react"
+import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
 import { referenceEntityTypeLabel, type FieldItem } from "@/lib/field/items"
 import {
   fieldSelectionKey,
@@ -29,6 +30,7 @@ type Props = {
     fromKey: FieldSelectionKey,
   ) => void
   emptyLine?: string
+  copy?: typeof zhHansWorldviewMapUi
 }
 
 /**
@@ -42,6 +44,7 @@ export function FieldList({
   onSelect,
   onArrowNavigate,
   emptyLine,
+  copy,
 }: Props) {
   function handleKeyDown(event: KeyboardEvent<HTMLUListElement>) {
     if (!onArrowNavigate) return
@@ -79,7 +82,7 @@ export function FieldList({
         return (
           <section key={layerId} className={styles.listGroup}>
             <h3 className={styles.listGroupHeading}>
-              {label}
+              {copy?.layers.labels[layerId] ?? label}
               <span className={styles.listGroupCount}>{layerItems.length}</span>
             </h3>
             {layerItems.length > 0 ? (
@@ -103,14 +106,16 @@ export function FieldList({
                         <span className={styles.listTags}>
                           <span className={styles.listTag}>
                             {item.entityType
-                              ? referenceEntityTypeLabel(item.entityType)
-                              : KIND_TAGS[item.kind]}
+                              ? referenceEntityTypeLabel(item.entityType, copy ? "zh-Hans" : "en")
+                              : copy?.list.tags[item.kind] ?? KIND_TAGS[item.kind]}
                           </span>
                           {item.draft ? (
-                            <span className={`${styles.listTag} ${styles.listTagDraft}`}>Draft</span>
+                            <span className={`${styles.listTag} ${styles.listTagDraft}`}>
+                              {copy?.list.tags.draft ?? "Draft"}
+                            </span>
                           ) : null}
                           {item.position === null ? (
-                            <span className={styles.listTag}>List only</span>
+                            <span className={styles.listTag}>{copy?.list.tags.listOnly ?? "List only"}</span>
                           ) : null}
                         </span>
                         {item.metaLine ? (
@@ -118,7 +123,7 @@ export function FieldList({
                         ) : null}
                       </button>
                       <Link href={item.href} className={styles.listOpen}>
-                        Open →
+                        {copy?.list.open ?? "Open"} →
                       </Link>
                     </li>
                   )
@@ -127,10 +132,10 @@ export function FieldList({
             ) : (
               <p className={styles.listGroupEmpty}>
                 {layerId === "my-profile"
-                  ? "Your profile is missing from this map. Take the Foundation to place it."
+                  ? copy?.list.emptyProfile ?? "Your profile is missing from this map. Take the Foundation to place it."
                   : layerId === "perspective-runs"
-                    ? "No saved runs yet. Open a brief to record one."
-                    : "This layer has nothing to show yet."}
+                    ? copy?.list.emptyPerspective ?? "No saved runs yet. Open a brief to record one."
+                    : copy?.list.emptyLayer ?? "This layer has nothing to show yet."}
               </p>
             )}
           </section>

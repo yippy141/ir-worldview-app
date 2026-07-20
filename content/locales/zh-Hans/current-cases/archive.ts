@@ -1,0 +1,68 @@
+export const zhHansCurrentCaseArchive = {
+  eyebrow: "当前案例",
+  title: "判断当下事务",
+  intro:
+    "先对一项有来源依据的国际事务作出判断，再用相互竞争的世界观读法和一项假设变化检验这项判断。",
+  privacyNote:
+    "回答和未完成的草稿只保存在当前浏览器。每条记录都会标明证据时间窗、来源和更正状态。",
+  categories: {
+    security: "安全",
+    "economic-statecraft": "经济治国方略",
+    "institutions-and-governance": "制度与治理",
+  },
+  evidenceThrough: (date: string) => `证据更新至 ${date}`,
+  completed: (date: string) => `完成于 ${date}`,
+  draft: "本设备已保存草稿",
+  current: "当前案例",
+  archive: "存档案例",
+  review: "查看判断",
+  resume: "继续作答",
+  open: "打开案例",
+  emptyTitle: "目前没有已发布案例",
+  emptyBody: "只有完成来源核查和编辑审读的记录才会进入公开档案。",
+  recordHeader: {
+    published: "发布于",
+    evidenceThrough: "证据更新至",
+    version: "版本",
+    directSources: (count: number) => `${count} 个直接来源`,
+  },
+  sourcePage: {
+    eyebrow: "来源与事实陈述覆盖",
+    intro: "下列每项事实陈述都至少对应一个记录在案的来源。链接会打开原始发布页面。",
+    evidenceWindow: "证据时间窗",
+    claimAndSourceCount: (claimCount: number, sourceCount: number) =>
+      `${claimCount} 项事实陈述 · ${sourceCount} 个来源`,
+    claimsAria: "事实陈述及其来源",
+    claim: (claimId: string) => `事实陈述 ${claimId}`,
+    sourceLedger: "来源台账",
+    sourceKinds: {
+      primary: "一手来源",
+      "authoritative-research": "权威研究",
+      "high-quality-reporting": "高质量报道",
+    },
+    coversClaims: (claimIds: readonly string[]) => `覆盖 ${claimIds.join("、")}`,
+    originalTitle: "原文标题",
+    displayTranslation: "中文显示译名",
+    opensInNewTab: "在新标签页打开",
+    metadataTitle: (title: string) => `${title}｜来源台账`,
+    metadataFallbackTitle: "当前案例来源台账",
+    metadataFallbackDescription: "当前案例的事实陈述与来源覆盖。",
+    back: "返回案例",
+  },
+  correctionsPage: {
+    eyebrow: "更正与更新",
+    intro: "本页列出经过审读的更正和证据更新。",
+    lastEditorialUpdate: "最近编辑更新",
+    evidenceThrough: "证据更新至",
+    recordStatus: "记录状态",
+    noCorrection:
+      "目前没有公开更正记录。任何可能改变判断或世界观读法的修订，都会在这里注明日期。",
+    report:
+      "如需指出事实问题，请使用勘误页面。只需提供公开案例标题、有争议的事实陈述和支持来源。",
+    reportLink: "勘误与联系",
+    metadataTitle: (title: string) => `${title}｜更正与更新`,
+    metadataFallbackTitle: "当前案例更正与更新",
+    metadataDescription: "查看当前案例经过审读的更正和证据更新。",
+    back: "返回案例",
+  },
+} as const

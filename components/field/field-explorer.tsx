@@ -1,9 +1,12 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { useLocale } from "next-intl"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { trackProductEvent } from "@/lib/analytics/adapter"
+import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
+import type { Locale } from "@/i18n/routing"
 import { FieldDetailCard } from "@/components/field/field-detail-card"
 import { FieldList } from "@/components/field/field-list"
 import { FieldMap, FieldMapKey, type FieldMapMarker } from "@/components/field/field-map"
@@ -57,16 +60,18 @@ import type { FamilyKey } from "@/lib/types"
 import styles from "./worldview-map.module.css"
 
 const DEFAULT_LAYERS: FieldLayerId[] = ["my-profile", "atlas-patterns"]
-const REVIEWED_OPTIONS: readonly {
-  value: WorldviewMapReviewWindow
-  label: string
-}[] = [
-  { value: "", label: "Any time" },
-  { value: "12", label: "Last 12 months" },
-  { value: "24", label: "Last 24 months" },
-]
+const REVIEWED_OPTIONS: readonly WorldviewMapReviewWindow[] = ["", "12", "24"]
+
+const ENGLISH_SCOPE_LABELS: Record<ReferenceScope, string> = {
+  foundation: "Foundation",
+  security: "Security",
+  technology: "Technology",
+  "ai-governance": "AI governance",
+}
 
 export function FieldExplorer() {
+  const locale = useLocale() as Locale
+  const copy = locale === "zh-Hans" ? zhHansWorldviewMapUi : undefined
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [initialQuery] = useState(() =>
@@ -103,13 +108,13 @@ export function FieldExplorer() {
       trackProductEvent("worldview_map_viewed")
     }
     const load = () => {
-      setProfile(loadProfileStore())
+      setProfile(loadProfileStore(locale))
       setProfileLoaded(true)
     }
     load()
     window.addEventListener("storage", load)
     return () => window.removeEventListener("storage", load)
-  }, [])
+  }, [locale])
 
   // Lock the document only for the dedicated small-screen map state.
   useEffect(() => {
@@ -159,15 +164,18 @@ export function FieldExplorer() {
   }, [pathname, profileLoaded, shareableQuery])
 
   const baselineItem = useMemo(
-    () => buildBaselineFieldItem(profile?.foundation ?? null),
-    [profile],
+    () => buildBaselineFieldItem(profile?.foundation ?? null, locale),
+    [locale, profile],
   )
   const runItems = useMemo(
-    () => buildPerspectiveRunFieldItems(profile?.perspectiveRuns ?? []),
-    [profile],
+    () => buildPerspectiveRunFieldItems(profile?.perspectiveRuns ?? [], locale),
+    [locale, profile],
   )
-  const atlasItems = useMemo(() => buildAtlasPatternFieldItems(), [])
-  const referenceItems = useMemo(() => buildReferenceFieldItems(), [])
+  const atlasItems = useMemo(() => buildAtlasPatternFieldItems(locale), [locale])
+  const referenceItems = useMemo(
+    () => buildReferenceFieldItems(REFERENCE_PROFILE_CATALOG, {}, locale),
+    [locale],
+  )
 
   const layerCounts: Partial<Record<FieldLayerId, number>> = {
     "my-profile": baselineItem ? 1 : 0,
@@ -298,7 +306,7 @@ export function FieldExplorer() {
   const activeLayerSummary = PUBLIC_FIELD_LAYER_CONFIGS.filter((config) =>
     resolvedLayers.includes(config.id),
   )
-    .map((config) => config.label)
+    .map((config) => copy?.layers.labels[config.id] ?? config.label)
     .join(" + ")
 
   function handleToggleLayer(layerId: FieldLayerId) {
@@ -349,8 +357,8 @@ export function FieldExplorer() {
 
   const loading = !profileLoaded
   const emptyLine = filtersActive
-    ? "No items match these filters. Clear one or more to widen the view."
-    : "Nothing to show yet. Activate a layer with saved or reviewed entries."
+    ? copy?.map.emptyFiltered ?? "No items match these filters. Clear one or more to widen the view."
+    : copy?.map.empty ?? "Nothing to show yet. Activate a layer with saved or reviewed entries."
 
   return (
     <div
@@ -358,26 +366,27 @@ export function FieldExplorer() {
       data-view={view}
       aria-busy={loading}
     >
-      <div className={styles.toolbar} aria-label="Map workspace toolbar">
+      <div className={styles.toolbar} aria-label={copy?.toolbar.ariaLabel ?? "Map workspace toolbar"}>
         <div className={styles.toolbarSummary}>
-          <span className={styles.toolbarLabel}>Active layers</span>
-          <strong>{activeLayerSummary || "No active layers"}</strong>
+          <span className={styles.toolbarLabel}>{copy?.toolbar.activeLayers ?? "Active layers"}</span>
+          <strong>{activeLayerSummary || copy?.toolbar.noActiveLayers || "No active layers"}</strong>
           <span className={styles.toolbarMeta}>
-            {visibleItems.length} {visibleItems.length === 1 ? "item" : "items"}
+            {copy?.toolbar.itemCount(visibleItems.length) ??
+              `${visibleItems.length} ${visibleItems.length === 1 ? "item" : "items"}`}
           </span>
         </div>
         <div className={styles.toolbarActions}>
           <a className={styles.listJump} href="#worldview-map-list">
-            Complete list ↓
+            {copy?.toolbar.completeList ?? "Complete list"} ↓
           </a>
-          <div className={styles.viewToggle} role="group" aria-label="View">
+          <div className={styles.viewToggle} role="group" aria-label={copy?.toolbar.view ?? "View"}>
             <button
               type="button"
               className={`${styles.viewButton}${view === "list" ? ` ${styles.viewButtonActive}` : ""}`}
               aria-pressed={view === "list"}
               onClick={() => setView("list")}
             >
-              List
+              {copy?.toolbar.list ?? "List"}
             </button>
             <button
               type="button"
@@ -385,7 +394,7 @@ export function FieldExplorer() {
               aria-pressed={view === "map"}
               onClick={() => setView("map")}
             >
-              Map
+              {copy?.toolbar.map ?? "Map"}
             </button>
           </div>
         </div>
@@ -395,23 +404,23 @@ export function FieldExplorer() {
         className={`${styles.workspace}${selectedItem ? ` ${styles.workspaceWithDrawer}` : ""}`}
       >
         <main className={styles.mapColumn}>
-          <section className={styles.mapStage} aria-label={WORLDVIEW_MAP_LABEL}>
+          <section className={styles.mapStage} aria-label={copy?.page.title ?? WORLDVIEW_MAP_LABEL}>
             <div className={styles.mobileMapHeader}>
               <button
                 type="button"
                 className={styles.mapBack}
                 onClick={() => setView("list")}
               >
-                ← Back to list
+                ← {copy?.toolbar.backToList ?? "Back to list"}
               </button>
-              <strong>{WORLDVIEW_MAP_LABEL}</strong>
+              <strong>{copy?.page.title ?? WORLDVIEW_MAP_LABEL}</strong>
             </div>
             <div className={styles.mapStageBody}>
               {loading ? (
-                <p className={styles.mapLoading}>Loading saved layers…</p>
+                <p className={styles.mapLoading}>{copy?.map.loadingSavedLayers ?? "Loading saved layers…"}</p>
               ) : mappableItems.length > 0 ? (
                 <FieldMap
-                  ariaLabel="Layered worldview map. Every plotted item also appears in the complete semantic list with the same details."
+                  ariaLabel={copy?.map.ariaLabel ?? "Layered worldview map. Every plotted item also appears in the complete semantic list with the same details."}
                   markers={markers}
                   connectors={connectors}
                   hulls={hulls}
@@ -420,9 +429,10 @@ export function FieldExplorer() {
                   markerHrefPrefix="field-item-"
                   caption={
                     filters.scopes.includes("ai-governance" as ReferenceScope)
-                      ? "AI-governance positions use different axes and remain available in the list."
-                      : "Spacing is comparative, not calibrated. Overlapping marks show a count and fan open for selection."
+                      ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
+                      : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. Overlapping marks show a count and fan open for selection."
                   }
+                  copy={copy}
                 />
               ) : (
                 <p className={styles.mapEmpty}>{emptyLine}</p>
@@ -437,10 +447,10 @@ export function FieldExplorer() {
           >
             <div className={styles.listHeader}>
               <h2 id="worldview-map-list-heading" className={styles.listTitle}>
-                Complete list
+                {copy?.map.completeListHeading ?? "Complete list"}
               </h2>
               <p className={styles.listNote}>
-                All visible and list-only entries. Use ↑ and ↓ from an item to move.
+                {copy?.map.completeListNote ?? "All visible and list-only entries. Use ↑ and ↓ from an item to move."}
               </p>
             </div>
             <FieldList
@@ -450,26 +460,29 @@ export function FieldExplorer() {
               onSelect={handleSelect}
               onArrowNavigate={handleArrowNavigate}
               emptyLine={emptyLine}
+              copy={copy}
             />
           </section>
         </main>
 
-        <aside className={styles.controls} aria-label="Map controls">
+        <aside className={styles.controls} aria-label={copy?.map.controlsAria ?? "Map controls"}>
           <div className={styles.controlsInner}>
             <LayerControls
               activeLayerIds={resolvedLayers}
               availability={availability}
               counts={layerCounts}
               onToggle={handleToggleLayer}
+              copy={copy}
             />
 
             <details className={styles.filterDetails}>
               <summary className={styles.filterSummary}>
-                Filters{filtersActive ? " · active" : ""}
+                {copy?.filters.heading ?? "Filters"}
+                {filtersActive ? ` · ${copy?.filters.active ?? "active"}` : ""}
               </summary>
               <div className={styles.filterPanel}>
                 <label className={styles.filterLabel}>
-                  Search
+                  {copy?.filters.search ?? "Search"}
                   <input
                     type="search"
                     className={styles.filterInput}
@@ -480,13 +493,13 @@ export function FieldExplorer() {
                         query: event.target.value,
                       }))
                     }
-                    placeholder="Name or topic"
+                    placeholder={copy?.filters.searchPlaceholder ?? "Name or topic"}
                   />
                 </label>
 
                 {presentEntityTypes.length > 0 ? (
                   <fieldset className={styles.filterGroup}>
-                    <legend>Type</legend>
+                    <legend>{copy?.filters.type ?? "Type"}</legend>
                     {presentEntityTypes.map((entityType) => {
                       const active = filters.entityTypes.includes(entityType)
                       return (
@@ -506,7 +519,7 @@ export function FieldExplorer() {
                             }))
                           }
                         >
-                          {referenceEntityTypeLabel(entityType)}
+                          {referenceEntityTypeLabel(entityType, locale)}
                         </button>
                       )
                     })}
@@ -514,14 +527,13 @@ export function FieldExplorer() {
                 ) : null}
 
                 <fieldset className={styles.filterGroup}>
-                  <legend>Scope</legend>
+                  <legend>{copy?.filters.scope ?? "Scope"}</legend>
                   {[...IR_REFERENCE_SCOPES, "ai-governance" as ReferenceScope].map(
                     (scope) => {
                       const active = filters.scopes.includes(scope)
-                      const label =
-                        scope === "ai-governance"
-                          ? "AI governance"
-                          : scope.charAt(0).toUpperCase() + scope.slice(1)
+                      const label = copy
+                        ? copy.filters.scopes[scope === "ai-governance" ? "aiGovernance" : scope]
+                        : ENGLISH_SCOPE_LABELS[scope]
                       return (
                         <button
                           key={scope}
@@ -545,7 +557,7 @@ export function FieldExplorer() {
                 </fieldset>
 
                 <fieldset className={styles.filterGroup}>
-                  <legend>Family</legend>
+                  <legend>{copy?.filters.family ?? "Family"}</legend>
                   {WORLDVIEW_MAP_FAMILY_KEYS.map((familyKey) => {
                     const active = familyKeys.includes(familyKey)
                     return (
@@ -562,14 +574,14 @@ export function FieldExplorer() {
                           )
                         }
                       >
-                        {FAMILY_LABELS[familyKey]}
+                        {copy?.filters.families[familyKey] ?? FAMILY_LABELS[familyKey]}
                       </button>
                     )
                   })}
                 </fieldset>
 
                 <label className={styles.filterLabel}>
-                  Reference date
+                  {copy?.filters.referenceDate ?? "Reference date"}
                   <select
                     className={styles.filterInput}
                     value={reviewedWithin}
@@ -579,9 +591,13 @@ export function FieldExplorer() {
                       )
                     }
                   >
-                    {REVIEWED_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
+                    {REVIEWED_OPTIONS.map((value) => (
+                      <option key={value} value={value}>
+                        {value === ""
+                          ? copy?.filters.anyTime ?? "Any time"
+                          : value === "12"
+                            ? copy?.filters.last12Months ?? "Last 12 months"
+                            : copy?.filters.last24Months ?? "Last 24 months"}
                       </option>
                     ))}
                   </select>
@@ -593,22 +609,27 @@ export function FieldExplorer() {
                     className={styles.clearFilters}
                     onClick={clearFilters}
                   >
-                    Clear filters
+                    {copy?.filters.clear ?? "Clear filters"}
                   </button>
                 ) : null}
               </div>
             </details>
 
             <details className={styles.keyDetails}>
-              <summary className={styles.filterSummary}>Map key</summary>
+              <summary className={styles.filterSummary}>{copy?.map.mapKey ?? "Map key"}</summary>
               <FieldMapKey
                 kinds={["baseline", "perspective-run", "atlas-pattern", "reference"]}
+                copy={copy}
               />
             </details>
 
             <p className={styles.railFoot}>
-              <Link href="/perspectives">Try another vantage point</Link> to see how a
-              defined context shifts your baseline judgments.
+              {copy ? (
+                <Link href="/perspectives">{copy.map.railFoot}</Link>
+              ) : (
+                <><Link href="/perspectives">Try another vantage point</Link> to see how a
+                defined context shifts your baseline judgments.</>
+              )}
             </p>
           </div>
         </aside>
@@ -617,20 +638,21 @@ export function FieldExplorer() {
           <aside
             ref={detailDrawerRef}
             className={styles.detailDrawer}
-            aria-label="Selected item details"
+            aria-label={copy?.map.selectedDetailsAria ?? "Selected item details"}
             onKeyDown={(event) => {
               if (event.key === "Escape") handleCloseDetails()
             }}
           >
-            <FieldDetailCard item={selectedItem} onClose={handleCloseDetails} />
+            <FieldDetailCard item={selectedItem} onClose={handleCloseDetails} copy={copy} />
           </aside>
         ) : null}
       </div>
 
       <p className="sr-only" role="status">
         {loading
-          ? "Loading saved layers."
-          : `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
+          ? copy?.map.statusLoading ?? "Loading saved layers."
+          : copy?.map.statusShown(visibleItems.length, selectedItem?.label) ??
+            `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
       </p>
     </div>
   )

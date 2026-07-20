@@ -81,6 +81,8 @@ const profile: ProfileStore = {
   foundation: {
     timestamp: 1,
     payload: foundationPayload,
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: `/results/${foundationPayload}`,
     familyKey: resolvedFoundation.result.familyKey,
     familyLabel: resolvedFoundation.result.familyLabel,

@@ -1454,6 +1454,17 @@
     line-height: 1.45;
   }
 
+  :global(html:lang(zh-Hans)) .printSummary {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    line-height: 1.65;
+  }
+
+  :global(html:lang(zh-Hans)) .printSummary header > p:first-child,
+  :global(html:lang(zh-Hans)) .printSummary dt,
+  :global(html:lang(zh-Hans)) .printSummary small {
+    font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  }
+
   .printSummary header {
     padding-bottom: 18pt;
     border-bottom: 1px solid #999999;

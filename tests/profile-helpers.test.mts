@@ -15,6 +15,8 @@ const profile: ProfileStore = {
   foundation: {
     timestamp: 1,
     payload: "payload",
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: "/results/payload",
     familyKey: "institutionalist",
     familyLabel: "Liberal Institutionalist",

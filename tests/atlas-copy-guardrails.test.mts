@@ -582,6 +582,8 @@ function buildProfileFixture(includeModules = false): ProfileStore {
     foundation: {
       timestamp: 1,
       payload: "payload",
+      instrumentStructuralVersion: 3,
+      scoringVersion: 1,
       resultPath: "/results/payload",
       familyKey: includeModules ? "institutionalist" : "realist",
       familyLabel: includeModules ? "Liberal Institutionalist" : "Strategic Realist",

@@ -1,6 +1,7 @@
 import type { Question, QuizMode } from "@/lib/types"
 
 export const SCHEMA_VERSION = 3
+export const FOUNDATION_STRUCTURAL_VERSION = SCHEMA_VERSION
 
 export const dimensionLabels = {
   securityCompetition: "Security rivalry",

@@ -1,15 +1,15 @@
 import { AnalyticsOptOut } from "@/components/privacy/analytics-opt-out"
 import { LocalDataControls } from "@/components/privacy/local-data-controls"
-import { LocaleEditorialPageView } from "@/components/i18n/locale-editorial-page"
-import { chineseShellContent } from "@/content/locales"
+import { ZhHansEditorialPage } from "@/components/i18n/zh-hans-editorial-page"
+import { zhHansPrivacyPage } from "@/content/locales/zh-Hans/editorial-pages"
 
 export function ChinesePrivacyPage() {
   return (
-    <LocaleEditorialPageView
-      content={chineseShellContent.privacy}
-      renderWithinSection={(section) => {
-        if (section.id === "analytics") return <AnalyticsOptOut />
-        if (section.id === "delete-data") return <LocalDataControls />
+    <ZhHansEditorialPage
+      content={zhHansPrivacyPage}
+      renderWithinSection={(sectionId) => {
+        if (sectionId === "analytics") return <AnalyticsOptOut />
+        if (sectionId === "delete") return <LocalDataControls />
         return null
       }}
     />

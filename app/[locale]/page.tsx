@@ -1,16 +1,12 @@
 import type { Metadata } from "next"
-import { LocaleEditorialPageView } from "@/components/i18n/locale-editorial-page"
-import { chineseShellContent } from "@/content/locales"
+import { WorldStageHome } from "@/components/home/world-stage/world-stage-home"
+import { zhHansRouteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createLocalizedMetadata } from "@/i18n/metadata"
 
 export function generateMetadata(): Metadata {
-  return createLocalizedMetadata("zh-Hans", "/", chineseShellContent.home.metadata)
+  return createLocalizedMetadata("zh-Hans", "/", zhHansRouteMetadata.home)
 }
 
 export default function ChineseHomePage() {
-  return (
-    <main id="site-main" className="locale-home">
-      <LocaleEditorialPageView content={chineseShellContent.home} className="locale-home-page" />
-    </main>
-  )
+  return <WorldStageHome />
 }

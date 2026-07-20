@@ -60,14 +60,18 @@ test("language switching preserves pathname, query string, and hash fragment", (
   )
 })
 
-test("only the approved Chinese shell receives reciprocal language alternates", () => {
+test("the approved Chinese Foundation route receives reciprocal language alternates", () => {
   assert.deepEqual(approvedChinesePaths, [
     "/",
     "/about",
     "/method",
     "/privacy",
     "/feedback",
+    "/profile",
     "/cases",
+    "/quiz",
+    "/explore/atlas",
+    "/explore/reference",
   ])
   assert.deepEqual(localizedAlternates("/method"), {
     en: "/method",
@@ -78,11 +82,22 @@ test("only the approved Chinese shell receives reciprocal language alternates", 
   const entries = sitemap()
   const aboutEntries = entries.filter((entry) => new URL(entry.url).pathname.endsWith("/about"))
   const quizEntries = entries.filter((entry) => new URL(entry.url).pathname.endsWith("/quiz"))
+  const atlasDetailEntries = entries.filter((entry) =>
+    new URL(entry.url).pathname.endsWith("/explore/atlas/institution-builder"),
+  )
+  const caseSourceEntries = entries.filter((entry) =>
+    new URL(entry.url).pathname.includes("/cases/") &&
+      new URL(entry.url).pathname.endsWith("/sources"),
+  )
 
   assert.equal(aboutEntries.length, 2)
   assert.ok(aboutEntries.every((entry) => entry.alternates?.languages?.["zh-Hans"]))
-  assert.equal(quizEntries.length, 1)
-  assert.equal(quizEntries[0].alternates, undefined)
+  assert.equal(quizEntries.length, 2)
+  assert.ok(quizEntries.every((entry) => entry.alternates?.languages?.["zh-Hans"]))
+  assert.equal(atlasDetailEntries.length, 2)
+  assert.ok(atlasDetailEntries.every((entry) => entry.alternates?.languages?.["zh-Hans"]))
+  assert.ok(caseSourceEntries.length >= 2)
+  assert.ok(caseSourceEntries.every((entry) => entry.alternates?.languages?.["zh-Hans"]))
 })
 
 test("private share routing covers matching English and Chinese payload paths", () => {

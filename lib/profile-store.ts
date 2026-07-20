@@ -82,6 +82,8 @@ export type FoundationSnapshot = {
   timestamp: number
   mode?: QuizMode
   payload: string
+  instrumentStructuralVersion: number
+  scoringVersion: number
   resultPath: string
   familyKey: FamilyKey
   familyLabel: string
@@ -604,6 +606,7 @@ function normalizeFoundationSnapshot(
 
   const provenance = normalizeProvenance(candidate, legacy)
   if (!provenance) return null
+  const payloadRecord = resolveFoundationPayload(candidate.payload)?.provenance
   const legacyEnglishCopy = legacy
     ? foundationLegacyEnglishCopy(candidate)
     : normalizeFoundationLegacyEnglishCopy(candidate.legacyEnglishCopy)
@@ -621,6 +624,14 @@ function normalizeFoundationSnapshot(
     timestamp: candidate.timestamp,
     ...(candidate.mode ? { mode: candidate.mode } : {}),
     payload: candidate.payload,
+    instrumentStructuralVersion:
+      isNonNegativeVersion(candidate.instrumentStructuralVersion)
+        ? candidate.instrumentStructuralVersion
+        : payloadRecord?.instrumentStructuralVersion ?? 0,
+    scoringVersion:
+      isNonNegativeVersion(candidate.scoringVersion)
+        ? candidate.scoringVersion
+        : payloadRecord?.scoringVersion ?? 0,
     resultPath: publicPath(renderLocale, `/results/${candidate.payload}`),
     familyKey: candidate.familyKey,
     familyLabel,
@@ -785,6 +796,8 @@ function persistFoundationSnapshot(snapshot: FoundationSnapshot) {
     timestamp: snapshot.timestamp,
     ...(snapshot.mode ? { mode: snapshot.mode } : {}),
     payload: snapshot.payload,
+    instrumentStructuralVersion: snapshot.instrumentStructuralVersion,
+    scoringVersion: snapshot.scoringVersion,
     familyKey: snapshot.familyKey,
     runnerUpKey: snapshot.runnerUpKey,
     dimensionScores: snapshot.dimensionScores,
@@ -867,6 +880,10 @@ function normalizeProvenance(
         localeCopyVersion: candidate.localeCopyVersion,
       }
     : null
+}
+
+function isNonNegativeVersion(value: unknown): value is number {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0
 }
 
 function isLegacyFoundationDisplay(

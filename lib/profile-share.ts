@@ -545,6 +545,8 @@ function buildFoundationSnapshot(
   return {
     timestamp,
     payload,
+    instrumentStructuralVersion: resolved.provenance.instrumentStructuralVersion,
+    scoringVersion: resolved.provenance.scoringVersion,
     resultPath: publicPath(locale, `/results/${payload}`),
     familyKey: result.familyKey,
     familyLabel: result.familyLabel,
@@ -563,7 +565,8 @@ function buildFoundationSnapshot(
       label: lens.label,
       description: lens.description,
     })),
-    ...LEGACY_ENGLISH_PROVENANCE,
+    locale: resolved.provenance.completionLocale,
+    localeCopyVersion: resolved.provenance.localeCopyVersion,
   }
 }
 

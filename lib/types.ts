@@ -92,14 +92,33 @@ export type QuizResult = {
   neighboringFamily: string
 }
 
-// Fixed-order dimension array for the share payload.
+export type CompletionLocale = "en" | "zh-Hans"
+
+// Fixed-order dimension array for Foundation share payloads.
 // Order: securityCompetition, institutions, domesticFilters, normsIdentity,
 //        politicalEconomy, restraint, orderJustice
-export type SharePayload = {
-  v: 2
+type FoundationShareFields = {
   ds: [number, number, number, number, number, number, number]
   fk: FamilyKey
   nk: FamilyKey
   sm: StrategyModifier
   nm: NormativeModifier
 }
+
+export type SharePayloadV2 = FoundationShareFields & {
+  v: 2
+}
+
+export type SharePayloadV3 = FoundationShareFields & {
+  v: 3
+  /** Canonical Foundation structural version. */
+  iv: number
+  /** Scoring implementation version. */
+  sv: number
+  /** Completion-locale copy version. */
+  cv: number
+  /** Locale in which the respondent completed the instrument. */
+  cl: CompletionLocale
+}
+
+export type SharePayload = SharePayloadV2 | SharePayloadV3

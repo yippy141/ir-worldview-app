@@ -105,12 +105,23 @@ const roleLabels: Record<CountryRole, string> = {
   neutral: "No assigned role",
 }
 
+export type WorldStageMapPresentation = {
+  roleLabels?: Partial<Record<CountryRole, string>>
+  countryNames?: Readonly<Record<string, string>>
+  unassignedRationale?: string
+}
+
+function presentedRoleLabel(role: CountryRole, presentation?: WorldStageMapPresentation) {
+  return presentation?.roleLabels?.[role] ?? roleLabels[role]
+}
+
 export function getWorldStageRoleLabel(role: CountryRole) {
   return roleLabels[role]
 }
 
 export function buildWorldStageCountryData(
   scene: WorldStageScene,
+  presentation?: WorldStageMapPresentation,
 ): WorldStageGeoJsonFeatureCollection<WorldStageCountryFeature> {
   const roles = new Map(scene.countryRoles.map((role) => [role.iso3, role]))
 
@@ -119,22 +130,27 @@ export function buildWorldStageCountryData(
     features: WORLD_STAGE_COUNTRY_GEOMETRY.features.map((feature) => {
       const country = roles.get(feature.properties.iso3)
       const role = country?.role ?? "neutral"
-      const rationale = country?.rationale ?? "No reviewed role is assigned in this lens."
+      const rationale = country?.rationale
+        ?? presentation?.unassignedRationale
+        ?? "No reviewed role is assigned in this lens."
+      const name = presentation?.countryNames?.[feature.properties.iso3]
+        ?? feature.properties.name
+      const roleLabel = presentedRoleLabel(role, presentation)
 
       return {
         type: "Feature",
         id: feature.id,
         properties: {
           iso3: feature.properties.iso3,
-          name: feature.properties.name,
+          name,
           role,
-          roleLabel: roleLabels[role],
+          roleLabel,
           rationale,
           confidence: country?.confidence ?? "not assigned",
           asOf: scene.asOf,
           sourceCount: country?.sourceRefs.length ?? 0,
           entityKind: "country",
-          label: `${feature.properties.name} · ${roleLabels[role]}`,
+          label: `${name} · ${roleLabel}`,
           meaning: rationale,
         },
         geometry: feature.geometry,
@@ -212,12 +228,15 @@ export function getWorldStageFallbackFlows(scene: WorldStageScene): readonly Wor
   return scene.flows.slice(0, WORLD_STAGE_FALLBACK_FLOW_LIMIT)
 }
 
-export function getWorldStageTooltipItems(scene: WorldStageScene): WorldStageTooltipItem[] {
+export function getWorldStageTooltipItems(
+  scene: WorldStageScene,
+  presentation?: WorldStageMapPresentation,
+): WorldStageTooltipItem[] {
   return [
     ...scene.countryRoles.map((country) => ({
       id: country.iso3,
       kind: "country" as const,
-      label: `${country.iso3} · ${roleLabels[country.role]}`,
+      label: `${presentation?.countryNames?.[country.iso3] ?? country.iso3} · ${presentedRoleLabel(country.role, presentation)}`,
       meaning: country.rationale,
       asOf: scene.asOf,
       sourceCount: country.sourceRefs.length,

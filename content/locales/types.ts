@@ -11,6 +11,11 @@ import type {
 export type LocalePageMetadata = {
   title: string
   description: string
+  openGraph?: {
+    title: string
+    description: string
+    type: "website" | "article"
+  }
 }
 
 export type LocaleAction = {

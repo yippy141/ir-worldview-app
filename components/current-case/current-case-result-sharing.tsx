@@ -1,9 +1,12 @@
 "use client"
 
 import { useState, useSyncExternalStore } from "react"
+import { useLocale } from "next-intl"
+import { currentCaseContent } from "@/content/locales/current-cases"
+import { publicPath } from "@/i18n/paths"
+import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import { copyText } from "@/lib/clipboard"
-import { CURRENT_CASE_CONFIDENCE_LABELS } from "@/lib/current-cases/presentation"
 import type {
   CompletedCurrentCaseResponse,
   CurrentCaseOption,
@@ -27,6 +30,9 @@ export function CurrentCaseResultSharing({
   response,
   selectedOption,
 }: CurrentCaseResultSharingProps) {
+  const locale = useLocale() as Locale
+  const content = currentCaseContent(locale)
+  const copy = content.sharing
   const [readingSelected, setReadingSelected] = useState(false)
   const [status, setStatus] = useState("")
   const [error, setError] = useState("")
@@ -37,18 +43,23 @@ export function CurrentCaseResultSharing({
   )
 
   function caseUrl() {
-    return new URL(`/cases/${record.slug}`, window.location.origin).toString()
+    return new URL(publicPath(locale, `/cases/${record.slug}`), window.location.origin).toString()
   }
 
   function readingText() {
-    return `My reading of “${record.title}”: ${selectedOption.label} Confidence ${response.confidence}/5 (${CURRENT_CASE_CONFIDENCE_LABELS[response.confidence]}).`
+    return copy.readingText(
+      record.title,
+      selectedOption.label,
+      response.confidence,
+      content.flow.confidenceLabels[response.confidence],
+    )
   }
 
   async function copyReading() {
     if (!readingSelected) return
     const copied = await copyText(`${readingText()}\n${caseUrl()}`)
-    setError(copied ? "" : "Automatic copy is unavailable. Use your browser’s share controls.")
-    setStatus(copied ? "Reading and case link copied." : "")
+    setError(copied ? "" : copy.automaticCopyUnavailable)
+    setStatus(copied ? copy.readingCopied : "")
     if (copied) trackProductEvent("case_shared", { caseId: record.id })
   }
 
@@ -61,12 +72,12 @@ export function CurrentCaseResultSharing({
 
     try {
       await navigator.share({
-        title: `My reading: ${record.title}`,
+        title: copy.readingTitle(record.title),
         text: readingText(),
         url: caseUrl(),
       })
       setError("")
-      setStatus("Reading shared.")
+      setStatus(copy.readingShared)
       trackProductEvent("case_shared", { caseId: record.id })
     } catch (shareError) {
       if (shareError instanceof DOMException && shareError.name === "AbortError") return
@@ -75,7 +86,7 @@ export function CurrentCaseResultSharing({
   }
 
   async function inviteToCase() {
-    const invitation = "Make your own judgment on this Current Case, then compare with me directly."
+    const invitation = copy.invitationText
     if (canNativeShare) {
       try {
         await navigator.share({
@@ -84,7 +95,7 @@ export function CurrentCaseResultSharing({
           url: caseUrl(),
         })
         setError("")
-        setStatus("Case invitation shared.")
+        setStatus(copy.invitationShared)
         trackProductEvent("case_shared", { caseId: record.id })
         return
       } catch (shareError) {
@@ -93,26 +104,22 @@ export function CurrentCaseResultSharing({
     }
 
     const copied = await copyText(`${invitation}\n${caseUrl()}`)
-    setError(copied ? "" : "Automatic copy is unavailable. Use your browser’s share controls.")
-    setStatus(copied ? "Case invitation copied." : "")
+    setError(copied ? "" : copy.automaticCopyUnavailable)
+    setStatus(copied ? copy.invitationCopied : "")
     if (copied) trackProductEvent("case_shared", { caseId: record.id })
   }
 
   return (
     <section className={styles.resultSharing} aria-labelledby="share-reading-heading">
-      <h3 id="share-reading-heading">Share your reading</h3>
-      <p>
-        Nothing about your judgment is shared until you select it below. The ordinary case link
-        contains no answer data.
-      </p>
+      <h3 id="share-reading-heading">{copy.shareReading}</h3>
+      <p>{copy.privacyLead}</p>
       <div className={styles.challengeControl}>
         <button type="button" className={styles.secondaryButton} onClick={inviteToCase}>
-          Invite someone to this case
+          {copy.invite}
         </button>
       </div>
       <p className={styles.challengeNote}>
-        This sends the ordinary case link only. Compare judgments directly after both of you finish;
-        the service does not hold either person’s answer for the comparison.
+        {copy.invitation}
       </p>
       <label className={styles.readingConsent}>
         <input
@@ -125,8 +132,7 @@ export function CurrentCaseResultSharing({
           }}
         />
         <span>
-          Include my final choice — “{selectedOption.label}” — and confidence of{" "}
-          {response.confidence}/5 in sharing controls.
+          {copy.includeChoice(selectedOption.label, response.confidence)}
         </span>
       </label>
 
@@ -134,10 +140,10 @@ export function CurrentCaseResultSharing({
         <div className={styles.personalShareControls}>
           <div className={styles.personalShareButtons}>
             <button type="button" className={styles.primaryButton} onClick={shareReading}>
-              Share my reading
+              {copy.shareMyReading}
             </button>
             <button type="button" className={styles.secondaryButton} onClick={copyReading}>
-              Copy my reading
+              {copy.copyMyReading}
             </button>
           </div>
         </div>

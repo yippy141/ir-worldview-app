@@ -36,7 +36,7 @@
 }
 
 html:lang(zh-Hans) {
-  --font-serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --font-serif: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", serif;
   --font-sans: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --font-mono: "SFMono-Regular", "Cascadia Mono", "Noto Sans Mono CJK SC", monospace;
   --sans: var(--font-sans);
@@ -45,6 +45,9 @@ html:lang(zh-Hans) {
 html:lang(zh-Hans) body {
   line-height: 1.75;
   text-autospace: normal;
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 html:lang(zh-Hans) h1,
@@ -52,6 +55,42 @@ html:lang(zh-Hans) h2,
 html:lang(zh-Hans) h3 {
   line-height: 1.38;
   letter-spacing: 0;
+  text-wrap: balance;
+  hanging-punctuation: first allow-end;
+}
+
+html:lang(zh-Hans) p,
+html:lang(zh-Hans) li,
+html:lang(zh-Hans) dd,
+html:lang(zh-Hans) figcaption {
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+html:lang(zh-Hans) button,
+html:lang(zh-Hans) input,
+html:lang(zh-Hans) select,
+html:lang(zh-Hans) .cta-primary,
+html:lang(zh-Hans) .cta-secondary {
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+html:lang(zh-Hans) table {
+  font-variant-numeric: tabular-nums;
+}
+
+html:lang(zh-Hans) th,
+html:lang(zh-Hans) td {
+  line-height: 1.65;
+  vertical-align: top;
+}
+
+html:lang(zh-Hans) a[href^="http"],
+html:lang(zh-Hans) .source-original-title,
+html:lang(zh-Hans) .reference-source-row__work,
+html:lang(zh-Hans) .reference-source-row__pub {
+  overflow-wrap: anywhere;
 }
 
 * {
@@ -1243,6 +1282,37 @@ html:lang(zh-Hans) .locale-cases-page .muted {
 
 .translation-status-notice {
   max-width: 780px;
+}
+
+.source-original-title {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-2);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 0.84em;
+  line-height: 1.65;
+}
+
+@media (max-width: 420px) {
+  html:lang(zh-Hans) .wide-container,
+  html:lang(zh-Hans) .container {
+    width: min(100% - 28px, 1120px);
+  }
+
+  html:lang(zh-Hans) .row.wrap > .cta-primary,
+  html:lang(zh-Hans) .row.wrap > .cta-secondary,
+  html:lang(zh-Hans) .profile-state-action {
+    min-width: 0;
+    white-space: normal;
+  }
+
+  html:lang(zh-Hans) .reference-record-strip {
+    align-items: flex-start;
+  }
+
+  html:lang(zh-Hans) .reference-source-row {
+    padding: 12px;
+  }
 }
 
 .translation-scope-note {
@@ -7747,6 +7817,17 @@ html:lang(zh-Hans) .quiz-shell-label {
     color: #111111;
   }
 
+  html:lang(zh-Hans),
+  html:lang(zh-Hans) body {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    line-height: 1.65;
+  }
+
+  html:lang(zh-Hans) a {
+    color: #111111;
+    text-decoration: none;
+  }
+
   .site-header,
   .print-hidden {
     display: none !important;
@@ -9760,6 +9841,28 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
   color: var(--muted);
 }
 
+.locale-foundation-result {
+  padding-block: clamp(2rem, 6vw, 4.5rem);
+}
+
+.locale-foundation-result .locale-profile-dimensions dd {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.7rem;
+  white-space: normal;
+  text-align: right;
+}
+
+.locale-foundation-result .locale-profile-dimensions dd strong {
+  flex: 0 0 auto;
+  color: var(--text);
+}
+
+.locale-foundation-result .locale-profile-dimensions dd span {
+  max-width: 32rem;
+}
+
 @media (max-width: 480px) {
   .locale-profile-share {
     padding-block: 1.5rem 2.5rem;
@@ -9767,5 +9870,18 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
 
   .locale-profile-dimensions > div {
     gap: 0.65rem;
+  }
+
+  .locale-foundation-result {
+    padding-block: 1.5rem 2.5rem;
+  }
+
+  .locale-foundation-result .locale-profile-dimensions > div {
+    grid-template-columns: 1fr;
+  }
+
+  .locale-foundation-result .locale-profile-dimensions dd {
+    justify-content: space-between;
+    text-align: left;
   }
 }

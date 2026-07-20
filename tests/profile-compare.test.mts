@@ -8,6 +8,8 @@ const leftProfile: ProfileStore = {
   foundation: {
     timestamp: 1,
     payload: "left",
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: "/results/left",
     familyKey: "institutionalist",
     familyLabel: "Liberal Institutionalist",
@@ -112,6 +114,8 @@ const rightProfile: ProfileStore = {
   foundation: {
     timestamp: 1,
     payload: "right",
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: "/results/right",
     familyKey: "realist",
     familyLabel: "Strategic Realist",

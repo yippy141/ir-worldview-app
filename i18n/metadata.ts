@@ -15,6 +15,7 @@ export function createLocalizedMetadata(
   return {
     title: content.title,
     description: content.description,
+    ...(content.openGraph ? { openGraph: content.openGraph } : {}),
     alternates: {
       canonical: publicPath(locale, pathname),
       languages: localizedAlternates(pathname),
@@ -40,6 +41,22 @@ export function createUnavailableChineseMetadata(pathname: string): Metadata {
         en: publicPath("en", pathname),
         "x-default": publicPath("en", pathname),
       },
+    },
+  }
+}
+
+export function createDynamicLocalizedMetadata(
+  locale: Locale,
+  pathname: string,
+  content: LocalePageMetadata,
+): Metadata {
+  return {
+    title: content.title,
+    description: content.description,
+    ...(content.openGraph ? { openGraph: content.openGraph } : {}),
+    alternates: {
+      canonical: publicPath(locale, pathname),
+      languages: localizedAlternates(pathname),
     },
   }
 }

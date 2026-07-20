@@ -90,6 +90,8 @@ test("all frozen ProfileStore generations migrate or hydrate as V5", () => {
   const canonicalV5 = parseProfileStore(readFixture(5), "zh-Hans")
   assert.equal(canonicalV5.foundation?.locale, "zh-Hans")
   assert.equal(canonicalV5.foundation?.localeCopyVersion, 1)
+  assert.equal(canonicalV5.foundation?.instrumentStructuralVersion, 3)
+  assert.equal(canonicalV5.foundation?.scoringVersion, 1)
   assert.match(canonicalV5.foundation?.resultPath ?? "", /^\/zh\/results\//)
 })
 
@@ -103,6 +105,8 @@ test("new V5 persistence strips render-time display copy", () => {
   assert.equal(persisted.foundation.resultPath, undefined)
   assert.equal(persisted.foundation.familyKey, "institutionalist")
   assert.equal(persisted.foundation.locale, "zh-Hans")
+  assert.equal(persisted.foundation.instrumentStructuralVersion, 3)
+  assert.equal(persisted.foundation.scoringVersion, 1)
 })
 
 test("migrated non-regenerable English copy survives only in the legacy fallback", () => {

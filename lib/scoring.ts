@@ -15,6 +15,8 @@ import type {
   RankedChoiceAnswer,
 } from "@/lib/types"
 
+export const FOUNDATION_SCORING_VERSION = 1
+
 const DIMENSIONS = Object.keys(dimensionLabels) as DimensionKey[]
 const SECOND_CHOICE_WEIGHT = 0.45
 

@@ -181,6 +181,8 @@ function reviewedCase(): CurrentCase {
 const foundation: FoundationSnapshot = {
   timestamp: 1,
   payload: "payload",
+  instrumentStructuralVersion: 3,
+  scoringVersion: 1,
   resultPath: "/results/payload",
   familyKey: "realist",
   familyLabel: "Realist",

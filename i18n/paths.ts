@@ -6,10 +6,21 @@ export const approvedChinesePaths = [
   "/method",
   "/privacy",
   "/feedback",
+  "/profile",
   "/cases",
+  "/quiz",
+  "/explore/atlas",
+  "/explore/reference",
 ] as const
 
 export type ApprovedChinesePath = (typeof approvedChinesePaths)[number]
+
+const approvedChineseDynamicPatterns = [
+  /^\/results\/[^/]+$/,
+  /^\/cases\/[^/]+(?:\/(?:sources|corrections))?$/,
+  /^\/explore\/atlas\/[^/]+$/,
+  /^\/explore\/reference\/[^/]+$/,
+] as const
 
 export const englishSitemapPaths = [
   ...approvedChinesePaths,
@@ -56,11 +67,22 @@ export function internalPath(pathname: string): string {
   return normalizePathname(pathname)
 }
 
-export function isApprovedChinesePath(pathname: string): pathname is ApprovedChinesePath {
-  return (approvedChinesePaths as readonly string[]).includes(internalPath(pathname))
+export function isApprovedChinesePath(pathname: string): boolean {
+  const normalized = internalPath(pathname)
+  return (
+    (approvedChinesePaths as readonly string[]).includes(normalized) ||
+    approvedChineseDynamicPatterns.some((pattern) => pattern.test(normalized))
+  )
 }
 
-export function localizedAlternates(pathname: ApprovedChinesePath) {
+export function isUnapprovedInstrumentPath(pathname: string): boolean {
+  const normalized = internalPath(pathname)
+  return ["/ai", "/modules", "/perspectives"].some(
+    (prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`),
+  )
+}
+
+export function localizedAlternates(pathname: string) {
   return {
     en: publicPath("en", pathname),
     "zh-Hans": publicPath("zh-Hans", pathname),

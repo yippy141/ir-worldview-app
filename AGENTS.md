@@ -85,27 +85,27 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V19.3 Locale-neutral persistence
+## Current sprint: V20 Simplified Chinese editorial
 
-- ProfileStore V5 persists canonical identifiers, scores, payloads, and completion
-  provenance; current display copy is derived when records are read.
-- Migrate V1-V4 without discarding meaningful saved copy. Quarantine copy that
-  cannot be regenerated in an explicit legacy English fallback.
-- Profile Share V3 contains no embedded analytical prose. Preserve V1/V2 decoding
-  and legacy links.
-- Store stable Current Case reasoning-tag IDs and retain unknown retired labels
-  behind deterministic legacy IDs.
-- Record locale and locale-copy version for completed instruments.
-- Render one canonical shared payload in English or Simplified Chinese according
-  to the route, while preserving V19.2 URL and privacy behavior.
-- Never treat completions from different locales or copy versions as
-  research-equivalent observations.
-- Do not change scoring or duplicate scoring definitions and structural catalogs.
-- Maintain frozen ProfileStore V1-V5 and Profile Share V1-V3 fixtures and run the
-  full verification and Playwright suites.
+- Render the approved Simplified Chinese editorial deck from typed locale content;
+  do not use runtime machine translation or silent English long-form fallback.
+- Run the owner-approved Simplified Chinese Foundation as an adapted beta with
+  shared structure and scoring, locale-owned copy, and no equivalence claim.
+- Keep AI, module, and Perspective instruments in English until their Chinese
+  copy is separately approved, with a review-status handoff on Chinese routes.
+- Preserve locale-neutral Current Case response IDs, drafts, steps, ProfileStore
+  records, Profile Share payloads, and all World Stage and Worldview Map geometry.
+- Derive Chinese labels from canonical identifiers when profile records are read;
+  never persist translated display copy as canonical data.
+- Show Chinese source display titles beside original titles where translations are
+  approved, and retain original source identity where no translation is approved.
+- Use natural Chinese dates, the approved CJK system stacks and line heights, and
+  verify 390px, print, source-ledger, Open Graph, and missing-glyph behavior.
+- Keep English routes unchanged and run the full unit, lint, build, and Playwright
+  suites before handoff.
 
 ## End-of-sprint discipline
 
-When V19 ends, replace the "Current sprint" section above with the next
+When a sprint ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.

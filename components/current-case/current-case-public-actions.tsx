@@ -1,6 +1,10 @@
 "use client"
 
 import { useState, useSyncExternalStore } from "react"
+import { useLocale } from "next-intl"
+import { currentCaseContent } from "@/content/locales/current-cases"
+import { publicPath } from "@/i18n/paths"
+import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import { copyText } from "@/lib/clipboard"
 import styles from "./current-case.module.css"
@@ -20,6 +24,8 @@ export function CurrentCasePublicActions({
   dek,
   slug,
 }: CurrentCasePublicActionsProps) {
+  const locale = useLocale() as Locale
+  const copy = currentCaseContent(locale).sharing
   const [status, setStatus] = useState("")
   const [copyFailed, setCopyFailed] = useState(false)
   const canNativeShare = useSyncExternalStore(
@@ -29,13 +35,13 @@ export function CurrentCasePublicActions({
   )
 
   function caseUrl() {
-    return new URL(`/cases/${slug}`, window.location.origin).toString()
+    return new URL(publicPath(locale, `/cases/${slug}`), window.location.origin).toString()
   }
 
   async function copyCaseLink() {
     const copied = await copyText(caseUrl())
     setCopyFailed(!copied)
-    setStatus(copied ? "Case link copied." : "Automatic copy is unavailable. Select the link below.")
+    setStatus(copied ? copy.caseLinkCopied : copy.automaticCopyUnavailable)
     if (copied) trackProductEvent("case_shared", { caseId })
   }
 
@@ -47,7 +53,7 @@ export function CurrentCasePublicActions({
 
     try {
       await navigator.share({ title, text: dek, url: caseUrl() })
-      setStatus("Case shared.")
+      setStatus(copy.caseShared)
       trackProductEvent("case_shared", { caseId })
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return
@@ -59,17 +65,17 @@ export function CurrentCasePublicActions({
     <div className={`${styles.publicActions} print-hidden`}>
       <div className={styles.publicActionButtons}>
         <button type="button" className={styles.utilityButton} onClick={shareCase}>
-          Share this case
+          {copy.shareCase}
         </button>
         <button type="button" className={styles.utilityButton} onClick={copyCaseLink}>
-          Copy link
+          {copy.copyLink}
         </button>
         <button
           type="button"
           className={styles.utilityButton}
           onClick={() => window.print()}
         >
-          Print / save PDF
+          {copy.printOrSavePdf}
         </button>
       </div>
       <p className={styles.shareStatus} role="status" aria-live="polite">
@@ -77,7 +83,7 @@ export function CurrentCasePublicActions({
       </p>
       {copyFailed ? (
         <label className={styles.copyFallback}>
-          Case link
+          {copy.caseLink}
           <input
             type="text"
             readOnly

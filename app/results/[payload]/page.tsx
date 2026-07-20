@@ -38,6 +38,7 @@ import { FoundationProfileSync } from "@/components/profile/foundation-profile-s
 import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { modules } from "@/lib/modules/framework"
+import { localizedAlternates, publicPath } from "@/i18n/paths"
 import type { DimensionKey, FamilyKey, NormativeModifier, StrategyModifier } from "@/lib/types"
 import type { Metadata } from "next"
 
@@ -51,7 +52,7 @@ export async function generateMetadata(
     const description =
       "Open a shared IR Worldview Inventory result, or take the Foundation questionnaire to generate your own profile."
 
-    return buildResultMetadata(title, description)
+    return buildResultMetadata(payload, title, description)
   }
 
   const familyLabel = resolved.result.familyLabel
@@ -60,10 +61,10 @@ export async function generateMetadata(
   const description =
     `Shared IR Worldview result: ${resultLabel}. See the closest modeled tradition, modifiers, and dimension profile.`
 
-  return buildResultMetadata(title, description)
+  return buildResultMetadata(payload, title, description)
 }
 
-function buildResultMetadata(title: string, description: string): Metadata {
+function buildResultMetadata(payload: string, title: string, description: string): Metadata {
   return {
     title,
     description,
@@ -76,6 +77,10 @@ function buildResultMetadata(title: string, description: string): Metadata {
       card: "summary",
       title,
       description,
+    },
+    alternates: {
+      canonical: publicPath("en", `/results/${payload}`),
+      languages: localizedAlternates(`/results/${payload}`),
     },
   }
 }
