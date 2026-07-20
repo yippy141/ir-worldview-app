@@ -9,6 +9,11 @@ export const privacyHeaders = [
   },
 ] as const
 
+export const mapReferrerHeader = {
+  key: "Referrer-Policy",
+  value: "strict-origin-when-cross-origin",
+} as const
+
 export const privateNoStoreHeader = "private, no-store, max-age=0"
 
 export const sensitiveShareRoutes = [
