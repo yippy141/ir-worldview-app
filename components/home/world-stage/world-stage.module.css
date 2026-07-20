@@ -458,7 +458,6 @@
 .fallbackMap {
   opacity: 1;
   pointer-events: auto;
-  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fallbackMapDimmed {
@@ -601,7 +600,6 @@
   pointer-events: none;
   background: var(--stage-navy);
   touch-action: none;
-  transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .mapboxHostReady {
