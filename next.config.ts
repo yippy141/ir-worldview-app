@@ -2,6 +2,7 @@ import type { NextConfig } from "next"
 import createNextIntlPlugin from "next-intl/plugin"
 import {
   localizedSensitiveShareRoutes,
+  mapReferrerHeader,
   privacyHeaders,
   privateNoStoreHeader,
 } from "./lib/http-headers"
@@ -18,6 +19,10 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: [...privacyHeaders],
       },
+      ...["/", "/zh-Hans"].map((source) => ({
+        source,
+        headers: [mapReferrerHeader],
+      })),
       ...localizedSensitiveShareRoutes.map((source) => ({
         source,
         headers: [

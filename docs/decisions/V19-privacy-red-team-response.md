@@ -24,7 +24,7 @@ routes, migrations, and research audit logs belong to a separately approved back
 | Local-only launch needs a visible deletion control | Accept | Added one control covering registered Profile, draft, Current Case, and result-history keys. |
 | Result feedback links propagated encoded result payloads | Accept | Result pages now link to a context-free corrections page. |
 | The external feedback form creates a free-text/contact intake | Accept | Removed the product link and replaced it with a narrow operational contact boundary. |
-| Share/result URLs deserve stricter browser handling | Accept | Added global `no-referrer` and security headers plus `private, no-store` on encoded share routes. |
+| Share/result URLs deserve stricter browser handling | Accept | Added `no-referrer` and security headers plus `private, no-store` on encoded share routes. The two World Stage homepages send only their origin cross-site so the URL-restricted Mapbox token can load tiles. |
 
 ## Findings that remain release gates instead of V19 features
 
