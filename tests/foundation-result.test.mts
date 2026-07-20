@@ -157,11 +157,15 @@ test("foundation payoff derives from decoded share-link result data", () => {
     assert.ok(payoff.mainTension.title.length > 0)
     assert.ok(payoff.mainTension.body.length > 0)
     assert.ok(payoff.mainTension.rivalArgument.length > 0)
+    assert.ok(payoff.caseTest.caseId.length > 0)
+    assert.ok(payoff.caseTest.question.length > 0)
+    assert.ok(payoff.caseTest.reason.length > 0)
     assert.ok(payoff.nextStep.href.startsWith("/"))
   }
 
   assert.notEqual(realistPayoff.corePattern.noticeFirst, institutionalistPayoff.corePattern.noticeFirst)
-  assert.equal(broadPayoff.mainTension.title, "A broad map, not a hard center")
+  assert.equal(broadPayoff.mainTension.title, "What makes you choose a lens")
+  assert.equal(broadPayoff.caseTest.caseId, "security-cuban-missile-escalation-ceilings")
   assert.equal(broadPayoff.nextStep.href, "/explore/atlas")
 })
 

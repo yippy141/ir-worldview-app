@@ -513,10 +513,16 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "normsIdentity",
     prompt:
-      "Status claims and recognition disputes can reveal something real about a rival's future conduct, not just decorate the rhetoric.",
+      "How a rival responds to being excluded from talks, denied diplomatic recognition, or treated as a lesser power can help predict what it will do next.",
     clarification: {
       whatItAsks:
-        "Can disputes over status and recognition help predict how a rival will act?",
+        "Can a rival's response to a perceived status slight help predict its next move?",
+      terms: [
+        {
+          term: "Status",
+          definition: "The standing and recognition a state believes it deserves from other states.",
+        },
+      ],
     },
   },
   {
@@ -524,10 +530,10 @@ export const analystQuestions: Question[] = [
     kind: "likert",
     dimension: "politicalEconomy",
     prompt:
-      "Control over technical standards, platforms, and data will shape geopolitical power more deeply than military or territorial contests alone.",
+      "In the coming decade, power will depend as much on who sets the rules and controls the infrastructure for chips, cloud services, payments, and cross-border data as on military strength or territory.",
     clarification: {
       whatItAsks:
-        "Will control of standards, platforms, and data shape power more deeply than territory and military force?",
+        "This compares military and territorial power with control over key technologies, networks, and the rules that make them work together.",
     },
   },
   {
@@ -623,35 +629,35 @@ export const analystQuestions: Question[] = [
     cardType: "explanation",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A middle-income country faces collapse after capital flight and creditor pressure for austerity. What is the most persuasive reading?",
-    helpText: "Choose the best explanation of the crisis.",
+      "A middle-income country pegs its currency to the dollar while banks and firms borrow heavily in dollars. Global interest rates rise, foreign lenders pull out, and emergency loans require spending cuts during a recession. Which factor best explains why the crisis is so hard to stop?",
+    helpText: "Choose the explanation that should guide the first response.",
     options: [
       {
         id: "credibility",
         title: "Domestic credibility failure",
         label:
-          "External pressure exposed internal weakness. Restoring credibility is the first condition for recovery.",
+          "The currency peg and foreign-currency borrowing made an outside shock much worse. Rebuilding trust in domestic policy is the first condition for recovery.",
         signals: { politicalEconomy: 2.9, domesticFilters: 4.8, institutions: 4.3 },
       },
       {
         id: "pragmatic",
         title: "Mixed crisis, mixed repair",
         label:
-          "The crisis is both domestic and structural. Use temporary controls and renegotiation, but stay inside the broader system.",
+          "Domestic policy choices and creditor leverage are both doing real work. Use temporary controls and renegotiate terms without abandoning the wider financial system.",
         signals: { politicalEconomy: 5.1, domesticFilters: 5.2, institutions: 5.1, restraint: 4.8 },
       },
       {
         id: "dependence",
         title: "Structural dependence exposed",
         label:
-          "The crisis reflects dependence on external capital and creditor leverage. It will recur unless that structure changes.",
+          "The crisis exposes dependence on foreign-currency finance and creditor conditions. It will recur unless that dependence changes.",
         signals: { politicalEconomy: 6.5, institutions: 2.8, domesticFilters: 4.8 },
       },
       {
         id: "coalitions",
         title: "Domestic distributional conflict",
         label:
-          "Financial pressure sets the constraint, but domestic politics decides who absorbs the adjustment.",
+          "External finance sets the constraint, but domestic politics determines which workers, firms, and regions absorb the cuts.",
         signals: { domesticFilters: 6.4, politicalEconomy: 5.2, institutions: 4.3 },
       },
     ],
@@ -701,35 +707,35 @@ export const analystQuestions: Question[] = [
     cardType: "both",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "In a crisis with mixed signals, what evidence deserves the most weight?",
-    helpText: "Choose the signal you would trust first.",
+      "After a border clash, a rival withdraws some troops and accepts a military hotline, but keeps new missiles in place and faces nationalist pressure at home. Which evidence should anchor your judgment of whether de-escalation will last?",
+    helpText: "Choose the evidence you would trust first when the signals point in different directions.",
     options: [
       {
         id: "capabilities",
         title: "Capabilities and posture",
         label:
-          "Deployments, force posture, and hard capability shifts should outweigh softer signals when they point in different directions.",
+          "The missiles and remaining force posture matter most because they can be used regardless of promises or political language.",
         signals: { securityCompetition: 6.3, normsIdentity: 3.0 },
       },
       {
         id: "commitments",
         title: "Institutions and commitments",
         label:
-          "Treaty behavior, inspections, and crisis rules tell you more because they change incentives and raise the cost of bluffing.",
+          "Compliance with the pullback and use of the hotline matter most because observable commitments are harder to fake than public messages.",
         signals: { institutions: 6.1, securityCompetition: 3.6, restraint: 4.8 },
       },
       {
         id: "coalitions",
         title: "Domestic staying power",
         label:
-          "The best clue is whether leaders have the coalition, budget, and public room to sustain the line they are taking.",
+          "The best clue is whether leaders can contain nationalist pressure and keep domestic support for the quieter course.",
         signals: { domesticFilters: 6.4, institutions: 4.3, restraint: 4.9 },
       },
       {
         id: "status",
         title: "Status and relationship signals",
         label:
-          "Changes in status claims, recognition disputes, and political language can shift what behavior means before capabilities do.",
+          "Watch whether leaders stop describing the dispute as a test of national standing; that shift can change what the remaining weapons mean.",
         signals: { normsIdentity: 6.3, securityCompetition: 3.2, institutions: 4.4 },
       },
     ],
@@ -1045,35 +1051,35 @@ export const analystQuestions: Question[] = [
     cardType: "actorLens",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A post-colonial government sees calls for military intervention next door after severe repression. Which line looks strongest from its side?",
-    helpText: "Answer from that government's position.",
+      "After a major insurgent attack, a Sahelian government is offered troops by its former colonial power. The force could help quickly, but earlier missions left resentment and weak local capacity. What should weigh most?",
+    helpText: "Answer from the Sahelian government's position.",
     options: [
       {
         id: "shield",
-        title: "Keep the bar for intervention high",
+        title: "Protect sovereignty and local control",
         label:
-          "Because intervention is applied selectively, weaker states cannot treat it as a neutral rule.",
+          "Decline any arrangement that gives the outside force open-ended authority; short-term help is not worth renewed dependence.",
         signals: { orderJustice: 6.3, restraint: 5.4, normsIdentity: 4.8 },
       },
       {
         id: "threshold",
-        title: "Extreme harm can still justify action",
+        title: "Urgent danger can justify help",
         label:
-          "Even a government that is very protective of sovereignty may accept a real exception when mass killing becomes overwhelming.",
+          "If civilians and state survival face extreme danger, tightly limited outside force can be justified despite the history.",
         signals: { orderJustice: 2.7, restraint: 3.8, normsIdentity: 4.9 },
       },
       {
         id: "regional",
-        title: "Regional backing is the key test",
+        title: "Put regional actors in the lead",
         label:
-          "An exception is most defensible when nearby states define the aim and limits, not when distant powers frame it alone.",
+          "Accept help only through a mission whose aims, command, and exit terms are set mainly by neighboring states.",
         signals: { institutions: 6.0, orderJustice: 4.2, restraint: 5.0 },
       },
       {
         id: "aftermath",
-        title: "Ask what follows after intervention",
+        title: "Judge the exit, not just the arrival",
         label:
-          "The main question is whether outside force will truly protect people or instead deepen collapse and outside control.",
+          "The decisive test is whether the mission leaves local forces and institutions stronger rather than creating another indefinite security dependency.",
         signals: { restraint: 6.2, domesticFilters: 4.8, orderJustice: 4.3 },
       },
     ],
@@ -1123,35 +1129,35 @@ export const analystQuestions: Question[] = [
     cardType: "decision",
     allowSecondChoiceInAnalyst: true,
     prompt:
-      "A government condemns aggression abroad, but breaking economic ties quickly would cause severe price shocks at home. What should govern its line?",
-    helpText: "Choose the priority, not the most defensible public message.",
+      "A treaty ally finds that its main security partner has used force in clear breach of an agreement both signed. Suspending basing access would uphold the rule, but would also expose the ally to a nearby rival and threaten thousands of local jobs. What should govern its response?",
+    helpText: "Choose the priority that should govern the decision, not the easiest public message.",
     options: [
       {
         id: "defend_rule",
-        title: "Defend the rule fast",
+        title: "Suspend access now",
         label:
-          "Absorbing real cost is part of making aggression and territorial seizure harder to normalize.",
+          "A treaty ally cannot make the agreement credible while continuing to enable a clear breach, even at real security and economic cost.",
         signals: { orderJustice: 6.1, institutions: 5.6, restraint: 3.7 },
       },
       {
         id: "protect_home",
-        title: "Protect domestic stability",
+        title: "Protect immediate security",
         label:
-          "A foreign policy that breaks the home coalition quickly will not stay credible for long.",
+          "Do not trade away the country's deterrent position or domestic coalition for a response it cannot safely sustain.",
         signals: { domesticFilters: 6.4, restraint: 5.3, politicalEconomy: 4.7 },
       },
       {
         id: "phase_reduction",
-        title: "Reduce exposure in phases",
+        title: "Reduce dependence in stages",
         label:
-          "The stronger line is to cut dependence over time while avoiding a shock that strengthens hard-liners at home.",
+          "Set a timetable to diversify security support and the local economy before using basing access as leverage.",
         signals: { politicalEconomy: 5.9, restraint: 5.8, domesticFilters: 5.1 },
       },
       {
         id: "hedge_diplomatically",
-        title: "Keep diplomatic room",
+        title: "Separate condemnation from access",
         label:
-          "Condemn the breach, but avoid turning economic pain into automatic alignment with someone else's larger strategy.",
+          "Condemn the breach and press for a settlement, but keep the base arrangement in place unless the violation widens.",
         signals: { restraint: 5.7, normsIdentity: 4.8, institutions: 4.2 },
       },
     ],

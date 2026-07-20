@@ -31,14 +31,17 @@ export type FoundationPayoff = {
     title: string
     text: string
   }>
+  caseTest: {
+    caseId: string
+    question: string
+    reason: string
+  }
   nextStep: {
     href: string
     label: string
     reason: string
   }
 }
-
-type Direction = "high" | "low" | "middle"
 
 type TensionKey =
   | "low-differentiation"
@@ -118,60 +121,23 @@ const rivalArguments: Record<FamilyKey, string> = {
     "The political-economy challenge is that hierarchy and dependence may be doing more work than diplomacy admits.",
 }
 
-const dimensionFrames: Record<
-  DimensionKey,
-  {
-    high: string
-    low: string
-  }
-> = {
-  securityCompetition: {
-    high: "rivalry and uncertainty",
-    low: "room for cooperation beyond rivalry",
-  },
-  institutions: {
-    high: "rules and monitoring",
-    low: "power underneath institutions",
-  },
-  domesticFilters: {
-    high: "domestic politics inside foreign policy",
-    low: "external pressure over domestic variation",
-  },
-  normsIdentity: {
-    high: "legitimacy and identity",
-    low: "material incentives over norm language",
-  },
-  politicalEconomy: {
-    high: "markets, hierarchy, and dependence",
-    low: "security and diplomacy before economic structure",
-  },
-  restraint: {
-    high: "restraint and avoiding overextension",
-    low: "pressing advantage when openings appear",
-  },
-  orderJustice: {
-    high: "order and sovereignty",
-    low: "justice claims that can override sovereignty",
-  },
-}
-
 export function buildFoundationPayoff(input: FoundationPayoffInput): FoundationPayoff {
   const familyFrame = familyFrames[input.familyKey]
   const primaryDimension = getStrongestDimension(input.dimensionScores)
-  const primaryFrame = describeDimension(primaryDimension, input.dimensionScores[primaryDimension])
   const tensionKey = selectTension(input, primaryDimension)
 
   return {
     corePattern: {
-      noticeFirst: `${familyFrame.noticeFirst} In this result, the strongest pull is around ${primaryFrame}.`,
+      noticeFirst: familyFrame.noticeFirst,
       distrust: familyFrame.distrust,
-      underweight: `${familyFrame.underweight} ${input.runnerUpLabel} is the nearest comparison point.`,
+      underweight: familyFrame.underweight,
     },
     mainTension: buildMainTension(tensionKey, input),
     liveDebates: Object.entries(familyFrame.debateLens).map(([title, text]) => ({
       title,
       text,
     })),
+    caseTest: buildCaseTest(tensionKey),
     nextStep: buildNextStep(tensionKey),
   }
 }
@@ -179,22 +145,6 @@ export function buildFoundationPayoff(input: FoundationPayoffInput): FoundationP
 function getStrongestDimension(scores: DimensionScores): DimensionKey {
   return (Object.entries(scores) as [DimensionKey, number][])
     .sort(([, a], [, b]) => Math.abs(b - 4) - Math.abs(a - 4))[0][0]
-}
-
-function getDirection(score: number): Direction {
-  if (score >= 4.75) return "high"
-  if (score <= 3.25) return "low"
-  return "middle"
-}
-
-function describeDimension(dimension: DimensionKey, score: number) {
-  const direction = getDirection(score)
-
-  if (direction === "middle") {
-    return `a still-open tradeoff around ${dimensionFrames[dimension].high}`
-  }
-
-  return dimensionFrames[dimension][direction]
 }
 
 function selectTension(
@@ -225,11 +175,11 @@ function buildMainTension(
 ): FoundationPayoff["mainTension"] {
   if (tensionKey === "low-differentiation") {
     return {
-      title: "A broad map, not a hard center",
+      title: "What makes you choose a lens",
       body:
-        "No single question dominates the result. The useful signal is the mix: several arguments stay available when the scenario gets harder.",
+        "Your baseline does not supply one default answer. It waits for the issue to reveal whether power, rules, identity, or dependence matters most.",
       rivalArgument:
-        "The pressure test is whether a concrete issue forces a clearer tradeoff than the baseline did.",
+        "A concrete case should force one of those logics to outrank the others.",
     }
   }
 
@@ -237,7 +187,7 @@ function buildMainTension(
     return {
       title: "Rules versus leverage",
       body:
-        "You give rules real weight, but the question is whether they still bite when powerful actors have reasons to defect.",
+        "You give rules real weight. The unresolved question is whether they still bite when powerful actors have both the motive and the means to defect.",
       rivalArgument: rivalArguments[input.runnerUpKey],
     }
   }
@@ -245,8 +195,7 @@ function buildMainTension(
   if (tensionKey === "restraint-advantage") {
     return {
       title: "Restraint versus advantage",
-      body:
-        `${input.strategyModifier} means the result turns on when to limit commitments and when to press an opening.`,
+      body: restraintTension(input.strategyModifier),
       rivalArgument: rivalArguments[input.runnerUpKey],
     }
   }
@@ -254,8 +203,7 @@ function buildMainTension(
   if (tensionKey === "order-justice") {
     return {
       title: "Order versus justice",
-      body:
-        `${input.normativeModifier} means sovereignty and wider moral claims are both live considerations, not settled slogans.`,
+      body: orderJusticeTension(input.normativeModifier),
       rivalArgument: rivalArguments[input.runnerUpKey],
     }
   }
@@ -264,7 +212,7 @@ function buildMainTension(
     return {
       title: "Legitimacy versus material pressure",
       body:
-        "You attend to how actors justify choices, but the test is whether legitimacy changes behavior when costs rise.",
+        "You treat recognition and legitimacy as evidence, not decoration. The unresolved question is when they still change behavior as material costs rise.",
       rivalArgument: rivalArguments[input.runnerUpKey],
     }
   }
@@ -273,7 +221,7 @@ function buildMainTension(
     return {
       title: "Dependence versus diplomacy",
       body:
-        "You are pulled toward the economic structure behind policy, especially who can absorb costs and who controls chokepoints.",
+        "You look behind diplomacy to who controls credit, production, and market access. The unresolved question is when those structures determine the outcome and when governments can still bargain around them.",
       rivalArgument: rivalArguments[input.runnerUpKey],
     }
   }
@@ -281,8 +229,72 @@ function buildMainTension(
   return {
     title: "Rivalry versus cooperation",
     body:
-      "You treat rivalry as hard to wish away, but the result still asks when cooperation can survive strategic pressure.",
+      "You treat rivalry as a durable constraint. The unresolved question is when verification, bargaining, or shared costs can still contain it.",
     rivalArgument: rivalArguments[input.runnerUpKey],
+  }
+}
+
+function restraintTension(modifier: StrategyModifier) {
+  if (modifier === "Restrainer") {
+    return "You usually put limits first. The unresolved question is which openings are important enough to justify pressing harder."
+  }
+
+  if (modifier === "Maximizer") {
+    return "You are willing to press an advantage. The unresolved question is when the added gain stops being worth escalation or overextension."
+  }
+
+  return "You keep both restraint and advantage in play. The unresolved question is what evidence should make one outrank the other."
+}
+
+function orderJusticeTension(modifier: NormativeModifier) {
+  if (modifier === "Pluralist") {
+    return "You usually put sovereignty and precedent first. The unresolved question is what level of harm, if any, should override that rule."
+  }
+
+  if (modifier === "Universalist") {
+    return "You allow severe harm to override sovereignty. The unresolved question is how much authority, control, and confidence in the aftermath that exception requires."
+  }
+
+  return "You keep sovereignty and civilian protection in tension. The unresolved question is which threshold and institutional guardrails make an exception defensible."
+}
+
+function buildCaseTest(tensionKey: TensionKey): FoundationPayoff["caseTest"] {
+  if (tensionKey === "rules-leverage" || tensionKey === "rivalry-cooperation") {
+    return {
+      caseId: "security-arms-control-verification",
+      question:
+        "When a verified arms-control regime later collapses, does that show that institutions failed, or that they worked only while the political bargain held?",
+      reason:
+        "The case separates faith in verification from faith that rules can survive a deeper strategic break.",
+    }
+  }
+
+  if (tensionKey === "restraint-advantage" || tensionKey === "low-differentiation") {
+    return {
+      caseId: "security-cuban-missile-escalation-ceilings",
+      question:
+        "Was the decisive logic in 1962 credible pressure, private reciprocity, or accepting an escalation ceiling neither side could safely cross?",
+      reason:
+        "The case puts leverage, bargaining, and restraint inside the same decision instead of testing them in isolation.",
+    }
+  }
+
+  if (tensionKey === "order-justice" || tensionKey === "legitimacy-pressure") {
+    return {
+      caseId: "order-humanitarian-intervention-contested-authority",
+      question:
+        "When Security Council authorization is absent, should civilian protection, regional backing, or the precedent set by unauthorized force carry the most weight?",
+      reason:
+        "The case forces moral urgency, legal authority, and expected consequences into one judgment.",
+    }
+  }
+
+  return {
+    caseId: "statecraft-sanctions-finance-network-chokepoints",
+    question:
+      "Is the case mainly about diplomatic bargaining, control of financial networks, or the unequal ability of states and households to absorb isolation?",
+    reason:
+      "The case tests whether economic structure explains the outcome or sets the conditions inside which diplomacy still matters.",
   }
 }
 
