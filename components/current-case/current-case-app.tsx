@@ -803,5 +803,6 @@ function localizedFoundationConnection(
   if (connection.kind === "consistent") return copy.consistent(profileLabel)
   if (connection.kind === "tension") return copy.tension(profileLabel)
   if (connection.kind === "not-covered") return copy.notCovered(profileLabel)
+  if (connection.unavailableReason === "different-cohort") return copy.differentCohort
   return copy.unavailable
 }

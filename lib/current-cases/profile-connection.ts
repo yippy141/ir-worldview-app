@@ -8,6 +8,7 @@ import type {
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import type { FoundationSnapshot } from "@/lib/profile-store"
 import { getTopDimensions } from "@/lib/result-helpers"
+import { sameResearchEquivalenceCohort } from "@/lib/locale-provenance"
 
 /**
  * Makes an editorial connection to the existing Foundation projection. It
@@ -23,6 +24,7 @@ export function compareCompletedCaseWithFoundation(
 ): CurrentCaseFoundationConnection {
   const unavailable: CurrentCaseFoundationConnection = {
     kind: "unavailable",
+    unavailableReason: "missing-foundation",
     selectedOptionId: response.selectedOptionId,
     foundationPatternId: null,
     foundationPatternLabel: null,
@@ -33,6 +35,14 @@ export function compareCompletedCaseWithFoundation(
   }
 
   if (!foundation || !isResponseForCurrentCase(response, record)) return unavailable
+  if (!sameResearchEquivalenceCohort(response, foundation)) {
+    return {
+      ...unavailable,
+      unavailableReason: "different-cohort",
+      summary:
+        "This Current Case response and saved Foundation were completed under different language or copy versions, so they are not compared.",
+    }
+  }
 
   const foundationAssessment = assessFoundationNarrative(foundation.dimensionScores)
   const match = matchAtlasLiteFoundation({

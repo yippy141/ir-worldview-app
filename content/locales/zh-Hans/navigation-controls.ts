@@ -170,6 +170,8 @@ export const zhHansNavigationAndControls = {
       notCovered: (label: string) =>
         `最接近你基础画像的“${label}”不在本案所列读法之中，因此本案无法对这一画像作基线比较。`,
       unavailable: "完成基础问卷后，才能把这项判断与已保存的基线比较。",
+      differentCohort:
+        "这次当前案例作答与已保存的基础画像使用不同的完成语言或文案版本，因此不作比较。",
     },
   },
   sharing: {

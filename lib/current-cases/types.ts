@@ -264,6 +264,7 @@ export type CurrentCaseFoundationConnectionKind =
 
 export type CurrentCaseFoundationConnection = {
   kind: CurrentCaseFoundationConnectionKind
+  unavailableReason?: "missing-foundation" | "different-cohort"
   selectedOptionId: string
   foundationPatternId: string | null
   foundationPatternLabel: string | null

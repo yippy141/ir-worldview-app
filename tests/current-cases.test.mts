@@ -289,6 +289,22 @@ test("Foundation comparison is pure and does not create a new score", () => {
   assert.deepEqual(foundation, foundationBefore)
 })
 
+test("Foundation comparison does not cross completion-locale or copy-version cohorts", () => {
+  for (const incompatibleFoundation of [
+    { ...foundation, locale: "zh-Hans" as const },
+    { ...foundation, localeCopyVersion: foundation.localeCopyVersion + 1 },
+  ]) {
+    const connection = compareCompletedCaseWithFoundation(
+      reviewedCase(),
+      response,
+      incompatibleFoundation,
+    )
+    assert.equal(connection.kind, "unavailable")
+    assert.equal(connection.unavailableReason, "different-cohort")
+    assert.equal(connection.foundationPatternId, null)
+  }
+})
+
 test("Current Case leads the live numbered menu and My Profile remains a visible utility", () => {
   assert.equal(worldStageMenuItems[0]?.id, "current-case")
   assert.equal(worldStageMenuItems[0]?.href, "/current")

@@ -1,6 +1,10 @@
 import { expect, test, type Page } from "@playwright/test"
 import { getLatestPublishedCurrentCase } from "../lib/current-cases/catalog"
-import { PROFILE_STORAGE_KEY, QUIZ_STORAGE_KEY } from "../lib/storage-keys"
+import {
+  PROFILE_STORAGE_KEY,
+  QUIZ_STORAGE_KEY,
+  RESULT_HISTORY_STORAGE_KEY,
+} from "../lib/storage-keys"
 import profileStoreV5 from "../tests/fixtures/profile-store-v5.json"
 import { getAtlasLitePattern } from "../lib/atlas-lite"
 import { REFERENCE_PROFILE_CATALOG } from "../lib/reference-profiles/catalog"
@@ -187,6 +191,39 @@ test("one canonical Foundation result payload renders in English and Chinese", a
 
   await page.getByRole("link", { name: "切换至英文" }).last().click()
   await expect(page).toHaveURL(new RegExp(`${englishPath}$`))
+})
+
+test("Foundation history follows payload provenance rather than the viewing locale", async ({ page }) => {
+  const resolved = resolveFoundationPayload(FOUNDATION_SHARE_V3_TOKEN)
+  expect(resolved).not.toBeNull()
+  if (!resolved) return
+
+  const englishSnapshot = {
+    timestamp: 1,
+    schemaVersion: 3,
+    familyKey: resolved.result.familyKey,
+    neighborKey: resolved.result.runnerUpKey,
+    strategyModifier: resolved.result.strategyModifier,
+    normativeModifier: resolved.result.normativeModifier,
+    dimensionScores: resolved.dimensionScores,
+    locale: "en",
+    localeCopyVersion: 1,
+  }
+  await page.addInitScript(
+    ({ key, snapshot }) => localStorage.setItem(key, JSON.stringify([snapshot])),
+    { key: RESULT_HISTORY_STORAGE_KEY, snapshot: englishSnapshot },
+  )
+
+  await page.goto(`/results/${FOUNDATION_SHARE_V3_TOKEN}`)
+  await expect.poll(async () => page.evaluate((key) => {
+    const raw = localStorage.getItem(key)
+    return raw ? JSON.parse(raw).length : 0
+  }, RESULT_HISTORY_STORAGE_KEY)).toBe(2)
+
+  const history = await page.evaluate((key) =>
+    JSON.parse(localStorage.getItem(key) ?? "[]"), RESULT_HISTORY_STORAGE_KEY)
+  expect(history[0]).toMatchObject({ locale: "zh-Hans", localeCopyVersion: 1 })
+  expect(history[1]).toMatchObject({ locale: "en", localeCopyVersion: 1 })
 })
 
 test("one canonical Profile Share V3 payload renders in English and Chinese", async ({ page }) => {

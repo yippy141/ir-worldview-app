@@ -111,6 +111,8 @@ export const englishCurrentCaseFlow = {
     notCovered: (label: string) =>
       `The profile nearest your Foundation, ${label}, falls outside this case’s selected readings. This case cannot make a baseline comparison for that pattern.`,
     unavailable: "Complete the Foundation to compare this judgment with your saved baseline.",
+    differentCohort:
+      "This Current Case response and saved Foundation were completed under different language or copy versions, so they are not compared.",
   },
 } as const
 

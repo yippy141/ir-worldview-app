@@ -526,6 +526,10 @@ export default async function ResultPage(
                   strategyModifier={result.strategyModifier}
                   normativeModifier={result.normativeModifier}
                   dimensionScores={dimensionScores}
+                  provenance={{
+                    locale: resolved.provenance.completionLocale,
+                    localeCopyVersion: resolved.provenance.localeCopyVersion,
+                  }}
                 />
               </div>
             </div>
