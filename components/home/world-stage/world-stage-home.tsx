@@ -1,7 +1,12 @@
 "use client"
 
-import Link from "next/link"
+import { useLocale } from "next-intl"
+import { Link } from "@/i18n/navigation"
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
+import { zhHansWorldStageUi } from "@/content/locales/zh-Hans/world-stage"
+import { zhHansSiteMetadata } from "@/content/locales/zh-Hans/metadata"
+import { formatLocalizedDate } from "@/i18n/format"
+import type { Locale } from "@/i18n/routing"
 import {
   getNextWorldStageSceneIndex,
   WORLD_STAGE_SCENE_IDLE_RESUME_MS,
@@ -13,6 +18,7 @@ import {
   worldStageSceneOptions,
   worldStageUtilityDestinations,
 } from "@/lib/world-stage/scenes"
+import { getZhHansWorldStageScene } from "@/lib/world-stage/zh-hans"
 import { WorldStageMap, type WorldStageMapHandle } from "./world-stage-map"
 import styles from "./world-stage.module.css"
 
@@ -40,6 +46,15 @@ function getReducedMotionServerSnapshot() {
 }
 
 export function WorldStageHome() {
+  const locale = useLocale() as Locale
+  const chinese = locale === "zh-Hans"
+  const menuItems = chinese ? zhHansWorldStageUi.menu : worldStageMenuItems
+  const sceneOptions = chinese ? zhHansWorldStageUi.sceneOptions : worldStageSceneOptions
+  const utilityDestinations = chinese
+    ? zhHansWorldStageUi.utility
+    : worldStageUtilityDestinations
+  const footerLinks = chinese ? zhHansWorldStageUi.secondaryLinks : secondaryLinks
+  const controls = zhHansWorldStageUi.controls
   const [previewIndex, setPreviewIndex] = useState(0)
   const [activeSceneIndex, setActiveSceneIndex] = useState(0)
   const [motionOverride, setMotionOverride] = useState<boolean | null>(null)
@@ -52,9 +67,11 @@ export function WorldStageHome() {
     getReducedMotionSnapshot,
     getReducedMotionServerSnapshot,
   )
-  const activeItem = worldStageMenuItems[previewIndex]
-  const activeSceneOption = worldStageSceneOptions[activeSceneIndex]
-  const activeScene = getWorldStageScene(activeSceneOption.sceneId)
+  const activeItem = menuItems[previewIndex]
+  const activeSceneOption = sceneOptions[activeSceneIndex]
+  const activeScene = chinese
+    ? getZhHansWorldStageScene(activeSceneOption.sceneId)
+    : getWorldStageScene(activeSceneOption.sceneId)
   const motionPaused = motionOverride ?? reducedMotion
   const automaticMotionPaused = motionPaused || sceneHeld
 
@@ -139,14 +156,19 @@ export function WorldStageHome() {
         motionPaused={automaticMotionPaused}
         reducedMotion={reducedMotion}
         onInteraction={holdSceneForInspection}
+        copy={chinese ? controls : undefined}
       />
 
       <header className={styles.header}>
-        <Link href="/" className={styles.brand} aria-label="IR Worldview Inventory home">
-          IR Worldview Inventory
+        <Link
+          href="/"
+          className={styles.brand}
+          aria-label={chinese ? zhHansWorldStageUi.brandAriaLabel : "IR Worldview Inventory home"}
+        >
+          {chinese ? zhHansSiteMetadata.publicTitle : "IR Worldview Inventory"}
         </Link>
         <div className={styles.headerActions}>
-          {worldStageUtilityDestinations.map((destination) => (
+          {utilityDestinations.map((destination) => (
             <Link key={destination.id} href={destination.href} className={styles.profileUtility}>
               {destination.label}
             </Link>
@@ -154,29 +176,43 @@ export function WorldStageHome() {
           <button
             type="button"
             className={styles.motionControl}
-            aria-label={`${motionPaused ? "Resume" : "Pause"} automatic globe rotation and map cycling`}
+            aria-label={chinese
+              ? controls.motionAria(motionPaused)
+              : `${motionPaused ? "Resume" : "Pause"} automatic globe rotation and map cycling`}
             aria-pressed={motionPaused}
             onClick={toggleMotion}
           >
-            {motionPaused ? "Resume motion" : "Pause motion"}
+            {chinese
+              ? motionPaused
+                ? controls.resumeMotion
+                : controls.pauseMotion
+              : motionPaused
+                ? "Resume motion"
+                : "Pause motion"}
           </button>
         </div>
       </header>
 
       <div className={styles.mapMeta} key={`map-${activeSceneOption.sceneId}`}>
         <p className={styles.lensLabel}>
-          {activeScene?.publicLabel ?? "Reviewed scene unavailable"}
+          {activeScene?.publicLabel
+            ?? (chinese ? controls.unavailableLabel : "Reviewed scene unavailable")}
         </p>
         {activeScene ? (
           <>
             <p className={styles.mapDate}>
-              Reviewed through <time dateTime={activeScene.asOf}>{activeScene.asOf}</time>
+              {chinese ? controls.reviewedThrough : "Reviewed through"}{" "}
+              <time dateTime={activeScene.asOf}>
+                {formatLocalizedDate(activeScene.asOf, locale)}
+              </time>
             </p>
             <p className={styles.mapQualification}>{activeScene.caption}</p>
           </>
         ) : (
           <p className={styles.mapQualification}>
-            This layer failed closed because its reviewed record is incomplete.
+            {chinese
+              ? controls.unavailableBody
+              : "This layer failed closed because its reviewed record is incomplete."}
           </p>
         )}
       </div>
@@ -184,13 +220,18 @@ export function WorldStageHome() {
       <div className={styles.primaryLayout}>
         <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
           <div className={styles.introduction}>
-            <h1 id="world-stage-heading">Choose where to begin.</h1>
-            <p>Map your judgments, test them in context, or read the field.</p>
+            <h1 id="world-stage-heading">
+              {chinese ? zhHansWorldStageUi.heading : "Choose a starting point."}
+            </h1>
+            <p>{chinese
+              ? zhHansWorldStageUi.introduction
+              : "Answer the Foundation, work through a current decision, or compare the arguments behind the profiles."}
+            </p>
           </div>
 
-          <nav aria-label="World Stage sections">
+          <nav aria-label={chinese ? controls.worldStageSections : "World Stage sections"}>
             <ul className={styles.menuList}>
-              {worldStageMenuItems.map((item, index) => {
+              {menuItems.map((item, index) => {
                 return (
                   <li key={item.id}>
                     <Link
@@ -222,7 +263,7 @@ export function WorldStageHome() {
 
         <aside
           className={styles.detail}
-          aria-label={`${activeItem.label} details`}
+          aria-label={chinese ? controls.details(activeItem.label) : `${activeItem.label} details`}
           key={`detail-${activeItem.id}`}
         >
           <p className={styles.detailDescription}>{activeItem.description}</p>
@@ -233,32 +274,40 @@ export function WorldStageHome() {
         </aside>
       </div>
 
-      <div className={styles.mapControls} role="group" aria-label="Map controls">
+      <div
+        className={styles.mapControls}
+        role="group"
+        aria-label={chinese ? controls.mapControls : "Map controls"}
+      >
         <label className={styles.mapControlLabel} htmlFor="world-stage-map-view">
-          Map view
+          {chinese ? controls.mapView : "Map view"}
         </label>
         <select
           id="world-stage-map-view"
           className={styles.mapSelect}
           value={activeSceneOption.sceneId}
           onChange={(event) => {
-            const nextIndex = worldStageSceneOptions.findIndex(
+            const nextIndex = sceneOptions.findIndex(
               (option) => option.sceneId === event.target.value,
             )
             if (nextIndex >= 0) selectScene(nextIndex)
           }}
         >
-          {worldStageSceneOptions.map((option) => (
+          {sceneOptions.map((option) => (
             <option key={option.sceneId} value={option.sceneId}>
               {option.label}
             </option>
           ))}
         </select>
-        <div className={styles.zoomControls} role="group" aria-label="Globe zoom">
+        <div
+          className={styles.zoomControls}
+          role="group"
+          aria-label={chinese ? controls.mapControls : "Globe zoom"}
+        >
           <button
             type="button"
             className={styles.zoomButton}
-            aria-label="Zoom globe out"
+            aria-label={chinese ? controls.zoomOut : "Zoom globe out"}
             onClick={() => mapRef.current?.zoomOut()}
           >
             −
@@ -266,7 +315,7 @@ export function WorldStageHome() {
           <button
             type="button"
             className={styles.zoomButton}
-            aria-label="Zoom globe in"
+            aria-label={chinese ? controls.zoomIn : "Zoom globe in"}
             onClick={() => mapRef.current?.zoomIn()}
           >
             +
@@ -275,8 +324,11 @@ export function WorldStageHome() {
       </div>
 
       <footer className={styles.footer}>
-        <nav className={styles.secondaryNav} aria-label="Secondary">
-          {secondaryLinks.map((link) => (
+        <nav
+          className={styles.secondaryNav}
+          aria-label={chinese ? controls.secondaryNavigation : "Secondary"}
+        >
+          {footerLinks.map((link) => (
             <Link key={link.label} href={link.href}>
               {link.label}
             </Link>

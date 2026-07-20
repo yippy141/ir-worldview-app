@@ -131,14 +131,14 @@ export default async function ModulesPage(
         <section className="lobby-signals lobby-signals--plain lobby-band">
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
-              <strong>What this layer covers</strong>
+              <strong>What Focus Areas cover</strong>
               Security and Technology begin from familiar policy debates, then test the baseline
               from a smaller number of other vantage points.
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
               Standard is the shorter issue read. Advanced adds extra cases and a smaller number
-              of actor-lens pressure tests.
+              of questions asked from a defined actor’s position.
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
@@ -150,7 +150,7 @@ export default async function ModulesPage(
         <section id="available-modules" className="stack-md lobby-band">
           <div className="stack-xs">
             <p className="section-kicker">Available Focus Areas</p>
-            <h2>Choose the focus area you want to pressure-test first</h2>
+            <h2>Choose a policy area to examine first</h2>
             <p className="muted lobby-section-copy">
               Each module keeps your Foundation in view while the cases become more specific and
               politically exposed.

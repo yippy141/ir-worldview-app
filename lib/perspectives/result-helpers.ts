@@ -6,6 +6,7 @@ import type {
   PerspectiveScenarioMovement,
 } from "@/lib/perspectives/types"
 import type { DimensionKey, DimensionScores } from "@/lib/types"
+import type { CompletionProvenance } from "@/lib/locale-provenance"
 
 export const perspectiveDimensionLabels: Record<DimensionKey, string> = {
   securityCompetition: "Security rivalry",
@@ -67,10 +68,11 @@ export type PerspectiveResultCopy = {
   largestMovement: string
 }
 
-export type PerspectiveSnapshotMetadata = {
+export type PerspectiveSnapshotMetadata = CompletionProvenance & {
   id: string
   timestamp: number
   resultPath: string
+  payload: string
 }
 
 const BASELINE_MATCH_TOLERANCE = 0.011
@@ -187,6 +189,9 @@ export function buildPerspectiveRunSnapshot(
     baselineDeltas: { ...result.baselineDeltas },
     strongestShiftKeys: [...result.strongestShiftKeys],
     resultPath: metadata.resultPath,
+    payload: metadata.payload,
+    locale: metadata.locale,
+    localeCopyVersion: metadata.localeCopyVersion,
   }
 }
 

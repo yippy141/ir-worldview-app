@@ -5,7 +5,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Questionnaire — AI Governance Compass",
   description:
-    "Position statements and branching scenarios map where you stand across eight AI governance dimensions. The result is a structured interpretation, not a validated instrument.",
+    "Position statements and branching scenarios compare your answers across eight AI governance dimensions. The result is an editorial interpretation and has not been validated as a scientific instrument.",
 }
 
 export default function AiQuizPage() {

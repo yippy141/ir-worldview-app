@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ScaleBar } from "@/components/visual-primitives"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import {
+  buildModuleAnalytics,
   buildModuleResult,
   getModuleDefinition,
   getModuleQuestions,
@@ -36,6 +37,7 @@ export function ModuleResultView({
   if (!moduleDefinition) return null
 
   const result = buildModuleResult(moduleDefinition, mode, answers, foundation)
+  const analytics = buildModuleAnalytics(moduleDefinition, mode, answers)
   const selected = getSelectedModuleOptions(moduleDefinition, mode, answers)
   const questionCount = getModuleQuestions(moduleDefinition, mode).length
   const laneLabelMap = Object.fromEntries(
@@ -86,6 +88,10 @@ export function ModuleResultView({
               ? { cardTypeScores: result.cardTypeScores }
               : {}),
             overlayDeltas: result.overlayDeltas,
+            payload,
+            ...(foundationPayload ? { foundationPayload } : {}),
+            laneScores: analytics.laneScores,
+            instrumentVersion: 2,
           }}
         />
 

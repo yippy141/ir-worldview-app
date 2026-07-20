@@ -56,7 +56,7 @@ async function completeLoadedCurrentCase(
   await page.getByRole("button", { name: "See the worldview readings" }).click()
   await page.getByRole("button", { name: "Test an assumption" }).click()
   await page.getByRole("radio", {
-    name: "It changes the priority, not the conclusion.",
+    name: "It changes which option comes first; my conclusion stays the same.",
   }).check()
   await page.getByRole("button", { name: "Make your final judgment" }).click()
   await page.locator(`input[name="final-option"][value="${finalOptionId}"]`).check()
@@ -64,6 +64,25 @@ async function completeLoadedCurrentCase(
   await page.getByRole("button", { name: "See what moved" }).click()
   await expect(page.getByRole("heading", { name: "What moved" })).toBeVisible()
 }
+
+test("public entry points expose Current Case and resolve the published case", async ({ page }) => {
+  const record = getLatestPublishedCurrentCase()
+  expect(record).not.toBeNull()
+  if (!record) return
+
+  await page.goto("/")
+  await expect(page.getByRole("link", { name: /^Current Case\b/ })).toBeVisible()
+  await expect(page.getByText("Atlas", { exact: true })).toHaveCount(0)
+
+  const svgFallback = page.locator('svg:has(path[data-iso3])')
+  await expect(svgFallback).toBeVisible()
+  expect(await svgFallback.locator('path[data-iso3]').count()).toBeGreaterThan(0)
+  await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
+
+  await page.goto("/current")
+  await expect(page).toHaveURL(new RegExp(`/cases/${record.slug}$`))
+  await expect(page.getByRole("heading", { name: "The case" })).toBeVisible()
+})
 
 test("World Stage opens the Foundation and a draft resumes after reload", async ({ page }) => {
   await page.goto("/")
@@ -98,7 +117,7 @@ test("Current Case resumes, records movement, and appears in My Profile", async 
   await expect(page.getByRole("heading", { name: "Four ways to read the same case" })).toBeVisible()
   await page.getByRole("button", { name: "Test an assumption" }).click()
   await page.getByRole("radio", {
-    name: "It changes the priority, not the conclusion.",
+    name: "It changes which option comes first; my conclusion stays the same.",
   }).check()
   await page.getByRole("button", { name: "Make your final judgment" }).click()
   await page.locator('input[name="final-option"][value="o2"]').check()
@@ -164,7 +183,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
 
   await completeFoundation(page)
   await expect(
-    page.getByRole("heading", { name: "Before you generate your foundation result" }),
+    page.getByRole("heading", { name: "Review your Foundation answers" }),
   ).toBeVisible()
 
   await page.getByRole("button", { name: "Generate my result →" }).click()

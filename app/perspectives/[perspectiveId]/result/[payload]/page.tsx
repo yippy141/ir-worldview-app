@@ -92,7 +92,11 @@ export default async function PerspectiveResultPage(
           finding={{ label: "Largest modeled movement", text: copy.largestMovement }}
           actions={
             <>
-              <PerspectiveResultActions result={result} resultPath={resultPath} />
+              <PerspectiveResultActions
+                result={result}
+                resultPath={resultPath}
+                payload={payload}
+              />
               <ResultCardHeroShare
                 shareUrl={resultPath}
                 title={`Perspective run: ${perspective.label}`}

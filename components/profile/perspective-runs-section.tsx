@@ -136,9 +136,6 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
                   <p className="profile-run-row__title">
                     {run.perspectiveLabel}
                     <span className="profile-run-row__date"> · {formatFieldDate(run.timestamp)}</span>
-                    {run.scenarioSetVersion > 0 ? (
-                      <span className="profile-run-row__set"> · set v{run.scenarioSetVersion}</span>
-                    ) : null}
                     {!matchesCurrentBaseline ? (
                       <span className="profile-run-row__set"> · earlier baseline</span>
                     ) : null}

@@ -38,6 +38,7 @@ import { FoundationProfileSync } from "@/components/profile/foundation-profile-s
 import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { modules } from "@/lib/modules/framework"
+import { localizedAlternates, publicPath } from "@/i18n/paths"
 import type { DimensionKey, FamilyKey, NormativeModifier, StrategyModifier } from "@/lib/types"
 import type { Metadata } from "next"
 
@@ -51,7 +52,7 @@ export async function generateMetadata(
     const description =
       "Open a shared IR Worldview Inventory result, or take the Foundation questionnaire to generate your own profile."
 
-    return buildResultMetadata(title, description)
+    return buildResultMetadata(payload, title, description)
   }
 
   const familyLabel = resolved.result.familyLabel
@@ -60,10 +61,10 @@ export async function generateMetadata(
   const description =
     `Shared IR Worldview result: ${resultLabel}. See the closest modeled tradition, modifiers, and dimension profile.`
 
-  return buildResultMetadata(title, description)
+  return buildResultMetadata(payload, title, description)
 }
 
-function buildResultMetadata(title: string, description: string): Metadata {
+function buildResultMetadata(payload: string, title: string, description: string): Metadata {
   return {
     title,
     description,
@@ -76,6 +77,10 @@ function buildResultMetadata(title: string, description: string): Metadata {
       card: "summary",
       title,
       description,
+    },
+    alternates: {
+      canonical: publicPath("en", `/results/${payload}`),
+      languages: localizedAlternates(`/results/${payload}`),
     },
   }
 }
@@ -186,7 +191,7 @@ export default async function ResultPage(
   const readingPaths = [
     {
       key: "start-here",
-      heading: "Start here",
+      heading: "Read the closest tradition",
       subheading:
         "Read the modeled tradition page first, then begin with one anchor text before you widen the frame.",
       entries: readings.slice(0, 1).map((item) => ({
@@ -290,7 +295,7 @@ export default async function ResultPage(
             </h1>
             <p className="muted result-lead">
               {foundationNarrative.state === "lowDifferentiation"
-                ? "The reward is the map: which questions remain open when the scenarios get harder."
+                ? "Your result identifies the tradeoffs that remain unsettled and the scenarios most likely to separate them."
                 : foundationPayoff.mainTension.body}
             </p>
             <div className="row gap-sm wrap" aria-label="Technical result labels">
@@ -332,7 +337,7 @@ export default async function ResultPage(
               <div className="stack-xs">
                 <p className="eyebrow">Where this may be wrong</p>
                 <p className="result-emphasis result-emphasis--lg">
-                  Closest modeled fit within the current map.
+                  Closest fit among the four scored families.
                 </p>
                 <p className="muted result-note">
                   If your strongest instincts come from feminist, postcolonial or decolonial,
@@ -450,7 +455,7 @@ export default async function ResultPage(
               </div>
 
               <div className="stack-md">
-                <h2>Pressure-test questions</h2>
+                <h2>Questions that could change this reading</h2>
                 <ol className="pressure-list result-prose">
                   {pressureQuestions.map((question, index) => (
                     <li key={index} className="pressure-q"><p>{question}</p></li>
@@ -466,8 +471,8 @@ export default async function ResultPage(
             <summary>More resources, glossary, and saved-result tools</summary>
             <div className="stack-lg result-details-body">
               <ReadingPathSection
-                title="Where to go next"
-                intro="These readings help you deepen this result, test it against its nearest rival, and keep exploring across the project."
+                title="Read the result from another angle"
+                intro="Compare this result with its nearest alternative, then examine the arguments and evidence behind both readings."
                 paths={readingPaths}
               />
 
@@ -521,6 +526,10 @@ export default async function ResultPage(
                   strategyModifier={result.strategyModifier}
                   normativeModifier={result.normativeModifier}
                   dimensionScores={dimensionScores}
+                  provenance={{
+                    locale: resolved.provenance.completionLocale,
+                    localeCopyVersion: resolved.provenance.localeCopyVersion,
+                  }}
                 />
               </div>
             </div>

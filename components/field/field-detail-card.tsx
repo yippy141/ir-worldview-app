@@ -1,6 +1,7 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
 import { referenceEntityTypeLabel, type FieldItem } from "@/lib/field/items"
 import { FIELD_LAYER_CONFIG_BY_ID } from "@/lib/field/layers"
 import styles from "./worldview-map.module.css"
@@ -17,39 +18,52 @@ type Props = {
   item: FieldItem
   onClose: () => void
   headingId?: string
+  copy?: typeof zhHansWorldviewMapUi
 }
 
-export function FieldDetailCard({ item, onClose, headingId = "field-detail-heading" }: Props) {
-  const layerLabel = FIELD_LAYER_CONFIG_BY_ID[item.layerId].label
+export function FieldDetailCard({
+  item,
+  onClose,
+  headingId = "field-detail-heading",
+  copy,
+}: Props) {
+  const layerLabel = copy?.layers.labels[item.layerId]
+    ?? FIELD_LAYER_CONFIG_BY_ID[item.layerId].label
 
   return (
     <section className={styles.detailCard} aria-labelledby={headingId}>
       <div className={styles.detailHead}>
         <p className={styles.detailContext}>
-          {item.entityType ? referenceEntityTypeLabel(item.entityType) : layerLabel}
+          {item.entityType
+            ? referenceEntityTypeLabel(item.entityType, copy ? "zh-Hans" : "en")
+            : layerLabel}
         </p>
         <button
           type="button"
           className={styles.detailClose}
           onClick={onClose}
-          aria-label="Close details"
+          aria-label={copy?.detail.close ?? "Close details"}
         >
-          Close
+          {copy?.detail.close ?? "Close"}
         </button>
       </div>
       <h2 id={headingId} className={styles.detailTitle}>{item.label}</h2>
       <p className={styles.detailSummary}>{item.summary}</p>
       {item.metaLine ? <p className={styles.detailMeta}>{item.metaLine}</p> : null}
       {item.draft ? (
-        <p className="reference-draft-tag">Research draft · pending editorial review</p>
+        <p className="reference-draft-tag">
+          {copy?.detail.draft ?? "Research draft · pending editorial review"}
+        </p>
       ) : null}
       {item.position === null ? (
         <p className={styles.detailNote}>
-          This entry appears in the list only. It has no position on this map.
+          {copy?.detail.listOnly ?? "This entry appears in the list only. It has no position on this map."}
         </p>
       ) : null}
       <p className={styles.detailAction}>
-        <Link href={item.href}>{KIND_ACTION_LABELS[item.kind]} →</Link>
+        <Link href={item.href}>
+          {copy?.detail.actions[item.kind] ?? KIND_ACTION_LABELS[item.kind]} →
+        </Link>
       </p>
     </section>
   )

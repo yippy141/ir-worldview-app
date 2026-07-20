@@ -1,10 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { saveSnapshot, getLastSnapshot, type ResultSnapshot } from "@/lib/result-history"
+import {
+  saveSnapshot,
+  getLastComparableSnapshot,
+  type ResultSnapshot,
+} from "@/lib/result-history"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import type { DimensionKey, FamilyKey, StrategyModifier, NormativeModifier, DimensionScores } from "@/lib/types"
 import { SCHEMA_VERSION } from "@/lib/quiz-schema"
+import type { CompletionProvenance } from "@/lib/locale-provenance"
 
 const FAMILY_LABELS: Record<string, string> = {
   realist: "Strategic Realist",
@@ -31,6 +36,7 @@ export type HistoryCompareProps = {
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
   dimensionScores: DimensionScores
+  provenance: CompletionProvenance
 }
 
 function isEssentiallySame(a: ResultSnapshot, props: HistoryCompareProps): boolean {
@@ -46,7 +52,8 @@ export function HistoryCompare(props: HistoryCompareProps) {
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
-    const last = getLastSnapshot()
+    const provenance = props.provenance
+    const last = getLastComparableSnapshot(provenance)
 
     if (last && isEssentiallySame(last, props)) {
       // Same result as last time — don't save again, no comparison to show
@@ -65,11 +72,12 @@ export function HistoryCompare(props: HistoryCompareProps) {
       strategyModifier: props.strategyModifier,
       normativeModifier: props.normativeModifier,
       dimensionScores: props.dimensionScores,
+      ...provenance,
     }
     saveSnapshot(snapshot)
     setSaved(true)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [props.provenance.locale, props.provenance.localeCopyVersion])
 
   if (!saved) return null
 

@@ -85,24 +85,27 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V19 production readiness
+## Current sprint: V20 Simplified Chinese editorial
 
-- Keep public language consistent across Focus Areas, Perspective Runs, the
-  Worldview Map, Worldview profiles, and Thinkers & public positions.
-- Keep the five reviewed public World Stage map views distinct from menu-only
-  destinations.
-- Preserve scoring, payloads, question content, research records, Mapbox data,
-  the profile model, ProfileStore, and legacy shared links.
-- Do not promote the verified case library beyond its recorded human review.
-- Keep deployment verification reproducible from the release commit through
-  the production domain.
-- Maintain critical browser smoke coverage for the Foundation, Profile,
-  Worldview Map, invalid results, sharing, draft resume, and a 390px viewport.
-- Run npm run lint, npm run test, npx tsc --noEmit, npm run build, and
-  npx playwright test.
+- Render the approved Simplified Chinese editorial deck from typed locale content;
+  do not use runtime machine translation or silent English long-form fallback.
+- Run the owner-approved Simplified Chinese Foundation as an adapted beta with
+  shared structure and scoring, locale-owned copy, and no equivalence claim.
+- Keep AI, module, and Perspective instruments in English until their Chinese
+  copy is separately approved, with a review-status handoff on Chinese routes.
+- Preserve locale-neutral Current Case response IDs, drafts, steps, ProfileStore
+  records, Profile Share payloads, and all World Stage and Worldview Map geometry.
+- Derive Chinese labels from canonical identifiers when profile records are read;
+  never persist translated display copy as canonical data.
+- Show Chinese source display titles beside original titles where translations are
+  approved, and retain original source identity where no translation is approved.
+- Use natural Chinese dates, the approved CJK system stacks and line heights, and
+  verify 390px, print, source-ledger, Open Graph, and missing-glyph behavior.
+- Keep English routes unchanged and run the full unit, lint, build, and Playwright
+  suites before handoff.
 
 ## End-of-sprint discipline
 
-When V19 ends, replace the "Current sprint" section above with the next
+When a sprint ends, replace the "Current sprint" section above with the next
 sprint's bullets, or remove it entirely until the next sprint is defined.
 Do not let sprint sections accumulate.

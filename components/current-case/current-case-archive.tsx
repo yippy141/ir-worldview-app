@@ -1,10 +1,12 @@
 "use client"
 
-import Link from "next/link"
+import { useLocale } from "next-intl"
 import { useEffect, useState } from "react"
+import { Link } from "@/i18n/navigation"
+import { currentCaseContent } from "@/content/locales/current-cases"
+import { formatLocalizedDate } from "@/i18n/format"
+import type { Locale } from "@/i18n/routing"
 import {
-  CURRENT_CASE_CATEGORY_LABELS,
-  formatCurrentCaseDate,
   type CurrentCasePublicRecord,
 } from "@/lib/current-cases/presentation"
 import {
@@ -19,6 +21,8 @@ import styles from "./current-case.module.css"
 
 export function CurrentCaseArchive({ records }: { records: CurrentCasePublicRecord[] }) {
   const [store, setStore] = useState<CurrentCaseResponseStore | null>(null)
+  const locale = useLocale() as Locale
+  const copy = currentCaseContent(locale).archive
 
   useEffect(() => {
     const load = () => setStore(loadCurrentCaseResponseStore())
@@ -36,20 +40,20 @@ export function CurrentCaseArchive({ records }: { records: CurrentCasePublicReco
         const validDraft =
           draft && draft.step !== "brief" && isDraftForCurrentCase(draft, record) ? draft : null
         const status = validResponse
-          ? `Completed ${formatCompletionDate(validResponse.completedAt)}`
+          ? copy.completed(formatLocalizedDate(validResponse.completedAt, locale, "medium"))
           : validDraft
-            ? "Draft saved on this device"
+            ? copy.draft
             : record.launchRole === "launch"
-              ? "Current case"
-              : "Archive case"
-        const action = validResponse ? "Review judgment" : validDraft ? "Resume case" : "Open case"
+              ? copy.current
+              : copy.archive
+        const action = validResponse ? copy.review : validDraft ? copy.resume : copy.open
 
         return (
           <li key={record.id} className={styles.archiveRow}>
             <p className={styles.archiveMeta}>
-              {CURRENT_CASE_CATEGORY_LABELS[record.category]}
+              {copy.categories[record.category]}
               <br />
-              Evidence through {formatCurrentCaseDate(record.evidenceWindow.end)}
+              {copy.evidenceThrough(formatLocalizedDate(record.evidenceWindow.end, locale))}
             </p>
             <div className={styles.archiveMain}>
               <h2>
@@ -67,11 +71,4 @@ export function CurrentCaseArchive({ records }: { records: CurrentCasePublicReco
       })}
     </ol>
   )
-}
-
-function formatCompletionDate(timestamp: string) {
-  return new Intl.DateTimeFormat("en", {
-    dateStyle: "medium",
-    timeZone: "UTC",
-  }).format(new Date(timestamp))
 }

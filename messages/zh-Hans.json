@@ -1,0 +1,49 @@
+{
+  "chrome": {
+    "brand": "国际关系世界观清单",
+    "byline": "JinHua Yip 制作",
+    "skip": "跳至正文",
+    "primary": "主导航",
+    "more": "更多",
+    "menu": "菜单",
+    "productPath": "使用路径",
+    "productIntro": "先用“当前案例”判断具体问题，再建立基础画像；如有需要，可继续查看专题、AI 治理或情境推演。",
+    "browseContext": "浏览与说明",
+    "browseIntro": "世界观地图、观点资料和方法页面用于比较不同立场，并检查本工具的边界。",
+    "nav": {
+      "currentCase": "当前案例",
+      "foundation": "基础问卷",
+      "focusAreas": "议题专题",
+      "ai": "AI 治理",
+      "profile": "我的画像",
+      "perspectives": "情境推演",
+      "worldviewMap": "世界观地图",
+      "explore": "观点资料",
+      "futures": "未来议题",
+      "methods": "方法",
+      "privacy": "隐私",
+      "references": "参考文献",
+      "feedback": "勘误与联系",
+      "publicPositions": "思想家与公共立场"
+    }
+  },
+  "language": {
+    "label": "English",
+    "aria": "切换至英文",
+    "englishPage": "查看本页英文版"
+  },
+  "casesArchive": {
+    "security": "安全",
+    "economicStatecraft": "经济治国工具",
+    "institutionsAndGovernance": "制度与治理",
+    "evidenceThrough": "证据更新至 {date}",
+    "completed": "完成于 {date}",
+    "draft": "本设备已保存草稿",
+    "current": "当前案例",
+    "archive": "存档案例",
+    "review": "查看判断",
+    "resume": "继续作答",
+    "open": "打开案例",
+    "englishRecord": "案例正文为英文"
+  }
+}

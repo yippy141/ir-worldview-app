@@ -14,7 +14,7 @@
     "start": "2026-06-26",
     "end": "2026-07-17"
   },
-  "briefing": "On the tenth anniversary of the 2016 South China Sea arbitral award, a substantial coalition of states led by the Philippines and including the United States, Japan, Australia, Canada, several European states, New Zealand, and the United Kingdom publicly reaffirmed that the award is final, legally binding, and decisive on the maritime claims it addressed. The same statement reiterated that there is no legal basis for China’s expansive claims grounded in historic rights and opposed the use of coast guard, military, and maritime militia forces to intimidate lawful operations. The European Union issued a separate statement making the same core legal point and urging that disputes be managed under UNCLOS and eventually through an effective, substantive, and legally binding Code of Conduct. China answered immediately and unequivocally. Foreign Ministry spokesperson Lin Jian called the arbitration a political farce, said the award is illegal, null and void, and protested both the joint statement and the EU position.\n\nThe case is consequential because it is no longer about whether the award exists; that is settled. It is about whether repeated legal reaffirmation still matters when enforcement is indirect and selective, and whether outside actors can keep the award politically alive without inadvertently converting it into an anti-China bloc marker that narrows diplomatic room for ASEAN and other middle powers. That creates a real judgment call about mechanism: does legitimacy shape behaviour through repetition and coalition signalling, or does law matter only when backed by hard balancing and sustained operational presence?\n\nThe next step will reveal whether supporters see public repetition as the main instrument, a foundation for practical incident management, leverage in Code of Conduct talks, or political cover for stronger maritime balancing. Each course protects a different part of the order and accepts a different risk.",
+  "briefing": "On the tenth anniversary of the 2016 South China Sea arbitral award, a substantial coalition of states led by the Philippines and including the United States, Japan, Australia, Canada, several European states, New Zealand, and the United Kingdom publicly reaffirmed that the award is final, legally binding, and decisive on the maritime claims it addressed. The same statement reiterated that there is no legal basis for China’s expansive claims grounded in historic rights and opposed the use of coast guard, military, and maritime militia forces to intimidate lawful operations. The European Union issued a separate statement making the same core legal point and urging that disputes be managed under UNCLOS and eventually through an effective, substantive, and legally binding Code of Conduct. China answered immediately and unequivocally. Foreign Ministry spokesperson Lin Jian called the arbitration a political farce, said the award is illegal, null and void, and protested both the joint statement and the EU position.\n\nThe award’s legal status is settled. Its political force remains disputed. Supporters must decide whether repeated public backing can shape conduct when enforcement remains indirect and selective. Outside actors must also consider whether an anti-China bloc marker would narrow diplomatic room for ASEAN and other middle powers. The dispute turns on mechanism: whether legitimacy shapes behaviour through repetition and coalition signalling, or whether law needs hard balancing and sustained operational presence to influence conduct.\n\nThe next step will reveal whether supporters see public repetition as the main instrument, a foundation for practical incident management, leverage in Code of Conduct talks, or political cover for stronger maritime balancing. Each course protects a different part of the order and accepts a different risk.",
   "actors": [
     "Philippines",
     "China",
@@ -72,12 +72,12 @@
     "Whether negotiations on a South China Sea Code of Conduct can remain legally meaningful while the parties disagree on the status of the award."
   ],
   "reasoningTags": [
-    "Legal authority",
-    "Operational enforcement",
-    "Coalition signalling",
-    "Regional diplomacy",
-    "Legitimacy",
-    "Escalation risk"
+    { "id": "legal-authority", "label": "Legal authority" },
+    { "id": "operational-enforcement", "label": "Operational enforcement" },
+    { "id": "coalition-signalling", "label": "Coalition signalling" },
+    { "id": "regional-diplomacy", "label": "Regional diplomacy" },
+    { "id": "legitimacy", "label": "Legitimacy" },
+    { "id": "escalation-risk", "label": "Escalation risk" }
   ],
   "decision": {
     "prompt": "How should supporters use the award after its tenth anniversary?",
@@ -98,12 +98,12 @@
         "id": "o3",
         "label": "Link the award to Code of Conduct diplomacy",
         "logic": "Treat legal reaffirmation as leverage for a substantive and legally binding ASEAN-China Code of Conduct consistent with UNCLOS.",
-        "acceptedTradeoff": "Potential institutional gain, but risk that the code process dilutes rather than reinforces the award."
+        "acceptedTradeoff": "Potential institutional gain, with a risk that the code process could dilute the award instead of reinforcing it."
       },
       {
         "id": "o4",
         "label": "Treat the award as important but insufficient without balancing",
-        "logic": "Pair legal language with practical maritime capacity-building, presence, and coalition coordination rather than expecting legal repetition alone to constrain behaviour.",
+        "logic": "Pair legal language with practical maritime capacity-building, presence, and coalition coordination. Legal repetition alone may not constrain behaviour.",
         "acceptedTradeoff": "More credible deterrence, but a greater chance of securitising what is partly a legitimacy dispute."
       }
     ]
@@ -151,7 +151,7 @@
     "prompt": "How does this affect your first judgment?",
     "options": [
       { "id": "weakens", "label": "It weakens my first read." },
-      { "id": "priority", "label": "It changes the priority, not the conclusion." },
+      { "id": "priority", "label": "It changes which option comes first; my conclusion stays the same." },
       { "id": "strengthens", "label": "It strengthens my first read." },
       { "id": "unsure", "label": "I remain unsure." }
     ]

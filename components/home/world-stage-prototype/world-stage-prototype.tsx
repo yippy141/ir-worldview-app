@@ -57,7 +57,6 @@ export function WorldStagePrototype() {
         </Link>
         <div className={styles.prototypeMeta}>
           <span>World Stage</span>
-          <span>V17 prototype</span>
         </div>
       </header>
 
@@ -66,13 +65,15 @@ export function WorldStagePrototype() {
           <span>Editorial lens</span>
           {activeItem.lens}
         </p>
-        <p className={styles.mapQualification}>Illustrative scene · not live intelligence</p>
+        <p className={styles.mapQualification}>
+          Illustrative scene using reviewed editorial data; it does not provide live intelligence
+        </p>
       </div>
 
       <div className={styles.primaryLayout}>
         <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
           <div className={styles.introduction}>
-            <h1 id="world-stage-heading">Choose where to begin.</h1>
+            <h1 id="world-stage-heading">Choose a starting point.</h1>
             <p>Map your judgments, test them in context, or read the field.</p>
           </div>
 

@@ -16,7 +16,7 @@ export async function generateMetadata(
     const description =
       "Open a shared IR Worldview Profile, or create your own Foundation result and saved profile layers."
 
-    return buildProfileMetadata(title, description)
+    return buildProfileMetadata(title, description, payload)
   }
 
   const foundation = resolved.profile.foundation
@@ -24,13 +24,28 @@ export async function generateMetadata(
   const title = `${foundation.familyLabel} profile — IR Worldview Inventory`
   const description = `Shared IR Worldview Profile for a ${foundation.familyLabel} result: ${headline}`
 
-  return buildProfileMetadata(title, description)
+  return buildProfileMetadata(title, description, payload)
 }
 
-function buildProfileMetadata(title: string, description: string): Metadata {
+function buildProfileMetadata(
+  title: string,
+  description: string,
+  payload: string,
+): Metadata {
+  const englishPath = `/profile/share/${payload}`
+  const chinesePath = `/zh${englishPath}`
   return {
     title,
     description,
+    robots: { index: false, follow: false },
+    alternates: {
+      canonical: englishPath,
+      languages: {
+        en: englishPath,
+        "zh-Hans": chinesePath,
+        "x-default": englishPath,
+      },
+    },
     openGraph: {
       title,
       description,

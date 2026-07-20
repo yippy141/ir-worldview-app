@@ -172,9 +172,9 @@ export default function ExplorePage() {
         <div className="stack-xs">
           <h2>Important traditions not yet fully modeled</h2>
           <p className="muted" style={{ lineHeight: "1.65" }}>
-            These traditions matter for understanding world politics. They are not yet scored
-            outputs of this version of the inventory — adding them would require new dimensions and
-            items that the current question bank does not support. They are included here because
+            These traditions matter for understanding world politics. The questionnaire does not
+            score them because the current items do not provide the dimensions and coverage that
+            would require. They are included here because
             omitting them without explanation would misrepresent the theoretical landscape.
           </p>
         </div>

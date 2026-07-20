@@ -27,27 +27,37 @@ const response: CompletedCurrentCaseResponse = {
   initialConfidence: 2,
   selectedOptionId: "coordinate",
   confidence: 3,
-  reasoningTags: ["institutions", "institutions"],
+  reasoningTagIds: ["institutions", "institutions"],
   challengeResponseId: "priority",
   openedReadingProfileIds: ["institution-builder", "institution-builder"],
   completedAt: "2026-07-17T10:00:00.000Z",
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
-test("the response store is versioned and separate from ProfileStore v4", () => {
+const legacyResponse = {
+  ...response,
+  reasoningTags: ["Legitimacy", "Legitimacy"],
+  reasoningTagIds: undefined,
+  locale: undefined,
+  localeCopyVersion: undefined,
+}
+
+test("the response store is versioned and separate from ProfileStore v5", () => {
   assert.notEqual(CURRENT_CASE_RESPONSE_STORAGE_KEY, PROFILE_STORAGE_KEY)
-  assert.deepEqual(emptyCurrentCaseResponseStore(), { v: 1, drafts: {}, responses: {} })
+  assert.deepEqual(emptyCurrentCaseResponseStore(), { v: 2, drafts: {}, responses: {} })
 })
 
 test("unknown, future, unversioned, and malformed stores fail closed", () => {
-  assert.deepEqual(parseCurrentCaseResponseStore(null), { v: 1, drafts: {}, responses: {} })
-  assert.deepEqual(parseCurrentCaseResponseStore("{}"), { v: 1, drafts: {}, responses: {} })
-  assert.deepEqual(parseCurrentCaseResponseStore('{"v":2,"responses":{}}'), {
-    v: 1,
+  assert.deepEqual(parseCurrentCaseResponseStore(null), { v: 2, drafts: {}, responses: {} })
+  assert.deepEqual(parseCurrentCaseResponseStore("{}"), { v: 2, drafts: {}, responses: {} })
+  assert.deepEqual(parseCurrentCaseResponseStore('{"v":3,"responses":{}}'), {
+    v: 2,
     drafts: {},
     responses: {},
   })
   assert.deepEqual(parseCurrentCaseResponseStore("not-json"), {
-    v: 1,
+    v: 2,
     drafts: {},
     responses: {},
   })
@@ -61,7 +71,7 @@ test("drafts save resumable progress separately and can be cleared on completion
     step: "readings",
     initialOptionId: "coordinate",
     initialConfidence: 2,
-    reasoningTags: ["institutions", "institutions"],
+    reasoningTagIds: ["institutions", "institutions"],
     openedReadingProfileIds: ["institution-builder"],
     updatedAt: "2026-07-17T09:00:00.000Z",
   }
@@ -71,11 +81,11 @@ test("drafts save resumable progress separately and can be cleared on completion
     version: 1,
     decision: { options: [{ id: "coordinate" }] },
     worldviewReadings: [{ profileId: "institution-builder" }],
-    reasoningTags: ["institutions"],
-  } as CurrentCase
+    reasoningTags: [{ id: "institutions", label: "Institutions" }],
+  } as unknown as CurrentCase
 
   let store = saveCurrentCaseDraft(emptyCurrentCaseResponseStore(), draft)
-  assert.deepEqual(getCurrentCaseDraft(store, "case-001")?.reasoningTags, ["institutions"])
+  assert.deepEqual(getCurrentCaseDraft(store, "case-001")?.reasoningTagIds, ["institutions"])
   assert.equal(isDraftForCurrentCase(draft, record), true)
   store = clearCurrentCaseDraft(store, "case-001")
   assert.equal(getCurrentCaseDraft(store, "case-001"), null)
@@ -86,18 +96,37 @@ test("parsing keeps valid histories, drops cross-key records, and normalizes rep
     JSON.stringify({
       v: 1,
       responses: {
-        "case-001": [response],
-        "wrong-key": [response],
-        malformed: [{ ...response, confidence: 8 }],
+        "case-001": [legacyResponse],
+        "wrong-key": [legacyResponse],
+        malformed: [{ ...legacyResponse, confidence: 8 }],
       },
     }),
   )
 
   assert.deepEqual(Object.keys(parsed.responses), ["case-001"])
-  assert.deepEqual(parsed.responses["case-001"][0].reasoningTags, ["institutions"])
+  assert.deepEqual(parsed.responses["case-001"][0].reasoningTagIds, ["legitimacy"])
+  assert.equal(parsed.responses["case-001"][0].locale, "en")
+  assert.equal(parsed.responses["case-001"][0].localeCopyVersion, 0)
   assert.deepEqual(parsed.responses["case-001"][0].openedReadingProfileIds, [
     "institution-builder",
   ])
+})
+
+test("unknown legacy reasoning labels retain both a stable fallback id and their copy", () => {
+  const parsed = parseCurrentCaseResponseStore(
+    JSON.stringify({
+      v: 1,
+      responses: {
+        "case-001": [{ ...legacyResponse, reasoningTags: ["Retired editorial tag"] }],
+      },
+    }),
+  )
+
+  const migrated = parsed.responses["case-001"][0]
+  assert.match(migrated.reasoningTagIds[0], /^legacy-/)
+  assert.deepEqual(migrated.legacyReasoningTagLabels, {
+    [migrated.reasoningTagIds[0]]: "Retired editorial tag",
+  })
 })
 
 test("adding responses preserves content versions and replaces only the same version", () => {
@@ -125,7 +154,8 @@ test("a response must match the exact published case version and its option/read
     version: 1,
     decision: { options: [{ id: "coordinate" }] },
     worldviewReadings: [{ profileId: "institution-builder" }],
-  } as CurrentCase
+    reasoningTags: [{ id: "institutions", label: "Institutions" }],
+  } as unknown as CurrentCase
 
   assert.equal(isResponseForCurrentCase(response, record), true)
   assert.equal(isResponseForCurrentCase({ ...response, caseVersion: 2 }, record), false)

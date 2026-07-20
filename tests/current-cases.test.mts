@@ -58,7 +58,11 @@ function reviewedCase(): CurrentCase {
       { id: "c4", text: "Claim four." },
     ],
     knownUncertainties: ["The counterparty's implementation threshold remains uncertain."],
-    reasoningTags: ["Capability", "Institutions", "Escalation"],
+    reasoningTags: [
+      { id: "capability", label: "Capability" },
+      { id: "institutions", label: "Institutions" },
+      { id: "escalation", label: "Escalation" },
+    ],
     decision: {
       prompt: "Which course should the actor take?",
       options: [
@@ -177,6 +181,8 @@ function reviewedCase(): CurrentCase {
 const foundation: FoundationSnapshot = {
   timestamp: 1,
   payload: "payload",
+  instrumentStructuralVersion: 3,
+  scoringVersion: 1,
   resultPath: "/results/payload",
   familyKey: "realist",
   familyLabel: "Realist",
@@ -196,6 +202,8 @@ const foundation: FoundationSnapshot = {
   normativeModifier: "Conditional Solidarist",
   keyDrivers: [],
   strongLenses: [],
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
 const response: CompletedCurrentCaseResponse = {
@@ -206,10 +214,12 @@ const response: CompletedCurrentCaseResponse = {
   initialConfidence: 2,
   selectedOptionId: "coordinate",
   confidence: 3,
-  reasoningTags: ["coalition durability"],
+  reasoningTagIds: ["institutions"],
   challengeResponseId: "priority",
   openedReadingProfileIds: ["broad-spectrum-bridge-builder"],
   completedAt: "2026-07-17T10:00:00.000Z",
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
 test("the production catalog publishes the three approved records and resolves the launch case", () => {
@@ -277,6 +287,22 @@ test("Foundation comparison is pure and does not create a new score", () => {
   assert.deepEqual(record, recordBefore)
   assert.deepEqual(response, responseBefore)
   assert.deepEqual(foundation, foundationBefore)
+})
+
+test("Foundation comparison does not cross completion-locale or copy-version cohorts", () => {
+  for (const incompatibleFoundation of [
+    { ...foundation, locale: "zh-Hans" as const },
+    { ...foundation, localeCopyVersion: foundation.localeCopyVersion + 1 },
+  ]) {
+    const connection = compareCompletedCaseWithFoundation(
+      reviewedCase(),
+      response,
+      incompatibleFoundation,
+    )
+    assert.equal(connection.kind, "unavailable")
+    assert.equal(connection.unavailableReason, "different-cohort")
+    assert.equal(connection.foundationPatternId, null)
+  }
 })
 
 test("Current Case leads the live numbered menu and My Profile remains a visible utility", () => {

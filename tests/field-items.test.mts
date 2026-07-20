@@ -35,6 +35,8 @@ const baselineScores: DimensionScores = {
 const foundationSnapshot: FoundationSnapshot = {
   timestamp: 1720000000000,
   payload: "payload",
+  instrumentStructuralVersion: 3,
+  scoringVersion: 1,
   resultPath: "/results/payload",
   familyKey: "realist",
   familyLabel: "Strategic Realist",
@@ -46,9 +48,13 @@ const foundationSnapshot: FoundationSnapshot = {
   normativeModifier: "Pluralist",
   keyDrivers: [],
   strongLenses: [],
+  locale: "en",
+  localeCopyVersion: 1,
 }
 
 const runSnapshot: PerspectiveRunSnapshot = {
+  locale: "en",
+  localeCopyVersion: 1,
   id: "run-1",
   timestamp: 1720000001000,
   perspectiveId: "exposed-ally",
@@ -58,6 +64,7 @@ const runSnapshot: PerspectiveRunSnapshot = {
   baselineDeltas: { securityCompetition: 0.8 },
   strongestShiftKeys: ["securityCompetition"],
   resultPath: "/perspectives/exposed-ally/result/abc",
+  payload: "abc",
 }
 
 test("baseline field item projects through the shared projection", () => {
@@ -66,6 +73,20 @@ test("baseline field item projects through the shared projection", () => {
   assert.deepEqual(item.position, toMapPosition(baselineScores))
   assert.equal(item.layerId, "my-profile")
   assert.equal(buildBaselineFieldItem(null), null)
+})
+
+test("localized saved-result paths stay locale-neutral inside Field items", () => {
+  const baseline = buildBaselineFieldItem({
+    ...foundationSnapshot,
+    resultPath: "/zh/results/payload",
+  }, "zh-Hans")
+  const [run] = buildPerspectiveRunFieldItems([{
+    ...runSnapshot,
+    resultPath: "/zh/perspectives/exposed-ally/result/abc",
+  }], "zh-Hans")
+
+  assert.equal(baseline?.href, "/results/payload")
+  assert.equal(run.href, "/perspectives/exposed-ally/result/abc")
 })
 
 test("perspective run items keep run positions on the shared projection", () => {

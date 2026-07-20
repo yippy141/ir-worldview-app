@@ -1,0 +1,49 @@
+{
+  "chrome": {
+    "brand": "IR Worldview Inventory",
+    "byline": "By JinHua Yip",
+    "skip": "Skip to content",
+    "primary": "Primary",
+    "more": "More",
+    "menu": "Menu",
+    "productPath": "Product path",
+    "productIntro": "Use Current Case for live judgment, build a Foundation baseline, and add Focus Areas, AI, or Perspective Runs where useful.",
+    "browseContext": "Browse and context",
+    "browseIntro": "Use the Worldview Map, the field guide, and methods when you want to browse profiles or challenge the model.",
+    "nav": {
+      "currentCase": "Current Case",
+      "foundation": "Foundation",
+      "focusAreas": "Focus Areas",
+      "ai": "AI",
+      "profile": "My Profile",
+      "perspectives": "Perspective Runs",
+      "worldviewMap": "Worldview Map",
+      "explore": "Explore",
+      "futures": "Futures",
+      "methods": "Methods",
+      "privacy": "Privacy",
+      "references": "References",
+      "feedback": "Feedback",
+      "publicPositions": "Thinkers & public positions"
+    }
+  },
+  "language": {
+    "label": "简体中文",
+    "aria": "Switch to Simplified Chinese",
+    "englishPage": "Read this page in English"
+  },
+  "casesArchive": {
+    "security": "Security",
+    "economicStatecraft": "Economic statecraft",
+    "institutionsAndGovernance": "Institutions and governance",
+    "evidenceThrough": "Evidence through {date}",
+    "completed": "Completed {date}",
+    "draft": "Draft saved on this device",
+    "current": "Current case",
+    "archive": "Archive case",
+    "review": "Review judgment",
+    "resume": "Resume case",
+    "open": "Open case",
+    "englishRecord": "Case text in English"
+  }
+}

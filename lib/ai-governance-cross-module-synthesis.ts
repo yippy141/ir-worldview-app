@@ -62,7 +62,7 @@ const CURATED_MAP: Partial<Record<`${FamilyKey}:${AiArchetypeKey}`, CrossModuleS
     likelyAlignment: [
       "durable cooperation is treated as possible and worth designing for",
       "shared standards and multilateral legitimacy matter",
-      "institutions are not just window dressing but real governance infrastructure",
+      "institutions function as real governance infrastructure",
     ],
     likelyTensions: [
       "institutions can be weaker in crisis than in theory",
@@ -89,7 +89,7 @@ const CURATED_MAP: Partial<Record<`${FamilyKey}:${AiArchetypeKey}`, CrossModuleS
   "constructivist:democraticGuardrailist": {
     title: "Norms-and-legitimacy profile",
     shortReadout:
-      "You think AI politics is shaped not only by material capability but by the norms, narratives, and identities through which societies decide what AI is for.",
+      "You see material capability, norms, narratives, and identity as joint causes of AI politics and of how societies decide what AI is for.",
     likelyAlignment: [
       "governance is partly a contest over meaning and legitimacy",
       "language, rights, and social framing shape policy outcomes",

@@ -34,12 +34,10 @@ export default async function CurrentCaseCorrectionsPage({
         <p className="eyebrow">Corrections and updates</p>
           <h1>{record.title}</h1>
           <p className={styles.pageDek}>
-            This page records the public version and any reviewed correction or evidence update.
+            This page lists reviewed corrections and evidence updates.
           </p>
         </div>
         <p className={styles.pageMeta}>
-          Version {record.version}
-          <br />
           Last editorial update {formatCurrentCaseDate(record.updatedAt)}
           <br />
           Evidence through {formatCurrentCaseDate(record.evidenceWindow.end)}
@@ -49,8 +47,8 @@ export default async function CurrentCaseCorrectionsPage({
       <section className={styles.correctionStatus}>
         <h2>Record status</h2>
         <p>
-          No public correction is recorded for this version. A later change that could affect the
-          judgment or readings will receive a new record version.
+          No public correction is recorded. Changes that could affect the judgment or readings will
+          be recorded here with their date.
         </p>
       </section>
 

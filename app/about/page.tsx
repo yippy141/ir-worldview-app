@@ -1,19 +1,20 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 import { siteConfig } from "@/lib/site-config"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createEnglishApprovedMetadata("/about", {
   title: `About — ${siteConfig.publicTitle}`,
   description:
     "An overview of the IR Worldview Inventory, its purpose, entry points, and editorial limits.",
-}
+})
 
 export default function AboutPage() {
   return (
     <div className="container stack-lg">
       <section className="panel stack-md">
         <p className="eyebrow">About the project</p>
-        <h1>A structured way to examine foreign-policy judgment.</h1>
+        <h1>See which foreign-policy arguments you rely on—and where they conflict.</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
           The {siteConfig.publicTitle} is an editorial interactive for locating your judgments
           across recurring international-relations tradeoffs. It returns a multidimensional

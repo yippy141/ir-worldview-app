@@ -2,6 +2,8 @@
 
 import { useState, useSyncExternalStore } from "react"
 import { useRouter } from "next/navigation"
+import { publicPath } from "@/i18n/paths"
+import type { Locale } from "@/i18n/routing"
 import { copyText } from "@/lib/clipboard"
 import { QUIZ_STORAGE_KEY, notifyQuizSessionUpdated } from "@/lib/quiz-session"
 
@@ -10,10 +12,47 @@ type Props = {
   familyLabel: string
   strategyModifier: string
   normativeModifier: string
+  locale?: Locale
 }
 
-export function ShareActions({ payload, familyLabel, strategyModifier, normativeModifier }: Props) {
+const shareCopy = {
+  en: {
+    copied: "Copied!",
+    share: "Share result",
+    copyShare: "Copy share link",
+    linkCopied: "Link copied!",
+    copyUnavailable: "Copy unavailable",
+    copyLink: "Copy link",
+    savePdf: "Save as PDF",
+    retake: "Retake the Foundation questionnaire",
+    fallback: "Foundation share link",
+    title: (family: string) => `IR Worldview: ${family}`,
+    text: (result: string) => `My IR worldview result: ${result}`,
+  },
+  "zh-Hans": {
+    copied: "已复制",
+    share: "分享结果",
+    copyShare: "复制分享链接",
+    linkCopied: "链接已复制",
+    copyUnavailable: "无法自动复制",
+    copyLink: "复制链接",
+    savePdf: "打印或存为 PDF",
+    retake: "重新完成基础问卷",
+    fallback: "基础结果分享链接",
+    title: (family: string) => `国际关系世界观画像：${family}`,
+    text: (result: string) => `我的国际关系世界观结果：${result}`,
+  },
+} as const
+
+export function ShareActions({
+  payload,
+  familyLabel,
+  strategyModifier,
+  normativeModifier,
+  locale = "en",
+}: Props) {
   const router = useRouter()
+  const copy = shareCopy[locale]
   const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle")
   const canNativeShare = useSyncExternalStore(
     () => () => {},
@@ -24,7 +63,7 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
   const resultLabel = `${familyLabel} · ${strategyModifier} · ${normativeModifier}`
 
   function getShareUrl() {
-    return new URL(`/results/${payload}`, window.location.origin).toString()
+    return new URL(publicPath(locale, `/results/${payload}`), window.location.origin).toString()
   }
 
   async function handleCopy() {
@@ -41,8 +80,8 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
     if (canNativeShare) {
       try {
         await navigator.share({
-          title: `IR Worldview: ${familyLabel}`,
-          text: `My IR worldview result: ${resultLabel}`,
+          title: copy.title(familyLabel),
+          text: copy.text(resultLabel),
           url: getShareUrl(),
         })
       } catch {
@@ -57,17 +96,17 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
   function handleRetake() {
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
     notifyQuizSessionUpdated()
-    router.push("/quiz")
+    router.push(publicPath(locale, "/quiz"))
   }
 
   return (
     <div className="row gap-sm print-hidden wrap">
       <button type="button" className="primary-button" onClick={handleShare}>
         {copyState === "copied"
-          ? "Copied!"
+          ? copy.copied
           : canNativeShare
-          ? "Share result"
-          : "Copy share link"}
+          ? copy.share
+          : copy.copyShare}
       </button>
       <button
         type="button"
@@ -76,24 +115,24 @@ export function ShareActions({ payload, familyLabel, strategyModifier, normative
         aria-live="polite"
       >
         {copyState === "copied"
-          ? "Link copied!"
+          ? copy.linkCopied
           : copyState === "error"
-            ? "Copy unavailable"
-            : "Copy link"}
+            ? copy.copyUnavailable
+            : copy.copyLink}
       </button>
       <button
         type="button"
         className="secondary-button"
         onClick={() => window.print()}
       >
-        Save as PDF
+        {copy.savePdf}
       </button>
       <button type="button" className="secondary-button" onClick={handleRetake}>
-        Retake the Foundation questionnaire
+        {copy.retake}
       </button>
       {copyState === "error" ? (
         <label className="share-copy-fallback">
-          Foundation share link
+          {copy.fallback}
           <input
             type="text"
             readOnly

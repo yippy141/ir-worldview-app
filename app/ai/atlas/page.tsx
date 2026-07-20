@@ -169,7 +169,7 @@ export default function AiAtlasPage() {
         <section className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
             <p className="eyebrow">Next</p>
-            <h2>Where this map sends you</h2>
+            <h2>Read the evidence behind an AI profile</h2>
             <p
               className="muted"
               style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}

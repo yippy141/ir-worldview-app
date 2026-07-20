@@ -154,7 +154,7 @@ export function buildFoundationNarrative({
     ),
     sections: [
       {
-        title: "What this means",
+        title: "How this profile reads world politics",
         text: buildMeaningText(assessment.state, familyKey, familyLabelValue, runnerUpLabel),
       },
       {
@@ -171,7 +171,7 @@ export function buildFoundationNarrative({
         text: `${FAMILY_DEBATE_FRAMES[familyKey]} ${STRATEGY_FRAMES[strategyModifier]} ${NORMATIVE_FRAMES[normativeModifier]}`,
       },
       {
-        title: "What to pressure-test",
+        title: "What to examine next",
         text: buildPressureTestText(
           assessment.state,
           runnerUpLabel,
@@ -191,7 +191,7 @@ function buildSummaryLine(
   strongestSignals: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `No single lens dominates. ${familyLabelValue} is the clearest starting point, but the profile still leans across ${strongestSignals}, with ${runnerUpLabel} close behind.`
+    return `No single tradition dominates. ${familyLabelValue} is the clearest starting point, while the profile still spans ${strongestSignals} and keeps ${runnerUpLabel} close behind.`
   }
 
   if (state === "sharplyDifferentiated") {
@@ -208,14 +208,14 @@ function buildMeaningText(
   runnerUpLabel: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `${FAMILY_MEANINGS[familyKey]} The model is not seeing one narrow camp. Several dimensions stay close enough to the middle that ${familyLabelValue} works better as a starting point than as a fixed label. ${runnerUpLabel} stays close because more than one line of argument remains active in the profile.`
+    return `${FAMILY_MEANINGS[familyKey]} Several dimensions stay close to the middle. ${familyLabelValue} provides a starting point, while ${runnerUpLabel} remains close and several lines of argument stay active in the profile.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `${FAMILY_MEANINGS[familyKey]} Here the label is doing more than winning a technical tiebreak. Several dimensions reinforce one another strongly enough that the Foundation reads as a coherent lens with a clearer center of gravity, even though it remains a shorthand summary of a multidimensional profile.`
+    return `${FAMILY_MEANINGS[familyKey]} Several dimensions reinforce one another strongly enough that the Foundation has a clearer center of gravity. The label still summarizes a multidimensional profile.`
   }
 
-  return `${FAMILY_MEANINGS[familyKey]} The baseline leans clearly enough to name a usable default lens, but not so cleanly that neighboring arguments disappear. ${familyLabelValue} is the clearest starting point for where the profile tends to begin, while ${runnerUpLabel} still captures nearby logic you have not fully set aside.`
+  return `${FAMILY_MEANINGS[familyKey]} The baseline leans clearly enough to name a usable default, while neighboring arguments remain active. ${familyLabelValue} is the clearest starting point, and ${runnerUpLabel} captures the closest alternative logic.`
 }
 
 function buildWhyText(
@@ -229,10 +229,10 @@ function buildWhyText(
   }
 
   if (state === "sharplyDifferentiated") {
-    return `The model landed on ${familyLabelValue} because the strongest signals point in a compatible direction: ${strongestSignals}. That widens the separation from ${runnerUpLabel} enough that the baseline reads as a clearer tradition-level pattern rather than a narrow edge.`
+    return `The model landed on ${familyLabelValue} because the strongest signals point in a compatible direction: ${strongestSignals}. The separation from ${runnerUpLabel} is wide enough to produce a clear tradition-level pattern.`
   }
 
-  return `The model landed on ${familyLabelValue} because the strongest pull in the profile comes from ${strongestSignals}, even though the overall pattern still leaves ${runnerUpLabel} close enough to matter. There is a real baseline tilt here, but not a sealed box. The runner-up remains part of the explanation, not background noise.`
+  return `The model landed on ${familyLabelValue} because the strongest pull in the profile comes from ${strongestSignals}, while ${runnerUpLabel} remains close enough to influence the reading. The runner-up is part of the explanation.`
 }
 
 function buildPressureTestText(
@@ -243,10 +243,10 @@ function buildPressureTestText(
   rivalArgument: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `The next pressure test is not to force a harder label. It is to see whether focused domain pressure sharpens the pattern at all. If Security or Technology keeps pushing the same way, the overlap may narrow. If the modules diverge instead, that is useful information in its own right. ${runnerUpLabel} is the closest comparison point to keep in view.`
+    return `Next, see whether focused domain questions sharpen the pattern. If Security or Technology keeps pushing the same way, the overlap may narrow. If the Focus Areas diverge, the result shows that your emphasis changes by issue. Keep ${runnerUpLabel} in view as the closest comparison.`
   }
 
-  return `The main pressure test is what this baseline is still prone to discount. ${tendsMiss} The strongest rival challenge often comes from ${rivalFamilyLabel}: ${rivalArgument} If that objection keeps surviving contact with your first-pass explanation, it is a sign the Foundation result should be held with some discipline rather than treated as a total theory of the case.`
+  return `Next, examine what this baseline is prone to discount. ${tendsMiss} The strongest rival challenge often comes from ${rivalFamilyLabel}: ${rivalArgument} If that objection survives your first explanation, treat the Foundation result as one account of the case with clear limits.`
 }
 
 function getTopDimensions(scores: DimensionScores, n: number) {

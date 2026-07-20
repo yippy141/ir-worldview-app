@@ -1,7 +1,10 @@
 import "./globals.css"
 import { Newsreader, Archivo, Space_Mono } from "next/font/google"
+import { NextIntlClientProvider } from "next-intl"
+import { getLocale, getMessages } from "next-intl/server"
 import { siteConfig } from "@/lib/site-config"
 import { SiteChrome } from "@/components/layout/site-chrome"
+import { resolveMetadataBase } from "@/i18n/paths"
 import type { Metadata } from "next"
 import type { Viewport } from "next"
 
@@ -33,31 +36,25 @@ export const metadata: Metadata = {
     "Map how you think about world politics — IR theory, security, technology, and AI governance.",
 }
 
-function resolveMetadataBase() {
-  const configured = process.env.SITE_URL?.trim()
-  const vercelProductionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
-  const candidate = configured || (vercelProductionHost ? `https://${vercelProductionHost}` : "")
-
-  try {
-    return new URL(candidate || "http://localhost:3000")
-  } catch {
-    return new URL("http://localhost:3000")
-  }
-}
-
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
     <html
-      lang="en"
+      lang={locale}
+      data-locale={locale}
       className={`${newsreader.variable} ${archivo.variable} ${spaceMono.variable}`}
     >
       <body>
-        <SiteChrome>{children}</SiteChrome>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SiteChrome>{children}</SiteChrome>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

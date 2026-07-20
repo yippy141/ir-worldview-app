@@ -9,7 +9,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Compare Profiles — IR Worldview Inventory",
   description:
-    "Compare two shared IR Worldview profiles side by side without creating an account or saving anything to a backend.",
+    "Compare two shared IR Worldview profiles side by side. The comparison is read-only and is not saved to an account.",
 }
 
 export default async function ComparePage(
@@ -35,16 +35,16 @@ export default async function ComparePage(
         <p className="eyebrow">Compare</p>
         <h1>Compare two shared profiles</h1>
         <p className="muted" style={{ lineHeight: "1.72", fontSize: "1.02rem", maxWidth: "760px" }}>
-          Paste two shared-profile links or payloads. The page compares the two read-only profiles
-          by naming the argument they would probably have, then showing the detailed deltas without
-          a backend, account system, or compatibility score.
+          Paste two shared-profile links. The page names the argument the profiles would probably
+          have, then shows where their dimension scores differ. The comparison is read-only and is
+          not saved to an account.
         </p>
       </div>
 
       <form className="panel stack-md compare-input-panel" action="/compare" method="get">
         <div className="compare-form-grid">
           <label className="stack-xs">
-            <span style={{ fontWeight: 600 }}>Left profile link or payload</span>
+            <span style={{ fontWeight: 600 }}>First shared-profile link</span>
             <textarea
               name="left"
               defaultValue={rawLeft}
@@ -53,7 +53,7 @@ export default async function ComparePage(
             />
           </label>
           <label className="stack-xs">
-            <span style={{ fontWeight: 600 }}>Right profile link or payload</span>
+            <span style={{ fontWeight: 600 }}>Second shared-profile link</span>
             <textarea
               name="right"
               defaultValue={rawRight}
@@ -73,10 +73,9 @@ export default async function ComparePage(
       {invalidInput ? (
         <div className="panel stack-sm" style={{ marginTop: "28px" }}>
           <p className="eyebrow">Could not compare</p>
-          <h2 style={{ marginBottom: 0 }}>One or both shared profiles could not be decoded.</h2>
+          <h2 style={{ marginBottom: 0 }}>One or both links could not be read.</h2>
           <p className="muted" style={{ lineHeight: "1.65", marginBottom: 0 }}>
-            Paste the full shared-profile link or just the payload segment from a URL that looks
-            like <code>/profile/share/&lt;payload&gt;</code>.
+            Paste the full link from a shared Profile page.
           </p>
         </div>
       ) : null}

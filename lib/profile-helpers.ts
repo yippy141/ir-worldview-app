@@ -558,10 +558,10 @@ function buildStabilityPoints(moduleSnapshots: ModuleSnapshot[]) {
       .sort((a, b) => Math.abs(a.score - 4) - Math.abs(b.score - 4))[0]
 
     if (alignedLane) {
-      return `${snapshot.title} adds texture without overturning the baseline. ${alignedLane.label} stays comparatively measured.`
+      return `${snapshot.title} adds issue-specific emphasis while the baseline remains recognizable. ${alignedLane.label} stays comparatively measured.`
     }
 
-    return `${snapshot.title} layers onto the baseline without producing a major directional break.`
+    return `${snapshot.title} adds no major directional break from the baseline.`
   })
 
   return uniqueStrings(points).slice(0, 3)
@@ -651,7 +651,7 @@ function getCardTypeTensionPoints(moduleSnapshots: ModuleSnapshot[]) {
     if (snapshot.slug === "technology") {
       if (explanation.control - decision.control >= 0.75) {
         points.push(
-          `${snapshot.title} reads the domain in more control-heavy terms than you ultimately endorse when choosing policy.`,
+          `${snapshot.title} reads the domain in more control-heavy terms than you endorse when choosing policy.`,
         )
       }
 

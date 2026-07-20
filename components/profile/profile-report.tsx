@@ -155,7 +155,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             <span className="profile-stat-chip__v">{spreadHeadline.changedMostChip}</span>
           </span>
           <span className="profile-stat-chip profile-stat-chip--stable">
-            <span className="profile-stat-chip__k">AI layer</span>
+            <span className="profile-stat-chip__k">AI result</span>
             <span className="profile-stat-chip__v">
               {aiSnapshot ? aiSnapshot.archetypeLabel : "Not added"}
             </span>
@@ -169,8 +169,8 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <div className="stack-xs">
           <h2 style={{ margin: 0, fontSize: "1.2rem" }}>What stayed steady, what shifted</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            One read across the saved layers — what the profile keeps coming back to, where saved
-            modules pull it, and any open tension worth holding onto.
+            Compare what stayed consistent across your saved results, where Security or Technology
+            changed the emphasis, and which tradeoff remains unresolved.
           </p>
         </div>
         <div className="profile-triad">
@@ -201,10 +201,10 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
       <section className="result-section stack-md">
         <div className="stack-xs">
-          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Evidence and saved layers</h2>
+          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Results behind this profile</h2>
           <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            The worldview profile, AI layer, completed overlays, and Foundation anchors that this
-            profile reads from. Open each drawer when you want to look at the evidence.
+            Open your Foundation answers, completed Focus Areas, AI result, and the evidence used
+            for each comparison.
           </p>
         </div>
 
@@ -247,7 +247,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         </details>
 
         <details className="profile-details profile-details--secondary">
-          <summary>AI layer detail</summary>
+          <summary>AI result details</summary>
           <div className="profile-collapsed-detail stack-md">
             {aiSnapshot ? (
               <>
@@ -290,13 +290,13 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                 </p>
                 <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
                   {mode === "local"
-                    ? "Add the AI Governance Compass when you want to read it as a connected layer, not a replacement label."
-                    : "Shared profiles currently carry the IR foundation and saved IR module overlays only."}
+                    ? "Add the AI Governance Compass to compare its result with your Foundation."
+                    : "This shared profile includes the Foundation and saved Focus Area results."}
                 </p>
                 {mode === "local" ? (
                   <p style={{ margin: 0 }}>
                     <Link href="/ai" style={{ color: "var(--accent)" }}>
-                      Add an AI result →
+                      Add AI result →
                     </Link>
                   </p>
                 ) : null}
@@ -307,7 +307,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
         {moduleSnapshots.length > 0 ? (
           <details className="profile-details profile-details--secondary">
-            <summary>Completed issue overlays</summary>
+            <summary>Completed Focus Areas</summary>
             <div className="profile-module-grid profile-module-grid--report profile-collapsed-detail">
               {moduleSnapshots.map((moduleSnapshot) => (
                 <article key={moduleSnapshot.slug} className="profile-module-entry stack-md">
@@ -549,21 +549,21 @@ function buildProfileNextSteps({
 
   if (!securitySnapshot) {
     steps.push({
-      title: "Add Security overlay",
+      title: "Add Security result",
       href: `/modules/security?foundation=${encodeURIComponent(foundationPayload)}`,
     })
   }
 
   if (!technologySnapshot) {
     steps.push({
-      title: "Add Technology overlay",
+      title: "Add Technology result",
       href: `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}`,
     })
   }
 
   if (!aiSnapshot) {
     steps.push({
-      title: "Add AI layer",
+      title: "Add AI result",
       href: "/ai",
     })
   }
@@ -670,7 +670,7 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
                 ) : null}
               </div>
               <div className="profile-spread__lane-meta">
-                <span>{dominant ? `Layer: ${dominant.label}` : "No saved module overlay yet"}</span>
+                <span>{dominant ? `Focus Area: ${dominant.label}` : "No saved Focus Area yet"}</span>
                 <span className="profile-spread__delta">
                   {dominant && directionLabel
                     ? `${phrase} · ${directionLabel.toLowerCase()}`

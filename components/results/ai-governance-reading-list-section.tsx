@@ -13,7 +13,7 @@ export function AiGovernanceReadingListSection({
   const paths = [
     {
       key: "start-here",
-      heading: "Start here",
+      heading: "Read the profile’s foundations",
       subheading:
         "Shared field maps and baseline texts before you settle into one governance camp.",
       entries: buckets.startHere.map((entry) => ({
@@ -67,7 +67,7 @@ export function AiGovernanceReadingListSection({
       key: "challenge-your-view",
       heading: "Challenge your view",
       subheading:
-        "The strongest objections to the instincts your result is likely to reward. These are worth reading carefully rather than dismissing.",
+        "Read the strongest objections to the instincts your result is likely to reward.",
       entries: buckets.bestCritique.map((entry) => ({
         id: entry.id,
         title: entry.title,
@@ -80,7 +80,7 @@ export function AiGovernanceReadingListSection({
         {
           href: "/modules",
           label: "Cross-check in IR modules",
-          text: "Pressure-test the AI result against the Security and Technology overlays.",
+          text: "Compare the AI result with your Security and Technology answers.",
         },
       ],
     },
@@ -109,8 +109,8 @@ export function AiGovernanceReadingListSection({
 
   return (
     <ReadingPathSection
-      title="Where to go next"
-      intro="These readings help you deepen this result, test it against its best critics, and keep exploring inside the project."
+      title="Read the result from another angle"
+      intro="Compare this result with its strongest critics, then examine the evidence behind each position."
       paths={paths}
     />
   )

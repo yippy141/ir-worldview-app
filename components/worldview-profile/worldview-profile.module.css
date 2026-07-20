@@ -721,6 +721,11 @@
     padding: 0;
   }
 
+  :global(html:lang(zh-Hans)) .page {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+    line-height: 1.65;
+  }
+
   .hero,
   .contentLayout,
   .twoColumns,

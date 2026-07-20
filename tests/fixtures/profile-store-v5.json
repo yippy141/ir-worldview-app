@@ -1,0 +1,31 @@
+{
+  "v": 5,
+  "foundation": {
+    "timestamp": 1750000000000,
+    "mode": "standard",
+    "payload": "eyJ2IjoyLCJkcyI6WzQuMyw1LjgsNC45LDUuMSw0LjcsNS40LDUuM10sImZrIjoiaW5zdGl0dXRpb25hbGlzdCIsIm5rIjoiY29uc3RydWN0aXZpc3QiLCJzbSI6IlJlc3RyYWluZXIiLCJubSI6IlBsdXJhbGlzdCJ9",
+    "instrumentStructuralVersion": 3,
+    "scoringVersion": 1,
+    "familyKey": "institutionalist",
+    "runnerUpKey": "constructivist",
+    "dimensionScores": {
+      "securityCompetition": 4.3,
+      "institutions": 5.8,
+      "domesticFilters": 4.9,
+      "normsIdentity": 5.1,
+      "politicalEconomy": 4.7,
+      "restraint": 5.4,
+      "orderJustice": 5.3
+    },
+    "strategyModifier": "Restrainer",
+    "normativeModifier": "Pluralist",
+    "locale": "zh-Hans",
+    "localeCopyVersion": 1
+  },
+  "foundationHistory": [],
+  "modules": {},
+  "moduleHistory": [],
+  "aiGovernance": null,
+  "aiHistory": [],
+  "perspectiveRuns": []
+}

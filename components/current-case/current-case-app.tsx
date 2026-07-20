@@ -1,6 +1,7 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+import { useLocale } from "next-intl"
 import {
   useEffect,
   useMemo,
@@ -9,12 +10,12 @@ import {
   type SyntheticEvent,
 } from "react"
 import { CurrentCaseResultSharing } from "@/components/current-case/current-case-result-sharing"
+import { currentCaseContent } from "@/content/locales/current-cases"
+import { zhHansWorldviewProfileById } from "@/content/locales/zh-Hans/worldview-profiles"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getAtlasLitePattern, getAtlasPatternHref } from "@/lib/atlas-lite"
 import { compareCompletedCaseWithFoundation } from "@/lib/current-cases/profile-connection"
 import {
-  CURRENT_CASE_CONFIDENCE_LABELS,
-  describeCurrentCaseMovement,
   getCurrentCaseOption,
   type CurrentCasePublicRecord,
 } from "@/lib/current-cases/presentation"
@@ -31,22 +32,27 @@ import type {
   CompletedCurrentCaseResponse,
   CurrentCaseConfidence,
   CurrentCaseDraft,
+  CurrentCaseFoundationConnection,
   CurrentCaseStepId,
 } from "@/lib/current-cases/types"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
+import { completionProvenance } from "@/lib/locale-provenance"
+import type { Locale } from "@/i18n/routing"
 import styles from "./current-case.module.css"
 
-const FLOW_STEPS: Array<{ id: CurrentCaseStepId; label: string }> = [
-  { id: "brief", label: "Brief" },
-  { id: "initial", label: "First judgment" },
-  { id: "reasoning", label: "Reasoning" },
-  { id: "readings", label: "Worldview readings" },
-  { id: "challenge", label: "Assumption challenge" },
-  { id: "final", label: "Final judgment" },
-  { id: "result", label: "Movement" },
+const FLOW_STEPS: CurrentCaseStepId[] = [
+  "brief",
+  "initial",
+  "reasoning",
+  "readings",
+  "challenge",
+  "final",
+  "result",
 ]
 
 export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) {
+  const locale = useLocale() as Locale
+  const copy = currentCaseContent(locale).flow
   const [draft, setDraft] = useState<CurrentCaseDraft>(() => initialDraft(record))
   const [completed, setCompleted] = useState<CompletedCurrentCaseResponse | null>(null)
   const [foundation, setFoundation] = useState<FoundationSnapshot | null>(null)
@@ -63,7 +69,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
     const store = loadCurrentCaseResponseStore()
     const savedDraft = getCurrentCaseDraft(store, record.id)
     const savedResponse = getLatestCurrentCaseResponse(store, record.id)
-    const savedFoundation = loadProfileStore().foundation
+    const savedFoundation = loadProfileStore(locale).foundation
     let cancelled = false
 
     queueMicrotask(() => {
@@ -83,7 +89,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
     return () => {
       cancelled = true
     }
-  }, [record])
+  }, [locale, record])
 
   useEffect(() => {
     if (!ready || draft.step === "result") return
@@ -106,8 +112,8 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
     headingRef.current?.focus()
   }, [draft.step])
 
-  const stepIndex = FLOW_STEPS.findIndex((step) => step.id === draft.step)
-  const movement = completed ? describeCurrentCaseMovement(record, completed) : null
+  const stepIndex = FLOW_STEPS.indexOf(draft.step)
+  const movement = completed ? describeLocalizedMovement(record, completed, locale) : null
   const foundationConnection = useMemo(
     () =>
       completed
@@ -158,10 +164,14 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       initialConfidence: draft.initialConfidence,
       selectedOptionId: draft.finalOptionId,
       confidence: draft.finalConfidence,
-      reasoningTags: draft.reasoningTags,
+      reasoningTagIds: draft.reasoningTagIds,
+      ...(draft.legacyReasoningTagLabels
+        ? { legacyReasoningTagLabels: draft.legacyReasoningTagLabels }
+        : {}),
       challengeResponseId: draft.challengeResponseId,
       openedReadingProfileIds: draft.openedReadingProfileIds,
       completedAt: new Date().toISOString(),
+      ...completionProvenance("currentCase", locale),
     }
 
     if (!recordCompletedCurrentCaseResponse(response)) setStorageError(true)
@@ -200,26 +210,34 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
   if (!ready) {
     return (
       <section className={styles.loading} aria-busy="true" aria-live="polite">
-        Checking this browser for saved progress…
+        {copy.checkingSavedProgress}
       </section>
     )
   }
 
   return (
-    <section className={styles.experience} aria-label="Current Case judgment flow">
+    <section className={styles.experience} aria-label={copy.ariaLabel}>
       <div className={styles.progressHeader}>
         <p className={styles.progressText} aria-live="polite">
-          Step {stepIndex + 1} of {FLOW_STEPS.length} · {FLOW_STEPS[stepIndex]?.label}
+          {copy.progress(
+            stepIndex + 1,
+            FLOW_STEPS.length,
+            copy.steps[FLOW_STEPS[stepIndex]],
+          )}
         </p>
         <progress
           className={styles.progress}
           value={stepIndex + 1}
           max={FLOW_STEPS.length}
-          aria-label={`Current Case progress: step ${stepIndex + 1} of ${FLOW_STEPS.length}`}
+          aria-label={copy.progress(
+            stepIndex + 1,
+            FLOW_STEPS.length,
+            copy.steps[FLOW_STEPS[stepIndex]],
+          )}
         />
         {resumed ? (
           <p className={styles.resumeNote} role="status">
-            Draft restored from this browser.
+            {copy.draftRestored}
           </p>
         ) : null}
       </div>
@@ -227,7 +245,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "brief" ? (
         <section className={styles.flowSection} aria-labelledby="case-brief-heading">
           <h2 ref={headingRef} tabIndex={-1} id="case-brief-heading">
-            The case
+            {copy.caseHeading}
           </h2>
           <div className={styles.briefing}>
             {record.briefing.split("\n\n").map((paragraph) => (
@@ -236,18 +254,16 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
           </div>
           <dl className={styles.caseFacts}>
             <div>
-              <dt>Actors</dt>
+              <dt>{copy.actors}</dt>
               <dd>{record.actors.join(", ")}</dd>
             </div>
             <div>
-              <dt>Evidence</dt>
-              <dd>
-                {record.factualClaims.length} factual claims · {record.sources.length} direct sources
-              </dd>
+              <dt>{copy.evidence}</dt>
+              <dd>{copy.evidenceCount(record.factualClaims.length, record.sources.length)}</dd>
             </div>
           </dl>
           <details className={styles.uncertainties}>
-            <summary>Known uncertainties</summary>
+            <summary>{copy.knownUncertainties}</summary>
             <ul>
               {record.knownUncertainties.map((uncertainty) => (
                 <li key={uncertainty}>{uncertainty}</li>
@@ -255,10 +271,10 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             </ul>
           </details>
           <p className={styles.sourceRoute}>
-            <Link href={`/cases/${record.slug}/sources`}>Read the claim and source ledger</Link>
+            <Link href={`/cases/${record.slug}/sources`}>{copy.sourceLedger}</Link>
           </p>
           <FlowActions
-            primaryLabel="Make your first judgment"
+            primaryLabel={copy.makeFirstJudgment}
             onPrimary={startCase}
           />
         </section>
@@ -267,26 +283,29 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "initial" ? (
         <section className={styles.flowSection} aria-labelledby="initial-judgment-heading">
           <h2 ref={headingRef} tabIndex={-1} id="initial-judgment-heading">
-            Your first judgment
+            {copy.firstJudgment}
           </h2>
           <p className={styles.sectionLead}>{record.decision.prompt}</p>
           <OptionField
             name="initial-option"
-            legend="Choose one course"
+            legend={copy.chooseOneCourse}
             record={record}
+            tradeoffLabel={copy.tradeoff}
+            separator={locale === "zh-Hans" ? "：" : ": "}
             value={draft.initialOptionId}
             onChange={(initialOptionId) => updateDraft({ initialOptionId })}
           />
           <ConfidenceField
             name="initial-confidence"
-            legend="How confident are you in this first judgment?"
+            legend={copy.firstConfidence}
+            labels={copy.confidenceLabels}
             value={draft.initialConfidence}
             onChange={(initialConfidence) => updateDraft({ initialConfidence })}
           />
           <FlowActions
-            backLabel="Back to brief"
+            backLabel={copy.backToBrief}
             onBack={() => goTo("brief")}
-            primaryLabel="Continue"
+            primaryLabel={copy.continue}
             primaryDisabled={!draft.initialOptionId || !draft.initialConfidence}
             onPrimary={() => goTo("reasoning")}
           />
@@ -296,39 +315,39 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "reasoning" ? (
         <section className={styles.flowSection} aria-labelledby="reasoning-heading">
           <h2 ref={headingRef} tabIndex={-1} id="reasoning-heading">
-            What is carrying your judgment?
+            {copy.reasoningHeading}
           </h2>
-          <p className={styles.sectionLead}>
-            Add any reasons that mattered. This step is optional and does not change a score.
-          </p>
+          <p className={styles.sectionLead}>{copy.reasoningIntro}</p>
           <fieldset className={styles.tagFieldset}>
-            <legend className="sr-only">Optional reasoning tags</legend>
+            <legend className="sr-only">{copy.optionalReasoningTags}</legend>
             <div className={styles.tags}>
               {record.reasoningTags.map((tag) => {
-                const checked = draft.reasoningTags.includes(tag)
+                const checked = draft.reasoningTagIds.includes(tag.id)
                 return (
-                  <label key={tag} className={styles.tag}>
+                  <label key={tag.id} className={styles.tag}>
                     <input
                       type="checkbox"
                       checked={checked}
                       onChange={() =>
                         updateDraft({
-                          reasoningTags: checked
-                            ? draft.reasoningTags.filter((candidate) => candidate !== tag)
-                            : [...draft.reasoningTags, tag],
+                          reasoningTagIds: checked
+                            ? draft.reasoningTagIds.filter(
+                                (candidate) => candidate !== tag.id,
+                              )
+                            : [...draft.reasoningTagIds, tag.id],
                         })
                       }
                     />
-                    <span>{tag}</span>
+                    <span>{tag.label}</span>
                   </label>
                 )
               })}
             </div>
           </fieldset>
           <FlowActions
-            backLabel="Back"
+            backLabel={copy.back}
             onBack={() => goTo("initial")}
-            primaryLabel="See the worldview readings"
+            primaryLabel={copy.seeReadings}
             onPrimary={() => goTo("readings")}
           />
         </section>
@@ -337,15 +356,15 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "readings" ? (
         <section className={styles.flowSection} aria-labelledby="readings-heading">
           <h2 ref={headingRef} tabIndex={-1} id="readings-heading">
-            Four ways to read the same case
+            {copy.readingsHeading}
           </h2>
-          <p className={styles.sectionLead}>
-            Each reading notices a different mechanism. Open the ones that help you pressure-test
-            your first judgment.
-          </p>
+          <p className={styles.sectionLead}>{copy.readingsIntro}</p>
           <div className={styles.readingList}>
             {record.worldviewReadings.map((reading) => {
               const profile = getAtlasLitePattern(reading.profileId)
+              const localizedProfile = locale === "zh-Hans"
+                ? zhHansWorldviewProfileById[reading.profileId]
+                : null
               return (
                 <details
                   key={reading.profileId}
@@ -354,32 +373,32 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
                 >
                   <summary>
                     <span className={styles.readingName}>
-                      {profile?.publicName ?? reading.profileId}
+                      {localizedProfile?.publicName ?? profile?.publicName ?? reading.profileId}
                     </span>
                     <span className={styles.readingNotice}>{reading.noticesFirst}</span>
                   </summary>
                   <div className={styles.readingBody}>
                     {profile ? (
                       <p className={styles.readingDescriptor}>
-                        {profile.technicalDescriptor} ·{" "}
-                        <Link href={getAtlasPatternHref(profile.id)}>Open worldview profile</Link>
+                        {localizedProfile?.originalTechnicalDescriptor ?? profile.technicalDescriptor} ·{" "}
+                        <Link href={getAtlasPatternHref(profile.id)}>{copy.openWorldviewProfile}</Link>
                       </p>
                     ) : null}
                     <dl>
                       <div>
-                        <dt>How it reads the case</dt>
+                        <dt>{copy.howItReads}</dt>
                         <dd>{reading.interpretation}</dd>
                       </div>
                       <div>
-                        <dt>Likely move</dt>
+                        <dt>{copy.likelyMove}</dt>
                         <dd>{reading.recommendation}</dd>
                       </div>
                       <div>
-                        <dt>Strongest objection</dt>
+                        <dt>{copy.strongestObjection}</dt>
                         <dd>{reading.strongestObjection}</dd>
                       </div>
                       <div>
-                        <dt>What would update it</dt>
+                        <dt>{copy.updateCondition}</dt>
                         <dd>{reading.updateCondition}</dd>
                       </div>
                     </dl>
@@ -389,9 +408,9 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             })}
           </div>
           <FlowActions
-            backLabel="Back"
+            backLabel={copy.back}
             onBack={() => goTo("reasoning")}
-            primaryLabel="Test an assumption"
+            primaryLabel={copy.testAssumption}
             onPrimary={openChallenge}
           />
         </section>
@@ -400,7 +419,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "challenge" ? (
         <section className={styles.flowSection} aria-labelledby="challenge-heading">
           <h2 ref={headingRef} tabIndex={-1} id="challenge-heading">
-            One assumption changes
+            {copy.challengeHeading}
           </h2>
           <p className={styles.challenge}>{record.assumptionChallenge.newInformation}</p>
           <fieldset className={styles.challengeFieldset}>
@@ -421,9 +440,9 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             </div>
           </fieldset>
           <FlowActions
-            backLabel="Back to readings"
+            backLabel={copy.backToReadings}
             onBack={() => goTo("readings")}
-            primaryLabel="Make your final judgment"
+            primaryLabel={copy.makeFinalJudgment}
             primaryDisabled={!draft.challengeResponseId}
             onPrimary={() => {
               updateDraft({
@@ -440,31 +459,34 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "final" ? (
         <section className={styles.flowSection} aria-labelledby="final-judgment-heading">
           <h2 ref={headingRef} tabIndex={-1} id="final-judgment-heading">
-            Your final judgment
+            {copy.finalJudgment}
           </h2>
           <p className={styles.sectionLead}>{record.decision.prompt}</p>
           {draft.initialOptionId ? (
             <p className={styles.initialReminder}>
-              First choice: {getCurrentCaseOption(record, draft.initialOptionId)?.label}
+              {copy.firstChoice(getCurrentCaseOption(record, draft.initialOptionId)?.label ?? "")}
             </p>
           ) : null}
           <OptionField
             name="final-option"
-            legend="Choose your final course"
+            legend={copy.chooseFinalCourse}
             record={record}
+            tradeoffLabel={copy.tradeoff}
+            separator={locale === "zh-Hans" ? "：" : ": "}
             value={draft.finalOptionId}
             onChange={(finalOptionId) => updateDraft({ finalOptionId })}
           />
           <ConfidenceField
             name="final-confidence"
-            legend="How confident are you now?"
+            legend={copy.finalConfidence}
+            labels={copy.confidenceLabels}
             value={draft.finalConfidence}
             onChange={(finalConfidence) => updateDraft({ finalConfidence })}
           />
           <FlowActions
-            backLabel="Back to challenge"
+            backLabel={copy.backToChallenge}
             onBack={() => goTo("challenge")}
-            primaryLabel="See what moved"
+            primaryLabel={copy.seeMovement}
             primaryDisabled={!draft.finalOptionId || !draft.finalConfidence}
             onPrimary={completeCase}
           />
@@ -474,13 +496,13 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
       {draft.step === "result" && completed && movement ? (
         <section className={styles.flowSection} aria-labelledby="movement-heading">
           <h2 ref={headingRef} tabIndex={-1} id="movement-heading">
-            What moved
+            {copy.movementHeading}
           </h2>
           <p className={styles.movement}>{movement}</p>
 
           <div className={styles.resultRows}>
             <div>
-              <h3>Assumption response</h3>
+              <h3>{copy.assumptionResponse}</h3>
               <p>
                 {
                   record.assumptionChallenge.options.find(
@@ -490,30 +512,36 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
               </p>
             </div>
             <div>
-              <h3>Reasons you marked</h3>
-              {completed.reasoningTags.length > 0 ? (
-                <ul className={styles.resultTags} aria-label="Saved reasoning tags">
-                  {completed.reasoningTags.map((tag) => (
-                    <li key={tag}>{tag}</li>
+              <h3>{copy.reasonsMarked}</h3>
+              {completed.reasoningTagIds.length > 0 ? (
+                <ul className={styles.resultTags} aria-label={copy.savedReasoningTags}>
+                  {completed.reasoningTagIds.map((tagId) => (
+                    <li key={tagId}>{reasoningTagLabel(record, completed, tagId)}</li>
                   ))}
                 </ul>
               ) : (
-                <p>No reasoning tags were added.</p>
+                <p>{copy.noReasoningTags}</p>
               )}
             </div>
           </div>
 
           {foundationConnection ? (
             <section className={styles.foundationComparison} aria-labelledby="foundation-compare-heading">
-              <p className={styles.comparisonLabel}>{connectionLabel(foundationConnection.kind)}</p>
-              <h3 id="foundation-compare-heading">Compared with your Foundation</h3>
-              <p>{foundationConnection.summary}</p>
+              <p className={styles.comparisonLabel}>
+                {connectionLabel(foundationConnection.kind, copy.connectionLabels)}
+              </p>
+              <h3 id="foundation-compare-heading">{copy.compareFoundation}</h3>
+              <p>{localizedFoundationConnection(foundationConnection, locale)}</p>
               {foundationConnection.foundationPatternId ? (
                 <Link href={getAtlasPatternHref(foundationConnection.foundationPatternId)}>
-                  Read {foundationConnection.foundationPatternLabel}
+                  {copy.readFoundationPattern(
+                    locale === "zh-Hans"
+                      ? zhHansWorldviewProfileById[foundationConnection.foundationPatternId]?.publicName ?? foundationConnection.foundationPatternLabel ?? ""
+                      : foundationConnection.foundationPatternLabel ?? "",
+                  )}
                 </Link>
               ) : (
-                <Link href="/quiz">Take the Foundation</Link>
+                <Link href="/quiz">{copy.takeFoundation}</Link>
               )}
             </section>
           ) : null}
@@ -527,7 +555,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
           ) : null}
 
           <nav className={styles.nextRoutes} aria-labelledby="next-routes-heading">
-            <h3 id="next-routes-heading">Where to go next</h3>
+            <h3 id="next-routes-heading">{copy.compareElsewhere}</h3>
             <ul>
               {record.nextRoutes.map((route) => (
                 <li key={route.href}>
@@ -538,17 +566,17 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             </ul>
           </nav>
 
-          <nav className={styles.documentLinks} aria-label="Case documentation">
-            <Link href={`/cases/${record.slug}/sources`}>Sources and claim coverage</Link>
-            <Link href={`/cases/${record.slug}/corrections`}>Corrections and updates</Link>
+          <nav className={styles.documentLinks} aria-label={copy.caseDocumentation}>
+            <Link href={`/cases/${record.slug}/sources`}>{copy.sourcesAndClaims}</Link>
+            <Link href={`/cases/${record.slug}/corrections`}>{copy.correctionsAndUpdates}</Link>
           </nav>
 
           <div className={styles.resultActions}>
             <button type="button" className={styles.secondaryButton} onClick={restartCase}>
-              Revisit this judgment
+              {copy.revisitJudgment}
             </button>
             <Link href="/profile" className={styles.primaryLink}>
-              View current judgments in My Profile
+              {copy.viewCurrentJudgments}
             </Link>
           </div>
         </section>
@@ -556,10 +584,10 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
 
       <div className={styles.storageStatus} aria-live="polite">
         {storageError
-          ? "This browser could not save progress. You can continue in this tab."
+          ? copy.saveFailed
           : draft.step === "result"
-            ? "Judgment saved on this device."
-            : "Progress saves on this device as you move between steps."}
+            ? copy.saved
+            : copy.autosave}
       </div>
     </section>
   )
@@ -569,12 +597,16 @@ function OptionField({
   name,
   legend,
   record,
+  tradeoffLabel,
+  separator,
   value,
   onChange,
 }: {
   name: string
   legend: string
   record: CurrentCasePublicRecord
+  tradeoffLabel: string
+  separator: "：" | ": "
   value?: string
   onChange: (optionId: string) => void
 }) {
@@ -594,7 +626,7 @@ function OptionField({
             <span className={styles.optionCopy}>
               <strong>{option.label}</strong>
               <span>{option.logic}</span>
-              <small>Tradeoff: {option.acceptedTradeoff}</small>
+              <small>{tradeoffLabel}{separator}{option.acceptedTradeoff}</small>
             </span>
           </label>
         ))}
@@ -606,11 +638,13 @@ function OptionField({
 function ConfidenceField({
   name,
   legend,
+  labels,
   value,
   onChange,
 }: {
   name: string
   legend: string
+  labels: Readonly<Record<CurrentCaseConfidence, string>>
   value?: CurrentCaseConfidence
   onChange: (confidence: CurrentCaseConfidence) => void
 }) {
@@ -629,7 +663,7 @@ function ConfidenceField({
               onChange={() => onChange(confidence)}
             />
             <span aria-hidden="true">{confidence}</span>
-            <small>{CURRENT_CASE_CONFIDENCE_LABELS[confidence]}</small>
+            <small>{labels[confidence]}</small>
           </label>
         ))}
       </div>
@@ -677,7 +711,7 @@ function initialDraft(record: CurrentCasePublicRecord): CurrentCaseDraft {
     caseSlug: record.slug,
     caseVersion: record.version,
     step: "brief",
-    reasoningTags: [],
+    reasoningTagIds: [],
     openedReadingProfileIds: [],
     updatedAt: "1970-01-01T00:00:00.000Z",
   }
@@ -694,7 +728,10 @@ function draftFromResponse(
     step: "result",
     initialOptionId: response.initialOptionId,
     initialConfidence: response.initialConfidence,
-    reasoningTags: response.reasoningTags,
+    reasoningTagIds: response.reasoningTagIds,
+    ...(response.legacyReasoningTagLabels
+      ? { legacyReasoningTagLabels: response.legacyReasoningTagLabels }
+      : {}),
     challengeResponseId: response.challengeResponseId,
     openedReadingProfileIds: response.openedReadingProfileIds,
     finalOptionId: response.selectedOptionId,
@@ -703,9 +740,69 @@ function draftFromResponse(
   }
 }
 
-function connectionLabel(kind: "consistent" | "tension" | "not-covered" | "unavailable") {
-  if (kind === "consistent") return "Baseline echo"
-  if (kind === "tension") return "Contextual tension"
-  if (kind === "not-covered") return "Coverage limit"
-  return "Foundation comparison"
+function reasoningTagLabel(
+  record: CurrentCasePublicRecord,
+  response: CompletedCurrentCaseResponse,
+  tagId: string,
+) {
+  return record.reasoningTags.find((tag) => tag.id === tagId)?.label ??
+    response.legacyReasoningTagLabels?.[tagId] ??
+    tagId
+}
+
+function describeLocalizedMovement(
+  record: CurrentCasePublicRecord,
+  response: CompletedCurrentCaseResponse,
+  locale: Locale,
+) {
+  const copy = currentCaseContent(locale).flow
+  const initial = getCurrentCaseOption(record, response.initialOptionId)?.label ?? response.initialOptionId
+  const final = getCurrentCaseOption(record, response.selectedOptionId)?.label ?? response.selectedOptionId
+
+  if (response.initialOptionId !== response.selectedOptionId) {
+    return copy.movementChanged(
+      initial,
+      final,
+      response.initialConfidence,
+      response.confidence,
+    )
+  }
+
+  if (response.initialConfidence !== response.confidence) {
+    return copy.movementConfidenceChanged(
+      final,
+      response.initialConfidence,
+      response.confidence,
+    )
+  }
+
+  return copy.movementUnchanged(final, response.confidence)
+}
+
+function connectionLabel(
+  kind: CurrentCaseFoundationConnection["kind"],
+  labels: ReturnType<typeof currentCaseContent>["flow"]["connectionLabels"],
+) {
+  if (kind === "consistent") return labels.consistent
+  if (kind === "tension") return labels.tension
+  if (kind === "not-covered") return labels.notCovered
+  return labels.unavailable
+}
+
+function localizedFoundationConnection(
+  connection: CurrentCaseFoundationConnection,
+  locale: Locale,
+) {
+  const copy = currentCaseContent(locale).flow.connectionSummaries
+  const profileLabel = connection.foundationPatternId && locale === "zh-Hans"
+    ? zhHansWorldviewProfileById[connection.foundationPatternId]?.publicName
+      ?? connection.foundationPatternLabel
+      ?? connection.foundationPatternId
+    : connection.foundationPatternLabel ?? ""
+
+  if (connection.kind === "consistent") return copy.consistent(profileLabel)
+  if (connection.kind === "tension") return copy.tension(profileLabel)
+  if (connection.kind === "not-covered") return copy.notCovered(profileLabel)
+  if (connection.unavailableReason === "different-cohort") return copy.differentCohort
+  return copy.unavailable
 }

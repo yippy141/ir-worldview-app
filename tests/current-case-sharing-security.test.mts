@@ -32,7 +32,8 @@ for (const [name, post] of routes) {
       ok: false,
       disabled: true,
       reason: "answer-bearing-links-retired",
-      message: "Answer-bearing Current Case challenge links are not available in V19.",
+      message:
+        "This older challenge link cannot reveal another reader’s answer. Open the case and compare after both readers finish.",
     })
   })
 }

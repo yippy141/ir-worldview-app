@@ -183,7 +183,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Center for Security and Emerging Technology (CSET)",
       year: 2020,
       description:
-        "Policy analysis of gaps in U.S. AI procurement, workforce, and regulatory capacity. Argues that the critical bottleneck is not rules but the ability to implement them — technical staff, institutional knowledge, and agency competence.",
+        "Policy analysis of gaps in U.S. AI procurement, workforce, and regulatory capacity. Identifies implementation capacity as the critical bottleneck: technical staff, institutional knowledge, and agency competence.",
     },
     {
       id: "engstrom-2020-government-by-algorithm",

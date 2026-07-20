@@ -10,8 +10,8 @@ const EXTENSIONS = [".ts", ".tsx", ".js", ".mjs"]
 function resolveAliasPath(specifier) {
   const basePath = path.join(projectRoot, specifier.slice(2))
   const candidates = [
-    basePath,
     ...EXTENSIONS.map((extension) => `${basePath}${extension}`),
+    basePath,
     ...EXTENSIONS.map((extension) => path.join(basePath, `index${extension}`)),
   ]
 

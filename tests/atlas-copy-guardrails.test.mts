@@ -1,6 +1,10 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
+import { resolve } from "node:path"
 import { getAtlasLitePatterns } from "@/lib/atlas-lite"
+import { getPublishedCurrentCases } from "@/lib/current-cases/catalog"
+import type { CurrentCase } from "@/lib/current-cases/types"
 import { securityModule } from "@/lib/modules/security"
 import { technologyModule } from "@/lib/modules/technology"
 import type { ModuleAnalytics } from "@/lib/modules/types"
@@ -8,15 +12,40 @@ import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { perspectiveCatalog } from "@/lib/perspectives/catalog"
 import { buildPerspectiveResultCopy } from "@/lib/perspectives/result-helpers"
 import { scorePerspectiveRun } from "@/lib/perspectives/scoring"
-import { buildProfileAssessment } from "@/lib/profile-helpers"
+import {
+  buildProfileAssessment,
+  buildProfileSynthesisLite,
+  buildProfileTriad,
+} from "@/lib/profile-helpers"
 import type { ProfileStore } from "@/lib/profile-store"
+import {
+  buildSummary,
+  getBlindSpots,
+  getPressureTestQuestions,
+  getQuickTake,
+  getWhyItMatters,
+} from "@/lib/result-helpers"
+import {
+  worldStageMenuItems,
+  worldStageSceneOptions,
+  worldStageScenes,
+} from "@/lib/world-stage/scenes"
+import type { FamilyKey } from "@/lib/types"
 
-const FLAGGED_PATTERNS = [
-  { label: '"you think"', pattern: /\byou think\b/i },
-  { label: '"you place real emphasis"', pattern: /\byou place real emphasis\b/i },
-  { label: '"nearest-fit shorthand"', pattern: /nearest-fit shorthand/i },
-  { label: '"broad-spectrum"', pattern: /\bbroad-spectrum\b/i },
-  { label: '"matters"', pattern: /\bmatters\b/i },
+const HARD_PATTERNS = [
+  { label: '"16 questions"', pattern: /\b16 questions\b/i },
+  {
+    label: "public release language",
+    pattern: /\bV\d+(?:\.\d+)*\b|\bBeta\b|\bversion history\b|\b(?:this|current|local-only) (?:release|build|version)\b/i,
+  },
+  {
+    label: "implementation detail",
+    pattern: /\b(?:ProfileStore(?: v\d+)?|Profile Share V\d+|environment variables?|request bod(?:y|ies)|legacy routes?|provider wrapper|first-party validator|schema-driven MVP)\b/i,
+  },
+  {
+    label: "banned contrastive template",
+    pattern: /\bnot (?:just|only|simply|merely)\b[^.!?\n]{0,180}\bbut\b|\bno longer just\b[\s\S]{0,220}\bit is also\b|\bno longer about\b[\s\S]{0,180}\bit is about\b|\bis not\b[^.!?\n]{1,120}\bbut\b/i,
+  },
   {
     label: '"X, not Y"',
     pattern: /\b[^.!?\n,]{1,90},\s+not\s+[^.!?\n]{1,90}/i,
@@ -40,8 +69,35 @@ const FLAGGED_PATTERNS = [
   { label: '"not a verdict"', pattern: /\bnot a verdict\b/i },
 ]
 
-// Public copy currently needs no exception to the contrastive-antithesis rules.
-const COPY_ALLOWLIST = new Map<string, ReadonlySet<string>>()
+const ADVISORY_PATTERNS = [
+  { label: '"you think"', pattern: /\byou think\b/i },
+  { label: '"you place real emphasis"', pattern: /\byou place real emphasis\b/i },
+  { label: '"nearest-fit shorthand"', pattern: /nearest-fit shorthand/i },
+  { label: '"broad-spectrum"', pattern: /\bbroad-spectrum\b/i },
+  { label: '"matters"', pattern: /\bmatters\b/i },
+  {
+    label: "abstract filler",
+    pattern: /\b(?:this matters because|at its core|ultimately|the key question|consequential|structured way|contextual movement|modeled positions)\b/i,
+  },
+  { label: '"pressure-test"', pattern: /\bpressure[- ]tests?\b/i },
+  {
+    label: "lens/layer/field/map metaphor",
+    pattern: /\b(?:actor[- ]lens|saved layers?|connected layers?|deeper layers?|read the field|map your|the reward is the map)\b/i,
+  },
+]
+
+// These World Stage comparisons distinguish exact legal status, alliance form, or
+// coding method. "Rather than" carries necessary domain meaning in each sentence.
+const PRECISE_DOMAIN_COMPARISONS = [
+  "U.S. ties are officially robust but unofficial, grounded in the Taiwan Relations Act rather than a defense treaty; Taiwan sits inside the lens as a contingency-shaping actor.",
+  "Taiwan should not be colored or labeled as a formal treaty ally in this scene because the U.S. relationship is explicitly unofficial and law-based rather than treaty-based.",
+  "Saudi and Emirati roles are best treated as hedging rather than as stable attachment to any single external pole.",
+  "No single official dataset measures 'hedging'; this scene rests on doctrine texts, summit roles, and official partnership language rather than a quantified index.",
+] as const
+
+const COPY_ALLOWLIST = new Map<string, ReadonlySet<string>>(
+  PRECISE_DOMAIN_COMPARISONS.map((copy) => [copy, new Set(['"rather than"'])]),
+)
 
 test("contrastive-antithesis guardrails catch every target template", () => {
   const cases = [
@@ -58,19 +114,19 @@ test("contrastive-antithesis guardrails catch every target template", () => {
 
   for (const [expected, copy] of cases) {
     assert.ok(
-      findFlaggedPatterns(copy).includes(expected),
+      findHardPatterns(copy).includes(expected),
       `expected ${expected} to be detected in: ${copy}`,
     )
   }
 })
 
-test("the copy allowlist is exact and limited to necessary privacy language", () => {
+test("the copy allowlist is exact and limited to precise domain comparisons", () => {
   for (const copy of COPY_ALLOWLIST.keys()) {
     assertCleanCopy("allowlisted privacy copy", copy)
   }
 
   assert.ok(
-    findFlaggedPatterns("This profile is descriptive rather than predictive.").includes(
+    findHardPatterns("This profile is descriptive rather than predictive.").includes(
       '"rather than"',
     ),
   )
@@ -269,6 +325,215 @@ test("atlas and visible summary surfaces avoid flagged copy patterns", () => {
   }
 })
 
+test("Current Case records enforce hard copy rules and report advisory signals", (t) => {
+  for (const record of getPublishedCurrentCases()) {
+    for (const [field, copy] of currentCasePublicCopy(record)) {
+      assertAuditedCopy(t, `Current Case ${record.slug} ${field}`, copy)
+    }
+  }
+})
+
+test("World Stage public labels enforce hard copy rules and report advisory signals", (t) => {
+  for (const item of worldStageMenuItems) {
+    for (const [field, copy] of Object.entries({
+      label: item.label,
+      lens: item.lens,
+      description: item.description,
+      action: item.action,
+    })) {
+      assertAuditedCopy(t, `World Stage menu ${item.id} ${field}`, copy)
+    }
+  }
+
+  for (const option of worldStageSceneOptions) {
+    assertAuditedCopy(t, `World Stage scene option ${option.sceneId}`, option.label)
+  }
+
+  for (const scene of worldStageScenes) {
+    const copy = [
+      ["public label", scene.publicLabel],
+      ["caption", scene.caption],
+      ...scene.countryRoles.map((role) => [`country ${role.iso3}`, role.rationale]),
+      ...scene.nodes.flatMap((node) => [
+        [`node ${node.id} label`, node.label],
+        [`node ${node.id} explanation`, node.whyItMatters],
+      ]),
+      ...scene.flows.flatMap((flow) => [
+        [`flow ${flow.id} label`, flow.label],
+        [`flow ${flow.id} meaning`, flow.meaning],
+      ]),
+      ...scene.caveats.map((caveat, index) => [`caveat ${index + 1}`, caveat]),
+    ] as Array<[string, string]>
+
+    for (const [field, value] of copy) {
+      assertAuditedCopy(t, `World Stage ${scene.id} ${field}`, value)
+    }
+  }
+
+  for (const [index, copy] of publicSourceCopy(
+    "components/home/world-stage/world-stage-home.tsx",
+  ).entries()) {
+    assertAuditedCopy(t, `World Stage homepage copy ${index + 1}`, copy)
+  }
+})
+
+test("Privacy, Corrections, and AI entry copy block releases and implementation details", (t) => {
+  const files = [
+    "app/privacy/page.tsx",
+    "app/feedback/page.tsx",
+    "app/ai/page.tsx",
+    "app/ai/quiz/page.tsx",
+    "app/ai/results/[payload]/page.tsx",
+  ]
+
+  for (const file of files) {
+    for (const [index, copy] of publicSourceCopy(file).entries()) {
+      assertAuditedCopy(t, `${file} copy ${index + 1}`, copy)
+    }
+  }
+
+})
+
+test("result and Profile helpers enforce hard copy rules and report advisory signals", (t) => {
+  const families: FamilyKey[] = [
+    "realist",
+    "institutionalist",
+    "constructivist",
+    "criticalPoliticalEconomy",
+  ]
+  const scores = buildProfileFixture(true).foundation!.dimensionScores
+
+  for (const family of families) {
+    assertAuditedCopy(t, `result summary ${family}`, buildSummary(family, scores))
+    for (const [path, copy] of stringLeaves(getQuickTake(family))) {
+      assertAuditedCopy(t, `quick take ${family} ${path}`, copy)
+    }
+    for (const [path, copy] of stringLeaves(getWhyItMatters(family))) {
+      assertAuditedCopy(t, `result significance ${family} ${path}`, copy)
+    }
+    for (const [path, copy] of stringLeaves(getBlindSpots(family))) {
+      assertAuditedCopy(t, `blind spot ${family} ${path}`, copy)
+    }
+    for (const [index, copy] of getPressureTestQuestions(family).entries()) {
+      assertAuditedCopy(t, `result challenge ${family} ${index + 1}`, copy)
+    }
+  }
+
+  for (const [label, profile] of [
+    ["Foundation only", buildProfileFixture()],
+    ["saved Focus Areas", buildProfileFixture(true)],
+  ] as const) {
+    for (const [path, copy] of stringLeaves({
+      synthesis: buildProfileSynthesisLite(profile),
+      triad: buildProfileTriad(profile),
+      assessment: buildProfileAssessment(profile),
+    })) {
+      assertAuditedCopy(t, `Profile helper ${label} ${path}`, copy)
+    }
+  }
+})
+
+function publicSourceCopy(file: string): string[] {
+  const source = readFileSync(resolve(process.cwd(), file), "utf8")
+  const candidates: string[] = []
+  const stringPattern = /(["'`])((?:\\.|(?!\1)[\s\S])*?)\1/g
+  let match: RegExpExecArray | null
+
+  while ((match = stringPattern.exec(source)) !== null) {
+    const text = match[2]
+    const lineStart = source.lastIndexOf("\n", match.index) + 1
+    const before = source.slice(lineStart, match.index)
+    const isImport = /(?:\bfrom|\bimport\s*\(|\brequire\s*\()\s*$/.test(before)
+    const isNonCopyAttribute =
+      /(?:className|href|id|key|name|type|role|value|data-[\w-]+)\s*=\s*$/.test(before)
+    if (looksLikePublicCopy(text) && !isImport && !isNonCopyAttribute) {
+      candidates.push(text)
+    }
+  }
+
+  for (const line of source.split("\n")) {
+    const raw = line.trim()
+    const text = line.replace(/<[^>]+>/g, " ").replace(/\{[^{}]*\}/g, " ").trim()
+    const looksLikeCode =
+      /^(?:(?:import|export|const|let|var|type|interface|function|return|if|else|for|while)\b|\/\/|\/\*|\*)/.test(raw) ||
+      /[=;{}]/.test(raw) ||
+      /["'`]/.test(raw) ||
+      raw.endsWith(",")
+    if (looksLikePublicCopy(text) && !looksLikeCode) candidates.push(text)
+  }
+
+  return [...new Set(candidates)]
+}
+
+function looksLikePublicCopy(text: string) {
+  return text.trim().length >= 8 && /[A-Za-z]{2,}\s+[A-Za-z]{2,}/.test(text)
+}
+
+function currentCasePublicCopy(record: CurrentCase): Array<[string, string]> {
+  return [
+    ["title", record.title],
+    ["dek", record.dek],
+    ["briefing", record.briefing],
+    ["global perspective", record.perspectives.global],
+    ...record.perspectives.counterparties.flatMap((entry, index) => [
+      [`counterparty ${index + 1} actor`, entry.actor],
+      [`counterparty ${index + 1} perspective`, entry.perspective],
+    ] as Array<[string, string]>),
+    ...record.knownUncertainties.map((copy, index) => [`uncertainty ${index + 1}`, copy] as [string, string]),
+    ...record.reasoningTags.map((tag, index) => [
+      `reasoning tag ${index + 1}`,
+      tag.label,
+    ] as [string, string]),
+    ["decision prompt", record.decision.prompt],
+    ...record.decision.options.flatMap((option, index) => [
+      [`option ${index + 1} label`, option.label],
+      [`option ${index + 1} logic`, option.logic],
+      [`option ${index + 1} tradeoff`, option.acceptedTradeoff],
+    ] as Array<[string, string]>),
+    ...record.worldviewReadings.flatMap((reading, index) => [
+      [`reading ${index + 1} notices`, reading.noticesFirst],
+      [`reading ${index + 1} interpretation`, reading.interpretation],
+      [`reading ${index + 1} recommendation`, reading.recommendation],
+      [`reading ${index + 1} objection`, reading.strongestObjection],
+      [`reading ${index + 1} update`, reading.updateCondition],
+    ] as Array<[string, string]>),
+    ["new information", record.assumptionChallenge.newInformation],
+    ["assumption prompt", record.assumptionChallenge.prompt],
+    ...record.assumptionChallenge.options.map((option, index) => [
+      `assumption option ${index + 1}`,
+      option.label,
+    ] as [string, string]),
+    ...record.nextRoutes.flatMap((route, index) => [
+      [`next route ${index + 1} label`, route.label],
+      [`next route ${index + 1} reason`, route.reason],
+    ] as Array<[string, string]>),
+    ...record.disputes.factual.map((copy, index) => [`factual dispute ${index + 1}`, copy] as [string, string]),
+    ...record.disputes.interpretive.map((copy, index) => [`interpretive dispute ${index + 1}`, copy] as [string, string]),
+  ]
+}
+
+function stringLeaves(value: unknown, path = "copy"): Array<[string, string]> {
+  if (typeof value === "string") return [[path, value]]
+  if (Array.isArray(value)) {
+    return value.flatMap((entry, index) => stringLeaves(entry, `${path}.${index}`))
+  }
+  if (typeof value !== "object" || value === null) return []
+  return Object.entries(value).flatMap(([key, entry]) => stringLeaves(entry, `${path}.${key}`))
+}
+
+function assertAuditedCopy(
+  t: { diagnostic(message: string): void },
+  label: string,
+  text: string,
+) {
+  assertCleanCopy(label, text)
+  for (const advisory of ADVISORY_PATTERNS) {
+    if (advisory.pattern.test(text)) {
+      t.diagnostic(`Advisory copy signal in ${label}: ${advisory.label}`)
+    }
+  }
+}
+
 function getPerspectiveAnswerCombinations(
   perspective: (typeof perspectiveCatalog)[number],
 ) {
@@ -286,7 +551,7 @@ function getPerspectiveAnswerCombinations(
 
 function assertCleanCopy(label: string, text: string) {
   const allowed = COPY_ALLOWLIST.get(text) ?? new Set<string>()
-  for (const flagged of FLAGGED_PATTERNS) {
+  for (const flagged of HARD_PATTERNS) {
     assert.ok(
       !flagged.pattern.test(text) || allowed.has(flagged.label),
       `${label} should avoid ${flagged.label}. Received: ${text}`,
@@ -294,8 +559,8 @@ function assertCleanCopy(label: string, text: string) {
   }
 }
 
-function findFlaggedPatterns(text: string) {
-  return FLAGGED_PATTERNS
+function findHardPatterns(text: string) {
+  return HARD_PATTERNS
     .filter((flagged) => flagged.pattern.test(text))
     .map((flagged) => flagged.label)
 }
@@ -313,10 +578,12 @@ function makeAnalytics(
 
 function buildProfileFixture(includeModules = false): ProfileStore {
   const profile: ProfileStore = {
-    v: 4,
+    v: 5,
     foundation: {
       timestamp: 1,
       payload: "payload",
+      instrumentStructuralVersion: 3,
+      scoringVersion: 1,
       resultPath: "/results/payload",
       familyKey: includeModules ? "institutionalist" : "realist",
       familyLabel: includeModules ? "Liberal Institutionalist" : "Strategic Realist",
@@ -346,6 +613,8 @@ function buildProfileFixture(includeModules = false): ProfileStore {
       normativeModifier: includeModules ? "Pluralist" : "Conditional Solidarist",
       keyDrivers: [],
       strongLenses: [],
+      locale: "en",
+      localeCopyVersion: 1,
     },
     foundationHistory: [],
     modules: {},
@@ -362,6 +631,10 @@ function buildProfileFixture(includeModules = false): ProfileStore {
   profile.modules.security = {
     timestamp: 2,
     slug: "security",
+    instrumentVersion: 2,
+    locale: "en",
+    localeCopyVersion: 1,
+    laneScores: {},
     title: "Security",
     shorthand: "Security Pressure",
     mode: "standard",
@@ -401,6 +674,10 @@ function buildProfileFixture(includeModules = false): ProfileStore {
   profile.modules.technology = {
     timestamp: 3,
     slug: "technology",
+    instrumentVersion: 2,
+    locale: "en",
+    localeCopyVersion: 1,
+    laneScores: {},
     title: "Technology",
     shorthand: "Tech Power",
     mode: "standard",

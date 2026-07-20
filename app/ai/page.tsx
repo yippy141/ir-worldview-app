@@ -7,8 +7,7 @@ const advancedQuestionTotal = aiTotalQuestionCountsByMode.analyst
 
 export const metadata: Metadata = {
   title: "AI Governance Compass",
-  description:
-    "Map your instincts on frontier AI governance — 16 questions, around 8 minutes.",
+  description: `Compare your judgments on frontier AI governance across ${standardQuestionTotal} questions.`,
 }
 
 export default function AiPage() {
@@ -17,12 +16,12 @@ export default function AiPage() {
       <article className="lobby-page stack-xl">
         <section className="ai-landing-hero stack-md">
           <p className="ai-landing-hero__eyebrow">AI Governance Compass</p>
-          <h1 className="ai-landing-hero__h1">Map your instincts on frontier AI governance</h1>
+          <h1 className="ai-landing-hero__h1">Compare your judgments on frontier AI governance</h1>
           <p className="ai-landing-hero__lead">
-            16 questions. Around 8 minutes.
+            {standardQuestionTotal} questions. Around 8 minutes.
           </p>
           <p className="ai-landing-hero__sub">
-            A structured read across eight axes — risk horizon, deployment pace, oversight,
+            The questions cover eight axes: risk horizon, deployment pace, oversight,
             geopolitics, openness, military use, legitimacy, and human future.
           </p>
           <div className="ai-landing-hero__actions">
@@ -34,8 +33,8 @@ export default function AiPage() {
             </Link>
           </div>
           <p className="ai-landing-hero__bridge">
-            Want the deeper foreign-policy layer?{" "}
-            <Link href="/quiz">Take the IR Foundation afterward</Link>.
+            To compare this result with your wider foreign-policy judgments, take the{" "}
+            <Link href="/quiz">IR Foundation</Link>.
           </p>
         </section>
 
@@ -120,8 +119,8 @@ export default function AiPage() {
             <p className="section-kicker">Optional depth</p>
             <h2>Where the AI Compass connects to the rest of the project</h2>
             <p className="muted lobby-side-text">
-              The AI result stands on its own. If you want the deeper foreign-policy layer
-              underneath it, the IR Foundation and issue modules sit one click away.
+              The IR Foundation and Focus Areas let you compare this result with your judgments
+              about security, institutions, political economy, and technology.
             </p>
           </div>
           <div className="resource-list">
@@ -164,7 +163,7 @@ export default function AiPage() {
             <Link href="/feedback" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Feedback</span>
-                <span className="resource-list-text">Send notes on the AI module while this beta polish pass is in progress.</span>
+                <span className="resource-list-text">Report a factual, privacy, or security problem.</span>
               </span>
             </Link>
           </div>

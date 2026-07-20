@@ -16,6 +16,7 @@ import {
   buildWorldStageFlowData,
   buildWorldStageNodeData,
   getWorldStageTooltipItems,
+  type WorldStageMapPresentation,
 } from "@/lib/world-stage/map-data"
 import {
   getNextWorldStageSpinLongitude,
@@ -49,6 +50,14 @@ type WorldStageMapProps = {
   motionPaused: boolean
   reducedMotion: boolean
   onInteraction: () => void
+  copy?: WorldStageMapPresentation & {
+    unavailableLabel: string
+    tooltipReviewedThrough: string
+    lensOwner: string
+    asOf: string
+    mapDiagnosticState: string
+    improveMap: string
+  }
 }
 
 export type WorldStageMapHandle = {
@@ -145,6 +154,7 @@ export function WorldStageMap({
   motionPaused,
   reducedMotion,
   onInteraction,
+  copy,
 }: WorldStageMapProps) {
   const mapFrameRef = useRef<HTMLDivElement>(null)
   const mapContainerRef = useRef<HTMLDivElement>(null)
@@ -363,7 +373,7 @@ export function WorldStageMap({
       const countrySource = map.getSource(COUNTRY_SOURCE_ID) as GeoJSONSource | undefined
       const flowSource = map.getSource(FLOW_SOURCE_ID) as GeoJSONSource | undefined
       const nodeSource = map.getSource(NODE_SOURCE_ID) as GeoJSONSource | undefined
-      countrySource?.setData(sourceData(buildWorldStageCountryData(nextScene)))
+      countrySource?.setData(sourceData(buildWorldStageCountryData(nextScene, copy)))
       flowSource?.setData(
         buildWorldStageFlowData(nextScene) as unknown as Parameters<
           GeoJSONSource["setData"]
@@ -469,7 +479,7 @@ export function WorldStageMap({
       if (!map) return
       map.addSource(COUNTRY_SOURCE_ID, {
         type: "geojson",
-        data: sourceData(buildWorldStageCountryData(nextScene)),
+        data: sourceData(buildWorldStageCountryData(nextScene, copy)),
       })
       map.addSource(FLOW_SOURCE_ID, {
         type: "geojson",
@@ -754,19 +764,19 @@ export function WorldStageMap({
       setMapReady(false)
       cleanupMap()
     }
-  }, [reducedMotion])
+  }, [copy, reducedMotion])
 
   if (!scene) {
     return (
       <div className={styles.mapFrame}>
         <p className={styles.mapUnavailable} role="status">
-          Reviewed map layer unavailable.
+          {copy?.unavailableLabel ?? "Reviewed map layer unavailable."}
         </p>
       </div>
     )
   }
 
-  const tooltipItems = getWorldStageTooltipItems(scene)
+  const tooltipItems = getWorldStageTooltipItems(scene, copy)
   const tooltipStyle = inspection
     ? ({ left: inspection.position.x, top: inspection.position.y } as CSSProperties)
     : undefined
@@ -787,6 +797,7 @@ export function WorldStageMap({
           onInspect={positionInspection}
           onClearInspection={() => setInspection(null)}
           onInteraction={onInteraction}
+          presentation={copy}
         />
       </div>
 
@@ -801,7 +812,7 @@ export function WorldStageMap({
           <p className={styles.mapTooltipLabel}>{inspection.item.label}</p>
           <p className={styles.mapTooltipMeaning}>{inspection.item.meaning}</p>
           <p className={styles.mapTooltipMeta}>
-            Reviewed through {inspection.item.asOf}
+            {copy?.tooltipReviewedThrough ?? "Reviewed through"} {inspection.item.asOf}
           </p>
         </div>
       ) : null}
@@ -809,19 +820,24 @@ export function WorldStageMap({
       <section className={styles.visuallyHidden}>
         <h2>{scene.publicLabel}</h2>
         <p id={`world-stage-map-caption-${scene.id}`}>
-          {scene.caption} Lens owner: {scene.lensOwner}. As of {scene.asOf}.
+          {copy
+            ? `${scene.caption} ${copy.lensOwner}：${scene.lensOwner}。${copy.asOf} ${scene.asOf}。`
+            : `${scene.caption} Lens owner: ${scene.lensOwner}. As of ${scene.asOf}.`}
         </p>
         <ul>
           {tooltipItems.map((item) => (
             <li key={`${item.kind}-${item.id}`}>
-              {item.label}: {item.meaning}
+              {item.label}{copy ? "：" : ": "}{item.meaning}
             </li>
           ))}
         </ul>
       </section>
 
       {showDiagnostic ? (
-        <output className={styles.mapDiagnostic} aria-label="Map diagnostic state">
+        <output
+          className={styles.mapDiagnostic}
+          aria-label={copy?.mapDiagnosticState ?? "Map diagnostic state"}
+        >
           {diagnostic}
         </output>
       ) : null}
@@ -830,7 +846,9 @@ export function WorldStageMap({
         <div className={`${styles.mapAttribution} ${styles.mapAttributionVisible}`}>
           © <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ©{" "}
           <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>{" "}
-          <a href="https://apps.mapbox.com/feedback/">Improve this map</a>
+          <a href="https://apps.mapbox.com/feedback/">
+            {copy?.improveMap ?? "Improve this map"}
+          </a>
         </div>
       ) : null}
     </div>

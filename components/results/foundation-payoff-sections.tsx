@@ -15,8 +15,8 @@ export function FoundationPayoffSections({ payoff, foundationPayload }: Props) {
         <p className="eyebrow">Now what?</p>
         <h2 id="foundation-payoff-heading">How to use this result</h2>
         <p className="muted">
-          The useful payoff is not the label by itself. It is how this profile changes what you
-          notice, question, and pressure-test when a real debate gets hard.
+          Use the profile to see which facts you notice first, which arguments you question, and
+          which assumptions deserve another look in a difficult case.
         </p>
       </div>
 
@@ -55,7 +55,7 @@ export function FoundationPayoffSections({ payoff, foundationPayload }: Props) {
 
       <div className="foundation-payoff__block foundation-payoff__next stack-sm">
         <div className="stack-xs">
-          <p className="section-kicker">4. What to pressure-test next</p>
+          <p className="section-kicker">4. Next issue to examine</p>
           <h3>{payoff.nextStep.label}</h3>
         </div>
         <p>{payoff.nextStep.reason}</p>

@@ -1,24 +1,28 @@
 # V19 production deployment checklist
 
 Complete this checklist from a clean checkout after the release changes are on
-`main`. Record the commit SHA and production URLs in the release notes.
+`main`. Fill in the release record below; do not rely on a mutable dashboard
+label as the only deployment record.
 
 ## 1. Verify the release commit
 
 - [ ] Confirm CI is green for the intended `main` commit.
 - [ ] Run `git fetch origin main`.
 - [ ] Run `git rev-parse origin/main` and record the full SHA.
+- [ ] Run `npm run diagnostics:build-sha` and confirm it prints the same SHA.
 - [ ] Confirm the Vercel deployment's source commit matches that SHA. Do not
       promote a deployment built from a different commit.
+- [ ] Confirm the Vercel project's Production Branch is `main`.
 
 ## 2. Verify the Vercel production deployment
 
 - [ ] In Vercel, confirm the matching deployment is marked **Production** and
       has finished successfully.
 - [ ] Confirm required Production environment variables are present, including
-      canonical `SITE_URL`, `NEXT_PUBLIC_MAPBOX_TOKEN`, and any configured
-      `NEXT_PUBLIC_MAPBOX_STYLE`. V19 uses case-only invitations and does not use
-      a Current Case challenge secret.
+      canonical `SITE_URL=https://irworldview.jhyip.com`. Mapbox credentials are
+      optional: when they are absent or rejected, the complete local SVG map
+      fallback must remain usable. V19 uses case-only invitations and does not
+      use a Current Case challenge secret.
 - [ ] Open the immutable Vercel deployment URL and confirm the World Stage,
       Foundation, Profile, and Worldview Map load without console errors.
 
@@ -61,8 +65,10 @@ Complete this checklist from a clean checkout after the release changes are on
 ## Release record
 
 - `main` SHA:
-- Vercel production deployment URL:
+- Immutable Vercel deployment URL:
+- Production alias:
 - Custom domain:
+- `SITE_URL`:
 - Verified by:
-- Verification date/time and timezone:
+- Test date/time and timezone:
 - Exceptions or follow-up issues:

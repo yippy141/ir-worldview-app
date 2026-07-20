@@ -23,6 +23,13 @@ import {
   validateReferenceCatalog,
 } from "@/lib/reference-profiles/validation"
 import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { chineseShellContent } from "@/content/locales/zh-Hans"
+import { zhHansReferenceProfilesUi } from "@/content/locales/zh-Hans/reference-profiles-ui"
+import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
+import { zhHansWorldviewProfileById } from "@/content/locales/zh-Hans/worldview-profiles"
+import { formatLocalizedDate } from "@/i18n/format"
+import { internalPath } from "@/i18n/paths"
+import type { Locale } from "@/i18n/routing"
 import type { DimensionScores, FamilyKey } from "@/lib/types"
 
 // ---------------------------------------------------------------------------
@@ -62,20 +69,27 @@ export type FieldItem = FieldFilterableItem & {
 
 export function buildBaselineFieldItem(
   foundation: FoundationSnapshot | null,
+  locale: Locale = "en",
 ): FieldItem | null {
   if (!foundation) return null
+  const zh = locale === "zh-Hans"
+  const familyLabel = zh
+    ? zhHansWorldviewMapUi.filters.families[foundation.familyKey]
+    : foundation.familyLabel
 
   return {
     id: "my-baseline",
     layerId: "my-profile",
     kind: "baseline",
-    label: "My baseline",
+    label: zh ? zhHansWorldviewMapUi.fieldItems.myBaseline : "My baseline",
     sortKey: "0-my-baseline",
     searchableText: ["baseline", foundation.familyLabel],
     position: toMapPosition(foundation.dimensionScores),
-    summary: `Foundation baseline · closest to ${foundation.familyLabel}.`,
-    href: foundation.resultPath,
-    metaLine: formatFieldDate(foundation.timestamp),
+    summary: zh
+      ? zhHansWorldviewMapUi.fieldItems.baselineSummary(familyLabel)
+      : `Foundation baseline · closest to ${foundation.familyLabel}.`,
+    href: internalPath(foundation.resultPath),
+    metaLine: formatFieldDate(foundation.timestamp, locale),
     familyKey: foundation.familyKey,
   }
 }
@@ -86,18 +100,26 @@ export function buildBaselineFieldItem(
 
 export function buildPerspectiveRunFieldItems(
   runs: readonly PerspectiveRunSnapshot[],
+  locale: Locale = "en",
 ): FieldItem[] {
+  const zh = locale === "zh-Hans"
   return runs.map((run) => ({
     id: run.id,
     layerId: "perspective-runs" as FieldLayerId,
     kind: "perspective-run" as const,
-    label: run.perspectiveLabel,
+    label: zh && run.perspectiveId in chineseShellContent.profileShare.perspectiveLabels
+      ? chineseShellContent.profileShare.perspectiveLabels[
+          run.perspectiveId as keyof typeof chineseShellContent.profileShare.perspectiveLabels
+        ]
+      : run.perspectiveLabel,
     sortKey: `${run.perspectiveLabel}-${run.timestamp}`,
     searchableText: ["perspective run", run.perspectiveLabel],
     position: toMapPosition(run.dimensionScores),
-    summary: "Contextual shift recorded beside the Foundation baseline.",
-    href: run.resultPath,
-    metaLine: formatFieldDate(run.timestamp),
+    summary: zh
+      ? zhHansWorldviewMapUi.fieldItems.perspectiveSummary
+      : "Contextual shift recorded beside the Foundation baseline.",
+    href: internalPath(run.resultPath),
+    metaLine: formatFieldDate(run.timestamp, locale),
   }))
 }
 
@@ -161,12 +183,15 @@ export function atlasFingerprintToDimensionScores(
   return scores
 }
 
-export function buildAtlasPatternFieldItems(): FieldItem[] {
+export function buildAtlasPatternFieldItems(locale: Locale = "en"): FieldItem[] {
+  const zh = locale === "zh-Hans"
   return atlasLitePatterns.map((pattern) => ({
     id: pattern.id,
     layerId: "atlas-patterns" as FieldLayerId,
     kind: "atlas-pattern" as const,
-    label: pattern.publicName,
+    label: zhHansWorldviewProfileById[pattern.id]?.publicName && zh
+      ? zhHansWorldviewProfileById[pattern.id].publicName
+      : pattern.publicName,
     sortKey: pattern.publicName,
     searchableText: [
       "worldview profile",
@@ -175,7 +200,9 @@ export function buildAtlasPatternFieldItems(): FieldItem[] {
       FAMILY_LABELS[pattern.primaryFamily],
     ],
     position: toMapPosition(atlasFingerprintToDimensionScores(pattern)),
-    summary: pattern.cardSummary,
+    summary: zh
+      ? zhHansWorldviewProfileById[pattern.id]?.cardSummary ?? pattern.cardSummary
+      : pattern.cardSummary,
     href: getAtlasPatternHref(pattern.id),
     familyKey: pattern.primaryFamily,
   }))
@@ -246,13 +273,19 @@ const ENTITY_TYPE_LABELS: Record<ReferenceEntityType, string> = {
   "ai-current": "AI current",
 }
 
-export function referenceEntityTypeLabel(entityType: ReferenceEntityType): string {
-  return ENTITY_TYPE_LABELS[entityType]
+export function referenceEntityTypeLabel(
+  entityType: ReferenceEntityType,
+  locale: Locale = "en",
+): string {
+  return locale === "zh-Hans"
+    ? zhHansReferenceProfilesUi.entityTypes[entityType]
+    : ENTITY_TYPE_LABELS[entityType]
 }
 
 export function buildReferenceFieldItems(
   catalog: ReferenceCatalog = REFERENCE_PROFILE_CATALOG,
   options: ReferenceVisibilityOptions = {},
+  locale: Locale = "en",
 ): FieldItem[] {
   const entities = getVisibleReferenceEntities(catalog, options)
   const profileById = new Map(
@@ -271,9 +304,11 @@ export function buildReferenceFieldItems(
         entityType: entity.entityType,
         scope: entity.scope,
         position: null,
-        summary: entity.scopeNote,
+        summary: locale === "zh-Hans"
+          ? zhHansReferenceProfilesUi.metadata.detailDescription(entity.name)
+          : entity.scopeNote,
         href: `/explore/reference/${entity.id}`,
-        metaLine: `${referenceDateLabel(entity)} ${formatFieldDateString(entity.reviewedAt)}`,
+        metaLine: `${referenceDateLabel(entity, locale)} ${formatFieldDateString(entity.reviewedAt, locale)}`,
         reviewedAt: entity.reviewedAt,
         draft: isReferenceEntityDraft(entity),
         memberProfileIds: entity.memberProfileIds,
@@ -289,16 +324,18 @@ export function buildReferenceFieldItems(
       label: profile.name,
       sortKey: profile.shortName,
       searchableText: [
-        referenceEntityTypeLabel(profile.entityType),
+        referenceEntityTypeLabel(profile.entityType, locale),
         profile.domain,
         profile.summary,
       ],
       entityType: profile.entityType,
       scope: profile.scope,
       position: getReferenceProfilePosition(profile),
-      summary: profile.summary,
+      summary: locale === "zh-Hans"
+        ? zhHansReferenceProfilesUi.metadata.detailDescription(profile.name)
+        : profile.summary,
       href: `/explore/reference/${profile.id}`,
-      metaLine: `${referenceDateLabel(profile)} ${formatFieldDateString(profile.reviewedAt)}`,
+      metaLine: `${referenceDateLabel(profile, locale)} ${formatFieldDateString(profile.reviewedAt, locale)}`,
       reviewedAt: profile.reviewedAt,
       draft: isReferenceEntityDraft(profile),
       movementIds: catalog.movements
@@ -308,7 +345,12 @@ export function buildReferenceFieldItems(
   })
 }
 
-function referenceDateLabel(entity: ReferenceEntity): "Reviewed" | "Research dated" {
+function referenceDateLabel(entity: ReferenceEntity, locale: Locale): string {
+  if (locale === "zh-Hans") {
+    return isReferenceEntityDraft(entity)
+      ? zhHansWorldviewMapUi.fieldItems.researchDated
+      : zhHansWorldviewMapUi.fieldItems.reviewed
+  }
   return isReferenceEntityDraft(entity) ? "Research dated" : "Reviewed"
 }
 
@@ -376,12 +418,18 @@ const FIELD_DATE_FORMAT = new Intl.DateTimeFormat("en-GB", {
   timeZone: "UTC",
 })
 
-export function formatFieldDate(timestamp: number): string {
+export function formatFieldDate(timestamp: number, locale: Locale = "en"): string {
   const date = new Date(timestamp)
-  return Number.isFinite(date.getTime()) ? FIELD_DATE_FORMAT.format(date) : "Unknown date"
+  if (!Number.isFinite(date.getTime())) return locale === "zh-Hans" ? "日期未知" : "Unknown date"
+  return locale === "zh-Hans"
+    ? formatLocalizedDate(timestamp, locale, "medium")
+    : FIELD_DATE_FORMAT.format(date)
 }
 
-export function formatFieldDateString(isoDate: string): string {
+export function formatFieldDateString(isoDate: string, locale: Locale = "en"): string {
   const parsed = Date.parse(isoDate)
-  return Number.isFinite(parsed) ? FIELD_DATE_FORMAT.format(new Date(parsed)) : isoDate
+  if (!Number.isFinite(parsed)) return isoDate
+  return locale === "zh-Hans"
+    ? formatLocalizedDate(isoDate, locale, "medium")
+    : FIELD_DATE_FORMAT.format(new Date(parsed))
 }

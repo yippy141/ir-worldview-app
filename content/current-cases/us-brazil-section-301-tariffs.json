@@ -14,7 +14,7 @@
     "start": "2026-06-26",
     "end": "2026-07-17"
   },
-  "briefing": "On 15–16 July 2026, the United States escalated a yearlong Section 301 investigation into Brazil by unveiling a new 25% tariff package on selected Brazilian imports, to take effect on 22 July. USTR’s formal case ties the action to digital trade, electronic payments, preferential tariffs, anti-corruption enforcement, intellectual property, ethanol market access, and illegal deforestation. Reuters and AP reporting indicate that the tariff package is substantial but selective: key exports such as beef, coffee, and aircraft-related items are exempt, while a broad range of other products, including ethanol, sugar, machinery, and furniture, are affected.\n\nThe timing matters. The administration is rebuilding tariff leverage after a legal defeat over broader emergency tariffs, and Brookings notes that Section 301 offers a narrower but more judicially durable route. Brazil has rejected the move as unjust and politically motivated, signalled possible retaliation under its reciprocity law, and reportedly considered measures such as limiting U.S. audiovisual operations or suspending some patents rather than defaulting to across-the-board import tariffs that would hit Brazilian consumers directly. At the same time, Brazil has been expanding emergency financing support through the BNDES-backed Plano Brasil Soberano. The decision threshold is therefore not simply whether tariffs are good or bad. It is whether this confrontation becomes a durable example of selective geoeconomic coercion that other states must hedge against, or whether Brazil can contain the pressure through calibration, coalition-building, and diversification without validating Washington’s method.\n\nBrazil’s response must balance domestic costs, bargaining credibility, and the wider precedent created by selective Section 301 pressure. A narrow countermeasure could impose political costs with limited inflation at home. Cushioning, negotiation, or multilateral action would each preserve different forms of flexibility while accepting slower or less visible relief.",
+  "briefing": "On 15–16 July 2026, the United States escalated a yearlong Section 301 investigation into Brazil by unveiling a new 25% tariff package on selected Brazilian imports, to take effect on 22 July. USTR’s formal case ties the action to digital trade, electronic payments, preferential tariffs, anti-corruption enforcement, intellectual property, ethanol market access, and illegal deforestation. Reuters and AP reporting indicate that the tariff package is substantial but selective: key exports such as beef, coffee, and aircraft-related items are exempt, while a broad range of other products, including ethanol, sugar, machinery, and furniture, are affected.\n\nThe timing matters. The administration is rebuilding tariff leverage after a legal defeat over broader emergency tariffs, and Brookings notes that Section 301 offers a narrower but more judicially durable route. Brazil has rejected the move as unjust and politically motivated, signalled possible retaliation under its reciprocity law, and reportedly considered measures such as limiting U.S. audiovisual operations or suspending some patents while avoiding across-the-board import tariffs that would hit Brazilian consumers directly. At the same time, Brazil has been expanding emergency financing support through the BNDES-backed Plano Brasil Soberano. Brazil must decide whether calibrated retaliation, negotiation, coalition-building, or diversification can contain the pressure without raising costs at home or validating Washington’s method.\n\nBrazil’s response must balance domestic costs, bargaining credibility, and the wider precedent created by selective Section 301 pressure. A narrow countermeasure could impose political costs with limited inflation at home. Cushioning, negotiation, or multilateral action would each preserve different forms of flexibility while accepting slower or less visible relief.",
   "actors": [
     "Brazil",
     "United States",
@@ -64,16 +64,16 @@
   "knownUncertainties": [
     "Whether the exemption list or practical customs implementation changes before 22 July.",
     "Whether further U.S. Section 301 actions, including forced-labour related measures, add materially to the Brazil package.",
-    "Whether Brazil uses legal and regulatory retaliation rather than tariff retaliation, and how markets price that choice.",
+    "Whether Brazil chooses legal and regulatory retaliation, tariff retaliation, or a mix, and how markets price that choice.",
     "How much of the confrontation is bargaining theatre tied to the Brazilian election versus a durable long-term trade reset."
   ],
   "reasoningTags": [
-    "Economic leverage",
-    "Domestic costs",
-    "Policy autonomy",
-    "Negotiating room",
-    "Rules and precedent",
-    "Coalition support"
+    { "id": "economic-leverage", "label": "Economic leverage" },
+    { "id": "domestic-costs", "label": "Domestic costs" },
+    { "id": "policy-autonomy", "label": "Policy autonomy" },
+    { "id": "negotiating-room", "label": "Negotiating room" },
+    { "id": "rules-and-precedent", "label": "Rules and precedent" },
+    { "id": "coalition-support", "label": "Coalition support" }
   ],
   "decision": {
     "prompt": "How should Brazil answer the new U.S. tariff package?",
@@ -86,8 +86,8 @@
       },
       {
         "id": "o2",
-        "label": "Brazil cushions and diversifies rather than retaliates hard",
-        "logic": "Expand domestic support for affected sectors, redirect trade, and treat the tariff package as a diversification shock rather than a contest to be won head-on.",
+        "label": "Brazil cushions and diversifies, with limited retaliation",
+        "logic": "Expand domestic support for affected sectors, redirect trade, and answer the tariff package through diversification instead of a head-on contest.",
         "acceptedTradeoff": "More short-term coercion absorbed now in exchange for strategic flexibility later."
       },
       {
@@ -147,7 +147,7 @@
     "prompt": "How does this affect your first judgment?",
     "options": [
       { "id": "weakens", "label": "It weakens my first read." },
-      { "id": "priority", "label": "It changes the priority, not the conclusion." },
+      { "id": "priority", "label": "It changes which option comes first; my conclusion stays the same." },
       { "id": "strengthens", "label": "It strengthens my first read." },
       { "id": "unsure", "label": "I remain unsure." }
     ]

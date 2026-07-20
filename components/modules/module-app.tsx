@@ -204,7 +204,8 @@ export function ModuleApp({
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard gives you {standardQuestionCount} questions and a cleaner first pass.
               Advanced expands that to {analystQuestionCount}, with {analystAdditionCount} extra
-              cases and a small set of actor-lens pressure tests. In both modes, you can add a
+              cases and a small set of questions asked from a defined actor’s position. In both
+              modes, you can add a
               backup choice when a second answer genuinely fits.
             </p>
           </div>

@@ -11,10 +11,12 @@ import {
 import type { ProfileStore } from "@/lib/profile-store"
 
 const profile: ProfileStore = {
-  v: 4,
+  v: 5,
   foundation: {
     timestamp: 1,
     payload: "payload",
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: "/results/payload",
     familyKey: "institutionalist",
     familyLabel: "Liberal Institutionalist",
@@ -34,11 +36,17 @@ const profile: ProfileStore = {
     normativeModifier: "Pluralist",
     keyDrivers: [],
     strongLenses: [],
+    locale: "en",
+    localeCopyVersion: 1,
   },
   modules: {
     security: {
       timestamp: 2,
       slug: "security",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Security",
       shorthand: "Security Pressure",
       mode: "standard",
@@ -103,6 +111,10 @@ const profile: ProfileStore = {
     technology: {
       timestamp: 3,
       slug: "technology",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Technology",
       shorthand: "Tech Power",
       mode: "standard",
@@ -205,7 +217,7 @@ test("cross-domain tensions surface both domain conflict and card-type splits", 
 
 test("overlap foundation state surfaces honestly before modules exist", () => {
   const broadProfile: ProfileStore = {
-    v: 4,
+    v: 5,
     foundation: {
       ...profile.foundation!,
       familyKey: "realist",
@@ -248,7 +260,7 @@ test("overlap foundation state surfaces honestly before modules exist", () => {
 
 test("sharply differentiated foundations can surface before modules are added", () => {
   const sharpProfile: ProfileStore = {
-    v: 4,
+    v: 5,
     foundation: {
       ...profile.foundation!,
       familyKey: "realist",
@@ -313,6 +325,8 @@ test("profile synthesis lite names the stable thread, pressure shifts, and reaso
       },
       summary: "AI summary",
       governingInstinct: "Capacity before rhetoric",
+      locale: "en",
+      localeCopyVersion: 1,
     },
   }
 

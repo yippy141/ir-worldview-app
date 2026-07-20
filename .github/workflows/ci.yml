@@ -3,6 +3,9 @@ name: CI
 on:
   pull_request:
   push:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   verify:
@@ -33,3 +36,46 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  playwright:
+    name: playwright-chromium
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Print build commit SHA
+        run: npm run diagnostics:build-sha
+
+      - name: Build without Mapbox credentials
+        run: npm run build
+        env:
+          NEXT_PUBLIC_MAPBOX_TOKEN: ""
+
+      - name: Run Playwright smoke tests
+        run: npm run test:e2e
+
+      - name: Upload Playwright failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: warn
+          retention-days: 14

@@ -2,6 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import {
+  getZhHansFoundationQuestions,
+  zhHansFoundationStandardSections,
+} from "@/content/locales/zh-Hans/foundation-instrument"
+import {
+  zhHansFoundationQuizUi,
+  type FoundationQuizUiCopy,
+} from "@/content/locales/zh-Hans/foundation-ui"
+import { publicPath } from "@/i18n/paths"
+import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import {
   dimensionLabels,
@@ -9,7 +19,6 @@ import {
   foundationSectionTotal,
   foundationStandardSections,
   getFoundationQuestions,
-  getFoundationSectionForQuestionId,
   likertScale,
   questionCountsByMode,
 } from "@/lib/quiz-schema"
@@ -36,8 +45,78 @@ const foundationTimeEstimateByMode = {
   analyst: "30 to 40 minutes",
 } as const
 
-export function QuizApp() {
+const englishFoundationQuizUi = {
+  loading: "Loading your draft…",
+  eyebrow: "IR Worldview Inventory",
+  title: "Foundation",
+  adaptedBeta: "",
+  modeSummary: {
+    standard: `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard}.`,
+    analyst: `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more scenarios that require tradeoffs and more questions asked from a defined actor’s position.`,
+  },
+  modeLabels: { standard: "Standard mode", analyst: "Analyst mode" },
+  answered: (answered, total) => `${answered} of ${total} answered`,
+  progressAria: "Quiz progress",
+  contextAssistOn: "Context assist on",
+  contextAssistOff: "Context assist off",
+  startOver: "Start over",
+  switchToAnalyst: "Switch to Analyst mode →",
+  switchToStandard: "← Back to Standard mode",
+  confirmAnalyst: "Switching to Analyst mode will clear your current answers. Continue?",
+  confirmStandard: "Switching back to Standard mode will clear your current Analyst answers. Continue?",
+  returnToReview: "← Return to review",
+  part: (index, total, title) => `Part ${index} of ${total} — ${title}`,
+  questionProgress: (label, index, total) => `${label} · ${index} of ${total}`,
+  howToAnswer: "How to answer this card",
+  publicDefensibilityNote:
+    "Do not answer based on what sounds most publicly defensible, what another actor in the case would prefer, or what officials currently say unless that is also your own judgment.",
+  analystSecondChoiceNote:
+    "In Advanced mode, you can also mark a backup answer if a second option still seems plausible.",
+  stronglyDisagree: "Strongly disagree",
+  stronglyAgree: "Strongly agree",
+  likertAria: (value) => `${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`,
+  secondMostPersuasive: "Second-most persuasive",
+  secondChoiceHelp:
+    "Use this only when another option also captures part of your analytic judgment. It counts less than your main choice.",
+  back: "Back",
+  next: "Next",
+  reviewAnswers: "Review your answers →",
+  midpointComplete: (section) => `${section} complete`,
+  midpointTitle: "Your profile is starting to take shape.",
+  midpointLead: (first, second) => `You have strong pulls on ${first} and ${second}.`,
+  midpointNote:
+    "This is a partial read based on your first answers. The remaining questions will sharpen it.",
+  continue: "Continue",
+  hideExplainer: "Hide explainer",
+  plainLanguageExplanation: "Plain-language explanation",
+  quickExplainer: "Quick explainer",
+  quickGlossary: "Quick glossary",
+  questionKinds: {
+    likert: "Foundation statement",
+    tradeoff: "Tradeoff",
+    miniCase: "Mini-case",
+  },
+  cardTypes: {
+    explanation: "Explanation",
+    decision: "Decision",
+    actorLens: "Actor lens",
+    both: "Both",
+  },
+  choiceInstructions: {
+    explanation: "Answer from your own analytic judgment. Choose the option that best explains what is driving the case.",
+    decision: "Answer from your own analytic judgment. Choose the consideration that should carry the most weight in the case.",
+    actorLens: "Answer from your own analytic judgment. Choose the logic that would look strongest from that actor's own strategic position, not the policy you personally prefer.",
+    both: "Answer from your own analytic judgment. Choose the option you find most persuasive overall.",
+  },
+  dimensionLabels,
+} satisfies FoundationQuizUiCopy
+
+export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const router = useRouter()
+  const copy = locale === "zh-Hans" ? zhHansFoundationQuizUi : englishFoundationQuizUi
+  const standardSections = locale === "zh-Hans"
+    ? zhHansFoundationStandardSections
+    : foundationStandardSections
   const searchParams = useSearchParams()
   const fromReview = searchParams.get("from") === "review"
   const hasIndexedQuestion = searchParams.get("q") !== null
@@ -86,8 +165,12 @@ export function QuizApp() {
   }, [ready, session])
 
   const questions = useMemo(
-    () => (session.activeMode ? getFoundationQuestions(session.activeMode) : []),
-    [session.activeMode],
+    () => session.activeMode
+      ? locale === "zh-Hans"
+        ? getZhHansFoundationQuestions(session.activeMode)
+        : getFoundationQuestions(session.activeMode)
+      : [],
+    [locale, session.activeMode],
   )
   const effectiveIndex = Math.min(currentIndex, Math.max(0, questions.length - 1))
 
@@ -199,7 +282,7 @@ export function QuizApp() {
   }
 
   function goToReview() {
-    router.push("/quiz/review")
+    router.push(publicPath(locale, "/quiz/review"))
   }
 
   function resetQuiz() {
@@ -213,7 +296,7 @@ export function QuizApp() {
   }
 
   if (!ready || !session.activeMode) {
-    return <div className="panel" style={{ padding: "40px" }}>Loading your draft…</div>
+    return <div className="panel" style={{ padding: "40px" }}>{copy.loading}</div>
   }
 
   const currentQuestion = questions[effectiveIndex]
@@ -240,7 +323,7 @@ export function QuizApp() {
   const supportVisible = session.contextAssist || supportOpen
   const currentSection =
     session.activeMode === "standard" && currentQuestion
-      ? getFoundationSectionForQuestionId(currentQuestion.id)
+      ? standardSections.find((section) => section.questionIds.includes(currentQuestion.id))
       : undefined
 
   if (showMidpoint) {
@@ -248,6 +331,8 @@ export function QuizApp() {
       <MidpointPreview
         answers={session.answers}
         onContinue={continueFromMidpoint}
+        copy={copy}
+        firstSectionTitle={standardSections[0].title}
       />
     )
   }
@@ -256,23 +341,24 @@ export function QuizApp() {
     <div className="stack-lg">
       <section className="panel stack-md">
         <div className="stack-sm">
-          <p className="eyebrow">IR Worldview Inventory</p>
+          <p className="eyebrow">{copy.eyebrow}</p>
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
             <div className="stack-xs">
-              <h1>Foundation</h1>
+              <h1>{copy.title}</h1>
               <p className="muted" style={{ lineHeight: "1.65" }}>
-                {session.activeMode === "standard"
-                  ? `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard}.`
-                  : `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more cross-pressure cases and actor-lens questions.`}
+                {copy.modeSummary[session.activeMode]}
               </p>
+              {copy.adaptedBeta ? (
+                <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
+              ) : null}
             </div>
-            <span className="mode-pill">{modeLabel(session.activeMode)}</span>
+            <span className="mode-pill">{copy.modeLabels[session.activeMode]}</span>
           </div>
         </div>
 
         <div className="stack-xs">
           <div className="progress-meta">
-            <span>{completedCount} of {questions.length} answered</span>
+            <span>{copy.answered(completedCount, questions.length)}</span>
             <span>{progress}%</span>
           </div>
           <div
@@ -281,7 +367,7 @@ export function QuizApp() {
             aria-valuenow={progress}
             aria-valuemin={0}
             aria-valuemax={100}
-            aria-label="Quiz progress"
+            aria-label={copy.progressAria}
           >
             <div className="progress-fill" style={{ width: `${progress}%` }} />
           </div>
@@ -293,10 +379,10 @@ export function QuizApp() {
             className={session.contextAssist ? "primary-button" : "secondary-button"}
             onClick={() => updateSession({ contextAssist: !session.contextAssist })}
           >
-            {session.contextAssist ? "Context assist on" : "Context assist off"}
+            {session.contextAssist ? copy.contextAssistOn : copy.contextAssistOff}
           </button>
           <button type="button" className="secondary-button" onClick={resetQuiz}>
-            Start over
+            {copy.startOver}
           </button>
           {session.activeMode === "standard" ? (
             <button
@@ -305,15 +391,13 @@ export function QuizApp() {
               onClick={() => {
                 if (
                   Object.keys(session.answers).length === 0 ||
-                  window.confirm(
-                    "Switching to Analyst mode will clear your current answers. Continue?",
-                  )
+                  window.confirm(copy.confirmAnalyst)
                 ) {
                   switchMode("analyst")
                 }
               }}
             >
-              Switch to Analyst mode →
+              {copy.switchToAnalyst}
             </button>
           ) : (
             <button
@@ -322,15 +406,13 @@ export function QuizApp() {
               onClick={() => {
                 if (
                   Object.keys(session.answers).length === 0 ||
-                  window.confirm(
-                    "Switching back to Standard mode will clear your current Analyst answers. Continue?",
-                  )
+                  window.confirm(copy.confirmStandard)
                 ) {
                   switchMode("standard")
                 }
               }}
             >
-              ← Back to Standard mode
+              {copy.switchToStandard}
             </button>
           )}
         </div>
@@ -354,21 +436,25 @@ export function QuizApp() {
                   letterSpacing: "0.03em",
                 }}
               >
-                ← Return to review
+                {copy.returnToReview}
               </button>
             </div>
           ) : null}
 
           {currentSection ? (
             <p className="quiz-section-marker">
-              Part {currentSection.index} of {foundationSectionTotal} — {currentSection.title}
+              {copy.part(currentSection.index, foundationSectionTotal, currentSection.title)}
             </p>
           ) : null}
 
           <div className="quiz-question-frame" key={currentQuestion.id}>
             <div className="stack-xs">
               <p className="eyebrow">
-                {questionLabel(currentQuestion)} · {effectiveIndex + 1} of {questions.length}
+                {copy.questionProgress(
+                  questionLabel(currentQuestion, copy),
+                  effectiveIndex + 1,
+                  questions.length,
+                )}
               </p>
               <h2>{currentQuestion.prompt}</h2>
             </div>
@@ -376,19 +462,16 @@ export function QuizApp() {
             {currentQuestion.kind !== "likert" ? (
               <div className="callout stack-sm">
                 <div className="stack-xs">
-                  <p className="eyebrow">How to answer this card</p>
+                  <p className="eyebrow">{copy.howToAnswer}</p>
                   <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-                    {choiceInstructionCopy(currentQuestion)}
+                    {copy.choiceInstructions[currentQuestion.cardType]}
                   </p>
                   <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
-                    Do not answer based on what sounds most publicly defensible, what another actor
-                    in the case would prefer, or what officials currently say unless that is also
-                    your own judgment.
+                    {copy.publicDefensibilityNote}
                   </p>
                   {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
                     <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
-                      In Advanced mode, you can also mark a backup answer if a second option still
-                      seems plausible.
+                      {copy.analystSecondChoiceNote}
                     </p>
                   ) : null}
                 </div>
@@ -401,14 +484,15 @@ export function QuizApp() {
                 visible={supportVisible}
                 onToggle={() => setSupportOpen((open) => !open)}
                 autoShown={session.contextAssist}
+                copy={copy}
               />
             ) : null}
 
             {currentQuestion.kind === "likert" ? (
               <div className="stack-sm">
                 <div className="likert-labels">
-                  <span>Strongly disagree</span>
-                  <span>Strongly agree</span>
+                  <span>{copy.stronglyDisagree}</span>
+                  <span>{copy.stronglyAgree}</span>
                 </div>
                 <div className="likert-grid">
                   {likertScale.map((value) => {
@@ -420,7 +504,7 @@ export function QuizApp() {
                         className={selected ? "answer-button selected" : "answer-button"}
                         onClick={() => selectAnswer(value)}
                         aria-pressed={selected}
-                        aria-label={`${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`}
+                        aria-label={copy.likertAria(value)}
                       >
                         {value}
                       </button>
@@ -452,10 +536,9 @@ export function QuizApp() {
                 {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst && currentPrimarySelection ? (
                   <div className="callout stack-sm">
                     <div className="stack-xs">
-                      <p className="eyebrow">Second-most persuasive</p>
+                      <p className="eyebrow">{copy.secondMostPersuasive}</p>
                       <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-                        Use this only when another option also captures part of your analytic
-                        judgment. It counts less than your main choice.
+                        {copy.secondChoiceHelp}
                       </p>
                     </div>
                     <div className="module-secondary-grid">
@@ -500,12 +583,12 @@ export function QuizApp() {
                   onClick={goBack}
                   disabled={effectiveIndex === 0}
                 >
-                  Back
+                  {copy.back}
                 </button>
                 <button type="button" className="primary-button" onClick={goToReview}>
                   {completionAction === "return-to-review"
-                    ? "Return to review"
-                    : "Review your answers →"}
+                    ? copy.returnToReview.replace(/^←\s*/, "")
+                    : copy.reviewAnswers}
                 </button>
               </>
             ) : (
@@ -516,7 +599,7 @@ export function QuizApp() {
                   onClick={goBack}
                   disabled={effectiveIndex === 0}
                 >
-                  Back
+                  {copy.back}
                 </button>
                 <button
                   type="button"
@@ -524,7 +607,7 @@ export function QuizApp() {
                   onClick={goNext}
                   disabled={!hasCurrentAnswer || effectiveIndex === questions.length - 1}
                 >
-                  Next
+                  {copy.next}
                 </button>
               </>
             )}
@@ -538,9 +621,13 @@ export function QuizApp() {
 function MidpointPreview({
   answers,
   onContinue,
+  copy,
+  firstSectionTitle,
 }: {
   answers: QuizSession["answers"]
   onContinue: () => void
+  copy: FoundationQuizUiCopy
+  firstSectionTitle: string
 }) {
   const dimensionScores = useMemo(
     () => computeCoreDimensionScores(answers, "standard"),
@@ -548,27 +635,21 @@ function MidpointPreview({
   )
   const topTwo = useMemo(() => getTopDimensions(dimensionScores, 2), [dimensionScores])
 
-  const firstLabel = dimensionLabels[topTwo[0]]
-  const secondLabel = dimensionLabels[topTwo[1]]
+  const firstLabel = copy.dimensionLabels[topTwo[0]]
+  const secondLabel = copy.dimensionLabels[topTwo[1]]
 
   return (
     <div className="stack-lg">
       <section className="panel stack-md quiz-midpoint">
         <div className="stack-xs">
-          <p className="eyebrow">{foundationStandardSections[0].title} complete</p>
-          <h1 className="quiz-midpoint__h1">Your profile is starting to take shape.</h1>
+          <p className="eyebrow">{copy.midpointComplete(firstSectionTitle)}</p>
+          <h1 className="quiz-midpoint__h1">{copy.midpointTitle}</h1>
         </div>
-        <p className="quiz-midpoint__lead">
-          You have strong pulls on{" "}
-          <strong>{firstLabel}</strong> and <strong>{secondLabel}</strong>.
-        </p>
-        <p className="quiz-midpoint__note">
-          This is a partial read based on your first answers. The remaining questions will sharpen
-          it.
-        </p>
+        <p className="quiz-midpoint__lead">{copy.midpointLead(firstLabel, secondLabel)}</p>
+        <p className="quiz-midpoint__note">{copy.midpointNote}</p>
         <div className="row gap-sm wrap">
           <button type="button" className="primary-button" onClick={onContinue}>
-            Continue
+            {copy.continue}
           </button>
         </div>
       </section>
@@ -581,11 +662,13 @@ function SupportBlock({
   visible,
   autoShown,
   onToggle,
+  copy,
 }: {
   question: Question
   visible: boolean
   autoShown: boolean
   onToggle: () => void
+  copy: FoundationQuizUiCopy
 }) {
   return (
     <div className="stack-xs">
@@ -606,7 +689,7 @@ function SupportBlock({
             textUnderlineOffset: "3px",
           }}
         >
-          {visible ? "Hide explainer" : supportToggleLabel(question)}
+          {visible ? copy.hideExplainer : supportToggleLabel(question, copy)}
         </button>
       ) : null}
 
@@ -624,7 +707,7 @@ function SupportBlock({
         >
           {question.helpText ? <p>{question.helpText}</p> : null}
           {question.clarification ? (
-            <ClarificationCopy clarification={question.clarification} />
+            <ClarificationCopy clarification={question.clarification} copy={copy} />
           ) : null}
         </div>
       ) : null}
@@ -632,17 +715,23 @@ function SupportBlock({
   )
 }
 
-function ClarificationCopy({ clarification }: { clarification: Clarification }) {
+function ClarificationCopy({
+  clarification,
+  copy,
+}: {
+  clarification: Clarification
+  copy: FoundationQuizUiCopy
+}) {
   return (
     <div className="stack-xs">
-      <p style={{ fontWeight: 600 }}>Plain-language explanation</p>
+      <p style={{ fontWeight: 600 }}>{copy.plainLanguageExplanation}</p>
       <p>{clarification.whatItAsks}</p>
       {clarification.whatItDoesNotAsk ? (
         <p className="muted">{clarification.whatItDoesNotAsk}</p>
       ) : null}
       {clarification.terms && clarification.terms.length > 0 ? (
         <div className="stack-xs">
-          <p style={{ fontWeight: 600 }}>Quick glossary</p>
+          <p style={{ fontWeight: 600 }}>{copy.quickGlossary}</p>
           {clarification.terms.map((term) => (
             <p key={term.term}>
               <strong>{term.term}:</strong> <span className="muted">{term.definition}</span>
@@ -654,49 +743,17 @@ function ClarificationCopy({ clarification }: { clarification: Clarification }) 
   )
 }
 
-function questionLabel(question: Question) {
-  if (question.kind === "tradeoff") {
-    return `Tradeoff · ${cardTypeLabel(question.cardType)}`
-  }
-  if (question.kind === "miniCase") {
-    return `Mini-case · ${cardTypeLabel(question.cardType)}`
-  }
-  return "Foundation statement"
+function questionLabel(question: Question, copy: FoundationQuizUiCopy) {
+  if (question.kind === "likert") return copy.questionKinds.likert
+  return `${copy.questionKinds[question.kind]} · ${copy.cardTypes[question.cardType]}`
 }
 
 function hasSupport(question: Question) {
   return Boolean(question.helpText || question.clarification)
 }
 
-function supportToggleLabel(question: Question) {
-  return question.clarification ? "Plain-language explanation" : "Quick explainer"
-}
-
-function modeLabel(mode: QuizMode) {
-  return mode === "standard" ? "Standard mode" : "Analyst mode"
-}
-
-function cardTypeLabel(cardType: ChoiceCardType) {
-  if (cardType === "explanation") return "Explanation"
-  if (cardType === "decision") return "Decision"
-  if (cardType === "actorLens") return "Actor lens"
-  return "Both"
-}
-
-function choiceInstructionCopy(question: Extract<Question, { kind: "tradeoff" | "miniCase" }>) {
-  if (question.cardType === "explanation") {
-    return "Answer from your own analytic judgment. Choose the option that best explains what is driving the case."
-  }
-
-  if (question.cardType === "decision") {
-    return "Answer from your own analytic judgment. Choose the consideration that should carry the most weight in the case."
-  }
-
-  if (question.cardType === "actorLens") {
-    return "Answer from your own analytic judgment. Choose the logic that would look strongest from that actor's own strategic position, not the policy you personally prefer."
-  }
-
-  return "Answer from your own analytic judgment. Choose the option you find most persuasive overall."
+function supportToggleLabel(question: Question, copy: FoundationQuizUiCopy) {
+  return question.clarification ? copy.plainLanguageExplanation : copy.quickExplainer
 }
 
 function getPrimarySelection(answer: AnswerValue | undefined) {

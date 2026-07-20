@@ -1,14 +1,15 @@
 import type { Metadata } from "next"
 import { CurrentCaseArchive } from "@/components/current-case/current-case-archive"
+import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 import { getPublishedCurrentCases } from "@/lib/current-cases/catalog"
 import { toCurrentCasePublicRecord } from "@/lib/current-cases/presentation"
 import styles from "@/components/current-case/current-case.module.css"
 
-export const metadata: Metadata = {
+export const metadata: Metadata = createEnglishApprovedMetadata("/cases", {
   title: "Current Cases — IR Worldview Inventory",
   description:
     "Make a judgment on a source-backed international-affairs case, then test it against competing worldview readings.",
-}
+})
 
 export default function CurrentCasesPage() {
   const cases = getPublishedCurrentCases()

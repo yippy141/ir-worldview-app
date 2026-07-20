@@ -4,10 +4,12 @@ import { buildProfileComparison } from "@/lib/profile-compare"
 import type { ProfileStore } from "@/lib/profile-store"
 
 const leftProfile: ProfileStore = {
-  v: 4,
+  v: 5,
   foundation: {
     timestamp: 1,
     payload: "left",
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: "/results/left",
     familyKey: "institutionalist",
     familyLabel: "Liberal Institutionalist",
@@ -27,11 +29,17 @@ const leftProfile: ProfileStore = {
     normativeModifier: "Pluralist",
     keyDrivers: [],
     strongLenses: [],
+    locale: "en",
+    localeCopyVersion: 1,
   },
   modules: {
     security: {
       timestamp: 2,
       slug: "security",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Security",
       mode: "standard",
       headline: "headline",
@@ -66,6 +74,10 @@ const leftProfile: ProfileStore = {
     technology: {
       timestamp: 3,
       slug: "technology",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Technology",
       mode: "standard",
       headline: "headline",
@@ -98,10 +110,12 @@ const leftProfile: ProfileStore = {
 }
 
 const rightProfile: ProfileStore = {
-  v: 4,
+  v: 5,
   foundation: {
     timestamp: 1,
     payload: "right",
+    instrumentStructuralVersion: 3,
+    scoringVersion: 1,
     resultPath: "/results/right",
     familyKey: "realist",
     familyLabel: "Strategic Realist",
@@ -121,11 +135,17 @@ const rightProfile: ProfileStore = {
     normativeModifier: "Pluralist",
     keyDrivers: [],
     strongLenses: [],
+    locale: "en",
+    localeCopyVersion: 1,
   },
   modules: {
     security: {
       timestamp: 2,
       slug: "security",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Security",
       mode: "standard",
       headline: "headline",
@@ -160,6 +180,10 @@ const rightProfile: ProfileStore = {
     technology: {
       timestamp: 3,
       slug: "technology",
+      instrumentVersion: 2,
+      locale: "en",
+      localeCopyVersion: 1,
+      laneScores: {},
       title: "Technology",
       mode: "standard",
       headline: "headline",

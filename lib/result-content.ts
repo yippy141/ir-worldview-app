@@ -12,7 +12,7 @@ export const quickTakeData: Record<FamilyKey, QuickTake> = {
   realist: {
     noticesFirst: "Who has the power, and whether the gap is growing or closing.",
     tendsToDiscount: "Rules and norms that lack an enforcer willing to pay the cost of enforcement.",
-    inPractice: "You will find capability-based arguments more convincing than process-based ones, and you will be skeptical when stability is attributed to shared values rather than deterrence.",
+    inPractice: "You will find capability-based arguments more convincing than process-based ones and question accounts that attribute stability to shared values alone.",
   },
   institutionalist: {
     noticesFirst: "Whether the rules are credible, and whether monitoring makes defection costly.",
@@ -51,7 +51,7 @@ export const whyItMattersData: Record<FamilyKey, WhyItMatters> = {
     ],
     persuasive: [
       "Arguments anchored in deterrence, capability, and positional advantage.",
-      "Analysis that tracks what states do rather than what they say.",
+      "Analysis that compares states’ actions with their stated commitments.",
     ],
   },
   institutionalist: {
@@ -89,7 +89,7 @@ export const whyItMattersData: Record<FamilyKey, WhyItMatters> = {
     ],
     discounts: [
       "Claims that trade openness produces shared gains across participants regardless of position.",
-      "Arguments that international institutions serve general interests rather than those of dominant states.",
+      "Arguments that international institutions chiefly serve the interests of dominant states.",
     ],
     persuasive: [
       "Arguments that debt, dependence, and financial access are tools of coercion.",
@@ -196,7 +196,7 @@ const ISSUE_BLOCKS: IssueBlock[] = [
       realist:
         "You are skeptical of humanitarian justifications for intervention. Stated rationales rarely match actual interests. Precedents matter more than the particular case. Legitimacy claims in intervention debates often mask strategic competition.",
       institutionalist:
-        "You think intervention requires multilateral authorization and clear threshold criteria. Unilateral action undermines the institutional frameworks that make legitimate intervention possible. Sovereignty is not absolute, but the bar matters.",
+        "You think intervention requires multilateral authorization and clear threshold criteria. Unilateral action undermines the institutional frameworks that make legitimate intervention possible. Severe cases can override sovereignty only after a high bar is met.",
       constructivist:
         "You pay attention to how intervention is framed and by whom. The same action carries different legitimacy depending on historical context, regional identity, and who claims authority. Framing determines which coalitions form and which arguments prevail.",
       criticalPoliticalEconomy:
@@ -233,7 +233,7 @@ const ISSUE_BLOCKS: IssueBlock[] = [
       constructivist:
         "You think development discourse shapes what is possible as much as material conditions do. The norms around what counts as good governance, sound conditionality, or legitimate debt restructuring are constructed. They can be contested and changed.",
       criticalPoliticalEconomy:
-        "You see the current development finance architecture as encoding core-periphery hierarchy. Conditionality extracts structural adjustment from borrowers. Debt creates dependence. The question is not how to optimize the system but who controls it and in whose interest.",
+        "You see the current development finance architecture as encoding core-periphery hierarchy. Conditionality extracts structural adjustment from borrowers. Debt creates dependence. You ask who controls the system, whose interests it serves, and how those interests shape reform.",
     },
     clauses: {
       restrainer: {
@@ -317,7 +317,7 @@ export const pressureTestQuestions: Record<FamilyKey, string[]> = {
   ],
   institutionalist: [
     "An institution you rely on is captured by a coalition using it to advance narrow interests. Do you work to reform it from within? What does your answer imply about your theory of institutional compliance?",
-    "Two states cooperate through multilateral rules while competing aggressively outside them. Is that cooperation real? What makes it more than a coincidence of interests?",
+    "Two states cooperate through multilateral rules while competing aggressively outside them. What evidence would show that the cooperation can survive beyond a temporary overlap of interests?",
     "A rising power refuses to join the institutional architecture that its main rival designed. How does your framework explain that refusal, and what would change it?",
   ],
   constructivist: [

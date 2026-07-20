@@ -92,7 +92,7 @@ Realism is not a single view. Classical realists emphasize human nature and stat
     ],
     emphasizes: [
       "The permanence of uncertainty about others' intentions",
-      "Relative power: what matters is not just how much you have, but how your position compares",
+      "Relative power: capabilities matter in relation to the position of other states",
       "The security dilemma: defensive moves often look offensive from outside",
       "The tendency of states to balance against, rather than bandwagon with, rising powers",
       "Skepticism that rules, norms, or institutions can reliably constrain powerful states under pressure",
@@ -405,7 +405,7 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
       {
         name: "Critical constructivism",
         note:
-          "More skeptical of the mainstream's positivist leanings. Draws on Frankfurt School critical theory, asking not just how norms work but whose interests prevailing norms serve and how they can be contested and changed.",
+          "More skeptical of the mainstream's positivist leanings. Draws on Frankfurt School critical theory to examine how norms work, whose interests they serve, and how they can be contested and changed.",
       },
       {
         name: "Poststructuralism",
@@ -694,7 +694,7 @@ The tradition also attends to who builds the rules. The institutions that govern
     quizCoverage: {
       level: "partial",
       note:
-        "Critical political economy is modeled through the political economy dimension, which captures instincts about whether global economics is necessary to explain international outcomes. The scenarios on financial crisis and capital controls also probe these instincts. The current model is thinner here than for realism or institutionalism — it captures the core orientation but does not have dedicated dimensions for questions about class, production hierarchies, or the granular politics of global finance. This is the tradition most underrepresented in the current version, and an area for expansion in future iterations.",
+        "Critical political economy is modeled through the political economy dimension, which captures instincts about whether global economics is necessary to explain international outcomes. The scenarios on financial crisis and capital controls also probe these instincts. The model is thinner here than for realism or institutionalism — it captures the core orientation but does not have dedicated dimensions for questions about class, production hierarchies, or the granular politics of global finance. This is the most underrepresented scored tradition and an area for future expansion.",
     },
     modelingNote:
       "Critical political economy is an umbrella for several distinct but related strands. Marxist political economy foregrounds class and capital accumulation as the drivers of foreign economic policy. Dependency theory (Prebisch, Cardoso, Frank) emphasizes how core-periphery relations structurally reproduce underdevelopment. World-systems theory (Wallerstein) extends this to a long-run analysis of capitalism as a single historical system. Neo-Gramscian IPE (Cox, Gill) examines how hegemony and ideology reproduce international economic order. Structural power analysis (Strange) focuses on how control over production, finance, security, and knowledge structures creates power independent of formal authority. The Foundation scores these strands together as a single orientation — it does not yet disaggregate them.",
@@ -713,7 +713,7 @@ export const issueCompares: IssueCompare[] = [
       {
         familyKey: "realist",
         note:
-          "Reads rising-power competition as structurally determined. When a state grows strong enough to challenge the dominant power, conflict risk rises regardless of the challenger's ideology or intentions. The mechanism is not malice but the logic of self-help under anarchy: both sides must assume the worst. Balancing — through alliances, arms investment, and forward positioning — is the expected response.",
+          "Reads rising-power competition as structurally determined. When a state grows strong enough to challenge the dominant power, conflict risk rises regardless of the challenger's ideology or intentions. Self-help under anarchy supplies the mechanism: both sides must assume the worst. Balancing — through alliances, arms investment, and forward positioning — is the expected response.",
       },
       {
         familyKey: "institutionalist",

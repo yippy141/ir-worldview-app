@@ -62,8 +62,7 @@ export function PerspectivePicker() {
               </ul>
             </div>
             <p className="perspective-pack-card__meta">
-              {perspective.scenarios.length} scenarios · about 5 min · set v
-              {perspective.scenarioSetVersion}
+              {perspective.scenarios.length} scenarios · about 5 min
             </p>
             <div className="row gap-sm wrap">
               <Link href={`/perspectives/${perspective.id}`} className="cta-secondary">
@@ -76,8 +75,9 @@ export function PerspectivePicker() {
 
       <footer className="result-section stack-sm">
         <p className="muted perspective-page-footnote">
-          Runs save to this device only when you choose to keep them. A run produces a contextual
-          shift, plotted beside your baseline across the same seven dimensions.{" "}
+          Runs save to this device only when you choose to keep them. The result shows how your
+          answers from that strategic position differ from your baseline across the same seven
+          dimensions.{" "}
           <Link href="/method">Read methods</Link>
         </p>
       </footer>

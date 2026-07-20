@@ -44,7 +44,7 @@ export default function FieldExplorerPage() {
       </section>
 
       <section className={styles.actions} aria-labelledby="worldview-map-continue">
-        <h2 id="worldview-map-continue">Continue exploring</h2>
+        <h2 id="worldview-map-continue">Compare another profile or posture</h2>
         <div className={styles.actionLinks}>
           <Link href="/quiz">Take the Foundation →</Link>
           <Link href="/perspectives">Try another vantage point →</Link>

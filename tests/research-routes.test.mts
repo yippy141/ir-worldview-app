@@ -32,7 +32,7 @@ for (const [name, post] of routes) {
       ok: false,
       disabled: true,
       reason: "privacy-review-required",
-      message: "Research-response collection is not available in this release.",
+      message: "This site does not collect research responses.",
     })
   })
 }
