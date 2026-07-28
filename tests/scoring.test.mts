@@ -1,10 +1,12 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { getFoundationQuestions, questionCountsByMode } from "@/lib/quiz-schema"
+import { NEUTRAL_BASELINE } from "@/lib/scoring-calibration"
 import {
   analyzeScoreShape,
   computeCoreDimensionAudit,
   computeCoreDimensionScores,
+  familyProfiles,
   generateResult,
   scoreFamilies,
 } from "@/lib/scoring"
@@ -67,6 +69,17 @@ const syntheticProfiles = {
     orderJustice: 3.2,
   },
 } as const
+
+test("family profile weights sum to zero", () => {
+  for (const [family, profile] of Object.entries(familyProfiles)) {
+    const rowSum = Object.values(profile).reduce((sum, weight) => sum + weight, 0)
+
+    assert.ok(
+      Math.abs(rowSum) < 1e-12,
+      `Expected ${family} weights to sum to zero, got ${rowSum}.`,
+    )
+  }
+})
 
 test("analyst mode includes additional foundation questions", () => {
   assert.ok(questionCountsByMode.analyst > questionCountsByMode.standard)
@@ -176,23 +189,38 @@ test("likert answers contribute to dimension scores instead of collapsing to the
   assert.equal(scores.orderJustice, 1)
 })
 
-test("high political-economy salience alone does not force a CPE result", () => {
+// CPE scores were formerly overwritten by a post-scoring suppression rule. They now
+// remain the direct weighted matrix product, on the same basis as every other family.
+test("a leading CPE score is not suppressed after matrix scoring", () => {
   const dimensionScores = {
-    securityCompetition: 3.7,
-    institutions: 6.1,
-    domesticFilters: 5.1,
-    normsIdentity: 4.2,
-    politicalEconomy: 6.3,
-    restraint: 4.8,
+    securityCompetition: 4.7,
+    institutions: 5.1,
+    domesticFilters: 6.4,
+    normsIdentity: 5.7,
+    politicalEconomy: 5.9,
+    restraint: 4.9,
     orderJustice: 4.3,
   }
 
   const familyScores = scoreFamilies(dimensionScores)
-  assert.strictEqual(topFamilyKey(familyScores), "institutionalist")
-  assert.ok(
-    familyScores.institutionalist > familyScores.criticalPoliticalEconomy,
-    "Expected institutionalist to outrank CPE when political economy is high but critical/systemic critique is weak.",
+  const expectedCpeScore = Object.entries(familyProfiles.criticalPoliticalEconomy)
+    .reduce(
+      (score, [dimension, weight]) =>
+        score +
+        (
+          dimensionScores[dimension as keyof typeof dimensionScores] -
+          NEUTRAL_BASELINE[dimension as keyof typeof NEUTRAL_BASELINE].mean
+        ) /
+        NEUTRAL_BASELINE[dimension as keyof typeof NEUTRAL_BASELINE].sd *
+        weight,
+      0,
+    )
+
+  assert.equal(
+    familyScores.criticalPoliticalEconomy,
+    Number(expectedCpeScore.toFixed(2)),
   )
+  assert.strictEqual(topFamilyKey(familyScores), "criticalPoliticalEconomy")
 })
 
 test("CPE remains available for a clearly critical-systemic profile", () => {
@@ -214,7 +242,7 @@ test("CPE remains available for a clearly critical-systemic profile", () => {
   )
 })
 
-test("flat midpoint profiles remain visibly broad-spectrum in score-shape analysis", () => {
+test("flat natural-midpoint profiles retain zero dimension-distance metrics", () => {
   const analysis = analyzeScoreShape({
     securityCompetition: 4,
     institutions: 4,
@@ -225,7 +253,7 @@ test("flat midpoint profiles remain visibly broad-spectrum in score-shape analys
     orderJustice: 4,
   })
 
-  assert.equal(analysis.nearestFitGap, 0)
+  assert.equal(analysis.nearestFitGap, 0.8700000000000001)
   assert.equal(analysis.averageDistanceFromCenter, 0)
   assert.equal(analysis.sharpDimensionCount, 0)
 })

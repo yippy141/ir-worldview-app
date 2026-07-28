@@ -1,4 +1,5 @@
 import { dimensionLabels, getFoundationQuestions } from "@/lib/quiz-schema"
+import { NEUTRAL_BASELINE } from "@/lib/scoring-calibration"
 import type {
   Answers,
   AnswerValue,
@@ -19,43 +20,76 @@ export const FOUNDATION_SCORING_VERSION = 1
 
 const DIMENSIONS = Object.keys(dimensionLabels) as DimensionKey[]
 const SECOND_CHOICE_WEIGHT = 0.45
+const MIN_CALIBRATION_SD = 1e-9
+
+/**
+ * Restraint p33 = 4.610000; observed min 4.14, max 5.32, mean 4.73606.
+ * Source: synthetic N=500 seeded random respondents; 2026-07-29.
+ * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
+ * respondents cluster more tightly than real ones, so this will over-split at first.
+ */
+export const STRATEGY_LOWER_THRESHOLD = 4.61
+
+/**
+ * Restraint p67 = 4.850000; observed min 4.14, max 5.32, mean 4.73606.
+ * Source: synthetic N=500 seeded random respondents; 2026-07-29.
+ * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
+ * respondents cluster more tightly than real ones, so this will over-split at first.
+ */
+export const STRATEGY_UPPER_THRESHOLD = 4.85
+
+/**
+ * Order–justice p33 = 4.120000; observed min 3.45, max 5.17, mean 4.26404.
+ * Source: synthetic N=500 seeded random respondents; 2026-07-29.
+ * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
+ * respondents cluster more tightly than real ones, so this will over-split at first.
+ */
+export const NORMATIVE_LOWER_THRESHOLD = 4.12
+
+/**
+ * Order–justice p67 = 4.420000; observed min 3.45, max 5.17, mean 4.26404.
+ * Source: synthetic N=500 seeded random respondents; 2026-07-29.
+ * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
+ * respondents cluster more tightly than real ones, so this will over-split at first.
+ */
+export const NORMATIVE_UPPER_THRESHOLD = 4.42
 
 export const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
   realist: {
-    securityCompetition: 1,
-    institutions: -0.55,
-    domesticFilters: -0.25,
-    normsIdentity: -0.45,
-    politicalEconomy: 0.05,
-    restraint: -0.45,
-    orderJustice: 0.2,
+    securityCompetition: 0.9174195544554454,
+    institutions: -0.4186881188118812,
+    domesticFilters: -0.1600866336633663,
+    normsIdentity: -0.33248762376237617,
+    politicalEconomy: 0.09851485148514853,
+    restraint: -0.33248762376237617,
+    orderJustice: 0.22781559405940596,
   },
   institutionalist: {
-    securityCompetition: -0.2,
-    institutions: 1,
-    domesticFilters: 0.6,
-    normsIdentity: 0.15,
-    politicalEconomy: 0.15,
-    restraint: 0.45,
-    orderJustice: 0.1,
+    securityCompetition: -0.5973273026315788,
+    institutions: 0.7773437499999998,
+    domesticFilters: 0.31912006578947355,
+    normsIdentity: -0.1963815789473684,
+    politicalEconomy: -0.1963815789473684,
+    restraint: 0.14728618421052625,
+    orderJustice: -0.25365953947368414,
   },
   constructivist: {
-    securityCompetition: -0.2,
-    institutions: 0.25,
-    domesticFilters: 0.1,
-    normsIdentity: 1,
-    politicalEconomy: 0.1,
-    restraint: 0.2,
-    orderJustice: 0.2,
+    securityCompetition: -0.6960435779816515,
+    institutions: 0.022821100917431204,
+    domesticFilters: -0.21680045871559633,
+    normsIdentity: 1.2209288990825689,
+    politicalEconomy: -0.21680045871559633,
+    restraint: -0.05705275229357796,
+    orderJustice: -0.05705275229357796,
   },
   criticalPoliticalEconomy: {
-    securityCompetition: -0.1,
-    institutions: -0.4,
-    domesticFilters: 0.55,
-    normsIdentity: 0.15,
-    politicalEconomy: 0.8,
-    restraint: 0.1,
-    orderJustice: -0.2,
+    securityCompetition: -0.2551282051282051,
+    institutions: -0.5899839743589743,
+    domesticFilters: 0.4703926282051282,
+    normsIdentity: 0.023918269230769205,
+    politicalEconomy: 0.7494391025641026,
+    restraint: -0.03189102564102565,
+    orderJustice: -0.3667467948717949,
   },
 }
 
@@ -224,42 +258,30 @@ export function computeCoreDimensionAudit(
   }
 }
 
-function centerScore(score: number): number {
-  return score - 4
-}
+function standardise(score: number, dimension: DimensionKey): number {
+  const { mean, sd } = NEUTRAL_BASELINE[dimension]
 
-function computeCriticalSystemicSignal(dimensionScores: DimensionScores): number {
-  return Number(
-    (
-      centerScore(dimensionScores.politicalEconomy) * 0.55 +
-      centerScore(dimensionScores.domesticFilters) * 0.25 -
-      centerScore(dimensionScores.institutions) * 0.35 -
-      centerScore(dimensionScores.orderJustice) * 0.15
-    ).toFixed(2),
-  )
+  if (Math.abs(sd) < MIN_CALIBRATION_SD) {
+    console.warn(
+      `[scoring] Calibration standard deviation for ${dimension} is near zero; falling back to 1.`,
+    )
+    return score - mean
+  }
+
+  return (score - mean) / sd
 }
 
 export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
-  const scores = (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
+  return (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
     const weights = familyProfiles[family]
     const score = DIMENSIONS.reduce((sum, dimension) => {
       const weight = weights[dimension] ?? 0
-      return sum + centerScore(dimensionScores[dimension]) * weight
+      return sum + standardise(dimensionScores[dimension], dimension) * weight
     }, 0)
 
     accumulator[family] = Number(score.toFixed(2))
     return accumulator
   }, {} as Record<FamilyKey, number>)
-
-  const criticalSignal = computeCriticalSystemicSignal(dimensionScores)
-  const runnerUp = Math.max(scores.realist, scores.institutionalist, scores.constructivist)
-  const cpeLead = scores.criticalPoliticalEconomy - runnerUp
-
-  if (scores.criticalPoliticalEconomy > runnerUp && (criticalSignal < 1.8 || cpeLead < 0.75)) {
-    scores.criticalPoliticalEconomy = Number((runnerUp - 0.05).toFixed(2))
-  }
-
-  return scores
 }
 
 export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeAnalysis {
@@ -284,11 +306,11 @@ export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeA
 function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {
   const restraint = dimensionScores.restraint
 
-  if (restraint >= 5.15) {
+  if (restraint >= STRATEGY_UPPER_THRESHOLD) {
     return "Restrainer"
   }
 
-  if (restraint <= 3.85) {
+  if (restraint <= STRATEGY_LOWER_THRESHOLD) {
     return "Maximizer"
   }
 
@@ -298,11 +320,11 @@ function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier
 function getNormativeModifier(dimensionScores: DimensionScores): NormativeModifier {
   const orderJustice = dimensionScores.orderJustice
 
-  if (orderJustice >= 5.15) {
+  if (orderJustice >= NORMATIVE_UPPER_THRESHOLD) {
     return "Pluralist"
   }
 
-  if (orderJustice <= 3.85) {
+  if (orderJustice <= NORMATIVE_LOWER_THRESHOLD) {
     return "Universalist"
   }
 

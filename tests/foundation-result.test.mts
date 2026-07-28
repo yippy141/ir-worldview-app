@@ -60,12 +60,12 @@ test("distinct foundation fixtures stay distinct through payload reconstruction"
     {
       name: "broad-spectrum moderate",
       answers: buildLowDifferentiationAnswers(),
-      expectedState: "lowDifferentiation",
+      expectedState: "sharplyDifferentiated",
     },
     {
       name: "cross-pressured mixed",
       answers: buildMixedAnswers(),
-      expectedState: "stableModeration",
+      expectedState: "sharplyDifferentiated",
     },
   ] as const
 

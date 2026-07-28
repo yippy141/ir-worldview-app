@@ -1,5 +1,6 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
+import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
 import { familyLabel } from "@/lib/worldview-config"
 import type {
   DimensionKey,
@@ -131,7 +132,7 @@ export function getClosestTraditions(
   const primary = ordered[0]
   const secondary = ordered[1]
   const gap = primary.score - secondary.score
-  const showBoth = gap <= 0.45
+  const showBoth = gap <= LOW_DIFFERENTIATION_THRESHOLD
 
   return {
     primary,
