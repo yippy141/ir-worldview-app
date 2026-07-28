@@ -28,10 +28,11 @@ export const PAYLOAD_DIMENSION_ORDER: DimensionKey[] = [
 ]
 
 export function encodePayload(payload: SharePayload): string {
-  if (!isSharePayload(payload)) {
+  const normalized = normalizeSharePayload(payload)
+  if (!normalized) {
     throw new Error("Invalid Foundation share payload")
   }
-  return encodeUrlPayload(payload)
+  return encodeUrlPayload(normalized)
 }
 
 export function buildFoundationSharePayload(
@@ -55,13 +56,7 @@ export function buildFoundationSharePayload(
 }
 
 export function decodePayload(encoded: string): SharePayload | null {
-  const parsed = decodeUrlPayload(encoded)
-
-  if (!isSharePayload(parsed)) {
-    return null
-  }
-
-  return parsed
+  return normalizeSharePayload(decodeUrlPayload(encoded))
 }
 
 export function payloadToDimensionScores(payload: SharePayload): DimensionScores {
@@ -159,6 +154,34 @@ function isSharePayload(value: unknown): value is SharePayload {
     isCopyVersion(candidate.cv) &&
     isCompletionLocale(candidate.cl)
   )
+}
+
+function normalizeSharePayload(value: unknown): SharePayload | null {
+  if (!isSharePayload(value)) return null
+
+  const sharedFields = {
+    ds: value.ds,
+    fk: value.fk,
+    nk: value.nk,
+    sm: value.sm,
+    nm: value.nm,
+  }
+
+  if (value.v === 2) {
+    return {
+      v: 2,
+      ...sharedFields,
+    }
+  }
+
+  return {
+    v: 3,
+    ...sharedFields,
+    iv: value.iv,
+    sv: value.sv,
+    cv: value.cv,
+    cl: value.cl,
+  }
 }
 
 function isPositiveVersion(value: unknown): value is number {

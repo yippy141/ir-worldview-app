@@ -365,12 +365,6 @@ export default function MethodPage() {
           result. A stronger critical or systemic pattern is required before that tradition becomes
           the primary shorthand.
         </p>
-        <div className="panel-flush">
-          <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.875rem" }}>
-            <strong>On precision:</strong> The inventory does not report a confidence or
-            &ldquo;clarity&rdquo; figure because the model has no validated measure for either claim.
-          </p>
-        </div>
       </section>
 
       <section className="panel stack-md">

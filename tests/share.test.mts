@@ -49,6 +49,16 @@ test("a frozen pre-V16 Foundation share still decodes", () => {
   assert.deepEqual(decodePayload(PRE_V16_FOUNDATION_SHARE), payloads[0])
 })
 
+test("legacy Foundation clarity and unknown fields are ignored during decoding", () => {
+  const encoded = encodeRawPayload({
+    ...payloads[0],
+    clarity: 84,
+    unknownLegacyField: "ignored",
+  })
+
+  assert.deepEqual(decodePayload(encoded), payloads[0])
+})
+
 test("share payloads roundtrip through URL-safe base64 encoding", () => {
   const encodedPayloads = payloads.map((payload) => ({
     payload,

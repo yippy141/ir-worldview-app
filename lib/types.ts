@@ -85,7 +85,6 @@ export type QuizResult = {
   familyLabel: string
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
-  clarity: number
   dimensionScores: DimensionScores
   familyScores: Record<FamilyKey, number>
   explanation: string

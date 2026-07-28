@@ -309,13 +309,6 @@ function getNormativeModifier(dimensionScores: DimensionScores): NormativeModifi
   return "Conditional Solidarist"
 }
 
-function computeClarity(familyScores: Record<FamilyKey, number>): number {
-  const sorted = Object.values(familyScores).sort((a, b) => b - a)
-  const gap = sorted[0] - sorted[1]
-
-  return Math.max(55, Math.min(95, Math.round(60 + gap * 8)))
-}
-
 function getNeighboringFamily(familyKey: FamilyKey, familyScores: Record<FamilyKey, number>): string {
   const ordered = Object.entries(familyScores).sort((a, b) => b[1] - a[1]) as [FamilyKey, number][]
   const runnerUp = ordered.find(([key]) => key !== familyKey)
@@ -338,7 +331,6 @@ export function buildCanonicalFoundationResult(
   const familyLabel = familyLabels[familyKey]
   const strategyModifier = getStrategyModifier(dimensionScores)
   const normativeModifier = getNormativeModifier(dimensionScores)
-  const clarity = computeClarity(familyScores)
   const neighboringFamily = getNeighboringFamily(familyKey, familyScores)
 
   return {
@@ -346,7 +338,6 @@ export function buildCanonicalFoundationResult(
     familyLabel,
     strategyModifier,
     normativeModifier,
-    clarity,
     dimensionScores,
     familyScores,
     explanation: familyDescriptions[familyKey],
