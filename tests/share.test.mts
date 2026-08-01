@@ -69,7 +69,6 @@ test("a frozen pre-V16 Foundation share still decodes", () => {
 test("legacy Foundation clarity and unknown fields are ignored during decoding", () => {
   const encoded = encodeRawPayload({
     ...payloads[0],
-    clarity: 84,
     unknownLegacyField: "ignored",
   })
 

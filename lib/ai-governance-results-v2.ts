@@ -180,7 +180,6 @@ export function buildAiGovernanceResultFromSharePayload(
     riskLens: payload.rl,
     paceModifier: payload.pm,
     geopoliticsModifier: payload.gm,
-    clarity: computeClarity(archetypeScores),
     axisScores,
     archetypeScores,
     explanation: archetypeDescriptions[payload.ak],
@@ -208,7 +207,6 @@ export function getNearbyAlternativeLabel(result: AiResult): string | null {
   const runnerUpKey = getRunnerUpKey(result)
 
   if (runnerUpKey === result.archetypeKey) return null
-  if (result.clarity >= 72) return null
 
   return `${archetypeLabels[result.archetypeKey]} / ${archetypeLabels[runnerUpKey]}`
 }
@@ -339,14 +337,6 @@ export function buildComparisonCard(result: AiResult): ComparisonCard {
     contrastText: buildContrastText(primaryKey, runnerUpKey, contrastAxes, result.axisScores),
     farthestText: buildFarthestText(primaryKey, farthestKey, farthestAxes, result.axisScores),
   }
-}
-
-function computeClarity(
-  archetypeScores: Record<AiArchetypeKey, number>,
-): number {
-  const sorted = Object.values(archetypeScores).sort((a, b) => b - a)
-  const gap = sorted[0] - sorted[1]
-  return Math.max(55, Math.min(95, Math.round(60 + gap * 8)))
 }
 
 function getTopContrastAxes(

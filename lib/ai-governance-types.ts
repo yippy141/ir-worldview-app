@@ -110,7 +110,6 @@ export type AiResult = {
   riskLens: RiskLens
   paceModifier: PaceModifier
   geopoliticsModifier: GeopoliticsModifier
-  clarity: number
   axisScores: AiAxisScores
   archetypeScores: Record<AiArchetypeKey, number>
   explanation: string
