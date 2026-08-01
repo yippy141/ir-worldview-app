@@ -224,10 +224,9 @@ export async function POST(request: Request) {
       ])
     } catch {
       console.error("[aggregate] Completion counter write failed.")
-      return Response.json(
-        { ok: false, error: "Aggregate storage is temporarily unavailable." },
-        { status: 503 },
-      )
+      // Aggregate collection is best-effort. A valid quiz interaction must not
+      // gain a client-visible failure state because counter storage is down.
+      return Response.json({ ok: true }, { status: 202 })
     }
 
     return Response.json({ ok: true }, { status: 202 })
@@ -278,10 +277,9 @@ export async function POST(request: Request) {
     ])
   } catch {
     console.error("[aggregate] Result counter write failed.")
-    return Response.json(
-      { ok: false, error: "Aggregate storage is temporarily unavailable." },
-      { status: 503 },
-    )
+    // Keep storage failures indistinguishable from a disabled/no-database
+    // no-op so result navigation never depends on aggregate availability.
+    return Response.json({ ok: true }, { status: 202 })
   }
 
   return Response.json({ ok: true }, { status: 202 })
