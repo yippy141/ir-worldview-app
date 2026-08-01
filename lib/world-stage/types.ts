@@ -47,6 +47,18 @@ export const WORLD_STAGE_NODE_KINDS = [
 
 export type StrategicNodeKind = (typeof WORLD_STAGE_NODE_KINDS)[number]
 
+export const WORLD_STAGE_SEMICONDUCTOR_ROLES = [
+  "fab",
+  "design",
+  "sme",
+  "materials",
+  "packaging",
+  "eda",
+] as const
+
+export type WorldStageSemiconductorRole =
+  (typeof WORLD_STAGE_SEMICONDUCTOR_ROLES)[number]
+
 export const WORLD_STAGE_FLOW_KINDS = [
   "trade",
   "finance",
@@ -59,6 +71,18 @@ export const WORLD_STAGE_FLOW_KINDS = [
 ] as const
 
 export type StrategicFlowKind = (typeof WORLD_STAGE_FLOW_KINDS)[number]
+
+export const WORLD_STAGE_FLOW_RELATIONS = [
+  "ownership",
+  "supply",
+  "export-control jurisdiction",
+  "research collaboration",
+  "capital",
+  "standards participation",
+] as const
+
+export type WorldStageFlowRelation =
+  (typeof WORLD_STAGE_FLOW_RELATIONS)[number]
 
 export const WORLD_STAGE_CONFIDENCE_LEVELS = ["high", "medium", "low"] as const
 
@@ -89,6 +113,8 @@ export type WorldStageNode = {
   /** ID of the reviewed research record from which this display node was compiled. */
   researchId: string
   kind: StrategicNodeKind
+  /** Semiconductor production role. Required in the chip-network lens only. */
+  semiconductorRole?: WorldStageSemiconductorRole
   label: string
   coordinates: WorldStageLngLat
   whyItMatters: string
@@ -102,6 +128,8 @@ export type WorldStageFlow = {
   /** ID of the reviewed research record from which this display flow was compiled. */
   researchId: string
   kind: StrategicFlowKind
+  /** Declared network relationship. Required in the chip and AI-infrastructure lenses. */
+  relation?: WorldStageFlowRelation
   label: string
   fromNodeId: string
   toNodeId: string
@@ -162,6 +190,17 @@ export type WorldStageTooltipItem = {
   meaning: string
   asOf: string
   sourceCount: number
+  sources: readonly WorldStageSource[]
+  semiconductorRole?: WorldStageSemiconductorRole
+  relation?: WorldStageFlowRelation
+}
+
+export type WorldStageSource = {
+  id: string
+  title: string
+  publisher: string
+  date: string
+  url: string
 }
 
 export type WorldStageValidationCode =
@@ -183,10 +222,14 @@ export type WorldStageValidationCode =
   | "node.id.duplicate"
   | "node.field.missing"
   | "node.kind.invalid"
+  | "node.semiconductor-role.missing"
+  | "node.semiconductor-role.invalid"
   | "node.coordinates.invalid"
   | "flow.id.duplicate"
   | "flow.field.missing"
   | "flow.kind.invalid"
+  | "flow.relation.missing"
+  | "flow.relation.invalid"
   | "flow.direction.invalid"
   | "flow.weight.invalid"
   | "flow.endpoint.missing"

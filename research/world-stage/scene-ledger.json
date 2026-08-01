@@ -796,7 +796,7 @@
       "publicLabel": "Semiconductor and advanced-manufacturing networks",
       "oneSentencePurpose": "Chip production is a cross-border network with bottlenecks at different stages and in different countries.",
       "lensOwner": "Supply-chain and industrial-capacity view",
-      "evidenceWindow": "asOf 2026-07-14; uses company annual reports, official factory pages, and government industrial-policy material",
+      "evidenceWindow": "asOf 2026-08-02; uses company annual reports, official factory pages, and government industrial-policy material",
       "countryRoles": [
         {
           "iso3": "TWN",
@@ -819,10 +819,13 @@
         {
           "iso3": "USA",
           "role": "strategic partner",
-          "rationale": "The United States is a design, policy, and re-shoring node, with TSMC Arizona now in volume production and advanced packaging investment announced.",
+          "rationale": "The United States combines design and policy power with TSMC's Arizona expansion and major equipment-company headquarters and production capacity.",
           "confidence": "high",
           "sourceIds": [
-            "SRC32"
+            "SRC32",
+            "SRC48",
+            "SRC49",
+            "SRC50"
           ]
         },
         {
@@ -837,11 +840,16 @@
         {
           "iso3": "JPN",
           "role": "strategic partner",
-          "rationale": "Japan combines state-backed semiconductor revitalization with the growing TSMC-linked Kumamoto manufacturing node.",
+          "rationale": "Japan combines state-backed fab expansion with globally important equipment, silicon-wafer, and photoresist production sites.",
           "confidence": "high",
           "sourceIds": [
             "SRC32",
-            "SRC35"
+            "SRC35",
+            "SRC47",
+            "SRC52",
+            "SRC53",
+            "SRC54",
+            "SRC55"
           ]
         },
         {
@@ -852,12 +860,22 @@
           "sourceIds": [
             "SRC36"
           ]
+        },
+        {
+          "iso3": "DEU",
+          "role": "exposed or dependent actor",
+          "rationale": "ZEISS produces the advanced lithography optics integrated into ASML systems, making Oberkochen a distinct upstream equipment chokepoint.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC51"
+          ]
         }
       ],
       "nodes": [
         {
           "id": "n_tw_hsinchu",
           "kind": "fab",
+          "semiconductorRole": "fab",
           "label": "Hsinchu Science Park",
           "coordinates": [
             24.784,
@@ -873,6 +891,7 @@
         {
           "id": "n_tw_tainan",
           "kind": "fab",
+          "semiconductorRole": "fab",
           "label": "TSMC Fab 18, Tainan",
           "coordinates": [
             23.098,
@@ -888,6 +907,7 @@
         {
           "id": "n_us_phoenix",
           "kind": "fab",
+          "semiconductorRole": "fab",
           "label": "TSMC Arizona, Phoenix",
           "coordinates": [
             33.75,
@@ -903,6 +923,7 @@
         {
           "id": "n_kr_pyeongtaek",
           "kind": "fab",
+          "semiconductorRole": "fab",
           "label": "Pyeongtaek Campus",
           "coordinates": [
             36.994,
@@ -918,6 +939,7 @@
         {
           "id": "n_nl_veldhoven",
           "kind": "factory",
+          "semiconductorRole": "sme",
           "label": "ASML Veldhoven",
           "coordinates": [
             51.418,
@@ -933,6 +955,7 @@
         {
           "id": "n_jp_kumamoto",
           "kind": "fab",
+          "semiconductorRole": "fab",
           "label": "JASM Kumamoto",
           "coordinates": [
             32.844,
@@ -949,6 +972,7 @@
         {
           "id": "n_my_penang",
           "kind": "factory",
+          "semiconductorRole": "packaging",
           "label": "Penang packaging and test cluster",
           "coordinates": [
             5.337,
@@ -960,12 +984,157 @@
           "sourceIds": [
             "SRC36"
           ]
+        },
+        {
+          "id": "n_jp_tel_yamanashi",
+          "kind": "factory",
+          "semiconductorRole": "sme",
+          "label": "Tokyo Electron Yamanashi (Fujii)",
+          "coordinates": [
+            35.7256,
+            138.4445
+          ],
+          "importance": 2,
+          "whyItMatters": "Tokyo Electron develops and manufactures deposition, etch, coater/developer, and related semiconductor production equipment in its Yamanashi network.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC47"
+          ]
+        },
+        {
+          "id": "n_us_applied_santaclara",
+          "kind": "factory",
+          "semiconductorRole": "sme",
+          "label": "Applied Materials, Santa Clara",
+          "coordinates": [
+            37.376829,
+            -121.97789
+          ],
+          "importance": 2,
+          "whyItMatters": "Santa Clara is Applied Materials' headquarters; its U.S. manufacturing footprint supplies systems used across semiconductor fabrication.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC48"
+          ]
+        },
+        {
+          "id": "n_us_lam_fremont",
+          "kind": "factory",
+          "semiconductorRole": "sme",
+          "label": "Lam Research, Fremont",
+          "coordinates": [
+            37.488614,
+            -121.956996
+          ],
+          "importance": 2,
+          "whyItMatters": "Fremont anchors Lam Research's headquarters and a separately listed manufacturing site for wafer-fabrication equipment.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC49"
+          ]
+        },
+        {
+          "id": "n_us_kla_milpitas",
+          "kind": "factory",
+          "semiconductorRole": "sme",
+          "label": "KLA, Milpitas",
+          "coordinates": [
+            37.420746,
+            -121.925502
+          ],
+          "importance": 2,
+          "whyItMatters": "KLA's Milpitas base anchors process-control, inspection, and yield-management equipment used by chipmakers.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC50"
+          ]
+        },
+        {
+          "id": "n_de_zeiss_oberkochen",
+          "kind": "factory",
+          "semiconductorRole": "sme",
+          "label": "ZEISS SMT, Oberkochen",
+          "coordinates": [
+            48.768311,
+            10.101189
+          ],
+          "importance": 3,
+          "whyItMatters": "Oberkochen is ZEISS SMT's headquarters and production site for the lithography optics integrated into ASML systems.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC51"
+          ]
+        },
+        {
+          "id": "n_jp_shinetsu_shirakawa",
+          "kind": "factory",
+          "semiconductorRole": "materials",
+          "label": "Shin-Etsu Handotai, Shirakawa",
+          "coordinates": [
+            37.11366,
+            140.164169
+          ],
+          "importance": 3,
+          "whyItMatters": "Shirakawa is a principal integrated production site for monocrystalline silicon, polished wafers, and epitaxial wafers.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC52"
+          ]
+        },
+        {
+          "id": "n_jp_sumco_imari",
+          "kind": "factory",
+          "semiconductorRole": "materials",
+          "label": "SUMCO Imari-Nagahama",
+          "coordinates": [
+            33.28,
+            129.85
+          ],
+          "importance": 3,
+          "whyItMatters": "SUMCO's Imari-Nagahama site designs and produces monocrystalline silicon products for semiconductor devices.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC53"
+          ]
+        },
+        {
+          "id": "n_jp_jsr_yokkaichi",
+          "kind": "factory",
+          "semiconductorRole": "materials",
+          "label": "JSR Yokkaichi",
+          "coordinates": [
+            34.928929,
+            136.608099
+          ],
+          "importance": 2,
+          "whyItMatters": "JSR's Yokkaichi plant hosts its Fine Electronic Materials Development Center for leading-edge photoresists.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC54"
+          ]
+        },
+        {
+          "id": "n_jp_tok_koriyama",
+          "kind": "factory",
+          "semiconductorRole": "materials",
+          "label": "Tokyo Ohka Kogyo, Koriyama",
+          "coordinates": [
+            37.446029,
+            140.263783
+          ],
+          "importance": 2,
+          "whyItMatters": "Koriyama manufactures EUV, ArF, and KrF photoresists and is expanding advanced photoresist capacity.",
+          "confidence": "high",
+          "sourceIds": [
+            "SRC55"
+          ]
         }
       ],
       "flows": [
         {
           "id": "f_nl_tw_tools",
           "kind": "technology",
+          "relation": "supply",
           "label": "Veldhoven to Tainan tools flow",
           "from": "n_nl_veldhoven",
           "to": "n_tw_tainan",
@@ -981,6 +1150,7 @@
         {
           "id": "f_nl_kr_tools",
           "kind": "technology",
+          "relation": "supply",
           "label": "Veldhoven to Pyeongtaek tools flow",
           "from": "n_nl_veldhoven",
           "to": "n_kr_pyeongtaek",
@@ -996,6 +1166,7 @@
         {
           "id": "f_tw_us_expansion",
           "kind": "supply-chain",
+          "relation": "ownership",
           "label": "Tainan to Phoenix foundry expansion",
           "from": "n_tw_tainan",
           "to": "n_us_phoenix",
@@ -1010,6 +1181,7 @@
         {
           "id": "f_tw_jp_jasm",
           "kind": "technology",
+          "relation": "capital",
           "label": "Taiwan to Kumamoto manufacturing extension",
           "from": "n_tw_hsinchu",
           "to": "n_jp_kumamoto",
@@ -1023,17 +1195,19 @@
           ]
         },
         {
-          "id": "f_tw_my_backend",
-          "kind": "supply-chain",
-          "label": "Taiwan to Penang backend link",
-          "from": "n_tw_hsinchu",
-          "to": "n_my_penang",
-          "direction": "two-way",
-          "weight": 1,
-          "plain-language meaning": "Leading-edge chip production still relies on packaging, testing, and handling in Penang.",
-          "confidence": "medium",
+          "id": "f_de_nl_optics",
+          "kind": "technology",
+          "relation": "supply",
+          "label": "Oberkochen to Veldhoven lithography-optics supply",
+          "from": "n_de_zeiss_oberkochen",
+          "to": "n_nl_veldhoven",
+          "direction": "one-way",
+          "weight": 3,
+          "plain-language meaning": "ZEISS supplies the lithography optics integrated into ASML's advanced lithography systems.",
+          "confidence": "high",
           "sourceIds": [
-            "SRC36"
+            "SRC33",
+            "SRC51"
           ]
         }
       ],
@@ -1249,6 +1423,7 @@
         {
           "id": "f_nl_tw_ai_tools",
           "kind": "technology",
+          "relation": "supply",
           "label": "Veldhoven to Taiwan fab bottleneck flow",
           "from": "n_nl_veldhoven_ai",
           "to": "n_tw_hsinchu_ai",
@@ -1264,6 +1439,7 @@
         {
           "id": "f_tw_us_compute",
           "kind": "technology",
+          "relation": "supply",
           "label": "Taiwan fabs to U.S. cloud compute",
           "from": "n_tw_hsinchu_ai",
           "to": "n_us_nova",
@@ -1280,24 +1456,9 @@
           ]
         },
         {
-          "id": "f_kr_us_memory",
-          "kind": "technology",
-          "label": "Korean AI memory into U.S. compute",
-          "from": "n_kr_pyeongtaek_ai",
-          "to": "n_us_nova",
-          "direction": "one-way",
-          "weight": 2,
-          "plain-language meaning": "Korean high-bandwidth and server memory feed U.S. AI compute.",
-          "confidence": "medium",
-          "sourceIds": [
-            "SRC34",
-            "SRC39",
-            "SRC40"
-          ]
-        },
-        {
           "id": "f_us_design_to_cloud",
           "kind": "technology",
+          "relation": "supply",
           "label": "Bay Area hardware-design ecosystem to cloud deployment",
           "from": "n_us_santaclara",
           "to": "n_us_nova",
@@ -1314,6 +1475,7 @@
         {
           "id": "f_ae_us_ai_finance_compute",
           "kind": "finance",
+          "relation": "capital",
           "label": "Abu Dhabi capital and compute partnership with U.S. stack",
           "from": "n_ae_abudhabi_ai",
           "to": "n_us_nova",

@@ -2,15 +2,24 @@
 
 import { useLocale } from "next-intl"
 import { Link } from "@/i18n/navigation"
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react"
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type CSSProperties,
+} from "react"
 import { zhHansWorldStageUi } from "@/content/locales/zh-Hans/world-stage"
 import { zhHansSiteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { formatLocalizedDate } from "@/i18n/format"
 import type { Locale } from "@/i18n/routing"
 import {
   getNextWorldStageSceneIndex,
+  WORLD_STAGE_FLOW_RELATION_COLORS,
   WORLD_STAGE_SCENE_IDLE_RESUME_MS,
   WORLD_STAGE_SCENE_INTERVAL_MS,
+  WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS,
 } from "@/lib/world-stage/map-config"
 import {
   getWorldStageScene,
@@ -19,6 +28,12 @@ import {
   worldStageUtilityDestinations,
 } from "@/lib/world-stage/scenes"
 import { getZhHansWorldStageScene } from "@/lib/world-stage/zh-hans"
+import {
+  WORLD_STAGE_FLOW_RELATIONS,
+  WORLD_STAGE_SEMICONDUCTOR_ROLES,
+  type WorldStageFlowRelation,
+  type WorldStageSemiconductorRole,
+} from "@/lib/world-stage/types"
 import { WorldStageMap, type WorldStageMapHandle } from "./world-stage-map"
 import styles from "./world-stage.module.css"
 
@@ -30,6 +45,24 @@ const secondaryLinks = [
   { label: "Privacy", href: "/privacy" },
   { label: "Feedback", href: "/feedback" },
 ] as const
+
+const semiconductorRoleLabels: Record<WorldStageSemiconductorRole, string> = {
+  fab: "Fabrication",
+  design: "Chip design",
+  sme: "Equipment",
+  materials: "Materials",
+  packaging: "Packaging",
+  eda: "EDA",
+}
+
+const relationLabels: Record<WorldStageFlowRelation, string> = {
+  ownership: "Ownership",
+  supply: "Supply",
+  "export-control jurisdiction": "Export-control jurisdiction",
+  "research collaboration": "Research collaboration",
+  capital: "Capital",
+  "standards participation": "Standards participation",
+}
 
 function subscribeToReducedMotion(onStoreChange: () => void) {
   const media = window.matchMedia("(prefers-reduced-motion: reduce)")
@@ -59,6 +92,10 @@ export function WorldStageHome() {
   const [activeSceneIndex, setActiveSceneIndex] = useState(0)
   const [motionOverride, setMotionOverride] = useState<boolean | null>(null)
   const [sceneHeld, setSceneHeld] = useState(false)
+  const [semiconductorRoleFilter, setSemiconductorRoleFilter] =
+    useState<WorldStageSemiconductorRole | "all">("all")
+  const [relationFilter, setRelationFilter] =
+    useState<WorldStageFlowRelation | "all">("all")
   const sceneIntervalRef = useRef<number | null>(null)
   const sceneResumeTimerRef = useRef<number | null>(null)
   const mapRef = useRef<WorldStageMapHandle>(null)
@@ -74,6 +111,24 @@ export function WorldStageHome() {
     : getWorldStageScene(activeSceneOption.sceneId)
   const motionPaused = motionOverride ?? reducedMotion
   const automaticMotionPaused = motionPaused || sceneHeld
+  const availableSemiconductorRoles = WORLD_STAGE_SEMICONDUCTOR_ROLES.filter(
+    (role) => activeScene?.nodes.some((node) => node.semiconductorRole === role),
+  )
+  const availableRelations = WORLD_STAGE_FLOW_RELATIONS.filter((relation) =>
+    activeScene?.flows.some((flow) => flow.relation === relation),
+  )
+  const hasLayerFilters =
+    availableSemiconductorRoles.length > 0 || availableRelations.length > 0
+  const mapFilters = {
+    semiconductorRole: availableSemiconductorRoles.includes(
+      semiconductorRoleFilter as WorldStageSemiconductorRole,
+    )
+      ? semiconductorRoleFilter
+      : "all",
+    relation: availableRelations.includes(relationFilter as WorldStageFlowRelation)
+      ? relationFilter
+      : "all",
+  } as const
 
   const clearSceneInterval = useCallback(() => {
     if (sceneIntervalRef.current !== null) {
@@ -107,6 +162,8 @@ export function WorldStageHome() {
   const selectScene = useCallback(
     (index: number) => {
       holdSceneForInspection()
+      setSemiconductorRoleFilter("all")
+      setRelationFilter("all")
       setActiveSceneIndex(index)
     },
     [holdSceneForInspection],
@@ -126,6 +183,8 @@ export function WorldStageHome() {
     if (sceneHeld || motionPaused) return
 
     const interval = window.setInterval(() => {
+      setSemiconductorRoleFilter("all")
+      setRelationFilter("all")
       setActiveSceneIndex((current) => getNextWorldStageSceneIndex(current))
     }, WORLD_STAGE_SCENE_INTERVAL_MS)
     sceneIntervalRef.current = interval
@@ -153,6 +212,7 @@ export function WorldStageHome() {
       <WorldStageMap
         ref={mapRef}
         scene={activeScene}
+        filters={mapFilters}
         motionPaused={automaticMotionPaused}
         reducedMotion={reducedMotion}
         onInteraction={holdSceneForInspection}
@@ -299,6 +359,102 @@ export function WorldStageHome() {
             </option>
           ))}
         </select>
+        {hasLayerFilters ? (
+          <details
+            className={styles.layerFilters}
+            data-testid="world-stage-layer-filters"
+            onToggle={(event) => {
+              if (event.currentTarget.open) holdSceneForInspection()
+            }}
+          >
+            <summary>{chinese ? controls.layers : "Layers"}</summary>
+            <div className={styles.layerFilterPanel}>
+              {availableSemiconductorRoles.length > 0 ? (
+                <label htmlFor="world-stage-node-type-filter">
+                  <span>{chinese ? controls.nodeType : "Node type"}</span>
+                  <select
+                    id="world-stage-node-type-filter"
+                    className={styles.layerSelect}
+                    value={mapFilters.semiconductorRole}
+                    onChange={(event) => {
+                      holdSceneForInspection()
+                      setSemiconductorRoleFilter(
+                        event.target.value as WorldStageSemiconductorRole | "all",
+                      )
+                    }}
+                  >
+                    <option value="all">{chinese ? controls.allLayers : "All types"}</option>
+                    {availableSemiconductorRoles.map((role) => (
+                      <option key={role} value={role}>
+                        {chinese
+                          ? controls.semiconductorRoleLabels[role]
+                          : semiconductorRoleLabels[role]}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              {availableRelations.length > 0 ? (
+                <label htmlFor="world-stage-relation-filter">
+                  <span>{chinese ? controls.relation : "Relation"}</span>
+                  <select
+                    id="world-stage-relation-filter"
+                    className={styles.layerSelect}
+                    value={mapFilters.relation}
+                    onChange={(event) => {
+                      holdSceneForInspection()
+                      setRelationFilter(
+                        event.target.value as WorldStageFlowRelation | "all",
+                      )
+                    }}
+                  >
+                    <option value="all">{chinese ? controls.allRelations : "All relations"}</option>
+                    {availableRelations.map((relation) => (
+                      <option key={relation} value={relation}>
+                        {chinese
+                          ? controls.relationLabels[relation]
+                          : relationLabels[relation]}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ) : null}
+              <div className={styles.layerLegend}>
+                <p>{chinese ? controls.legend : "Legend"}</p>
+                <ul>
+                  {availableSemiconductorRoles.map((role) => (
+                    <li key={`node-${role}`}>
+                      <span
+                        className={styles.legendSwatch}
+                        style={{
+                          "--world-stage-legend-color":
+                            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS[role],
+                        } as CSSProperties}
+                      />
+                      {chinese
+                        ? controls.semiconductorRoleLabels[role]
+                        : semiconductorRoleLabels[role]}
+                    </li>
+                  ))}
+                  {availableRelations.map((relation) => (
+                    <li key={`relation-${relation}`}>
+                      <span
+                        className={`${styles.legendSwatch} ${styles.legendLine}`}
+                        style={{
+                          "--world-stage-legend-color":
+                            WORLD_STAGE_FLOW_RELATION_COLORS[relation],
+                        } as CSSProperties}
+                      />
+                      {chinese
+                        ? controls.relationLabels[relation]
+                        : relationLabels[relation]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </details>
+        ) : null}
         <div
           className={styles.zoomControls}
           role="group"

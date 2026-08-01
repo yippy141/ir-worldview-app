@@ -390,6 +390,7 @@ test.describe("390px viewport", () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
   test("World Stage and Foundation remain within the viewport", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/")
 
     const mapViews = page.locator("#world-stage-map-view option")
@@ -403,6 +404,34 @@ test.describe("390px viewport", () => {
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
     ).toBe(true)
+
+    await page.locator("#world-stage-map-view").selectOption("focus-areas")
+    const layerFilters = page.getByTestId("world-stage-layer-filters")
+    await layerFilters.locator("summary").click()
+    await page.getByRole("combobox", { name: "Node type" }).selectOption("materials")
+    await page.getByRole("combobox", { name: "Relation" }).selectOption("supply")
+    await expect(page.getByRole("combobox", { name: "Node type" })).toHaveValue("materials")
+    await expect(page.getByRole("combobox", { name: "Relation" })).toHaveValue("supply")
+    await expect(layerFilters).toContainText("Materials")
+    await expect(layerFilters).toContainText("Supply")
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
+    ).toBe(true)
+
+    const sourcedMaterialNode = page.locator(
+      '[data-node-id="focus-areas--n_jp_jsr_yokkaichi"]',
+    )
+    await expect(sourcedMaterialNode).toBeVisible()
+    await sourcedMaterialNode.click()
+    const sourceDialog = page.getByRole("dialog", { name: "JSR Yokkaichi" })
+    await expect(sourceDialog).toBeVisible()
+    await expect(
+      sourceDialog.getByRole("link", {
+        name: "Leading-edge photoresist development and Yokkaichi site materials",
+      }),
+    ).toBeVisible()
+    await sourceDialog.getByRole("button", { name: "Close source details" }).click()
+    await layerFilters.locator("summary").click()
 
     await page
       .getByRole("navigation", { name: "World Stage sections" })
