@@ -85,30 +85,6 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V21 measurement repair and archetype layer
-
-- The instrument's central problem is discrimination, not presentation. Every
-  change in this sprint is judged by whether it increases the spread of
-  outcomes across respondents.
-- Foundation Likert items must be valence-balanced. Every dimension carries at
-  least 40% reverse-coded items. `reverse` is always stated explicitly, never
-  omitted.
-- No special-case overrides at the end of scoring functions. If a family is
-  over- or under-triggering, fix the item coverage or the weight matrix.
-- Item content moves out of TypeScript into versioned data files under
-  `content/instrument/` with schema validation in CI. Scoring logic stays in
-  TypeScript.
-- Scores are never rendered on a scale the scoring cannot reach. If the real
-  span is 3.4 to 5.6, do not print "/ 7".
-- No confidence, clarity, or settledness figure anywhere in code or payload.
-- Research storage is server-side, first-party, opt-in for raw answers, and
-  aggregate-only for the Tier 1 layer. Data with persistent respondent IDs is
-  described as pseudonymous, never anonymous.
-- The archetype layer is a presentation mapping over the existing canonical
-  result. It must not change `computeCoreDimensionScores` or `scoreFamilies`.
-- Deferred to v22: hierarchy and threshold dimensions, new IR families,
-  Tier 2 opt-in storage, adaptive item selection.
-
 ## End-of-sprint discipline
 
 When a sprint ends, replace the "Current sprint" section above with the next

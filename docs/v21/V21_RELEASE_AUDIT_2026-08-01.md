@@ -8,16 +8,17 @@ Pull request: https://github.com/yippy141/ir-worldview-app/pull/24
 
 ## Release call
 
-**Code-merge status: HOLD for push, remote Linux CI, and review-thread
-closure.**
+**Code-merge status: READY, awaiting final docs-only CI and merge.**
 
 V21 now contains the intended measurement and result-layer repairs, including
 an actual historical V1 scorer, form-specific V2 calibration, explicit V5
 provenance, safer aggregate reads, and legacy-link identity preservation.
 The final local source has passed calibration reproduction, lint, content
 validation, all unit tests, diagnostics, TypeScript, production build,
-Playwright, and independent share-card visual review. The remaining code-merge
-evidence must come from the pushed source and remote Linux CI.
+Playwright, and independent share-card visual review. On runtime head
+`9a94b15`, GitHub Actions run `30697555910` passed both remote jobs, the final
+Linux visual artifacts were accepted, and all three P1 review threads were
+resolved.
 
 Broad public sharing has a separate **HOLD**. The owner has not locked the
 archetype names, real social-platform previews have not been recorded, and the
@@ -48,7 +49,7 @@ closed.
 | E1/E2 archetype mapping and blends | Implemented as presentation only | Eight pure types and twelve blends map over the canonical result without changing core dimensions or family scoring. |
 | E3 English share card | Locally verified; platform preview pending | Four final 1200×630 cards—M+, M−, P−, and the M/S− blend—passed independent visual review without tofu, clipping, or orphaned text. The production build trace contains all four bundled local fonts. |
 | E4 archetype naming | Owner decision | The supplied names remain in `content/archetypes.json`. The alternatives and reasons in `V21_ARCHETYPE_NAMING_REVIEW.md` are recommendations, not approved substitutions. |
-| F1 English result | Verified locally; remote visual CI pending | The archetype-first payoff and analysis disclosure are present, and the final Playwright suite passed locally. Linux/Chromium artifacts still require remote review. |
+| F1 English result | Verified locally and remotely | The archetype-first payoff and analysis disclosure are present. The final local Playwright suite and remote Chromium job passed; the Linux quiz, result, and Windows-font actuals were inspected and accepted. |
 | F1 Simplified Chinese parity | Incomplete | The localized result remains on the earlier information architecture and lacks the archetype-first hero and localized custom card. |
 | F2 live map | English implemented; Chinese incomplete | The English map follows the canonical projection. Chinese map copy remains intentionally omitted instead of silently falling back to English. |
 
@@ -188,18 +189,25 @@ database replay workflow is not yet release-worthy operations code.
   with no tofu, clipping, or orphaned text. The build trace contains the four
   bundled local fonts.
 
-These are local-source results. They are not evidence of remote Linux behavior,
-social-platform preview behavior, or production Tier 1/replay operation.
+These local results are complemented by the remote closeout evidence below.
+Neither set is evidence of social-platform preview behavior or production
+Tier 1/replay operation.
 
-## Remaining code-merge gates
+## Remote code-closeout evidence
 
-1. Push the exact locally verified source.
-2. Require remote lint, test, typecheck, build, and Playwright to pass.
-3. Review and accept the Linux/Chromium visual artifacts generated from that
-   pushed source.
-4. Reply to and resolve the three P1 review threads only after their fixes are
-   visible in the pull request.
-5. Confirm Tier 1 remains default-off and replay remains operationally dormant.
+- Runtime head: `9a94b15`.
+- GitHub Actions run:
+  https://github.com/yippy141/ir-worldview-app/actions/runs/30697555910
+- `lint-test-typecheck-build`: passed in 1m 28s.
+- `playwright-chromium`: passed in 2m 05s.
+- Linux/Chromium quiz, result, and Windows-font actuals were inspected and
+  accepted through commits `4bcd7ba` and `9a94b15`.
+- All three P1 review threads were replied to and resolved.
+
+The runtime code is merge-ready. The only remaining repository step is to
+commit and push this final documentation closeout, allow its docs-only CI run
+to pass, and merge PR #24. Tier 1 must remain default-off and replay
+operationally dormant.
 
 ## Public-sharing HOLD conditions
 
