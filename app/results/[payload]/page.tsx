@@ -251,6 +251,9 @@ export default async function ResultPage(
   const analoguePath = archetype.analogue
     ? archetypeEvidencePath(archetype.code)
     : null
+  const analogueHref = analoguePath
+    ? `${analoguePath}?from=${encodeURIComponent(`/results/${payload}`)}`
+    : null
 
   // A core-set result is provisional, so the single next action is to extend it.
   // Once the extended set is in, the action becomes the issue module that puts
@@ -380,10 +383,10 @@ export default async function ResultPage(
               </h1>
               <p className="foundation-result-code">{archetypeCode}</p>
               <p className="result-lead">{archetype.gloss}</p>
-              {archetype.analogue && analoguePath ? (
+              {archetype.analogue && analogueHref ? (
                 <p className="foundation-result-analogue">
                   Historical analogue:{" "}
-                  <Link href={analoguePath}>
+                  <Link href={analogueHref}>
                     {archetype.analogue.label} · {archetype.analogue.year}
                   </Link>
                 </p>

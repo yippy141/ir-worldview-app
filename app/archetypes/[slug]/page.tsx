@@ -4,11 +4,13 @@ import {
   archetypeEvidence,
   archetypeEvidenceSlug,
   getArchetypeEvidenceBySlug,
+  parseArchetypeEvidenceReturnPath,
 } from "@/lib/archetype-evidence"
 import type { Metadata } from "next"
 
 interface Props {
   params: Promise<{ slug: string }>
+  searchParams: Promise<{ from?: string | string[] }>
 }
 
 export function generateStaticParams() {
@@ -33,18 +35,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ArchetypeEvidencePage({ params }: Props) {
-  const { slug } = await params
+export default async function ArchetypeEvidencePage({
+  params,
+  searchParams,
+}: Props) {
+  const [{ slug }, { from }] = await Promise.all([params, searchParams])
   const resolved = getArchetypeEvidenceBySlug(slug)
   if (!resolved) notFound()
 
   const { archetype, analogue, evidence } = resolved
+  const returnPath = parseArchetypeEvidenceReturnPath(from)
 
   return (
     <article className="container archetype-evidence-page stack-xl">
       <header className="stack-md">
-        <Link href="/quiz" className="archetype-evidence-back">
-          ← Take the Foundation
+        <Link
+          href={returnPath ?? "/quiz"}
+          className="archetype-evidence-back"
+        >
+          {returnPath ? "← Back to your result" : "← Take the Foundation"}
         </Link>
         <div className="stack-sm">
           <p className="eyebrow">Historical analogue</p>
@@ -79,7 +88,7 @@ export default async function ArchetypeEvidencePage({ params }: Props) {
             <a href={analogue.href} target="_blank" rel="noreferrer">
               {analogue.label}
             </a>
-            <span>Original reference</span>
+            <span>Analogue overview</span>
           </li>
           {evidence.sources.map((source) => (
             <li key={source.href}>

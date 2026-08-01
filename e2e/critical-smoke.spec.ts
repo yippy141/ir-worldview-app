@@ -195,7 +195,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
     await expect(analogueLink).toBeVisible()
     await expect(analogueLink).toHaveAttribute(
       "href",
-      /^\/archetypes\/[prms]-(plus|minus)$/,
+      /^\/archetypes\/[prms]-(plus|minus)\?from=%2Fresults%2F[A-Za-z0-9_-]+$/,
     )
     const evidencePage = await context.newPage()
     await evidencePage.goto(await analogueLink.getAttribute("href") ?? "/")
@@ -205,6 +205,16 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
     await expect(
       evidencePage.getByRole("heading", { name: "Where the comparison breaks" }),
     ).toBeVisible()
+    const backToResult = evidencePage.getByRole("link", {
+      name: "← Back to your result",
+    })
+    await expect(backToResult).toHaveAttribute(
+      "href",
+      new URL(page.url()).pathname,
+    )
+    await backToResult.click()
+    await expect(evidencePage).toHaveURL(page.url())
+    await expect(evidencePage.getByText("Invalid result")).toHaveCount(0)
     await evidencePage.close()
   }
 

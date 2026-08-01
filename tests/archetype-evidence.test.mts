@@ -5,6 +5,7 @@ import {
   archetypeEvidencePath,
   archetypeEvidenceSlug,
   getArchetypeEvidenceBySlug,
+  parseArchetypeEvidenceReturnPath,
   validateArchetypeEvidence,
 } from "@/lib/archetype-evidence"
 import { archetypes, resolveArchetype } from "@/lib/archetypes"
@@ -65,4 +66,22 @@ test("leading articles remain on pure names but are removed in blend names", () 
   assert.equal(blend.code, "P/M+")
   assert.equal(blend.name, "Hegemon–Iconoclast")
   assert.equal(blend.analogue, null)
+})
+
+test("analogue return links accept only local Foundation result paths", () => {
+  assert.equal(
+    parseArchetypeEvidenceReturnPath("/results/abc_DEF-123"),
+    "/results/abc_DEF-123",
+  )
+
+  for (const value of [
+    "https://example.com/results/token",
+    "//example.com/results/token",
+    "/profile",
+    "/results/token?extra=true",
+    ["/results/token"],
+    undefined,
+  ]) {
+    assert.equal(parseArchetypeEvidenceReturnPath(value), null)
+  }
 })

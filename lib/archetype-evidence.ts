@@ -51,6 +51,13 @@ export function archetypeEvidencePath(code: Archetype["code"]): string {
   return `/archetypes/${archetypeEvidenceSlug(code)}`
 }
 
+export function parseArchetypeEvidenceReturnPath(
+  value: string | string[] | undefined,
+): string | null {
+  if (typeof value !== "string") return null
+  return /^\/results\/[A-Za-z0-9_-]+$/u.test(value) ? value : null
+}
+
 export function getArchetypeEvidence(
   code: Archetype["code"],
 ): ResolvedArchetypeEvidence {

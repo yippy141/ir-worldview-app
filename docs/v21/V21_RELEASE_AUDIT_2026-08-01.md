@@ -199,7 +199,7 @@ PR #25 follow-up evidence:
 - `npm run validate`: passed with 135 unique items.
 - `npm run test`: 301 passed, 0 failed, 0 skipped.
 - `npx tsc --noEmit`: passed.
-- `npm run build`: passed and generated all eight analogue routes.
+- `npm run build`: passed with the analogue evidence route.
 - `CI=1 npm run test:e2e`: 48 passed.
 - Visual review: P+, R+, M−, and P/M+ cards and the P+ evidence page passed;
   the longest analogue label fit, the CJK title rendered, and blends omitted
