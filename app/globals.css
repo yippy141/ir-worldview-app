@@ -8079,6 +8079,24 @@ html:lang(zh-Hans) .quiz-shell-label {
   text-transform: uppercase;
 }
 
+.foundation-result-analogue {
+  max-width: 62ch;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.foundation-result-analogue a {
+  color: var(--text);
+  text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.foundation-result-analogue a:hover {
+  color: var(--accent);
+}
+
 .foundation-result-subhead {
   margin: 0;
   color: var(--muted);
@@ -8086,6 +8104,114 @@ html:lang(zh-Hans) .quiz-shell-label {
   font-size: 0.74rem;
   font-weight: 700;
   line-height: 1.4;
+}
+
+/* Historical-analogue notes: evidence and limitation are given equal weight. */
+.archetype-evidence-page {
+  max-width: 920px;
+}
+
+.archetype-evidence-back {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.archetype-evidence-analogue {
+  color: var(--text);
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(1.2rem, 2vw, 1.65rem);
+  line-height: 1.35;
+}
+
+.archetype-evidence-analogue span {
+  color: var(--muted);
+}
+
+.archetype-evidence-intro {
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.archetype-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.archetype-evidence-grid .panel {
+  box-shadow: none;
+}
+
+.archetype-evidence-grid p,
+.archetype-evidence-footer p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.archetype-evidence-sources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archetype-evidence-sources li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.archetype-evidence-sources li:last-child {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.archetype-evidence-sources a {
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.archetype-evidence-sources span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.archetype-evidence-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.archetype-evidence-footer p {
+  max-width: 62ch;
+}
+
+.archetype-evidence-footer a {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 720px) {
+  .archetype-evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archetype-evidence-sources li,
+  .archetype-evidence-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
 }
 
 .foundation-result-band {

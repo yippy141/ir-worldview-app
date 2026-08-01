@@ -49,6 +49,7 @@ import {
   normFromNormativeModifier,
   resolveArchetype,
 } from "@/lib/archetypes"
+import { archetypeEvidencePath } from "@/lib/archetype-evidence"
 import {
   getPercentile,
   type AggregateStats,
@@ -247,6 +248,9 @@ export default async function ResultPage(
   const archetypeCode =
     `${archetype.code} / ${normFromNormativeModifier(result.normativeModifier)}`
   const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
+  const analoguePath = archetype.analogue
+    ? archetypeEvidencePath(archetype.code)
+    : null
 
   // A core-set result is provisional, so the single next action is to extend it.
   // Once the extended set is in, the action becomes the issue module that puts
@@ -376,6 +380,14 @@ export default async function ResultPage(
               </h1>
               <p className="foundation-result-code">{archetypeCode}</p>
               <p className="result-lead">{archetype.gloss}</p>
+              {archetype.analogue && analoguePath ? (
+                <p className="foundation-result-analogue">
+                  Historical analogue:{" "}
+                  <Link href={analoguePath}>
+                    {archetype.analogue.label} · {archetype.analogue.year}
+                  </Link>
+                </p>
+              ) : null}
             </div>
 
             <div className="foundation-result-bands stack-sm">

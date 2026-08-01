@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "code": "P+",
+      "whyItFits": "The Athenian argument at Melos treats unequal power as the decisive fact and presses an advantage before circumstances change.",
+      "whereItBreaks": "The dialogue can also be read as Thucydides' indictment of imperial arrogance and overreach. It is an extreme episode, not a neutral summary of every realist position.",
+      "sources": [
+        {
+          "label": "Thucydides, The Melian Dialogue",
+          "href": "https://sourcebooks.fordham.edu/ancient/thuc-melian.asp"
+        },
+        {
+          "label": "Political Realism in International Relations",
+          "href": "https://plato.stanford.edu/entries/realism-intl-relations/"
+        }
+      ]
+    },
+    {
+      "code": "P-",
+      "whyItFits": "The Art of War repeatedly favors position, information, and strategic advantage over costly direct confrontation.",
+      "whereItBreaks": "A military treatise is not a complete theory of international politics, and shi carries meanings that no two-sentence archetype can exhaust.",
+      "sources": [
+        {
+          "label": "Roger T. Ames on shih and strategic advantage",
+          "href": "https://www.enotes.com/topics/sun-tzu/criticism/criticism/roger-t-ames-essay-date-1994"
+        }
+      ]
+    },
+    {
+      "code": "R+",
+      "whyItFits": "Grotius argued that relations among political communities remain subject to law and obligation, including during war.",
+      "whereItBreaks": "The Grotian tradition is broader than enforcement. It also concerns natural law, consent, moral restraint, and the possibility of an international society.",
+      "sources": [
+        {
+          "label": "Internet Encyclopedia of Philosophy: Hugo Grotius",
+          "href": "https://iep.utm.edu/grotius/"
+        }
+      ]
+    },
+    {
+      "code": "R-",
+      "whyItFits": "The Vienna settlement and the Concert joined great-power consultation to mutual restraint in the management of European order.",
+      "whereItBreaks": "The Concert was hierarchical and exclusive. Its stability rested partly on spheres of influence and the limited voice of weaker states.",
+      "sources": [
+        {
+          "label": "Council on Foreign Relations: A Concert of Powers for a Global Era",
+          "href": "https://www.cfr.org/articles/concert-powers-global-era"
+        }
+      ]
+    },
+    {
+      "code": "M+",
+      "whyItFits": "The norm life-cycle model gives norm entrepreneurs an active role in challenging existing standards, persuading others, and helping new norms spread.",
+      "whereItBreaks": "Norm change is not only narrative change, and later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
+      "sources": [
+        {
+          "label": "Finnemore and Sikkink, International Norm Dynamics and Political Change",
+          "href": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/0A55ECBCC9E87EA49586E776EED8DB57/S0020818398440608a.pdf/international-norm-dynamics-and-political-change.pdf"
+        },
+        {
+          "label": "Acharya, How Ideas Spread",
+          "href": "https://www.cambridge.org/core/journals/international-organization/article/how-ideas-spread-whose-norms-matter-norm-localization-and-institutional-change-in-asian-regionalism/7C6449C7612BC9AEE0C574C4CD9E7B63"
+        }
+      ]
+    },
+    {
+      "code": "M-",
+      "whyItFits": "ASEAN practice emphasizes consultation, consensus, informality, and avoiding public confrontation before collective decisions are announced.",
+      "whereItBreaks": "Nemawashi is a Japanese concept, while the ASEAN Way is Southeast Asian and internally contested. Consensus and non-interference can also prevent timely collective action.",
+      "sources": [
+        {
+          "label": "ASEAN Charter, Article 20: Consultation and Consensus",
+          "href": "https://www.asean.org/wp-content/uploads/2021/09/2.-February-2015-The-ASEAN-Charter-18th-Reprint.pdf"
+        }
+      ]
+    },
+    {
+      "code": "S+",
+      "whyItFits": "Hamilton's report argued that public policy should foster manufacturing capacity, diversify production, and reduce economic vulnerability.",
+      "whereItBreaks": "Dirigisme is a later French doctrine. Hamilton advocated targeted public support inside a market economy, not the full range of policies later associated with French state direction.",
+      "sources": [
+        {
+          "label": "Founders Online: Report on the Subject of Manufactures",
+          "href": "https://founders.archives.gov/documents/Hamilton/01-10-02-0001-0007"
+        }
+      ]
+    },
+    {
+      "code": "S-",
+      "whyItFits": "Prebisch's centre-periphery analysis treated trade and production structures as durable constraints on development and national room for action.",
+      "whereItBreaks": "Prebisch's reformist structuralism preceded and differed from several later dependencia schools. Reducing exposure is only one possible response to dependency.",
+      "sources": [
+        {
+          "label": "ECLAC: The Economic Development of Latin America and Its Principal Problems",
+          "href": "https://repositorio.cepal.org/items/9a00fa5b-ad04-4520-ae4c-e3adba791790"
+        },
+        {
+          "label": "International Organization: Dependence and dependencia theory",
+          "href": "https://www.cambridge.org/core/journals/international-organization/article/abs/dependence-and-dependencia-theory-notes-toward-precision-of-concept-and-argument/1874D3608C2AA95D298E9B5B031DE0BE"
+        }
+      ]
+    }
+  ]
+}

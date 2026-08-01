@@ -24,7 +24,7 @@ export type Archetype = {
   lens: LensCode
   posture: PostureSign
   familyKey: FamilyKey
-  analogue: HistoricalAnalogue | null
+  analogue: HistoricalAnalogue
 }
 
 export type BlendArchetype = {
@@ -159,7 +159,7 @@ function buildBlendArchetype(
 
   return {
     code: `${first.lens}/${second.lens}${posture}`,
-    name: `${first.name}–${second.name}`,
+    name: `${blendNamePart(first.name)}–${blendNamePart(second.name)}`,
     gloss:
       `You read world politics through ${LENS_LABELS[first.lens]} and through ` +
       `${LENS_LABELS[second.lens]} at the same time, and you do not resolve ` +
@@ -170,4 +170,8 @@ function buildBlendArchetype(
     archetypes: [first, second],
     analogue: null,
   }
+}
+
+function blendNamePart(name: string): string {
+  return name.startsWith("The ") ? name.slice(4) : name
 }

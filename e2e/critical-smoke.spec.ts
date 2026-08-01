@@ -190,6 +190,24 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await expect(page).toHaveURL(/\/results\/[A-Za-z0-9_-]+$/)
   await expect(page.getByRole("link", { name: "View Profile" })).toBeVisible()
 
+  const analogueLink = page.locator(".foundation-result-analogue a")
+  if (await analogueLink.count()) {
+    await expect(analogueLink).toBeVisible()
+    await expect(analogueLink).toHaveAttribute(
+      "href",
+      /^\/archetypes\/[prms]-(plus|minus)$/,
+    )
+    const evidencePage = await context.newPage()
+    await evidencePage.goto(await analogueLink.getAttribute("href") ?? "/")
+    await expect(
+      evidencePage.getByRole("heading", { name: "Why this comparison fits" }),
+    ).toBeVisible()
+    await expect(
+      evidencePage.getByRole("heading", { name: "Where the comparison breaks" }),
+    ).toBeVisible()
+    await evidencePage.close()
+  }
+
   await page.getByRole("button", { name: "Copy share link" }).click()
   await expect(page.getByRole("button", { name: "Link copied" })).toBeVisible()
   const shareUrl = await page.evaluate(() => navigator.clipboard.readText())
@@ -205,6 +223,23 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await expect(page).toHaveURL(/\/profile$/)
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
   await expect(page.getByText("No Foundation baseline is saved", { exact: false })).toHaveCount(0)
+})
+
+test("historical analogue pages show both the comparison and its limit", async ({
+  page,
+}) => {
+  await page.goto("/archetypes/p-plus")
+
+  await expect(
+    page.getByRole("heading", { level: 1, name: "The Hegemon" }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Why this comparison fits" }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Where the comparison breaks" }),
+  ).toBeVisible()
+  await expect(page.getByText("This is a comparison, not an identity")).toBeVisible()
 })
 
 test("Worldview Map switches between list and map views", async ({ page }) => {
