@@ -1,3 +1,5 @@
+import type { PinnedOptionPosition } from "@/lib/option-order"
+
 export type DimensionKey =
   | "securityCompetition"
   | "institutions"
@@ -8,10 +10,20 @@ export type DimensionKey =
   | "orderJustice"
 
 export type QuizMode = "standard" | "analyst"
+export type FoundationTier = "core" | "extended"
+export type FoundationQuestionSet =
+  | "core"
+  | "targetedExtended"
+  | "fullExtended"
 export type FamiliarityLevel = "new" | "some" | "very"
 
 export type QuestionKind = "likert" | "tradeoff" | "miniCase"
 export type ChoiceCardType = "explanation" | "decision" | "actorLens" | "both"
+export type ScoringBlock = "core" | "validation"
+export type ValidationScaleKey =
+  | "militantInternationalism"
+  | "cooperativeInternationalism"
+  | "isolationism"
 
 export type Clarification = {
   title?: string
@@ -20,26 +32,46 @@ export type Clarification = {
   terms?: { term: string; definition: string }[]
 }
 
-export type LikertQuestion = {
+export type CoreLikertQuestion = {
   id: string
   kind: "likert"
+  tier: FoundationTier
+  scoringBlock: "core"
   prompt: string
   helpText?: string
   dimension: DimensionKey
-  reverse?: boolean
+  reverse: boolean
   clarification?: Clarification
 }
+
+export type ValidationLikertQuestion = {
+  id: string
+  kind: "likert"
+  tier: FoundationTier
+  scoringBlock: "validation"
+  prompt: string
+  helpText?: string
+  validationScale: ValidationScaleKey
+  citation: string
+  reverse: boolean
+  clarification?: Clarification
+}
+
+export type LikertQuestion = CoreLikertQuestion | ValidationLikertQuestion
 
 export type ChoiceOption = {
   id: string
   title: string
   label: string
   signals: Partial<Record<DimensionKey, number>>
+  pinned?: PinnedOptionPosition
 }
 
 export type ChoiceQuestion = {
   id: string
   kind: "tradeoff" | "miniCase"
+  tier: FoundationTier
+  scoringBlock: "core"
   prompt: string
   helpText?: string
   cardType: ChoiceCardType
@@ -58,14 +90,27 @@ export type RankedChoiceAnswer = {
 export type AnswerValue = number | string | RankedChoiceAnswer
 export type Answers = Record<string, AnswerValue>
 
+export type ItemLatencyBucketMs =
+  | 0
+  | 2_000
+  | 5_000
+  | 10_000
+  | 30_000
+  | 120_000
+export type ItemLatencyBuckets = Partial<Record<string, ItemLatencyBucketMs>>
+
 export type QuizSession = {
-  v: 4
+  v: 7
+  orderSeed: string
   familiarity?: FamiliarityLevel
   requestedDepth?: QuizMode
   recommendedMode?: QuizMode
   activeMode?: QuizMode
+  questionSet: FoundationQuestionSet
+  targetedFamilyPair?: [FamilyKey, FamilyKey]
   contextAssist: boolean
   answers: Answers
+  itemLatencyBuckets: ItemLatencyBuckets
   midpointAcknowledged?: boolean
 }
 
@@ -85,7 +130,6 @@ export type QuizResult = {
   familyLabel: string
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
-  clarity: number
   dimensionScores: DimensionScores
   familyScores: Record<FamilyKey, number>
   explanation: string
@@ -121,4 +165,40 @@ export type SharePayloadV3 = FoundationShareFields & {
   cl: CompletionLocale
 }
 
-export type SharePayload = SharePayloadV2 | SharePayloadV3
+export type SharePayloadV4 = FoundationShareFields & {
+  v: 4
+  /** Canonical Foundation structural version. */
+  iv: number
+  /** Scoring implementation version. */
+  sv: number
+  /** Completion-locale copy version. */
+  cv: number
+  /** Locale in which the respondent completed the instrument. */
+  cl: CompletionLocale
+  /** Whether the result used only core items or included extended items. */
+  rt: FoundationTier
+}
+
+export type SharePayloadV5 = FoundationShareFields & {
+  v: 5
+  /** Canonical Foundation structural version. */
+  iv: number
+  /** Version of the Foundation item bank that produced the scores. */
+  bv: number
+  /** Scoring implementation version. */
+  sv: number
+  /** Completion-locale copy version. */
+  cv: number
+  /** Locale in which the respondent completed the instrument. */
+  cl: CompletionLocale
+  /** Exact item form used to calculate this result. */
+  qs: FoundationQuestionSet
+  /** Exact discriminator form when qs is targetedExtended. */
+  tp?: [FamilyKey, FamilyKey]
+}
+
+export type SharePayload =
+  | SharePayloadV2
+  | SharePayloadV3
+  | SharePayloadV4
+  | SharePayloadV5

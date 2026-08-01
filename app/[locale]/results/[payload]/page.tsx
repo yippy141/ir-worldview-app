@@ -9,7 +9,22 @@ import {
   zhHansFoundationDimensionRows,
 } from "@/lib/narrative/foundation-zh-hans"
 import { getKeyDrivers, getStrongLenses } from "@/lib/result-helpers"
-import { resolveFoundationPayload } from "@/lib/share"
+import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
+import {
+  FOUNDATION_SCORING_VERSION,
+  getV2ScoringCalibration,
+} from "@/lib/scoring"
+import {
+  FOUNDATION_INSTRUMENT_VERSION,
+  FOUNDATION_STRUCTURAL_VERSION,
+} from "@/lib/quiz-schema"
+import {
+  getPercentile,
+  type AggregateStats,
+  type PercentileResult,
+} from "@/lib/percentiles"
+import { readCurrentAggregateStats } from "@/lib/research/aggregate-stats"
+import type { DimensionKey } from "@/lib/types"
 
 type Props = {
   params: Promise<{ locale: string; payload: string }>
@@ -27,6 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         strategyModifier: resolved.result.strategyModifier,
         normativeModifier: resolved.result.normativeModifier,
         dimensionScores: resolved.dimensionScores,
+        scoringCalibration: resolved.scoringCalibration,
       })
     : null
   const title = narrative
@@ -37,7 +53,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title,
     description,
-    openGraph: { title, description, type: "article" },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: chinesePath,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
     alternates: {
       canonical: chinesePath,
       languages: {
@@ -70,13 +96,38 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
     )
   }
 
-  const { dimensionScores, result, provenance } = resolved
+  const { dimensionScores, result, provenance, resultTier } = resolved
+  const { lowDifferentiationThreshold } = getV2ScoringCalibration(
+    resolved.scoringCalibration,
+  )
+  const aggregateStats =
+    resolved.questionSet &&
+    provenance.instrumentStructuralVersion === FOUNDATION_STRUCTURAL_VERSION &&
+    provenance.instrumentVersion === FOUNDATION_INSTRUMENT_VERSION &&
+    provenance.scoringVersion === FOUNDATION_SCORING_VERSION
+      ? await readCurrentAggregateStats({
+          questionSet: resolved.questionSet,
+          ...(resolved.targetedFamilyPair
+            ? { targetedFamilyPair: resolved.targetedFamilyPair }
+            : {}),
+          completionLocale: provenance.completionLocale,
+          localeCopyVersion: provenance.localeCopyVersion,
+        })
+      : null
+  const dimensionPercentiles = buildDimensionPercentiles(
+    dimensionScores,
+    aggregateStats,
+  )
+  const hasPercentiles = PAYLOAD_DIMENSION_ORDER.some(
+    (dimension) => dimensionPercentiles[dimension] !== null,
+  )
   const narrative = buildZhHansFoundationNarrative({
     familyKey: result.familyKey,
     runnerUpKey: result.runnerUpKey,
     strategyModifier: result.strategyModifier,
     normativeModifier: result.normativeModifier,
     dimensionScores,
+    scoringCalibration: resolved.scoringCalibration,
   })
   const dimensions = zhHansFoundationDimensionRows(dimensionScores)
   const keyDrivers = getKeyDrivers(dimensionScores)
@@ -84,6 +135,9 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
   const completionLabel = provenance.completionLocale === "zh-Hans"
     ? "简体中文改编测试版完成记录"
     : "以英文完成的共享结果 · 当前以中文显示"
+  const nearestFitGap = result.nearestFitGap
+  const targetedExtensionHref = `${publicPath("zh-Hans", "/quiz")}?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
+  const fullExtensionHref = `${publicPath("zh-Hans", "/quiz")}?extension=full`
 
   return (
     <div className="wide-container locale-foundation-result">
@@ -114,11 +168,18 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
 
         <header className="result-section stack-lg" aria-labelledby="zh-foundation-result-heading">
           <div className="stack-md">
-            <p className="eyebrow">基础画像</p>
+            <p className="eyebrow">
+              {resultTier === "core" ? "基础暂定画像" : "基础画像"}
+            </p>
             <h1 id="zh-foundation-result-heading" className="result-hero-title">
               {narrative.headline}
             </h1>
             <p className="muted result-lead">{narrative.summary}</p>
+            <p className="muted result-note">
+              {resultTier === "core"
+                ? "本结果由 14 道核心题计算。"
+                : "本结果由核心题与扩展题共同计算。"}
+            </p>
             <div className="row gap-sm wrap" aria-label="结果标签">
               <span className="atlas-tag">{narrative.familyLabel}</span>
               <span className="atlas-tag">{narrative.strategyLabel}</span>
@@ -135,6 +196,41 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
             locale="zh-Hans"
           />
         </header>
+
+        {resultTier === "core" ? (
+          <section className="result-section stack-md" aria-labelledby="zh-foundation-extension-heading">
+            <div className="stack-xs">
+              <p className="eyebrow">可选跟进</p>
+              <h2 id="zh-foundation-extension-heading">
+                {nearestFitGap < lowDifferentiationThreshold
+                  ? `检验“${narrative.familyLabel}”与“${narrative.runnerUpLabel}”之间的边界`
+                  : "增加扩展题组"}
+              </h2>
+              <p className="muted result-note">
+                {nearestFitGap < lowDifferentiationThreshold
+                  ? "两个最接近的模型家族仍然相近。系统已选出 5 道最能检验两者差异的跟进题。"
+                  : "核心结果已经出现较清晰的区分。你可以保留当前结果，也可以完成全部扩展题，获得更广的读法。"}
+              </p>
+            </div>
+            <div className="row gap-sm wrap">
+              {nearestFitGap < lowDifferentiationThreshold ? (
+                <Link href={targetedExtensionHref} className="cta-primary">
+                  回答 5 道定向题
+                </Link>
+              ) : null}
+              <Link
+                href={fullExtensionHref}
+                className={
+                  nearestFitGap < lowDifferentiationThreshold
+                    ? "cta-secondary"
+                    : "cta-primary"
+                }
+              >
+                完成全部扩展题
+              </Link>
+            </div>
+          </section>
+        ) : null}
 
         <section className="result-section stack-md" aria-labelledby="zh-result-reading-heading">
           <div className="stack-xs">
@@ -156,20 +252,37 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
             <p className="eyebrow">七维画像</p>
             <h2 id="zh-dimensions-heading">哪些判断把结果拉向不同方向</h2>
             <p className="muted result-note">
-              分数表示你在本模型 1 至 7 量尺上的位置，不是百分位，也不是人群中的相对排名。
+              {hasPercentiles
+                ? "百分位以当前已完成基础问卷的样本为参照，不代表总体人群。原始分数同时保留。"
+                : "以下显示原始分数，不附量尺分母。"}
             </p>
           </div>
           <dl className="locale-profile-dimensions">
-            {dimensions.map((dimension) => (
-              <div key={dimension.key}>
-                <dt>{dimension.label}</dt>
-                <dd>
-                  <strong>{dimension.score.toFixed(2)} / 7</strong>
-                  <span className="muted">{dimension.reading}</span>
-                </dd>
-              </div>
-            ))}
+            {dimensions.map((dimension) => {
+              const percentile = dimensionPercentiles[dimension.key]
+              return (
+                <div key={dimension.key}>
+                  <dt>{dimension.label}</dt>
+                  <dd>
+                    <strong>
+                      {percentile
+                        ? `第 ${percentile.percentile} 百分位`
+                        : dimension.score.toFixed(2)}
+                    </strong>
+                    <span className="muted">
+                      {percentile
+                        ? `原始分数 ${dimension.score.toFixed(2)} · ${dimension.reading}`
+                        : dimension.reading}
+                    </span>
+                  </dd>
+                </div>
+              )
+            })}
           </dl>
+          <ZhHansPercentileFootnote
+            dimensions={dimensions}
+            percentiles={dimensionPercentiles}
+          />
         </section>
 
         <aside className="result-section stack-md" aria-labelledby="zh-beta-note-heading">
@@ -191,5 +304,41 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         </aside>
       </article>
     </div>
+  )
+}
+
+function buildDimensionPercentiles(
+  dimensionScores: Record<DimensionKey, number>,
+  stats: AggregateStats | null,
+): Record<DimensionKey, PercentileResult | null> {
+  return Object.fromEntries(
+    PAYLOAD_DIMENSION_ORDER.map((dimension) => [
+      dimension,
+      stats
+        ? getPercentile(dimension, dimensionScores[dimension], stats)
+        : null,
+    ]),
+  ) as Record<DimensionKey, PercentileResult | null>
+}
+
+function ZhHansPercentileFootnote({
+  dimensions,
+  percentiles,
+}: {
+  dimensions: readonly { key: DimensionKey; label: string }[]
+  percentiles: Record<DimensionKey, PercentileResult | null>
+}) {
+  const sampleSizes = dimensions.flatMap((dimension) => {
+    const result = percentiles[dimension.key]
+    return result
+      ? [`${dimension.label} n=${result.n.toLocaleString("zh-CN")}`]
+      : []
+  })
+  if (sampleSizes.length === 0) return null
+
+  return (
+    <p className="muted result-note-xs" role="note">
+      百分位样本量：{sampleSizes.join("；")}。采用当前已完成基础问卷结果的中位秩百分位。
+    </p>
   )
 }

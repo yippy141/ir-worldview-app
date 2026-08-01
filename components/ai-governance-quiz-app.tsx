@@ -15,11 +15,16 @@ import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
 import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode, AiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { AiGlossaryDrawer } from "@/components/quiz/ai-glossary-drawer"
+import {
+  createOptionOrderSeed,
+  getSeededOptionOrder,
+} from "@/lib/option-order"
 
 type AiQuizState = {
   started: boolean
   mode: AiQuizMode
   answers: AiAnswers
+  orderSeed: string
 }
 
 function parseRequestedMode(value: string | null): AiQuizMode | null {
@@ -29,7 +34,12 @@ function parseRequestedMode(value: string | null): AiQuizMode | null {
 }
 
 function createEmptyState(): AiQuizState {
-  return { started: false, mode: "standard", answers: {} }
+  return {
+    started: false,
+    mode: "standard",
+    answers: {},
+    orderSeed: createOptionOrderSeed(),
+  }
 }
 
 function normalizeState(parsed: unknown): AiQuizState | null {
@@ -41,6 +51,10 @@ function normalizeState(parsed: unknown): AiQuizState | null {
     answers: typeof raw.answers === "object" && raw.answers !== null
       ? (raw.answers as AiAnswers)
       : {},
+    orderSeed:
+      typeof raw.orderSeed === "string" && raw.orderSeed.length > 0
+        ? raw.orderSeed
+        : createOptionOrderSeed(),
   }
 }
 
@@ -94,6 +108,10 @@ export function AiGovernanceQuizApp() {
       started: true,
       mode,
       answers: prev.started && prev.mode !== mode ? {} : prev.answers,
+      orderSeed:
+        prev.started && prev.mode !== mode
+          ? createOptionOrderSeed()
+          : prev.orderSeed,
     }))
     setCurrentIndex(0)
     setSupportOpen(false)
@@ -320,7 +338,11 @@ export function AiGovernanceQuizApp() {
                     ? (rawAnswer as "A" | "B" | "C" | "D")
                     : undefined
                 const secondaryId = isAiRankedChoiceAnswer(rawAnswer) ? rawAnswer.secondary : undefined
-                const scenarioOptions = getScenarioOptions(currentQuestion, state.mode)
+                const scenarioOptions = getSeededOptionOrder(
+                  getScenarioOptions(currentQuestion, state.mode),
+                  state.orderSeed,
+                  currentQuestion.id,
+                )
                 const showBackup =
                   state.mode === "analyst" &&
                   currentQuestion.kind === "scenario" &&

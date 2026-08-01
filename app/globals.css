@@ -853,6 +853,150 @@ h3 {
   }
 }
 
+/* ── Live position map (F2) ──────────────────────────────────────────────────
+   The 2x2 projection runs beside the question so a respondent can watch the
+   reading form. Desktop stacks the plot over its readout in the header's right
+   column; below 640px the whole element becomes one short full-width strip so
+   the question keeps its place on screen. */
+
+/* The map occupies a second column of the header panel, so it draws on height
+   the title, progress bar, and controls already use. The grid only engages
+   where the map renders; locales without approved map copy keep one column. */
+.quiz-header--with-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 168px;
+  gap: 24px 40px;
+  align-items: start;
+}
+
+.quiz-header__main {
+  min-width: 0;
+}
+
+.quiz-position-map {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.quiz-position-map__figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.quiz-position-map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.quiz-position-map__axis {
+  fill: var(--muted);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
+/* Brief, eased move to the new reading. */
+.quiz-position-map__marker {
+  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation: quiz-position-marker-in 240ms ease-out both;
+}
+
+@keyframes quiz-position-marker-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.quiz-position-map__label {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.quiz-position-map__pending {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.quiz-position-map__readout {
+  display: grid;
+  gap: 6px;
+  margin: 2px 0 0;
+}
+
+.quiz-position-map__readout dt {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.quiz-position-map__readout dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-position-map__marker {
+    transition: none;
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .quiz-header--with-map {
+    grid-template-columns: minmax(0, 1fr) 156px;
+    gap: 20px 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .quiz-header--with-map {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Compact strip: plot on the left, readout beside it, one line per axis. */
+  .quiz-position-map {
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+  }
+
+  /* Axis poles do not survive the size reduction; the readout carries them. */
+  .quiz-position-map__axis {
+    display: none;
+  }
+
+  /* The section keeps its accessible name; the readout terms carry it visually. */
+  .quiz-position-map__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .quiz-position-map__readout {
+    gap: 4px;
+    margin: 0;
+  }
+}
+
 /* Midpoint preview interstitial */
 .quiz-midpoint {
   padding: 32px;
@@ -3128,14 +3272,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   }
 }
 
-.result-signature-meta dd.result-signature-gloss {
-  margin-top: 4px;
-  font-family: inherit;
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
 .atlas-fingerprint {
   display: grid;
   gap: 10px;
@@ -3260,45 +3396,6 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 .result-hero-copy {
   min-width: 0;
-}
-
-.result-signature-panel {
-  min-width: 0;
-  padding: 22px 22px 20px;
-  border: 1px solid color-mix(in srgb, var(--border-soft) 80%, var(--accent) 20%);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.result-signature-scales {
-  display: grid;
-  gap: 12px;
-}
-
-.result-signature-meta {
-  margin: 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 18px;
-}
-
-.result-signature-meta dt {
-  margin: 0 0 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.result-signature-meta dd {
-  margin: 0;
-  color: var(--text);
-  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
-  font-size: 0.96rem;
-  line-height: 1.35;
 }
 
 .profile-mosaic {
@@ -6311,10 +6408,6 @@ html:lang(zh-Hans) .quiz-shell-label {
     grid-template-columns: 1fr;
   }
 
-  .result-signature-meta {
-    grid-template-columns: 1fr;
-  }
-
   .ai-result-overview,
   .ai-result-summary-grid,
   .ai-result-policy-grid,
@@ -7943,10 +8036,11 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 /* Hero heading + lead — inherits the serif token from base h1/body */
 .result-hero-title {
-  font-size: clamp(2.1rem, 5vw, 4.8rem);
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  max-width: 980px;
+  max-width: 900px;
+  font-size: 3.25rem;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
 .result-lead {
@@ -7955,11 +8049,376 @@ html:lang(zh-Hans) .quiz-shell-label {
   line-height: 1.7;
 }
 
-/* Two-column hero grid: dimension map + trust aside */
-.result-hero-grid {
+/* Above-the-fold block: archetype card, strongest-three bands, the line that
+   would change the reading, one next action, and the field map. */
+.foundation-result-lede {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
+  gap: 48px 72px;
+  align-items: start;
+}
+
+.foundation-result-lede__copy {
+  min-width: 0;
+}
+
+.foundation-result-lede__map {
+  min-width: 0;
+  padding-top: 20px;
+  border-top: 1px solid color-mix(in srgb, var(--line) 68%, var(--accent) 32%);
+}
+
+/* Three-part classification under the archetype name */
+.foundation-result-code {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.foundation-result-subhead {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.foundation-result-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.5rem;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Aligns with the label/value row inside the scale bar, not the track. */
+.foundation-result-band__tag {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.foundation-result-band__tag[data-band="high"],
+.foundation-result-band__tag[data-band="low"] {
+  color: var(--text);
+}
+
+.foundation-result-change {
+  max-width: 62ch;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.foundation-result-action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+}
+
+.foundation-result-action p {
+  flex: 1 1 260px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* The page's single trust line, sitting between the payoff and the machinery */
+.foundation-result-methods-line {
+  max-width: 72ch;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.foundation-result-reading__label,
+.foundation-case-test__identity > p,
+.foundation-signal-row__dimension {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.foundation-result-reading h3,
+.foundation-case-test h3,
+.foundation-domain-note h3,
+.foundation-signal-row h3,
+.foundation-result-next h3 {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.3;
+  text-wrap: balance;
+}
+
+.result-section-intro {
+  max-width: 760px;
+}
+
+.foundation-result-reading-grid,
+.foundation-domain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px 36px;
+}
+
+.foundation-result-reading,
+.foundation-domain-note {
+  min-width: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.foundation-result-reading h3,
+.foundation-domain-note h3,
+.foundation-signal-row h3,
+.foundation-result-next h3 {
+  font-size: 1.05rem;
+}
+
+.foundation-result-reading > p:last-child,
+.foundation-domain-note > p,
+.foundation-signal-row p,
+.foundation-result-next p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.foundation-case-test {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.55fr);
+  gap: 28px 56px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.foundation-case-test__identity h3 {
+  font-size: 1.35rem;
+}
+
+.foundation-case-test__identity span {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.foundation-case-test__question > p:first-child {
+  margin: 0;
+  max-width: 66ch;
+  color: var(--text);
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+.foundation-case-test__question > p.muted {
+  margin: 0;
+  max-width: 70ch;
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.foundation-domain-note__tilt {
+  color: var(--text) !important;
+  font-weight: 650;
+}
+
+.foundation-signal-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.foundation-signal-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px 32px;
+  align-items: start;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.foundation-signal-row__score {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  color: var(--text);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.foundation-signal-row__score > strong {
+  font-size: 0.92rem;
+}
+
+.foundation-signal-row__score > span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.foundation-percentile-scale .v10-scale-bar__meta {
+  flex-wrap: wrap;
+}
+
+.foundation-percentile-scale .v10-scale-bar__value {
+  margin-left: auto;
+  text-align: right;
+}
+
+.foundation-result-next {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px 36px;
+  align-items: end;
+  justify-content: space-between;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.foundation-result-next > div:first-child {
+  max-width: 620px;
+}
+
+@media (max-width: 820px) {
+  .result-hero-title {
+    font-size: 2.2rem;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+
+  .foundation-result-lede,
+  .foundation-case-test,
+  .result-hero-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .foundation-result-reading-grid,
+  .foundation-domain-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .foundation-result-lede,
+  .foundation-case-test,
+  .foundation-result-reading-grid,
+  .foundation-domain-grid {
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-hero-title {
+    font-size: 1.95rem;
+  }
+
+  .foundation-result-band {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .foundation-result-band__tag {
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .foundation-signal-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .foundation-signal-row__score {
+    grid-row: 1;
+  }
+}
+
+@media print {
+  .result-hero-title {
+    font-size: 2.35rem;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+
+  .result-section {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .foundation-result-lede {
+    grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.6fr);
+    gap: 32px;
+  }
+
+  .foundation-result-lede .field-map__svg {
+    max-width: 330px;
+  }
+
+  .foundation-result-reading-grid,
+  .foundation-domain-grid {
+    gap: 22px;
+  }
+
+  .foundation-case-test {
+    gap: 28px;
+  }
+
+  .foundation-result-lede,
+  .foundation-result-reading,
+  .foundation-domain-note,
+  .foundation-case-test,
+  .foundation-signal-row,
+  .foundation-result-next {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .foundation-result-reading > p:last-child,
+  .foundation-domain-note > p,
+  .foundation-signal-row p,
+  .foundation-result-next p {
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  /* The full analysis is behind a disclosure on screen; print expands it so a
+     printed result still carries the reasoning behind the reading. */
+  .result-appendix-section .profile-details > summary {
+    display: none;
+  }
+
+  .result-appendix-section .result-details-body {
+    display: block !important;
+    content-visibility: visible !important;
+  }
+
+  .result-appendix-section .profile-details {
+    break-before: page;
+    page-break-before: always;
+  }
+}
+
+/* Dimension map + trust aside; column count is set by the responsive rules above. */
+.result-hero-grid {
   align-items: stretch;
 }
 
@@ -8081,12 +8540,6 @@ html:lang(zh-Hans) .quiz-shell-label {
 .field-map__caption {
   font-size: 0.9rem;
   line-height: 1.6;
-  text-align: center;
-}
-
-.field-map__note {
-  font-size: 0.8rem;
-  line-height: 1.5;
   text-align: center;
 }
 

@@ -1,3 +1,5 @@
+import type { PinnedOptionPosition } from "@/lib/option-order"
+
 export type AiQuizMode = "standard" | "analyst"
 
 export type AiAxisKey =
@@ -38,6 +40,7 @@ export type AiScenarioOption = {
   label: string
   weights: Partial<Record<AiAxisKey, number>>
   followUpId?: string
+  pinned?: PinnedOptionPosition
 }
 
 export type AiScenarioQuestion = {

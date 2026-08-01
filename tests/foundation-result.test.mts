@@ -60,12 +60,12 @@ test("distinct foundation fixtures stay distinct through payload reconstruction"
     {
       name: "broad-spectrum moderate",
       answers: buildLowDifferentiationAnswers(),
-      expectedState: "lowDifferentiation",
+      expectedState: "sharplyDifferentiated",
     },
     {
       name: "cross-pressured mixed",
       answers: buildMixedAnswers(),
-      expectedState: "stableModeration",
+      expectedState: "sharplyDifferentiated",
     },
   ] as const
 
@@ -125,15 +125,21 @@ test("distinct foundation fixtures stay distinct through payload reconstruction"
   )
 })
 
-test("canonical foundation reconstruction ignores stale payload labels and uses the encoded scores", () => {
+test("current payload reconstruction ignores tampered labels and uses the encoded scores", () => {
   const generated = generateResult(buildAlignedAnswers("realist"), "standard")
   const tamperedPayload = encodePayload({
-    v: 2,
+    v: 5,
     ds: dimensionScoresToArray(generated.dimensionScores),
     fk: "constructivist",
     nk: "institutionalist",
     sm: "Restrainer",
     nm: "Pluralist",
+    iv: 4,
+    bv: 2,
+    sv: 2,
+    cv: 1,
+    cl: "en",
+    qs: "fullExtended",
   })
 
   const resolved = resolveFoundationPayload(tamperedPayload)
@@ -157,11 +163,15 @@ test("foundation payoff derives from decoded share-link result data", () => {
     assert.ok(payoff.mainTension.title.length > 0)
     assert.ok(payoff.mainTension.body.length > 0)
     assert.ok(payoff.mainTension.rivalArgument.length > 0)
+    assert.ok(payoff.caseTest.caseId.length > 0)
+    assert.ok(payoff.caseTest.question.length > 0)
+    assert.ok(payoff.caseTest.reason.length > 0)
     assert.ok(payoff.nextStep.href.startsWith("/"))
   }
 
   assert.notEqual(realistPayoff.corePattern.noticeFirst, institutionalistPayoff.corePattern.noticeFirst)
-  assert.equal(broadPayoff.mainTension.title, "A broad map, not a hard center")
+  assert.equal(broadPayoff.mainTension.title, "What makes you choose a lens")
+  assert.equal(broadPayoff.caseTest.caseId, "security-cuban-missile-escalation-ceilings")
   assert.equal(broadPayoff.nextStep.href, "/explore/atlas")
 })
 
@@ -222,6 +232,7 @@ function buildMixedAnswers(): Answers {
 
 function chooseForFamily(question: Question, family: FamilyKey) {
   if (question.kind === "likert") {
+    if (question.scoringBlock === "validation") return 4
     const weight = familyProfiles[family][question.dimension] ?? 0
 
     if (weight >= 0.3) return 7

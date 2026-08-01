@@ -102,6 +102,47 @@ Variables for Production and any Preview/Development environments that should
 render the live map. Add `NEXT_PUBLIC_MAPBOX_STYLE` there when using a custom
 style, then redeploy. Never place the token in source files.
 
+### Tier 1 aggregate database
+
+Set the server-only `DATABASE_URL` to a Neon Postgres connection string
+compatible with `@neondatabase/serverless`. Apply the SQL files in
+`db/migrations/` in numeric order. `DATABASE_URL` alone does not activate
+collection: set `TIER1_AGGREGATES_ENABLED=true` only after the migrations have
+been verified, server error monitoring is live, and platform request throttling
+has been configured for `/api/aggregate/result`. Until then, result,
+completion-step, and item-response-latency counters and percentile display are
+intentional no-ops.
+
+Do not prefix this variable with `NEXT_PUBLIC_`: it must never be included in
+the browser bundle. The same applies to `TIER1_AGGREGATES_ENABLED`. Tier 1
+stores derived aggregate counters only; it does not
+store raw answers, raw timestamps, response ordering, respondent or session
+rows, consent records, contact information, cookies, or other identifiers.
+Counters are separated by exact item form, completion locale, and locale-copy
+version. The browser measurement opt-out suppresses both Tier 1 and product
+analytics submissions.
+
+The later opt-in research layer can replay stored Foundation answers with an
+immutable scoring implementation:
+
+```bash
+npm run replay:scoring -- v2
+```
+
+Replay reads only completed Foundation sessions whose respondent has explicit
+research consent and whose session carries the same nonblank consent receipt.
+It accepts only complete, exact V1 or V2 forms with valid mode, item-bank,
+answer, and option provenance. V1 and V2 use different item banks, so
+cross-version replay is rejected until an explicit compatibility mapping is
+reviewed.
+
+The replay upserts `research_derived_results` by session and scoring version and
+never updates `research_answers`. Any quarantined session makes the command
+exit nonzero. The operator-only `--allow-quarantined-sessions` override should
+be used only after reviewing every reported failure. This remains dormant
+research infrastructure; it is not authority to collect raw answers or enable
+the deferred Tier 2 layer.
+
 ### Current Case invitations
 
 V19 shares ordinary case-only invitations. The former encrypted, answer-bearing

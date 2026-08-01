@@ -16,6 +16,10 @@ import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { ModuleAnswers, ModuleLane, ModuleSlug } from "@/lib/modules/types"
 import type { ChoiceCardType, QuizMode } from "@/lib/types"
+import {
+  createOptionOrderSeed,
+  getSeededOptionOrder,
+} from "@/lib/option-order"
 
 export function ModuleApp({
   slug,
@@ -28,7 +32,15 @@ export function ModuleApp({
   const moduleDefinition = getModuleDefinition(slug)
   const [mode, setMode] = useState<QuizMode>("standard")
   const [answers, setAnswers] = useState<ModuleAnswers>({})
+  const [orderSeed, setOrderSeed] = useState("")
   const [deviceFoundation, setDeviceFoundation] = useState<FoundationSnapshot | null>(null)
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      setOrderSeed(createOptionOrderSeed())
+    }, 0)
+    return () => window.clearTimeout(timeout)
+  }, [])
 
   useEffect(() => {
     const load = () => setDeviceFoundation(loadProfileStore().foundation)
@@ -91,6 +103,10 @@ export function ModuleApp({
     return null
   }
 
+  if (!orderSeed) {
+    return <div className="panel" style={{ padding: "40px" }}>Loading your draft…</div>
+  }
+
   const standardQuestionCount = moduleDefinition.questionsByMode.standard.length
   const analystQuestionCount = moduleDefinition.questionsByMode.analyst.length
   const analystAdditionCount = analystQuestionCount - standardQuestionCount
@@ -120,6 +136,7 @@ export function ModuleApp({
     if (nextMode === mode) return
     setMode(nextMode)
     setAnswers({})
+    setOrderSeed(createOptionOrderSeed())
   }
 
   function setPrimary(questionId: string, optionId: string) {
@@ -306,6 +323,11 @@ export function ModuleApp({
             const primarySelection = answers[question.id]?.primary
             const secondarySelection = answers[question.id]?.secondary
             const showSecondChoice = moduleAllowsSecondChoice(question) && Boolean(primarySelection)
+            const presentedOptions = getSeededOptionOrder(
+              question.options,
+              orderSeed,
+              question.id,
+            )
 
             return (
               <section key={question.id} className="panel stack-md">
@@ -356,7 +378,7 @@ export function ModuleApp({
                 </div>
 
                 <div className="stack-sm">
-                  {question.options.map((option, optionIndex) => {
+                  {presentedOptions.map((option, optionIndex) => {
                     const selected = primarySelection === option.id
                     return (
                       <button
@@ -386,7 +408,7 @@ export function ModuleApp({
                       </p>
                     </div>
                     <div className="module-secondary-grid">
-                      {question.options
+                      {presentedOptions
                         .filter((option) => option.id !== primarySelection)
                         .map((option) => {
                           const selected = secondarySelection === option.id

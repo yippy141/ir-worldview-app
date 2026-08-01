@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Kairos",
+    "code": "P+",
+    "gloss": "Power is what moves the world, and windows close. Act while the window is open.",
+    "familyKey": "realist",
+    "analogue": null
+  },
+  {
+    "name": "Shi (勢)",
+    "code": "P-",
+    "gloss": "Power is what moves the world, but you build position rather than force outcomes.",
+    "familyKey": "realist",
+    "analogue": null
+  },
+  {
+    "name": "Nomos",
+    "code": "R+",
+    "gloss": "Rules make cooperation durable, and rules that are not enforced are not rules.",
+    "familyKey": "institutionalist",
+    "analogue": null
+  },
+  {
+    "name": "Concert",
+    "code": "R-",
+    "gloss": "Rules make cooperation durable, and the restraint of the strong is what sustains them.",
+    "familyKey": "institutionalist",
+    "analogue": null
+  },
+  {
+    "name": "Mandala",
+    "code": "M+",
+    "gloss": "Legitimacy and status are causes, not decoration, and they can be actively contested.",
+    "familyKey": "constructivist",
+    "analogue": null
+  },
+  {
+    "name": "Nemawashi (根回し)",
+    "code": "M-",
+    "gloss": "Legitimacy and status are causes, and they are built slowly rather than declared.",
+    "familyKey": "constructivist",
+    "analogue": null
+  },
+  {
+    "name": "Dirigisme",
+    "code": "S+",
+    "gloss": "Production, finance and dependence structure politics, and the state should shape them.",
+    "familyKey": "criticalPoliticalEconomy",
+    "analogue": null
+  },
+  {
+    "name": "Dependencia",
+    "code": "S-",
+    "gloss": "Production, finance and dependence structure politics, and the first task is to reduce exposure.",
+    "familyKey": "criticalPoliticalEconomy",
+    "analogue": null
+  }
+]

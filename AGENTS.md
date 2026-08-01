@@ -85,25 +85,6 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V20 Simplified Chinese editorial
-
-- Render the approved Simplified Chinese editorial deck from typed locale content;
-  do not use runtime machine translation or silent English long-form fallback.
-- Run the owner-approved Simplified Chinese Foundation as an adapted beta with
-  shared structure and scoring, locale-owned copy, and no equivalence claim.
-- Keep AI, module, and Perspective instruments in English until their Chinese
-  copy is separately approved, with a review-status handoff on Chinese routes.
-- Preserve locale-neutral Current Case response IDs, drafts, steps, ProfileStore
-  records, Profile Share payloads, and all World Stage and Worldview Map geometry.
-- Derive Chinese labels from canonical identifiers when profile records are read;
-  never persist translated display copy as canonical data.
-- Show Chinese source display titles beside original titles where translations are
-  approved, and retain original source identity where no translation is approved.
-- Use natural Chinese dates, the approved CJK system stacks and line heights, and
-  verify 390px, print, source-ledger, Open Graph, and missing-glyph behavior.
-- Keep English routes unchanged and run the full unit, lint, build, and Playwright
-  suites before handoff.
-
 ## End-of-sprint discipline
 
 When a sprint ends, replace the "Current sprint" section above with the next

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { getZhHansFoundationQuestions } from "@/content/locales/zh-Hans/foundation-instrument"
+import { getZhHansFoundationQuestionsForSet } from "@/content/locales/zh-Hans/foundation-instrument"
 import {
   zhHansFoundationReviewUi,
   type FoundationReviewUiCopy,
@@ -10,17 +10,33 @@ import {
 import { publicPath } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
-import { getFoundationQuestions } from "@/lib/quiz-schema"
-import { generateResult } from "@/lib/scoring"
+import {
+  getFoundationQuestionsForSet,
+  getFoundationResultQuestions,
+  selectFoundationAnswersForSet,
+} from "@/lib/quiz-schema"
+import {
+  foundationScoringCalibrationForForm,
+  generateResult,
+} from "@/lib/scoring"
 import { buildFoundationSharePayload, encodePayload } from "@/lib/share"
 import { markProfileSaveIntent } from "@/lib/profile-save-intent"
 import {
+  buildTier1Cohort,
+  submitTier1AggregateResult,
+} from "@/lib/research/tier1-aggregate"
+import {
   QUIZ_STORAGE_KEY,
-  countAnsweredQuestions,
   notifyQuizSessionUpdated,
   parseQuizSession,
 } from "@/lib/quiz-session"
-import type { AnswerValue, Question, QuizSession, RankedChoiceAnswer } from "@/lib/types"
+import type {
+  AnswerValue,
+  ItemLatencyBuckets,
+  Question,
+  QuizSession,
+  RankedChoiceAnswer,
+} from "@/lib/types"
 
 type AnswerRow = {
   question: Question
@@ -38,20 +54,18 @@ const englishFoundationReviewUi = {
   questionsHeading: "Foundation questions",
   incomplete: "Finish every foundation question before generating the result.",
   complete:
-    "Your foundation result is ready. Afterward you can take Security or Technology as separate Focus Areas.",
+    "Your result is ready to generate.",
   generating: "Generating…",
   generate: "Generate my result →",
   back: "Back to foundation",
   startOver: "Start over",
   localProcessing:
-    "The result is computed only when you click “Generate.” All processing stays in your browser.",
-  upgradeEyebrow: "Want a deeper read?",
-  upgradeTitle: "You completed the Standard version.",
-  upgradeBody:
-    "The scoring method is the same. Analyst mode adds more evidence from specific tradeoffs and questions asked from a defined actor’s position.",
-  upgradeAction: "Try Analyst mode",
-  upgradeConfirm:
-    "Analyst mode repeats the Foundation with more scenarios that require tradeoffs and more questions asked from a defined actor’s position. Your current Standard answers will be cleared. Continue?",
+    "Your result is computed in this browser. When coarse measurement is on and the aggregate service is enabled, first-party counters receive reached steps and, at result generation, derived scores and labels plus item IDs with coarse response-time buckets. They contain no answers, raw timestamps, response ordering, or identifier.",
+  setLabels: {
+    core: "Core set",
+    targetedExtended: "Targeted extension",
+    fullExtended: "Full extension",
+  },
   edit: "Edit",
   likertLabels: {
     1: "Strongly disagree",
@@ -76,7 +90,6 @@ const englishFoundationReviewUi = {
     actorLens: "Actor lens",
     both: "Both",
   },
-  modeLabels: { standard: "Standard mode", analyst: "Analyst mode" },
 } satisfies FoundationReviewUiCopy
 
 export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
@@ -102,8 +115,14 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
 
   const questions = session?.activeMode
     ? locale === "zh-Hans"
-      ? getZhHansFoundationQuestions(session.activeMode)
-      : getFoundationQuestions(session.activeMode)
+      ? getZhHansFoundationQuestionsForSet(
+          session.questionSet,
+          session.targetedFamilyPair,
+        )
+      : getFoundationQuestionsForSet(
+          session.questionSet,
+          session.targetedFamilyPair,
+        )
     : []
 
   const answerRows: AnswerRow[] = session
@@ -114,7 +133,9 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
       }))
     : []
 
-  const answeredCount = session ? countAnsweredQuestions(session) : 0
+  const answeredCount = session
+    ? questions.filter((question) => session.answers[question.id] !== undefined).length
+    : 0
   const foundationComplete = session ? answeredCount >= questions.length : false
 
   function handleEdit(index: number) {
@@ -127,10 +148,56 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
     setGenerating(true)
 
     try {
-      const result = generateResult(session.answers, session.activeMode)
-      const payload = encodePayload(buildFoundationSharePayload(result, locale))
+      const resultAnswers = selectFoundationAnswersForSet(
+        session.answers,
+        session.questionSet,
+        session.targetedFamilyPair,
+      )
+      const scoringCalibration = foundationScoringCalibrationForForm(
+        session.questionSet,
+        session.targetedFamilyPair,
+      )
+      if (!scoringCalibration) {
+        throw new Error("The selected Foundation form is not calibratable.")
+      }
+      const result = generateResult(
+        resultAnswers,
+        "analyst",
+        scoringCalibration,
+      )
+      const payload = encodePayload(
+        buildFoundationSharePayload(
+          result,
+          locale,
+          session.questionSet,
+          session.targetedFamilyPair,
+        ),
+      )
 
       markProfileSaveIntent("foundation", payload, { mode: session.activeMode })
+      const resultQuestions = getFoundationResultQuestions(
+        session.questionSet,
+        session.targetedFamilyPair,
+      )
+      const itemLatencyBuckets = resultQuestions.reduce<ItemLatencyBuckets>(
+        (buckets, question) => {
+          const bucket = session.itemLatencyBuckets[question.id]
+          if (bucket !== undefined) {
+            buckets[question.id] = bucket
+          }
+          return buckets
+        },
+        {},
+      )
+      void submitTier1AggregateResult(
+        result,
+        buildTier1Cohort(
+          session.questionSet,
+          locale,
+          session.targetedFamilyPair,
+        ),
+        itemLatencyBuckets,
+      )
       trackProductEvent("foundation_completed")
       router.push(publicPath(locale, `/results/${payload}`))
     } catch {
@@ -162,7 +229,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
           {copy.progress(
-            copy.modeLabels[session.activeMode],
+            copy.setLabels[session.questionSet],
             answeredCount,
             questions.length,
           )}
@@ -221,48 +288,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         </p>
       </section>
 
-      {foundationComplete && session.activeMode === "standard" ? (
-        <AnalystUpgradeOffer onUpgrade={handleUpgradeToAnalyst} copy={copy} />
-      ) : null}
     </div>
-  )
-
-  function handleUpgradeToAnalyst() {
-    if (
-      !window.confirm(
-        copy.upgradeConfirm,
-      )
-    ) {
-      return
-    }
-    window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-    notifyQuizSessionUpdated()
-    router.push(`${publicPath(locale, "/quiz")}?mode=analyst`)
-  }
-}
-
-function AnalystUpgradeOffer({
-  onUpgrade,
-  copy,
-}: {
-  onUpgrade: () => void
-  copy: FoundationReviewUiCopy
-}) {
-  return (
-    <section className="panel stack-sm analyst-upgrade-offer">
-      <p className="eyebrow">{copy.upgradeEyebrow}</p>
-      <h2 style={{ margin: 0 }}>
-        {copy.upgradeTitle}
-      </h2>
-      <p className="muted" style={{ lineHeight: "1.65" }}>
-        {copy.upgradeBody}
-      </p>
-      <div className="row gap-sm wrap">
-        <button type="button" className="secondary-button" onClick={onUpgrade}>
-          {copy.upgradeAction}
-        </button>
-      </div>
-    </section>
   )
 }
 

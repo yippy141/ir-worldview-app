@@ -1,5 +1,5 @@
 import "./globals.css"
-import { Newsreader, Archivo, Space_Mono } from "next/font/google"
+import localFont from "next/font/local"
 import { NextIntlClientProvider } from "next-intl"
 import { getLocale, getMessages } from "next-intl/server"
 import { siteConfig } from "@/lib/site-config"
@@ -8,23 +8,35 @@ import { resolveMetadataBase } from "@/i18n/paths"
 import type { Metadata } from "next"
 import type { Viewport } from "next"
 
-// Newsreader: serif for headings and body. Archivo: sans for UI labels.
-// Space Mono: mono for micro/technical labels. Exposed as CSS variables.
-const newsreader = Newsreader({
-  subsets: ["latin"],
+// Bundled fonts keep builds and social cards independent of third-party font
+// availability. CSS variables preserve the existing typography contract.
+const newsreader = localFont({
+  src: "../public/fonts/newsreader-variable.ttf",
+  weight: "200 800",
   display: "swap",
   variable: "--font-serif",
 })
 
-const archivo = Archivo({
-  subsets: ["latin"],
+const archivo = localFont({
+  src: "../public/fonts/archivo-variable.ttf",
+  weight: "100 900",
   display: "swap",
   variable: "--font-sans",
 })
 
-const spaceMono = Space_Mono({
-  subsets: ["latin"],
-  weight: ["400", "700"],
+const spaceMono = localFont({
+  src: [
+    {
+      path: "../public/fonts/space-mono-regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/space-mono-bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   display: "swap",
   variable: "--font-mono",
 })

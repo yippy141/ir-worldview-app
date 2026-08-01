@@ -2,18 +2,26 @@ import type {
   AnswerValue,
   Answers,
   FamiliarityLevel,
+  FamilyKey,
+  FoundationQuestionSet,
+  ItemLatencyBucketMs,
+  ItemLatencyBuckets,
   QuizMode,
   QuizSession,
 } from "@/lib/types"
+import { createOptionOrderSeed } from "@/lib/option-order"
 
 export { QUIZ_STORAGE_KEY } from "@/lib/storage-keys"
 export const QUIZ_SESSION_EVENT = "ir-worldview-session-updated"
 
 export function createEmptySession(): QuizSession {
   return {
-    v: 4,
+    v: 7,
+    orderSeed: createOptionOrderSeed(),
+    questionSet: "core",
     contextAssist: false,
     answers: {},
+    itemLatencyBuckets: {},
   }
 }
 
@@ -29,25 +37,49 @@ export function parseQuizSession(raw: string | null): QuizSession | null {
       activeMode?: unknown
       contextAssist?: unknown
       answers?: unknown
+      itemLatencyBuckets?: unknown
+      orderSeed?: unknown
     }
     if (
       typeof parsed !== "object" ||
       parsed === null ||
-      (parsed.v !== 3 && parsed.v !== 4)
+      (
+        parsed.v !== 3 &&
+        parsed.v !== 4 &&
+        parsed.v !== 5 &&
+        parsed.v !== 6 &&
+        parsed.v !== 7
+      )
     ) {
       return null
     }
 
     const midpointAcknowledged = (parsed as { midpointAcknowledged?: unknown }).midpointAcknowledged
+    const questionSet = isFoundationQuestionSet(
+      (parsed as { questionSet?: unknown }).questionSet,
+    )
+      ? (parsed as { questionSet: FoundationQuestionSet }).questionSet
+      : "core"
+    const targetedFamilyPair = normalizeFamilyPair(
+      (parsed as { targetedFamilyPair?: unknown }).targetedFamilyPair,
+    )
 
     return {
-      v: 4,
+      v: 7,
+      orderSeed:
+        typeof parsed.orderSeed === "string" && parsed.orderSeed.length > 0
+          ? parsed.orderSeed
+          : createOptionOrderSeed(),
       familiarity: isFamiliarityLevel(parsed.familiarity) ? parsed.familiarity : undefined,
       requestedDepth: isQuizMode(parsed.requestedDepth) ? parsed.requestedDepth : undefined,
       recommendedMode: isQuizMode(parsed.recommendedMode) ? parsed.recommendedMode : undefined,
       activeMode: isQuizMode(parsed.activeMode) ? parsed.activeMode : undefined,
+      questionSet,
+      targetedFamilyPair:
+        questionSet === "targetedExtended" ? targetedFamilyPair : undefined,
       contextAssist: Boolean(parsed.contextAssist),
       answers: normalizeAnswers(parsed.answers),
+      itemLatencyBuckets: normalizeItemLatencyBuckets(parsed.itemLatencyBuckets),
       midpointAcknowledged: midpointAcknowledged === true ? true : undefined,
     }
   } catch {
@@ -82,6 +114,37 @@ function isQuizMode(value: unknown): value is QuizMode {
 
 function isFamiliarityLevel(value: unknown): value is FamiliarityLevel {
   return value === "new" || value === "some" || value === "very"
+}
+
+function isFoundationQuestionSet(value: unknown): value is FoundationQuestionSet {
+  return (
+    value === "core" ||
+    value === "targetedExtended" ||
+    value === "fullExtended"
+  )
+}
+
+function normalizeFamilyPair(value: unknown): [FamilyKey, FamilyKey] | undefined {
+  if (
+    !Array.isArray(value) ||
+    value.length !== 2 ||
+    !isFamilyKey(value[0]) ||
+    !isFamilyKey(value[1]) ||
+    value[0] === value[1]
+  ) {
+    return undefined
+  }
+
+  return [value[0], value[1]]
+}
+
+function isFamilyKey(value: unknown): value is FamilyKey {
+  return (
+    value === "realist" ||
+    value === "institutionalist" ||
+    value === "constructivist" ||
+    value === "criticalPoliticalEconomy"
+  )
 }
 
 function normalizeAnswers(value: unknown): Answers {
@@ -123,4 +186,34 @@ function normalizeAnswerValue(value: unknown): AnswerValue | undefined {
     primary: parsed.primary,
     ...(parsed.secondary ? { secondary: parsed.secondary } : {}),
   }
+}
+
+function normalizeItemLatencyBuckets(value: unknown): ItemLatencyBuckets {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return {}
+  }
+
+  const normalized: ItemLatencyBuckets = {}
+  for (const [itemId, bucket] of Object.entries(value)) {
+    if (
+      itemId.length > 0 &&
+      itemId.length <= 100 &&
+      isItemLatencyBucket(bucket)
+    ) {
+      normalized[itemId] = bucket
+    }
+  }
+
+  return normalized
+}
+
+function isItemLatencyBucket(value: unknown): value is ItemLatencyBucketMs {
+  return (
+    value === 0 ||
+    value === 2_000 ||
+    value === 5_000 ||
+    value === 10_000 ||
+    value === 30_000 ||
+    value === 120_000
+  )
 }

@@ -96,7 +96,7 @@ export function QuizMenuCard() {
       <Link href="/quiz" className="menu-card">
         <p className="menu-card-title">Foundation Questionnaire</p>
         <p className="menu-card-desc">
-          Choose Standard or Advanced mode and map your instincts across seven IR dimensions.
+          Start with 14 core questions, then add targeted or full extended items if you want a deeper read.
         </p>
       </Link>
     )

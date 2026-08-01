@@ -8,3 +8,5 @@ export const RESULT_HISTORY_STORAGE_KEY = "ir-worldview-history"
 export const ANALYTICS_OPT_OUT_STORAGE_KEY = "ir-worldview-analytics-opt-out-v1"
 export const ANALYTICS_FIRST_SEEN_STORAGE_KEY = "ir-worldview-analytics-first-seen-v1"
 export const PROFILE_SAVE_INTENT_KEY = "ir-worldview-profile-save-intents-v1"
+export const TIER1_SUBMITTED_RESULTS_STORAGE_KEY =
+  "ir-worldview-tier1-submitted-results-v1"

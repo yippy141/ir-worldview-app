@@ -5,7 +5,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Foundation — IR Worldview Inventory",
   description:
-    "Choose Standard or Advanced mode and complete the shared Foundation of the IR Worldview Inventory.",
+    "Complete the 14-item Foundation core, then optionally add targeted or full extended questions.",
 }
 
 export default function QuizPage() {
