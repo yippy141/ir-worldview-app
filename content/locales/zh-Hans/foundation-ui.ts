@@ -43,6 +43,16 @@ export type FoundationQuizUiCopy = {
   cardTypes: Readonly<Record<ChoiceCardType, string>>
   choiceInstructions: Readonly<Record<ChoiceCardType, string>>
   dimensionLabels: Readonly<Record<DimensionKey, string>>
+  /**
+   * Copy for the live position map beside the question. Optional: a locale
+   * shows the map once its own copy is approved. The axis readings the map
+   * prints come from lib/results/position and are still English-only, so a
+   * locale adding this key needs that surface reviewed at the same time.
+   */
+  positionMap?: {
+    label: string
+    pending: string
+  }
 }
 
 export type FoundationReviewUiCopy = {

@@ -10,6 +10,7 @@ import {
   zhHansFoundationQuizUi,
   type FoundationQuizUiCopy,
 } from "@/content/locales/zh-Hans/foundation-ui"
+import { QuizPositionMap } from "@/components/quiz/quiz-position-map"
 import { publicPath } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
@@ -109,11 +110,17 @@ const englishFoundationQuizUi = {
     both: "Answer from your own analytic judgment. Choose the option you find most persuasive overall.",
   },
   dimensionLabels,
+  positionMap: {
+    label: "Your position so far",
+    pending: "Your position appears after a few more answers.",
+  },
 } satisfies FoundationQuizUiCopy
 
 export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const router = useRouter()
-  const copy = locale === "zh-Hans" ? zhHansFoundationQuizUi : englishFoundationQuizUi
+  // Annotated so optional copy keys stay reachable on every locale branch.
+  const copy: FoundationQuizUiCopy =
+    locale === "zh-Hans" ? zhHansFoundationQuizUi : englishFoundationQuizUi
   const standardSections = locale === "zh-Hans"
     ? zhHansFoundationStandardSections
     : foundationStandardSections
@@ -339,83 +346,98 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <div className="stack-lg">
-      <section className="panel stack-md">
-        <div className="stack-sm">
-          <p className="eyebrow">{copy.eyebrow}</p>
-          <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
-            <div className="stack-xs">
-              <h1>{copy.title}</h1>
-              <p className="muted" style={{ lineHeight: "1.65" }}>
-                {copy.modeSummary[session.activeMode]}
-              </p>
-              {copy.adaptedBeta ? (
-                <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
-              ) : null}
+      <section
+        className={
+          copy.positionMap ? "panel quiz-header quiz-header--with-map" : "panel quiz-header"
+        }
+      >
+        <div className="quiz-header__main stack-md">
+          <div className="stack-sm">
+            <p className="eyebrow">{copy.eyebrow}</p>
+            <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
+              <div className="stack-xs">
+                <h1>{copy.title}</h1>
+                <p className="muted" style={{ lineHeight: "1.65" }}>
+                  {copy.modeSummary[session.activeMode]}
+                </p>
+                {copy.adaptedBeta ? (
+                  <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
+                ) : null}
+              </div>
+              <span className="mode-pill">{copy.modeLabels[session.activeMode]}</span>
             </div>
-            <span className="mode-pill">{copy.modeLabels[session.activeMode]}</span>
+          </div>
+
+          <div className="stack-xs">
+            <div className="progress-meta">
+              <span>{copy.answered(completedCount, questions.length)}</span>
+              <span>{progress}%</span>
+            </div>
+            <div
+              className="progress-bar"
+              role="progressbar"
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={copy.progressAria}
+            >
+              <div className="progress-fill" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+
+          <div className="row gap-sm wrap center quiz-controls-row">
+            <button
+              type="button"
+              className={session.contextAssist ? "primary-button" : "secondary-button"}
+              onClick={() => updateSession({ contextAssist: !session.contextAssist })}
+            >
+              {session.contextAssist ? copy.contextAssistOn : copy.contextAssistOff}
+            </button>
+            <button type="button" className="secondary-button" onClick={resetQuiz}>
+              {copy.startOver}
+            </button>
+            {session.activeMode === "standard" ? (
+              <button
+                type="button"
+                className="quiz-mode-link"
+                onClick={() => {
+                  if (
+                    Object.keys(session.answers).length === 0 ||
+                    window.confirm(copy.confirmAnalyst)
+                  ) {
+                    switchMode("analyst")
+                  }
+                }}
+              >
+                {copy.switchToAnalyst}
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="quiz-mode-link"
+                onClick={() => {
+                  if (
+                    Object.keys(session.answers).length === 0 ||
+                    window.confirm(copy.confirmStandard)
+                  ) {
+                    switchMode("standard")
+                  }
+                }}
+              >
+                {copy.switchToStandard}
+              </button>
+            )}
           </div>
         </div>
 
-        <div className="stack-xs">
-          <div className="progress-meta">
-            <span>{copy.answered(completedCount, questions.length)}</span>
-            <span>{progress}%</span>
-          </div>
-          <div
-            className="progress-bar"
-            role="progressbar"
-            aria-valuenow={progress}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label={copy.progressAria}
-          >
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-        </div>
-
-        <div className="row gap-sm wrap center quiz-controls-row">
-          <button
-            type="button"
-            className={session.contextAssist ? "primary-button" : "secondary-button"}
-            onClick={() => updateSession({ contextAssist: !session.contextAssist })}
-          >
-            {session.contextAssist ? copy.contextAssistOn : copy.contextAssistOff}
-          </button>
-          <button type="button" className="secondary-button" onClick={resetQuiz}>
-            {copy.startOver}
-          </button>
-          {session.activeMode === "standard" ? (
-            <button
-              type="button"
-              className="quiz-mode-link"
-              onClick={() => {
-                if (
-                  Object.keys(session.answers).length === 0 ||
-                  window.confirm(copy.confirmAnalyst)
-                ) {
-                  switchMode("analyst")
-                }
-              }}
-            >
-              {copy.switchToAnalyst}
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="quiz-mode-link"
-              onClick={() => {
-                if (
-                  Object.keys(session.answers).length === 0 ||
-                  window.confirm(copy.confirmStandard)
-                ) {
-                  switchMode("standard")
-                }
-              }}
-            >
-              {copy.switchToStandard}
-            </button>
-          )}
-        </div>
+        {copy.positionMap ? (
+          <QuizPositionMap
+            answers={session.answers}
+            mode={session.activeMode}
+            answeredCount={completedCount}
+            copy={copy.positionMap}
+          />
+        ) : null}
       </section>
 
       {currentQuestion ? (

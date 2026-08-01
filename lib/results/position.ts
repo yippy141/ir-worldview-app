@@ -112,6 +112,101 @@ export function toMapPosition(scores: DimensionScores): MapPosition {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Partial profiles: placing a position mid-questionnaire
+// ---------------------------------------------------------------------------
+//
+// The quiz shows the same projection while a respondent is still answering.
+// Unanswered dimensions score at the neutral midpoint, so a profile with one or
+// two answers projects to a point that swings hard on every keystroke and says
+// more about question order than about the respondent. The live map therefore
+// waits for a minimum number of answers AND for at least one answer feeding
+// each axis before it plots anything.
+
+/** Dimensions that move the horizontal axis. */
+export const X_AXIS_DIMENSIONS = Object.keys(X_WEIGHTS) as DimensionKey[]
+
+/** Dimensions that move the vertical axis. */
+export const Y_AXIS_DIMENSIONS = Object.keys(Y_WEIGHTS) as DimensionKey[]
+
+export const MIN_ANSWERS_FOR_LIVE_POSITION = 4
+
+export function canPlaceLivePosition({
+  answeredCount,
+  dimensionWeights,
+}: {
+  answeredCount: number
+  /** Per-dimension evidence weight, from computeCoreDimensionAudit. */
+  dimensionWeights: Record<DimensionKey, number>
+}): boolean {
+  if (answeredCount < MIN_ANSWERS_FOR_LIVE_POSITION) return false
+
+  const hasHorizontal = X_AXIS_DIMENSIONS.some((key) => dimensionWeights[key] > 0)
+  const hasVertical = Y_AXIS_DIMENSIONS.some((key) => dimensionWeights[key] > 0)
+
+  return hasHorizontal && hasVertical
+}
+
+// Plain-language readout of a projected position. Names the axis and the pole
+// the profile leans toward. It never names a worldview family and never refers
+// to an individual answer.
+// Pole names match the axis labels drawn on the plot and stay short enough to
+// read on one line in the compact phone layout.
+const AXIS_READOUT = {
+  x: {
+    name: "Power and rules",
+    positive: "rules",
+    negative: "power",
+  },
+  y: {
+    name: "Ideas and material",
+    positive: "ideas and norms",
+    negative: "material structure",
+  },
+} as const
+
+// Cutoffs on the normalized [-1, 1] axis, chosen so a profile has to move a
+// visible distance from the center before the wording firms up.
+const CENTERED_BELOW = 0.12
+const SLIGHT_BELOW = 0.4
+const CLEAR_BELOW = 0.7
+
+export type AxisReading = {
+  /** Axis name, suitable as a list term. */
+  name: string
+  /** Where the profile currently sits on that axis. */
+  reading: string
+}
+
+function readAxis(
+  value: number,
+  axis: { name: string; positive: string; negative: string },
+): AxisReading {
+  const magnitude = Math.abs(value)
+
+  // The axis name carries both poles already, so the centered reading stays
+  // short. Spelling out both poles here stacks three "and"s in one line.
+  if (magnitude < CENTERED_BELOW) {
+    return { name: axis.name, reading: "Near the center" }
+  }
+
+  const strength = magnitude < SLIGHT_BELOW
+    ? "Slightly toward"
+    : magnitude < CLEAR_BELOW
+      ? "Toward"
+      : "Clearly toward"
+
+  return {
+    name: axis.name,
+    reading: `${strength} ${value > 0 ? axis.positive : axis.negative}`,
+  }
+}
+
+/** Two-item text equivalent of a plotted position, for a semantic list. */
+export function describeMapPosition(position: MapPosition): AxisReading[] {
+  return [readAxis(position.x, AXIS_READOUT.x), readAxis(position.y, AXIS_READOUT.y)]
+}
+
 /**
  * Dispersion of a profile: the mean absolute deviation of the seven dimension
  * scores from the respondent's OWN mean, normalized to [0, 1] by the maximum
