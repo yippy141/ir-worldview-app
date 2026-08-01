@@ -1,4 +1,5 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
+import { byBand } from "@/lib/results/dimension-bands"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { familyLabel } from "@/lib/worldview-config"
 import type {
@@ -244,92 +245,92 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
 
 const dimensionDriverLabels: Record<DimensionKey, (score: number) => string> = {
   securityCompetition: (s) =>
-    s >= 5
-      ? "Rivalry as a persistent constraint"
-      : s <= 3
-        ? "Skeptical of rivalry framing"
-        : "Competition, conditionally",
+    byBand("securityCompetition", s, {
+      high: "Rivalry as a persistent constraint",
+      midRange: "Rivalry stays background",
+      low: "Skeptical of rivalry framing",
+    }),
   institutions: (s) =>
-    s >= 5
-      ? "Institutions matter independently"
-      : s <= 3
-        ? "Institutions as power mirrors"
-        : "Institutions, but conditionally",
+    byBand("institutions", s, {
+      high: "Institutions matter independently",
+      midRange: "Institutions stay conditional",
+      low: "Institutions as power mirrors",
+    }),
   domesticFilters: (s) =>
-    s >= 5
-      ? "Domestic politics as a real driver"
-      : s <= 3
-        ? "External constraints dominate"
-        : "Domestic factors, selectively",
+    byBand("domesticFilters", s, {
+      high: "Domestic politics as a real driver",
+      midRange: "Domestic politics stays marginal",
+      low: "External constraints dominate",
+    }),
   normsIdentity: (s) =>
-    s >= 5
-      ? "Identity and legitimacy are causal"
-      : s <= 3
-        ? "Norms as rhetorical cover"
-        : "Norms matter, within limits",
+    byBand("normsIdentity", s, {
+      high: "Identity and legitimacy are causal",
+      midRange: "Legitimacy stays contextual",
+      low: "Norms as rhetorical cover",
+    }),
   politicalEconomy: (s) =>
-    s >= 5
-      ? "Political economy is central"
-      : s <= 3
-        ? "Security and diplomacy first"
-        : "Economics matters, not dominant",
+    byBand("politicalEconomy", s, {
+      high: "Political economy is central",
+      midRange: "Economics stays secondary",
+      low: "Security and diplomacy first",
+    }),
   restraint: (s) =>
-    s >= 5
-      ? "Restraint as the safer path"
-      : s <= 3
-        ? "Maximization under uncertainty"
-        : "Hedging between options",
+    byBand("restraint", s, {
+      high: "Restraint as the safer path",
+      midRange: "Restraint stays situational",
+      low: "Maximization under uncertainty",
+    }),
   orderJustice: (s) =>
-    s >= 5
-      ? "Order over universal justice"
-      : s <= 3
-        ? "Justice can override sovereignty"
-        : "Order and justice in tension",
+    byBand("orderJustice", s, {
+      high: "Order over universal justice",
+      midRange: "Order and justice stay open",
+      low: "Justice can override sovereignty",
+    }),
 }
 
 const dimensionDriverDescriptions: Record<DimensionKey, (score: number) => string> = {
   securityCompetition: (s) =>
-    s >= 5
-      ? "You treat uncertainty about rivals' intentions as a structural feature of international politics, not a problem reassurance can solve."
-      : s <= 3
-        ? "You are not persuaded that security competition is the central organizing logic of world politics."
-        : "You see interstate rivalry as one important lens, but not the only one worth applying to most situations.",
+    byBand("securityCompetition", s, {
+      high: "You treat uncertainty about rivals' intentions as a structural feature of international politics that reassurance cannot solve.",
+      midRange: "Your answers treat rivalry as one pressure among several. Which pressure wins depends on the case in front of you.",
+      low: "You are not persuaded that security competition is the central organizing logic of world politics.",
+    }),
   institutions: (s) =>
-    s >= 5
-      ? "You think well-designed institutions can shift incentives and make cooperation more durable, regardless of which power is currently strongest."
-      : s <= 3
-        ? "You are skeptical that institutions do much beyond reflecting what the dominant states already want."
-        : "You think institutions can matter, but mostly when they are credible and not obviously controlled by the powerful.",
+    byBand("institutions", s, {
+      high: "You expect well-designed institutions to shift incentives and make cooperation more durable, regardless of which power is currently strongest.",
+      midRange: "You expect rules to help when they are credible and enforced. You do not expect them to hold on their own.",
+      low: "You are skeptical that institutions do much beyond reflecting what the dominant states already want.",
+    }),
   domesticFilters: (s) =>
-    s >= 5
-      ? "You emphasize how regime type, coalitions, and bureaucratic capacity shape what states actually do in foreign policy."
-      : s <= 3
-        ? "You think external constraints explain most foreign policy; domestic politics adds noise, not signal."
-        : "You give domestic factors a meaningful role, especially when they clearly override structural pressures.",
+    byBand("domesticFilters", s, {
+      high: "You emphasize how regime type, coalitions, and bureaucratic capacity shape what states actually do in foreign policy.",
+      midRange: "Domestic politics enters your reasoning when it visibly overrides an external constraint.",
+      low: "You expect external constraints to explain most foreign policy, with domestic politics adding noise.",
+    }),
   normsIdentity: (s) =>
-    s >= 5
-      ? "You think the meaning of a threat or alliance is partly constituted by identity, legitimacy, and shared understandings, beyond the material facts."
-      : s <= 3
-        ? "You read appeals to norms and legitimacy as mostly rhetorical packaging for material interests."
-        : "You give norms some independent weight, but you hedge against treating legitimacy claims as automatically causal.",
+    byBand("normsIdentity", s, {
+      high: "You read the meaning of a threat or alliance as partly constituted by identity, legitimacy, and shared understandings, beyond the material facts.",
+      midRange: "Legitimacy shapes how you read a move without deciding whether the move was right.",
+      low: "You read appeals to norms and legitimacy as mostly rhetorical packaging for material interests.",
+    }),
   politicalEconomy: (s) =>
-    s >= 5
-      ? "You think world politics cannot be understood without examining capitalism, production structures, finance, and the distribution of economic dependence."
-      : s <= 3
-        ? "You think security and diplomacy can be largely explained without foregrounding global economic hierarchy."
-        : "You see political economy as one important lens among several, not the master key.",
+    byBand("politicalEconomy", s, {
+      high: "You read world politics through capitalism, production structures, finance, and the distribution of economic dependence.",
+      midRange: "You track economic dependence as one input into a decision that turns on other things.",
+      low: "You expect security and diplomacy to be largely explicable without foregrounding global economic hierarchy.",
+    }),
   restraint: (s) =>
-    s >= 5
-      ? "You think the safer grand strategy is to avoid overextension and resist permanent primacy."
-      : s <= 3
-        ? "You think major powers should exploit windows of opportunity and press for durable advantage when they can."
-        : "You hedge: restraint is often right, but the case for maximization turns on the specific situation.",
+    byBand("restraint", s, {
+      high: "You treat avoiding overextension and resisting permanent primacy as the safer grand strategy.",
+      midRange: "You judge overextension case by case. No standing rule about when to hold back comes through.",
+      low: "You expect major powers to exploit windows of opportunity and press for durable advantage when they can.",
+    }),
   orderJustice: (s) =>
-    s >= 5
-      ? "You think preserving international order, even imperfect order, is usually more valuable than pursuing universal moral obligations across borders."
-      : s <= 3
-        ? "You think justice concerns can legitimately override sovereignty when the moral stakes are high enough."
-        : "You hold the order-justice tradeoff open — neither side dominates in your view.",
+    byBand("orderJustice", s, {
+      high: "You treat preserving international order, even imperfect order, as usually more valuable than pursuing universal moral obligations across borders.",
+      midRange: "You weigh order against justice case by case. Neither pole sets your default.",
+      low: "You accept that justice concerns can legitimately override sovereignty when the moral stakes are high enough.",
+    }),
 }
 
 export type DriverCard = {
@@ -354,47 +355,47 @@ export function getKeyDrivers(dimensionScores: DimensionScores): DriverCard[] {
 
 export const dimensionOneLiners: Record<DimensionKey, (score: number) => string> = {
   securityCompetition: (s) =>
-    s >= 5
-      ? "You treat uncertainty about rivals' intentions as a durable constraint, not a solvable problem."
-      : s <= 3
-        ? "You are less persuaded that security competition defines the international system."
-        : "You see interstate rivalry as real, but not as the single organizing principle.",
+    byBand("securityCompetition", s, {
+      high: "You treat uncertainty about rivals' intentions as a durable constraint on what cooperation can achieve.",
+      midRange: "Rivalry registers in your answers without organising them.",
+      low: "You are less persuaded that security competition defines the international system.",
+    }),
   institutions: (s) =>
-    s >= 5
-      ? "You think institutions can matter independently, not merely as mirrors of great-power interests."
-      : s <= 3
-        ? "You are skeptical that institutions shape outcomes beyond what powerful states would do anyway."
-        : "You think institutions can matter, but only when credible and not obviously captured.",
+    byBand("institutions", s, {
+      high: "You expect institutions to shift outcomes on their own, beyond what the strongest states already wanted.",
+      midRange: "Institutions carry weight in your answers without carrying the argument.",
+      low: "You are skeptical that institutions shape outcomes beyond what powerful states would do anyway.",
+    }),
   domesticFilters: (s) =>
-    s >= 5
-      ? "You emphasize how regime type, coalitions, and bureaucratic capacity shape foreign policy."
-      : s <= 3
-        ? "You think external constraints explain most foreign policy; domestic politics adds noise."
-        : "You give domestic factors some role, especially when they clearly override structural pressures.",
+    byBand("domesticFilters", s, {
+      high: "You emphasize how regime type, coalitions, and bureaucratic capacity shape foreign policy.",
+      midRange: "Domestic politics enters your reasoning at the edges.",
+      low: "You expect external constraints to explain most foreign policy, with domestic politics adding noise.",
+    }),
   normsIdentity: (s) =>
-    s >= 5
-      ? "You think the meaning of threats and alliances depends partly on identities and shared expectations."
-      : s <= 3
-        ? "You read norms and legitimacy as mostly rhetorical cover for material interests."
-        : "You give norms some independent weight, while remaining cautious about treating rhetoric as causal.",
+    byBand("normsIdentity", s, {
+      high: "You read the meaning of threats and alliances as depending partly on identities and shared expectations.",
+      midRange: "Legitimacy shows up in your answers as context for the decision.",
+      low: "You read norms and legitimacy as mostly rhetorical cover for material interests.",
+    }),
   politicalEconomy: (s) =>
-    s >= 5
-      ? "You think world politics cannot be understood without examining capitalism, finance, and dependence."
-      : s <= 3
-        ? "You think security and diplomacy can be largely explained without foregrounding economic hierarchy."
-        : "You see political economy as one important lens among several — not the master key.",
+    byBand("politicalEconomy", s, {
+      high: "You read world politics through capitalism, finance, and economic dependence.",
+      midRange: "Economic structure sits behind your answers without driving them.",
+      low: "You expect security and diplomacy to be largely explicable without foregrounding economic hierarchy.",
+    }),
   restraint: (s) =>
-    s >= 5
-      ? "You think the safest grand strategy is to avoid overextension and resist permanent primacy."
-      : s <= 3
-        ? "You think major powers should press for durable advantage when windows of opportunity open."
-        : "You hedge: restraint is often right, but the case for maximization is situation-dependent.",
+    byBand("restraint", s, {
+      high: "You treat avoiding overextension and resisting permanent primacy as the safest grand strategy.",
+      midRange: "Your answers stop short of a standing rule about when to hold back.",
+      low: "You expect major powers to press for durable advantage when windows of opportunity open.",
+    }),
   orderJustice: (s) =>
-    s >= 5
-      ? "You think preserving international order, even imperfect order, is usually more valuable than enforcing universal justice."
-      : s <= 3
-        ? "You think justice can legitimately override sovereignty when the moral stakes are high enough."
-        : "You hold the order-justice tradeoff open. Neither side dominates in your view.",
+    byBand("orderJustice", s, {
+      high: "You treat preserving international order, even imperfect order, as usually more valuable than enforcing universal justice.",
+      midRange: "Order and justice trade off case by case in your answers.",
+      low: "You accept that justice can override sovereignty when the moral stakes are high enough.",
+    }),
 }
 
 // ── Tensions ──────────────────────────────────────────────────────────────────
@@ -527,46 +528,6 @@ export const neighborOverlapTexts: Partial<Record<FamilyKey, Partial<Record<Fami
         "Both traditions look beyond material power and security. Your overlap with constructivism reflects an interest in how ideas, legitimacy, and economic structures interact — a key area in critical IPE scholarship.",
     },
   }
-
-// ── Glossary ──────────────────────────────────────────────────────────────────
-
-export const glossaryTerms: { term: string; definition: string }[] = [
-  {
-    term: "Realism",
-    definition:
-      "A tradition that treats states as the primary actors in world politics, emphasizes the role of power and uncertainty, and is skeptical that institutions or norms can fully restrain competition.",
-  },
-  {
-    term: "Institutionalism",
-    definition:
-      "An approach arguing that international institutions — treaties, organizations, rules — can make cooperation more durable even in the absence of a central authority to enforce them.",
-  },
-  {
-    term: "Constructivism",
-    definition:
-      "A perspective emphasizing how the meaning of threats, alliances, and interests is shaped by identity, recognition, and shared social expectations — not just material facts.",
-  },
-  {
-    term: "Political economy",
-    definition:
-      "An approach explaining world politics through structures of production, finance, trade dependence, and economic power rather than security competition alone.",
-  },
-  {
-    term: "Pluralism",
-    definition:
-      "In normative IR theory, the view that international order rests on sovereign equality and non-intervention — states should not be forced to conform to a single standard of governance.",
-  },
-  {
-    term: "Solidarism",
-    definition:
-      "The view that there are universal moral obligations that can, in extreme cases, override state sovereignty — for instance, to stop mass atrocities.",
-  },
-  {
-    term: "Restraint",
-    definition:
-      "A grand-strategy disposition that favors limiting military commitments, avoiding overextension, and resisting the temptation to seek permanent primacy.",
-  },
-]
 
 // ── Suggested reading ─────────────────────────────────────────────────────────
 
@@ -933,6 +894,27 @@ export function getRunnerUpSeparation(
   const phrase = separationPhrases[fk]?.[nk]
   if (!phrase) return ""
   return phrase(d[dim])
+}
+
+// ── What would change this reading ────────────────────────────────────────────
+
+// One sentence naming the dimension that holds the primary family apart from
+// its nearest neighbour, and the score currently sitting on it. Reads the same
+// authored separation map getRunnerUpSeparation uses, so it makes no claim the
+// scoring model does not already make.
+export function getWhatWouldChangeThis(
+  fk: FamilyKey,
+  nk: FamilyKey,
+  d: DimensionScores,
+): string {
+  const nkLabel = familyLabel(nk)
+  const dim = separatingDimension[fk]?.[nk]
+
+  if (!dim) {
+    return `A firmer lean on any one of the seven dimensions would move this reading toward ${nkLabel}.`
+  }
+
+  return `A different answer on ${dimensionLabels[dim].toLowerCase()}, now ${d[dim].toFixed(1)}, is what would move this reading toward ${nkLabel}.`
 }
 
 // ── Flip analysis ─────────────────────────────────────────────────────────────

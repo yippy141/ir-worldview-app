@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import { ScaleBar } from "@/components/visual-primitives"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
@@ -11,15 +10,16 @@ import {
   getActiveTensions,
   neighborOverlapTexts,
   dimensionOneLiners,
-  glossaryTerms,
   suggestedReadings,
   getStrongLenses,
   getIssueAreaTilts,
   getRunnerUpSeparation,
   getFlipAnalysis,
+  getWhatWouldChangeThis,
   getWhyThisResult,
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
+import { dimensionBand, dimensionBandLabels } from "@/lib/results/dimension-bands"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
@@ -32,7 +32,7 @@ import { FoundationProfileSync } from "@/components/profile/foundation-profile-s
 import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { localizedAlternates, publicPath } from "@/i18n/paths"
-import type { DimensionKey, FamilyKey, NormativeModifier, StrategyModifier } from "@/lib/types"
+import type { DimensionKey } from "@/lib/types"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -121,6 +121,11 @@ export default async function ResultPage(
   const issueAreaTilts = getIssueAreaTilts(result.familyKey, dimensionScores)
   const runnerUpSeparation = getRunnerUpSeparation(result.familyKey, neighborKey, dimensionScores)
   const flipAnalysis = getFlipAnalysis(result.familyKey, neighborKey, dimensionScores)
+  const whatWouldChangeThis = getWhatWouldChangeThis(
+    result.familyKey,
+    neighborKey,
+    dimensionScores,
+  )
   const whyThisResult = getWhyThisResult(result.familyKey, neighborKey, dimensionScores)
   const foundationNarrative = buildFoundationNarrative({
     familyKey: result.familyKey,
@@ -158,6 +163,7 @@ export default async function ResultPage(
     ? `${getAtlasPatternHref(pressureCase.verifiedProfileReading.bestFitProfileId)}#case-${pressureCase.caseId}`
     : null
   const nextStepHref = withFoundationPayload(foundationPayoff.nextStep.href, payload)
+  const resultCode = `${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`
   const readingPaths = [
     {
       key: "start-here",
@@ -256,233 +262,175 @@ export default async function ResultPage(
         />
 
         <header
-          className="result-section foundation-result-hero"
+          className="result-section foundation-result-lede"
           aria-labelledby="foundation-result-heading"
         >
-          <div className="foundation-result-hero__copy stack-md">
-            <p className="eyebrow">Foundation result</p>
-            <p className="foundation-result-hero__classification">
-              <span>Closest modeled family</span>
-              <strong>{familyLabel}</strong>
-              <span>Nearest overlap</span>
-              <strong>{neighborLabel}</strong>
-            </p>
-            <h1 id="foundation-result-heading" className="result-hero-title">
-              {atlasMatch.nearest.decisionRule}
-            </h1>
-            <p className="result-lead">{atlasMatch.nearest.cardSummary}</p>
-            <div className="row gap-sm wrap" aria-label="Result modifiers">
-              <span className="atlas-tag">{result.strategyModifier}</span>
-              <span className="atlas-tag">{result.normativeModifier}</span>
-            </div>
-            <dl className="modifier-glosses" aria-label="What the modifier labels mean">
-              <div className="modifier-gloss">
-                <dt>{result.strategyModifier}</dt>
-                <dd>{strategyModifierGloss(result.strategyModifier)}</dd>
-              </div>
-              <div className="modifier-gloss">
-                <dt>{result.normativeModifier}</dt>
-                <dd>{normativeModifierGloss(result.normativeModifier)}</dd>
-              </div>
-            </dl>
-          </div>
-
-          <aside className="foundation-result-hero__profile stack-sm" aria-label="Nearest worldview profile">
-            <p className="foundation-result-hero__profile-label">Worldview profile</p>
-            <h2>{atlasMatch.nearest.publicName}</h2>
-            <AtlasPatternFamily pattern={atlasMatch.nearest} compact />
-            <p>{atlasMatch.nearest.soWhat}</p>
-            <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} className="result-strong">
-              Read the profile →
-            </Link>
-          </aside>
-        </header>
-
-        <section className="result-section stack-lg" aria-labelledby="foundation-payoff-heading">
-          <div className="stack-xs result-section-intro">
-            <p className="eyebrow">Interpretation</p>
-            <h2 id="foundation-payoff-heading">How your logic hangs together</h2>
-            <p className="muted result-note">
-              This is the clearest reading supported by the seven-dimension pattern. It is not an
-              answer-by-answer transcript or a claim that you will choose the same policy in every case.
-            </p>
-          </div>
-
-          <div className="foundation-result-reading-grid">
-            <article className="foundation-result-reading stack-xs">
-              <p className="foundation-result-reading__label">Starts with</p>
-              <h3>Your first question</h3>
-              <p>{foundationPayoff.corePattern.noticeFirst}</p>
-            </article>
-            <article className="foundation-result-reading stack-xs">
-              <p className="foundation-result-reading__label">Leaves open</p>
-              <h3>{foundationPayoff.mainTension.title}</h3>
-              <p>{foundationPayoff.mainTension.body}</p>
-            </article>
-            <article className="foundation-result-reading stack-xs">
-              <p className="foundation-result-reading__label">Pulls the other way</p>
-              <h3>Why {neighborLabel} remains nearby</h3>
-              <p>{runnerUpSeparation || foundationPayoff.mainTension.rivalArgument}</p>
-            </article>
-          </div>
-        </section>
-
-        {pressureCase ? (
-          <section className="result-section stack-md" aria-labelledby="foundation-case-heading">
-            <div className="stack-xs result-section-intro">
-              <p className="eyebrow">Pressure test</p>
-              <h2 id="foundation-case-heading">Put the profile against a real case</h2>
-              <p className="muted result-note">
-                A historical example is more revealing than another abstract label. Use it to see
-                which part of the profile actually governs when the logics collide.
-              </p>
+          <div className="foundation-result-lede__copy stack-lg">
+            <div className="stack-sm">
+              <p className="eyebrow">Foundation result</p>
+              <h1 id="foundation-result-heading" className="result-hero-title">
+                {atlasMatch.nearest.publicName}
+              </h1>
+              <p className="foundation-result-code">{resultCode}</p>
+              <p className="result-lead">{atlasMatch.nearest.decisionRule}</p>
             </div>
 
-            <div className="foundation-case-test">
-              <div className="foundation-case-test__identity stack-xs">
-                <p>Reviewed historical case</p>
-                <h3>{pressureCase.title}</h3>
-                <span>{pressureCase.theme}</span>
-              </div>
-              <div className="foundation-case-test__question stack-sm">
-                <p>{foundationPayoff.caseTest.question}</p>
-                <p className="muted">{foundationPayoff.caseTest.reason}</p>
-                {pressureCaseHref ? (
-                  <Link href={pressureCaseHref} className="result-strong">
-                    Read the case, sources, and rival interpretation →
-                  </Link>
-                ) : null}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
-        <section className="result-section stack-lg" aria-labelledby="foundation-domain-heading">
-          <div className="stack-xs result-section-intro">
-            <p className="eyebrow">Application</p>
-            <h2 id="foundation-domain-heading">Where this profile may change by issue</h2>
-            <p className="muted result-note">
-              These are hypotheses to test, not predicted positions. The same baseline can produce
-              a harder line in one domain and a more conditional line in another.
-            </p>
-          </div>
-
-          <div className="foundation-domain-grid">
-            <article className="foundation-domain-note stack-xs">
-              <h3>Security</h3>
-              <p>{atlasMatch.nearest.securitySummary}</p>
-            </article>
-            <article className="foundation-domain-note stack-xs">
-              <h3>Technology</h3>
-              <p>{atlasMatch.nearest.technologySummary}</p>
-            </article>
-            <article className="foundation-domain-note stack-xs">
-              <h3>{issueAreaTilts[0]?.issue ?? "What may change the reading"}</h3>
-              {issueAreaTilts[0] ? (
-                <>
-                  <p className="foundation-domain-note__tilt">{issueAreaTilts[0].tilt}</p>
-                  <p>{issueAreaTilts[0].note}</p>
-                </>
-              ) : (
-                <p>{foundationPayoff.corePattern.underweight}</p>
-              )}
-            </article>
-          </div>
-
-          <div className="stack-md">
-            <div className="stack-xs result-section-intro">
-              <h2>What is doing the most work in the score</h2>
-              <p className="muted result-note">
-                These are the three dimensions furthest from the model midpoint. They explain more
-                than the family label by itself.
-              </p>
-            </div>
-            <ol className="foundation-signal-list">
-              {keyDrivers.map((driver) => (
-                <li key={driver.dimension} className="foundation-signal-row">
-                  <div className="stack-xs">
-                    <p className="foundation-signal-row__dimension">
-                      {dimensionLabels[driver.dimension]}
-                    </p>
-                    <h3>{driver.label}</h3>
-                    <p>{driver.description}</p>
-                  </div>
-                  <span className="foundation-signal-row__score">
-                    {dimensionScores[driver.dimension].toFixed(2)} / 7
+            <div className="foundation-result-bands stack-sm">
+              <h2 className="foundation-result-subhead">Strongest three dimensions</h2>
+              {topDimensions.map(([dimension, score]) => (
+                <div key={dimension} className="foundation-result-band">
+                  <ScaleBar
+                    label={dimensionLabels[dimension]}
+                    value={score}
+                    tone="baseline"
+                  />
+                  <span
+                    className="foundation-result-band__tag"
+                    data-band={dimensionBand(dimension, score)}
+                  >
+                    {dimensionBandLabels[dimensionBand(dimension, score)]}
                   </span>
-                </li>
+                </div>
               ))}
-            </ol>
-          </div>
-
-          <div className="foundation-result-next stack-sm">
-            <div>
-              <p className="foundation-result-reading__label">Best next test</p>
-              <h3>{foundationPayoff.nextStep.label}</h3>
-              <p>{foundationPayoff.nextStep.reason}</p>
             </div>
-            <div className="row gap-sm wrap print-hidden">
+
+            <p className="foundation-result-change">{whatWouldChangeThis}</p>
+
+            <div className="foundation-result-action print-hidden">
               <Link href={nextStepHref} className="cta-primary">
                 {foundationPayoff.nextStep.label}
               </Link>
-              <Link href="/perspectives" className="cta-secondary">Advise from another vantage point</Link>
-              <Link href="/profile" className="cta-secondary">View Profile</Link>
-              <ResultCardHeroShare
-                shareUrl={`/results/${payload}`}
-                title={`IR Worldview: ${familyLabel}`}
-                text={`My IR worldview result: ${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`}
-              />
+              <p>{foundationPayoff.nextStep.reason}</p>
             </div>
           </div>
-        </section>
 
-        <section className="result-section foundation-model-section stack-lg" aria-labelledby="foundation-map-heading">
-          <div className="stack-xs result-section-intro">
-            <p className="eyebrow">Model view</p>
-            <h2 id="foundation-map-heading">How the shorthand was assigned</h2>
+          <div className="foundation-result-lede__map">
+            <DimensionFieldMap
+              dimensionScores={dimensionScores}
+              lowDifferentiation={lowDifferentiation}
+            />
           </div>
-          <div className="result-hero-grid">
-            <div className="panel result-panel stack-md">
-              <div className="stack-xs">
-                <h3>Where the seven dimensions place you</h3>
-                <p className="muted result-note">
-                  The map projects the scores onto two editorial axes and compares them with four
-                  modeled traditions. The dashed ring shows how loosely the placement is fixed.
-                </p>
-              </div>
-              <DimensionFieldMap
-                dimensionScores={dimensionScores}
-                lowDifferentiation={lowDifferentiation}
-              />
-            </div>
+        </header>
 
-            <aside className="panel result-panel stack-md" aria-label="Trust and coverage">
-              <div className="stack-xs">
-                <h3>Closest fit among four scored families</h3>
-                <p className="muted result-note">
-                  Feminist, postcolonial or decolonial, green, and English School approaches are
-                  under-modeled here. The inventory may place those instincts near one of its four
-                  scored families rather than name them directly.
-                </p>
-                <p className="muted result-note">
-                  {foundationNarrative.state === "lowDifferentiation"
-                    ? "Several centers remain plausible, so the family label should be read lightly."
-                    : "Use the label as shorthand for the dimension pattern, then test it against concrete issues."}
-                </p>
-                <Link href="/method" className="result-strong">
-                  Read methods and coverage limits →
-                </Link>
-              </div>
-            </aside>
-          </div>
-        </section>
+        <section className="result-section result-appendix-section stack-lg">
+          <p className="foundation-result-methods-line muted">
+            Scores are positions on this inventory&apos;s 1–7 scale, and the family name is a nearby
+            label for that pattern.{" "}
+            <Link href="/method">How this is built, and where it stops →</Link>
+          </p>
 
-        <section className="result-section result-appendix-section stack-md">
           <details className="profile-details">
-            <summary>Read full analysis</summary>
+            <summary>Full analysis</summary>
             <div className="stack-lg result-details-body">
-              <div className="stack-md">
-                <h2>Dimension profile</h2>
+              <section className="stack-lg" aria-labelledby="foundation-payoff-heading">
+                <h2 id="foundation-payoff-heading">How your logic hangs together</h2>
+                <div className="foundation-result-reading-grid">
+                  <article className="foundation-result-reading stack-xs">
+                    <p className="foundation-result-reading__label">Starts with</p>
+                    <h3>Your first question</h3>
+                    <p>{foundationPayoff.corePattern.noticeFirst}</p>
+                  </article>
+                  <article className="foundation-result-reading stack-xs">
+                    <p className="foundation-result-reading__label">Leaves open</p>
+                    <h3>{foundationPayoff.mainTension.title}</h3>
+                    <p>{foundationPayoff.mainTension.body}</p>
+                  </article>
+                  <article className="foundation-result-reading stack-xs">
+                    <p className="foundation-result-reading__label">Pulls the other way</p>
+                    <h3>Why {neighborLabel} remains nearby</h3>
+                    <p>{runnerUpSeparation || foundationPayoff.mainTension.rivalArgument}</p>
+                  </article>
+                </div>
+              </section>
+
+              <section className="stack-md" aria-labelledby="foundation-modifiers-heading">
+                <h2 id="foundation-modifiers-heading">What the modifiers mean</h2>
+                <dl className="modifier-glosses">
+                  <div className="modifier-gloss">
+                    <dt>{result.strategyModifier}</dt>
+                    <dd>{strategyModifierGloss(result.strategyModifier)}</dd>
+                  </div>
+                  <div className="modifier-gloss">
+                    <dt>{result.normativeModifier}</dt>
+                    <dd>{normativeModifierGloss(result.normativeModifier)}</dd>
+                  </div>
+                </dl>
+                <p>
+                  <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} className="result-strong">
+                    Read the {atlasMatch.nearest.publicName} profile →
+                  </Link>
+                </p>
+              </section>
+
+              {pressureCase ? (
+                <section className="stack-md" aria-labelledby="foundation-case-heading">
+                  <h2 id="foundation-case-heading">Put the profile against a real case</h2>
+                  <div className="foundation-case-test">
+                    <div className="foundation-case-test__identity stack-xs">
+                      <p>Reviewed historical case</p>
+                      <h3>{pressureCase.title}</h3>
+                      <span>{pressureCase.theme}</span>
+                    </div>
+                    <div className="foundation-case-test__question stack-sm">
+                      <p>{foundationPayoff.caseTest.question}</p>
+                      <p className="muted">{foundationPayoff.caseTest.reason}</p>
+                      {pressureCaseHref ? (
+                        <Link href={pressureCaseHref} className="result-strong">
+                          Read the case, sources, and rival interpretation →
+                        </Link>
+                      ) : null}
+                    </div>
+                  </div>
+                </section>
+              ) : null}
+
+              <section className="stack-md" aria-labelledby="foundation-domain-heading">
+                <h2 id="foundation-domain-heading">Where this profile may change by issue</h2>
+                <div className="foundation-domain-grid">
+                  <article className="foundation-domain-note stack-xs">
+                    <h3>Security</h3>
+                    <p>{atlasMatch.nearest.securitySummary}</p>
+                  </article>
+                  <article className="foundation-domain-note stack-xs">
+                    <h3>Technology</h3>
+                    <p>{atlasMatch.nearest.technologySummary}</p>
+                  </article>
+                  <article className="foundation-domain-note stack-xs">
+                    <h3>{issueAreaTilts[0]?.issue ?? "What may change the reading"}</h3>
+                    {issueAreaTilts[0] ? (
+                      <>
+                        <p className="foundation-domain-note__tilt">{issueAreaTilts[0].tilt}</p>
+                        <p>{issueAreaTilts[0].note}</p>
+                      </>
+                    ) : (
+                      <p>{foundationPayoff.corePattern.underweight}</p>
+                    )}
+                  </article>
+                </div>
+              </section>
+
+              <section className="stack-md" aria-labelledby="foundation-signals-heading">
+                <h2 id="foundation-signals-heading">What is doing the most work in the score</h2>
+                <ol className="foundation-signal-list">
+                  {keyDrivers.map((driver) => (
+                    <li key={driver.dimension} className="foundation-signal-row">
+                      <div className="stack-xs">
+                        <p className="foundation-signal-row__dimension">
+                          {dimensionLabels[driver.dimension]}
+                        </p>
+                        <h3>{driver.label}</h3>
+                        <p>{driver.description}</p>
+                      </div>
+                      <span className="foundation-signal-row__score">
+                        {dimensionScores[driver.dimension].toFixed(2)} / 7
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+
+              <section className="stack-md" aria-labelledby="foundation-dimensions-heading">
+                <h2 id="foundation-dimensions-heading">Dimension profile</h2>
                 <div>
                   {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
                     <div key={dim} className="dim-row">
@@ -493,15 +441,7 @@ export default async function ResultPage(
                     </div>
                   ))}
                 </div>
-              </div>
-
-              <ResultSignaturePanel
-                familyLabel={familyLabel}
-                strategyModifier={result.strategyModifier}
-                normativeModifier={result.normativeModifier}
-                neighborLabel={neighborLabel}
-                topDimensions={topDimensions}
-              />
+              </section>
 
               <div className="result-prose stack-md">
                 <p>{explanation}</p>
@@ -513,22 +453,29 @@ export default async function ResultPage(
                 {flipAnalysis ? <p className="muted">{flipAnalysis}</p> : null}
               </div>
 
-              <div className="stack-md">
-                <h2>Questions that could change this reading</h2>
+              <section className="stack-md" aria-labelledby="foundation-questions-heading">
+                <h2 id="foundation-questions-heading">Questions that could change this reading</h2>
                 <ol className="pressure-list result-prose">
                   {pressureQuestions.map((question, index) => (
                     <li key={index} className="pressure-q"><p>{question}</p></li>
                   ))}
                 </ol>
-              </div>
-            </div>
-          </details>
-        </section>
+              </section>
 
-        <section className="result-section result-appendix-section stack-md">
-          <details className="profile-details">
-            <summary>More resources, glossary, and saved-result tools</summary>
-            <div className="stack-lg result-details-body">
+              <section className="stack-md" aria-labelledby="foundation-coverage-heading">
+                <h2 id="foundation-coverage-heading">Closest fit among four scored families</h2>
+                <p className="muted result-note">
+                  Feminist, postcolonial or decolonial, green, and English School approaches are
+                  under-modeled here. The inventory may place those instincts near one of its four
+                  scored families without naming them directly.
+                </p>
+                <p>
+                  <Link href="/method" className="result-strong">
+                    Read methods and coverage limits →
+                  </Link>
+                </p>
+              </section>
+
               <ReadingPathSection
                 title="Read the result from another angle"
                 intro="Compare this result with its nearest alternative, then examine the arguments and evidence behind both readings."
@@ -536,37 +483,6 @@ export default async function ResultPage(
               />
 
               <div className="stack-md">
-                <div className="stack-xs">
-                  <h2>Glossary</h2>
-                  <p className="muted result-note-sm">
-                    Short definitions for the recurring terms on this page.
-                  </p>
-                </div>
-                <div>
-                  {glossaryTerms.map((term) => (
-                    <div key={term.term} className="definition-item">
-                      <p className="definition-term">{term.term}</p>
-                      <p className="muted result-note">
-                        {term.definition}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="stack-md">
-                <div className="callout stack-xs">
-                  <p className="result-strong">About this classification</p>
-                  <p className="muted result-note-sm">
-                    Structured thought exercise with interpretive labels rather than a validated scientific diagnostic. Tradition labels
-                    are shorthand for a multidimensional profile, and case-based readings stay separate
-                    from the foundation result. Scores are comparative positions within this model rather than population
-                    percentiles.{" "}
-                    <Link href="/method">
-                      Full methods note →
-                    </Link>
-                  </p>
-                </div>
                 <p>
                   <Link href="/feedback">
                     Report a factual or interface problem →
@@ -593,8 +509,17 @@ export default async function ResultPage(
               </div>
             </div>
           </details>
-        </section>
 
+          <div className="row gap-sm wrap print-hidden">
+            <Link href="/perspectives" className="cta-secondary">Advise from another vantage point</Link>
+            <Link href="/profile" className="cta-secondary">View Profile</Link>
+            <ResultCardHeroShare
+              shareUrl={`/results/${payload}`}
+              title={`IR Worldview: ${familyLabel}`}
+              text={`My IR worldview result: ${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`}
+            />
+          </div>
+        </section>
       </article>
     </div>
   )
@@ -612,7 +537,7 @@ function getFallbackMixedNote(
     return "The baseline is comparatively consistent across dimensions. The main test now is whether it still holds under issue-specific pressure."
   }
 
-  return "The baseline is clear, but a nearby runner-up still stays live in harder cases. That overlap is part of the result, not noise to be scrubbed out."
+  return "The baseline is clear, but a nearby runner-up still stays live in harder cases. That overlap is part of the result."
 }
 
 function withFoundationPayload(href: string, payload: string) {
@@ -625,61 +550,4 @@ function getTopDimensionScores(dimensionScores: Record<DimensionKey, number>) {
   return (Object.entries(dimensionScores) as [DimensionKey, number][])
     .sort(([, a], [, b]) => Math.abs(b - 4) - Math.abs(a - 4))
     .slice(0, 3)
-}
-
-function ResultSignaturePanel({
-  familyLabel,
-  strategyModifier,
-  normativeModifier,
-  neighborLabel,
-  topDimensions,
-}: {
-  familyLabel: string
-  strategyModifier: StrategyModifier
-  normativeModifier: NormativeModifier
-  neighborLabel: string
-  topDimensions: [DimensionKey, number][]
-}) {
-  return (
-    <aside className="result-signature-panel stack-sm" aria-label="Result signature">
-      <div className="stack-xs">
-        <p className="eyebrow">Result signature</p>
-        <p className="muted result-note">
-          A compact read of the strongest dimension pulls and modifiers shaping this Foundation result.
-        </p>
-      </div>
-
-      <div className="result-signature-scales">
-        {topDimensions.map(([dimension, score]) => (
-          <ScaleBar
-            key={dimension}
-            label={dimensionLabels[dimension]}
-            value={score}
-            tone="baseline"
-          />
-        ))}
-      </div>
-
-      <dl className="result-signature-meta">
-        <div>
-          <dt>Family</dt>
-          <dd>{familyLabel}</dd>
-        </div>
-        <div>
-          <dt>Strategy</dt>
-          <dd>{strategyModifier}</dd>
-          <dd className="result-signature-gloss">{strategyModifierGloss(strategyModifier)}</dd>
-        </div>
-        <div>
-          <dt>Norms</dt>
-          <dd>{normativeModifier}</dd>
-          <dd className="result-signature-gloss">{normativeModifierGloss(normativeModifier)}</dd>
-        </div>
-        <div>
-          <dt>Nearest overlap</dt>
-          <dd>{neighborLabel}</dd>
-        </div>
-      </dl>
-    </aside>
-  )
 }

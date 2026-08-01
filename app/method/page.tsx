@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
+import { glossaryTerms } from "@/lib/content/glossary"
 
 export const metadata: Metadata = createEnglishApprovedMetadata("/method", {
   title: "Methods — IR Worldview Inventory",
@@ -215,6 +216,35 @@ export default function MethodPage() {
                 {dim.label}
               </p>
               <p className="muted" style={{ lineHeight: "1.65" }}>{dim.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel stack-md">
+        <div className="stack-xs">
+          <h2>Glossary</h2>
+          <p className="muted" style={{ lineHeight: "1.65" }}>
+            Short definitions for the terms that recur across questions, results, and profiles.
+          </p>
+        </div>
+        <div>
+          {glossaryTerms.map((entry) => (
+            <div
+              key={entry.term}
+              style={{ padding: "20px 0", borderBottom: "1px solid var(--border)" }}
+            >
+              <p
+                style={{
+                  fontWeight: 600,
+                  fontFamily: "Georgia, serif",
+                  marginBottom: "8px",
+                  fontSize: "1rem",
+                }}
+              >
+                {entry.term}
+              </p>
+              <p className="muted" style={{ lineHeight: "1.65" }}>{entry.definition}</p>
             </div>
           ))}
         </div>

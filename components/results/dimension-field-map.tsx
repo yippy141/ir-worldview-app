@@ -3,7 +3,6 @@ import { FAMILY_LABELS } from "@/lib/worldview-config"
 import {
   AXIS_LABELS,
   TRADITION_ANCHORS,
-  answerSpread,
   spreadRingFraction,
   toDisplayPosition,
   type MapPosition,
@@ -34,7 +33,6 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
   const position = toDisplayPosition(dimensionScores, lowDifferentiation)
   const marker = toSvg(position)
   const ringRadius = spreadRingFraction(dimensionScores, lowDifferentiation) * R
-  const spread = answerSpread(dimensionScores)
 
   return (
     <div className="field-map">
@@ -132,13 +130,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
       </svg>
 
       <p className="field-map__caption muted">
-        {lowDifferentiation
-          ? "Your answers sit near the center: several ways of reading stay in play, so the ring is wide and the placement is light."
-          : "The dot is where your answers place you; the dashed ring shows how loosely that reading is fixed — a tighter ring means your answers commit more sharply."}
-      </p>
-      <p className="field-map__note muted">
-        Axes and tradition anchors are an authored reading of the seven dimensions, not a measured
-        population map. Answer spread: {spread.toFixed(2)} of 1.
+        Dot: your position. Ring: how loosely it is fixed.
       </p>
     </div>
   )

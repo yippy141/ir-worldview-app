@@ -3128,14 +3128,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   }
 }
 
-.result-signature-meta dd.result-signature-gloss {
-  margin-top: 4px;
-  font-family: inherit;
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
 .atlas-fingerprint {
   display: grid;
   gap: 10px;
@@ -3260,45 +3252,6 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 .result-hero-copy {
   min-width: 0;
-}
-
-.result-signature-panel {
-  min-width: 0;
-  padding: 22px 22px 20px;
-  border: 1px solid color-mix(in srgb, var(--border-soft) 80%, var(--accent) 20%);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.result-signature-scales {
-  display: grid;
-  gap: 12px;
-}
-
-.result-signature-meta {
-  margin: 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 18px;
-}
-
-.result-signature-meta dt {
-  margin: 0 0 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.result-signature-meta dd {
-  margin: 0;
-  color: var(--text);
-  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
-  font-size: 0.96rem;
-  line-height: 1.35;
 }
 
 .profile-mosaic {
@@ -6311,10 +6264,6 @@ html:lang(zh-Hans) .quiz-shell-label {
     grid-template-columns: 1fr;
   }
 
-  .result-signature-meta {
-    grid-template-columns: 1fr;
-  }
-
   .ai-result-overview,
   .ai-result-summary-grid,
   .ai-result-policy-grid,
@@ -7956,41 +7905,99 @@ html:lang(zh-Hans) .quiz-shell-label {
   line-height: 1.7;
 }
 
-.foundation-result-hero {
+/* Above-the-fold block: archetype card, strongest-three bands, the line that
+   would change the reading, one next action, and the field map. */
+.foundation-result-lede {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.65fr);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
   gap: 48px 72px;
-  align-items: end;
+  align-items: start;
 }
 
-.foundation-result-hero__copy {
+.foundation-result-lede__copy {
   min-width: 0;
 }
 
-.foundation-result-hero__classification {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  align-items: baseline;
-  margin: 0;
-  color: var(--muted);
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  line-height: 1.5;
-}
-
-.foundation-result-hero__classification strong {
-  color: var(--text);
-  font-weight: 650;
-}
-
-.foundation-result-hero__profile {
+.foundation-result-lede__map {
   min-width: 0;
   padding-top: 20px;
   border-top: 1px solid color-mix(in srgb, var(--line) 68%, var(--accent) 32%);
 }
 
-.foundation-result-hero__profile-label,
+/* Three-part classification under the archetype name */
+.foundation-result-code {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.foundation-result-subhead {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.foundation-result-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.5rem;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Aligns with the label/value row inside the scale bar, not the track. */
+.foundation-result-band__tag {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.foundation-result-band__tag[data-band="high"],
+.foundation-result-band__tag[data-band="low"] {
+  color: var(--text);
+}
+
+.foundation-result-change {
+  max-width: 62ch;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.foundation-result-action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+}
+
+.foundation-result-action p {
+  flex: 1 1 260px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* The page's single trust line, sitting between the payoff and the machinery */
+.foundation-result-methods-line {
+  max-width: 72ch;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
 .foundation-result-reading__label,
 .foundation-case-test__identity > p,
 .foundation-signal-row__dimension {
@@ -8002,7 +8009,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   line-height: 1.4;
 }
 
-.foundation-result-hero__profile h2,
 .foundation-result-reading h3,
 .foundation-case-test h3,
 .foundation-domain-note h3,
@@ -8012,17 +8018,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   color: var(--text);
   line-height: 1.3;
   text-wrap: balance;
-}
-
-.foundation-result-hero__profile h2 {
-  font-size: 1.55rem;
-}
-
-.foundation-result-hero__profile > p:not(.foundation-result-hero__profile-label) {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.94rem;
-  line-height: 1.65;
 }
 
 .result-section-intro {
@@ -8145,7 +8140,7 @@ html:lang(zh-Hans) .quiz-shell-label {
     letter-spacing: -0.025em;
   }
 
-  .foundation-result-hero,
+  .foundation-result-lede,
   .foundation-case-test,
   .result-hero-grid {
     grid-template-columns: 1fr;
@@ -8156,7 +8151,7 @@ html:lang(zh-Hans) .quiz-shell-label {
     grid-template-columns: 1fr;
   }
 
-  .foundation-result-hero,
+  .foundation-result-lede,
   .foundation-case-test,
   .foundation-result-reading-grid,
   .foundation-domain-grid {
@@ -8167,6 +8162,16 @@ html:lang(zh-Hans) .quiz-shell-label {
 @media (max-width: 480px) {
   .result-hero-title {
     font-size: 1.95rem;
+  }
+
+  .foundation-result-band {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .foundation-result-band__tag {
+    grid-row: 1;
+    justify-self: start;
   }
 
   .foundation-signal-row {
@@ -8193,9 +8198,13 @@ html:lang(zh-Hans) .quiz-shell-label {
     page-break-inside: auto;
   }
 
-  .foundation-result-hero {
+  .foundation-result-lede {
     grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.6fr);
     gap: 32px;
+  }
+
+  .foundation-result-lede .field-map__svg {
+    max-width: 330px;
   }
 
   .foundation-result-reading-grid,
@@ -8207,7 +8216,7 @@ html:lang(zh-Hans) .quiz-shell-label {
     gap: 28px;
   }
 
-  .foundation-result-hero,
+  .foundation-result-lede,
   .foundation-result-reading,
   .foundation-domain-note,
   .foundation-case-test,
@@ -8217,38 +8226,28 @@ html:lang(zh-Hans) .quiz-shell-label {
     page-break-inside: avoid;
   }
 
-  .foundation-model-section {
-    break-before: page;
-    page-break-before: always;
-  }
-
-  .foundation-model-section .result-panel {
-    padding: 18px;
-  }
-
-  .foundation-model-section .field-map {
-    gap: 6px;
-  }
-
-  .foundation-model-section .field-map__svg {
-    max-width: 330px;
-  }
-
-  html:has(.foundation-model-section) .site-footer {
-    display: none;
-  }
-
   .foundation-result-reading > p:last-child,
   .foundation-domain-note > p,
   .foundation-signal-row p,
-  .foundation-result-next p,
-  .foundation-result-hero__profile > p:not(.foundation-result-hero__profile-label) {
+  .foundation-result-next p {
     font-size: 0.82rem;
     line-height: 1.5;
   }
 
-  .result-appendix-section {
+  /* The full analysis is behind a disclosure on screen; print expands it so a
+     printed result still carries the reasoning behind the reading. */
+  .result-appendix-section .profile-details > summary {
     display: none;
+  }
+
+  .result-appendix-section .result-details-body {
+    display: block !important;
+    content-visibility: visible !important;
+  }
+
+  .result-appendix-section .profile-details {
+    break-before: page;
+    page-break-before: always;
   }
 }
 
@@ -8375,12 +8374,6 @@ html:lang(zh-Hans) .quiz-shell-label {
 .field-map__caption {
   font-size: 0.9rem;
   line-height: 1.6;
-  text-align: center;
-}
-
-.field-map__note {
-  font-size: 0.8rem;
-  line-height: 1.5;
   text-align: center;
 }
 

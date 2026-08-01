@@ -180,14 +180,7 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Decisive calls</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65", maxWidth: "760px" }}>
-              These are the selected choices carrying the clearest information in this result. The
-              full answer record stays below for audit, but quieter calls do not need to lead the
-              page.
-            </p>
-          </div>
+          <h2>Decisive calls</h2>
           <div className="module-decisive-list">
             {decisiveCalls.map((call, index) => (
               <article key={call.id} className="module-decisive-call">
@@ -210,14 +203,7 @@ export function ModuleResultView({
 
         {result.cardTypeRead ? (
           <section className="result-section stack-md">
-            <div className="stack-xs">
-              <h2>{result.cardTypeRead.headline}</h2>
-              <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-                {hasActorLens
-                  ? "Actor-lens cards stay separate, so perspective-taking does not overwrite your own issue read."
-                  : "This shows what changes when the question shifts from diagnosis to choice."}
-              </p>
-            </div>
+            <h2>{result.cardTypeRead.headline}</h2>
             <p className="result-prose" style={{ lineHeight: "1.7" }}>
               {result.cardTypeRead.summary}
             </p>
@@ -234,12 +220,7 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>How to read this module</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Framing and scope notes sit down here if you want them.
-            </p>
-          </div>
+          <h2>How to read this module</h2>
           <details className="profile-details">
             <summary>Open framing and scope notes</summary>
             <div className="driver-grid" style={{ marginTop: "16px" }}>
