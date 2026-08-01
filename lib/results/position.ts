@@ -68,10 +68,6 @@ const Y_WEIGHTS: AxisWeights = {
 const X_SCALE = 3.0
 const Y_SCALE = 2.5
 
-// Maximum plausible mean absolute deviation for seven values on a 1-7 scale
-// (roughly 2.94 at the extremes); used to normalize answerSpread into [0, 1].
-const MAX_MEAN_ABS_DEVIATION = 3
-
 export type MapPosition = {
   /** -1 (power / competition) .. +1 (rules / institutions) */
   x: number
@@ -205,47 +201,6 @@ function readAxis(
 /** Two-item text equivalent of a plotted position, for a semantic list. */
 export function describeMapPosition(position: MapPosition): AxisReading[] {
   return [readAxis(position.x, AXIS_READOUT.x), readAxis(position.y, AXIS_READOUT.y)]
-}
-
-/**
- * Dispersion of a profile: the mean absolute deviation of the seven dimension
- * scores from the respondent's OWN mean, normalized to [0, 1] by the maximum
- * plausible deviation on a 1-7 scale.
- *
- * A flat profile (every dimension equal) returns 0 — the respondent commits to
- * no dimension over any other. A spiky, opinionated profile returns a larger
- * value. The map inverts this into the spread-ring radius: LOW spread means the
- * profile is equally close to several traditions, so the position is loosely
- * determined and the ring is WIDE; HIGH spread means the profile commits, so
- * the ring is tight. See spreadRingFraction below.
- */
-export function answerSpread(scores: DimensionScores): number {
-  const values = DIMENSION_KEYS.map((key) => scores[key])
-  const mean = values.reduce((sum, value) => sum + value, 0) / values.length
-  const meanAbsoluteDeviation =
-    values.reduce((sum, value) => sum + Math.abs(value - mean), 0) / values.length
-
-  return Math.max(0, Math.min(1, meanAbsoluteDeviation / MAX_MEAN_ABS_DEVIATION))
-}
-
-// Ring radius as a fraction of the plot half-extent. High answer spread
-// (commitment) tightens the ring; low spread (or the honest low-differentiation
-// state) widens it. A flat profile therefore renders the maximal ring.
-const RING_MAX_FRACTION = 0.82
-const RING_MIN_FRACTION = 0.3
-const RING_LOW_DIFFERENTIATION_FLOOR = 0.75
-
-export function spreadRingFraction(
-  scores: DimensionScores,
-  lowDifferentiation = false,
-): number {
-  const spread = answerSpread(scores)
-  const fraction =
-    RING_MAX_FRACTION - (RING_MAX_FRACTION - RING_MIN_FRACTION) * spread
-
-  return lowDifferentiation
-    ? Math.max(fraction, RING_LOW_DIFFERENTIATION_FLOOR)
-    : fraction
 }
 
 // When the profile barely differentiates, pull the rendered position back

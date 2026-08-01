@@ -1,5 +1,9 @@
 import { blindSpotsData } from "@/lib/result-content"
 import { analyzeScoreShape } from "@/lib/scoring"
+import {
+  LOW_DIFFERENTIATION_THRESHOLD,
+  SHARPLY_DIFFERENTIATED_THRESHOLD,
+} from "@/lib/scoring-calibration"
 import { familyLabel } from "@/lib/worldview-config"
 import type {
   DimensionKey,
@@ -103,13 +107,12 @@ export function assessFoundationNarrative(dimensionScores: DimensionScores) {
   const topDimensions = getTopDimensions(dimensionScores, 3)
 
   let state: FoundationNarrativeState = "stableModeration"
-  if (analysis.nearestFitGap <= 0.45 && analysis.averageDistanceFromCenter <= 1.05) {
-    state = "lowDifferentiation"
-  } else if (
-    analysis.nearestFitGap >= 0.9 ||
-    analysis.sharpDimensionCount >= 3 ||
-    analysis.maxDistanceFromCenter >= 1.65
+  if (
+    analysis.nearestFitGap <= LOW_DIFFERENTIATION_THRESHOLD &&
+    analysis.averageDistanceFromCenter <= 1.05
   ) {
+    state = "lowDifferentiation"
+  } else if (analysis.nearestFitGap >= SHARPLY_DIFFERENTIATED_THRESHOLD) {
     state = "sharplyDifferentiated"
   }
 

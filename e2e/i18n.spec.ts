@@ -8,9 +8,9 @@ import {
 import profileStoreV5 from "../tests/fixtures/profile-store-v5.json"
 import { getAtlasLitePattern } from "../lib/atlas-lite"
 import { REFERENCE_PROFILE_CATALOG } from "../lib/reference-profiles/catalog"
-import { getFoundationQuestions } from "../lib/quiz-schema"
+import { getFoundationQuestionsForSet } from "../lib/quiz-schema"
 import { encodePayload, resolveFoundationPayload } from "../lib/share"
-import { getZhHansFoundationQuestions } from "../content/locales/zh-Hans/foundation-instrument"
+import { getZhHansFoundationQuestionsForSet } from "../content/locales/zh-Hans/foundation-instrument"
 
 const approvedPairs = [
   { en: "/about", zh: "/zh/about", heading: /看清你在外交政策问题上依赖哪些论证/ },
@@ -102,8 +102,8 @@ test("remaining unapproved Chinese instrument routes preserve opaque segments an
 })
 
 test("Chinese Foundation route uses localized item copy with the shared structure", async ({ page }) => {
-  const canonical = getFoundationQuestions("standard")[0]
-  const localized = getZhHansFoundationQuestions("standard")[0]
+  const canonical = getFoundationQuestionsForSet("core")[0]
+  const localized = getZhHansFoundationQuestionsForSet("core")[0]
 
   await page.goto("/zh/quiz")
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
@@ -114,7 +114,7 @@ test("Chinese Foundation route uses localized item copy with the shared structur
 })
 
 test("Chinese Foundation review records canonical version and completion-locale provenance", async ({ page }) => {
-  const questions = getFoundationQuestions("standard")
+  const questions = getFoundationQuestionsForSet("core")
   const answers = Object.fromEntries(questions.map((question) => [
     question.id,
     question.kind === "likert" ? 4 : question.options[0].id,
@@ -142,10 +142,11 @@ test("Chinese Foundation review records canonical version and completion-locale 
   const payload = decodeURIComponent(new URL(page.url()).pathname.split("/").at(-1) ?? "")
   const resolved = resolveFoundationPayload(payload)
   expect(resolved?.provenance).toEqual({
-    instrumentStructuralVersion: 3,
-    scoringVersion: 1,
+    instrumentStructuralVersion: 4,
+    scoringVersion: 2,
     localeCopyVersion: 1,
     completionLocale: "zh-Hans",
+    resultTier: "core",
   })
 })
 
@@ -482,7 +483,7 @@ test.describe("390px Simplified Chinese shell", () => {
 
     await page.goto("/zh/quiz")
     await expect(page.getByRole("heading", {
-      name: getZhHansFoundationQuestions("standard")[0].prompt,
+      name: getZhHansFoundationQuestionsForSet("core")[0].prompt,
     })).toBeVisible()
     await settleVisualSnapshot(page)
     await expect(page).toHaveScreenshot("zh-foundation-quiz-390.png")

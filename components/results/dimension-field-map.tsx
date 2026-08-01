@@ -3,7 +3,6 @@ import { FAMILY_LABELS } from "@/lib/worldview-config"
 import {
   AXIS_LABELS,
   TRADITION_ANCHORS,
-  spreadRingFraction,
   toDisplayPosition,
   type MapPosition,
 } from "@/lib/results/position"
@@ -32,14 +31,13 @@ function toSvg(position: MapPosition) {
 export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false }: Props) {
   const position = toDisplayPosition(dimensionScores, lowDifferentiation)
   const marker = toSvg(position)
-  const ringRadius = spreadRingFraction(dimensionScores, lowDifferentiation) * R
 
   return (
     <div className="field-map">
       <svg
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         role="img"
-        aria-label="Field map placing this profile among the four modeled traditions, with a ring showing how loosely the reading is determined"
+        aria-label="Field map placing this profile among the four modeled traditions"
         className="field-map__svg"
       >
         {/* Plot frame and center axes */}
@@ -109,18 +107,6 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
           )
         })}
 
-        {/* Spread ring — dashed; wide when the reading is loosely determined */}
-        <circle
-          cx={marker.cx}
-          cy={marker.cy}
-          r={ringRadius}
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth={1.5}
-          strokeDasharray="4 5"
-          opacity={0.7}
-        />
-
         {/* Respondent position */}
         <circle cx={marker.cx} cy={marker.cy} r={8} fill="var(--panel)" opacity={0.85} />
         <circle cx={marker.cx} cy={marker.cy} r={5} fill="var(--accent)" />
@@ -130,7 +116,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
       </svg>
 
       <p className="field-map__caption muted">
-        Dot: your position. Ring: how loosely it is fixed.
+        The dot is where your answers place you.
       </p>
     </div>
   )

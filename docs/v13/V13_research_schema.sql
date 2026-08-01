@@ -39,7 +39,8 @@ create table if not exists research_answers (
 );
 
 create table if not exists research_derived_results (
-  session_id uuid primary key references research_sessions(session_id) on delete cascade,
+  session_id uuid not null references research_sessions(session_id) on delete cascade,
+  scoring_version text not null,
   top_label text,
   runner_up text,
   profile_state text,
@@ -49,7 +50,8 @@ create table if not exists research_derived_results (
   axis_scores jsonb,
   modifiers jsonb,
   summary text,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  primary key (session_id, scoring_version)
 );
 
 create table if not exists research_events (

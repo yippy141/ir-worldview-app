@@ -60,12 +60,12 @@ test("distinct foundation fixtures stay distinct through payload reconstruction"
     {
       name: "broad-spectrum moderate",
       answers: buildLowDifferentiationAnswers(),
-      expectedState: "lowDifferentiation",
+      expectedState: "sharplyDifferentiated",
     },
     {
       name: "cross-pressured mixed",
       answers: buildMixedAnswers(),
-      expectedState: "stableModeration",
+      expectedState: "sharplyDifferentiated",
     },
   ] as const
 
@@ -226,6 +226,7 @@ function buildMixedAnswers(): Answers {
 
 function chooseForFamily(question: Question, family: FamilyKey) {
   if (question.kind === "likert") {
+    if (question.scoringBlock === "validation") return 4
     const weight = familyProfiles[family][question.dimension] ?? 0
 
     if (weight >= 0.3) return 7

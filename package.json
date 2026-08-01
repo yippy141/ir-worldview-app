@@ -7,11 +7,15 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --cache",
+    "validate": "node --experimental-strip-types scripts/validate-instrument.mts",
     "test": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts",
     "test:e2e": "playwright test",
-    "diagnostics:build-sha": "node scripts/print-build-sha.mjs"
+    "diagnostics:build-sha": "node scripts/print-build-sha.mjs",
+    "diagnose": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-instrument.mts",
+    "replay:scoring": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/replay-scoring.mts"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "@vercel/analytics": "^2.0.1",
     "mapbox-gl": "^3.26.0",
     "next": "16.2.10",

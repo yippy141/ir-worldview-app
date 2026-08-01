@@ -1,23 +1,23 @@
-import type { ChoiceCardType, DimensionKey, QuestionKind, QuizMode } from "@/lib/types"
+import type {
+  ChoiceCardType,
+  DimensionKey,
+  FoundationQuestionSet,
+  QuestionKind,
+} from "@/lib/types"
 
 export type FoundationQuizUiCopy = {
   loading: string
   eyebrow: string
   title: string
   adaptedBeta: string
-  modeSummary: Readonly<Record<QuizMode, string>>
-  modeLabels: Readonly<Record<QuizMode, string>>
+  setSummary: Readonly<Record<FoundationQuestionSet, string>>
+  setLabels: Readonly<Record<FoundationQuestionSet, string>>
   answered: (answered: number, total: number) => string
   progressAria: string
   contextAssistOn: string
   contextAssistOff: string
   startOver: string
-  switchToAnalyst: string
-  switchToStandard: string
-  confirmAnalyst: string
-  confirmStandard: string
   returnToReview: string
-  part: (index: number, total: number, title: string) => string
   questionProgress: (label: string, index: number, total: number) => string
   howToAnswer: string
   publicDefensibilityNote: string
@@ -30,11 +30,6 @@ export type FoundationQuizUiCopy = {
   back: string
   next: string
   reviewAnswers: string
-  midpointComplete: (section: string) => string
-  midpointTitle: string
-  midpointLead: (first: string, second: string) => string
-  midpointNote: string
-  continue: string
   hideExplainer: string
   plainLanguageExplanation: string
   quickExplainer: string
@@ -69,18 +64,13 @@ export type FoundationReviewUiCopy = {
   back: string
   startOver: string
   localProcessing: string
-  upgradeEyebrow: string
-  upgradeTitle: string
-  upgradeBody: string
-  upgradeAction: string
-  upgradeConfirm: string
+  setLabels: Readonly<Record<FoundationQuestionSet, string>>
   edit: string
   likertLabels: Readonly<Record<number, string>>
   mostPersuasive: (title: string, label: string) => string
   rankedPersuasive: (primary: string, secondary: string) => string
   questionKinds: Readonly<Record<QuestionKind, string>>
   cardTypes: Readonly<Record<ChoiceCardType, string>>
-  modeLabels: Readonly<Record<QuizMode, string>>
 }
 
 export const zhHansFoundationQuizUi = {
@@ -88,25 +78,22 @@ export const zhHansFoundationQuizUi = {
   eyebrow: "国际关系世界观清单",
   title: "基础问卷",
   adaptedBeta: "简体中文改编测试版",
-  modeSummary: {
-    standard: "20 道题 · 约需 12 至 16 分钟",
-    analyst: "44 道题 · 约需 30 至 40 分钟 · 增加具体取舍情境与指定行为方视角题",
+  setSummary: {
+    core: "14 道核心题 · 约需 6 至 8 分钟 · 完成后先生成暂定结果",
+    targetedExtended: "5 道跟进题 · 根据最接近的两个模型家族定向选择",
+    fullExtended: "54 道附加题 · 完整扩展题组",
   },
-  modeLabels: {
-    standard: "标准模式",
-    analyst: "分析模式",
+  setLabels: {
+    core: "核心题组",
+    targetedExtended: "定向扩展",
+    fullExtended: "完整扩展",
   },
   answered: (answered, total) => `已回答 ${answered} / ${total}`,
   progressAria: "问卷进度",
   contextAssistOn: "解释辅助：开",
   contextAssistOff: "解释辅助：关",
   startOver: "重新开始",
-  switchToAnalyst: "切换至分析模式 →",
-  switchToStandard: "← 返回标准模式",
-  confirmAnalyst: "切换至分析模式会清除当前答案。是否继续？",
-  confirmStandard: "返回标准模式会清除当前分析模式答案。是否继续？",
   returnToReview: "← 返回复核页",
-  part: (index, total, title) => `第 ${index} 部分，共 ${total} 部分 · ${title}`,
   questionProgress: (label, index, total) => `${label} · 第 ${index} 题，共 ${total} 题`,
   howToAnswer: "如何回答本题",
   publicDefensibilityNote:
@@ -124,11 +111,6 @@ export const zhHansFoundationQuizUi = {
   back: "返回",
   next: "下一题",
   reviewAnswers: "复核答案 →",
-  midpointComplete: (section) => `${section}已完成`,
-  midpointTitle: "你的基础画像开始显现。",
-  midpointLead: (first, second) => `目前较明显的两条线索是“${first}”和“${second}”。`,
-  midpointNote: "这只是根据首批答案生成的阶段性读法。剩余题目会继续检验和调整这组线索。",
-  continue: "继续",
   hideExplainer: "收起说明",
   plainLanguageExplanation: "查看简明说明",
   quickExplainer: "查看答题说明",
@@ -174,12 +156,9 @@ export const zhHansFoundationReviewUi = {
   generate: "生成我的结果 →",
   back: "返回基础问卷",
   startOver: "重新开始",
-  localProcessing: "只有在你点击“生成”后，系统才会计算结果。所有处理都在当前浏览器中完成。",
-  upgradeEyebrow: "希望增加更多情境？",
-  upgradeTitle: "你已完成标准模式。",
-  upgradeBody: "分析模式使用相同计分方法，并增加具体取舍情境与指定行为方视角题。",
-  upgradeAction: "尝试分析模式",
-  upgradeConfirm: "分析模式会重新开始基础问卷并清除当前标准模式答案。是否继续？",
+  localProcessing:
+    "结果在当前浏览器中计算。第一方计数器会记录问卷每一步是否到达。生成结果时，汇总提交仅包含推导出的分数与标签，以及各题 ID 和粗粒度答题时长区间；不包含你的答案、原始时间戳、答题顺序或任何标识符。",
+  setLabels: zhHansFoundationQuizUi.setLabels,
   edit: "修改",
   likertLabels: {
     1: "完全不同意",
@@ -194,5 +173,4 @@ export const zhHansFoundationReviewUi = {
   rankedPersuasive: (primary, secondary) => `主要选择：${primary} · 第二顺位：${secondary}`,
   questionKinds: zhHansFoundationQuizUi.questionKinds,
   cardTypes: zhHansFoundationQuizUi.cardTypes,
-  modeLabels: zhHansFoundationQuizUi.modeLabels,
 } satisfies FoundationReviewUiCopy

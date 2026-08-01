@@ -1,0 +1,2031 @@
+{
+  "instrument": "foundation",
+  "instrumentVersion": 2,
+  "discriminators": {
+    "realist|institutionalist": [
+      "an_tradeoff_evidence",
+      "an_case_rising_power_voice",
+      "an_tradeoff_rival",
+      "an_tradeoff_parallel_order",
+      "an_case_digital_stack"
+    ],
+    "realist|constructivist": [
+      "an_tradeoff_parallel_order",
+      "an_case_burdens",
+      "an_case_middle_power",
+      "an_tradeoff_rival",
+      "an_tradeoff_legitimacy"
+    ],
+    "realist|criticalPoliticalEconomy": [
+      "an_case_middle_power",
+      "tradeoff_interdependence",
+      "tradeoff_strategy",
+      "an_tradeoff_evidence",
+      "an_tradeoff_energy_alignment"
+    ],
+    "institutionalist|constructivist": [
+      "an_tradeoff_tech_order",
+      "an_tradeoff_evidence",
+      "tradeoff_alliances",
+      "case_semiconductors",
+      "an_case_digital_stack"
+    ],
+    "institutionalist|criticalPoliticalEconomy": [
+      "an_tradeoff_ceasefire_settlement",
+      "an_case_rising_power_voice",
+      "an_tradeoff_tech_order",
+      "an_tradeoff_energy_alignment",
+      "an_case_sanctions_alignment"
+    ],
+    "constructivist|criticalPoliticalEconomy": [
+      "an_case_sanctions_alignment",
+      "an_tradeoff_energy_alignment",
+      "an_case_middle_power",
+      "an_case_green_finance",
+      "an_tradeoff_ceasefire_settlement"
+    ]
+  },
+  "items": [
+    {
+      "id": "sc1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "securityCompetition",
+      "prompt": "Major-power peace remains fragile when the balance of power is shifting.",
+      "clarification": {
+        "whatItAsks": "Does a shift in power make a peaceful relationship harder to maintain?",
+        "terms": [
+          {
+            "term": "Balance of power",
+            "definition": "How military, economic, and strategic capability is distributed among the strongest states."
+          }
+        ]
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "in1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "institutions",
+      "prompt": "Even without a world government, shared rules can make cooperation last.",
+      "clarification": {
+        "whatItAsks": "Can shared rules help states cooperate when no higher authority can enforce them?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_mi_1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "The United States should take all steps including the use of force to prevent aggression by any expansionist power",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "militantInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "df1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "domesticFilters",
+      "prompt": "A new governing coalition often redirects foreign policy even when the external threat remains unchanged.",
+      "clarification": {
+        "whatItAsks": "Can elections, leadership changes, and domestic coalitions shift foreign policy as much as events abroad?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "ni1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "normsIdentity",
+      "prompt": "The meaning of a military buildup depends more on the states' history and mutual trust than on the size of the force.",
+      "clarification": {
+        "whatItAsks": "When states judge a military move, do past relations and trust tell us more than the size of the force?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_ci_1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "The United States needs to cooperate more with the United Nations.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "cooperativeInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "pe1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "politicalEconomy",
+      "prompt": "In a crisis, control over credit, production, and supply-chain chokepoints shapes state choices more than military capability alone.",
+      "clarification": {
+        "whatItAsks": "Do finance and supply-chain dependence constrain states more than military differences do?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "rs1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "restraint",
+      "prompt": "When a state keeps pushing for gains beyond what it needs for defense, rivals and bystanders often respond in ways that leave it less secure.",
+      "clarification": {
+        "whatItAsks": "Does seeking gains beyond defense usually trigger resistance and leave a state less secure?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_iso_1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "The U.S. should mind its own business internationally and let other countries get along the best they can on their own.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "isolationism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, pp. 2–3, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "oj1",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "orderJustice",
+      "prompt": "A stable international order is often worth preserving even when serious injustice remains unresolved.",
+      "clarification": {
+        "whatItAsks": "When stability and justice conflict, should preserving order usually come first?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "tradeoff_alliances",
+      "kind": "tradeoff",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "What most often keeps alliances together under real pressure?",
+      "helpText": "Choose the explanation you would use first.",
+      "options": [
+        {
+          "id": "power",
+          "title": "Material backing",
+          "label": "Alliances hold when members believe the leading power can and will bear the cost of defense.",
+          "signals": {
+            "securityCompetition": 6.3,
+            "institutions": 2.8,
+            "restraint": 3.6
+          }
+        },
+        {
+          "id": "rules",
+          "title": "Rules and routines",
+          "label": "Planning structures, standing commitments, and repeated coordination make alliance promises more credible.",
+          "signals": {
+            "institutions": 6.4,
+            "securityCompetition": 3.5,
+            "restraint": 4.7
+          }
+        },
+        {
+          "id": "domestic",
+          "title": "Domestic staying power",
+          "label": "Alliances endure when domestic coalitions, budgets, and public tolerance can sustain them over time.",
+          "signals": {
+            "domesticFilters": 6.3,
+            "institutions": 4.8,
+            "restraint": 4.5
+          }
+        },
+        {
+          "id": "meaning",
+          "title": "Political meaning",
+          "label": "Alliances hold when they are seen as legitimate and identity-consistent, not only as efficient bargains.",
+          "signals": {
+            "normsIdentity": 6.2,
+            "institutions": 4.9,
+            "securityCompetition": 3.4
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_mi_2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "Rather than simply countering our opponents’ thrusts, it is necessary to strike at the heart of an opponent’s power.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "militantInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "sc2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "securityCompetition",
+      "prompt": "Uncertainty about another state's long-term intentions makes continued military preparation necessary even during sustained cooperation.",
+      "clarification": {
+        "whatItAsks": "Does uncertainty about another state's future behavior push states to prepare for conflict?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_ci_2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "It is essential for the United States to work with other nations to solve problems such as overpopulation, hunger, and pollution.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "cooperativeInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "in2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "institutions",
+      "prompt": "Monitoring and repeated contact can keep international agreements alive even when trust is thin.",
+      "clarification": {
+        "whatItAsks": "Can monitoring and regular contact keep an agreement working when the parties do not trust each other?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_iso_2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "We should not think so much in international terms but concentrate more on our own national problems.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "isolationism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, pp. 2–3, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "tradeoff_interdependence",
+      "kind": "tradeoff",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "When economic interdependence becomes dangerous, what is usually the deeper problem?",
+      "helpText": "Choose the cause, not a policy response.",
+      "options": [
+        {
+          "id": "rivalry",
+          "title": "Rivalry turns ties into leverage",
+          "label": "Interdependence becomes dangerous mainly when strategic competition grows and states start treating economic exposure as a security risk.",
+          "signals": {
+            "securityCompetition": 6.1,
+            "politicalEconomy": 4.8,
+            "institutions": 3.1
+          }
+        },
+        {
+          "id": "rules",
+          "title": "Rules failed to keep up",
+          "label": "The danger comes from weak guardrails. Better multilateral rules could preserve openness without so much coercive exposure.",
+          "signals": {
+            "institutions": 6.2,
+            "politicalEconomy": 4.3,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "domestic",
+          "title": "Domestic dependence hardened",
+          "label": "The real weakness is political: domestic firms, regions, and interest groups become too embedded to adjust quickly when risk rises.",
+          "signals": {
+            "domesticFilters": 6.2,
+            "politicalEconomy": 5.2,
+            "restraint": 4.4
+          }
+        },
+        {
+          "id": "structure",
+          "title": "The structure was unequal",
+          "label": "The vulnerability is built into who controls credit, production, and chokepoints. Exposure looks mutual until coercion begins.",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "institutions": 2.9,
+            "securityCompetition": 4.5
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "df2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "domesticFilters",
+      "prompt": "States facing similar outside pressure can still act very differently because their internal politics differ.",
+      "clarification": {
+        "whatItAsks": "Do different political systems and coalitions lead states facing the same pressure to respond differently?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_mi_3",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "American military strength is not the best way to ensure world peace.",
+      "reverse": true,
+      "scoringBlock": "validation",
+      "validationScale": "militantInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "ni2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "normsIdentity",
+      "prompt": "A state's demand for recognition often changes which foreign-policy goals its leaders consider important.",
+      "clarification": {
+        "whatItAsks": "Are a state's interests shaped partly by status, identity, and recognition?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_ci_3",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "Promoting and defending human rights in other countries is of utmost importance.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "cooperativeInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "pe2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "politicalEconomy",
+      "prompt": "Economic rules often give stronger states lasting structural advantages that weaker states must work around.",
+      "clarification": {
+        "whatItAsks": "Do global economic rules give some states built-in advantages over others?",
+        "terms": [
+          {
+            "term": "Structural advantage",
+            "definition": "A built-in benefit created by rules or institutions, not just a one-off bargaining win."
+          }
+        ]
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_iso_3",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "The U.S. needs to play an active role in solving conflicts around the world.",
+      "reverse": true,
+      "scoringBlock": "validation",
+      "validationScale": "isolationism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, pp. 2–3, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "rs2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "restraint",
+      "prompt": "Avoiding overextension is usually more important than pressing every opening for lasting advantage.",
+      "clarification": {
+        "whatItAsks": "Is it usually safer to limit commitments than to take every chance for advantage?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_mi_4",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "The United States must demonstrate its resolve so that others do not take advantage of it.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "militantInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "oj2",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "orderJustice",
+      "prompt": "When mass atrocities become severe enough, outside powers can justifiably override a state's sovereignty to stop them.",
+      "clarification": {
+        "whatItAsks": "Can extreme harm to civilians justify military action without the government's consent?",
+        "whatItDoesNotAsk": "This is about extreme emergency cases, not ordinary intervention or open-ended regime change.",
+        "terms": [
+          {
+            "term": "Sovereignty",
+            "definition": "The principle that a state normally controls what happens within its own territory."
+          }
+        ]
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_ci_4",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "Protecting the global environment is of utmost importance.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "cooperativeInternationalism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, p. 2, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "tradeoff_strategy",
+      "kind": "tradeoff",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A rival is gaining ground. Which concern should come first?",
+      "options": [
+        {
+          "id": "press",
+          "title": "Press the opening",
+          "label": "If a durable strategic edge is available now, failing to use it will look reckless later.",
+          "signals": {
+            "restraint": 2.4,
+            "securityCompetition": 6.1
+          }
+        },
+        {
+          "id": "limit",
+          "title": "Guard against overreach",
+          "label": "The first danger is self-inflicted: excessive commitments and escalation can do more damage than a narrower rival gain.",
+          "signals": {
+            "restraint": 6.2,
+            "securityCompetition": 4.1
+          }
+        },
+        {
+          "id": "base",
+          "title": "Start with the home front",
+          "label": "The real question is whether domestic coalitions, public tolerance, and fiscal capacity can carry the strategy at all.",
+          "signals": {
+            "domesticFilters": 6.3,
+            "restraint": 5.1
+          }
+        },
+        {
+          "id": "industrial",
+          "title": "Control the production base",
+          "label": "Long-run advantage turns less on tactical posturing than on who controls technology, industry, and supply chains.",
+          "signals": {
+            "politicalEconomy": 6.1,
+            "securityCompetition": 4.9,
+            "restraint": 4.4
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "val_iso_4",
+      "kind": "likert",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "prompt": "America’s conception of its leadership role in the world must be scaled down.",
+      "reverse": false,
+      "scoringBlock": "validation",
+      "validationScale": "isolationism",
+      "citation": "Kertzer et al. (2014), Moral Support: How Moral Values Shape Foreign Policy Attitudes, supplementary appendix §1.1, pp. 2–3, https://doi.org/10.1017/S0022381614000073"
+    },
+    {
+      "id": "tradeoff_intervention",
+      "kind": "tradeoff",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A government is committing mass atrocities. Military action could save lives but weaken legal restraints on future interventions. What should govern the decision?",
+      "clarification": {
+        "whatItAsks": "Which should guide the choice when law, civilian protection, authority, and likely outcomes point in different directions?",
+        "whatItDoesNotAsk": "This is limited to severe mass atrocities, not ordinary disputes or open-ended regime change.",
+        "terms": [
+          {
+            "term": "Mandate",
+            "definition": "A limited and publicly stated authorization that defines what an intervention is allowed to do."
+          }
+        ]
+      },
+      "options": [
+        {
+          "id": "precedent",
+          "title": "Protect the precedent",
+          "label": "If the barrier against intervention erodes too easily, later abuses will do wider damage than this case can justify.",
+          "signals": {
+            "orderJustice": 6.3,
+            "restraint": 5.2,
+            "institutions": 4.8
+          }
+        },
+        {
+          "id": "protection",
+          "title": "Protect the victims",
+          "label": "When civilian harm crosses an extreme threshold, the moral case can outweigh the usual presumption against intervention.",
+          "signals": {
+            "orderJustice": 2.4,
+            "restraint": 3.3,
+            "normsIdentity": 4.7
+          }
+        },
+        {
+          "id": "mandate",
+          "title": "Judge the authority",
+          "label": "The decisive issue is whether a narrow, legitimate mandate exists. Emergency action is strongest when it is bounded and collectively framed.",
+          "signals": {
+            "institutions": 6.1,
+            "orderJustice": 4.3,
+            "restraint": 4.9
+          }
+        },
+        {
+          "id": "consequences",
+          "title": "Judge the likely outcome",
+          "label": "The first test is whether action will plausibly protect people rather than widen the war or create a larger disaster.",
+          "signals": {
+            "restraint": 6.1,
+            "orderJustice": 4,
+            "domesticFilters": 4.6
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "case_semiconductors",
+      "kind": "miniCase",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A rival is catching up in advanced semiconductors while your firms depend on its supply chain. What should guide the response?",
+      "helpText": "Choose the main goal of the response.",
+      "options": [
+        {
+          "id": "edge",
+          "title": "Preserve the strategic edge",
+          "label": "Restrict broadly now. Closing the capability gap is itself the threat, and trade costs are secondary to preserving advantage.",
+          "signals": {
+            "securityCompetition": 6.4,
+            "restraint": 2.8,
+            "institutions": 2.9
+          }
+        },
+        {
+          "id": "dependence",
+          "title": "Reduce structural dependence",
+          "label": "The deeper contest is over production chokepoints and dependence. Build domestic capacity and unwind one-sided exposure.",
+          "signals": {
+            "politicalEconomy": 6.4,
+            "securityCompetition": 4.8,
+            "institutions": 3.3
+          }
+        },
+        {
+          "id": "coalition",
+          "title": "Coordinate narrow controls",
+          "label": "Limit only the highest-risk technologies and do it with allies. Broad unilateral controls fracture the order you still need.",
+          "signals": {
+            "institutions": 6.2,
+            "restraint": 5,
+            "securityCompetition": 4.4
+          }
+        },
+        {
+          "id": "framing",
+          "title": "Avoid securitizing everything",
+          "label": "Treating every technological gap as a security emergency hardens rivalry and narrows room for future cooperation.",
+          "signals": {
+            "normsIdentity": 5.9,
+            "restraint": 5.7,
+            "securityCompetition": 3.1
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "case_protection",
+      "kind": "miniCase",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "Mass killing is underway. A Security Council veto blocks UN authorization, but a regional body backs limited action. What should guide the response?",
+      "helpText": "Choose the principle that should guide the response.",
+      "clarification": {
+        "whatItAsks": "Which should carry most weight: UN authorization, stopping the killing, regional backing, or the risk of making things worse?",
+        "whatItDoesNotAsk": "Regional backing is not the same as UN authorization.",
+        "terms": [
+          {
+            "term": "Authorization",
+            "definition": "Formal approval through an institution such as the UN Security Council."
+          }
+        ]
+      },
+      "options": [
+        {
+          "id": "law",
+          "title": "Legality first",
+          "label": "Action without Security Council authorization weakens the legal framework that protects weaker states in harder cases to come.",
+          "signals": {
+            "orderJustice": 6.5,
+            "institutions": 5.4,
+            "restraint": 5.1
+          }
+        },
+        {
+          "id": "moral",
+          "title": "Protection first",
+          "label": "Extreme human harm can override the normal procedural objection. The scale of the abuse changes the rule of thumb.",
+          "signals": {
+            "orderJustice": 2.3,
+            "restraint": 3.4,
+            "normsIdentity": 4.9
+          }
+        },
+        {
+          "id": "bounded",
+          "title": "Bounded emergency legitimacy",
+          "label": "Regional backing plus a tightly limited mandate can justify emergency action without turning it into a general license.",
+          "signals": {
+            "institutions": 5.8,
+            "orderJustice": 4.3,
+            "restraint": 5
+          }
+        },
+        {
+          "id": "prudence",
+          "title": "Escalation and aftermath",
+          "label": "The first question is whether outside action would likely protect civilians rather than widen the war and leave a worse political vacuum.",
+          "signals": {
+            "restraint": 6.2,
+            "orderJustice": 4.1,
+            "domesticFilters": 4.8
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_sc_rev_01",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "securityCompetition",
+      "prompt": "Major powers can build durable peace when each side accepts limits on military advantage.",
+      "clarification": {
+        "whatItAsks": "Can mutual limits on military advantage make peace between major powers durable?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_sc_rev_02",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "securityCompetition",
+      "prompt": "A rival's sustained restraint can provide credible evidence that its peaceful intentions will last.",
+      "clarification": {
+        "whatItAsks": "Can sustained restraint reveal that a rival's peaceful intentions are likely to last?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_sc_rev_05",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "securityCompetition",
+      "prompt": "Deep regional cooperation can make armed conflict among member states politically unthinkable.",
+      "clarification": {
+        "whatItAsks": "Can deep regional cooperation make members expect disputes to remain peaceful?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_in_rev_03",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "institutions",
+      "prompt": "International agreements endure when participating states retain enough power to enforce the bargain.",
+      "clarification": {
+        "whatItAsks": "Do agreements last because participating states retain the power to uphold and enforce them?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_df_rev_01",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "domesticFilters",
+      "prompt": "States facing the same external threat usually adopt similar policies despite different political systems.",
+      "clarification": {
+        "whatItAsks": "Do similar external threats push states toward similar policies across different political systems?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_df_rev_04",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "domesticFilters",
+      "prompt": "Regime change rarely alters a state's basic interests when its external position stays constant.",
+      "clarification": {
+        "whatItAsks": "Do a state's basic interests survive regime change when its external position remains stable?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_ni_rev_01",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "normsIdentity",
+      "prompt": "States define their interests mainly through security needs, resources, and geographic position.",
+      "clarification": {
+        "whatItAsks": "Are state interests defined mainly by security needs, resources, and geography?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_ni_rev_05",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "normsIdentity",
+      "prompt": "Recognition from other states rarely changes what governments seek in major security disputes.",
+      "clarification": {
+        "whatItAsks": "Does recognition from other states have little effect on what governments seek in major security disputes?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_pe_rev_02",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "politicalEconomy",
+      "prompt": "Open markets usually give states enough flexibility to replace suppliers and absorb economic pressure.",
+      "clarification": {
+        "whatItAsks": "Can open markets help states replace suppliers and withstand economic pressure?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_rs_rev_04",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "core",
+      "dimension": "restraint",
+      "prompt": "Preventing a hostile power from dominating a key region can justify long-term commitments far from home.",
+      "clarification": {
+        "whatItAsks": "Can blocking regional domination justify sustained commitments far from home?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_rs_rev_05",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "restraint",
+      "prompt": "Sustained forward presence gives allies confidence and denies rivals room to test regional limits.",
+      "clarification": {
+        "whatItAsks": "Does forward presence reassure allies and reduce opportunities for rivals to test regional limits?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "v21_oj_rev_02",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "orderJustice",
+      "prompt": "International courts should pursue grave crimes even when prosecutions complicate peace negotiations.",
+      "clarification": {
+        "whatItAsks": "Should courts pursue grave crimes when prosecution could complicate peace negotiations?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_sc3",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "securityCompetition",
+      "prompt": "Long stretches of peace among major powers usually depend on conditions that can weaken or disappear.",
+      "clarification": {
+        "whatItAsks": "Does peace last only while the conditions supporting it remain in place?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_in3",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "institutions",
+      "prompt": "Many international institutions mostly reflect what powerful states already want.",
+      "clarification": {
+        "whatItAsks": "Do international institutions shape behavior on their own, or mainly reflect what powerful states want?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_pe3",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "politicalEconomy",
+      "prompt": "For most international crises, who controls credit, production, or market access is secondary to the immediate security and diplomatic facts.",
+      "clarification": {
+        "whatItAsks": "In a fast-moving crisis, do security and diplomacy usually explain more than economic dependence?"
+      },
+      "reverse": true,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_oj3",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "orderJustice",
+      "prompt": "There should usually be a strong default rule against outside intervention in another state's internal affairs.",
+      "clarification": {
+        "whatItAsks": "Should non-intervention be the usual rule, including in morally difficult cases?",
+        "terms": [
+          {
+            "term": "Non-intervention",
+            "definition": "The principle that outside states should usually not use force or coercion inside another state's territory."
+          }
+        ]
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_sc4",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "securityCompetition",
+      "prompt": "When what states say and what they deploy point in different directions, deployments are usually the safer guide.",
+      "clarification": {
+        "whatItAsks": "When words and military deployments conflict, which is more reliable?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_ni3",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "normsIdentity",
+      "prompt": "How a rival responds to being excluded from talks, denied diplomatic recognition, or treated as a lesser power can help predict what it will do next.",
+      "clarification": {
+        "whatItAsks": "Can a rival's response to a perceived status slight help predict its next move?",
+        "terms": [
+          {
+            "term": "Status",
+            "definition": "The standing and recognition a state believes it deserves from other states."
+          }
+        ]
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_pe4",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "politicalEconomy",
+      "prompt": "Control over technology rules and critical infrastructure will rival military strength as a source of international power in the coming decade.",
+      "clarification": {
+        "whatItAsks": "This compares military and territorial power with control over key technologies, networks, and the rules that make them work together."
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_in4",
+      "kind": "likert",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "dimension": "institutions",
+      "prompt": "Institutions lose legitimacy faster when a few powerful states write rules for everyone else.",
+      "clarification": {
+        "whatItAsks": "Do institutions weaken faster when most states must follow rules they had little role in writing?"
+      },
+      "reverse": false,
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_legitimacy",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A global institution seems to work reasonably well, but rising powers increasingly reject its legitimacy. What best explains the problem?",
+      "options": [
+        {
+          "id": "governance",
+          "title": "Its governance is outdated",
+          "label": "Voting weights, leadership access, and transparency rules have not adjusted enough to keep the institution credible.",
+          "signals": {
+            "institutions": 6.2,
+            "domesticFilters": 4.6,
+            "normsIdentity": 4.4
+          }
+        },
+        {
+          "id": "exclusion",
+          "title": "Its social foundations are contested",
+          "label": "The institution reflects particular norms and voices that others never fully accepted as neutral or universal.",
+          "signals": {
+            "normsIdentity": 6.4,
+            "institutions": 4.6,
+            "domesticFilters": 4.8
+          }
+        },
+        {
+          "id": "power",
+          "title": "Power shifted beneath it",
+          "label": "States invoke legitimacy language when the institution serves them less well than before. The real story is changing power.",
+          "signals": {
+            "securityCompetition": 6,
+            "institutions": 3,
+            "normsIdentity": 3.1
+          }
+        },
+        {
+          "id": "hierarchy",
+          "title": "Its structure was unequal from the start",
+          "label": "The institution sits inside a broader hierarchy of finance, production, and agenda-setting that procedural reform alone cannot fix.",
+          "signals": {
+            "politicalEconomy": 6.3,
+            "institutions": 3.1,
+            "normsIdentity": 4.7
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_rival",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "both",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A long-time rival democratizes, joins major institutions, and starts talking more cooperatively. How much should your threat assessment change?",
+      "options": [
+        {
+          "id": "update",
+          "title": "Update it substantially",
+          "label": "Changes in regime type, elite discourse, and relationship history provide real evidence about future behavior.",
+          "signals": {
+            "normsIdentity": 6.2,
+            "securityCompetition": 2.9,
+            "institutions": 4.7
+          }
+        },
+        {
+          "id": "minimal",
+          "title": "Update it only cautiously",
+          "label": "Capabilities and structural incentives still do most of the work. Political signals can reverse quickly.",
+          "signals": {
+            "securityCompetition": 6.3,
+            "normsIdentity": 2.8
+          }
+        },
+        {
+          "id": "integration",
+          "title": "Watch institutional integration",
+          "label": "Membership in shared institutions gives stronger evidence than declared values because it changes incentives and raises the cost of aggression.",
+          "signals": {
+            "institutions": 6.1,
+            "securityCompetition": 3.6,
+            "normsIdentity": 4.5
+          }
+        },
+        {
+          "id": "durability",
+          "title": "Watch domestic durability",
+          "label": "The critical question is whether the new course is rooted in domestic coalitions strong enough to last beyond one leadership cycle.",
+          "signals": {
+            "domesticFilters": 6.3,
+            "normsIdentity": 4.8,
+            "institutions": 4.4
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_finance",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A middle-income country pegs its currency to the dollar while banks and firms borrow heavily in dollars. Global interest rates rise, foreign lenders pull out, and emergency loans require spending cuts during a recession. Which factor best explains why the crisis is so hard to stop?",
+      "helpText": "Choose the explanation that should guide the first response.",
+      "options": [
+        {
+          "id": "credibility",
+          "title": "Domestic credibility failure",
+          "label": "The currency peg and foreign-currency borrowing made an outside shock much worse. Rebuilding trust in domestic policy is the first condition for recovery.",
+          "signals": {
+            "politicalEconomy": 2.9,
+            "domesticFilters": 4.8,
+            "institutions": 4.3
+          }
+        },
+        {
+          "id": "pragmatic",
+          "title": "Mixed crisis, mixed repair",
+          "label": "Domestic policy choices and creditor leverage are both doing real work. Use temporary controls and renegotiate terms without abandoning the wider financial system.",
+          "signals": {
+            "politicalEconomy": 5.1,
+            "domesticFilters": 5.2,
+            "institutions": 5.1,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "dependence",
+          "title": "Structural dependence exposed",
+          "label": "The crisis exposes dependence on foreign-currency finance and creditor conditions. It will recur unless that dependence changes.",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "institutions": 2.8,
+            "domesticFilters": 4.8
+          }
+        },
+        {
+          "id": "coalitions",
+          "title": "Domestic distributional conflict",
+          "label": "External finance sets the constraint, but domestic politics determines which workers, firms, and regions absorb the cuts.",
+          "signals": {
+            "domesticFilters": 6.4,
+            "politicalEconomy": 5.2,
+            "institutions": 4.3
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_burdens",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A major ally keeps underspending on defense while relying on your guarantees. What is the most persuasive response?",
+      "helpText": "Choose the response regardless of how you feel about the ally.",
+      "options": [
+        {
+          "id": "credibility",
+          "title": "Free-riding corrodes credibility",
+          "label": "Unequal burden undercuts collective defense and eventually weakens deterrence itself.",
+          "signals": {
+            "securityCompetition": 6,
+            "restraint": 3.4,
+            "institutions": 3.6
+          }
+        },
+        {
+          "id": "capacity",
+          "title": "Measure shared capacity, not just shares",
+          "label": "The real question is whether the alliance still delivers usable capability and coordination, not whether every member pays the same proportion.",
+          "signals": {
+            "institutions": 6.1,
+            "securityCompetition": 4.1,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "purpose",
+          "title": "The purpose is contested",
+          "label": "Burden fights usually reflect a deeper disagreement about what the alliance is for and whose strategy it serves.",
+          "signals": {
+            "normsIdentity": 5.8,
+            "domesticFilters": 5.4,
+            "institutions": 4.5
+          }
+        },
+        {
+          "id": "rebalance",
+          "title": "The guarantor is overextended",
+          "label": "The first correction is to narrow commitments. An alliance that depends on unsustainable guarantees is badly designed.",
+          "signals": {
+            "restraint": 6.3,
+            "securityCompetition": 4.6,
+            "institutions": 3.6
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_evidence",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "both",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "After a border clash, a rival withdraws some troops and accepts a military hotline, but keeps new missiles in place and faces nationalist pressure at home. Which evidence should anchor your judgment of whether de-escalation will last?",
+      "helpText": "Choose the evidence you would trust first when the signals point in different directions.",
+      "options": [
+        {
+          "id": "capabilities",
+          "title": "Capabilities and posture",
+          "label": "The missiles and remaining force posture matter most because they can be used regardless of promises or political language.",
+          "signals": {
+            "securityCompetition": 6.3,
+            "normsIdentity": 3
+          }
+        },
+        {
+          "id": "commitments",
+          "title": "Institutions and commitments",
+          "label": "Compliance with the pullback and use of the hotline matter most because observable commitments are harder to fake than public messages.",
+          "signals": {
+            "institutions": 6.1,
+            "securityCompetition": 3.6,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "coalitions",
+          "title": "Domestic staying power",
+          "label": "The best clue is whether leaders can contain nationalist pressure and keep domestic support for the quieter course.",
+          "signals": {
+            "domesticFilters": 6.4,
+            "institutions": 4.3,
+            "restraint": 4.9
+          }
+        },
+        {
+          "id": "status",
+          "title": "Status and relationship signals",
+          "label": "Watch whether leaders stop describing the dispute as a test of national standing; that shift can change what the remaining weapons mean.",
+          "signals": {
+            "normsIdentity": 6.3,
+            "securityCompetition": 3.2,
+            "institutions": 4.4
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_tech_order",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A coalition is debating export controls, investment screening, and shared technology standards against a rival. What is the main issue behind that push?",
+      "helpText": "Choose what best explains the package as a whole.",
+      "clarification": {
+        "whatItAsks": "Which best explains the package: slowing a rival, controlling chokepoints, limiting security rules, or preventing a new hierarchy?",
+        "terms": [
+          {
+            "term": "Export controls",
+            "definition": "Rules that restrict the sale of sensitive goods or technologies to certain foreign buyers."
+          },
+          {
+            "term": "Investment screening",
+            "definition": "Government review of foreign investments that may create security or strategic risks."
+          },
+          {
+            "term": "Shared standards groups",
+            "definition": "Groups of states or firms that coordinate technical rules among themselves instead of waiting for universal agreement."
+          }
+        ]
+      },
+      "options": [
+        {
+          "id": "edge",
+          "title": "Slow a rival's climb",
+          "label": "The package is mainly about slowing a rival in sectors that feed military and industrial power.",
+          "signals": {
+            "securityCompetition": 6.2,
+            "politicalEconomy": 4.7,
+            "restraint": 3.4
+          }
+        },
+        {
+          "id": "chokepoints",
+          "title": "Control the chokepoints",
+          "label": "The deeper issue is who controls the bottlenecks, data, and standards others cannot easily replace.",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "securityCompetition": 4.7,
+            "institutions": 3.4
+          }
+        },
+        {
+          "id": "narrow",
+          "title": "Keep the rules limited",
+          "label": "The better case is for narrow allied rules that protect security without breaking the wider system.",
+          "signals": {
+            "institutions": 6.2,
+            "restraint": 5,
+            "securityCompetition": 4.3
+          }
+        },
+        {
+          "id": "hierarchy",
+          "title": "Do not create a new hierarchy",
+          "label": "The risk is a system where a few leading states write the rules and everyone else mainly absorbs the costs.",
+          "signals": {
+            "politicalEconomy": 5.9,
+            "normsIdentity": 4.9,
+            "orderJustice": 3.1
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_middle_power",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "actorLens",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A middle power relies on one bloc for security and the other for trade. Which logic looks strongest from its side?",
+      "helpText": "Answer from the middle power's position.",
+      "options": [
+        {
+          "id": "shield",
+          "title": "Lock in the security shield",
+          "label": "Choose the security provider clearly before a crisis forces the decision under worse conditions.",
+          "signals": {
+            "securityCompetition": 5.9,
+            "institutions": 4.2,
+            "restraint": 3.7
+          }
+        },
+        {
+          "id": "hedge",
+          "title": "Hedge and diversify",
+          "label": "Preserve room to maneuver by spreading risk across markets, partners, and supply lines.",
+          "signals": {
+            "restraint": 5.9,
+            "politicalEconomy": 5.2,
+            "institutions": 4.7
+          }
+        },
+        {
+          "id": "peers",
+          "title": "Write rules with peers",
+          "label": "Coalition-building with other middle powers is the best way to widen bargaining room and resist bloc pressure.",
+          "signals": {
+            "institutions": 6,
+            "normsIdentity": 5.1,
+            "politicalEconomy": 4.6
+          }
+        },
+        {
+          "id": "extract",
+          "title": "Exploit the squeeze",
+          "label": "Use the country's pivotal position to extract concessions from both sides rather than declare a camp early.",
+          "signals": {
+            "domesticFilters": 5.4,
+            "politicalEconomy": 5.6,
+            "restraint": 4.4
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_green_finance",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "actorLens",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A lower-income state is offered green-finance money tied to procurement and reform rules. Which logic looks strongest from its side?",
+      "helpText": "Answer from the borrowing state's position.",
+      "options": [
+        {
+          "id": "stabilize",
+          "title": "Stabilize first",
+          "label": "Access to finance and policy credibility come first. Bargaining room is thin when fiscal stress is high.",
+          "signals": {
+            "institutions": 5.8,
+            "domesticFilters": 4.9,
+            "politicalEconomy": 3.4
+          }
+        },
+        {
+          "id": "space",
+          "title": "Protect policy space",
+          "label": "The key issue is whether the deal locks the country into dependence and weakens local industry.",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "domesticFilters": 4.8,
+            "orderJustice": 3.6
+          }
+        },
+        {
+          "id": "bloc",
+          "title": "Bargain with peers",
+          "label": "The best leverage comes from negotiating with peers that face the same terms rather than one by one.",
+          "signals": {
+            "institutions": 5.7,
+            "normsIdentity": 5.2,
+            "politicalEconomy": 5
+          }
+        },
+        {
+          "id": "home",
+          "title": "Watch the home coalition",
+          "label": "Even a fair external package fails if domestic winners and losers make it politically unsustainable.",
+          "signals": {
+            "domesticFilters": 6.4,
+            "politicalEconomy": 4.9,
+            "institutions": 4.3
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_maritime_crisis",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "An ally stages risky probes in disputed waters and asks for public backing. What should weigh most?",
+      "helpText": "Choose the priority that should guide the response.",
+      "options": [
+        {
+          "id": "deter",
+          "title": "Hold the line on deterrence",
+          "label": "Public backing deters more testing by the rival.",
+          "signals": {
+            "securityCompetition": 6.3,
+            "restraint": 3.3,
+            "institutions": 3.8
+          }
+        },
+        {
+          "id": "entrapment",
+          "title": "Avoid entrapment",
+          "label": "The bigger danger is being pulled into an escalation spiral by an ally's local gambles.",
+          "signals": {
+            "restraint": 6.3,
+            "securityCompetition": 4.2,
+            "institutions": 4
+          }
+        },
+        {
+          "id": "offramp",
+          "title": "Build an off-ramp",
+          "label": "The priority is monitoring, crisis rules, and quiet bargaining that let both sides step back.",
+          "signals": {
+            "institutions": 6.1,
+            "restraint": 5.2,
+            "securityCompetition": 4
+          }
+        },
+        {
+          "id": "ally_politics",
+          "title": "Read the ally's politics",
+          "label": "Before backing the move, ask whether the probe is being driven by domestic weakness or elite competition at home.",
+          "signals": {
+            "domesticFilters": 6.2,
+            "restraint": 4.8,
+            "securityCompetition": 4.1
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_digital_stack",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A government must choose between a cheap foreign digital stack and a costlier allied alternative. What should drive the choice?",
+      "helpText": "Consider long-term exposure, not only the upfront price.",
+      "clarification": {
+        "whatItAsks": "Which risk should lead: security exposure, long-term dependence, coordination with allies, or loss of autonomy?",
+        "terms": [
+          {
+            "term": "Digital stack",
+            "definition": "The combined hardware, software, cloud services, and technical standards a digital system runs on."
+          },
+          {
+            "term": "Interoperability",
+            "definition": "The ability of systems from different countries or firms to work together reliably."
+          }
+        ]
+      },
+      "options": [
+        {
+          "id": "security",
+          "title": "Security exposure",
+          "label": "Choose the costlier stack if it lowers the risk that a rival can coerce or disable critical systems later.",
+          "signals": {
+            "securityCompetition": 6,
+            "politicalEconomy": 4.9,
+            "restraint": 3.7
+          }
+        },
+        {
+          "id": "dependence",
+          "title": "Dependency and standards control",
+          "label": "The central issue is who controls the standards, maintenance, and chokepoints once the system becomes hard to replace.",
+          "signals": {
+            "politicalEconomy": 6.4,
+            "securityCompetition": 4.4,
+            "institutions": 3.8
+          }
+        },
+        {
+          "id": "interoperability",
+          "title": "Interoperability with partners",
+          "label": "The best choice is the one that fits shared rules and technical coordination across trusted partners.",
+          "signals": {
+            "institutions": 6.1,
+            "politicalEconomy": 4.6,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "autonomy",
+          "title": "Avoid bloc lock-in",
+          "label": "Turning every digital choice into a camp marker can narrow autonomy and harden a divided order.",
+          "signals": {
+            "normsIdentity": 5.7,
+            "restraint": 5.4,
+            "securityCompetition": 3.3
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_parallel_order",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "Rising powers start building alternative banks, payment systems, and development forums. What is the deeper issue?",
+      "helpText": "Choose why the alternatives are attractive, not your preferred reform.",
+      "options": [
+        {
+          "id": "reform",
+          "title": "Old governance stopped adjusting",
+          "label": "The main problem is that existing institutions no longer give rising states enough voice, protection, or agenda-setting power.",
+          "signals": {
+            "institutions": 6.3,
+            "domesticFilters": 4.6,
+            "normsIdentity": 4.5
+          }
+        },
+        {
+          "id": "power",
+          "title": "Power shifted first",
+          "label": "Institutional conflict is downstream from changing material power. The argument over rules reflects a harder strategic transition.",
+          "signals": {
+            "securityCompetition": 6.1,
+            "institutions": 3,
+            "politicalEconomy": 4.7
+          }
+        },
+        {
+          "id": "hierarchy",
+          "title": "States want room outside hierarchy",
+          "label": "Alternative institutions give states options beyond credit, payment, and lending systems controlled by others.",
+          "signals": {
+            "politicalEconomy": 6.4,
+            "institutions": 4,
+            "orderJustice": 3.6
+          }
+        },
+        {
+          "id": "legitimation",
+          "title": "Leaders want visible autonomy",
+          "label": "Alternative institutions also help leaders show domestic audiences and partners that they are not permanently trapped inside systems dominated by others.",
+          "signals": {
+            "domesticFilters": 6.2,
+            "normsIdentity": 5,
+            "institutions": 4.1
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_sanctions_alignment",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "actorLens",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A nonaligned state condemns aggression but relies on the aggressor for cheap energy and fertilizer. Which logic looks strongest from its side?",
+      "helpText": "Answer from the nonaligned state's position.",
+      "options": [
+        {
+          "id": "norm",
+          "title": "Defend the rule despite the cost",
+          "label": "Absorbing real pain may be necessary if the state wants to defend the rule against conquest credibly.",
+          "signals": {
+            "institutions": 5.8,
+            "orderJustice": 5.9,
+            "restraint": 3.8
+          }
+        },
+        {
+          "id": "stability",
+          "title": "Protect domestic stability first",
+          "label": "Protect energy, food, and coalition stability at home; the government cannot sustain a line that breaks its domestic base.",
+          "signals": {
+            "domesticFilters": 6.4,
+            "restraint": 5.1,
+            "politicalEconomy": 4.9
+          }
+        },
+        {
+          "id": "diversify",
+          "title": "Use the crisis to diversify",
+          "label": "The stronger answer is to reduce structural dependence over time rather than swing instantly into a new dependency.",
+          "signals": {
+            "politicalEconomy": 6.3,
+            "restraint": 5.4,
+            "institutions": 4.3
+          }
+        },
+        {
+          "id": "hedge",
+          "title": "Condemn, but keep room to hedge",
+          "label": "The state should oppose the breach without turning itself into an enforcement arm for someone else's wider strategy.",
+          "signals": {
+            "restraint": 6,
+            "normsIdentity": 4.8,
+            "institutions": 4.2
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_intervention_memory",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "actorLens",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "After a major insurgent attack, a Sahelian government is offered troops by its former colonial power. The force could help quickly, but earlier missions left resentment and weak local capacity. What should weigh most?",
+      "helpText": "Answer from the Sahelian government's position.",
+      "options": [
+        {
+          "id": "shield",
+          "title": "Protect sovereignty and local control",
+          "label": "Decline any arrangement that gives the outside force open-ended authority; short-term help is not worth renewed dependence.",
+          "signals": {
+            "orderJustice": 6.3,
+            "restraint": 5.4,
+            "normsIdentity": 4.8
+          }
+        },
+        {
+          "id": "threshold",
+          "title": "Urgent danger can justify help",
+          "label": "If civilians and state survival face extreme danger, tightly limited outside force can be justified despite the history.",
+          "signals": {
+            "orderJustice": 2.7,
+            "restraint": 3.8,
+            "normsIdentity": 4.9
+          }
+        },
+        {
+          "id": "regional",
+          "title": "Put regional actors in the lead",
+          "label": "Accept help only through a mission whose aims, command, and exit terms are set mainly by neighboring states.",
+          "signals": {
+            "institutions": 6,
+            "orderJustice": 4.2,
+            "restraint": 5
+          }
+        },
+        {
+          "id": "aftermath",
+          "title": "Judge the exit, not just the arrival",
+          "label": "The decisive test is whether the mission leaves local forces and institutions stronger rather than creating another indefinite security dependency.",
+          "signals": {
+            "restraint": 6.2,
+            "domesticFilters": 4.8,
+            "orderJustice": 4.3
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_case_rising_power_voice",
+      "kind": "miniCase",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "explanation",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A rising power demands more voice in global rules while expanding military reach. What is the most persuasive reading?",
+      "helpText": "Choose the explanation, not your preferred policy response.",
+      "options": [
+        {
+          "id": "security_transition",
+          "title": "It is mainly a power transition",
+          "label": "As power shifts, the rising state pushes harder both militarily and institutionally because the old order serves it less well.",
+          "signals": {
+            "securityCompetition": 6.1,
+            "institutions": 3.5,
+            "normsIdentity": 3.8
+          }
+        },
+        {
+          "id": "status_recognition",
+          "title": "Recognition is the core issue",
+          "label": "The state wants material room, but it also wants its status and authority claims treated as legitimate.",
+          "signals": {
+            "normsIdentity": 6.3,
+            "securityCompetition": 3.4,
+            "institutions": 4.4
+          }
+        },
+        {
+          "id": "representation",
+          "title": "Representation is lagging",
+          "label": "The sharper problem is that existing rules and leadership structures have not adjusted enough to absorb the new weight.",
+          "signals": {
+            "institutions": 6.2,
+            "domesticFilters": 4.6,
+            "normsIdentity": 4.5
+          }
+        },
+        {
+          "id": "hierarchy_contest",
+          "title": "It is contesting hierarchy",
+          "label": "The dispute is not only over voice. It is also over who controls finance, technology, and agenda-setting across the wider order.",
+          "signals": {
+            "politicalEconomy": 6.2,
+            "securityCompetition": 4.6,
+            "normsIdentity": 4.7
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_energy_alignment",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "decision",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A treaty ally finds that its main security partner has used force in clear breach of an agreement both signed. Suspending basing access would uphold the rule, but would also expose the ally to a nearby rival and threaten thousands of local jobs. What should govern its response?",
+      "helpText": "Choose the priority that should govern the decision, not the easiest public message.",
+      "options": [
+        {
+          "id": "defend_rule",
+          "title": "Suspend access now",
+          "label": "A treaty ally cannot make the agreement credible while continuing to enable a clear breach, even at real security and economic cost.",
+          "signals": {
+            "orderJustice": 6.1,
+            "institutions": 5.6,
+            "restraint": 3.7
+          }
+        },
+        {
+          "id": "protect_home",
+          "title": "Protect immediate security",
+          "label": "Do not trade away the country's deterrent position or domestic coalition for a response it cannot safely sustain.",
+          "signals": {
+            "domesticFilters": 6.4,
+            "restraint": 5.3,
+            "politicalEconomy": 4.7
+          }
+        },
+        {
+          "id": "phase_reduction",
+          "title": "Reduce dependence in stages",
+          "label": "Set a timetable to diversify security support and the local economy before using basing access as leverage.",
+          "signals": {
+            "politicalEconomy": 5.9,
+            "restraint": 5.8,
+            "domesticFilters": 5.1
+          }
+        },
+        {
+          "id": "hedge_diplomatically",
+          "title": "Separate condemnation from access",
+          "label": "Condemn the breach and press for a settlement, but keep the base arrangement in place unless the violation widens.",
+          "signals": {
+            "restraint": 5.7,
+            "normsIdentity": 4.8,
+            "institutions": 4.2
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    },
+    {
+      "id": "an_tradeoff_ceasefire_settlement",
+      "kind": "tradeoff",
+      "modes": [
+        "analyst"
+      ],
+      "tier": "extended",
+      "cardType": "both",
+      "allowSecondChoiceInAnalyst": true,
+      "prompt": "A brutal war may end only if outside powers delay accountability and accept an unequal settlement. What is the deeper issue?",
+      "helpText": "Choose the central tradeoff, not your preferred outcome.",
+      "options": [
+        {
+          "id": "stop_harm_now",
+          "title": "Stop the harm now",
+          "label": "An imperfect peace can still be defensible if it sharply reduces killing and buys time for political repair.",
+          "signals": {
+            "restraint": 5.9,
+            "orderJustice": 3.1,
+            "institutions": 4.8
+          }
+        },
+        {
+          "id": "hold_accountability_line",
+          "title": "Hold the accountability line",
+          "label": "If the hardest wars always suspend justice, the norm weakens exactly where future offenders are watching.",
+          "signals": {
+            "orderJustice": 6.2,
+            "institutions": 5.1,
+            "restraint": 4.1
+          }
+        },
+        {
+          "id": "sequence_peace_and_justice",
+          "title": "Sequence peace and justice",
+          "label": "The strongest answer is a monitored settlement that stops the war now but keeps a credible path to later accountability.",
+          "signals": {
+            "institutions": 6.1,
+            "restraint": 5.2,
+            "orderJustice": 4.4
+          }
+        },
+        {
+          "id": "read_the_power_distribution",
+          "title": "Read the power behind the terms",
+          "label": "The real issue is who has leverage to define both peace and justice. The settlement language follows that imbalance.",
+          "signals": {
+            "politicalEconomy": 5.9,
+            "domesticFilters": 4.8,
+            "orderJustice": 4
+          }
+        }
+      ],
+      "scoringBlock": "core"
+    }
+  ]
+}

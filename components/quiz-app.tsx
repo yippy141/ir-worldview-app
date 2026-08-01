@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
-  getZhHansFoundationQuestions,
-  zhHansFoundationStandardSections,
+  getZhHansFoundationQuestionsForSet,
 } from "@/content/locales/zh-Hans/foundation-instrument"
 import {
   zhHansFoundationQuizUi,
@@ -16,12 +15,11 @@ import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import {
   dimensionLabels,
-  foundationMidpointQuestionIndex,
-  foundationSectionTotal,
-  foundationStandardSections,
-  getFoundationQuestions,
+  foundationCoreQuestions,
+  getFoundationQuestionsForSet,
+  isFoundationFamilyKey,
   likertScale,
-  questionCountsByMode,
+  questionCountsBySet,
 } from "@/lib/quiz-schema"
 import {
   QUIZ_STORAGE_KEY,
@@ -29,44 +27,43 @@ import {
   notifyQuizSessionUpdated,
   parseQuizSession,
 } from "@/lib/quiz-session"
-import { computeCoreDimensionScores } from "@/lib/scoring"
-import { getTopDimensions } from "@/lib/result-helpers"
+import { getSeededOptionOrder } from "@/lib/option-order"
+import {
+  bucketItemResponseLatency,
+  submitTier1CompletionStep,
+} from "@/lib/research/tier1-aggregate"
 import type {
   AnswerValue,
   Clarification,
   ChoiceCardType,
+  FamilyKey,
   Question,
-  QuizMode,
   QuizSession,
   RankedChoiceAnswer,
 } from "@/lib/types"
-
-const foundationTimeEstimateByMode = {
-  standard: "12 to 16 minutes",
-  analyst: "30 to 40 minutes",
-} as const
 
 const englishFoundationQuizUi = {
   loading: "Loading your draft…",
   eyebrow: "IR Worldview Inventory",
   title: "Foundation",
   adaptedBeta: "",
-  modeSummary: {
-    standard: `${questionCountsByMode.standard} questions · about ${foundationTimeEstimateByMode.standard}.`,
-    analyst: `${questionCountsByMode.analyst} questions · about ${foundationTimeEstimateByMode.analyst} · more scenarios that require tradeoffs and more questions asked from a defined actor’s position.`,
+  setSummary: {
+    core: `${questionCountsBySet.core} questions · about 6 to 8 minutes · followed by a provisional result.`,
+    targetedExtended:
+      "5 follow-up questions selected to separate your two nearest modeled families.",
+    fullExtended: `${questionCountsBySet.fullExtended} additional questions · the full extended set.`,
   },
-  modeLabels: { standard: "Standard mode", analyst: "Analyst mode" },
+  setLabels: {
+    core: "Core set",
+    targetedExtended: "Targeted extension",
+    fullExtended: "Full extension",
+  },
   answered: (answered, total) => `${answered} of ${total} answered`,
   progressAria: "Quiz progress",
   contextAssistOn: "Context assist on",
   contextAssistOff: "Context assist off",
   startOver: "Start over",
-  switchToAnalyst: "Switch to Analyst mode →",
-  switchToStandard: "← Back to Standard mode",
-  confirmAnalyst: "Switching to Analyst mode will clear your current answers. Continue?",
-  confirmStandard: "Switching back to Standard mode will clear your current Analyst answers. Continue?",
   returnToReview: "← Return to review",
-  part: (index, total, title) => `Part ${index} of ${total} — ${title}`,
   questionProgress: (label, index, total) => `${label} · ${index} of ${total}`,
   howToAnswer: "How to answer this card",
   publicDefensibilityNote:
@@ -82,12 +79,6 @@ const englishFoundationQuizUi = {
   back: "Back",
   next: "Next",
   reviewAnswers: "Review your answers →",
-  midpointComplete: (section) => `${section} complete`,
-  midpointTitle: "Your profile is starting to take shape.",
-  midpointLead: (first, second) => `You have strong pulls on ${first} and ${second}.`,
-  midpointNote:
-    "This is a partial read based on your first answers. The remaining questions will sharpen it.",
-  continue: "Continue",
   hideExplainer: "Hide explainer",
   plainLanguageExplanation: "Plain-language explanation",
   quickExplainer: "Quick explainer",
@@ -121,14 +112,13 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   // Annotated so optional copy keys stay reachable on every locale branch.
   const copy: FoundationQuizUiCopy =
     locale === "zh-Hans" ? zhHansFoundationQuizUi : englishFoundationQuizUi
-  const standardSections = locale === "zh-Hans"
-    ? zhHansFoundationStandardSections
-    : foundationStandardSections
   const searchParams = useSearchParams()
   const fromReview = searchParams.get("from") === "review"
   const hasIndexedQuestion = searchParams.get("q") !== null
   const initialQ = parseInt(searchParams.get("q") ?? "0", 10)
-  const requestedMode = searchParams.get("mode") === "analyst" ? "analyst" : undefined
+  const requestedExtension = searchParams.get("extension")
+  const requestedFirstFamily = searchParams.get("first")
+  const requestedSecondFamily = searchParams.get("second")
 
   const [session, setSession] = useState<QuizSession>(createEmptySession())
   const [currentIndex, setCurrentIndex] = useState(
@@ -136,34 +126,72 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   )
   const [supportOpen, setSupportOpen] = useState(false)
   const [ready, setReady] = useState(false)
-  const [showMidpoint, setShowMidpoint] = useState(false)
+  const [renderEpoch, setRenderEpoch] = useState(0)
   const foundationStartTracked = useRef(false)
+  const itemVisibleAtRef = useRef<{
+    itemId: string
+    visibleAtMs: number
+  } | null>(null)
+  const completionStepsSent = useRef(new Set<string>())
 
   useEffect(() => {
     const raw = window.localStorage.getItem(QUIZ_STORAGE_KEY)
     const parsed = parseQuizSession(raw)
     const timeout = window.setTimeout(() => {
-      if (parsed) {
-        // V14: if the saved session has no active mode, default to Standard
-        // (or honor an explicit ?mode=analyst URL upgrade).
-        setSession(
-          parsed.activeMode
-            ? parsed
-            : { ...parsed, activeMode: requestedMode ?? "standard" },
-        )
-      } else {
-        if (raw) {
-          window.localStorage.removeItem(QUIZ_STORAGE_KEY)
-        }
-        // First-time user: start in Standard mode without a mode gate.
-        setSession((prev) => ({ ...prev, activeMode: requestedMode ?? "standard" }))
+      if (!parsed && raw) {
+        window.localStorage.removeItem(QUIZ_STORAGE_KEY)
       }
 
+      const baseSession = parsed ?? {
+        ...createEmptySession(),
+        activeMode: "standard" as const,
+      }
+      const hasCompleteCore = foundationCoreQuestions.every(
+        (question) => baseSession.answers[question.id] !== undefined,
+      )
+      const requestedPair = getRequestedFamilyPair(
+        requestedFirstFamily,
+        requestedSecondFamily,
+      )
+
+      if (
+        requestedExtension === "targeted" &&
+        requestedPair &&
+        hasCompleteCore
+      ) {
+        setSession({
+          ...baseSession,
+          activeMode: "analyst",
+          questionSet: "targetedExtended",
+          targetedFamilyPair: requestedPair,
+        })
+      } else if (requestedExtension === "full" && hasCompleteCore) {
+        setSession({
+          ...baseSession,
+          activeMode: "analyst",
+          questionSet: "fullExtended",
+          targetedFamilyPair: undefined,
+        })
+      } else if (
+        baseSession.questionSet === "targetedExtended" &&
+        !baseSession.targetedFamilyPair
+      ) {
+        setSession({
+          ...baseSession,
+          activeMode: "standard",
+          questionSet: "core",
+        })
+      } else {
+        setSession({
+          ...baseSession,
+          activeMode: baseSession.activeMode ?? "standard",
+        })
+      }
       setReady(true)
     }, 0)
 
     return () => window.clearTimeout(timeout)
-  }, [requestedMode])
+  }, [requestedExtension, requestedFirstFamily, requestedSecondFamily])
 
   useEffect(() => {
     if (!ready) return
@@ -172,36 +200,70 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   }, [ready, session])
 
   const questions = useMemo(
-    () => session.activeMode
-      ? locale === "zh-Hans"
-        ? getZhHansFoundationQuestions(session.activeMode)
-        : getFoundationQuestions(session.activeMode)
-      : [],
-    [locale, session.activeMode],
+    () => locale === "zh-Hans"
+      ? getZhHansFoundationQuestionsForSet(
+          session.questionSet,
+          session.targetedFamilyPair,
+        )
+      : getFoundationQuestionsForSet(
+          session.questionSet,
+          session.targetedFamilyPair,
+        ),
+    [locale, session.questionSet, session.targetedFamilyPair],
   )
   const effectiveIndex = Math.min(currentIndex, Math.max(0, questions.length - 1))
+  const currentQuestion = questions[effectiveIndex]
+  const currentQuestionId = currentQuestion?.id
+  const currentQuestionHasAnswer = currentQuestionId
+    ? session.answers[currentQuestionId] !== undefined
+    : false
+
+  useEffect(() => {
+    if (!ready || !currentQuestionId) return
+
+    // The render timestamp is ephemeral. Only the derived bucket is persisted.
+    itemVisibleAtRef.current = {
+      itemId: currentQuestionId,
+      visibleAtMs: window.performance.now(),
+    }
+  }, [currentQuestionId, effectiveIndex, ready, renderEpoch, session.questionSet])
+
+  useEffect(() => {
+    if (
+      !ready ||
+      !currentQuestionId ||
+      currentQuestionHasAnswer
+    ) {
+      return
+    }
+
+    const stepKey = `${session.questionSet}:${effectiveIndex}`
+    if (completionStepsSent.current.has(stepKey)) return
+
+    completionStepsSent.current.add(stepKey)
+    void submitTier1CompletionStep(session.questionSet, effectiveIndex)
+  }, [
+    currentQuestionHasAnswer,
+    currentQuestionId,
+    effectiveIndex,
+    ready,
+    renderEpoch,
+    session.questionSet,
+  ])
 
   function updateSession(patch: Partial<QuizSession>) {
     setSession((prev) => ({ ...prev, ...patch }))
   }
 
-  function switchMode(mode: QuizMode) {
-    setSession((prev) => ({
-      ...prev,
-      activeMode: mode,
-      // Preserve answers when staying in the same mode; clear if switching.
-      answers: prev.activeMode && prev.activeMode !== mode ? {} : prev.answers,
-      midpointAcknowledged:
-        prev.activeMode && prev.activeMode !== mode ? undefined : prev.midpointAcknowledged,
-    }))
-    setCurrentIndex(0)
-    setSupportOpen(false)
-    foundationStartTracked.current = false
-  }
-
   function selectAnswer(value: AnswerValue) {
     const currentQuestion = questions[effectiveIndex]
     if (!currentQuestion) return
+    const visibleItem = itemVisibleAtRef.current
+    const latencyBucket = visibleItem?.itemId === currentQuestion.id
+      ? bucketItemResponseLatency(
+          window.performance.now() - visibleItem.visibleAtMs,
+        )
+      : undefined
 
     if (!foundationStartTracked.current && Object.keys(session.answers).length === 0) {
       foundationStartTracked.current = true
@@ -215,6 +277,12 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
           ...prev.answers,
           [currentQuestion.id]: value,
         },
+        itemLatencyBuckets: latencyBucket === undefined
+          ? prev.itemLatencyBuckets
+          : {
+              ...prev.itemLatencyBuckets,
+              [currentQuestion.id]: latencyBucket,
+            },
       }))
       return
     }
@@ -234,6 +302,12 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             ...(secondary ? { secondary } : {}),
           },
         },
+        itemLatencyBuckets: latencyBucket === undefined
+          ? prev.itemLatencyBuckets
+          : {
+              ...prev.itemLatencyBuckets,
+              [currentQuestion.id]: latencyBucket,
+            },
       }
     })
   }
@@ -267,23 +341,6 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   }
 
   function goNext() {
-    // After section 1 — and only on a clean forward step in Standard — show
-    // the midpoint preview interstitial once.
-    if (
-      session.activeMode === "standard" &&
-      !session.midpointAcknowledged &&
-      effectiveIndex === foundationMidpointQuestionIndex
-    ) {
-      setShowMidpoint(true)
-      return
-    }
-    setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))
-    setSupportOpen(false)
-  }
-
-  function continueFromMidpoint() {
-    setSession((prev) => ({ ...prev, midpointAcknowledged: true }))
-    setShowMidpoint(false)
     setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1))
     setSupportOpen(false)
   }
@@ -296,8 +353,10 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     setSession({ ...createEmptySession(), activeMode: "standard" })
     setCurrentIndex(0)
     setSupportOpen(false)
-    setShowMidpoint(false)
     foundationStartTracked.current = false
+    itemVisibleAtRef.current = null
+    completionStepsSent.current.clear()
+    setRenderEpoch((epoch) => epoch + 1)
     window.localStorage.removeItem(QUIZ_STORAGE_KEY)
     notifyQuizSessionUpdated()
   }
@@ -306,7 +365,6 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     return <div className="panel" style={{ padding: "40px" }}>{copy.loading}</div>
   }
 
-  const currentQuestion = questions[effectiveIndex]
   const completedCount = questions.filter((question) => session.answers[question.id] !== undefined).length
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const isComplete = questions.length > 0 && completedCount === questions.length
@@ -328,21 +386,14 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
       : "go-to-review"
     : null
   const supportVisible = session.contextAssist || supportOpen
-  const currentSection =
-    session.activeMode === "standard" && currentQuestion
-      ? standardSections.find((section) => section.questionIds.includes(currentQuestion.id))
-      : undefined
-
-  if (showMidpoint) {
-    return (
-      <MidpointPreview
-        answers={session.answers}
-        onContinue={continueFromMidpoint}
-        copy={copy}
-        firstSectionTitle={standardSections[0].title}
-      />
-    )
-  }
+  const presentedChoiceOptions =
+    currentQuestion && currentQuestion.kind !== "likert"
+      ? getSeededOptionOrder(
+          currentQuestion.options,
+          session.orderSeed,
+          currentQuestion.id,
+        )
+      : []
 
   return (
     <div className="stack-lg">
@@ -358,13 +409,13 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
               <div className="stack-xs">
                 <h1>{copy.title}</h1>
                 <p className="muted" style={{ lineHeight: "1.65" }}>
-                  {copy.modeSummary[session.activeMode]}
+                  {copy.setSummary[session.questionSet]}
                 </p>
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}
               </div>
-              <span className="mode-pill">{copy.modeLabels[session.activeMode]}</span>
+              <span className="mode-pill">{copy.setLabels[session.questionSet]}</span>
             </div>
           </div>
 
@@ -396,37 +447,6 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             <button type="button" className="secondary-button" onClick={resetQuiz}>
               {copy.startOver}
             </button>
-            {session.activeMode === "standard" ? (
-              <button
-                type="button"
-                className="quiz-mode-link"
-                onClick={() => {
-                  if (
-                    Object.keys(session.answers).length === 0 ||
-                    window.confirm(copy.confirmAnalyst)
-                  ) {
-                    switchMode("analyst")
-                  }
-                }}
-              >
-                {copy.switchToAnalyst}
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="quiz-mode-link"
-                onClick={() => {
-                  if (
-                    Object.keys(session.answers).length === 0 ||
-                    window.confirm(copy.confirmStandard)
-                  ) {
-                    switchMode("standard")
-                  }
-                }}
-              >
-                {copy.switchToStandard}
-              </button>
-            )}
           </div>
         </div>
 
@@ -461,12 +481,6 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
                 {copy.returnToReview}
               </button>
             </div>
-          ) : null}
-
-          {currentSection ? (
-            <p className="quiz-section-marker">
-              {copy.part(currentSection.index, foundationSectionTotal, currentSection.title)}
-            </p>
           ) : null}
 
           <div className="quiz-question-frame" key={currentQuestion.id}>
@@ -536,7 +550,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
               </div>
             ) : (
               <div className="stack-sm">
-                {currentQuestion.options.map((option, optionIndex) => {
+                {presentedChoiceOptions.map((option, optionIndex) => {
                   const selected = currentPrimarySelection === option.id
                   return (
                     <button
@@ -564,7 +578,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
                       </p>
                     </div>
                     <div className="module-secondary-grid">
-                      {currentQuestion.options
+                      {presentedChoiceOptions
                         .filter((option) => option.id !== currentPrimarySelection)
                         .map((option) => {
                           const selected = currentSecondarySelection === option.id
@@ -636,45 +650,6 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
           </div>
         </section>
       ) : null}
-    </div>
-  )
-}
-
-function MidpointPreview({
-  answers,
-  onContinue,
-  copy,
-  firstSectionTitle,
-}: {
-  answers: QuizSession["answers"]
-  onContinue: () => void
-  copy: FoundationQuizUiCopy
-  firstSectionTitle: string
-}) {
-  const dimensionScores = useMemo(
-    () => computeCoreDimensionScores(answers, "standard"),
-    [answers],
-  )
-  const topTwo = useMemo(() => getTopDimensions(dimensionScores, 2), [dimensionScores])
-
-  const firstLabel = copy.dimensionLabels[topTwo[0]]
-  const secondLabel = copy.dimensionLabels[topTwo[1]]
-
-  return (
-    <div className="stack-lg">
-      <section className="panel stack-md quiz-midpoint">
-        <div className="stack-xs">
-          <p className="eyebrow">{copy.midpointComplete(firstSectionTitle)}</p>
-          <h1 className="quiz-midpoint__h1">{copy.midpointTitle}</h1>
-        </div>
-        <p className="quiz-midpoint__lead">{copy.midpointLead(firstLabel, secondLabel)}</p>
-        <p className="quiz-midpoint__note">{copy.midpointNote}</p>
-        <div className="row gap-sm wrap">
-          <button type="button" className="primary-button" onClick={onContinue}>
-            {copy.continue}
-          </button>
-        </div>
-      </section>
     </div>
   )
 }
@@ -795,4 +770,19 @@ function getRankedChoiceAnswer(answer: AnswerValue | undefined): RankedChoiceAns
 
 function isRankedChoiceAnswer(answer: AnswerValue | undefined): answer is RankedChoiceAnswer {
   return typeof answer === "object" && answer !== null && typeof answer.primary === "string"
+}
+
+function getRequestedFamilyPair(
+  first: string | null,
+  second: string | null,
+): [FamilyKey, FamilyKey] | undefined {
+  if (
+    !isFoundationFamilyKey(first) ||
+    !isFoundationFamilyKey(second) ||
+    first === second
+  ) {
+    return undefined
+  }
+
+  return [first, second]
 }

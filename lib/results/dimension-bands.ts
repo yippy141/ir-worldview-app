@@ -36,14 +36,17 @@ export type ObservedDimensionRange = {
   p90: number
 }
 
+// Measured against the V21 scorer (lib/scoring/v2). Recompute these whenever
+// the scoring version changes: they describe what that scorer produces, and a
+// stale set silently hands conviction copy back to average scores.
 export const OBSERVED_DIMENSION_RANGES: Record<DimensionKey, ObservedDimensionRange> = {
-  securityCompetition: { mean: 4.54, p10: 3.85, p90: 5.16 },
-  institutions: { mean: 4.52, p10: 3.82, p90: 5.06 },
-  domesticFilters: { mean: 4.88, p10: 3.73, p90: 5.65 },
-  normsIdentity: { mean: 4.55, p10: 3.5, p90: 5.36 },
-  politicalEconomy: { mean: 4.82, p10: 3.77, p90: 5.52 },
-  restraint: { mean: 4.58, p10: 4.0, p90: 5.03 },
-  orderJustice: { mean: 4.2, p10: 3.33, p90: 5.02 },
+  securityCompetition: { mean: 4.49, p10: 3.83, p90: 5.12 },
+  institutions: { mean: 4.52, p10: 3.84, p90: 5.06 },
+  domesticFilters: { mean: 4.79, p10: 3.77, p90: 5.54 },
+  normsIdentity: { mean: 4.53, p10: 3.5, p90: 5.47 },
+  politicalEconomy: { mean: 4.79, p10: 3.85, p90: 5.5 },
+  restraint: { mean: 4.55, p10: 3.97, p90: 5.01 },
+  orderJustice: { mean: 4.21, p10: 3.35, p90: 5.07 },
 }
 
 /** Lean thresholds on the reported 1-7 scale. */
