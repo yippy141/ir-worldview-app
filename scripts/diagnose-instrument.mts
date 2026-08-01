@@ -20,6 +20,20 @@
  */
 
 import { getFoundationQuestions } from "@/lib/quiz-schema"
+import {
+  buildModuleResult,
+  getModuleQuestions,
+  modules,
+  scoreModule,
+} from "@/lib/modules/framework"
+import {
+  aiAxisLabels,
+  aiScenarioQuestions,
+  getAiCoreQuestions,
+  getAiScenarioOrder,
+  getScenarioOptions,
+} from "@/lib/ai-governance-schema"
+import { generateAiGovernanceResult } from "@/lib/ai-governance-scoring"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import { NEUTRAL_BASELINE } from "@/lib/scoring-calibration"
 import { getSeededOptionOrder } from "@/lib/option-order"
@@ -35,6 +49,13 @@ import type {
   FamilyKey,
   QuizMode,
 } from "@/lib/types"
+import type { ModuleAnswers, ModuleDefinition } from "@/lib/modules/types"
+import type {
+  AiAnswers,
+  AiAxisKey,
+  AiQuizMode,
+  AiScenarioOption,
+} from "@/lib/ai-governance-types"
 
 const MODE: QuizMode = "analyst"
 const RANDOM_N = 500
@@ -46,6 +67,8 @@ const SHOW_PERCENTILES = process.argv.includes("--percentiles")
 const SHOW_SENSITIVITY = process.argv.includes("--sensitivity")
 const SHOW_STABILITY = process.argv.includes("--stability")
 const SHOW_ORDER_BIAS = process.argv.includes("--order-bias")
+const SHOW_MODULES = process.argv.includes("--modules")
+const SHOW_AI = process.argv.includes("--ai")
 
 const DIMENSION_KEYS: DimensionKey[] = [
   "securityCompetition",
@@ -276,6 +299,315 @@ function summarise(label: string, answers: Answers) {
       .join("  ")}`,
   )
   return { scores, result }
+}
+
+type OptionSignalStats = {
+  minimum: number
+  maximum: number
+  mean: number
+  spread: number
+  straddles: boolean
+}
+
+function getOptionSignalStats<T>(
+  options: T[],
+  readSignal: (option: T) => number,
+  midpoint: number,
+): OptionSignalStats {
+  const values = options.map(readSignal)
+  const minimum = Math.min(...values)
+  const maximum = Math.max(...values)
+  return {
+    minimum,
+    maximum,
+    mean: values.reduce((sum, value) => sum + value, 0) / values.length,
+    spread: maximum - minimum,
+    straddles: minimum < midpoint && maximum > midpoint,
+  }
+}
+
+function printSignalTableHeader(midpoint: number) {
+  console.log(
+    "| Item | Axis | Options | Min | Max | Spread | Mean | " +
+      `Straddles ${midpoint.toFixed(1)}? |`,
+  )
+  console.log("| --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |")
+}
+
+function runModuleDiagnostics() {
+  for (const [moduleIndex, moduleDefinition] of modules.entries()) {
+    const questions = getModuleQuestions(moduleDefinition, "analyst")
+    const scoredQuestions = questions.filter(
+      (question) => question.cardType !== "actorLens",
+    )
+    const moduleRng = makeRng(RANDOM_SEED + 1000 + moduleIndex)
+    const axisSums = Object.fromEntries(
+      moduleDefinition.axes.map((axis) => [axis.key, 0]),
+    ) as Record<string, number>
+    const headlineCounts: Record<string, number> = {}
+    const laneSummaryCounts: Record<string, Record<string, number>> =
+      Object.fromEntries(
+        moduleDefinition.lanes.map((lane) => [lane.key, {}]),
+      )
+
+    for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
+      const answers: ModuleAnswers = {}
+      for (const question of questions) {
+        const option = question.options[
+          Math.floor(moduleRng() * question.options.length)
+        ]
+        answers[question.id] = { primary: option.id }
+      }
+
+      const result = buildModuleResult(moduleDefinition, "analyst", answers)
+      headlineCounts[result.headline] = (headlineCounts[result.headline] ?? 0) + 1
+      for (const axis of moduleDefinition.axes) {
+        axisSums[axis.key] += result.scores[axis.key]
+      }
+      for (const laneSummary of result.laneSummaries) {
+        const counts = laneSummaryCounts[laneSummary.key] ?? {}
+        counts[laneSummary.summary] = (counts[laneSummary.summary] ?? 0) + 1
+        laneSummaryCounts[laneSummary.key] = counts
+      }
+    }
+
+    console.log("\n" + "=".repeat(74))
+    console.log(
+      `MODULE DIAGNOSTIC  ${moduleDefinition.title} (${RANDOM_N} seeded respondents)`,
+    )
+    console.log("=".repeat(74))
+    console.log(
+      "\nOverall-score calculations follow the product scorer: analyst-mode " +
+        "actor-lens cards are reported below but do not contribute to the overall score.",
+    )
+    console.log("\n| Axis | Random mean | Lowest attainable | Highest attainable | Range |")
+    console.log("| --- | ---: | ---: | ---: | ---: |")
+
+    for (const axis of moduleDefinition.axes) {
+      const minimizingAnswers = buildModuleExtremeAnswers(
+        moduleDefinition,
+        scoredQuestions,
+        axis.key,
+        "minimum",
+      )
+      const maximizingAnswers = buildModuleExtremeAnswers(
+        moduleDefinition,
+        scoredQuestions,
+        axis.key,
+        "maximum",
+      )
+      const minimum = scoreModule(
+        moduleDefinition,
+        "analyst",
+        minimizingAnswers,
+      )[axis.key]
+      const maximum = scoreModule(
+        moduleDefinition,
+        "analyst",
+        maximizingAnswers,
+      )[axis.key]
+      console.log(
+        `| ${axis.key} | ${(axisSums[axis.key] / RANDOM_N).toFixed(3)} | ` +
+          `${minimum.toFixed(2)} | ${maximum.toFixed(2)} | ` +
+          `${(maximum - minimum).toFixed(2)} |`,
+      )
+    }
+
+    report("Overall result-headline distribution", headlineCounts)
+
+    console.log("\nPer-card option-set audit")
+    printSignalTableHeader(4)
+    for (const question of questions) {
+      for (const axis of moduleDefinition.axes) {
+        const stats = getOptionSignalStats(
+          question.options,
+          (option) => option.signals[axis.key] ?? 4,
+          4,
+        )
+        const itemLabel =
+          question.cardType === "actorLens"
+            ? `${question.id} (actor lens)`
+            : question.id
+        console.log(
+          `| ${itemLabel} | ${axis.key} | ${question.options.length} | ` +
+            `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
+            `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
+            `${stats.straddles ? "yes" : "NO"} |`,
+        )
+      }
+    }
+
+    for (const lane of moduleDefinition.lanes) {
+      report(`Lane-summary distribution: ${lane.label}`, laneSummaryCounts[lane.key])
+    }
+  }
+}
+
+function buildModuleExtremeAnswers(
+  moduleDefinition: ModuleDefinition,
+  scoredQuestions: ReturnType<typeof getModuleQuestions>,
+  axisKey: string,
+  direction: "minimum" | "maximum",
+): ModuleAnswers {
+  const answers: ModuleAnswers = {}
+  for (const question of scoredQuestions) {
+    const ordered = [...question.options].sort((left, right) => {
+      const leftValue = left.signals[axisKey] ?? 4
+      const rightValue = right.signals[axisKey] ?? 4
+      return direction === "minimum"
+        ? leftValue - rightValue
+        : rightValue - leftValue
+    })
+    answers[question.id] = { primary: ordered[0].id }
+  }
+  return answers
+}
+
+function getAiOptionSignal(
+  option: AiScenarioOption,
+  axis: AiAxisKey,
+): number {
+  return option.weights[axis] ?? 0
+}
+
+function runAiDiagnostics() {
+  const mode: AiQuizMode = "analyst"
+  const axes = Object.keys(aiAxisLabels) as AiAxisKey[]
+  const scenarios = getAiScenarioOrder(mode).map(
+    (scenarioId) => aiScenarioQuestions[scenarioId],
+  )
+  const likertQuestions = getAiCoreQuestions(mode)
+  const aiRng = makeRng(RANDOM_SEED + 2000)
+  const archetypeCounts: Record<string, number> = {}
+  const finalAxisSums = Object.fromEntries(axes.map((axis) => [axis, 0])) as Record<
+    AiAxisKey,
+    number
+  >
+  const finalAxisMin = Object.fromEntries(
+    axes.map((axis) => [axis, Infinity]),
+  ) as Record<AiAxisKey, number>
+  const finalAxisMax = Object.fromEntries(
+    axes.map((axis) => [axis, -Infinity]),
+  ) as Record<AiAxisKey, number>
+  const randomDeltaSums = Object.fromEntries(
+    axes.map((axis) => [axis, 0]),
+  ) as Record<AiAxisKey, number>
+
+  for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
+    const answers: AiAnswers = {}
+    for (const question of likertQuestions) {
+      answers[question.id] = 1 + Math.floor(aiRng() * 7)
+    }
+    for (const scenario of scenarios) {
+      const options = getScenarioOptions(scenario, mode)
+      const option = options[Math.floor(aiRng() * options.length)]
+      answers[scenario.id] = option.id
+      for (const axis of axes) {
+        randomDeltaSums[axis] += getAiOptionSignal(option, axis)
+      }
+    }
+
+    const result = generateAiGovernanceResult(answers, mode)
+    archetypeCounts[result.archetypeLabel] =
+      (archetypeCounts[result.archetypeLabel] ?? 0) + 1
+    for (const axis of axes) {
+      const score = result.axisScores[axis]
+      finalAxisSums[axis] += score
+      finalAxisMin[axis] = Math.min(finalAxisMin[axis], score)
+      finalAxisMax[axis] = Math.max(finalAxisMax[axis], score)
+    }
+  }
+
+  console.log("\n" + "=".repeat(74))
+  console.log(`AI GOVERNANCE DIAGNOSTIC  ${RANDOM_N} seeded analyst respondents`)
+  console.log("=".repeat(74))
+  console.log(
+    "\nOmitted scenario signals are zero in the product scorer and are treated as " +
+      "zero here. Analyst mode uses analystOptions where they exist.",
+  )
+  console.log(
+    "\n| Axis | Random scenario delta / card | Scenario delta min | " +
+      "Scenario delta max | Final random mean | Final observed min | Final observed max |",
+  )
+  console.log("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
+  for (const axis of axes) {
+    const extrema = scenarios.reduce(
+      (accumulator, scenario) => {
+        const options = getScenarioOptions(scenario, mode)
+        const values = options.map((option) => getAiOptionSignal(option, axis))
+        accumulator.minimum += Math.min(...values)
+        accumulator.maximum += Math.max(...values)
+        return accumulator
+      },
+      { minimum: 0, maximum: 0 },
+    )
+    const randomDeltaPerCard =
+      randomDeltaSums[axis] / RANDOM_N / scenarios.length
+    console.log(
+      `| ${axis} | ${randomDeltaPerCard.toFixed(3)} | ` +
+        `${extrema.minimum.toFixed(2)} | ${extrema.maximum.toFixed(2)} | ` +
+        `${(finalAxisSums[axis] / RANDOM_N).toFixed(3)} | ` +
+        `${finalAxisMin[axis].toFixed(2)} | ${finalAxisMax[axis].toFixed(2)} |`,
+    )
+  }
+
+  console.log("\nPer-card analyst option-set audit")
+  printSignalTableHeader(0)
+  for (const scenario of scenarios) {
+    const options = getScenarioOptions(scenario, mode)
+    const scoredAxes = axes.filter((axis) =>
+      options.some((option) => Object.hasOwn(option.weights, axis)),
+    )
+    for (const axis of scoredAxes) {
+      const stats = getOptionSignalStats(
+        options,
+        (option) => getAiOptionSignal(option, axis),
+        0,
+      )
+      console.log(
+        `| ${scenario.id} | ${axis} | ${options.length} | ` +
+          `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
+          `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
+          `${stats.straddles ? "yes" : "NO"} |`,
+      )
+    }
+  }
+
+  console.log("\nLikert reverse-coding ratios")
+  console.log("| Axis | Reverse-coded | Total | Ratio | Meets 40%? |")
+  console.log("| --- | ---: | ---: | ---: | :---: |")
+  for (const axis of axes) {
+    const questions = likertQuestions.filter((question) => question.axis === axis)
+    const reversed = questions.filter((question) => question.reverse === true).length
+    const ratio = questions.length === 0 ? 0 : reversed / questions.length
+    console.log(
+      `| ${axis} | ${reversed} | ${questions.length} | ` +
+        `${(ratio * 100).toFixed(1)}% | ${ratio >= 0.4 ? "yes" : "NO"} |`,
+    )
+  }
+
+  report("AI archetype distribution", archetypeCounts)
+  const [modalArchetype, modalCount] = Object.entries(archetypeCounts).sort(
+    (left, right) => right[1] - left[1],
+  )[0]
+  console.log(
+    `\nModal AI archetype: ${modalArchetype} (${pct(modalCount, RANDOM_N)}).`,
+  )
+}
+
+if (SHOW_MODULES) runModuleDiagnostics()
+if (SHOW_AI) runAiDiagnostics()
+
+const foundationSpecificFlagRequested =
+  SHOW_CALIBRATION ||
+  SHOW_GAPS ||
+  SHOW_PERCENTILES ||
+  SHOW_SENSITIVITY ||
+  SHOW_STABILITY ||
+  SHOW_ORDER_BIAS
+
+if ((SHOW_MODULES || SHOW_AI) && !foundationSpecificFlagRequested) {
+  process.exit(0)
 }
 
 // ---------------------------------------------------------------- part 1
