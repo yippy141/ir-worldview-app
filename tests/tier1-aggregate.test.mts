@@ -429,6 +429,37 @@ for (const [name, database] of [
   })
 }
 
+test("completion storage failure is silent when database unavailable", async () => {
+  const completion = {
+    ...buildTier1Cohort("core", "en"),
+    stepIndex: 0,
+  }
+  const database = configuredDatabase(async () => {
+    throw new TypeError("fetch failed")
+  })
+  const errors: unknown[][] = []
+  const originalConsoleError = console.error
+  console.error = (...args: unknown[]) => {
+    errors.push(args)
+  }
+
+  try {
+    let response: Response | undefined
+    await assert.doesNotReject(async () => {
+      response = await withTier1Database(database, () =>
+        postAggregateResult(aggregateRequest(completion)),
+      )
+    })
+    await new Promise<void>((resolve) => setImmediate(resolve))
+
+    assert.equal(response?.status, 202)
+    assert.deepEqual(await response?.json(), { ok: true })
+    assert.equal(errors.length, 1)
+  } finally {
+    console.error = originalConsoleError
+  }
+})
+
 test("aggregate result route accepts a completion step without an identifier", async () => {
   const response = await postAggregateResult(
     new Request("http://localhost/api/aggregate/result", {

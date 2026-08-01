@@ -13,7 +13,7 @@ undercount are accepted instead of adding an identity or retry ledger.
 |---|---|---|
 | Staging migrations and catalog inspection | The static migration test proves source-level convergence between a fresh schema and the pre-cohort upgrade. No staging database was available in this worktree, so neither migration path nor catalog output has been represented as executed. | **Blocked on staging** |
 | Exact aggregate-only write columns | `tests/tier1-aggregate.test.mts` invokes the real route handler with an instrumented database client and asserts exact set equality for every `INSERT` column in both result and completion writes. | **Pass locally** |
-| Silent failure | Valid writes return the same accepted response when the database is unavailable, the connection string is malformed, or the write times out. Browser fetch rejection and the analytics opt-out resolve without an unhandled rejection or visible error. | **Pass locally** |
+| Silent failure | Result writes return the same client response when storage is unavailable, the connection string is malformed, or the database seam throws an injected timeout; completion writes have unavailable-storage coverage. Browser fetch rejection and the analytics opt-out resolve without an unhandled rejection or visible error. The server still logs write failures. | **Pass at the handler boundary; real Neon abort untested** |
 | Server-side `n >= 100` suppression | `tests/aggregate-stats.test.mts` supplies a valid 99-result cohort directly to the server stats reader and verifies that neither label nor bucket rows leave the read path. | **Pass locally** |
 
 ## Exact write contract
@@ -50,6 +50,11 @@ credentials:
 4. completes one Foundation result and confirms that only the expected
    counters increment; and
 5. confirms that the stats reader returns suppressed output below `n = 100`.
+
+The local timeout test proves route behavior for a timeout-shaped rejection;
+it does not execute Neon's real `AbortSignal.timeout` path. Capture that path
+opportunistically during staging fault testing rather than representing the
+injected test as a live database timeout.
 
 Rate limiting, alert ownership, retry/idempotence semantics, and rollback
 rehearsal are recorded as post-launch operational work, not part of this
