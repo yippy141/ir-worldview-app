@@ -33,7 +33,10 @@ import {
   getAiScenarioOrder,
   getScenarioOptions,
 } from "@/lib/ai-governance-schema"
-import { generateAiGovernanceResult } from "@/lib/ai-governance-scoring"
+import {
+  generateAiGovernanceResult,
+  scoreLikert,
+} from "@/lib/ai-governance-scoring"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import { NEUTRAL_BASELINE } from "@/lib/scoring-calibration"
 import { getSeededOptionOrder } from "@/lib/option-order"
@@ -53,8 +56,10 @@ import type { ModuleAnswers, ModuleDefinition } from "@/lib/modules/types"
 import type {
   AiAnswers,
   AiAxisKey,
+  AiLikertQuestion,
   AiQuizMode,
   AiScenarioOption,
+  AiScenarioQuestion,
 } from "@/lib/ai-governance-types"
 
 const MODE: QuizMode = "analyst"
@@ -334,113 +339,154 @@ function printSignalTableHeader(midpoint: number) {
   console.log("| --- | --- | ---: | ---: | ---: | ---: | ---: | :---: |")
 }
 
+const DIAGNOSTIC_MODES: QuizMode[] = ["standard", "analyst"]
+
+function modeLabel(mode: QuizMode | AiQuizMode) {
+  return mode === "standard" ? "Standard" : "Advanced"
+}
+
 function runModuleDiagnostics() {
   for (const [moduleIndex, moduleDefinition] of modules.entries()) {
-    const questions = getModuleQuestions(moduleDefinition, "analyst")
-    const scoredQuestions = questions.filter(
-      (question) => question.cardType !== "actorLens",
-    )
-    const moduleRng = makeRng(RANDOM_SEED + 1000 + moduleIndex)
-    const axisSums = Object.fromEntries(
-      moduleDefinition.axes.map((axis) => [axis.key, 0]),
-    ) as Record<string, number>
-    const headlineCounts: Record<string, number> = {}
-    const laneSummaryCounts: Record<string, Record<string, number>> =
-      Object.fromEntries(
-        moduleDefinition.lanes.map((lane) => [lane.key, {}]),
+    for (const mode of DIAGNOSTIC_MODES) {
+      const questions = getModuleQuestions(moduleDefinition, mode)
+      const scoredQuestions = questions.filter(
+        (question) => question.cardType !== "actorLens",
       )
+      // Reinitialize per mode so the existing Advanced seed remains unchanged.
+      const moduleRng = makeRng(RANDOM_SEED + 1000 + moduleIndex)
+      const axisSums = Object.fromEntries(
+        moduleDefinition.axes.map((axis) => [axis.key, 0]),
+      ) as Record<string, number>
+      const headlineCounts: Record<string, number> = {}
+      const laneSummaryCounts: Record<string, Record<string, number>> =
+        Object.fromEntries(
+          moduleDefinition.lanes.map((lane) => [lane.key, {}]),
+        )
 
-    for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
-      const answers: ModuleAnswers = {}
-      for (const question of questions) {
-        const option = question.options[
-          Math.floor(moduleRng() * question.options.length)
-        ]
-        answers[question.id] = { primary: option.id }
+      for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
+        const answers: ModuleAnswers = {}
+        for (const question of questions) {
+          const option = question.options[
+            Math.floor(moduleRng() * question.options.length)
+          ]
+          answers[question.id] = { primary: option.id }
+        }
+
+        const result = buildModuleResult(moduleDefinition, mode, answers)
+        headlineCounts[result.headline] = (headlineCounts[result.headline] ?? 0) + 1
+        for (const axis of moduleDefinition.axes) {
+          axisSums[axis.key] += result.scores[axis.key]
+        }
+        for (const laneSummary of result.laneSummaries) {
+          const counts = laneSummaryCounts[laneSummary.key] ?? {}
+          counts[laneSummary.summary] = (counts[laneSummary.summary] ?? 0) + 1
+          laneSummaryCounts[laneSummary.key] = counts
+        }
       }
 
-      const result = buildModuleResult(moduleDefinition, "analyst", answers)
-      headlineCounts[result.headline] = (headlineCounts[result.headline] ?? 0) + 1
-      for (const axis of moduleDefinition.axes) {
-        axisSums[axis.key] += result.scores[axis.key]
-      }
-      for (const laneSummary of result.laneSummaries) {
-        const counts = laneSummaryCounts[laneSummary.key] ?? {}
-        counts[laneSummary.summary] = (counts[laneSummary.summary] ?? 0) + 1
-        laneSummaryCounts[laneSummary.key] = counts
-      }
-    }
-
-    console.log("\n" + "=".repeat(74))
-    console.log(
-      `MODULE DIAGNOSTIC  ${moduleDefinition.title} (${RANDOM_N} seeded respondents)`,
-    )
-    console.log("=".repeat(74))
-    console.log(
-      "\nOverall-score calculations follow the product scorer: analyst-mode " +
-        "actor-lens cards are reported below but do not contribute to the overall score.",
-    )
-    console.log("\n| Axis | Random mean | Lowest attainable | Highest attainable | Range |")
-    console.log("| --- | ---: | ---: | ---: | ---: |")
-
-    for (const axis of moduleDefinition.axes) {
-      const minimizingAnswers = buildModuleExtremeAnswers(
-        moduleDefinition,
-        scoredQuestions,
-        axis.key,
-        "minimum",
-      )
-      const maximizingAnswers = buildModuleExtremeAnswers(
-        moduleDefinition,
-        scoredQuestions,
-        axis.key,
-        "maximum",
-      )
-      const minimum = scoreModule(
-        moduleDefinition,
-        "analyst",
-        minimizingAnswers,
-      )[axis.key]
-      const maximum = scoreModule(
-        moduleDefinition,
-        "analyst",
-        maximizingAnswers,
-      )[axis.key]
+      console.log("\n" + "=".repeat(74))
       console.log(
-        `| ${axis.key} | ${(axisSums[axis.key] / RANDOM_N).toFixed(3)} | ` +
-          `${minimum.toFixed(2)} | ${maximum.toFixed(2)} | ` +
-          `${(maximum - minimum).toFixed(2)} |`,
+        `MODULE DIAGNOSTIC  ${moduleDefinition.title} · ${modeLabel(mode)} ` +
+          `(${RANDOM_N} seeded primary-only respondents)`,
       )
-    }
+      console.log("=".repeat(74))
+      console.log(
+        "\nOverall-score calculations follow the product scorer. Actor-lens cards " +
+          "are reported below but do not contribute to the overall score. Optional " +
+          "backup choices are left blank in this primary-only baseline.",
+      )
+      console.log(
+        "\n| Axis | Exact uniform-choice mean | Seeded random mean | " +
+          "Lowest attainable | Highest attainable | Range |",
+      )
+      console.log("| --- | ---: | ---: | ---: | ---: | ---: |")
 
-    report("Overall result-headline distribution", headlineCounts)
-
-    console.log("\nPer-card option-set audit")
-    printSignalTableHeader(4)
-    for (const question of questions) {
       for (const axis of moduleDefinition.axes) {
-        const stats = getOptionSignalStats(
-          question.options,
-          (option) => option.signals[axis.key] ?? 4,
-          4,
+        const minimizingAnswers = buildModuleExtremeAnswers(
+          moduleDefinition,
+          scoredQuestions,
+          axis.key,
+          "minimum",
         )
-        const itemLabel =
-          question.cardType === "actorLens"
-            ? `${question.id} (actor lens)`
-            : question.id
+        const maximizingAnswers = buildModuleExtremeAnswers(
+          moduleDefinition,
+          scoredQuestions,
+          axis.key,
+          "maximum",
+        )
+        const minimum = scoreModule(
+          moduleDefinition,
+          mode,
+          minimizingAnswers,
+        )[axis.key]
+        const maximum = scoreModule(
+          moduleDefinition,
+          mode,
+          maximizingAnswers,
+        )[axis.key]
+        const exactMean = getExactModuleRandomMean(
+          scoredQuestions,
+          axis.key,
+        )
         console.log(
-          `| ${itemLabel} | ${axis.key} | ${question.options.length} | ` +
-            `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
-            `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
-            `${stats.straddles ? "yes" : "NO"} |`,
+          `| ${axis.key} | ${exactMean.toFixed(3)} | ` +
+            `${(axisSums[axis.key] / RANDOM_N).toFixed(3)} | ` +
+            `${minimum.toFixed(2)} | ${maximum.toFixed(2)} | ` +
+            `${(maximum - minimum).toFixed(2)} |`,
         )
       }
-    }
 
-    for (const lane of moduleDefinition.lanes) {
-      report(`Lane-summary distribution: ${lane.label}`, laneSummaryCounts[lane.key])
+      report(
+        `${modeLabel(mode)} primary-only result-headline distribution`,
+        headlineCounts,
+      )
+
+      console.log(`\nPer-card ${modeLabel(mode)} option-set audit`)
+      printSignalTableHeader(4)
+      for (const question of questions) {
+        for (const axis of moduleDefinition.axes) {
+          const stats = getOptionSignalStats(
+            question.options,
+            (option) => option.signals[axis.key] ?? 4,
+            4,
+          )
+          const itemLabel =
+            question.cardType === "actorLens"
+              ? `${question.id} (actor lens)`
+              : question.id
+          console.log(
+            `| ${itemLabel} | ${axis.key} | ${question.options.length} | ` +
+              `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
+              `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
+              `${stats.straddles ? "yes" : "NO"} |`,
+          )
+        }
+      }
+
+      for (const lane of moduleDefinition.lanes) {
+        report(
+          `${modeLabel(mode)} primary-only lane-summary distribution: ${lane.label}`,
+          laneSummaryCounts[lane.key],
+        )
+      }
     }
   }
+}
+
+function getExactModuleRandomMean(
+  scoredQuestions: ReturnType<typeof getModuleQuestions>,
+  axisKey: string,
+): number {
+  const questionMeans = scoredQuestions.map((question) => {
+    const values = question.options.map((option) => option.signals[axisKey])
+    if (!values.every((value) => typeof value === "number" && Number.isFinite(value))) {
+      throw new Error(
+        `Exact module expectation requires dense signals; ${question.id}.${axisKey} is sparse.`,
+      )
+    }
+    return values.reduce((sum, value) => sum + value, 0) / values.length
+  })
+  return questionMeans.reduce((sum, value) => sum + value, 0) / questionMeans.length
 }
 
 function buildModuleExtremeAnswers(
@@ -471,127 +517,240 @@ function getAiOptionSignal(
 }
 
 function runAiDiagnostics() {
-  const mode: AiQuizMode = "analyst"
   const axes = Object.keys(aiAxisLabels) as AiAxisKey[]
-  const scenarios = getAiScenarioOrder(mode).map(
-    (scenarioId) => aiScenarioQuestions[scenarioId],
-  )
-  const likertQuestions = getAiCoreQuestions(mode)
-  const aiRng = makeRng(RANDOM_SEED + 2000)
-  const archetypeCounts: Record<string, number> = {}
-  const finalAxisSums = Object.fromEntries(axes.map((axis) => [axis, 0])) as Record<
-    AiAxisKey,
-    number
-  >
-  const finalAxisMin = Object.fromEntries(
-    axes.map((axis) => [axis, Infinity]),
-  ) as Record<AiAxisKey, number>
-  const finalAxisMax = Object.fromEntries(
-    axes.map((axis) => [axis, -Infinity]),
-  ) as Record<AiAxisKey, number>
-  const randomDeltaSums = Object.fromEntries(
-    axes.map((axis) => [axis, 0]),
-  ) as Record<AiAxisKey, number>
+  for (const mode of DIAGNOSTIC_MODES as AiQuizMode[]) {
+    const scenarios = getAiScenarioOrder(mode).map(
+      (scenarioId) => aiScenarioQuestions[scenarioId],
+    )
+    const likertQuestions = getAiCoreQuestions(mode)
+    // Reinitialize per mode so the existing Advanced seed remains unchanged.
+    const aiRng = makeRng(RANDOM_SEED + 2000)
+    const archetypeCounts: Record<string, number> = {}
+    const finalAxisSums = Object.fromEntries(axes.map((axis) => [axis, 0])) as Record<
+      AiAxisKey,
+      number
+    >
+    const finalAxisMin = Object.fromEntries(
+      axes.map((axis) => [axis, Infinity]),
+    ) as Record<AiAxisKey, number>
+    const finalAxisMax = Object.fromEntries(
+      axes.map((axis) => [axis, -Infinity]),
+    ) as Record<AiAxisKey, number>
+    const floorCounts = Object.fromEntries(
+      axes.map((axis) => [axis, 0]),
+    ) as Record<AiAxisKey, number>
+    const ceilingCounts = Object.fromEntries(
+      axes.map((axis) => [axis, 0]),
+    ) as Record<AiAxisKey, number>
 
-  for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
-    const answers: AiAnswers = {}
-    for (const question of likertQuestions) {
-      answers[question.id] = 1 + Math.floor(aiRng() * 7)
-    }
-    for (const scenario of scenarios) {
-      const options = getScenarioOptions(scenario, mode)
-      const option = options[Math.floor(aiRng() * options.length)]
-      answers[scenario.id] = option.id
+    for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
+      const answers: AiAnswers = {}
+      for (const question of likertQuestions) {
+        answers[question.id] = 1 + Math.floor(aiRng() * 7)
+      }
+      for (const scenario of scenarios) {
+        const options = getScenarioOptions(scenario, mode)
+        const option = options[Math.floor(aiRng() * options.length)]
+        answers[scenario.id] = option.id
+      }
+
+      const result = generateAiGovernanceResult(answers, mode)
+      archetypeCounts[result.archetypeLabel] =
+        (archetypeCounts[result.archetypeLabel] ?? 0) + 1
       for (const axis of axes) {
-        randomDeltaSums[axis] += getAiOptionSignal(option, axis)
+        const score = result.axisScores[axis]
+        finalAxisSums[axis] += score
+        finalAxisMin[axis] = Math.min(finalAxisMin[axis], score)
+        finalAxisMax[axis] = Math.max(finalAxisMax[axis], score)
+        if (score === 1) floorCounts[axis] += 1
+        if (score === 7) ceilingCounts[axis] += 1
       }
     }
 
-    const result = generateAiGovernanceResult(answers, mode)
-    archetypeCounts[result.archetypeLabel] =
-      (archetypeCounts[result.archetypeLabel] ?? 0) + 1
-    for (const axis of axes) {
-      const score = result.axisScores[axis]
-      finalAxisSums[axis] += score
-      finalAxisMin[axis] = Math.min(finalAxisMin[axis], score)
-      finalAxisMax[axis] = Math.max(finalAxisMax[axis], score)
-    }
-  }
-
-  console.log("\n" + "=".repeat(74))
-  console.log(`AI GOVERNANCE DIAGNOSTIC  ${RANDOM_N} seeded analyst respondents`)
-  console.log("=".repeat(74))
-  console.log(
-    "\nOmitted scenario signals are zero in the product scorer and are treated as " +
-      "zero here. Analyst mode uses analystOptions where they exist.",
-  )
-  console.log(
-    "\n| Axis | Random scenario delta / card | Scenario delta min | " +
-      "Scenario delta max | Final random mean | Final observed min | Final observed max |",
-  )
-  console.log("| --- | ---: | ---: | ---: | ---: | ---: | ---: |")
-  for (const axis of axes) {
-    const extrema = scenarios.reduce(
-      (accumulator, scenario) => {
-        const options = getScenarioOptions(scenario, mode)
-        const values = options.map((option) => getAiOptionSignal(option, axis))
-        accumulator.minimum += Math.min(...values)
-        accumulator.maximum += Math.max(...values)
-        return accumulator
-      },
-      { minimum: 0, maximum: 0 },
-    )
-    const randomDeltaPerCard =
-      randomDeltaSums[axis] / RANDOM_N / scenarios.length
+    console.log("\n" + "=".repeat(74))
     console.log(
-      `| ${axis} | ${randomDeltaPerCard.toFixed(3)} | ` +
-        `${extrema.minimum.toFixed(2)} | ${extrema.maximum.toFixed(2)} | ` +
-        `${(finalAxisSums[axis] / RANDOM_N).toFixed(3)} | ` +
-        `${finalAxisMin[axis].toFixed(2)} | ${finalAxisMax[axis].toFixed(2)} |`,
+      `AI GOVERNANCE DIAGNOSTIC  ${modeLabel(mode)} ` +
+        `(${RANDOM_N} seeded primary-only respondents)`,
     )
-  }
-
-  console.log("\nPer-card analyst option-set audit")
-  printSignalTableHeader(0)
-  for (const scenario of scenarios) {
-    const options = getScenarioOptions(scenario, mode)
-    const scoredAxes = axes.filter((axis) =>
-      options.some((option) => Object.hasOwn(option.weights, axis)),
+    console.log("=".repeat(74))
+    console.log(
+      "\nOmitted scenario signals are zero in the product scorer and are treated as " +
+        `zero here. ${modeLabel(mode)} uses the same option set as the runtime. ` +
+        "Optional backup choices are left blank in this primary-only baseline.",
     )
-    for (const axis of scoredAxes) {
-      const stats = getOptionSignalStats(
-        options,
-        (option) => getAiOptionSignal(option, axis),
-        0,
+    console.log(
+      "\n| Axis | Exact scenario delta / card | Exact scenario delta total | " +
+        "Scenario delta min | Scenario delta max | Exact final mean | " +
+        "Seeded final mean | Observed min | Observed max | At floor | At ceiling |",
+    )
+    console.log(
+      "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    )
+    for (const axis of axes) {
+      const extrema = getAiScenarioExtrema(scenarios, mode, axis)
+      const exactDelta = getExactAiScenarioDelta(scenarios, mode, axis)
+      const exactFinalMean = getExactAiFinalMean(
+        likertQuestions,
+        scenarios,
+        mode,
+        axis,
       )
       console.log(
-        `| ${scenario.id} | ${axis} | ${options.length} | ` +
-          `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
-          `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
-          `${stats.straddles ? "yes" : "NO"} |`,
+        `| ${axis} | ${(exactDelta / scenarios.length).toFixed(3)} | ` +
+          `${exactDelta.toFixed(3)} | ${extrema.minimum.toFixed(2)} | ` +
+          `${extrema.maximum.toFixed(2)} | ${exactFinalMean.toFixed(3)} | ` +
+          `${(finalAxisSums[axis] / RANDOM_N).toFixed(3)} | ` +
+          `${finalAxisMin[axis].toFixed(2)} | ${finalAxisMax[axis].toFixed(2)} | ` +
+          `${pct(floorCounts[axis], RANDOM_N)} | ` +
+          `${pct(ceilingCounts[axis], RANDOM_N)} |`,
+      )
+    }
+
+    console.log(`\nPer-card ${modeLabel(mode)} option-set audit`)
+    printSignalTableHeader(0)
+    for (const scenario of scenarios) {
+      const options = getScenarioOptions(scenario, mode)
+      const scoredAxes = axes.filter((axis) =>
+        options.some((option) => Object.hasOwn(option.weights, axis)),
+      )
+      for (const axis of scoredAxes) {
+        const stats = getOptionSignalStats(
+          options,
+          (option) => getAiOptionSignal(option, axis),
+          0,
+        )
+        console.log(
+          `| ${scenario.id} | ${axis} | ${options.length} | ` +
+            `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
+            `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
+            `${stats.straddles ? "yes" : "NO"} |`,
+        )
+      }
+    }
+
+    console.log(`\n${modeLabel(mode)} Likert reverse-coding ratios`)
+    console.log("| Axis | Reverse-coded | Total | Ratio | Meets 40%? |")
+    console.log("| --- | ---: | ---: | ---: | :---: |")
+    for (const axis of axes) {
+      const questions = likertQuestions.filter((question) => question.axis === axis)
+      const reversed = questions.filter((question) => question.reverse === true).length
+      const ratio = questions.length === 0 ? 0 : reversed / questions.length
+      console.log(
+        `| ${axis} | ${reversed} | ${questions.length} | ` +
+          `${(ratio * 100).toFixed(1)}% | ${ratio >= 0.4 ? "yes" : "NO"} |`,
+      )
+    }
+
+    report(
+      `${modeLabel(mode)} primary-only AI archetype distribution`,
+      archetypeCounts,
+    )
+    const [modalArchetype, modalCount] = Object.entries(archetypeCounts).sort(
+      (left, right) => right[1] - left[1],
+    )[0]
+    console.log(
+      `\nModal ${modeLabel(mode)} primary-only AI archetype: ` +
+        `${modalArchetype} (${pct(modalCount, RANDOM_N)}).`,
+    )
+  }
+}
+
+function getAiScenarioExtrema(
+  scenarios: AiScenarioQuestion[],
+  mode: AiQuizMode,
+  axis: AiAxisKey,
+) {
+  return scenarios.reduce(
+    (accumulator, scenario) => {
+      const values = getScenarioOptions(scenario, mode)
+        .map((option) => getAiOptionSignal(option, axis))
+      accumulator.minimum += Math.min(...values)
+      accumulator.maximum += Math.max(...values)
+      return accumulator
+    },
+    { minimum: 0, maximum: 0 },
+  )
+}
+
+function getExactAiScenarioDelta(
+  scenarios: AiScenarioQuestion[],
+  mode: AiQuizMode,
+  axis: AiAxisKey,
+) {
+  return scenarios.reduce((total, scenario) => {
+    const options = getScenarioOptions(scenario, mode)
+    const mean = options.reduce(
+      (sum, option) => sum + getAiOptionSignal(option, axis),
+      0,
+    ) / options.length
+    return total + mean
+  }, 0)
+}
+
+function addProbability(
+  distribution: Map<number, number>,
+  value: number,
+  probability: number,
+) {
+  const key = Number(value.toFixed(10))
+  distribution.set(key, (distribution.get(key) ?? 0) + probability)
+}
+
+function getExactAiFinalMean(
+  likertQuestions: AiLikertQuestion[],
+  scenarios: AiScenarioQuestion[],
+  mode: AiQuizMode,
+  axis: AiAxisKey,
+) {
+  const axisQuestions = likertQuestions.filter((question) => question.axis === axis)
+  let sumDistribution = new Map<number, number>([[0, 1]])
+
+  for (const question of axisQuestions) {
+    const next = new Map<number, number>()
+    for (const [sum, probability] of sumDistribution) {
+      for (let rawValue = 1; rawValue <= 7; rawValue += 1) {
+        addProbability(
+          next,
+          sum + scoreLikert(rawValue, question.reverse),
+          probability / 7,
+        )
+      }
+    }
+    sumDistribution = next
+  }
+
+  let scoreDistribution = new Map<number, number>()
+  if (axisQuestions.length === 0) {
+    scoreDistribution.set(4, 1)
+  } else {
+    for (const [sum, probability] of sumDistribution) {
+      addProbability(
+        scoreDistribution,
+        Number((sum / axisQuestions.length).toFixed(2)),
+        probability,
       )
     }
   }
 
-  console.log("\nLikert reverse-coding ratios")
-  console.log("| Axis | Reverse-coded | Total | Ratio | Meets 40%? |")
-  console.log("| --- | ---: | ---: | ---: | :---: |")
-  for (const axis of axes) {
-    const questions = likertQuestions.filter((question) => question.axis === axis)
-    const reversed = questions.filter((question) => question.reverse === true).length
-    const ratio = questions.length === 0 ? 0 : reversed / questions.length
-    console.log(
-      `| ${axis} | ${reversed} | ${questions.length} | ` +
-        `${(ratio * 100).toFixed(1)}% | ${ratio >= 0.4 ? "yes" : "NO"} |`,
-    )
+  for (const scenario of scenarios) {
+    const options = getScenarioOptions(scenario, mode)
+    const next = new Map<number, number>()
+    for (const [score, probability] of scoreDistribution) {
+      for (const option of options) {
+        const adjusted = Math.min(
+          Math.max(score + getAiOptionSignal(option, axis), 1),
+          7,
+        )
+        addProbability(next, adjusted, probability / options.length)
+      }
+    }
+    scoreDistribution = next
   }
 
-  report("AI archetype distribution", archetypeCounts)
-  const [modalArchetype, modalCount] = Object.entries(archetypeCounts).sort(
-    (left, right) => right[1] - left[1],
-  )[0]
-  console.log(
-    `\nModal AI archetype: ${modalArchetype} (${pct(modalCount, RANDOM_N)}).`,
+  return [...scoreDistribution.entries()].reduce(
+    (mean, [score, probability]) =>
+      mean + Number(score.toFixed(2)) * probability,
+    0,
   )
 }
 
