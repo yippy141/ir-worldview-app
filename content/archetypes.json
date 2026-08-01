@@ -1,58 +1,90 @@
 [
   {
-    "name": "Kairos",
+    "name": "The Hegemon",
     "code": "P+",
-    "gloss": "Power is what moves the world, and windows close. Act while the window is open.",
+    "gloss": "Power is what moves the world. Windows open and close, act while the window is open.",
     "familyKey": "realist",
-    "analogue": null
+    "analogue": {
+      "label": "The Melian Dialogue",
+      "year": "416 BC",
+      "href": "https://en.wikipedia.org/wiki/Melian_dialogue"
+    }
   },
   {
     "name": "Shi (勢)",
     "code": "P-",
-    "gloss": "Power is what moves the world, but you build position rather than force outcomes.",
+    "gloss": "Power is what moves the world. Build up your own position rather than force outcomes and victories will come naturally",
     "familyKey": "realist",
-    "analogue": null
+    "analogue": {
+      "label": "The Art of War",
+      "year": "5th C. BC",
+      "href": "https://en.wikipedia.org/wiki/The_Art_of_War"
+    }
   },
   {
-    "name": "Nomos",
+    "name": "Grotian",
     "code": "R+",
-    "gloss": "Rules make cooperation durable, and rules that are not enforced are not rules.",
+    "gloss": "Rules make cooperation long-lasting, but rules that are not properly enforced are not rules.",
     "familyKey": "institutionalist",
-    "analogue": null
+    "analogue": {
+      "label": "Hugo Grotius / De Jure Belli ac Pacis",
+      "year": "1625",
+      "href": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis"
+    }
   },
   {
     "name": "Concert",
     "code": "R-",
-    "gloss": "Rules make cooperation durable, and the restraint of the strong is what sustains them.",
+    "gloss": "Rules make cooperation long-lasting. The restraint and cooperation of the strong is what sustains them.",
     "familyKey": "institutionalist",
-    "analogue": null
+    "analogue": {
+      "label": "The Congress of Vienna",
+      "year": "1815",
+      "href": "https://en.wikipedia.org/wiki/Congress_of_Vienna"
+    }
   },
   {
-    "name": "Mandala",
+    "name": "The Iconoclast",
     "code": "M+",
-    "gloss": "Legitimacy and status are causes, not decoration, and they can be actively contested.",
+    "gloss": "The international system is held together by shared beliefs. To change the balance of power, one must change the narrative.",
     "familyKey": "constructivist",
-    "analogue": null
+    "analogue": {
+      "label": "Finnemore & Sikkink / The Norm Lifecycle",
+      "year": "1998",
+      "href": "https://en.wikipedia.org/wiki/Norm_(social)#Norm_lifecycle"
+    }
   },
   {
     "name": "Nemawashi (根回し)",
     "code": "M-",
-    "gloss": "Legitimacy and status are causes, and they are built slowly rather than declared.",
+    "gloss": "The international system is held together by shared beliefs. True legitimacy is built slowly through consensus, never demanded.",
     "familyKey": "constructivist",
-    "analogue": null
+    "analogue": {
+      "label": "The ASEAN Way",
+      "year": "1967",
+      "href": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way"
+    }
   },
   {
     "name": "Dirigisme",
     "code": "S+",
-    "gloss": "Production, finance and dependence structure politics, and the state should shape them.",
+    "gloss": "Production, markets, and trade underpin politics, and the state should play a leading role in shaping them.",
     "familyKey": "criticalPoliticalEconomy",
-    "analogue": null
+    "analogue": {
+      "label": "Alexander Hamilton / Report on Manufactures",
+      "year": "1791",
+      "href": "https://en.wikipedia.org/wiki/Report_on_Manufactures"
+    }
   },
   {
     "name": "Dependencia",
     "code": "S-",
-    "gloss": "Production, finance and dependence structure politics, and the first task is to reduce exposure.",
+    "gloss": "Production, markets, and trade underpin politics. Reducing dependence and building national resilience is critical.",
     "familyKey": "criticalPoliticalEconomy",
-    "analogue": null
+    "analogue": {
+      "label": "Raúl Prebisch",
+      "year": "1950",
+      "href": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch"
+    }
   }
 ]

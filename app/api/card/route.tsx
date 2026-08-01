@@ -328,6 +328,7 @@ export async function GET(request: Request) {
         <div
           style={{
             display: "flex",
+            alignItems: "flex-end",
             justifyContent: "space-between",
             paddingTop: 18,
             borderTop: "1px solid #304563",
@@ -335,11 +336,25 @@ export async function GET(request: Request) {
             fontSize: 19,
           }}
         >
-          <span>
-            {rarityPercentage !== null
-              ? `Shares this profile with ${formatPercentage(rarityPercentage)}% of respondents`
-              : "Closest modeled family shown as a continuous profile"}
-          </span>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 5,
+            }}
+          >
+            <span>
+              {rarityPercentage !== null
+                ? `Shares this profile with ${formatPercentage(rarityPercentage)}% of respondents`
+                : "Closest modeled family shown as a continuous profile"}
+            </span>
+            {archetype.analogue ? (
+              <span style={{ color: "#8295ab", fontSize: 16 }}>
+                Historical analogue · {archetype.analogue.label},{" "}
+                {archetype.analogue.year}
+              </span>
+            ) : null}
+          </div>
           <span style={{ color: "#f7f5ef", fontWeight: 700 }}>
             irworldview.jhyip.com
           </span>
