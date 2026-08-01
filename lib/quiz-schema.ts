@@ -1,4 +1,5 @@
 import type {
+  Answers,
   FamilyKey,
   FoundationQuestionSet,
   FoundationTier,
@@ -133,6 +134,42 @@ export function getFoundationQuestionsForSet(
   return getFoundationDiscriminatorIds(...targetedFamilyPair)
     .map((id) => byId.get(id))
     .filter((question): question is Question => Boolean(question))
+}
+
+/**
+ * Returns the exact item form that contributes to a result. The quiz UI shows
+ * only the current extension after core completion, while scoring must include
+ * the completed core plus that extension and must exclude stale answers from
+ * any other form.
+ */
+export function getFoundationResultQuestions(
+  questionSet: FoundationQuestionSet,
+  targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
+): Question[] {
+  if (questionSet === "core") {
+    return foundationCoreQuestions
+  }
+
+  return [
+    ...foundationCoreQuestions,
+    ...getFoundationQuestionsForSet(questionSet, targetedFamilyPair),
+  ]
+}
+
+export function selectFoundationAnswersForSet(
+  answers: Answers,
+  questionSet: FoundationQuestionSet,
+  targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
+): Answers {
+  const allowedIds = new Set(
+    getFoundationResultQuestions(questionSet, targetedFamilyPair).map(
+      (question) => question.id,
+    ),
+  )
+
+  return Object.fromEntries(
+    Object.entries(answers).filter(([questionId]) => allowedIds.has(questionId)),
+  )
 }
 
 export function foundationFamilyPairKey(

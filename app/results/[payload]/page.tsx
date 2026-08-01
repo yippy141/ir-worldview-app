@@ -3,7 +3,11 @@ import { ScaleBar } from "@/components/visual-primitives"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
 import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
-import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
+import {
+  PAYLOAD_DIMENSION_ORDER,
+  resolveFoundationPayload,
+  type ResolvedFoundationPayload,
+} from "@/lib/share"
 import {
   getClosestTraditions,
   getKeyDrivers,
@@ -20,9 +24,15 @@ import {
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
 import { dimensionBand, dimensionBandLabels } from "@/lib/results/dimension-bands"
-import { dimensionLabels, FOUNDATION_STRUCTURAL_VERSION } from "@/lib/quiz-schema"
-import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
-import { analyzeScoreShape, FOUNDATION_SCORING_VERSION } from "@/lib/scoring"
+import {
+  dimensionLabels,
+  FOUNDATION_INSTRUMENT_VERSION,
+  FOUNDATION_STRUCTURAL_VERSION,
+} from "@/lib/quiz-schema"
+import {
+  FOUNDATION_SCORING_VERSION,
+  getV2ScoringCalibration,
+} from "@/lib/scoring"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
@@ -35,6 +45,10 @@ import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { localizedAlternates, publicPath } from "@/i18n/paths"
 import { buildFoundationShareCardUrl } from "@/lib/share-card"
+import {
+  normFromNormativeModifier,
+  resolveArchetype,
+} from "@/lib/archetypes"
 import {
   getPercentile,
   type AggregateStats,
@@ -57,20 +71,28 @@ export async function generateMetadata(
     return buildResultMetadata(payload, title, description)
   }
 
-  const familyLabel = resolved.result.familyLabel
-  const resultLabel = `${familyLabel} · ${resolved.result.strategyModifier} · ${resolved.result.normativeModifier}`
-  const title = `${familyLabel} result — IR Worldview Inventory`
+  const { lowDifferentiationThreshold } = getV2ScoringCalibration(
+    resolved.scoringCalibration,
+  )
+  const archetype = resolveArchetype(
+    resolved.result,
+    lowDifferentiationThreshold,
+  )
+  const norm = normFromNormativeModifier(
+    resolved.result.normativeModifier,
+  )
+  const resultLabel = `${archetype.name} · ${archetype.code} / ${norm}`
+  const title = `${archetype.name} result — IR Worldview Inventory`
   const description =
-    `Shared IR Worldview result: ${resultLabel}. See the closest modeled tradition, modifiers, and dimension profile.`
-  const aggregateStats = await readMatchingAggregateStats(resolved.provenance)
-  const cardImage = buildFoundationShareCardUrl(resolved.result, aggregateStats)
+    `Shared IR Worldview result: ${resultLabel}. ${archetype.gloss}`
+  const cardImage = buildFoundationShareCardUrl(payload)
 
   return buildResultMetadata(
     payload,
     title,
     description,
     cardImage,
-    `${familyLabel} Foundation profile`,
+    `${archetype.name} Foundation profile`,
   )
 }
 
@@ -139,13 +161,21 @@ export default async function ResultPage(
   }
 
   const { dimensionScores, result, resultTier } = resolved
-  const aggregateStats = await readMatchingAggregateStats(resolved.provenance)
+  const {
+    lowDifferentiationThreshold,
+  } = getV2ScoringCalibration(resolved.scoringCalibration)
+  const aggregateStats = await readMatchingAggregateStats(resolved)
   const dimensionPercentiles = buildDimensionPercentiles(dimensionScores, aggregateStats)
   const hasPercentiles = PAYLOAD_DIMENSION_ORDER.some(
     (dimension) => dimensionPercentiles[dimension] !== null,
   )
   const familyScores = result.familyScores
-  const closestTraditions = getClosestTraditions(familyScores)
+  const closestTraditions = getClosestTraditions(familyScores, {
+    familyKey: result.familyKey,
+    runnerUpKey: result.runnerUpKey,
+    nearestFitGap: result.nearestFitGap,
+    lowDifferentiationThreshold,
+  })
   const familyLabel = result.familyLabel
   const neighborKey = result.runnerUpKey
   const neighborLabel = result.runnerUpLabel
@@ -173,11 +203,13 @@ export default async function ResultPage(
     strategyModifier: result.strategyModifier,
     normativeModifier: result.normativeModifier,
     dimensionScores,
+    scoringCalibration: resolved.scoringCalibration,
   })
   const summary = foundationNarrative.summary
   const lowDifferentiation = foundationNarrative.state === "lowDifferentiation"
-  const nearestFitGap = analyzeScoreShape(dimensionScores).nearestFitGap
-  const familiesStayClose = nearestFitGap < LOW_DIFFERENTIATION_THRESHOLD
+  const nearestFitGap = result.nearestFitGap
+  const familiesStayClose =
+    nearestFitGap < lowDifferentiationThreshold
   const targetedExtensionHref =
     `/quiz?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
   const fullExtensionHref = "/quiz?extension=full"
@@ -208,7 +240,13 @@ export default async function ResultPage(
     ? `${getAtlasPatternHref(pressureCase.verifiedProfileReading.bestFitProfileId)}#case-${pressureCase.caseId}`
     : null
   const nextStepHref = withFoundationPayload(foundationPayoff.nextStep.href, payload)
-  const resultCode = `${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`
+  const archetype = resolveArchetype(
+    result,
+    lowDifferentiationThreshold,
+  )
+  const archetypeCode =
+    `${archetype.code} / ${normFromNormativeModifier(result.normativeModifier)}`
+  const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
 
   // A core-set result is provisional, so the single next action is to extend it.
   // Once the extended set is in, the action becomes the issue module that puts
@@ -334,10 +372,10 @@ export default async function ResultPage(
                 {resultTier === "core" ? "Provisional Foundation result" : "Foundation result"}
               </p>
               <h1 id="foundation-result-heading" className="result-hero-title">
-                {atlasMatch.nearest.publicName}
+                {archetype.name}
               </h1>
-              <p className="foundation-result-code">{resultCode}</p>
-              <p className="result-lead">{atlasMatch.nearest.decisionRule}</p>
+              <p className="foundation-result-code">{archetypeCode}</p>
+              <p className="result-lead">{archetype.gloss}</p>
             </div>
 
             <div className="foundation-result-bands stack-sm">
@@ -606,6 +644,7 @@ export default async function ResultPage(
                   familyLabel={familyLabel}
                   strategyModifier={result.strategyModifier}
                   normativeModifier={result.normativeModifier}
+                  displayLabel={archetypeShareLabel}
                 />
                 <HistoryCompare
                   familyKey={result.familyKey}
@@ -627,8 +666,8 @@ export default async function ResultPage(
             <Link href="/profile" className="cta-secondary">View Profile</Link>
             <ResultCardHeroShare
               shareUrl={`/results/${payload}`}
-              title={`IR Worldview: ${familyLabel}`}
-              text={`My IR worldview result: ${familyLabel} · ${result.strategyModifier} · ${result.normativeModifier}`}
+              title={`IR Worldview: ${archetype.name}`}
+              text={`My IR worldview result: ${archetypeShareLabel}`}
             />
           </div>
         </section>
@@ -641,14 +680,29 @@ export default async function ResultPage(
  * Aggregate percentiles only describe respondents scored by the same instrument
  * and scorer, so an older payload gets raw scores instead of a false comparison.
  */
-async function readMatchingAggregateStats(provenance: {
-  instrumentStructuralVersion: number
-  scoringVersion: number
-}): Promise<AggregateStats | null> {
-  return provenance.instrumentStructuralVersion === FOUNDATION_STRUCTURAL_VERSION &&
-    provenance.scoringVersion === FOUNDATION_SCORING_VERSION
-    ? readCurrentAggregateStats()
-    : null
+async function readMatchingAggregateStats(
+  resolved: ResolvedFoundationPayload,
+): Promise<AggregateStats | null> {
+  if (
+    resolved.provenance.instrumentStructuralVersion !==
+      FOUNDATION_STRUCTURAL_VERSION ||
+    resolved.provenance.instrumentVersion !== FOUNDATION_INSTRUMENT_VERSION ||
+    resolved.provenance.scoringVersion !== FOUNDATION_SCORING_VERSION ||
+    !resolved.questionSet
+  ) {
+    return null
+  }
+
+  return readCurrentAggregateStats({
+    questionSet: resolved.questionSet,
+    ...(resolved.targetedFamilyPair
+      ? {
+          targetedFamilyPair: resolved.targetedFamilyPair,
+        }
+      : {}),
+    completionLocale: resolved.provenance.completionLocale,
+    localeCopyVersion: resolved.provenance.localeCopyVersion,
+  })
 }
 
 function buildDimensionPercentiles(

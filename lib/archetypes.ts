@@ -1,9 +1,5 @@
 import archetypeData from "@/content/archetypes.json" with { type: "json" }
-import {
-  STRATEGY_LOWER_THRESHOLD,
-  STRATEGY_UPPER_THRESHOLD,
-  type CanonicalFoundationResult,
-} from "@/lib/scoring"
+import type { CanonicalFoundationResult } from "@/lib/scoring"
 import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
 import type {
   FamilyKey,
@@ -73,8 +69,10 @@ const LENS_LABELS: Record<LensCode, string> = {
 
 const LENS_ORDER: LensCode[] = ["P", "R", "M", "S"]
 
-const HEDGER_POSTURE_MIDPOINT =
-  (STRATEGY_LOWER_THRESHOLD + STRATEGY_UPPER_THRESHOLD) / 2
+// Restraint is a 1–7 dimension with a neutral midpoint of 4. A Hedger below
+// that midpoint leans toward applying advantage (+); one above it leans toward
+// restraint (−). This stays valid for both core and extended calibrations.
+const HEDGER_POSTURE_MIDPOINT = 4
 
 export const archetypes = (archetypeData as ArchetypeData[]).map(
   (definition): Archetype => ({
@@ -127,6 +125,7 @@ export function getArchetypeByCode(
 
 export function resolveArchetype(
   result: CanonicalFoundationResult,
+  lowDifferentiationThreshold = LOW_DIFFERENTIATION_THRESHOLD,
 ): Archetype | BlendArchetype {
   const posture = postureFromStrategyModifier(
     result.strategyModifier,
@@ -136,7 +135,7 @@ export function resolveArchetype(
   const primary = ARCHETYPE_BY_CODE[`${primaryLens}${posture}`]
 
   if (
-    result.nearestFitGap >= LOW_DIFFERENTIATION_THRESHOLD ||
+    result.nearestFitGap >= lowDifferentiationThreshold ||
     result.runnerUpKey === result.familyKey
   ) {
     return primary

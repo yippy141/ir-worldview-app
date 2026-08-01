@@ -3,7 +3,24 @@
 import foundationBankJson from "@/content/instrument/foundation.v2.json" with {
   type: "json",
 }
-import { V2_NEUTRAL_BASELINE } from "@/lib/scoring/v2-calibration"
+import {
+  getV2ScoringCalibration,
+  type FoundationScoringCalibration,
+} from "@/lib/scoring/v2-calibration"
+export {
+  CORE_NEUTRAL_BASELINE,
+  CORE_NORMATIVE_LOWER_THRESHOLD,
+  CORE_NORMATIVE_UPPER_THRESHOLD,
+  CORE_STRATEGY_LOWER_THRESHOLD,
+  CORE_STRATEGY_UPPER_THRESHOLD,
+  foundationScoringCalibrationForForm,
+  getV2ScoringCalibration,
+  NORMATIVE_LOWER_THRESHOLD,
+  NORMATIVE_UPPER_THRESHOLD,
+  STRATEGY_LOWER_THRESHOLD,
+  STRATEGY_UPPER_THRESHOLD,
+} from "@/lib/scoring/v2-calibration"
+export type { FoundationScoringCalibration } from "@/lib/scoring/v2-calibration"
 import type {
   Answers,
   AnswerValue,
@@ -37,38 +54,6 @@ const DIMENSIONS: DimensionKey[] = [
 ]
 const SECOND_CHOICE_WEIGHT = 0.45
 const MIN_CALIBRATION_SD = 1e-9
-
-/**
- * Restraint p33 = 4.600000; observed min 4.22, max 5.07, mean 4.66558.
- * Source: scoring v2 synthetic N=500 seeded random respondents; 2026-07-29.
- * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
- * respondents cluster more tightly than real ones, so this will over-split at first.
- */
-export const STRATEGY_LOWER_THRESHOLD = 4.6
-
-/**
- * Restraint p67 = 4.730000; observed min 4.22, max 5.07, mean 4.66558.
- * Source: scoring v2 synthetic N=500 seeded random respondents; 2026-07-29.
- * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
- * respondents cluster more tightly than real ones, so this will over-split at first.
- */
-export const STRATEGY_UPPER_THRESHOLD = 4.73
-
-/**
- * Order–justice p33 = 4.150000; observed min 3.61, max 4.88, mean 4.23360.
- * Source: scoring v2 synthetic N=500 seeded random respondents; 2026-07-29.
- * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
- * respondents cluster more tightly than real ones, so this will over-split at first.
- */
-export const NORMATIVE_LOWER_THRESHOLD = 4.15
-
-/**
- * Order–justice p67 = 4.330000; observed min 3.61, max 4.88, mean 4.23360.
- * Source: scoring v2 synthetic N=500 seeded random respondents; 2026-07-29.
- * TODO: Replace with real-respondent percentiles once N exceeds 200. Synthetic
- * respondents cluster more tightly than real ones, so this will over-split at first.
- */
-export const NORMATIVE_UPPER_THRESHOLD = 4.33
 
 export const familyProfiles: Record<FamilyKey, Partial<Record<DimensionKey, number>>> = {
   realist: {
@@ -297,8 +282,13 @@ export function computeCoreDimensionAudit(
   }
 }
 
-function standardise(score: number, dimension: DimensionKey): number {
-  const { mean, sd } = V2_NEUTRAL_BASELINE[dimension]
+function standardise(
+  score: number,
+  dimension: DimensionKey,
+  calibration: FoundationScoringCalibration,
+): number {
+  const { mean, sd } =
+    getV2ScoringCalibration(calibration).neutralBaseline[dimension]
 
   if (Math.abs(sd) < MIN_CALIBRATION_SD) {
     console.warn(
@@ -310,12 +300,17 @@ function standardise(score: number, dimension: DimensionKey): number {
   return (score - mean) / sd
 }
 
-export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKey, number> {
+export function scoreFamilies(
+  dimensionScores: DimensionScores,
+  calibration: FoundationScoringCalibration = "extended",
+): Record<FamilyKey, number> {
   return (Object.keys(familyProfiles) as FamilyKey[]).reduce((accumulator, family) => {
     const weights = familyProfiles[family]
     const score = DIMENSIONS.reduce((sum, dimension) => {
       const weight = weights[dimension] ?? 0
-      return sum + standardise(dimensionScores[dimension], dimension) * weight
+      return sum +
+        standardise(dimensionScores[dimension], dimension, calibration) *
+          weight
     }, 0)
 
     accumulator[family] = Number(score.toFixed(2))
@@ -323,8 +318,11 @@ export function scoreFamilies(dimensionScores: DimensionScores): Record<FamilyKe
   }, {} as Record<FamilyKey, number>)
 }
 
-export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeAnalysis {
-  const familyScores = scoreFamilies(dimensionScores)
+export function analyzeScoreShape(
+  dimensionScores: DimensionScores,
+  calibration: FoundationScoringCalibration = "extended",
+): ScoreShapeAnalysis {
+  const familyScores = scoreFamilies(dimensionScores, calibration)
   const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
     .sort((a, b) => b[1] - a[1])
   const distances = Object.values(dimensionScores).map((score) => Math.abs(score - 4))
@@ -342,28 +340,42 @@ export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeA
   }
 }
 
-function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {
+function getStrategyModifier(
+  dimensionScores: DimensionScores,
+  calibration: FoundationScoringCalibration,
+): StrategyModifier {
   const restraint = dimensionScores.restraint
+  const {
+    strategyLowerThreshold: lowerThreshold,
+    strategyUpperThreshold: upperThreshold,
+  } = getV2ScoringCalibration(calibration)
 
-  if (restraint >= STRATEGY_UPPER_THRESHOLD) {
+  if (restraint >= upperThreshold) {
     return "Restrainer"
   }
 
-  if (restraint <= STRATEGY_LOWER_THRESHOLD) {
+  if (restraint <= lowerThreshold) {
     return "Maximizer"
   }
 
   return "Hedger"
 }
 
-function getNormativeModifier(dimensionScores: DimensionScores): NormativeModifier {
+function getNormativeModifier(
+  dimensionScores: DimensionScores,
+  calibration: FoundationScoringCalibration,
+): NormativeModifier {
   const orderJustice = dimensionScores.orderJustice
+  const {
+    normativeLowerThreshold: lowerThreshold,
+    normativeUpperThreshold: upperThreshold,
+  } = getV2ScoringCalibration(calibration)
 
-  if (orderJustice >= NORMATIVE_UPPER_THRESHOLD) {
+  if (orderJustice >= upperThreshold) {
     return "Pluralist"
   }
 
-  if (orderJustice <= NORMATIVE_LOWER_THRESHOLD) {
+  if (orderJustice <= lowerThreshold) {
     return "Universalist"
   }
 
@@ -384,15 +396,16 @@ export type CanonicalFoundationResult = QuizResult & {
 
 export function buildCanonicalFoundationResult(
   dimensionScores: DimensionScores,
+  calibration: FoundationScoringCalibration = "extended",
 ): CanonicalFoundationResult {
-  const familyScores = scoreFamilies(dimensionScores)
+  const familyScores = scoreFamilies(dimensionScores, calibration)
   const orderedFamilies = (Object.entries(familyScores) as [FamilyKey, number][])
     .sort((a, b) => b[1] - a[1])
   const familyKey = orderedFamilies[0][0]
   const runnerUpKey = orderedFamilies.find(([key]) => key !== familyKey)?.[0] ?? familyKey
   const familyLabel = familyLabels[familyKey]
-  const strategyModifier = getStrategyModifier(dimensionScores)
-  const normativeModifier = getNormativeModifier(dimensionScores)
+  const strategyModifier = getStrategyModifier(dimensionScores, calibration)
+  const normativeModifier = getNormativeModifier(dimensionScores, calibration)
   const neighboringFamily = getNeighboringFamily(familyKey, familyScores)
 
   return {
@@ -413,8 +426,12 @@ export function buildCanonicalFoundationResult(
 export function generateResult(
   answers: Answers,
   mode: QuizMode = "standard",
+  calibration: FoundationScoringCalibration = "extended",
 ): CanonicalFoundationResult {
-  return buildCanonicalFoundationResult(computeCoreDimensionScores(answers, mode))
+  return buildCanonicalFoundationResult(
+    computeCoreDimensionScores(answers, mode),
+    calibration,
+  )
 }
 
 export function getNeighboringFamilyKey(

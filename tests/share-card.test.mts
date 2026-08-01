@@ -1,7 +1,9 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import {
+  buildFoundationShareCardInput,
   buildFoundationShareCardUrl,
+  parseFoundationShareCardRequest,
   parseShareCardParams,
 } from "@/lib/share-card"
 import { buildCanonicalFoundationResult } from "@/lib/scoring"
@@ -58,7 +60,7 @@ test("missing percentile data omits both bars and rarity", () => {
   assert.equal(parsed.rarityPercentage, null)
 })
 
-test("Foundation card URLs derive archetype, norm, and bounded coordinates", () => {
+test("Foundation card inputs derive archetype, norm, and bounded coordinates", () => {
   const result = buildCanonicalFoundationResult({
     securityCompetition: 6.2,
     institutions: 2.5,
@@ -68,15 +70,43 @@ test("Foundation card URLs derive archetype, norm, and bounded coordinates", () 
     restraint: 3,
     orderJustice: 4.7,
   })
-  const url = new URL(buildFoundationShareCardUrl(result, null))
-  const parsed = parseShareCardParams(url.searchParams)
+  const parsed = buildFoundationShareCardInput(result, null)
 
-  assert.ok(parsed)
   assert.equal(parsed.archetype.code, "P+")
   assert.equal(parsed.norm, "o")
   assert.ok(parsed.coordinates.x >= -1 && parsed.coordinates.x <= 1)
   assert.ok(parsed.coordinates.y >= -1 && parsed.coordinates.y <= 1)
   assert.deepStrictEqual(parsed.percentiles, [])
+})
+
+test("Foundation card URLs carry only the encoded result payload", () => {
+  const url = new URL(buildFoundationShareCardUrl("encoded-result"))
+
+  assert.equal(url.searchParams.get("payload"), "encoded-result")
+  assert.deepEqual([...url.searchParams.keys()], ["payload"])
+})
+
+test("the image route contract rejects caller-supplied profile and population claims", () => {
+  assert.equal(
+    parseFoundationShareCardRequest(
+      new URLSearchParams(
+        "code=P%2B&norm=o&p1=100&p2=100&p3=100&rarity=0.1",
+      ),
+    ),
+    null,
+  )
+  assert.equal(
+    parseFoundationShareCardRequest(
+      new URLSearchParams("payload=encoded-result&p1=100"),
+    ),
+    null,
+  )
+  assert.equal(
+    parseFoundationShareCardRequest(
+      new URLSearchParams("payload=encoded-result"),
+    ),
+    "encoded-result",
+  )
 })
 
 test("invalid archetype, norm, or coordinates fail closed", () => {

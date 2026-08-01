@@ -15,7 +15,11 @@ import { getZhHansFoundationQuestionsForSet } from "../content/locales/zh-Hans/f
 const approvedPairs = [
   { en: "/about", zh: "/zh/about", heading: /看清你在外交政策问题上依赖哪些论证/ },
   { en: "/method", zh: "/zh/method", heading: "这项清单如何工作" },
-  { en: "/privacy", zh: "/zh/privacy", heading: /结果只保存在当前浏览器/ },
+  {
+    en: "/privacy",
+    zh: "/zh/privacy",
+    heading: /原始答案与已保存的历史记录只保存在当前浏览器/,
+  },
   { en: "/feedback", zh: "/zh/feedback", heading: "报告事实、隐私或安全问题。" },
   { en: "/cases", zh: "/zh/cases", heading: "判断当下事务" },
 ] as const
@@ -143,10 +147,12 @@ test("Chinese Foundation review records canonical version and completion-locale 
   const resolved = resolveFoundationPayload(payload)
   expect(resolved?.provenance).toEqual({
     instrumentStructuralVersion: 4,
+    instrumentVersion: 2,
     scoringVersion: 2,
     localeCopyVersion: 1,
     completionLocale: "zh-Hans",
     resultTier: "core",
+    questionSet: "core",
   })
 })
 

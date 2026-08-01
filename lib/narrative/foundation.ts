@@ -1,9 +1,9 @@
 import { blindSpotsData } from "@/lib/result-content"
-import { analyzeScoreShape } from "@/lib/scoring"
 import {
-  LOW_DIFFERENTIATION_THRESHOLD,
-  SHARPLY_DIFFERENTIATED_THRESHOLD,
-} from "@/lib/scoring-calibration"
+  analyzeScoreShape,
+  getV2ScoringCalibration,
+  type FoundationScoringCalibration,
+} from "@/lib/scoring"
 import { familyLabel } from "@/lib/worldview-config"
 import type {
   DimensionKey,
@@ -102,17 +102,24 @@ const NORMATIVE_FRAMES: Record<NormativeModifier, string> = {
     "Normatively, it keeps open the possibility that severe moral stakes can override sovereignty in hard cases.",
 }
 
-export function assessFoundationNarrative(dimensionScores: DimensionScores) {
-  const analysis = analyzeScoreShape(dimensionScores)
+export function assessFoundationNarrative(
+  dimensionScores: DimensionScores,
+  calibration: FoundationScoringCalibration = "extended",
+) {
+  const analysis = analyzeScoreShape(dimensionScores, calibration)
+  const {
+    lowDifferentiationThreshold,
+    sharplyDifferentiatedThreshold,
+  } = getV2ScoringCalibration(calibration)
   const topDimensions = getTopDimensions(dimensionScores, 3)
 
   let state: FoundationNarrativeState = "stableModeration"
   if (
-    analysis.nearestFitGap <= LOW_DIFFERENTIATION_THRESHOLD &&
+    analysis.nearestFitGap <= lowDifferentiationThreshold &&
     analysis.averageDistanceFromCenter <= 1.05
   ) {
     state = "lowDifferentiation"
-  } else if (analysis.nearestFitGap >= SHARPLY_DIFFERENTIATED_THRESHOLD) {
+  } else if (analysis.nearestFitGap >= sharplyDifferentiatedThreshold) {
     state = "sharplyDifferentiated"
   }
 
@@ -129,14 +136,19 @@ export function buildFoundationNarrative({
   strategyModifier,
   normativeModifier,
   dimensionScores,
+  scoringCalibration = "extended",
 }: {
   familyKey: FamilyKey
   runnerUpKey: FamilyKey
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
   dimensionScores: DimensionScores
+  scoringCalibration?: FoundationScoringCalibration
 }): FoundationNarrative {
-  const assessment = assessFoundationNarrative(dimensionScores)
+  const assessment = assessFoundationNarrative(
+    dimensionScores,
+    scoringCalibration,
+  )
   const familyLabelValue = familyLabel(familyKey)
   const runnerUpLabel = familyLabel(runnerUpKey)
   const [topDim, secondDim, thirdDim] = assessment.topDimensions

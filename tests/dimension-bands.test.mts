@@ -1,7 +1,11 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { dimensionLabels } from "@/lib/quiz-schema"
-import { dimensionOneLiners, getKeyDrivers } from "@/lib/result-helpers"
+import {
+  dimensionOneLiners,
+  getKeyDrivers,
+  getStrongLenses,
+} from "@/lib/result-helpers"
 import {
   OBSERVED_DIMENSION_RANGES,
   dimensionBand,
@@ -11,6 +15,15 @@ import {
 import type { DimensionKey, DimensionScores } from "@/lib/types"
 
 const DIMENSION_KEYS = Object.keys(dimensionLabels) as DimensionKey[]
+
+function observedMeanProfile(): DimensionScores {
+  return Object.fromEntries(
+    DIMENSION_KEYS.map((dimension) => [
+      dimension,
+      OBSERVED_DIMENSION_RANGES[dimension].mean,
+    ]),
+  ) as DimensionScores
+}
 
 test("a score at the middle of the observed distribution never reads as conviction", () => {
   for (const dimension of DIMENSION_KEYS) {
@@ -76,12 +89,7 @@ test("every dimension has distinct copy for all three bands", () => {
 })
 
 test("key drivers describe a flat profile without claiming a strong lean", () => {
-  const flatProfile = Object.fromEntries(
-    DIMENSION_KEYS.map((dimension) => [
-      dimension,
-      OBSERVED_DIMENSION_RANGES[dimension].mean,
-    ]),
-  ) as DimensionScores
+  const flatProfile = observedMeanProfile()
 
   for (const driver of getKeyDrivers(flatProfile)) {
     assert.equal(
@@ -92,4 +100,47 @@ test("key drivers describe a flat profile without claiming a strong lean", () =>
     assert.ok(driver.label.length > 0)
     assert.ok(driver.description.length > 0)
   }
+})
+
+test("strong lenses stay empty at the observed means", () => {
+  assert.deepEqual(getStrongLenses(observedMeanProfile()), [])
+})
+
+test("each strong lens becomes reachable at its calibrated dimension band", () => {
+  const cases = [
+    ["politicalEconomy", "political-economy-salience", "high"],
+    ["domesticFilters", "domestic-politics", "high"],
+    ["normsIdentity", "identity-legitimacy", "high"],
+    ["orderJustice", "normative-justice", "high"],
+    ["orderJustice", "normative-justice", "low"],
+  ] as const
+
+  for (const [dimension, expectedKey, direction] of cases) {
+    const scores = observedMeanProfile()
+    scores[dimension] =
+      direction === "high"
+        ? dimensionHighCut(dimension)
+        : dimensionLowCut(dimension)
+
+    assert.deepEqual(
+      getStrongLenses(scores).map((lens) => lens.key),
+      [expectedKey],
+      `${expectedKey} should be reachable at the ${direction} ${dimension} cut.`,
+    )
+  }
+})
+
+test("political-economy salience does not create an unmodeled CPE identity lens", () => {
+  const scores = observedMeanProfile()
+  scores.securityCompetition = 3.6
+  scores.institutions = 2.4
+  scores.domesticFilters = 5.6
+  scores.normsIdentity = 4.2
+  scores.politicalEconomy = 6.4
+  scores.restraint = 4.4
+  scores.orderJustice = 3.2
+
+  const keys = getStrongLenses(scores).map((lens) => lens.key)
+  assert.ok(keys.includes("political-economy-salience"))
+  assert.ok(!keys.includes("critical-systemic"))
 })

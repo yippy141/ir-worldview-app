@@ -179,4 +179,26 @@ export type SharePayloadV4 = FoundationShareFields & {
   rt: FoundationTier
 }
 
-export type SharePayload = SharePayloadV2 | SharePayloadV3 | SharePayloadV4
+export type SharePayloadV5 = FoundationShareFields & {
+  v: 5
+  /** Canonical Foundation structural version. */
+  iv: number
+  /** Version of the Foundation item bank that produced the scores. */
+  bv: number
+  /** Scoring implementation version. */
+  sv: number
+  /** Completion-locale copy version. */
+  cv: number
+  /** Locale in which the respondent completed the instrument. */
+  cl: CompletionLocale
+  /** Exact item form used to calculate this result. */
+  qs: FoundationQuestionSet
+  /** Exact discriminator form when qs is targetedExtended. */
+  tp?: [FamilyKey, FamilyKey]
+}
+
+export type SharePayload =
+  | SharePayloadV2
+  | SharePayloadV3
+  | SharePayloadV4
+  | SharePayloadV5

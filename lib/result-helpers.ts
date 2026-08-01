@@ -1,5 +1,11 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
-import { byBand } from "@/lib/results/dimension-bands"
+import {
+  OBSERVED_DIMENSION_RANGES,
+  byBand,
+  dimensionBand,
+  dimensionHighCut,
+  dimensionLowCut,
+} from "@/lib/results/dimension-bands"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
 import { familyLabel } from "@/lib/worldview-config"
@@ -121,6 +127,12 @@ export type ClosestTraditionsSummary = {
 
 export function getClosestTraditions(
   familyScores: Record<FamilyKey, number>,
+  identity?: {
+    familyKey: FamilyKey
+    runnerUpKey: FamilyKey
+    nearestFitGap: number
+    lowDifferentiationThreshold: number
+  },
 ): ClosestTraditionsSummary {
   const ordered = (Object.entries(familyScores) as [FamilyKey, number][])
     .sort((a, b) => b[1] - a[1])
@@ -130,10 +142,25 @@ export function getClosestTraditions(
       label: familyLabel(key),
     }))
 
-  const primary = ordered[0]
-  const secondary = ordered[1]
-  const gap = primary.score - secondary.score
-  const showBoth = gap <= LOW_DIFFERENTIATION_THRESHOLD
+  const primary = identity
+    ? {
+        key: identity.familyKey,
+        score: familyScores[identity.familyKey],
+        label: familyLabel(identity.familyKey),
+      }
+    : ordered[0]
+  const secondary = identity
+    ? {
+        key: identity.runnerUpKey,
+        score: familyScores[identity.runnerUpKey],
+        label: familyLabel(identity.runnerUpKey),
+      }
+    : ordered[1]
+  const gap = identity?.nearestFitGap ?? primary.score - secondary.score
+  const showBoth =
+    gap <=
+    (identity?.lowDifferentiationThreshold ??
+      LOW_DIFFERENTIATION_THRESHOLD)
 
   return {
     primary,
@@ -156,50 +183,37 @@ export type StrongLens = {
   description: string
 }
 
-function centerScore(score: number): number {
-  return score - 4
-}
+function getBandStrength(dimension: DimensionKey, score: number): number {
+  const band = dimensionBand(dimension, score)
+  const { mean } = OBSERVED_DIMENSION_RANGES[dimension]
 
-function getCriticalSystemicSignal(dimensionScores: DimensionScores): number {
-  return (
-    centerScore(dimensionScores.politicalEconomy) * 0.55 +
-    centerScore(dimensionScores.domesticFilters) * 0.25 -
-    centerScore(dimensionScores.institutions) * 0.35 -
-    centerScore(dimensionScores.orderJustice) * 0.15
-  )
+  if (band === "high") {
+    return (score - mean) / (dimensionHighCut(dimension) - mean)
+  }
+  if (band === "low") {
+    return (mean - score) / (mean - dimensionLowCut(dimension))
+  }
+  return 0
 }
 
 export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] {
   const lenses: { weight: number; lens: StrongLens }[] = []
-  const criticalSystemicSignal = getCriticalSystemicSignal(dimensionScores)
 
-  if (dimensionScores.politicalEconomy >= 5.15) {
-    if (criticalSystemicSignal >= 1.8) {
-      lenses.push({
-        weight: criticalSystemicSignal,
-        lens: {
-          key: "critical-systemic",
-          label: "Critical / systemic lens",
-          description:
-            "You do not just think economics matters. You also read institutions, hierarchy, and leverage through a more systemic frame of dependence and structural advantage.",
-        },
-      })
-    } else {
-      lenses.push({
-        weight: dimensionScores.politicalEconomy - 4,
-        lens: {
-          key: "political-economy-salience",
-          label: "Political-economy salience",
-          description:
-            "Trade, finance, sanctions, and dependence are part of how you explain outcomes. That is a cross-cutting lens, not automatically a Critical Political Economy identity.",
-        },
-      })
-    }
+  if (dimensionBand("politicalEconomy", dimensionScores.politicalEconomy) === "high") {
+    lenses.push({
+      weight: getBandStrength("politicalEconomy", dimensionScores.politicalEconomy),
+      lens: {
+        key: "political-economy-salience",
+        label: "Political-economy salience",
+        description:
+          "Trade, finance, sanctions, and dependence are central to how you explain outcomes. This dimension-level signal does not by itself assign a Critical Political Economy identity.",
+      },
+    })
   }
 
-  if (dimensionScores.domesticFilters >= 5.15) {
+  if (dimensionBand("domesticFilters", dimensionScores.domesticFilters) === "high") {
     lenses.push({
-      weight: dimensionScores.domesticFilters - 4,
+      weight: getBandStrength("domesticFilters", dimensionScores.domesticFilters),
       lens: {
         key: "domestic-politics",
         label: "Domestic-politics sensitivity",
@@ -209,9 +223,9 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
     })
   }
 
-  if (dimensionScores.normsIdentity >= 5.15) {
+  if (dimensionBand("normsIdentity", dimensionScores.normsIdentity) === "high") {
     lenses.push({
-      weight: dimensionScores.normsIdentity - 4,
+      weight: getBandStrength("normsIdentity", dimensionScores.normsIdentity),
       lens: {
         key: "identity-legitimacy",
         label: "Identity / legitimacy sensitivity",
@@ -221,15 +235,15 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
     })
   }
 
-  const orderJusticeDistance = Math.abs(dimensionScores.orderJustice - 4)
-  if (orderJusticeDistance >= 1.2) {
+  const orderJusticeBand = dimensionBand("orderJustice", dimensionScores.orderJustice)
+  if (orderJusticeBand !== "midRange") {
     lenses.push({
-      weight: orderJusticeDistance,
+      weight: getBandStrength("orderJustice", dimensionScores.orderJustice),
       lens: {
         key: "normative-justice",
         label: "Normative / justice sensitivity",
         description:
-          dimensionScores.orderJustice <= 3.8
+          orderJusticeBand === "low"
             ? "You do not treat sovereignty as the final word in every hard case. Extreme moral stakes remain live in your analysis."
             : "You treat order, precedent, and the costs of intervention as hard constraints, not as secondary clean-up questions.",
       },

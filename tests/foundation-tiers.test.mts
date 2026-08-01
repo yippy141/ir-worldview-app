@@ -147,7 +147,12 @@ test("each discriminator list contains the five largest projected family separat
       .slice(0, 5)
       .map((item) => item.id)
 
-    assert.deepEqual(getFoundationDiscriminatorIds(left, right), expected)
+    // Administration order is editorial; this gate checks membership only.
+    assert.deepEqual(
+      [...getFoundationDiscriminatorIds(left, right)].sort(),
+      [...expected].sort(),
+      `${left}|${right}`,
+    )
   }
 })
 

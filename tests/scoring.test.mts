@@ -253,7 +253,9 @@ test("flat natural-midpoint profiles retain zero dimension-distance metrics", ()
     orderJustice: 4,
   })
 
-  assert.equal(analysis.nearestFitGap, 0.54)
+  // A raw midpoint is not the calibrated independent-null mean because
+  // ranked-choice option signals are intentionally asymmetric.
+  assert.equal(analysis.nearestFitGap, 0.78)
   assert.equal(analysis.averageDistanceFromCenter, 0)
   assert.equal(analysis.sharpDimensionCount, 0)
 })

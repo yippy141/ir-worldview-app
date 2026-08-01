@@ -61,6 +61,7 @@ test("answer volume alone does not place a point when one axis has no evidence",
       .filter(
         (question) =>
           question.kind === "likert" &&
+          question.scoringBlock === "core" &&
           X_AXIS_DIMENSIONS.includes(question.dimension) &&
           !Y_AXIS_DIMENSIONS.includes(question.dimension),
       )

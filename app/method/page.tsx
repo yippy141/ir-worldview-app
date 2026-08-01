@@ -123,7 +123,7 @@ export default function MethodPage() {
             <li>This editorial questionnaire has not been validated as a scientific instrument.</li>
             <li>Tradition labels are shorthand for a multidimensional profile.</li>
             <li>Mixed outputs are normal and can be meaningful.</li>
-            <li>No score is a percentile, and no answer is morally superior.</li>
+            <li>No score is a population percentile. Sample percentiles appear only when a comparable cohort is large enough.</li>
           </ul>
         </div>
       </section>
@@ -131,8 +131,10 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>Privacy and research data</h2>
         <p style={{ lineHeight: "1.7" }}>
-          Results and histories stay in this browser unless you explicitly share them. The site
-          does not collect research responses or connect contact details to results.
+          Raw answers and saved histories stay in this browser unless you explicitly share a
+          link. Separate first-party counters may receive derived buckets when coarse measurement
+          is enabled. The site does not collect research responses or connect contact details to
+          results.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           Any future study would require separate information about its purpose, data, consent,

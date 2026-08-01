@@ -2,15 +2,26 @@ import {
   FOUNDATION_INSTRUMENT_VERSION,
   foundationCoreQuestions,
   foundationExtendedQuestions,
+  foundationFamilyPairKey,
+  getFoundationResultQuestions,
   questionCountsBySet,
 } from "@/lib/quiz-schema"
 import {
   buildCanonicalFoundationResult,
+  foundationScoringCalibrationForForm,
   FOUNDATION_SCORING_VERSION,
+  getV2ScoringCalibration,
   type CanonicalFoundationResult,
 } from "@/lib/scoring"
+import {
+  resolveArchetype,
+} from "@/lib/archetypes"
+import { analyticsOptedOut } from "@/lib/analytics/adapter"
+import { completionProvenance } from "@/lib/locale-provenance"
 import { PAYLOAD_DIMENSION_ORDER } from "@/lib/share"
+import type { Locale } from "@/i18n/routing"
 import type {
+  CompletionLocale,
   DimensionKey,
   DimensionScores,
   FamilyKey,
@@ -21,6 +32,7 @@ import type {
   StrategyModifier,
 } from "@/lib/types"
 import { MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
+import { TIER1_SUBMITTED_RESULTS_STORAGE_KEY } from "@/lib/storage-keys"
 
 const STRATEGY_MODIFIERS: StrategyModifier[] = [
   "Restrainer",
@@ -47,6 +59,11 @@ const ALLOWED_RESULT_KEYS = new Set([
   "family",
   "strategyModifier",
   "normativeModifier",
+  "archetypeCode",
+  "questionSet",
+  "targetedFamilyPair",
+  "completionLocale",
+  "localeCopyVersion",
   "itemLatencies",
 ])
 const ALLOWED_ITEM_LATENCY_KEYS = new Set(["itemId", "bucket"])
@@ -62,6 +79,7 @@ const ALLOWED_COMPLETION_TIERS = new Set<FoundationQuestionSet>([
 ])
 
 export const TIER1_RESULT_BODY_LIMIT_BYTES = 4 * 1024
+const MAX_LOCAL_SUBMISSION_KEYS = 32
 
 export type Tier1ItemLatency = {
   itemId: string
@@ -75,6 +93,11 @@ export type Tier1AggregateResult = {
   family: FamilyKey
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
+  archetypeCode: string
+  questionSet: FoundationQuestionSet
+  targetedFamilyPair?: [FamilyKey, FamilyKey]
+  completionLocale: CompletionLocale
+  localeCopyVersion: number
   itemLatencies: Tier1ItemLatency[]
 }
 
@@ -83,7 +106,10 @@ export type Tier1AggregateValidation =
   | { ok: false; error: string }
 
 export type Tier1CompletionStep = {
-  tier: FoundationQuestionSet
+  questionSet: FoundationQuestionSet
+  targetedFamilyPair?: [FamilyKey, FamilyKey]
+  completionLocale: CompletionLocale
+  localeCopyVersion: number
   stepIndex: number
 }
 
@@ -93,8 +119,23 @@ export type Tier1CompletionValidation =
 
 export function buildTier1AggregateResult(
   result: CanonicalFoundationResult,
+  cohort: Tier1Cohort,
   itemLatencyBuckets: ItemLatencyBuckets = {},
 ): Tier1AggregateResult {
+  const targetedFamilyPair = normalizeTargetedFamilyPair(
+    cohort.questionSet,
+    cohort.targetedFamilyPair,
+  )
+  const scoringCalibration = foundationScoringCalibrationForForm(
+    cohort.questionSet,
+    targetedFamilyPair,
+  )
+  if (!scoringCalibration) {
+    throw new Error("The aggregate cohort has no scoring calibration.")
+  }
+  const { lowDifferentiationThreshold } =
+    getV2ScoringCalibration(scoringCalibration)
+
   return {
     instrumentVersion: FOUNDATION_INSTRUMENT_VERSION,
     scoringVersion: FOUNDATION_SCORING_VERSION,
@@ -102,8 +143,53 @@ export function buildTier1AggregateResult(
     family: result.familyKey,
     strategyModifier: result.strategyModifier,
     normativeModifier: result.normativeModifier,
+    archetypeCode: resolveArchetype(
+      result,
+      lowDifferentiationThreshold,
+    ).code,
+    questionSet: cohort.questionSet,
+    ...(targetedFamilyPair ? { targetedFamilyPair } : {}),
+    completionLocale: cohort.completionLocale,
+    localeCopyVersion: cohort.localeCopyVersion,
     itemLatencies: serializeItemLatencies(itemLatencyBuckets),
   }
+}
+
+export type Tier1Cohort = {
+  questionSet: FoundationQuestionSet
+  targetedFamilyPair?: readonly [FamilyKey, FamilyKey]
+  completionLocale: CompletionLocale
+  localeCopyVersion: number
+}
+
+export function buildTier1Cohort(
+  questionSet: FoundationQuestionSet,
+  locale: Locale,
+  targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
+): Tier1Cohort {
+  const provenance = completionProvenance("foundation", locale)
+  const normalizedPair = normalizeTargetedFamilyPair(
+    questionSet,
+    targetedFamilyPair,
+  )
+
+  return {
+    questionSet,
+    ...(normalizedPair ? { targetedFamilyPair: normalizedPair } : {}),
+    completionLocale: provenance.locale,
+    localeCopyVersion: provenance.localeCopyVersion,
+  }
+}
+
+export function foundationAggregateFormKey(
+  questionSet: FoundationQuestionSet,
+  targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
+): string | null {
+  if (questionSet !== "targetedExtended") return questionSet
+  if (!targetedFamilyPair || targetedFamilyPair[0] === targetedFamilyPair[1]) {
+    return null
+  }
+  return `targetedExtended:${foundationFamilyPairKey(...targetedFamilyPair)}`
 }
 
 export function validateTier1AggregateResult(
@@ -141,7 +227,20 @@ export function validateTier1AggregateResult(
   if (!isMember(value.normativeModifier, NORMATIVE_MODIFIERS)) {
     return invalid("Unknown normative modifier.")
   }
-  const itemLatencies = validateItemLatencies(value.itemLatencies)
+  const cohort = validateTier1Cohort(value)
+  if (!cohort.ok) {
+    return cohort
+  }
+  const allowedItemIds = new Set(
+    getFoundationResultQuestions(
+      cohort.cohort.questionSet,
+      cohort.cohort.targetedFamilyPair,
+    ).map((question) => question.id),
+  )
+  const itemLatencies = validateItemLatencies(
+    value.itemLatencies,
+    allowedItemIds,
+  )
   if (!itemLatencies.ok) {
     return itemLatencies
   }
@@ -153,14 +252,35 @@ export function validateTier1AggregateResult(
     family: value.family,
     strategyModifier: value.strategyModifier,
     normativeModifier: value.normativeModifier,
+    archetypeCode: value.archetypeCode as string,
+    questionSet: cohort.cohort.questionSet,
+    ...(cohort.cohort.targetedFamilyPair
+      ? { targetedFamilyPair: cohort.cohort.targetedFamilyPair }
+      : {}),
+    completionLocale: cohort.cohort.completionLocale,
+    localeCopyVersion: cohort.cohort.localeCopyVersion,
     itemLatencies: itemLatencies.items,
   }
-  const canonical = buildCanonicalFoundationResult(result.dimensionScores)
+  const scoringCalibration = foundationScoringCalibrationForForm(
+    result.questionSet,
+    result.targetedFamilyPair,
+  )
+  if (!scoringCalibration) {
+    return invalid("Aggregate form has no scoring calibration.")
+  }
+  const canonical = buildCanonicalFoundationResult(
+    result.dimensionScores,
+    scoringCalibration,
+  )
+  const { lowDifferentiationThreshold } =
+    getV2ScoringCalibration(scoringCalibration)
 
   if (
     result.family !== canonical.familyKey ||
     result.strategyModifier !== canonical.strategyModifier ||
-    result.normativeModifier !== canonical.normativeModifier
+    result.normativeModifier !== canonical.normativeModifier ||
+    result.archetypeCode !==
+      resolveArchetype(canonical, lowDifferentiationThreshold).code
   ) {
     return invalid("Aggregate labels do not match the derived scores.")
   }
@@ -175,20 +295,35 @@ export function validateTier1CompletionStep(
     return invalid("Aggregate completion must be an object.")
   }
   if (
-    Object.keys(value).length !== 2 ||
-    !Object.hasOwn(value, "tier") ||
+    Object.keys(value).some(
+      (key) =>
+        ![
+          "questionSet",
+          "targetedFamilyPair",
+          "completionLocale",
+          "localeCopyVersion",
+          "stepIndex",
+        ].includes(key),
+    ) ||
+    !Object.hasOwn(value, "questionSet") ||
     !Object.hasOwn(value, "stepIndex")
   ) {
     return invalid("Aggregate completion contains forbidden fields.")
   }
   if (
-    typeof value.tier !== "string" ||
-    !ALLOWED_COMPLETION_TIERS.has(value.tier as FoundationQuestionSet)
+    typeof value.questionSet !== "string" ||
+    !ALLOWED_COMPLETION_TIERS.has(
+      value.questionSet as FoundationQuestionSet,
+    )
   ) {
     return invalid("Unknown aggregate completion tier.")
   }
 
-  const tier = value.tier as FoundationQuestionSet
+  const cohort = validateTier1Cohort(value)
+  if (!cohort.ok) {
+    return cohort
+  }
+  const tier = cohort.cohort.questionSet
   if (
     !Number.isSafeInteger(value.stepIndex) ||
     (value.stepIndex as number) < 0 ||
@@ -200,7 +335,12 @@ export function validateTier1CompletionStep(
   return {
     ok: true,
     completion: {
-      tier,
+      questionSet: tier,
+      ...(cohort.cohort.targetedFamilyPair
+        ? { targetedFamilyPair: cohort.cohort.targetedFamilyPair }
+        : {}),
+      completionLocale: cohort.cohort.completionLocale,
+      localeCopyVersion: cohort.cohort.localeCopyVersion,
       stepIndex: value.stepIndex as number,
     },
   }
@@ -228,41 +368,77 @@ export function bucketItemResponseLatency(
 
 export async function submitTier1AggregateResult(
   result: CanonicalFoundationResult,
+  cohort: Tier1Cohort,
   itemLatencyBuckets: ItemLatencyBuckets = {},
 ): Promise<void> {
-  if (typeof window === "undefined" || typeof window.fetch !== "function") {
+  if (
+    typeof window === "undefined" ||
+    typeof window.fetch !== "function" ||
+    analyticsOptedOut()
+  ) {
     return
   }
 
+  const aggregate = buildTier1AggregateResult(
+    result,
+    cohort,
+    itemLatencyBuckets,
+  )
+  const submissionKey = JSON.stringify({
+    form: foundationAggregateFormKey(
+      aggregate.questionSet,
+      aggregate.targetedFamilyPair,
+    ),
+    locale: aggregate.completionLocale,
+    copy: aggregate.localeCopyVersion,
+    scores: dimensionBuckets(aggregate.dimensionScores),
+  })
+  if (hasLocalSubmissionKey(submissionKey)) return
+
   try {
-    await window.fetch("/api/aggregate/result", {
+    const response = await window.fetch("/api/aggregate/result", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify(
-        buildTier1AggregateResult(result, itemLatencyBuckets),
-      ),
+      body: JSON.stringify(aggregate),
       credentials: "omit",
       keepalive: true,
       referrerPolicy: "no-referrer",
     })
+    if (response.ok) {
+      rememberLocalSubmissionKey(submissionKey)
+    }
   } catch {
     // Aggregate collection must never block or alter result generation.
   }
 }
 
 export async function submitTier1CompletionStep(
-  tier: FoundationQuestionSet,
+  cohort: Tier1Cohort,
   stepIndex: number,
 ): Promise<void> {
-  if (typeof window === "undefined" || typeof window.fetch !== "function") {
+  if (
+    typeof window === "undefined" ||
+    typeof window.fetch !== "function" ||
+    analyticsOptedOut()
+  ) {
     return
   }
 
+  const normalizedPair = normalizeTargetedFamilyPair(
+    cohort.questionSet,
+    cohort.targetedFamilyPair,
+  )
   try {
     await window.fetch("/api/aggregate/result", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ tier, stepIndex } satisfies Tier1CompletionStep),
+      body: JSON.stringify({
+        questionSet: cohort.questionSet,
+        ...(normalizedPair ? { targetedFamilyPair: normalizedPair } : {}),
+        completionLocale: cohort.completionLocale,
+        localeCopyVersion: cohort.localeCopyVersion,
+        stepIndex,
+      } satisfies Tier1CompletionStep),
       credentials: "omit",
       keepalive: true,
       referrerPolicy: "no-referrer",
@@ -286,6 +462,7 @@ function serializeItemLatencies(
 
 function validateItemLatencies(
   value: unknown,
+  allowedItemIds: ReadonlySet<string> = ALLOWED_ITEM_IDS,
 ):
   | { ok: true; items: Tier1ItemLatency[] }
   | { ok: false; error: string } {
@@ -304,7 +481,7 @@ function validateItemLatencies(
       Object.keys(item).length !== 2 ||
       Object.keys(item).some((key) => !ALLOWED_ITEM_LATENCY_KEYS.has(key)) ||
       typeof item.itemId !== "string" ||
-      !ALLOWED_ITEM_IDS.has(item.itemId) ||
+      !allowedItemIds.has(item.itemId) ||
       !isItemLatencyBucket(item.bucket) ||
       seen.has(item.itemId)
     ) {
@@ -316,6 +493,113 @@ function validateItemLatencies(
 
   items.sort((left, right) => left.itemId.localeCompare(right.itemId))
   return { ok: true, items }
+}
+
+function validateTier1Cohort(
+  value: Record<string, unknown>,
+):
+  | { ok: true; cohort: Required<Omit<Tier1Cohort, "targetedFamilyPair">> & {
+      targetedFamilyPair?: [FamilyKey, FamilyKey]
+    } }
+  | { ok: false; error: string } {
+  if (
+    typeof value.questionSet !== "string" ||
+    !ALLOWED_COMPLETION_TIERS.has(
+      value.questionSet as FoundationQuestionSet,
+    ) ||
+    !isCompletionLocale(value.completionLocale) ||
+    !Number.isSafeInteger(value.localeCopyVersion) ||
+    (value.localeCopyVersion as number) < 0
+  ) {
+    return invalid("Invalid aggregate cohort.")
+  }
+
+  const questionSet = value.questionSet as FoundationQuestionSet
+  const targetedFamilyPair = normalizeTargetedFamilyPair(
+    questionSet,
+    value.targetedFamilyPair,
+  )
+  if (
+    questionSet === "targetedExtended" !== Boolean(targetedFamilyPair) ||
+    (questionSet !== "targetedExtended" &&
+      value.targetedFamilyPair !== undefined)
+  ) {
+    return invalid("Invalid targeted aggregate form.")
+  }
+
+  const expectedCopyVersion = completionProvenance(
+    "foundation",
+    value.completionLocale,
+  ).localeCopyVersion
+  if (value.localeCopyVersion !== expectedCopyVersion) {
+    return invalid("Aggregate locale copy version is not current.")
+  }
+
+  return {
+    ok: true,
+    cohort: {
+      questionSet,
+      ...(targetedFamilyPair ? { targetedFamilyPair } : {}),
+      completionLocale: value.completionLocale,
+      localeCopyVersion: value.localeCopyVersion as number,
+    },
+  }
+}
+
+function normalizeTargetedFamilyPair(
+  questionSet: FoundationQuestionSet,
+  value: unknown,
+): [FamilyKey, FamilyKey] | undefined {
+  if (
+    questionSet !== "targetedExtended" ||
+    !Array.isArray(value) ||
+    value.length !== 2 ||
+    !isMember(value[0], MODELED_FAMILY_KEYS) ||
+    !isMember(value[1], MODELED_FAMILY_KEYS) ||
+    value[0] === value[1]
+  ) {
+    return undefined
+  }
+
+  return [...value].sort(
+    (left, right) =>
+      MODELED_FAMILY_KEYS.indexOf(left) - MODELED_FAMILY_KEYS.indexOf(right),
+  ) as [FamilyKey, FamilyKey]
+}
+
+function isCompletionLocale(value: unknown): value is CompletionLocale {
+  return value === "en" || value === "zh-Hans"
+}
+
+function hasLocalSubmissionKey(key: string): boolean {
+  try {
+    const parsed = JSON.parse(
+      window.localStorage.getItem(TIER1_SUBMITTED_RESULTS_STORAGE_KEY) ?? "[]",
+    )
+    return Array.isArray(parsed) && parsed.includes(key)
+  } catch {
+    // Storage unavailable: collection remains best-effort.
+    return false
+  }
+}
+
+function rememberLocalSubmissionKey(key: string) {
+  try {
+    const parsed = JSON.parse(
+      window.localStorage.getItem(TIER1_SUBMITTED_RESULTS_STORAGE_KEY) ?? "[]",
+    )
+    const prior = Array.isArray(parsed)
+      ? parsed.filter((value): value is string => typeof value === "string")
+      : []
+    window.localStorage.setItem(
+      TIER1_SUBMITTED_RESULTS_STORAGE_KEY,
+      JSON.stringify([...prior.filter((value) => value !== key), key].slice(
+        -MAX_LOCAL_SUBMISSION_KEYS,
+      )),
+    )
+  } catch {
+    // Storage unavailable: the accepted aggregate has already been submitted.
+  }
 }
 
 function validateDimensionScores(

@@ -12,6 +12,7 @@ type Props = {
   familyLabel: string
   strategyModifier: string
   normativeModifier: string
+  displayLabel?: string
   locale?: Locale
 }
 
@@ -49,6 +50,7 @@ export function ShareActions({
   familyLabel,
   strategyModifier,
   normativeModifier,
+  displayLabel,
   locale = "en",
 }: Props) {
   const router = useRouter()
@@ -60,7 +62,9 @@ export function ShareActions({
     () => false,
   )
 
-  const resultLabel = `${familyLabel} · ${strategyModifier} · ${normativeModifier}`
+  const resultLabel =
+    displayLabel ??
+    `${familyLabel} · ${strategyModifier} · ${normativeModifier}`
 
   function getShareUrl() {
     return new URL(publicPath(locale, `/results/${payload}`), window.location.origin).toString()
@@ -80,7 +84,7 @@ export function ShareActions({
     if (canNativeShare) {
       try {
         await navigator.share({
-          title: copy.title(familyLabel),
+          title: copy.title(displayLabel ?? familyLabel),
           text: copy.text(resultLabel),
           url: getShareUrl(),
         })

@@ -9,8 +9,6 @@ import type { Answers, QuizMode } from "@/lib/types"
 
 const MODE: QuizMode = "analyst"
 const RANDOM_N = 500
-const BRANCH_C_SKIP_REASON =
-  "unblocked by V21 Branch C item valence rebalance"
 
 type AnyQuestion = ReturnType<typeof getFoundationQuestions>[number] & {
   options?: { id: string }[]
@@ -26,7 +24,7 @@ function makeRng(seed: number) {
 }
 
 function buildAnswers(
-  likertValue: number,
+  likertValue: number | ((questionId: string) => number),
   pickOption: (options: { id: string }[], questionId: string) => number,
   secondaryOffset = 1,
 ): Answers {
@@ -36,7 +34,10 @@ function buildAnswers(
     const question = raw as AnyQuestion
 
     if (question.kind === "likert") {
-      answers[question.id] = likertValue
+      answers[question.id] =
+        typeof likertValue === "function"
+          ? likertValue(question.id)
+          : likertValue
       continue
     }
 
@@ -72,11 +73,12 @@ function measureRandomRespondents() {
   const rng = makeRng(20260728)
   const familyCounts: Record<string, number> = {}
   const labelCounts: Record<string, number> = {}
+  const strategyCounts: Record<string, number> = {}
+  const normativeCounts: Record<string, number> = {}
 
   for (let i = 0; i < RANDOM_N; i += 1) {
-    const likert = 1 + Math.floor(rng() * 7)
     const answers = buildAnswers(
-      likert,
+      () => 1 + Math.floor(rng() * 7),
       (options) => Math.floor(rng() * options.length),
     )
     const result = scoreAnswers(answers)
@@ -86,26 +88,22 @@ function measureRandomRespondents() {
 
     increment(familyCounts, result.familyLabel)
     increment(labelCounts, label)
+    increment(strategyCounts, result.strategyModifier)
+    increment(normativeCounts, result.normativeModifier)
   }
 
-  return { familyCounts, labelCounts }
+  return {
+    familyCounts,
+    labelCounts,
+    strategyCounts,
+    normativeCounts,
+  }
 }
 
 const randomRespondents = measureRandomRespondents()
-const alwaysFirst = () => 0
-const alwaysLast = (options: { id: string }[]) => options.length - 1
-const responseStyleResults = [
-  scoreAnswers(buildAnswers(6, alwaysFirst)),
-  scoreAnswers(buildAnswers(2, alwaysFirst)),
-  scoreAnswers(buildAnswers(4, alwaysFirst)),
-  scoreAnswers(buildAnswers(6, alwaysLast)),
-  scoreAnswers(buildAnswers(7, alwaysFirst)),
-  scoreAnswers(buildAnswers(1, alwaysFirst)),
-]
 
 test(
   "no family exceeds 35% of seeded random respondents",
-  { skip: BRANCH_C_SKIP_REASON },
   () => {
     const largestFamilyCount = Math.max(
       ...Object.values(randomRespondents.familyCounts),
@@ -117,7 +115,6 @@ test(
 
 test(
   "no three-part label exceeds 20% of seeded random respondents",
-  { skip: BRANCH_C_SKIP_REASON },
   () => {
     const largestLabelCount = Math.max(
       ...Object.values(randomRespondents.labelCounts),
@@ -129,7 +126,6 @@ test(
 
 test(
   "all four families each exceed 5% of seeded random respondents",
-  { skip: BRANCH_C_SKIP_REASON },
   () => {
     const familyCounts = Object.values(randomRespondents.familyCounts)
 
@@ -138,18 +134,16 @@ test(
   },
 )
 
-test(
-  "response-style respondents return at least two values for each modifier",
-  { skip: BRANCH_C_SKIP_REASON },
-  () => {
-    const strategyModifiers = new Set(
-      responseStyleResults.map((result) => result.strategyModifier),
+test("all modifier bands remain live in the seeded distribution", () => {
+  for (const counts of [
+    randomRespondents.strategyCounts,
+    randomRespondents.normativeCounts,
+  ]) {
+    assert.equal(Object.keys(counts).length, 3)
+    assert.ok(
+      Object.values(counts).every(
+        (count) => count / RANDOM_N >= 0.2 && count / RANDOM_N <= 0.45,
+      ),
     )
-    const normativeModifiers = new Set(
-      responseStyleResults.map((result) => result.normativeModifier),
-    )
-
-    assert.ok(strategyModifiers.size >= 2)
-    assert.ok(normativeModifiers.size >= 2)
-  },
-)
+  }
+})

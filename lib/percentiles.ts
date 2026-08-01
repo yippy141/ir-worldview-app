@@ -1,4 +1,10 @@
-import type { DimensionKey } from "@/lib/types"
+import type {
+  CompletionLocale,
+  DimensionKey,
+  FamilyKey,
+  FoundationQuestionSet,
+  NormativeModifier,
+} from "@/lib/types"
 
 export const MIN_PERCENTILE_SAMPLE_SIZE = 100
 
@@ -11,12 +17,61 @@ export type AggregateDimensionBucket = {
 export type AggregateStats = {
   instrumentVersion: number
   scoringVersion: number
+  questionSet: FoundationQuestionSet
+  targetedFamilyPair?: [FamilyKey, FamilyKey]
+  completionLocale: CompletionLocale
+  localeCopyVersion: number
   buckets: AggregateDimensionBucket[]
+  labels: AggregateLabelCount[]
+}
+
+export type AggregateLabelCount = {
+  archetypeCode: string
+  normativeModifier: NormativeModifier
+  count: number
 }
 
 export type PercentileResult = {
   percentile: number
   n: number
+}
+
+export function getAggregateCohortSize(
+  labels: readonly AggregateLabelCount[],
+): number | null {
+  const n = labels.reduce((total, entry) => total + entry.count, 0)
+  return Number.isSafeInteger(n) && n >= 0 ? n : null
+}
+
+export function hasPublishableAggregateCohort(
+  labels: readonly AggregateLabelCount[],
+): boolean {
+  const n = getAggregateCohortSize(labels)
+  return n !== null && n >= MIN_PERCENTILE_SAMPLE_SIZE
+}
+
+export function getProfileRarity(
+  archetypeCode: string,
+  normativeModifier: NormativeModifier,
+  stats: AggregateStats,
+): { percentage: number; n: number } | null {
+  const n = getAggregateCohortSize(stats.labels)
+  if (n === null || n < MIN_PERCENTILE_SAMPLE_SIZE) {
+    return null
+  }
+
+  const matching = stats.labels
+    .filter(
+      (entry) =>
+        entry.archetypeCode === archetypeCode &&
+        entry.normativeModifier === normativeModifier,
+    )
+    .reduce((total, entry) => total + entry.count, 0)
+
+  return {
+    percentage: Number(((matching / n) * 100).toFixed(1)),
+    n,
+  }
 }
 
 /**

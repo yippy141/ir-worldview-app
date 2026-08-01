@@ -1,6 +1,7 @@
 import { chineseShellContent } from "@/content/locales"
 import { zhHansFoundationQuizUi } from "@/content/locales/zh-Hans/foundation-ui"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
+import type { FoundationScoringCalibration } from "@/lib/scoring"
 import type {
   DimensionKey,
   DimensionScores,
@@ -15,6 +16,7 @@ type FoundationNarrativeInput = {
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
   dimensionScores: DimensionScores
+  scoringCalibration?: FoundationScoringCalibration
 }
 
 export type ZhHansFoundationNarrative = {
@@ -92,7 +94,10 @@ const DIMENSION_FRAMES: Record<DimensionKey, { high: string; low: string; middle
 export function buildZhHansFoundationNarrative(
   input: FoundationNarrativeInput,
 ): ZhHansFoundationNarrative {
-  const assessment = assessFoundationNarrative(input.dimensionScores)
+  const assessment = assessFoundationNarrative(
+    input.dimensionScores,
+    input.scoringCalibration,
+  )
   const familyLabel = FAMILY_LABELS[input.familyKey]
   const runnerUpLabel = FAMILY_LABELS[input.runnerUpKey]
   const strongestSignals = assessment.topDimensions

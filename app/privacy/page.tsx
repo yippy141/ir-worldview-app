@@ -11,7 +11,7 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/privacy", {
 })
 
 const commitments = [
-  "Foundation, Focus Area, AI, Perspective, Profile, and Current Case histories remain browser-local.",
+  "Raw answers and saved Foundation, Focus Area, AI, Perspective, Profile, and Current Case histories remain browser-local.",
   "The site does not collect research responses or research contact details.",
   "Product measurement uses a closed event and property allowlist with a browser opt-out.",
   "No ads, profile-data sale, political targeting, session replay, or individual scoring dashboard.",
@@ -22,10 +22,13 @@ export default function PrivacyPage() {
     <div className="container stack-lg">
       <section className="panel stack-md">
         <p className="eyebrow">Privacy and data use</p>
-        <h1>Your results stay in this browser unless you choose to share them.</h1>
+        <h1>Your raw answers and saved history stay in this browser.</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
           The inventory requires no account. Saved results and Current Case judgments support your
-          Profile on this device. The site does not collect research responses.
+          Profile on this device. When coarse measurement is enabled, the separate aggregate
+          counters described below receive derived buckets. Raw answers and saved histories stay
+          outside those counters.
+          The site does not collect research responses.
         </p>
       </section>
 

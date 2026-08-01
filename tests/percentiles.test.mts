@@ -1,6 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import {
+  hasPublishableAggregateCohort,
   getPercentile,
   MIN_PERCENTILE_SAMPLE_SIZE,
   type AggregateStats,
@@ -12,9 +13,36 @@ function stats(
   return {
     instrumentVersion: 2,
     scoringVersion: 2,
+    questionSet: "fullExtended",
+    completionLocale: "en",
+    localeCopyVersion: 1,
     buckets,
+    labels: [],
   }
 }
+
+test("exact aggregate cohorts remain unpublished below 100 results", () => {
+  assert.equal(
+    hasPublishableAggregateCohort([
+      {
+        archetypeCode: "P+",
+        normativeModifier: "Pluralist",
+        count: MIN_PERCENTILE_SAMPLE_SIZE - 1,
+      },
+    ]),
+    false,
+  )
+  assert.equal(
+    hasPublishableAggregateCohort([
+      {
+        archetypeCode: "P+",
+        normativeModifier: "Pluralist",
+        count: MIN_PERCENTILE_SAMPLE_SIZE,
+      },
+    ]),
+    true,
+  )
+})
 
 test("percentiles stay unavailable below 100 observations per dimension", () => {
   const result = getPercentile(

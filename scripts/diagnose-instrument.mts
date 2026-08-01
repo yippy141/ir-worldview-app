@@ -83,7 +83,7 @@ function makeRng(seed: number) {
  * @param orderSeed    when present, choose by position after seeded presentation ordering
  */
 function buildAnswers(
-  likertValue: number,
+  likertValue: number | ((questionId: string) => number),
   pickOption: (options: { id: string }[], questionId: string) => number,
   secondaryOffset = 1,
   orderSeed?: string,
@@ -93,7 +93,10 @@ function buildAnswers(
   for (const question of FOUNDATION_QUESTIONS) {
 
     if (question.kind === "likert") {
-      answers[question.id] = likertValue
+      answers[question.id] =
+        typeof likertValue === "function"
+          ? likertValue(question.id)
+          : likertValue
       continue
     }
 
@@ -316,7 +319,7 @@ const narrativeStateCounts: Record<string, number> = {}
 const randomDimensionScores: DimensionScores[] = []
 const randomRespondentAnswers: Answers[] = []
 const randomRespondentPlans: Array<{
-  likert: number
+  likertValues: Record<string, number>
   positions: Record<string, number>
 }> = []
 
@@ -328,14 +331,21 @@ for (const key of DIMENSION_KEYS) {
 }
 
 for (let i = 0; i < RANDOM_N; i += 1) {
-  const likert = 1 + Math.floor(rng() * 7)
+  const likertValues: Record<string, number> = {}
   const positions: Record<string, number> = {}
-  const answers = buildAnswers(likert, (options, questionId) => {
-    const position = Math.floor(rng() * options.length)
-    positions[questionId] = position
-    return position
-  })
-  randomRespondentPlans.push({ likert, positions })
+  const answers = buildAnswers(
+    (questionId) => {
+      const value = 1 + Math.floor(rng() * 7)
+      likertValues[questionId] = value
+      return value
+    },
+    (options, questionId) => {
+      const position = Math.floor(rng() * options.length)
+      positions[questionId] = position
+      return position
+    },
+  )
+  randomRespondentPlans.push({ likertValues, positions })
   randomRespondentAnswers.push(answers)
   const scores = computeCoreDimensionScores(answers, MODE)
   const result = buildCanonicalFoundationResult(scores)
@@ -378,7 +388,7 @@ if (SHOW_ORDER_BIAS) {
 
   for (const [respondentIndex, plan] of randomRespondentPlans.entries()) {
     const answers = buildAnswers(
-      plan.likert,
+      (questionId) => plan.likertValues[questionId] ?? 4,
       (_options, questionId) => plan.positions[questionId] ?? 0,
       1,
       `order-bias-${RANDOM_SEED}-${respondentIndex}`,

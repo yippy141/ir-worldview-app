@@ -6,7 +6,11 @@ import {
   encodePayload,
   resolveFoundationPayload,
 } from "@/lib/share"
-import { buildCanonicalFoundationResult } from "@/lib/scoring"
+import { getClosestTraditions } from "@/lib/result-helpers"
+import {
+  buildCanonicalFoundationResult,
+  getV2ScoringCalibration,
+} from "@/lib/scoring"
 import type { SharePayload } from "@/lib/types"
 
 const payloads: SharePayload[] = [
@@ -96,10 +100,12 @@ test("canonical Foundation V3 records structural, scoring, copy, and completion-
   assert.ok(resolved)
   assert.deepEqual(resolved.provenance, {
     instrumentStructuralVersion: 3,
+    instrumentVersion: 0,
     scoringVersion: 1,
     localeCopyVersion: 1,
     completionLocale: "zh-Hans",
     resultTier: "extended",
+    questionSet: null,
   })
   assert.equal(Object.values(resolved.payload).some((value) => /[㐀-鿿]/u.test(String(value))), false)
 })
@@ -123,13 +129,76 @@ test("Foundation payload generation changes provenance by locale without changin
   )
   assert.equal(english.cl, "en")
   assert.equal(chinese.cl, "zh-Hans")
-  assert.equal(english.v, 4)
+  assert.equal(english.v, 5)
   assert.equal(english.iv, 4)
   assert.equal(chinese.sv, 2)
-  assert.equal(english.rt, "core")
+  assert.equal(english.qs, "core")
+})
+
+test("V5 records the exact targeted item form", () => {
+  const result = buildCanonicalFoundationResult({
+    securityCompetition: 4.3,
+    institutions: 5.8,
+    domesticFilters: 4.9,
+    normsIdentity: 5.1,
+    politicalEconomy: 4.7,
+    restraint: 5.4,
+    orderJustice: 5.3,
+  })
+  const payload = buildFoundationSharePayload(
+    result,
+    "en",
+    "targetedExtended",
+    ["institutionalist", "realist"],
+  )
+  const resolved = resolveFoundationPayload(encodePayload(payload))
+
+  assert.equal(payload.qs, "targetedExtended")
+  assert.deepEqual(payload.tp, ["realist", "institutionalist"])
+  assert.ok(resolved)
+  assert.equal(resolved.questionSet, "targetedExtended")
+  assert.deepEqual(resolved.targetedFamilyPair, [
+    "realist",
+    "institutionalist",
+  ])
+})
+
+test("legacy links preserve their encoded identity while keeping decoded scores", () => {
+  const resolved = resolveFoundationPayload(PRE_V16_FOUNDATION_SHARE)
+
+  assert.ok(resolved)
+  assert.equal(resolved.result.familyKey, "realist")
+  assert.equal(resolved.result.runnerUpKey, "institutionalist")
+  assert.equal(resolved.result.strategyModifier, "Hedger")
+  assert.equal(resolved.result.normativeModifier, "Conditional Solidarist")
+
+  const closest = getClosestTraditions(resolved.result.familyScores, {
+    familyKey: resolved.result.familyKey,
+    runnerUpKey: resolved.result.runnerUpKey,
+    nearestFitGap: resolved.result.nearestFitGap,
+    lowDifferentiationThreshold:
+      getV2ScoringCalibration(resolved.scoringCalibration)
+        .lowDifferentiationThreshold,
+  })
+  assert.equal(closest.primary.key, "realist")
+  assert.equal(closest.secondary.key, "institutionalist")
 })
 
 test("malformed payloads fail safely instead of decoding to a fabricated result", () => {
+  const currentV5 = buildFoundationSharePayload(
+    buildCanonicalFoundationResult({
+      securityCompetition: 4,
+      institutions: 4,
+      domesticFilters: 4,
+      normsIdentity: 4,
+      politicalEconomy: 4,
+      restraint: 4,
+      orderJustice: 4,
+    }),
+    "en",
+    "targetedExtended",
+    ["realist", "institutionalist"],
+  )
   const malformedPayloads = [
     "%%%bad%%%payload",
     encodeRawPayload({
@@ -160,6 +229,13 @@ test("malformed payloads fail safely instead of decoding to a fabricated result"
       ...payloads[3],
       rt: "provisional",
     }),
+    encodeRawPayload({
+      ...currentV5,
+      tp: undefined,
+    }),
+    encodeRawPayload({ ...currentV5, iv: 99 }),
+    encodeRawPayload({ ...currentV5, bv: 99 }),
+    encodeRawPayload({ ...currentV5, sv: 99 }),
   ]
 
   for (const payload of malformedPayloads) {

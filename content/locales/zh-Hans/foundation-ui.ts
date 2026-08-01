@@ -157,7 +157,7 @@ export const zhHansFoundationReviewUi = {
   back: "返回基础问卷",
   startOver: "重新开始",
   localProcessing:
-    "结果在当前浏览器中计算。第一方计数器会记录问卷每一步是否到达。生成结果时，汇总提交仅包含推导出的分数与标签，以及各题 ID 和粗粒度答题时长区间；不包含你的答案、原始时间戳、答题顺序或任何标识符。",
+    "结果在当前浏览器中计算。仅当你允许粗粒度产品分析且汇总服务已启用时，第一方计数器才会接收问卷到达步骤；生成结果时，仅接收推导出的分数与标签，以及各题 ID 和粗粒度答题时长区间，不包含你的答案、原始时间戳、答题顺序或任何标识符。",
   setLabels: zhHansFoundationQuizUi.setLabels,
   edit: "修改",
   likertLabels: {

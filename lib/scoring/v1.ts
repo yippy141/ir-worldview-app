@@ -1,37 +1,33 @@
-/** Immutable Foundation scoring implementation v1. */
+/**
+ * Immutable Foundation scoring implementation v1.
+ *
+ * This preserves the production algorithm at tag pre-v21-20260728, including
+ * its known CPE clamp. It exists only for historical link compatibility and
+ * research replay; the current scorer must never import from this module.
+ */
 
-import foundationBankJson from "@/content/instrument/foundation.v2.json" with {
+import foundationScoringV1Json from "@/content/instrument/foundation.scoring.v1.json" with {
   type: "json",
 }
-import {
-  familyDescriptions,
-  familyProfiles,
-  getNeighboringFamilyKey,
-  type CanonicalFoundationResult,
-  type CoreDimensionAudit,
-  type ScoreShapeAnalysis,
-} from "@/lib/scoring/v2"
 import type {
   AnswerValue,
   Answers,
-  ChoiceQuestion,
-  CoreLikertQuestion,
   DimensionKey,
   DimensionScores,
   FamilyKey,
   NormativeModifier,
-  Question,
   QuizMode,
+  QuizResult,
   RankedChoiceAnswer,
   StrategyModifier,
 } from "@/lib/types"
 
 export const FOUNDATION_SCORING_VERSION = 1
 
-export const STRATEGY_LOWER_THRESHOLD = 4.61
-export const STRATEGY_UPPER_THRESHOLD = 4.85
-export const NORMATIVE_LOWER_THRESHOLD = 4.12
-export const NORMATIVE_UPPER_THRESHOLD = 4.42
+export const STRATEGY_LOWER_THRESHOLD = 3.85
+export const STRATEGY_UPPER_THRESHOLD = 5.15
+export const NORMATIVE_LOWER_THRESHOLD = 3.85
+export const NORMATIVE_UPPER_THRESHOLD = 5.15
 
 const DIMENSIONS: DimensionKey[] = [
   "securityCompetition",
@@ -90,19 +86,67 @@ const V1_ANALYST_ITEM_IDS = new Set([
   "an_tradeoff_energy_alignment",
   "an_tradeoff_ceasefire_settlement",
 ])
+type V1LikertItem = {
+  id: string
+  kind: "likert"
+  dimension: DimensionKey
+  reverse: boolean
+}
+type V1ChoiceItem = {
+  id: string
+  kind: "tradeoff" | "miniCase"
+  allowSecondChoiceInAnalyst: boolean
+  options: Array<{
+    id: string
+    signals: Partial<Record<DimensionKey, number>>
+  }>
+}
+type V1ScoringItem = V1LikertItem | V1ChoiceItem
 const FOUNDATION_ITEMS =
-  foundationBankJson.items as unknown as Array<Question & { modes: QuizMode[] }>
+  foundationScoringV1Json.items as unknown as V1ScoringItem[]
 const SECOND_CHOICE_WEIGHT = 0.45
-const MIN_CALIBRATION_SD = 1e-9
-const V1_NEUTRAL_BASELINE = {
-  securityCompetition: { mean: 4.625600000000005, sd: 0.4968849363785998 },
-  institutions: { mean: 4.627160000000002, sd: 0.20894098305496822 },
-  domesticFilters: { mean: 5.225439999999994, sd: 0.3718542811372106 },
-  normsIdentity: { mean: 4.728999999999997, sd: 0.49932975076598135 },
-  politicalEconomy: { mean: 5.04672, sd: 0.307279093984641 },
-  restraint: { mean: 4.736060000000002, sd: 0.24695966553259996 },
-  orderJustice: { mean: 4.26404, sd: 0.298133658616421 },
-} as const satisfies Record<DimensionKey, { mean: number; sd: number }>
+
+export const familyProfiles: Record<
+  FamilyKey,
+  Partial<Record<DimensionKey, number>>
+> = {
+  realist: {
+    securityCompetition: 1,
+    institutions: -0.55,
+    domesticFilters: -0.25,
+    normsIdentity: -0.45,
+    politicalEconomy: 0.05,
+    restraint: -0.45,
+    orderJustice: 0.2,
+  },
+  institutionalist: {
+    securityCompetition: -0.2,
+    institutions: 1,
+    domesticFilters: 0.6,
+    normsIdentity: 0.15,
+    politicalEconomy: 0.15,
+    restraint: 0.45,
+    orderJustice: 0.1,
+  },
+  constructivist: {
+    securityCompetition: -0.2,
+    institutions: 0.25,
+    domesticFilters: 0.1,
+    normsIdentity: 1,
+    politicalEconomy: 0.1,
+    restraint: 0.2,
+    orderJustice: 0.2,
+  },
+  criticalPoliticalEconomy: {
+    securityCompetition: -0.1,
+    institutions: -0.4,
+    domesticFilters: 0.55,
+    normsIdentity: 0.15,
+    politicalEconomy: 0.8,
+    restraint: 0.1,
+    orderJustice: -0.2,
+  },
+}
 
 const familyLabels: Record<FamilyKey, string> = {
   realist: "Strategic Realist",
@@ -111,15 +155,37 @@ const familyLabels: Record<FamilyKey, string> = {
   criticalPoliticalEconomy: "Critical Political Economist",
 }
 
-export {
-  familyDescriptions,
-  familyProfiles,
-  getNeighboringFamilyKey,
+export const familyDescriptions: Record<FamilyKey, string> = {
+  realist:
+    "You treat uncertainty, rivalry, and positional advantage as durable constraints, and you are comparatively skeptical that institutions or norms can fully tame them.",
+  institutionalist:
+    "You think institutions, domestic filters, and strategic restraint matter a great deal, but you are not naive about power or capture.",
+  constructivist:
+    "You give major causal weight to identity, recognition, and legitimacy, and you think the meaning of rivalry is shaped socially rather than fixed in advance.",
+  criticalPoliticalEconomy:
+    "You read world politics less as a neutral arena than as a hierarchy shaped by leverage, dependence, and unequal control over production and finance.",
 }
-export type {
-  CanonicalFoundationResult,
-  CoreDimensionAudit,
-  ScoreShapeAnalysis,
+
+export type CoreDimensionAudit = {
+  sums: Record<DimensionKey, number>
+  weights: Record<DimensionKey, number>
+  rawAverages: Record<DimensionKey, number>
+  roundedAverages: DimensionScores
+}
+
+export type ScoreShapeAnalysis = {
+  familyScores: Record<FamilyKey, number>
+  orderedFamilies: [FamilyKey, number][]
+  nearestFitGap: number
+  averageDistanceFromCenter: number
+  maxDistanceFromCenter: number
+  sharpDimensionCount: number
+}
+
+export type CanonicalFoundationResult = QuizResult & {
+  runnerUpKey: FamilyKey
+  runnerUpLabel: string
+  nearestFitGap: number
 }
 
 export function scoreLikert(rawValue: number, reverse?: boolean): number {
@@ -132,7 +198,7 @@ export function scoreLikert(rawValue: number, reverse?: boolean): number {
   return reverse ? 8 - rawValue : rawValue
 }
 
-function collectLikertSignal(question: CoreLikertQuestion, raw: number) {
+function collectLikertSignal(question: V1LikertItem, raw: number) {
   return {
     dimension: question.dimension,
     value: scoreLikert(raw, question.reverse),
@@ -140,7 +206,7 @@ function collectLikertSignal(question: CoreLikertQuestion, raw: number) {
   }
 }
 
-function collectChoiceSignals(question: ChoiceQuestion, answer: string) {
+function collectChoiceSignals(question: V1ChoiceItem, answer: string) {
   const option = question.options.find((candidate) => candidate.id === answer)
   if (!option) return []
 
@@ -150,12 +216,10 @@ function collectChoiceSignals(question: ChoiceQuestion, answer: string) {
 }
 
 function collectQuestionSignals(
-  question: Question,
+  question: V1ScoringItem,
   answer: AnswerValue | undefined,
   mode: QuizMode,
 ) {
-  if (question.scoringBlock !== "core") return []
-
   if (question.kind === "likert") {
     return typeof answer === "number"
       ? [collectLikertSignal(question, answer)]
@@ -192,7 +256,7 @@ function collectQuestionSignals(
   return signals
 }
 
-function getV1Questions(mode: QuizMode): Question[] {
+function getV1Questions(mode: QuizMode): V1ScoringItem[] {
   return FOUNDATION_ITEMS.filter((item) =>
     V1_STANDARD_ITEM_IDS.has(item.id) ||
     (mode === "analyst" && V1_ANALYST_ITEM_IDS.has(item.id)),
@@ -266,25 +330,32 @@ export function computeCoreDimensionAudit(
   }
 }
 
-function standardise(score: number, dimension: DimensionKey): number {
-  const { mean, sd } = V1_NEUTRAL_BASELINE[dimension]
+function centerScore(score: number): number {
+  return score - 4
+}
 
-  if (Math.abs(sd) < MIN_CALIBRATION_SD) {
-    return score - mean
-  }
-
-  return (score - mean) / sd
+function computeCriticalSystemicSignal(
+  dimensionScores: DimensionScores,
+): number {
+  return Number(
+    (
+      centerScore(dimensionScores.politicalEconomy) * 0.55 +
+      centerScore(dimensionScores.domesticFilters) * 0.25 -
+      centerScore(dimensionScores.institutions) * 0.35 -
+      centerScore(dimensionScores.orderJustice) * 0.15
+    ).toFixed(2),
+  )
 }
 
 export function scoreFamilies(
   dimensionScores: DimensionScores,
 ): Record<FamilyKey, number> {
-  return (Object.keys(familyProfiles) as FamilyKey[]).reduce(
+  const scores = (Object.keys(familyProfiles) as FamilyKey[]).reduce(
     (accumulator, family) => {
       const weights = familyProfiles[family]
       const score = DIMENSIONS.reduce((sum, dimension) => {
         const weight = weights[dimension] ?? 0
-        return sum + standardise(dimensionScores[dimension], dimension) * weight
+        return sum + centerScore(dimensionScores[dimension]) * weight
       }, 0)
 
       accumulator[family] = Number(score.toFixed(2))
@@ -292,6 +363,24 @@ export function scoreFamilies(
     },
     {} as Record<FamilyKey, number>,
   )
+
+  // Historical behavior only. V2 deliberately removed this suppression rule.
+  const criticalSignal = computeCriticalSystemicSignal(dimensionScores)
+  const runnerUp = Math.max(
+    scores.realist,
+    scores.institutionalist,
+    scores.constructivist,
+  )
+  const cpeLead = scores.criticalPoliticalEconomy - runnerUp
+
+  if (
+    scores.criticalPoliticalEconomy > runnerUp &&
+    (criticalSignal < 1.8 || cpeLead < 0.75)
+  ) {
+    scores.criticalPoliticalEconomy = Number((runnerUp - 0.05).toFixed(2))
+  }
+
+  return scores
 }
 
 export function analyzeScoreShape(
@@ -377,6 +466,17 @@ export function generateResult(
   return buildCanonicalFoundationResult(
     computeCoreDimensionScores(answers, mode),
   )
+}
+
+export function getNeighboringFamilyKey(
+  familyKey: FamilyKey,
+  familyScores: Record<FamilyKey, number>,
+): FamilyKey {
+  const ordered = (
+    Object.entries(familyScores) as [FamilyKey, number][]
+  ).sort((a, b) => b[1] - a[1])
+
+  return ordered.find(([key]) => key !== familyKey)?.[0] ?? familyKey
 }
 
 function isRankedChoiceAnswer(

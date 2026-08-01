@@ -20,6 +20,7 @@ import {
   isFoundationFamilyKey,
   likertScale,
   questionCountsBySet,
+  selectFoundationAnswersForSet,
 } from "@/lib/quiz-schema"
 import {
   QUIZ_STORAGE_KEY,
@@ -29,6 +30,7 @@ import {
 } from "@/lib/quiz-session"
 import { getSeededOptionOrder } from "@/lib/option-order"
 import {
+  buildTier1Cohort,
   bucketItemResponseLatency,
   submitTier1CompletionStep,
 } from "@/lib/research/tier1-aggregate"
@@ -211,6 +213,24 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         ),
     [locale, session.questionSet, session.targetedFamilyPair],
   )
+  const resultAnswers = useMemo(
+    () =>
+      selectFoundationAnswersForSet(
+        session.answers,
+        session.questionSet,
+        session.targetedFamilyPair,
+      ),
+    [session.answers, session.questionSet, session.targetedFamilyPair],
+  )
+  const tier1Cohort = useMemo(
+    () =>
+      buildTier1Cohort(
+        session.questionSet,
+        locale,
+        session.targetedFamilyPair,
+      ),
+    [locale, session.questionSet, session.targetedFamilyPair],
+  )
   const effectiveIndex = Math.min(currentIndex, Math.max(0, questions.length - 1))
   const currentQuestion = questions[effectiveIndex]
   const currentQuestionId = currentQuestion?.id
@@ -241,7 +261,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     if (completionStepsSent.current.has(stepKey)) return
 
     completionStepsSent.current.add(stepKey)
-    void submitTier1CompletionStep(session.questionSet, effectiveIndex)
+    void submitTier1CompletionStep(tier1Cohort, effectiveIndex)
   }, [
     currentQuestionHasAnswer,
     currentQuestionId,
@@ -249,6 +269,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     ready,
     renderEpoch,
     session.questionSet,
+    tier1Cohort,
   ])
 
   function updateSession(patch: Partial<QuizSession>) {
@@ -452,9 +473,8 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
         {copy.positionMap ? (
           <QuizPositionMap
-            answers={session.answers}
-            mode={session.activeMode}
-            answeredCount={completedCount}
+            answers={resultAnswers}
+            answeredCount={Object.keys(resultAnswers).length}
             copy={copy.positionMap}
           />
         ) : null}

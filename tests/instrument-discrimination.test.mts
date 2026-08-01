@@ -1,7 +1,7 @@
 /**
- * This is the scoring-v2 characterization recorded on 29 July 2026:
- * families 29.6% realist, 25.2% institutionalist, 24.6% constructivist,
- * and 20.6% critical political economy; the top three-part label is 6.6%.
+ * This is the scoring-v2 independent-null characterization. Each Likert item
+ * receives its own seeded uniform response; flat yea-/nay-saying is tested
+ * separately below as a response style.
  *
  * It passes today and is expected to fail the moment scoring changes. When a
  * scoring change makes it fail, update the numbers in the same PR as the
@@ -42,7 +42,7 @@ function makeRng(seed: number) {
 }
 
 function buildAnswers(
-  likertValue: number,
+  likertValue: number | ((questionId: string) => number),
   pickOption: (options: { id: string }[], questionId: string) => number,
   secondaryOffset = 1,
 ): Answers {
@@ -52,7 +52,10 @@ function buildAnswers(
     const question = raw as AnyQuestion
 
     if (question.kind === "likert") {
-      answers[question.id] = likertValue
+      answers[question.id] =
+        typeof likertValue === "function"
+          ? likertValue(question.id)
+          : likertValue
       continue
     }
 
@@ -105,9 +108,8 @@ function measureRandomRespondents() {
   }
 
   for (let i = 0; i < RANDOM_N; i += 1) {
-    const likert = 1 + Math.floor(rng() * 7)
     const answers = buildAnswers(
-      likert,
+      () => 1 + Math.floor(rng() * 7),
       (options) => Math.floor(rng() * options.length),
     )
     const result = scoreAnswers(answers)
@@ -144,7 +146,7 @@ const responseStyleResults = [
   scoreAnswers(buildAnswers(1, alwaysFirst)),
 ]
 
-test("seeded random respondents match the 29 July 2026 calibration characterization", () => {
+test("seeded random respondents match the V21 independent-null characterization", () => {
   const {
     familyCounts,
     strategyCounts,
@@ -154,28 +156,28 @@ test("seeded random respondents match the 29 July 2026 calibration characterizat
   const topLabel = Object.entries(labelCounts).sort((a, b) => b[1] - a[1])[0]
 
   assert.deepStrictEqual(familyCounts, {
-    "Strategic Realist": 148,
-    "Liberal Institutionalist": 126,
-    "Social Constructivist": 123,
-    "Critical Political Economist": 103,
+    "Social Constructivist": 148,
+    "Strategic Realist": 121,
+    "Liberal Institutionalist": 130,
+    "Critical Political Economist": 101,
   })
   assert.ok(
     Math.max(...Object.values(familyCounts)) / RANDOM_N <= 0.4,
     "No family may exceed 40% of seeded random respondents.",
   )
   assert.deepStrictEqual(strategyCounts, {
-    Restrainer: 177,
-    Hedger: 154,
-    Maximizer: 169,
+    Restrainer: 161,
+    Hedger: 162,
+    Maximizer: 177,
   })
   assert.deepStrictEqual(normativeCounts, {
-    Pluralist: 171,
-    "Conditional Solidarist": 157,
-    Universalist: 172,
+    Pluralist: 144,
+    "Conditional Solidarist": 165,
+    Universalist: 191,
   })
   assert.deepStrictEqual(topLabel, [
-    "Strategic Realist / Maximizer / Pluralist",
-    33,
+    "Strategic Realist / Maximizer / Universalist",
+    24,
   ])
   assert.ok(
     topLabel[1] / RANDOM_N <= 0.3,
@@ -197,7 +199,7 @@ test("narrative differentiation states stay aligned with the seeded gap calibrat
   }
 })
 
-test("response-style respondents match the 29 July 2026 calibration characterization", () => {
+test("flat response-style respondents remain characterized separately", () => {
   const [yeaSayer, naySayer, midpointer, yeaLast, extremeAgree, extremeDisagree] =
     responseStyleResults
 
@@ -227,7 +229,7 @@ test("response-style respondents match the 29 July 2026 calibration characteriza
       ["Maximizer", "Pluralist"],
       ["Maximizer", "Pluralist"],
       ["Maximizer", "Pluralist"],
-      ["Restrainer", "Pluralist"],
+    ["Restrainer", "Conditional Solidarist"],
       ["Maximizer", "Pluralist"],
       ["Maximizer", "Pluralist"],
     ],

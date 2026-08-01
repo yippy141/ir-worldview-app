@@ -7,7 +7,7 @@ import {
   describeMapPosition,
   toMapPosition,
 } from "@/lib/results/position"
-import type { Answers, QuizMode } from "@/lib/types"
+import type { Answers } from "@/lib/types"
 
 export type QuizPositionMapCopy = {
   /** Visible label for the whole element. */
@@ -18,7 +18,6 @@ export type QuizPositionMapCopy = {
 
 type Props = {
   answers: Answers
-  mode: QuizMode
   answeredCount: number
   copy: QuizPositionMapCopy
 }
@@ -39,17 +38,23 @@ const R = 62
  * During the quiz it shows axes and a marker only — no tradition anchors, no
  * family names, and nothing tying a movement to the answer that caused it.
  */
-export function QuizPositionMap({ answers, mode, answeredCount, copy }: Props) {
+export function QuizPositionMap({ answers, answeredCount, copy }: Props) {
   const labelId = useId()
 
   const { position, placed } = useMemo(() => {
-    const { roundedAverages, weights } = computeCoreDimensionAudit(answers, mode)
+    // V21 question-set membership, rather than the legacy Standard/Analyst
+    // display mode, defines the scored form. Analyst mode includes every item
+    // that can appear in the core or extension sets.
+    const { roundedAverages, weights } = computeCoreDimensionAudit(
+      answers,
+      "analyst",
+    )
 
     return {
       position: toMapPosition(roundedAverages),
       placed: canPlaceLivePosition({ answeredCount, dimensionWeights: weights }),
     }
-  }, [answers, mode, answeredCount])
+  }, [answers, answeredCount])
 
   const readings = describeMapPosition(position)
   const markerX = CENTER_X + position.x * R

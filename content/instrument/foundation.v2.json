@@ -20,15 +20,15 @@
       "an_case_middle_power",
       "tradeoff_interdependence",
       "tradeoff_strategy",
-      "an_tradeoff_evidence",
+      "an_tradeoff_legitimacy",
       "an_tradeoff_energy_alignment"
     ],
     "institutionalist|constructivist": [
       "an_tradeoff_tech_order",
-      "an_tradeoff_evidence",
-      "tradeoff_alliances",
       "case_semiconductors",
-      "an_case_digital_stack"
+      "an_case_digital_stack",
+      "an_case_intervention_memory",
+      "tradeoff_intervention"
     ],
     "institutionalist|criticalPoliticalEconomy": [
       "an_tradeoff_ceasefire_settlement",

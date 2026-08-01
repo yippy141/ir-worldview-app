@@ -1,33 +1,71 @@
 import { ImageResponse } from "next/og"
-import { parseShareCardParams } from "@/lib/share-card"
+import { readFile } from "node:fs/promises"
+import { join } from "node:path"
+import {
+  buildFoundationShareCardInput,
+  parseFoundationShareCardRequest,
+} from "@/lib/share-card"
+import { resolveFoundationPayload } from "@/lib/share"
+import { readCurrentAggregateStats } from "@/lib/research/aggregate-stats"
+import {
+  FOUNDATION_INSTRUMENT_VERSION,
+  FOUNDATION_STRUCTURAL_VERSION,
+} from "@/lib/quiz-schema"
+import {
+  FOUNDATION_SCORING_VERSION,
+  getV2ScoringCalibration,
+} from "@/lib/scoring"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
 
 const CARD_SIZE = { width: 1200, height: 630 }
-const NEWSREADER_REGULAR_URL =
-  "https://fonts.gstatic.com/s/newsreader/v26/cY9qfjOCX1hbuyalUrK49dLac06G1ZGsZBtoBCzBDXXD9JVF438weI_ADA.ttf"
-const ARCHIVO_REGULAR_URL =
-  "https://fonts.gstatic.com/s/archivo/v25/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTTNDNp8A.ttf"
-const ARCHIVO_BOLD_URL =
-  "https://fonts.gstatic.com/s/archivo/v25/k3k6o8UDI-1M0wlSV9XAw6lQkqWY8Q82sJaRE-NWIDdgffTT0zRp8A.ttf"
 let cardFontsPromise: Promise<CardFonts | null> | null = null
 
 type CardFonts = {
   display: ArrayBuffer
+  cjk: ArrayBuffer
   sans: ArrayBuffer
   sansBold: ArrayBuffer
 }
 
 export async function GET(request: Request) {
-  const input = parseShareCardParams(new URL(request.url).searchParams)
-  if (!input) {
-    return new Response("Invalid share-card parameters.", { status: 400 })
+  const payload = parseFoundationShareCardRequest(
+    new URL(request.url).searchParams,
+  )
+  const resolved = payload ? resolveFoundationPayload(payload) : null
+  if (!resolved) {
+    return new Response("Invalid Foundation result payload.", { status: 400 })
   }
+  const stats =
+    resolved.questionSet &&
+    resolved.provenance.instrumentStructuralVersion ===
+      FOUNDATION_STRUCTURAL_VERSION &&
+    resolved.provenance.instrumentVersion === FOUNDATION_INSTRUMENT_VERSION &&
+    resolved.provenance.scoringVersion === FOUNDATION_SCORING_VERSION
+      ? await readCurrentAggregateStats({
+          questionSet: resolved.questionSet,
+          ...(resolved.targetedFamilyPair
+            ? { targetedFamilyPair: resolved.targetedFamilyPair }
+            : {}),
+          completionLocale: resolved.provenance.completionLocale,
+          localeCopyVersion: resolved.provenance.localeCopyVersion,
+        })
+      : null
+  const { lowDifferentiationThreshold } = getV2ScoringCalibration(
+    resolved.scoringCalibration,
+  )
+  const input = buildFoundationShareCardInput(
+    resolved.result,
+    stats,
+    lowDifferentiationThreshold,
+  )
 
   const { archetype, norm, percentiles, coordinates, rarityPercentage } = input
+  const isBlend = archetype.code.includes("/")
+  const hasCjkTitle = /[\u3000-\u9fff]/u.test(archetype.name)
   const titleSize =
-    archetype.name.length > 27 ? 58 : archetype.name.length > 18 ? 70 : 84
+    archetype.name.length > 27 ? 58 : archetype.name.length > 13 ? 70 : 84
   const dotLeft = 35 + ((coordinates.x + 1) / 2) * 270 - 9
   const dotTop = 35 + ((1 - coordinates.y) / 2) * 270 - 9
   const displayCode = archetype.code.replaceAll("-", "−")
@@ -102,11 +140,12 @@ export async function GET(request: Request) {
                   display: "flex",
                   marginTop: 8,
                   color: "#f7f5ef",
-                  fontFamily: "Newsreader",
+                  fontFamily: "Newsreader, NotoArchetypes",
                   fontSize: titleSize,
                   fontWeight: 400,
                   lineHeight: 0.98,
                   letterSpacing: "-0.035em",
+                  whiteSpace: hasCjkTitle && !isBlend ? "nowrap" : "normal",
                 }}
               >
                 {archetype.name}
@@ -321,6 +360,12 @@ export async function GET(request: Request) {
               style: "normal",
             },
             {
+              name: "NotoArchetypes",
+              data: cardFonts.cjk,
+              weight: 400,
+              style: "normal",
+            },
+            {
               name: "Archivo",
               data: cardFonts.sans,
               weight: 400,
@@ -340,21 +385,35 @@ export async function GET(request: Request) {
 
 function loadCardFonts(): Promise<CardFonts | null> {
   cardFontsPromise ??= Promise.all([
-    fetchFont(NEWSREADER_REGULAR_URL),
-    fetchFont(ARCHIVO_REGULAR_URL),
-    fetchFont(ARCHIVO_BOLD_URL),
+    readFile(
+      join(process.cwd(), "public", "fonts", "newsreader-latin.ttf"),
+    ),
+    readFile(
+      join(process.cwd(), "public", "fonts", "noto-cjk-archetypes.otf"),
+    ),
+    readFile(
+      join(process.cwd(), "public", "fonts", "archivo-latin.ttf"),
+    ),
+    readFile(
+      join(process.cwd(), "public", "fonts", "archivo-latin-bold.ttf"),
+    ),
   ])
-    .then(([display, sans, sansBold]) => ({ display, sans, sansBold }))
+    .then(([display, cjk, sans, sansBold]) => ({
+      display: toArrayBuffer(display),
+      cjk: toArrayBuffer(cjk),
+      sans: toArrayBuffer(sans),
+      sansBold: toArrayBuffer(sansBold),
+    }))
     .catch(() => null)
 
   return cardFontsPromise
 }
 
-function fetchFont(url: string): Promise<ArrayBuffer> {
-  return fetch(url, { cache: "force-cache" }).then((response) => {
-    if (!response.ok) throw new Error("Unable to load share-card font.")
-    return response.arrayBuffer()
-  })
+function toArrayBuffer(data: Buffer): ArrayBuffer {
+  return data.buffer.slice(
+    data.byteOffset,
+    data.byteOffset + data.byteLength,
+  ) as ArrayBuffer
 }
 
 function formatPercentage(value: number) {

@@ -1,11 +1,13 @@
 import { db } from "@/lib/db"
 import {
   dimensionBuckets,
+  foundationAggregateFormKey,
   TIER1_RESULT_BODY_LIMIT_BYTES,
   validateTier1AggregateResult,
   validateTier1CompletionStep,
 } from "@/lib/research/tier1-aggregate"
 import { FOUNDATION_INSTRUMENT_VERSION } from "@/lib/quiz-schema"
+import { tier1AggregatesEnabled } from "@/lib/research/feature-flags"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -20,49 +22,104 @@ const INCREMENT_RESULT_AGGREGATES = `
     insert into agg_dimension_buckets (
       instrument_version,
       scoring_version,
+      form_key,
+      completion_locale,
+      locale_copy_version,
       dimension,
       bucket,
       count
     )
-    select $2::integer, $3::integer, dimension, bucket, 1
+    select
+      $2::integer,
+      $3::integer,
+      $4::text,
+      $5::text,
+      $6::integer,
+      dimension,
+      bucket,
+      1
     from dimension_input
-    on conflict (instrument_version, scoring_version, dimension, bucket)
+    on conflict (
+      instrument_version,
+      scoring_version,
+      form_key,
+      completion_locale,
+      locale_copy_version,
+      dimension,
+      bucket
+    )
     do update set count = agg_dimension_buckets.count + 1
     returning 1
   ),
   item_latency_input as (
     select item_id, bucket
-    from jsonb_to_recordset($7::jsonb)
+    from jsonb_to_recordset($11::jsonb)
       as input(item_id text, bucket integer)
   ),
   incremented_item_latencies as (
     insert into agg_item_latency (
       instrument_version,
+      form_key,
+      completion_locale,
+      locale_copy_version,
       item_id,
       latency_bucket_ms,
       count
     )
-    select $2::integer, item_id, bucket, 1
+    select
+      $2::integer,
+      $4::text,
+      $5::text,
+      $6::integer,
+      item_id,
+      bucket,
+      1
     from item_latency_input
-    on conflict (instrument_version, item_id, latency_bucket_ms)
+    on conflict (
+      instrument_version,
+      form_key,
+      completion_locale,
+      locale_copy_version,
+      item_id,
+      latency_bucket_ms
+    )
     do update set count = agg_item_latency.count + 1
     returning 1
   )
   insert into agg_labels (
     instrument_version,
     scoring_version,
+    form_key,
+    completion_locale,
+    locale_copy_version,
     family,
     strategy_modifier,
     normative_modifier,
+    archetype_code,
     count
   )
-  values ($2::integer, $3::integer, $4::text, $5::text, $6::text, 1)
+  values (
+    $2::integer,
+    $3::integer,
+    $4::text,
+    $5::text,
+    $6::integer,
+    $7::text,
+    $8::text,
+    $9::text,
+    $10::text,
+    1
+  )
   on conflict (
     instrument_version,
     scoring_version,
+    form_key,
+    completion_locale,
+    locale_copy_version,
     family,
     strategy_modifier,
-    normative_modifier
+    normative_modifier,
+    archetype_code
   )
   do update set count = agg_labels.count + 1
 `
@@ -70,16 +127,37 @@ const INCREMENT_RESULT_AGGREGATES = `
 const INCREMENT_COMPLETION = `
   insert into agg_completion (
     instrument_version,
+    form_key,
+    completion_locale,
+    locale_copy_version,
     tier,
     step_index,
     count
   )
-  values ($1::integer, $2::text, $3::integer, 1)
-  on conflict (instrument_version, tier, step_index)
+  values (
+    $1::integer,
+    $2::text,
+    $3::text,
+    $4::integer,
+    $5::text,
+    $6::integer,
+    1
+  )
+  on conflict (
+    instrument_version,
+    form_key,
+    completion_locale,
+    locale_copy_version,
+    tier,
+    step_index
+  )
   do update set count = agg_completion.count + 1
 `
 
 export async function POST(request: Request) {
+  const requestRejection = rejectUntrustedRequest(request)
+  if (requestRejection) return requestRejection
+
   const contentLength = Number(request.headers.get("content-length") ?? "0")
   if (contentLength > TIER1_RESULT_BODY_LIMIT_BYTES) {
     return Response.json(
@@ -120,14 +198,36 @@ export async function POST(request: Request) {
       )
     }
 
+    if (!tier1AggregatesEnabled() || !db.isConfigured) {
+      return Response.json({ ok: true }, { status: 202 })
+    }
+
+    const formKey = foundationAggregateFormKey(
+      validation.completion.questionSet,
+      validation.completion.targetedFamilyPair,
+    )
+    if (!formKey) {
+      return Response.json(
+        { ok: false, error: "Invalid aggregate form." },
+        { status: 400 },
+      )
+    }
+
     try {
       await db.query(INCREMENT_COMPLETION, [
         FOUNDATION_INSTRUMENT_VERSION,
-        validation.completion.tier,
+        formKey,
+        validation.completion.completionLocale,
+        validation.completion.localeCopyVersion,
+        validation.completion.questionSet,
         validation.completion.stepIndex,
       ])
     } catch {
-      // Missing or unavailable storage is an intentional no-op for the product.
+      console.error("[aggregate] Completion counter write failed.")
+      return Response.json(
+        { ok: false, error: "Aggregate storage is temporarily unavailable." },
+        { status: 503 },
+      )
     }
 
     return Response.json({ ok: true }, { status: 202 })
@@ -142,14 +242,33 @@ export async function POST(request: Request) {
   }
 
   const result = validation.result
+  if (!tier1AggregatesEnabled() || !db.isConfigured) {
+    return Response.json({ ok: true }, { status: 202 })
+  }
+
+  const formKey = foundationAggregateFormKey(
+    result.questionSet,
+    result.targetedFamilyPair,
+  )
+  if (!formKey) {
+    return Response.json(
+      { ok: false, error: "Invalid aggregate form." },
+      { status: 400 },
+    )
+  }
+
   try {
     await db.query(INCREMENT_RESULT_AGGREGATES, [
       JSON.stringify(dimensionBuckets(result.dimensionScores)),
       result.instrumentVersion,
       result.scoringVersion,
+      formKey,
+      result.completionLocale,
+      result.localeCopyVersion,
       result.family,
       result.strategyModifier,
       result.normativeModifier,
+      result.archetypeCode,
       JSON.stringify(
         result.itemLatencies.map(({ itemId, bucket }) => ({
           item_id: itemId,
@@ -158,8 +277,40 @@ export async function POST(request: Request) {
       ),
     ])
   } catch {
-    // Missing or unavailable storage is an intentional no-op for the product.
+    console.error("[aggregate] Result counter write failed.")
+    return Response.json(
+      { ok: false, error: "Aggregate storage is temporarily unavailable." },
+      { status: 503 },
+    )
   }
 
   return Response.json({ ok: true }, { status: 202 })
+}
+
+function rejectUntrustedRequest(request: Request): Response | null {
+  const contentType = request.headers.get("content-type")?.toLowerCase() ?? ""
+  if (!contentType.startsWith("application/json")) {
+    return Response.json(
+      { ok: false, error: "Content-Type must be application/json." },
+      { status: 415 },
+    )
+  }
+
+  const fetchSite = request.headers.get("sec-fetch-site")
+  if (fetchSite === "cross-site") {
+    return Response.json(
+      { ok: false, error: "Cross-site aggregate submissions are not accepted." },
+      { status: 403 },
+    )
+  }
+
+  const origin = request.headers.get("origin")
+  if (origin && origin !== new URL(request.url).origin) {
+    return Response.json(
+      { ok: false, error: "Aggregate submission origin is not allowed." },
+      { status: 403 },
+    )
+  }
+
+  return null
 }

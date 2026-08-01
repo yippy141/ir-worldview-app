@@ -5,7 +5,10 @@ import {
   SESSION_HISTORY_STORAGE_KEYS,
   clearLocalWorldviewHistory,
 } from "@/lib/local-data"
-import { ANALYTICS_OPT_OUT_STORAGE_KEY } from "@/lib/storage-keys"
+import {
+  ANALYTICS_OPT_OUT_STORAGE_KEY,
+  TIER1_SUBMITTED_RESULTS_STORAGE_KEY,
+} from "@/lib/storage-keys"
 
 test("local history deletion covers every registered result and draft key", () => {
   const localRemoved: string[] = []
@@ -17,6 +20,7 @@ test("local history deletion covers every registered result and draft key", () =
   )
 
   assert.equal(localRemoved.includes(ANALYTICS_OPT_OUT_STORAGE_KEY), false)
+  assert.equal(localRemoved.includes(TIER1_SUBMITTED_RESULTS_STORAGE_KEY), true)
   assert.deepEqual(localRemoved, [...LOCAL_HISTORY_STORAGE_KEYS])
   assert.deepEqual(sessionRemoved, [...SESSION_HISTORY_STORAGE_KEYS])
   assert.deepEqual(result, {

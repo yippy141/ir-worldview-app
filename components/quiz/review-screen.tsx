@@ -10,11 +10,21 @@ import {
 import { publicPath } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
-import { getFoundationQuestionsForSet } from "@/lib/quiz-schema"
-import { generateResult } from "@/lib/scoring"
+import {
+  getFoundationQuestionsForSet,
+  getFoundationResultQuestions,
+  selectFoundationAnswersForSet,
+} from "@/lib/quiz-schema"
+import {
+  foundationScoringCalibrationForForm,
+  generateResult,
+} from "@/lib/scoring"
 import { buildFoundationSharePayload, encodePayload } from "@/lib/share"
 import { markProfileSaveIntent } from "@/lib/profile-save-intent"
-import { submitTier1AggregateResult } from "@/lib/research/tier1-aggregate"
+import {
+  buildTier1Cohort,
+  submitTier1AggregateResult,
+} from "@/lib/research/tier1-aggregate"
 import {
   QUIZ_STORAGE_KEY,
   notifyQuizSessionUpdated,
@@ -50,7 +60,7 @@ const englishFoundationReviewUi = {
   back: "Back to foundation",
   startOver: "Start over",
   localProcessing:
-    "Your result is computed in this browser. First-party counters record each quiz step reached. When you generate a result, the aggregate submission contains derived scores and labels plus each item ID and a coarse response-time bucket. It contains no answers, raw timestamps, response ordering, or identifier.",
+    "Your result is computed in this browser. When coarse measurement is on and the aggregate service is enabled, first-party counters receive reached steps and, at result generation, derived scores and labels plus item IDs with coarse response-time buckets. They contain no answers, raw timestamps, response ordering, or identifier.",
   setLabels: {
     core: "Core set",
     targetedExtended: "Targeted extension",
@@ -138,14 +148,38 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
     setGenerating(true)
 
     try {
-      const result = generateResult(session.answers, "analyst")
-      const resultTier = session.questionSet === "core" ? "core" : "extended"
+      const resultAnswers = selectFoundationAnswersForSet(
+        session.answers,
+        session.questionSet,
+        session.targetedFamilyPair,
+      )
+      const scoringCalibration = foundationScoringCalibrationForForm(
+        session.questionSet,
+        session.targetedFamilyPair,
+      )
+      if (!scoringCalibration) {
+        throw new Error("The selected Foundation form is not calibratable.")
+      }
+      const result = generateResult(
+        resultAnswers,
+        "analyst",
+        scoringCalibration,
+      )
       const payload = encodePayload(
-        buildFoundationSharePayload(result, locale, resultTier),
+        buildFoundationSharePayload(
+          result,
+          locale,
+          session.questionSet,
+          session.targetedFamilyPair,
+        ),
       )
 
       markProfileSaveIntent("foundation", payload, { mode: session.activeMode })
-      const itemLatencyBuckets = questions.reduce<ItemLatencyBuckets>(
+      const resultQuestions = getFoundationResultQuestions(
+        session.questionSet,
+        session.targetedFamilyPair,
+      )
+      const itemLatencyBuckets = resultQuestions.reduce<ItemLatencyBuckets>(
         (buckets, question) => {
           const bucket = session.itemLatencyBuckets[question.id]
           if (bucket !== undefined) {
@@ -155,7 +189,15 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         },
         {},
       )
-      void submitTier1AggregateResult(result, itemLatencyBuckets)
+      void submitTier1AggregateResult(
+        result,
+        buildTier1Cohort(
+          session.questionSet,
+          locale,
+          session.targetedFamilyPair,
+        ),
+        itemLatencyBuckets,
+      )
       trackProductEvent("foundation_completed")
       router.push(publicPath(locale, `/results/${payload}`))
     } catch {

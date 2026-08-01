@@ -7,7 +7,11 @@ import {
   type NormSuffix,
 } from "@/lib/archetypes"
 import { absoluteUrl } from "@/i18n/paths"
-import { getPercentile, type AggregateStats } from "@/lib/percentiles"
+import {
+  getPercentile,
+  getProfileRarity,
+  type AggregateStats,
+} from "@/lib/percentiles"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
@@ -39,21 +43,38 @@ export type ShareCardInput = {
 }
 
 export function buildFoundationShareCardUrl(
+  encodedPayload: string,
+): string {
+  const params = new URLSearchParams({ payload: encodedPayload })
+  return absoluteUrl(`/api/card?${params.toString()}`)
+}
+
+export function parseFoundationShareCardRequest(
+  params: URLSearchParams,
+): string | null {
+  if ([...params.keys()].some((key) => key !== "payload")) return null
+
+  const payload = params.get("payload")?.trim()
+  return payload || null
+}
+
+export function buildFoundationShareCardInput(
   result: CanonicalFoundationResult,
   stats: AggregateStats | null,
-  rarityPercentage: number | null = null,
-): string {
-  const archetype = resolveArchetype(result)
+  lowDifferentiationThreshold = LOW_DIFFERENTIATION_THRESHOLD,
+): ShareCardInput {
+  const archetype = resolveArchetype(result, lowDifferentiationThreshold)
+  const derivedRarity = stats
+    ? getProfileRarity(
+        archetype.code,
+        result.normativeModifier,
+        stats,
+      )?.percentage ?? null
+    : null
   const coordinates = toDisplayPosition(
     result.dimensionScores,
-    result.nearestFitGap < LOW_DIFFERENTIATION_THRESHOLD,
+    result.nearestFitGap < lowDifferentiationThreshold,
   )
-  const params = new URLSearchParams({
-    code: archetype.code,
-    norm: normFromNormativeModifier(result.normativeModifier),
-    x: coordinates.x.toFixed(4),
-    y: coordinates.y.toFixed(4),
-  })
   const strongestDimensions = (Object.entries(result.dimensionScores) as [
     DimensionKey,
     number,
@@ -67,7 +88,7 @@ export function buildFoundationShareCardUrl(
       }))
     : []
 
-  if (
+  const completePercentiles =
     percentiles.length === 3 &&
     percentiles.every(
       (entry): entry is {
@@ -75,19 +96,23 @@ export function buildFoundationShareCardUrl(
         result: NonNullable<typeof entry.result>
       } => entry.result !== null,
     )
-  ) {
-    percentiles.forEach((entry, index) => {
-      const slot = index + 1
-      params.set(`d${slot}`, entry.dimension)
-      params.set(`p${slot}`, String(entry.result.percentile))
-    })
+      ? percentiles.map((entry) => ({
+          dimension: entry.dimension,
+          label: dimensionLabels[entry.dimension],
+          percentile: entry.result.percentile,
+        }))
+      : []
 
-    if (isPercentage(rarityPercentage)) {
-      params.set("rarity", formatPercentage(rarityPercentage))
-    }
+  return {
+    archetype,
+    norm: normFromNormativeModifier(result.normativeModifier),
+    percentiles: completePercentiles,
+    coordinates,
+    rarityPercentage:
+      completePercentiles.length === 3 && isPercentage(derivedRarity)
+        ? derivedRarity
+        : null,
   }
-
-  return absoluteUrl(`/api/card?${params.toString()}`)
 }
 
 export function parseShareCardParams(
@@ -155,8 +180,4 @@ function parseBoundedNumber(
 
 function isPercentage(value: number | null): value is number {
   return value !== null && Number.isFinite(value) && value >= 0 && value <= 100
-}
-
-function formatPercentage(value: number): string {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }
