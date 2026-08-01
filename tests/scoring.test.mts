@@ -253,7 +253,7 @@ test("flat natural-midpoint profiles retain zero dimension-distance metrics", ()
     orderJustice: 4,
   })
 
-  assert.equal(analysis.nearestFitGap, 0.8700000000000001)
+  assert.equal(analysis.nearestFitGap, 0.54)
   assert.equal(analysis.averageDistanceFromCenter, 0)
   assert.equal(analysis.sharpDimensionCount, 0)
 })

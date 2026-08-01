@@ -8117,11 +8117,33 @@ html:lang(zh-Hans) .quiz-shell-label {
 }
 
 .foundation-signal-row__score {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
   color: var(--text);
   font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
+  text-align: right;
   white-space: nowrap;
+}
+
+.foundation-signal-row__score > strong {
+  font-size: 0.92rem;
+}
+
+.foundation-signal-row__score > span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.foundation-percentile-scale .v10-scale-bar__meta {
+  flex-wrap: wrap;
+}
+
+.foundation-percentile-scale .v10-scale-bar__value {
+  margin-left: auto;
+  text-align: right;
 }
 
 .foundation-result-next {

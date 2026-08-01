@@ -1,5 +1,7 @@
 /**
- * This is a characterization test recording the calibrated state on 29 July 2026.
+ * This is the scoring-v2 characterization recorded on 29 July 2026:
+ * families 29.6% realist, 25.2% institutionalist, 24.6% constructivist,
+ * and 20.6% critical political economy; the top three-part label is 6.6%.
  *
  * It passes today and is expected to fail the moment scoring changes. When a
  * scoring change makes it fail, update the numbers in the same PR as the
@@ -152,25 +154,33 @@ test("seeded random respondents match the 29 July 2026 calibration characterizat
   const topLabel = Object.entries(labelCounts).sort((a, b) => b[1] - a[1])[0]
 
   assert.deepStrictEqual(familyCounts, {
-    "Strategic Realist": 129,
-    "Liberal Institutionalist": 144,
-    "Social Constructivist": 96,
-    "Critical Political Economist": 131,
+    "Strategic Realist": 148,
+    "Liberal Institutionalist": 126,
+    "Social Constructivist": 123,
+    "Critical Political Economist": 103,
   })
+  assert.ok(
+    Math.max(...Object.values(familyCounts)) / RANDOM_N <= 0.4,
+    "No family may exceed 40% of seeded random respondents.",
+  )
   assert.deepStrictEqual(strategyCounts, {
-    Restrainer: 169,
-    Hedger: 163,
-    Maximizer: 168,
+    Restrainer: 177,
+    Hedger: 154,
+    Maximizer: 169,
   })
   assert.deepStrictEqual(normativeCounts, {
-    Pluralist: 169,
-    "Conditional Solidarist": 165,
-    Universalist: 166,
+    Pluralist: 171,
+    "Conditional Solidarist": 157,
+    Universalist: 172,
   })
   assert.deepStrictEqual(topLabel, [
-    "Liberal Institutionalist / Maximizer / Universalist",
-    35,
+    "Strategic Realist / Maximizer / Pluralist",
+    33,
   ])
+  assert.ok(
+    topLabel[1] / RANDOM_N <= 0.3,
+    "No three-part label may exceed 30% of seeded random respondents.",
+  )
 })
 
 test("narrative differentiation states stay aligned with the seeded gap calibration", () => {
@@ -188,10 +198,26 @@ test("narrative differentiation states stay aligned with the seeded gap calibrat
 })
 
 test("response-style respondents match the 29 July 2026 calibration characterization", () => {
-  const [yeaSayer, naySayer] = responseStyleResults
+  const [yeaSayer, naySayer, midpointer, yeaLast, extremeAgree, extremeDisagree] =
+    responseStyleResults
 
-  assert.equal(yeaSayer.familyKey, "realist")
-  assert.equal(naySayer.familyKey, "realist")
+  for (const result of [
+    naySayer,
+    midpointer,
+    extremeAgree,
+    extremeDisagree,
+  ]) {
+    assert.equal(
+      result.familyKey,
+      yeaSayer.familyKey,
+      "Flat response styles that differ only in Likert level should be family-invariant.",
+    )
+  }
+  assert.notEqual(
+    yeaLast.familyKey,
+    yeaSayer.familyKey,
+    "Changing the choice-profile shape should be able to change family.",
+  )
   assert.deepStrictEqual(
     responseStyleResults.map((result) => [
       result.strategyModifier,

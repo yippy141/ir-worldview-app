@@ -226,6 +226,7 @@ function buildMixedAnswers(): Answers {
 
 function chooseForFamily(question: Question, family: FamilyKey) {
   if (question.kind === "likert") {
+    if (question.scoringBlock === "validation") return 4
     const weight = familyProfiles[family][question.dimension] ?? 0
 
     if (weight >= 0.3) return 7

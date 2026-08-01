@@ -51,6 +51,12 @@ export default function PrivacyPage() {
       <section className="panel stack-md">
         <h2>Coarse product measurement</h2>
         <p style={{ lineHeight: "1.7" }}>
+          Separate first-party aggregate counters record each Foundation step reached. On result
+          generation, they also receive derived score and label buckets plus each item ID and a
+          coarse response-time bucket. These counters receive no answers, raw timestamps, response
+          ordering, respondent or session identifier, credentials, or referrer.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
           Vercel Web Analytics receives a small set of named interactions. Automatic pageview
           tracking is not installed. The only custom properties are a published Current Case ID
           when relevant, broad route category, device class, referrer category, and broad

@@ -8,9 +8,10 @@ import type {
   DimensionKey,
   DimensionScores,
   FamilyKey,
+  FoundationTier,
   NormativeModifier,
   SharePayload,
-  SharePayloadV3,
+  SharePayloadV4,
   StrategyModifier,
 } from "@/lib/types"
 import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
@@ -38,11 +39,12 @@ export function encodePayload(payload: SharePayload): string {
 export function buildFoundationSharePayload(
   result: CanonicalFoundationResult,
   completionLocale: Locale,
-): SharePayloadV3 {
+  resultTier: FoundationTier,
+): SharePayloadV4 {
   const provenance = completionProvenance("foundation", completionLocale)
 
   return {
-    v: 3,
+    v: 4,
     ds: dimensionScoresToArray(result.dimensionScores),
     fk: result.familyKey,
     nk: result.runnerUpKey,
@@ -52,6 +54,7 @@ export function buildFoundationSharePayload(
     sv: FOUNDATION_SCORING_VERSION,
     cv: provenance.localeCopyVersion,
     cl: provenance.locale,
+    rt: resultTier,
   }
 }
 
@@ -85,6 +88,7 @@ export type ResolvedFoundationPayload = {
   dimensionScores: DimensionScores
   result: CanonicalFoundationResult
   provenance: FoundationCompletionRecord
+  resultTier: FoundationTier
 }
 
 export type FoundationCompletionRecord = {
@@ -92,6 +96,7 @@ export type FoundationCompletionRecord = {
   scoringVersion: number
   localeCopyVersion: number
   completionLocale: CompletionLocale
+  resultTier: FoundationTier
 }
 
 export function resolveFoundationPayload(encoded: string): ResolvedFoundationPayload | null {
@@ -107,18 +112,20 @@ export function resolveFoundationPayload(encoded: string): ResolvedFoundationPay
     dimensionScores,
     result: buildCanonicalFoundationResult(dimensionScores),
     provenance: foundationCompletionRecord(payload),
+    resultTier: payload.v === 4 ? payload.rt : "extended",
   }
 }
 
 export function foundationCompletionRecord(
   payload: SharePayload,
 ): FoundationCompletionRecord {
-  if (payload.v === 3) {
+  if (payload.v === 3 || payload.v === 4) {
     return {
       instrumentStructuralVersion: payload.iv,
       scoringVersion: payload.sv,
       localeCopyVersion: payload.cv,
       completionLocale: payload.cl,
+      resultTier: payload.v === 4 ? payload.rt : "extended",
     }
   }
 
@@ -127,6 +134,7 @@ export function foundationCompletionRecord(
     scoringVersion: 0,
     localeCopyVersion: 0,
     completionLocale: "en",
+    resultTier: "extended",
   }
 }
 
@@ -147,12 +155,20 @@ function isSharePayload(value: unknown): value is SharePayload {
   if (!sharedFieldsAreValid) return false
   if (candidate.v === 2) return true
 
-  return (
-    candidate.v === 3 &&
+  const versionedFieldsAreValid =
+    (candidate.v === 3 || candidate.v === 4) &&
     isPositiveVersion(candidate.iv) &&
     isPositiveVersion(candidate.sv) &&
     isCopyVersion(candidate.cv) &&
     isCompletionLocale(candidate.cl)
+
+  if (!versionedFieldsAreValid) return false
+  return (
+    candidate.v === 3 ||
+    (
+      candidate.v === 4 &&
+      isFoundationTier((candidate as Partial<SharePayloadV4>).rt)
+    )
   )
 }
 
@@ -174,13 +190,25 @@ function normalizeSharePayload(value: unknown): SharePayload | null {
     }
   }
 
+  if (value.v === 3) {
+    return {
+      v: 3,
+      ...sharedFields,
+      iv: value.iv,
+      sv: value.sv,
+      cv: value.cv,
+      cl: value.cl,
+    }
+  }
+
   return {
-    v: 3,
+    v: 4,
     ...sharedFields,
     iv: value.iv,
     sv: value.sv,
     cv: value.cv,
     cl: value.cl,
+    rt: value.rt,
   }
 }
 
@@ -194,6 +222,10 @@ function isCopyVersion(value: unknown): value is number {
 
 function isCompletionLocale(value: unknown): value is CompletionLocale {
   return value === "en" || value === "zh-Hans"
+}
+
+function isFoundationTier(value: unknown): value is FoundationTier {
+  return value === "core" || value === "extended"
 }
 
 function isDimensionScoreTuple(value: unknown): value is SharePayload["ds"] {

@@ -38,6 +38,19 @@ const payloads: SharePayload[] = [
     cv: 1,
     cl: "zh-Hans",
   },
+  {
+    v: 4,
+    ds: [5.2, 4.8, 4.1, 3.9, 5.4, 4.6, 4.2],
+    fk: "realist",
+    nk: "criticalPoliticalEconomy",
+    sm: "Maximizer",
+    nm: "Conditional Solidarist",
+    iv: 4,
+    sv: 2,
+    cv: 1,
+    cl: "en",
+    rt: "core",
+  },
 ]
 
 // Captured before V16. Keeping this literal prevents a changed encoder and
@@ -86,6 +99,7 @@ test("canonical Foundation V3 records structural, scoring, copy, and completion-
     scoringVersion: 1,
     localeCopyVersion: 1,
     completionLocale: "zh-Hans",
+    resultTier: "extended",
   })
   assert.equal(Object.values(resolved.payload).some((value) => /[㐀-鿿]/u.test(String(value))), false)
 })
@@ -100,8 +114,8 @@ test("Foundation payload generation changes provenance by locale without changin
     restraint: 5.4,
     orderJustice: 5.3,
   })
-  const english = buildFoundationSharePayload(result, "en")
-  const chinese = buildFoundationSharePayload(result, "zh-Hans")
+  const english = buildFoundationSharePayload(result, "en", "core")
+  const chinese = buildFoundationSharePayload(result, "zh-Hans", "core")
 
   assert.deepEqual(
     { ...chinese, cl: english.cl, cv: english.cv },
@@ -109,8 +123,10 @@ test("Foundation payload generation changes provenance by locale without changin
   )
   assert.equal(english.cl, "en")
   assert.equal(chinese.cl, "zh-Hans")
-  assert.equal(english.iv, 3)
-  assert.equal(chinese.sv, 1)
+  assert.equal(english.v, 4)
+  assert.equal(english.iv, 4)
+  assert.equal(chinese.sv, 2)
+  assert.equal(english.rt, "core")
 })
 
 test("malformed payloads fail safely instead of decoding to a fabricated result", () => {
@@ -139,6 +155,10 @@ test("malformed payloads fail safely instead of decoding to a fabricated result"
     encodeRawPayload({
       ...payloads[2],
       cl: "zh",
+    }),
+    encodeRawPayload({
+      ...payloads[3],
+      rt: "provisional",
     }),
   ]
 

@@ -2,9 +2,12 @@ import type {
   ChoiceCardType,
   Clarification,
   DimensionKey,
+  FoundationTier,
   Question,
   QuestionKind,
   QuizMode,
+  ScoringBlock,
+  ValidationScaleKey,
 } from "@/lib/types"
 
 export type FoundationEditorialRisk = "low" | "medium" | "high"
@@ -101,6 +104,7 @@ export type ZhHansFoundationInstrumentManifest = {
     "question IDs",
     "answer-option IDs",
     "question kinds",
+    "tier assignments",
     "scoring weights",
     "section order",
     "review behavior",
@@ -111,7 +115,10 @@ export type ZhHansFoundationInstrumentManifest = {
 export type FoundationStructuralFingerprint = {
   id: string
   kind: QuestionKind
+  tier: FoundationTier
+  scoringBlock: ScoringBlock
   dimension?: DimensionKey
+  validationScale?: ValidationScaleKey
   reverse?: boolean
   cardType?: ChoiceCardType
   allowSecondChoiceInAnalyst?: boolean

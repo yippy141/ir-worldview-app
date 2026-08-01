@@ -153,13 +153,3 @@ test(
     assert.ok(normativeModifiers.size >= 2)
   },
 )
-
-test(
-  "yea-sayer and nay-sayer return different families",
-  { skip: BRANCH_C_SKIP_REASON },
-  () => {
-    const [yeaSayer, naySayer] = responseStyleResults
-
-    assert.notEqual(yeaSayer.familyKey, naySayer.familyKey)
-  },
-)

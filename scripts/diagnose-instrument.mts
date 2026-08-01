@@ -22,6 +22,7 @@
 import { getFoundationQuestions } from "@/lib/quiz-schema"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import { NEUTRAL_BASELINE } from "@/lib/scoring-calibration"
+import { getSeededOptionOrder } from "@/lib/option-order"
 import {
   computeCoreDimensionScores,
   buildCanonicalFoundationResult,
@@ -44,6 +45,7 @@ const SHOW_GAPS = process.argv.includes("--gaps")
 const SHOW_PERCENTILES = process.argv.includes("--percentiles")
 const SHOW_SENSITIVITY = process.argv.includes("--sensitivity")
 const SHOW_STABILITY = process.argv.includes("--stability")
+const SHOW_ORDER_BIAS = process.argv.includes("--order-bias")
 
 const DIMENSION_KEYS: DimensionKey[] = [
   "securityCompetition",
@@ -78,11 +80,13 @@ function makeRng(seed: number) {
  * @param likertValue  value 1..7 to give every Likert item
  * @param pickOption   given the option list, return the index to choose
  * @param secondaryOffset  how far down the list to place the second choice
+ * @param orderSeed    when present, choose by position after seeded presentation ordering
  */
 function buildAnswers(
   likertValue: number,
   pickOption: (options: { id: string }[], questionId: string) => number,
   secondaryOffset = 1,
+  orderSeed?: string,
 ): Answers {
   const answers: Answers = {}
 
@@ -93,7 +97,10 @@ function buildAnswers(
       continue
     }
 
-    const options = question.options ?? []
+    const canonicalOptions = question.options ?? []
+    const options = orderSeed
+      ? getSeededOptionOrder(canonicalOptions, orderSeed, question.id)
+      : canonicalOptions
     if (options.length === 0) continue
 
     const primaryIndex = pickOption(options, question.id) % options.length
@@ -172,6 +179,10 @@ function perturbAnswers(
     if (typeof currentAnswer === "string") {
       perturbed[question.id] = nextPrimary
       continue
+    }
+
+    if (typeof currentAnswer !== "object" || currentAnswer === null) {
+      throw new Error(`Expected a ranked choice answer for ${question.id}.`)
     }
 
     perturbed[question.id] = {
@@ -270,8 +281,8 @@ console.log("=".repeat(74))
 console.log("PART 1  Response-style respondents")
 console.log("=".repeat(74))
 console.log(
-  "\nIf the yea-sayer produces a confident, distinctive family label, the\n" +
-  "instrument is measuring agreeableness rather than worldview.",
+  "\nFlat response styles should be family-invariant across Likert levels.\n" +
+  "Changing the choice-profile shape should still be able to change family.",
 )
 
 const alwaysFirst = () => 0
@@ -304,6 +315,10 @@ const familyScoreGaps: number[] = []
 const narrativeStateCounts: Record<string, number> = {}
 const randomDimensionScores: DimensionScores[] = []
 const randomRespondentAnswers: Answers[] = []
+const randomRespondentPlans: Array<{
+  likert: number
+  positions: Record<string, number>
+}> = []
 
 for (const key of DIMENSION_KEYS) {
   dimMin[key] = Infinity
@@ -314,7 +329,13 @@ for (const key of DIMENSION_KEYS) {
 
 for (let i = 0; i < RANDOM_N; i += 1) {
   const likert = 1 + Math.floor(rng() * 7)
-  const answers = buildAnswers(likert, (options) => Math.floor(rng() * options.length))
+  const positions: Record<string, number> = {}
+  const answers = buildAnswers(likert, (options, questionId) => {
+    const position = Math.floor(rng() * options.length)
+    positions[questionId] = position
+    return position
+  })
+  randomRespondentPlans.push({ likert, positions })
   randomRespondentAnswers.push(answers)
   const scores = computeCoreDimensionScores(answers, MODE)
   const result = buildCanonicalFoundationResult(scores)
@@ -351,6 +372,56 @@ report("Family distribution", familyCounts)
 report("Strategy modifier distribution", strategyCounts)
 report("Normative modifier distribution", normCounts)
 report("Full three-part label distribution (top rows)", labelCounts)
+
+if (SHOW_ORDER_BIAS) {
+  const randomisedFamilyCounts: Record<string, number> = {}
+
+  for (const [respondentIndex, plan] of randomRespondentPlans.entries()) {
+    const answers = buildAnswers(
+      plan.likert,
+      (_options, questionId) => plan.positions[questionId] ?? 0,
+      1,
+      `order-bias-${RANDOM_SEED}-${respondentIndex}`,
+    )
+    const result = buildCanonicalFoundationResult(
+      computeCoreDimensionScores(answers, MODE),
+    )
+    randomisedFamilyCounts[result.familyLabel] =
+      (randomisedFamilyCounts[result.familyLabel] ?? 0) + 1
+  }
+
+  console.log("\n" + "=".repeat(74))
+  console.log("ORDER BIAS  Fixed versus seeded-randomised option presentation")
+  console.log("=".repeat(74))
+  console.log(
+    `\nN=${RANDOM_N}, respondent seed=${RANDOM_SEED}, mode=${MODE}. ` +
+    "Each paired respondent keeps the same Likert values and choice positions.\n",
+  )
+  report("Fixed-order family distribution", familyCounts)
+  report("Randomised-order family distribution", randomisedFamilyCounts)
+
+  console.log("\nResponse-style respondents under randomised option order")
+  const randomisedStyles = [
+    { label: "YEA-SAYER  (Likert 6, always first position)", likert: 6, pick: alwaysFirst },
+    { label: "NAY-SAYER  (Likert 2, always first position)", likert: 2, pick: alwaysFirst },
+    { label: "MIDPOINTER (Likert 4, always first position)", likert: 4, pick: alwaysFirst },
+    { label: "YEA + LAST (Likert 6, always last position)", likert: 6, pick: alwaysLast },
+    { label: "EXTREME AGREE (Likert 7, always first position)", likert: 7, pick: alwaysFirst },
+    { label: "EXTREME DISAGREE (Likert 1, always first position)", likert: 1, pick: alwaysFirst },
+  ]
+
+  for (const [styleIndex, style] of randomisedStyles.entries()) {
+    summarise(
+      `${style.label}; order seed ${styleIndex + 1}`,
+      buildAnswers(
+        style.likert,
+        style.pick,
+        1,
+        `order-bias-style-${RANDOM_SEED}-${styleIndex}`,
+      ),
+    )
+  }
+}
 
 console.log("\nObserved dimension range across random respondents")
 console.log(
@@ -599,10 +670,10 @@ console.log("\n" + "=".repeat(74))
 console.log("Interpretation guide")
 console.log("=".repeat(74))
 console.log(`
-  Part 1: if YEA-SAYER and NAY-SAYER produce different families, the
-          instrument has some real signal. If they produce the same
-          family, or if YEA-SAYER produces a confident institutionalist
-          reading, acquiescence bias is driving the result.
+  Part 1: YEA-SAYER, NAY-SAYER, MIDPOINTER, and the two extreme flat
+          styles should return the same family because they differ only
+          in response level. YEA + LAST should differ when the changed
+          choice profile creates a different cross-dimension shape.
 
   Part 2: if any single family exceeds 40% of random respondents, the
           family weight matrix is skewed. If any single three-part label

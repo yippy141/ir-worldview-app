@@ -4,7 +4,7 @@ import { ScaleBar } from "@/components/visual-primitives"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
 import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
-import { resolveFoundationPayload } from "@/lib/share"
+import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
 import {
   getClosestTraditions,
   getKeyDrivers,
@@ -20,7 +20,12 @@ import {
   getWhyThisResult,
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
-import { dimensionLabels } from "@/lib/quiz-schema"
+import {
+  dimensionLabels,
+  FOUNDATION_STRUCTURAL_VERSION,
+} from "@/lib/quiz-schema"
+import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
+import { analyzeScoreShape, FOUNDATION_SCORING_VERSION } from "@/lib/scoring"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
@@ -32,6 +37,13 @@ import { FoundationProfileSync } from "@/components/profile/foundation-profile-s
 import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { localizedAlternates, publicPath } from "@/i18n/paths"
+import { buildFoundationShareCardUrl } from "@/lib/share-card"
+import {
+  getPercentile,
+  type AggregateStats,
+  type PercentileResult,
+} from "@/lib/percentiles"
+import { readCurrentAggregateStats } from "@/lib/research/aggregate-stats"
 import type { DimensionKey, FamilyKey, NormativeModifier, StrategyModifier } from "@/lib/types"
 import type { Metadata } from "next"
 
@@ -53,11 +65,41 @@ export async function generateMetadata(
   const title = `${familyLabel} result — IR Worldview Inventory`
   const description =
     `Shared IR Worldview result: ${resultLabel}. See the closest modeled tradition, modifiers, and dimension profile.`
+  const aggregateStats =
+    resolved.provenance.instrumentStructuralVersion === FOUNDATION_STRUCTURAL_VERSION &&
+    resolved.provenance.scoringVersion === FOUNDATION_SCORING_VERSION
+      ? await readCurrentAggregateStats()
+      : null
+  const cardImage = buildFoundationShareCardUrl(
+    resolved.result,
+    aggregateStats,
+  )
 
-  return buildResultMetadata(payload, title, description)
+  return buildResultMetadata(
+    payload,
+    title,
+    description,
+    cardImage,
+    `${familyLabel} Foundation profile`,
+  )
 }
 
-function buildResultMetadata(payload: string, title: string, description: string): Metadata {
+function buildResultMetadata(
+  payload: string,
+  title: string,
+  description: string,
+  cardImage?: string,
+  cardAlt?: string,
+): Metadata {
+  const socialImage = cardImage
+    ? {
+        url: cardImage,
+        width: 1200,
+        height: 630,
+        alt: cardAlt ?? "IR Worldview Inventory Foundation profile",
+      }
+    : null
+
   return {
     title,
     description,
@@ -65,11 +107,14 @@ function buildResultMetadata(payload: string, title: string, description: string
       title,
       description,
       type: "article",
+      url: publicPath("en", `/results/${payload}`),
+      images: socialImage ? [socialImage] : undefined,
     },
     twitter: {
-      card: "summary",
+      card: socialImage ? "summary_large_image" : "summary",
       title,
       description,
+      images: socialImage ? [socialImage] : undefined,
     },
     alternates: {
       canonical: publicPath("en", `/results/${payload}`),
@@ -103,7 +148,19 @@ export default async function ResultPage(
     )
   }
 
-  const { dimensionScores, result } = resolved
+  const { dimensionScores, result, resultTier } = resolved
+  const aggregateStats =
+    resolved.provenance.instrumentStructuralVersion === FOUNDATION_STRUCTURAL_VERSION &&
+    resolved.provenance.scoringVersion === FOUNDATION_SCORING_VERSION
+      ? await readCurrentAggregateStats()
+      : null
+  const dimensionPercentiles = buildDimensionPercentiles(
+    dimensionScores,
+    aggregateStats,
+  )
+  const hasPercentiles = PAYLOAD_DIMENSION_ORDER.some(
+    (dimension) => dimensionPercentiles[dimension] !== null,
+  )
   const familyScores = result.familyScores
   const closestTraditions = getClosestTraditions(familyScores)
   const familyLabel = result.familyLabel
@@ -131,6 +188,10 @@ export default async function ResultPage(
   })
   const summary = foundationNarrative.summary
   const lowDifferentiation = foundationNarrative.state === "lowDifferentiation"
+  const nearestFitGap = analyzeScoreShape(dimensionScores).nearestFitGap
+  const targetedExtensionHref =
+    `/quiz?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
+  const fullExtensionHref = "/quiz?extension=full"
 
   const foundationPayoff = buildFoundationPayoff({
     dimensionScores,
@@ -260,7 +321,14 @@ export default async function ResultPage(
           aria-labelledby="foundation-result-heading"
         >
           <div className="foundation-result-hero__copy stack-md">
-            <p className="eyebrow">Foundation result</p>
+            <p className="eyebrow">
+              {resultTier === "core" ? "Provisional Foundation result" : "Foundation result"}
+            </p>
+            <p className="muted result-note">
+              {resultTier === "core"
+                ? "Computed from the 14-item core set."
+                : "Computed from the core and extended sets."}
+            </p>
             <p className="foundation-result-hero__classification">
               <span>Closest modeled family</span>
               <strong>{familyLabel}</strong>
@@ -297,6 +365,44 @@ export default async function ResultPage(
             </Link>
           </aside>
         </header>
+
+        {resultTier === "core" ? (
+          <section
+            className="result-section stack-md"
+            aria-labelledby="foundation-extension-heading"
+          >
+            <div className="stack-xs result-section-intro">
+              <p className="eyebrow">Optional follow-up</p>
+              <h2 id="foundation-extension-heading">
+                {nearestFitGap < LOW_DIFFERENTIATION_THRESHOLD
+                  ? `Test the boundary between ${familyLabel} and ${neighborLabel}`
+                  : "Add the extended set"}
+              </h2>
+              <p className="muted result-note">
+                {nearestFitGap < LOW_DIFFERENTIATION_THRESHOLD
+                  ? "Your two nearest modeled families remain close. Five follow-up items have been selected for the distinctions that separate them most."
+                  : "The core result is provisionally differentiated. You can keep it as is or add the full extended set for a broader reading."}
+              </p>
+            </div>
+            <div className="row gap-sm wrap">
+              {nearestFitGap < LOW_DIFFERENTIATION_THRESHOLD ? (
+                <Link href={targetedExtensionHref} className="cta-primary">
+                  Answer 5 targeted items
+                </Link>
+              ) : null}
+              <Link
+                href={fullExtensionHref}
+                className={
+                  nearestFitGap < LOW_DIFFERENTIATION_THRESHOLD
+                    ? "cta-secondary"
+                    : "cta-primary"
+                }
+              >
+                Take the full extended set
+              </Link>
+            </div>
+          </section>
+        ) : null}
 
         <section className="result-section stack-lg" aria-labelledby="foundation-payoff-heading">
           <div className="stack-xs result-section-intro">
@@ -407,12 +513,17 @@ export default async function ResultPage(
                     <h3>{driver.label}</h3>
                     <p>{driver.description}</p>
                   </div>
-                  <span className="foundation-signal-row__score">
-                    {dimensionScores[driver.dimension].toFixed(2)} / 7
-                  </span>
+                  <DimensionScoreValue
+                    score={dimensionScores[driver.dimension]}
+                    percentile={dimensionPercentiles[driver.dimension]}
+                  />
                 </li>
               ))}
             </ol>
+            <PercentileFootnote
+              dimensions={keyDrivers.map((driver) => driver.dimension)}
+              percentiles={dimensionPercentiles}
+            />
           </div>
 
           <div className="foundation-result-next stack-sm">
@@ -486,13 +597,23 @@ export default async function ResultPage(
                 <div>
                   {(Object.entries(dimensionScores) as [DimensionKey, number][]).map(([dim, value]) => (
                     <div key={dim} className="dim-row">
-                      <ScaleBar label={dimensionLabels[dim]} value={value} tone="baseline" />
+                      <ScaleBar
+                        label={dimensionLabels[dim]}
+                        value={value}
+                        valueLabel={formatDimensionScore(value, dimensionPercentiles[dim])}
+                        tone="baseline"
+                        className="foundation-percentile-scale"
+                      />
                       <p className="muted result-note-xs">
                         {dimensionOneLiners[dim](value)}
                       </p>
                     </div>
                   ))}
                 </div>
+                <PercentileFootnote
+                  dimensions={PAYLOAD_DIMENSION_ORDER}
+                  percentiles={dimensionPercentiles}
+                />
               </div>
 
               <ResultSignaturePanel
@@ -501,6 +622,7 @@ export default async function ResultPage(
                 normativeModifier={result.normativeModifier}
                 neighborLabel={neighborLabel}
                 topDimensions={topDimensions}
+                dimensionPercentiles={dimensionPercentiles}
               />
 
               <div className="result-prose stack-md">
@@ -560,8 +682,10 @@ export default async function ResultPage(
                   <p className="muted result-note-sm">
                     Structured thought exercise with interpretive labels rather than a validated scientific diagnostic. Tradition labels
                     are shorthand for a multidimensional profile, and case-based readings stay separate
-                    from the foundation result. Scores are comparative positions within this model rather than population
-                    percentiles.{" "}
+                    from the foundation result.{" "}
+                    {hasPercentiles
+                      ? "Percentiles describe the current completed-result sample, not the general population. Raw scores remain positions within this model. "
+                      : "Scores are positions within this model. "}
                     <Link href="/method">
                       Full methods note →
                     </Link>
@@ -633,12 +757,14 @@ function ResultSignaturePanel({
   normativeModifier,
   neighborLabel,
   topDimensions,
+  dimensionPercentiles,
 }: {
   familyLabel: string
   strategyModifier: StrategyModifier
   normativeModifier: NormativeModifier
   neighborLabel: string
   topDimensions: [DimensionKey, number][]
+  dimensionPercentiles: Record<DimensionKey, PercentileResult | null>
 }) {
   return (
     <aside className="result-signature-panel stack-sm" aria-label="Result signature">
@@ -655,7 +781,12 @@ function ResultSignaturePanel({
             key={dimension}
             label={dimensionLabels[dimension]}
             value={score}
+            valueLabel={formatDimensionScore(
+              score,
+              dimensionPercentiles[dimension],
+            )}
             tone="baseline"
+            className="foundation-percentile-scale"
           />
         ))}
       </div>
@@ -682,4 +813,79 @@ function ResultSignaturePanel({
       </dl>
     </aside>
   )
+}
+
+function buildDimensionPercentiles(
+  dimensionScores: Record<DimensionKey, number>,
+  stats: AggregateStats | null,
+): Record<DimensionKey, PercentileResult | null> {
+  return Object.fromEntries(
+    PAYLOAD_DIMENSION_ORDER.map((dimension) => [
+      dimension,
+      stats
+        ? getPercentile(dimension, dimensionScores[dimension], stats)
+        : null,
+    ]),
+  ) as Record<DimensionKey, PercentileResult | null>
+}
+
+function DimensionScoreValue({
+  score,
+  percentile,
+}: {
+  score: number
+  percentile: PercentileResult | null
+}) {
+  return (
+    <span className="foundation-signal-row__score">
+      <strong>
+        {percentile
+          ? `${formatOrdinal(percentile.percentile)} percentile`
+          : score.toFixed(2)}
+      </strong>
+      {percentile ? <span>Raw score {score.toFixed(2)}</span> : null}
+    </span>
+  )
+}
+
+function PercentileFootnote({
+  dimensions,
+  percentiles,
+}: {
+  dimensions: readonly DimensionKey[]
+  percentiles: Record<DimensionKey, PercentileResult | null>
+}) {
+  const sampleSizes = dimensions.flatMap((dimension) => {
+    const result = percentiles[dimension]
+    return result
+      ? [`${dimensionLabels[dimension]} n=${result.n.toLocaleString("en-US")}`]
+      : []
+  })
+  if (sampleSizes.length === 0) return null
+
+  return (
+    <p className="muted result-note-xs" role="note">
+      Percentile sample: {sampleSizes.join("; ")}. Midrank percentiles use
+      current completed Foundation results.
+    </p>
+  )
+}
+
+function formatDimensionScore(
+  score: number,
+  percentile: PercentileResult | null,
+) {
+  return percentile
+    ? `${formatOrdinal(percentile.percentile)} percentile · raw score ${score.toFixed(2)}`
+    : score.toFixed(2)
+}
+
+function formatOrdinal(value: number) {
+  const mod100 = value % 100
+  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
+
+  if (value % 10 === 1) return `${value}st`
+  if (value % 10 === 2) return `${value}nd`
+  if (value % 10 === 3) return `${value}rd`
+  return `${value}th`
 }

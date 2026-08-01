@@ -9,10 +9,17 @@ import {
   SCHEMA_VERSION,
   foundationStandardSections,
   getFoundationQuestions,
+  getFoundationQuestionsForSet,
 } from "@/lib/quiz-schema"
 import { FOUNDATION_SCORING_VERSION } from "@/lib/scoring"
 import { INSTRUMENT_COPY_VERSIONS } from "@/lib/locale-provenance"
-import type { ChoiceQuestion, Question, QuizMode } from "@/lib/types"
+import type {
+  ChoiceQuestion,
+  FamilyKey,
+  FoundationQuestionSet,
+  Question,
+  QuizMode,
+} from "@/lib/types"
 
 export const zhHansFoundationInstrumentManifest = {
   locale: "zh-Hans",
@@ -27,6 +34,7 @@ export const zhHansFoundationInstrumentManifest = {
     "question IDs",
     "answer-option IDs",
     "question kinds",
+    "tier assignments",
     "scoring weights",
     "section order",
     "review behavior",
@@ -63,6 +71,22 @@ export function getZhHansFoundationQuestions(mode: QuizMode): Question[] {
 
     return localizeQuestion(question, record.reconciledChinese)
   })
+}
+
+export function getZhHansFoundationQuestionsForSet(
+  questionSet: FoundationQuestionSet,
+  targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
+): Question[] {
+  return getFoundationQuestionsForSet(questionSet, targetedFamilyPair).map(
+    (question) => {
+      const record = zhHansFoundationDraftByQuestionId.get(question.id)
+      if (!record) {
+        throw new Error(`Missing zh-Hans Foundation copy: ${question.id}`)
+      }
+
+      return localizeQuestion(question, record.reconciledChinese)
+    },
+  )
 }
 
 function localizeQuestion(

@@ -1,4 +1,5 @@
 import type { ChoiceCardType, DimensionKey, DimensionScores, QuizMode } from "@/lib/types"
+import type { PinnedOptionPosition } from "@/lib/option-order"
 
 export type ModuleSlug = "security" | "technology"
 
@@ -14,6 +15,7 @@ export type ModuleOption = {
   title: string
   label: string
   signals: Record<string, number>
+  pinned?: PinnedOptionPosition
 }
 
 export type ModuleLane = {

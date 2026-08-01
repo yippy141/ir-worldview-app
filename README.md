@@ -102,6 +102,30 @@ Variables for Production and any Preview/Development environments that should
 render the live map. Add `NEXT_PUBLIC_MAPBOX_STYLE` there when using a custom
 style, then redeploy. Never place the token in source files.
 
+### Tier 1 aggregate database
+
+Set the server-only `DATABASE_URL` to a Neon Postgres connection string
+compatible with `@neondatabase/serverless` to record Tier 1 dimension,
+result-label, completion-step, and item-response-latency bucket counters. Apply
+the SQL files in `db/migrations/` in numeric order before enabling the variable.
+The application intentionally falls back to a no-op when `DATABASE_URL` is
+absent, so local development and preview builds do not need a database.
+
+Do not prefix this variable with `NEXT_PUBLIC_`: it must never be included in
+the browser bundle. Tier 1 stores derived aggregate counters only; it does not
+store raw answers, raw timestamps, response ordering, respondent or session
+rows, consent records, contact information, cookies, or other identifiers.
+
+The later opt-in research layer can replay stored Foundation answers with an
+immutable scoring implementation:
+
+```bash
+npm run replay:scoring -- v2
+```
+
+The replay upserts `research_derived_results` by session and scoring version. It
+does not update `research_answers`.
+
 ### Current Case invitations
 
 V19 shares ordinary case-only invitations. The former encrypted, answer-bearing
