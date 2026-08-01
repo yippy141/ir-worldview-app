@@ -12,6 +12,10 @@ type InstrumentItem = JsonObject & {
   options?: unknown
   analystOptions?: unknown
 }
+type InstrumentOption = JsonObject & {
+  id?: unknown
+  signals?: unknown
+}
 type InstrumentBank = JsonObject & {
   instrument?: unknown
   instrumentVersion?: unknown
@@ -28,6 +32,9 @@ const INSTRUMENT_FILES = [
 
 const contentDirectory = resolve(process.cwd(), "content/instrument")
 const schemaPath = resolve(contentDirectory, "schema.json")
+// V22 A2 lands these checks reporting-only so the existing banks can be
+// repaired against a complete failure list. A3 makes them blocking.
+const MEASUREMENT_CHECKS_BLOCKING = false
 
 function isObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value)
@@ -245,6 +252,99 @@ function getItems(bank: InstrumentBank): InstrumentItem[] {
     : []
 }
 
+function getOptions(value: unknown): InstrumentOption[] {
+  return Array.isArray(value)
+    ? value.filter(isObject) as InstrumentOption[]
+    : []
+}
+
+function getSignals(option: InstrumentOption): Record<string, number> {
+  if (!isObject(option.signals)) return {}
+  return Object.fromEntries(
+    Object.entries(option.signals).filter(
+      (entry): entry is [string, number] =>
+        typeof entry[1] === "number" && Number.isFinite(entry[1]),
+    ),
+  )
+}
+
+function getChoiceMeasurementFailures(
+  item: InstrumentItem,
+  instrument: string,
+): string[] {
+  if (![
+    "security",
+    "technology",
+    "ai-governance",
+  ].includes(instrument)) {
+    return []
+  }
+
+  const midpoint = instrument === "ai-governance" ? 0 : 4
+  const minimumSpread = instrument === "ai-governance" ? 0.5 : 2
+  const optionSets = (["options", "analystOptions"] as const)
+    .map((key) => ({ key, options: getOptions(item[key]) }))
+    .filter(({ options }) => options.length > 0)
+  const failures: string[] = []
+
+  for (const { key, options } of optionSets) {
+    const signalMaps = options.map(getSignals)
+    const axes = [...new Set(signalMaps.flatMap((signals) => Object.keys(signals)))]
+      .sort()
+
+    for (const axis of axes) {
+      const values = signalMaps.map((signals) => signals[axis] ?? midpoint)
+      const minimum = Math.min(...values)
+      const maximum = Math.max(...values)
+      const spread = maximum - minimum
+      const prefix = `${instrument}.${String(item.id)} ${key}.${axis}`
+
+      if (!(minimum < midpoint && maximum > midpoint)) {
+        failures.push(
+          `${prefix} does not straddle ${midpoint.toFixed(1)} ` +
+            `(min ${minimum.toFixed(2)}, max ${maximum.toFixed(2)}).`,
+        )
+      }
+      if (spread < minimumSpread) {
+        failures.push(
+          `${prefix} spread is ${spread.toFixed(2)}; minimum ${minimumSpread.toFixed(2)}.`,
+        )
+      }
+    }
+
+    if (options.length < 3) continue
+    for (let candidateIndex = 0; candidateIndex < options.length; candidateIndex += 1) {
+      const candidate = signalMaps[candidateIndex]
+      let reported = false
+      for (let leftIndex = 0; leftIndex < options.length && !reported; leftIndex += 1) {
+        if (leftIndex === candidateIndex) continue
+        for (let rightIndex = leftIndex + 1; rightIndex < options.length; rightIndex += 1) {
+          if (rightIndex === candidateIndex) continue
+          const liesAtMean = axes.every((axis) => {
+            const candidateValue = candidate[axis] ?? midpoint
+            const pairMean =
+              ((signalMaps[leftIndex][axis] ?? midpoint) +
+                (signalMaps[rightIndex][axis] ?? midpoint)) /
+              2
+            return Math.abs(candidateValue - pairMean) <= 0.15
+          })
+          if (!liesAtMean) continue
+
+          failures.push(
+            `${instrument}.${String(item.id)} ${key} option ` +
+              `${String(options[candidateIndex].id)} is within 0.15 of the full-vector mean ` +
+              `of ${String(options[leftIndex].id)} and ${String(options[rightIndex].id)}.`,
+          )
+          reported = true
+          break
+        }
+      }
+    }
+  }
+
+  return failures
+}
+
 function optionCountFailures(
   item: InstrumentItem,
   instrument: string,
@@ -283,6 +383,7 @@ const banks = await Promise.all(
 )
 
 const blockingErrors: string[] = []
+const measurementFailures: string[] = []
 for (const { file, bank } of banks) {
   blockingErrors.push(
     ...validateAgainstSchema(bank, schemaValue, file, schemaValue),
@@ -348,11 +449,14 @@ for (const { file, bank } of banks) {
         )
       }
 
-      if (
-        instrument === "foundation" &&
+      const scoredAxis =
         typeof item.dimension === "string"
-      ) {
-        const key = `${instrument}.${item.dimension}`
+          ? item.dimension
+          : typeof item.axis === "string"
+            ? item.axis
+            : undefined
+      if (scoredAxis) {
+        const key = `${instrument}.${scoredAxis}`
         const count = reverseCounts.get(key) ?? { reversed: 0, total: 0 }
         count.total += 1
         if (item.reverse === true) count.reversed += 1
@@ -381,6 +485,10 @@ for (const { file, bank } of banks) {
         }
       }
     }
+
+    measurementFailures.push(
+      ...getChoiceMeasurementFailures(item, instrument),
+    )
   }
 }
 
@@ -392,7 +500,7 @@ const reverseCodingFailures = [...reverseCounts.entries()]
     return `${key}: ${count.reversed}/${count.total} reverse-coded (${percentage}%; minimum 40%).`
   })
 
-blockingErrors.push(...reverseCodingFailures)
+measurementFailures.push(...reverseCodingFailures)
 
 const foundationBank = banks.find(
   ({ bank }) => bank.instrument === "foundation",
@@ -468,6 +576,18 @@ for (const dimension of dimensionKeys) {
     blockingErrors.push(
       `foundation core ${dimension} must contain one forward and one reverse-coded item.`,
     )
+  }
+}
+
+if (MEASUREMENT_CHECKS_BLOCKING) {
+  blockingErrors.push(...measurementFailures)
+} else if (measurementFailures.length > 0) {
+  console.warn(
+    "Instrument measurement checks are reporting-only during V22 A2; " +
+      "A3 must repair these failures before the checks become blocking:",
+  )
+  for (const error of [...new Set(measurementFailures)]) {
+    console.warn(`- ${error}`)
   }
 }
 
