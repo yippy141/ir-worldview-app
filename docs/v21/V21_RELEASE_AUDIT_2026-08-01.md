@@ -2,27 +2,30 @@
 
 Date: 2026-08-01
 
-Branch: `feature/v21-measurement-and-result-page`
+Primary branch: `feature/v21-measurement-and-result-page`
 
-Pull request: https://github.com/yippy141/ir-worldview-app/pull/24
+Primary pull request: https://github.com/yippy141/ir-worldview-app/pull/24
+
+Archetype-analogue follow-up:
+https://github.com/yippy141/ir-worldview-app/pull/25
 
 ## Release call
 
-**Code-merge status: READY, awaiting final docs-only CI and merge.**
+**Primary V21 status: MERGED. Archetype follow-up: locally release-ready and
+tracked in PR #25.**
 
 V21 now contains the intended measurement and result-layer repairs, including
 an actual historical V1 scorer, form-specific V2 calibration, explicit V5
 provenance, safer aggregate reads, and legacy-link identity preservation.
-The final local source has passed calibration reproduction, lint, content
-validation, all unit tests, diagnostics, TypeScript, production build,
-Playwright, and independent share-card visual review. On runtime head
-`9a94b15`, GitHub Actions run `30697555910` passed both remote jobs, the final
-Linux visual artifacts were accepted, and all three P1 review threads were
-resolved.
+PR #24 was squash-merged into `main` at
+`8ecbf5e42e6ef2b9d5dbf4ac07e529438eb953c3`. PR #25 closes the deliberately
+unfilled owner-authored analogue fields and exposes them without changing
+scoring or payload formats.
 
-Broad public sharing has a separate **HOLD**. The owner has not locked the
-archetype names, real social-platform previews have not been recorded, and the
-Simplified Chinese result is not archetype-first.
+The owner has now locked the eight V21 names, glosses, and historical
+analogues. Broad public sharing retains a narrower **HOLD**: real
+social-platform previews have not been recorded, and the Simplified Chinese
+result is not archetype-first.
 
 Tier 1 collection and scoring replay are dormant capabilities, not completed
 production services. Tier 1 must remain default-off, and replay must not be run
@@ -46,9 +49,9 @@ closed.
 | D1–D3 Tier 1 aggregates and percentiles | Code present; activation gated | The write path is default-off. The public aggregate-stats read endpoint has been removed, internal aggregate rows are suppressed below `n = 100`, and a static contract test guards fresh/upgrade migration convergence. Production execution and controls remain open. |
 | D4/D5 scoring replay | Strict same-bank replay implemented; operations dormant | V1 is self-contained and hash/golden-fixture tested. Replay now requires explicit matching consent, exact supported V1/V2 form and mode, one valid answer representation, and nonzero exit on quarantine. Cross-bank V1↔V2 replay is intentionally rejected without a reviewed compatibility map; batching and production operations remain open. |
 | D6 Tier 2 | Deferred as specified | No production raw-answer collection should be inferred from the replay library or script. |
-| E1/E2 archetype mapping and blends | Implemented as presentation only | Eight pure types and twelve blends map over the canonical result without changing core dimensions or family scoring. |
-| E3 English share card | Locally verified; platform preview pending | Four final 1200×630 cards—M+, M−, P−, and the M/S− blend—passed independent visual review without tofu, clipping, or orphaned text. The production build trace contains all four bundled local fonts. |
-| E4 archetype naming | Owner decision | The supplied names remain in `content/archetypes.json`. The alternatives and reasons in `V21_ARCHETYPE_NAMING_REVIEW.md` are recommendations, not approved substitutions. |
+| E1/E2 archetype mapping and blends | Implemented as presentation only | Eight owner-authored pure types and twelve blends map over the canonical result without changing core dimensions or family scoring. Pure types have authored historical analogues; blends remain analogue-free. Leading `The` is removed only when composing a blend name. |
+| E3 English share card | Locally verified; platform preview pending | The share card now renders the authored analogue on pure results. Final 1200×630 P+, R+, M−, and P/M+ renders passed visual review without tofu, clipping, overflow, or an invented blend analogue. |
+| E4 archetype naming | Owner-locked for V21 | `content/archetypes.json` is authoritative for the exact names, glosses, and links. The owner decision is recorded in `V21_ARCHETYPE_NAMING_REVIEW.md`; re-evaluation is deferred to V22. |
 | F1 English result | Verified locally and remotely | The archetype-first payoff and analysis disclosure are present. The final local Playwright suite and remote Chromium job passed; the Linux quiz, result, and Windows-font actuals were inspected and accepted. |
 | F1 Simplified Chinese parity | Incomplete | The localized result remains on the earlier information architecture and lacks the archetype-first hero and localized custom card. |
 | F2 live map | English implemented; Chinese incomplete | The English map follows the canonical projection. Chinese map copy remains intentionally omitted instead of silently falling back to English. |
@@ -164,9 +167,10 @@ database replay workflow is not yet release-worthy operations code.
 2. **Hedger sign.** The implementation uses restraint below midpoint as `+`
    and restraint above midpoint as `-`, consistent with the scored dimension
    and surrounding prose but opposite one sentence in the archetype spec.
-3. **Archetype names.** Keep the codes and mapping stable; the owner must
-   choose names and glosses. The naming review recommends retaining some names
-   and reconsidering `Nomos`, `Mandala`, and `Dirigisme`.
+3. **Archetype names.** Ratified for V21. Keep the owner-authored names,
+   glosses, codes, mapping, and analogue references stable. V22 may conduct a
+   new evidence-led review, but no implementation agent may silently rewrite
+   them or compensate for a naming concern through scoring.
 
 ## Final local evidence
 
@@ -189,6 +193,18 @@ database replay workflow is not yet release-worthy operations code.
   with no tofu, clipping, or orphaned text. The build trace contains the four
   bundled local fonts.
 
+PR #25 follow-up evidence:
+
+- `npm run lint`: passed.
+- `npm run validate`: passed with 135 unique items.
+- `npm run test`: 301 passed, 0 failed, 0 skipped.
+- `npx tsc --noEmit`: passed.
+- `npm run build`: passed and generated all eight analogue routes.
+- `CI=1 npm run test:e2e`: 48 passed.
+- Visual review: P+, R+, M−, and P/M+ cards and the P+ evidence page passed;
+  the longest analogue label fit, the CJK title rendered, and blends omitted
+  the analogue line.
+
 These local results are complemented by the remote closeout evidence below.
 Neither set is evidence of social-platform preview behavior or production
 Tier 1/replay operation.
@@ -204,18 +220,16 @@ Tier 1/replay operation.
   accepted through commits `4bcd7ba` and `9a94b15`.
 - All three P1 review threads were replied to and resolved.
 
-The runtime code is merge-ready. The only remaining repository step is to
-commit and push this final documentation closeout, allow its docs-only CI run
-to pass, and merge PR #24. Tier 1 must remain default-off and replay
-operationally dormant.
+PR #24 is merged. PR #25 is the final archetype-analogue follow-up; its GitHub
+record is the authoritative merge and remote-CI record. Tier 1 must remain
+default-off and replay operationally dormant.
 
 ## Public-sharing HOLD conditions
 
 Broad sharing should wait until:
 
-1. the owner records the final eight archetype names and glosses;
-2. real previews are checked in X, LinkedIn, WhatsApp, and WeChat; and
-3. the Chinese experience is either brought to archetype-first parity or its
+1. real previews are checked in X, LinkedIn, WhatsApp, and WeChat; and
+2. the Chinese experience is either brought to archetype-first parity or its
    narrower supported share contract is explicitly approved.
 
 Closing the code merge gates does not, by itself, close these public-sharing
