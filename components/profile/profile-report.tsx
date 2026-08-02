@@ -328,13 +328,13 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                         <div key={`${moduleSnapshot.slug}-${lane.key}`} className="profile-module-lane stack-xs">
                           <div className="progress-meta">
                             <span style={{ fontWeight: 600, color: "var(--text)" }}>{lane.label}</span>
-                            <span>{lane.score.toFixed(1)} / 7</span>
+                            <span>{lane.score.toFixed(1)}</span>
                           </div>
                           <div className="profile-mini-scale" aria-hidden="true">
                             <div
                               className="profile-mini-scale-fill"
                               style={{
-                                width: `${(lane.score / 7) * 100}%`,
+                                width: `${Math.max(0, Math.min(100, ((lane.score - 1) / 6) * 100))}%`,
                                 background: MODULE_COLORS[moduleSnapshot.slug],
                               }}
                             />

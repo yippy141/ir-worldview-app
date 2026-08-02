@@ -1,6 +1,11 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { POST as postAggregateResult } from "@/app/api/aggregate/result/route"
+import {
+  createDatabaseClient,
+  db,
+  type DatabaseClient,
+} from "@/lib/db"
 import { FOUNDATION_INSTRUMENT_VERSION } from "@/lib/quiz-schema"
 import { FOUNDATION_SCORING_VERSION, buildCanonicalFoundationResult } from "@/lib/scoring"
 import { setAnalyticsOptOut } from "@/lib/analytics/adapter"
@@ -26,6 +31,81 @@ const scores: DimensionScores = {
   orderJustice: 4.74,
 }
 const cohort = buildTier1Cohort("fullExtended", "en")
+
+function aggregateRequest(body: unknown): Request {
+  return new Request("http://localhost/api/aggregate/result", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  })
+}
+
+function configuredDatabase(
+  query: (
+    statement: string,
+    parameters: unknown[],
+  ) => Promise<Record<string, unknown>[]>,
+): DatabaseClient {
+  return {
+    isConfigured: true,
+    async query<Row extends Record<string, unknown>>(
+      statement: string,
+      parameters: unknown[] = [],
+    ) {
+      return await query(statement, parameters) as Row[]
+    },
+  }
+}
+
+async function withTier1Database<T>(
+  database: DatabaseClient,
+  run: () => Promise<T>,
+): Promise<T> {
+  const enabled = process.env.TIER1_AGGREGATES_ENABLED
+  const originalIsConfigured = db.isConfigured
+  const originalQuery = db.query
+
+  process.env.TIER1_AGGREGATES_ENABLED = "true"
+  Object.defineProperty(db, "isConfigured", {
+    configurable: true,
+    value: database.isConfigured,
+  })
+  Object.defineProperty(db, "query", {
+    configurable: true,
+    value: database.query.bind(database),
+  })
+
+  try {
+    return await run()
+  } finally {
+    if (enabled === undefined) {
+      delete process.env.TIER1_AGGREGATES_ENABLED
+    } else {
+      process.env.TIER1_AGGREGATES_ENABLED = enabled
+    }
+    Object.defineProperty(db, "isConfigured", {
+      configurable: true,
+      value: originalIsConfigured,
+    })
+    Object.defineProperty(db, "query", {
+      configurable: true,
+      value: originalQuery,
+    })
+  }
+}
+
+function insertedColumnSets(statement: string): Record<string, string[]> {
+  return Object.fromEntries(
+    [...statement.matchAll(/insert\s+into\s+([a-z_]+)\s*\(([^)]+)\)/gi)]
+      .map((match) => [
+        match[1],
+        match[2]
+          .split(",")
+          .map((column) => column.trim())
+          .sort(),
+      ]),
+  )
+}
 
 test("Tier 1 result payload contains only current derived scores and labels", () => {
   const aggregate = buildTier1AggregateResult(
@@ -208,6 +288,178 @@ test("aggregate result route no-ops successfully without DATABASE_URL", async ()
   assert.deepEqual(await response.json(), { ok: true })
 })
 
+test("result route writes only the exact aggregate counter columns", async () => {
+  const aggregate = buildTier1AggregateResult(
+    buildCanonicalFoundationResult(scores),
+    cohort,
+    { df1: 2_000 },
+  )
+  const queries: Array<{ statement: string; parameters: unknown[] }> = []
+  const database = configuredDatabase(async (statement, parameters) => {
+    queries.push({ statement, parameters })
+    return []
+  })
+
+  const response = await withTier1Database(database, () =>
+    postAggregateResult(aggregateRequest(aggregate)),
+  )
+
+  assert.equal(response.status, 202)
+  assert.deepEqual(await response.json(), { ok: true })
+  assert.equal(queries.length, 1)
+  assert.deepEqual(insertedColumnSets(queries[0].statement), {
+    agg_dimension_buckets: [
+      "bucket",
+      "completion_locale",
+      "count",
+      "dimension",
+      "form_key",
+      "instrument_version",
+      "locale_copy_version",
+      "scoring_version",
+    ],
+    agg_item_latency: [
+      "completion_locale",
+      "count",
+      "form_key",
+      "instrument_version",
+      "item_id",
+      "latency_bucket_ms",
+      "locale_copy_version",
+    ],
+    agg_labels: [
+      "archetype_code",
+      "completion_locale",
+      "count",
+      "family",
+      "form_key",
+      "instrument_version",
+      "locale_copy_version",
+      "normative_modifier",
+      "scoring_version",
+      "strategy_modifier",
+    ],
+  })
+  assert.equal(queries[0].parameters.length, 11)
+  const insertedColumns = Object.values(
+    insertedColumnSets(queries[0].statement),
+  ).flat()
+  assert.doesNotMatch(
+    insertedColumns.join(" "),
+    /respondent|session|email|ip|user_agent|timestamp|created_at/i,
+  )
+})
+
+test("completion route writes only the exact aggregate counter columns", async () => {
+  const queries: Array<{ statement: string; parameters: unknown[] }> = []
+  const database = configuredDatabase(async (statement, parameters) => {
+    queries.push({ statement, parameters })
+    return []
+  })
+  const completion = {
+    ...buildTier1Cohort("core", "en"),
+    stepIndex: 0,
+  }
+
+  const response = await withTier1Database(database, () =>
+    postAggregateResult(aggregateRequest(completion)),
+  )
+
+  assert.equal(response.status, 202)
+  assert.deepEqual(await response.json(), { ok: true })
+  assert.equal(queries.length, 1)
+  assert.deepEqual(insertedColumnSets(queries[0].statement), {
+    agg_completion: [
+      "completion_locale",
+      "count",
+      "form_key",
+      "instrument_version",
+      "locale_copy_version",
+      "step_index",
+      "tier",
+    ],
+  })
+  assert.equal(queries[0].parameters.length, 6)
+})
+
+for (const [name, database] of [
+  [
+    "database unavailable",
+    configuredDatabase(async () => {
+      throw new TypeError("fetch failed")
+    }),
+  ],
+  [
+    "malformed connection string",
+    createDatabaseClient("not-a-postgres-url"),
+  ],
+  [
+    "write timeout",
+    configuredDatabase(async () => {
+      throw new DOMException("The operation timed out.", "TimeoutError")
+    }),
+  ],
+] as const) {
+  test(`result storage failure is silent when ${name}`, async () => {
+    const aggregate = buildTier1AggregateResult(
+      buildCanonicalFoundationResult(scores),
+      cohort,
+    )
+    const errors: unknown[][] = []
+    const originalConsoleError = console.error
+    console.error = (...args: unknown[]) => {
+      errors.push(args)
+    }
+
+    try {
+      let response: Response | undefined
+      await assert.doesNotReject(async () => {
+        response = await withTier1Database(database, () =>
+          postAggregateResult(aggregateRequest(aggregate)),
+        )
+      })
+      await new Promise<void>((resolve) => setImmediate(resolve))
+
+      assert.equal(response?.status, 202)
+      assert.deepEqual(await response?.json(), { ok: true })
+      assert.equal(errors.length, 1)
+    } finally {
+      console.error = originalConsoleError
+    }
+  })
+}
+
+test("completion storage failure is silent when database unavailable", async () => {
+  const completion = {
+    ...buildTier1Cohort("core", "en"),
+    stepIndex: 0,
+  }
+  const database = configuredDatabase(async () => {
+    throw new TypeError("fetch failed")
+  })
+  const errors: unknown[][] = []
+  const originalConsoleError = console.error
+  console.error = (...args: unknown[]) => {
+    errors.push(args)
+  }
+
+  try {
+    let response: Response | undefined
+    await assert.doesNotReject(async () => {
+      response = await withTier1Database(database, () =>
+        postAggregateResult(aggregateRequest(completion)),
+      )
+    })
+    await new Promise<void>((resolve) => setImmediate(resolve))
+
+    assert.equal(response?.status, 202)
+    assert.deepEqual(await response?.json(), { ok: true })
+    assert.equal(errors.length, 1)
+  } finally {
+    console.error = originalConsoleError
+  }
+})
+
 test("aggregate result route accepts a completion step without an identifier", async () => {
   const response = await postAggregateResult(
     new Request("http://localhost/api/aggregate/result", {
@@ -289,14 +541,58 @@ test("the browser opt-out suppresses result and completion submissions", async (
 
   try {
     setAnalyticsOptOut(true)
-    await submitTier1AggregateResult(
-      buildCanonicalFoundationResult(scores),
-      cohort,
+    await assert.doesNotReject(
+      submitTier1AggregateResult(
+        buildCanonicalFoundationResult(scores),
+        cohort,
+      ),
     )
-    await submitTier1CompletionStep(cohort, 0)
+    await assert.doesNotReject(submitTier1CompletionStep(cohort, 0))
     assert.equal(calls.length, 0)
   } finally {
     setAnalyticsOptOut(false)
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: originalWindow,
+    })
+  }
+})
+
+test("browser submission contains rejected fetches without an unhandled rejection", async () => {
+  const originalWindow = globalThis.window
+  const calls: unknown[] = []
+  const unhandledRejections: unknown[] = []
+  const storage = new Map<string, string>()
+  const recordUnhandledRejection = (reason: unknown) => {
+    unhandledRejections.push(reason)
+  }
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      fetch: async (...args: unknown[]) => {
+        calls.push(args)
+        throw new TypeError("network unavailable")
+      },
+      localStorage: {
+        getItem: (key: string) => storage.get(key) ?? null,
+        setItem: (key: string, value: string) => storage.set(key, value),
+        removeItem: (key: string) => storage.delete(key),
+      },
+    },
+  })
+
+  try {
+    process.on("unhandledRejection", recordUnhandledRejection)
+    void submitTier1AggregateResult(
+      buildCanonicalFoundationResult(scores),
+      cohort,
+    )
+    void submitTier1CompletionStep(cohort, 0)
+    await new Promise<void>((resolve) => setImmediate(resolve))
+    assert.equal(calls.length, 2)
+    assert.deepEqual(unhandledRejections, [])
+  } finally {
+    process.off("unhandledRejection", recordUnhandledRejection)
     Object.defineProperty(globalThis, "window", {
       configurable: true,
       value: originalWindow,

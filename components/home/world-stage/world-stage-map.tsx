@@ -1,6 +1,7 @@
 "use client"
 
 import "mapbox-gl/dist/mapbox-gl.css"
+import { createPortal } from "react-dom"
 import {
   useCallback,
   useEffect,
@@ -16,6 +17,7 @@ import {
   buildWorldStageFlowData,
   buildWorldStageNodeData,
   getWorldStageTooltipItems,
+  type WorldStageMapFilters,
   type WorldStageMapPresentation,
 } from "@/lib/world-stage/map-data"
 import {
@@ -23,10 +25,12 @@ import {
   getWorldStageIdleResumeAt,
   WORLD_STAGE_BASEMAP_CONFIG,
   WORLD_STAGE_DEFAULT_ZOOM_OFFSET,
+  WORLD_STAGE_FLOW_RELATION_COLORS,
   WORLD_STAGE_GLOBE_IDLE_RESUME_MS,
   WORLD_STAGE_MAPBOX_STYLE,
   WORLD_STAGE_MAPBOX_TOKEN,
   WORLD_STAGE_ROLE_COLORS,
+  WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS,
   WORLD_STAGE_SPIN_SEGMENT_MS,
   WORLD_STAGE_TRANSITION_MS,
 } from "@/lib/world-stage/map-config"
@@ -47,6 +51,7 @@ type AutomaticTransition = "scene" | "spin" | "zoom" | null
 type WorldStageMapProps = {
   ref?: Ref<WorldStageMapHandle>
   scene: WorldStageScene | null
+  filters: WorldStageMapFilters
   motionPaused: boolean
   reducedMotion: boolean
   onInteraction: () => void
@@ -57,6 +62,8 @@ type WorldStageMapProps = {
     asOf: string
     mapDiagnosticState: string
     improveMap: string
+    tooltipSources: string
+    tooltipClose: string
   }
 }
 
@@ -75,6 +82,7 @@ type MapDiagnosticState =
 type Inspection = {
   item: WorldStageTooltipItem
   position: WorldStageInspectionPosition
+  pinned: boolean
 }
 
 const COUNTRY_SOURCE_ID = "world-stage-countries"
@@ -118,19 +126,15 @@ function sourceData(data: ReturnType<typeof buildWorldStageCountryData>) {
   return data as unknown as Parameters<GeoJSONSource["setData"]>[0]
 }
 
-function propertiesToTooltip(
+function propertiesToIdentity(
   properties: Record<string, unknown> | null | undefined,
-): WorldStageTooltipItem | null {
+): Pick<WorldStageTooltipItem, "id" | "kind"> | null {
   if (!properties) return null
-  const { id, entityKind, label, meaning, asOf, sourceCount, iso3, role } = properties
+  const { id, entityKind, iso3, role } = properties
   if (role === "neutral") return null
   if (
     typeof entityKind !== "string" ||
-    !["country", "node", "flow"].includes(entityKind) ||
-    typeof label !== "string" ||
-    typeof meaning !== "string" ||
-    typeof asOf !== "string" ||
-    typeof sourceCount !== "number"
+    !["country", "node", "flow"].includes(entityKind)
   ) {
     return null
   }
@@ -141,16 +145,13 @@ function propertiesToTooltip(
   return {
     id: featureId,
     kind: entityKind as WorldStageTooltipItem["kind"],
-    label,
-    meaning,
-    asOf,
-    sourceCount,
   }
 }
 
 export function WorldStageMap({
   ref,
   scene,
+  filters,
   motionPaused,
   reducedMotion,
   onInteraction,
@@ -160,6 +161,7 @@ export function WorldStageMap({
   const mapContainerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<MapboxMap | null>(null)
   const activeSceneRef = useRef(scene)
+  const activeFiltersRef = useRef(filters)
   const motionPausedRef = useRef(motionPaused)
   const reducedMotionRef = useRef(reducedMotion)
   const renderedSceneIdRef = useRef<WorldStageScene["id"] | null>(null)
@@ -172,6 +174,8 @@ export function WorldStageMap({
   )
   const syncMotionRef = useRef<() => void>(() => undefined)
   const zoomMapRef = useRef<((delta: number) => boolean) | null>(null)
+  const refreshMapDataRef = useRef<() => void>(() => undefined)
+  const inspectionPinnedRef = useRef(false)
   const onInteractionRef = useRef(onInteraction)
   const [mapReady, setMapReady] = useState(false)
   const [fallbackZoom, setFallbackZoom] = useState(FALLBACK_INITIAL_ZOOM)
@@ -180,6 +184,7 @@ export function WorldStageMap({
   const [inspection, setInspection] = useState<Inspection | null>(null)
 
   activeSceneRef.current = scene
+  activeFiltersRef.current = filters
   motionPausedRef.current = motionPaused
   reducedMotionRef.current = reducedMotion
   onInteractionRef.current = onInteraction
@@ -208,14 +213,20 @@ export function WorldStageMap({
   function positionInspection(
     item: WorldStageTooltipItem,
     position: WorldStageInspectionPosition,
+    pinned = false,
   ) {
+    // Hover updates must not dislodge a source panel that the reader has
+    // explicitly pinned; otherwise the panel disappears as the pointer moves
+    // from the map feature to its links.
+    if (inspectionPinnedRef.current && !pinned) return
     const bounds = mapFrameRef.current?.getBoundingClientRect()
     const gutter = 132
     const x = bounds
       ? Math.max(gutter, Math.min(bounds.width - gutter, position.x))
       : position.x
     const y = Math.max(104, position.y)
-    setInspection({ item, position: { x, y } })
+    inspectionPinnedRef.current = pinned
+    setInspection({ item, position: { x, y }, pinned })
   }
 
   useEffect(() => {
@@ -224,10 +235,17 @@ export function WorldStageMap({
   }, [])
 
   useEffect(() => {
+    inspectionPinnedRef.current = false
     setInspection(null)
     setFallbackZoom(FALLBACK_INITIAL_ZOOM)
     if (scene) transitionToSceneRef.current(scene)
   }, [scene])
+
+  useEffect(() => {
+    inspectionPinnedRef.current = false
+    setInspection(null)
+    refreshMapDataRef.current()
+  }, [filters])
 
   useEffect(() => {
     syncMotionRef.current()
@@ -375,12 +393,12 @@ export function WorldStageMap({
       const nodeSource = map.getSource(NODE_SOURCE_ID) as GeoJSONSource | undefined
       countrySource?.setData(sourceData(buildWorldStageCountryData(nextScene, copy)))
       flowSource?.setData(
-        buildWorldStageFlowData(nextScene) as unknown as Parameters<
+        buildWorldStageFlowData(nextScene, activeFiltersRef.current) as unknown as Parameters<
           GeoJSONSource["setData"]
         >[0],
       )
       nodeSource?.setData(
-        buildWorldStageNodeData(nextScene) as unknown as Parameters<
+        buildWorldStageNodeData(nextScene, activeFiltersRef.current) as unknown as Parameters<
           GeoJSONSource["setData"]
         >[0],
       )
@@ -428,13 +446,19 @@ export function WorldStageMap({
       scheduleSpin()
     }
 
-    function inspectFeature(event: MapLayerMouseEvent) {
+    function inspectFeature(event: MapLayerMouseEvent, pinned = false) {
       const feature = event.features?.[0]
-      const item = propertiesToTooltip(
+      const identity = propertiesToIdentity(
         feature?.properties as Record<string, unknown> | null | undefined,
       )
+      const activeScene = activeSceneRef.current
+      if (!identity || !activeScene) return
+      const item = getWorldStageTooltipItems(activeScene, copy).find(
+        (candidate) =>
+          candidate.id === identity.id && candidate.kind === identity.kind,
+      )
       if (!item) return
-      positionInspection(item, { x: event.point.x, y: event.point.y })
+      positionInspection(item, { x: event.point.x, y: event.point.y }, pinned)
     }
 
     function handleCountryMove(event: MapLayerMouseEvent) {
@@ -462,9 +486,21 @@ export function WorldStageMap({
       inspectFeature(event)
     }
 
+    function handleCountryClick(event: MapLayerMouseEvent) {
+      handleCountryMove(event)
+      inspectFeature(event, true)
+    }
+
+    function handleFeatureClick(event: MapLayerMouseEvent) {
+      if (!map) return
+      map.getCanvas().style.cursor = "pointer"
+      inspectFeature(event, true)
+    }
+
     function clearFeatureInspection() {
       if (!map) return
       map.getCanvas().style.cursor = "grab"
+      if (inspectionPinnedRef.current) return
       setInspection(null)
     }
 
@@ -483,13 +519,13 @@ export function WorldStageMap({
       })
       map.addSource(FLOW_SOURCE_ID, {
         type: "geojson",
-        data: buildWorldStageFlowData(nextScene) as unknown as Parameters<
+        data: buildWorldStageFlowData(nextScene, activeFiltersRef.current) as unknown as Parameters<
           GeoJSONSource["setData"]
         >[0],
       })
       map.addSource(NODE_SOURCE_ID, {
         type: "geojson",
-        data: buildWorldStageNodeData(nextScene) as unknown as Parameters<
+        data: buildWorldStageNodeData(nextScene, activeFiltersRef.current) as unknown as Parameters<
           GeoJSONSource["setData"]
         >[0],
       })
@@ -567,7 +603,23 @@ export function WorldStageMap({
         source: FLOW_SOURCE_ID,
         layout: { "line-cap": "round", "line-join": "round" },
         paint: {
-          "line-color": "#87d5dd",
+          "line-color": [
+            "match",
+            ["get", "relation"],
+            "ownership",
+            WORLD_STAGE_FLOW_RELATION_COLORS.ownership,
+            "supply",
+            WORLD_STAGE_FLOW_RELATION_COLORS.supply,
+            "export-control jurisdiction",
+            WORLD_STAGE_FLOW_RELATION_COLORS["export-control jurisdiction"],
+            "research collaboration",
+            WORLD_STAGE_FLOW_RELATION_COLORS["research collaboration"],
+            "capital",
+            WORLD_STAGE_FLOW_RELATION_COLORS.capital,
+            "standards participation",
+            WORLD_STAGE_FLOW_RELATION_COLORS["standards participation"],
+            "#87d5dd",
+          ],
           "line-width": [
             "match",
             ["get", "weight"],
@@ -589,7 +641,23 @@ export function WorldStageMap({
           "circle-radius": 7.2,
           "circle-color": "#07111f",
           "circle-opacity": 0.94,
-          "circle-stroke-color": "#f0c96f",
+          "circle-stroke-color": [
+            "match",
+            ["get", "semiconductorRole"],
+            "fab",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.fab,
+            "design",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.design,
+            "sme",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.sme,
+            "materials",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.materials,
+            "packaging",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.packaging,
+            "eda",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.eda,
+            "#f0c96f",
+          ],
           "circle-stroke-width": 1.5,
           "circle-stroke-opacity": 1,
           "circle-emissive-strength": 0.94,
@@ -601,7 +669,23 @@ export function WorldStageMap({
         source: NODE_SOURCE_ID,
         paint: {
           "circle-radius": 3.3,
-          "circle-color": "#ffe09a",
+          "circle-color": [
+            "match",
+            ["get", "semiconductorRole"],
+            "fab",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.fab,
+            "design",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.design,
+            "sme",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.sme,
+            "materials",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.materials,
+            "packaging",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.packaging,
+            "eda",
+            WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS.eda,
+            "#ffe09a",
+          ],
           "circle-opacity": 1,
           "circle-emissive-strength": 1,
         },
@@ -609,13 +693,13 @@ export function WorldStageMap({
 
       map.on("mousemove", COUNTRY_FILL_LAYER_ID, handleCountryMove)
       map.on("mouseleave", COUNTRY_FILL_LAYER_ID, clearCountryInspection)
-      map.on("click", COUNTRY_FILL_LAYER_ID, handleCountryMove)
+      map.on("click", COUNTRY_FILL_LAYER_ID, handleCountryClick)
       map.on("mousemove", FLOW_LAYER_ID, handleFeatureMove)
       map.on("mouseleave", FLOW_LAYER_ID, clearFeatureInspection)
-      map.on("click", FLOW_LAYER_ID, handleFeatureMove)
+      map.on("click", FLOW_LAYER_ID, handleFeatureClick)
       map.on("mousemove", NODE_HALO_LAYER_ID, handleFeatureMove)
       map.on("mouseleave", NODE_HALO_LAYER_ID, clearFeatureInspection)
-      map.on("click", NODE_HALO_LAYER_ID, handleFeatureMove)
+      map.on("click", NODE_HALO_LAYER_ID, handleFeatureClick)
     }
 
     function handleMapLoad() {
@@ -665,6 +749,7 @@ export function WorldStageMap({
       transitionToSceneRef.current = () => undefined
       syncMotionRef.current = () => undefined
       zoomMapRef.current = null
+      refreshMapDataRef.current = () => undefined
       automaticTransitionRef.current = null
 
       if (canvas) canvas.removeEventListener("webglcontextlost", handleContextLost)
@@ -705,6 +790,9 @@ export function WorldStageMap({
     transitionToSceneRef.current = transitionToScene
     syncMotionRef.current = syncMotion
     zoomMapRef.current = zoomMap
+    refreshMapDataRef.current = () => {
+      if (activeSceneRef.current) setSceneData(activeSceneRef.current)
+    }
 
     void import("mapbox-gl")
       .then((module: MapboxModule) => {
@@ -778,7 +866,9 @@ export function WorldStageMap({
 
   const tooltipItems = getWorldStageTooltipItems(scene, copy)
   const tooltipStyle = inspection
-    ? ({ left: inspection.position.x, top: inspection.position.y } as CSSProperties)
+    ? inspection.pinned
+      ? ({ left: "50%", top: "50%" } as CSSProperties)
+      : ({ left: inspection.position.x, top: inspection.position.y } as CSSProperties)
     : undefined
 
   return (
@@ -793,9 +883,12 @@ export function WorldStageMap({
       >
         <WorldStageFallbackMap
           scene={scene}
+          filters={filters}
           zoom={fallbackZoom}
           onInspect={positionInspection}
-          onClearInspection={() => setInspection(null)}
+          onClearInspection={() => {
+            if (!inspectionPinnedRef.current) setInspection(null)
+          }}
           onInteraction={onInteraction}
           presentation={copy}
         />
@@ -807,15 +900,55 @@ export function WorldStageMap({
         aria-hidden="true"
       />
 
-      {inspection ? (
-        <div className={styles.mapTooltip} style={tooltipStyle} role="status">
+      {inspection
+        ? createPortal(
+            <div
+              className={`${styles.mapTooltip} ${
+                inspection.pinned ? styles.mapTooltipPinned : ""
+              }`}
+              style={tooltipStyle}
+              role={inspection.pinned ? "dialog" : "status"}
+              aria-label={inspection.item.label}
+            >
+          {inspection.pinned ? (
+            <button
+              type="button"
+              className={styles.mapTooltipClose}
+              aria-label={copy?.tooltipClose ?? "Close source details"}
+              onClick={() => {
+                inspectionPinnedRef.current = false
+                setInspection(null)
+              }}
+            >
+              ×
+            </button>
+          ) : null}
           <p className={styles.mapTooltipLabel}>{inspection.item.label}</p>
           <p className={styles.mapTooltipMeaning}>{inspection.item.meaning}</p>
           <p className={styles.mapTooltipMeta}>
             {copy?.tooltipReviewedThrough ?? "Reviewed through"} {inspection.item.asOf}
           </p>
-        </div>
-      ) : null}
+          {inspection.item.sources.length > 0 ? (
+            <div className={styles.mapTooltipSources}>
+              <p>{copy?.tooltipSources ?? "Sources"}</p>
+              <ul>
+                {inspection.item.sources.map((source) => (
+                  <li key={source.id}>
+                    <a href={source.url} target="_blank" rel="noreferrer">
+                      {source.title}
+                    </a>
+                    <span>{source.publisher} · {source.date}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+            </div>,
+            inspection.pinned
+              ? mapFrameRef.current?.parentElement ?? document.body
+              : mapFrameRef.current ?? document.body,
+          )
+        : null}
 
       <section className={styles.visuallyHidden}>
         <h2>{scene.publicLabel}</h2>
@@ -828,6 +961,11 @@ export function WorldStageMap({
           {tooltipItems.map((item) => (
             <li key={`${item.kind}-${item.id}`}>
               {item.label}{copy ? "：" : ": "}{item.meaning}
+              {" "}
+              {(copy?.tooltipSources ?? "Sources")}:{" "}
+              {item.sources
+                .map((source) => `${source.publisher}, ${source.date}, ${source.url}`)
+                .join("; ")}
             </li>
           ))}
         </ul>

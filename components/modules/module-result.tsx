@@ -110,6 +110,7 @@ export function ModuleResultView({
                 </div>
                 <ScaleBar
                   value={lane.score}
+                  valueLabel={lane.score.toFixed(1)}
                   lowLabel={lane.lowLabel}
                   highLabel={lane.highLabel}
                   tone={slug}
@@ -262,8 +263,9 @@ export function ModuleResultView({
           <div className="stack-xs">
             <h2>Module profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These scores run from 1 to 7 within this module. The labels below name the two poles,
-              not population percentiles{hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}
+              These are directional scores inside this module, not population percentiles. The
+              labels name the two directions rather than empirical endpoints
+              {hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}
             </p>
           </div>
 
@@ -273,6 +275,7 @@ export function ModuleResultView({
                 <ScaleBar
                   label={axis.label}
                   value={result.scores[axis.key]}
+                  valueLabel={result.scores[axis.key].toFixed(1)}
                   lowLabel={axis.lowLabel}
                   highLabel={axis.highLabel}
                   tone={slug}

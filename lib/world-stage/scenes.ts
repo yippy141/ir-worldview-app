@@ -8,9 +8,11 @@ import {
   WORLD_STAGE_CONFIDENCE_LEVELS,
   WORLD_STAGE_COUNTRY_ROLES,
   WORLD_STAGE_FLOW_KINDS,
+  WORLD_STAGE_FLOW_RELATIONS,
   WORLD_STAGE_MENU_IDS,
   WORLD_STAGE_NODE_KINDS,
   WORLD_STAGE_SCENE_IDS,
+  WORLD_STAGE_SEMICONDUCTOR_ROLES,
   type CountryRole,
   type WorldStageConfidence,
   type WorldStageCountryRole,
@@ -22,6 +24,7 @@ import {
   type WorldStageScene,
   type WorldStageSceneId,
   type WorldStageSceneOption,
+  type WorldStageSource,
   type WorldStageValidationError,
   type WorldStageValidationResult,
   type WorldStageUtilityDestination,
@@ -38,6 +41,7 @@ type RawCountryRole = {
 type RawNode = {
   id: string
   kind: string
+  semiconductorRole?: string
   label: string
   /** Research ledger convention: [latitude, longitude]. */
   coordinates: [number, number]
@@ -50,6 +54,7 @@ type RawNode = {
 type RawFlow = {
   id: string
   kind: string
+  relation?: string
   label: string
   from: string
   to: string
@@ -79,10 +84,22 @@ type RawSceneLedger = {
   scenes: RawScene[]
 }
 
+type RawSourceRecord = Omit<WorldStageSource, "id"> & { sourceId: string }
+
 const sceneLedger = sceneLedgerJson as unknown as RawSceneLedger
 const rawScenes = sceneLedger.scenes
+const sourceLedger = (sourceLedgerJson as RawSourceRecord[]).map(
+  ({ sourceId, title, publisher, date, url }) => ({
+    id: sourceId,
+    title,
+    publisher,
+    date,
+    url,
+  }),
+)
+const sourceById = new Map(sourceLedger.map((source) => [source.id, source]))
 const knownSourceRefs = new Set(
-  (sourceLedgerJson as Array<{ sourceId: string }>).map((source) => source.sourceId),
+  sourceLedger.map((source) => source.id),
 )
 const expectedSceneIds = new Set<string>(WORLD_STAGE_SCENE_IDS)
 const supportedMenuIds = new Set<string>(WORLD_STAGE_MENU_IDS)
@@ -104,6 +121,7 @@ const rawRoleMap: Record<string, CountryRole> = {
  */
 export const WORLD_STAGE_ROLE_ADJUSTMENTS = {
   "semiconductor_advanced_manufacturing_networks:NLD": "focus",
+  "semiconductor_advanced_manufacturing_networks:DEU": "focus",
   "frontier_ai_compute_chips_cloud_governance:TWN": "focus",
   "frontier_ai_compute_chips_cloud_governance:NLD": "focus",
 } as const satisfies Record<string, CountryRole>
@@ -113,6 +131,8 @@ export const WORLD_STAGE_OMITTED_FLOW_IDS = {
   f_us_uk_governance:
     "SRC41 and SRC43 document separate national institutions, not a direct Washington-London flow.",
 } as const
+
+const relationRequiredSceneIds = new Set<WorldStageSceneId>(["focus-areas", "futures"])
 
 type SceneBinding = {
   id: WorldStageSceneId
@@ -208,6 +228,8 @@ function compileScene(binding: SceneBinding): WorldStageScene {
     id: nodeId(node.id),
     researchId: node.id,
     kind: node.kind as WorldStageNode["kind"],
+    semiconductorRole:
+      node.semiconductorRole as WorldStageNode["semiconductorRole"],
     label: node.label,
     coordinates: [node.coordinates[1], node.coordinates[0]],
     whyItMatters: node.whyItMatters,
@@ -223,6 +245,7 @@ function compileScene(binding: SceneBinding): WorldStageScene {
       id: nodeId(flow.id),
       researchId: flow.id,
       kind: flow.kind as WorldStageFlow["kind"],
+      relation: flow.relation as WorldStageFlow["relation"],
       label: flow.label,
       fromNodeId: nodeId(flow.from),
       toNodeId: nodeId(flow.to),
@@ -258,6 +281,13 @@ function compileScene(binding: SceneBinding): WorldStageScene {
 }
 
 export const worldStageScenes = sceneBindings.map(compileScene)
+
+export function getWorldStageSources(sourceRefs: readonly string[]) {
+  return sourceRefs.flatMap((sourceRef) => {
+    const source = sourceById.get(sourceRef)
+    return source ? [source] : []
+  })
+}
 
 export const worldStageSceneOptions = [
   { sceneId: "foundation", label: "Pacific alliances" },
@@ -550,6 +580,25 @@ export function validateWorldStageCatalog(
         addError("node.kind.invalid", `${nodePath}.kind`, `Unsupported node kind: ${node.kind}.`)
       }
       if (
+        scene.id === "focus-areas" &&
+        !isNonEmptyString(node.semiconductorRole)
+      ) {
+        addError(
+          "node.semiconductor-role.missing",
+          `${nodePath}.semiconductorRole`,
+          "Chip-network nodes require a semiconductor role.",
+        )
+      } else if (
+        node.semiconductorRole !== undefined &&
+        !WORLD_STAGE_SEMICONDUCTOR_ROLES.includes(node.semiconductorRole)
+      ) {
+        addError(
+          "node.semiconductor-role.invalid",
+          `${nodePath}.semiconductorRole`,
+          `Unsupported semiconductor role: ${String(node.semiconductorRole)}.`,
+        )
+      }
+      if (
         !Array.isArray(node.coordinates) ||
         node.coordinates.length !== 2 ||
         !Number.isFinite(node.coordinates[0]) ||
@@ -599,6 +648,25 @@ export function validateWorldStageCatalog(
 
       if (!WORLD_STAGE_FLOW_KINDS.includes(flow.kind)) {
         addError("flow.kind.invalid", `${flowPath}.kind`, `Unsupported flow kind: ${flow.kind}.`)
+      }
+      if (
+        relationRequiredSceneIds.has(scene.id) &&
+        !isNonEmptyString(flow.relation)
+      ) {
+        addError(
+          "flow.relation.missing",
+          `${flowPath}.relation`,
+          "Chip and AI-infrastructure flows require a declared relation.",
+        )
+      } else if (
+        flow.relation !== undefined &&
+        !WORLD_STAGE_FLOW_RELATIONS.includes(flow.relation)
+      ) {
+        addError(
+          "flow.relation.invalid",
+          `${flowPath}.relation`,
+          `Unsupported flow relation: ${String(flow.relation)}.`,
+        )
       }
       if (!(flow.direction === "one-way" || flow.direction === "two-way")) {
         addError(

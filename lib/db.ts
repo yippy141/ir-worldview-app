@@ -10,7 +10,7 @@ export type DatabaseClient = {
   ): Promise<Row[]>
 }
 
-function createDatabaseClient(connectionString?: string): DatabaseClient {
+export function createDatabaseClient(connectionString?: string): DatabaseClient {
   if (!connectionString) {
     return {
       isConfigured: false,

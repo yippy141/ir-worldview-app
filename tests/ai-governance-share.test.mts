@@ -5,6 +5,10 @@ import {
   encodeAiPayload,
   type AiSharePayload,
 } from "@/lib/ai-governance-share"
+import {
+  buildAiGovernanceResultFromSharePayload,
+  getNearbyAlternativeLabel,
+} from "@/lib/ai-governance-results-v2"
 
 const payload: AiSharePayload = {
   v: 1,
@@ -39,4 +43,11 @@ test("AI governance malformed payloads fail safely", () => {
   for (const encoded of malformedPayloads) {
     assert.equal(decodeAiPayload(encoded), null)
   }
+})
+
+test("AI results always expose the nearest modeled alternative", () => {
+  const result = buildAiGovernanceResultFromSharePayload(payload)
+
+  assert.notEqual(getNearbyAlternativeLabel(result), null)
+  assert.equal("clarity" in result, false)
 })

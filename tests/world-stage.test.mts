@@ -8,6 +8,7 @@ import {
 import {
   buildWorldStageCountryData,
   buildWorldStageFlowData,
+  buildWorldStageNodeData,
   getWorldStageFallbackFlows,
   getWorldStageFallbackNodes,
   getWorldStageTooltipItems,
@@ -36,9 +37,11 @@ import {
 import {
   WORLD_STAGE_COUNTRY_ROLES,
   WORLD_STAGE_FLOW_KINDS,
+  WORLD_STAGE_FLOW_RELATIONS,
   WORLD_STAGE_MENU_IDS,
   WORLD_STAGE_NODE_KINDS,
   WORLD_STAGE_SCENE_IDS,
+  WORLD_STAGE_SEMICONDUCTOR_ROLES,
 } from "@/lib/world-stage/types"
 import type {
   WorldStageMenuItem,
@@ -62,6 +65,7 @@ type ResearchScene = {
   nodes: Array<{
     id: string
     kind: string
+    semiconductorRole?: string
     label: string
     coordinates: [number, number]
     whyItMatters: string
@@ -71,6 +75,7 @@ type ResearchScene = {
   flows: Array<{
     id: string
     kind: string
+    relation?: string
     label: string
     from: string
     to: string
@@ -291,6 +296,80 @@ test("node and flow IDs are unique, coordinates are valid, and vocabularies are 
   }
 })
 
+test("chip-network roles and infrastructure relations are explicit, filterable, and sourced", () => {
+  const chipScene = worldStageScenes.find((scene) => scene.id === "focus-areas")
+  const aiScene = worldStageScenes.find((scene) => scene.id === "futures")
+  assert.ok(chipScene)
+  assert.ok(aiScene)
+
+  const validRoles = new Set<string>(WORLD_STAGE_SEMICONDUCTOR_ROLES)
+  const validRelations = new Set<string>(WORLD_STAGE_FLOW_RELATIONS)
+  for (const node of chipScene.nodes) {
+    assert.equal(validRoles.has(node.semiconductorRole ?? ""), true, node.researchId)
+  }
+  for (const flow of [...chipScene.flows, ...aiScene.flows]) {
+    assert.equal(validRelations.has(flow.relation ?? ""), true, flow.researchId)
+  }
+
+  assert.deepEqual(
+    chipScene.nodes
+      .filter((node) => node.semiconductorRole === "sme")
+      .map((node) => node.researchId)
+      .sort(),
+    [
+      "n_de_zeiss_oberkochen",
+      "n_jp_tel_yamanashi",
+      "n_nl_veldhoven",
+      "n_us_applied_santaclara",
+      "n_us_kla_milpitas",
+      "n_us_lam_fremont",
+    ],
+  )
+  assert.deepEqual(
+    chipScene.nodes
+      .filter((node) => node.semiconductorRole === "materials")
+      .map((node) => node.researchId)
+      .sort(),
+    [
+      "n_jp_jsr_yokkaichi",
+      "n_jp_shinetsu_shirakawa",
+      "n_jp_sumco_imari",
+      "n_jp_tok_koriyama",
+    ],
+  )
+
+  const materials = buildWorldStageNodeData(chipScene, {
+    semiconductorRole: "materials",
+  })
+  assert.equal(materials.features.length, 4)
+  assert.equal(
+    materials.features.every(
+      (feature) => feature.properties.semiconductorRole === "materials",
+    ),
+    true,
+  )
+
+  const supply = buildWorldStageFlowData(chipScene, { relation: "supply" })
+  assert.equal(supply.features.length, 3)
+  assert.equal(
+    supply.features.every((feature) => feature.properties.relation === "supply"),
+    true,
+  )
+
+  const tooltipItems = getWorldStageTooltipItems(chipScene)
+  for (const item of tooltipItems.filter((candidate) => candidate.kind !== "country")) {
+    assert.equal(item.sources.length, item.sourceCount)
+    for (const source of item.sources) {
+      assert.ok(source.url.length > 0)
+      assert.ok(source.date.length > 0)
+      assert.doesNotThrow(() => new URL(source.url))
+    }
+  }
+
+  assert.equal(chipScene.flows.some((flow) => flow.researchId === "f_tw_my_backend"), false)
+  assert.equal(aiScene.flows.some((flow) => flow.researchId === "f_kr_us_memory"), false)
+})
+
 test("no visible flow lacks meaning, date, direction, confidence, or evidence", () => {
   for (const scene of worldStageScenes) {
     const flowData = buildWorldStageFlowData(scene)
@@ -437,6 +516,15 @@ test("validation fails closed when required scene, role, node, flow, or camera f
   const invalidCamera = structuredClone(worldStageScenes) as unknown as WorldStageScene[]
   invalidCamera[0].camera.center = [181, 0]
   hasCode(validationCodes(invalidCamera), "camera.invalid")
+
+  const missingChipRole = structuredClone(worldStageScenes) as unknown as WorldStageScene[]
+  delete (missingChipRole[1].nodes[0] as unknown as Record<string, unknown>)
+    .semiconductorRole
+  hasCode(validationCodes(missingChipRole), "node.semiconductor-role.missing")
+
+  const missingNetworkRelation = structuredClone(worldStageScenes) as unknown as WorldStageScene[]
+  delete (missingNetworkRelation[1].flows[0] as unknown as Record<string, unknown>).relation
+  hasCode(validationCodes(missingNetworkRelation), "flow.relation.missing")
 })
 
 test("scene and entity uniqueness validation rejects duplicate records", () => {

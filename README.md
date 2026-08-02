@@ -108,10 +108,10 @@ Set the server-only `DATABASE_URL` to a Neon Postgres connection string
 compatible with `@neondatabase/serverless`. Apply the SQL files in
 `db/migrations/` in numeric order. `DATABASE_URL` alone does not activate
 collection: set `TIER1_AGGREGATES_ENABLED=true` only after the migrations have
-been verified, server error monitoring is live, and platform request throttling
-has been configured for `/api/aggregate/result`. Until then, result,
-completion-step, and item-response-latency counters and percentile display are
-intentional no-ops.
+been executed and inspected in that environment, the exact aggregate-only
+write contract has been verified, silent-failure tests pass, and server-side
+small-cell suppression is confirmed. Until then, result, completion-step, and
+item-response-latency counters and percentile display are intentional no-ops.
 
 Do not prefix this variable with `NEXT_PUBLIC_`: it must never be included in
 the browser bundle. The same applies to `TIER1_AGGREGATES_ENABLED`. Tier 1
