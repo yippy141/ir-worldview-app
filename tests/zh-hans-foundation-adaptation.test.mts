@@ -25,7 +25,14 @@ function structuralFingerprint(question: Question) {
     return {
       id: question.id,
       kind: question.kind,
-      dimension: question.dimension,
+      tier: question.tier,
+      scoringBlock: question.scoringBlock,
+      dimension:
+        question.scoringBlock === "core" ? question.dimension : undefined,
+      validationScale:
+        question.scoringBlock === "validation"
+          ? question.validationScale
+          : undefined,
       reverse: question.reverse ?? false,
       optionIds: [],
       signals: [],
@@ -53,18 +60,18 @@ test("the owner-approved Foundation adaptation is an explicit, non-equivalent be
     "not-validated-or-equivalent",
   )
   assert.equal(zhHansFoundationInstrumentManifest.runtimeEnabled, true)
-  assert.equal(zhHansFoundationInstrumentManifest.canonicalSchemaVersion, 3)
-  assert.equal(zhHansFoundationInstrumentManifest.scoringVersion, 1)
+  assert.equal(zhHansFoundationInstrumentManifest.canonicalSchemaVersion, 4)
+  assert.equal(zhHansFoundationInstrumentManifest.scoringVersion, 2)
   assert.equal(zhHansFoundationInstrumentManifest.localeCopyVersion, 1)
   assert.ok(zhHansCopyDeckManifest.includes.includes("foundation-instrument"))
   assert.ok(!(zhHansCopyDeckManifest.excludes as readonly string[]).includes("foundation-instrument"))
 })
 
-test("all 44 canonical items have complete bilingual editorial records in canonical order", () => {
+test("all 68 canonical items have complete bilingual editorial records in canonical order", () => {
   const canonical = getFoundationQuestions("analyst")
 
-  assert.equal(questionCountsByMode.standard, 20)
-  assert.equal(questionCountsByMode.analyst, 44)
+  assert.equal(questionCountsByMode.standard, 32)
+  assert.equal(questionCountsByMode.analyst, 68)
   assert.equal(zhHansFoundationDrafts.length, canonical.length)
   assert.equal(zhHansFoundationBackTranslations.length, canonical.length)
   assert.equal(zhHansFoundationItemIntentSheet.length, canonical.length)

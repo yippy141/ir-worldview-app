@@ -1,6 +1,7 @@
 import { zhHansFoundationAnalystItemAnalysisA } from "@/content/locales/zh-Hans/foundation-item-analysis-analyst-a"
 import { zhHansFoundationAnalystItemAnalysisB } from "@/content/locales/zh-Hans/foundation-item-analysis-analyst-b"
 import { zhHansFoundationStandardItemAnalysis } from "@/content/locales/zh-Hans/foundation-item-analysis-standard"
+import { zhHansFoundationV21ItemAnalysis } from "@/content/locales/zh-Hans/foundation-v21-additions"
 import { zhHansFoundationBackTranslationByQuestionId } from "@/content/locales/zh-Hans/foundation-back-translations"
 import { zhHansFoundationDraftByQuestionId } from "@/content/locales/zh-Hans/foundation-copy"
 import type {
@@ -11,6 +12,7 @@ import { getFoundationQuestions } from "@/lib/quiz-schema"
 
 export const zhHansFoundationItemAnalysis = [
   ...zhHansFoundationStandardItemAnalysis,
+  ...zhHansFoundationV21ItemAnalysis,
   ...zhHansFoundationAnalystItemAnalysisA,
   ...zhHansFoundationAnalystItemAnalysisB,
 ] as const satisfies readonly FoundationItemAnalysis[]

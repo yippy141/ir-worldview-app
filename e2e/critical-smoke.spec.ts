@@ -190,6 +190,34 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await expect(page).toHaveURL(/\/results\/[A-Za-z0-9_-]+$/)
   await expect(page.getByRole("link", { name: "View Profile" })).toBeVisible()
 
+  const analogueLink = page.locator(".foundation-result-analogue a")
+  if (await analogueLink.count()) {
+    await expect(analogueLink).toBeVisible()
+    await expect(analogueLink).toHaveAttribute(
+      "href",
+      /^\/archetypes\/[prms]-(plus|minus)\?from=%2Fresults%2F[A-Za-z0-9_-]+$/,
+    )
+    const evidencePage = await context.newPage()
+    await evidencePage.goto(await analogueLink.getAttribute("href") ?? "/")
+    await expect(
+      evidencePage.getByRole("heading", { name: "Why this comparison fits" }),
+    ).toBeVisible()
+    await expect(
+      evidencePage.getByRole("heading", { name: "Where the comparison breaks" }),
+    ).toBeVisible()
+    const backToResult = evidencePage.getByRole("link", {
+      name: "← Back to your result",
+    })
+    await expect(backToResult).toHaveAttribute(
+      "href",
+      new URL(page.url()).pathname,
+    )
+    await backToResult.click()
+    await expect(evidencePage).toHaveURL(page.url())
+    await expect(evidencePage.getByText("Invalid result")).toHaveCount(0)
+    await evidencePage.close()
+  }
+
   await page.getByRole("button", { name: "Copy share link" }).click()
   await expect(page.getByRole("button", { name: "Link copied" })).toBeVisible()
   const shareUrl = await page.evaluate(() => navigator.clipboard.readText())
@@ -205,6 +233,23 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await expect(page).toHaveURL(/\/profile$/)
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
   await expect(page.getByText("No Foundation baseline is saved", { exact: false })).toHaveCount(0)
+})
+
+test("historical analogue pages show both the comparison and its limit", async ({
+  page,
+}) => {
+  await page.goto("/archetypes/p-plus")
+
+  await expect(
+    page.getByRole("heading", { level: 1, name: "The Hegemon" }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Why this comparison fits" }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Where the comparison breaks" }),
+  ).toBeVisible()
+  await expect(page.getByText("This is a comparison, not an identity")).toBeVisible()
 })
 
 test("Worldview Map switches between list and map views", async ({ page }) => {
@@ -345,6 +390,7 @@ test.describe("390px viewport", () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
   test("World Stage and Foundation remain within the viewport", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" })
     await page.goto("/")
 
     const mapViews = page.locator("#world-stage-map-view option")
@@ -358,6 +404,34 @@ test.describe("390px viewport", () => {
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
     ).toBe(true)
+
+    await page.locator("#world-stage-map-view").selectOption("focus-areas")
+    const layerFilters = page.getByTestId("world-stage-layer-filters")
+    await layerFilters.locator("summary").click()
+    await page.getByRole("combobox", { name: "Node type" }).selectOption("materials")
+    await page.getByRole("combobox", { name: "Relation" }).selectOption("supply")
+    await expect(page.getByRole("combobox", { name: "Node type" })).toHaveValue("materials")
+    await expect(page.getByRole("combobox", { name: "Relation" })).toHaveValue("supply")
+    await expect(layerFilters).toContainText("Materials")
+    await expect(layerFilters).toContainText("Supply")
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
+    ).toBe(true)
+
+    const sourcedMaterialNode = page.locator(
+      '[data-node-id="focus-areas--n_jp_jsr_yokkaichi"]',
+    )
+    await expect(sourcedMaterialNode).toBeVisible()
+    await sourcedMaterialNode.click()
+    const sourceDialog = page.getByRole("dialog", { name: "JSR Yokkaichi" })
+    await expect(sourceDialog).toBeVisible()
+    await expect(
+      sourceDialog.getByRole("link", {
+        name: "Leading-edge photoresist development and Yokkaichi site materials",
+      }),
+    ).toBeVisible()
+    await sourceDialog.getByRole("button", { name: "Close source details" }).click()
+    await layerFilters.locator("summary").click()
 
     await page
       .getByRole("navigation", { name: "World Stage sections" })

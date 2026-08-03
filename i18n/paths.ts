@@ -92,8 +92,16 @@ export function localizedAlternates(pathname: string) {
 
 export function resolveMetadataBase() {
   const configured = process.env.SITE_URL?.trim()
+  const deploymentHost = process.env.VERCEL_URL?.trim()
   const productionHost = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim()
-  const candidate = configured || (productionHost ? `https://${productionHost}` : "")
+  const previewUrl =
+    process.env.VERCEL_ENV === "preview" && deploymentHost
+      ? `https://${deploymentHost}`
+      : ""
+  const candidate =
+    previewUrl ||
+    configured ||
+    (productionHost ? `https://${productionHost}` : "")
 
   try {
     return new URL(candidate || "http://localhost:3000")

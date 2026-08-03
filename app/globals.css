@@ -853,6 +853,150 @@ h3 {
   }
 }
 
+/* ── Live position map (F2) ──────────────────────────────────────────────────
+   The 2x2 projection runs beside the question so a respondent can watch the
+   reading form. Desktop stacks the plot over its readout in the header's right
+   column; below 640px the whole element becomes one short full-width strip so
+   the question keeps its place on screen. */
+
+/* The map occupies a second column of the header panel, so it draws on height
+   the title, progress bar, and controls already use. The grid only engages
+   where the map renders; locales without approved map copy keep one column. */
+.quiz-header--with-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 168px;
+  gap: 24px 40px;
+  align-items: start;
+}
+
+.quiz-header__main {
+  min-width: 0;
+}
+
+.quiz-position-map {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.quiz-position-map__figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.quiz-position-map__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.quiz-position-map__axis {
+  fill: var(--muted);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
+/* Brief, eased move to the new reading. */
+.quiz-position-map__marker {
+  transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  animation: quiz-position-marker-in 240ms ease-out both;
+}
+
+@keyframes quiz-position-marker-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.quiz-position-map__label {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.quiz-position-map__pending {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+.quiz-position-map__readout {
+  display: grid;
+  gap: 6px;
+  margin: 2px 0 0;
+}
+
+.quiz-position-map__readout dt {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.64rem;
+  letter-spacing: 0.03em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.quiz-position-map__readout dd {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.76rem;
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quiz-position-map__marker {
+    transition: none;
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .quiz-header--with-map {
+    grid-template-columns: minmax(0, 1fr) 156px;
+    gap: 20px 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .quiz-header--with-map {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  /* Compact strip: plot on the left, readout beside it, one line per axis. */
+  .quiz-position-map {
+    grid-template-columns: 72px minmax(0, 1fr);
+    align-items: center;
+    gap: 14px;
+  }
+
+  /* Axis poles do not survive the size reduction; the readout carries them. */
+  .quiz-position-map__axis {
+    display: none;
+  }
+
+  /* The section keeps its accessible name; the readout terms carry it visually. */
+  .quiz-position-map__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .quiz-position-map__readout {
+    gap: 4px;
+    margin: 0;
+  }
+}
+
 /* Midpoint preview interstitial */
 .quiz-midpoint {
   padding: 32px;
@@ -3128,14 +3272,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   }
 }
 
-.result-signature-meta dd.result-signature-gloss {
-  margin-top: 4px;
-  font-family: inherit;
-  font-size: 0.78rem;
-  line-height: 1.45;
-  color: var(--muted);
-}
-
 .atlas-fingerprint {
   display: grid;
   gap: 10px;
@@ -3260,45 +3396,6 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 .result-hero-copy {
   min-width: 0;
-}
-
-.result-signature-panel {
-  min-width: 0;
-  padding: 22px 22px 20px;
-  border: 1px solid color-mix(in srgb, var(--border-soft) 80%, var(--accent) 20%);
-  border-radius: 8px;
-  background: var(--panel);
-}
-
-.result-signature-scales {
-  display: grid;
-  gap: 12px;
-}
-
-.result-signature-meta {
-  margin: 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px 18px;
-}
-
-.result-signature-meta dt {
-  margin: 0 0 4px;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.result-signature-meta dd {
-  margin: 0;
-  color: var(--text);
-  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
-  font-size: 0.96rem;
-  line-height: 1.35;
 }
 
 .profile-mosaic {
@@ -6311,10 +6408,6 @@ html:lang(zh-Hans) .quiz-shell-label {
     grid-template-columns: 1fr;
   }
 
-  .result-signature-meta {
-    grid-template-columns: 1fr;
-  }
-
   .ai-result-overview,
   .ai-result-summary-grid,
   .ai-result-policy-grid,
@@ -7956,41 +8049,237 @@ html:lang(zh-Hans) .quiz-shell-label {
   line-height: 1.7;
 }
 
-.foundation-result-hero {
+/* Above-the-fold block: archetype card, strongest-three bands, the line that
+   would change the reading, one next action, and the field map. */
+/* The map column is floored so the plot square clears 420px on desktop. */
+.foundation-result-lede {
   display: grid;
-  grid-template-columns: minmax(0, 1.55fr) minmax(260px, 0.65fr);
-  gap: 48px 72px;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.95fr);
+  gap: 48px 56px;
+  align-items: start;
 }
 
-.foundation-result-hero__copy {
+.foundation-result-lede__copy {
   min-width: 0;
 }
 
-.foundation-result-hero__classification {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  align-items: baseline;
-  margin: 0;
-  color: var(--muted);
-  font-family: var(--sans);
-  font-size: 0.8rem;
-  line-height: 1.5;
-}
-
-.foundation-result-hero__classification strong {
-  color: var(--text);
-  font-weight: 650;
-}
-
-.foundation-result-hero__profile {
+.foundation-result-lede__map {
   min-width: 0;
+  display: grid;
+  gap: 26px;
   padding-top: 20px;
   border-top: 1px solid color-mix(in srgb, var(--line) 68%, var(--accent) 32%);
 }
 
-.foundation-result-hero__profile-label,
+/* Below this the two-column hero can no longer give the plot its 420px floor
+   without starving the lede copy, so the map takes its own full-width row and
+   is centred at the reference size. */
+@media (max-width: 1139px) {
+  .foundation-result-lede {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Three-part classification under the archetype name */
+.foundation-result-code {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.foundation-result-analogue {
+  max-width: 62ch;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.foundation-result-analogue a {
+  color: var(--text);
+  text-decoration-color: color-mix(in srgb, var(--accent) 65%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.foundation-result-analogue a:hover {
+  color: var(--accent);
+}
+
+.foundation-result-subhead {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Historical-analogue notes: evidence and limitation are given equal weight. */
+.archetype-evidence-page {
+  max-width: 920px;
+}
+
+.archetype-evidence-back {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.archetype-evidence-analogue {
+  color: var(--text);
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(1.2rem, 2vw, 1.65rem);
+  line-height: 1.35;
+}
+
+.archetype-evidence-analogue span {
+  color: var(--muted);
+}
+
+.archetype-evidence-intro {
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.archetype-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.archetype-evidence-grid .panel {
+  box-shadow: none;
+}
+
+.archetype-evidence-grid p,
+.archetype-evidence-footer p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.archetype-evidence-sources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archetype-evidence-sources li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 0;
+  border-top: 1px solid var(--border-soft);
+}
+
+.archetype-evidence-sources li:last-child {
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.archetype-evidence-sources a {
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.archetype-evidence-sources span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.archetype-evidence-footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.archetype-evidence-footer p {
+  max-width: 62ch;
+}
+
+.archetype-evidence-footer a {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 720px) {
+  .archetype-evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .archetype-evidence-sources li,
+  .archetype-evidence-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.foundation-result-band {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 4.5rem;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Aligns with the label/value row inside the scale bar, not the track. */
+.foundation-result-band__tag {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.foundation-result-band__tag[data-band="high"],
+.foundation-result-band__tag[data-band="low"] {
+  color: var(--text);
+}
+
+.foundation-result-change {
+  max-width: 62ch;
+  margin: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.foundation-result-action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: center;
+}
+
+.foundation-result-action p {
+  flex: 1 1 260px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* The page's single trust line, sitting between the payoff and the machinery */
+.foundation-result-methods-line {
+  max-width: 72ch;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
 .foundation-result-reading__label,
 .foundation-case-test__identity > p,
 .foundation-signal-row__dimension {
@@ -8002,7 +8291,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   line-height: 1.4;
 }
 
-.foundation-result-hero__profile h2,
 .foundation-result-reading h3,
 .foundation-case-test h3,
 .foundation-domain-note h3,
@@ -8012,17 +8300,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   color: var(--text);
   line-height: 1.3;
   text-wrap: balance;
-}
-
-.foundation-result-hero__profile h2 {
-  font-size: 1.55rem;
-}
-
-.foundation-result-hero__profile > p:not(.foundation-result-hero__profile-label) {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.94rem;
-  line-height: 1.65;
 }
 
 .result-section-intro {
@@ -8117,11 +8394,33 @@ html:lang(zh-Hans) .quiz-shell-label {
 }
 
 .foundation-signal-row__score {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
   color: var(--text);
   font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
+  text-align: right;
   white-space: nowrap;
+}
+
+.foundation-signal-row__score > strong {
+  font-size: 0.92rem;
+}
+
+.foundation-signal-row__score > span {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.foundation-percentile-scale .v10-scale-bar__meta {
+  flex-wrap: wrap;
+}
+
+.foundation-percentile-scale .v10-scale-bar__value {
+  margin-left: auto;
+  text-align: right;
 }
 
 .foundation-result-next {
@@ -8145,7 +8444,7 @@ html:lang(zh-Hans) .quiz-shell-label {
     letter-spacing: -0.025em;
   }
 
-  .foundation-result-hero,
+  .foundation-result-lede,
   .foundation-case-test,
   .result-hero-grid {
     grid-template-columns: 1fr;
@@ -8156,7 +8455,7 @@ html:lang(zh-Hans) .quiz-shell-label {
     grid-template-columns: 1fr;
   }
 
-  .foundation-result-hero,
+  .foundation-result-lede,
   .foundation-case-test,
   .foundation-result-reading-grid,
   .foundation-domain-grid {
@@ -8167,6 +8466,16 @@ html:lang(zh-Hans) .quiz-shell-label {
 @media (max-width: 480px) {
   .result-hero-title {
     font-size: 1.95rem;
+  }
+
+  .foundation-result-band {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .foundation-result-band__tag {
+    grid-row: 1;
+    justify-self: start;
   }
 
   .foundation-signal-row {
@@ -8193,9 +8502,15 @@ html:lang(zh-Hans) .quiz-shell-label {
     page-break-inside: auto;
   }
 
-  .foundation-result-hero {
+  .foundation-result-lede {
     grid-template-columns: minmax(0, 1.6fr) minmax(220px, 0.6fr);
     gap: 32px;
+  }
+
+  .foundation-result-lede .field-map__frame {
+    width: 100%;
+    max-width: 340px;
+    margin-inline: auto;
   }
 
   .foundation-result-reading-grid,
@@ -8207,7 +8522,7 @@ html:lang(zh-Hans) .quiz-shell-label {
     gap: 28px;
   }
 
-  .foundation-result-hero,
+  .foundation-result-lede,
   .foundation-result-reading,
   .foundation-domain-note,
   .foundation-case-test,
@@ -8217,40 +8532,28 @@ html:lang(zh-Hans) .quiz-shell-label {
     page-break-inside: avoid;
   }
 
-  .foundation-model-section {
-    break-before: page;
-    page-break-before: always;
-  }
-
-  .foundation-model-section .result-panel {
-    padding: 18px;
-  }
-
-  .foundation-model-section .field-map {
-    gap: 6px;
-  }
-
-  .foundation-model-section .field-map__frame {
-    width: 100%;
-    max-width: 380px;
-    margin-inline: auto;
-  }
-
-  html:has(.foundation-model-section) .site-footer {
-    display: none;
-  }
-
   .foundation-result-reading > p:last-child,
   .foundation-domain-note > p,
   .foundation-signal-row p,
-  .foundation-result-next p,
-  .foundation-result-hero__profile > p:not(.foundation-result-hero__profile-label) {
+  .foundation-result-next p {
     font-size: 0.82rem;
     line-height: 1.5;
   }
 
-  .result-appendix-section {
+  /* The full analysis is behind a disclosure on screen; print expands it so a
+     printed result still carries the reasoning behind the reading. */
+  .result-appendix-section .profile-details > summary {
     display: none;
+  }
+
+  .result-appendix-section .result-details-body {
+    display: block !important;
+    content-visibility: visible !important;
+  }
+
+  .result-appendix-section .profile-details {
+    break-before: page;
+    page-break-before: always;
   }
 }
 
@@ -8337,28 +8640,13 @@ html:lang(zh-Hans) .quiz-shell-label {
   font-size: 0.75rem;
 }
 
-/* Model view: the plot gets the wide column, the posture strip and the trust
-   note stack beside it. The map column is floored so the plot clears 420px. */
-.foundation-map-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
-  align-items: start;
-}
-
-.foundation-map-side {
-  min-width: 0;
-}
-
-@media (min-width: 1000px) {
-  .foundation-map-grid {
-    grid-template-columns: minmax(560px, 1.5fr) minmax(300px, 0.85fr);
-    gap: 40px;
-  }
-}
-
 /* Restraint posture — a one-dimensional scale for the dimension the map's
    projection does not use. Deliberately not a chart. */
+.posture-strip {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
 .posture-strip__scale {
   display: grid;
   gap: 10px;
@@ -8377,10 +8665,10 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 .posture-strip__cut {
   position: absolute;
-  top: -3px;
+  top: -4px;
   width: 1px;
-  height: 12px;
-  background: var(--border);
+  height: 14px;
+  background: var(--faint);
 }
 
 .posture-strip__mark {
@@ -8404,7 +8692,8 @@ html:lang(zh-Hans) .quiz-shell-label {
 .posture-strip__end {
   display: grid;
   gap: 2px;
-  max-width: 15ch;
+  max-width: 17ch;
+  color: var(--text-2);
 }
 
 .posture-strip__end[data-side="high"] {
@@ -8412,11 +8701,36 @@ html:lang(zh-Hans) .quiz-shell-label {
   justify-items: end;
 }
 
+/* The end the reader is actually on carries the accent, so the strip answers
+   "which one am I?" before the caption explains the pair. */
+.posture-strip__end[data-current="true"] {
+  color: var(--text);
+}
+
+.posture-strip__end-code {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+}
+
+.posture-strip__end[data-current="true"] .posture-strip__end-code {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .posture-strip__end-label {
   font-family: var(--sans);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 650;
   line-height: 1.3;
+}
+
+.posture-strip__end-label a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 3px;
 }
 
 .posture-strip__end-note {
@@ -8442,12 +8756,21 @@ html:lang(zh-Hans) .quiz-shell-label {
 }
 
 /* Foundation field map — real-data 2D placement of the profile.
-   The plot square is 82% of the frame, so the chart dominates its container
+   The plot square is 85% of the frame, so the chart dominates its container
    and the labels sit inside or against the plot rather than in a wide margin. */
 .field-map {
+  /* Horizontal inset the map has to cancel to reach the screen edge on small
+     screens. Defaults to the page gutter; panels override it with their own. */
+  --map-bleed: 20px;
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.result-panel .field-map,
+.field-map-panel .field-map,
+.panel .field-map {
+  --map-bleed: 24px;
 }
 
 .field-map__frame {
@@ -8484,14 +8807,6 @@ html:lang(zh-Hans) .quiz-shell-label {
   opacity: 0.9;
 }
 
-.field-map__spread-ring {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.5;
-  stroke-dasharray: 5 7;
-  opacity: 0.55;
-}
-
 .field-map__you-ring {
   fill: var(--panel);
   stroke: var(--accent);
@@ -8508,12 +8823,15 @@ html:lang(zh-Hans) .quiz-shell-label {
   pointer-events: none;
 }
 
+/* Line breaks come from the layout library, not from CSS wrapping, so the
+   rendered box matches the box collision avoidance reserved for it. pre-line
+   keeps the label one text node, so it still reads as "Liberal
+   Institutionalist" to assistive tech, search, and copy-paste. */
 .field-map__overlay > span {
   position: absolute;
-  display: grid;
   transform: translateX(-50%);
   font-family: var(--sans);
-  white-space: nowrap;
+  white-space: pre-line;
   text-align: center;
 }
 
@@ -8554,19 +8872,13 @@ html:lang(zh-Hans) .quiz-shell-label {
   text-align: center;
 }
 
-.field-map__note {
-  font-size: 0.8rem;
-  line-height: 1.5;
-  text-align: center;
-}
-
 /* Small screens: the map goes full-bleed inside its panel and the labels
    shrink so a 12px label does not swamp a 300px plot. */
 @media (max-width: 640px) {
   .field-map__frame {
-    width: calc(100% + 48px);
+    width: calc(100% + var(--map-bleed) * 2);
     max-width: none;
-    margin-inline: -24px;
+    margin-inline: calc(var(--map-bleed) * -1);
   }
 
   .field-map__anchor-label,

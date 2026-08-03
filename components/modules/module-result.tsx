@@ -110,6 +110,7 @@ export function ModuleResultView({
                 </div>
                 <ScaleBar
                   value={lane.score}
+                  valueLabel={lane.score.toFixed(1)}
                   lowLabel={lane.lowLabel}
                   highLabel={lane.highLabel}
                   tone={slug}
@@ -180,14 +181,7 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Decisive calls</h2>
-            <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65", maxWidth: "760px" }}>
-              These are the selected choices carrying the clearest information in this result. The
-              full answer record stays below for audit, but quieter calls do not need to lead the
-              page.
-            </p>
-          </div>
+          <h2>Decisive calls</h2>
           <div className="module-decisive-list">
             {decisiveCalls.map((call, index) => (
               <article key={call.id} className="module-decisive-call">
@@ -210,14 +204,7 @@ export function ModuleResultView({
 
         {result.cardTypeRead ? (
           <section className="result-section stack-md">
-            <div className="stack-xs">
-              <h2>{result.cardTypeRead.headline}</h2>
-              <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-                {hasActorLens
-                  ? "Actor-lens cards stay separate, so perspective-taking does not overwrite your own issue read."
-                  : "This shows what changes when the question shifts from diagnosis to choice."}
-              </p>
-            </div>
+            <h2>{result.cardTypeRead.headline}</h2>
             <p className="result-prose" style={{ lineHeight: "1.7" }}>
               {result.cardTypeRead.summary}
             </p>
@@ -234,12 +221,7 @@ export function ModuleResultView({
         </section>
 
         <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>How to read this module</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              Framing and scope notes sit down here if you want them.
-            </p>
-          </div>
+          <h2>How to read this module</h2>
           <details className="profile-details">
             <summary>Open framing and scope notes</summary>
             <div className="driver-grid" style={{ marginTop: "16px" }}>
@@ -281,8 +263,9 @@ export function ModuleResultView({
           <div className="stack-xs">
             <h2>Module profile</h2>
             <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These scores run from 1 to 7 within this module. The labels below name the two poles,
-              not population percentiles{hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}
+              These are directional scores inside this module, not population percentiles. The
+              labels name the two directions rather than empirical endpoints
+              {hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}
             </p>
           </div>
 
@@ -292,6 +275,7 @@ export function ModuleResultView({
                 <ScaleBar
                   label={axis.label}
                   value={result.scores[axis.key]}
+                  valueLabel={result.scores[axis.key].toFixed(1)}
                   lowLabel={axis.lowLabel}
                   highLabel={axis.highLabel}
                   tone={slug}

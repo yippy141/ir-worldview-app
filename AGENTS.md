@@ -85,24 +85,30 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V20 Simplified Chinese editorial
+## Current sprint: V22 measurement parity and presentation
 
-- Render the approved Simplified Chinese editorial deck from typed locale content;
-  do not use runtime machine translation or silent English long-form fallback.
-- Run the owner-approved Simplified Chinese Foundation as an adapted beta with
-  shared structure and scoring, locale-owned copy, and no equivalence claim.
-- Keep AI, module, and Perspective instruments in English until their Chinese
-  copy is separately approved, with a review-status handoff on Chinese routes.
-- Preserve locale-neutral Current Case response IDs, drafts, steps, ProfileStore
-  records, Profile Share payloads, and all World Stage and Worldview Map geometry.
-- Derive Chinese labels from canonical identifiers when profile records are read;
-  never persist translated display copy as canonical data.
-- Show Chinese source display titles beside original titles where translations are
-  approved, and retain original source identity where no translation is approved.
-- Use natural Chinese dates, the approved CJK system stacks and line heights, and
-  verify 390px, print, source-ledger, Open Graph, and missing-glyph behavior.
-- Keep English routes unchanged and run the full unit, lint, build, and Playwright
-  suites before handoff.
+- The V21 Foundation repair is the template, not the finish line. Security,
+  Technology, and AI Governance carry the same class of failure and are the
+  first priority.
+- Every scored axis must be reachable at both poles. For choice items, an
+  item's option set must contain at least one option below and one above the
+  axis midpoint, with a spread of at least 2.0 on a 7-point axis or 0.5 on a
+  delta axis. Enforced in CI.
+- No score is displayed on a scale it cannot attain. If the attainable range
+  is 3.9 to 5.0, do not print "/ 7".
+- Likert valence: at least 40% explicit reverse coding per axis, in every
+  instrument including AI Governance. `reverse` is always stated, never
+  omitted.
+- Presentation changes may not rescue a failed measurement gate. Archetype
+  variants are presentation over already-scored values; new codes require new
+  dimensions and a new scoring version.
+- Tier 1 remains aggregate-only with no identifiers. Tier 2 and scoring
+  replay stay dormant.
+- Simplified Chinese runs a narrow declared contract this sprint. Missing
+  localised content is stated visibly, never filled by silent English
+  fallback.
+- Deferred to V23: hierarchy and threshold constructs, new families, new
+  archetype codes, Tier 2, adaptive selection.
 
 ## End-of-sprint discipline
 

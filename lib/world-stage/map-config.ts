@@ -1,7 +1,9 @@
 import {
   WORLD_STAGE_SCENE_IDS,
   type CountryRole,
+  type WorldStageFlowRelation,
   type WorldStageFlowWeight,
+  type WorldStageSemiconductorRole,
 } from "@/lib/world-stage/types"
 
 // NEXT_PUBLIC_ tokens are intentionally visible in the browser. Restrict this
@@ -57,6 +59,24 @@ export const WORLD_STAGE_FLOW_WIDTHS = {
   2: 1.8,
   3: 2.5,
 } as const satisfies Record<WorldStageFlowWeight, number>
+
+export const WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS = {
+  fab: "#f4cb63",
+  design: "#75b8e8",
+  sme: "#79c7b2",
+  materials: "#dca777",
+  packaging: "#b89bd8",
+  eda: "#e38ca2",
+} as const satisfies Record<WorldStageSemiconductorRole, string>
+
+export const WORLD_STAGE_FLOW_RELATION_COLORS = {
+  ownership: "#dca777",
+  supply: "#79c7b2",
+  "export-control jurisdiction": "#e38ca2",
+  "research collaboration": "#75b8e8",
+  capital: "#f4cb63",
+  "standards participation": "#b89bd8",
+} as const satisfies Record<WorldStageFlowRelation, string>
 
 type WorldStageSpinState = {
   longitude: number

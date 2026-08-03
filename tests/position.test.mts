@@ -1,9 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import {
-  answerSpread,
   FIELD_PROJECTION_VERSION,
-  spreadRingFraction,
   toDisplayPosition,
   toMapPosition,
   TRADITION_ANCHORS,
@@ -75,22 +73,6 @@ test("a flat profile lands exactly at the center of the map", () => {
   assert.equal(position.y, 0)
 })
 
-test("a flat profile has zero answer spread and the maximal spread ring", () => {
-  assert.equal(answerSpread(flatProfile), 0)
-
-  const flatRing = spreadRingFraction(flatProfile)
-  const spikyRing = spreadRingFraction(syntheticProfiles.realist)
-
-  assert.ok(flatRing > spikyRing, "flat ring should be wider than a differentiated profile's ring")
-  // The flat profile should produce the widest ring the map can draw.
-  for (const profile of Object.values(syntheticProfiles)) {
-    assert.ok(
-      flatRing >= spreadRingFraction(profile),
-      "no differentiated profile should exceed the flat profile's ring width",
-    )
-  }
-})
-
 test("map coordinates stay within the [-1, 1] field", () => {
   for (const profile of Object.values(syntheticProfiles)) {
     const { x, y } = toMapPosition(profile)
@@ -153,18 +135,8 @@ test("distinct payloads produce visibly different positions", () => {
   assert.ok(distance > 0.3, `expected a visible gap between profiles, got ${distance.toFixed(3)}`)
 })
 
-test("answer spread grows with dimension dispersion", () => {
-  assert.ok(answerSpread(syntheticProfiles.realist) > answerSpread(flatProfile))
-  assert.ok(answerSpread(syntheticProfiles.constructivist) > 0)
-})
-
-test("low differentiation widens the ring and damps the position toward center", () => {
+test("low differentiation damps the position toward center", () => {
   const profile = syntheticProfiles.realist
-
-  const honestRing = spreadRingFraction(profile, true)
-  const confidentRing = spreadRingFraction(profile, false)
-  assert.ok(honestRing >= confidentRing, "low-differentiation ring should not be narrower")
-  assert.ok(honestRing >= 0.75, "low-differentiation ring should be wide")
 
   const damped = toDisplayPosition(profile, true)
   const undamped = toDisplayPosition(profile, false)

@@ -572,9 +572,7 @@ export function FieldMap({
               data-edge={label.edge}
               style={overlayStyle(label.box, label.centerX)}
             >
-              {label.lines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
+              {label.lines.join("\n")}
             </span>
           ))}
 
@@ -587,9 +585,7 @@ export function FieldMap({
                 color: `var(${anchor.colorVar})`,
               }}
             >
-              {placement.lines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
+              {placement.lines.join("\n")}
             </span>
           ))}
         </div>

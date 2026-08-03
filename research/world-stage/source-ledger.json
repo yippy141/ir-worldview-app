@@ -358,5 +358,77 @@
     "date": "2025-2026",
     "url": "https://www.mgx.ae/",
     "claimCoverage": "UAE AI-capital role, investment platform, and Abu Dhabi's rise as a finance/compute node."
+  },
+  {
+    "sourceId": "SRC47",
+    "title": "Company Info, Yamanashi sites, and semiconductor production equipment portfolio",
+    "publisher": "Tokyo Electron",
+    "date": "accessed 2026-08-02",
+    "url": "https://www.tel.com/about/summary/index.html",
+    "claimCoverage": "Tokyo Electron's Yamanashi (Fujii) site and its role developing and manufacturing deposition, etch, coater/developer, and related semiconductor production equipment."
+  },
+  {
+    "sourceId": "SRC48",
+    "title": "Applied Materials U.S. manufacturing footprint",
+    "publisher": "Applied Materials",
+    "date": "2025-08",
+    "url": "https://www.appliedmaterials.com/content/dam/site/company/news/img/newsroom/2025/2025-08/aug-6/Applied-Materials-Mfg%20Footprint.pdf.coredownload.inline.pdf",
+    "claimCoverage": "Applied Materials' semiconductor-equipment role and Santa Clara headquarters, distinguished from its U.S. volume-manufacturing sites."
+  },
+  {
+    "sourceId": "SRC49",
+    "title": "Headquarters and manufacturing locations",
+    "publisher": "Lam Research",
+    "date": "accessed 2026-08-02",
+    "url": "https://www.lamresearch.com/company/locations/",
+    "claimCoverage": "Lam Research's Fremont headquarters and separately listed Fremont manufacturing site."
+  },
+  {
+    "sourceId": "SRC50",
+    "title": "KLA company information",
+    "publisher": "KLA Corporation",
+    "date": "accessed 2026-08-02",
+    "url": "https://ir.kla.com/company-information",
+    "claimCoverage": "KLA's Milpitas corporate location and process-control, inspection, and process-enabling equipment role."
+  },
+  {
+    "sourceId": "SRC51",
+    "title": "ZEISS Semiconductor Manufacturing Technology products and sites",
+    "publisher": "ZEISS Semiconductor Manufacturing Technology",
+    "date": "accessed 2026-08-02",
+    "url": "https://www.zeiss.com/semiconductor-manufacturing-technology/products.html",
+    "claimCoverage": "Oberkochen headquarters, R&D, and lithography-optics production; ZEISS optics as a key input to ASML lithography systems."
+  },
+  {
+    "sourceId": "SRC52",
+    "title": "Shin-Etsu Handotai Shirakawa Plant overview",
+    "publisher": "Shin-Etsu Handotai",
+    "date": "accessed 2026-08-02",
+    "url": "https://www.shinetsu.co.jp/seh/shirakawa/factory/",
+    "claimCoverage": "Official address and integrated production of monocrystalline silicon, polished wafers, and epitaxial wafers at the Shirakawa plant."
+  },
+  {
+    "sourceId": "SRC53",
+    "title": "IATF certificate: SUMCO Kyushu Factory (Imari Nagahama)",
+    "publisher": "SUMCO Corporation / DNV",
+    "date": "2025-06-26",
+    "url": "https://www.sumcosi.com/english/corporate/pdf/IATF16949-SUMCO%20Nagahama.pdf",
+    "claimCoverage": "Official Imari-Nagahama address and design and production of monocrystalline silicon products for semiconductor devices."
+  },
+  {
+    "sourceId": "SRC54",
+    "title": "Leading-edge photoresist development and Yokkaichi site materials",
+    "publisher": "JSR Corporation",
+    "date": "2024-08-30",
+    "url": "https://www.jsr.co.jp/jsr_e/news/2024/20240830.html",
+    "claimCoverage": "JSR's leading-edge EUV photoresist development and the Fine Electronic Materials Development Center at its Yokkaichi plant."
+  },
+  {
+    "sourceId": "SRC55",
+    "title": "New photoresist manufacturing building at Koriyama Plant",
+    "publisher": "Tokyo Ohka Kogyo",
+    "date": "2023-08-08",
+    "url": "https://www.tok.co.jp/eng/news/2023/230808_4",
+    "claimCoverage": "Official Koriyama plant address and production of EUV, ArF, and KrF semiconductor photoresists."
   }
 ]

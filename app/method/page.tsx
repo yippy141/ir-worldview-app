@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
+import { glossaryTerms } from "@/lib/content/glossary"
 
 export const metadata: Metadata = createEnglishApprovedMetadata("/method", {
   title: "Methods — IR Worldview Inventory",
@@ -122,7 +123,7 @@ export default function MethodPage() {
             <li>This editorial questionnaire has not been validated as a scientific instrument.</li>
             <li>Tradition labels are shorthand for a multidimensional profile.</li>
             <li>Mixed outputs are normal and can be meaningful.</li>
-            <li>No score is a percentile, and no answer is morally superior.</li>
+            <li>No score is a population percentile. Sample percentiles appear only when a comparable cohort is large enough.</li>
           </ul>
         </div>
       </section>
@@ -130,8 +131,10 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>Privacy and research data</h2>
         <p style={{ lineHeight: "1.7" }}>
-          Results and histories stay in this browser unless you explicitly share them. The site
-          does not collect research responses or connect contact details to results.
+          Raw answers and saved histories stay in this browser unless you explicitly share a
+          link. Separate first-party counters may receive derived buckets when coarse measurement
+          is enabled. The site does not collect research responses or connect contact details to
+          results.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           Any future study would require separate information about its purpose, data, consent,
@@ -215,6 +218,35 @@ export default function MethodPage() {
                 {dim.label}
               </p>
               <p className="muted" style={{ lineHeight: "1.65" }}>{dim.description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="panel stack-md">
+        <div className="stack-xs">
+          <h2>Glossary</h2>
+          <p className="muted" style={{ lineHeight: "1.65" }}>
+            Short definitions for the terms that recur across questions, results, and profiles.
+          </p>
+        </div>
+        <div>
+          {glossaryTerms.map((entry) => (
+            <div
+              key={entry.term}
+              style={{ padding: "20px 0", borderBottom: "1px solid var(--border)" }}
+            >
+              <p
+                style={{
+                  fontWeight: 600,
+                  fontFamily: "Georgia, serif",
+                  marginBottom: "8px",
+                  fontSize: "1rem",
+                }}
+              >
+                {entry.term}
+              </p>
+              <p className="muted" style={{ lineHeight: "1.65" }}>{entry.definition}</p>
             </div>
           ))}
         </div>

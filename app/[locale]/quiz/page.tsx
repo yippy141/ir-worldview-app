@@ -5,7 +5,7 @@ import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "基础问卷｜国际关系世界观清单",
-  description: "完成简体中文改编测试版，在共享计分结构上生成七维基础画像。",
+  description: "先完成 14 道核心题生成暂定画像，再按需增加定向或完整扩展题。",
   alternates: {
     canonical: publicPath("zh-Hans", "/quiz"),
     languages: localizedAlternates("/quiz"),

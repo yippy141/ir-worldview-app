@@ -275,12 +275,6 @@ export function getGeopoliticsModifier(axisScores: AiAxisScores): GeopoliticsMod
   return "Competitive hedger"
 }
 
-function computeClarity(archetypeScores: Record<AiArchetypeKey, number>): number {
-  const sorted = Object.values(archetypeScores).sort((a, b) => b - a)
-  const gap = sorted[0] - sorted[1]
-  return Math.max(55, Math.min(95, Math.round(60 + gap * 8)))
-}
-
 export function getNeighboringArchetypeKey(
   archetypeKey: AiArchetypeKey,
   archetypeScores: Record<AiArchetypeKey, number>,
@@ -313,7 +307,6 @@ export function generateAiGovernanceResult(answers: AiAnswers, mode?: AiQuizMode
   const riskLens = getRiskLens(axisScores)
   const paceModifier = getPaceModifier(axisScores)
   const geopoliticsModifier = getGeopoliticsModifier(axisScores)
-  const clarity = computeClarity(archetypeScores)
   const neighboringArchetype = getNeighboringArchetype(archetypeKey, archetypeScores)
 
   return {
@@ -322,7 +315,6 @@ export function generateAiGovernanceResult(answers: AiAnswers, mode?: AiQuizMode
     riskLens,
     paceModifier,
     geopoliticsModifier,
-    clarity,
     axisScores,
     archetypeScores,
     explanation: archetypeDescriptions[archetypeKey],

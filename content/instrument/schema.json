@@ -1,0 +1,779 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://irworldview.org/schemas/instrument-bank.v2.json",
+  "title": "IR Worldview versioned instrument bank",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/foundationBank"
+    },
+    {
+      "$ref": "#/$defs/securityBank"
+    },
+    {
+      "$ref": "#/$defs/technologyBank"
+    },
+    {
+      "$ref": "#/$defs/aiGovernanceBank"
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "modes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "standard",
+          "analyst"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true
+    },
+    "foundationTier": {
+      "enum": [
+        "core",
+        "extended"
+      ]
+    },
+    "dimensionKey": {
+      "enum": [
+        "securityCompetition",
+        "institutions",
+        "domesticFilters",
+        "normsIdentity",
+        "politicalEconomy",
+        "restraint",
+        "orderJustice"
+      ]
+    },
+    "scoringBlock": {
+      "enum": [
+        "core",
+        "validation"
+      ]
+    },
+    "validationScaleKey": {
+      "enum": [
+        "militantInternationalism",
+        "cooperativeInternationalism",
+        "isolationism"
+      ]
+    },
+    "aiAxisKey": {
+      "enum": [
+        "riskHorizon",
+        "deploymentPace",
+        "oversight",
+        "geopolitics",
+        "openness",
+        "militaryRole",
+        "legitimacy",
+        "humanFuture"
+      ]
+    },
+    "clarificationTerm": {
+      "type": "object",
+      "required": [
+        "term",
+        "definition"
+      ],
+      "properties": {
+        "term": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "definition": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "additionalProperties": false
+    },
+    "clarification": {
+      "type": "object",
+      "required": [
+        "whatItAsks"
+      ],
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "whatItAsks": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "whatItDoesNotAsk": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "terms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/clarificationTerm"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "pinnedPosition": {
+      "const": "last"
+    },
+    "foundationSignals": {
+      "type": "object",
+      "properties": {
+        "securityCompetition": {
+          "type": "number"
+        },
+        "institutions": {
+          "type": "number"
+        },
+        "domesticFilters": {
+          "type": "number"
+        },
+        "normsIdentity": {
+          "type": "number"
+        },
+        "politicalEconomy": {
+          "type": "number"
+        },
+        "restraint": {
+          "type": "number"
+        },
+        "orderJustice": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "aiSignals": {
+      "type": "object",
+      "properties": {
+        "riskHorizon": {
+          "type": "number"
+        },
+        "deploymentPace": {
+          "type": "number"
+        },
+        "oversight": {
+          "type": "number"
+        },
+        "geopolitics": {
+          "type": "number"
+        },
+        "openness": {
+          "type": "number"
+        },
+        "militaryRole": {
+          "type": "number"
+        },
+        "legitimacy": {
+          "type": "number"
+        },
+        "humanFuture": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "moduleSignals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "minProperties": 1
+    },
+    "foundationOption": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "label",
+        "signals"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "signals": {
+          "$ref": "#/$defs/foundationSignals"
+        },
+        "pinned": {
+          "$ref": "#/$defs/pinnedPosition"
+        }
+      },
+      "additionalProperties": false
+    },
+    "moduleOption": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "label",
+        "signals"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "signals": {
+          "$ref": "#/$defs/moduleSignals"
+        },
+        "pinned": {
+          "$ref": "#/$defs/pinnedPosition"
+        }
+      },
+      "additionalProperties": false
+    },
+    "aiOption": {
+      "type": "object",
+      "required": [
+        "id",
+        "label",
+        "signals"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        },
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "signals": {
+          "$ref": "#/$defs/aiSignals"
+        },
+        "followUpId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "pinned": {
+          "$ref": "#/$defs/pinnedPosition"
+        }
+      },
+      "additionalProperties": false
+    },
+    "foundationLikert": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/foundationCoreLikert"
+        },
+        {
+          "$ref": "#/$defs/foundationValidationLikert"
+        }
+      ]
+    },
+    "foundationCoreLikert": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "modes",
+        "tier",
+        "scoringBlock",
+        "dimension",
+        "reverse",
+        "prompt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "const": "likert"
+        },
+        "modes": {
+          "$ref": "#/$defs/modes"
+        },
+        "tier": {
+          "$ref": "#/$defs/foundationTier"
+        },
+        "scoringBlock": {
+          "const": "core"
+        },
+        "dimension": {
+          "$ref": "#/$defs/dimensionKey"
+        },
+        "reverse": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "helpText": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "clarification": {
+          "$ref": "#/$defs/clarification"
+        }
+      },
+      "additionalProperties": false
+    },
+    "foundationValidationLikert": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "modes",
+        "tier",
+        "scoringBlock",
+        "validationScale",
+        "citation",
+        "reverse",
+        "prompt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "const": "likert"
+        },
+        "modes": {
+          "$ref": "#/$defs/modes"
+        },
+        "tier": {
+          "$ref": "#/$defs/foundationTier"
+        },
+        "scoringBlock": {
+          "const": "validation"
+        },
+        "validationScale": {
+          "$ref": "#/$defs/validationScaleKey"
+        },
+        "citation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "reverse": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "helpText": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "clarification": {
+          "$ref": "#/$defs/clarification"
+        }
+      },
+      "additionalProperties": false
+    },
+    "foundationChoice": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "modes",
+        "tier",
+        "scoringBlock",
+        "cardType",
+        "prompt",
+        "options"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "enum": [
+            "tradeoff",
+            "miniCase"
+          ]
+        },
+        "modes": {
+          "$ref": "#/$defs/modes"
+        },
+        "tier": {
+          "$ref": "#/$defs/foundationTier"
+        },
+        "scoringBlock": {
+          "const": "core"
+        },
+        "cardType": {
+          "enum": [
+            "explanation",
+            "decision",
+            "actorLens",
+            "both"
+          ]
+        },
+        "allowSecondChoiceInAnalyst": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "helpText": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "clarification": {
+          "$ref": "#/$defs/clarification"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/foundationOption"
+          },
+          "minItems": 3,
+          "maxItems": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "contextBullet": {
+      "type": "object",
+      "required": [
+        "label",
+        "text"
+      ],
+      "properties": {
+        "label": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "text": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "additionalProperties": false
+    },
+    "moduleCase": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "modes",
+        "lane",
+        "cardType",
+        "title",
+        "prompt",
+        "scene",
+        "whyHard",
+        "perspectiveTags",
+        "knowledgeLoad",
+        "options"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "enum": [
+            "case",
+            "synthesis"
+          ]
+        },
+        "modes": {
+          "$ref": "#/$defs/modes"
+        },
+        "lane": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "cardType": {
+          "enum": [
+            "explanation",
+            "decision",
+            "actorLens",
+            "both"
+          ]
+        },
+        "title": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "prompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "scene": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "whyHard": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "contextBullets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/contextBullet"
+          }
+        },
+        "perspectiveTags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "knowledgeLoad": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "mirrorPairId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "allowSecondChoiceInAnalyst": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moduleOption"
+          },
+          "minItems": 3,
+          "maxItems": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "aiLikert": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "modes",
+        "axis",
+        "reverse",
+        "prompt"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "const": "likert"
+        },
+        "modes": {
+          "$ref": "#/$defs/modes"
+        },
+        "axis": {
+          "$ref": "#/$defs/aiAxisKey"
+        },
+        "reverse": {
+          "type": "boolean"
+        },
+        "prompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "helpText": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "clarification": {
+          "$ref": "#/$defs/clarification"
+        }
+      },
+      "additionalProperties": false
+    },
+    "aiScenario": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind",
+        "modes",
+        "cardType",
+        "prompt",
+        "options"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "const": "scenario"
+        },
+        "modes": {
+          "$ref": "#/$defs/modes"
+        },
+        "cardType": {
+          "enum": [
+            "explanation",
+            "decision",
+            "actorLens"
+          ]
+        },
+        "prompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "analystPrompt": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "helpText": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "actorRole": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        },
+        "allowBackupChoiceInAnalyst": {
+          "type": "boolean"
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/aiOption"
+          },
+          "minItems": 3,
+          "maxItems": 5
+        },
+        "analystOptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/aiOption"
+          },
+          "minItems": 3,
+          "maxItems": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "foundationBank": {
+      "type": "object",
+      "required": [
+        "instrument",
+        "instrumentVersion",
+        "discriminators",
+        "items"
+      ],
+      "properties": {
+        "instrument": {
+          "const": "foundation"
+        },
+        "instrumentVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "discriminators": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            "minItems": 5,
+            "maxItems": 5,
+            "uniqueItems": true
+          },
+          "minProperties": 6
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/foundationLikert"
+              },
+              {
+                "$ref": "#/$defs/foundationChoice"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "securityBank": {
+      "type": "object",
+      "required": [
+        "instrument",
+        "instrumentVersion",
+        "items"
+      ],
+      "properties": {
+        "instrument": {
+          "const": "security"
+        },
+        "instrumentVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moduleCase"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "technologyBank": {
+      "type": "object",
+      "required": [
+        "instrument",
+        "instrumentVersion",
+        "items"
+      ],
+      "properties": {
+        "instrument": {
+          "const": "technology"
+        },
+        "instrumentVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moduleCase"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "aiGovernanceBank": {
+      "type": "object",
+      "required": [
+        "instrument",
+        "instrumentVersion",
+        "items"
+      ],
+      "properties": {
+        "instrument": {
+          "const": "ai-governance"
+        },
+        "instrumentVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/$defs/aiLikert"
+              },
+              {
+                "$ref": "#/$defs/aiScenario"
+              }
+            ]
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

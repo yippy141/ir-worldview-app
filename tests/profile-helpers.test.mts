@@ -215,7 +215,7 @@ test("cross-domain tensions surface both domain conflict and card-type splits", 
   )
 })
 
-test("overlap foundation state surfaces honestly before modules exist", () => {
+test("calibrated score gaps flow through the existing profile-state thresholds", () => {
   const broadProfile: ProfileStore = {
     v: 5,
     foundation: {
@@ -253,9 +253,9 @@ test("overlap foundation state surfaces honestly before modules exist", () => {
     dimensionScores: broadProfile.foundation!.dimensionScores,
   })
 
-  assert.equal(assessment.state, "lowDifferentiation")
-  assert.equal(foundationNarrative.state, "lowDifferentiation")
-  assert.ok(narrative.sections[0]?.text.includes("overlap"))
+  assert.equal(assessment.state, "sharplyDifferentiatedBaseline")
+  assert.equal(foundationNarrative.state, "sharplyDifferentiated")
+  assert.ok(narrative.sections[0]?.text.includes("clear baseline"))
 })
 
 test("sharply differentiated foundations can surface before modules are added", () => {

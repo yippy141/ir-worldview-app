@@ -1,36 +1,39 @@
 import {
-  atlasLitePatterns,
-  getAtlasPatternHref,
-  type AtlasLitePattern,
-} from "@/lib/atlas-lite"
-import { STRATEGY_MODIFIER_THRESHOLDS, getStrategyModifier } from "@/lib/scoring"
-import type { DimensionScores, FamilyKey, StrategyModifier } from "@/lib/types"
+  HEDGER_POSTURE_MIDPOINT,
+  getArchetypeByCode,
+  resolveArchetype,
+  type Archetype,
+  type BlendArchetype,
+  type PostureSign,
+} from "@/lib/archetypes"
+import { archetypeEvidencePath } from "@/lib/archetype-evidence"
+import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
+import type { CanonicalFoundationResult } from "@/lib/scoring"
 
 // ---------------------------------------------------------------------------
 // Restraint posture
 // ---------------------------------------------------------------------------
 //
 // Restraint does not feed the field-map projection (see lib/results/position.ts:
-// neither axis weights it). Two worldview profiles that share a lens and differ
-// only on restraint therefore land on the SAME map coordinate. Plotting them as
-// separate points would invent a separation the model does not have, so this
-// module supplies a one-dimensional scale to sit BESIDE the map instead.
+// neither axis weights it). The archetype layer, however, splits every lens on
+// restraint — the trailing + or − in a code like P+ is the posture sign. Two
+// archetypes that share a lens therefore differ ONLY on a dimension the map
+// cannot see, and would land on the same coordinate. Plotting them would invent
+// the separation, so this module supplies a one-dimensional scale to sit BESIDE
+// the map instead.
 //
-// Endpoints are derived from data that already exists. A lens earns named
-// endpoints only when it actually has one profile at each restraint extreme;
-// otherwise the ends fall back to the product's own restraint vocabulary. No
-// new archetype names are introduced here.
+// Every name here comes from content/archetypes.json via lib/archetypes.ts. No
+// label is authored in this module.
 
 const SCALE_MIN = 1
 const SCALE_MAX = 7
 
-export type PostureEndpointKind = "profile" | "modifier"
-
 export type PostureEndpoint = {
-  label: string
-  /** Present only for worldview-profile endpoints. */
-  href?: string
-  kind: PostureEndpointKind
+  code: string
+  name: string
+  gloss: string
+  /** Present only for pure archetypes; blends have no evidence page. */
+  href: string | null
 }
 
 export type RestraintPosture = {
@@ -38,17 +41,18 @@ export type RestraintPosture = {
   score: number
   /** Position along the drawn track, 0 (press advantage) to 1 (hold back). */
   fraction: number
-  band: StrategyModifier
-  /** Band boundaries as track fractions, for drawing the same cut points. */
-  bandBoundaries: { maximizer: number; restrainer: number }
+  /** Where the + / − sign flips, as a track fraction. */
+  postureCut: number
+  /** The sign the respondent's own archetype carries. */
+  posture: PostureSign
+  /** The end the respondent currently sits on. */
+  current: PostureEndpoint
+  /** Press-advantage end (+). */
   low: PostureEndpoint
+  /** Hold-back end (−). */
   high: PostureEndpoint
-  /**
-   * True when both ends name worldview profiles that share the lens. False
-   * means the modeled profiles for this lens do not separate on restraint,
-   * and the scale is shown against the modifier vocabulary instead.
-   */
-  namedProfiles: boolean
+  /** True when the reading is a two-lens blend rather than a single lens. */
+  blend: boolean
 }
 
 function toFraction(score: number): number {
@@ -56,76 +60,50 @@ function toFraction(score: number): number {
   return (clamped - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)
 }
 
-function sharesLens(pattern: AtlasLitePattern, familyKey: FamilyKey): boolean {
-  return (
-    pattern.primaryFamily === familyKey ||
-    (pattern.rules.families?.includes(familyKey) ?? false)
-  )
+function isBlend(archetype: Archetype | BlendArchetype): archetype is BlendArchetype {
+  return archetype.code.includes("/")
 }
 
-/** A profile sits at the press-advantage end of its lens. */
-function isAdvantageEnd(pattern: AtlasLitePattern): boolean {
-  return (
-    pattern.fingerprint.restraint === "low" ||
-    (pattern.rules.strategyModifiers?.includes("Maximizer") ?? false)
-  )
+/** Swap a code's posture sign: P+ <-> P-, P/R+ <-> P/R-. */
+function withPosture(code: string, posture: PostureSign): string {
+  return `${code.slice(0, -1)}${posture}`
 }
 
-/** A profile sits at the hold-back end of its lens. */
-function isRestraintEnd(pattern: AtlasLitePattern): boolean {
-  const modifiers = pattern.rules.strategyModifiers
-  return (
-    pattern.fingerprint.restraint === "high" ||
-    (modifiers?.length === 1 && modifiers[0] === "Restrainer")
-  )
-}
-
-function toProfileEndpoint(pattern: AtlasLitePattern): PostureEndpoint {
+function toEndpoint(archetype: Archetype | BlendArchetype): PostureEndpoint {
   return {
-    label: pattern.publicName,
-    href: getAtlasPatternHref(pattern.id),
-    kind: "profile",
+    code: archetype.code,
+    name: archetype.name,
+    gloss: archetype.gloss,
+    href: isBlend(archetype) ? null : archetypeEvidencePath(archetype.code),
   }
 }
 
-const MODIFIER_ENDPOINTS: { low: PostureEndpoint; high: PostureEndpoint } = {
-  low: { label: "Maximizer", kind: "modifier" },
-  high: { label: "Restrainer", kind: "modifier" },
-}
-
 /**
- * Find the worldview profiles that share a lens and sit at opposite ends of
- * restraint. Returns null when the lens has no such pair — which is the honest
- * answer for most lenses in the current catalog, not a bug.
+ * Resolve the pair of archetypes that share the respondent's lens (or lens
+ * blend) and differ only on the posture sign, plus where the respondent sits
+ * between them on restraint.
  */
-export function findRestraintProfilePair(
-  familyKey: FamilyKey,
-  patterns: readonly AtlasLitePattern[] = atlasLitePatterns,
-): { low: AtlasLitePattern; high: AtlasLitePattern } | null {
-  const lensPatterns = patterns.filter((pattern) => sharesLens(pattern, familyKey))
-  const low = lensPatterns.find(isAdvantageEnd)
-  const high = lensPatterns.find(isRestraintEnd)
-
-  if (!low || !high || low.id === high.id) return null
-  return { low, high }
-}
-
 export function resolveRestraintPosture(
-  familyKey: FamilyKey,
-  dimensionScores: DimensionScores,
+  result: CanonicalFoundationResult,
+  lowDifferentiationThreshold = LOW_DIFFERENTIATION_THRESHOLD,
 ): RestraintPosture {
-  const pair = findRestraintProfilePair(familyKey)
+  const current = resolveArchetype(result, lowDifferentiationThreshold)
+  const advantage = getArchetypeByCode(withPosture(current.code, "+"))
+  const restraint = getArchetypeByCode(withPosture(current.code, "-"))
+
+  // Both signs exist for every lens and every lens blend in the catalog; the
+  // fallback keeps a malformed code from taking the result page down with it.
+  const low = advantage ? toEndpoint(advantage) : toEndpoint(current)
+  const high = restraint ? toEndpoint(restraint) : toEndpoint(current)
 
   return {
-    score: dimensionScores.restraint,
-    fraction: toFraction(dimensionScores.restraint),
-    band: getStrategyModifier(dimensionScores),
-    bandBoundaries: {
-      maximizer: toFraction(STRATEGY_MODIFIER_THRESHOLDS.maximizer),
-      restrainer: toFraction(STRATEGY_MODIFIER_THRESHOLDS.restrainer),
-    },
-    low: pair ? toProfileEndpoint(pair.low) : MODIFIER_ENDPOINTS.low,
-    high: pair ? toProfileEndpoint(pair.high) : MODIFIER_ENDPOINTS.high,
-    namedProfiles: pair !== null,
+    score: result.dimensionScores.restraint,
+    fraction: toFraction(result.dimensionScores.restraint),
+    postureCut: toFraction(HEDGER_POSTURE_MIDPOINT),
+    posture: current.posture,
+    current: toEndpoint(current),
+    low,
+    high,
+    blend: isBlend(current),
   }
 }

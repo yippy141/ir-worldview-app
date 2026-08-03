@@ -68,10 +68,6 @@ const Y_WEIGHTS: AxisWeights = {
 const X_SCALE = 3.0
 const Y_SCALE = 2.5
 
-// Maximum plausible mean absolute deviation for seven values on a 1-7 scale
-// (roughly 2.94 at the extremes); used to normalize answerSpread into [0, 1].
-const MAX_MEAN_ABS_DEVIATION = 3
-
 export type MapPosition = {
   /** -1 (power / competition) .. +1 (rules / institutions) */
   x: number
@@ -112,45 +108,99 @@ export function toMapPosition(scores: DimensionScores): MapPosition {
   }
 }
 
-/**
- * Dispersion of a profile: the mean absolute deviation of the seven dimension
- * scores from the respondent's OWN mean, normalized to [0, 1] by the maximum
- * plausible deviation on a 1-7 scale.
- *
- * A flat profile (every dimension equal) returns 0 — the respondent commits to
- * no dimension over any other. A spiky, opinionated profile returns a larger
- * value. The map inverts this into the spread-ring radius: LOW spread means the
- * profile is equally close to several traditions, so the position is loosely
- * determined and the ring is WIDE; HIGH spread means the profile commits, so
- * the ring is tight. See spreadRingFraction below.
- */
-export function answerSpread(scores: DimensionScores): number {
-  const values = DIMENSION_KEYS.map((key) => scores[key])
-  const mean = values.reduce((sum, value) => sum + value, 0) / values.length
-  const meanAbsoluteDeviation =
-    values.reduce((sum, value) => sum + Math.abs(value - mean), 0) / values.length
+// ---------------------------------------------------------------------------
+// Partial profiles: placing a position mid-questionnaire
+// ---------------------------------------------------------------------------
+//
+// The quiz shows the same projection while a respondent is still answering.
+// Unanswered dimensions score at the neutral midpoint, so a profile with one or
+// two answers projects to a point that swings hard on every keystroke and says
+// more about question order than about the respondent. The live map therefore
+// waits for a minimum number of answers AND for at least one answer feeding
+// each axis before it plots anything.
 
-  return Math.max(0, Math.min(1, meanAbsoluteDeviation / MAX_MEAN_ABS_DEVIATION))
+/** Dimensions that move the horizontal axis. */
+export const X_AXIS_DIMENSIONS = Object.keys(X_WEIGHTS) as DimensionKey[]
+
+/** Dimensions that move the vertical axis. */
+export const Y_AXIS_DIMENSIONS = Object.keys(Y_WEIGHTS) as DimensionKey[]
+
+export const MIN_ANSWERS_FOR_LIVE_POSITION = 4
+
+export function canPlaceLivePosition({
+  answeredCount,
+  dimensionWeights,
+}: {
+  answeredCount: number
+  /** Per-dimension evidence weight, from computeCoreDimensionAudit. */
+  dimensionWeights: Record<DimensionKey, number>
+}): boolean {
+  if (answeredCount < MIN_ANSWERS_FOR_LIVE_POSITION) return false
+
+  const hasHorizontal = X_AXIS_DIMENSIONS.some((key) => dimensionWeights[key] > 0)
+  const hasVertical = Y_AXIS_DIMENSIONS.some((key) => dimensionWeights[key] > 0)
+
+  return hasHorizontal && hasVertical
 }
 
-// Ring radius as a fraction of the plot half-extent. High answer spread
-// (commitment) tightens the ring; low spread (or the honest low-differentiation
-// state) widens it. A flat profile therefore renders the maximal ring.
-const RING_MAX_FRACTION = 0.82
-const RING_MIN_FRACTION = 0.3
-const RING_LOW_DIFFERENTIATION_FLOOR = 0.75
+// Plain-language readout of a projected position. Names the axis and the pole
+// the profile leans toward. It never names a worldview family and never refers
+// to an individual answer.
+// Pole names match the axis labels drawn on the plot and stay short enough to
+// read on one line in the compact phone layout.
+const AXIS_READOUT = {
+  x: {
+    name: "Power and rules",
+    positive: "rules",
+    negative: "power",
+  },
+  y: {
+    name: "Ideas and material",
+    positive: "ideas and norms",
+    negative: "material structure",
+  },
+} as const
 
-export function spreadRingFraction(
-  scores: DimensionScores,
-  lowDifferentiation = false,
-): number {
-  const spread = answerSpread(scores)
-  const fraction =
-    RING_MAX_FRACTION - (RING_MAX_FRACTION - RING_MIN_FRACTION) * spread
+// Cutoffs on the normalized [-1, 1] axis, chosen so a profile has to move a
+// visible distance from the center before the wording firms up.
+const CENTERED_BELOW = 0.12
+const SLIGHT_BELOW = 0.4
+const CLEAR_BELOW = 0.7
 
-  return lowDifferentiation
-    ? Math.max(fraction, RING_LOW_DIFFERENTIATION_FLOOR)
-    : fraction
+export type AxisReading = {
+  /** Axis name, suitable as a list term. */
+  name: string
+  /** Where the profile currently sits on that axis. */
+  reading: string
+}
+
+function readAxis(
+  value: number,
+  axis: { name: string; positive: string; negative: string },
+): AxisReading {
+  const magnitude = Math.abs(value)
+
+  // The axis name carries both poles already, so the centered reading stays
+  // short. Spelling out both poles here stacks three "and"s in one line.
+  if (magnitude < CENTERED_BELOW) {
+    return { name: axis.name, reading: "Near the center" }
+  }
+
+  const strength = magnitude < SLIGHT_BELOW
+    ? "Slightly toward"
+    : magnitude < CLEAR_BELOW
+      ? "Toward"
+      : "Clearly toward"
+
+  return {
+    name: axis.name,
+    reading: `${strength} ${value > 0 ? axis.positive : axis.negative}`,
+  }
+}
+
+/** Two-item text equivalent of a plotted position, for a semantic list. */
+export function describeMapPosition(position: MapPosition): AxisReading[] {
+  return [readAxis(position.x, AXIS_READOUT.x), readAxis(position.y, AXIS_READOUT.y)]
 }
 
 // When the profile barely differentiates, pull the rendered position back

@@ -8,7 +8,15 @@ import type {
   WorldStageNode,
   WorldStageScene,
   WorldStageTooltipItem,
+  WorldStageFlowRelation,
+  WorldStageSemiconductorRole,
 } from "@/lib/world-stage/types"
+import { getWorldStageSources } from "@/lib/world-stage/scenes"
+
+export type WorldStageMapFilters = {
+  semiconductorRole: WorldStageSemiconductorRole | "all"
+  relation: WorldStageFlowRelation | "all"
+}
 
 type CountryGeometry = {
   type: "Polygon" | "MultiPolygon"
@@ -58,6 +66,7 @@ export type WorldStageNodeFeature = WorldStageGeoJsonFeature<
     confidence: string
     asOf: string
     sourceCount: number
+    semiconductorRole: string
   }
 >
 
@@ -73,6 +82,7 @@ export type WorldStageFlowFeature = WorldStageGeoJsonFeature<
     confidence: string
     asOf: string
     sourceCount: number
+    relation: string
     weight: number
   }
 >
@@ -161,71 +171,107 @@ export function buildWorldStageCountryData(
 
 export function buildWorldStageNodeData(
   scene: WorldStageScene,
+  filters?: Pick<WorldStageMapFilters, "semiconductorRole">,
 ): WorldStageGeoJsonFeatureCollection<WorldStageNodeFeature> {
   return {
     type: "FeatureCollection",
-    features: scene.nodes.map((node) => ({
-      type: "Feature",
-      id: node.id,
-      properties: {
+    features: scene.nodes
+      .filter(
+        (node) =>
+          !filters ||
+          filters.semiconductorRole === "all" ||
+          node.semiconductorRole === filters.semiconductorRole,
+      )
+      .map((node) => ({
+        type: "Feature",
         id: node.id,
-        entityKind: "node",
-        label: node.label,
-        kind: node.kind,
-        meaning: node.whyItMatters,
-        confidence: node.confidence,
-        asOf: scene.asOf,
-        sourceCount: node.sourceRefs.length,
-      },
-      geometry: { type: "Point", coordinates: node.coordinates },
-    })),
+        properties: {
+          id: node.id,
+          entityKind: "node",
+          label: node.label,
+          kind: node.kind,
+          meaning: node.whyItMatters,
+          confidence: node.confidence,
+          asOf: scene.asOf,
+          sourceCount: node.sourceRefs.length,
+          semiconductorRole: node.semiconductorRole ?? "",
+        },
+        geometry: { type: "Point", coordinates: node.coordinates },
+      })),
   }
 }
 
 export function buildWorldStageFlowData(
   scene: WorldStageScene,
+  filters?: Pick<WorldStageMapFilters, "relation">,
 ): WorldStageGeoJsonFeatureCollection<WorldStageFlowFeature> {
   const nodes = new Map(scene.nodes.map((node) => [node.id, node]))
 
   return {
     type: "FeatureCollection",
-    features: scene.flows.flatMap((flow) => {
-      const from = nodes.get(flow.fromNodeId)
-      const to = nodes.get(flow.toNodeId)
-      if (!from || !to) return []
+    features: scene.flows
+      .filter(
+        (flow) =>
+          !filters ||
+          filters.relation === "all" ||
+          flow.relation === filters.relation,
+      )
+      .flatMap((flow) => {
+        const from = nodes.get(flow.fromNodeId)
+        const to = nodes.get(flow.toNodeId)
+        if (!from || !to) return []
 
-      return [
-        {
-          type: "Feature" as const,
-          id: flow.id,
-          properties: {
+        return [
+          {
+            type: "Feature" as const,
             id: flow.id,
-            entityKind: "flow" as const,
-            label: flow.label,
-            kind: flow.kind,
-            meaning: flow.meaning,
-            direction: flow.direction,
-            confidence: flow.confidence,
-            asOf: flow.asOf,
-            sourceCount: flow.sourceRefs.length,
-            weight: flow.weight,
+            properties: {
+              id: flow.id,
+              entityKind: "flow" as const,
+              label: flow.label,
+              kind: flow.kind,
+              meaning: flow.meaning,
+              direction: flow.direction,
+              confidence: flow.confidence,
+              asOf: flow.asOf,
+              sourceCount: flow.sourceRefs.length,
+              relation: flow.relation ?? "",
+              weight: flow.weight,
+            },
+            geometry: {
+              type: "LineString" as const,
+              coordinates: [from.coordinates, to.coordinates] as const,
+            },
           },
-          geometry: {
-            type: "LineString" as const,
-            coordinates: [from.coordinates, to.coordinates] as const,
-          },
-        },
-      ]
-    }),
+        ]
+      }),
   }
 }
 
-export function getWorldStageFallbackNodes(scene: WorldStageScene): readonly WorldStageNode[] {
-  return scene.nodes.slice(0, WORLD_STAGE_FALLBACK_NODE_LIMIT)
+export function getWorldStageFallbackNodes(
+  scene: WorldStageScene,
+  filters?: Pick<WorldStageMapFilters, "semiconductorRole">,
+): readonly WorldStageNode[] {
+  return scene.nodes
+    .filter(
+      (node) =>
+        !filters ||
+        filters.semiconductorRole === "all" ||
+        node.semiconductorRole === filters.semiconductorRole,
+    )
+    .slice(0, WORLD_STAGE_FALLBACK_NODE_LIMIT)
 }
 
-export function getWorldStageFallbackFlows(scene: WorldStageScene): readonly WorldStageFlow[] {
-  return scene.flows.slice(0, WORLD_STAGE_FALLBACK_FLOW_LIMIT)
+export function getWorldStageFallbackFlows(
+  scene: WorldStageScene,
+  filters?: Pick<WorldStageMapFilters, "relation">,
+): readonly WorldStageFlow[] {
+  return scene.flows
+    .filter(
+      (flow) =>
+        !filters || filters.relation === "all" || flow.relation === filters.relation,
+    )
+    .slice(0, WORLD_STAGE_FALLBACK_FLOW_LIMIT)
 }
 
 export function getWorldStageTooltipItems(
@@ -240,6 +286,7 @@ export function getWorldStageTooltipItems(
       meaning: country.rationale,
       asOf: scene.asOf,
       sourceCount: country.sourceRefs.length,
+      sources: getWorldStageSources(country.sourceRefs),
     })),
     ...scene.nodes.map((node) => ({
       id: node.id,
@@ -248,6 +295,8 @@ export function getWorldStageTooltipItems(
       meaning: node.whyItMatters,
       asOf: scene.asOf,
       sourceCount: node.sourceRefs.length,
+      sources: getWorldStageSources(node.sourceRefs),
+      semiconductorRole: node.semiconductorRole,
     })),
     ...scene.flows.map((flow) => ({
       id: flow.id,
@@ -256,6 +305,8 @@ export function getWorldStageTooltipItems(
       meaning: flow.meaning,
       asOf: flow.asOf,
       sourceCount: flow.sourceRefs.length,
+      sources: getWorldStageSources(flow.sourceRefs),
+      relation: flow.relation,
     })),
   ]
 }

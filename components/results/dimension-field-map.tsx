@@ -17,13 +17,7 @@ import {
   type MapLabelBox,
   type MapLabelRequest,
 } from "@/lib/results/map-layout"
-import {
-  AXIS_LABELS,
-  TRADITION_ANCHORS,
-  answerSpread,
-  spreadRingFraction,
-  toDisplayPosition,
-} from "@/lib/results/position"
+import { AXIS_LABELS, TRADITION_ANCHORS, toDisplayPosition } from "@/lib/results/position"
 
 type Props = {
   dimensionScores: DimensionScores
@@ -50,8 +44,6 @@ function overlayStyle(box: MapLabelBox, centerX: number): CSSProperties {
 export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false }: Props) {
   const position = toDisplayPosition(dimensionScores, lowDifferentiation)
   const marker = toMapPoint(position)
-  const ringRadius = spreadRingFraction(dimensionScores, lowDifferentiation) * MAP_PLOT_RADIUS
-  const spread = answerSpread(dimensionScores)
 
   const axisLabels = resolveAxisLabelPlacements(AXIS_LABELS, AXIS_LABEL_PX, AXIS_TRACKING)
   const anchorPoints = TRADITION_ANCHORS.map((anchor) => ({
@@ -59,11 +51,11 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
     point: toMapPoint(anchor.position),
   }))
 
-  // The respondent label is placed first so the tradition labels give way to
-  // it, then every mark is reserved so no label lands on a dot.
   const respondentClearance = MAP_RESPONDENT_RING_RADIUS + 3
   const anchorClearance = MAP_ANCHOR_DOT_RADIUS + 3
 
+  // The respondent label is placed first so the tradition labels give way to
+  // it, then every mark is reserved so no label lands on a dot.
   const labelRequests: MapLabelRequest[] = [
     {
       key: "respondent",
@@ -101,7 +93,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
         <svg
           viewBox={`0 0 ${MAP_VIEW_SIZE} ${MAP_VIEW_SIZE}`}
           role="img"
-          aria-label={`Field map placing this profile among the four modeled traditions — ${TRADITION_ANCHORS.map((anchor) => FAMILY_LABELS[anchor.key]).join(", ")} — with a ring showing how loosely the reading is determined`}
+          aria-label={`Field map placing this profile among the four modeled traditions — ${TRADITION_ANCHORS.map((anchor) => FAMILY_LABELS[anchor.key]).join(", ")}`}
           className="field-map__svg"
         >
           {/* Plot frame and centre axes */}
@@ -139,14 +131,6 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
             />
           ))}
 
-          {/* Spread ring — dashed; wide when the reading is loosely determined */}
-          <circle
-            cx={marker.cx}
-            cy={marker.cy}
-            r={ringRadius}
-            className="field-map__spread-ring"
-          />
-
           {/* Respondent position — the element the reader came to find */}
           <circle
             cx={marker.cx}
@@ -170,9 +154,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
               data-edge={label.edge}
               style={overlayStyle(label.box, label.centerX)}
             >
-              {label.lines.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
+              {label.lines.join("\n")}
             </span>
           ))}
 
@@ -188,9 +170,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
                   color: `var(${anchor.colorVar})`,
                 }}
               >
-                {placement.lines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
+                {placement.lines.join("\n")}
               </span>
             )
           })}
@@ -207,13 +187,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
       </div>
 
       <p className="field-map__caption muted">
-        {lowDifferentiation
-          ? "Your answers sit near the center: several ways of reading stay in play, so the ring is wide and the placement is light."
-          : "The dot is where your answers place you; the dashed ring shows how loosely that reading is fixed — a tighter ring means your answers commit more sharply."}
-      </p>
-      <p className="field-map__note muted">
-        Axes and tradition anchors are an authored reading of the seven dimensions, not a measured
-        population map. Answer spread: {spread.toFixed(2)} of 1.
+        The dot is where your answers place you.
       </p>
     </div>
   )

@@ -563,12 +563,15 @@
   pointer-events: none;
 }
 
+/* Line breaks come from the layout library, not from CSS wrapping, so the
+   rendered box matches the box collision avoidance reserved for it. pre-line
+   keeps the label one text node, so it still reads as a whole name to
+   assistive tech, search, and copy-paste. */
 .mapOverlay > span {
   position: absolute;
-  display: grid;
   transform: translateX(-50%);
   font-family: var(--sans);
-  white-space: nowrap;
+  white-space: pre-line;
   text-align: center;
 }
 

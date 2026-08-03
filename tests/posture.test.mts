@@ -1,77 +1,139 @@
 import assert from "node:assert/strict"
 import { test } from "node:test"
 
-import { atlasLitePatterns } from "@/lib/atlas-lite"
-import { findRestraintProfilePair, resolveRestraintPosture } from "@/lib/results/posture"
+import { archetypes, resolveArchetype } from "@/lib/archetypes"
+import { resolveRestraintPosture } from "@/lib/results/posture"
+import { buildCanonicalFoundationResult } from "@/lib/scoring"
 import { MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
-import type { DimensionScores } from "@/lib/types"
+import type { DimensionScores, FamilyKey } from "@/lib/types"
 
-function scores(restraint: number): DimensionScores {
-  return {
-    securityCompetition: 5.4,
-    institutions: 3.2,
-    domesticFilters: 4,
-    normsIdentity: 3.6,
+/** A profile that lands firmly on one family, with restraint dialled by hand. */
+const FAMILY_SHAPES: Record<FamilyKey, Omit<DimensionScores, "restraint">> = {
+  realist: {
+    securityCompetition: 6.6,
+    institutions: 2.2,
+    domesticFilters: 3.2,
+    normsIdentity: 2.4,
     politicalEconomy: 3.4,
-    restraint,
+    orderJustice: 5.2,
+  },
+  institutionalist: {
+    securityCompetition: 2.6,
+    institutions: 6.6,
+    domesticFilters: 5.4,
+    normsIdentity: 4.2,
+    politicalEconomy: 4.2,
+    orderJustice: 4.4,
+  },
+  constructivist: {
+    securityCompetition: 3.0,
+    institutions: 4.4,
+    domesticFilters: 4.2,
+    normsIdentity: 6.7,
+    politicalEconomy: 3.8,
     orderJustice: 4.6,
-  }
+  },
+  criticalPoliticalEconomy: {
+    securityCompetition: 3.4,
+    institutions: 2.4,
+    domesticFilters: 5.6,
+    normsIdentity: 4.2,
+    politicalEconomy: 6.7,
+    orderJustice: 2.6,
+  },
+}
+
+function profile(familyKey: FamilyKey, restraint: number) {
+  return buildCanonicalFoundationResult({
+    ...FAMILY_SHAPES[familyKey],
+    restraint,
+  } as DimensionScores)
 }
 
 test("restraint maps onto the track without inventing headroom", () => {
-  assert.equal(resolveRestraintPosture("realist", scores(1)).fraction, 0)
-  assert.equal(resolveRestraintPosture("realist", scores(7)).fraction, 1)
-  assert.equal(resolveRestraintPosture("realist", scores(4)).fraction, 0.5)
-  assert.equal(resolveRestraintPosture("realist", scores(9)).fraction, 1)
+  assert.equal(resolveRestraintPosture(profile("realist", 1)).fraction, 0)
+  assert.equal(resolveRestraintPosture(profile("realist", 7)).fraction, 1)
+  assert.equal(resolveRestraintPosture(profile("realist", 4)).fraction, 0.5)
+  assert.equal(resolveRestraintPosture(profile("realist", 4)).postureCut, 0.5)
 })
 
-test("the drawn band boundaries match the scorer's cut points", () => {
-  const posture = resolveRestraintPosture("realist", scores(4))
+test("every modeled lens names both ends from the archetype catalog", () => {
+  for (const familyKey of MODELED_FAMILY_KEYS) {
+    const posture = resolveRestraintPosture(profile(familyKey, 5.8))
 
-  assert.equal(resolveRestraintPosture("realist", scores(3.8)).band, "Maximizer")
-  assert.equal(resolveRestraintPosture("realist", scores(4.5)).band, "Hedger")
-  assert.equal(resolveRestraintPosture("realist", scores(5.6)).band, "Restrainer")
-  assert.equal(posture.bandBoundaries.maximizer < posture.bandBoundaries.restrainer, true)
-  assert.equal(posture.bandBoundaries.maximizer, (3.85 - 1) / 6)
-  assert.equal(posture.bandBoundaries.restrainer, (5.15 - 1) / 6)
-})
-
-test("the realist lens names both ends from existing worldview profiles", () => {
-  const posture = resolveRestraintPosture("realist", scores(5.6))
-
-  assert.equal(posture.namedProfiles, true)
-  assert.equal(posture.low.kind, "profile")
-  assert.equal(posture.high.kind, "profile")
-  assert.equal(posture.low.label, "Power and Leverage")
-  assert.equal(posture.high.label, "Power with Limits")
-  assert.equal(posture.low.href, "/explore/atlas/competitive-balancer")
-  assert.equal(posture.high.href, "/explore/atlas/constraint-first-realist")
-})
-
-test("a lens whose profiles do not separate on restraint falls back to the modifier names", () => {
-  for (const familyKey of ["institutionalist", "constructivist", "criticalPoliticalEconomy"] as const) {
-    const posture = resolveRestraintPosture(familyKey, scores(4.4))
-    assert.equal(posture.namedProfiles, false, `${familyKey} claimed a profile pair`)
-    assert.equal(posture.low.label, "Maximizer")
-    assert.equal(posture.high.label, "Restrainer")
-    assert.equal(posture.low.href, undefined)
+    assert.equal(posture.low.code.endsWith("+"), true, `${familyKey} low end`)
+    assert.equal(posture.high.code.endsWith("-"), true, `${familyKey} high end`)
+    assert.notEqual(posture.low.name, posture.high.name)
+    assert.equal(posture.low.name.length > 0, true)
+    assert.equal(posture.high.name.length > 0, true)
+    // The pair differs only in sign — same lens, or same lens blend.
+    assert.equal(posture.low.code.slice(0, -1), posture.high.code.slice(0, -1))
   }
 })
 
-test("every modeled lens resolves to a usable posture strip", () => {
+test("the realist pair is The Hegemon and Shi, both linked to their evidence pages", () => {
+  const posture = resolveRestraintPosture(profile("realist", 5.8))
+
+  assert.equal(posture.blend, false)
+  assert.equal(posture.low.code, "P+")
+  assert.equal(posture.low.name, "The Hegemon")
+  assert.equal(posture.low.href, "/archetypes/p-plus")
+  assert.equal(posture.high.code, "P-")
+  assert.equal(posture.high.name, "Shi (勢)")
+  assert.equal(posture.high.href, "/archetypes/p-minus")
+})
+
+test("the posture sign and the current end agree with the archetype layer", () => {
   for (const familyKey of MODELED_FAMILY_KEYS) {
-    const posture = resolveRestraintPosture(familyKey, scores(4.4))
-    assert.equal(posture.low.label.length > 0, true)
-    assert.equal(posture.high.label.length > 0, true)
-    assert.notEqual(posture.low.label, posture.high.label)
+    for (const restraint of [1.4, 3.2, 4.6, 6.4]) {
+      const result = profile(familyKey, restraint)
+      const posture = resolveRestraintPosture(result)
+      const archetype = resolveArchetype(result)
+
+      assert.equal(posture.posture, archetype.posture)
+      assert.equal(posture.current.code, archetype.code)
+      assert.equal(
+        posture.current.code,
+        posture.posture === "+" ? posture.low.code : posture.high.code,
+      )
+    }
   }
 })
 
-test("a named pair never points at the same profile twice", () => {
+test("a blended reading pairs two blend archetypes and drops the evidence link", () => {
+  // Nudge a profile until the two nearest families stay close enough to blend.
+  const blended = resolveRestraintPosture(
+    buildCanonicalFoundationResult({
+      securityCompetition: 4.2,
+      institutions: 4.3,
+      domesticFilters: 4.2,
+      normsIdentity: 4.3,
+      politicalEconomy: 4.2,
+      restraint: 5.6,
+      orderJustice: 4.2,
+    }),
+  )
+
+  if (!blended.blend) return
+  assert.equal(blended.low.code.includes("/"), true)
+  assert.equal(blended.high.code.includes("/"), true)
+  assert.equal(blended.low.href, null)
+  assert.equal(blended.high.href, null)
+})
+
+test("every archetype in the catalog is reachable as a posture endpoint", () => {
+  const reachable = new Set<string>()
   for (const familyKey of MODELED_FAMILY_KEYS) {
-    const pair = findRestraintProfilePair(familyKey, atlasLitePatterns)
-    if (!pair) continue
-    assert.notEqual(pair.low.id, pair.high.id)
-    assert.notEqual(pair.low.fingerprint.restraint, pair.high.fingerprint.restraint)
+    const posture = resolveRestraintPosture(profile(familyKey, 5.8))
+    reachable.add(posture.low.code)
+    reachable.add(posture.high.code)
+  }
+
+  for (const archetype of archetypes) {
+    assert.equal(
+      reachable.has(archetype.code),
+      true,
+      `${archetype.code} (${archetype.name}) is never offered as an endpoint`,
+    )
   }
 })

@@ -11,12 +11,15 @@ import {
 import {
   getWorldStageFallbackFlows,
   getWorldStageFallbackNodes,
-  getWorldStageRoleLabel,
+  getWorldStageTooltipItems,
+  type WorldStageMapFilters,
   type WorldStageMapPresentation,
 } from "@/lib/world-stage/map-data"
 import {
+  WORLD_STAGE_FLOW_RELATION_COLORS,
   WORLD_STAGE_FLOW_WIDTHS,
   WORLD_STAGE_ROLE_COLORS,
+  WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS,
 } from "@/lib/world-stage/map-config"
 import type {
   WorldStageScene,
@@ -28,8 +31,13 @@ export type WorldStageInspectionPosition = { x: number; y: number }
 
 type WorldStageFallbackMapProps = {
   scene: WorldStageScene
+  filters: WorldStageMapFilters
   zoom: number
-  onInspect: (item: WorldStageTooltipItem, position: WorldStageInspectionPosition) => void
+  onInspect: (
+    item: WorldStageTooltipItem,
+    position: WorldStageInspectionPosition,
+    pinned?: boolean,
+  ) => void
   onClearInspection: () => void
   onInteraction: () => void
   presentation?: WorldStageMapPresentation
@@ -48,6 +56,7 @@ function pointerPosition(event: PointerEvent<SVGElement>): WorldStageInspectionP
 
 export function WorldStageFallbackMap({
   scene,
+  filters,
   zoom,
   onInspect,
   onClearInspection,
@@ -55,9 +64,15 @@ export function WorldStageFallbackMap({
   presentation,
 }: WorldStageFallbackMapProps) {
   const countryRoles = new Map(scene.countryRoles.map((country) => [country.iso3, country]))
-  const nodes = getWorldStageFallbackNodes(scene)
+  const nodes = getWorldStageFallbackNodes(scene, filters)
   const nodeById = new Map(scene.nodes.map((node) => [node.id, node]))
-  const flows = getWorldStageFallbackFlows(scene)
+  const flows = getWorldStageFallbackFlows(scene, filters)
+  const tooltipById = new Map(
+    getWorldStageTooltipItems(scene, presentation).map((item) => [
+      `${item.kind}:${item.id}`,
+      item,
+    ]),
+  )
   const cameraCenter = projectWorldStagePoint(scene.camera.center)
   const effectiveZoom = Math.max(1, scene.camera.zoom * zoom)
   const viewWidth = WORLD_STAGE_MAP_WIDTH / effectiveZoom
@@ -94,15 +109,8 @@ export function WorldStageFallbackMap({
         {WORLD_STAGE_COUNTRY_PATHS.map((country) => {
           const assigned = countryRoles.get(country.iso3)
           const role = assigned?.role ?? "neutral"
-          const item: WorldStageTooltipItem | null = assigned
-            ? {
-                id: assigned.iso3,
-                kind: "country",
-                label: `${presentation?.countryNames?.[country.iso3] ?? country.name} · ${presentation?.roleLabels?.[assigned.role] ?? getWorldStageRoleLabel(assigned.role)}`,
-                meaning: assigned.rationale,
-                asOf: scene.asOf,
-                sourceCount: assigned.sourceRefs.length,
-              }
+          const item = assigned
+            ? tooltipById.get(`country:${assigned.iso3}`) ?? null
             : null
           const roleStyle = {
             "--world-stage-country-fill": WORLD_STAGE_ROLE_COLORS[role],
@@ -126,7 +134,7 @@ export function WorldStageFallbackMap({
               }
               onPointerLeave={item ? onClearInspection : undefined}
               onPointerDown={
-                item ? (event) => onInspect(item, pointerPosition(event)) : undefined
+                item ? (event) => onInspect(item, pointerPosition(event), true) : undefined
               }
             />
           )
@@ -139,21 +147,21 @@ export function WorldStageFallbackMap({
           const to = nodeById.get(flow.toNodeId)
           if (!from || !to) return null
           const d = worldStageRoutePath(from.coordinates, to.coordinates, index)
-          const item: WorldStageTooltipItem = {
-            id: flow.id,
-            kind: "flow",
-            label: flow.label,
-            meaning: flow.meaning,
-            asOf: flow.asOf,
-            sourceCount: flow.sourceRefs.length,
-          }
+          const item = tooltipById.get(`flow:${flow.id}`)
+          if (!item) return null
+          const relationColor = flow.relation
+            ? WORLD_STAGE_FLOW_RELATION_COLORS[flow.relation]
+            : undefined
 
           return (
             <g key={flow.id}>
               <path
                 d={d}
                 className={styles.fallbackFlow}
-                style={{ strokeWidth: WORLD_STAGE_FLOW_WIDTHS[flow.weight] }}
+                style={{
+                  strokeWidth: WORLD_STAGE_FLOW_WIDTHS[flow.weight],
+                  stroke: relationColor,
+                }}
                 data-flow-id={flow.id}
               />
               <path
@@ -162,7 +170,7 @@ export function WorldStageFallbackMap({
                 onPointerEnter={(event) => onInspect(item, pointerPosition(event))}
                 onPointerMove={(event) => onInspect(item, pointerPosition(event))}
                 onPointerLeave={onClearInspection}
-                onPointerDown={(event) => onInspect(item, pointerPosition(event))}
+                onPointerDown={(event) => onInspect(item, pointerPosition(event), true)}
               />
             </g>
           )
@@ -172,25 +180,24 @@ export function WorldStageFallbackMap({
       <g className={styles.fallbackNodes}>
         {nodes.map((node) => {
           const point = projectWorldStagePoint(node.coordinates)
-          const item: WorldStageTooltipItem = {
-            id: node.id,
-            kind: "node",
-            label: node.label,
-            meaning: node.whyItMatters,
-            asOf: scene.asOf,
-            sourceCount: node.sourceRefs.length,
-          }
+          const item = tooltipById.get(`node:${node.id}`)
+          if (!item) return null
+          const nodeColor = node.semiconductorRole
+            ? WORLD_STAGE_SEMICONDUCTOR_ROLE_COLORS[node.semiconductorRole]
+            : undefined
 
           return (
             <g
               key={node.id}
               transform={`translate(${point.x.toFixed(1)} ${point.y.toFixed(1)})`}
               className={styles.fallbackNode}
+              data-node-id={node.id}
               data-node-kind={node.kind}
+              style={{ "--world-stage-node-color": nodeColor } as CSSProperties}
               onPointerEnter={(event) => onInspect(item, pointerPosition(event))}
               onPointerMove={(event) => onInspect(item, pointerPosition(event))}
               onPointerLeave={onClearInspection}
-              onPointerDown={(event) => onInspect(item, pointerPosition(event))}
+              onPointerDown={(event) => onInspect(item, pointerPosition(event), true)}
             >
               <circle className={styles.fallbackNodeHalo} r="8" />
               <circle className={styles.fallbackNodeCore} r="3.2" />

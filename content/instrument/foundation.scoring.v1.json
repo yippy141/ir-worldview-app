@@ -1,0 +1,992 @@
+{
+  "instrument": "foundation",
+  "scoringVersion": 1,
+  "items": [
+    {
+      "id": "sc1",
+      "kind": "likert",
+      "dimension": "securityCompetition",
+      "reverse": false
+    },
+    {
+      "id": "in1",
+      "kind": "likert",
+      "dimension": "institutions",
+      "reverse": false
+    },
+    {
+      "id": "df1",
+      "kind": "likert",
+      "dimension": "domesticFilters",
+      "reverse": false
+    },
+    {
+      "id": "ni1",
+      "kind": "likert",
+      "dimension": "normsIdentity",
+      "reverse": false
+    },
+    {
+      "id": "pe1",
+      "kind": "likert",
+      "dimension": "politicalEconomy",
+      "reverse": false
+    },
+    {
+      "id": "rs1",
+      "kind": "likert",
+      "dimension": "restraint",
+      "reverse": false
+    },
+    {
+      "id": "oj1",
+      "kind": "likert",
+      "dimension": "orderJustice",
+      "reverse": false
+    },
+    {
+      "id": "tradeoff_alliances",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "power",
+          "signals": {
+            "securityCompetition": 6.3,
+            "institutions": 2.8,
+            "restraint": 3.6
+          }
+        },
+        {
+          "id": "rules",
+          "signals": {
+            "institutions": 6.4,
+            "securityCompetition": 3.5,
+            "restraint": 4.7
+          }
+        },
+        {
+          "id": "domestic",
+          "signals": {
+            "domesticFilters": 6.3,
+            "institutions": 4.8,
+            "restraint": 4.5
+          }
+        },
+        {
+          "id": "meaning",
+          "signals": {
+            "normsIdentity": 6.2,
+            "institutions": 4.9,
+            "securityCompetition": 3.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "sc2",
+      "kind": "likert",
+      "dimension": "securityCompetition",
+      "reverse": false
+    },
+    {
+      "id": "in2",
+      "kind": "likert",
+      "dimension": "institutions",
+      "reverse": false
+    },
+    {
+      "id": "tradeoff_interdependence",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "rivalry",
+          "signals": {
+            "securityCompetition": 6.1,
+            "politicalEconomy": 4.8,
+            "institutions": 3.1
+          }
+        },
+        {
+          "id": "rules",
+          "signals": {
+            "institutions": 6.2,
+            "politicalEconomy": 4.3,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "domestic",
+          "signals": {
+            "domesticFilters": 6.2,
+            "politicalEconomy": 5.2,
+            "restraint": 4.4
+          }
+        },
+        {
+          "id": "structure",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "institutions": 2.9,
+            "securityCompetition": 4.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "df2",
+      "kind": "likert",
+      "dimension": "domesticFilters",
+      "reverse": false
+    },
+    {
+      "id": "ni2",
+      "kind": "likert",
+      "dimension": "normsIdentity",
+      "reverse": false
+    },
+    {
+      "id": "pe2",
+      "kind": "likert",
+      "dimension": "politicalEconomy",
+      "reverse": false
+    },
+    {
+      "id": "rs2",
+      "kind": "likert",
+      "dimension": "restraint",
+      "reverse": false
+    },
+    {
+      "id": "oj2",
+      "kind": "likert",
+      "dimension": "orderJustice",
+      "reverse": true
+    },
+    {
+      "id": "tradeoff_strategy",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "press",
+          "signals": {
+            "restraint": 2.4,
+            "securityCompetition": 6.1
+          }
+        },
+        {
+          "id": "limit",
+          "signals": {
+            "restraint": 6.2,
+            "securityCompetition": 4.1
+          }
+        },
+        {
+          "id": "base",
+          "signals": {
+            "domesticFilters": 6.3,
+            "restraint": 5.1
+          }
+        },
+        {
+          "id": "industrial",
+          "signals": {
+            "politicalEconomy": 6.1,
+            "securityCompetition": 4.9,
+            "restraint": 4.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "tradeoff_intervention",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "precedent",
+          "signals": {
+            "orderJustice": 6.3,
+            "restraint": 5.2,
+            "institutions": 4.8
+          }
+        },
+        {
+          "id": "protection",
+          "signals": {
+            "orderJustice": 2.4,
+            "restraint": 3.3,
+            "normsIdentity": 4.7
+          }
+        },
+        {
+          "id": "mandate",
+          "signals": {
+            "institutions": 6.1,
+            "orderJustice": 4.3,
+            "restraint": 4.9
+          }
+        },
+        {
+          "id": "consequences",
+          "signals": {
+            "restraint": 6.1,
+            "orderJustice": 4,
+            "domesticFilters": 4.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "case_semiconductors",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "edge",
+          "signals": {
+            "securityCompetition": 6.4,
+            "restraint": 2.8,
+            "institutions": 2.9
+          }
+        },
+        {
+          "id": "dependence",
+          "signals": {
+            "politicalEconomy": 6.4,
+            "securityCompetition": 4.8,
+            "institutions": 3.3
+          }
+        },
+        {
+          "id": "coalition",
+          "signals": {
+            "institutions": 6.2,
+            "restraint": 5,
+            "securityCompetition": 4.4
+          }
+        },
+        {
+          "id": "framing",
+          "signals": {
+            "normsIdentity": 5.9,
+            "restraint": 5.7,
+            "securityCompetition": 3.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "case_protection",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "law",
+          "signals": {
+            "orderJustice": 6.5,
+            "institutions": 5.4,
+            "restraint": 5.1
+          }
+        },
+        {
+          "id": "moral",
+          "signals": {
+            "orderJustice": 2.3,
+            "restraint": 3.4,
+            "normsIdentity": 4.9
+          }
+        },
+        {
+          "id": "bounded",
+          "signals": {
+            "institutions": 5.8,
+            "orderJustice": 4.3,
+            "restraint": 5
+          }
+        },
+        {
+          "id": "prudence",
+          "signals": {
+            "restraint": 6.2,
+            "orderJustice": 4.1,
+            "domesticFilters": 4.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_sc3",
+      "kind": "likert",
+      "dimension": "securityCompetition",
+      "reverse": false
+    },
+    {
+      "id": "an_in3",
+      "kind": "likert",
+      "dimension": "institutions",
+      "reverse": true
+    },
+    {
+      "id": "an_pe3",
+      "kind": "likert",
+      "dimension": "politicalEconomy",
+      "reverse": true
+    },
+    {
+      "id": "an_oj3",
+      "kind": "likert",
+      "dimension": "orderJustice",
+      "reverse": false
+    },
+    {
+      "id": "an_sc4",
+      "kind": "likert",
+      "dimension": "securityCompetition",
+      "reverse": false
+    },
+    {
+      "id": "an_ni3",
+      "kind": "likert",
+      "dimension": "normsIdentity",
+      "reverse": false
+    },
+    {
+      "id": "an_pe4",
+      "kind": "likert",
+      "dimension": "politicalEconomy",
+      "reverse": false
+    },
+    {
+      "id": "an_in4",
+      "kind": "likert",
+      "dimension": "institutions",
+      "reverse": false
+    },
+    {
+      "id": "an_tradeoff_legitimacy",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "governance",
+          "signals": {
+            "institutions": 6.2,
+            "domesticFilters": 4.6,
+            "normsIdentity": 4.4
+          }
+        },
+        {
+          "id": "exclusion",
+          "signals": {
+            "normsIdentity": 6.4,
+            "institutions": 4.6,
+            "domesticFilters": 4.8
+          }
+        },
+        {
+          "id": "power",
+          "signals": {
+            "securityCompetition": 6,
+            "institutions": 3,
+            "normsIdentity": 3.1
+          }
+        },
+        {
+          "id": "hierarchy",
+          "signals": {
+            "politicalEconomy": 6.3,
+            "institutions": 3.1,
+            "normsIdentity": 4.7
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_tradeoff_rival",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "update",
+          "signals": {
+            "normsIdentity": 6.2,
+            "securityCompetition": 2.9,
+            "institutions": 4.7
+          }
+        },
+        {
+          "id": "minimal",
+          "signals": {
+            "securityCompetition": 6.3,
+            "normsIdentity": 2.8
+          }
+        },
+        {
+          "id": "integration",
+          "signals": {
+            "institutions": 6.1,
+            "securityCompetition": 3.6,
+            "normsIdentity": 4.5
+          }
+        },
+        {
+          "id": "durability",
+          "signals": {
+            "domesticFilters": 6.3,
+            "normsIdentity": 4.8,
+            "institutions": 4.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_finance",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "credibility",
+          "signals": {
+            "politicalEconomy": 2.9,
+            "domesticFilters": 4.8,
+            "institutions": 4.3
+          }
+        },
+        {
+          "id": "pragmatic",
+          "signals": {
+            "politicalEconomy": 5.1,
+            "domesticFilters": 5.2,
+            "institutions": 5.1,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "dependence",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "institutions": 2.8,
+            "domesticFilters": 4.8
+          }
+        },
+        {
+          "id": "coalitions",
+          "signals": {
+            "domesticFilters": 6.4,
+            "politicalEconomy": 5.2,
+            "institutions": 4.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_burdens",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "credibility",
+          "signals": {
+            "securityCompetition": 6,
+            "restraint": 3.4,
+            "institutions": 3.6
+          }
+        },
+        {
+          "id": "capacity",
+          "signals": {
+            "institutions": 6.1,
+            "securityCompetition": 4.1,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "purpose",
+          "signals": {
+            "normsIdentity": 5.8,
+            "domesticFilters": 5.4,
+            "institutions": 4.5
+          }
+        },
+        {
+          "id": "rebalance",
+          "signals": {
+            "restraint": 6.3,
+            "securityCompetition": 4.6,
+            "institutions": 3.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_tradeoff_evidence",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "capabilities",
+          "signals": {
+            "securityCompetition": 6.3,
+            "normsIdentity": 3
+          }
+        },
+        {
+          "id": "commitments",
+          "signals": {
+            "institutions": 6.1,
+            "securityCompetition": 3.6,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "coalitions",
+          "signals": {
+            "domesticFilters": 6.4,
+            "institutions": 4.3,
+            "restraint": 4.9
+          }
+        },
+        {
+          "id": "status",
+          "signals": {
+            "normsIdentity": 6.3,
+            "securityCompetition": 3.2,
+            "institutions": 4.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_tradeoff_tech_order",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "edge",
+          "signals": {
+            "securityCompetition": 6.2,
+            "politicalEconomy": 4.7,
+            "restraint": 3.4
+          }
+        },
+        {
+          "id": "chokepoints",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "securityCompetition": 4.7,
+            "institutions": 3.4
+          }
+        },
+        {
+          "id": "narrow",
+          "signals": {
+            "institutions": 6.2,
+            "restraint": 5,
+            "securityCompetition": 4.3
+          }
+        },
+        {
+          "id": "hierarchy",
+          "signals": {
+            "politicalEconomy": 5.9,
+            "normsIdentity": 4.9,
+            "orderJustice": 3.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_middle_power",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "shield",
+          "signals": {
+            "securityCompetition": 5.9,
+            "institutions": 4.2,
+            "restraint": 3.7
+          }
+        },
+        {
+          "id": "hedge",
+          "signals": {
+            "restraint": 5.9,
+            "politicalEconomy": 5.2,
+            "institutions": 4.7
+          }
+        },
+        {
+          "id": "peers",
+          "signals": {
+            "institutions": 6,
+            "normsIdentity": 5.1,
+            "politicalEconomy": 4.6
+          }
+        },
+        {
+          "id": "extract",
+          "signals": {
+            "domesticFilters": 5.4,
+            "politicalEconomy": 5.6,
+            "restraint": 4.4
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_green_finance",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "stabilize",
+          "signals": {
+            "institutions": 5.8,
+            "domesticFilters": 4.9,
+            "politicalEconomy": 3.4
+          }
+        },
+        {
+          "id": "space",
+          "signals": {
+            "politicalEconomy": 6.5,
+            "domesticFilters": 4.8,
+            "orderJustice": 3.6
+          }
+        },
+        {
+          "id": "bloc",
+          "signals": {
+            "institutions": 5.7,
+            "normsIdentity": 5.2,
+            "politicalEconomy": 5
+          }
+        },
+        {
+          "id": "home",
+          "signals": {
+            "domesticFilters": 6.4,
+            "politicalEconomy": 4.9,
+            "institutions": 4.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_maritime_crisis",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "deter",
+          "signals": {
+            "securityCompetition": 6.3,
+            "restraint": 3.3,
+            "institutions": 3.8
+          }
+        },
+        {
+          "id": "entrapment",
+          "signals": {
+            "restraint": 6.3,
+            "securityCompetition": 4.2,
+            "institutions": 4
+          }
+        },
+        {
+          "id": "offramp",
+          "signals": {
+            "institutions": 6.1,
+            "restraint": 5.2,
+            "securityCompetition": 4
+          }
+        },
+        {
+          "id": "ally_politics",
+          "signals": {
+            "domesticFilters": 6.2,
+            "restraint": 4.8,
+            "securityCompetition": 4.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_digital_stack",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "security",
+          "signals": {
+            "securityCompetition": 6,
+            "politicalEconomy": 4.9,
+            "restraint": 3.7
+          }
+        },
+        {
+          "id": "dependence",
+          "signals": {
+            "politicalEconomy": 6.4,
+            "securityCompetition": 4.4,
+            "institutions": 3.8
+          }
+        },
+        {
+          "id": "interoperability",
+          "signals": {
+            "institutions": 6.1,
+            "politicalEconomy": 4.6,
+            "restraint": 4.8
+          }
+        },
+        {
+          "id": "autonomy",
+          "signals": {
+            "normsIdentity": 5.7,
+            "restraint": 5.4,
+            "securityCompetition": 3.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_tradeoff_parallel_order",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "reform",
+          "signals": {
+            "institutions": 6.3,
+            "domesticFilters": 4.6,
+            "normsIdentity": 4.5
+          }
+        },
+        {
+          "id": "power",
+          "signals": {
+            "securityCompetition": 6.1,
+            "institutions": 3,
+            "politicalEconomy": 4.7
+          }
+        },
+        {
+          "id": "hierarchy",
+          "signals": {
+            "politicalEconomy": 6.4,
+            "institutions": 4,
+            "orderJustice": 3.6
+          }
+        },
+        {
+          "id": "legitimation",
+          "signals": {
+            "domesticFilters": 6.2,
+            "normsIdentity": 5,
+            "institutions": 4.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_sanctions_alignment",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "norm",
+          "signals": {
+            "institutions": 5.8,
+            "orderJustice": 5.9,
+            "restraint": 3.8
+          }
+        },
+        {
+          "id": "stability",
+          "signals": {
+            "domesticFilters": 6.4,
+            "restraint": 5.1,
+            "politicalEconomy": 4.9
+          }
+        },
+        {
+          "id": "diversify",
+          "signals": {
+            "politicalEconomy": 6.3,
+            "restraint": 5.4,
+            "institutions": 4.3
+          }
+        },
+        {
+          "id": "hedge",
+          "signals": {
+            "restraint": 6,
+            "normsIdentity": 4.8,
+            "institutions": 4.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_intervention_memory",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "shield",
+          "signals": {
+            "orderJustice": 6.3,
+            "restraint": 5.4,
+            "normsIdentity": 4.8
+          }
+        },
+        {
+          "id": "threshold",
+          "signals": {
+            "orderJustice": 2.7,
+            "restraint": 3.8,
+            "normsIdentity": 4.9
+          }
+        },
+        {
+          "id": "regional",
+          "signals": {
+            "institutions": 6,
+            "orderJustice": 4.2,
+            "restraint": 5
+          }
+        },
+        {
+          "id": "aftermath",
+          "signals": {
+            "restraint": 6.2,
+            "domesticFilters": 4.8,
+            "orderJustice": 4.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_case_rising_power_voice",
+      "kind": "miniCase",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "security_transition",
+          "signals": {
+            "securityCompetition": 6.1,
+            "institutions": 3.5,
+            "normsIdentity": 3.8
+          }
+        },
+        {
+          "id": "status_recognition",
+          "signals": {
+            "normsIdentity": 6.3,
+            "securityCompetition": 3.4,
+            "institutions": 4.4
+          }
+        },
+        {
+          "id": "representation",
+          "signals": {
+            "institutions": 6.2,
+            "domesticFilters": 4.6,
+            "normsIdentity": 4.5
+          }
+        },
+        {
+          "id": "hierarchy_contest",
+          "signals": {
+            "politicalEconomy": 6.2,
+            "securityCompetition": 4.6,
+            "normsIdentity": 4.7
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_tradeoff_energy_alignment",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "defend_rule",
+          "signals": {
+            "orderJustice": 6.1,
+            "institutions": 5.6,
+            "restraint": 3.7
+          }
+        },
+        {
+          "id": "protect_home",
+          "signals": {
+            "domesticFilters": 6.4,
+            "restraint": 5.3,
+            "politicalEconomy": 4.7
+          }
+        },
+        {
+          "id": "phase_reduction",
+          "signals": {
+            "politicalEconomy": 5.9,
+            "restraint": 5.8,
+            "domesticFilters": 5.1
+          }
+        },
+        {
+          "id": "hedge_diplomatically",
+          "signals": {
+            "restraint": 5.7,
+            "normsIdentity": 4.8,
+            "institutions": 4.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "an_tradeoff_ceasefire_settlement",
+      "kind": "tradeoff",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "stop_harm_now",
+          "signals": {
+            "restraint": 5.9,
+            "orderJustice": 3.1,
+            "institutions": 4.8
+          }
+        },
+        {
+          "id": "hold_accountability_line",
+          "signals": {
+            "orderJustice": 6.2,
+            "institutions": 5.1,
+            "restraint": 4.1
+          }
+        },
+        {
+          "id": "sequence_peace_and_justice",
+          "signals": {
+            "institutions": 6.1,
+            "restraint": 5.2,
+            "orderJustice": 4.4
+          }
+        },
+        {
+          "id": "read_the_power_distribution",
+          "signals": {
+            "politicalEconomy": 5.9,
+            "domesticFilters": 4.8,
+            "orderJustice": 4
+          }
+        }
+      ]
+    }
+  ]
+}
