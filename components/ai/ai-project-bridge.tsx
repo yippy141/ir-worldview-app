@@ -77,11 +77,11 @@ export function AiProjectBridge({
       <div className="stack-xs">
         <p className="eyebrow">IR relationship</p>
         <h2>How this AI result relates to your IR baseline</h2>
-        <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-          {foundation
-            ? "Read this as a relationship between two saved layers in the same project, not as a rewritten Foundation identity or a single combined score."
-            : "This AI result is part of the same project, but no IR Foundation baseline is saved on this device yet, so the relationship read stays general."}
-        </p>
+        {foundation ? null : (
+          <p className="muted result-note">
+            No IR Foundation baseline is saved on this device yet, so the comparison stays general.
+          </p>
+        )}
       </div>
 
       {foundation ? (

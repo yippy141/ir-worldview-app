@@ -108,10 +108,6 @@ export function AiGovernanceReadingListSection({
   ]
 
   return (
-    <ReadingPathSection
-      title="Read the result from another angle"
-      intro="Compare this result with its strongest critics, then examine the evidence behind each position."
-      paths={paths}
-    />
+    <ReadingPathSection title="Read the result from another angle" paths={paths} />
   )
 }

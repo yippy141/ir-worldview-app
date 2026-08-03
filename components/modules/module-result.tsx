@@ -57,6 +57,11 @@ export function ModuleResultView({
     cardTypeSummary: result.cardTypeRead?.summary,
     laneSummaries: result.laneSummaries,
   })
+  const identityCode = [
+    moduleDefinition.shorthand,
+    mode === "standard" ? "Standard" : "Advanced",
+    `${questionCount} questions`,
+  ]
 
   return (
     <div className="stack-lg">
@@ -95,18 +100,30 @@ export function ModuleResultView({
           }}
         />
 
-        <section className="result-section stack-md">
-          <p className="eyebrow">Focus-area result</p>
-          <h1>{result.headline}</h1>
-          <p className="muted" style={{ lineHeight: "1.75", maxWidth: "760px" }}>
-            {result.summary}
+        {/* ── 1. Verdict ── */}
+        <header className="result-verdict">
+          <p className="eyebrow">{moduleDefinition.shortTitle} result</p>
+          <h1 className="result-verdict__name">{result.headline}</h1>
+          <p className="result-verdict__code">
+            {identityCode.map((part, index) => (
+              <span key={part}>
+                {index > 0 ? <span aria-hidden="true"> · </span> : null}
+                <span>{part}</span>
+              </span>
+            ))}
           </p>
+          <p className="result-verdict__gloss">{result.summary}</p>
+        </header>
+
+        {/* ── 2. Lane meters ── */}
+        <section className="result-section result-figure">
+          <h2>Where the three lanes sit</h2>
           <div className="profile-module-grid">
             {result.laneSummaries.map((lane) => (
               <div key={lane.key} className="explore-card stack-sm">
                 <div className="stack-xs">
                   <p className="eyebrow">{lane.label}</p>
-                  <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{lane.summary}</p>
+                  <p className="module-lane-copy">{lane.summary}</p>
                 </div>
                 <ScaleBar
                   value={lane.score}
@@ -117,30 +134,43 @@ export function ModuleResultView({
                   className="module-lane-meter"
                 />
                 {lane.delta ? (
-                  <p className="muted" style={{ fontSize: "0.84rem", lineHeight: "1.55" }}>
+                  <p className="muted module-lane-delta">
                     <strong>Relative to Foundation:</strong> {lane.delta}
                   </p>
                 ) : null}
               </div>
             ))}
           </div>
-          <div className="callout stack-xs">
-            <p style={{ fontWeight: 600 }}>What this still leaves open</p>
-            <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>{result.challenge}</p>
-          </div>
         </section>
 
-        <section className="result-section stack-md">
-          <div className="stack-xs">
-            <p className="eyebrow">Foundation linkage</p>
-            <h2>How this relates to your Foundation</h2>
-            <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-              {foundation
-                ? "This result does not replace your Foundation read. It shows what still tracks, what gets messier, and where this issue area pulls you in a different direction."
-                : "This result was opened without a linked Foundation baseline, so the comparison below stays limited until you run the module from a saved Foundation result or from a device with one saved."}
-            </p>
+        {/* ── 3. Axis profile ── */}
+        <section className="result-section result-figure">
+          <h2>{moduleDefinition.shortTitle} axes</h2>
+          <div>
+            {moduleDefinition.axes.map((axis) => (
+              <div key={axis.key} className="dim-row">
+                <ScaleBar
+                  label={axis.label}
+                  value={result.scores[axis.key]}
+                  valueLabel={result.scores[axis.key].toFixed(1)}
+                  lowLabel={axis.lowLabel}
+                  highLabel={axis.highLabel}
+                  tone={slug}
+                />
+              </div>
+            ))}
           </div>
+          <p className="result-figure__note">
+            These are directional scores inside this module, not population percentiles. The
+            labels name the two directions rather than empirical endpoints
+            {hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}{" "}
+            <Link href="/method">Methods sets out the limits →</Link>
+          </p>
+        </section>
 
+        {/* ── 4. Relation to the Foundation baseline ── */}
+        <section className="result-section result-figure">
+          <h2>Against your Foundation baseline</h2>
           {foundation ? (
             <div className="module-relation-grid">
               <article className="module-relation-card module-relation-card--reinforce stack-xs">
@@ -172,16 +202,17 @@ export function ModuleResultView({
             </div>
           ) : (
             <div className="callout stack-xs">
-              <p style={{ fontWeight: 600 }}>No linked Foundation baseline was available</p>
-              <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-                This module still gives you its own read, but the reinforce / complicate / pull-away comparison needs a saved or linked Foundation baseline.
+              <p className="result-strong">No linked Foundation baseline</p>
+              <p className="muted module-lane-copy">
+                Open this module from a saved Foundation result to get the comparison.
               </p>
             </div>
           )}
         </section>
 
-        <section className="result-section stack-md">
-          <h2>Decisive calls</h2>
+        {/* ── 5. Decisive calls ── */}
+        <section className="result-section result-figure">
+          <h2>The calls that decided it</h2>
           <div className="module-decisive-list">
             {decisiveCalls.map((call, index) => (
               <article key={call.id} className="module-decisive-call">
@@ -193,142 +224,17 @@ export function ModuleResultView({
                 <div className="stack-xs">
                   <h3>{call.caseTitle}</h3>
                   <p className="module-decisive-framing">{call.framing}</p>
-                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {call.implication}
-                  </p>
+                  <p className="muted module-lane-delta">{call.implication}</p>
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        {result.cardTypeRead ? (
-          <section className="result-section stack-md">
-            <h2>{result.cardTypeRead.headline}</h2>
-            <p className="result-prose" style={{ lineHeight: "1.7" }}>
-              {result.cardTypeRead.summary}
-            </p>
-          </section>
-        ) : null}
-
-        <section className="result-section stack-md">
-          <h2>What you keep coming back to</h2>
-          <ul className="content-list result-prose">
-            {result.instincts.map((instinct) => (
-              <li key={instinct}>{instinct}</li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="result-section stack-md">
-          <h2>How to read this module</h2>
-          <details className="profile-details">
-            <summary>Open framing and scope notes</summary>
-            <div className="driver-grid" style={{ marginTop: "16px" }}>
-              <div className="driver-card stack-xs">
-                <p className="eyebrow">Mode</p>
-                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                  {mode === "standard" ? "Standard" : "Advanced"}
-                </p>
-                <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                  {questionCount} questions · {moduleDefinition.timeEstimate[mode]}
-                </p>
-              </div>
-              <div className="driver-card stack-xs">
-                <p className="eyebrow">In-flow shorthand</p>
-                <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                  {moduleDefinition.shorthand}
-                </p>
-                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                  This is an issue read, not a replacement for the Foundation baseline.
-                </p>
-              </div>
-              <div className="driver-card stack-xs">
-                <p className="eyebrow">What it measured</p>
-                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                  {moduleDefinition.measures.join("; ")}.
-                </p>
-              </div>
-              <div className="driver-card stack-xs">
-                <p className="eyebrow">What it did not claim</p>
-                <p className="muted" style={{ fontSize: "0.88rem", lineHeight: "1.65" }}>
-                  {moduleDefinition.doesNotClaim.join("; ")}.
-                </p>
-              </div>
-            </div>
-          </details>
-        </section>
-
-        <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Module profile</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              These are directional scores inside this module, not population percentiles. The
-              labels name the two directions rather than empirical endpoints
-              {hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}
-            </p>
-          </div>
-
-          <div>
-            {moduleDefinition.axes.map((axis) => (
-              <div key={axis.key} className="dim-row">
-                <ScaleBar
-                  label={axis.label}
-                  value={result.scores[axis.key]}
-                  valueLabel={result.scores[axis.key].toFixed(1)}
-                  lowLabel={axis.lowLabel}
-                  highLabel={axis.highLabel}
-                  tone={slug}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="result-section stack-md">
-          <div className="stack-xs">
-            <h2>Evidence log</h2>
-            <p className="muted" style={{ fontSize: "0.875rem" }}>
-              The complete record of choices used to produce this module result.
-            </p>
-          </div>
-          <details className="profile-details">
-            <summary>Open full evidence log</summary>
-            <div className="driver-grid" style={{ marginTop: "16px" }}>
-              {selected.map(({ question, primary, secondary }) => (
-                <div key={question.id} className="driver-card stack-sm">
-                  <div className="stack-xs">
-                    <p className="eyebrow">{question.title}</p>
-                    <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-                      {laneLabelMap[question.lane] ?? question.lane} · {formatCardType(question.cardType)}
-                    </p>
-                    <p style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>{question.prompt}</p>
-                  </div>
-                  <div className="stack-xs">
-                    <span className="option-card-meta">Most persuasive</span>
-                    <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>
-                      {primary?.title ?? "No selection"}
-                    </p>
-                    <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
-                      {primary?.label ?? "This question was not answered."}
-                    </p>
-                  </div>
-                  {secondary ? (
-                    <div className="stack-xs">
-                      <span className="option-card-meta option-card-meta--secondary">Second-most persuasive</span>
-                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{secondary.title}</p>
-                      <p className="muted" style={{ fontSize: "0.85rem", lineHeight: "1.6" }}>
-                        {secondary.label}
-                      </p>
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-            </div>
-          </details>
-        </section>
-
-        <section className="result-section stack-md">
+        {/* ── 6. What would change this ── */}
+        <section className="result-section result-next">
+          <h2>What would change this</h2>
+          <p className="result-next__question">{result.challenge}</p>
           <div className="row gap-sm wrap">
             <Link
               href={foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules"}
@@ -348,7 +254,91 @@ export function ModuleResultView({
               View your Profile
             </Link>
           </div>
-          <ResearchStatusNotice instrumentLabel={`${moduleDefinition.shortTitle} module`} />
+        </section>
+
+        <section className="result-section result-appendix-section stack-md">
+          <details className="profile-details">
+            <summary>Full analysis</summary>
+            <div className="stack-lg result-details-body">
+              {result.cardTypeRead ? (
+                <div className="stack-md">
+                  <h2>{result.cardTypeRead.headline}</h2>
+                  <p className="result-prose module-prose">{result.cardTypeRead.summary}</p>
+                </div>
+              ) : null}
+
+              <div className="stack-md">
+                <h2>What you keep coming back to</h2>
+                <ul className="content-list result-prose">
+                  {result.instincts.map((instinct) => (
+                    <li key={instinct}>{instinct}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="stack-md">
+                <h2>Scope</h2>
+                <div className="driver-grid">
+                  <div className="driver-card stack-xs">
+                    <p className="eyebrow">Form</p>
+                    <p className="driver-card__value">
+                      {mode === "standard" ? "Standard" : "Advanced"}
+                    </p>
+                    <p className="muted module-lane-delta">
+                      {questionCount} questions · {moduleDefinition.timeEstimate[mode]}
+                    </p>
+                  </div>
+                  <div className="driver-card stack-xs">
+                    <p className="eyebrow">What it measured</p>
+                    <p className="muted module-lane-delta">
+                      {moduleDefinition.measures.join("; ")}.
+                    </p>
+                  </div>
+                  <div className="driver-card stack-xs">
+                    <p className="eyebrow">What it did not claim</p>
+                    <p className="muted module-lane-delta">
+                      {moduleDefinition.doesNotClaim.join("; ")}.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="stack-md">
+                <h2>Evidence log</h2>
+                <div className="driver-grid">
+                  {selected.map(({ question, primary, secondary }) => (
+                    <div key={question.id} className="driver-card stack-sm">
+                      <div className="stack-xs">
+                        <p className="eyebrow">{question.title}</p>
+                        <p className="muted module-evidence-meta">
+                          {laneLabelMap[question.lane] ?? question.lane} · {formatCardType(question.cardType)}
+                        </p>
+                        <p className="module-lane-copy">{question.prompt}</p>
+                      </div>
+                      <div className="stack-xs">
+                        <span className="option-card-meta">Most persuasive</span>
+                        <p className="driver-card__value">
+                          {primary?.title ?? "No selection"}
+                        </p>
+                        <p className="muted module-lane-delta">
+                          {primary?.label ?? "This question was not answered."}
+                        </p>
+                      </div>
+                      {secondary ? (
+                        <div className="stack-xs">
+                          <span className="option-card-meta option-card-meta--secondary">Second-most persuasive</span>
+                          <p className="driver-card__value">{secondary.title}</p>
+                          <p className="muted module-lane-delta">{secondary.label}</p>
+                        </div>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <ResearchStatusNotice instrumentLabel={`${moduleDefinition.shortTitle} module`} />
+            </div>
+          </details>
         </section>
       </article>
     </div>
@@ -502,7 +492,7 @@ function buildFoundationRelation({
       reinforceCandidates.length > 0
         ? reinforceCandidates.slice(0, 2)
         : [
-            `Your ${moduleTitle} read still looks like an overlay on the same baseline rather than a replacement for it.`,
+            `Your ${moduleTitle} read tracks the same baseline it started from.`,
           ],
     complicates: [cardTypeSummary ?? challenge],
     pullsAway:

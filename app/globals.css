@@ -8894,6 +8894,324 @@ html:lang(zh-Hans) .quiz-shell-label {
 }
 
 /* ============================================================
+   V22 result scroll sequence — verdict, figure sections, charts
+   ============================================================ */
+
+.result-verdict {
+  padding: 72px 0 60px;
+  border-bottom: 1px solid var(--line);
+}
+
+.result-verdict__name {
+  margin: 12px 0 0;
+  max-width: 18ch;
+  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.result-verdict__code {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SFMono-Regular", monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.6;
+}
+
+.result-verdict__gloss {
+  margin: 24px 0 0;
+  max-width: 52ch;
+  color: var(--text-2);
+  font-size: 1.12rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+/* One visual per section, prose in support underneath it. */
+.result-figure > h2 {
+  margin: 0 0 28px;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.result-figure__note {
+  margin: 20px 0 0;
+  max-width: 66ch;
+  color: var(--muted);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.result-figure__bars {
+  display: grid;
+  gap: 18px;
+  max-width: 640px;
+}
+
+.result-next > h2 {
+  margin: 0 0 20px;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  line-height: 1.25;
+}
+
+.result-next__question {
+  margin: 0 0 28px;
+  max-width: 54ch;
+  font-size: 1.15rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+/* ── Diverging push chart ─────────────────────────────────────────────── */
+
+.push-chart {
+  max-width: 760px;
+}
+
+/* Head columns match the row grid so the centre caption sits over the spine. */
+.push-chart__head {
+  display: grid;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) minmax(0, 11rem);
+  gap: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  color: var(--faint);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.push-chart__head > span:first-child {
+  text-align: right;
+}
+
+.push-chart__head > span:nth-child(2) {
+  text-align: center;
+}
+
+.push-chart__rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.push-chart__row {
+  display: grid;
+  grid-template-columns: minmax(0, 10rem) minmax(0, 1fr) minmax(0, 11rem);
+  gap: 14px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+}
+
+.push-chart__label {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--text-2);
+}
+
+.push-chart__track {
+  position: relative;
+  height: 14px;
+}
+
+.push-chart__spine {
+  position: absolute;
+  left: 50%;
+  top: -9px;
+  bottom: -9px;
+  width: 1px;
+  background: var(--line-2);
+}
+
+.push-chart__fill {
+  position: absolute;
+  top: 3px;
+  height: 8px;
+  background: var(--accent);
+}
+
+.push-chart__fill--low {
+  background: var(--steel);
+}
+
+.push-chart__row .push-chart__read {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.push-chart__pole {
+  color: var(--muted);
+}
+
+.push-chart__score {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  /* Rows stack, so the three-column head no longer describes anything. */
+  .push-chart__head {
+    display: none;
+  }
+
+  .push-chart__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .push-chart__rows {
+    border-top: 1px solid var(--line);
+  }
+}
+
+/* ── Nearest-alternative comparison ───────────────────────────────────── */
+
+.alt-compare {
+  width: 100%;
+  max-width: 760px;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.86rem;
+}
+
+.alt-compare th,
+.alt-compare td {
+  padding: 12px 14px 12px 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.alt-compare thead th {
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.alt-compare tbody th {
+  color: var(--text);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.alt-compare td {
+  color: var(--muted);
+}
+
+.alt-compare td[data-expected="high"],
+.alt-compare td[data-expected="low"] {
+  color: var(--text-2);
+}
+
+.alt-compare__score {
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Chart legend on the Foundation signals section ───────────────────── */
+
+.foundation-signal-legend {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.foundation-signal-legend__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 28px;
+  align-items: start;
+  padding-top: 14px;
+}
+
+.foundation-signal-legend__row > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.foundation-signal-legend__row strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ── Shared result-page text sizes replacing inline styles ────────────── */
+
+.module-lane-copy {
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.module-lane-delta {
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.module-evidence-meta {
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.module-prose {
+  line-height: 1.7;
+}
+
+.driver-card__value {
+  font-weight: 600;
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+.ai-dim-row__note {
+  margin-top: 6px;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.profile-section-heading {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 640px) {
+  .result-verdict {
+    padding: 40px 0 36px;
+  }
+
+  .result-verdict__gloss {
+    font-size: 1.05rem;
+  }
+
+  .alt-compare {
+    font-size: 0.8rem;
+  }
+
+  .foundation-signal-legend__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ============================================================
    Twelve Trajectories (editorial futures field map)
    ============================================================ */
 

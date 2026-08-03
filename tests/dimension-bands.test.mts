@@ -7,10 +7,12 @@ import {
   getStrongLenses,
 } from "@/lib/result-helpers"
 import {
+  DIMENSION_POLES,
   OBSERVED_DIMENSION_RANGES,
   dimensionBand,
   dimensionHighCut,
   dimensionLowCut,
+  getDimensionPush,
 } from "@/lib/results/dimension-bands"
 import type { DimensionKey, DimensionScores } from "@/lib/types"
 
@@ -128,6 +130,45 @@ test("each strong lens becomes reachable at its calibrated dimension band", () =
       `${expectedKey} should be reachable at the ${direction} ${dimension} cut.`,
     )
   }
+})
+
+test("an average profile puts every push bar on the spine", () => {
+  // The diverging chart must not imply a dimension pushed the result when the
+  // score sits exactly at the centre of what the instrument produces.
+  for (const row of getDimensionPush(observedMeanProfile())) {
+    assert.ok(
+      Math.abs(row.deviation) < 0.01,
+      `${row.dimension} should sit on the spine at its observed mean.`,
+    )
+  }
+})
+
+test("push deviations stay bounded, signed, and sorted by strength", () => {
+  const scores = observedMeanProfile()
+  scores.securityCompetition = 7
+  scores.institutions = 1
+  scores.orderJustice = 5.4
+
+  const rows = getDimensionPush(scores)
+  assert.equal(rows.length, DIMENSION_KEYS.length)
+
+  for (const row of rows) {
+    assert.ok(
+      row.deviation >= -1 && row.deviation <= 1,
+      `${row.dimension} deviation must stay inside the plotted range.`,
+    )
+    assert.equal(
+      row.pole,
+      row.deviation >= 0
+        ? DIMENSION_POLES[row.dimension].high
+        : DIMENSION_POLES[row.dimension].low,
+    )
+  }
+
+  const strengths = rows.map((row) => Math.abs(row.deviation))
+  assert.deepEqual(strengths, [...strengths].sort((a, b) => b - a))
+  assert.equal(rows[0].dimension, "securityCompetition")
+  assert.equal(rows[0].pole, DIMENSION_POLES.securityCompetition.high)
 })
 
 test("political-economy salience does not create an unmodeled CPE identity lens", () => {

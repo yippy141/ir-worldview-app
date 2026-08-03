@@ -2,6 +2,7 @@ import { aiAxisLabels } from "@/lib/ai-governance-schema"
 import {
   archetypeDescriptions,
   archetypeLabels,
+  archetypeProfiles,
 } from "@/lib/ai-governance-scoring"
 import type {
   AiArchetypeKey,
@@ -66,6 +67,86 @@ const axisOneLiners: Record<AiAxisKey, (score: number) => string> = {
       : score <= 3
         ? "You are more open to transformative AI-led futures if the upside is large enough."
         : "You are open to transformation, but you want institutions to absorb it in a more managed way.",
+}
+
+/** Short, concrete names for the two ends of each Compass axis. */
+export const aiAxisPoles: Record<AiAxisKey, { low: string; high: string }> = {
+  riskHorizon: { low: "Present harms", high: "Frontier risk" },
+  deploymentPace: { low: "Ship and learn", high: "Slow on evidence" },
+  oversight: { low: "Lab-led", high: "Public supervision" },
+  geopolitics: { low: "Coordination", high: "Rivalry" },
+  openness: { low: "Open diffusion", high: "Staged access" },
+  militaryRole: { low: "Keep AI out", high: "Bounded defense use" },
+  legitimacy: { low: "Expert rule-setting", high: "Public mandate" },
+  humanFuture: { low: "Accept transformation", high: "Human control" },
+}
+
+/**
+ * Compass axes are symmetric around the 1-7 midpoint and the full range is
+ * reachable on both forms, so the diverging read is simply the signed distance
+ * from 4 over the half-range. Sorted strongest first.
+ */
+export function getAiAxisPush(axisScores: AiAxisScores) {
+  return (Object.entries(axisScores) as Array<[AiAxisKey, number]>)
+    .map(([axis, score]) => {
+      const deviation = Math.max(-1, Math.min(1, (score - 4) / 3))
+
+      return {
+        key: axis,
+        label: aiAxisLabels[axis],
+        score,
+        deviation,
+        pole: deviation >= 0 ? aiAxisPoles[axis].high : aiAxisPoles[axis].low,
+      }
+    })
+    .sort((left, right) => Math.abs(right.deviation) - Math.abs(left.deviation))
+}
+
+export type AiComparisonAxis = {
+  axis: AiAxisKey
+  label: string
+  userScore: number
+  primaryExpected: "high" | "neutral" | "low"
+  runnerUpExpected: "high" | "neutral" | "low"
+}
+
+/**
+ * The three axes where two archetypes disagree most, for a side-by-side read
+ * of the top result against its nearest alternative.
+ */
+export function getAiComparisonAxes(
+  archetypeKey: AiArchetypeKey,
+  runnerUpKey: AiArchetypeKey,
+  axisScores: AiAxisScores,
+): AiComparisonAxis[] {
+  const primary = archetypeProfiles[archetypeKey]
+  const runnerUp = archetypeProfiles[runnerUpKey]
+
+  return (Object.keys(axisScores) as AiAxisKey[])
+    .map((axis) => ({
+      axis,
+      primaryWeight: primary[axis] ?? 0,
+      runnerUpWeight: runnerUp[axis] ?? 0,
+    }))
+    .sort(
+      (left, right) =>
+        Math.abs(right.primaryWeight - right.runnerUpWeight) -
+        Math.abs(left.primaryWeight - left.runnerUpWeight),
+    )
+    .slice(0, 3)
+    .map(({ axis, primaryWeight, runnerUpWeight }) => ({
+      axis,
+      label: aiAxisLabels[axis],
+      userScore: axisScores[axis],
+      primaryExpected: expectation(primaryWeight),
+      runnerUpExpected: expectation(runnerUpWeight),
+    }))
+}
+
+function expectation(weight: number): "high" | "neutral" | "low" {
+  if (weight > 0.2) return "high"
+  if (weight < -0.2) return "low"
+  return "neutral"
 }
 
 export type AxisCard = {

@@ -29,7 +29,7 @@ export function ReadingPathSection({
   paths,
 }: {
   title: string
-  intro: string
+  intro?: string
   paths: ReadingPath[]
 }) {
   const visiblePaths = paths.filter((path) => path.entries.length > 0)
@@ -42,9 +42,7 @@ export function ReadingPathSection({
     <section className="result-section stack-md">
       <div className="stack-xs">
         <h2>{title}</h2>
-        <p className="muted result-note-sm">
-          {intro}
-        </p>
+        {intro ? <p className="muted result-note-sm">{intro}</p> : null}
       </div>
 
       <div>
