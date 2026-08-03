@@ -76,7 +76,7 @@ export const zhHansWorldviewMapUi = {
     emptyFiltered: "没有条目符合当前筛选条件。清除一项或多项条件可扩大范围。",
     empty: "目前没有可显示的条目。请启用包含已保存结果或经审读记录的图层。",
     aiCaption: "AI 治理公开立场使用另一套轴，仍可在列表中查看。",
-    spacingCaption: "位置只供比较，不是经过校准的距离。重叠标记会显示数量，展开后可逐项选择。",
+    spacingCaption: "位置只供比较，不是经过校准的距离。重叠的标记会合并为一簇，悬停或选中时展开，可逐项选择。",
     completeListHeading: "完整列表",
     completeListNote: "包含所有可见条目和仅在列表中显示的条目。选中条目后可用 ↑ 和 ↓ 移动。",
     mapKey: "图例",

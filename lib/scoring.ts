@@ -281,14 +281,26 @@ export function analyzeScoreShape(dimensionScores: DimensionScores): ScoreShapeA
   }
 }
 
-function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {
+/**
+ * Cut points on the 1-7 restraint dimension that name the strategy modifier.
+ * Exported so surfaces that DRAW the restraint scale mark the same boundaries
+ * the scorer uses instead of restating them.
+ */
+export const STRATEGY_MODIFIER_THRESHOLDS = {
+  /** At or below this, the profile reads as Maximizer. */
+  maximizer: 3.85,
+  /** At or above this, the profile reads as Restrainer. */
+  restrainer: 5.15,
+} as const
+
+export function getStrategyModifier(dimensionScores: DimensionScores): StrategyModifier {
   const restraint = dimensionScores.restraint
 
-  if (restraint >= 5.15) {
+  if (restraint >= STRATEGY_MODIFIER_THRESHOLDS.restrainer) {
     return "Restrainer"
   }
 
-  if (restraint <= 3.85) {
+  if (restraint <= STRATEGY_MODIFIER_THRESHOLDS.maximizer) {
     return "Maximizer"
   }
 

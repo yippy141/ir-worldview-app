@@ -8230,8 +8230,10 @@ html:lang(zh-Hans) .quiz-shell-label {
     gap: 6px;
   }
 
-  .foundation-model-section .field-map__svg {
-    max-width: 330px;
+  .foundation-model-section .field-map__frame {
+    width: 100%;
+    max-width: 380px;
+    margin-inline: auto;
   }
 
   html:has(.foundation-model-section) .site-footer {
@@ -8335,41 +8337,215 @@ html:lang(zh-Hans) .quiz-shell-label {
   font-size: 0.75rem;
 }
 
-/* Foundation field map — real-data 2D placement of the profile */
+/* Model view: the plot gets the wide column, the posture strip and the trust
+   note stack beside it. The map column is floored so the plot clears 420px. */
+.foundation-map-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.foundation-map-side {
+  min-width: 0;
+}
+
+@media (min-width: 1000px) {
+  .foundation-map-grid {
+    grid-template-columns: minmax(560px, 1.5fr) minmax(300px, 0.85fr);
+    gap: 40px;
+  }
+}
+
+/* Restraint posture — a one-dimensional scale for the dimension the map's
+   projection does not use. Deliberately not a chart. */
+.posture-strip__scale {
+  display: grid;
+  gap: 10px;
+}
+
+.posture-strip__track {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--steel) 26%, transparent),
+    color-mix(in srgb, var(--accent) 26%, transparent)
+  );
+}
+
+.posture-strip__cut {
+  position: absolute;
+  top: -3px;
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+}
+
+.posture-strip__mark {
+  position: absolute;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--panel);
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+}
+
+.posture-strip__ends {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.posture-strip__end {
+  display: grid;
+  gap: 2px;
+  max-width: 15ch;
+}
+
+.posture-strip__end[data-side="high"] {
+  text-align: end;
+  justify-items: end;
+}
+
+.posture-strip__end-label {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.posture-strip__end-note {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.posture-strip__reading {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+}
+
+.posture-strip__score {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+}
+
+/* Foundation field map — real-data 2D placement of the profile.
+   The plot square is 82% of the frame, so the chart dominates its container
+   and the labels sit inside or against the plot rather than in a wide margin. */
 .field-map {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+}
+
+.field-map__frame {
+  position: relative;
+  width: 100%;
+  /* Matches the viewBox edge, so one unit renders as one pixel and the plot
+     square is 530px — comfortably past the 420px floor the brief sets. */
+  max-width: 620px;
+  min-width: 0;
+  margin: 0 auto;
+  aspect-ratio: 1;
 }
 
 .field-map__svg {
-  width: 100%;
-  min-width: 300px;
-  max-width: 460px;
   display: block;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
 
-.field-map__axis {
+.field-map__frame-rect {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.field-map__guide {
+  stroke: var(--border);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.field-map__anchor-dot {
+  opacity: 0.9;
+}
+
+.field-map__spread-ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 7;
+  opacity: 0.55;
+}
+
+.field-map__you-ring {
+  fill: var(--panel);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.field-map__you-dot {
+  fill: var(--accent);
+}
+
+.field-map__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.field-map__overlay > span {
+  position: absolute;
+  display: grid;
+  transform: translateX(-50%);
   font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  fill: var(--muted);
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Axis labels: low contrast, along the plot edges. */
+.field-map__axis {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--muted) 74%, transparent);
+}
+
+.field-map__axis[data-edge="left"],
+.field-map__axis[data-edge="right"] {
+  text-align: start;
 }
 
 .field-map__anchor-label {
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 650;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
 }
 
-.field-map__you {
-  font-family: var(--sans);
-  font-size: 11px;
+.field-map__you-label {
+  font-size: 0.75rem;
   font-weight: 700;
-  fill: var(--accent);
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  color: var(--accent);
+  text-transform: uppercase;
 }
 
 .field-map__caption {
@@ -8382,6 +8558,27 @@ html:lang(zh-Hans) .quiz-shell-label {
   font-size: 0.8rem;
   line-height: 1.5;
   text-align: center;
+}
+
+/* Small screens: the map goes full-bleed inside its panel and the labels
+   shrink so a 12px label does not swamp a 300px plot. */
+@media (max-width: 640px) {
+  .field-map__frame {
+    width: calc(100% + 48px);
+    max-width: none;
+    margin-inline: -24px;
+  }
+
+  .field-map__anchor-label,
+  .field-map__you-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+  }
+
+  .field-map__axis {
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+  }
 }
 
 /* ============================================================
@@ -9515,10 +9712,12 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 /* ── Perspectives: result ──────────────────────────────────────────────────── */
 
+/* Compact map surfaces still hold the shared 620-unit reference width, so a
+   5px anchor dot and a 9px respondent dot stay 5px and 9px here too. */
 .perspective-result-map .field-canvas,
 .profile-perspective-map .field-canvas,
 .reference-detail__map .field-canvas {
-  max-width: 480px;
+  max-width: 620px;
   margin-inline: auto;
 }
 

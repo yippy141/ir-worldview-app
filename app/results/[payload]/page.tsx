@@ -26,6 +26,7 @@ import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
 import { familySlug } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
+import { PostureStrip } from "@/components/results/posture-strip"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
@@ -441,8 +442,8 @@ export default async function ResultPage(
             <p className="eyebrow">Model view</p>
             <h2 id="foundation-map-heading">How the shorthand was assigned</h2>
           </div>
-          <div className="result-hero-grid">
-            <div className="panel result-panel stack-md">
+          <div className="foundation-map-grid">
+            <div className="panel result-panel foundation-map-panel stack-md">
               <div className="stack-xs">
                 <h3>Where the seven dimensions place you</h3>
                 <p className="muted result-note">
@@ -456,24 +457,28 @@ export default async function ResultPage(
               />
             </div>
 
-            <aside className="panel result-panel stack-md" aria-label="Trust and coverage">
-              <div className="stack-xs">
-                <h3>Closest fit among four scored families</h3>
-                <p className="muted result-note">
-                  Feminist, postcolonial or decolonial, green, and English School approaches are
-                  under-modeled here. The inventory may place those instincts near one of its four
-                  scored families rather than name them directly.
-                </p>
-                <p className="muted result-note">
-                  {foundationNarrative.state === "lowDifferentiation"
-                    ? "Several centers remain plausible, so the family label should be read lightly."
-                    : "Use the label as shorthand for the dimension pattern, then test it against concrete issues."}
-                </p>
-                <Link href="/method" className="result-strong">
-                  Read methods and coverage limits →
-                </Link>
-              </div>
-            </aside>
+            <div className="foundation-map-side stack-md">
+              <PostureStrip familyKey={result.familyKey} dimensionScores={dimensionScores} />
+
+              <aside className="panel result-panel stack-md" aria-label="Trust and coverage">
+                <div className="stack-xs">
+                  <h3>Closest fit among four scored families</h3>
+                  <p className="muted result-note">
+                    Feminist, postcolonial or decolonial, green, and English School approaches are
+                    under-modeled here. The inventory may place those instincts near one of its four
+                    scored families rather than name them directly.
+                  </p>
+                  <p className="muted result-note">
+                    {foundationNarrative.state === "lowDifferentiation"
+                      ? "Several centers remain plausible, so the family label should be read lightly."
+                      : "Use the label as shorthand for the dimension pattern, then test it against concrete issues."}
+                  </p>
+                  <Link href="/method" className="result-strong">
+                    Read methods and coverage limits →
+                  </Link>
+                </div>
+              </aside>
+            </div>
           </div>
         </section>
 
