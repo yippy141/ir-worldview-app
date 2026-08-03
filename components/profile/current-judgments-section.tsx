@@ -40,8 +40,7 @@ export function CurrentJudgmentsSection({ store }: { store: CurrentCaseResponseS
         <Link href="/cases">Browse Current Cases</Link>
       </div>
       <p className={styles.profileSectionIntro}>
-        These choices stay separate from Foundation scoring. They show how your judgment changed
-        after competing readings and one assumption challenge.
+        These choices stay separate from Foundation scoring.
       </p>
 
       {judgments.length === 0 && drafts.length === 0 ? (

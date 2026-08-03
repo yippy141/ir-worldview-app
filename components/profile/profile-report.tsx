@@ -166,13 +166,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       </section>
 
       <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>What stayed steady, what shifted</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            Compare what stayed consistent across your saved results, where Security or Technology
-            changed the emphasis, and which tradeoff remains unresolved.
-          </p>
-        </div>
+        <h2 className="profile-section-heading">What stayed steady, what shifted</h2>
         <div className="profile-triad">
           <div className="profile-triad__item stack-xs">
             <p className="eyebrow">What stayed steady</p>
@@ -200,13 +194,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       />
 
       <section className="result-section stack-md">
-        <div className="stack-xs">
-          <h2 style={{ margin: 0, fontSize: "1.2rem" }}>Results behind this profile</h2>
-          <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}>
-            Open your Foundation answers, completed Focus Areas, AI result, and the evidence used
-            for each comparison.
-          </p>
-        </div>
+        <h2 className="profile-section-heading">Results behind this profile</h2>
 
         <details className="profile-details profile-details--secondary">
           <summary>
@@ -226,10 +214,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6", margin: 0 }}>
               <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
             </p>
-            <div className="stack-xs">
-              <p className="profile-section-kicker">Pattern fingerprint</p>
-              <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
-            </div>
+            <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
             <div className="atlas-inline-links">
               <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
                 Read {atlasMatch.nearest.publicName}
@@ -461,9 +446,7 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
     <details className="profile-details profile-details--secondary">
       <summary>Baseline history · {totalEarlier} earlier {totalEarlier === 1 ? "result" : "results"}</summary>
       <div className="profile-collapsed-detail stack-sm">
-        <p className="muted profile-history-note">
-          Earlier results saved on this device. The current snapshots above stay the live read.
-        </p>
+        <p className="muted profile-history-note">Earlier results saved on this device.</p>
         <ul className="profile-history-list">
           {earlierFoundation
             .slice()
@@ -691,9 +674,7 @@ function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
           <span className="profile-spread__sw profile-spread__sw--stable" aria-hidden="true" />
           Little or no pull
         </span>
-        <span className="profile-spread__anchor-key">
-          Directional pulls inside this model, not a new combined score.
-        </span>
+        <span className="profile-spread__anchor-key">Directional pulls inside this model.</span>
       </div>
     </div>
   )

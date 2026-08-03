@@ -174,16 +174,16 @@ export const technologyModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Technology read: selective control with coordination",
+      headline: "Technology read: no single tool dominates",
       summary:
-        "You are open to controls, capacity-building, and coordinated rules, but you do not want one tool to dominate every technology problem.",
+        "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
       instincts: [
-        "You expect the right answer to shift across semiconductors, frontier AI, and digital development.",
-        "You are open to both controls and openness depending on the strategic setting.",
-        "You look for selective intervention rather than a fully market-led or fully closed model.",
+        "No axis in this module separated far enough from the others to lead the read.",
+        "Chokepoint control, industrial capacity, and coordination each stayed live across your answers.",
+        "The lane meters carry more information than this headline does.",
       ],
       challenge:
-        "This style can leave your threshold for harder control or broader openness less explicit than the policy environment may demand.",
+        "Your threshold for harder control or broader openness is still unspecified. A case that forces one tool ahead of the others would settle it.",
     }
   },
   summarizeLanes(analytics, foundation) {
@@ -203,14 +203,14 @@ export const technologyModule: ModuleDefinition = {
         return {
           headline: "Explanation, Decision, and Actor lens",
           summary:
-            "Your actor-lens cards make dependency and bargaining room look sharper than your own policy choices do. That perspective read is tracked separately so modeling another state's incentives does not overwrite your technology judgment.",
+            "Your actor-lens cards make dependency and bargaining room look sharper than your own policy choices do.",
         }
       }
 
       return {
         headline: "Explanation, Decision, and Actor lens",
         summary:
-          "The actor-lens cards are doing a different job from the decision cards. They show how technology politics looks from inside another state's position, so perspective-modeling does not overwrite your own issue read.",
+          "The actor-lens cards show how technology politics looks from inside another state's position. Your decision cards stayed closer to your own line.",
       }
     }
 
@@ -301,7 +301,7 @@ function summarizeTechnologyLane(
 
   if (laneKey === "controls") {
     const control = scores.control ?? 4
-    let summary = "This lane prefers selective control rather than either broad closure or broad openness."
+    let summary = "This lane sits between chokepoint control and open exchange; neither pulled clear."
 
     if (control >= 5.2) {
       summary =
@@ -327,7 +327,7 @@ function summarizeTechnologyLane(
 
   if (laneKey === "capacity") {
     const industrial = scores.industrial ?? 4
-    let summary = "This lane mixes market adaptation with selective public investment."
+    let summary = "This lane sits between market adaptation and state-led capacity; neither pulled clear."
 
     if (industrial >= 5.2) {
       summary =
@@ -353,7 +353,7 @@ function summarizeTechnologyLane(
 
   const governance = scores.governance ?? 4
   const safety = scores.safety ?? 4
-  let summary = "This lane keeps coordination, access, and safety in the frame at the same time."
+  let summary = "This lane sits between national discretion and coordinated rules; neither pulled clear."
 
   if (governance >= 5.2 && safety >= 5.0) {
     summary =

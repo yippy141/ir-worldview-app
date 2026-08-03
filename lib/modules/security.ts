@@ -174,16 +174,16 @@ export const securityModule: ModuleDefinition = {
     }
 
     return {
-      headline: "Security read: targeted pressure with limits",
+      headline: "Security read: no single lane dominates",
       summary:
-        "You prefer targeted pressure over either passivity or maximal escalation. Alliance durability, crisis ceilings, and legitimacy all stay in view.",
+        "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
       instincts: [
-        "You resist turning every crisis into a single test of resolve.",
-        "You look for responses that keep options open rather than settle the argument too early.",
-        "You expect the strongest security logic to shift with theater, partner exposure, and political context.",
+        "No lane in this module separated far enough from the others to lead the read.",
+        "Deterrence, alliance durability, and legitimacy each stayed live across your answers.",
+        "The lane meters carry more information than this headline does.",
       ],
       challenge:
-        "This style can leave your own threshold for decisive action harder to specify when a crisis suddenly sharpens.",
+        "Your threshold for decisive action is still unspecified. A crisis that forces one lane above the others would settle it.",
     }
   },
   summarizeLanes(analytics, foundation) {
@@ -207,14 +207,14 @@ export const securityModule: ModuleDefinition = {
         return {
           headline: "Explanation, Decision, and Actor lens",
           summary:
-            "Your own decision cards lean more toward alliance management than your actor-lens cards do. When you switch into another state's position, autonomy and exposure become more visible. That perspective read is tracked separately so it does not overwrite your own security judgment.",
+            "Your own decision cards lean more toward alliance management than your actor-lens cards do. From inside another state's position, autonomy and exposure become more visible.",
         }
       }
 
       return {
         headline: "Explanation, Decision, and Actor lens",
         summary:
-          "The actor-lens cards are doing a different job from the decision cards. They track how security logic looks from inside another actor's position, so perspective-modeling does not overwrite your own issue read.",
+          "The actor-lens cards track how security logic looks from inside another actor's position. Your decision cards stayed closer to your own line.",
       }
     }
 
@@ -307,7 +307,7 @@ function summarizeSecurityLane(
   if (laneKey === "deterrence") {
     const activism = scores.activism ?? 4
     const escalation = scores.escalation ?? 4
-    let summary = "This lane prefers bounded deterrence over pure signaling or pure restraint."
+    let summary = "This lane sits between visible deterrence and crisis limitation; neither pulled clear."
 
     if (activism >= 5.2 && escalation >= 5.0) {
       summary =
@@ -337,7 +337,7 @@ function summarizeSecurityLane(
 
   if (laneKey === "alliances") {
     const alliance = scores.alliance ?? 4
-    let summary = "This lane favors layered alignment: support where needed, but without assuming every partner fits one template."
+    let summary = "This lane sits between coalition management and partner autonomy; neither pulled clear."
 
     if (alliance >= 5.2) {
       summary =
@@ -362,7 +362,7 @@ function summarizeSecurityLane(
   }
 
   const legitimacyScore = scores.legitimacy ?? 4
-  let summary = "This lane tries to keep order, protection, and political legitimacy in view at the same time."
+  let summary = "This lane sits between order-first caution and civilian protection; neither pulled clear."
 
   if (legitimacyScore >= 5.2) {
     summary =

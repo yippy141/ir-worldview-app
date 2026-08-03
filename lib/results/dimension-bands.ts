@@ -81,3 +81,58 @@ export function byBand<T>(
 ): T {
   return copy[dimensionBand(dimension, score)]
 }
+
+/** Short, concrete names for the two ends of each dimension. */
+export const DIMENSION_POLES: Record<DimensionKey, { low: string; high: string }> = {
+  securityCompetition: { low: "Reassurance", high: "Rivalry" },
+  institutions: { low: "Power first", high: "Rules bind" },
+  domesticFilters: { low: "System pressure", high: "Domestic politics" },
+  normsIdentity: { low: "Material interest", high: "Legitimacy" },
+  politicalEconomy: { low: "Security and diplomacy", high: "Markets and dependence" },
+  restraint: { low: "Press advantage", high: "Set limits" },
+  orderJustice: { low: "Justice can override", high: "Order first" },
+}
+
+export type DimensionPush = {
+  dimension: DimensionKey
+  score: number
+  /** Signed distance from the observed centre, in half-spreads, clamped to [-1, 1]. */
+  deviation: number
+  /** Pole the score sits toward. */
+  pole: string
+}
+
+/**
+ * Express each dimension as a standardised distance from the centre of the
+ * observed distribution, so a diverging chart can show which dimensions pushed
+ * a result rather than describing them in sentences.
+ *
+ * Raw scores are not comparable across dimensions: the observed spread runs
+ * from 1.04 points on restraint to 1.97 on identity, so the same raw distance
+ * from the mean means different things. Dividing by each dimension's own
+ * half-spread (p90 to p10) puts all seven on one axis.
+ *
+ * The spread is taken from percentiles rather than a standard deviation on
+ * purpose. The per-dimension standard deviations are small enough that any
+ * respondent with a real position would saturate the chart, and a chart where
+ * every bar is full-length carries no information.
+ */
+export function getDimensionPush(scores: Record<DimensionKey, number>): DimensionPush[] {
+  return (Object.keys(OBSERVED_DIMENSION_RANGES) as DimensionKey[])
+    .map((dimension) => {
+      const range = OBSERVED_DIMENSION_RANGES[dimension]
+      const halfSpread = (range.p90 - range.p10) / 2
+      const raw = halfSpread > 0 ? (scores[dimension] - range.mean) / halfSpread : 0
+      const deviation = Math.max(-1, Math.min(1, raw))
+
+      return {
+        dimension,
+        score: scores[dimension],
+        deviation,
+        pole: deviation >= 0
+          ? DIMENSION_POLES[dimension].high
+          : DIMENSION_POLES[dimension].low,
+      }
+    })
+    .sort((left, right) => Math.abs(right.deviation) - Math.abs(left.deviation))
+}

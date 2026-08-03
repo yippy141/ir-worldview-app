@@ -90,8 +90,7 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
           How context moved your answers
         </h2>
         <p className="muted profile-section-note">
-          Each run keeps the Foundation baseline used to generate it. Lines appear only for runs
-          that match your current baseline; earlier-baseline runs remain available below.
+          Each run keeps the Foundation baseline it was generated from.
         </p>
       </div>
 

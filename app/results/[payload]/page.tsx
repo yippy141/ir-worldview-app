@@ -10,6 +10,7 @@ import {
 } from "@/lib/share"
 import {
   getClosestTraditions,
+  getComparisonDimensions,
   getKeyDrivers,
   getActiveTensions,
   neighborOverlapTexts,
@@ -23,7 +24,13 @@ import {
   getWhyThisResult,
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
-import { dimensionBand, dimensionBandLabels } from "@/lib/results/dimension-bands"
+import {
+  dimensionBand,
+  dimensionBandLabels,
+  getDimensionPush,
+} from "@/lib/results/dimension-bands"
+import { PushChart } from "@/components/results/push-chart"
+import { NearestAlternative } from "@/components/results/nearest-alternative"
 import {
   dimensionLabels,
   FOUNDATION_INSTRUMENT_VERSION,
@@ -485,7 +492,7 @@ export default async function ResultPage(
                   <article className="foundation-result-reading stack-xs">
                     <p className="foundation-result-reading__label">Pulls the other way</p>
                     <h3>Why {neighborLabel} remains nearby</h3>
-                    <p>{runnerUpSeparation || foundationPayoff.mainTension.rivalArgument}</p>
+                    <p>{foundationPayoff.mainTension.rivalArgument}</p>
                   </article>
                 </div>
               </section>
@@ -557,28 +564,63 @@ export default async function ResultPage(
               </section>
 
               <section className="stack-md" aria-labelledby="foundation-signals-heading">
-                <h2 id="foundation-signals-heading">What is doing the most work in the score</h2>
-                <ol className="foundation-signal-list">
+                <h2 id="foundation-signals-heading">What is doing the work</h2>
+                <PushChart
+                  rows={getDimensionPush(dimensionScores).map((row) => ({
+                    key: row.dimension,
+                    label: dimensionLabels[row.dimension],
+                    deviation: row.deviation,
+                    score: row.score,
+                    pole: row.pole,
+                  }))}
+                  lowCaption="Toward the low pole"
+                  centreCaption="Centre of the observed range"
+                  highCaption="Toward the high pole"
+                />
+                <p className="muted result-note">
+                  Each bar is the distance from the centre of the range this instrument
+                  produces on that dimension, scaled by that dimension&rsquo;s own spread so the
+                  seven are comparable. Long bars moved the result; short bars did not.
+                </p>
+                <ul className="foundation-signal-legend">
                   {keyDrivers.map((driver) => (
-                    <li key={driver.dimension} className="foundation-signal-row">
-                      <div className="stack-xs">
-                        <p className="foundation-signal-row__dimension">
-                          {dimensionLabels[driver.dimension]}
-                        </p>
-                        <h3>{driver.label}</h3>
-                        <p>{driver.description}</p>
-                      </div>
+                    <li key={driver.dimension} className="foundation-signal-legend__row">
+                      <p>
+                        <strong>{driver.label}.</strong> {driver.description}
+                      </p>
                       <DimensionScoreValue
                         score={dimensionScores[driver.dimension]}
                         percentile={dimensionPercentiles[driver.dimension]}
                       />
                     </li>
                   ))}
-                </ol>
+                </ul>
                 <PercentileFootnote
                   dimensions={keyDrivers.map((driver) => driver.dimension)}
                   percentiles={dimensionPercentiles}
                 />
+              </section>
+
+              <section className="stack-md" aria-labelledby="foundation-alt-heading">
+                <h2 id="foundation-alt-heading">Nearest alternative: {neighborLabel}</h2>
+                <NearestAlternative
+                  primaryLabel={familyLabel}
+                  runnerUpLabel={neighborLabel}
+                  rows={getComparisonDimensions(
+                    result.familyKey,
+                    neighborKey,
+                    dimensionScores,
+                  ).map((row) => ({
+                    key: row.dim,
+                    label: row.label,
+                    userScore: row.userScore,
+                    primaryExpected: row.primaryExpected,
+                    runnerUpExpected: row.runnerUpExpected,
+                  }))}
+                />
+                {runnerUpSeparation ? (
+                  <p className="muted result-note">{runnerUpSeparation}</p>
+                ) : null}
               </section>
 
               <section className="stack-md" aria-labelledby="foundation-dimensions-heading">
@@ -643,7 +685,6 @@ export default async function ResultPage(
 
               <ReadingPathSection
                 title="Read the result from another angle"
-                intro="Compare this result with its nearest alternative, then examine the arguments and evidence behind both readings."
                 paths={readingPaths}
               />
 

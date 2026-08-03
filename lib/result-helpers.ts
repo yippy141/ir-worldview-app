@@ -696,7 +696,7 @@ export function getSubtraditionAffinity(
         return {
           name: "Conventional constructivism",
           note:
-            "A strong normsIdentity score combined with a constructivist primary classification fits the mainstream conventional strand: norms and identities are empirically important variables that shape what counts as a legitimate policy option.",
+            "A strong identity and legitimacy score combined with a constructivist primary classification fits the mainstream conventional strand: norms and identities are empirically important variables that shape what counts as a legitimate policy option.",
         }
       return {
         name: "Soft constructivism",
@@ -848,8 +848,8 @@ const separationPhrases: Partial<
         : `Your low institutions score (${s.toFixed(1)}) is the clearest gap between you and the institutionalist runner-up. Institutionalism rests on the premise that rules and monitoring can sustain cooperation — your profile is skeptical of that.`,
     constructivist: (s) =>
       s >= 4
-        ? `A normsIdentity score of ${s.toFixed(1)} is moderate-to-high for a realist — you give more weight to legitimacy and identity than a strict structural realist would. That is the bridge to your constructivist runner-up.`
-        : `Your low normsIdentity score (${s.toFixed(1)}) marks the main separation from the constructivist runner-up. Where constructivists treat identity and norms as causally real, your profile is skeptical of that framing.`,
+        ? `An identity and legitimacy score of ${s.toFixed(1)} is moderate-to-high for a realist — you give more weight to legitimacy and identity than a strict structural realist would. That is the bridge to your constructivist runner-up.`
+        : `Your low identity and legitimacy score (${s.toFixed(1)}) marks the main separation from the constructivist runner-up. Where constructivists treat identity and norms as causally real, your profile is skeptical of that framing.`,
     criticalPoliticalEconomy: (s) =>
       s >= 4
         ? `A political economy score of ${s.toFixed(1)} is relatively high for a realist — you share the critical PE view that economic structures matter, not just military power. That overlap drives the runner-up score.`
@@ -862,8 +862,8 @@ const separationPhrases: Partial<
         : `Your relatively low security competition score (${s.toFixed(1)}) anchors the separation from realism. The realist runner-up reflects some structural pessimism, but your primary classification reflects more optimism about institutional management.`,
     constructivist: (s) =>
       s >= 4
-        ? `A normsIdentity score of ${s.toFixed(1)} shows that legitimacy and identity remain important in your profile, bridging institutionalism and constructivism. The difference is causal: you emphasize rules and monitoring more than identity per se.`
-        : `Your modest normsIdentity score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on rules and incentive structures; the constructivist move to identity as a primary cause is a step further than your profile takes.`,
+        ? `An identity and legitimacy score of ${s.toFixed(1)} shows that legitimacy and identity remain important in your profile, bridging institutionalism and constructivism. The difference is causal: you emphasize rules and monitoring more than identity per se.`
+        : `Your modest identity and legitimacy score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on rules and incentive structures; the constructivist move to identity as a primary cause is a step further than your profile takes.`,
     criticalPoliticalEconomy: (s) =>
       s >= 4
         ? `A political economy score of ${s.toFixed(1)} is high for an institutionalist — you share the critical PE view that economic hierarchy shapes governance. That overlap is what makes critical PE your runner-up.`
@@ -894,8 +894,8 @@ const separationPhrases: Partial<
         : `Your low institutions score (${s.toFixed(1)}) marks the gap from the institutionalist runner-up. You see international institutions as encoding structural economic power rather than as genuine solutions to cooperation problems.`,
     constructivist: (s) =>
       s >= 4
-        ? `A normsIdentity score of ${s.toFixed(1)} is notable in a critical PE profile — you take legitimacy and identity seriously alongside economic structure. The overlap with constructivism is in asking whose interests prevailing norms serve.`
-        : `Your lower normsIdentity score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on material structures; constructivism's emphasis on ideas and identities as primary causes is a step your profile does not fully take.`,
+        ? `An identity and legitimacy score of ${s.toFixed(1)} is notable in a critical PE profile — you take legitimacy and identity seriously alongside economic structure. The overlap with constructivism is in asking whose interests prevailing norms serve.`
+        : `Your lower identity and legitimacy score (${s.toFixed(1)}) marks the gap from the constructivist runner-up. You are focused on material structures; constructivism's emphasis on ideas and identities as primary causes is a step your profile does not fully take.`,
   },
 }
 
