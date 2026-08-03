@@ -8051,10 +8051,11 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 /* Above-the-fold block: archetype card, strongest-three bands, the line that
    would change the reading, one next action, and the field map. */
+/* The map column is floored so the plot square clears 420px on desktop. */
 .foundation-result-lede {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
-  gap: 48px 72px;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.95fr);
+  gap: 48px 56px;
   align-items: start;
 }
 
@@ -8064,8 +8065,19 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 .foundation-result-lede__map {
   min-width: 0;
+  display: grid;
+  gap: 26px;
   padding-top: 20px;
   border-top: 1px solid color-mix(in srgb, var(--line) 68%, var(--accent) 32%);
+}
+
+/* Below this the two-column hero can no longer give the plot its 420px floor
+   without starving the lede copy, so the map takes its own full-width row and
+   is centred at the reference size. */
+@media (max-width: 1139px) {
+  .foundation-result-lede {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 /* Three-part classification under the archetype name */
@@ -8495,8 +8507,10 @@ html:lang(zh-Hans) .quiz-shell-label {
     gap: 32px;
   }
 
-  .foundation-result-lede .field-map__svg {
-    max-width: 330px;
+  .foundation-result-lede .field-map__frame {
+    width: 100%;
+    max-width: 340px;
+    margin-inline: auto;
   }
 
   .foundation-result-reading-grid,
@@ -8626,47 +8640,257 @@ html:lang(zh-Hans) .quiz-shell-label {
   font-size: 0.75rem;
 }
 
-/* Foundation field map — real-data 2D placement of the profile */
+/* Restraint posture — a one-dimensional scale for the dimension the map's
+   projection does not use. Deliberately not a chart. */
+.posture-strip {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.posture-strip__scale {
+  display: grid;
+  gap: 10px;
+}
+
+.posture-strip__track {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--steel) 26%, transparent),
+    color-mix(in srgb, var(--accent) 26%, transparent)
+  );
+}
+
+.posture-strip__cut {
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 14px;
+  background: var(--faint);
+}
+
+.posture-strip__mark {
+  position: absolute;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  border: 2px solid var(--panel);
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+}
+
+.posture-strip__ends {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.posture-strip__end {
+  display: grid;
+  gap: 2px;
+  max-width: 17ch;
+  color: var(--text-2);
+}
+
+.posture-strip__end[data-side="high"] {
+  text-align: end;
+  justify-items: end;
+}
+
+/* The end the reader is actually on carries the accent, so the strip answers
+   "which one am I?" before the caption explains the pair. */
+.posture-strip__end[data-current="true"] {
+  color: var(--text);
+}
+
+.posture-strip__end-code {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+}
+
+.posture-strip__end[data-current="true"] .posture-strip__end-code {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.posture-strip__end-label {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.posture-strip__end-label a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 3px;
+}
+
+.posture-strip__end-note {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.posture-strip__reading {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+}
+
+.posture-strip__score {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.78rem;
+}
+
+/* Foundation field map — real-data 2D placement of the profile.
+   The plot square is 85% of the frame, so the chart dominates its container
+   and the labels sit inside or against the plot rather than in a wide margin. */
 .field-map {
+  /* Horizontal inset the map has to cancel to reach the screen edge on small
+     screens. Defaults to the page gutter; panels override it with their own. */
+  --map-bleed: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+}
+
+.result-panel .field-map,
+.field-map-panel .field-map,
+.panel .field-map {
+  --map-bleed: 24px;
+}
+
+.field-map__frame {
+  position: relative;
+  width: 100%;
+  /* Matches the viewBox edge, so one unit renders as one pixel and the plot
+     square is 530px — comfortably past the 420px floor the brief sets. */
+  max-width: 620px;
+  min-width: 0;
+  margin: 0 auto;
+  aspect-ratio: 1;
 }
 
 .field-map__svg {
-  width: 100%;
-  min-width: 300px;
-  max-width: 460px;
   display: block;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
   overflow: visible;
 }
 
-.field-map__axis {
+.field-map__frame-rect {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.field-map__guide {
+  stroke: var(--border);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.field-map__anchor-dot {
+  opacity: 0.9;
+}
+
+.field-map__you-ring {
+  fill: var(--panel);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.field-map__you-dot {
+  fill: var(--accent);
+}
+
+.field-map__overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Line breaks come from the layout library, not from CSS wrapping, so the
+   rendered box matches the box collision avoidance reserved for it. pre-line
+   keeps the label one text node, so it still reads as "Liberal
+   Institutionalist" to assistive tech, search, and copy-paste. */
+.field-map__overlay > span {
+  position: absolute;
+  transform: translateX(-50%);
   font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  fill: var(--muted);
+  white-space: pre-line;
+  text-align: center;
+}
+
+/* Axis labels: low contrast, along the plot edges. */
+.field-map__axis {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--muted) 74%, transparent);
+}
+
+.field-map__axis[data-edge="left"],
+.field-map__axis[data-edge="right"] {
+  text-align: start;
 }
 
 .field-map__anchor-label {
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 650;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
 }
 
-.field-map__you {
-  font-family: var(--sans);
-  font-size: 11px;
+.field-map__you-label {
+  font-size: 0.75rem;
   font-weight: 700;
-  fill: var(--accent);
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  color: var(--accent);
+  text-transform: uppercase;
 }
 
 .field-map__caption {
   font-size: 0.9rem;
   line-height: 1.6;
   text-align: center;
+}
+
+/* Small screens: the map goes full-bleed inside its panel and the labels
+   shrink so a 12px label does not swamp a 300px plot. */
+@media (max-width: 640px) {
+  .field-map__frame {
+    width: calc(100% + var(--map-bleed) * 2);
+    max-width: none;
+    margin-inline: calc(var(--map-bleed) * -1);
+  }
+
+  .field-map__anchor-label,
+  .field-map__you-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+  }
+
+  .field-map__axis {
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+  }
 }
 
 /* ============================================================
@@ -9800,10 +10024,12 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 /* ── Perspectives: result ──────────────────────────────────────────────────── */
 
+/* Compact map surfaces still hold the shared 620-unit reference width, so a
+   5px anchor dot and a 9px respondent dot stay 5px and 9px here too. */
 .perspective-result-map .field-canvas,
 .profile-perspective-map .field-canvas,
 .reference-detail__map .field-canvas {
-  max-width: 480px;
+  max-width: 620px;
   margin-inline: auto;
 }
 

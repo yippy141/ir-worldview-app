@@ -89,6 +89,8 @@ export function FieldExplorer() {
     initialQuery.selectedKey,
   )
   const [view, setView] = useState<WorldviewMapView>(initialQuery.view)
+  /** Small-screen bottom sheet for the control bar; ignored above 900px. */
+  const [sheetOpen, setSheetOpen] = useState(false)
   const focusReturnKeyRef = useRef<FieldSelectionKey | null>(null)
   const detailDrawerRef = useRef<HTMLElement | null>(null)
   const viewTracked = useRef(false)
@@ -364,109 +366,28 @@ export function FieldExplorer() {
     <div
       className={styles.explorer}
       data-view={view}
+      data-sheet={sheetOpen ? "open" : "closed"}
       aria-busy={loading}
     >
-      <div className={styles.toolbar} aria-label={copy?.toolbar.ariaLabel ?? "Map workspace toolbar"}>
-        <div className={styles.toolbarSummary}>
-          <span className={styles.toolbarLabel}>{copy?.toolbar.activeLayers ?? "Active layers"}</span>
-          <strong>{activeLayerSummary || copy?.toolbar.noActiveLayers || "No active layers"}</strong>
-          <span className={styles.toolbarMeta}>
-            {copy?.toolbar.itemCount(visibleItems.length) ??
-              `${visibleItems.length} ${visibleItems.length === 1 ? "item" : "items"}`}
+      {/* One horizontal control bar above the map. On small screens the same
+          element becomes the bottom sheet over the full-bleed map. */}
+      <div className={styles.controlBar} aria-label={copy?.toolbar.ariaLabel ?? "Map workspace toolbar"}>
+        <button
+          type="button"
+          className={styles.sheetHandle}
+          aria-expanded={sheetOpen}
+          onClick={() => setSheetOpen((open) => !open)}
+        >
+          <span className={styles.sheetHandleLabel}>
+            {copy?.layers.heading ?? "Layers"}
           </span>
-        </div>
-        <div className={styles.toolbarActions}>
-          <a className={styles.listJump} href="#worldview-map-list">
-            {copy?.toolbar.completeList ?? "Complete list"} ↓
-          </a>
-          <div className={styles.viewToggle} role="group" aria-label={copy?.toolbar.view ?? "View"}>
-            <button
-              type="button"
-              className={`${styles.viewButton}${view === "list" ? ` ${styles.viewButtonActive}` : ""}`}
-              aria-pressed={view === "list"}
-              onClick={() => setView("list")}
-            >
-              {copy?.toolbar.list ?? "List"}
-            </button>
-            <button
-              type="button"
-              className={`${styles.viewButton}${view === "map" ? ` ${styles.viewButtonActive}` : ""}`}
-              aria-pressed={view === "map"}
-              onClick={() => setView("map")}
-            >
-              {copy?.toolbar.map ?? "Map"}
-            </button>
-          </div>
-        </div>
-      </div>
+          <span className={styles.sheetHandleSummary}>
+            {activeLayerSummary || copy?.toolbar.noActiveLayers || "No active layers"}
+          </span>
+        </button>
 
-      <div
-        className={`${styles.workspace}${selectedItem ? ` ${styles.workspaceWithDrawer}` : ""}`}
-      >
-        <main className={styles.mapColumn}>
-          <section className={styles.mapStage} aria-label={copy?.page.title ?? WORLDVIEW_MAP_LABEL}>
-            <div className={styles.mobileMapHeader}>
-              <button
-                type="button"
-                className={styles.mapBack}
-                onClick={() => setView("list")}
-              >
-                ← {copy?.toolbar.backToList ?? "Back to list"}
-              </button>
-              <strong>{copy?.page.title ?? WORLDVIEW_MAP_LABEL}</strong>
-            </div>
-            <div className={styles.mapStageBody}>
-              {loading ? (
-                <p className={styles.mapLoading}>{copy?.map.loadingSavedLayers ?? "Loading saved layers…"}</p>
-              ) : mappableItems.length > 0 ? (
-                <FieldMap
-                  ariaLabel={copy?.map.ariaLabel ?? "Layered worldview map. Every plotted item also appears in the complete semantic list with the same details."}
-                  markers={markers}
-                  connectors={connectors}
-                  hulls={hulls}
-                  showAnchors
-                  onSelect={(key) => handleSelect(key as FieldSelectionKey)}
-                  markerHrefPrefix="field-item-"
-                  caption={
-                    filters.scopes.includes("ai-governance" as ReferenceScope)
-                      ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
-                      : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. Overlapping marks show a count and fan open for selection."
-                  }
-                  copy={copy}
-                />
-              ) : (
-                <p className={styles.mapEmpty}>{emptyLine}</p>
-              )}
-            </div>
-          </section>
-
-          <section
-            id="worldview-map-list"
-            className={styles.listRegion}
-            aria-labelledby="worldview-map-list-heading"
-          >
-            <div className={styles.listHeader}>
-              <h2 id="worldview-map-list-heading" className={styles.listTitle}>
-                {copy?.map.completeListHeading ?? "Complete list"}
-              </h2>
-              <p className={styles.listNote}>
-                {copy?.map.completeListNote ?? "All visible and list-only entries. Use ↑ and ↓ from an item to move."}
-              </p>
-            </div>
-            <FieldList
-              items={visibleItems}
-              activeLayerIds={resolvedLayers}
-              selectedKey={selectedItemKey}
-              onSelect={handleSelect}
-              onArrowNavigate={handleArrowNavigate}
-              emptyLine={emptyLine}
-              copy={copy}
-            />
-          </section>
-        </main>
-
-        <aside className={styles.controls} aria-label={copy?.map.controlsAria ?? "Map controls"}>
-          <div className={styles.controlsInner}>
+        <div className={styles.controlBarBody}>
+          <div className={styles.controlBarPrimary}>
             <LayerControls
               activeLayerIds={resolvedLayers}
               availability={availability}
@@ -475,6 +396,36 @@ export function FieldExplorer() {
               copy={copy}
             />
 
+            <div className={styles.controlBarActions}>
+              <span className={styles.toolbarMeta}>
+                {copy?.toolbar.itemCount(visibleItems.length) ??
+                  `${visibleItems.length} ${visibleItems.length === 1 ? "item" : "items"}`}
+              </span>
+              <a className={styles.listJump} href="#worldview-map-list">
+                {copy?.toolbar.completeList ?? "Complete list"} ↓
+              </a>
+              <div className={styles.viewToggle} role="group" aria-label={copy?.toolbar.view ?? "View"}>
+                <button
+                  type="button"
+                  className={`${styles.viewButton}${view === "list" ? ` ${styles.viewButtonActive}` : ""}`}
+                  aria-pressed={view === "list"}
+                  onClick={() => setView("list")}
+                >
+                  {copy?.toolbar.list ?? "List"}
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.viewButton}${view === "map" ? ` ${styles.viewButtonActive}` : ""}`}
+                  aria-pressed={view === "map"}
+                  onClick={() => setView("map")}
+                >
+                  {copy?.toolbar.map ?? "Map"}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.controlBarSecondary}>
             <details className={styles.filterDetails}>
               <summary className={styles.filterSummary}>
                 {copy?.filters.heading ?? "Filters"}
@@ -622,6 +573,72 @@ export function FieldExplorer() {
                 copy={copy}
               />
             </details>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`${styles.workspace}${selectedItem ? ` ${styles.workspaceWithDrawer}` : ""}`}
+      >
+        <main className={styles.mapColumn}>
+          <section className={styles.mapStage} aria-label={copy?.page.title ?? WORLDVIEW_MAP_LABEL}>
+            <div className={styles.mobileMapHeader}>
+              <button
+                type="button"
+                className={styles.mapBack}
+                onClick={() => setView("list")}
+              >
+                ← {copy?.toolbar.backToList ?? "Back to list"}
+              </button>
+              <strong>{copy?.page.title ?? WORLDVIEW_MAP_LABEL}</strong>
+            </div>
+            <div className={styles.mapStageBody}>
+              {loading ? (
+                <p className={styles.mapLoading}>{copy?.map.loadingSavedLayers ?? "Loading saved layers…"}</p>
+              ) : mappableItems.length > 0 ? (
+                <FieldMap
+                  ariaLabel={copy?.map.ariaLabel ?? "Layered worldview map. Every plotted item also appears in the complete semantic list with the same details."}
+                  markers={markers}
+                  connectors={connectors}
+                  hulls={hulls}
+                  showAnchors
+                  onSelect={(key) => handleSelect(key as FieldSelectionKey)}
+                  markerHrefPrefix="field-item-"
+                  caption={
+                    filters.scopes.includes("ai-governance" as ReferenceScope)
+                      ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
+                      : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. Overlapping marks stack into one cluster that fans open on hover or selection."
+                  }
+                  copy={copy}
+                />
+              ) : (
+                <p className={styles.mapEmpty}>{emptyLine}</p>
+              )}
+            </div>
+          </section>
+
+          <section
+            id="worldview-map-list"
+            className={styles.listRegion}
+            aria-labelledby="worldview-map-list-heading"
+          >
+            <div className={styles.listHeader}>
+              <h2 id="worldview-map-list-heading" className={styles.listTitle}>
+                {copy?.map.completeListHeading ?? "Complete list"}
+              </h2>
+              <p className={styles.listNote}>
+                {copy?.map.completeListNote ?? "All visible and list-only entries. Use ↑ and ↓ from an item to move."}
+              </p>
+            </div>
+            <FieldList
+              items={visibleItems}
+              activeLayerIds={resolvedLayers}
+              selectedKey={selectedItemKey}
+              onSelect={handleSelect}
+              onArrowNavigate={handleArrowNavigate}
+              emptyLine={emptyLine}
+              copy={copy}
+            />
 
             <p className={styles.railFoot}>
               {copy ? (
@@ -631,8 +648,8 @@ export function FieldExplorer() {
                 defined context shifts your baseline judgments.</>
               )}
             </p>
-          </div>
-        </aside>
+          </section>
+        </main>
 
         {selectedItem ? (
           <aside

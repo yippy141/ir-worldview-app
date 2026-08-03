@@ -38,6 +38,7 @@ import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
 import { familySlug } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
+import { PostureStrip } from "@/components/results/posture-strip"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
@@ -430,6 +431,10 @@ export default async function ResultPage(
             <DimensionFieldMap
               dimensionScores={dimensionScores}
               lowDifferentiation={lowDifferentiation}
+            />
+            <PostureStrip
+              result={result}
+              lowDifferentiationThreshold={lowDifferentiationThreshold}
             />
           </div>
         </header>

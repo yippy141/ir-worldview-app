@@ -72,7 +72,7 @@ const LENS_ORDER: LensCode[] = ["P", "R", "M", "S"]
 // Restraint is a 1–7 dimension with a neutral midpoint of 4. A Hedger below
 // that midpoint leans toward applying advantage (+); one above it leans toward
 // restraint (−). This stays valid for both core and extended calibrations.
-const HEDGER_POSTURE_MIDPOINT = 4
+export const HEDGER_POSTURE_MIDPOINT = 4
 
 export const archetypes = (archetypeData as ArchetypeData[]).map(
   (definition): Archetype => ({

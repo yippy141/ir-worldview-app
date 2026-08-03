@@ -57,7 +57,7 @@ test("stats read path suppresses every aggregate row when cohort n is below 100"
             normative_modifier: "Pluralist",
             count: "99",
           },
-        ] as Row[]
+        ] as unknown as Row[]
       }
       if (statement.includes("from agg_dimension_buckets")) {
         return [
@@ -66,7 +66,7 @@ test("stats read path suppresses every aggregate row when cohort n is below 100"
             bucket: "4.0",
             count: "99",
           },
-        ] as Row[]
+        ] as unknown as Row[]
       }
       throw new Error("Unexpected aggregate query.")
     },

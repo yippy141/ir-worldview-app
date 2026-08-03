@@ -1,57 +1,62 @@
 /* Shared Worldview Map surface. Product tokens remain centralized in globals. */
 
 .explorer {
-  --workspace-control-width: clamp(220px, 18vw, 244px);
   --workspace-drawer-width: clamp(340px, 26vw, 372px);
   --workspace-focus: color-mix(in srgb, var(--accent) 74%, white 26%);
   position: relative;
   font-family: var(--sans);
 }
 
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  min-height: 58px;
-  padding: 10px 0;
+/* ------------------------------------------------------------------ */
+/* Control bar                                                         */
+/* ------------------------------------------------------------------ */
+/* Four toggles, a count, and two disclosures. This runs as a horizontal
+   band above the map instead of taking a third of the viewport width. */
+
+.controlBar {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
-.toolbarSummary {
+.controlBarBody {
+  display: grid;
+  gap: 4px;
+  padding: 10px 0 2px;
+}
+
+.controlBarPrimary {
   display: flex;
-  align-items: baseline;
-  gap: 8px 12px;
-  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px 24px;
   flex-wrap: wrap;
 }
 
-.toolbarSummary strong {
-  color: var(--text);
-  font-size: 0.9rem;
-  font-weight: 650;
-  line-height: 1.35;
-}
-
-.toolbarLabel,
-.toolbarMeta {
-  color: var(--muted);
-  font-size: 0.78rem;
-  line-height: 1.35;
-}
-
-.toolbarMeta::before {
-  content: "·";
-  margin-right: 12px;
-  color: var(--faint);
-}
-
-.toolbarActions {
+.controlBarActions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.controlBarSecondary {
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--line);
+}
+
+.sheetHandle {
+  display: none;
+}
+
+.toolbarMeta {
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.72rem;
+  white-space: nowrap;
 }
 
 .listJump {
@@ -87,6 +92,7 @@
 .viewButton:focus-visible,
 .listJump:focus-visible,
 .mapBack:focus-visible,
+.sheetHandle:focus-visible,
 .detailClose:focus-visible,
 .layerToggle:focus-visible,
 .filterSummary:focus-visible,
@@ -101,68 +107,42 @@
   outline-offset: 2px;
 }
 
-.workspace {
-  display: grid;
-  grid-template-columns: var(--workspace-control-width) minmax(0, 1fr);
-  gap: 24px;
-  align-items: start;
-  padding-top: 22px;
-}
-
-.controls {
-  min-width: 0;
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.controlsInner {
-  display: grid;
-  gap: 18px;
-  position: sticky;
-  top: 88px;
-  max-height: calc(100vh - 108px);
-  overflow: auto;
-  padding-right: 4px;
-}
-
-.sectionHeading {
-  padding: 0;
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 0.86rem;
-  font-weight: 700;
-}
-
-.controlNote {
-  margin: 5px 0 11px;
-  color: var(--muted);
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
+/* ------------------------------------------------------------------ */
+/* Layer chips                                                         */
+/* ------------------------------------------------------------------ */
 
 .layerControls {
+  min-width: 0;
   border: 0;
   margin: 0;
   padding: 0;
-  min-width: 0;
 }
 
-.layerRows {
-  border-top: 1px solid var(--line);
+.layerLegend {
+  float: left;
+  padding: 12px 14px 0 0;
+  color: var(--muted);
+  font-family: var(--font-mono), monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.layerToggle,
-.unavailableLayer {
-  width: 100%;
-  min-height: 48px;
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) auto;
+.layerChips {
+  display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 8px 2px;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  border-radius: 0;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.layerToggle {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
   background: transparent;
   color: var(--text-2);
   cursor: pointer;
@@ -170,24 +150,26 @@
 }
 
 .layerToggle:hover {
+  border-color: var(--line-2);
   color: var(--text);
-  background: color-mix(in srgb, var(--panel) 55%, transparent);
 }
 
 .layerToggleActive {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line) 45%);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   color: var(--text);
-  background: color-mix(in srgb, var(--accent) 9%, transparent);
 }
 
 .layerCheck {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
   border: 1px solid var(--faint);
   border-radius: 3px;
   color: var(--bg);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   line-height: 1;
 }
 
@@ -198,7 +180,7 @@
 
 .layerLabel {
   min-width: 0;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   line-height: 1.25;
 }
@@ -206,12 +188,16 @@
 .layerCount {
   color: var(--muted);
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
 }
 
 .unavailableLayer {
-  grid-template-columns: minmax(0, 1fr);
-  cursor: default;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 7px 0;
 }
 
 .layerHint {
@@ -220,22 +206,32 @@
   line-height: 1.45;
 }
 
+.layerNote {
+  clear: both;
+  margin: 8px 0 4px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------------ */
+/* Disclosures                                                         */
+/* ------------------------------------------------------------------ */
+
 .filterDetails,
 .keyDetails {
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  min-width: 0;
 }
 
 .filterSummary {
-  min-height: 46px;
+  min-height: 44px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  gap: 8px;
   color: var(--text);
   cursor: pointer;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.78rem;
+  font-weight: 650;
   list-style: none;
 }
 
@@ -257,13 +253,16 @@
 
 .filterPanel {
   display: grid;
-  gap: 15px;
-  padding: 4px 0 16px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px 28px;
+  align-items: start;
+  padding: 4px 0 18px;
 }
 
 .filterLabel {
   display: grid;
   gap: 6px;
+  align-content: start;
   color: var(--muted);
   font-size: 0.75rem;
 }
@@ -288,6 +287,7 @@
 .filterGroup {
   display: grid;
   gap: 3px;
+  align-content: start;
   border: 0;
   margin: 0;
   padding: 0;
@@ -353,24 +353,35 @@
 }
 
 .railFoot {
-  margin: 0;
+  margin: 26px 0 0;
   color: var(--muted);
   font-size: 0.76rem;
   line-height: 1.55;
 }
 
+/* ------------------------------------------------------------------ */
+/* Workspace                                                           */
+/* ------------------------------------------------------------------ */
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-top: 22px;
+}
+
 .mapColumn {
   min-width: 0;
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
 }
 
 .mapStage {
-  min-height: min(68vh, 720px);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4px clamp(0px, 2.5vw, 34px) 18px;
+  padding: 22px 0 18px;
 }
 
 .mapStageBody {
@@ -381,8 +392,11 @@
   justify-content: center;
 }
 
+/* The dedicated map page has no control rail to share the width with, so the
+   plot runs larger than the 620-unit reference. Type stays at its rem sizes,
+   which only improves the label-to-plot proportion. */
 .mapStageBody > .canvas {
-  width: min(100%, 760px);
+  width: min(100%, 720px);
 }
 
 .mobileMapHeader {
@@ -427,7 +441,7 @@
 
 .detailDrawer {
   min-width: 0;
-  grid-column: 3;
+  grid-column: 2;
   grid-row: 1;
   padding: 4px 0 0 24px;
   border-left: 1px solid var(--line);
@@ -505,7 +519,9 @@
   font-weight: 650;
 }
 
-/* Shared SVG canvas */
+/* ------------------------------------------------------------------ */
+/* Shared SVG canvas                                                   */
+/* ------------------------------------------------------------------ */
 
 .canvas {
   margin: 0;
@@ -515,7 +531,7 @@
 .plot {
   position: relative;
   width: 100%;
-  aspect-ratio: 340 / 320;
+  aspect-ratio: 1;
 }
 
 .canvasSvg {
@@ -524,46 +540,80 @@
   height: 100%;
 }
 
+.plotFrame {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
 .guideLine {
   stroke: var(--border);
   stroke-width: 1;
-  stroke-dasharray: 3 4;
+  stroke-dasharray: 3 5;
+}
+
+/* Recessive background layer: a 5px dot per tradition, colour only. */
+.traditionAnchor {
+  opacity: 0.62;
+}
+
+.mapOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Line breaks come from the layout library, not from CSS wrapping, so the
+   rendered box matches the box collision avoidance reserved for it. pre-line
+   keeps the label one text node, so it still reads as a whole name to
+   assistive tech, search, and copy-paste. */
+.mapOverlay > span {
+  position: absolute;
+  transform: translateX(-50%);
+  font-family: var(--sans);
+  white-space: pre-line;
+  text-align: center;
 }
 
 .axisLabel {
-  fill: color-mix(in srgb, var(--muted) 88%, var(--text) 12%);
-  font-family: var(--sans);
-  font-size: 10px;
-  letter-spacing: 0.03em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+  color: color-mix(in srgb, var(--muted) 74%, transparent);
 }
 
-.traditionAnchor {
-  opacity: 0.48;
+.axisLabel[data-edge="left"],
+.axisLabel[data-edge="right"] {
+  text-align: start;
 }
 
 .anchorLabel {
-  font-family: var(--sans);
-  font-size: 8.5px;
-  letter-spacing: 0.01em;
+  font-size: 0.75rem;
+  font-weight: 650;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.09em;
+  line-height: 1.3;
+  opacity: 0.8;
 }
 
 .hullLabel {
   fill: var(--steel);
   font-family: var(--sans);
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.02em;
   opacity: 0.74;
 }
 
 .connector {
   stroke: var(--accent-dim);
-  stroke-width: 1.2;
+  stroke-width: 1.4;
 }
 
 .fanLine {
   stroke: color-mix(in srgb, var(--steel) 48%, transparent);
-  stroke-width: 0.8;
-  stroke-dasharray: 2 2;
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
 }
 
 .markerLink,
@@ -594,17 +644,69 @@
   stroke-width: 1.5;
 }
 
-.clusterMarker {
+/* Data marks sit above the gridlines and the recessive tradition anchors. */
+.markerHalo {
+  fill: var(--bg);
+  opacity: 0.86;
+}
+
+.baselineRing {
+  fill: var(--panel);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.baselineDot {
+  fill: var(--accent);
+}
+
+.runDot {
+  fill: var(--bg);
+  stroke: var(--accent);
+  stroke-width: 1.8;
+}
+
+.patternGlyph {
+  stroke: var(--text-2);
+  stroke-width: 1.6;
+  opacity: 0.82;
+}
+
+.referenceGlyph {
+  fill: none;
+  stroke: var(--steel);
+  stroke-width: 1.6;
+}
+
+.referenceFilled {
+  fill: var(--steel);
+}
+
+.markerStatic,
+.markerLink,
+.clusterLink {
+  transition: opacity 0.12s ease-out;
+}
+
+.markerStatic:hover .patternGlyph,
+.markerLink:hover .patternGlyph {
+  opacity: 1;
+}
+
+/* Overlap cluster: stacked marks, no number. */
+.clusterHalo {
+  fill: var(--bg);
+  opacity: 0.9;
+}
+
+.clusterEdge {
   fill: var(--bg-2);
   stroke: var(--steel);
   stroke-width: 1.2;
 }
 
-.clusterCount {
-  fill: var(--text);
-  font-family: var(--sans);
-  font-size: 8.5px;
-  font-weight: 700;
+.clusterLink:hover .clusterEdge {
+  stroke: var(--accent-light);
 }
 
 .mapLabel,
@@ -667,17 +769,17 @@
 
 .mapLabel[data-vertical="above"],
 .mapTooltip[data-vertical="above"] {
-  transform: translate(var(--label-translate-x), calc(-100% - 10px));
+  transform: translate(var(--label-translate-x), calc(-100% - 12px));
 }
 
 .mapLabel[data-vertical="below"],
 .mapTooltip[data-vertical="below"] {
-  transform: translate(var(--label-translate-x), 10px);
+  transform: translate(var(--label-translate-x), 12px);
 }
 
 .canvasCaption {
   max-width: 72ch;
-  margin: 10px auto 0;
+  margin: 12px auto 0;
   color: var(--muted);
   font-family: var(--sans);
   font-size: 0.75rem;
@@ -687,10 +789,10 @@
 
 .mapKey {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 7px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, max-content));
+  gap: 7px 24px;
   margin: 0;
-  padding: 2px 0 14px;
+  padding: 2px 0 16px;
 }
 
 .keyRow {
@@ -843,10 +945,7 @@
 
 @media (min-width: 1200px) {
   .workspaceWithDrawer {
-    grid-template-columns:
-      var(--workspace-control-width)
-      minmax(460px, 1fr)
-      var(--workspace-drawer-width);
+    grid-template-columns: minmax(460px, 1fr) var(--workspace-drawer-width);
   }
 }
 
@@ -868,30 +967,27 @@
   }
 }
 
+/* ------------------------------------------------------------------ */
+/* Small screens: full-bleed map, controls as a bottom sheet           */
+/* ------------------------------------------------------------------ */
+
 @media (max-width: 899px) {
   .explorer {
     --mobile-gutter: 20px;
   }
 
-  .toolbar {
-    align-items: flex-start;
-    min-height: 70px;
-    padding: 11px 0;
-  }
-
-  .toolbarSummary {
+  .controlBarPrimary {
     display: grid;
-    gap: 2px;
-    padding-top: 3px;
+    gap: 14px;
   }
 
-  .toolbarSummary strong {
-    max-width: 28ch;
-    font-size: 0.82rem;
+  .controlBarActions {
+    justify-content: space-between;
   }
 
-  .toolbarMeta::before {
-    content: none;
+  .controlBarSecondary {
+    display: grid;
+    gap: 0;
   }
 
   .listJump {
@@ -914,20 +1010,6 @@
     order: 1;
   }
 
-  .controls {
-    width: 100%;
-    order: 2;
-    padding: 26px 0 8px;
-    border-top: 1px solid var(--line);
-  }
-
-  .controlsInner {
-    position: static;
-    max-height: none;
-    overflow: visible;
-    padding-right: 0;
-  }
-
   .filterOption {
     min-height: 44px;
   }
@@ -936,8 +1018,7 @@
     display: none;
   }
 
-  .explorer[data-view="map"] .listRegion,
-  .explorer[data-view="map"] .controls {
+  .explorer[data-view="map"] .listRegion {
     display: none;
   }
 
@@ -978,18 +1059,113 @@
     font-size: 0.78rem;
   }
 
-  .mapStageBody {
-    min-height: 0;
-    padding: 10px var(--mobile-gutter) max(12px, env(safe-area-inset-bottom));
+  /* Full-bleed: the plot runs edge to edge; the sheet handle sits below it. */
+  .explorer[data-view="map"] .mapStageBody {
+    display: grid;
+    align-content: safe center;
+    padding: 0 0 calc(128px + env(safe-area-inset-bottom));
+    overflow: auto;
   }
 
-  .mapStageBody > .canvas {
-    width: min(100%, calc((100dvh - 100px) * 340 / 320));
+  /* The sheet handle already says "Layers"; the fieldset legend stays for
+     assistive technology only. */
+  .explorer[data-view="map"] .layerLegend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .explorer[data-view="map"] .mapStageBody > .canvas {
+    width: 100%;
   }
 
   .canvasCaption {
-    margin-top: 6px;
+    margin-top: 8px;
+    padding-inline: var(--mobile-gutter);
     font-size: 0.68rem;
+  }
+
+  .anchorLabel {
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+  }
+
+  .axisLabel {
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Bottom sheet. It is the same element as the desktop control bar, so the
+     layer toggles are never duplicated in the DOM. */
+  .explorer[data-view="map"] .controlBar {
+    position: fixed;
+    z-index: 36;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-height: 76dvh;
+    overflow: auto;
+    padding: 0 var(--mobile-gutter) env(safe-area-inset-bottom);
+    border-top: 1px solid var(--line-2);
+    border-bottom: 0;
+    background: var(--bg-2);
+  }
+
+  .explorer[data-view="map"] .sheetHandle {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    width: 100%;
+    min-height: 52px;
+    padding: 8px 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .sheetHandleLabel {
+    flex-shrink: 0;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .sheetHandleSummary {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 0.74rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .explorer[data-view="map"] .sheetHandle::after {
+    content: "▲";
+    color: var(--muted);
+    font-size: 0.62rem;
+  }
+
+  .explorer[data-view="map"][data-sheet="open"] .sheetHandle::after {
+    content: "▼";
+  }
+
+  /* Collapsed sheet keeps the view toggle and the count reachable; only the
+     layer chips and the disclosures fold away. */
+  .explorer[data-view="map"][data-sheet="closed"] .layerControls,
+  .explorer[data-view="map"][data-sheet="closed"] .controlBarSecondary {
+    display: none;
+  }
+
+  .explorer[data-view="map"] .controlBarBody {
+    gap: 12px;
+    padding: 10px 0 14px;
+    border-top: 1px solid var(--line);
   }
 
   .listRegion {
@@ -1032,7 +1208,7 @@
 }
 
 @media (max-width: 420px) {
-  .toolbar {
+  .controlBarActions {
     gap: 10px;
   }
 
@@ -1049,7 +1225,10 @@
   .detailDrawer,
   .mapStage,
   .mapTooltip,
-  .mapLabel {
+  .mapLabel,
+  .markerStatic,
+  .markerLink,
+  .clusterLink {
     scroll-behavior: auto;
     transition: none;
     animation: none;
