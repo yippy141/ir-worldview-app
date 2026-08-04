@@ -241,7 +241,7 @@ test("historical analogue pages show both the comparison and its limit", async (
   await page.goto("/archetypes/p-plus")
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "The Hegemon" }),
+    page.getByRole("heading", { level: 1, name: "Kairos" }),
   ).toBeVisible()
   await expect(
     page.getByRole("heading", { name: "Why this comparison fits" }),
@@ -250,6 +250,17 @@ test("historical analogue pages show both the comparison and its limit", async (
     page.getByRole("heading", { name: "Where the comparison breaks" }),
   ).toBeVisible()
   await expect(page.getByText("This is a comparison, not an identity")).toBeVisible()
+
+  // P+ has no name collision to footnote; R+ does.
+  await expect(
+    page.getByRole("heading", { name: "A note on the name" }),
+  ).toHaveCount(0)
+
+  await page.goto("/archetypes/r-plus")
+  await expect(
+    page.getByRole("heading", { name: "A note on the name" }),
+  ).toBeVisible()
+  await expect(page.getByText("Martin Wight", { exact: false })).toBeVisible()
 })
 
 test("Worldview Map switches between list and map views", async ({ page }) => {

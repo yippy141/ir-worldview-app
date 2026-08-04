@@ -1,6 +1,6 @@
 [
   {
-    "name": "The Hegemon",
+    "name": "Kairos",
     "code": "P+",
     "gloss": "Power is what moves the world. Windows open and close, act while the window is open.",
     "familyKey": "realist",
@@ -44,18 +44,18 @@
     }
   },
   {
-    "name": "The Iconoclast",
+    "name": "Satyagraha",
     "code": "M+",
     "gloss": "The international system is held together by shared beliefs. To change the balance of power, one must change the narrative.",
     "familyKey": "constructivist",
     "analogue": {
-      "label": "Finnemore & Sikkink / The Norm Lifecycle",
-      "year": "1998",
-      "href": "https://en.wikipedia.org/wiki/Norm_(social)#Norm_lifecycle"
+      "label": "The Salt March",
+      "year": "1930",
+      "href": "https://en.wikipedia.org/wiki/Salt_March"
     }
   },
   {
-    "name": "Nemawashi (根回し)",
+    "name": "Musyawarah",
     "code": "M-",
     "gloss": "The international system is held together by shared beliefs. True legitimacy is built slowly through consensus, never demanded.",
     "familyKey": "constructivist",
@@ -68,18 +68,18 @@
   {
     "name": "Dirigisme",
     "code": "S+",
-    "gloss": "Production, markets, and trade underpin politics, and the state should play a leading role in shaping them.",
+    "gloss": "Production, finance, and dependence organize politics, and the state should play a leading role in shaping them.",
     "familyKey": "criticalPoliticalEconomy",
     "analogue": {
-      "label": "Alexander Hamilton / Report on Manufactures",
-      "year": "1791",
-      "href": "https://en.wikipedia.org/wiki/Report_on_Manufactures"
+      "label": "The Monnet Plan",
+      "year": "1946",
+      "href": "https://en.wikipedia.org/wiki/Monnet_Plan"
     }
   },
   {
     "name": "Dependencia",
     "code": "S-",
-    "gloss": "Production, markets, and trade underpin politics. Reducing dependence and building national resilience is critical.",
+    "gloss": "Production, finance, and dependence organize politics. Reducing dependence and building national resilience is critical.",
     "familyKey": "criticalPoliticalEconomy",
     "analogue": {
       "label": "Raúl Prebisch",

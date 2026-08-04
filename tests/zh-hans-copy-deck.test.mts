@@ -42,6 +42,7 @@ test("the zh-Hans deck includes only the owner-approved Foundation instrument", 
     "ai-instrument",
     "module-instruments",
     "perspective-instruments",
+    "archetype-layer",
   ])
 })
 

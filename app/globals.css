@@ -8163,6 +8163,19 @@ html:lang(zh-Hans) .quiz-shell-label {
   line-height: 1.7;
 }
 
+/* A footnote about the name, not the analogue. Deliberately quieter than the
+   two comparison panels above it. */
+.archetype-evidence-name-note {
+  box-shadow: none;
+}
+
+.archetype-evidence-name-note p {
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
 .archetype-evidence-sources {
   margin: 0;
   padding: 0;

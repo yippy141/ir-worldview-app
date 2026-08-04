@@ -71,12 +71,12 @@ test("every modeled lens names both ends from the archetype catalog", () => {
   }
 })
 
-test("the realist pair is The Hegemon and Shi, both linked to their evidence pages", () => {
+test("the realist pair is Kairos and Shi, both linked to their evidence pages", () => {
   const posture = resolveRestraintPosture(profile("realist", 5.8))
 
   assert.equal(posture.blend, false)
   assert.equal(posture.low.code, "P+")
-  assert.equal(posture.low.name, "The Hegemon")
+  assert.equal(posture.low.name, "Kairos")
   assert.equal(posture.low.href, "/archetypes/p-plus")
   assert.equal(posture.high.code, "P-")
   assert.equal(posture.high.name, "Shi (勢)")

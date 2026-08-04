@@ -14,6 +14,12 @@ export type ArchetypeEvidence = {
   code: Archetype["code"]
   whyItFits: string
   whereItBreaks: string
+  /**
+   * Optional footnote about the archetype's name rather than its analogue —
+   * used where the term collides with an established usage the product also
+   * borrows, or carries a live meaning outside the one the archetype intends.
+   */
+  nameNote?: string
   sources: ArchetypeEvidenceSource[]
 }
 
@@ -127,6 +133,9 @@ function validateEvidenceData(candidate: ArchetypeEvidenceData): string[] {
     }
     if (!record.whereItBreaks.trim()) {
       errors.push(`${record.code} is missing whereItBreaks.`)
+    }
+    if (record.nameNote !== undefined && !record.nameNote.trim()) {
+      errors.push(`${record.code} has an empty nameNote.`)
     }
     if (!Array.isArray(record.sources) || record.sources.length === 0) {
       errors.push(`${record.code} must have at least one reviewed source.`)
