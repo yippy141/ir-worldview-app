@@ -73,7 +73,7 @@ test("Foundation card inputs derive archetype, norm, and bounded coordinates", (
   const parsed = buildFoundationShareCardInput(result, null)
 
   assert.equal(parsed.archetype.code, "P+")
-  assert.equal(parsed.archetype.name, "The Hegemon")
+  assert.equal(parsed.archetype.name, "Kairos")
   assert.deepStrictEqual(parsed.archetype.analogue, {
     label: "The Melian Dialogue",
     year: "416 BC",

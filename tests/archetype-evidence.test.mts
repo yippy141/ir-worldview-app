@@ -12,15 +12,19 @@ import { archetypes, resolveArchetype } from "@/lib/archetypes"
 import { buildCanonicalFoundationResult } from "@/lib/scoring"
 
 const ownerAuthoredNames = {
-  "P+": "The Hegemon",
+  "P+": "Kairos",
   "P-": "Shi (勢)",
   "R+": "Grotian",
   "R-": "Concert",
-  "M+": "The Iconoclast",
-  "M-": "Nemawashi (根回し)",
+  "M+": "Satyagraha",
+  "M-": "Musyawarah",
   "S+": "Dirigisme",
   "S-": "Dependencia",
 } as const
+
+// Names whose evidence page must footnote a collision or a live second
+// meaning, rather than presenting the term as unambiguous.
+const namesRequiringANote: readonly string[] = ["R+", "P-"]
 
 test("owner-authored pure archetypes and analogue evidence are complete", () => {
   assert.deepStrictEqual(validateArchetypeEvidence(), [])
@@ -47,8 +51,28 @@ test("owner-authored pure archetypes and analogue evidence are complete", () => 
   )
 })
 
-test("leading articles remain on pure names but are removed in blend names", () => {
-  assert.equal(archetypes.find(({ code }) => code === "P+")?.name, "The Hegemon")
+test("names that collide with an established usage carry an evidence-page note", () => {
+  for (const record of archetypeEvidence) {
+    if (namesRequiringANote.includes(record.code)) {
+      assert.ok(
+        record.nameNote?.trim(),
+        `${record.code} must footnote its name.`,
+      )
+    }
+  }
+
+  const grotian = archetypeEvidence.find(({ code }) => code === "R+")
+  assert.match(grotian?.nameNote ?? "", /Wight/)
+
+  const shi = archetypeEvidence.find(({ code }) => code === "P-")
+  assert.match(shi?.nameNote ?? "", /大势/)
+})
+
+test("blend names compose the two pure names and claim no analogue", () => {
+  // No V22 name carries a leading article, so blendNamePart's article-stripping
+  // rule is not exercised here. Pure names must reach a blend verbatim.
+  assert.equal(archetypes.find(({ code }) => code === "P+")?.name, "Kairos")
+  assert.equal(archetypes.find(({ code }) => code === "M+")?.name, "Satyagraha")
 
   const blend = resolveArchetype(
     buildCanonicalFoundationResult({
@@ -64,7 +88,7 @@ test("leading articles remain on pure names but are removed in blend names", () 
   )
 
   assert.equal(blend.code, "P/M+")
-  assert.equal(blend.name, "Hegemon–Iconoclast")
+  assert.equal(blend.name, "Kairos–Satyagraha")
   assert.equal(blend.analogue, null)
 })
 

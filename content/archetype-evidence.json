@@ -20,6 +20,7 @@
       "code": "P-",
       "whyItFits": "The Art of War repeatedly favors position, information, and strategic advantage over costly direct confrontation.",
       "whereItBreaks": "A military treatise is not a complete theory of international politics, and shi carries meanings that no two-sentence archetype can exhaust.",
+      "nameNote": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work.",
       "sources": [
         {
           "label": "Roger T. Ames on shih and strategic advantage",
@@ -31,6 +32,7 @@
       "code": "R+",
       "whyItFits": "Grotius argued that relations among political communities remain subject to law and obligation, including during war.",
       "whereItBreaks": "The Grotian tradition is broader than enforcement. It also concerns natural law, consent, moral restraint, and the possibility of an international society.",
+      "nameNote": "This product already borrows from Martin Wight's three traditions elsewhere: Pluralist and Solidarist are English School terms. In that scheme, Grotian names the rationalist middle way between realism and revolutionism, not the enforcement-forward pole it marks here. The two senses collide. Readers who know Wight's usage should treat this name as a reference to Grotius's own argument that law binds even in war, not as a claim to the middle position in Wight's triad.",
       "sources": [
         {
           "label": "Internet Encyclopedia of Philosophy: Hugo Grotius",
@@ -51,8 +53,8 @@
     },
     {
       "code": "M+",
-      "whyItFits": "The norm life-cycle model gives norm entrepreneurs an active role in challenging existing standards, persuading others, and helping new norms spread.",
-      "whereItBreaks": "Norm change is not only narrative change, and later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
+      "whyItFits": "The Salt March broke a law in order to argue in public about its legitimacy, turning an ordinary commodity into a test of whether the colonial state could justify itself. Finnemore and Sikkink's norm life-cycle supplies the scholarly frame: a challenger contests an accepted standard, persuades an audience, and pushes a rival expectation toward acceptance.",
+      "whereItBreaks": "The archetype cites a method, not a biography. Gandhi's own record is contested — most directly by B. R. Ambedkar on caste and varna, and separately over his writing and conduct on race during the South African years — and naming satyagraha is not an endorsement of the man or of his politics. Norm change is also not only narrative change: later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
       "sources": [
         {
           "label": "Finnemore and Sikkink, International Norm Dynamics and Political Change",
@@ -61,13 +63,21 @@
         {
           "label": "Acharya, How Ideas Spread",
           "href": "https://www.cambridge.org/core/journals/international-organization/article/how-ideas-spread-whose-norms-matter-norm-localization-and-institutional-change-in-asian-regionalism/7C6449C7612BC9AEE0C574C4CD9E7B63"
+        },
+        {
+          "label": "Hazama, Unravelling the Myth of Gandhian Non-violence",
+          "href": "https://www.cambridge.org/core/journals/modern-intellectual-history/article/unravelling-the-myth-of-gandhian-nonviolence-why-did-gandhi-connect-his-principle-of-satyagraha-with-the-hindu-notion-of-ahimsa/AE0B11F66A8048CD92587964BA110C53"
+        },
+        {
+          "label": "Barua, Revisiting the Gandhi–Ambedkar Debates over 'Caste'",
+          "href": "https://journals.sagepub.com/doi/10.1177/0971685818805328"
         }
       ]
     },
     {
       "code": "M-",
       "whyItFits": "ASEAN practice emphasizes consultation, consensus, informality, and avoiding public confrontation before collective decisions are announced.",
-      "whereItBreaks": "Nemawashi is a Japanese concept, while the ASEAN Way is Southeast Asian and internally contested. Consensus and non-interference can also prevent timely collective action.",
+      "whereItBreaks": "Musyawarah and mufakat come from Malay and Indonesian practice and were generalized outward into a regional method; they do not describe every member state's tradition equally, and the ASEAN Way is internally contested. Consensus and non-interference can also prevent timely collective action.",
       "sources": [
         {
           "label": "ASEAN Charter, Article 20: Consultation and Consensus",
@@ -77,12 +87,12 @@
     },
     {
       "code": "S+",
-      "whyItFits": "Hamilton's report argued that public policy should foster manufacturing capacity, diversify production, and reduce economic vulnerability.",
-      "whereItBreaks": "Dirigisme is a later French doctrine. Hamilton advocated targeted public support inside a market economy, not the full range of policies later associated with French state direction.",
+      "whyItFits": "The Monnet Plan is dirigisme in its own language: a French planning commissariat concentrated postwar investment in a short list of basic sectors — coal, steel, electricity, rail transport, cement, farm machinery — and set targets that private firms were expected to meet.",
+      "whereItBreaks": "Indicative planning steered investment; it did not replace markets or private ownership. The plan also depended on postwar reconstruction conditions, external aid, and a particular domestic coalition, so it is a weak guide to what state direction can do under different fiscal and political constraints.",
       "sources": [
         {
-          "label": "Founders Online: Report on the Subject of Manufactures",
-          "href": "https://founders.archives.gov/documents/Hamilton/01-10-02-0001-0007"
+          "label": "Brunet, The Creation of the Monnet Plan, 1945–1946: A Critical Re-Evaluation",
+          "href": "https://www.cambridge.org/core/journals/contemporary-european-history/article/abs/creation-of-the-monnet-plan-19451946-a-critical-reevaluation/DA6FD7BB4DDE6708266A5F805D7FC47C"
         }
       ]
     },

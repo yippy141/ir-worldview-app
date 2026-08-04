@@ -81,6 +81,16 @@ export default async function ArchetypeEvidencePage({
         </section>
       </div>
 
+      {evidence.nameNote ? (
+        <section
+          className="panel stack-sm archetype-evidence-name-note"
+          aria-labelledby="archetype-name-note-heading"
+        >
+          <h2 id="archetype-name-note-heading">A note on the name</h2>
+          <p>{evidence.nameNote}</p>
+        </section>
+      ) : null}
+
       <section className="stack-md" aria-labelledby="archetype-sources-heading">
         <h2 id="archetype-sources-heading">Sources and further reading</h2>
         <ul className="archetype-evidence-sources">

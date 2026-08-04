@@ -2,7 +2,10 @@
 
 Date: 2026-08-01
 
-Status: locked for V21; re-evaluation deferred to V22
+Status: superseded. The V22 re-evaluation this record deferred was completed on
+2026-08-05 and is recorded in `docs/v22/V22_ARCHETYPE_NAMING_DECISION.md`. Four
+entries below — the P+ and M+ names, the M− name, and the M+ and S+ analogues —
+are no longer current. This document is retained as the V21 decision record.
 
 ## Owner decision
 
