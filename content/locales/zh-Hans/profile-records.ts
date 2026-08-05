@@ -25,7 +25,7 @@ export const zhHansProfileRecordsUi = {
     runnerUp: "第二相邻参照",
     modifiers: "判断风格",
     dimensions: "七维画像",
-    score: (value: number) => `${value.toFixed(2)} / 7`,
+    score: (value: number) => value.toFixed(2),
     map: "在世界观地图中查看",
     provenance: "版本说明",
   },

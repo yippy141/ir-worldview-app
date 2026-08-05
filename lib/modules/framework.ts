@@ -1,5 +1,11 @@
 import { securityModule } from "@/lib/modules/security"
 import { technologyModule } from "@/lib/modules/technology"
+import {
+  getModuleVersion,
+  MODULE_V21_TUPLE,
+  type ModuleVersion,
+} from "@/lib/modules/versions"
+import * as currentModuleRuntime from "@/lib/modules/runtime-v2"
 import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
 import type {
   ModuleAnalytics,
@@ -11,10 +17,11 @@ import type {
   ModuleSelection,
   ModuleSlug,
 } from "@/lib/modules/types"
-import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
+import type { DimensionScores, QuizMode } from "@/lib/types"
 
 export const modules: readonly ModuleDefinition[] = [securityModule, technologyModule]
-export const SECOND_CHOICE_WEIGHT = 0.45
+export const SECOND_CHOICE_WEIGHT =
+  currentModuleRuntime.SECOND_CHOICE_WEIGHT
 
 export const MODULE_PERSPECTIVE_MATRIX = [
   {
@@ -76,11 +83,11 @@ export function getModuleQuestions(
   moduleDefinition: ModuleDefinition,
   mode: QuizMode,
 ) {
-  return moduleDefinition.questionsByMode[mode]
+  return currentModuleRuntime.getModuleQuestions(moduleDefinition, mode)
 }
 
 export function moduleAllowsSecondChoice(question: ModuleQuestion) {
-  return Boolean(question.allowSecondChoiceInAnalyst)
+  return currentModuleRuntime.moduleAllowsSecondChoice(question)
 }
 
 export function getModulePerspectiveCoverage(
@@ -106,65 +113,127 @@ export function hasCompleteModulePerspectiveCoverage(
 }
 
 export function encodeModulePayload(payload: ModulePayload): string {
+  if (!resolveDecodedModulePayload(payload)) {
+    throw new TypeError("Cannot encode an unsupported module payload.")
+  }
   return encodeUrlPayload(payload)
 }
 
 export function decodeModulePayload(encoded: string): ModulePayload | null {
-  const parsed = decodeUrlPayload(encoded) as
-    | Partial<ModulePayload>
-    | {
-        v?: 1
-        slug?: string
-        answers?: Record<string, string>
-      }
-    | null
+  return resolveModulePayload(encoded)?.payload ?? null
+}
 
-  if (!parsed) {
-    return null
+export type ResolvedModulePayload = ModuleVersion & {
+  payload: ModulePayload
+  sourcePayloadVersion: 1 | 2 | 3
+}
+
+export function resolveModulePayload(
+  encoded: string,
+): ResolvedModulePayload | null {
+  return resolveDecodedModulePayload(decodeUrlPayload(encoded))
+}
+
+function resolveDecodedModulePayload(
+  value: unknown,
+): ResolvedModulePayload | null {
+  if (typeof value !== "object" || value === null) return null
+  const parsed = value as {
+    v?: unknown
+    bv?: unknown
+    sv?: unknown
+    slug?: unknown
+    mode?: unknown
+    answers?: unknown
   }
+  const slug = isModuleSlug(parsed.slug) ? parsed.slug : null
+  if (!slug) return null
 
   if (
     parsed.v === 1 &&
-    typeof parsed.slug === "string" &&
-    getModuleDefinition(parsed.slug) &&
     typeof parsed.answers === "object" &&
     parsed.answers !== null
   ) {
     const answers = normalizeModuleAnswers(parsed.answers)
-    const moduleDefinition = getModuleDefinition(parsed.slug)
+    const version = getModuleVersion(
+      slug,
+      MODULE_V21_TUPLE.bankVersion,
+      MODULE_V21_TUPLE.scoringVersion,
+    )
     if (!answers) return null
-    if (!moduleDefinition || !validateModuleAnswers(moduleDefinition, "standard", answers)) {
+    if (
+      !version ||
+      !validateModuleAnswers(version, "standard", answers)
+    ) {
       return null
     }
 
     return {
-      v: 2,
-      slug: parsed.slug as ModuleSlug,
-      mode: "standard",
-      answers,
+      ...version,
+      sourcePayloadVersion: 1,
+      payload: {
+        v: 2,
+        slug,
+        mode: "standard",
+        answers,
+      },
     }
   }
 
   const answers = normalizeModuleAnswers(parsed.answers)
-  const moduleDefinition =
-    typeof parsed.slug === "string" ? getModuleDefinition(parsed.slug) : null
+  if (!isQuizMode(parsed.mode) || !answers) return null
 
-  if (
-    parsed.v !== 2 ||
-    typeof parsed.slug !== "string" ||
-    !moduleDefinition ||
-    !isQuizMode(parsed.mode) ||
-    !answers ||
-    !validateModuleAnswers(moduleDefinition, parsed.mode, answers)
-  ) {
-    return null
+  if (parsed.v === 2) {
+    const version = getModuleVersion(
+      slug,
+      MODULE_V21_TUPLE.bankVersion,
+      MODULE_V21_TUPLE.scoringVersion,
+    )
+    if (
+      !version ||
+      !validateModuleAnswers(version, parsed.mode, answers)
+    ) {
+      return null
+    }
+    return {
+      ...version,
+      sourcePayloadVersion: 2,
+      payload: {
+        v: 2,
+        slug,
+        mode: parsed.mode,
+        answers,
+      },
+    }
   }
 
+  if (
+    parsed.v !== 3 ||
+    !Number.isInteger(parsed.bv) ||
+    !Number.isInteger(parsed.sv)
+  ) return null
+
+  const version = getModuleVersion(
+    slug,
+    parsed.bv as number,
+    parsed.sv as number,
+  )
+  if (
+    !version ||
+    !validateModuleAnswers(version, parsed.mode, answers)
+  ) return null
+
   return {
-    v: 2,
-    slug: parsed.slug as ModuleSlug,
-    mode: parsed.mode,
-    answers,
+    ...version,
+    sourcePayloadVersion: 3,
+    payload: {
+      v: 3,
+      bv: version.bankVersion,
+      sv: version.scoringVersion,
+      slug,
+      mode: parsed.mode,
+      answers,
+    },
   }
 }
 
@@ -173,9 +242,11 @@ export function countAnsweredModuleQuestions(
   mode: QuizMode,
   answers: ModuleAnswers,
 ): number {
-  return getModuleQuestions(moduleDefinition, mode).filter(
-    (question) => answers[question.id]?.primary !== undefined,
-  ).length
+  return currentModuleRuntime.countAnsweredModuleQuestions(
+    moduleDefinition,
+    mode,
+    answers,
+  )
 }
 
 export function countAnsweredModuleQuestionsByLane(
@@ -183,14 +254,11 @@ export function countAnsweredModuleQuestionsByLane(
   mode: QuizMode,
   answers: ModuleAnswers,
 ) {
-  return Object.fromEntries(
-    moduleDefinition.lanes.map((lane) => [
-      lane.key,
-      getModuleQuestions(moduleDefinition, mode).filter(
-        (question) => question.lane === lane.key && answers[question.id]?.primary !== undefined,
-      ).length,
-    ]),
-  ) as Record<string, number>
+  return currentModuleRuntime.countAnsweredModuleQuestionsByLane(
+    moduleDefinition,
+    mode,
+    answers,
+  )
 }
 
 export function scoreModule(
@@ -198,7 +266,7 @@ export function scoreModule(
   mode: QuizMode,
   answers: ModuleAnswers,
 ): Record<string, number> {
-  return buildModuleAnalytics(moduleDefinition, mode, answers).scores
+  return currentModuleRuntime.scoreModule(moduleDefinition, mode, answers)
 }
 
 export function buildModuleAnalytics(
@@ -206,75 +274,11 @@ export function buildModuleAnalytics(
   mode: QuizMode,
   answers: ModuleAnswers,
 ): ModuleAnalytics {
-  const questions = getModuleQuestions(moduleDefinition, mode)
-  const scoredQuestions = questions.filter((question) => question.cardType !== "actorLens")
-
-  return {
-    scores: scoreQuestions(moduleDefinition, scoredQuestions, answers, mode),
-    laneScores: Object.fromEntries(
-      moduleDefinition.lanes.map((lane) => [
-        lane.key,
-        scoreQuestions(
-          moduleDefinition,
-          scoredQuestions.filter((question) => question.lane === lane.key),
-          answers,
-          mode,
-        ),
-      ]),
-    ),
-    cardTypeScores: buildCardTypeScores(moduleDefinition, questions, answers, mode),
-  }
-}
-
-function scoreQuestions(
-  moduleDefinition: ModuleDefinition,
-  questions: ModuleQuestion[],
-  answers: ModuleAnswers,
-  mode: QuizMode,
-) {
-  const sums = Object.fromEntries(moduleDefinition.axes.map((axis) => [axis.key, 0]))
-  const weights = Object.fromEntries(moduleDefinition.axes.map((axis) => [axis.key, 0]))
-
-  for (const question of questions) {
-    const answer = answers[question.id]
-    if (!answer?.primary) continue
-
-    applySignals(question, answer.primary, 1, sums, weights)
-
-    if (
-      moduleAllowsSecondChoice(question) &&
-      answer.secondary &&
-      answer.secondary !== answer.primary
-    ) {
-      applySignals(question, answer.secondary, SECOND_CHOICE_WEIGHT, sums, weights)
-    }
-  }
-
-  return Object.fromEntries(
-    moduleDefinition.axes.map((axis) => {
-      const totalWeight = weights[axis.key] ?? 0
-      const score = totalWeight > 0 ? (sums[axis.key] ?? 0) / totalWeight : 4
-      return [axis.key, Number(score.toFixed(2))]
-    }),
+  return currentModuleRuntime.buildModuleAnalytics(
+    moduleDefinition,
+    mode,
+    answers,
   )
-}
-
-function buildCardTypeScores(
-  moduleDefinition: ModuleDefinition,
-  questions: ModuleQuestion[],
-  answers: ModuleAnswers,
-  mode: QuizMode,
-) {
-  const cardTypes: ChoiceCardType[] = ["explanation", "decision", "actorLens", "both"]
-  const scores: Partial<Record<ChoiceCardType, Record<string, number>>> = {}
-
-  for (const cardType of cardTypes) {
-    const filtered = questions.filter((question) => question.cardType === cardType)
-    if (filtered.length === 0) continue
-    scores[cardType] = scoreQuestions(moduleDefinition, filtered, answers, mode)
-  }
-
-  return scores
 }
 
 export function buildModuleResult(
@@ -283,24 +287,12 @@ export function buildModuleResult(
   answers: ModuleAnswers,
   foundation?: DimensionScores,
 ): ModuleResult {
-  const analytics = buildModuleAnalytics(moduleDefinition, mode, answers)
-  const interpretation = moduleDefinition.interpret(analytics)
-  const laneSummaries = moduleDefinition.summarizeLanes(analytics, foundation)
-  const cardTypeRead = moduleDefinition.summarizeCardTypes?.(analytics)
-  const comparison =
-    foundation && moduleDefinition.compareToFoundation
-      ? moduleDefinition.compareToFoundation(analytics, foundation)
-      : undefined
-
-  return {
-    ...interpretation,
-    scores: analytics.scores,
-    laneSummaries,
-    ...(cardTypeRead ? { cardTypeRead } : {}),
-    cardTypeScores: analytics.cardTypeScores,
-    overlayDeltas: moduleDefinition.buildOverlayDeltas(analytics),
-    comparison: comparison || undefined,
-  }
+  return currentModuleRuntime.buildModuleResult(
+    moduleDefinition,
+    mode,
+    answers,
+    foundation,
+  )
 }
 
 export function getSelectedModuleOptions(
@@ -308,29 +300,11 @@ export function getSelectedModuleOptions(
   mode: QuizMode,
   answers: ModuleAnswers,
 ) {
-  return getModuleQuestions(moduleDefinition, mode).map((question) => ({
-    question,
-    primary:
-      question.options.find((option) => option.id === answers[question.id]?.primary) ?? null,
-    secondary:
-      question.options.find((option) => option.id === answers[question.id]?.secondary) ?? null,
-  }))
-}
-
-function applySignals(
-  question: ModuleQuestion,
-  optionId: string,
-  weight: number,
-  sums: Record<string, number>,
-  weights: Record<string, number>,
-) {
-  const option = question.options.find((candidate) => candidate.id === optionId)
-  if (!option) return
-
-  for (const [axisKey, value] of Object.entries(option.signals)) {
-    sums[axisKey] = (sums[axisKey] ?? 0) + value * weight
-    weights[axisKey] = (weights[axisKey] ?? 0) + weight
-  }
+  return currentModuleRuntime.getSelectedModuleOptions(
+    moduleDefinition,
+    mode,
+    answers,
+  )
 }
 
 function normalizeModuleAnswers(value: unknown): ModuleAnswers | null {
@@ -365,12 +339,14 @@ function normalizeModuleSelection(value: unknown): ModuleSelection | null {
 }
 
 function validateModuleAnswers(
-  moduleDefinition: ModuleDefinition,
+  version: ModuleVersion,
   mode: QuizMode,
   answers: ModuleAnswers,
 ) {
   const questionMap = Object.fromEntries(
-    getModuleQuestions(moduleDefinition, mode).map((question) => [question.id, question]),
+    version.runtime
+      .getModuleQuestions(version.definition, mode)
+      .map((question) => [question.id, question]),
   ) as Record<string, ModuleQuestion>
 
   for (const [questionId, selection] of Object.entries(answers)) {
@@ -387,4 +363,8 @@ function validateModuleAnswers(
 
 function isQuizMode(value: unknown): value is QuizMode {
   return value === "standard" || value === "analyst"
+}
+
+function isModuleSlug(value: unknown): value is ModuleSlug {
+  return value === "security" || value === "technology"
 }

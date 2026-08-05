@@ -1,0 +1,1255 @@
+{
+  "instrument": "security",
+  "instrumentVersion": 3,
+  "items": [
+    {
+      "id": "taiwan_quarantine",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance"
+      ],
+      "lane": "deterrence",
+      "cardType": "decision",
+      "title": "Quarantine pressure around Taiwan",
+      "prompt": "What should matter most first?",
+      "scene": "Day three of a quarantine around Taiwan. Insurers are pulling back, container traffic is slowing, and no shots have been fired. Beijing's leaders must decide today how to run the next phase of inspections while they still claim the operation is lawful and limited.",
+      "whyHard": "Too little pressure can make the move look hollow. Too much pressure can turn coercion below war into a direct clash before Beijing knows how far outside powers will go.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "Answer from the coercing power's strategic position, not from Taiwan's domestic politics or Washington's preferred response. This is a perspective test, not an endorsement of the action."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "The pressure campaign has begun, but the crisis is still below open war."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "Beijing wants to squeeze Taipei and deter outside intervention without triggering a coalition it cannot control."
+        },
+        {
+          "label": "Term",
+          "text": "A quarantine here means coercive inspections and movement limits without a formally declared blockade."
+        }
+      ],
+      "perspectiveTags": [
+        "major-power",
+        "deterrence",
+        "maritime",
+        "frontline-state"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "clarify_response",
+          "title": "Make the line unmistakable",
+          "label": "The first job is to show that pressure below invasion can still change behavior before outside coalitions settle.",
+          "signals": {
+            "activism": 6.1,
+            "escalation": 6,
+            "alliance": 5,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "build_denial_endurance",
+          "title": "Build a long squeeze",
+          "label": "The stronger move is to wear down traffic, insurers, and political stamina over time rather than force one dramatic showdown.",
+          "signals": {
+            "activism": 5.1,
+            "escalation": 5,
+            "alliance": 5.9,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "preserve_hedging_space",
+          "title": "Keep regional states divided",
+          "label": "Pressure works best if nearby states are not pushed into a fast, hard anti-China alignment.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.6,
+            "alliance": 3.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "raise_political_costs",
+          "title": "Keep the pressure framed as law and politics",
+          "label": "Economic and diplomatic pressure matters most if the operation still looks limited enough to avoid a wider military jump.",
+          "signals": {
+            "activism": 4.1,
+            "escalation": 4,
+            "alliance": 5,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "gray_zone_sabotage",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "Gray-zone sabotage",
+      "prompt": "What is the most persuasive reading of what the rival is testing?",
+      "scene": "Foreign ministers meet at an alliance ministerial tomorrow. After three weeks of cable cuts, rail disruptions, and port outages across two allied states, they must decide which vulnerability the campaign is testing before issuing a public statement.",
+      "whyHard": "If attribution stays contested, allies can agree the pattern is hostile while still disagreeing about whether it calls for punishment, resilience, or restraint.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "You are judging the campaign from an allied ministerial trying to hold both credibility and cohesion together."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "The sabotage pattern is ongoing but still below any openly declared military threshold."
+        },
+        {
+          "label": "Attribution quality",
+          "text": "Private confidence is higher than public proof."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "Partners will fracture if they define the problem differently."
+        }
+      ],
+      "perspectiveTags": [
+        "alliance-manager",
+        "cyber",
+        "infrastructure",
+        "major-power"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "resolve_probe",
+          "title": "Test response thresholds",
+          "label": "The incidents are mainly testing whether ambiguity lets the rival impose costs without triggering a firm threshold response.",
+          "signals": {
+            "activism": 5.6,
+            "escalation": 5.8,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "coalition_probe",
+          "title": "Test coalition fracture points",
+          "label": "The target is the political gap between partners with different thresholds for acting on incomplete evidence.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 4.8,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "resilience_probe",
+          "title": "Map resilience gaps",
+          "label": "The rival is exploiting repair, redundancy, and recovery weaknesses more than it is trying to trigger one dramatic showdown.",
+          "signals": {
+            "activism": 3.5,
+            "escalation": 3.8,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "bait_for_escalation",
+          "title": "Lure the alliance into overreacting",
+          "label": "The point is to provoke an overreaction on partial evidence and turn allied caution into a strategic restraint on themselves.",
+          "signals": {
+            "activism": 3.4,
+            "escalation": 3.6,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "shipping_attacks",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "decision",
+      "title": "Retaliation under sanctions pressure",
+      "prompt": "What should matter most in the response?",
+      "scene": "After a covert strike on a sensitive site and a wave of proxy attacks across the region, Iran's Supreme National Security Council has 48 hours before the next expected proxy attack to choose the state's response.",
+      "whyHard": "A restrained response can invite more pressure. A direct response can widen the war under conditions Iran may not control.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "Answer from Tehran's strategic position, not from what outside powers would prefer."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "The crisis has moved beyond signaling, but it has not yet become an open state-to-state war."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "Iran faces sanctions, surveillance, and the risk that a visible strike could justify a broader campaign against it."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether a limited direct response would restore deterrence or expose Iran's weaker position."
+        }
+      ],
+      "perspectiveTags": [
+        "regional-security",
+        "maritime",
+        "sanctions"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "punish_fast",
+          "title": "Restore deterrence visibly",
+          "label": "If the answer looks weak, outside strikes and covert pressure may start to look low-cost.",
+          "signals": {
+            "activism": 5.9,
+            "escalation": 5.6,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "protect_the_route",
+          "title": "Use partners and indirect pressure",
+          "label": "The stronger path is to use partners, proxies, and indirect pressure where the balance is less exposed.",
+          "signals": {
+            "activism": 4.3,
+            "escalation": 4.1,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "keep_a_ceiling",
+          "title": "Avoid a wider war",
+          "label": "The deeper danger is being pulled into a broader war that Iran cannot bound on favorable terms.",
+          "signals": {
+            "activism": 2.9,
+            "escalation": 3.1,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "anchor_in_regional_backing",
+          "title": "Raise the political cost through diplomacy",
+          "label": "Iran gains more by widening the diplomatic and regional cost of further strikes than by chasing immediate military drama.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "eastern_flank",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Eastern-flank reassurance",
+      "prompt": "What should matter most in the posture decision?",
+      "scene": "At next week's NATO ministerial, allied governments must choose the eastern-flank posture after repeated sabotage scares and airspace incidents. A frontline member is asking for a more permanent allied presence.",
+      "whyHard": "A signal that reassures exposed allies may also look like routine escalation if it becomes too rigid or too symbolic.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "Frontline allies want a posture that proves the alliance would not hesitate in a real crisis."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether deterrence comes more from symbolism, local resilience, or reinforcement depth."
+        }
+      ],
+      "perspectiveTags": [
+        "alliance-manager",
+        "frontline-state",
+        "deterrence"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "make_the_promise_visible",
+          "title": "Make the promise visible",
+          "label": "A forward presence matters first because exposed allies need proof that any attack instantly widens the coalition.",
+          "signals": {
+            "activism": 5.9,
+            "escalation": 6,
+            "alliance": 6.3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "build_reinforcement_depth",
+          "title": "Make reinforcements fast and durable",
+          "label": "Deterrence is strongest when the posture can be reinforced quickly and sustained politically, not just displayed.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 4.9,
+            "alliance": 6,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "prioritize_local_denial",
+          "title": "Strengthen frontline defenses",
+          "label": "Frontline states need their own mobilization, civil defense, and denial capacity more than they need a symbolic outside footprint.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 4.6,
+            "alliance": 3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "pair_reassurance_with_limits",
+          "title": "Reassure the ally, with clear limits",
+          "label": "Reassurance should stay tied to explicit ceilings so that every incident does not become a crisis of posture.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.5,
+            "alliance": 4.4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "maritime_pressure",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Outside help without formal alignment",
+      "prompt": "What should matter most when outside states offer support?",
+      "scene": "A Southeast Asian state's cabinet must choose what outside support to accept before maritime patrol talks begin in 72 hours. A much larger power is applying repeated pressure, but the government does not want formal bloc alignment to narrow its diplomatic room.",
+      "whyHard": "Outside backing can strengthen the smaller state, but the wrong form of backing can also reduce the autonomy it is trying to preserve.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The state is vulnerable to coercion but still wants room to trade, bargain, and hedge."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "Support that looks stabilizing to one actor may look like bloc capture to another."
+        }
+      ],
+      "perspectiveTags": [
+        "small-state",
+        "middle-power",
+        "hedging",
+        "maritime"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "hard_external_backing",
+          "title": "Use hard external backing",
+          "label": "Without stronger outside balancing, legal claims and coast guards will not offset material asymmetry for long.",
+          "signals": {
+            "activism": 5.1,
+            "escalation": 5.3,
+            "alliance": 6.2,
+            "legitimacy": 4.2
+          }
+        },
+        {
+          "id": "protect_hedging_room",
+          "title": "Keep room to work with different partners",
+          "label": "Smaller states often survive by diversifying ties and avoiding security arrangements that narrow their diplomatic options too early.",
+          "signals": {
+            "activism": 3.5,
+            "escalation": 4,
+            "alliance": 2.8,
+            "legitimacy": 4.9
+          }
+        },
+        {
+          "id": "multilateralize_pressure",
+          "title": "Build wider legal and regional pressure",
+          "label": "The more durable answer is to widen the political cost of coercion through law, regional diplomacy, and shared monitoring.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4,
+            "alliance": 4.9,
+            "legitimacy": 5.9
+          }
+        },
+        {
+          "id": "build_local_resilience",
+          "title": "Keep outside forces at arm’s length",
+          "label": "Accept surveillance support, coast-guard training, and equipment controlled by the state, but make no commitment to outside combat forces.",
+          "signals": {
+            "activism": 4.7,
+            "escalation": 4.6,
+            "alliance": 3.6,
+            "legitimacy": 3.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "middle_power_alignment",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "actorLens",
+      "title": "Border pressure when a state wants help but not full alignment",
+      "prompt": "Which logic should guide the cabinet's choice?",
+      "scene": "A large democracy faces repeated Chinese pressure along a disputed border. Its cabinet must choose an assistance package before next month's defense summit: weapons, intelligence help, and investment from the United States and other major powers, without letting that choice dictate every trade and diplomatic decision.",
+      "whyHard": "From Washington or other allied capitals, closer alignment can look like the obvious answer. From inside this cabinet, preserving bargaining room may still look like part of security itself.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "This is a pressure test. Answer from the government's own strategic position, not from what Washington or any outside patron would prefer."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "Pressure is rising, but the state is not yet being forced into a formal bloc break."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "The state wants security help without surrendering room on trade, diplomacy, and future bargaining."
+        }
+      ],
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "hedging"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "ambiguity_will_fail",
+          "title": "Prepare for a forced choice",
+          "label": "If rivalry intensifies, the state may need to build credibility with Washington before it loses the option to stay flexible.",
+          "signals": {
+            "activism": 5,
+            "escalation": 5.2,
+            "alliance": 6.1,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "layered_alignment_is_real",
+          "title": "Separate security from the rest",
+          "label": "The state can deepen security ties where needed without turning trade, finance, and diplomacy into one bloc decision.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.3,
+            "alliance": 5,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "autonomy_is_rational",
+          "title": "Treat autonomy as security",
+          "label": "From this position, bargaining room is part of national security, not a refusal to take threats seriously.",
+          "signals": {
+            "activism": 3.7,
+            "escalation": 4,
+            "alliance": 2.8,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "problem_based_coalitions",
+          "title": "Join coalitions case by case",
+          "label": "The most durable strategy is to join coalitions on specific problems without accepting whole-of-state alignment.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4.1,
+            "alliance": 4.8,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "atrocity_response",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "decision",
+      "title": "Mass atrocity and outside action",
+      "prompt": "Which rule should guide the team's recommendation?",
+      "scene": "Mass civilian killing is underway, the Security Council is blocked, and outside military action would be legally contested. By tomorrow, an operational mission team must recommend whether to intervene and, if so, define the mission's scope and stopping rule.",
+      "whyHard": "The central tension is whether the gravity of the harm justifies acting without the level of legal and political grounding that would normally be required.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "Civilians face immediate danger, but outside action would also create a precedent for future cases."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "No option offers a clean combination of effectiveness, legality, and political durability."
+        }
+      ],
+      "perspectiveTags": [
+        "vulnerable-state",
+        "humanitarian",
+        "regional-order"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "legal_bar_remains_high",
+          "title": "Keep the legal bar high",
+          "label": "However terrible the case, overriding sovereignty without durable grounding can damage order well beyond the crisis at hand.",
+          "signals": {
+            "activism": 3.4,
+            "escalation": 4,
+            "alliance": 4,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "limited_protection_can_qualify",
+          "title": "Allow limited protection",
+          "label": "If the killing is truly extreme, limited action to stop it can still be defensible even without perfect consensus.",
+          "signals": {
+            "activism": 5.2,
+            "escalation": 4.2,
+            "alliance": 4,
+            "legitimacy": 6.2
+          }
+        },
+        {
+          "id": "regional_authority_should_anchor",
+          "title": "Let nearby states set the limits",
+          "label": "Outside action is more defensible when nearby states define the aim, ceiling, and exit conditions.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 4.4,
+            "alliance": 4,
+            "legitimacy": 5.7
+          }
+        },
+        {
+          "id": "reduce_harm_without_widening",
+          "title": "Reduce harm without a wider war",
+          "label": "Relief, sanctions, monitoring, and documentation may do less, but they avoid normalizing open-ended force on weak authorization.",
+          "signals": {
+            "activism": 3,
+            "escalation": 3.5,
+            "alliance": 4,
+            "legitimacy": 4.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "aid_corridor",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "decision",
+      "title": "Aid corridors without clear authorization",
+      "prompt": "Which course should the coalition choose?",
+      "scene": "A government is choking off food and medicine to a besieged region, whose relief stocks will run out in five days. By tomorrow, a coalition of outside states must decide whether to escort maritime and air relief corridors despite unclear UN authorization and regional concern about a wider mission.",
+      "whyHard": "The problem is how to relieve urgent civilian harm without quietly turning a relief mission into a broader warfighting mandate.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The people at risk need access quickly, but the legal and political basis for coercive escort is disputed."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "A corridor could save lives, but it could also force escalation if the government challenges it directly."
+        }
+      ],
+      "perspectiveTags": [
+        "humanitarian",
+        "regional-order",
+        "civilian-protection"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "open_the_corridor",
+          "title": "Open the corridor now",
+          "label": "When starvation or siege tactics are already being used, relief access itself becomes the urgent strategic priority.",
+          "signals": {
+            "activism": 5.6,
+            "escalation": 4.1,
+            "alliance": 4,
+            "legitimacy": 6.1
+          }
+        },
+        {
+          "id": "seek_regional_cover",
+          "title": "Get regional backing",
+          "label": "Even under pressure, the mission needs regional political ownership if it is going to remain bounded and defensible.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.1,
+            "alliance": 4,
+            "legitimacy": 5.6
+          }
+        },
+        {
+          "id": "secure_authority_first",
+          "title": "Wait for legal authority",
+          "label": "The mission should not move faster than its legal and political basis, even when the delay is painful.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.9,
+            "alliance": 4,
+            "legitimacy": 3
+          }
+        },
+        {
+          "id": "intensify_indirect_pressure",
+          "title": "Increase pressure without escorts",
+          "label": "The better route is harder sanctions, public evidence, and coercive diplomacy short of escorting contested corridors.",
+          "signals": {
+            "activism": 3.6,
+            "escalation": 3.7,
+            "alliance": 4,
+            "legitimacy": 4.9
+          }
+        }
+      ]
+    },
+    {
+      "id": "ceasefire_accountability",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "explanation",
+      "title": "Ceasefire versus accountability",
+      "prompt": "Which weakness should the mediation team address first?",
+      "scene": "The parties have accepted a 72-hour ceasefire draft, but disagree over monitors, access to evidence, and when investigations restart. Before the draft expires tomorrow night, the mediation team must recommend the verification package most likely to keep the ceasefire from becoming a pause before renewed violence.",
+      "whyHard": "The same compromise can look like prudence to one camp and norm erosion to another.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "Negotiators, affected communities, and outside supporters all define a 'responsible' peace differently."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "A harder accountability demand may preserve principle but also delay a fragile chance to stop the war."
+        }
+      ],
+      "perspectiveTags": [
+        "post-conflict",
+        "humanitarian",
+        "transitional-justice"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "stop_killing_first",
+          "title": "Get monitors in immediately",
+          "label": "Deploy a basic monitoring team as soon as the ceasefire starts; preventing renewed fire matters more than settling every accountability rule now.",
+          "signals": {
+            "activism": 3.3,
+            "escalation": 3.6,
+            "alliance": 4,
+            "legitimacy": 5.7
+          }
+        },
+        {
+          "id": "accountability_sets_limits",
+          "title": "Set firm investigation date",
+          "label": "Write a fixed date for restarting investigations into the agreement, so accountability cannot be postponed indefinitely.",
+          "signals": {
+            "activism": 3.7,
+            "escalation": 3.9,
+            "alliance": 4,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "regional_monitoring_compromise",
+          "title": "Give regional monitors first watch",
+          "label": "Put nearby states in charge of first-stage monitoring, with broader evidence access once the ceasefire is holding.",
+          "signals": {
+            "activism": 3.8,
+            "escalation": 3.8,
+            "alliance": 4,
+            "legitimacy": 5.1
+          }
+        },
+        {
+          "id": "bad_peace_can_recycle_harm",
+          "title": "Make violations costly",
+          "label": "Set automatic consequences for verified violations, because monitoring without enforcement may only delay renewed violence.",
+          "signals": {
+            "activism": 4.4,
+            "escalation": 4.2,
+            "alliance": 4,
+            "legitimacy": 4.7
+          }
+        }
+      ]
+    },
+    {
+      "id": "iran_threshold",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "Nuclear threshold and preventive force",
+      "prompt": "Which position should guide the coalition's next move?",
+      "scene": "Inspectors report that Iran may be closer to crossing the nuclear threshold than six months ago, but intent and weaponization timelines remain disputed. Within 72 hours, before the next IAEA session, a joint review team for Israel, Gulf partners, and Western governments must recommend the coalition's leverage position.",
+      "whyHard": "The more it feels as if Iran could reach the nuclear threshold soon, the easier it is for the debate to slide from pressure and bargaining into preventive-war logic.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "You are judging the case from a coalition debating its next line, not from Tehran's internal politics."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "The crisis is still in the threshold-and-signaling phase, before an open strike decision."
+        },
+        {
+          "label": "Attribution quality",
+          "text": "Inspection access is degrading, but knowledge about intent and timeline is still incomplete."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "Partners want urgency without stumbling into a war they may not be able to bound."
+        }
+      ],
+      "perspectiveTags": [
+        "regional-security",
+        "nuclear",
+        "alliance-manager"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "threshold_is_a_leverage_problem",
+          "title": "Diplomatic leverage is fading",
+          "label": "The real issue is that once it starts to feel normal that Iran could reach the nuclear threshold soon, diplomacy loses pressure faster than it can recover it.",
+          "signals": {
+            "activism": 6,
+            "escalation": 5.7,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "threshold_is_a_containment_problem",
+          "title": "Prepare to live with the threat",
+          "label": "The key problem is how to avoid turning a bad nuclear position into an even wider war through premature force.",
+          "signals": {
+            "activism": 2.8,
+            "escalation": 3.2,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "threshold_is_a_coalition_problem",
+          "title": "Keep partners together",
+          "label": "The central question is whether partners can sustain a credible common line long enough for pressure to mean anything.",
+          "signals": {
+            "activism": 4.6,
+            "escalation": 4.5,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "threshold_is_a_legitimacy_problem",
+          "title": "Public and legal support limits action",
+          "label": "What matters most is whether any harder move can still be defended as bounded and politically sustainable.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4.1,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "beijing_below_war",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "Coercion below blockade",
+      "prompt": "What is the strongest reading of why Beijing would prefer coercion below outright blockade?",
+      "scene": "Beijing's top security body must choose the pressure tools to use around Taiwan over the next 48 hours, before military exercises begin. It wants leverage without taking the full legal and military leap of open blockade or invasion. Officials disagree over whether the main aim is to make today's pressure routine, divide outside partners, test when they will respond, or stay below open war.",
+      "whyHard": "More than one purpose can be real at once, but the main diagnosis changes how the whole move is read.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "You are judging the strategic logic of the move, not endorsing it."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "Beijing wants coercive leverage without triggering the fastest outside military response."
+        }
+      ],
+      "perspectiveTags": [
+        "major-power",
+        "deterrence",
+        "maritime"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "normalize_baseline",
+          "title": "Make today's pressure feel normal",
+          "label": "The aim is to make exceptional pressure feel routine so outside governments gradually accept it.",
+          "signals": {
+            "activism": 5.7,
+            "escalation": 5.1,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "split_coalition",
+          "title": "Divide outside partners",
+          "label": "Pressure below war works best if allies and regional states keep disagreeing about when coercion becomes intolerable.",
+          "signals": {
+            "activism": 4.7,
+            "escalation": 4.7,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "probe_thresholds",
+          "title": "Test when outsiders respond",
+          "label": "The aim is to learn how much pressure outsiders will accept before they act decisively.",
+          "signals": {
+            "activism": 6,
+            "escalation": 5.9,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "hold_military_ceiling",
+          "title": "Stay below open war",
+          "label": "The aim is to increase pressure while keeping the military and political costs below those of open war.",
+          "signals": {
+            "activism": 3.5,
+            "escalation": 3.4,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "nuclear_hedging",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Alliance guarantees and nuclear options",
+      "prompt": "What should matter most in the response to an exposed ally's nuclear debate?",
+      "scene": "A guarantor government's security team has five days to package a response for an allied meeting. An exposed ally is debating an independent nuclear option because it no longer fully trusts the outside guarantee. Some officials want unmistakable reassurance; others want a broader political framework that reduces demand for new arsenals.",
+      "whyHard": "Reassurance, nonproliferation, and autonomy all matter here, but pushing one too hard can undermine the others.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The ally is not only judging the adversary. It is also judging the reliability of its own coalition."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "A stronger guarantee may calm fears, but it may also tie the guarantor more tightly to future escalation."
+        }
+      ],
+      "perspectiveTags": [
+        "alliance-manager",
+        "frontline-state",
+        "nuclear"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "restore_confidence_fast",
+          "title": "Restore confidence quickly",
+          "label": "The first job is to make the outside guarantee unmistakable before the hedging debate cascades further.",
+          "signals": {
+            "activism": 5.3,
+            "escalation": 5.6,
+            "alliance": 6.3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "lower_demand_for_latency",
+          "title": "Reduce demand for a bomb option",
+          "label": "A new political and military framework should reduce the ally's reasons for wanting its own nuclear option.",
+          "signals": {
+            "activism": 3.9,
+            "escalation": 3.2,
+            "alliance": 5,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "tolerate_some_hedging",
+          "title": "Accept preparation short of a weapon",
+          "label": "Some allies will prepare for a possible nuclear option without building a weapon, and treating that as pure disloyalty misreads the problem.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.7,
+            "alliance": 3.4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "protect_nonproliferation_early",
+          "title": "Stop wider nuclear spread",
+          "label": "The wider danger is more states preparing nuclear options, even if this ally's anxiety is understandable.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 4.6,
+            "alliance": 5.4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "patron_trust_gap",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Security help without full trust",
+      "prompt": "From this partner state's side, what should carry the most weight?",
+      "scene": "A regional power faces a stronger neighbor and relies on an outside patron for air defense, intelligence, and financing. It wants deeper help, but doubts that the patron would bear equal risk in a longer crisis. Its cabinet must design the security relationship before new basing talks begin next week.",
+      "whyHard": "Outside guarantees can deter and entrap at the same time. The same tie can look like protection or dependence depending on how much trust remains.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "Answer from the partner state's own position, not from the patron's preferred line."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "The state needs help quickly, but it does not want today's reassurance to become tomorrow's dependence."
+        }
+      ],
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "regional-security"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "lock_in_guarantee",
+          "title": "Lock in the guarantee",
+          "label": "An uncertain guarantee is still better than a weak one. The first job is to make outside backing harder to reverse.",
+          "signals": {
+            "activism": 5.2,
+            "escalation": 5.3,
+            "alliance": 6.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "diversify_backers",
+          "title": "Diversify the backers",
+          "label": "The state should not let one patron decide its room to maneuver. Several reliable partners provide more security than one.",
+          "signals": {
+            "activism": 3.8,
+            "escalation": 4,
+            "alliance": 2.9,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "build_denial_home",
+          "title": "Strengthen defenses at home",
+          "label": "The safer answer is stronger defenses, civil preparedness, and mobilization at home that do not depend on full outside trust.",
+          "signals": {
+            "activism": 4.9,
+            "escalation": 4.6,
+            "alliance": 3.4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "keep_it_issue_based",
+          "title": "Keep it issue by issue",
+          "label": "The state should deepen useful security ties without letting one relationship control every part of its foreign policy.",
+          "signals": {
+            "activism": 4.1,
+            "escalation": 4.2,
+            "alliance": 4.8,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "sanctions_enforcement",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "explanation",
+      "title": "Sanctions leakage and swing states",
+      "prompt": "What is the strongest reading of why several swing states resist tighter enforcement?",
+      "scene": "The coalition's finance ministers have 72 hours before a vote to choose an enforcement package for third-country firms and ports. Several swing states say tighter enforcement would let wealthy powers export the rules and costs of their war through other people's trade networks.",
+      "whyHard": "The same resistance can be read as opportunism, autonomy protection, or a real legitimacy objection to how coercion is being organized.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The coalition wants enforcement credibility; swing states want to avoid becoming instruments of a conflict they do not fully own."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether harder pressure would strengthen the coalition or merely narrow it."
+        }
+      ],
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "sanctions",
+        "developmental"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "resistance_is_about_leakage",
+          "title": "Enforcement decides whether sanctions work",
+          "label": "The central issue is that sanctions lose strategic meaning when outside actors can profit from evasion without consequence.",
+          "signals": {
+            "activism": 5.5,
+            "escalation": 4.9,
+            "alliance": 5.2,
+            "legitimacy": 3
+          }
+        },
+        {
+          "id": "resistance_is_about_coalition_breadth",
+          "title": "Keep reluctant states in the coalition",
+          "label": "A broad but imperfect coalition often lasts longer than a cleaner coalition built on coercing reluctant states.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.1,
+            "alliance": 6,
+            "legitimacy": 5.2
+          }
+        },
+        {
+          "id": "resistance_is_about_autonomy",
+          "title": "Protect independent trade policy",
+          "label": "Many middle powers want to keep control of their own trade policy and refuse to serve as enforcement arms for another coalition.",
+          "signals": {
+            "activism": 3.7,
+            "escalation": 3.8,
+            "alliance": 2.9,
+            "legitimacy": 5.1
+          }
+        },
+        {
+          "id": "resistance_is_about_legal_grounding",
+          "title": "Give enforcement clear legal basis",
+          "label": "The more coercive the enforcement becomes, the more it needs a public basis that looks like law rather than improvised hierarchy.",
+          "signals": {
+            "activism": 4,
+            "escalation": 3.9,
+            "alliance": 4.6,
+            "legitimacy": 6.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "selective_enforcement_memory",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "explanation",
+      "title": "Selective enforcement and intervention memory",
+      "prompt": "What is the strongest reading of why many post-colonial states resist harder enforcement?",
+      "scene": "Before a UN vote next week, a caucus of post-colonial states must agree its position on sanctions, no-fly options, and criminal investigations after mass repression in a weak state. The members condemn the violence but resist the enforcement push because the same wealthy powers have not acted with equal urgency in other crises.",
+      "whyHard": "The resistance can reflect cynicism, sovereignty concerns, or a real judgment about how selective enforcement shapes order.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "These states are not defending the violence. They are judging what kind of order the enforcement pattern would create."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether harder enforcement would protect civilians or reinforce rules many states already see as unevenly applied."
+        }
+      ],
+      "perspectiveTags": [
+        "nonaligned",
+        "regional-order",
+        "humanitarian",
+        "vulnerable-state"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "selective_force_is_the_issue",
+          "title": "Principles are enforced selectively",
+          "label": "The objection is that powerful states invoke principles unevenly and ask weaker states to live under precedents they do not apply evenly.",
+          "signals": {
+            "activism": 3.9,
+            "escalation": 4,
+            "alliance": 4.5,
+            "legitimacy": 6.1
+          }
+        },
+        {
+          "id": "sovereignty_barrier_is_the_issue",
+          "title": "Protect sovereignty",
+          "label": "The deeper concern is that easier outside intervention creates lasting risks for weaker states.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.9,
+            "alliance": 4.2,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "regional_ownership_is_missing",
+          "title": "Give regional states control",
+          "label": "The problem is less the goal than the lack of regional control that could limit the mission and shape what follows.",
+          "signals": {
+            "activism": 4.3,
+            "escalation": 4.2,
+            "alliance": 5.2,
+            "legitimacy": 5.8
+          }
+        },
+        {
+          "id": "burden_is_asymmetric",
+          "title": "Costs fall unevenly",
+          "label": "Many states resist because enforcement often shifts the economic and political burden through other people's trade, diplomacy, and displacement pressures.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4.1,
+            "alliance": 3,
+            "legitimacy": 5.3
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -6,16 +6,38 @@ import type {
     PaceModifier,
     RiskLens,
 } from "@/lib/ai-governance-types"
+import {
+    AI_GOVERNANCE_V21_TUPLE,
+    getAiGovernanceVersion,
+    type AiGovernanceVersion,
+} from "@/lib/ai-governance-versions"
 import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
 
-export type AiSharePayload = {
-    v: 1
+type AiShareFields = {
     as: [number, number, number, number, number, number, number, number]
     ak: AiArchetypeKey
     nk: AiArchetypeKey
     rl: RiskLens
     pm: PaceModifier
     gm: GeopoliticsModifier
+}
+
+export type AiSharePayloadV1 = AiShareFields & {
+    v: 1
+}
+
+export type AiSharePayloadV2 = AiShareFields & {
+    v: 2
+    /** Item-bank/content version. */
+    bv: number
+    /** Scoring implementation version. */
+    sv: number
+}
+
+export type AiSharePayload = AiSharePayloadV1 | AiSharePayloadV2
+
+export type ResolvedAiPayload = AiGovernanceVersion & {
+    payload: AiSharePayload
 }
 
 export const AI_PAYLOAD_AXIS_ORDER: AiAxisKey[] = [
@@ -30,17 +52,73 @@ export const AI_PAYLOAD_AXIS_ORDER: AiAxisKey[] = [
 ]
 
 export function encodeAiPayload(payload: AiSharePayload): string {
+    if (!resolveDecodedAiPayload(payload)) {
+        throw new TypeError("Cannot encode an unsupported AI Governance payload.")
+    }
     return encodeUrlPayload(payload)
 }
 
 export function decodeAiPayload(encoded: string): AiSharePayload | null {
-    const parsed = decodeUrlPayload(encoded)
+    return resolveAiPayload(encoded)?.payload ?? null
+}
 
-    if (!isAiSharePayload(parsed)) {
-        return null
+export function resolveAiPayload(encoded: string): ResolvedAiPayload | null {
+    return resolveDecodedAiPayload(decodeUrlPayload(encoded))
+}
+
+function resolveDecodedAiPayload(value: unknown): ResolvedAiPayload | null {
+    if (!isAiShareFields(value)) return null
+    const candidate = value as AiShareFields & {
+        v?: unknown
+        bv?: unknown
+        sv?: unknown
     }
 
-    return parsed
+    if (candidate.v === 1) {
+        const version = getAiGovernanceVersion(
+            AI_GOVERNANCE_V21_TUPLE.bankVersion,
+            AI_GOVERNANCE_V21_TUPLE.scoringVersion,
+        )
+        if (!version) return null
+        return {
+            ...version,
+            payload: {
+                v: 1,
+                as: candidate.as,
+                ak: candidate.ak,
+                nk: candidate.nk,
+                rl: candidate.rl,
+                pm: candidate.pm,
+                gm: candidate.gm,
+            },
+        }
+    }
+
+    if (
+        candidate.v !== 2 ||
+        !Number.isInteger(candidate.bv) ||
+        !Number.isInteger(candidate.sv)
+    ) return null
+
+    const version = getAiGovernanceVersion(
+        candidate.bv as number,
+        candidate.sv as number,
+    )
+    if (!version) return null
+    return {
+        ...version,
+        payload: {
+            v: 2,
+            bv: version.bankVersion,
+            sv: version.scoringVersion,
+            as: candidate.as,
+            ak: candidate.ak,
+            nk: candidate.nk,
+            rl: candidate.rl,
+            pm: candidate.pm,
+            gm: candidate.gm,
+        },
+    }
 }
 
 export function aiAxisScoresToArray(
@@ -66,15 +144,14 @@ export function aiPayloadToAxisScores(payload: AiSharePayload): AiAxisScores {
     }
 }
 
-function isAiSharePayload(value: unknown): value is AiSharePayload {
+function isAiShareFields(value: unknown): value is AiShareFields {
     if (typeof value !== "object" || value === null) {
         return false
     }
 
-    const candidate = value as Partial<AiSharePayload>
+    const candidate = value as Partial<AiShareFields>
 
     return (
-        candidate.v === 1 &&
         isAxisScoreTuple(candidate.as) &&
         isAiArchetypeKey(candidate.ak) &&
         isAiArchetypeKey(candidate.nk) &&

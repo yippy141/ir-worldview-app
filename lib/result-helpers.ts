@@ -1088,7 +1088,7 @@ export function getWhatCouldShift(
     const score = d[dim]
     const dir = score < 4 ? "higher" : "lower"
     results.push(
-      `Your classification could shift to ${nkLabel} if your score on ${dimLabel} were notably ${dir}. Your current score is ${score.toFixed(1)} out of 7.`,
+      `Your classification could shift to ${nkLabel} if your score on ${dimLabel} were notably ${dir}. Your current raw score is ${score.toFixed(1)}.`,
     )
   }
 

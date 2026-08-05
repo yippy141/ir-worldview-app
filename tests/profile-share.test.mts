@@ -17,6 +17,7 @@ import {
   getModuleDefinition,
   getModuleQuestions,
 } from "@/lib/modules/framework"
+import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
 import { getPerspectiveDefinition } from "@/lib/perspectives/catalog"
 import {
   encodePerspectivePayload,
@@ -61,11 +62,18 @@ function buildCanonicalModuleFixture(slug: "security" | "technology") {
   )
   const analytics = buildModuleAnalytics(definition, mode, answers)
   return {
-    payload: encodeModulePayload({ v: 2, slug, mode, answers }),
+    payload: encodeModulePayload({
+      v: 3,
+      bv: MODULE_V22_TUPLE.bankVersion,
+      sv: MODULE_V22_TUPLE.scoringVersion,
+      slug,
+      mode,
+      answers,
+    }),
     scores: analytics.scores,
     laneScores: analytics.laneScores,
     cardTypeScores: analytics.cardTypeScores,
-    instrumentVersion: 2,
+    instrumentVersion: MODULE_V22_TUPLE.bankVersion,
   }
 }
 

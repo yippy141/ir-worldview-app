@@ -3,10 +3,17 @@ import type {
   ModuleDefinition,
   ModuleLaneSummary,
 } from "@/lib/modules/types"
-import type { DimensionKey, DimensionScores } from "@/lib/types"
-import securityBankJson from "@/content/instrument/security.v2.json" with {
+import {
+  getModuleClassificationMode,
+  standardizeModuleAxis,
+} from "@/lib/modules/calibration"
+import type { DimensionKey, DimensionScores, QuizMode } from "@/lib/types"
+import securityBankJson from "@/content/instrument/security.v3.json" with {
   type: "json",
 }
+
+export const SECURITY_BANK_VERSION = 3
+export const SECURITY_SCORING_VERSION = 2
 
 const securityLanes: ModuleDefinition["lanes"] = [
   {
@@ -61,6 +68,7 @@ const securityQuestionsByMode: ModuleDefinition["questionsByMode"] = {
 
 export const securityModule: ModuleDefinition = {
   slug: "security",
+  defaultHeadline: "Security read: no single lane dominates",
   shortTitle: "Security",
   title: "Security, Strategy, and Statecraft",
   subtitle: "A focused read on deterrence, alliances, escalation, and the legitimacy of force",
@@ -110,10 +118,43 @@ export const securityModule: ModuleDefinition = {
   ],
   lanes: securityLanes,
   questionsByMode: securityQuestionsByMode,
-  interpret(analytics) {
+  interpret(analytics, context) {
+    const mode = getModuleClassificationMode(analytics, context)
     const { activism, escalation, alliance, legitimacy } = analytics.scores
+    const headlineContext = { kind: "headline" } as const
+    const activismPosition = standardizeModuleAxis(
+      "security",
+      mode,
+      headlineContext,
+      "activism",
+      activism,
+    )
+    const escalationPosition = standardizeModuleAxis(
+      "security",
+      mode,
+      headlineContext,
+      "escalation",
+      escalation,
+    )
+    const alliancePosition = standardizeModuleAxis(
+      "security",
+      mode,
+      headlineContext,
+      "alliance",
+      alliance,
+    )
+    const legitimacyPosition = standardizeModuleAxis(
+      "security",
+      mode,
+      headlineContext,
+      "legitimacy",
+      legitimacy,
+    )
 
-    if (activism >= 5.4 && escalation >= 5.1) {
+    if (
+      activismPosition.value >= activismPosition.upper &&
+      escalationPosition.value >= escalationPosition.upper
+    ) {
       return {
         headline: "Security read: pressure and visible deterrence",
         summary:
@@ -128,7 +169,10 @@ export const securityModule: ModuleDefinition = {
       }
     }
 
-    if (activism <= 3.7 && escalation <= 3.9) {
+    if (
+      activismPosition.value <= activismPosition.lower &&
+      escalationPosition.value <= escalationPosition.lower
+    ) {
       return {
         headline: "Security read: restraint and crisis ceilings",
         summary:
@@ -143,7 +187,7 @@ export const securityModule: ModuleDefinition = {
       }
     }
 
-    if (alliance >= 5.4) {
+    if (alliancePosition.value >= alliancePosition.upper) {
       return {
         headline: "Security read: coalition-centered pressure management",
         summary:
@@ -158,7 +202,7 @@ export const securityModule: ModuleDefinition = {
       }
     }
 
-    if (legitimacy >= 5.3) {
+    if (legitimacyPosition.value >= legitimacyPosition.upper) {
       return {
         headline: "Security read: protection-sensitive statecraft",
         summary:
@@ -186,15 +230,16 @@ export const securityModule: ModuleDefinition = {
         "Your threshold for decisive action is still unspecified. A crisis that forces one lane above the others would settle it.",
     }
   },
-  summarizeLanes(analytics, foundation) {
+  summarizeLanes(analytics, foundation, context) {
+    const mode = getModuleClassificationMode(analytics, context)
     const deterrence = analytics.laneScores.deterrence
     const alliances = analytics.laneScores.alliances
     const legitimacy = analytics.laneScores.legitimacy
 
     return [
-      summarizeSecurityLane("deterrence", deterrence, foundation),
-      summarizeSecurityLane("alliances", alliances, foundation),
-      summarizeSecurityLane("legitimacy", legitimacy, foundation),
+      summarizeSecurityLane("deterrence", deterrence, mode, foundation),
+      summarizeSecurityLane("alliances", alliances, mode, foundation),
+      summarizeSecurityLane("legitimacy", legitimacy, mode, foundation),
     ]
   },
   summarizeCardTypes(analytics) {
@@ -290,6 +335,7 @@ export const securityModule: ModuleDefinition = {
 function summarizeSecurityLane(
   laneKey: string,
   scores: Record<string, number>,
+  mode: QuizMode,
   foundation?: DimensionScores,
 ): ModuleLaneSummary {
   const lane = securityLanes.find((candidate) => candidate.key === laneKey)
@@ -307,12 +353,30 @@ function summarizeSecurityLane(
   if (laneKey === "deterrence") {
     const activism = scores.activism ?? 4
     const escalation = scores.escalation ?? 4
+    const laneContext = { kind: "lane", laneKey } as const
+    const activismPosition = standardizeModuleAxis(
+      "security",
+      mode,
+      laneContext,
+      "activism",
+      activism,
+    )
+    const escalationPosition = standardizeModuleAxis(
+      "security",
+      mode,
+      laneContext,
+      "escalation",
+      escalation,
+    )
     let summary = "This lane sits between visible deterrence and crisis limitation; neither pulled clear."
 
-    if (activism >= 5.2 && escalation >= 5.0) {
+    if (
+      activismPosition.value >= activismPosition.upper &&
+      escalationPosition.value >= escalationPosition.upper
+    ) {
       summary =
         "This lane leans toward visible deterrence and earlier pressure when ambiguity itself starts to reward probing."
-    } else if (activism <= 3.8) {
+    } else if (activismPosition.value <= activismPosition.lower) {
       summary =
         "This lane looks first for ceilings, route protection, resilience, and ways to keep coercion from widening into a larger war."
     }
@@ -326,9 +390,11 @@ function summarizeSecurityLane(
       highLabel: lane.highLabel,
       delta:
         foundation && Math.abs(foundation.restraint - 4) > 0.4
-          ? activism >= 5.1 && foundation.restraint >= 5.15
+          ? activismPosition.value >= activismPosition.upper &&
+            foundation.restraint >= 5.15
             ? "Harder-edged than your baseline restraint score."
-            : activism <= 3.8 && foundation.restraint <= 3.85
+            : activismPosition.value <= activismPosition.lower &&
+                foundation.restraint <= 3.85
               ? "More crisis-limiting than your baseline strategic style."
               : undefined
           : undefined,
@@ -337,12 +403,19 @@ function summarizeSecurityLane(
 
   if (laneKey === "alliances") {
     const alliance = scores.alliance ?? 4
+    const alliancePosition = standardizeModuleAxis(
+      "security",
+      mode,
+      { kind: "lane", laneKey },
+      "alliance",
+      alliance,
+    )
     let summary = "This lane sits between coalition management and partner autonomy; neither pulled clear."
 
-    if (alliance >= 5.2) {
+    if (alliancePosition.value >= alliancePosition.upper) {
       summary =
         "This lane becomes coalition-centered. Exposed allies, reassurance, and partner endurance are part of the security answer itself."
-    } else if (alliance <= 3.8) {
+    } else if (alliancePosition.value <= alliancePosition.lower) {
       summary =
         "This lane is autonomy-sensitive. It gives smaller and middle powers more room to hedge, diversify, and resist bloc compression."
     }
@@ -355,19 +428,28 @@ function summarizeSecurityLane(
       lowLabel: lane.lowLabel,
       highLabel: lane.highLabel,
       delta:
-        foundation && alliance >= 5.2 && foundation.institutions <= 3.85
+        foundation &&
+        alliancePosition.value >= alliancePosition.upper &&
+        foundation.institutions <= 3.85
           ? "More coalition-centered than your baseline institutions score."
           : undefined,
     }
   }
 
   const legitimacyScore = scores.legitimacy ?? 4
+  const legitimacyPosition = standardizeModuleAxis(
+    "security",
+    mode,
+    { kind: "lane", laneKey },
+    "legitimacy",
+    legitimacyScore,
+  )
   let summary = "This lane sits between order-first caution and civilian protection; neither pulled clear."
 
-  if (legitimacyScore >= 5.2) {
+  if (legitimacyPosition.value >= legitimacyPosition.upper) {
     summary =
       "This lane is protection-sensitive. It keeps civilian risk, regional backing, and defensible authority active even when harder action is on the table."
-  } else if (legitimacyScore <= 3.8) {
+  } else if (legitimacyPosition.value <= legitimacyPosition.lower) {
     summary =
       "This lane stays order-first. It sets a higher bar for force when legal authority and precedent are weak."
   }
@@ -380,9 +462,13 @@ function summarizeSecurityLane(
     lowLabel: lane.lowLabel,
     highLabel: lane.highLabel,
     delta:
-      foundation && legitimacyScore >= 5.2 && foundation.orderJustice >= 5.15
+      foundation &&
+      legitimacyPosition.value >= legitimacyPosition.upper &&
+      foundation.orderJustice >= 5.15
         ? "More protection-sensitive than your order-first Foundation baseline."
-        : foundation && legitimacyScore <= 3.8 && foundation.orderJustice <= 3.85
+        : foundation &&
+            legitimacyPosition.value <= legitimacyPosition.lower &&
+            foundation.orderJustice <= 3.85
           ? "More order-first than your justice-sensitive Foundation baseline."
           : undefined,
   }

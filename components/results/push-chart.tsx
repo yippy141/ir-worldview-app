@@ -4,6 +4,10 @@ export type PushRow = {
   /** Signed position on the axis: -1 at the low end, +1 at the high end. */
   deviation: number
   score: number
+  percentile?: {
+    percentile: number
+    n: number
+  } | null
   /** Short name of the pole the score sits toward. */
   pole: string
 }
@@ -34,6 +38,9 @@ export function PushChart({ rows, lowCaption, highCaption, centreCaption, tone }
         {rows.map((row) => {
           const width = Math.abs(row.deviation) * 50
           const left = row.deviation < 0 ? 50 - width : 50
+          const scoreLabel = row.percentile
+            ? `${formatOrdinal(row.percentile.percentile)} percentile · raw ${row.score.toFixed(1)}`
+            : row.score.toFixed(1)
 
           return (
             <li key={row.key} className="push-chart__row">
@@ -44,12 +51,12 @@ export function PushChart({ rows, lowCaption, highCaption, centreCaption, tone }
                   className={`push-chart__fill${row.deviation < 0 ? " push-chart__fill--low" : ""}`}
                   style={{ left: `${left}%`, width: `${Math.max(width, 0.7)}%` }}
                   role="img"
-                  aria-label={`${row.label}: ${row.score.toFixed(1)} of 7, toward ${row.pole.toLowerCase()}`}
+                  aria-label={`${row.label}: ${scoreLabel}, toward ${row.pole.toLowerCase()}`}
                 />
               </div>
               <p className="push-chart__read">
                 <span className="push-chart__pole">{row.pole}</span>
-                <span className="push-chart__score">{row.score.toFixed(1)}</span>
+                <span className="push-chart__score">{scoreLabel}</span>
               </p>
             </li>
           )
@@ -57,4 +64,13 @@ export function PushChart({ rows, lowCaption, highCaption, centreCaption, tone }
       </ul>
     </div>
   )
+}
+
+function formatOrdinal(value: number) {
+  const mod100 = value % 100
+  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
+  if (value % 10 === 1) return `${value}st`
+  if (value % 10 === 2) return `${value}nd`
+  if (value % 10 === 3) return `${value}rd`
+  return `${value}th`
 }

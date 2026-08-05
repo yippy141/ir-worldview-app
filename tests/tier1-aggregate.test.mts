@@ -31,11 +31,16 @@ const scores: DimensionScores = {
   orderJustice: 4.74,
 }
 const cohort = buildTier1Cohort("fullExtended", "en")
+let nextAggregateRequestIp = 1
 
-function aggregateRequest(body: unknown): Request {
+function aggregateRequest(body: unknown, ip?: string): Request {
+  const requestIp = ip ?? `198.51.100.${nextAggregateRequestIp++}`
   return new Request("http://localhost/api/aggregate/result", {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers: {
+      "content-type": "application/json",
+      "x-vercel-forwarded-for": requestIp,
+    },
     body: JSON.stringify(body),
   })
 }
@@ -380,6 +385,36 @@ test("completion route writes only the exact aggregate counter columns", async (
     ],
   })
   assert.equal(queries[0].parameters.length, 6)
+})
+
+test("result rate limiting silently drops excess writes from one IP", async () => {
+  const aggregate = buildTier1AggregateResult(
+    buildCanonicalFoundationResult(scores),
+    cohort,
+  )
+  let queryCount = 0
+  const database = configuredDatabase(async () => {
+    queryCount += 1
+    return []
+  })
+
+  await withTier1Database(database, async () => {
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const response = await postAggregateResult(
+        aggregateRequest(aggregate, "198.51.100.100"),
+      )
+      assert.equal(response.status, 202)
+      assert.deepEqual(await response.json(), { ok: true })
+    }
+
+    const otherIpResponse = await postAggregateResult(
+      aggregateRequest(aggregate, "198.51.100.101"),
+    )
+    assert.equal(otherIpResponse.status, 202)
+    assert.deepEqual(await otherIpResponse.json(), { ok: true })
+  })
+
+  assert.equal(queryCount, 6)
 })
 
 for (const [name, database] of [

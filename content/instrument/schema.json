@@ -75,6 +75,18 @@
         "humanFuture"
       ]
     },
+    "moduleAxisKey": {
+      "enum": [
+        "activism",
+        "escalation",
+        "alliance",
+        "legitimacy",
+        "control",
+        "governance",
+        "industrial",
+        "safety"
+      ]
+    },
     "clarificationTerm": {
       "type": "object",
       "required": [
@@ -468,6 +480,7 @@
         "whyHard",
         "perspectiveTags",
         "knowledgeLoad",
+        "discriminatingAxes",
         "options"
       ],
       "properties": {
@@ -525,6 +538,13 @@
             "high"
           ]
         },
+        "discriminatingAxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/moduleAxisKey"
+          },
+          "uniqueItems": true
+        },
         "mirrorPairId": {
           "$ref": "#/$defs/nonEmptyString"
         },
@@ -550,6 +570,7 @@
         "modes",
         "axis",
         "reverse",
+        "discriminatingAxes",
         "prompt"
       ],
       "properties": {
@@ -567,6 +588,13 @@
         },
         "reverse": {
           "type": "boolean"
+        },
+        "discriminatingAxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/aiAxisKey"
+          },
+          "uniqueItems": true
         },
         "prompt": {
           "$ref": "#/$defs/nonEmptyString"
@@ -587,6 +615,7 @@
         "kind",
         "modes",
         "cardType",
+        "discriminatingAxes",
         "prompt",
         "options"
       ],
@@ -606,6 +635,13 @@
             "decision",
             "actorLens"
           ]
+        },
+        "discriminatingAxes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/aiAxisKey"
+          },
+          "uniqueItems": true
         },
         "prompt": {
           "$ref": "#/$defs/nonEmptyString"

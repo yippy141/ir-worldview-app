@@ -1,8 +1,6 @@
 import {
-  buildModuleAnalytics,
-  decodeModulePayload,
   getModuleDefinition,
-  getSelectedModuleOptions,
+  resolveModulePayload,
 } from "@/lib/modules/framework"
 import type {
   ModuleCardTypeRead,
@@ -43,7 +41,7 @@ import {
   getKeyDrivers,
   getStrongLenses,
 } from "@/lib/result-helpers"
-import { decodeAiPayload, aiPayloadToAxisScores } from "@/lib/ai-governance-share"
+import { resolveAiPayload } from "@/lib/ai-governance-share"
 import {
   archetypeLabelFromKey,
   buildAiGovernanceSummary,
@@ -533,10 +531,23 @@ function normalizeModuleSnapshot(
   const foundationPayload = typeof candidate.foundationPayload === "string"
     ? candidate.foundationPayload
     : pathTokens?.foundationPayload
-  const decoded = payload ? decodeModulePayload(payload) : null
-  const moduleDefinition = getModuleDefinition(slug)
-  const decodedAnalytics = decoded && moduleDefinition && decoded.slug === slug
-    ? buildModuleAnalytics(moduleDefinition, decoded.mode, decoded.answers)
+  const resolvedModule = payload ? resolveModulePayload(payload) : null
+  if (
+    resolvedModule &&
+    (resolvedModule.payload.slug !== slug ||
+      resolvedModule.payload.mode !== candidate.mode)
+  ) return null
+  const moduleDefinition =
+    resolvedModule?.payload.slug === slug
+      ? resolvedModule.definition
+      : getModuleDefinition(slug)
+  const decodedAnalytics =
+    resolvedModule && moduleDefinition && resolvedModule.payload.slug === slug
+    ? resolvedModule.runtime.buildModuleAnalytics(
+        moduleDefinition,
+        resolvedModule.payload.mode,
+        resolvedModule.payload.answers,
+      )
     : null
   const laneScores = normalizeLaneScores(candidate.laneScores) ?? decodedAnalytics?.laneScores ?? {}
   const cardTypeScores = normalizeCardTypeScores(candidate.cardTypeScores)
@@ -572,11 +583,15 @@ function normalizeModuleSnapshot(
     ...(foundationPayload ? { foundationPayload } : {}),
     laneScores,
     instrumentVersion:
-      typeof candidate.instrumentVersion === "number" &&
-      Number.isInteger(candidate.instrumentVersion) &&
-      candidate.instrumentVersion >= 1
-        ? candidate.instrumentVersion
-        : decoded?.v ?? 1,
+      resolvedModule?.payload.slug === slug
+        ? resolvedModule.bankVersion
+        : (
+            typeof candidate.instrumentVersion === "number" &&
+            Number.isInteger(candidate.instrumentVersion) &&
+            candidate.instrumentVersion >= 1
+          )
+          ? candidate.instrumentVersion
+          : 1,
     ...provenance,
     ...(legacyEnglishCopy ? { legacyEnglishCopy } : {}),
   }
@@ -692,17 +707,23 @@ function normalizeAiGovernanceSnapshot(
   const legacyEnglishCopy = legacy
     ? aiLegacyEnglishCopy(candidate)
     : normalizeAiLegacyEnglishCopy(candidate.legacyEnglishCopy)
-  const decoded = decodeAiPayload(candidate.payload)
-  const archetypeLabel = archetypeLabelFromKey(candidate.archetypeKey)
+  const resolvedAi = resolveAiPayload(candidate.payload)
+  const decoded = resolvedAi?.payload
+  const archetypeLabel = resolvedAi
+    ? resolvedAi.scoring.archetypeLabels[candidate.archetypeKey]
+    : archetypeLabelFromKey(candidate.archetypeKey)
   const summary = buildAiGovernanceSummary(
     candidate.archetypeKey,
     candidate.axisScores,
     candidate.riskLens,
     candidate.paceModifier,
+    resolvedAi?.scoring.archetypeLabels,
   )
-  const governingInstinct = decoded
+  const governingInstinct = decoded && resolvedAi
     ? buildAiGovernanceDeepDive(
-        buildAiGovernanceResultFromSharePayload(decoded),
+        buildAiGovernanceResultFromSharePayload(decoded, resolvedAi),
+        resolvedAi.scoring.archetypeProfiles,
+        resolvedAi.scoring.archetypeLabels,
       ).governingInstinct
     : legacyEnglishCopy?.governingInstinct ?? ""
 
@@ -1054,23 +1075,46 @@ function buildModuleDisplay({
   renderLocale: Locale
   fallback: ModuleLegacyEnglishCopy | null
 }): ModuleDisplay | null {
-  const definition = getModuleDefinition(slug)
+  const resolvedModule = payload ? resolveModulePayload(payload) : null
+  const definition =
+    resolvedModule?.payload.slug === slug
+      ? resolvedModule.definition
+      : getModuleDefinition(slug)
   if (!definition) return fallback
   const hasScores = definition.axes.every((axis) => isFiniteNumber(scores[axis.key]))
   const hasLaneScores = definition.lanes.every((lane) => isNumberRecord(laneScores[lane.key]))
-  const analytics = { scores, laneScores, cardTypeScores }
+  const classificationMode =
+    resolvedModule?.payload.slug === slug
+      ? resolvedModule.payload.mode
+      : mode
+  const classificationContext = { mode: classificationMode }
+  const analytics = {
+    mode: classificationMode,
+    scores,
+    laneScores,
+    cardTypeScores,
+  }
   const foundation = foundationPayload
     ? resolveFoundationPayload(foundationPayload)?.dimensionScores
     : undefined
-  const interpretation = hasScores ? definition.interpret(analytics) : null
+  const interpretation = hasScores
+    ? definition.interpret(analytics, classificationContext)
+    : null
   const laneSummaries = hasLaneScores
-    ? definition.summarizeLanes(analytics, foundation)
+    ? definition.summarizeLanes(
+        analytics,
+        foundation,
+        classificationContext,
+      )
     : fallback?.laneSummaries ?? []
   const cardTypeRead = definition.summarizeCardTypes?.(analytics)
     ?? fallback?.cardTypeRead
-  const decoded = payload ? decodeModulePayload(payload) : null
-  const evidence = decoded && decoded.slug === slug
-    ? getSelectedModuleOptions(definition, decoded.mode, decoded.answers).map(
+  const evidence = resolvedModule && resolvedModule.payload.slug === slug
+    ? resolvedModule.runtime.getSelectedModuleOptions(
+        definition,
+        resolvedModule.payload.mode,
+        resolvedModule.payload.answers,
+      ).map(
         ({ question, primary, secondary }) => ({
           question: question.title,
           primary: primary?.title ?? "No selection",
@@ -1117,8 +1161,8 @@ function extractModuleResultTokens(resultPath: string, slug: ModuleSlug) {
     const prefix = `/modules/${slug}/results/`
     if (!pathname.startsWith(prefix)) return null
     const payload = pathname.slice(prefix.length)
-    const decoded = decodeModulePayload(payload)
-    if (!decoded || decoded.slug !== slug) return null
+    const resolved = resolveModulePayload(payload)
+    if (!resolved || resolved.payload.slug !== slug) return null
     const foundationPayload = url.searchParams.get("foundation") ?? undefined
     return {
       payload,

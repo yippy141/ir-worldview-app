@@ -290,3 +290,556 @@ normative modifier for 5.8%, the full three-part label for 20.4%, and narrative
 differentiation state for 18.4% of the seeded sample. This passes the proposed
 20% normative-variant gate on the current full form, but it is not the required
 post-reshape core-form stability test.
+
+## Revised Prompt 2B module-bank repair log
+
+Date: 5 August 2026
+
+The revised Prompt 2B withdraws the 3.0 raw attainable-range gate. A module
+score is a mean across bounded items, so compression of that mean is not by
+itself evidence that the bank cannot discriminate. The replacement gates test
+centering, saturation, calibrated threshold reachability, default-headline
+concentration, and declared construct coverage.
+
+### 2B-0 — calibration before item edits
+
+The V22 module scorer now standardises scores only for headline and lane
+classification. Displayed axis and lane coordinates remain on their natural
+scale. Low and high cuts are the p33 and p67 values from 500 deterministic
+uniform-primary respondents, using base seed `20260728`, bank version 3,
+scorer version 2, and linear interpolation at rank `(N - 1) × p`.
+The reproducible instrument streams use seed `20261728` for Security and
+`20261729` for Technology in both Standard and Advanced mode.
+
+The calibration is deliberately synthetic: uniform choices isolate bank
+structure from population signal. It must be regenerated after every bank
+change.
+
+One supporting integration sits outside the track's primary ownership list:
+`lib/profile-store.ts` passes the payload mode when it regenerates V22
+headline and lane copy. Without that small consumer change, a saved Advanced
+result would silently be reclassified with Standard cuts. A focused
+rehydration regression covers both modes; no component or app route changed.
+
+| Instrument and mode | Default before | Default after calibration | Largest post-calibration headline |
+|---|---:|---:|---:|
+| Security Standard | 91.8% | 21.0% | 28.2% |
+| Security Advanced | 97.4% | 20.2% | 29.4% |
+| Technology Standard | 99.6% | 30.0% | 30.0% |
+| Technology Advanced | 100.0% | 28.4% | 28.4% |
+
+All calibrated cuts are inside their exact attainable ranges. Exact floor and
+ceiling saturation remains 0.0% on every module axis. Uniform-choice
+centering remains within 0.3 on all 16 instrument-mode-axis combinations.
+
+The pre-edit calibration checkpoint left 14 reporting-only findings: 10
+item-level straddle/spread findings and four coverage findings. Coverage still
+failed for Security Standard escalation (2), Technology Standard industrial
+(3), Technology Standard safety (2), and Technology Advanced safety (3).
+
+Checkpoint bank hashes:
+
+- Security V22: `eafeffb0e43aef796f969c592a701ec17098d52fa85b55761f88d586ab1b5f8e`
+- Technology V22: `0c44343f35b6ff2a042791b4c0f8d84816477bb1eee9652bd966a6a94d4fe21c`
+
+### Batch 1 — Security items 1–5
+
+Edited, in source order:
+`taiwan_quarantine`, `gray_zone_sabotage`, `shipping_attacks`,
+`eastern_flank`, and `maritime_pressure`.
+Calibration was regenerated before the checkpoint diagnostic.
+
+Every signal-value change in this batch is recorded below. Values not listed
+were unchanged.
+
+| Item | Option | Axis | Before | After |
+|---|---|---|---:|---:|
+| `taiwan_quarantine` | `clarify_response` | legitimacy | 4.2 | 4.0 |
+| `taiwan_quarantine` | `build_denial_endurance` | legitimacy | 4.8 | 4.0 |
+| `taiwan_quarantine` | `preserve_hedging_space` | legitimacy | 4.9 | 4.0 |
+| `taiwan_quarantine` | `raise_political_costs` | legitimacy | 6.0 | 4.0 |
+| `gray_zone_sabotage` | `resolve_probe` | alliance | 4.9 | 4.0 |
+| `gray_zone_sabotage` | `resolve_probe` | legitimacy | 4.1 | 4.0 |
+| `gray_zone_sabotage` | `coalition_probe` | alliance | 6.1 | 4.0 |
+| `gray_zone_sabotage` | `coalition_probe` | legitimacy | 4.8 | 4.0 |
+| `gray_zone_sabotage` | `resilience_probe` | alliance | 4.5 | 4.0 |
+| `gray_zone_sabotage` | `resilience_probe` | legitimacy | 4.4 | 4.0 |
+| `gray_zone_sabotage` | `bait_for_escalation` | alliance | 4.2 | 4.0 |
+| `gray_zone_sabotage` | `bait_for_escalation` | legitimacy | 5.8 | 4.0 |
+| `shipping_attacks` | `punish_fast` | alliance | 4.4 | 4.0 |
+| `shipping_attacks` | `protect_the_route` | alliance | 5.9 | 4.0 |
+| `shipping_attacks` | `protect_the_route` | legitimacy | 5.1 | 4.0 |
+| `shipping_attacks` | `keep_a_ceiling` | legitimacy | 4.6 | 4.0 |
+| `shipping_attacks` | `anchor_in_regional_backing` | alliance | 4.9 | 4.0 |
+| `shipping_attacks` | `anchor_in_regional_backing` | legitimacy | 6.0 | 4.0 |
+| `eastern_flank` | `make_the_promise_visible` | legitimacy | 4.3 | 4.0 |
+| `eastern_flank` | `build_reinforcement_depth` | legitimacy | 4.7 | 4.0 |
+| `eastern_flank` | `prioritize_local_denial` | legitimacy | 4.1 | 4.0 |
+| `eastern_flank` | `pair_reassurance_with_limits` | legitimacy | 5.0 | 4.0 |
+| `maritime_pressure` | `build_local_resilience` | legitimacy | 4.2 | 3.2 |
+
+The two new escalation declarations are on
+`taiwan_quarantine` and `eastern_flank`; no option or item ID
+changed. Editorial edits make the actor, decision, and clock explicit and
+replace specialist-only option labels on the touched cards.
+
+`npm run diagnose -- --modules` after this batch produced:
+
+| Instrument and mode | Default headline | Largest headline | Minimum discriminating coverage | Largest centre error | Floor / ceiling saturation |
+|---|---:|---:|---:|---:|---:|
+| Security Standard | 19.0% | 28.2% | 4 | 0.124 | 0.0% / 0.0% |
+| Security Advanced | 19.8% | 29.4% | 5 | 0.064 | 0.0% / 0.0% |
+| Technology Standard | 30.0% | 30.0% | 2 | 0.128 | 0.0% / 0.0% |
+| Technology Advanced | 28.4% | 28.4% | 3 | 0.114 | 0.0% / 0.0% |
+
+All calibrated cuts remained reachable. Security coverage now passes in both
+modes. The checkpoint printed 11 remaining findings: eight item-level
+straddle/spread findings and three Technology coverage findings. Checkpoint
+hashes:
+
+- Security V22: `12fb15f5b2f82b5f5f248911d58d4fc01dfc8207524f5da1321e6daa5a0490cd`
+- Technology V22: `0c44343f35b6ff2a042791b4c0f8d84816477bb1eee9652bd966a6a94d4fe21c`
+
+### Batch 2 — Security items 6–10
+
+Edited, in source order:
+`middle_power_alignment`, `atrocity_response`, `aid_corridor`,
+`ceasefire_accountability`, and `iran_threshold`.
+
+| Item | Option | Axis | Before | After |
+|---|---|---|---:|---:|
+| `middle_power_alignment` | `ambiguity_will_fail` | legitimacy | 4.1 | 4.0 |
+| `middle_power_alignment` | `layered_alignment_is_real` | legitimacy | 4.9 | 4.0 |
+| `middle_power_alignment` | `autonomy_is_rational` | legitimacy | 5.3 | 4.0 |
+| `middle_power_alignment` | `problem_based_coalitions` | legitimacy | 5.5 | 4.0 |
+| `atrocity_response` | `legal_bar_remains_high` | alliance | 4.1 | 4.0 |
+| `atrocity_response` | `limited_protection_can_qualify` | alliance | 4.6 | 4.0 |
+| `atrocity_response` | `regional_authority_should_anchor` | alliance | 5.0 | 4.0 |
+| `atrocity_response` | `reduce_harm_without_widening` | alliance | 4.3 | 4.0 |
+| `aid_corridor` | `open_the_corridor` | activism | 4.8 | 5.6 |
+| `aid_corridor` | `open_the_corridor` | alliance | 4.5 | 4.0 |
+| `aid_corridor` | `seek_regional_cover` | alliance | 5.1 | 4.0 |
+| `aid_corridor` | `intensify_indirect_pressure` | alliance | 4.5 | 4.0 |
+| `ceasefire_accountability` | `stop_killing_first` | alliance | 4.1 | 4.0 |
+| `ceasefire_accountability` | `accountability_sets_limits` | alliance | 4.2 | 4.0 |
+| `ceasefire_accountability` | `regional_monitoring_compromise` | alliance | 5.0 | 4.0 |
+| `ceasefire_accountability` | `bad_peace_can_recycle_harm` | alliance | 4.6 | 4.0 |
+| `iran_threshold` | `threshold_is_a_leverage_problem` | alliance | 4.8 | 4.0 |
+| `iran_threshold` | `threshold_is_a_containment_problem` | alliance | 4.1 | 4.0 |
+| `iran_threshold` | `threshold_is_a_containment_problem` | legitimacy | 4.8 | 4.0 |
+| `iran_threshold` | `threshold_is_a_coalition_problem` | alliance | 5.9 | 4.0 |
+| `iran_threshold` | `threshold_is_a_coalition_problem` | legitimacy | 4.8 | 4.0 |
+| `iran_threshold` | `threshold_is_a_legitimacy_problem` | alliance | 4.5 | 4.0 |
+| `iran_threshold` | `threshold_is_a_legitimacy_problem` | legitimacy | 6.0 | 4.0 |
+
+The `aid_corridor` activism repair gives the corridor-opening position an
+honest high-activism pole; it is not a relabelled declaration. The five
+scenes now name the deciding cabinet, mission team, coalition, mediation
+team, or joint review team; name the decision; and set a deadline. The
+ceasefire card now tests a concrete verification-package choice within a
+72-hour draft rather than repeating Foundation's general settlement
+principle.
+
+After regenerating calibration, `npm run diagnose -- --modules` produced:
+
+| Instrument and mode | Default headline | Largest headline | Minimum discriminating coverage | Largest centre error | Floor / ceiling saturation |
+|---|---:|---:|---:|---:|---:|
+| Security Standard | 17.2% | 27.2% | 4 | 0.124 | 0.0% / 0.0% |
+| Security Advanced | 21.6% | 29.0% | 5 | 0.075 | 0.0% / 0.0% |
+| Technology Standard | 30.0% | 30.0% | 2 | 0.128 | 0.0% / 0.0% |
+| Technology Advanced | 28.4% | 28.4% | 3 | 0.114 | 0.0% / 0.0% |
+
+All calibrated cuts remained reachable. The checkpoint printed 10 remaining
+findings: seven item-level straddle/spread findings and three Technology
+coverage findings. The geometric detector printed one non-blocking review
+finding for `ceasefire_accountability.regional_monitoring_compromise`; the
+option remains substantively distinct because it assigns first-watch
+authority to regional monitors, rather than averaging immediate harm
+cessation with later violation costs.
+
+Checkpoint hashes:
+
+- Security V22: `2f3369efd075d534310a28010bc1d0190a12faa5258e72c9877d1dbbc36c0305`
+- Technology V22: `0c44343f35b6ff2a042791b4c0f8d84816477bb1eee9652bd966a6a94d4fe21c`
+
+### Batch 3 — Security items 11–15
+
+Edited, in source order:
+`beijing_below_war`, `nuclear_hedging`, `patron_trust_gap`,
+`sanctions_enforcement`, and `selective_enforcement_memory`.
+
+| Item | Option | Axis | Before | After |
+|---|---|---|---:|---:|
+| `beijing_below_war` | `normalize_baseline` | alliance | 4.7 | 4.0 |
+| `beijing_below_war` | `split_coalition` | alliance | 6.2 | 4.0 |
+| `beijing_below_war` | `split_coalition` | legitimacy | 4.8 | 4.0 |
+| `beijing_below_war` | `probe_thresholds` | alliance | 4.8 | 4.0 |
+| `beijing_below_war` | `probe_thresholds` | legitimacy | 4.1 | 4.0 |
+| `beijing_below_war` | `hold_military_ceiling` | alliance | 4.1 | 4.0 |
+| `beijing_below_war` | `hold_military_ceiling` | legitimacy | 5.1 | 4.0 |
+| `nuclear_hedging` | `restore_confidence_fast` | legitimacy | 4.2 | 4.0 |
+| `nuclear_hedging` | `lower_demand_for_latency` | escalation | 4.0 | 3.2 |
+| `nuclear_hedging` | `lower_demand_for_latency` | legitimacy | 5.6 | 4.0 |
+| `nuclear_hedging` | `tolerate_some_hedging` | legitimacy | 4.8 | 4.0 |
+| `nuclear_hedging` | `protect_nonproliferation_early` | legitimacy | 5.2 | 4.0 |
+| `patron_trust_gap` | `lock_in_guarantee` | legitimacy | 4.1 | 4.0 |
+| `patron_trust_gap` | `diversify_backers` | legitimacy | 5.0 | 4.0 |
+| `patron_trust_gap` | `build_denial_home` | legitimacy | 4.2 | 4.0 |
+| `patron_trust_gap` | `keep_it_issue_based` | legitimacy | 5.4 | 4.0 |
+| `sanctions_enforcement` | `resistance_is_about_leakage` | legitimacy | 4.0 | 3.0 |
+| `selective_enforcement_memory` | `sovereignty_barrier_is_the_issue` | legitimacy | 5.9 | 2.9 |
+| `selective_enforcement_memory` | `burden_is_asymmetric` | alliance | 3.4 | 3.0 |
+
+`selective_enforcement_memory` now declares legitimacy because historical
+selectivity, sovereignty precedent, regional authority, and unequal burdens
+are the substance of the card. Its options genuinely span that construct.
+The nuclear low pole now represents a defensible framework designed to reduce
+demand for an independent bomb option. The sanctions hard-ban was replaced
+with a direct autonomy claim. All five scenes identify the deciding body, its
+decision, and a deadline.
+
+After regenerating calibration, `npm run diagnose -- --modules` produced:
+
+| Instrument and mode | Default headline | Largest headline | Minimum discriminating coverage | Largest centre error | Floor / ceiling saturation |
+|---|---:|---:|---:|---:|---:|
+| Security Standard | 17.2% | 27.2% | 4 | 0.124 | 0.0% / 0.0% |
+| Security Advanced | 22.6% | 28.0% | 6 | 0.131 | 0.0% / 0.0% |
+| Technology Standard | 30.0% | 30.0% | 2 | 0.128 | 0.0% / 0.0% |
+| Technology Advanced | 28.4% | 28.4% | 3 | 0.114 | 0.0% / 0.0% |
+
+All calibrated cuts remained reachable. Security has no remaining blocking
+measurement finding; all six remaining findings are in Technology. The
+geometric detector also flagged `beijing_below_war.split_coalition`. It is
+retained after review: splitting outside partners is a coalition mechanism,
+not a numeric compromise between learning response thresholds and avoiding
+open-war costs.
+
+Checkpoint hashes:
+
+- Security V22: `4ada4a5625952dcdce6113414e5796295625939d2ad18341d8451898a6b923ea`
+- Technology V22: `0c44343f35b6ff2a042791b4c0f8d84816477bb1eee9652bd966a6a94d4fe21c`
+
+### Batch 4 — Technology items 1–5
+
+Edited, in source order:
+`chips_controls`, `open_weight_models`, `sovereign_stacks`,
+`fab_resilience`, and `industrial_policy`.
+
+| Item | Option | Axis | Before | After |
+|---|---|---|---:|---:|
+| `chips_controls` | `preserve_the_chokepoint` | industrial | 5.0 | 4.0 |
+| `chips_controls` | `coordinate_narrow_controls` | industrial | 4.6 | 4.0 |
+| `chips_controls` | `build_capacity_instead` | industrial | 6.3 | 4.0 |
+| `chips_controls` | `avoid_total_securitization` | industrial | 3.9 | 4.0 |
+| `open_weight_models` | `restrict_above_threshold` | governance | 4.7 | 4.0 |
+| `open_weight_models` | `restrict_above_threshold` | industrial | 4.2 | 4.0 |
+| `open_weight_models` | `staged_release_rules` | governance | 6.1 | 4.0 |
+| `open_weight_models` | `staged_release_rules` | industrial | 4.4 | 4.0 |
+| `open_weight_models` | `keep_access_broad` | governance | 4.1 | 4.0 |
+| `open_weight_models` | `focus_on_deployer_controls` | governance | 5.1 | 4.0 |
+| `open_weight_models` | `focus_on_deployer_controls` | industrial | 4.6 | 4.0 |
+| `sovereign_stacks` | `fragmentation_cost_logic` | industrial | 4.0 | 2.9 |
+
+`sovereign_stacks` now declares industrial because its choice among local
+capacity, dependency management, development room, and fragmentation cost is
+genuinely a productive-capacity decision. The low pole states the opportunity
+cost of spending scarce money on a fragmented local stack. The hard-ban copy
+now names export controls, sanctions, and provider withdrawal directly. The
+fab and industrial-policy rewrites distinguish a semiconductor resilience
+portfolio from a national AI-capacity investment model.
+
+After regenerating calibration, `npm run diagnose -- --modules` produced:
+
+| Instrument and mode | Default headline | Largest headline | Minimum discriminating coverage | Largest centre error | Floor / ceiling saturation |
+|---|---:|---:|---:|---:|---:|
+| Security Standard | 17.2% | 27.2% | 4 | 0.124 | 0.0% / 0.0% |
+| Security Advanced | 22.6% | 28.0% | 6 | 0.131 | 0.0% / 0.0% |
+| Technology Standard | 28.6% | 28.6% | 2 | 0.132 | 0.0% / 0.0% |
+| Technology Advanced | 28.6% | 28.8% | 3 | 0.152 | 0.0% / 0.0% |
+
+All calibrated cuts remained reachable. Industrial coverage now passes in
+both modes. Five findings remain: the `public_compute` governance straddle,
+the two `ai_standards_voice` safety findings, and two Technology safety
+coverage findings.
+
+The geometric detector also flagged
+`open_weight_models.focus_on_deployer_controls`. It remains after review
+because regulating deployed high-risk systems changes the regulated object;
+it is not a compromise between staged weight release and open weights.
+
+Checkpoint hashes:
+
+- Security V22: `4ada4a5625952dcdce6113414e5796295625939d2ad18341d8451898a6b923ea`
+- Technology V22: `e2f4e37a2e74debc785d2dd077f958c17af63d38896db1bed7817e3f8210c569`
+
+### Batch 5 — Technology items 6–10
+
+Edited, in source order:
+`public_compute`, `frontier_ai_governance`, `military_ai`,
+`digital_development`, and `containment_critique`.
+
+| Item | Option | Axis | Before | After |
+|---|---|---|---:|---:|
+| `public_compute` | `build_public_compute` | safety | 4.6 | 5.0 |
+| `public_compute` | `share_trusted_infrastructure` | safety | 4.7 | 6.0 |
+| `public_compute` | `let_private_scale_lead` | governance | 4.0 | 3.2 |
+| `public_compute` | `let_private_scale_lead` | safety | 4.0 | 3.0 |
+| `public_compute` | `treat_access_as_development` | safety | 4.4 | 3.4 |
+| `frontier_ai_governance` | `use_hard_thresholds` | industrial | 4.2 | 4.0 |
+| `frontier_ai_governance` | `govern_with_capable_partners` | industrial | 4.5 | 4.0 |
+| `frontier_ai_governance` | `treat_capability_as_strategic` | industrial | 5.9 | 4.0 |
+| `military_ai` | `field_quickly` | industrial | 5.2 | 4.0 |
+| `military_ai` | `gate_the_fielding` | industrial | 4.5 | 4.0 |
+| `military_ai` | `set_coalition_baselines` | industrial | 4.4 | 4.0 |
+| `digital_development` | `sovereign_capacity_problem` | industrial | 5.8 | 4.0 |
+| `digital_development` | `interoperability_problem` | industrial | 4.8 | 4.0 |
+| `digital_development` | `collective_capacity_problem` | industrial | 6.0 | 4.0 |
+| `digital_development` | `exclusion_problem` | industrial | 3.8 | 4.0 |
+| `containment_critique` | `strategic_denial_is_real` | industrial | 5.0 | 4.0 |
+| `containment_critique` | `rule_design_is_the_issue` | industrial | 4.6 | 4.0 |
+| `containment_critique` | `hierarchy_management_is_real` | industrial | 5.6 | 4.0 |
+| `containment_critique` | `nonalignment_will_persist` | industrial | 4.6 | 4.0 |
+
+`public_compute` and `frontier_ai_governance` now declare safety. The former
+was rewritten as a domestic research-computing allocation with explicit
+screening, monitoring, and high-risk-use constraints; the latter already
+offered an honest 3.3–6.3 safety span. These declarations bring safety
+coverage to four Standard items and five Advanced items. The other changes
+remove incidental industrial nudges without changing the cards' declared
+logics.
+
+The editorial pass distinguishes domestic public-compute access and
+safeguards from a later cross-border financing decision; distinguishes a
+sanctions-constrained national technology strategy from one provider
+contract; and keeps the containment card focused on export-control legitimacy
+and technological hierarchy rather than generic alignment.
+
+After regenerating calibration, `npm run diagnose -- --modules` produced:
+
+| Instrument and mode | Default headline | Largest headline | Minimum discriminating coverage | Largest centre error | Floor / ceiling saturation |
+|---|---:|---:|---:|---:|---:|
+| Security Standard | 17.2% | 27.2% | 4 | 0.124 | 0.0% / 0.0% |
+| Security Advanced | 22.6% | 28.0% | 6 | 0.131 | 0.0% / 0.0% |
+| Technology Standard | 31.2% | 31.2% | 4 | 0.179 | 0.0% / 0.0% |
+| Technology Advanced | 31.0% | 31.0% | 5 | 0.181 | 0.0% / 0.0% |
+
+All calibrated cuts remained reachable. All coverage findings are gone. The
+only two remaining findings are the midpoint-straddle and minimum-spread
+findings on `ai_standards_voice.safety`, assigned to the final five-item
+batch.
+
+Checkpoint hashes:
+
+- Security V22: `4ada4a5625952dcdce6113414e5796295625939d2ad18341d8451898a6b923ea`
+- Technology V22: `84e50c3d78aa87c4a202b3effb6bdeb4b902938fe01ceea40635d870e6bfc4f8`
+
+### Batch 6 — Technology items 11–15
+
+Edited, in source order:
+`data_center_dependence`, `subsidy_race`, `regional_public_compute`,
+`incident_reporting`, and `ai_standards_voice`.
+
+| Item | Option | Axis | Before | After |
+|---|---|---|---:|---:|
+| `data_center_dependence` | `take_access_now` | industrial | 3.8 | 4.0 |
+| `data_center_dependence` | `control_sensitive_layers` | industrial | 5.0 | 4.0 |
+| `data_center_dependence` | `diversify_before_lockin` | industrial | 4.8 | 4.0 |
+| `data_center_dependence` | `pool_regionally_first` | industrial | 6.0 | 4.0 |
+| `incident_reporting` | `shift_liability_to_deployment` | industrial | 4.4 | 4.0 |
+| `incident_reporting` | `avoid_overgeneralizing_from_one_incident` | industrial | 4.1 | 4.0 |
+| `ai_standards_voice` | `capable_states_must_lead` | industrial | 4.3 | 4.0 |
+| `ai_standards_voice` | `legitimacy_needs_voice` | industrial | 4.5 | 4.0 |
+| `ai_standards_voice` | `development_costs_are_hidden` | industrial | 5.5 | 4.0 |
+| `ai_standards_voice` | `sovereignty_room_matters` | industrial | 4.8 | 4.0 |
+| `ai_standards_voice` | `sovereignty_room_matters` | safety | 4.2 | 3.0 |
+
+There were no signal changes on `subsidy_race` or
+`regional_public_compute`. Their editorial rewrites still make the allied
+subsidy-budget decision and the cross-border financing-and-control decision
+concrete. `ai_standards_voice` now gives national discretion an explicit
+tradeoff—greater variation and slower shared safeguards—so its safety low
+pole is defensible rather than weak. Its hard-ban prompt is now a direct
+question about which concern should govern standards that apply globally.
+
+After regenerating calibration, `npm run diagnose -- --modules` produced:
+
+| Instrument and mode | Default headline | Largest headline | Minimum discriminating coverage | Largest centre error | Floor / ceiling saturation |
+|---|---:|---:|---:|---:|---:|
+| Security Standard | 17.2% | 27.2% | 4 | 0.124 | 0.0% / 0.0% |
+| Security Advanced | 22.6% | 28.0% | 6 | 0.131 | 0.0% / 0.0% |
+| Technology Standard | 31.2% | 31.2% | 4 | 0.179 | 0.0% / 0.0% |
+| Technology Advanced | 32.2% | 32.2% | 5 | 0.198 | 0.0% / 0.0% |
+
+All calibrated headline and lane cuts are reachable. The diagnostic prints
+zero measurement-gate failures and zero items without a qualifying
+discriminating axis. The three geometric review findings are the already
+reviewed, substantively distinct options recorded in Batches 2–4.
+
+Final module-bank hashes:
+
+- Security V22: `4ada4a5625952dcdce6113414e5796295625939d2ad18341d8451898a6b923ea`
+- Technology V22: `babfdcd7cf84130adb0736ee5abe49c661836ba1cee9ad1fde8799840042a968`
+
+The module-specific regression now blocks on the revised 2B acceptance
+criteria even while the broader 2A gates remain reporting-only until 2C.
+Coverage counts only declared items whose option sets actually straddle 4.0
+with at least 2.0 spread; a declaration alone cannot raise the count. The
+standalone diagnostic derives threshold reachability from the live questions,
+not from the generated range stored beside each cut. Only the declared
+default-headline share is gated; the largest headline remains reported for
+review.
+
+## Final verification — 2026-08-05
+
+The required commands were rerun on the completed tree:
+
+- `npm run lint` — pass.
+- `npm run validate` — pass. The generated module calibration is current and
+  the module diagnostics report zero failures. The command still prints the
+  35 previously declared AI Governance findings because the broader V22 gates
+  remain reporting-only until the end of 2C; those findings are outside this
+  module-bank repair.
+- `npm run test` — pass, 368 tests.
+- `npm run build` — pass, including strict TypeScript checking and generation
+  of all 146 application pages.
+- `npm run diagnose -- --modules` — pass, with zero measurement-gate failures
+  and zero items without a qualifying discriminating axis.
+
+The final diagnostic retains three permanently non-blocking geometric-
+compromise review findings. Their editorial dispositions are recorded in the
+batch notes above; none is being used to satisfy a measurement gate.
+
+## Prompt 2C AI Compass repair — 2026-08-06
+
+The repair changes only the V22 bank, `ai-governance.v3.json`. The frozen V21
+bank and scorer remain unchanged. Its SHA-256 is still
+`7a6fc3af779f29c04a249e92c887bc9168af9f49eeb7b436e29f8c3116c0810c`.
+The active tuple remains bank version 3 and scoring version 2; no scorer,
+rescaling, or post-hoc presentation override was added.
+
+### 2C1 — Advanced Likert valence
+
+Standard already had one forward and one reverse item on every axis. Seven
+Advanced axes failed independently because their analyst-only additions were
+all forward-coded. One analyst-only proposition on each failing axis was
+rewritten as a substantively opposed position and marked `reverse: true`.
+No item was added, and every rewritten proposition avoids `not`, `never`, and
+`no longer`.
+
+| Axis | Rewritten item | Standard before → after | Advanced before → after |
+|---|---|---:|---:|
+| riskHorizon | `rh3` | 1/2 (50.0%) → 1/2 (50.0%) | 1/3 (33.3%) → 2/3 (66.7%) |
+| deploymentPace | `dp4` | 1/2 (50.0%) → 1/2 (50.0%) | 1/4 (25.0%) → 2/4 (50.0%) |
+| oversight | `ov5` | 1/2 (50.0%) → 1/2 (50.0%) | 1/5 (20.0%) → 2/5 (40.0%) |
+| geopolitics | `gp3` | 1/2 (50.0%) → 1/2 (50.0%) | 1/3 (33.3%) → 2/3 (66.7%) |
+| openness | `op3` | 1/2 (50.0%) → 1/2 (50.0%) | 1/3 (33.3%) → 2/3 (66.7%) |
+| militaryRole | — | 1/2 (50.0%) → 1/2 (50.0%) | 1/2 (50.0%) → 1/2 (50.0%) |
+| legitimacy | `lg4` | 1/2 (50.0%) → 1/2 (50.0%) | 1/4 (25.0%) → 2/4 (50.0%) |
+| humanFuture | `hf3` | 1/2 (50.0%) → 1/2 (50.0%) | 1/4 (25.0%) → 2/4 (50.0%) |
+
+The opposed propositions represent, respectively: confidence in behavioral
+evaluation despite incomplete mechanistic understanding; staged deployment
+as a route to critical-infrastructure assurance; lab-led continuous audit;
+reciprocal monitoring under rivalry; wider weight access as distributed
+scrutiny; performance and competence as sources of legitimacy; and possible
+future machine interests as morally relevant. These are positions a trained
+reader could defend, rather than grammatical negations of the forward items.
+
+After this valence-only batch, Standard was unchanged. Advanced
+Democratic Guardrailist concentration moved from 53.4% in the original
+baseline to 52.4%; the scenario repair therefore remained necessary.
+
+### 2C2 — mode-specific scenario repair
+
+Standard `options` and Advanced `analystOptions` were repaired separately.
+An omitted signal is recorded below as `0`, matching the scorer.
+
+Standard signal changes:
+
+- `capabilityThreshold.C`: oversight 0 → −1.0.
+- `rivalBreakthrough.A`: deploymentPace 0 → +0.7; militaryRole 0 → −0.7.
+- `rivalBreakthrough.B`: geopolitics +0.5 → 0.
+- `rivalBreakthrough.C`: legitimacy 0 → −0.7.
+- `openWeights.C`: oversight 0 → −1.0.
+- `militaryIntegration.A`: geopolitics 0 → −0.7.
+- `multilateralVerification.B`: oversight +0.1 → −1.0.
+- `futureSociety.C`: legitimacy 0 → −0.5.
+
+Advanced signal changes:
+
+- `capabilityThreshold.A`: riskHorizon +0.8 → +0.5.
+- `capabilityThreshold.C`: oversight 0 → −1.0; legitimacy 0 → −1.0.
+- `rivalBreakthrough.A`: deploymentPace 0 → +0.4; militaryRole 0 → −0.5.
+- `rivalBreakthrough.B`: geopolitics +0.4 → 0.
+- `rivalBreakthrough.C`: oversight 0 → −1.0; legitimacy 0 → −1.0.
+- `openWeights.A`: legitimacy 0 → −1.0.
+- `openWeights.C`: oversight 0 → −1.0.
+- `militaryIntegration.A`: geopolitics 0 → −1.0.
+- `militaryIntegration.C`: oversight 0 → −1.0; legitimacy 0 → −1.0.
+- `multilateralVerification.D`: oversight +0.3 → −1.0.
+- `futureSociety.C`: oversight 0 → −1.0.
+- `futureSociety.D`: legitimacy +0.3 → −1.0.
+- `computeGovernance.C`: oversight 0 → −1.0.
+- `computeGovernance.D`: oversight 0 → −1.0.
+- `criticalInfrastructure.C`: legitimacy 0 → −1.0.
+
+The negative poles attach to choices that place authority inside a lab,
+accelerate under rivalry, diffuse control, privilege a frontier-capable club,
+or accept institutional strain. They therefore encode the option's stated
+logic rather than serving as numerical ballast. All 15 previously failing
+declared scenario axes now strictly straddle zero with at least 0.5 spread.
+
+### Final exact mode-level results
+
+The diagnostic's exact enumerated saturation is the blocking measure. The
+prompt's 24.8% and 16.6% figures were the accompanying seeded estimates; the
+corresponding pre-repair exact Advanced ceiling rates were stricter at 27.9%
+for oversight and 17.5% for legitimacy.
+
+| Mode | Axis | Exact uniform mean | Distance from attainable centre | Exact floor / ceiling |
+|---|---|---:|---:|---:|
+| Standard | riskHorizon | 4.256 | 0.256 | 1.4% / 3.9% |
+| Standard | deploymentPace | 3.999 | 0.001 | 2.5% / 3.2% |
+| Standard | oversight | 4.290 | 0.290 | 2.7% / 7.4% |
+| Standard | geopolitics | 4.273 | 0.273 | 1.4% / 4.3% |
+| Standard | openness | 3.937 | 0.063 | 3.6% / 0.9% |
+| Standard | militaryRole | 4.251 | 0.251 | 2.7% / 5.9% |
+| Standard | legitimacy | 4.280 | 0.280 | 1.6% / 4.8% |
+| Standard | humanFuture | 4.097 | 0.097 | 2.0% / 2.7% |
+| Advanced | riskHorizon | 4.272 | 0.272 | 0.2% / 1.2% |
+| Advanced | deploymentPace | 4.269 | 0.269 | 1.1% / 3.5% |
+| Advanced | oversight | 4.267 | 0.267 | 1.8% / 6.5% |
+| Advanced | geopolitics | 4.256 | 0.256 | 1.0% / 3.2% |
+| Advanced | openness | 3.744 | 0.256 | 2.4% / 1.1% |
+| Advanced | militaryRole | 4.135 | 0.135 | 2.7% / 4.0% |
+| Advanced | legitimacy | 4.186 | 0.186 | 3.2% / 6.0% |
+| Advanced | humanFuture | 4.049 | 0.049 | 0.2% / 0.3% |
+
+The seeded modal archetype is now Strategic Competitor at 25.2% in Standard
+and 27.0% in Advanced. Democratic Guardrailist falls from 53.4% to 16.8% in
+Advanced. Every scenario-delta bank reaches both sides of zero, every exact
+centre error is at most 0.290, and every exact floor and ceiling rate is below
+10%.
+
+### Gate activation
+
+The repair reduced the combined AI finding count from 35 before 2C, to 28
+after the valence batch, to zero after the mode-specific scenario batch.
+`MEASUREMENT_GATES_BLOCKING` is now `true`. Structural validation and the
+bank diagnostics therefore fail the build on any gate finding. Geometric
+compromise findings remain a separate review classification and never enter
+the blocking error path. The three previously reviewed module findings remain
+visible during validation; AI has zero geometric findings.
+
+Final V22 AI bank SHA-256:
+`c61fc704a2121696effc2323f78ba0133ec8c7ae13b60133ef7928fb6f65bfd6`.
+
+### Final verification
+
+The completed bank and blocking gates passed `npm run lint`,
+`npm run validate`, all 384 tests in `npm run test`, the 146-page production
+build in `npm run build`, and `npm run diagnose -- --ai`. The standalone AI
+diagnostic reported zero blocking findings, zero items without a qualifying
+discriminating axis, and zero AI geometric-compromise findings. The V21
+immutable snapshot and golden replay also passed unchanged; the V22 golden
+fixture was updated to record the repaired bank's intended result.

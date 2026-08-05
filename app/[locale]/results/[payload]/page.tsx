@@ -10,20 +10,15 @@ import {
 } from "@/lib/narrative/foundation-zh-hans"
 import { getKeyDrivers, getStrongLenses } from "@/lib/result-helpers"
 import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
-import {
-  FOUNDATION_SCORING_VERSION,
-  getV2ScoringCalibration,
-} from "@/lib/scoring"
-import {
-  FOUNDATION_INSTRUMENT_VERSION,
-  FOUNDATION_STRUCTURAL_VERSION,
-} from "@/lib/quiz-schema"
+import { getV2ScoringCalibration } from "@/lib/scoring"
 import {
   getPercentile,
+  getProfileRarity,
   type AggregateStats,
   type PercentileResult,
 } from "@/lib/percentiles"
-import { readCurrentAggregateStats } from "@/lib/research/aggregate-stats"
+import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
+import { resolveArchetype } from "@/lib/archetypes"
 import type { DimensionKey } from "@/lib/types"
 
 type Props = {
@@ -100,20 +95,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
   const { lowDifferentiationThreshold } = getV2ScoringCalibration(
     resolved.scoringCalibration,
   )
-  const aggregateStats =
-    resolved.questionSet &&
-    provenance.instrumentStructuralVersion === FOUNDATION_STRUCTURAL_VERSION &&
-    provenance.instrumentVersion === FOUNDATION_INSTRUMENT_VERSION &&
-    provenance.scoringVersion === FOUNDATION_SCORING_VERSION
-      ? await readCurrentAggregateStats({
-          questionSet: resolved.questionSet,
-          ...(resolved.targetedFamilyPair
-            ? { targetedFamilyPair: resolved.targetedFamilyPair }
-            : {}),
-          completionLocale: provenance.completionLocale,
-          localeCopyVersion: provenance.localeCopyVersion,
-        })
-      : null
+  const aggregateStats = await readAggregateStatsForFoundationPayload(resolved)
   const dimensionPercentiles = buildDimensionPercentiles(
     dimensionScores,
     aggregateStats,
@@ -129,6 +111,10 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
     dimensionScores,
     scoringCalibration: resolved.scoringCalibration,
   })
+  const archetype = resolveArchetype(result, lowDifferentiationThreshold)
+  const archetypeRarity = aggregateStats
+    ? getProfileRarity(archetype.code, aggregateStats)
+    : null
   const dimensions = zhHansFoundationDimensionRows(dimensionScores)
   const keyDrivers = getKeyDrivers(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
@@ -180,6 +166,18 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
                 ? "本结果由 14 道核心题计算。"
                 : "本结果由核心题与扩展题共同计算。"}
             </p>
+            {archetypeRarity ? (
+              <div className="stack-xs">
+                <p>
+                  同一模型原型占当前同组已完成结果的{" "}
+                  {formatPercentage(archetypeRarity.percentage)}%。
+                </p>
+                <p className="muted result-note-xs" role="note">
+                  同组样本量 n=
+                  {archetypeRarity.n.toLocaleString("zh-CN")}。
+                </p>
+              </div>
+            ) : null}
             <div className="row gap-sm wrap" aria-label="结果标签">
               <span className="atlas-tag">{narrative.familyLabel}</span>
               <span className="atlas-tag">{narrative.strategyLabel}</span>
@@ -315,7 +313,13 @@ function buildDimensionPercentiles(
     PAYLOAD_DIMENSION_ORDER.map((dimension) => [
       dimension,
       stats
-        ? getPercentile(dimension, dimensionScores[dimension], stats)
+        ? getPercentile(
+            "foundation",
+            stats.mode,
+            dimension,
+            dimensionScores[dimension],
+            stats,
+          )
         : null,
     ]),
   ) as Record<DimensionKey, PercentileResult | null>
@@ -341,4 +345,8 @@ function ZhHansPercentileFootnote({
       百分位样本量：{sampleSizes.join("；")}。采用当前已完成基础问卷结果的中位秩百分位。
     </p>
   )
+}
+
+function formatPercentage(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }

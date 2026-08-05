@@ -10,6 +10,7 @@ import { absoluteUrl } from "@/i18n/paths"
 import {
   getPercentile,
   getProfileRarity,
+  MIN_PERCENTILE_SAMPLE_SIZE,
   type AggregateStats,
 } from "@/lib/percentiles"
 import { dimensionLabels } from "@/lib/quiz-schema"
@@ -34,12 +35,21 @@ export type ShareCardPercentile = {
   percentile: number
 }
 
+export type ShareCardRarity = {
+  percentage: number
+  n: number
+}
+
+export function formatShareCardRarity(rarity: ShareCardRarity): string {
+  return `Same archetype · ${formatPercentage(rarity.percentage)}% of this cohort (n=${rarity.n.toLocaleString("en-US")})`
+}
+
 export type ShareCardInput = {
   archetype: Archetype | BlendArchetype
   norm: NormSuffix
   percentiles: ShareCardPercentile[]
   coordinates: { x: number; y: number }
-  rarityPercentage: number | null
+  rarity: ShareCardRarity | null
 }
 
 export function buildFoundationShareCardUrl(
@@ -65,11 +75,7 @@ export function buildFoundationShareCardInput(
 ): ShareCardInput {
   const archetype = resolveArchetype(result, lowDifferentiationThreshold)
   const derivedRarity = stats
-    ? getProfileRarity(
-        archetype.code,
-        result.normativeModifier,
-        stats,
-      )?.percentage ?? null
+    ? getProfileRarity(archetype.code, stats)
     : null
   const coordinates = toDisplayPosition(
     result.dimensionScores,
@@ -84,7 +90,13 @@ export function buildFoundationShareCardInput(
   const percentiles = stats
     ? strongestDimensions.map(([dimension, score]) => ({
         dimension,
-        result: getPercentile(dimension, score, stats),
+        result: getPercentile(
+          "foundation",
+          stats.mode,
+          dimension,
+          score,
+          stats,
+        ),
       }))
     : []
 
@@ -108,10 +120,7 @@ export function buildFoundationShareCardInput(
     norm: normFromNormativeModifier(result.normativeModifier),
     percentiles: completePercentiles,
     coordinates,
-    rarityPercentage:
-      completePercentiles.length === 3 && isPercentage(derivedRarity)
-        ? derivedRarity
-        : null,
+    rarity: isShareCardRarity(derivedRarity) ? derivedRarity : null,
   }
 }
 
@@ -146,15 +155,25 @@ export function parseShareCardParams(
     new Set(percentiles.map((entry) => entry.dimension)).size === 3
       ? percentiles
       : []
-  const rarity = parseBoundedNumber(searchParams.get("rarity"), 0, 100)
+  const rarityPercentage = parseBoundedNumber(
+    searchParams.get("rarity"),
+    0,
+    100,
+  )
+  const rarityN = parseInteger(
+    searchParams.get("n"),
+    MIN_PERCENTILE_SAMPLE_SIZE,
+  )
 
   return {
     archetype,
     norm,
     percentiles: completePercentiles,
     coordinates: { x, y },
-    rarityPercentage:
-      completePercentiles.length === 3 && rarity !== null ? rarity : null,
+    rarity:
+      rarityPercentage !== null && rarityN !== null
+        ? { percentage: rarityPercentage, n: rarityN }
+        : null,
   }
 }
 
@@ -178,6 +197,26 @@ function parseBoundedNumber(
     : null
 }
 
-function isPercentage(value: number | null): value is number {
-  return value !== null && Number.isFinite(value) && value >= 0 && value <= 100
+function parseInteger(value: string | null, minimum: number): number | null {
+  if (value === null || value.trim() === "") return null
+  const parsed = Number(value)
+  return Number.isSafeInteger(parsed) && parsed >= minimum ? parsed : null
+}
+
+function isShareCardRarity(value: unknown): value is ShareCardRarity {
+  if (typeof value !== "object" || value === null) return false
+  const candidate = value as Partial<ShareCardRarity>
+  return (
+    typeof candidate.percentage === "number" &&
+    Number.isFinite(candidate.percentage) &&
+    candidate.percentage >= 0 &&
+    candidate.percentage <= 100 &&
+    typeof candidate.n === "number" &&
+    Number.isSafeInteger(candidate.n) &&
+    candidate.n >= MIN_PERCENTILE_SAMPLE_SIZE
+  )
+}
+
+function formatPercentage(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }

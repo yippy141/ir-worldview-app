@@ -2,10 +2,29 @@ import {
   buildAiGovernanceDeepDive,
   getPrimaryAxisSummary,
 } from "@/lib/ai-governance-results-v2"
-import { AiResult } from "@/lib/ai-governance-types"
+import type {
+  AiArchetypeKey,
+  AiAxisKey,
+  AiResult,
+} from "@/lib/ai-governance-types"
 
-export function AiGovernanceProfileSections({ result }: { result: AiResult }) {
-  const deepDive = buildAiGovernanceDeepDive(result)
+export function AiGovernanceProfileSections({
+  result,
+  archetypeProfiles,
+  archetypeLabels,
+}: {
+  result: AiResult
+  archetypeProfiles: Record<
+    AiArchetypeKey,
+    Partial<Record<AiAxisKey, number>>
+  >
+  archetypeLabels: Record<AiArchetypeKey, string>
+}) {
+  const deepDive = buildAiGovernanceDeepDive(
+    result,
+    archetypeProfiles,
+    archetypeLabels,
+  )
 
   return (
     <>

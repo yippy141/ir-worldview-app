@@ -27,6 +27,9 @@ import {
   scoreModule,
 } from "@/lib/modules/framework"
 import {
+  enumerateModuleCalibrationCuts,
+} from "@/lib/modules/calibration"
+import {
   aiAxisLabels,
   aiScenarioQuestions,
   getAiCoreQuestions,
@@ -37,6 +40,26 @@ import {
   generateAiGovernanceResult,
   scoreLikert,
 } from "@/lib/ai-governance-scoring"
+import {
+  findAttainableRangeFindings,
+  findCompromiseReviewFindings,
+  findConcentrationFindings,
+  findDeclaredAxisFindings,
+  findDiscriminatingCoverageFindings,
+  findMissingDeclaredAxisFindings,
+  findNoQualifyingAxisFindings,
+  findPoleAccessFindings,
+  findReverseCodingFindings,
+  findSaturationFindings,
+  findThresholdRangeFindings,
+  findUniformMeanCenteringFindings,
+  evaluateDeclaredAxis,
+  getAxisOptionStats,
+  getTopHalfQualifyingAxes,
+  MEASUREMENT_GATES_BLOCKING,
+  type MeasurementFinding,
+  type MeasurementOption,
+} from "@/lib/instrument/measurement-gates"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import { NEUTRAL_BASELINE } from "@/lib/scoring-calibration"
 import { getSeededOptionOrder } from "@/lib/option-order"
@@ -52,7 +75,11 @@ import type {
   FamilyKey,
   QuizMode,
 } from "@/lib/types"
-import type { ModuleAnswers, ModuleDefinition } from "@/lib/modules/types"
+import type {
+  ModuleAnswers,
+  ModuleAxisKey,
+  ModuleDefinition,
+} from "@/lib/modules/types"
 import type {
   AiAnswers,
   AiAxisKey,
@@ -74,6 +101,9 @@ const SHOW_STABILITY = process.argv.includes("--stability")
 const SHOW_ORDER_BIAS = process.argv.includes("--order-bias")
 const SHOW_MODULES = process.argv.includes("--modules")
 const SHOW_AI = process.argv.includes("--ai")
+const measurementGateFindings: MeasurementFinding[] = []
+const qualificationFindings: MeasurementFinding[] = []
+const compromiseReviewFindings: MeasurementFinding[] = []
 
 const DIMENSION_KEYS: DimensionKey[] = [
   "securityCompetition",
@@ -345,6 +375,141 @@ function modeLabel(mode: QuizMode | AiQuizMode) {
   return mode === "standard" ? "Standard" : "Advanced"
 }
 
+function toModuleMeasurementOptions(
+  question: ReturnType<typeof getModuleQuestions>[number],
+): MeasurementOption<ModuleAxisKey>[] {
+  return question.options.map((option) => ({
+    id: option.id,
+    signals: option.signals,
+  }))
+}
+
+function toAiMeasurementOptions(
+  options: AiScenarioOption[],
+): MeasurementOption<AiAxisKey>[] {
+  return options.map((option) => ({
+    id: option.id,
+    signals: option.weights,
+  }))
+}
+
+function collectModuleItemFindings() {
+  for (const moduleDefinition of modules) {
+    const axes = moduleDefinition.axes.map((axis) => axis.key)
+    const questions = new Map(
+      DIAGNOSTIC_MODES.flatMap((mode) =>
+        getModuleQuestions(moduleDefinition, mode).map(
+          (question) => [question.id, question] as const,
+        ),
+      ),
+    )
+
+    for (const question of questions.values()) {
+      const subject = `${moduleDefinition.slug}.${question.id}.options`
+      const options = toModuleMeasurementOptions(question)
+      const qualifiers = getTopHalfQualifyingAxes(
+        getAxisOptionStats(options, axes, 4),
+        1.5,
+      )
+      qualificationFindings.push(
+        ...findMissingDeclaredAxisFindings(
+          `${moduleDefinition.slug}.${question.id}`,
+          question.discriminatingAxes,
+        ),
+        ...findNoQualifyingAxisFindings(
+          `${moduleDefinition.slug}.${question.id}`,
+          qualifiers,
+        ),
+      )
+      measurementGateFindings.push(
+        ...findDeclaredAxisFindings({
+          subject,
+          declaredAxes: question.discriminatingAxes,
+          options,
+          midpoint: 4,
+          minimumSpread: 2,
+        }),
+      )
+      compromiseReviewFindings.push(
+        ...findCompromiseReviewFindings({
+          subject,
+          axes,
+          options,
+          midpoint: 4,
+        }),
+      )
+    }
+  }
+}
+
+function collectAiItemFindings() {
+  const axes = Object.keys(aiAxisLabels) as AiAxisKey[]
+  const standardIds = new Set<string>(getAiScenarioOrder("standard"))
+  const analystIds = new Set<string>(getAiScenarioOrder("analyst"))
+
+  for (const scenario of Object.values(aiScenarioQuestions)) {
+    const optionSets: Array<{
+      source: "options" | "analystOptions"
+      options: AiScenarioOption[]
+    }> = []
+    if (standardIds.has(scenario.id)) {
+      optionSets.push({ source: "options", options: scenario.options })
+    }
+    if (analystIds.has(scenario.id)) {
+      const source = scenario.analystOptions ? "analystOptions" : "options"
+      if (!optionSets.some((optionSet) => optionSet.source === source)) {
+        optionSets.push({
+          source,
+          options: scenario.analystOptions ?? scenario.options,
+        })
+      }
+    }
+
+    let sharedQualifiers = [...axes]
+    for (const optionSet of optionSets) {
+      const options = toAiMeasurementOptions(optionSet.options)
+      const modeQualifiers = new Set(
+        getTopHalfQualifyingAxes(
+          getAxisOptionStats(options, axes, 0),
+          0.5,
+        ),
+      )
+      sharedQualifiers = sharedQualifiers.filter((axis) =>
+        modeQualifiers.has(axis),
+      )
+      const subject =
+        `ai-governance.${scenario.id}.${optionSet.source}`
+      measurementGateFindings.push(
+        ...findDeclaredAxisFindings({
+          subject,
+          declaredAxes: scenario.discriminatingAxes,
+          options,
+          midpoint: 0,
+          minimumSpread: 0.5,
+        }),
+      )
+      compromiseReviewFindings.push(
+        ...findCompromiseReviewFindings({
+          subject,
+          axes,
+          options,
+          midpoint: 0,
+        }),
+      )
+    }
+    qualificationFindings.push(
+      ...findMissingDeclaredAxisFindings(
+        `ai-governance.${scenario.id}`,
+        scenario.discriminatingAxes,
+      ),
+      ...findNoQualifyingAxisFindings(
+        `ai-governance.${scenario.id}`,
+        sharedQualifiers,
+      ),
+    )
+  }
+}
+
 function runModuleDiagnostics() {
   for (const [moduleIndex, moduleDefinition] of modules.entries()) {
     for (const mode of DIAGNOSTIC_MODES) {
@@ -396,10 +561,37 @@ function runModuleDiagnostics() {
           "backup choices are left blank in this primary-only baseline.",
       )
       console.log(
-        "\n| Axis | Exact uniform-choice mean | Seeded random mean | " +
-          "Lowest attainable | Highest attainable | Range |",
+        "\n| Axis | Qualifying discriminating items | Meets minimum 4? |",
       )
-      console.log("| --- | ---: | ---: | ---: | ---: | ---: |")
+      console.log("| --- | ---: | :---: |")
+      for (const axis of moduleDefinition.axes) {
+        const discriminatingCount = questions.filter(
+          (question) =>
+            question.discriminatingAxes.includes(axis.key) &&
+            evaluateDeclaredAxis(
+              question.options.map((option) => option.signals[axis.key] ?? 4),
+              4,
+              2,
+            ).passes,
+        ).length
+        console.log(
+          `| ${axis.key} | ${discriminatingCount} | ` +
+            `${discriminatingCount >= 4 ? "yes" : "NO"} |`,
+        )
+        measurementGateFindings.push(
+          ...findDiscriminatingCoverageFindings(
+            `${moduleDefinition.slug}.${mode}.${axis.key}`,
+            discriminatingCount,
+            4,
+          ),
+        )
+      }
+      console.log(
+        "\n| Axis | Exact uniform-choice mean | Seeded random mean | " +
+          "Lowest attainable | Highest attainable | Range | " +
+          "Exact floor | Exact ceiling |",
+      )
+      console.log("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |")
 
       for (const axis of moduleDefinition.axes) {
         const minimizingAnswers = buildModuleExtremeAnswers(
@@ -424,15 +616,36 @@ function runModuleDiagnostics() {
           mode,
           maximizingAnswers,
         )[axis.key]
-        const exactMean = getExactModuleRandomMean(
+        const exactDistribution = getExactModuleAxisDistribution(
           scoredQuestions,
           axis.key,
         )
+        const exactMean = exactDistribution.mean
         console.log(
           `| ${axis.key} | ${exactMean.toFixed(3)} | ` +
             `${(axisSums[axis.key] / RANDOM_N).toFixed(3)} | ` +
             `${minimum.toFixed(2)} | ${maximum.toFixed(2)} | ` +
-            `${(maximum - minimum).toFixed(2)} |`,
+            `${(maximum - minimum).toFixed(2)} | ` +
+            `${(exactDistribution.floorShare * 100).toFixed(1)}% | ` +
+            `${(exactDistribution.ceilingShare * 100).toFixed(1)}% |`,
+        )
+        const subject =
+          `${moduleDefinition.slug}.${mode}.${axis.key}`
+        measurementGateFindings.push(
+          ...findPoleAccessFindings(subject, minimum, maximum, 4),
+          ...findUniformMeanCenteringFindings(
+            subject,
+            exactMean,
+            minimum,
+            maximum,
+            0.3,
+          ),
+          ...findSaturationFindings(
+            subject,
+            exactDistribution.floorShare,
+            exactDistribution.ceilingShare,
+            0.1,
+          ),
         )
       }
 
@@ -440,14 +653,29 @@ function runModuleDiagnostics() {
         `${modeLabel(mode)} primary-only result-headline distribution`,
         headlineCounts,
       )
+      if (!moduleDefinition.defaultHeadline) {
+        throw new Error(
+          `${moduleDefinition.slug} must declare its default headline.`,
+        )
+      }
+      const defaultHeadlineShare =
+        (headlineCounts[moduleDefinition.defaultHeadline] ?? 0) / RANDOM_N
+      measurementGateFindings.push(
+        ...findConcentrationFindings(
+          `${moduleDefinition.slug}.${mode}.default-headline`,
+          defaultHeadlineShare,
+          0.4,
+          "default headline",
+        ),
+      )
 
       console.log(`\nPer-card ${modeLabel(mode)} option-set audit`)
       printSignalTableHeader(4)
       for (const question of questions) {
-        for (const axis of moduleDefinition.axes) {
+        for (const axisKey of question.discriminatingAxes) {
           const stats = getOptionSignalStats(
             question.options,
-            (option) => option.signals[axis.key] ?? 4,
+            (option) => option.signals[axisKey] ?? 4,
             4,
           )
           const itemLabel =
@@ -455,7 +683,7 @@ function runModuleDiagnostics() {
               ? `${question.id} (actor lens)`
               : question.id
           console.log(
-            `| ${itemLabel} | ${axis.key} | ${question.options.length} | ` +
+            `| ${itemLabel} | ${axisKey} | ${question.options.length} | ` +
               `${stats.minimum.toFixed(2)} | ${stats.maximum.toFixed(2)} | ` +
               `${stats.spread.toFixed(2)} | ${stats.mean.toFixed(2)} | ` +
               `${stats.straddles ? "yes" : "NO"} |`,
@@ -471,28 +699,118 @@ function runModuleDiagnostics() {
       }
     }
   }
+
+  for (const cut of enumerateModuleCalibrationCuts()) {
+    const context =
+      cut.context.kind === "headline"
+        ? "headline"
+        : `lane:${cut.context.laneKey}`
+    const liveAttainable = getLiveModuleCalibrationRange(cut)
+    measurementGateFindings.push(
+      ...findThresholdRangeFindings(
+        `${cut.slug}.${cut.mode}.${context}.${cut.axis}.${cut.tail}`,
+        cut.raw,
+        liveAttainable.minimum,
+        liveAttainable.maximum,
+      ),
+    )
+  }
 }
 
-function getExactModuleRandomMean(
+function getLiveModuleCalibrationRange(
+  cut: ReturnType<typeof enumerateModuleCalibrationCuts>[number],
+) {
+  const moduleDefinition = modules.find(
+    (candidate) => candidate.slug === cut.slug,
+  )
+  if (!moduleDefinition) {
+    throw new Error(`Missing module definition for ${cut.slug}.`)
+  }
+
+  const scoredQuestions = getModuleQuestions(
+    moduleDefinition,
+    cut.mode,
+  ).filter((question) => question.cardType !== "actorLens")
+  let questions = scoredQuestions
+  if (cut.context.kind === "lane") {
+    const { laneKey } = cut.context
+    questions = scoredQuestions.filter(
+      (question) => question.lane === laneKey,
+    )
+  }
+  const minima = questions.map((question) =>
+    Math.min(...question.options.map((option) => option.signals[cut.axis] ?? 4)),
+  )
+  const maxima = questions.map((question) =>
+    Math.max(...question.options.map((option) => option.signals[cut.axis] ?? 4)),
+  )
+
+  return {
+    minimum: roundedModuleMean(minima),
+    maximum: roundedModuleMean(maxima),
+  }
+}
+
+function roundedModuleMean(values: number[]) {
+  if (values.length === 0) return 4
+  return Number(
+    (values.reduce((sum, value) => sum + value, 0) / values.length).toFixed(
+      2,
+    ),
+  )
+}
+
+type ExactAxisDistribution = {
+  mean: number
+  minimum: number
+  maximum: number
+  floorShare: number
+  ceilingShare: number
+}
+
+function getExactModuleAxisDistribution(
   scoredQuestions: ReturnType<typeof getModuleQuestions>,
-  axisKey: string,
-): number {
-  const questionMeans = scoredQuestions.map((question) => {
+  axisKey: ModuleAxisKey,
+): ExactAxisDistribution {
+  let sumDistribution = new Map<number, number>([[0, 1]])
+
+  for (const question of scoredQuestions) {
     const values = question.options.map((option) => option.signals[axisKey])
     if (!values.every((value) => typeof value === "number" && Number.isFinite(value))) {
       throw new Error(
         `Exact module expectation requires dense signals; ${question.id}.${axisKey} is sparse.`,
       )
     }
-    return values.reduce((sum, value) => sum + value, 0) / values.length
-  })
-  return questionMeans.reduce((sum, value) => sum + value, 0) / questionMeans.length
+
+    const next = new Map<number, number>()
+    for (const [sum, probability] of sumDistribution) {
+      for (const value of values) {
+        addProbability(next, sum + value, probability / values.length)
+      }
+    }
+    sumDistribution = next
+  }
+
+  const scoreDistribution = new Map<number, number>()
+  if (scoredQuestions.length === 0) {
+    scoreDistribution.set(4, 1)
+  } else {
+    for (const [sum, probability] of sumDistribution) {
+      addProbability(
+        scoreDistribution,
+        Number((sum / scoredQuestions.length).toFixed(2)),
+        probability,
+      )
+    }
+  }
+
+  return summariseExactDistribution(scoreDistribution)
 }
 
 function buildModuleExtremeAnswers(
   moduleDefinition: ModuleDefinition,
   scoredQuestions: ReturnType<typeof getModuleQuestions>,
-  axisKey: string,
+  axisKey: ModuleAxisKey,
   direction: "minimum" | "maximum",
 ): ModuleAnswers {
   const answers: ModuleAnswers = {}
@@ -581,15 +899,17 @@ function runAiDiagnostics() {
     console.log(
       "\n| Axis | Exact scenario delta / card | Exact scenario delta total | " +
         "Scenario delta min | Scenario delta max | Exact final mean | " +
-        "Seeded final mean | Observed min | Observed max | At floor | At ceiling |",
+        "Seeded final mean | Observed min | Observed max | Exact floor | " +
+        "Exact ceiling | Seeded floor | Seeded ceiling |",
     )
     console.log(
-      "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+      "| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | " +
+        "---: | ---: | ---: | ---: |",
     )
     for (const axis of axes) {
       const extrema = getAiScenarioExtrema(scenarios, mode, axis)
       const exactDelta = getExactAiScenarioDelta(scenarios, mode, axis)
-      const exactFinalMean = getExactAiFinalMean(
+      const exactFinal = getExactAiFinalDistribution(
         likertQuestions,
         scenarios,
         mode,
@@ -598,11 +918,47 @@ function runAiDiagnostics() {
       console.log(
         `| ${axis} | ${(exactDelta / scenarios.length).toFixed(3)} | ` +
           `${exactDelta.toFixed(3)} | ${extrema.minimum.toFixed(2)} | ` +
-          `${extrema.maximum.toFixed(2)} | ${exactFinalMean.toFixed(3)} | ` +
+          `${extrema.maximum.toFixed(2)} | ${exactFinal.mean.toFixed(3)} | ` +
           `${(finalAxisSums[axis] / RANDOM_N).toFixed(3)} | ` +
           `${finalAxisMin[axis].toFixed(2)} | ${finalAxisMax[axis].toFixed(2)} | ` +
+          `${(exactFinal.floorShare * 100).toFixed(1)}% | ` +
+          `${(exactFinal.ceilingShare * 100).toFixed(1)}% | ` +
           `${pct(floorCounts[axis], RANDOM_N)} | ` +
           `${pct(ceilingCounts[axis], RANDOM_N)} |`,
+      )
+      const subject = `ai-governance.${mode}.${axis}`
+      measurementGateFindings.push(
+        ...findAttainableRangeFindings(
+          `${subject}.final`,
+          exactFinal.minimum,
+          exactFinal.maximum,
+          3,
+        ),
+        ...findAttainableRangeFindings(
+          `${subject}.scenario-delta`,
+          extrema.minimum,
+          extrema.maximum,
+          0.8,
+        ),
+        ...findPoleAccessFindings(
+          `${subject}.scenario-delta`,
+          extrema.minimum,
+          extrema.maximum,
+          0,
+        ),
+        ...findUniformMeanCenteringFindings(
+          `${subject}.final`,
+          exactFinal.mean,
+          exactFinal.minimum,
+          exactFinal.maximum,
+          0.3,
+        ),
+        ...findSaturationFindings(
+          `${subject}.final`,
+          exactFinal.floorShare,
+          exactFinal.ceilingShare,
+          0.1,
+        ),
       )
     }
 
@@ -610,10 +966,7 @@ function runAiDiagnostics() {
     printSignalTableHeader(0)
     for (const scenario of scenarios) {
       const options = getScenarioOptions(scenario, mode)
-      const scoredAxes = axes.filter((axis) =>
-        options.some((option) => Object.hasOwn(option.weights, axis)),
-      )
-      for (const axis of scoredAxes) {
+      for (const axis of scenario.discriminatingAxes) {
         const stats = getOptionSignalStats(
           options,
           (option) => getAiOptionSignal(option, axis),
@@ -639,6 +992,13 @@ function runAiDiagnostics() {
         `| ${axis} | ${reversed} | ${questions.length} | ` +
           `${(ratio * 100).toFixed(1)}% | ${ratio >= 0.4 ? "yes" : "NO"} |`,
       )
+      measurementGateFindings.push(
+        ...findReverseCodingFindings(
+          `ai-governance.${mode}.${axis}`,
+          ratio,
+          0.4,
+        ),
+      )
     }
 
     report(
@@ -651,6 +1011,13 @@ function runAiDiagnostics() {
     console.log(
       `\nModal ${modeLabel(mode)} primary-only AI archetype: ` +
         `${modalArchetype} (${pct(modalCount, RANDOM_N)}).`,
+    )
+    measurementGateFindings.push(
+      ...findConcentrationFindings(
+        `ai-governance.${mode}.archetype`,
+        modalCount / RANDOM_N,
+        0.4,
+      ),
     )
   }
 }
@@ -696,12 +1063,29 @@ function addProbability(
   distribution.set(key, (distribution.get(key) ?? 0) + probability)
 }
 
-function getExactAiFinalMean(
+function summariseExactDistribution(
+  distribution: Map<number, number>,
+): ExactAxisDistribution {
+  const entries = [...distribution.entries()]
+  const scores = entries.map(([score]) => score)
+  return {
+    mean: entries.reduce(
+      (mean, [score, probability]) => mean + score * probability,
+      0,
+    ),
+    minimum: Math.min(...scores),
+    maximum: Math.max(...scores),
+    floorShare: distribution.get(1) ?? 0,
+    ceilingShare: distribution.get(7) ?? 0,
+  }
+}
+
+function getExactAiFinalDistribution(
   likertQuestions: AiLikertQuestion[],
   scenarios: AiScenarioQuestion[],
   mode: AiQuizMode,
   axis: AiAxisKey,
-) {
+): ExactAxisDistribution {
   const axisQuestions = likertQuestions.filter((question) => question.axis === axis)
   let sumDistribution = new Map<number, number>([[0, 1]])
 
@@ -747,15 +1131,73 @@ function getExactAiFinalMean(
     scoreDistribution = next
   }
 
-  return [...scoreDistribution.entries()].reduce(
-    (mean, [score, probability]) =>
-      mean + Number(score.toFixed(2)) * probability,
-    0,
-  )
+  return summariseExactDistribution(scoreDistribution)
 }
 
-if (SHOW_MODULES) runModuleDiagnostics()
-if (SHOW_AI) runAiDiagnostics()
+function printMeasurementGateFindings() {
+  const findings = [
+    ...new Map(
+      measurementGateFindings.map((finding) => [finding.message, finding]),
+    ).values(),
+  ]
+  const qualifications = [
+    ...new Map(
+      qualificationFindings.map((finding) => [finding.message, finding]),
+    ).values(),
+  ]
+  const reviews = [
+    ...new Map(
+      compromiseReviewFindings.map((finding) => [finding.message, finding]),
+    ).values(),
+  ]
+
+  console.log("\n" + "=".repeat(74))
+  console.log(
+    MEASUREMENT_GATES_BLOCKING
+      ? "V22 MEASUREMENT GATE FINDINGS · BLOCKING"
+      : "V22 MEASUREMENT GATE FINDINGS · REPORTING ONLY UNTIL END OF 2C",
+  )
+  console.log("=".repeat(74))
+  console.log(`\nCurrent failures: ${findings.length}`)
+  if (findings.length === 0) {
+    console.log("- none")
+  } else {
+    for (const finding of findings) {
+      console.log(`- [${finding.code}] ${finding.message}`)
+    }
+  }
+  console.log(
+    `\nItems with no qualifying discriminating axis: ` +
+      `${qualifications.length}`,
+  )
+  for (const finding of qualifications) {
+    console.log(`- [${finding.code}] ${finding.message}`)
+  }
+  console.log(
+    `\nGeometric-compromise review findings (permanently non-blocking): ` +
+      `${reviews.length}`,
+  )
+  for (const finding of reviews) {
+    console.log(`- [${finding.code}] ${finding.message}`)
+  }
+
+  if (
+    MEASUREMENT_GATES_BLOCKING &&
+    (findings.length > 0 || qualifications.length > 0)
+  ) {
+    process.exitCode = 1
+  }
+}
+
+if (SHOW_MODULES) {
+  collectModuleItemFindings()
+  runModuleDiagnostics()
+}
+if (SHOW_AI) {
+  collectAiItemFindings()
+  runAiDiagnostics()
+}
+if (SHOW_MODULES || SHOW_AI) printMeasurementGateFindings()
 
 const foundationSpecificFlagRequested =
   SHOW_CALIBRATION ||
@@ -766,7 +1208,7 @@ const foundationSpecificFlagRequested =
   SHOW_ORDER_BIAS
 
 if ((SHOW_MODULES || SHOW_AI) && !foundationSpecificFlagRequested) {
-  process.exit(0)
+  process.exit(process.exitCode ?? 0)
 }
 
 // ---------------------------------------------------------------- part 1

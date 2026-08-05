@@ -37,7 +37,7 @@ export function ScaleBar({
 }: ScaleBarProps) {
   const boundedValue = clamp(value, min, max)
   const percent = valueToPercent(boundedValue, min, max)
-  const readableValue = valueLabel ?? `${formatValue(boundedValue)} / ${formatValue(max)}`
+  const readableValue = valueLabel ?? formatValue(boundedValue)
   const ariaLabel = label ? `${label}: ${readableValue}` : readableValue
 
   return (

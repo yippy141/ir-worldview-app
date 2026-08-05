@@ -3,8 +3,18 @@ import type { PinnedOptionPosition } from "@/lib/option-order"
 
 export type ModuleSlug = "security" | "technology"
 
+export type ModuleAxisKey =
+  | "activism"
+  | "escalation"
+  | "alliance"
+  | "legitimacy"
+  | "control"
+  | "governance"
+  | "industrial"
+  | "safety"
+
 export type ModuleAxis = {
-  key: string
+  key: ModuleAxisKey
   label: string
   lowLabel: string
   highLabel: string
@@ -47,6 +57,7 @@ export type ModuleQuestion = {
   perspectiveTags: string[]
   knowledgeLoad: ModuleKnowledgeLoad
   mirrorPairId?: string
+  discriminatingAxes: ModuleAxisKey[]
   options: ModuleOption[]
   allowSecondChoiceInAnalyst?: boolean
 }
@@ -58,12 +69,25 @@ export type ModuleSelection = {
 
 export type ModuleAnswers = Record<string, ModuleSelection>
 
-export type ModulePayload = {
+export type ModulePayloadV2 = {
   v: 2
   slug: ModuleSlug
   mode: QuizMode
   answers: ModuleAnswers
 }
+
+export type ModulePayloadV3 = {
+  v: 3
+  /** Item-bank/content version. */
+  bv: number
+  /** Scoring implementation version. */
+  sv: number
+  slug: ModuleSlug
+  mode: QuizMode
+  answers: ModuleAnswers
+}
+
+export type ModulePayload = ModulePayloadV2 | ModulePayloadV3
 
 export type ModuleInterpretation = {
   headline: string
@@ -88,9 +112,14 @@ export type ModuleCardTypeRead = {
 }
 
 export type ModuleAnalytics = {
+  mode?: QuizMode
   scores: Record<string, number>
   laneScores: Record<string, Record<string, number>>
   cardTypeScores: Partial<Record<ChoiceCardType, Record<string, number>>>
+}
+
+export type ModuleClassificationContext = {
+  mode: QuizMode
 }
 
 export type ModuleResult = ModuleInterpretation & {
@@ -104,6 +133,7 @@ export type ModuleResult = ModuleInterpretation & {
 
 export type ModuleDefinition = {
   slug: ModuleSlug
+  defaultHeadline?: string
   title: string
   shortTitle: string
   subtitle: string
@@ -115,10 +145,14 @@ export type ModuleDefinition = {
   axes: ModuleAxis[]
   lanes: ModuleLane[]
   questionsByMode: Record<QuizMode, ModuleQuestion[]>
-  interpret: (analytics: ModuleAnalytics) => ModuleInterpretation
+  interpret: (
+    analytics: ModuleAnalytics,
+    context?: ModuleClassificationContext,
+  ) => ModuleInterpretation
   summarizeLanes: (
     analytics: ModuleAnalytics,
     foundation?: DimensionScores,
+    context?: ModuleClassificationContext,
   ) => ModuleLaneSummary[]
   summarizeCardTypes?: (analytics: ModuleAnalytics) => ModuleCardTypeRead | undefined
   buildOverlayDeltas: (analytics: ModuleAnalytics) => Partial<Record<DimensionKey, number>>

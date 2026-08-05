@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ModuleResultView } from "@/components/modules/module-result"
-import { decodeModulePayload, getModuleDefinition } from "@/lib/modules/framework"
+import { getModuleDefinition, resolveModulePayload } from "@/lib/modules/framework"
 import { decodePayload, payloadToDimensionScores } from "@/lib/share"
 import type { Metadata } from "next"
 
@@ -11,8 +11,12 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params
-  const moduleDefinition = getModuleDefinition(slug)
+  const { slug, payload } = await params
+  const resolved = resolveModulePayload(payload)
+  const moduleDefinition =
+    resolved?.payload.slug === slug
+      ? resolved.definition
+      : getModuleDefinition(slug)
 
   if (!moduleDefinition) {
     return { title: "Module result — IR Worldview Inventory" }
@@ -27,13 +31,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ModuleResultPage({ params, searchParams }: Props) {
   const { slug, payload } = await params
   const { foundation } = await searchParams
-  const moduleDefinition = getModuleDefinition(slug)
-  const data = decodeModulePayload(payload)
+  const currentDefinition = getModuleDefinition(slug)
+  const resolved = resolveModulePayload(payload)
   const foundationData = foundation ? decodePayload(foundation) : null
 
-  if (!moduleDefinition) notFound()
+  if (!currentDefinition) notFound()
 
-  if (!data || data.slug !== moduleDefinition.slug) {
+  if (!resolved || resolved.payload.slug !== currentDefinition.slug) {
     return (
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
@@ -54,10 +58,12 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
   return (
     <div className="wide-container">
       <ModuleResultView
-        slug={moduleDefinition.slug}
+        moduleDefinition={resolved.definition}
+        runtime={resolved.runtime}
+        bankVersion={resolved.bankVersion}
         payload={payload}
-        mode={data.mode}
-        answers={data.answers}
+        mode={resolved.payload.mode}
+        answers={resolved.payload.answers}
         foundation={foundationData ? payloadToDimensionScores(foundationData) : undefined}
         foundationPayload={foundation}
       />

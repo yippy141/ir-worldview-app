@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --cache",
-    "validate": "node --experimental-strip-types scripts/validate-instrument.mts",
+    "validate": "npm run validate:structure && npm run calibrate:modules -- --check && npm run diagnose -- --modules --ai",
+    "validate:structure": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/validate-instrument.mts",
     "test": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts",
     "test:e2e": "playwright test",
     "diagnostics:build-sha": "node scripts/print-build-sha.mjs",
+    "calibrate:modules": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/calibrate-modules-bootstrap.mjs",
     "calibrate:targeted": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/calibrate-targeted-forms.mts",
     "diagnose": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-instrument.mts",
     "replay:scoring": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/replay-scoring.mts"

@@ -68,8 +68,15 @@ export default function PrivacyPage() {
         <p style={{ lineHeight: "1.7" }}>
           Full URLs, result payloads, answer IDs, confidence, reasoning tags, profile families,
           saved-result flags, dimension scores, email, free text, custom timestamps, and app-owned
-          IP records are excluded. Referrer URLs are reduced to categories in the browser. The
-          analytics request does not include request IP, cookie, user-agent, or referrer headers.
+          persistent IP records are excluded. Referrer URLs are reduced to categories in the
+          browser. The analytics request does not include request IP, cookie, user-agent, or
+          referrer headers.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          To limit aggregate-counter abuse, the write endpoint converts the request IP into a
+          process-salted, one-way bucket key. Neither the IP nor that key is written to the
+          aggregate database. The key stays only in server memory and expires with the server
+          process.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           A first-seen UTC date stays in this browser to create the return-age bucket. It is not sent

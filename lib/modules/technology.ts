@@ -3,10 +3,17 @@ import type {
   ModuleDefinition,
   ModuleLaneSummary,
 } from "@/lib/modules/types"
-import type { DimensionKey, DimensionScores } from "@/lib/types"
-import technologyBankJson from "@/content/instrument/technology.v2.json" with {
+import {
+  getModuleClassificationMode,
+  standardizeModuleAxis,
+} from "@/lib/modules/calibration"
+import type { DimensionKey, DimensionScores, QuizMode } from "@/lib/types"
+import technologyBankJson from "@/content/instrument/technology.v3.json" with {
   type: "json",
 }
+
+export const TECHNOLOGY_BANK_VERSION = 3
+export const TECHNOLOGY_SCORING_VERSION = 2
 
 const technologyLanes: ModuleDefinition["lanes"] = [
   {
@@ -61,6 +68,7 @@ const technologyQuestionsByMode: ModuleDefinition["questionsByMode"] = {
 
 export const technologyModule: ModuleDefinition = {
   slug: "technology",
+  defaultHeadline: "Technology read: no single tool dominates",
   shortTitle: "Technology",
   title: "Technology, AI, and Geoeconomics",
   subtitle: "A focused read on chokepoints, industrial policy, AI governance, and strategic dependence",
@@ -110,10 +118,43 @@ export const technologyModule: ModuleDefinition = {
   ],
   lanes: technologyLanes,
   questionsByMode: technologyQuestionsByMode,
-  interpret(analytics) {
+  interpret(analytics, context) {
+    const mode = getModuleClassificationMode(analytics, context)
     const { control, governance, industrial, safety } = analytics.scores
+    const headlineContext = { kind: "headline" } as const
+    const controlPosition = standardizeModuleAxis(
+      "technology",
+      mode,
+      headlineContext,
+      "control",
+      control,
+    )
+    const governancePosition = standardizeModuleAxis(
+      "technology",
+      mode,
+      headlineContext,
+      "governance",
+      governance,
+    )
+    const industrialPosition = standardizeModuleAxis(
+      "technology",
+      mode,
+      headlineContext,
+      "industrial",
+      industrial,
+    )
+    const safetyPosition = standardizeModuleAxis(
+      "technology",
+      mode,
+      headlineContext,
+      "safety",
+      safety,
+    )
 
-    if (control >= 5.5 && industrial >= 5.3) {
+    if (
+      controlPosition.value >= controlPosition.upper &&
+      industrialPosition.value >= industrialPosition.upper
+    ) {
       return {
         headline: "Technology read: control with capacity-building",
         summary:
@@ -128,7 +169,7 @@ export const technologyModule: ModuleDefinition = {
       }
     }
 
-    if (governance >= 5.5) {
+    if (governancePosition.value >= governancePosition.upper) {
       return {
         headline: "Technology read: coordinated governance",
         summary:
@@ -143,7 +184,7 @@ export const technologyModule: ModuleDefinition = {
       }
     }
 
-    if (safety >= 5.8) {
+    if (safetyPosition.value >= safetyPosition.upper) {
       return {
         headline: "Technology read: safety-first constraint",
         summary:
@@ -158,7 +199,10 @@ export const technologyModule: ModuleDefinition = {
       }
     }
 
-    if (control <= 3.7 && industrial <= 4.0) {
+    if (
+      controlPosition.value <= controlPosition.lower &&
+      industrialPosition.value <= industrialPosition.lower
+    ) {
       return {
         headline: "Technology read: openness with targeted safeguards",
         summary:
@@ -186,11 +230,27 @@ export const technologyModule: ModuleDefinition = {
         "Your threshold for harder control or broader openness is still unspecified. A case that forces one tool ahead of the others would settle it.",
     }
   },
-  summarizeLanes(analytics, foundation) {
+  summarizeLanes(analytics, foundation, context) {
+    const mode = getModuleClassificationMode(analytics, context)
     return [
-      summarizeTechnologyLane("controls", analytics.laneScores.controls, foundation),
-      summarizeTechnologyLane("capacity", analytics.laneScores.capacity, foundation),
-      summarizeTechnologyLane("governance", analytics.laneScores.governance, foundation),
+      summarizeTechnologyLane(
+        "controls",
+        analytics.laneScores.controls,
+        mode,
+        foundation,
+      ),
+      summarizeTechnologyLane(
+        "capacity",
+        analytics.laneScores.capacity,
+        mode,
+        foundation,
+      ),
+      summarizeTechnologyLane(
+        "governance",
+        analytics.laneScores.governance,
+        mode,
+        foundation,
+      ),
     ]
   },
   summarizeCardTypes(analytics) {
@@ -285,6 +345,7 @@ export const technologyModule: ModuleDefinition = {
 function summarizeTechnologyLane(
   laneKey: string,
   scores: Record<string, number>,
+  mode: QuizMode,
   foundation?: DimensionScores,
 ): ModuleLaneSummary {
   const lane = technologyLanes.find((candidate) => candidate.key === laneKey)
@@ -301,12 +362,19 @@ function summarizeTechnologyLane(
 
   if (laneKey === "controls") {
     const control = scores.control ?? 4
+    const controlPosition = standardizeModuleAxis(
+      "technology",
+      mode,
+      { kind: "lane", laneKey },
+      "control",
+      control,
+    )
     let summary = "This lane sits between chokepoint control and open exchange; neither pulled clear."
 
-    if (control >= 5.2) {
+    if (controlPosition.value >= controlPosition.upper) {
       summary =
         "This lane hardens toward chokepoint protection and dependence management. Openness looks fragile when strategic leverage is at stake."
-    } else if (control <= 3.8) {
+    } else if (controlPosition.value <= controlPosition.lower) {
       summary =
         "This lane stays more open by default. It resists treating every technology gap as a reason for broad restriction."
     }
@@ -319,7 +387,9 @@ function summarizeTechnologyLane(
       lowLabel: lane.lowLabel,
       highLabel: lane.highLabel,
       delta:
-        foundation && control >= 5.2 && foundation.restraint >= 5.15
+        foundation &&
+        controlPosition.value >= controlPosition.upper &&
+        foundation.restraint >= 5.15
           ? "More control-first than your baseline strategic restraint."
           : undefined,
     }
@@ -327,12 +397,19 @@ function summarizeTechnologyLane(
 
   if (laneKey === "capacity") {
     const industrial = scores.industrial ?? 4
+    const industrialPosition = standardizeModuleAxis(
+      "technology",
+      mode,
+      { kind: "lane", laneKey },
+      "industrial",
+      industrial,
+    )
     let summary = "This lane sits between market adaptation and state-led capacity; neither pulled clear."
 
-    if (industrial >= 5.2) {
+    if (industrialPosition.value >= industrialPosition.upper) {
       summary =
         "This lane is capacity-led. It treats public investment, productive depth, and shared infrastructure as strategic necessities rather than optional economic policy."
-    } else if (industrial <= 3.8) {
+    } else if (industrialPosition.value <= industrialPosition.lower) {
       summary =
         "This lane is more market-led. It worries that heavy planning can freeze the field around political guesses."
     }
@@ -345,7 +422,9 @@ function summarizeTechnologyLane(
       lowLabel: lane.lowLabel,
       highLabel: lane.highLabel,
       delta:
-        foundation && industrial >= 5.2 && foundation.politicalEconomy <= 3.85
+        foundation &&
+        industrialPosition.value >= industrialPosition.upper &&
+        foundation.politicalEconomy <= 3.85
           ? "More capacity-led than your Foundation's lighter political-economy read."
           : undefined,
     }
@@ -353,12 +432,30 @@ function summarizeTechnologyLane(
 
   const governance = scores.governance ?? 4
   const safety = scores.safety ?? 4
+  const laneContext = { kind: "lane", laneKey } as const
+  const governancePosition = standardizeModuleAxis(
+    "technology",
+    mode,
+    laneContext,
+    "governance",
+    governance,
+  )
+  const safetyPosition = standardizeModuleAxis(
+    "technology",
+    mode,
+    laneContext,
+    "safety",
+    safety,
+  )
   let summary = "This lane sits between national discretion and coordinated rules; neither pulled clear."
 
-  if (governance >= 5.2 && safety >= 5.0) {
+  if (
+    governancePosition.value >= governancePosition.upper &&
+    safetyPosition.value >= safetyPosition.upper
+  ) {
     summary =
       "This lane favors shared rules and enforceable guardrails. Access should stay open enough to matter, but not so open that governance becomes ceremonial."
-  } else if (governance <= 3.8) {
+  } else if (governancePosition.value <= governancePosition.lower) {
     summary =
       "This lane is more national and tool-specific. It doubts that slow or weak coordination can keep pace with the field."
   }
@@ -371,7 +468,9 @@ function summarizeTechnologyLane(
     lowLabel: lane.lowLabel,
     highLabel: lane.highLabel,
     delta:
-      foundation && governance >= 5.2 && foundation.institutions <= 3.85
+      foundation &&
+      governancePosition.value >= governancePosition.upper &&
+      foundation.institutions <= 3.85
         ? "More coordination-minded than your more skeptical Foundation baseline."
         : undefined,
   }

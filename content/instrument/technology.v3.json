@@ -1,0 +1,1258 @@
+{
+  "instrument": "technology",
+  "instrumentVersion": 3,
+  "items": [
+    {
+      "id": "chips_controls",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance"
+      ],
+      "lane": "controls",
+      "cardType": "decision",
+      "title": "Responding to tighter chip controls",
+      "prompt": "Which priority should receive the largest share of the response budget?",
+      "scene": "Beijing's technology commission has 30 days to allocate a response budget after another round of restrictions on advanced chips and manufacturing tools. It must choose whether to replace vulnerable foreign inputs, preserve selective outside access, invest across the wider chip industry, or avoid an expensive overreaction.",
+      "whyHard": "Trying to duplicate every bottleneck is costly. Leaving key layers exposed lets foreign governments set the ceiling on future capacity.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "Answer from the target state's industrial-policy position, not from Washington's preferred line."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "Restrictions are tightening, but Chinese firms still retain some access, workarounds, and investment room."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "China wants to reduce exposure without wasting capital on every symbolic bottleneck at once."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether the main danger is short-run capability loss, long-run dependency, or overreaction."
+        }
+      ],
+      "perspectiveTags": [
+        "major-power",
+        "industrial",
+        "export-controls"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "preserve_the_chokepoint",
+          "title": "Replace vulnerable foreign inputs first",
+          "label": "The first job is to replace the foreign tools and components most likely to be cut off, even if doing so is expensive now.",
+          "signals": {
+            "control": 6.3,
+            "governance": 3.4,
+            "industrial": 4,
+            "safety": 4.6
+          }
+        },
+        {
+          "id": "coordinate_narrow_controls",
+          "title": "Protect the access that remains",
+          "label": "Selective cooperation, narrower retaliation, and targeted diplomacy may preserve room that a full break would destroy.",
+          "signals": {
+            "control": 5.2,
+            "governance": 6.2,
+            "industrial": 4,
+            "safety": 4.8
+          }
+        },
+        {
+          "id": "build_capacity_instead",
+          "title": "Invest across the chip industry",
+          "label": "The priority should be talent, tools, power, finance, and manufacturing capacity rather than replacing every advanced input at once.",
+          "signals": {
+            "control": 4.8,
+            "governance": 4.8,
+            "industrial": 4,
+            "safety": 4.4
+          }
+        },
+        {
+          "id": "avoid_total_securitization",
+          "title": "Avoid an emergency buildout",
+          "label": "A rushed response can waste money and deepen political divisions faster than the restrictions themselves.",
+          "signals": {
+            "control": 2.9,
+            "governance": 4.2,
+            "industrial": 4,
+            "safety": 3.9
+          }
+        }
+      ]
+    },
+    {
+      "id": "open_weight_models",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "safety"
+      ],
+      "lane": "controls",
+      "cardType": "decision",
+      "title": "Releasing a powerful open-weight model",
+      "prompt": "Which rule should guide the board's decision?",
+      "scene": "A frontier lab's board must set release terms two weeks before the planned publication of a powerful model that others could freely download and modify. The board must choose between a capability limit, a staged release, broad public access, or tighter rules on how high-risk systems are deployed.",
+      "whyHard": "The same release can widen innovation and widen misuse at the same time, so the question is which risk should anchor the policy line.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "Labs, governments, researchers, and smaller developers do not bear the gains and risks of release equally."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear where targeted openness ends and uncontrolled proliferation begins."
+        }
+      ],
+      "perspectiveTags": [
+        "ai-governance",
+        "research-access",
+        "safety"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "restrict_above_threshold",
+          "title": "Restrict highly capable models",
+          "label": "Once a model exceeds a defined capability level, broad release becomes a misuse and security risk rather than a normal research choice.",
+          "signals": {
+            "control": 5.9,
+            "governance": 4,
+            "industrial": 4,
+            "safety": 6.4
+          }
+        },
+        {
+          "id": "staged_release_rules",
+          "title": "Release in stages",
+          "label": "Wider access should follow shared testing and security checks, with each stage opening only after the previous one proves manageable.",
+          "signals": {
+            "control": 4.9,
+            "governance": 4,
+            "industrial": 4,
+            "safety": 5.7
+          }
+        },
+        {
+          "id": "keep_access_broad",
+          "title": "Keep model access broad",
+          "label": "Locking powerful models behind a few firms or governments carries its own political and innovation costs. Openness should remain the default.",
+          "signals": {
+            "control": 2.8,
+            "governance": 4,
+            "industrial": 4,
+            "safety": 3.2
+          }
+        },
+        {
+          "id": "focus_on_deployer_controls",
+          "title": "Regulate high-risk uses",
+          "label": "Rules should focus on who puts high-risk systems into use and under what safeguards, rather than treating the downloadable model as the whole problem.",
+          "signals": {
+            "control": 3.9,
+            "governance": 4,
+            "industrial": 4,
+            "safety": 4.6
+          }
+        }
+      ]
+    },
+    {
+      "id": "sovereign_stacks",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance",
+        "industrial"
+      ],
+      "lane": "controls",
+      "cardType": "explanation",
+      "title": "Foreign clouds and local AI infrastructure",
+      "prompt": "Which argument should carry the most weight in the cabinet's plan?",
+      "scene": "A lower-income country's cabinet has 60 days, before its government-cloud contracts renew, to choose a localization and procurement plan. The state relies on foreign cloud providers, imported data-center hardware, and outside software. Ministers must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system.",
+      "whyHard": "The same move can be about control, bargaining power, development, or politics. The reason you think is primary changes what policy follows.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The state wants digital growth, but it cannot cheaply build every layer itself."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "Local rules may reduce exposure, or they may just move dependence into a more expensive form."
+        }
+      ],
+      "perspectiveTags": [
+        "developmental",
+        "dependency",
+        "digital-sovereignty",
+        "state-capacity"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "strategic_control_logic",
+          "title": "Keep control of sensitive systems",
+          "label": "The main goal is to keep sensitive data, computing capacity, and decisions about system use under national control.",
+          "signals": {
+            "control": 6.1,
+            "governance": 3.2,
+            "industrial": 5.8,
+            "safety": 4.5
+          }
+        },
+        {
+          "id": "dependency_management_logic",
+          "title": "Reduce the risk of being cut off",
+          "label": "The strongest reason is to avoid infrastructure the state cannot shape if export controls, sanctions, or a provider's withdrawal cut access.",
+          "signals": {
+            "control": 5.6,
+            "governance": 4,
+            "industrial": 5.1,
+            "safety": 4.4
+          }
+        },
+        {
+          "id": "development_room_logic",
+          "title": "Build local skills and firms",
+          "label": "The goal is to build enough local expertise and business capacity to avoid permanent digital dependence.",
+          "signals": {
+            "control": 4.2,
+            "governance": 4.8,
+            "industrial": 5.4,
+            "safety": 4.2
+          }
+        },
+        {
+          "id": "fragmentation_cost_logic",
+          "title": "Do not fund a costly split",
+          "label": "Local infrastructure spending can divert scarce money and split apart systems that work better together.",
+          "signals": {
+            "control": 3,
+            "governance": 5.4,
+            "industrial": 2.9,
+            "safety": 4.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "fab_resilience",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance",
+        "industrial"
+      ],
+      "lane": "capacity",
+      "cardType": "decision",
+      "title": "Making chip supply more resilient",
+      "prompt": "Which investment should receive priority?",
+      "scene": "A cabinet has six weeks, before its budget closes, to choose a package of investments that will make its semiconductor supply chain more resilient. The country depends heavily on Taiwanese and Korean factories, and ministers must choose among more production at home, production shared with allies, reinforcement of several supply-chain links, or a limited response that preserves open trade.",
+      "whyHard": "Concentration at the frontier is risky, but trying to duplicate everything can be wasteful enough to weaken the capacity you are trying to build.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The state needs more resilience but cannot cheaply recreate the whole semiconductor stack on its own."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "There is no clean line between prudent redundancy and politically expensive overbuilding."
+        }
+      ],
+      "perspectiveTags": [
+        "industrial",
+        "alliance-manager",
+        "supply-chain"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "duplicate_capacity_home",
+          "title": "Build more production at home",
+          "label": "Concentrated overseas production is the vulnerability. Strategic sectors need spare domestic capacity even when it is expensive.",
+          "signals": {
+            "control": 5.2,
+            "governance": 3.8,
+            "industrial": 6.1,
+            "safety": 4
+          }
+        },
+        {
+          "id": "trusted_networks",
+          "title": "Spread production across trusted partners",
+          "label": "Resilience comes from manufacturing across several trusted countries, not from every state trying to rebuild the entire supply chain alone.",
+          "signals": {
+            "control": 4.4,
+            "governance": 6,
+            "industrial": 5,
+            "safety": 4.2
+          }
+        },
+        {
+          "id": "portfolio_depth",
+          "title": "Strengthen several weak links",
+          "label": "The practical answer is backup capacity in design tools, packaging, inventories, and key inputs rather than one large factory program.",
+          "signals": {
+            "control": 4.5,
+            "governance": 4.8,
+            "industrial": 5.6,
+            "safety": 4.1
+          }
+        },
+        {
+          "id": "avoid_overcorrection",
+          "title": "Avoid overcorrection",
+          "label": "Concentration is risky, but duplicating everything can freeze resources and lock in the wrong industrial bets.",
+          "signals": {
+            "control": 3,
+            "governance": 4.3,
+            "industrial": 3.4,
+            "safety": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "industrial_policy",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance",
+        "industrial"
+      ],
+      "lane": "capacity",
+      "cardType": "explanation",
+      "title": "Building national AI capacity",
+      "prompt": "Which investment model offers the best chance of building durable capacity?",
+      "scene": "A middle-power cabinet must submit a national investment plan for computing capacity, cloud services, and data centers in 30 days. Ministers agree the country cannot build every part of the industry, but must decide whether public infrastructure, cooperation with partners, private investment, or protected domestic capacity should lead the plan.",
+      "whyHard": "If you misread where advantage comes from, you can spend heavily and still stay dependent.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The state wants more capacity, but its fiscal room and technical base are limited."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether catch-up comes mainly from public buildout, market adaptation, coalition specialization, or protected autonomy."
+        }
+      ],
+      "perspectiveTags": [
+        "developmental",
+        "industrial",
+        "state-capacity",
+        "middle-income"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "state_buildout_logic",
+          "title": "Build public infrastructure",
+          "label": "Strategic industries rarely reach the needed scale or speed without public finance and infrastructure.",
+          "signals": {
+            "control": 5.1,
+            "governance": 4.2,
+            "industrial": 6.4,
+            "safety": 4.1
+          }
+        },
+        {
+          "id": "specialization_logic",
+          "title": "Share costs with partners",
+          "label": "The stronger model is to share investment and specialize with partners instead of trying to build every part of the industry alone.",
+          "signals": {
+            "control": 4.3,
+            "governance": 6.1,
+            "industrial": 4.8,
+            "safety": 4.2
+          }
+        },
+        {
+          "id": "market_adaptation_logic",
+          "title": "Let firms adapt within basic rules",
+          "label": "Government should provide basic infrastructure and rules, but detailed planning can lock money into the wrong technologies.",
+          "signals": {
+            "control": 3.1,
+            "governance": 4.1,
+            "industrial": 2.8,
+            "safety": 4
+          }
+        },
+        {
+          "id": "autonomy_depth_logic",
+          "title": "Protect some domestic capacity",
+          "label": "Dependence on foreign finance, cloud services, or tools creates future vulnerability. Some domestic capacity has to be built and protected.",
+          "signals": {
+            "control": 6.2,
+            "governance": 3,
+            "industrial": 5.9,
+            "safety": 4.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "public_compute",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+    "discriminatingAxes": [
+      "governance",
+      "industrial",
+      "safety"
+    ],
+    "lane": "capacity",
+    "cardType": "decision",
+    "title": "Public computing access and safeguards",
+    "prompt": "Which access and safeguard model should the ministry fund?",
+    "scene": "A national science ministry must choose within six weeks how to spend its domestic research-computing budget. Universities and startups want broader access, while safety officials warn that high-risk model work needs screening, monitoring, and limits. The ministry must decide which access and safeguard model to fund.",
+    "whyHard": "Broad access can widen participation, but high-risk work requires safeguards that may raise costs and limit who can use the system.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "Access affects who can do research, train talent, and build downstream capability."
+        },
+      {
+        "label": "Uncertainty",
+        "text": "A public service can widen participation, but it may still cost more and expand more slowly than private capacity."
+        }
+      ],
+      "perspectiveTags": [
+        "developmental",
+        "research",
+        "state-capacity"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+      {
+        "id": "build_public_compute",
+        "title": "Fund a public computing service",
+        "label": "A public service can widen research access while directly screening and monitoring high-risk projects.",
+        "signals": {
+          "control": 4.2,
+          "governance": 5.1,
+          "industrial": 6.2,
+          "safety": 5
+        }
+      },
+      {
+        "id": "share_trusted_infrastructure",
+        "title": "Share facilities with trusted partners",
+        "label": "Partners can pool research facilities so more teams gain access while members share screening and monitoring.",
+        "signals": {
+          "control": 4,
+          "governance": 6.1,
+          "industrial": 5,
+          "safety": 6
+        }
+      },
+      {
+        "id": "let_private_scale_lead",
+        "title": "Buy access from private providers",
+        "label": "Private providers can add capacity faster. The ministry can buy access and set clear safety terms without building a public system.",
+        "signals": {
+          "control": 3.2,
+          "governance": 3.2,
+          "industrial": 2.9,
+          "safety": 3
+        }
+      },
+      {
+        "id": "treat_access_as_development",
+        "title": "Prioritize underserved users",
+        "label": "Fund lower-risk education and public-service uses first, rather than making costly controls for high-risk model work the center of the program.",
+        "signals": {
+          "control": 3.8,
+          "governance": 5.2,
+          "industrial": 5.4,
+          "safety": 3.4
+        }
+      }
+      ]
+    },
+    {
+      "id": "frontier_ai_governance",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+    "discriminatingAxes": [
+      "control",
+      "governance",
+      "safety"
+    ],
+    "lane": "governance",
+    "cardType": "decision",
+    "title": "Rules for the most capable AI systems",
+    "prompt": "Which priority should anchor the bill?",
+    "scene": "A legislature and the executive have 30 days to agree on a bill for the most capable AI systems. They must decide how to combine binding rules, coordination with capable partners, open development, and national-security needs before the vote.",
+    "whyHard": "Rules that arrive late may miss serious risks, while overly broad rules may entrench a few governments or firms and block useful work.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "States want to manage real risk without handing the field by default to a few governments or firms."
+        },
+      {
+        "label": "Uncertainty",
+        "text": "No one knows whether technical progress will outpace voluntary commitments, binding rules, or both."
+        }
+      ],
+      "perspectiveTags": [
+        "ai-governance",
+        "safety",
+        "major-power"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+      {
+        "id": "use_hard_thresholds",
+        "title": "Set binding rules for high-risk systems",
+        "label": "Require licenses and tests once systems reach defined capability levels, because some risks arrive before markets or voluntary commitments can respond.",
+        "signals": {
+          "control": 6,
+          "governance": 4.6,
+          "industrial": 4,
+          "safety": 6.3
+        }
+      },
+      {
+        "id": "govern_with_capable_partners",
+        "title": "Set rules with capable partners",
+        "label": "The strongest path is shared standards and coordinated restrictions among states that can actually enforce them.",
+        "signals": {
+          "control": 5,
+          "governance": 6.4,
+          "industrial": 4,
+          "safety": 5.6
+        }
+      },
+      {
+        "id": "keep_innovation_open",
+        "title": "Keep broad development open",
+        "label": "Broad restrictions will favor established firms and slow useful progress. Safeguards should target demonstrated risks.",
+          "signals": {
+            "control": 2.9,
+            "governance": 4,
+            "industrial": 4,
+            "safety": 3.3
+          }
+        },
+      {
+        "id": "treat_capability_as_strategic",
+        "title": "Protect national capability first",
+        "label": "The first priority is national capability. New rules should not impose lasting limits that rivals do not share.",
+        "signals": {
+          "control": 5.8,
+          "governance": 2.9,
+          "industrial": 4,
+          "safety": 4.3
+        }
+      }
+      ]
+    },
+    {
+      "id": "military_ai",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "governance",
+        "safety"
+      ],
+      "lane": "governance",
+      "cardType": "decision",
+    "title": "Military use of AI",
+    "prompt": "Which concern should set the fielding decision?",
+    "scene": "Before a major exercise in 30 days, a defense ministry must decide whether to field AI-assisted targeting and command tools while its testing rules are still incomplete. Commanders warn that waiting could leave the force behind a rival. Lawyers and allies warn that rushing could spread unclear rules and weak accountability across the coalition.",
+    "whyHard": "Speed and caution are both strategic arguments. The immediate question is what should set the fielding standard before early practice becomes coalition doctrine.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "You are judging a defense ministry deciding whether to authorize broader deployment now."
+        },
+      {
+        "label": "Crisis stage",
+        "text": "The technology is moving from limited experiments toward routine military use."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "Allies may inherit the doctrine and risk before common safeguards are in place."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "A slower rollout may preserve control, but it may also hand real operational learning to a rival."
+        }
+      ],
+      "perspectiveTags": [
+        "military",
+        "alliance-manager",
+        "safety"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+      {
+        "id": "field_quickly",
+        "title": "Field now to learn faster",
+        "label": "Waiting for near certainty could let a rival gain the first practical lessons and shape how these systems are used.",
+        "signals": {
+          "control": 4.8,
+          "governance": 3.9,
+          "industrial": 4,
+          "safety": 3.8
+        }
+      },
+      {
+        "id": "gate_the_fielding",
+        "title": "Require staged tests before wider use",
+        "label": "Broader use should follow staged testing, records that can be reviewed, and firm limits on autonomous action.",
+        "signals": {
+          "control": 5.6,
+          "governance": 4.8,
+          "industrial": 4,
+          "safety": 6.2
+        }
+      },
+      {
+        "id": "set_coalition_baselines",
+        "title": "Agree allied rules before fielding",
+        "label": "Close partners could otherwise deploy under conflicting rules and create dangerous gaps in shared operations.",
+        "signals": {
+          "control": 4.6,
+          "governance": 6,
+          "industrial": 4,
+          "safety": 5.5
+        }
+      },
+      {
+        "id": "protect_human_accountability",
+        "title": "Keep people clearly responsible",
+        "label": "Commanders must remain clearly responsible when technical errors or unclear system advice shape a decision.",
+          "signals": {
+            "control": 4.4,
+            "governance": 5,
+            "industrial": 4,
+            "safety": 6
+          }
+        }
+      ]
+    },
+    {
+      "id": "digital_development",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance"
+      ],
+      "lane": "governance",
+      "cardType": "actorLens",
+    "title": "Technology investment under sanctions",
+    "prompt": "Which priority should guide the cabinet's investment?",
+    "scene": "A sanctions-constrained middle-income country's cabinet must allocate scarce public money before its budget closes in six weeks. It wants computing and cloud services for education, logistics, and public services. Outside suppliers can deliver quickly, but could expose sensitive data or create political dependence. The cabinet must choose the national technology strategy to fund.",
+    "whyHard": "A supplier relationship that looks manageable now could later let another government or company restrict access or demand political concessions.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "This is a pressure test. Answer from the government's own strategic position, not from what Washington, Beijing, or a donor would prefer."
+        },
+      {
+        "label": "Crisis stage",
+        "text": "This is an early investment decision, before changing suppliers becomes difficult and expensive."
+        },
+      {
+        "label": "Immediate constraint",
+        "text": "The state cannot build domestic versions of every service it needs, but it still wants bargaining power and protection for sensitive systems."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether sovereignty, diversification, shared capacity, or simple access is the decisive constraint."
+        }
+      ],
+      "perspectiveTags": [
+        "developmental",
+        "middle-income",
+        "dependency",
+        "state-capacity"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+      {
+        "id": "sovereign_capacity_problem",
+        "title": "Build more capacity at home",
+        "label": "Invest in domestic data systems, technical staff, and cloud services so outside suppliers cannot easily cut access or dictate terms.",
+        "signals": {
+          "control": 5.8,
+          "governance": 3.3,
+          "industrial": 4,
+          "safety": 4.1
+        }
+      },
+      {
+        "id": "interoperability_problem",
+        "title": "Keep suppliers interchangeable",
+        "label": "Use several suppliers and require common, portable standards so the country can switch if one relationship becomes costly or political.",
+        "signals": {
+          "control": 4.3,
+          "governance": 6,
+          "industrial": 4,
+          "safety": 4.3
+        }
+      },
+      {
+        "id": "collective_capacity_problem",
+        "title": "Pool capacity with other states",
+        "label": "Shared computing facilities, training, and purchasing may be the only affordable way to gain access and bargaining power.",
+        "signals": {
+          "control": 4.1,
+          "governance": 5.6,
+          "industrial": 4,
+          "safety": 4.2
+        }
+      },
+      {
+        "id": "exclusion_problem",
+        "title": "Secure useful access first",
+        "label": "The immediate danger is missing the technology shift altogether. Affordable working services should come before an expensive push for independence.",
+        "signals": {
+          "control": 2.8,
+          "governance": 4.2,
+          "industrial": 4,
+          "safety": 4
+        }
+      }
+      ]
+    },
+    {
+      "id": "containment_critique",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance"
+      ],
+      "lane": "controls",
+      "cardType": "actorLens",
+    "title": "Choosing amid U.S.-China technology pressure",
+    "prompt": "Which reading should guide the cabinet's choice?",
+    "scene": "A large nonaligned country's cabinet must decide whether to join a new technology-security arrangement before trade and technology talks next month. The United States describes its new controls as security measures, while China threatens retaliation and calls them an effort to preserve unequal power. The cabinet must choose how to interpret the dispute and protect the country's interests.",
+    "whyHard": "Both major powers offer ready-made explanations. The cabinet still has to decide which one best protects the country's interests.",
+      "contextBullets": [
+        {
+          "label": "Actor role",
+          "text": "This is a pressure test. Answer from the government's own strategic position, not from Washington's or Beijing's preferred framing."
+        },
+        {
+          "label": "Crisis stage",
+          "text": "The controls fight is active, but the government still has room to decide how closely it will align."
+        },
+        {
+          "label": "Immediate constraint",
+          "text": "The state wants advanced technology access without becoming permanently subordinate to either camp."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether the controls are a narrow security measure or part of a longer strategy to preserve hierarchy."
+        }
+      ],
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "developmental",
+        "export-controls"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+      {
+        "id": "strategic_denial_is_real",
+        "title": "Some technologies change military power",
+        "label": "Some technologies really do alter the balance of power. Governments will act on that whether rivals call it containment or not.",
+        "signals": {
+          "control": 6,
+          "governance": 3.6,
+          "industrial": 4,
+          "safety": 4.4
+        }
+      },
+      {
+        "id": "rule_design_is_the_issue",
+        "title": "Judge how narrowly the rules are drawn",
+        "label": "Controls are easier to defend when they are narrow, public, and coordinated rather than broad and unpredictable.",
+        "signals": {
+          "control": 5,
+          "governance": 6.2,
+          "industrial": 4,
+          "safety": 4.6
+        }
+      },
+      {
+        "id": "hierarchy_management_is_real",
+        "title": "The rules can preserve unequal power",
+        "label": "Security risks can be real while controls also preserve unequal control over technological progress.",
+        "signals": {
+          "control": 4.2,
+          "governance": 4.8,
+          "industrial": 4,
+          "safety": 4.2
+        }
+      },
+      {
+        "id": "nonalignment_will_persist",
+        "title": "Keep working with both sides",
+        "label": "Working with both camps can protect the country's choices because each offers useful access alongside political pressure.",
+        "signals": {
+          "control": 3,
+          "governance": 4.6,
+          "industrial": 4,
+          "safety": 4
+        }
+        }
+      ]
+    },
+    {
+      "id": "data_center_dependence",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance"
+      ],
+      "lane": "controls",
+      "cardType": "decision",
+      "title": "A fast infrastructure deal with one provider",
+      "prompt": "Which condition should ministers prioritize before signing?",
+      "scene": "The cabinet's infrastructure ministers have 10 days to decide whether to sign a data-center contract with the only outside provider offering immediate finance. The provider would also run cloud security, maintenance, and most public-sector hosting, so ministers must choose between fast access, control of sensitive systems, multiple suppliers, or a regional alternative.",
+      "whyHard": "The deal could close a real capacity gap quickly, but it could also place sensitive systems under one foreign provider for years.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The state wants digital capacity now, but it does not want critical systems to become politically hard to replace later."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether the bigger danger is staying underbuilt now or accepting a form of dependence that hardens over time."
+        }
+      ],
+      "perspectiveTags": [
+        "developmental",
+        "dependency",
+        "state-capacity"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "take_access_now",
+          "title": "Build the capacity now",
+          "label": "The immediate capacity gap is the first problem. Building quickly matters more than avoiding every future dependence on an outside provider.",
+          "signals": {
+            "control": 2.9,
+            "governance": 4,
+            "industrial": 4,
+            "safety": 4
+          }
+        },
+        {
+          "id": "control_sensitive_layers",
+          "title": "Keep control of sensitive systems",
+          "label": "The state should move only if it keeps control over security, data, and the services that would be hardest to replace later.",
+          "signals": {
+            "control": 6,
+            "governance": 3.3,
+            "industrial": 4,
+            "safety": 4.4
+          }
+        },
+        {
+          "id": "diversify_before_lockin",
+          "title": "Require more than one supplier",
+          "label": "The better answer is multiple suppliers, portable standards, and contract terms that keep one provider from becoming decisive.",
+          "signals": {
+            "control": 4.4,
+            "governance": 6.1,
+            "industrial": 4,
+            "safety": 4.3
+          }
+        },
+        {
+          "id": "pool_regionally_first",
+          "title": "Build a regional option first",
+          "label": "Regional procurement and shared infrastructure may be slower, but they can widen bargaining room more than a fast bilateral deal.",
+          "signals": {
+            "control": 4,
+            "governance": 5.5,
+            "industrial": 4,
+            "safety": 4.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "subsidy_race",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "governance",
+        "industrial"
+      ],
+      "lane": "capacity",
+      "cardType": "decision",
+      "title": "Allied subsidy races",
+      "prompt": "Which principle should guide their subsidy budgets?",
+      "scene": "Allied finance ministers have 30 days, before national budget proposals close, to decide whether to coordinate subsidies for the same semiconductor and AI sectors. They must choose how much duplication to accept and whether partners should specialize in different parts of each industry.",
+      "whyHard": "Some overlap can protect supply, but too much makes allies compete for the same scarce workers, factories, and components.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "Governments want both reliable supply and domestic political credit, even when those goals conflict."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear where resilience ends and expensive duplication begins."
+        }
+      ],
+      "perspectiveTags": [
+        "alliance-manager",
+        "industrial",
+        "subsidies"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "accept_some_duplication",
+          "title": "Accept some duplication",
+          "label": "Strategic industries are too important to optimize only for efficiency. Some overlap is the price of resilience.",
+          "signals": {
+            "control": 5,
+            "governance": 3.9,
+            "industrial": 5.7,
+            "safety": 4
+          }
+        },
+        {
+          "id": "negotiate_specialization",
+          "title": "Divide roles among partners",
+          "label": "Partners gain more from complementary roles than from spending public money to outbid each other in the same sectors.",
+          "signals": {
+            "control": 4.2,
+            "governance": 6.3,
+            "industrial": 5,
+            "safety": 4.2
+          }
+        },
+        {
+          "id": "keep_national_depth",
+          "title": "Keep critical capacity at home",
+          "label": "Specialization is useful, but no government wants to discover too late that its most strategic capacity lives abroad.",
+          "signals": {
+            "control": 6,
+            "governance": 3.2,
+            "industrial": 5.8,
+            "safety": 4.1
+          }
+        },
+        {
+          "id": "let_market_discipline_sort",
+          "title": "Rely more on private investment",
+          "label": "Public subsidy races can spend enormous sums on political symbolism while crowding out more adaptive private investment.",
+          "signals": {
+            "control": 3.2,
+            "governance": 4,
+            "industrial": 2.9,
+            "safety": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "regional_public_compute",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance",
+        "industrial"
+      ],
+      "lane": "capacity",
+      "cardType": "decision",
+      "title": "Sharing public computing capacity across borders",
+      "prompt": "Which principle should guide how they finance and control the shared system?",
+      "scene": "Finance and security ministers from several middle powers will meet at a summit in six weeks to choose how to finance and control a shared public computing system. They must decide between keeping critical capacity at home, pooling capacity across the region, funding only gaps in power, cloud access, and training, or relying mainly on private investment.",
+      "whyHard": "Separate national systems are easier to control, but they may be too small to matter. A regional system can provide useful scale while creating new disputes over access and authority.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "These states want more capacity, but none can cheaply build every advanced layer alone."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether durable capacity comes from critical systems kept at home, shared regional scale, targeted public investment, or private investment."
+        }
+      ],
+      "perspectiveTags": [
+        "developmental",
+        "state-capacity",
+        "middle-income"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "keep_national_compute_depth",
+          "title": "Keep critical systems at home",
+          "label": "Shared access is useful, but strategic sectors still need national control over their most critical compute and cloud layers.",
+          "signals": {
+            "control": 5.8,
+            "governance": 3.4,
+            "industrial": 5.9,
+            "safety": 4.1
+          }
+        },
+        {
+          "id": "pool_scale_regionally",
+          "title": "Share capacity across the region",
+          "label": "A shared system is the strongest path because scale, talent, and bargaining power all improve when middle powers stop duplicating small national efforts.",
+          "signals": {
+            "control": 4.1,
+            "governance": 6.2,
+            "industrial": 6.1,
+            "safety": 4.3
+          }
+        },
+        {
+          "id": "fund_missing_layers",
+          "title": "Fund the missing pieces",
+          "label": "The better approach is targeted public support for power, cloud access, and training rather than one all-purpose regional system.",
+          "signals": {
+            "control": 4.6,
+            "governance": 5,
+            "industrial": 5.5,
+            "safety": 4.2
+          }
+        },
+        {
+          "id": "let_market_choose",
+          "title": "Let private investors choose",
+          "label": "Governments should widen access and basic infrastructure, but they should not guess too confidently which compute model will age best.",
+          "signals": {
+            "control": 3,
+            "governance": 4,
+            "industrial": 2.9,
+            "safety": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "incident_reporting",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "control",
+        "governance"
+      ],
+      "lane": "governance",
+      "cardType": "decision",
+      "title": "Model incidents and mandatory reporting",
+      "prompt": "Which rule should the crisis team adopt first?",
+      "scene": "A regulator's crisis team has 72 hours, before a frontier model service is allowed to resume, to set interim reporting and liability rules after the model contributed to a serious cyber and biosecurity incident. The team must decide how widely incident reports are shared, whether sensitive details stay in national channels, and whether developers or deployers bear responsibility.",
+      "whyHard": "Shared reports can make oversight enforceable, but some details could create new security risks if circulated broadly.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The incident has made the gap between voluntary safety talk and enforceable governance impossible to ignore."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "Too little disclosure preserves opacity; too much may create new security problems or freeze cooperation."
+        }
+      ],
+      "perspectiveTags": [
+        "safety",
+        "regulation",
+        "incident-response"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "mandate_shared_reporting",
+          "title": "Require shared incident reports",
+          "label": "Serious incidents should trigger common reporting and audit rules or oversight will remain mostly a promise.",
+          "signals": {
+            "control": 4.8,
+            "governance": 6.3,
+            "industrial": 4,
+            "safety": 6
+          }
+        },
+        {
+          "id": "keep_sensitive_reporting_national",
+          "title": "Keep sensitive reports in national channels",
+          "label": "Governments should require reporting, but the most consequential incidents belong in controlled national channels rather than broad shared disclosure.",
+          "signals": {
+            "control": 5.7,
+            "governance": 3.8,
+            "industrial": 4,
+            "safety": 5.8
+          }
+        },
+        {
+          "id": "shift_liability_to_deployment",
+          "title": "Hold deployers responsible too",
+          "label": "Organizations that put models into use should bear more responsibility; model developers are not the only actors who can prevent harm.",
+          "signals": {
+            "control": 4.1,
+            "governance": 5.2,
+            "industrial": 4,
+            "safety": 5.3
+          }
+        },
+        {
+          "id": "avoid_overgeneralizing_from_one_incident",
+          "title": "Write a narrow interim rule",
+          "label": "A serious incident warrants action, but one broad permanent reporting system may lock in the wrong rules before investigators know what caused the failure.",
+          "signals": {
+            "control": 3.2,
+            "governance": 4.2,
+            "industrial": 4,
+            "safety": 4.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_standards_voice",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "governance",
+        "safety"
+      ],
+      "lane": "governance",
+      "cardType": "explanation",
+      "title": "AI standards without broad voice",
+      "prompt": "Which concern should govern how a small club sets standards that will apply globally?",
+      "scene": "A standards group made up of technically capable states will vote in two weeks on AI testing and deployment rules that many other countries will have to follow. The group must decide whether technical capacity, broad participation, development costs, or national discretion should guide the standards.",
+      "whyHard": "A narrow group may write enforceable rules faster, but that does not settle whether other states will see them as legitimate, fair to developing economies, or compatible with national authority.",
+      "contextBullets": [
+        {
+          "label": "Actor / stake",
+          "text": "The standards will shape access, compliance costs, and deployment rules far beyond the states writing them."
+        },
+        {
+          "label": "Uncertainty",
+          "text": "It is unclear whether the bigger risk is weak enforcement, weak legitimacy, hidden development costs, or less ability for national governments to set their own rules."
+        }
+      ],
+      "perspectiveTags": [
+        "ai-governance",
+        "developmental",
+        "nonaligned",
+        "regulation"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "capable_states_must_lead",
+          "title": "Start with states that can enforce the rules",
+          "label": "The first requirement is enforceable standards, and only a narrow set of states currently has the technical and regulatory capacity to build them fast enough.",
+          "signals": {
+            "control": 5,
+            "governance": 5.8,
+            "industrial": 4,
+            "safety": 6
+          }
+        },
+        {
+          "id": "legitimacy_needs_voice",
+          "title": "Give more states a voice",
+          "label": "Rules that others must live under will be weaker in the long run if the writers treat broad participation as optional.",
+          "signals": {
+            "control": 4.1,
+            "governance": 6.3,
+            "industrial": 4,
+            "safety": 4.8
+          }
+        },
+        {
+          "id": "development_costs_are_hidden",
+          "title": "Account for unequal costs",
+          "label": "The sharper issue is that compliance costs and access barriers may fall hardest on states that were barely in the room when the rules were drafted.",
+          "signals": {
+            "control": 3.9,
+            "governance": 5,
+            "industrial": 4,
+            "safety": 4.4
+          }
+        },
+        {
+          "id": "sovereignty_room_matters",
+          "title": "Preserve national discretion",
+          "label": "Common safeguards are useful, but states should retain discretion over deployment choices even if that permits more variation and slows adoption of shared protections.",
+          "signals": {
+            "control": 5.5,
+            "governance": 3,
+            "industrial": 4,
+            "safety": 3
+          }
+        }
+      ]
+    }
+  ]
+}
