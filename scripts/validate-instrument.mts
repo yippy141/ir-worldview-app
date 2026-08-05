@@ -1,5 +1,16 @@
 import { readFile } from "node:fs/promises"
 import { resolve } from "node:path"
+import {
+  findCompromiseReviewFindings,
+  findDeclaredAxisFindings,
+  findMissingDeclaredAxisFindings,
+  findNoQualifyingAxisFindings,
+  getAxisOptionStats,
+  qualifyDiscriminatingAxes,
+  MEASUREMENT_GATES_BLOCKING,
+  type MeasurementFinding,
+  type MeasurementOption,
+} from "@/lib/instrument/measurement-gates"
 
 type JsonObject = Record<string, unknown>
 type InstrumentItem = JsonObject & {
@@ -9,6 +20,8 @@ type InstrumentItem = JsonObject & {
   axis?: unknown
   reverse?: unknown
   tier?: unknown
+  modes?: unknown
+  discriminatingAxes?: unknown
   options?: unknown
   analystOptions?: unknown
 }
@@ -25,17 +38,31 @@ type InstrumentBank = JsonObject & {
 
 const INSTRUMENT_FILES = [
   "foundation.v2.json",
-  "security.v2.json",
-  "technology.v2.json",
-  "ai-governance.v2.json",
+  "security.v3.json",
+  "technology.v3.json",
+  "ai-governance.v3.json",
 ] as const
+
+const AI_AXIS_KEYS = [
+  "riskHorizon",
+  "deploymentPace",
+  "oversight",
+  "geopolitics",
+  "openness",
+  "militaryRole",
+  "legitimacy",
+  "humanFuture",
+] as const
+const MODULE_AXIS_KEYS_BY_INSTRUMENT: Record<
+  "security" | "technology",
+  ReadonlySet<string>
+> = {
+  security: new Set(["activism", "escalation", "alliance", "legitimacy"]),
+  technology: new Set(["control", "governance", "industrial", "safety"]),
+} as const
 
 const contentDirectory = resolve(process.cwd(), "content/instrument")
 const schemaPath = resolve(contentDirectory, "schema.json")
-// V22 A2 lands these checks reporting-only so the existing banks can be
-// repaired against a complete failure list. A3 makes them blocking.
-const MEASUREMENT_CHECKS_BLOCKING = false
-
 function isObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value)
 }
@@ -268,81 +295,139 @@ function getSignals(option: InstrumentOption): Record<string, number> {
   )
 }
 
-function getChoiceMeasurementFailures(
+type InstrumentMode = "standard" | "analyst"
+
+type EffectiveOptionSet = {
+  mode: InstrumentMode
+  source: "options" | "analystOptions"
+  options: InstrumentOption[]
+}
+
+type ChoiceMeasurementFindings = {
+  gateFindings: MeasurementFinding[]
+  qualificationFindings: MeasurementFinding[]
+  compromiseReviewFindings: MeasurementFinding[]
+}
+
+function getItemModes(item: InstrumentItem): InstrumentMode[] {
+  if (!Array.isArray(item.modes)) return []
+  return item.modes.filter(
+    (mode): mode is InstrumentMode =>
+      mode === "standard" || mode === "analyst",
+  )
+}
+
+function getDeclaredAxes(item: InstrumentItem): string[] {
+  if (!Array.isArray(item.discriminatingAxes)) return []
+  return item.discriminatingAxes.filter(
+    (axis): axis is string => typeof axis === "string",
+  )
+}
+
+function getEffectiveOptionSets(item: InstrumentItem): EffectiveOptionSet[] {
+  const standardOptions = getOptions(item.options)
+  const analystOptions = getOptions(item.analystOptions)
+  const optionSets: EffectiveOptionSet[] = []
+  const seenSources = new Set<EffectiveOptionSet["source"]>()
+
+  for (const mode of getItemModes(item)) {
+    const source =
+      mode === "analyst" && analystOptions.length > 0
+        ? "analystOptions"
+        : "options"
+    if (seenSources.has(source)) continue
+
+    if (source === "analystOptions") {
+      optionSets.push({
+        mode,
+        source,
+        options: analystOptions,
+      })
+    } else if (standardOptions.length > 0) {
+      optionSets.push({ mode, source, options: standardOptions })
+    }
+    seenSources.add(source)
+  }
+
+  return optionSets
+}
+
+function toMeasurementOptions(
+  options: InstrumentOption[],
+): MeasurementOption<string>[] {
+  return options.map((option) => ({
+    id: String(option.id),
+    signals: getSignals(option),
+  }))
+}
+
+function getChoiceMeasurementFindings(
   item: InstrumentItem,
   instrument: string,
-): string[] {
-  if (![
-    "security",
-    "technology",
-    "ai-governance",
-  ].includes(instrument)) {
-    return []
+): ChoiceMeasurementFindings {
+  const empty: ChoiceMeasurementFindings = {
+    gateFindings: [],
+    qualificationFindings: [],
+    compromiseReviewFindings: [],
   }
+  if (!["security", "technology", "ai-governance"].includes(instrument)) {
+    return empty
+  }
+  if (item.kind === "likert") return empty
 
   const midpoint = instrument === "ai-governance" ? 0 : 4
-  const minimumSpread = instrument === "ai-governance" ? 0.5 : 2
-  const optionSets = (["options", "analystOptions"] as const)
-    .map((key) => ({ key, options: getOptions(item[key]) }))
-    .filter(({ options }) => options.length > 0)
-  const failures: string[] = []
+  const qualificationSpread = instrument === "ai-governance" ? 0.5 : 1.5
+  const gateSpread = instrument === "ai-governance" ? 0.5 : 2
+  const optionSets = getEffectiveOptionSets(item)
+  const declaredAxes = getDeclaredAxes(item)
+  const subject = `${instrument}.${String(item.id)}`
+  const moduleAxes = [
+    ...new Set(
+      optionSets.flatMap(({ options }) =>
+        options.flatMap((option) => Object.keys(getSignals(option))),
+      ),
+    ),
+  ].sort()
+  const axisUniverse = instrument === "ai-governance"
+    ? [...AI_AXIS_KEYS]
+    : moduleAxes
 
-  for (const { key, options } of optionSets) {
-    const signalMaps = options.map(getSignals)
-    const axes = [...new Set(signalMaps.flatMap((signals) => Object.keys(signals)))]
-      .sort()
+  empty.qualificationFindings.push(
+    ...findMissingDeclaredAxisFindings(subject, declaredAxes),
+  )
 
-    for (const axis of axes) {
-      const values = signalMaps.map((signals) => signals[axis] ?? midpoint)
-      const minimum = Math.min(...values)
-      const maximum = Math.max(...values)
-      const spread = maximum - minimum
-      const prefix = `${instrument}.${String(item.id)} ${key}.${axis}`
+  let qualifyingAxes = [...axisUniverse]
+  for (const optionSet of optionSets) {
+    const options = toMeasurementOptions(optionSet.options)
+    const stats = getAxisOptionStats(options, axisUniverse, midpoint)
+    const modeQualifiers = new Set(
+      qualifyDiscriminatingAxes(stats, qualificationSpread),
+    )
+    qualifyingAxes = qualifyingAxes.filter((axis) => modeQualifiers.has(axis))
 
-      if (!(minimum < midpoint && maximum > midpoint)) {
-        failures.push(
-          `${prefix} does not straddle ${midpoint.toFixed(1)} ` +
-            `(min ${minimum.toFixed(2)}, max ${maximum.toFixed(2)}).`,
-        )
-      }
-      if (spread < minimumSpread) {
-        failures.push(
-          `${prefix} spread is ${spread.toFixed(2)}; minimum ${minimumSpread.toFixed(2)}.`,
-        )
-      }
-    }
-
-    if (options.length < 3) continue
-    for (let candidateIndex = 0; candidateIndex < options.length; candidateIndex += 1) {
-      const candidate = signalMaps[candidateIndex]
-      let reported = false
-      for (let leftIndex = 0; leftIndex < options.length && !reported; leftIndex += 1) {
-        if (leftIndex === candidateIndex) continue
-        for (let rightIndex = leftIndex + 1; rightIndex < options.length; rightIndex += 1) {
-          if (rightIndex === candidateIndex) continue
-          const liesAtMean = axes.every((axis) => {
-            const candidateValue = candidate[axis] ?? midpoint
-            const pairMean =
-              ((signalMaps[leftIndex][axis] ?? midpoint) +
-                (signalMaps[rightIndex][axis] ?? midpoint)) /
-              2
-            return Math.abs(candidateValue - pairMean) <= 0.15
-          })
-          if (!liesAtMean) continue
-
-          failures.push(
-            `${instrument}.${String(item.id)} ${key} option ` +
-              `${String(options[candidateIndex].id)} is within 0.15 of the full-vector mean ` +
-              `of ${String(options[leftIndex].id)} and ${String(options[rightIndex].id)}.`,
-          )
-          reported = true
-          break
-        }
-      }
-    }
+    empty.gateFindings.push(
+      ...findDeclaredAxisFindings({
+        subject: `${subject}.${optionSet.source}`,
+        declaredAxes,
+        options,
+        midpoint,
+        minimumSpread: gateSpread,
+      }),
+    )
+    empty.compromiseReviewFindings.push(
+      ...findCompromiseReviewFindings({
+        subject: `${subject}.${optionSet.source}`,
+        axes: axisUniverse,
+        options,
+        midpoint,
+      }),
+    )
   }
 
-  return failures
+  empty.qualificationFindings.push(
+    ...findNoQualifyingAxisFindings(subject, qualifyingAxes),
+  )
+  return empty
 }
 
 function optionCountFailures(
@@ -383,7 +468,9 @@ const banks = await Promise.all(
 )
 
 const blockingErrors: string[] = []
-const measurementFailures: string[] = []
+const measurementGateFindings: MeasurementFinding[] = []
+const qualificationFindings: MeasurementFinding[] = []
+const compromiseReviewFindings: MeasurementFinding[] = []
 for (const { file, bank } of banks) {
   blockingErrors.push(
     ...validateAgainstSchema(bank, schemaValue, file, schemaValue),
@@ -455,12 +542,14 @@ for (const { file, bank } of banks) {
           : typeof item.axis === "string"
             ? item.axis
             : undefined
-      if (scoredAxis) {
-        const key = `${instrument}.${scoredAxis}`
-        const count = reverseCounts.get(key) ?? { reversed: 0, total: 0 }
-        count.total += 1
-        if (item.reverse === true) count.reversed += 1
-        reverseCounts.set(key, count)
+      if (scoredAxis && instrument === "ai-governance") {
+        for (const mode of getItemModes(item)) {
+          const key = `${instrument}.${mode}.${scoredAxis}`
+          const count = reverseCounts.get(key) ?? { reversed: 0, total: 0 }
+          count.total += 1
+          if (item.reverse === true) count.reversed += 1
+          reverseCounts.set(key, count)
+        }
       }
     }
 
@@ -470,6 +559,42 @@ for (const { file, bank } of banks) {
     ) {
       blockingErrors.push(
         `${instrument}.${id} references unknown DimensionKey "${item.dimension}".`,
+      )
+    }
+
+    if (instrument === "security" || instrument === "technology") {
+      const permittedAxes = MODULE_AXIS_KEYS_BY_INSTRUMENT[instrument]
+      for (const axis of getDeclaredAxes(item)) {
+        if (!permittedAxes.has(axis)) {
+          blockingErrors.push(
+            `${instrument}.${id} declares axis "${axis}", which is not ` +
+              `scored by that module.`,
+          )
+        }
+      }
+      for (const { options } of getEffectiveOptionSets(item)) {
+        for (const option of options) {
+          for (const axis of Object.keys(getSignals(option))) {
+            if (!permittedAxes.has(axis)) {
+              blockingErrors.push(
+                `${instrument}.${id} option ${String(option.id)} scores ` +
+                  `unknown module axis "${axis}".`,
+              )
+            }
+          }
+        }
+      }
+    }
+
+    if (
+      instrument === "ai-governance" &&
+      item.kind === "likert" &&
+      typeof item.axis === "string" &&
+      !sameJsonValue(getDeclaredAxes(item), [item.axis])
+    ) {
+      blockingErrors.push(
+        `${instrument}.${id} is Likert and must declare exactly its scored ` +
+          `axis "${item.axis}" as discriminating.`,
       )
     }
 
@@ -486,8 +611,11 @@ for (const { file, bank } of banks) {
       }
     }
 
-    measurementFailures.push(
-      ...getChoiceMeasurementFailures(item, instrument),
+    const choiceFindings = getChoiceMeasurementFindings(item, instrument)
+    measurementGateFindings.push(...choiceFindings.gateFindings)
+    qualificationFindings.push(...choiceFindings.qualificationFindings)
+    compromiseReviewFindings.push(
+      ...choiceFindings.compromiseReviewFindings,
     )
   }
 }
@@ -495,12 +623,19 @@ for (const { file, bank } of banks) {
 const reverseCodingFailures = [...reverseCounts.entries()]
   .filter(([, count]) => count.reversed / count.total < 0.4)
   .sort(([left], [right]) => left.localeCompare(right))
-  .map(([key, count]) => {
+  .map(([key, count]): MeasurementFinding => {
     const percentage = ((count.reversed / count.total) * 100).toFixed(1)
-    return `${key}: ${count.reversed}/${count.total} reverse-coded (${percentage}%; minimum 40%).`
+    return {
+      code: "reverse-coding",
+      classification: "gate",
+      subject: key,
+      message:
+        `${key}: ${count.reversed}/${count.total} reverse-coded ` +
+        `(${percentage}%; minimum 40%).`,
+    }
   })
 
-measurementFailures.push(...reverseCodingFailures)
+measurementGateFindings.push(...reverseCodingFailures)
 
 const foundationBank = banks.find(
   ({ bank }) => bank.instrument === "foundation",
@@ -579,17 +714,43 @@ for (const dimension of dimensionKeys) {
   }
 }
 
-if (MEASUREMENT_CHECKS_BLOCKING) {
-  blockingErrors.push(...measurementFailures)
-} else if (measurementFailures.length > 0) {
-  console.warn(
-    "Instrument measurement checks are reporting-only during V22 A2; " +
-      "A3 must repair these failures before the checks become blocking:",
+const uniqueFindingMessages = (findings: MeasurementFinding[]) =>
+  [...new Set(findings.map(({ message }) => message))]
+
+if (MEASUREMENT_GATES_BLOCKING) {
+  blockingErrors.push(
+    ...uniqueFindingMessages([
+      ...measurementGateFindings,
+      ...qualificationFindings,
+    ]),
   )
-  for (const error of [...new Set(measurementFailures)]) {
-    console.warn(`- ${error}`)
+} else {
+  console.warn(
+    "V22 measurement gates are reporting-only during Prompt 2A; " +
+      "they become blocking at the end of 2C.",
+  )
+  const gateMessages = uniqueFindingMessages(measurementGateFindings)
+  if (gateMessages.length === 0) {
+    console.warn("- Measurement gate failures: 0")
+  } else {
+    console.warn(`- Measurement gate failures: ${gateMessages.length}`)
+    for (const message of gateMessages) console.warn(`  - ${message}`)
   }
+
+  const qualificationMessages = uniqueFindingMessages(qualificationFindings)
+  console.warn(
+    `- Items with no qualifying discriminating axis: ` +
+      `${qualificationMessages.length}`,
+  )
+  for (const message of qualificationMessages) console.warn(`  - ${message}`)
 }
+
+const compromiseMessages = uniqueFindingMessages(compromiseReviewFindings)
+console.warn(
+  `Geometric-compromise review findings (permanently non-blocking): ` +
+    `${compromiseMessages.length}`,
+)
+for (const message of compromiseMessages) console.warn(`- ${message}`)
 
 if (blockingErrors.length > 0) {
   console.error("Instrument validation failed:")

@@ -666,10 +666,13 @@
   stroke-width: 1.8;
 }
 
+/* Fallback stroke for a profile with no family; tinted marks override it
+   inline. Tinted crosses run at full opacity so the tradition colour stays
+   distinguishable between the four families. */
 .patternGlyph {
   stroke: var(--text-2);
-  stroke-width: 1.6;
-  opacity: 0.82;
+  stroke-width: 1.7;
+  opacity: 0.92;
 }
 
 .referenceGlyph {

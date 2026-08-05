@@ -1,7 +1,5 @@
 import type { Locale } from "@/i18n/routing"
 import { chineseShellContent } from "@/content/locales/zh-Hans"
-import { archetypeLabelFromKey } from "@/lib/ai-governance-results"
-import { getModuleDefinition } from "@/lib/modules/framework"
 import {
   getPerspectiveDefinition,
   isPerspectiveId,
@@ -85,7 +83,7 @@ export function buildLocalizedProfileShareView(
             slug: snapshot.slug,
             title: zh
               ? ZH_SHARE.moduleLabels[snapshot.slug]
-              : getModuleDefinition(snapshot.slug)?.shortTitle ?? snapshot.title,
+              : snapshot.title,
             summary: zh
               ? ZH_SHARE.moduleSummary
               : snapshot.summary,
@@ -97,7 +95,7 @@ export function buildLocalizedProfileShareView(
           title: zh ? ZH_SHARE.aiTitle : "AI governance",
           label: zh
             ? ZH_SHARE.aiLabels[profile.aiGovernance.archetypeKey]
-            : archetypeLabelFromKey(profile.aiGovernance.archetypeKey),
+            : profile.aiGovernance.archetypeLabel,
           summary: zh
             ? ZH_SHARE.aiSummary
             : profile.aiGovernance.summary,

@@ -12,6 +12,7 @@ import {
   SECOND_CHOICE_WEIGHT,
 } from "@/lib/modules/framework"
 import type { ModuleAnswers, ModulePayload } from "@/lib/modules/types"
+import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
 
 function answersFor(moduleDefinition: (typeof modules)[number]) {
   return Object.fromEntries(
@@ -24,7 +25,9 @@ function answersFor(moduleDefinition: (typeof modules)[number]) {
 
 test("module payloads roundtrip through URL-safe base64 encoding", () => {
   const payloads: ModulePayload[] = modules.map((moduleDefinition) => ({
-    v: 2,
+    v: 3,
+    bv: MODULE_V22_TUPLE.bankVersion,
+    sv: MODULE_V22_TUPLE.scoringVersion,
     slug: moduleDefinition.slug,
     mode: "standard",
     answers: answersFor(moduleDefinition),

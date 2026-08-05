@@ -12,6 +12,7 @@ import {
   getModuleQuestions,
   moduleAllowsSecondChoice,
 } from "@/lib/modules/framework"
+import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { ModuleAnswers, ModuleLane, ModuleSlug } from "@/lib/modules/types"
@@ -167,7 +168,9 @@ export function ModuleApp({
 
   function handleGenerate() {
     const payload = encodeModulePayload({
-      v: 2,
+      v: 3,
+      bv: MODULE_V22_TUPLE.bankVersion,
+      sv: MODULE_V22_TUPLE.scoringVersion,
       slug,
       mode,
       answers,

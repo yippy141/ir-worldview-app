@@ -8,6 +8,7 @@ import {
 } from "@/lib/research/tier1-aggregate"
 import { FOUNDATION_INSTRUMENT_VERSION } from "@/lib/quiz-schema"
 import { tier1AggregatesEnabled } from "@/lib/research/feature-flags"
+import { takeTier1AggregateWriteToken } from "@/lib/research/tier1-rate-limit"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -213,6 +214,10 @@ export async function POST(request: Request) {
       )
     }
 
+    if (!takeTier1AggregateWriteToken(request, "completion")) {
+      return Response.json({ ok: true }, { status: 202 })
+    }
+
     try {
       await db.query(INCREMENT_COMPLETION, [
         FOUNDATION_INSTRUMENT_VERSION,
@@ -254,6 +259,10 @@ export async function POST(request: Request) {
       { ok: false, error: "Invalid aggregate form." },
       { status: 400 },
     )
+  }
+
+  if (!takeTier1AggregateWriteToken(request, "result")) {
+    return Response.json({ ok: true }, { status: 202 })
   }
 
   try {

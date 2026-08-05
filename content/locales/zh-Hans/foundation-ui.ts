@@ -105,7 +105,7 @@ export const zhHansFoundationQuizUi = {
     ? "1 — 完全不同意"
     : value === 7
       ? "7 — 完全同意"
-      : `${value} / 7`,
+      : `七点量表中的 ${value}`,
   secondMostPersuasive: "第二顺位判断",
   secondChoiceHelp: "仅在另一个选项也能表达部分判断时使用。它的计分权重低于主要选择。",
   back: "返回",

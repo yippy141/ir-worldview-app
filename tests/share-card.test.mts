@@ -3,9 +3,11 @@ import assert from "node:assert/strict"
 import {
   buildFoundationShareCardInput,
   buildFoundationShareCardUrl,
+  formatShareCardRarity,
   parseFoundationShareCardRequest,
   parseShareCardParams,
 } from "@/lib/share-card"
+import type { AggregateStats } from "@/lib/percentiles"
 import { buildCanonicalFoundationResult } from "@/lib/scoring"
 
 test("share-card parameters preserve validated content", () => {
@@ -22,6 +24,7 @@ test("share-card parameters preserve validated content", () => {
       x: "0.25",
       y: "-0.4",
       rarity: "6.5",
+      n: "1234",
     }),
   )
 
@@ -41,10 +44,10 @@ test("share-card parameters preserve validated content", () => {
     ],
   )
   assert.deepStrictEqual(parsed.coordinates, { x: 0.25, y: -0.4 })
-  assert.equal(parsed.rarityPercentage, 6.5)
+  assert.deepStrictEqual(parsed.rarity, { percentage: 6.5, n: 1234 })
 })
 
-test("missing percentile data omits both bars and rarity", () => {
+test("rarity is independent of percentile-bar availability", () => {
   const parsed = parseShareCardParams(
     new URLSearchParams({
       code: "P+",
@@ -52,12 +55,44 @@ test("missing percentile data omits both bars and rarity", () => {
       x: "0",
       y: "0",
       rarity: "12",
+      n: "100",
     }),
   )
 
   assert.ok(parsed)
   assert.deepStrictEqual(parsed.percentiles, [])
-  assert.equal(parsed.rarityPercentage, null)
+  assert.deepStrictEqual(parsed.rarity, { percentage: 12, n: 100 })
+})
+
+test("rarity is suppressed without a publishable cohort size", () => {
+  const cases: Array<Record<string, string>> = [
+    { rarity: "12" },
+    { rarity: "12", n: "99" },
+    { rarity: "12", n: "100.5" },
+    { rarity: "101", n: "100" },
+  ]
+
+  for (const params of cases) {
+    const parsed = parseShareCardParams(
+      new URLSearchParams({
+        code: "P+",
+        norm: "o",
+        x: "0",
+        y: "0",
+        ...params,
+      }),
+    )
+
+    assert.ok(parsed)
+    assert.equal(parsed.rarity, null)
+  }
+})
+
+test("rarity presentation states the cohort share and n", () => {
+  assert.equal(
+    formatShareCardRarity({ percentage: 6.5, n: 1234 }),
+    "Same archetype · 6.5% of this cohort (n=1,234)",
+  )
 })
 
 test("Foundation card inputs derive archetype, norm, and bounded coordinates", () => {
@@ -83,6 +118,51 @@ test("Foundation card inputs derive archetype, norm, and bounded coordinates", (
   assert.ok(parsed.coordinates.x >= -1 && parsed.coordinates.x <= 1)
   assert.ok(parsed.coordinates.y >= -1 && parsed.coordinates.y <= 1)
   assert.deepStrictEqual(parsed.percentiles, [])
+  assert.equal(parsed.rarity, null)
+})
+
+test("Foundation card rarity publishes independently of percentile bars", () => {
+  const result = buildCanonicalFoundationResult({
+    securityCompetition: 6.2,
+    institutions: 2.5,
+    domesticFilters: 3,
+    normsIdentity: 2.8,
+    politicalEconomy: 3.4,
+    restraint: 3,
+    orderJustice: 4.7,
+  })
+  const stats: AggregateStats = {
+    instrument: "foundation",
+    mode: "fullExtended",
+    instrumentVersion: 2,
+    scoringVersion: 2,
+    questionSet: "fullExtended",
+    completionLocale: "en",
+    localeCopyVersion: 1,
+    buckets: [],
+    labels: [
+      {
+        archetypeCode: "P+",
+        normativeModifier: "Pluralist",
+        count: 25,
+      },
+      {
+        archetypeCode: "P+",
+        normativeModifier: "Universalist",
+        count: 15,
+      },
+      {
+        archetypeCode: "R-",
+        normativeModifier: "Conditional Solidarist",
+        count: 60,
+      },
+    ],
+  }
+
+  const parsed = buildFoundationShareCardInput(result, stats)
+
+  assert.deepStrictEqual(parsed.percentiles, [])
+  assert.deepStrictEqual(parsed.rarity, { percentage: 40, n: 100 })
 })
 
 test("Foundation card URLs carry only the encoded result payload", () => {
@@ -96,7 +176,7 @@ test("the image route contract rejects caller-supplied profile and population cl
   assert.equal(
     parseFoundationShareCardRequest(
       new URLSearchParams(
-        "code=P%2B&norm=o&p1=100&p2=100&p3=100&rarity=0.1",
+        "code=P%2B&norm=o&p1=100&p2=100&p3=100&rarity=0.1&n=100",
       ),
     ),
     null,

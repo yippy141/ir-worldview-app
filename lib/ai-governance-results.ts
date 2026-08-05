@@ -118,9 +118,13 @@ export function getAiComparisonAxes(
   archetypeKey: AiArchetypeKey,
   runnerUpKey: AiArchetypeKey,
   axisScores: AiAxisScores,
+  profiles: Record<
+    AiArchetypeKey,
+    Partial<Record<AiAxisKey, number>>
+  > = archetypeProfiles,
 ): AiComparisonAxis[] {
-  const primary = archetypeProfiles[archetypeKey]
-  const runnerUp = archetypeProfiles[runnerUpKey]
+  const primary = profiles[archetypeKey]
+  const runnerUp = profiles[runnerUpKey]
 
   return (Object.keys(axisScores) as AiAxisKey[])
     .map((axis) => ({
@@ -170,13 +174,14 @@ export function buildAiGovernanceSummary(
   axisScores: AiAxisScores,
   riskLens: RiskLens,
   paceModifier: PaceModifier,
+  labels: Record<AiArchetypeKey, string> = archetypeLabels,
 ): string {
   const strongestAxes = (Object.entries(axisScores) as Array<[AiAxisKey, number]>)
     .sort((a, b) => Math.abs(b[1] - 4) - Math.abs(a[1] - 4))
     .slice(0, 2)
     .map(([axis]) => aiAxisLabels[axis].toLowerCase())
 
-  return `You read AI governance mainly through ${archetypeLabels[archetypeKey].toLowerCase()} logic. Your strongest signals sit around ${strongestAxes[0]} and ${strongestAxes[1]}. Those scores align most closely with ${riskLens.toLowerCase()} and ${paceModifier.toLowerCase()}.`
+  return `You read AI governance mainly through ${labels[archetypeKey].toLowerCase()} logic. Your strongest signals sit around ${strongestAxes[0]} and ${strongestAxes[1]}. Those scores align most closely with ${riskLens.toLowerCase()} and ${paceModifier.toLowerCase()}.`
 }
 
 export type TensionRule = {

@@ -5,8 +5,35 @@ import type {
   FoundationQuestionSet,
   NormativeModifier,
 } from "@/lib/types"
+import type { AiAxisKey, AiQuizMode } from "@/lib/ai-governance-types"
+import type { ModuleAxisKey } from "@/lib/modules/types"
 
 export const MIN_PERCENTILE_SAMPLE_SIZE = 100
+
+export type PercentileInstrument =
+  | "foundation"
+  | "security"
+  | "technology"
+  | "ai-governance"
+
+export type PercentileModeByInstrument = {
+  foundation: FoundationQuestionSet
+  security: "standard" | "analyst"
+  technology: "standard" | "analyst"
+  "ai-governance": AiQuizMode
+}
+
+export type PercentileAxisByInstrument = {
+  foundation: DimensionKey
+  security: ModuleAxisKey
+  technology: ModuleAxisKey
+  "ai-governance": AiAxisKey
+}
+
+export type PercentileMode =
+  PercentileModeByInstrument[PercentileInstrument]
+export type PercentileAxis =
+  PercentileAxisByInstrument[PercentileInstrument]
 
 export type AggregateDimensionBucket = {
   dimension: DimensionKey
@@ -15,6 +42,8 @@ export type AggregateDimensionBucket = {
 }
 
 export type AggregateStats = {
+  instrument: "foundation"
+  mode: FoundationQuestionSet
   instrumentVersion: number
   scoringVersion: number
   questionSet: FoundationQuestionSet
@@ -39,8 +68,17 @@ export type PercentileResult = {
 export function getAggregateCohortSize(
   labels: readonly AggregateLabelCount[],
 ): number | null {
-  const n = labels.reduce((total, entry) => total + entry.count, 0)
-  return Number.isSafeInteger(n) && n >= 0 ? n : null
+  let n = 0
+  for (const entry of labels) {
+    if (!Number.isSafeInteger(entry.count) || entry.count < 0) {
+      return null
+    }
+    n += entry.count
+    if (!Number.isSafeInteger(n)) {
+      return null
+    }
+  }
+  return n
 }
 
 export function hasPublishableAggregateCohort(
@@ -52,7 +90,6 @@ export function hasPublishableAggregateCohort(
 
 export function getProfileRarity(
   archetypeCode: string,
-  normativeModifier: NormativeModifier,
   stats: AggregateStats,
 ): { percentage: number; n: number } | null {
   const n = getAggregateCohortSize(stats.labels)
@@ -61,11 +98,7 @@ export function getProfileRarity(
   }
 
   const matching = stats.labels
-    .filter(
-      (entry) =>
-        entry.archetypeCode === archetypeCode &&
-        entry.normativeModifier === normativeModifier,
-    )
+    .filter((entry) => entry.archetypeCode === archetypeCode)
     .reduce((total, entry) => total + entry.count, 0)
 
   return {
@@ -77,19 +110,31 @@ export function getProfileRarity(
 /**
  * Returns a whole-number midrank percentile within the supplied aggregate
  * sample. Scores are rounded to the same one-decimal buckets used at intake.
+ * The explicit instrument and mode tuple prevents a distribution collected
+ * for one form from becoming comparison language on another.
  */
-export function getPercentile(
-  dimension: DimensionKey,
+export function getPercentile<
+  Instrument extends PercentileInstrument,
+>(
+  instrument: Instrument,
+  mode: PercentileModeByInstrument[Instrument],
+  axis: PercentileAxisByInstrument[Instrument],
   score: number,
   stats: AggregateStats,
 ): PercentileResult | null {
-  if (!Number.isFinite(score) || score < 1 || score > 7) {
+  if (
+    instrument !== stats.instrument ||
+    mode !== stats.mode ||
+    !Number.isFinite(score) ||
+    score < 1 ||
+    score > 7
+  ) {
     return null
   }
 
   const distribution = stats.buckets.filter(
     (entry) =>
-      entry.dimension === dimension &&
+      entry.dimension === axis &&
       Number.isFinite(entry.bucket) &&
       entry.bucket >= 1 &&
       entry.bucket <= 7 &&

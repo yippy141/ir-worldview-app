@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { resolveRestraintPosture, type PostureEndpoint } from "@/lib/results/posture"
+import type { PercentileResult } from "@/lib/percentiles"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
 
 type Props = {
   result: CanonicalFoundationResult
   lowDifferentiationThreshold?: number
+  percentile?: PercentileResult | null
 }
 
 function Endpoint({
@@ -36,8 +38,15 @@ function Endpoint({
  * share a map coordinate. Drawing them as separate points would manufacture a
  * distance the model does not measure.
  */
-export function PostureStrip({ result, lowDifferentiationThreshold }: Props) {
+export function PostureStrip({
+  result,
+  lowDifferentiationThreshold,
+  percentile = null,
+}: Props) {
   const posture = resolveRestraintPosture(result, lowDifferentiationThreshold)
+  const scoreLabel = percentile
+    ? `${formatOrdinal(percentile.percentile)} percentile, raw score ${posture.score.toFixed(1)}`
+    : `raw score ${posture.score.toFixed(1)}`
 
   return (
     <section
@@ -52,7 +61,7 @@ export function PostureStrip({ result, lowDifferentiationThreshold }: Props) {
       <div
         className="posture-strip__scale"
         role="img"
-        aria-label={`Restraint ${posture.score.toFixed(1)} of 7, between ${posture.low.name} (${posture.low.code}) and ${posture.high.name} (${posture.high.code}). This profile reads as ${posture.current.name}.`}
+        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${posture.low.code}) and ${posture.high.name} (${posture.high.code}). This profile reads as ${posture.current.name}.`}
       >
         <div className="posture-strip__track">
           <span
@@ -81,9 +90,16 @@ export function PostureStrip({ result, lowDifferentiationThreshold }: Props) {
       <p className="posture-strip__reading">
         <strong>{posture.current.name}</strong>
         <span className="posture-strip__score">
-          restraint {posture.score.toFixed(1)} / 7
+          restraint {scoreLabel}
         </span>
       </p>
+
+      {percentile ? (
+        <p className="muted result-note-xs" role="note">
+          Restraint percentile cohort n=
+          {percentile.n.toLocaleString("en-US")}.
+        </p>
+      ) : null}
 
       <p className="muted result-note-xs">
         {posture.blend
@@ -92,4 +108,13 @@ export function PostureStrip({ result, lowDifferentiationThreshold }: Props) {
       </p>
     </section>
   )
+}
+
+function formatOrdinal(value: number) {
+  const mod100 = value % 100
+  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
+  if (value % 10 === 1) return `${value}st`
+  if (value % 10 === 2) return `${value}nd`
+  if (value % 10 === 3) return `${value}rd`
+  return `${value}th`
 }

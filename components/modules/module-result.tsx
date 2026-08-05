@@ -1,13 +1,6 @@
 import Link from "next/link"
 import { ScaleBar } from "@/components/visual-primitives"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
-import {
-  buildModuleAnalytics,
-  buildModuleResult,
-  getModuleDefinition,
-  getModuleQuestions,
-  getSelectedModuleOptions,
-} from "@/lib/modules/framework"
 import { ModuleProfileSync } from "@/components/profile/module-profile-sync"
 import type {
   ModuleAnswers,
@@ -16,30 +9,48 @@ import type {
   ModuleQuestion,
   ModuleSlug,
 } from "@/lib/modules/types"
+import type { ModuleVersion } from "@/lib/modules/versions"
 import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
 
 export function ModuleResultView({
-  slug,
+  moduleDefinition,
+  runtime,
+  bankVersion,
   payload,
   mode,
   answers,
   foundation,
   foundationPayload,
 }: {
-  slug: ModuleSlug
+  moduleDefinition: ModuleDefinition
+  runtime: ModuleVersion["runtime"]
+  bankVersion: number
   payload: string
   mode: QuizMode
   answers: ModuleAnswers
   foundation?: DimensionScores
   foundationPayload?: string
 }) {
-  const moduleDefinition = getModuleDefinition(slug)
-  if (!moduleDefinition) return null
+  const slug: ModuleSlug = moduleDefinition.slug
 
-  const result = buildModuleResult(moduleDefinition, mode, answers, foundation)
-  const analytics = buildModuleAnalytics(moduleDefinition, mode, answers)
-  const selected = getSelectedModuleOptions(moduleDefinition, mode, answers)
-  const questionCount = getModuleQuestions(moduleDefinition, mode).length
+  const result = runtime.buildModuleResult(
+    moduleDefinition,
+    mode,
+    answers,
+    foundation,
+  )
+  const analytics = runtime.buildModuleAnalytics(
+    moduleDefinition,
+    mode,
+    answers,
+  )
+  const selected = runtime.getSelectedModuleOptions(
+    moduleDefinition,
+    mode,
+    answers,
+  )
+  const questionCount =
+    runtime.getModuleQuestions(moduleDefinition, mode).length
   const laneLabelMap = Object.fromEntries(
     moduleDefinition.lanes.map((lane) => [lane.key, lane.label]),
   ) as Record<string, string>
@@ -96,7 +107,7 @@ export function ModuleResultView({
             payload,
             ...(foundationPayload ? { foundationPayload } : {}),
             laneScores: analytics.laneScores,
-            instrumentVersion: 2,
+            instrumentVersion: bankVersion,
           }}
         />
 
@@ -161,8 +172,8 @@ export function ModuleResultView({
             ))}
           </div>
           <p className="result-figure__note">
-            These are directional scores inside this module, not population percentiles. The
-            labels name the two directions rather than empirical endpoints
+            These raw directional scores locate the response inside this module. The labels
+            name the two directions rather than empirical endpoints
             {hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}{" "}
             <Link href="/method">Methods sets out the limits →</Link>
           </p>

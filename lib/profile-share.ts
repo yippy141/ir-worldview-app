@@ -1,5 +1,5 @@
 import { aiPayloadToAxisScores, decodeAiPayload } from "@/lib/ai-governance-share"
-import { decodeModulePayload, getModuleDefinition } from "@/lib/modules/framework"
+import { getModuleDefinition, resolveModulePayload } from "@/lib/modules/framework"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { getPerspectiveDefinition, isPerspectiveId } from "@/lib/perspectives/catalog"
 import {
@@ -269,8 +269,12 @@ function buildSharedModules(profile: ProfileStore, includeTimestamp: boolean) {
 
 function toSharedModuleV3(snapshot: ModuleSnapshot): ProfileShareModuleV3 | null {
   if (!snapshot.payload) return null
-  const decoded = decodeModulePayload(snapshot.payload)
-  if (!decoded || decoded.slug !== snapshot.slug || decoded.mode !== snapshot.mode) return null
+  const resolved = resolveModulePayload(snapshot.payload)
+  if (
+    !resolved ||
+    resolved.payload.slug !== snapshot.slug ||
+    resolved.payload.mode !== snapshot.mode
+  ) return null
 
   return {
     t: snapshot.timestamp,
@@ -282,7 +286,7 @@ function toSharedModuleV3(snapshot: ModuleSnapshot): ProfileShareModuleV3 | null
     od: snapshot.overlayDeltas,
     ...(snapshot.cardTypeScores ? { ct: snapshot.cardTypeScores } : {}),
     ...(snapshot.foundationPayload ? { fp: snapshot.foundationPayload } : {}),
-    iv: snapshot.instrumentVersion,
+    iv: resolved.bankVersion,
     l: snapshot.locale,
     cv: snapshot.localeCopyVersion,
   }
@@ -837,8 +841,13 @@ function isProfileShareModuleV3(value: unknown): value is ProfileShareModuleV3 {
     return false
   }
 
-  const decoded = decodeModulePayload(value.p)
-  return decoded !== null && decoded.slug === value.s && decoded.mode === value.m
+  const resolved = resolveModulePayload(value.p)
+  return (
+    resolved !== null &&
+    resolved.payload.slug === value.s &&
+    resolved.payload.mode === value.m &&
+    resolved.bankVersion === value.iv
+  )
 }
 
 function isProfileShareAiV3(value: unknown): value is ProfileShareAiV3 {

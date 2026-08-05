@@ -6,7 +6,6 @@ import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
 import {
   PAYLOAD_DIMENSION_ORDER,
   resolveFoundationPayload,
-  type ResolvedFoundationPayload,
 } from "@/lib/share"
 import {
   getClosestTraditions,
@@ -31,20 +30,14 @@ import {
 } from "@/lib/results/dimension-bands"
 import { PushChart } from "@/components/results/push-chart"
 import { NearestAlternative } from "@/components/results/nearest-alternative"
-import {
-  dimensionLabels,
-  FOUNDATION_INSTRUMENT_VERSION,
-  FOUNDATION_STRUCTURAL_VERSION,
-} from "@/lib/quiz-schema"
-import {
-  FOUNDATION_SCORING_VERSION,
-  getV2ScoringCalibration,
-} from "@/lib/scoring"
+import { dimensionLabels } from "@/lib/quiz-schema"
+import { getV2ScoringCalibration } from "@/lib/scoring"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
 import { familySlug } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
+import { PlacementFirmnessBar } from "@/components/results/placement-firmness-bar"
 import { PostureStrip } from "@/components/results/posture-strip"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
@@ -60,10 +53,11 @@ import {
 import { archetypeEvidencePath } from "@/lib/archetype-evidence"
 import {
   getPercentile,
+  getProfileRarity,
   type AggregateStats,
   type PercentileResult,
 } from "@/lib/percentiles"
-import { readCurrentAggregateStats } from "@/lib/research/aggregate-stats"
+import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
 import type { DimensionKey } from "@/lib/types"
 import type { Metadata } from "next"
 
@@ -172,8 +166,9 @@ export default async function ResultPage(
   const { dimensionScores, result, resultTier } = resolved
   const {
     lowDifferentiationThreshold,
+    sharplyDifferentiatedThreshold,
   } = getV2ScoringCalibration(resolved.scoringCalibration)
-  const aggregateStats = await readMatchingAggregateStats(resolved)
+  const aggregateStats = await readAggregateStatsForFoundationPayload(resolved)
   const dimensionPercentiles = buildDimensionPercentiles(dimensionScores, aggregateStats)
   const hasPercentiles = PAYLOAD_DIMENSION_ORDER.some(
     (dimension) => dimensionPercentiles[dimension] !== null,
@@ -206,6 +201,11 @@ export default async function ResultPage(
     dimensionScores,
   )
   const whyThisResult = getWhyThisResult(result.familyKey, neighborKey, dimensionScores)
+  const comparisonDimensions = getComparisonDimensions(
+    result.familyKey,
+    neighborKey,
+    dimensionScores,
+  )
   const foundationNarrative = buildFoundationNarrative({
     familyKey: result.familyKey,
     runnerUpKey: neighborKey,
@@ -256,6 +256,9 @@ export default async function ResultPage(
   const archetypeCode =
     `${archetype.code} / ${normFromNormativeModifier(result.normativeModifier)}`
   const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
+  const archetypeRarity = aggregateStats
+    ? getProfileRarity(archetype.code, aggregateStats)
+    : null
   const analoguePath = archetype.analogue
     ? archetypeEvidencePath(archetype.code)
     : null
@@ -399,6 +402,19 @@ export default async function ResultPage(
                   </Link>
                 </p>
               ) : null}
+              {archetypeRarity ? (
+                <div className="stack-xs">
+                  <p>
+                    Same archetype:{" "}
+                    {formatPercentage(archetypeRarity.percentage)}% of completed
+                    results in this cohort.
+                  </p>
+                  <p className="muted result-note-xs" role="note">
+                    Archetype cohort n=
+                    {archetypeRarity.n.toLocaleString("en-US")}.
+                  </p>
+                </div>
+              ) : null}
             </div>
 
             <div className="foundation-result-bands stack-sm">
@@ -422,6 +438,10 @@ export default async function ResultPage(
                   )}
                 </div>
               ))}
+              <PercentileFootnote
+                dimensions={topDimensions.map(([dimension]) => dimension)}
+                percentiles={dimensionPercentiles}
+              />
             </div>
 
             <p className="foundation-result-change">{whatWouldChangeThis}</p>
@@ -439,9 +459,17 @@ export default async function ResultPage(
               dimensionScores={dimensionScores}
               lowDifferentiation={lowDifferentiation}
             />
+            <PlacementFirmnessBar
+              nearestFitGap={nearestFitGap}
+              state={foundationNarrative.state}
+              runnerUpLabel={neighborLabel}
+              lowDifferentiationThreshold={lowDifferentiationThreshold}
+              sharplyDifferentiatedThreshold={sharplyDifferentiatedThreshold}
+            />
             <PostureStrip
               result={result}
               lowDifferentiationThreshold={lowDifferentiationThreshold}
+              percentile={dimensionPercentiles.restraint}
             />
           </div>
         </header>
@@ -576,11 +604,16 @@ export default async function ResultPage(
                     label: dimensionLabels[row.dimension],
                     deviation: row.deviation,
                     score: row.score,
+                    percentile: dimensionPercentiles[row.dimension],
                     pole: row.pole,
                   }))}
                   lowCaption="Toward the low pole"
                   centreCaption="Centre of the observed range"
                   highCaption="Toward the high pole"
+                />
+                <PercentileFootnote
+                  dimensions={PAYLOAD_DIMENSION_ORDER}
+                  percentiles={dimensionPercentiles}
                 />
                 <p className="muted result-note">
                   Each bar is the distance from the centre of the range this instrument
@@ -611,17 +644,19 @@ export default async function ResultPage(
                 <NearestAlternative
                   primaryLabel={familyLabel}
                   runnerUpLabel={neighborLabel}
-                  rows={getComparisonDimensions(
-                    result.familyKey,
-                    neighborKey,
-                    dimensionScores,
-                  ).map((row) => ({
+                  rows={comparisonDimensions.map((row) => ({
                     key: row.dim,
                     label: row.label,
                     userScore: row.userScore,
+                    userPercentile:
+                      dimensionPercentiles[row.dim]?.percentile ?? null,
                     primaryExpected: row.primaryExpected,
                     runnerUpExpected: row.runnerUpExpected,
                   }))}
+                />
+                <PercentileFootnote
+                  dimensions={comparisonDimensions.map((row) => row.dim)}
+                  percentiles={dimensionPercentiles}
                 />
                 {runnerUpSeparation ? (
                   <p className="muted result-note">{runnerUpSeparation}</p>
@@ -737,35 +772,6 @@ export default async function ResultPage(
   )
 }
 
-/**
- * Aggregate percentiles only describe respondents scored by the same instrument
- * and scorer, so an older payload gets raw scores instead of a false comparison.
- */
-async function readMatchingAggregateStats(
-  resolved: ResolvedFoundationPayload,
-): Promise<AggregateStats | null> {
-  if (
-    resolved.provenance.instrumentStructuralVersion !==
-      FOUNDATION_STRUCTURAL_VERSION ||
-    resolved.provenance.instrumentVersion !== FOUNDATION_INSTRUMENT_VERSION ||
-    resolved.provenance.scoringVersion !== FOUNDATION_SCORING_VERSION ||
-    !resolved.questionSet
-  ) {
-    return null
-  }
-
-  return readCurrentAggregateStats({
-    questionSet: resolved.questionSet,
-    ...(resolved.targetedFamilyPair
-      ? {
-          targetedFamilyPair: resolved.targetedFamilyPair,
-        }
-      : {}),
-    completionLocale: resolved.provenance.completionLocale,
-    localeCopyVersion: resolved.provenance.localeCopyVersion,
-  })
-}
-
 function buildDimensionPercentiles(
   dimensionScores: Record<DimensionKey, number>,
   stats: AggregateStats | null,
@@ -773,7 +779,15 @@ function buildDimensionPercentiles(
   return Object.fromEntries(
     PAYLOAD_DIMENSION_ORDER.map((dimension) => [
       dimension,
-      stats ? getPercentile(dimension, dimensionScores[dimension], stats) : null,
+      stats
+        ? getPercentile(
+            "foundation",
+            stats.mode,
+            dimension,
+            dimensionScores[dimension],
+            stats,
+          )
+        : null,
     ]),
   ) as Record<DimensionKey, PercentileResult | null>
 }
@@ -818,8 +832,8 @@ function PercentileFootnote({
   )
 }
 
-// The scorer cannot reach the ends of the 1-7 response scale, so no score is
-// printed against a "/ 7" denominator.
+// The scorer cannot reach the ends of the response scale, so no score is
+// printed with a nominal-scale denominator.
 function formatDimensionScore(score: number, percentile: PercentileResult | null) {
   return percentile
     ? `${formatOrdinal(percentile.percentile)} percentile · raw score ${score.toFixed(2)}`
@@ -834,6 +848,10 @@ function formatOrdinal(value: number) {
   if (value % 10 === 2) return `${value}nd`
   if (value % 10 === 3) return `${value}rd`
   return `${value}th`
+}
+
+function formatPercentage(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }
 
 function getFallbackMixedNote(

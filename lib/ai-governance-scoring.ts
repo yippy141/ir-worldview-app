@@ -23,6 +23,8 @@ import type {
 
 const AXES = Object.keys(aiAxisLabels) as AiAxisKey[]
 
+export const AI_GOVERNANCE_SCORING_VERSION = 2
+
 export const archetypeProfiles: Record<AiArchetypeKey, Partial<Record<AiAxisKey, number>>> = {
   precautionarySteward: {
     riskHorizon: 1,
@@ -318,6 +320,10 @@ export function generateAiGovernanceResult(answers: AiAnswers, mode?: AiQuizMode
     axisScores,
     archetypeScores,
     explanation: archetypeDescriptions[archetypeKey],
+    neighboringArchetypeKey: getNeighboringArchetypeKey(
+      archetypeKey,
+      archetypeScores,
+    ),
     neighboringArchetype,
   }
 }

@@ -30,7 +30,8 @@ export type AiLikertQuestion = {
   kind: "likert"
   prompt: string
   axis: AiAxisKey
-  reverse?: boolean
+  reverse: boolean
+  discriminatingAxes: AiAxisKey[]
   helpText?: string
   clarification?: AiClarification
 }
@@ -53,6 +54,7 @@ export type AiScenarioQuestion = {
   helpText?: string
   actorRole?: string
   tags?: string[]
+  discriminatingAxes: AiAxisKey[]
   /** Standard-mode options (3 scored choices). */
   options: AiScenarioOption[]
   /** Analyst-mode options (4 scored choices). When present, replaces options in analyst mode. */
@@ -113,5 +115,7 @@ export type AiResult = {
   axisScores: AiAxisScores
   archetypeScores: Record<AiArchetypeKey, number>
   explanation: string
+  /** Stable identity encoded into result payloads. */
+  neighboringArchetypeKey?: AiArchetypeKey
   neighboringArchetype: string
 }

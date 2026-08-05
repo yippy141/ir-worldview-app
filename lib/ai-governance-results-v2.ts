@@ -1,5 +1,10 @@
 import { aiPayloadToAxisScores } from "@/lib/ai-governance-share"
 import type { AiSharePayload } from "@/lib/ai-governance-share"
+import {
+  AI_GOVERNANCE_V21_TUPLE,
+  getAiGovernanceVersion,
+  type AiGovernanceVersion,
+} from "@/lib/ai-governance-versions"
 import { aiArchetypeDeepProfiles } from "@/lib/ai-governance-profile-copy"
 import { getActiveAiGovernanceTensions } from "@/lib/ai-governance-results"
 import { aiAxisLabels } from "@/lib/ai-governance-schema"
@@ -170,24 +175,44 @@ const additionalTensionRules: Array<{
 
 export function buildAiGovernanceResultFromSharePayload(
   payload: AiSharePayload,
+  version?: AiGovernanceVersion,
 ): AiResult {
+  const resolvedVersion =
+    version ??
+    getAiGovernanceVersion(
+      payload.v === 1 ? AI_GOVERNANCE_V21_TUPLE.bankVersion : payload.bv,
+      payload.v === 1 ? AI_GOVERNANCE_V21_TUPLE.scoringVersion : payload.sv,
+    )
+  if (!resolvedVersion) {
+    throw new Error("Unsupported AI Governance result version.")
+  }
   const axisScores = aiPayloadToAxisScores(payload)
-  const archetypeScores = scoreArchetypes(axisScores)
+  const archetypeScores = resolvedVersion.scoring.scoreArchetypes(axisScores)
+  const labels = resolvedVersion.scoring.archetypeLabels
+  const descriptions = resolvedVersion.scoring.archetypeDescriptions
 
   return {
     archetypeKey: payload.ak,
-    archetypeLabel: archetypeLabels[payload.ak],
+    archetypeLabel: labels[payload.ak],
     riskLens: payload.rl,
     paceModifier: payload.pm,
     geopoliticsModifier: payload.gm,
     axisScores,
     archetypeScores,
-    explanation: archetypeDescriptions[payload.ak],
-    neighboringArchetype: archetypeLabels[payload.nk],
+    explanation: descriptions[payload.ak],
+    neighboringArchetypeKey: payload.nk,
+    neighboringArchetype: labels[payload.nk],
   }
 }
 
-export function buildAiGovernanceDeepDive(result: AiResult): AiGovernanceDeepDive {
+export function buildAiGovernanceDeepDive(
+  result: AiResult,
+  signatures: Record<
+    AiArchetypeKey,
+    Partial<Record<AiAxisKey, number>>
+  > = archetypeSignatures,
+  labels: Record<AiArchetypeKey, string> = archetypeLabels,
+): AiGovernanceDeepDive {
   const profile = aiArchetypeDeepProfiles[result.archetypeKey]
 
   return {
@@ -197,18 +222,21 @@ export function buildAiGovernanceDeepDive(result: AiResult): AiGovernanceDeepDiv
     policySignals: getPolicySignals(result.axisScores),
     internationalOrder: profile.internationalOrder,
     tensions: getExpandedTensionCards(result.axisScores),
-    comparison: buildComparisonCard(result),
+    comparison: buildComparisonCard(result, signatures, labels),
     evidenceShift: profile.evidenceShift,
     strongestCritique: profile.strongestCritique,
   }
 }
 
-export function getNearbyAlternativeLabel(result: AiResult): string | null {
+export function getNearbyAlternativeLabel(
+  result: AiResult,
+  labels: Record<AiArchetypeKey, string> = archetypeLabels,
+): string | null {
   const runnerUpKey = getRunnerUpKey(result)
 
   if (runnerUpKey === result.archetypeKey) return null
 
-  return `${archetypeLabels[result.archetypeKey]} / ${archetypeLabels[runnerUpKey]}`
+  return `${labels[result.archetypeKey]} / ${labels[runnerUpKey]}`
 }
 
 export function getOrderedArchetypeEntries(
@@ -220,6 +248,12 @@ export function getOrderedArchetypeEntries(
 }
 
 export function getRunnerUpKey(result: AiResult): AiArchetypeKey {
+  if (
+    result.neighboringArchetypeKey &&
+    result.neighboringArchetypeKey !== result.archetypeKey
+  ) {
+    return result.neighboringArchetypeKey
+  }
   const ordered = getOrderedArchetypeEntries(result)
   return ordered.find(([key]) => key !== result.archetypeKey)?.[0] ?? result.archetypeKey
 }
@@ -321,30 +355,53 @@ export function getExpandedTensionCards(axisScores: AiAxisScores): TensionCard[]
   ]
 }
 
-export function buildComparisonCard(result: AiResult): ComparisonCard {
+export function buildComparisonCard(
+  result: AiResult,
+  signatures: Record<
+    AiArchetypeKey,
+    Partial<Record<AiAxisKey, number>>
+  > = archetypeSignatures,
+  labels: Record<AiArchetypeKey, string> = archetypeLabels,
+): ComparisonCard {
   const primaryKey = result.archetypeKey
   const runnerUpKey = getRunnerUpKey(result)
   const farthestKey = getMostDistantArchetypeKey(result)
-  const contrastAxes = getTopContrastAxes(primaryKey, runnerUpKey)
-  const farthestAxes = getTopContrastAxes(primaryKey, farthestKey)
+  const contrastAxes = getTopContrastAxes(primaryKey, runnerUpKey, signatures)
+  const farthestAxes = getTopContrastAxes(primaryKey, farthestKey, signatures)
 
   return {
     runnerUpKey,
-    runnerUpLabel: archetypeLabels[runnerUpKey],
+    runnerUpLabel: labels[runnerUpKey],
     farthestKey,
-    farthestLabel: archetypeLabels[farthestKey],
-    nearbyAlternativeLabel: getNearbyAlternativeLabel(result),
-    contrastText: buildContrastText(primaryKey, runnerUpKey, contrastAxes, result.axisScores),
-    farthestText: buildFarthestText(primaryKey, farthestKey, farthestAxes, result.axisScores),
+    farthestLabel: labels[farthestKey],
+    nearbyAlternativeLabel: getNearbyAlternativeLabel(result, labels),
+    contrastText: buildContrastText(
+      primaryKey,
+      runnerUpKey,
+      contrastAxes,
+      result.axisScores,
+      labels,
+    ),
+    farthestText: buildFarthestText(
+      primaryKey,
+      farthestKey,
+      farthestAxes,
+      result.axisScores,
+      labels,
+    ),
   }
 }
 
 function getTopContrastAxes(
   primary: AiArchetypeKey,
   secondary: AiArchetypeKey,
+  signatures: Record<
+    AiArchetypeKey,
+    Partial<Record<AiAxisKey, number>>
+  >,
 ): AiAxisKey[] {
-  const primaryWeights = archetypeSignatures[primary]
-  const secondaryWeights = archetypeSignatures[secondary]
+  const primaryWeights = signatures[primary]
+  const secondaryWeights = signatures[secondary]
 
   return (Object.keys(aiAxisLabels) as AiAxisKey[])
     .map((axis) => ({
@@ -361,11 +418,12 @@ function buildContrastText(
   runnerUp: AiArchetypeKey,
   axes: AiAxisKey[],
   axisScores: AiAxisScores,
+  labels: Record<AiArchetypeKey, string>,
 ): string {
   const first = axisLabelWithPole(axes[0], axisScores[axes[0]])
   const second = axisLabelWithPole(axes[1], axisScores[axes[1]])
 
-  return `Compared with ${archetypeLabels[runnerUp]}, your result separated most on ${first} and ${second}. That is why you landed in ${archetypeLabels[primary]} rather than next door.`
+  return `Compared with ${labels[runnerUp]}, your result separated most on ${first} and ${second}. That is why you landed in ${labels[primary]} rather than next door.`
 }
 
 function buildFarthestText(
@@ -373,11 +431,12 @@ function buildFarthestText(
   farthest: AiArchetypeKey,
   axes: AiAxisKey[],
   axisScores: AiAxisScores,
+  labels: Record<AiArchetypeKey, string>,
 ): string {
   const first = axisLabelWithPole(axes[0], axisScores[axes[0]])
   const second = axisLabelWithPole(axes[1], axisScores[axes[1]])
 
-  return `Your profile is farthest from ${archetypeLabels[farthest]} because your instincts on ${first} and ${second} point in a different direction.`
+  return `Your profile is farthest from ${labels[farthest]} because your instincts on ${first} and ${second} point in a different direction.`
 }
 
 function axisLabelWithPole(axis: AiAxisKey, score: number): string {
@@ -465,8 +524,18 @@ export function getAiGovernanceSurprisingFinding(
 
   const runnerUpKey = getRunnerUpKey(result)
   if (runnerUpKey !== result.archetypeKey) {
-    const axes = getTopContrastAxes(result.archetypeKey, runnerUpKey)
-    const text = buildContrastText(result.archetypeKey, runnerUpKey, axes, result.axisScores)
+    const axes = getTopContrastAxes(
+      result.archetypeKey,
+      runnerUpKey,
+      archetypeSignatures,
+    )
+    const text = buildContrastText(
+      result.archetypeKey,
+      runnerUpKey,
+      axes,
+      result.axisScores,
+      archetypeLabels,
+    )
     return { kind: "nearest-alternative", label: "Nearest alternative", text }
   }
 

@@ -1,0 +1,252 @@
+{
+  "v21": {
+    "tuple": {
+      "bankVersion": 2,
+      "scoringVersion": 1
+    },
+    "modules": [
+      {
+        "payload": {
+          "v": 2,
+          "slug": "security",
+          "mode": "standard",
+          "answers": {
+            "taiwan_quarantine": {
+              "primary": "clarify_response"
+            },
+            "gray_zone_sabotage": {
+              "primary": "coalition_probe"
+            }
+          }
+        },
+        "expected": {
+          "headline": "Security read: pressure and visible deterrence",
+          "scores": {
+            "activism": 5.45,
+            "escalation": 5.4,
+            "alliance": 5.55,
+            "legitimacy": 4.5
+          },
+          "overlayDeltas": {
+            "securityCompetition": 0.79,
+            "institutions": 0.52,
+            "normsIdentity": 0.11,
+            "restraint": -0.8,
+            "orderJustice": -0.28
+          }
+        }
+      },
+      {
+        "payload": {
+          "v": 2,
+          "slug": "technology",
+          "mode": "standard",
+          "answers": {
+            "chips_controls": {
+              "primary": "preserve_the_chokepoint"
+            },
+            "open_weight_models": {
+              "primary": "staged_release_rules"
+            }
+          }
+        },
+        "expected": {
+          "headline": "Technology read: no single tool dominates",
+          "scores": {
+            "control": 5.6,
+            "governance": 4.75,
+            "industrial": 4.7,
+            "safety": 5.15
+          },
+          "overlayDeltas": {
+            "securityCompetition": 0.72,
+            "institutions": 0.41,
+            "domesticFilters": 0.14,
+            "politicalEconomy": 0.66,
+            "restraint": -0.35,
+            "normsIdentity": 0.14
+          }
+        }
+      }
+    ],
+    "ai": {
+      "mode": "standard",
+      "answers": {
+        "rh1": 7,
+        "rh2": 2,
+        "dp1": 6,
+        "dp2": 3,
+        "ov1": 7,
+        "ov2": 2,
+        "gp1": 6,
+        "gp2": 2,
+        "op1": 5,
+        "op2": 3,
+        "mr1": 6,
+        "mr2": 2,
+        "lg1": 7,
+        "lg2": 2,
+        "hf1": 6,
+        "hf2": 3,
+        "capabilityThreshold": "A",
+        "rivalBreakthrough": "B",
+        "openWeights": "C",
+        "militaryIntegration": "A",
+        "multilateralVerification": "B",
+        "futureSociety": "C"
+      },
+      "expected": {
+        "archetypeKey": "democraticGuardrailist",
+        "neighboringArchetypeKey": "precautionarySteward",
+        "riskLens": "Frontier-risk first",
+        "paceModifier": "Precaution-first",
+        "geopoliticsModifier": "Competition-first",
+        "axisScores": {
+          "riskHorizon": 7,
+          "deploymentPace": 6,
+          "oversight": 7,
+          "geopolitics": 6.5,
+          "openness": 1.9,
+          "militaryRole": 5.6,
+          "legitimacy": 7,
+          "humanFuture": 4.8
+        },
+        "archetypeScores": {
+          "precautionarySteward": 5.46,
+          "strategicCompetitor": 4.49,
+          "coordinationArchitect": 2.87,
+          "democraticGuardrailist": 6.4,
+          "stateCapacityBuilder": 2.56,
+          "openEcosystemBuilder": -5.18
+        }
+      }
+    }
+  },
+  "v22": {
+    "tuple": {
+      "bankVersion": 3,
+      "scoringVersion": 2
+    },
+    "modules": [
+      {
+        "payload": {
+          "v": 3,
+          "bv": 3,
+          "sv": 2,
+          "slug": "security",
+          "mode": "standard",
+          "answers": {
+            "taiwan_quarantine": {
+              "primary": "clarify_response"
+            },
+            "gray_zone_sabotage": {
+              "primary": "coalition_probe"
+            }
+          }
+        },
+        "expected": {
+          "headline": "Security read: pressure and visible deterrence",
+          "scores": {
+            "activism": 5.45,
+            "escalation": 5.4,
+            "alliance": 4.5,
+            "legitimacy": 4
+          },
+          "overlayDeltas": {
+            "securityCompetition": 0.79,
+            "institutions": 0.15,
+            "normsIdentity": 0,
+            "restraint": -0.8,
+            "orderJustice": 0
+          }
+        }
+      },
+      {
+        "payload": {
+          "v": 3,
+          "bv": 3,
+          "sv": 2,
+          "slug": "technology",
+          "mode": "standard",
+          "answers": {
+            "chips_controls": {
+              "primary": "preserve_the_chokepoint"
+            },
+            "open_weight_models": {
+              "primary": "staged_release_rules"
+            }
+          }
+        },
+        "expected": {
+          "headline": "Technology read: safety-first constraint",
+          "scores": {
+            "control": 5.6,
+            "governance": 3.7,
+            "industrial": 4,
+            "safety": 5.15
+          },
+          "overlayDeltas": {
+            "securityCompetition": 0.72,
+            "institutions": -0.16,
+            "domesticFilters": 0,
+            "politicalEconomy": 0.43,
+            "restraint": -0.35,
+            "normsIdentity": 0.05
+          }
+        }
+      }
+    ],
+    "ai": {
+      "mode": "standard",
+      "answers": {
+        "rh1": 7,
+        "rh2": 2,
+        "dp1": 6,
+        "dp2": 3,
+        "ov1": 7,
+        "ov2": 2,
+        "gp1": 6,
+        "gp2": 2,
+        "op1": 5,
+        "op2": 3,
+        "mr1": 6,
+        "mr2": 2,
+        "lg1": 7,
+        "lg2": 2,
+        "hf1": 6,
+        "hf2": 3,
+        "capabilityThreshold": "A",
+        "rivalBreakthrough": "B",
+        "openWeights": "C",
+        "militaryIntegration": "A",
+        "multilateralVerification": "B",
+        "futureSociety": "C"
+      },
+      "expected": {
+        "archetypeKey": "precautionarySteward",
+        "neighboringArchetypeKey": "democraticGuardrailist",
+        "riskLens": "Frontier-risk first",
+        "paceModifier": "Precaution-first",
+        "geopoliticsModifier": "Competition-first",
+        "axisScores": {
+          "riskHorizon": 7,
+          "deploymentPace": 6,
+          "oversight": 5,
+          "geopolitics": 5.3,
+          "openness": 1.9,
+          "militaryRole": 5.6,
+          "legitimacy": 6.5,
+          "humanFuture": 4.8
+        },
+        "archetypeScores": {
+          "precautionarySteward": 4.28,
+          "strategicCompetitor": 2.99,
+          "coordinationArchitect": 2.87,
+          "democraticGuardrailist": 4.14,
+          "stateCapacityBuilder": 0.65,
+          "openEcosystemBuilder": -3.34
+        }
+      }
+    }
+  }
+}

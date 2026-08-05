@@ -23,8 +23,9 @@ import {
   toOverlayPercent,
   type MapLabelBox,
 } from "@/lib/results/map-layout"
-import { AXIS_LABELS, TRADITION_ANCHORS } from "@/lib/results/position"
+import { AXIS_LABELS, TRADITION_ANCHORS, familyColorVar } from "@/lib/results/position"
 import type { ReferenceEntityType } from "@/lib/reference-profiles/types"
+import type { FamilyKey } from "@/lib/types"
 import { FAMILY_LABELS } from "@/lib/worldview-config"
 import styles from "./worldview-map.module.css"
 
@@ -56,6 +57,8 @@ export type FieldMapMarker = {
   key: string
   kind: FieldItemKind
   entityType?: ReferenceEntityType
+  /** Nearest modeled family; tints the mark with that tradition's colour. */
+  familyKey?: FamilyKey
   label: string
   position: MapPosition
   selected?: boolean
@@ -494,7 +497,13 @@ export function FieldMap({
                 {marker.selected ? (
                   <circle className={styles.selectionRing} cx={cx} cy={cy} r={12} />
                 ) : null}
-                <MarkerGlyph kind={marker.kind} entityType={marker.entityType} cx={cx} cy={cy} />
+                <MarkerGlyph
+                  kind={marker.kind}
+                  entityType={marker.entityType}
+                  familyKey={marker.familyKey}
+                  cx={cx}
+                  cy={cy}
+                />
               </>
             )
 
@@ -645,17 +654,31 @@ function ClusterGlyph({ cx, cy }: { cx: number; cy: number }) {
  * Marks that carry data sit in the foreground: each gets a halo disc so it
  * reads above the gridlines and the recessive tradition anchors, which are
  * plain 5px dots in tradition colour. Thinkers and public positions keep the
- * steel hue and an outlined entity shape; authored worldview profiles are the
- * muted cross; the reader's own marks are the only filled accent marks.
+ * steel hue and an outlined entity shape; the reader's own marks are the only
+ * filled accent marks.
+ *
+ * Worldview profiles are crosses tinted with their nearest family's tradition
+ * colour, so ten profiles read as four groups at a glance instead of ten
+ * identical marks.
+ *
+ * On contrast: the tint sits on a 1.7px stroke, thinner than the label text
+ * these tokens were picked for. That is accepted because the tint is never the
+ * only channel — every mark also carries a hover label, a row in the semantic
+ * list naming its family, and a per-family entry in the map key. A reader who
+ * cannot separate two hues loses a glanceable grouping, not any information.
+ * Reviewed 2026-08-06. If a future change makes colour the sole carrier, the
+ * tokens need a contrast pass at stroke weight first.
  */
 function MarkerGlyph({
   kind,
   entityType,
+  familyKey,
   cx,
   cy,
 }: {
   kind: FieldItemKind
   entityType?: ReferenceEntityType
+  familyKey?: FamilyKey
   cx: number
   cy: number
 }) {
@@ -688,7 +711,12 @@ function MarkerGlyph({
     return (
       <g>
         <circle className={styles.markerHalo} cx={cx} cy={cy} r={MARKER_HALO_RADIUS} />
-        <g className={styles.patternGlyph}>
+        {/* Inline style, not a presentation attribute: .patternGlyph sets a
+            stroke, and a CSS declaration beats an attribute. */}
+        <g
+          className={styles.patternGlyph}
+          style={familyKey ? { stroke: `var(${familyColorVar(familyKey)})` } : undefined}
+        >
           <line x1={cx - r} y1={cy} x2={cx + r} y2={cy} />
           <line x1={cx} y1={cy - r} x2={cx} y2={cy + r} />
         </g>
@@ -746,14 +774,19 @@ export function FieldMapKey({
           <circle cx={8} cy={8} r={5} fill="var(--bg)" stroke="var(--accent)" strokeWidth={1.8} />
         </KeyRow>
       ) : null}
-      {kinds.includes("atlas-pattern") ? (
-        <KeyRow label={copy?.key.worldviewProfile ?? "Worldview profile"}>
-          <g stroke="var(--text-2)" strokeWidth={1.6}>
-            <line x1={3} y1={8} x2={13} y2={8} />
-            <line x1={8} y1={3} x2={8} y2={13} />
-          </g>
-        </KeyRow>
-      ) : null}
+      {kinds.includes("atlas-pattern")
+        ? TRADITION_ANCHORS.map((anchor) => (
+            <KeyRow
+              key={anchor.key}
+              label={`${copy?.key.worldviewProfile ?? "Worldview profile"} · ${copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key]}`}
+            >
+              <g stroke={`var(${anchor.colorVar})`} strokeWidth={1.6}>
+                <line x1={3} y1={8} x2={13} y2={8} />
+                <line x1={8} y1={3} x2={8} y2={13} />
+              </g>
+            </KeyRow>
+          ))
+        : null}
       {kinds.includes("reference") ? (
         <>
           <KeyRow label={copy?.key.thinker ?? "Thinker"}><rect x={3.5} y={3.5} width={9} height={9} fill="none" stroke="var(--steel)" strokeWidth={1.6} /></KeyRow>

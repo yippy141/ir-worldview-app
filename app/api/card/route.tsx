@@ -3,18 +3,12 @@ import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import {
   buildFoundationShareCardInput,
+  formatShareCardRarity,
   parseFoundationShareCardRequest,
 } from "@/lib/share-card"
 import { resolveFoundationPayload } from "@/lib/share"
-import { readCurrentAggregateStats } from "@/lib/research/aggregate-stats"
-import {
-  FOUNDATION_INSTRUMENT_VERSION,
-  FOUNDATION_STRUCTURAL_VERSION,
-} from "@/lib/quiz-schema"
-import {
-  FOUNDATION_SCORING_VERSION,
-  getV2ScoringCalibration,
-} from "@/lib/scoring"
+import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
+import { getV2ScoringCalibration } from "@/lib/scoring"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -37,21 +31,7 @@ export async function GET(request: Request) {
   if (!resolved) {
     return new Response("Invalid Foundation result payload.", { status: 400 })
   }
-  const stats =
-    resolved.questionSet &&
-    resolved.provenance.instrumentStructuralVersion ===
-      FOUNDATION_STRUCTURAL_VERSION &&
-    resolved.provenance.instrumentVersion === FOUNDATION_INSTRUMENT_VERSION &&
-    resolved.provenance.scoringVersion === FOUNDATION_SCORING_VERSION
-      ? await readCurrentAggregateStats({
-          questionSet: resolved.questionSet,
-          ...(resolved.targetedFamilyPair
-            ? { targetedFamilyPair: resolved.targetedFamilyPair }
-            : {}),
-          completionLocale: resolved.provenance.completionLocale,
-          localeCopyVersion: resolved.provenance.localeCopyVersion,
-        })
-      : null
+  const stats = await readAggregateStatsForFoundationPayload(resolved)
   const { lowDifferentiationThreshold } = getV2ScoringCalibration(
     resolved.scoringCalibration,
   )
@@ -61,7 +41,7 @@ export async function GET(request: Request) {
     lowDifferentiationThreshold,
   )
 
-  const { archetype, norm, percentiles, coordinates, rarityPercentage } = input
+  const { archetype, norm, percentiles, coordinates, rarity } = input
   const isBlend = archetype.code.includes("/")
   const hasCjkTitle = /[\u3000-\u9fff]/u.test(archetype.name)
   const titleSize =
@@ -344,8 +324,8 @@ export async function GET(request: Request) {
             }}
           >
             <span>
-              {rarityPercentage !== null
-                ? `Shares this profile with ${formatPercentage(rarityPercentage)}% of respondents`
+              {rarity
+                ? formatShareCardRarity(rarity)
                 : "Closest modeled family shown as a continuous profile"}
             </span>
             {archetype.analogue ? (
@@ -429,10 +409,6 @@ function toArrayBuffer(data: Buffer): ArrayBuffer {
     data.byteOffset,
     data.byteOffset + data.byteLength,
   ) as ArrayBuffer
-}
-
-function formatPercentage(value: number) {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }
 
 function formatOrdinal(value: number) {

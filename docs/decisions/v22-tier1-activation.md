@@ -1,20 +1,26 @@
 # V22 Tier 1 activation record
 
-Date: 2026-08-02
+Date: 2026-08-05
 
 Tier 1 stores aggregate counters only. It remains default-off and contains no
 raw answers, respondent or session identifiers, contact data, cookies, free
 text, response order, or timestamp finer than a day. Bounded overcount and
 undercount are accepted instead of adding an identity or retry ledger.
 
+Migration `002` creates dormant respondent-level replay tables:
+`research_respondents`, `research_sessions`, `research_answers`, and
+`research_derived_results`. Their existence is not Tier 2 activation. The
+Tier 1 route remains aggregate-only and writes only the four `agg_*` counter
+tables.
+
 ## Reduced activation gate
 
-| Gate | Local evidence | Status |
+| Gate | Evidence | Status |
 |---|---|---|
-| Staging migrations and catalog inspection | The static migration test proves source-level convergence between a fresh schema and the pre-cohort upgrade. No staging database was available in this worktree, so neither migration path nor catalog output has been represented as executed. | **Blocked on staging** |
-| Exact aggregate-only write columns | `tests/tier1-aggregate.test.mts` invokes the real route handler with an instrumented database client and asserts exact set equality for every `INSERT` column in both result and completion writes. | **Pass locally** |
-| Silent failure | Result writes return the same client response when storage is unavailable, the connection string is malformed, or the database seam throws an injected timeout; completion writes have unavailable-storage coverage. Browser fetch rejection and the analytics opt-out resolve without an unhandled rejection or visible error. The server still logs write failures. | **Pass at the handler boundary; real Neon abort untested** |
-| Server-side `n >= 100` suppression | `tests/aggregate-stats.test.mts` supplies a valid 99-result cohort directly to the server stats reader and verifies that neither label nor bucket rows leave the read path. | **Pass locally** |
+| Staging migrations and catalog inspection | Migrations `001`–`003` ran on an empty Neon database. The historical pre-cohort `001`, current `002`, and current `003` ran on a second database with legacy sentinels retained. Actual `\d+` output for all eight tables and the divergence report are in the [Neon staging evidence](../v22/V22_TIER1_NEON_STAGING_EVIDENCE_2026-08-05.md). | **Pass live** |
+| Exact aggregate-only write columns | The exact-column-set assertion passed against both Neon databases. `tests/tier1-aggregate.test.mts` also invokes the real route handler and asserts exact set equality for every `INSERT` column in result and completion writes. | **Pass live and locally** |
+| Silent failure | A valid Preview write was made while Neon held `agg_completion` under an `ACCESS EXCLUSIVE` lock. The real three-second driver abort path returned the normal silent `202`, stored no row, and emitted only the expected server log. Local unavailable, malformed-URL, and injected-timeout coverage also passes. | **Pass live and locally** |
+| Server-side `n >= 100` suppression | A real Foundation run produced cohort `n = 1`; its deployed result contained neither a percentile nor a population comparison. The local reader test independently verifies that neither label nor bucket rows leave the read path at `n = 99`. | **Pass live and locally** |
 
 ## Exact write contract
 
@@ -38,24 +44,29 @@ All text values in those writes are selected from bounded server-side
 contracts. The route rejects unknown payload fields before reaching the
 database.
 
-## Staging-only evidence still required
+## Staging activation evidence
 
-Do not enable `TIER1_AGGREGATES_ENABLED` until an operator with staging
-credentials:
+`TIER1_AGGREGATES_ENABLED=true` is enabled only in the Vercel Preview
+environment. The verified Preview deployment is
+`dpl_5UoegHRLPxZ3gYmQPT4Cqfns4svc`. Production configuration and production
+deployments were not changed.
 
-1. runs migrations `001` through `003` against an empty staging database;
-2. runs the pre-cohort upgrade path against a disposable legacy schema;
-3. captures the actual catalog definition for all four aggregate tables and
-   checks it against the migration SQL;
-4. completes one Foundation result and confirms that only the expected
-   counters increment; and
-5. confirms that the stats reader returns suppressed output below `n = 100`.
+The real English Foundation run changed the aggregate totals from zero to
+seven dimension buckets, one label, 14 completion counters, and 14 coarse
+latency counters. All four dormant replay tables remained at zero rows. The
+full transcript, counter queries, suppression observation, limiter exercise,
+and real database timeout result are in the
+[Neon staging evidence](../v22/V22_TIER1_NEON_STAGING_EVIDENCE_2026-08-05.md).
 
-The local timeout test proves route behavior for a timeout-shaped rejection;
-it does not execute Neon's real `AbortSignal.timeout` path. Capture that path
-opportunistically during staging fault testing rather than representing the
-injected test as a live database timeout.
+The aggregate write route uses IP-bucketed token buckets held only in process
+memory. It retains only a process-salted HMAC bucket key, not the raw IP,
+cookie, session ID, or a persistent rate-limit ledger. A limited request
+receives the same silent `202` response as any other best-effort aggregate
+write. The limiter resets and scales with server instances, so it is an abuse
+brake rather than a distributed hard quota.
 
-Rate limiting, alert ownership, retry/idempotence semantics, and rollback
-rehearsal are recorded as post-launch operational work, not part of this
-reduced activation gate.
+Rate limiting is a research-integrity control required before the first public
+percentile. The live Preview exercise confirmed that the same-client
+five-result burst limit suppresses excess writes before Neon while returning
+the same silent `202` response. Alert ownership, retry/idempotence semantics,
+and rollback rehearsal remain later operational work.

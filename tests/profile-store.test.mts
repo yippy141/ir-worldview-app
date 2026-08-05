@@ -16,6 +16,8 @@ import {
   type FoundationSnapshot,
   type ModuleSnapshot,
 } from "@/lib/profile-store"
+import { encodeModulePayload } from "@/lib/modules/framework"
+import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
 import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 
 function readFixture(version: 1 | 2 | 3 | 4 | 5) {
@@ -107,6 +109,49 @@ test("new V5 persistence strips render-time display copy", () => {
   assert.equal(persisted.foundation.locale, "zh-Hans")
   assert.equal(persisted.foundation.instrumentStructuralVersion, 3)
   assert.equal(persisted.foundation.scoringVersion, 1)
+})
+
+test("V22 module rehydration preserves mode-specific classification cuts", () => {
+  const scores = {
+    activism: 4.41,
+    escalation: 4.401,
+    alliance: 4.2,
+    legitimacy: 4.3,
+  }
+  const rehydrate = (mode: "standard" | "analyst") =>
+    parseProfileStore(
+      JSON.stringify({
+        ...emptyProfileStore(),
+        modules: {
+          security: {
+            timestamp: 1785868800000,
+            slug: "security",
+            mode,
+            scores,
+            overlayDeltas: {},
+            payload: encodeModulePayload({
+              v: 3,
+              bv: MODULE_V22_TUPLE.bankVersion,
+              sv: MODULE_V22_TUPLE.scoringVersion,
+              slug: "security",
+              mode,
+              answers: {},
+            }),
+            locale: "en",
+            localeCopyVersion: 1,
+          },
+        },
+      }),
+    ).modules.security
+
+  assert.equal(
+    rehydrate("standard")?.headline,
+    "Security read: pressure and visible deterrence",
+  )
+  assert.equal(
+    rehydrate("analyst")?.headline,
+    "Security read: no single lane dominates",
+  )
 })
 
 test("migrated non-regenerable English copy survives only in the legacy fallback", () => {

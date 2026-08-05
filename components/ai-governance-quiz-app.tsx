@@ -12,6 +12,7 @@ import {
   getScenarioPrompt,
 } from "@/lib/ai-governance-schema"
 import { getAiScenarioSequence } from "@/lib/ai-governance-scoring"
+import { AI_GOVERNANCE_V22_TUPLE } from "@/lib/ai-governance-versions"
 import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode, AiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { AiGlossaryDrawer } from "@/components/quiz/ai-glossary-drawer"
@@ -21,6 +22,9 @@ import {
 } from "@/lib/option-order"
 
 type AiQuizState = {
+  v: 2
+  bv: number
+  sv: number
   started: boolean
   mode: AiQuizMode
   answers: AiAnswers
@@ -35,6 +39,9 @@ function parseRequestedMode(value: string | null): AiQuizMode | null {
 
 function createEmptyState(): AiQuizState {
   return {
+    v: 2,
+    bv: AI_GOVERNANCE_V22_TUPLE.bankVersion,
+    sv: AI_GOVERNANCE_V22_TUPLE.scoringVersion,
     started: false,
     mode: "standard",
     answers: {},
@@ -45,7 +52,15 @@ function createEmptyState(): AiQuizState {
 function normalizeState(parsed: unknown): AiQuizState | null {
   if (typeof parsed !== "object" || parsed === null || !("answers" in parsed)) return null
   const raw = parsed as Record<string, unknown>
+  if (
+    raw.v !== 2 ||
+    raw.bv !== AI_GOVERNANCE_V22_TUPLE.bankVersion ||
+    raw.sv !== AI_GOVERNANCE_V22_TUPLE.scoringVersion
+  ) return null
   return {
+    v: 2,
+    bv: AI_GOVERNANCE_V22_TUPLE.bankVersion,
+    sv: AI_GOVERNANCE_V22_TUPLE.scoringVersion,
     started: Boolean(raw.started),
     mode: raw.mode === "analyst" ? "analyst" : "standard",
     answers: typeof raw.answers === "object" && raw.answers !== null
@@ -80,7 +95,11 @@ export function AiGovernanceQuizApp() {
       if (raw) {
         try {
           const normalized = normalizeState(JSON.parse(raw))
-          if (normalized) setState(normalized)
+          if (normalized) {
+            setState(normalized)
+          } else {
+            window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
+          }
         } catch {
           window.localStorage.removeItem(AI_GOVERNANCE_STORAGE_KEY)
         }

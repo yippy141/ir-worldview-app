@@ -5,11 +5,15 @@ import { useRouter } from "next/navigation"
 import { AI_GOVERNANCE_STORAGE_KEY, getAiCoreQuestions, getScenarioOptions } from "@/lib/ai-governance-schema"
 import { generateAiGovernanceResult, getAiScenarioSequence, getNeighboringArchetypeKey } from "@/lib/ai-governance-scoring"
 import { encodeAiPayload, aiAxisScoresToArray } from "@/lib/ai-governance-share"
+import { AI_GOVERNANCE_V22_TUPLE } from "@/lib/ai-governance-versions"
 import { markProfileSaveIntent } from "@/lib/profile-save-intent"
 import type { AiAnswers, AiQuestion, AiQuizMode } from "@/lib/ai-governance-types"
 import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 
 type AiQuizState = {
+  v: 2
+  bv: number
+  sv: number
   started: boolean
   mode: AiQuizMode
   answers: AiAnswers
@@ -27,8 +31,18 @@ function loadState(): AiQuizState | null {
   if (!raw) return null
   try {
     const parsed = JSON.parse(raw)
-    if (parsed && typeof parsed === "object" && "answers" in parsed) {
+    if (
+      parsed &&
+      typeof parsed === "object" &&
+      "answers" in parsed &&
+      parsed.v === 2 &&
+      parsed.bv === AI_GOVERNANCE_V22_TUPLE.bankVersion &&
+      parsed.sv === AI_GOVERNANCE_V22_TUPLE.scoringVersion
+    ) {
       return {
+        v: 2,
+        bv: AI_GOVERNANCE_V22_TUPLE.bankVersion,
+        sv: AI_GOVERNANCE_V22_TUPLE.scoringVersion,
         started: Boolean(parsed.started),
         mode: parsed.mode === "analyst" ? "analyst" : "standard",
         answers: parsed.answers ?? {},
@@ -90,7 +104,9 @@ export function AiGovernanceReviewScreen() {
       const result = generateAiGovernanceResult(answers, mode)
       const nk = getNeighboringArchetypeKey(result.archetypeKey, result.archetypeScores)
       const payload = encodeAiPayload({
-        v: 1,
+        v: 2,
+        bv: AI_GOVERNANCE_V22_TUPLE.bankVersion,
+        sv: AI_GOVERNANCE_V22_TUPLE.scoringVersion,
         as: aiAxisScoresToArray(result.axisScores),
         ak: result.archetypeKey,
         nk,

@@ -4,11 +4,12 @@ import type {
   AiScenarioOption,
   AiScenarioQuestion,
 } from "@/lib/ai-governance-types"
-import aiGovernanceBankJson from "@/content/instrument/ai-governance.v2.json" with {
+import aiGovernanceBankJson from "@/content/instrument/ai-governance.v3.json" with {
   type: "json",
 }
 
-export const AI_GOVERNANCE_SCHEMA_VERSION = 1
+export const AI_GOVERNANCE_BANK_VERSION = 3
+export const AI_GOVERNANCE_SCHEMA_VERSION = 2
 export { AI_GOVERNANCE_STORAGE_KEY } from "@/lib/storage-keys"
 export const aiLikertScale = [1, 2, 3, 4, 5, 6, 7] as const
 

@@ -4,10 +4,19 @@ import type {
   AggregateLabelCount,
   AggregateStats,
 } from "@/lib/percentiles"
-import { hasPublishableAggregateCohort } from "@/lib/percentiles"
-import { FOUNDATION_INSTRUMENT_VERSION } from "@/lib/quiz-schema"
+import {
+  hasPublishableAggregateCohort,
+  MIN_PERCENTILE_SAMPLE_SIZE,
+} from "@/lib/percentiles"
+import {
+  FOUNDATION_INSTRUMENT_VERSION,
+  FOUNDATION_STRUCTURAL_VERSION,
+} from "@/lib/quiz-schema"
 import { FOUNDATION_SCORING_VERSION } from "@/lib/scoring"
-import { PAYLOAD_DIMENSION_ORDER } from "@/lib/share"
+import {
+  PAYLOAD_DIMENSION_ORDER,
+  type ResolvedFoundationPayload,
+} from "@/lib/share"
 import {
   foundationAggregateFormKey,
   type Tier1Cohort,
@@ -129,7 +138,9 @@ export async function readCurrentAggregateStats(
       // handful of people. UI-level percentile suppression alone is not a
       // privacy boundary.
       if (hasPublishableAggregateCohort(normalizedLabels)) {
-        buckets = rows.bucketRows.flatMap((row) => normalizeBucketRow(row))
+        buckets = filterPublishableDimensionBuckets(
+          rows.bucketRows.flatMap((row) => normalizeBucketRow(row)),
+        )
         labels = normalizedLabels
       }
     } catch {
@@ -138,6 +149,8 @@ export async function readCurrentAggregateStats(
   }
 
   return {
+    instrument: "foundation",
+    mode: cohort.questionSet,
     instrumentVersion: FOUNDATION_INSTRUMENT_VERSION,
     scoringVersion: FOUNDATION_SCORING_VERSION,
     questionSet: cohort.questionSet,
@@ -149,6 +162,56 @@ export async function readCurrentAggregateStats(
     buckets,
     labels,
   }
+}
+
+/**
+ * Resolves the only public aggregate-read contract: an exact, current
+ * Foundation result cohort. Historical links remain readable as results, but
+ * they must not be compared with counters produced by a different tuple.
+ */
+export async function readAggregateStatsForFoundationPayload(
+  resolved: ResolvedFoundationPayload,
+): Promise<AggregateStats | null> {
+  if (resolved.payload.v !== 5) {
+    return null
+  }
+
+  const payload = resolved.payload
+  const { provenance, questionSet, targetedFamilyPair } = resolved
+
+  if (
+    payload.iv !== FOUNDATION_STRUCTURAL_VERSION ||
+    payload.bv !== FOUNDATION_INSTRUMENT_VERSION ||
+    payload.sv !== FOUNDATION_SCORING_VERSION ||
+    provenance.instrumentStructuralVersion !== FOUNDATION_STRUCTURAL_VERSION ||
+    provenance.instrumentVersion !== FOUNDATION_INSTRUMENT_VERSION ||
+    provenance.scoringVersion !== FOUNDATION_SCORING_VERSION ||
+    payload.qs !== questionSet ||
+    provenance.questionSet !== questionSet ||
+    !isFoundationQuestionSet(questionSet) ||
+    payload.cl !== provenance.completionLocale ||
+    !isCompletionLocale(provenance.completionLocale) ||
+    payload.cv !== provenance.localeCopyVersion ||
+    !Number.isInteger(provenance.localeCopyVersion) ||
+    provenance.localeCopyVersion < 0 ||
+    !hasExactTargetedPair(
+      questionSet,
+      [
+        targetedFamilyPair,
+        provenance.targetedFamilyPair,
+        payload.tp,
+      ],
+    )
+  ) {
+    return null
+  }
+
+  return readCurrentAggregateStats({
+    questionSet,
+    ...(targetedFamilyPair ? { targetedFamilyPair } : {}),
+    completionLocale: provenance.completionLocale,
+    localeCopyVersion: provenance.localeCopyVersion,
+  })
 }
 
 function normalizeBucketRow(row: BucketRow): AggregateDimensionBucket[] {
@@ -171,6 +234,36 @@ function normalizeBucketRow(row: BucketRow): AggregateDimensionBucket[] {
     bucket,
     count,
   }]
+}
+
+function filterPublishableDimensionBuckets(
+  buckets: readonly AggregateDimensionBucket[],
+): AggregateDimensionBucket[] {
+  const counts = new Map<DimensionKey, number>()
+  const invalidDimensions = new Set<DimensionKey>()
+
+  for (const entry of buckets) {
+    const count = (counts.get(entry.dimension) ?? 0) + entry.count
+    if (!Number.isSafeInteger(count)) {
+      invalidDimensions.add(entry.dimension)
+      continue
+    }
+    counts.set(entry.dimension, count)
+  }
+
+  const publishableDimensions = new Set(
+    [...counts.entries()]
+      .filter(
+        ([dimension, count]) =>
+          !invalidDimensions.has(dimension) &&
+          count >= MIN_PERCENTILE_SAMPLE_SIZE,
+      )
+      .map(([dimension]) => dimension),
+  )
+
+  return buckets.filter((entry) =>
+    publishableDimensions.has(entry.dimension),
+  )
 }
 
 function normalizeLabelRow(row: LabelRow): AggregateLabelCount[] {
@@ -196,5 +289,45 @@ function isNormativeModifier(value: string): value is NormativeModifier {
     value === "Pluralist" ||
     value === "Conditional Solidarist" ||
     value === "Universalist"
+  )
+}
+
+function isFoundationQuestionSet(
+  value: unknown,
+): value is Tier1Cohort["questionSet"] {
+  return (
+    value === "core" ||
+    value === "targetedExtended" ||
+    value === "fullExtended"
+  )
+}
+
+function isCompletionLocale(
+  value: unknown,
+): value is Tier1Cohort["completionLocale"] {
+  return value === "en" || value === "zh-Hans"
+}
+
+function hasExactTargetedPair(
+  questionSet: Tier1Cohort["questionSet"],
+  pairs: readonly (
+    | ResolvedFoundationPayload["targetedFamilyPair"]
+    | undefined
+  )[],
+): boolean {
+  if (questionSet !== "targetedExtended") {
+    return pairs.every((pair) => pair === undefined)
+  }
+
+  const first = pairs[0]
+  return (
+    first !== undefined &&
+    pairs.every(
+      (pair) =>
+        pair !== undefined &&
+        pair[0] === first[0] &&
+        pair[1] === first[1],
+    ) &&
+    foundationAggregateFormKey(questionSet, first) !== null
   )
 }

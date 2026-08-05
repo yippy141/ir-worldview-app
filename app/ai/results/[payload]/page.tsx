@@ -2,10 +2,8 @@ import Link from "next/link"
 import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { AiProfileSync } from "@/components/profile/ai-profile-sync"
 import { ScaleBar } from "@/components/visual-primitives"
-import { decodeAiPayload, aiPayloadToAxisScores } from "@/lib/ai-governance-share"
+import { aiPayloadToAxisScores, resolveAiPayload } from "@/lib/ai-governance-share"
 import {
-  archetypeLabelFromKey,
-  archetypeDescriptions,
   buildAiGovernanceSummary,
   getAiAxisPush,
   getAiComparisonAxes,
@@ -30,8 +28,8 @@ export async function generateMetadata(
   { params }: { params: Promise<{ payload: string }> },
 ): Promise<Metadata> {
   const { payload } = await params
-  const decoded = decodeAiPayload(payload)
-  if (!decoded) {
+  const resolved = resolveAiPayload(payload)
+  if (!resolved) {
     const title = "Shared AI Governance result — AI Governance Compass"
     const description =
       "Open a shared AI Governance Compass result, or take the questionnaire to map your frontier-AI governance instincts."
@@ -39,9 +37,17 @@ export async function generateMetadata(
     return buildAiResultMetadata(title, description)
   }
 
-  const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
-  const deepDive = buildAiGovernanceDeepDive(profileResult)
-  const label = archetypeLabelFromKey(decoded.ak)
+  const decoded = resolved.payload
+  const profileResult = buildAiGovernanceResultFromSharePayload(
+    decoded,
+    resolved,
+  )
+  const deepDive = buildAiGovernanceDeepDive(
+    profileResult,
+    resolved.scoring.archetypeProfiles,
+    resolved.scoring.archetypeLabels,
+  )
+  const label = resolved.scoring.archetypeLabels[decoded.ak]
   const title = `${label} result — AI Governance Compass`
   const description = `Shared AI Governance Compass result: ${deepDive.governingInstinct}`
 
@@ -69,9 +75,9 @@ export default async function AiResultPage(
   { params }: { params: Promise<{ payload: string }> },
 ) {
   const { payload } = await params
-  const decoded = decodeAiPayload(payload)
+  const resolved = resolveAiPayload(payload)
 
-  if (!decoded) {
+  if (!resolved) {
     return (
       <div className="container stack-lg result-invalid">
         <div className="panel stack-md">
@@ -88,19 +94,32 @@ export default async function AiResultPage(
     )
   }
 
+  const decoded = resolved.payload
   const axisScores = aiPayloadToAxisScores(decoded)
-  const archetypeLabel = archetypeLabelFromKey(decoded.ak)
-  const explanation = archetypeDescriptions[decoded.ak]
-  const profileSummary = buildAiGovernanceSummary(decoded.ak, axisScores, decoded.rl, decoded.pm)
+  const archetypeLabel = resolved.scoring.archetypeLabels[decoded.ak]
+  const explanation = resolved.scoring.archetypeDescriptions[decoded.ak]
+  const profileSummary = buildAiGovernanceSummary(
+    decoded.ak,
+    axisScores,
+    decoded.rl,
+    decoded.pm,
+    resolved.scoring.archetypeLabels,
+  )
   const axisCards = getAxisCards(axisScores)
   const axisPush = getAiAxisPush(axisScores)
   const heroAxisSignals = axisPush.slice(0, 3)
-  const profileResult = buildAiGovernanceResultFromSharePayload(decoded)
-  const deepDive = buildAiGovernanceDeepDive(profileResult)
+  const profileResult = buildAiGovernanceResultFromSharePayload(
+    decoded,
+    resolved,
+  )
+  const deepDive = buildAiGovernanceDeepDive(
+    profileResult,
+    resolved.scoring.archetypeProfiles,
+    resolved.scoring.archetypeLabels,
+  )
   const payoff = buildAiGovernancePayoff(profileResult)
-  // The comparison card recomputes the neighbour from the decoded axis scores.
-  // Use that key for the table too, so the section header, the table, and the
-  // contrast sentence all name the same archetype.
+  // Keep the encoded neighbouring identity authoritative across versions.
+  // The section header, table, and contrast sentence use the same frozen key.
   const runnerUpKey = deepDive.comparison.runnerUpKey
   const runnerUpLabel = deepDive.comparison.runnerUpLabel
   const identityCode = [archetypeLabel, decoded.rl, decoded.pm, decoded.gm]
@@ -147,7 +166,7 @@ export default async function AiResultPage(
                 key={signal.key}
                 label={signal.label}
                 value={signal.score}
-                valueLabel={`${signal.score.toFixed(1)} / 7`}
+                valueLabel={signal.score.toFixed(1)}
                 tone="ai"
               />
             ))}
@@ -178,7 +197,12 @@ export default async function AiResultPage(
           <NearestAlternative
             primaryLabel={archetypeLabel}
             runnerUpLabel={runnerUpLabel}
-            rows={getAiComparisonAxes(decoded.ak, runnerUpKey, axisScores).map((row) => ({
+            rows={getAiComparisonAxes(
+              decoded.ak,
+              runnerUpKey,
+              axisScores,
+              resolved.scoring.archetypeProfiles,
+            ).map((row) => ({
               key: row.axis,
               label: row.label,
               userScore: row.userScore,
@@ -221,7 +245,11 @@ export default async function AiResultPage(
                 <p className="result-prose ai-result-body">{explanation}</p>
               </div>
 
-              <AiGovernanceProfileSections result={profileResult} />
+              <AiGovernanceProfileSections
+                result={profileResult}
+                archetypeProfiles={resolved.scoring.archetypeProfiles}
+                archetypeLabels={resolved.scoring.archetypeLabels}
+              />
 
               <div className="stack-md">
                 <h2>Axis profile</h2>
@@ -241,9 +269,8 @@ export default async function AiResultPage(
                 <p className="result-strong">Coverage limits</p>
                 <p className="muted result-note-sm">
                   The Compass covers a defined set of AI governance debates and leaves others
-                  outside its scope. Scores locate you inside this model and carry no
-                  population-percentile meaning. The archetype is the closest fit among six
-                  authored profiles.{" "}
+                  outside its scope. The raw scores locate this response inside the model. The
+                  archetype is the closest fit among six authored profiles.{" "}
                   <Link href="/method">Full methods note →</Link>{" "}
                   <Link href="/ai/field-guide">AI scope →</Link>
                 </p>

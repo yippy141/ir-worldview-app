@@ -89,7 +89,7 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
             {view.foundation.dimensions.map((dimension) => (
               <div key={dimension.key}>
                 <dt>{dimension.label}</dt>
-                <dd>{dimension.score.toFixed(2)} / 7</dd>
+                <dd>{dimension.score.toFixed(2)}</dd>
               </div>
             ))}
           </dl>

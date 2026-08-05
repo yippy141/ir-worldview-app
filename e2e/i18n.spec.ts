@@ -251,7 +251,7 @@ test("one canonical Profile Share V3 payload renders in English and Chinese", as
   await page.goto(`${chinesePath}?source=shared-profile#foundation`)
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   await expect(page.getByRole("heading", { name: "自由制度主义：一份连续画像" })).toBeVisible()
-  await expect(page.getByText("5.80 / 7")).toBeVisible()
+  await expect(page.getByText("5.80")).toBeVisible()
   await page.getByRole("link", { name: "切换至英文" }).last().click()
   await expect(page).toHaveURL(
     new RegExp(`${englishPath}\\?source=shared-profile#foundation$`),
