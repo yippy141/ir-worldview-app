@@ -8655,6 +8655,80 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 /* Restraint posture — a one-dimensional scale for the dimension the map's
    projection does not use. Deliberately not a chart. */
+/* How firmly the placement is fixed. Replaces the old spread ring, whose
+   radius grew as the profile committed LESS — a ring reads as confidence
+   whatever it encodes. Here the fill grows with the top-two gap. */
+.firmness-bar {
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.firmness-bar__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  flex-wrap: wrap;
+}
+
+.firmness-bar__head h3 {
+  margin: 0;
+}
+
+.firmness-bar__label {
+  flex-shrink: 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.firmness-bar__label[data-band="loose"] {
+  color: var(--muted);
+}
+
+.firmness-bar__label[data-band="moderate"] {
+  color: var(--steel);
+}
+
+.firmness-bar__label[data-band="firm"] {
+  color: var(--accent);
+}
+
+.firmness-bar__track {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--line-2) 60%, transparent);
+  overflow: hidden;
+}
+
+.firmness-bar__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 3px;
+  background: var(--faint);
+}
+
+.firmness-bar__track[data-band="moderate"] .firmness-bar__fill {
+  background: var(--steel);
+}
+
+.firmness-bar__track[data-band="firm"] .firmness-bar__fill {
+  background: var(--accent);
+}
+
+/* The point below which the model calls the reading loosely fixed. */
+.firmness-bar__cut {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--bg);
+}
+
 .posture-strip {
   padding-top: 20px;
   border-top: 1px solid var(--line);

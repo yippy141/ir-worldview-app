@@ -253,6 +253,7 @@ export function FieldExplorer() {
       key,
       kind: item.kind,
       entityType: item.entityType,
+      familyKey: item.familyKey,
       label: item.label,
       position: item.position as MapPosition,
       selected: key === selectedItemKey,
@@ -607,7 +608,7 @@ export function FieldExplorer() {
                   caption={
                     filters.scopes.includes("ai-governance" as ReferenceScope)
                       ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
-                      : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. Overlapping marks stack into one cluster that fans open on hover or selection."
+                      : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. The vertical axis separates realism, institutionalism, and critical political economy only weakly, because all three read world politics through material forces. Overlapping marks stack into one cluster that fans open on hover or selection."
                   }
                   copy={copy}
                 />

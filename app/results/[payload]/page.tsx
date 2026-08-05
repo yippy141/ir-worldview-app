@@ -45,6 +45,7 @@ import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
 import { familySlug } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
+import { PlacementFirmnessBar } from "@/components/results/placement-firmness-bar"
 import { PostureStrip } from "@/components/results/posture-strip"
 import { ShareActions } from "@/components/results/share-actions"
 import { HistoryCompare } from "@/components/results/history-compare"
@@ -172,6 +173,7 @@ export default async function ResultPage(
   const { dimensionScores, result, resultTier } = resolved
   const {
     lowDifferentiationThreshold,
+    sharplyDifferentiatedThreshold,
   } = getV2ScoringCalibration(resolved.scoringCalibration)
   const aggregateStats = await readMatchingAggregateStats(resolved)
   const dimensionPercentiles = buildDimensionPercentiles(dimensionScores, aggregateStats)
@@ -438,6 +440,13 @@ export default async function ResultPage(
             <DimensionFieldMap
               dimensionScores={dimensionScores}
               lowDifferentiation={lowDifferentiation}
+            />
+            <PlacementFirmnessBar
+              nearestFitGap={nearestFitGap}
+              state={foundationNarrative.state}
+              runnerUpLabel={neighborLabel}
+              lowDifferentiationThreshold={lowDifferentiationThreshold}
+              sharplyDifferentiatedThreshold={sharplyDifferentiatedThreshold}
             />
             <PostureStrip
               result={result}

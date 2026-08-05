@@ -187,7 +187,10 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
       </div>
 
       <p className="field-map__caption muted">
-        The dot is where your answers place you.
+        The dot is where your answers place you. The vertical axis separates
+        realism, institutionalism, and critical political economy only weakly,
+        because all three read world politics through material forces — so
+        distance between those three says less than distance to constructivism.
       </p>
     </div>
   )

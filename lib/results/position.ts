@@ -33,8 +33,11 @@ import type { DimensionKey, DimensionScores, FamilyKey } from "@/lib/types"
 // weights place realism on the power side but tipped slightly toward the
 // order/sovereignty (normative) pole, because realism organizes around order
 // and sovereignty rather than economic structure, while critical political
-// economy sits at the material extreme. This limitation is deliberate and is
-// surfaced in the caption rather than hidden.
+// economy sits at the material extreme. This limitation is deliberate. It is
+// stated to the reader in the map captions — see the caption in
+// components/results/dimension-field-map.tsx and the Worldview Map caption in
+// components/field/field-explorer.tsx — and any change here must keep those in
+// step.
 //
 // The raw axis sums are normalized by empirically chosen spread constants so
 // that strongly differentiated profiles reach roughly half to two-thirds of
@@ -265,6 +268,21 @@ export const TRADITION_ANCHORS: TraditionAnchor[] = [
     quadrant: "Structural competition over economic hierarchy",
   },
 ]
+
+const ANCHOR_COLOR_VARS = Object.fromEntries(
+  TRADITION_ANCHORS.map((anchor) => [anchor.key, anchor.colorVar]),
+) as Record<FamilyKey, string>
+
+/**
+ * The CSS custom property holding a family's tradition colour.
+ *
+ * Marks that belong to a family reuse the anchor colour already on the plot,
+ * so a tinted mark and its tradition read as the same thing. Colour is never
+ * the only encoding: every marker also carries a shape and a label.
+ */
+export function familyColorVar(key: FamilyKey): string {
+  return ANCHOR_COLOR_VARS[key]
+}
 
 export const AXIS_LABELS = {
   left: "Power & competition",
