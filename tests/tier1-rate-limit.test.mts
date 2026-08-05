@@ -2,6 +2,11 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import { createTier1AggregateRateLimiter } from "@/lib/research/tier1-rate-limit"
 
+const mutableProcessEnv = process.env as {
+  VERCEL?: string
+  NODE_ENV?: string
+}
+
 function request(ipHeader?: string, header = "x-vercel-forwarded-for") {
   return new Request("https://example.test/api/aggregate/result", {
     headers: ipHeader ? { [header]: ipHeader } : {},
@@ -75,10 +80,10 @@ test("trusted forwarding headers take priority and malformed IPs fail closed", (
 })
 
 test("Vercel production uses its spoof-resistant client IP header", () => {
-  const originalVercel = process.env.VERCEL
-  const originalNodeEnv = process.env.NODE_ENV
-  process.env.VERCEL = "1"
-  process.env.NODE_ENV = "production"
+  const originalVercel = mutableProcessEnv.VERCEL
+  const originalNodeEnv = mutableProcessEnv.NODE_ENV
+  mutableProcessEnv.VERCEL = "1"
+  mutableProcessEnv.NODE_ENV = "production"
 
   try {
     const limiter = testLimiter({ now: () => 0 })
@@ -95,23 +100,23 @@ test("Vercel production uses its spoof-resistant client IP header", () => {
     assert.equal(limiter.take(request("198.51.100.51"), "result"), true)
   } finally {
     if (originalVercel === undefined) {
-      delete process.env.VERCEL
+      delete mutableProcessEnv.VERCEL
     } else {
-      process.env.VERCEL = originalVercel
+      mutableProcessEnv.VERCEL = originalVercel
     }
     if (originalNodeEnv === undefined) {
-      delete process.env.NODE_ENV
+      delete mutableProcessEnv.NODE_ENV
     } else {
-      process.env.NODE_ENV = originalNodeEnv
+      mutableProcessEnv.NODE_ENV = originalNodeEnv
     }
   }
 })
 
 test("non-Vercel production ignores caller-supplied forwarding headers", () => {
-  const originalVercel = process.env.VERCEL
-  const originalNodeEnv = process.env.NODE_ENV
-  delete process.env.VERCEL
-  process.env.NODE_ENV = "production"
+  const originalVercel = mutableProcessEnv.VERCEL
+  const originalNodeEnv = mutableProcessEnv.NODE_ENV
+  delete mutableProcessEnv.VERCEL
+  mutableProcessEnv.NODE_ENV = "production"
 
   try {
     const limiter = testLimiter({ now: () => 0 })
@@ -120,14 +125,14 @@ test("non-Vercel production ignores caller-supplied forwarding headers", () => {
     assert.equal(limiter.take(request("198.51.100.42"), "result"), false)
   } finally {
     if (originalVercel === undefined) {
-      delete process.env.VERCEL
+      delete mutableProcessEnv.VERCEL
     } else {
-      process.env.VERCEL = originalVercel
+      mutableProcessEnv.VERCEL = originalVercel
     }
     if (originalNodeEnv === undefined) {
-      delete process.env.NODE_ENV
+      delete mutableProcessEnv.NODE_ENV
     } else {
-      process.env.NODE_ENV = originalNodeEnv
+      mutableProcessEnv.NODE_ENV = originalNodeEnv
     }
   }
 })
