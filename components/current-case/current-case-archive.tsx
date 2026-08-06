@@ -19,7 +19,13 @@ import {
 import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
 import styles from "./current-case.module.css"
 
-export function CurrentCaseArchive({ records }: { records: CurrentCasePublicRecord[] }) {
+export function CurrentCaseArchive({
+  records,
+  activeCaseId,
+}: {
+  records: CurrentCasePublicRecord[]
+  activeCaseId: string | null
+}) {
   const [store, setStore] = useState<CurrentCaseResponseStore | null>(null)
   const locale = useLocale() as Locale
   const copy = currentCaseContent(locale).archive
@@ -39,13 +45,23 @@ export function CurrentCaseArchive({ records }: { records: CurrentCasePublicReco
         const draft = store ? getCurrentCaseDraft(store, record.id) : null
         const validDraft =
           draft && draft.step !== "brief" && isDraftForCurrentCase(draft, record) ? draft : null
+        const archiveFreshnessStatus =
+          record.id === activeCaseId
+            ? "active"
+            : record.freshnessStatus === "active"
+              ? "review-due"
+              : record.freshnessStatus
         const status = validResponse
           ? copy.completed(formatLocalizedDate(validResponse.completedAt, locale, "medium"))
           : validDraft
             ? copy.draft
-            : record.launchRole === "launch"
+            : archiveFreshnessStatus === "active"
               ? copy.current
-              : copy.archive
+              : archiveFreshnessStatus === "review-due"
+                ? copy.reviewDue
+                : archiveFreshnessStatus === "background"
+                  ? copy.background
+                  : copy.archived
         const action = validResponse ? copy.review : validDraft ? copy.resume : copy.open
 
         return (

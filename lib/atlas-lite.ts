@@ -1,29 +1,4 @@
-import type { ModuleSlug } from "@/lib/modules/types"
-import {
-  assessFoundationNarrative,
-  type FoundationNarrativeState,
-} from "@/lib/narrative/foundation"
-import type { ProfileState } from "@/lib/profile-helpers"
-import type { FoundationSnapshot, ModuleSnapshot } from "@/lib/profile-store"
-import type {
-  DimensionKey, DimensionScores, FamilyKey, NormativeModifier, StrategyModifier,
-} from "@/lib/types"
-
-type DimensionHint = {
-  min?: number
-  max?: number
-}
-
-type AtlasPatternRules = {
-  families?: FamilyKey[]
-  runnerUps?: FamilyKey[]
-  strategyModifiers?: StrategyModifier[]
-  normativeModifiers?: NormativeModifier[]
-  foundationStates?: FoundationNarrativeState[]
-  profileStates?: ProfileState[]
-  prefersModules?: ModuleSlug[]
-  dimensionHints?: Partial<Record<DimensionKey, DimensionHint>>
-}
+import type { FamilyKey } from "@/lib/types"
 
 export type AtlasFingerprintKey =
   | "competition"
@@ -71,25 +46,9 @@ export type AtlasLitePattern = {
   pressureTestQuestions: string[]
   fingerprint: Record<AtlasFingerprintKey, AtlasFingerprintLevel>
   neighborIds: string[]
-  rules: AtlasPatternRules
 }
 
-export type AtlasLiteMatch = {
-  nearest: AtlasLitePattern
-  neighbors: AtlasLitePattern[]
-}
-
-type AtlasMatchContext = {
-  familyKey: FamilyKey
-  runnerUpKey: FamilyKey
-  strategyModifier: StrategyModifier
-  normativeModifier: NormativeModifier
-  dimensionScores: DimensionScores
-  foundationState: FoundationNarrativeState
-  profileState?: ProfileState
-  moduleSlugs?: ModuleSlug[]
-}
-
+// This is a static editorial collection. It does not assign a pattern to a user.
 export const atlasLitePatterns: AtlasLitePattern[] = [
   {
     id: "broad-spectrum-bridge-builder",
@@ -109,13 +68,13 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     cardPressureNote:
       "Security often forces a clearer choice on deterrence, while Technology usually sorts views on openness and dependence faster than the baseline does.",
     detailSummary:
-      "This pattern is less about indecision than about holding several lines of argument open at once. The user usually wants more evidence before settling on a single school as the default lens.",
+      "This pattern is less about indecision than about holding several lines of argument open at once. Its logic asks for more evidence before treating a single school as the default lens.",
     soWhat:
       "In practice, this pattern is slower to accept one master explanation and more likely to ask which argument still survives contact with the case.",
     detailDrivers: [
       "The strongest signals sit close together rather than stacking into one firm worldview.",
       "Rivalry, institutions, legitimacy, and political economy all retain some pull.",
-      "The profile often wants a harder issue case before it accepts a sharper label.",
+      "The pattern often calls for a harder issue case before accepting a sharper conclusion.",
     ],
     underestimates: [
       "Moments when a choice really does need to be made quickly.",
@@ -140,16 +99,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["coalition-pragmatist", "cross-pressured-synthesizer"],
-    rules: {
-      foundationStates: ["lowDifferentiation"],
-      profileStates: ["lowDifferentiation", "stableModeration"],
-      dimensionHints: {
-        securityCompetition: { min: 3.2, max: 4.8 },
-        institutions: { min: 3.2, max: 5.0 },
-        restraint: { min: 3.1, max: 4.9 },
-        orderJustice: { min: 3.1, max: 4.9 },
-      },
-    },
   },
   {
     id: "constraint-first-realist",
@@ -199,15 +148,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "high",
     },
     neighborIds: ["competitive-balancer", "coalition-pragmatist"],
-    rules: {
-      families: ["realist"],
-      strategyModifiers: ["Restrainer"],
-      dimensionHints: {
-        securityCompetition: { min: 5.0 },
-        restraint: { min: 5.0 },
-        orderJustice: { min: 4.3 },
-      },
-    },
   },
   {
     id: "competitive-balancer",
@@ -230,9 +170,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     soWhat:
       "In practice, this pattern is readier to use leverage early and to accept friction if it improves long-run position.",
     detailDrivers: [
-      "Security competition is usually the strongest explanatory signal in the profile.",
+      "Security competition is usually the strongest explanatory signal in the pattern.",
       "Institutions are judged mainly by whether they help or hinder power management.",
-      "The profile is readier to accept friction if it believes the strategic payoff is durable.",
+      "The pattern is readier to accept friction when the strategic payoff appears durable.",
     ],
     underestimates: [
       "Coalition fatigue and escalation ceilings that arrive before the payoff does.",
@@ -257,14 +197,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "low",
     },
     neighborIds: ["constraint-first-realist", "structural-inequality-critic"],
-    rules: {
-      families: ["realist"],
-      strategyModifiers: ["Hedger", "Maximizer"],
-      dimensionHints: {
-        securityCompetition: { min: 5.0 },
-        restraint: { max: 4.2 },
-      },
-    },
   },
   {
     id: "coalition-pragmatist",
@@ -315,16 +247,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "high",
     },
     neighborIds: ["institution-builder", "constraint-first-realist"],
-    rules: {
-      families: ["institutionalist"],
-      runnerUps: ["realist", "constructivist"],
-      strategyModifiers: ["Restrainer", "Hedger"],
-      dimensionHints: {
-        institutions: { min: 5.0 },
-        restraint: { min: 4.1 },
-        securityCompetition: { min: 3.8, max: 5.5 },
-      },
-    },
   },
   {
     id: "institution-builder",
@@ -350,7 +272,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     detailDrivers: [
       "Institutional design is treated as a real source of order, not just a mirror of power.",
       "Domestic politics stays in view because commitments are only credible if states can actually keep them.",
-      "The profile does not need a hard rivalry frame to explain most cases.",
+      "The pattern does not need a hard rivalry frame to explain most cases.",
     ],
     underestimates: [
       "How quickly hard rivalry can hollow out rules and monitoring arrangements.",
@@ -375,15 +297,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["coalition-pragmatist", "legitimacy-attuned-reader"],
-    rules: {
-      families: ["institutionalist"],
-      strategyModifiers: ["Restrainer", "Hedger"],
-      dimensionHints: {
-        institutions: { min: 5.4 },
-        domesticFilters: { min: 4.4 },
-        securityCompetition: { max: 4.9 },
-      },
-    },
   },
   {
     id: "legitimacy-attuned-reader",
@@ -408,7 +321,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "In practice, this pattern is likely to ask who is interpreting the move, how it is framed, and what claims look legitimate before jumping to raw capability alone.",
     detailDrivers: [
       "Norms and identity remain active explanatory signals rather than rhetorical decoration.",
-      "The profile wants to know how the same policy looks from different historical and regional vantage points.",
+      "The pattern asks how the same policy looks from different historical and regional vantage points.",
       "Order and justice stay open questions rather than a settled ranking.",
     ],
     underestimates: [
@@ -434,13 +347,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["justice-forward-solidarist", "institution-builder"],
-    rules: {
-      families: ["constructivist"],
-      dimensionHints: {
-        normsIdentity: { min: 5.2 },
-        institutions: { min: 3.8, max: 5.6 },
-      },
-    },
   },
   {
     id: "justice-forward-solidarist",
@@ -466,7 +372,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     detailDrivers: [
       "Justice-sensitive answers remain visible even when order and precedent are kept in view.",
       "Legitimacy is treated as part of the case for action, not only as a constraint on action.",
-      "The profile is especially attentive to who is left exposed when rules are applied too rigidly.",
+      "The pattern is especially attentive to who is left exposed when rules are applied too rigidly.",
     ],
     underestimates: [
       "Precedent costs and the difficulty of keeping limited action limited.",
@@ -491,14 +397,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["legitimacy-attuned-reader", "cross-pressured-synthesizer"],
-    rules: {
-      families: ["constructivist", "institutionalist"],
-      normativeModifiers: ["Universalist", "Conditional Solidarist"],
-      dimensionHints: {
-        normsIdentity: { min: 5.0 },
-        orderJustice: { max: 3.9 },
-      },
-    },
   },
   {
     id: "structural-inequality-critic",
@@ -548,13 +446,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["development-sovereignty-builder", "competitive-balancer"],
-    rules: {
-      families: ["criticalPoliticalEconomy"],
-      dimensionHints: {
-        politicalEconomy: { min: 5.2 },
-        domesticFilters: { min: 4.2 },
-      },
-    },
   },
   {
     id: "development-sovereignty-builder",
@@ -578,7 +469,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     soWhat:
       "In practice, this pattern is likely to judge policy by whether it preserves room to maneuver, build capacity, and avoid lock-in later.",
     detailDrivers: [
-      "Political economy and domestic capacity move together in the profile.",
+      "Political economy and domestic capacity move together in the pattern.",
       "The main fear is lock-in: arrangements that narrow future bargaining space.",
       "The closest neighbor is often institutionalist or critical political economy rather than pure realism.",
     ],
@@ -605,14 +496,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["structural-inequality-critic", "coalition-pragmatist"],
-    rules: {
-      families: ["criticalPoliticalEconomy", "institutionalist"],
-      runnerUps: ["criticalPoliticalEconomy", "institutionalist"],
-      dimensionHints: {
-        politicalEconomy: { min: 4.8 },
-        domesticFilters: { min: 4.8 },
-      },
-    },
   },
   {
     id: "cross-pressured-synthesizer",
@@ -623,7 +506,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     primaryFamily: "institutionalist",
     secondaryFamilies: ["constructivist", "criticalPoliticalEconomy"],
     cardSummary:
-      "This pattern does not settle into one clean doctrine: different domains or question types pull the profile in materially different directions.",
+      "This pattern does not settle into one clean doctrine: different domains or question types pull its logic in materially different directions.",
     cardDrivers: [
       "Security and Technology do not point the same way",
       "Explanation and choice can diverge",
@@ -632,13 +515,13 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     cardPressureNote:
       "Security often hardens the diagnosis faster than the endorsement, while Technology can reveal a different balance between control, governance, and access.",
     detailSummary:
-      "This pattern is not simple overlap. The user does sort in one direction under some conditions, then changes emphasis under others. The result is better read as a structured tension than as a fuzzy center.",
+      "This pattern is not simple overlap. Its logic sorts in one direction under some conditions, then changes emphasis under others. The pattern is better read as a structured tension than as a fuzzy center.",
     soWhat:
-      "In practice, this pattern does not give one all-purpose reflex. It tells you where your reasoning changes by domain or by the shift from diagnosis to decision.",
+      "In practice, this pattern does not supply one all-purpose reflex. It shows how reasoning can change by domain or by the shift from diagnosis to decision.",
     detailDrivers: [
-      "Saved overlays create a real domain-conditioned shift or cross-domain tension.",
+      "Domain comparisons create a real shift or cross-domain tension.",
       "Explanation and decision logics do not collapse neatly into one line.",
-      "The baseline remains useful, but not as an all-purpose reflex.",
+      "No single baseline is treated as an all-purpose reflex.",
     ],
     underestimates: [
       "How hard it can be to state one simple line under pressure.",
@@ -651,9 +534,9 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     confusionNote:
       "It is often confused with Bridge Builder because both resist a single hard label. The difference is that Bridge Builder holds several arguments open at once, while Cross-Pressured Synthesizer shows a genuine split between domains or between diagnosis and policy choice.",
     pressureTestQuestions: [
-      "Which domain do you trust more when your own issue reads point in different directions?",
-      "Do you explain the case in harder terms than you are willing to endorse in policy?",
-      "Is the tension stable enough to treat as part of the profile rather than as noise?",
+      "Which domain should carry more weight when issue readings point in different directions?",
+      "Does the diagnosis read harder than the policy endorsement?",
+      "Is the tension stable enough to treat as part of the pattern rather than as noise?",
     ],
     fingerprint: {
       competition: "medium",
@@ -663,9 +546,6 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       restraint: "medium",
     },
     neighborIds: ["broad-spectrum-bridge-builder", "legitimacy-attuned-reader"],
-    rules: {
-      profileStates: ["trueTension", "domainConditionedShift"],
-    },
   },
 ]
 
@@ -689,115 +569,4 @@ export function getAtlasLiteNeighbors(pattern: AtlasLitePattern) {
 
 export function getAtlasPatternHref(id: string) {
   return `/explore/atlas/${id}`
-}
-
-export function matchAtlasLiteFoundation(input: {
-  familyKey: FamilyKey
-  runnerUpKey: FamilyKey
-  strategyModifier: StrategyModifier
-  normativeModifier: NormativeModifier
-  dimensionScores: DimensionScores
-  foundationState: FoundationNarrativeState
-}): AtlasLiteMatch {
-  return matchAtlasLite({
-    ...input,
-  })
-}
-
-export function matchAtlasLiteProfile(input: {
-  foundation: FoundationSnapshot
-  profileState: ProfileState
-  moduleSnapshots: ModuleSnapshot[]
-}): AtlasLiteMatch {
-  return matchAtlasLite({
-    familyKey: input.foundation.familyKey,
-    runnerUpKey: input.foundation.runnerUpKey,
-    strategyModifier: input.foundation.strategyModifier,
-    normativeModifier: input.foundation.normativeModifier,
-    dimensionScores: input.foundation.dimensionScores,
-    foundationState: assessFoundationNarrative(input.foundation.dimensionScores).state,
-    profileState: input.profileState,
-    moduleSlugs: input.moduleSnapshots.map((snapshot) => snapshot.slug),
-  })
-}
-
-function matchAtlasLite(context: AtlasMatchContext): AtlasLiteMatch {
-  const ordered = atlasLitePatterns
-    .map((pattern) => ({
-      pattern,
-      score: scorePattern(pattern, context),
-    }))
-    .sort((a, b) => b.score - a.score)
-
-  const nearest = ordered[0]?.pattern ?? atlasLitePatterns[0]
-  const neighbors = getAtlasLiteNeighbors(nearest).slice(0, 2)
-
-  return {
-    nearest,
-    neighbors,
-  }
-}
-
-function scorePattern(pattern: AtlasLitePattern, context: AtlasMatchContext) {
-  let score = 0
-
-  score += scoreMembership(pattern.rules.families, context.familyKey, 2.4)
-  score += scoreMembership(pattern.rules.runnerUps, context.runnerUpKey, 0.8)
-  score += scoreMembership(pattern.rules.strategyModifiers, context.strategyModifier, 1.15)
-  score += scoreMembership(pattern.rules.normativeModifiers, context.normativeModifier, 1.15)
-  score += scoreMembership(pattern.rules.foundationStates, context.foundationState, 3.2)
-
-  if (pattern.rules.profileStates) {
-    score += context.profileState
-      ? scoreMembership(pattern.rules.profileStates, context.profileState, 9.2)
-      : pattern.rules.foundationStates
-        ? 0
-        : -1.2
-  }
-
-  if (pattern.rules.prefersModules && context.moduleSlugs) {
-    for (const slug of pattern.rules.prefersModules) {
-      if (context.moduleSlugs.includes(slug)) {
-        score += 0.4
-      }
-    }
-  }
-
-  if (pattern.rules.dimensionHints) {
-    for (const [dimension, hint] of Object.entries(pattern.rules.dimensionHints) as [
-      DimensionKey,
-      DimensionHint,
-    ][]) {
-      score += scoreDimensionHint(context.dimensionScores[dimension], hint)
-    }
-  }
-
-  return Number(score.toFixed(2))
-}
-
-function scoreMembership<T extends string>(values: T[] | undefined, current: T, weight: number) {
-  if (!values || values.length === 0) return 0
-  return values.includes(current) ? weight : 0
-}
-
-function scoreDimensionHint(value: number, hint: DimensionHint) {
-  let score = 0
-
-  if (hint.min !== undefined) {
-    if (value >= hint.min) {
-      score += 0.65
-    } else if (hint.min - value <= 0.35) {
-      score += 0.18
-    }
-  }
-
-  if (hint.max !== undefined) {
-    if (value <= hint.max) {
-      score += 0.65
-    } else if (value - hint.max <= 0.35) {
-      score += 0.18
-    }
-  }
-
-  return score
 }

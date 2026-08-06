@@ -32,7 +32,6 @@ import type {
   CompletedCurrentCaseResponse,
   CurrentCaseConfidence,
   CurrentCaseDraft,
-  CurrentCaseFoundationConnection,
   CurrentCaseStepId,
 } from "@/lib/current-cases/types"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
@@ -121,6 +120,9 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
         : null,
     [completed, foundation, record],
   )
+  const foundationConnectionUnavailable =
+    foundationConnection?.kind === "unavailable"
+    && foundationConnection.unavailableReason === "missing-authored-mapping"
 
   function updateDraft(patch: Partial<CurrentCaseDraft>) {
     setDraft((current) => ({
@@ -361,8 +363,8 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
           <p className={styles.sectionLead}>{copy.readingsIntro}</p>
           <div className={styles.readingList}>
             {record.worldviewReadings.map((reading) => {
-              const profile = getAtlasLitePattern(reading.profileId)
-              const localizedProfile = locale === "zh-Hans"
+              const pattern = getAtlasLitePattern(reading.profileId)
+              const localizedPattern = locale === "zh-Hans"
                 ? zhHansWorldviewProfileById[reading.profileId]
                 : null
               return (
@@ -373,15 +375,15 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
                 >
                   <summary>
                     <span className={styles.readingName}>
-                      {localizedProfile?.publicName ?? profile?.publicName ?? reading.profileId}
+                      {localizedPattern?.publicName ?? pattern?.publicName ?? reading.profileId}
                     </span>
                     <span className={styles.readingNotice}>{reading.noticesFirst}</span>
                   </summary>
                   <div className={styles.readingBody}>
-                    {profile ? (
+                    {pattern ? (
                       <p className={styles.readingDescriptor}>
-                        {localizedProfile?.originalTechnicalDescriptor ?? profile.technicalDescriptor} ·{" "}
-                        <Link href={getAtlasPatternHref(profile.id)}>{copy.openWorldviewProfile}</Link>
+                        {localizedPattern?.originalTechnicalDescriptor ?? pattern.technicalDescriptor} ·{" "}
+                        <Link href={getAtlasPatternHref(pattern.id)}>{copy.openWorldviewProfile}</Link>
                       </p>
                     ) : null}
                     <dl>
@@ -525,24 +527,16 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             </div>
           </div>
 
-          {foundationConnection ? (
-            <section className={styles.foundationComparison} aria-labelledby="foundation-compare-heading">
+          {foundationConnectionUnavailable ? (
+            <section
+              className={styles.foundationComparison}
+              aria-labelledby="foundation-connection-heading"
+            >
               <p className={styles.comparisonLabel}>
-                {connectionLabel(foundationConnection.kind, copy.connectionLabels)}
+                {copy.foundationConnectionLabel}
               </p>
-              <h3 id="foundation-compare-heading">{copy.compareFoundation}</h3>
-              <p>{localizedFoundationConnection(foundationConnection, locale)}</p>
-              {foundationConnection.foundationPatternId ? (
-                <Link href={getAtlasPatternHref(foundationConnection.foundationPatternId)}>
-                  {copy.readFoundationPattern(
-                    locale === "zh-Hans"
-                      ? zhHansWorldviewProfileById[foundationConnection.foundationPatternId]?.publicName ?? foundationConnection.foundationPatternLabel ?? ""
-                      : foundationConnection.foundationPatternLabel ?? "",
-                  )}
-                </Link>
-              ) : (
-                <Link href="/quiz">{copy.takeFoundation}</Link>
-              )}
+              <h3 id="foundation-connection-heading">{copy.foundationConnectionHeading}</h3>
+              <p>{copy.foundationConnectionUnavailable}</p>
             </section>
           ) : null}
 
@@ -777,32 +771,4 @@ function describeLocalizedMovement(
   }
 
   return copy.movementUnchanged(final, response.confidence)
-}
-
-function connectionLabel(
-  kind: CurrentCaseFoundationConnection["kind"],
-  labels: ReturnType<typeof currentCaseContent>["flow"]["connectionLabels"],
-) {
-  if (kind === "consistent") return labels.consistent
-  if (kind === "tension") return labels.tension
-  if (kind === "not-covered") return labels.notCovered
-  return labels.unavailable
-}
-
-function localizedFoundationConnection(
-  connection: CurrentCaseFoundationConnection,
-  locale: Locale,
-) {
-  const copy = currentCaseContent(locale).flow.connectionSummaries
-  const profileLabel = connection.foundationPatternId && locale === "zh-Hans"
-    ? zhHansWorldviewProfileById[connection.foundationPatternId]?.publicName
-      ?? connection.foundationPatternLabel
-      ?? connection.foundationPatternId
-    : connection.foundationPatternLabel ?? ""
-
-  if (connection.kind === "consistent") return copy.consistent(profileLabel)
-  if (connection.kind === "tension") return copy.tension(profileLabel)
-  if (connection.kind === "not-covered") return copy.notCovered(profileLabel)
-  if (connection.unavailableReason === "different-cohort") return copy.differentCohort
-  return copy.unavailable
 }

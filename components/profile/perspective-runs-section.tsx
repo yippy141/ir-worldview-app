@@ -17,7 +17,7 @@ import type { DimensionScores } from "@/lib/types"
 
 type Props = {
   initialRuns: PerspectiveRunSnapshot[]
-  baselineScores: DimensionScores
+  baselineScores: DimensionScores | null
   mode: "local" | "shared"
 }
 
@@ -41,11 +41,15 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
   const [confirmingId, setConfirmingId] = useState<string | null>(null)
   const [storageError, setStorageError] = useState(false)
 
-  const baselinePosition = toMapPosition(baselineScores)
+  const baselinePosition = baselineScores
+    ? toMapPosition(baselineScores)
+    : null
   const latestRuns = latestRunPerPerspective(runs)
   const latestRunsWithBaseline = latestRuns.map((run) => ({
     run,
-    matchesCurrentBaseline: perspectiveRunMatchesBaseline(run, baselineScores),
+    matchesCurrentBaseline: baselineScores
+      ? perspectiveRunMatchesBaseline(run, baselineScores)
+      : false,
   }))
 
   function handleRemove(id: string) {
@@ -68,15 +72,29 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
         <div className="stack-xs">
           <p className="eyebrow">Perspective runs</p>
           <h2 id="perspective-runs-heading" className="profile-section-title">
-            Try another vantage point
+            {baselineScores
+              ? "Try another vantage point"
+              : "Complete the current Foundation first"}
           </h2>
           <p className="muted profile-section-note">
-            Run a short scenario set from another actor&rsquo;s seat and compare it with your
-            baseline. Contextual shifts save here beside the Foundation.
+            {baselineScores
+              ? (
+                  <>
+                    Run a short scenario set from another actor&rsquo;s seat and
+                    compare it with your baseline. Contextual shifts save here
+                    beside the Foundation.
+                  </>
+                )
+              : "A resolvable Foundation result is required before a new contextual comparison can be created."}
           </p>
         </div>
         <div className="row gap-sm wrap">
-          <Link href="/perspectives" className="cta-secondary">Open a brief</Link>
+          <Link
+            href={baselineScores ? "/perspectives" : "/quiz"}
+            className="cta-secondary"
+          >
+            {baselineScores ? "Open a brief" : "Start the Foundation"}
+          </Link>
         </div>
       </section>
     )
@@ -87,55 +105,65 @@ export function PerspectiveRunsSection({ initialRuns, baselineScores, mode }: Pr
       <div className="stack-xs">
         <p className="eyebrow">Perspective runs</p>
         <h2 id="perspective-runs-heading" className="profile-section-title">
-          How context moved your answers
+          {baselineScores
+            ? "How context moved your answers"
+            : "Saved perspective runs"}
         </h2>
         <p className="muted profile-section-note">
-          Each run keeps the Foundation baseline it was generated from.
+          {baselineScores
+            ? "Each run keeps the Foundation baseline it was generated from."
+            : "These saved runs remain available, but the current Foundation token cannot be resolved, so no current-baseline comparison is shown."}
         </p>
       </div>
 
-      <div className="profile-perspective-map panel result-panel">
-        <FieldMap
-          ariaLabel="Field map showing the current Foundation baseline and the latest saved Perspective runs. A line links a run only when it was generated from the current baseline. Each run is listed below."
-          markers={[
-            {
-              key: "baseline",
-              kind: "baseline",
-              label: "Baseline",
-              position: baselinePosition,
-              labeled: true,
-            },
-            ...latestRunsWithBaseline.map(({ run }) => ({
-              key: run.id,
-              kind: "perspective-run" as const,
-              label: runShortLabel(run),
-              position: toMapPosition(run.dimensionScores) as MapPosition,
-              labeled: true,
-            })),
-          ]}
-          connectors={latestRunsWithBaseline
-            .filter(({ matchesCurrentBaseline }) => matchesCurrentBaseline)
-            .map(({ run }) => ({
-              from: baselinePosition,
-              to: toMapPosition(run.dimensionScores),
-            }))}
-          caption="Each open dot is the latest saved run for a brief. A line marks a shared current Foundation baseline; it is not a measured quantity."
-        />
-      </div>
+      {baselinePosition ? (
+        <div className="profile-perspective-map panel result-panel">
+          <FieldMap
+            ariaLabel="Field map showing the current Foundation baseline and the latest saved Perspective runs. A line links a run only when it was generated from the current baseline. Each run is listed below."
+            markers={[
+              {
+                key: "baseline",
+                kind: "baseline",
+                label: "Baseline",
+                position: baselinePosition,
+                labeled: true,
+              },
+              ...latestRunsWithBaseline.map(({ run }) => ({
+                key: run.id,
+                kind: "perspective-run" as const,
+                label: runShortLabel(run),
+                position: toMapPosition(run.dimensionScores) as MapPosition,
+                labeled: true,
+              })),
+            ]}
+            connectors={latestRunsWithBaseline
+              .filter(({ matchesCurrentBaseline }) => matchesCurrentBaseline)
+              .map(({ run }) => ({
+                from: baselinePosition,
+                to: toMapPosition(run.dimensionScores),
+              }))}
+            caption="Each open dot is the latest saved run for a brief. A line marks a shared current Foundation baseline; it is not a measured quantity."
+          />
+        </div>
+      ) : null}
 
       <ul className="profile-run-list">
         {[...runs]
           .sort((left, right) => right.timestamp - left.timestamp)
           .map((run) => {
             const shift = topShiftPhrase(run)
-            const matchesCurrentBaseline = perspectiveRunMatchesBaseline(run, baselineScores)
+            const matchesCurrentBaseline = baselineScores
+              ? perspectiveRunMatchesBaseline(run, baselineScores)
+              : false
             return (
               <li key={run.id} className="profile-run-row">
                 <div className="profile-run-row__main">
                   <p className="profile-run-row__title">
                     {run.perspectiveLabel}
                     <span className="profile-run-row__date"> · {formatFieldDate(run.timestamp)}</span>
-                    {!matchesCurrentBaseline ? (
+                    {!baselineScores ? (
+                      <span className="profile-run-row__set"> · baseline unavailable</span>
+                    ) : !matchesCurrentBaseline ? (
                       <span className="profile-run-row__set"> · earlier baseline</span>
                     ) : null}
                   </p>

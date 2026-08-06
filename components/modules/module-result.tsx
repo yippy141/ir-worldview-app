@@ -2,15 +2,16 @@ import Link from "next/link"
 import { ScaleBar } from "@/components/visual-primitives"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { ModuleProfileSync } from "@/components/profile/module-profile-sync"
-import type {
-  ModuleAnswers,
-  ModuleDefinition,
-  ModuleOption,
-  ModuleQuestion,
-  ModuleSlug,
+import {
+  ACTIVE_MODULE_COMPARISON_STATUS,
+  type ModuleAnswers,
+  type ModuleDefinition,
+  type ModuleOption,
+  type ModuleQuestion,
+  type ModuleSlug,
 } from "@/lib/modules/types"
 import type { ModuleVersion } from "@/lib/modules/versions"
-import type { ChoiceCardType, DimensionScores, QuizMode } from "@/lib/types"
+import type { ChoiceCardType, QuizMode } from "@/lib/types"
 
 export function ModuleResultView({
   moduleDefinition,
@@ -19,7 +20,6 @@ export function ModuleResultView({
   payload,
   mode,
   answers,
-  foundation,
   foundationPayload,
 }: {
   moduleDefinition: ModuleDefinition
@@ -28,7 +28,6 @@ export function ModuleResultView({
   payload: string
   mode: QuizMode
   answers: ModuleAnswers
-  foundation?: DimensionScores
   foundationPayload?: string
 }) {
   const slug: ModuleSlug = moduleDefinition.slug
@@ -37,7 +36,6 @@ export function ModuleResultView({
     moduleDefinition,
     mode,
     answers,
-    foundation,
   )
   const analytics = runtime.buildModuleAnalytics(
     moduleDefinition,
@@ -61,13 +59,7 @@ export function ModuleResultView({
     selected,
     laneLabelMap,
   })
-  const foundationRelation = buildFoundationRelation({
-    moduleTitle: moduleDefinition.shortTitle,
-    comparison: result.comparison,
-    challenge: result.challenge,
-    cardTypeSummary: result.cardTypeRead?.summary,
-    laneSummaries: result.laneSummaries,
-  })
+  const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
   const identityCode = [
     moduleDefinition.shorthand,
     mode === "standard" ? "Standard" : "Advanced",
@@ -89,7 +81,6 @@ export function ModuleResultView({
             resultPath,
             scores: result.scores,
             instincts: result.instincts,
-            comparison: result.comparison,
             challenge: result.challenge,
             measures: moduleDefinition.measures,
             doesNotClaim: moduleDefinition.doesNotClaim,
@@ -103,7 +94,7 @@ export function ModuleResultView({
             ...(Object.keys(result.cardTypeScores).length > 0
               ? { cardTypeScores: result.cardTypeScores }
               : {}),
-            overlayDeltas: result.overlayDeltas,
+            overlayDeltas: {},
             payload,
             ...(foundationPayload ? { foundationPayload } : {}),
             laneScores: analytics.laneScores,
@@ -128,7 +119,7 @@ export function ModuleResultView({
 
         {/* ── 2. Lane meters ── */}
         <section className="result-section result-figure">
-          <h2>Where the three lanes sit</h2>
+          <h2>Your lane results</h2>
           <div className="profile-module-grid">
             {result.laneSummaries.map((lane) => (
               <div key={lane.key} className="explore-card stack-sm">
@@ -144,11 +135,6 @@ export function ModuleResultView({
                   tone={slug}
                   className="module-lane-meter"
                 />
-                {lane.delta ? (
-                  <p className="muted module-lane-delta">
-                    <strong>Relative to Foundation:</strong> {lane.delta}
-                  </p>
-                ) : null}
               </div>
             ))}
           </div>
@@ -172,58 +158,42 @@ export function ModuleResultView({
             ))}
           </div>
           <p className="result-figure__note">
-            These raw directional scores locate the response inside this module. The labels
-            name the two directions rather than empirical endpoints
-            {hasActorLens ? ", and the main lane read comes from Explanation and Decision cards rather than Actor lens cards." : "."}{" "}
+            Each score reports a response direction within this module. Its endpoint labels name
+            the two directions; they are not empirical bounds
+            {hasActorLens ? ". Explanation and Decision cards determine the main result; Actor lens cards provide context only." : "."}{" "}
             <Link href="/method">Methods sets out the limits →</Link>
           </p>
         </section>
 
-        {/* ── 4. Relation to the Foundation baseline ── */}
+        {/* ── 4. Relation to the Foundation ── */}
         <section className="result-section result-figure">
-          <h2>Against your Foundation baseline</h2>
-          {foundation ? (
-            <div className="module-relation-grid">
-              <article className="module-relation-card module-relation-card--reinforce stack-xs">
-                <p className="module-relation-kicker">Reinforces</p>
-                <ul className="content-list module-relation-list">
-                  {foundationRelation.reinforces.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-
-              <article className="module-relation-card module-relation-card--complicate stack-xs">
-                <p className="module-relation-kicker">Complicates</p>
-                <ul className="content-list module-relation-list">
-                  {foundationRelation.complicates.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-
-              <article className="module-relation-card module-relation-card--pull stack-xs">
-                <p className="module-relation-kicker">Pulls away</p>
-                <ul className="content-list module-relation-list">
-                  {foundationRelation.pullsAway.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
+          <h2>Foundation status</h2>
+          <div className="driver-grid">
+            <div className="driver-card stack-xs">
+              <p className="eyebrow">Status</p>
+              <p className="driver-card__value">{comparisonStatus.kind}</p>
             </div>
-          ) : (
-            <div className="callout stack-xs">
-              <p className="result-strong">No linked Foundation baseline</p>
-              <p className="muted module-lane-copy">
-                Open this module from a saved Foundation result to get the comparison.
+            <div className="driver-card stack-xs">
+              <p className="eyebrow">Numeric bridge</p>
+              <p className="driver-card__value">
+                {comparisonStatus.numericBridge === "none" ? "None" : comparisonStatus.numericBridge}
               </p>
             </div>
-          )}
+            <div className="driver-card stack-xs">
+              <p className="eyebrow">Master score</p>
+              <p className="driver-card__value">
+                {comparisonStatus.masterScore === "none" ? "None" : comparisonStatus.masterScore}
+              </p>
+            </div>
+          </div>
+          <p className="result-figure__note">
+            Issue results sit beside the Foundation and do not rescore it.
+          </p>
         </section>
 
         {/* ── 5. Decisive calls ── */}
         <section className="result-section result-figure">
-          <h2>The calls that decided it</h2>
+          <h2>Answers that most shaped this result</h2>
           <div className="module-decisive-list">
             {decisiveCalls.map((call, index) => (
               <article key={call.id} className="module-decisive-call">
@@ -279,7 +249,7 @@ export function ModuleResultView({
               ) : null}
 
               <div className="stack-md">
-                <h2>What you keep coming back to</h2>
+                <h2>Judgments reflected in your answers</h2>
                 <ul className="content-list result-prose">
                   {result.instincts.map((instinct) => (
                     <li key={instinct}>{instinct}</li>
@@ -470,58 +440,4 @@ function formatCardType(cardType: ChoiceCardType) {
   if (cardType === "decision") return "Decision"
   if (cardType === "actorLens") return "Actor lens"
   return "Both"
-}
-
-function buildFoundationRelation({
-  moduleTitle,
-  comparison,
-  challenge,
-  cardTypeSummary,
-  laneSummaries,
-}: {
-  moduleTitle: string
-  comparison?: string
-  challenge: string
-  cardTypeSummary?: string
-  laneSummaries: Array<{ label: string; delta?: string }>
-}) {
-  const comparisonSentences = splitSentences(comparison)
-  const reinforceCandidates = comparisonSentences.filter((sentence) =>
-    /(reinforces|stays visible|still matters|still shows up)/i.test(sentence),
-  )
-  const pullAwayCandidates = [
-    ...laneSummaries
-      .filter((lane) => lane.delta)
-      .map((lane) => `${lane.label}: ${lane.delta}`),
-    ...comparisonSentences.filter((sentence) =>
-      /(pulls?|harden|harder|more bounded|more comfortable|more control|more capacity|more coordination|more coalition|more protection|more order-first)/i.test(sentence),
-    ),
-  ]
-
-  return {
-    reinforces:
-      reinforceCandidates.length > 0
-        ? reinforceCandidates.slice(0, 2)
-        : [
-            `Your ${moduleTitle} read tracks the same baseline it started from.`,
-          ],
-    complicates: [cardTypeSummary ?? challenge],
-    pullsAway:
-      pullAwayCandidates.length > 0
-        ? uniqueStrings(pullAwayCandidates).slice(0, 3)
-        : ["No strong break from the linked Foundation baseline shows up in this module."],
-  }
-}
-
-function splitSentences(text?: string) {
-  if (!text) return []
-
-  return text
-    .split(/(?<=[.!?])\s+/)
-    .map((sentence) => sentence.trim())
-    .filter(Boolean)
-}
-
-function uniqueStrings(values: string[]) {
-  return [...new Set(values)]
 }

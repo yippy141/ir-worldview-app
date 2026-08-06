@@ -13,7 +13,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const copy = zhHansWorldviewProfileMetadata[id]
-  if (!copy) return { title: "世界观画像｜国际关系世界观清单" }
+  if (!copy) return { title: "决策模式｜国际关系世界观清单" }
   return createDynamicLocalizedMetadata("zh-Hans", `/explore/atlas/${id}`, copy)
 }
 

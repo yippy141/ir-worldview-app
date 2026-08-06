@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link } from "@/i18n/navigation"
 import { zhHansProfileRecordsUi } from "@/content/locales/zh-Hans/profile-records"
 import { trackProductEvent } from "@/lib/analytics/adapter"
+import { ACTIVE_MODULE_COMPARISON_STATUS } from "@/lib/modules/types"
 import { buildLocalizedProfileShareView } from "@/lib/profile-share-locale"
 import { loadProfileStore, type ProfileStore } from "@/lib/profile-store"
 
@@ -58,11 +59,12 @@ export function ZhHansProfileDashboard() {
   }
 
   const copy = zhHansProfileRecordsUi.report
+  const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
   return (
     <article className="result-article locale-profile-share">
       <header className="result-section stack-md">
         <p className="eyebrow">{copy.eyebrow}</p>
-        <h1>{copy.title(view.foundation.familyLabel)}</h1>
+        <h1>{copy.title(view.foundation.archetypeName)}</h1>
         <p className="muted result-lead">{copy.intro}</p>
       </header>
 
@@ -76,6 +78,7 @@ export function ZhHansProfileDashboard() {
         <div className="stack-xs">
           <p className="eyebrow">{copy.modifiers}</p>
           <div className="row gap-sm wrap">
+            <span className="atlas-tag">{copy.archetypeCode}：{view.foundation.archetypeCode}</span>
             {view.foundation.modifiers.map((modifier) => (
               <span key={modifier} className="atlas-tag">{modifier}</span>
             ))}
@@ -96,6 +99,77 @@ export function ZhHansProfileDashboard() {
           <Link href="/explore/atlas?layers=my-profile,atlas-patterns" className="cta-primary">
             {copy.map}
           </Link>
+        </div>
+      </section>
+
+      <section className="result-section stack-md" aria-labelledby="zh-profile-domains">
+        <div className="stack-xs">
+          <p className="eyebrow">{copy.domainsEyebrow}</p>
+          <h2 id="zh-profile-domains">{copy.domainsTitle}</h2>
+          <p className="muted profile-domain-intro">{copy.domainsNote}</p>
+        </div>
+
+        <div className="profile-domain-status" aria-label={copy.status}>
+          <span>
+            <strong>{copy.status}</strong>
+            <code>{comparisonStatus.kind}</code>
+          </span>
+          <span>{copy.noNumericBridge}</span>
+          <span>{copy.noMasterScore}</span>
+        </div>
+
+        <div className="profile-domain-records">
+          {(["security", "technology"] as const).map((slug) => {
+            const snapshot = profile.modules[slug]
+            const localized = view.modules.find((module) => module.slug === slug)
+            const label = copy.domainLabels[slug]
+
+            return (
+              <article key={slug} className="profile-domain-record">
+                <div className="profile-domain-record__meta">
+                  <span>{label}</span>
+                  <span>{copy.separateRecord}</span>
+                </div>
+                <div className="stack-xs">
+                  <h3>{copy.record(label)}</h3>
+                  <p className="profile-domain-record__result">
+                    {snapshot ? copy.saved : copy.notAdded}
+                  </p>
+                  <p className="muted profile-domain-record__summary">
+                    {localized?.summary ?? copy.missingModule(label)}
+                  </p>
+                </div>
+                <Link
+                  href={snapshot?.resultPath ?? `/modules/${slug}`}
+                  className="profile-domain-record__link"
+                >
+                  {snapshot ? copy.openResult : copy.addResult} →
+                </Link>
+              </article>
+            )
+          })}
+
+          <article className="profile-domain-record">
+            <div className="profile-domain-record__meta">
+              <span>{copy.domainLabels.ai}</span>
+              <span>{copy.separateRecord}</span>
+            </div>
+            <div className="stack-xs">
+              <h3>{copy.record(copy.domainLabels.ai)}</h3>
+              <p className="profile-domain-record__result">
+                {view.ai?.label ?? copy.notAdded}
+              </p>
+              <p className="muted profile-domain-record__summary">
+                {view.ai?.summary ?? copy.missingAi}
+              </p>
+            </div>
+            <Link
+              href={profile.aiGovernance?.resultPath ?? "/ai"}
+              className="profile-domain-record__link"
+            >
+              {profile.aiGovernance ? copy.openResult : copy.addResult} →
+            </Link>
+          </article>
         </div>
       </section>
 

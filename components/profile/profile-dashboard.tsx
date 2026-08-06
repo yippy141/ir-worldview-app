@@ -8,7 +8,7 @@ import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { loadCurrentCaseResponseStore } from "@/lib/current-cases/response-store"
 import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
-import { buildIntegratedHeadline } from "@/lib/profile-helpers"
+import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
 import {
   loadProfileStore,
   type ProfileStore,
@@ -64,7 +64,7 @@ export function ProfileDashboard() {
             <p className="profile-state-panel__body">
               Start with the Foundation. Your results stay on this device unless you choose to
               share them. Afterward, you can add Focus Area and AI results. Each remains separate
-              so you can compare where your judgments agree or diverge.
+              so you can read each domain on its own terms.
             </p>
           </div>
 
@@ -75,11 +75,11 @@ export function ProfileDashboard() {
             </Link>
             <Link href="/ai" className="profile-state-action">
               <span className="profile-state-action__label">Try AI Governance</span>
-              <span className="profile-state-action__meta">Compare your AI-policy judgments.</span>
+              <span className="profile-state-action__meta">Read your AI-policy judgments.</span>
             </Link>
             <Link href="/explore" className="profile-state-action">
               <span className="profile-state-action__label">Browse the field guide</span>
-              <span className="profile-state-action__meta">Read the profiles before answering questions.</span>
+              <span className="profile-state-action__meta">Read the traditions and Decision Patterns before answering questions.</span>
             </Link>
           </div>
 
@@ -92,15 +92,20 @@ export function ProfileDashboard() {
     )
   }
 
-  // Share V2 carries AI results and Perspective Runs. Profiles without that
-  // new data keep emitting the V1 payload so older readers stay compatible.
+  // Current, canonical records use V3, which stores each domain independently.
+  // V1 remains available only when a legacy module has no canonical token and
+  // would otherwise disappear from the shared record.
   const sharePayload = (() => {
-    const hasV2Data = Boolean(profile.aiGovernance) || profile.perspectiveRuns.length > 0
-    const payload = hasV2Data
-      ? buildProfileSharePayload(profile)
-      : buildProfileSharePayloadV1(profile)
+    const hasLegacyModule = Object.values(profile.modules).some(
+      (snapshot) => snapshot && !snapshot.payload,
+    )
+    const payload = hasLegacyModule
+      ? buildProfileSharePayloadV1(profile)
+      : buildProfileSharePayload(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
+  const foundationArchetype =
+    resolveFoundationArchetypeFromSnapshot(profile.foundation)
 
   return (
     <>
@@ -111,7 +116,9 @@ export function ProfileDashboard() {
           sharePayload ? (
             <ProfileShareActions
               payload={sharePayload}
-              headline={buildIntegratedHeadline(profile)}
+              headline={
+                foundationArchetype?.name ?? "Foundation identity unavailable"
+              }
             />
           ) : undefined
         }

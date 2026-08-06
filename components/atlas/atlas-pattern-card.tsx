@@ -7,7 +7,7 @@ export function AtlasPatternCard({ pattern }: { pattern: AtlasLitePattern }) {
   return (
     <article className="atlas-pattern-card atlas-pattern-card--browse stack-sm">
       <div className="stack-xs">
-        <p className="eyebrow">Worldview profile</p>
+        <p className="eyebrow">Decision Pattern</p>
         <h2 className="atlas-pattern-card__title">{pattern.publicName}</h2>
         <p className="atlas-pattern-card__descriptor">{pattern.technicalDescriptor}</p>
       </div>

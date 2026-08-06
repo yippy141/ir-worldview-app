@@ -5,6 +5,7 @@ import {
   isPerspectiveId,
 } from "@/lib/perspectives/catalog"
 import { dimensionLabels } from "@/lib/quiz-schema"
+import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import { familyLabelFromKey } from "@/lib/result-helpers"
 import type { ModuleSnapshot, ProfileStore } from "@/lib/profile-store"
 import type { DimensionKey } from "@/lib/types"
@@ -18,6 +19,8 @@ export type LocalizedProfileShareView = {
   intro: string
   foundation: {
     heading: string
+    archetypeName: string
+    archetypeCode: string
     familyLabel: string
     runnerUpLabel: string
     modifiers: string[]
@@ -36,44 +39,53 @@ export function buildLocalizedProfileShareView(
 ): LocalizedProfileShareView | null {
   const foundation = profile.foundation
   if (!foundation) return null
+  const foundationIdentity =
+    resolveFoundationIdentityFromSnapshot(foundation)
+  if (!foundationIdentity) return null
+  const { archetype: foundationArchetype, result: foundationResult } =
+    foundationIdentity
   const zh = locale === "zh-Hans"
   const familyLabel = zh
-    ? ZH_SHARE.familyLabels[foundation.familyKey]
-    : familyLabelFromKey(foundation.familyKey)
+    ? ZH_SHARE.familyLabels[foundationResult.familyKey]
+    : familyLabelFromKey(foundationResult.familyKey)
   const runnerUpLabel = zh
-    ? ZH_SHARE.familyLabels[foundation.runnerUpKey]
-    : familyLabelFromKey(foundation.runnerUpKey)
+    ? ZH_SHARE.familyLabels[foundationResult.runnerUpKey]
+    : familyLabelFromKey(foundationResult.runnerUpKey)
   const origins = profileOriginCohorts(profile)
 
   return {
     locale,
-    eyebrow: zh ? ZH_SHARE.eyebrow : "Shared worldview profile",
-    title: zh ? ZH_SHARE.title(familyLabel) : `${familyLabel}: a continuous profile`,
+    eyebrow: zh ? ZH_SHARE.eyebrow : "Shared Foundation profile",
+    title: zh
+      ? ZH_SHARE.title(foundationArchetype.name)
+      : foundationArchetype.name,
     intro: zh
       ? ZH_SHARE.intro
-      : "This link stores stable identifiers, scores, and version metadata. Display copy is generated for this route; it is not a population ranking or a fixed identity.",
+      : foundationArchetype.gloss,
     foundation: {
       heading: zh ? ZH_SHARE.foundationHeading : "Foundation",
+      archetypeName: foundationArchetype.name,
+      archetypeCode: foundationArchetype.code,
       familyLabel,
       runnerUpLabel,
       modifiers: [
         zh
-          ? ZH_SHARE.strategyLabels[foundation.strategyModifier]
-          : foundation.strategyModifier,
+          ? ZH_SHARE.strategyLabels[foundationResult.strategyModifier]
+          : foundationResult.strategyModifier,
         zh
-          ? ZH_SHARE.normativeLabels[foundation.normativeModifier]
-          : foundation.normativeModifier,
+          ? ZH_SHARE.normativeLabels[foundationResult.normativeModifier]
+          : foundationResult.normativeModifier,
       ],
       summary: zh
         ? ZH_SHARE.foundationSummary(familyLabel, runnerUpLabel)
-        : foundation.summary,
+        : foundationResult.explanation,
       dimensions: (Object.keys(dimensionLabels) as DimensionKey[]).map(
         (key) => ({
           key,
           label: zh
             ? chineseShellContent.methods.dimensions[key].heading
             : dimensionLabels[key],
-          score: foundation.dimensionScores[key],
+          score: foundationResult.dimensionScores[key],
         }),
       ),
     },

@@ -1,5 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
 import {
   buildModuleResult,
   decodeModulePayload,
@@ -11,7 +12,11 @@ import {
   scoreModule,
   SECOND_CHOICE_WEIGHT,
 } from "@/lib/modules/framework"
-import type { ModuleAnswers, ModulePayload } from "@/lib/modules/types"
+import {
+  ACTIVE_MODULE_COMPARISON_STATUS,
+  type ModuleAnswers,
+  type ModulePayload,
+} from "@/lib/modules/types"
 import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
 
 function answersFor(moduleDefinition: (typeof modules)[number]) {
@@ -54,6 +59,32 @@ test("each flagship module produces a stable result shape", () => {
       assert.ok(result.scores[axis.key] >= 1 && result.scores[axis.key] <= 7)
     }
   }
+})
+
+test("active module comparison status forbids a numeric bridge and master score", () => {
+  assert.deepEqual(ACTIVE_MODULE_COMPARISON_STATUS, {
+    kind: "separate-domain-read",
+    numericBridge: "none",
+    masterScore: "none",
+  })
+})
+
+test("active module results neither render nor save frozen comparison fields", () => {
+  const source = readFileSync(
+    new URL("../components/modules/module-result.tsx", import.meta.url),
+    "utf8",
+  )
+
+  assert.match(source, /ACTIVE_MODULE_COMPARISON_STATUS/)
+  assert.match(
+    source,
+    /Issue results sit beside the Foundation and do not rescore it\./,
+  )
+  assert.match(source, /overlayDeltas:\s*\{\}/)
+  assert.doesNotMatch(source, /result\.overlayDeltas/)
+  assert.doesNotMatch(source, /result\.comparison/)
+  assert.doesNotMatch(source, /lane\.delta/)
+  assert.doesNotMatch(source, /buildFoundationRelation/)
 })
 
 test("standard module second choice contributes at reduced weight", () => {

@@ -3,7 +3,7 @@ import type { ZhHansWorldStageSceneCopy } from "@/content/locales/zh-Hans/types"
 export const zhHansWorldStageUi = {
   brandAriaLabel: "国际关系世界观清单首页",
   heading: "选择一个起点。",
-  introduction: "完成基础问卷，判断一个当前案例，或比较不同画像背后的论证。",
+  introduction: "完成基础问卷，判断一个当前案例，或比较不同传统与决策模式背后的论证。",
   utility: [{ id: "profile", label: "我的画像", href: "/profile" }],
   secondaryLinks: [
     { label: "比较画像", href: "/compare" },
@@ -19,7 +19,7 @@ export const zhHansWorldStageUi = {
       index: "01",
       label: "当前案例",
       sceneId: "foundation",
-      lens: "判断当下事务",
+      lens: "研判当前案例",
       description: "判断一项有来源依据的国际事务，再检验支撑这项判断的假设。",
       href: "/current",
       action: "打开当前案例",
@@ -59,8 +59,8 @@ export const zhHansWorldStageUi = {
       index: "05",
       label: "世界观地图",
       sceneId: "worldview-map",
-      lens: "画像与公开立场",
-      description: "把你的基线与相邻的世界观画像、情境变化和经过审读的公开立场并列比较。",
+      lens: "决策模式与公开立场",
+      description: "把你的基线与编辑型决策模式、情境变化和经过审读的公开立场并列比较。",
       href: "/explore/atlas",
       action: "打开世界观地图",
     },

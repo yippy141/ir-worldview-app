@@ -1,10 +1,15 @@
 import { expect, test, type Page } from "@playwright/test"
-import { getLatestPublishedCurrentCase } from "../lib/current-cases/catalog"
+import { getPublishedCurrentCases } from "../lib/current-cases/catalog"
 import {
   LOCAL_HISTORY_STORAGE_KEYS,
   SESSION_HISTORY_STORAGE_KEYS,
 } from "../lib/local-data"
-import { ANALYTICS_OPT_OUT_STORAGE_KEY } from "../lib/storage-keys"
+import {
+  ANALYTICS_OPT_OUT_STORAGE_KEY,
+  PROFILE_STORAGE_KEY,
+} from "../lib/storage-keys"
+import profileStoreV1 from "../tests/fixtures/profile-store-v1.json"
+import profileStoreV2 from "../tests/fixtures/profile-store-v2.json"
 
 async function answerCurrentFoundationQuestion(page: Page) {
   const choiceCards = page.locator("button.option-card")
@@ -61,12 +66,14 @@ async function completeLoadedCurrentCase(
   await page.getByRole("button", { name: "Make your final judgment" }).click()
   await page.locator(`input[name="final-option"][value="${finalOptionId}"]`).check()
   await page.locator(`input[name="final-confidence"][value="${finalConfidence}"]`).check()
-  await page.getByRole("button", { name: "See what moved" }).click()
-  await expect(page.getByRole("heading", { name: "What moved" })).toBeVisible()
+  await page.getByRole("button", { name: "See your final judgment" }).click()
+  await expect(
+    page.getByRole("heading", { name: "Your judgment after the challenge" }),
+  ).toBeVisible()
 }
 
 test("public entry points expose Current Case and resolve the published case", async ({ page }) => {
-  const record = getLatestPublishedCurrentCase()
+  const record = getPublishedCurrentCases()[0] ?? null
   expect(record).not.toBeNull()
   if (!record) return
 
@@ -80,8 +87,14 @@ test("public entry points expose Current Case and resolve the published case", a
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
 
   await page.goto("/current")
-  await expect(page).toHaveURL(new RegExp(`/cases/${record.slug}$`))
-  await expect(page.getByRole("heading", { name: "The case" })).toBeVisible()
+  await expect(page).toHaveURL(/\/cases$/)
+  await expect(page.getByRole("heading", { name: "Recent cases" })).toBeVisible()
+  await expect(page.locator("li").getByText("Current case", { exact: true })).toHaveCount(0)
+  await expect(page.locator("li").first()).toContainText("Review due")
+  await expect(page.locator("li").last()).toContainText("Background")
+
+  await page.goto(`/cases/${record.slug}`)
+  await expect(page.getByRole("heading", { name: "Read the case briefing" })).toBeVisible()
 })
 
 test("World Stage opens the Foundation and a draft resumes after reload", async ({ page }) => {
@@ -100,8 +113,7 @@ test("World Stage opens the Foundation and a draft resumes after reload", async 
 })
 
 test("Current Case resumes, records movement, and appears in My Profile", async ({ page }) => {
-  await page.goto("/current")
-  await expect(page).toHaveURL(/\/cases\/europe-missile-defence-coalition-ukraine$/)
+  await page.goto("/cases/europe-missile-defence-coalition-ukraine")
 
   await page.getByRole("button", { name: "Make your first judgment" }).click()
   await page.locator('input[name="initial-option"][value="o1"]').check()
@@ -114,7 +126,7 @@ test("Current Case resumes, records movement, and appears in My Profile", async 
   await expect(page.getByRole("checkbox", { name: "Urgent capability" })).toBeChecked()
 
   await page.getByRole("button", { name: "See the worldview readings" }).click()
-  await expect(page.getByRole("heading", { name: "Four ways to read the same case" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Compare four readings of the case" })).toBeVisible()
   await page.getByRole("button", { name: "Test an assumption" }).click()
   await page.getByRole("radio", {
     name: "It changes which option comes first; my conclusion stays the same.",
@@ -122,10 +134,20 @@ test("Current Case resumes, records movement, and appears in My Profile", async 
   await page.getByRole("button", { name: "Make your final judgment" }).click()
   await page.locator('input[name="final-option"][value="o2"]').check()
   await page.locator('input[name="final-confidence"][value="4"]').check()
-  await page.getByRole("button", { name: "See what moved" }).click()
+  await page.getByRole("button", { name: "See your final judgment" }).click()
 
-  await expect(page.getByRole("heading", { name: "What moved" })).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Your judgment after the challenge" }),
+  ).toBeVisible()
   await expect(page.getByText(/You moved from/)).toBeVisible()
+  await expect(page.getByText("Not inferred", { exact: true })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Foundation connection" })).toBeVisible()
+  await expect(
+    page.getByText(
+      "This case does not yet include a reviewed, versioned mapping between its readings and the Foundation. Your case judgment remains separate and does not create or change a Foundation result.",
+      { exact: true },
+    ),
+  ).toBeVisible()
   await expect(page.getByText("Judgment saved on this device.")).toBeVisible()
 
   await page.getByRole("link", { name: "View current judgments in My Profile" }).click()
@@ -135,13 +157,17 @@ test("Current Case resumes, records movement, and appears in My Profile", async 
 })
 
 test("Current Case shares a case-only invitation without an answer-bearing API", async ({ page }) => {
+  const record = getPublishedCurrentCases()[0] ?? null
+  expect(record).not.toBeNull()
+  if (!record) return
+
   let challengeApiCalls = 0
   await page.route("**/api/current-cases/challenge**", async (route) => {
     challengeApiCalls += 1
     await route.fulfill({ status: 500, body: "legacy challenge API must not be called" })
   })
 
-  await page.goto("/current")
+  await page.goto(`/cases/${record.slug}`)
   await completeLoadedCurrentCase(page, "o2")
 
   await expect(page.getByRole("button", { name: "Share my reading" })).toHaveCount(0)
@@ -155,7 +181,7 @@ test("Current Case shares a case-only invitation without an answer-bearing API",
 })
 
 test("legacy answer-bearing challenge links recover to the ordinary case", async ({ page }) => {
-  const record = getLatestPublishedCurrentCase()
+  const record = getPublishedCurrentCases()[0] ?? null
   expect(record).not.toBeNull()
   if (!record) return
 
@@ -189,6 +215,12 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await page.getByRole("button", { name: "Generate my result →" }).click()
   await expect(page).toHaveURL(/\/results\/[A-Za-z0-9_-]+$/)
   await expect(page.getByRole("link", { name: "View Profile" })).toBeVisible()
+  const foundationArchetype = await page
+    .locator("#foundation-result-heading")
+    .innerText()
+  await expect(
+    page.getByRole("link", { name: /^Read the .+ profile →$/ }),
+  ).toHaveCount(0)
 
   const analogueLink = page.locator(".foundation-result-analogue a")
   if (await analogueLink.count()) {
@@ -231,8 +263,68 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
 
   await page.getByRole("link", { name: "View Profile" }).click()
   await expect(page).toHaveURL(/\/profile$/)
-  await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
+  await expect(
+    page.getByRole("heading", { level: 1, name: foundationArchetype }),
+  ).toBeVisible()
+  await expect(
+    page.getByText(
+      "Issue results sit beside the Foundation and do not rescore it.",
+      { exact: true },
+    ),
+  ).toBeVisible()
+  await expect(page.getByText("separate-domain-read", { exact: true })).toBeVisible()
+  await expect(page.getByText("No numeric bridge", { exact: true })).toBeVisible()
+  await expect(page.getByText("No master score", { exact: true })).toBeVisible()
+  await expect(page.getByText(/^Worldview profile:/)).toHaveCount(0)
   await expect(page.getByText("No Foundation baseline is saved", { exact: false })).toHaveCount(0)
+})
+
+test("legacy Profiles preserve saved results without inventing a Foundation identity", async ({
+  page,
+}) => {
+  await page.goto("/")
+
+  for (const fixture of [
+    { profile: profileStoreV1, result: "Legacy security result" },
+    { profile: profileStoreV2, result: "Legacy technology result" },
+  ]) {
+    await page.evaluate(
+      ({ key, value }) => window.localStorage.setItem(key, value),
+      {
+        key: PROFILE_STORAGE_KEY,
+        value: JSON.stringify(fixture.profile),
+      },
+    )
+    await page.goto("/profile")
+
+    await expect(
+      page.getByRole("heading", { name: "Foundation identity unavailable" }),
+    ).toBeVisible()
+    await expect(page.getByText("Stable thread", { exact: true })).toHaveCount(0)
+    await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
+    await expect(
+      page.getByText(
+        "Issue results sit beside the Foundation and do not rescore it.",
+        { exact: true },
+      ),
+    ).toBeVisible()
+    await expect(page.getByText("separate-domain-read", { exact: true })).toBeVisible()
+    await expect(page.getByText("Biggest shift", { exact: true })).toHaveCount(0)
+    await expect(page.getByText("Relative pull", { exact: false })).toHaveCount(0)
+    await expect(
+      page.getByText("What stayed steady, what shifted", { exact: true }),
+    ).toHaveCount(0)
+    await expect(page.getByText("Directional read:", { exact: false })).toHaveCount(0)
+    await page.getByText("Archived Foundation record", { exact: true }).click()
+    await expect(
+      page.getByText("Cached family labels and derived anchors", { exact: false }),
+    ).toBeVisible()
+    await page.getByText("Completed Focus Areas", { exact: true }).click()
+    await expect(
+      page.getByRole("heading", { name: fixture.result }),
+    ).toBeVisible()
+    await expect(page.getByRole("button", { name: "Share profile" })).toBeVisible()
+  }
 })
 
 test("historical analogue pages show both the comparison and its limit", async ({
@@ -280,6 +372,16 @@ test("Worldview Map switches between list and map views", async ({ page }) => {
   await mapButton.click()
   await expect(mapButton).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByRole("region", { name: "Worldview Map" })).toBeVisible()
+
+  await page.goto("/explore/atlas/institution-builder")
+  await expect(page).toHaveURL(/\/explore\/atlas\/institution-builder$/)
+  await expect(page.getByText("Decision Pattern", { exact: true })).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Rules and Cooperation", exact: true }),
+  ).toBeVisible()
+  await expect(
+    page.getByText(/not calculated from, matched to, or assigned to a user’s answers/),
+  ).toBeVisible()
 })
 
 test("invalid Foundation result shows a plain recovery path", async ({ page }) => {
@@ -293,7 +395,7 @@ test("invalid Foundation result shows a plain recovery path", async ({ page }) =
 })
 
 test("coarse measurement uses the allowlist and honors local opt-out", async ({ page }) => {
-  const record = getLatestPublishedCurrentCase()
+  const record = getPublishedCurrentCases()[0] ?? null
   expect(record).not.toBeNull()
   if (!record) return
   const events: Array<{
@@ -349,7 +451,7 @@ test("coarse measurement uses the allowlist and honors local opt-out", async ({ 
 
   events.length = 0
   await page.goto(`/cases/${record.slug}`)
-  await expect(page.getByRole("heading", { name: "The case" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Read the case briefing" })).toBeVisible()
   expect(
     await page.evaluate(() =>
       window.localStorage.getItem("ir-worldview-analytics-opt-out-v1"),
@@ -455,9 +557,13 @@ test.describe("390px viewport", () => {
   })
 
   test("Current Case brief remains within the viewport", async ({ page }) => {
-    await page.goto("/current")
+    const record = getPublishedCurrentCases()[0] ?? null
+    expect(record).not.toBeNull()
+    if (!record) return
 
-    await expect(page.getByRole("heading", { name: "The case" })).toBeVisible()
+    await page.goto(`/cases/${record.slug}`)
+
+    await expect(page.getByRole("heading", { name: "Read the case briefing" })).toBeVisible()
     await expect(page.getByRole("link", { name: "Read the claim and source ledger" })).toBeVisible()
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),

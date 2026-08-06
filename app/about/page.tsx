@@ -26,8 +26,9 @@ export default function AboutPage() {
         <h2>How to use it</h2>
         <p style={{ lineHeight: "1.7" }}>
           Start with the Foundation questionnaire, review every answer, and then use optional
-          modules or Perspective Runs to see where context changes your baseline. The Explore and
-          Methods pages explain the modeled traditions, source coverage, and limits.
+          modules for separate issue records or Perspective Runs for defined role-based contexts.
+          The Explore and Methods pages explain the modeled traditions, source coverage, and
+          limits.
         </p>
         <div className="row gap-sm wrap">
           <Link href="/quiz" className="cta-primary">Start the Foundation</Link>

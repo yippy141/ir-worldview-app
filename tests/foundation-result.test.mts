@@ -170,7 +170,7 @@ test("foundation payoff derives from decoded share-link result data", () => {
   }
 
   assert.notEqual(realistPayoff.corePattern.noticeFirst, institutionalistPayoff.corePattern.noticeFirst)
-  assert.equal(broadPayoff.mainTension.title, "What makes you choose a lens")
+  assert.equal(broadPayoff.mainTension.title, "What decides the case")
   assert.equal(broadPayoff.caseTest.caseId, "security-cuban-missile-escalation-ceilings")
   assert.equal(broadPayoff.nextStep.href, "/explore/atlas")
 })

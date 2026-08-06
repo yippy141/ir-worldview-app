@@ -328,6 +328,6 @@ export const pressureTestQuestions: Record<FamilyKey, string[]> = {
   criticalPoliticalEconomy: [
     "A multilateral institution proposes a reform that would redistribute voting power toward lower-income states. Wealthy member states accept it. Does your framework predict that outcome? If not, what explains the exception?",
     "A country achieves rapid development within the current global economic architecture, without structural transformation. Is that evidence against your view, or a special case explained by its position in the hierarchy?",
-    "Great-power competition is framed publicly in security terms, but most analysts believe it is primarily about technology supply chains. Does that distinction between framing and substance matter for how you analyze the conflict?",
+    "Great-power competition is framed publicly in security terms, while technology supply chains are also a source of leverage. How does that distinction between framing and material dependence affect your analysis?",
   ],
 }

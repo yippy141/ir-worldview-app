@@ -6,6 +6,7 @@ export const approvedChinesePaths = [
   "/method",
   "/privacy",
   "/feedback",
+  "/beta",
   "/profile",
   "/cases",
   "/quiz",

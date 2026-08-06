@@ -80,7 +80,7 @@ export const zhHansFoundationQuizUi = {
   adaptedBeta: "简体中文改编测试版",
   setSummary: {
     core: "14 道核心题 · 约需 6 至 8 分钟 · 完成后先生成暂定结果",
-    targetedExtended: "5 道跟进题 · 根据最接近的两个模型家族定向选择",
+    targetedExtended: "5 道跟进题 · 检验最相邻的两个模型传统之间的区别",
     fullExtended: "54 道附加题 · 完整扩展题组",
   },
   setLabels: {
@@ -97,8 +97,8 @@ export const zhHansFoundationQuizUi = {
   questionProgress: (label, index, total) => `${label} · 第 ${index} 题，共 ${total} 题`,
   howToAnswer: "如何回答本题",
   publicDefensibilityNote:
-    "请不要因为某个答案更适合公开表态、案例中的其他行为方可能偏好它，或官员目前这样说就选择它；除非这也确实是你自己的判断。",
-  analystSecondChoiceNote: "分析模式中，如果另一个选项仍有一定说服力，你还可以标记第二顺位；它的计分权重较低。",
+    "请选择你实际会采用的判断，而不是最容易公开辩护的选项。",
+  analystSecondChoiceNote: "如果另一个选项仍有一定说服力，分析模式允许将其标记为权重较低的第二顺位。",
   stronglyDisagree: "完全不同意",
   stronglyAgree: "完全同意",
   likertAria: (value) => value === 1
@@ -127,10 +127,10 @@ export const zhHansFoundationQuizUi = {
     both: "综合判断",
   },
   choiceInstructions: {
-    explanation: "请根据自己的分析判断，选择最能解释本案驱动因素的选项。",
-    decision: "请根据自己的分析判断，选择在本案中最应优先考虑的因素。",
-    actorLens: "请根据自己的分析判断，选择从指定行为方战略位置看最有说服力的逻辑，而不是你个人最偏好的政策。",
-    both: "请根据自己的分析判断，选择总体上最有说服力的选项。",
+    explanation: "哪个选项最能解释本案的驱动因素？请选择你会用于分析本案的选项。",
+    decision: "哪项考虑应当主导决策？请选择你会据此处理本案的选项。",
+    actorLens: "哪种逻辑最符合指定行为方的战略位置？请判断该行为方的位置，而不是选择你个人偏好的政策。",
+    both: "哪个选项总体上最有说服力？请选择最符合你本人判断的选项。",
   },
   dimensionLabels: {
     securityCompetition: "安全竞争",

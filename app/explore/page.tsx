@@ -7,7 +7,7 @@ import type { Metadata } from "next"
 export const metadata: Metadata = {
   title: "Explore — IR Worldview Inventory",
   description:
-    "A field guide to the worldview families and Worldview profiles the inventory draws on — what each tradition emphasizes, what it misses, and where the current model is strongest or partial.",
+    "A field guide to the worldview families and editorial Decision Patterns the inventory draws on — what each tradition emphasizes, what it misses, and where the current model is strongest or partial.",
 }
 
 export default function ExplorePage() {
@@ -30,9 +30,10 @@ export default function ExplorePage() {
       <div className="article-section stack-sm">
         <h2>Worldview Map</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The inventory runs on continuous dimensions. The Worldview Map lets you browse Worldview
-          profiles in the current model: nearby combinations from the Foundation-plus-Profile
-          architecture, not a rarity chart or a live user distribution.
+          The inventory runs on continuous dimensions. The Worldview Map lets
+          you compare your baseline with authored Decision Patterns. The
+          patterns are editorial reading aids, not assigned results, a rarity
+          chart, or a live user distribution.
         </p>
         <p>
           <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
@@ -50,14 +51,14 @@ export default function ExplorePage() {
           The worldview families here are theoretical orientations, not political positions. A
           person can hold realist instincts on great-power rivalry while holding solidarist
           instincts on humanitarian law. They can be persuaded by critical political economy on
-          trade and by institutionalism on arms control. Most serious analysts in this field draw on
-          more than one tradition, depending on the issue.
+          trade and by institutionalism on arms control. The inventory preserves those
+          issue-specific combinations instead of forcing every answer into one tradition.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          The Foundation is designed to surface which framework dominates your instincts in
-          aggregate, not to assign you a permanent label. The runner-up family often remains nearly
-          as important as the primary one, and some results are better read as overlap than as a sharply
-          sorted type.
+          The Foundation is designed to show which modeled traditions the seven scores sit nearest
+          to in aggregate, not to assign a permanent identity. The primary and runner-up fits should
+          be read as supporting evidence for the Foundation archetype, and close results are better
+          read as overlap than as a sharply sorted type.
         </p>
       </div>
 

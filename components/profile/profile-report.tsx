@@ -2,22 +2,15 @@
 
 import Link from "next/link"
 import type { ReactNode } from "react"
-import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
 import { PerspectiveRunsSection } from "@/components/profile/perspective-runs-section"
 import { ResultCardHero, type ResultCardAccent } from "@/components/results/result-card-hero"
 import { formatFieldDate } from "@/lib/field/items"
 import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
-import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
-import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
-import { buildProfileNarrative } from "@/lib/narrative/profile"
-import {
-  buildProfileAssessment,
-  buildProfileSynthesisLite,
-  buildProfileSpineRows,
-  buildProfileTriad,
-  type ProfileSpineRow,
-} from "@/lib/profile-helpers"
+import { normFromNormativeModifier } from "@/lib/archetypes"
+import { ACTIVE_MODULE_COMPARISON_STATUS } from "@/lib/modules/types"
+import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
+import type { CanonicalFoundationResult } from "@/lib/scoring"
 import type { FamilyKey } from "@/lib/types"
 
 const FAMILY_ACCENT: Record<FamilyKey, ResultCardAccent> = {
@@ -47,25 +40,9 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   const moduleSnapshots = Object.values(profile.modules)
     .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
     .sort((a, b) => b.timestamp - a.timestamp)
-  const assessment = buildProfileAssessment(profile)
-  const profileSynthesis = buildProfileSynthesisLite(profile)
-  const profileNarrative = buildProfileNarrative(profile, assessment)
-  const triad = buildProfileTriad(profile)
-  const spineRows = buildProfileSpineRows(profile)
   const aiSnapshot = profile.aiGovernance
-  const crossModuleSynthesis = getCrossModuleSynthesis(
-    foundation.familyKey,
-    aiSnapshot?.archetypeKey ?? null,
-  )
-  const atlasMatch = matchAtlasLiteProfile({
-    foundation,
-    profileState: assessment.state,
-    moduleSnapshots,
-  })
-  const soWhatBlock = profileNarrative.sections.find(
-    (section) => section.title === "So what this usually means",
-  )
-  const topParagraph = soWhatBlock?.text ?? profileNarrative.summary
+  const foundationIdentity = resolveFoundationIdentityFromSnapshot(foundation)
+  const foundationArchetype = foundationIdentity?.archetype ?? null
   const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security") ?? null
   const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology") ?? null
   const nextSteps = buildProfileNextSteps({
@@ -75,26 +52,19 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
     aiSnapshot,
     mode,
   })
-  const spreadHeadline = computeSpreadHeadline(spineRows)
-  const savedLayerCount = profileSynthesis.layers.filter((layer) => layer.present).length
-  const isLayeredProfile = savedLayerCount >= 2
-  const heroTitle = isLayeredProfile ? atlasMatch.nearest.publicName : assessment.synthesis
-  const heroSummary = isLayeredProfile ? atlasMatch.nearest.soWhat : topParagraph
 
   return (
     <article className="result-article">
-      {isLayeredProfile ? (
+      {foundationArchetype && foundationIdentity ? (
         <ResultCardHero
-          eyebrow={mode === "local" ? "Profile" : "Shared profile"}
-          label={heroTitle}
-          accent={FAMILY_ACCENT[foundation.familyKey]}
-          modifiers={buildProfileModifiers(foundation, aiSnapshot)}
-          summary={heroSummary}
-          finding={
-            triad.tension
-              ? { label: "Open tension", text: triad.tension }
-              : { label: "Under pressure", text: atlasMatch.nearest.cardPressureNote }
-          }
+          eyebrow={mode === "local" ? "Foundation profile" : "Shared Foundation profile"}
+          label={foundationArchetype.name}
+          accent={FAMILY_ACCENT[foundationIdentity.result.familyKey]}
+          modifiers={buildProfileModifiers(
+            foundationIdentity.result,
+            foundationArchetype.code,
+          )}
+          summary={foundationArchetype.gloss}
           actions={
             nextSteps.length > 0 ? (
               <>
@@ -123,73 +93,36 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       ) : (
         <section className="profile-hero profile-hero--anchored stack-md">
           <div className="profile-hero-head stack-sm">
-            <p className="eyebrow">{mode === "local" ? "Profile" : "Shared profile"}</p>
-            <h1>{heroTitle}</h1>
+            <p className="eyebrow">{mode === "local" ? "Profile unavailable" : "Shared profile unavailable"}</p>
+            <h1>Foundation identity unavailable</h1>
           </div>
-          <p className="profile-hero-summary">{heroSummary}</p>
-          {nextSteps.length > 0 ? (
-            <nav className="profile-hero-ctas" aria-label="Profile next steps">
-              {nextSteps.slice(0, 3).map((step, index) => (
-                <Link
-                  key={step.href}
-                  href={step.href}
-                  className={`profile-hero-cta${index === 0 ? " profile-hero-cta--primary" : ""}`}
-                >
-                  <span className="profile-hero-cta__title">{step.title}</span>
-                  <span className="profile-hero-cta__arr" aria-hidden="true">↗</span>
-                </Link>
-              ))}
-            </nav>
+          <p className="profile-hero-summary">
+            This Profile’s Foundation payload could not be resolved, so no
+            archetype has been inferred. The saved result remains unchanged.
+          </p>
+          {mode === "local" ? (
+            <p style={{ margin: 0 }}>
+              <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+                Open the saved Foundation result →
+              </Link>
+            </p>
           ) : null}
         </section>
       )}
 
-      <section className="result-section stack-md">
-        <div className="profile-stat-chips" aria-label="Profile facts">
-          <span className="profile-stat-chip">
-            <span className="profile-stat-chip__k">Stable thread</span>
-            <span className="profile-stat-chip__v">{stableThreadChip(foundation.familyKey)}</span>
-          </span>
-          <span className="profile-stat-chip profile-stat-chip--high">
-            <span className="profile-stat-chip__k">Biggest shift</span>
-            <span className="profile-stat-chip__v">{spreadHeadline.changedMostChip}</span>
-          </span>
-          <span className="profile-stat-chip profile-stat-chip--stable">
-            <span className="profile-stat-chip__k">AI result</span>
-            <span className="profile-stat-chip__v">
-              {aiSnapshot ? aiSnapshot.archetypeLabel : "Not added"}
-            </span>
-          </span>
-        </div>
-
-        <ProfileAnchoredSpread rows={spineRows} />
-      </section>
-
-      <section className="result-section stack-md">
-        <h2 className="profile-section-heading">What stayed steady, what shifted</h2>
-        <div className="profile-triad">
-          <div className="profile-triad__item stack-xs">
-            <p className="eyebrow">What stayed steady</p>
-            <p style={{ lineHeight: "1.7", margin: 0 }}>{triad.steady}</p>
-          </div>
-          <div className="profile-triad__item stack-xs">
-            <p className="eyebrow">What shifted</p>
-            <p style={{ lineHeight: "1.7", margin: 0 }}>{triad.shifted}</p>
-          </div>
-          {triad.tension ? (
-            <div className="profile-triad__item stack-xs">
-              <p className="eyebrow">Open tension</p>
-              <p style={{ lineHeight: "1.7", margin: 0 }}>{triad.tension}</p>
-            </div>
-          ) : null}
-        </div>
-        {actionSlot ? <div className="profile-secondary-actions">{actionSlot}</div> : null}
-      </section>
+      <DomainRecordsSection
+        foundation={foundation}
+        foundationIdentity={foundationIdentity}
+        moduleSnapshots={moduleSnapshots}
+        aiSnapshot={aiSnapshot}
+        mode={mode}
+        actionSlot={actionSlot}
+      />
 
       <PerspectiveRunsSection
         key={`${mode}-${profile.perspectiveRuns.length}`}
         initialRuns={profile.perspectiveRuns}
-        baselineScores={foundation.dimensionScores}
+        baselineScores={foundationIdentity?.result.dimensionScores ?? null}
         mode={mode}
       />
 
@@ -197,35 +130,16 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
         <h2 className="profile-section-heading">Results behind this profile</h2>
 
         <details className="profile-details profile-details--secondary">
-          <summary>
-            {isLayeredProfile
-              ? `Worldview profile: ${atlasMatch.nearest.publicName}`
-              : "Nearest worldview profile"}
-          </summary>
+          <summary>Decision Patterns</summary>
           <div className="profile-collapsed-detail stack-md">
-            {!isLayeredProfile ? (
-              <p style={{ fontWeight: 700, fontFamily: "Georgia, serif", margin: 0 }}>
-                {atlasMatch.nearest.publicName}
-              </p>
-            ) : null}
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
-              {atlasMatch.nearest.cardSummary}
+              Decision Patterns are authored reading aids, not identities
+              assigned from this Profile. Browse them as editorial comparisons
+              without treating any one pattern as your result.
             </p>
-            <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6", margin: 0 }}>
-              <strong>Under pressure:</strong> {atlasMatch.nearest.cardPressureNote}
-            </p>
-            <AtlasFingerprint fingerprint={atlasMatch.nearest.fingerprint} compact />
             <div className="atlas-inline-links">
-              <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} style={{ color: "var(--accent)" }}>
-                Read {atlasMatch.nearest.publicName}
-              </Link>
-              {atlasMatch.neighbors.slice(0, 2).map((pattern) => (
-                <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                  {pattern.publicName}
-                </Link>
-              ))}
               <Link href="/explore/atlas" style={{ color: "var(--accent)" }}>
-                Browse the Worldview Map
+                Browse Decision Patterns on the Worldview Map
               </Link>
             </div>
           </div>
@@ -237,21 +151,20 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
             {aiSnapshot ? (
               <>
                 <div className="row gap-sm wrap">
-                  <span className="mode-pill">{foundation.familyLabel}</span>
-                  <span className="ai-mode-pill">{aiSnapshot.archetypeLabel}</span>
+                  <span className="mode-pill">
+                    Foundation: {foundationArchetype?.name ?? "identity unavailable"}
+                  </span>
+                  <span className="ai-mode-pill">
+                    AI result: {aiSnapshot.archetypeLabel}
+                  </span>
                 </div>
 
                 <div className="stack-xs">
-                  <p className="eyebrow">{crossModuleSynthesis.title}</p>
+                  <p className="eyebrow">Separate result</p>
                   <p className="muted" style={{ fontSize: "0.9rem", lineHeight: "1.6", margin: 0 }}>
-                    {crossModuleSynthesis.shortReadout}
-                  </p>
-                </div>
-
-                <div className="stack-xs">
-                  <p className="eyebrow">What this combination implies</p>
-                  <p style={{ lineHeight: "1.7", margin: 0 }}>
-                    {crossModuleSynthesis.practicalImplication}
+                    The AI result describes a domain-specific governance
+                    posture. It does not replace or rename the Foundation
+                    archetype.
                   </p>
                 </div>
 
@@ -270,12 +183,12 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
               <>
                 <p style={{ fontWeight: 600, margin: 0 }}>
                   {mode === "local"
-                    ? "AI governance not yet added"
-                    : "AI governance not included in this shared profile"}
+                    ? "No AI Governance result saved yet"
+                    : "This shared profile has no AI Governance result"}
                 </p>
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
                   {mode === "local"
-                    ? "Add the AI Governance Compass to compare its result with your Foundation."
+                    ? "Add the AI Governance Compass for a separate domain-specific result."
                     : "This shared profile includes the Foundation and saved Focus Area results."}
                 </p>
                 {mode === "local" ? (
@@ -332,14 +245,6 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                     </div>
                   ) : null}
 
-                  {moduleSnapshot.comparison ? (
-                    <div className="profile-module-note profile-module-note--accent">
-                      <p style={{ fontSize: "0.88rem", lineHeight: "1.6" }}>
-                        <strong>Directional read:</strong> {moduleSnapshot.comparison}
-                      </p>
-                    </div>
-                  ) : null}
-
                   {mode === "local" && moduleSnapshot.resultPath ? (
                     <p>
                       <Link href={moduleSnapshot.resultPath} style={{ color: "var(--accent)" }}>
@@ -355,39 +260,58 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
 
         {mode === "local" ? (
           <>
-            <details className="profile-details profile-details--secondary">
-              <summary>Foundation result and anchors</summary>
-              <div className="profile-collapsed-detail stack-md">
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
-                  Closest traditions: {foundation.familyLabel} and {foundation.runnerUpLabel}.
-                </p>
-                <p style={{ margin: 0 }}>
-                  <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
-                    Open Foundation result →
-                  </Link>
-                </p>
-                <div className="profile-anchor-grid">
-                  {foundation.keyDrivers.map((driver) => (
-                    <div key={driver.label} className="profile-anchor-item stack-xs">
-                      <p className="eyebrow">{driver.type}</p>
-                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
-                      <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                        {driver.description}
-                      </p>
-                    </div>
-                  ))}
-                  {foundation.strongLenses.map((lens) => (
-                    <div key={lens.label} className="profile-anchor-item stack-xs">
-                      <p className="eyebrow">Lens</p>
-                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
-                      <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
-                        {lens.description}
-                      </p>
-                    </div>
-                  ))}
+            {foundationIdentity ? (
+              <details className="profile-details profile-details--secondary">
+                <summary>Foundation result and anchors</summary>
+                <div className="profile-collapsed-detail stack-md">
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+                    Closest traditions: {foundationIdentity.result.familyLabel} and{" "}
+                    {foundationIdentity.result.runnerUpLabel}.
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+                      Open Foundation result →
+                    </Link>
+                  </p>
+                  <div className="profile-anchor-grid">
+                    {foundation.keyDrivers.map((driver) => (
+                      <div key={driver.label} className="profile-anchor-item stack-xs">
+                        <p className="eyebrow">{driver.type}</p>
+                        <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
+                        <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                          {driver.description}
+                        </p>
+                      </div>
+                    ))}
+                    {foundation.strongLenses.map((lens) => (
+                      <div key={lens.label} className="profile-anchor-item stack-xs">
+                        <p className="eyebrow">Emphasis</p>
+                        <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
+                        <p className="muted" style={{ fontSize: "0.86rem", lineHeight: "1.6" }}>
+                          {lens.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </details>
+              </details>
+            ) : (
+              <details className="profile-details profile-details--secondary">
+                <summary>Archived Foundation record</summary>
+                <div className="profile-collapsed-detail stack-sm">
+                  <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
+                    This legacy record’s Foundation token cannot be resolved.
+                    Cached family labels and derived anchors are therefore not
+                    presented as a current identity.
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+                      Open the archived result route →
+                    </Link>
+                  </p>
+                </div>
+              </details>
+            )}
 
             <ResultHistoryDrawer profile={profile} />
 
@@ -422,6 +346,157 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
   )
 }
 
+function DomainRecordsSection({
+  foundation,
+  foundationIdentity,
+  moduleSnapshots,
+  aiSnapshot,
+  mode,
+  actionSlot,
+}: {
+  foundation: NonNullable<ProfileStore["foundation"]>
+  foundationIdentity: ReturnType<typeof resolveFoundationIdentityFromSnapshot>
+  moduleSnapshots: ModuleSnapshot[]
+  aiSnapshot: ProfileStore["aiGovernance"]
+  mode: "local" | "shared"
+  actionSlot?: ReactNode
+}) {
+  const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
+  const modulesBySlug = Object.fromEntries(
+    moduleSnapshots.map((snapshot) => [snapshot.slug, snapshot]),
+  ) as Partial<Record<ModuleSnapshot["slug"], ModuleSnapshot>>
+
+  return (
+    <section className="result-section stack-md">
+      <div className="stack-xs">
+        <p className="eyebrow">Profile structure</p>
+        <h2 className="profile-section-heading">Foundation and issue records</h2>
+        <p className="muted profile-domain-intro">
+          Issue results sit beside the Foundation and do not rescore it.
+        </p>
+      </div>
+
+      <div className="profile-domain-status" aria-label="Issue comparison status">
+        <span>
+          <strong>Status</strong>
+          <code>{comparisonStatus.kind}</code>
+        </span>
+        <span>
+          {comparisonStatus.numericBridge === "none"
+            ? "No numeric bridge"
+            : comparisonStatus.numericBridge}
+        </span>
+        <span>
+          {comparisonStatus.masterScore === "none"
+            ? "No master score"
+            : comparisonStatus.masterScore}
+        </span>
+      </div>
+
+      <div className="profile-domain-records">
+        <article className="profile-domain-record">
+          <div className="profile-domain-record__meta">
+            <span>Foundation</span>
+            <span>Primary identity · unchanged</span>
+          </div>
+          <div className="stack-xs">
+            <h3>Foundation record</h3>
+            <p className="profile-domain-record__result">
+              {foundationIdentity?.archetype.name ?? "Identity unavailable"}
+            </p>
+            <p className="muted profile-domain-record__summary">
+              {foundationIdentity
+                ? foundationIdentity.archetype.gloss
+                : "The saved Foundation token cannot be resolved, so this record is shown without inferring a replacement identity."}
+            </p>
+          </div>
+          {mode === "local" ? (
+            <Link href={foundation.resultPath} className="profile-domain-record__link">
+              Open Foundation result →
+            </Link>
+          ) : null}
+        </article>
+
+        {(["security", "technology"] as const).map((slug) => {
+          const snapshot = modulesBySlug[slug]
+          const title = slug === "security" ? "Security" : "Technology"
+
+          return (
+            <article key={slug} className="profile-domain-record">
+              <div className="profile-domain-record__meta">
+                <span>{title}</span>
+                <span>Separate issue record</span>
+              </div>
+              <div className="stack-xs">
+                <h3>{title} record</h3>
+                <p className="profile-domain-record__result">
+                  {snapshot
+                    ? snapshot.headline
+                    : mode === "local"
+                      ? "Not added"
+                      : "Not included"}
+                </p>
+                <p className="muted profile-domain-record__summary">
+                  {snapshot
+                    ? snapshot.summary
+                    : mode === "local"
+                      ? `Add the ${title} Focus Area for a domain-specific result.`
+                      : `This shared Profile does not include a ${title} result.`}
+                </p>
+              </div>
+              {mode === "local" ? (
+                <Link
+                  href={
+                    snapshot?.resultPath
+                    ?? `/modules/${slug}?foundation=${encodeURIComponent(foundation.payload)}`
+                  }
+                  className="profile-domain-record__link"
+                >
+                  {snapshot ? `Open ${title} result →` : `Add ${title} result →`}
+                </Link>
+              ) : null}
+            </article>
+          )
+        })}
+
+        <article className="profile-domain-record">
+          <div className="profile-domain-record__meta">
+            <span>AI Governance</span>
+            <span>Separate issue record</span>
+          </div>
+          <div className="stack-xs">
+            <h3>AI Governance record</h3>
+            <p className="profile-domain-record__result">
+              {aiSnapshot
+                ? aiSnapshot.archetypeLabel
+                : mode === "local"
+                  ? "Not added"
+                  : "Not included"}
+            </p>
+            <p className="muted profile-domain-record__summary">
+              {aiSnapshot
+                ? aiSnapshot.summary
+                : mode === "local"
+                  ? "Add the AI Governance Compass for a domain-specific governance result."
+                  : "This shared Profile does not include an AI Governance result."}
+            </p>
+          </div>
+          {mode === "local" ? (
+            <Link
+              href={aiSnapshot?.resultPath ?? "/ai"}
+              className="profile-domain-record__link"
+            >
+              {aiSnapshot ? "Open AI result →" : "Add AI result →"}
+            </Link>
+          ) : null}
+        </article>
+      </div>
+
+      {actionSlot ? <div className="profile-secondary-actions">{actionSlot}</div> : null}
+    </section>
+  )
+}
+
 function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
   const foundation = profile.foundation
   const earlierFoundation = profile.foundationHistory.filter(
@@ -451,18 +526,22 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
           {earlierFoundation
             .slice()
             .sort((a, b) => b.timestamp - a.timestamp)
-            .map((snapshot) => (
-              <li key={`f-${snapshot.timestamp}`} className="profile-history-row">
-                <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
-                <span className="profile-history-row__label">
-                  Foundation · {snapshot.familyLabel}
-                  {snapshot.mode ? ` · ${snapshot.mode === "analyst" ? "Analyst" : "Standard"}` : ""}
-                </span>
-                <Link href={snapshot.resultPath} className="profile-history-row__view">
-                  View
-                </Link>
-              </li>
-            ))}
+            .map((snapshot) => {
+              const identity =
+                resolveFoundationIdentityFromSnapshot(snapshot)
+              return (
+                <li key={`f-${snapshot.timestamp}`} className="profile-history-row">
+                  <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
+                  <span className="profile-history-row__label">
+                    Foundation · {identity?.archetype.name ?? "identity unavailable"}
+                    {snapshot.mode ? ` · ${snapshot.mode === "analyst" ? "Analyst" : "Standard"}` : ""}
+                  </span>
+                  <Link href={snapshot.resultPath} className="profile-history-row__view">
+                    View
+                  </Link>
+                </li>
+              )
+            })}
           {earlierModules
             .slice()
             .sort((a, b) => b.timestamp - a.timestamp)
@@ -494,12 +573,15 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
 }
 
 function buildProfileModifiers(
-  foundation: NonNullable<ProfileStore["foundation"]>,
-  aiSnapshot: ProfileStore["aiGovernance"],
+  foundation: CanonicalFoundationResult,
+  archetypeCode: string,
 ): string[] {
-  const modifiers: string[] = [foundation.familyLabel]
-  if (aiSnapshot) modifiers.push(aiSnapshot.archetypeLabel)
-  return modifiers
+  return [
+    `${archetypeCode} / ${normFromNormativeModifier(foundation.normativeModifier)}`,
+    `Closest tradition: ${foundation.familyLabel}`,
+    foundation.strategyModifier,
+    foundation.normativeModifier,
+  ]
 }
 
 function buildProfileNextSteps({
@@ -562,155 +644,4 @@ function buildProfileNextSteps({
   })
 
   return steps.slice(0, 3)
-}
-
-const STABLE_THRESHOLD = 0.5
-const HEAVY_THRESHOLD = 1.0
-const HALF_RANGE = 3
-
-type DominantOverlay = {
-  slug: "security" | "technology"
-  label: string
-  delta: number
-  magnitude: number
-  isStable: boolean
-}
-
-function pickDominantOverlay(row: ProfileSpineRow): DominantOverlay | null {
-  let best: DominantOverlay | null = null
-  for (const overlay of row.overlays) {
-    const delta = overlay.value - row.baseline
-    const magnitude = Math.abs(delta)
-    if (!best || magnitude > best.magnitude) {
-      best = {
-        slug: overlay.slug,
-        label: overlay.label,
-        delta,
-        magnitude,
-        isStable: magnitude < STABLE_THRESHOLD,
-      }
-    }
-  }
-  return best
-}
-
-function leansPhrase(magnitude: number): string {
-  if (magnitude < STABLE_THRESHOLD) return "stable"
-  if (magnitude < HEAVY_THRESHOLD) return "leans"
-  return "leans heavily"
-}
-
-function ProfileAnchoredSpread({ rows }: { rows: ProfileSpineRow[] }) {
-  return (
-    <div className="profile-spread" role="img" aria-label="Relative directional pulls from the Foundation anchor under saved module pressure">
-      <div className="profile-spread__head">
-        <span className="profile-spread__title">Relative pull from the Foundation anchor</span>
-        <div className="profile-spread__scale" aria-hidden="true">
-          <span className="profile-spread__scale-l">Toward low pole</span>
-          <span className="profile-spread__scale-c">Foundation anchor</span>
-          <span className="profile-spread__scale-r">Toward high pole</span>
-        </div>
-      </div>
-
-      {rows.map((row) => {
-        const dominant = pickDominantOverlay(row)
-        const isStable = !dominant || dominant.isStable
-        const widthPercent = dominant
-          ? Math.min(50, (dominant.magnitude / HALF_RANGE) * 50)
-          : 0
-        const leftPercent = dominant && dominant.delta < 0 ? 50 - widthPercent : 50
-        const directionLabel = dominant
-          ? dominant.delta >= 0
-            ? row.highLabel
-            : row.lowLabel
-          : null
-        const phrase = dominant ? leansPhrase(dominant.magnitude) : "no overlay"
-        const anchorMeta = dominant
-          ? `Foundation anchor · ${dominant.label} pull`
-          : "Foundation anchor · no saved module pull yet"
-
-        return (
-          <div
-            key={row.dimension}
-            className={`profile-spread__row${isStable ? " profile-spread__row--stable" : ""}`}
-          >
-            <div className="profile-spread__label">
-              <span className="profile-spread__name">{row.label}</span>
-              <span className="profile-spread__anchor">{anchorMeta}</span>
-            </div>
-            <div className="profile-spread__bar">
-              <div className="profile-spread__track" aria-hidden="true">
-                <span className="profile-spread__grid" style={{ left: "16.66%" }} />
-                <span className="profile-spread__grid" style={{ left: "33.33%" }} />
-                <span className="profile-spread__axis" />
-                <span className="profile-spread__grid" style={{ left: "66.66%" }} />
-                <span className="profile-spread__grid" style={{ left: "83.33%" }} />
-                {dominant ? (
-                  <span
-                    className={`profile-spread__fill${isStable ? " profile-spread__fill--stable" : ""}`}
-                    style={{ left: `${leftPercent}%`, width: `${Math.max(widthPercent, 0.6)}%` }}
-                  />
-                ) : null}
-              </div>
-              <div className="profile-spread__lane-meta">
-                <span>{dominant ? `Focus Area: ${dominant.label}` : "No saved Focus Area yet"}</span>
-                <span className="profile-spread__delta">
-                  {dominant && directionLabel
-                    ? `${phrase} · ${directionLabel.toLowerCase()}`
-                    : phrase}
-                </span>
-              </div>
-            </div>
-          </div>
-        )
-      })}
-
-      <div className="profile-spread__foot">
-        <span>
-          <span className="profile-spread__sw profile-spread__sw--move" aria-hidden="true" />
-          Noticeable pull
-        </span>
-        <span>
-          <span className="profile-spread__sw profile-spread__sw--stable" aria-hidden="true" />
-          Little or no pull
-        </span>
-        <span className="profile-spread__anchor-key">Directional pulls inside this model.</span>
-      </div>
-    </div>
-  )
-}
-
-type SpreadHeadline = {
-  changedMostChip: string
-}
-
-function stableThreadChip(familyKey: FamilyKey) {
-  if (familyKey === "realist") return "Power and constraint"
-  if (familyKey === "institutionalist") return "Rules and coordination"
-  if (familyKey === "constructivist") return "Legitimacy and meaning"
-  return "Dependence and hierarchy"
-}
-
-function computeSpreadHeadline(rows: ProfileSpineRow[]): SpreadHeadline {
-  let strongest: { row: ProfileSpineRow; dominant: DominantOverlay } | null = null
-
-  for (const row of rows) {
-    const dominant = pickDominantOverlay(row)
-    if (dominant && (!strongest || dominant.magnitude > strongest.dominant.magnitude)) {
-      strongest = { row, dominant }
-    }
-  }
-
-  if (!strongest) {
-    return {
-      changedMostChip: "No overlay yet",
-    }
-  }
-
-  const { row, dominant } = strongest
-  const phrase = leansPhrase(dominant.magnitude)
-
-  return {
-    changedMostChip: `${row.label} · ${phrase}`,
-  }
 }

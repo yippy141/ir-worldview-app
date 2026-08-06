@@ -4,6 +4,7 @@ import { zhHansCurrentCaseArchive } from "@/content/locales/zh-Hans/current-case
 import { zhHansCurrentCases } from "@/content/locales/zh-Hans/current-cases/index"
 import { zhHansRouteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createLocalizedMetadata } from "@/i18n/metadata"
+import { getActivePublishedLaunchCurrentCase } from "@/lib/current-cases/catalog"
 import { toZhHansCurrentCasePublicRecord } from "@/lib/current-cases/zh-hans"
 import styles from "@/components/current-case/current-case.module.css"
 
@@ -13,6 +14,7 @@ export function generateMetadata(): Metadata {
 
 export default function ChineseCurrentCasesPage() {
   const cases = zhHansCurrentCases.filter((record) => record.publicationStatus === "published")
+  const activeCase = getActivePublishedLaunchCurrentCase()
   const content = zhHansCurrentCaseArchive
 
   return (
@@ -20,8 +22,10 @@ export default function ChineseCurrentCasesPage() {
       <header className={styles.pageHeader}>
         <div>
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1>{content.title}</h1>
-          <p className={styles.archiveIntro}>{content.intro}</p>
+          <h1>{activeCase ? content.title : content.recentTitle}</h1>
+          <p className={styles.archiveIntro}>
+            {activeCase ? content.intro : content.noActiveBody}
+          </p>
         </div>
         <p className={styles.pageMeta}>{content.privacyNote}</p>
       </header>
@@ -32,7 +36,10 @@ export default function ChineseCurrentCasesPage() {
           <p>{content.emptyBody}</p>
         </section>
       ) : (
-        <CurrentCaseArchive records={cases.map(toZhHansCurrentCasePublicRecord)} />
+        <CurrentCaseArchive
+          records={cases.map(toZhHansCurrentCasePublicRecord)}
+          activeCaseId={activeCase?.id ?? null}
+        />
       )}
     </div>
   )

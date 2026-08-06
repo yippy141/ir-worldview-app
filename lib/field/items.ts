@@ -194,7 +194,7 @@ export function buildAtlasPatternFieldItems(locale: Locale = "en"): FieldItem[] 
       : pattern.publicName,
     sortKey: pattern.publicName,
     searchableText: [
-      "worldview profile",
+      "decision pattern",
       pattern.technicalDescriptor,
       pattern.cardSummary,
       FAMILY_LABELS[pattern.primaryFamily],

@@ -1,86 +1,26 @@
-import { matchAtlasLiteFoundation } from "@/lib/atlas-lite"
-import { isResponseForCurrentCase } from "@/lib/current-cases/response-store"
 import type {
   CompletedCurrentCaseResponse,
   CurrentCase,
   CurrentCaseFoundationConnection,
 } from "@/lib/current-cases/types"
-import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import type { FoundationSnapshot } from "@/lib/profile-store"
-import { getTopDimensions } from "@/lib/result-helpers"
-import { sameResearchEquivalenceCohort } from "@/lib/locale-provenance"
 
 /**
- * Makes an editorial connection to the existing Foundation projection. It
- * does not rescore the Foundation, modify the snapshot, or infer a new family.
+ * Current Case records do not yet carry a reviewed, versioned mapping to the
+ * Foundation. Keep the existing function boundary for a future authored
+ * contract, but do not infer a connection from the legacy Atlas matcher.
  */
 export function compareCompletedCaseWithFoundation(
-  record: Pick<
+  _record: Pick<
     CurrentCase,
     "id" | "slug" | "version" | "decision" | "worldviewReadings" | "reasoningTags"
   >,
   response: CompletedCurrentCaseResponse,
-  foundation: FoundationSnapshot | null,
+  _foundation: FoundationSnapshot | null,
 ): CurrentCaseFoundationConnection {
-  const unavailable: CurrentCaseFoundationConnection = {
-    kind: "unavailable",
-    unavailableReason: "missing-foundation",
-    selectedOptionId: response.selectedOptionId,
-    foundationPatternId: null,
-    foundationPatternLabel: null,
-    readingProfileId: null,
-    dimensions: [],
-    summary:
-      "Complete the Foundation to compare this judgment with your saved baseline.",
-  }
-
-  if (!foundation || !isResponseForCurrentCase(response, record)) return unavailable
-  if (!sameResearchEquivalenceCohort(response, foundation)) {
-    return {
-      ...unavailable,
-      unavailableReason: "different-cohort",
-      summary:
-        "This Current Case response and saved Foundation were completed under different language or copy versions, so they are not compared.",
-    }
-  }
-
-  const foundationAssessment = assessFoundationNarrative(foundation.dimensionScores)
-  const match = matchAtlasLiteFoundation({
-    familyKey: foundation.familyKey,
-    runnerUpKey: foundation.runnerUpKey,
-    strategyModifier: foundation.strategyModifier,
-    normativeModifier: foundation.normativeModifier,
-    dimensionScores: foundation.dimensionScores,
-    foundationState: foundationAssessment.state,
-  })
-  const reading = record.worldviewReadings.find(
-    (candidate) => candidate.profileId === match.nearest.id,
-  )
-  const dimensions = getTopDimensions(foundation.dimensionScores, 3)
-
-  if (!reading) {
-    return {
-      kind: "not-covered",
-      selectedOptionId: response.selectedOptionId,
-      foundationPatternId: match.nearest.id,
-      foundationPatternLabel: match.nearest.publicName,
-      readingProfileId: null,
-      dimensions,
-      summary:
-        "The profile nearest your Foundation falls outside this case’s selected readings. This case cannot make a baseline comparison for that pattern.",
-    }
-  }
-
-  const consistent = reading.recommendedOptionIds.includes(response.selectedOptionId)
   return {
-    kind: consistent ? "consistent" : "tension",
+    kind: "unavailable",
+    unavailableReason: "missing-authored-mapping",
     selectedOptionId: response.selectedOptionId,
-    foundationPatternId: match.nearest.id,
-    foundationPatternLabel: match.nearest.publicName,
-    readingProfileId: reading.profileId,
-    dimensions,
-    summary: consistent
-      ? `Your decision aligns with the ${match.nearest.publicName} reading included in this case. This contextual comparison leaves your Foundation score unchanged.`
-      : `Your decision differs from the ${match.nearest.publicName} reading included in this case. The difference shows where this context pulls against your saved baseline.`,
   }
 }

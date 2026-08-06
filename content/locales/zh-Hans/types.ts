@@ -1,10 +1,13 @@
 import type {
+  CurrentCaseCadence,
   CurrentCaseCategory,
   CurrentCaseEditorialReview,
+  CurrentCaseFreshnessStatus,
   CurrentCaseLaunchRole,
   CurrentCasePublicationStatus,
   CurrentCaseSourceKind,
 } from "@/lib/current-cases/types"
+import { CURRENT_CASE_SCHEMA_VERSION } from "@/lib/current-cases/types"
 import type {
   CountryRole,
   StrategicFlowKind,
@@ -76,7 +79,7 @@ export type ZhHansCurrentCaseSource = {
 }
 
 export type ZhHansCurrentCaseRecord = {
-  schemaVersion: 1
+  schemaVersion: typeof CURRENT_CASE_SCHEMA_VERSION
   id: string
   slug: string
   version: number
@@ -88,6 +91,10 @@ export type ZhHansCurrentCaseRecord = {
   category: CurrentCaseCategory
   publishedAt: string | null
   updatedAt: string
+  asOf: string
+  reviewDueAt: string
+  freshnessStatus: CurrentCaseFreshnessStatus
+  cadence: CurrentCaseCadence
   evidenceWindow: { start: string; end: string }
   briefing: string
   actors: readonly CanonicalDisplayName[]

@@ -207,14 +207,14 @@ export function ModuleApp({
             <p className="module-linkage-text">
               {currentFoundation
                 ? `${currentFoundation.strategyModifier} · ${currentFoundation.normativeModifier}`
-                : "Take the Foundation first if you want this module compared with a saved baseline."}
+                : "This module can be completed independently and saved beside a later Foundation."}
             </p>
           </div>
           <p className="module-linkage-strip-text">
-            This module tests how that baseline behaves inside {moduleDefinition.shortTitle.toLowerCase()} cases:
+            This module records a separate {moduleDefinition.shortTitle.toLowerCase()} read across
             {" "}
-            {moduleDefinition.lanes.map((lane) => lane.label).join(", ")}. It can confirm, qualify,
-            or complicate the Foundation, but it does not replace it.
+            {moduleDefinition.lanes.map((lane) => lane.label).join(", ")}. A linked Foundation is
+            kept for provenance and navigation; its dimensions and archetype remain unchanged.
           </p>
         </section>
 
@@ -222,11 +222,10 @@ export function ModuleApp({
           <div className="stack-xs">
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard gives you {standardQuestionCount} questions and a cleaner first pass.
-              Advanced expands that to {analystQuestionCount}, with {analystAdditionCount} extra
-              cases and a small set of questions asked from a defined actor’s position. In both
-              modes, you can add a
-              backup choice when a second answer genuinely fits.
+              Standard uses {standardQuestionCount} questions. Advanced adds{" "}
+              {analystAdditionCount} cases and actor-position questions, for{" "}
+              {analystQuestionCount} in total. In either mode, choose one main answer per case and
+              add a backup only when another option genuinely fits.
             </p>
           </div>
           <div className="module-mode-grid">
@@ -282,13 +281,14 @@ export function ModuleApp({
             <div className="stack-xs">
               <p className="eyebrow">Reading rule</p>
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                Read the scene first, then the tradeoff. Explanation cards ask what best explains
-                the case; Decision cards ask what should carry the response; Actor lens cards ask
-                what would look strongest from that actor&apos;s position.
+                Read the scene and tradeoff before answering. On Explanation cards, choose the
+                cause that best accounts for the case. On Decision cards, choose the consideration
+                that should guide the response. On Actor lens cards, choose the logic that actor
+                would find strongest.
               </p>
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                Answer from your analytic judgment. A backup choice is available when another option
-                genuinely fits, but it stays secondary.
+                Answer from your analytic judgment. If two options fit, make one your main choice
+                and mark the other as secondary.
               </p>
             </div>
           </div>
@@ -406,8 +406,8 @@ export function ModuleApp({
                     <div className="stack-xs">
                       <p className="eyebrow">Second-most persuasive</p>
                       <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.9rem" }}>
-                        Use this only when another option also captures part of your judgment. It
-                        counts less than your main choice and should stay genuinely secondary.
+                        Mark another option only when it captures part of your judgment. It receives
+                        less weight than your main choice.
                       </p>
                     </div>
                     <div className="module-secondary-grid">
@@ -451,7 +451,7 @@ export function ModuleApp({
             onClick={handleGenerate}
             disabled={!ready}
           >
-            Generate module result →
+            See {moduleDefinition.shortTitle} result →
           </button>
           <button
             type="button"
@@ -468,8 +468,7 @@ export function ModuleApp({
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>
-          The Foundation remains the baseline. This module shows what changes inside one issue
-          area.
+          This module creates a separate issue record. It does not rescore the Foundation.
         </p>
       </section>
     </div>
@@ -546,12 +545,12 @@ function moduleInstructionCopy(cardType: ChoiceCardType) {
   }
 
   if (cardType === "decision") {
-    return "Choose the consideration that should carry the most weight in the response."
+    return "Choose the consideration that should guide the response."
   }
 
   if (cardType === "actorLens") {
-    return "Choose the logic that would look strongest from that actor's own strategic position, not the policy you personally prefer."
+    return "Choose the logic this actor would find strongest. Do not substitute the policy you personally prefer."
   }
 
-  return "Choose the framing you find most persuasive overall."
+  return "Choose the option that best explains the case and should guide the response."
 }

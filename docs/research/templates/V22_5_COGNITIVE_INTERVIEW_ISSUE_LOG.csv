@@ -1,0 +1,2 @@
+issue_id,date_opened,wave_first_seen,locale_scope,route_or_surface,item_or_content_id,primary_issue_code,secondary_issue_codes,severity,independent_participant_count,segment_bands_seen,evidence_summary_deidentified,revision_trigger_met,decision,decision_rationale,revision_owner,revision_reference,affected_build_or_copy_version,retest_block,retest_wave,status,date_closed
+V225-TEMPLATE-001,,,,,,,[],S4,0,[],,no,monitor,,,,,,2,open,

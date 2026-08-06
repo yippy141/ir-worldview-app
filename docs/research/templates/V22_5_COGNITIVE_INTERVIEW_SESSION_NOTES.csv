@@ -1,0 +1,8 @@
+participant_code,wave,build_commit,locale_path,stage,route_or_content_id,extended_block_id,probe_domain,observation_type,evidence_paraphrase_deidentified,behavioral_note,response_process_note,hesitation_band,clarification_opened,moderator_help_required,primary_issue_code,severity,moderator_interpretation,follow_up_status,proposed_aggregate_issue_id,do_not_quote,protocol_deviation,session_date_yyyy_mm_dd
+TEMPLATE,0,COMMIT,en,Foundation-core,/quiz,,COMP-SCOPE,participant-paraphrase,,,,none,no,no,,S4,,,no,no,,
+TEMPLATE,0,COMMIT,en,Foundation-result,/results/[payload],,HIER-IDENTITY,observed-behavior,,,,none,no,no,,S4,,,no,no,,
+TEMPLATE,0,COMMIT,en,Foundation-extended,ITEM_ID,B1,KNOW-CONTEXT,participant-paraphrase,,,,none,no,no,,S4,,,no,no,,
+TEMPLATE,0,COMMIT,en,Security-item,gray_zone_sabotage,,RESP-OVERLAP,participant-paraphrase,,,,none,no,no,,S4,,,no,no,,
+TEMPLATE,0,COMMIT,en,Security-actor-item,middle_power_alignment,,ACTR-ENDORSE,participant-paraphrase,,,,none,no,no,,S4,,,no,no,,
+TEMPLATE,0,COMMIT,en,Security-result,/modules/security/results/[payload],,HIER-DOMAIN,observed-behavior,,,,none,no,no,,S4,,,no,no,,
+TEMPLATE,0,COMMIT,en,Profile,/profile,,NEXT-EXPECT,observed-behavior,,,,none,no,no,,S4,,,no,no,,

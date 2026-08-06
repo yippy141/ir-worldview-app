@@ -2,7 +2,7 @@
   {
     "name": "Kairos",
     "code": "P+",
-    "gloss": "Power is what moves the world. Windows open and close, act while the window is open.",
+    "gloss": "Your answers put power and timing first: a strategic opening is an opportunity to act.",
     "familyKey": "realist",
     "analogue": {
       "label": "The Melian Dialogue",
@@ -13,7 +13,7 @@
   {
     "name": "Shi (勢)",
     "code": "P-",
-    "gloss": "Power is what moves the world. Build up your own position rather than force outcomes and victories will come naturally",
+    "gloss": "Power matters here as a position built over time; the priority is to establish leverage before forcing an outcome.",
     "familyKey": "realist",
     "analogue": {
       "label": "The Art of War",
@@ -24,7 +24,7 @@
   {
     "name": "Grotian",
     "code": "R+",
-    "gloss": "Rules make cooperation long-lasting, but rules that are not properly enforced are not rules.",
+    "gloss": "Your answers give rules force only when they are backed by credible enforcement.",
     "familyKey": "institutionalist",
     "analogue": {
       "label": "Hugo Grotius / De Jure Belli ac Pacis",
@@ -35,7 +35,7 @@
   {
     "name": "Concert",
     "code": "R-",
-    "gloss": "Rules make cooperation long-lasting. The restraint and cooperation of the strong is what sustains them.",
+    "gloss": "Durable cooperation here depends on powerful actors accepting rules and restraint.",
     "familyKey": "institutionalist",
     "analogue": {
       "label": "The Congress of Vienna",
@@ -46,7 +46,7 @@
   {
     "name": "Satyagraha",
     "code": "M+",
-    "gloss": "The international system is held together by shared beliefs. To change the balance of power, one must change the narrative.",
+    "gloss": "Your answers treat shared beliefs as politically decisive: changing the public narrative can change what power achieves.",
     "familyKey": "constructivist",
     "analogue": {
       "label": "The Salt March",
@@ -57,7 +57,7 @@
   {
     "name": "Musyawarah",
     "code": "M-",
-    "gloss": "The international system is held together by shared beliefs. True legitimacy is built slowly through consensus, never demanded.",
+    "gloss": "Legitimacy here grows through patient consensus and cannot be secured by demand alone.",
     "familyKey": "constructivist",
     "analogue": {
       "label": "The ASEAN Way",
@@ -68,7 +68,7 @@
   {
     "name": "Dirigisme",
     "code": "S+",
-    "gloss": "Production, finance, and dependence organize politics, and the state should play a leading role in shaping them.",
+    "gloss": "Your answers give production and finance a leading role, with the state actively shaping the dependencies they create.",
     "familyKey": "criticalPoliticalEconomy",
     "analogue": {
       "label": "The Monnet Plan",
@@ -79,7 +79,7 @@
   {
     "name": "Dependencia",
     "code": "S-",
-    "gloss": "Production, finance, and dependence organize politics. Reducing dependence and building national resilience is critical.",
+    "gloss": "Reducing external dependence is central to resilience in this result.",
     "familyKey": "criticalPoliticalEconomy",
     "analogue": {
       "label": "Raúl Prebisch",

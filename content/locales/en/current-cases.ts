@@ -9,13 +9,13 @@ export const englishCurrentCaseFlow = {
     readings: "Worldview readings",
     challenge: "Assumption challenge",
     final: "Final judgment",
-    result: "Movement",
+    result: "Result",
   },
   progress: (step: number, total: number, label: string) =>
     `Step ${step} of ${total} · ${label}`,
   draftRestored: "Draft restored from this browser.",
   checkingSavedProgress: "Checking this browser for saved progress…",
-  caseHeading: "The case",
+  caseHeading: "Read the case briefing",
   actors: "Actors",
   evidence: "Evidence",
   evidenceCount: (claimCount: number, sourceCount: number) =>
@@ -27,20 +27,20 @@ export const englishCurrentCaseFlow = {
   chooseOneCourse: "Choose one course",
   firstConfidence: "How confident are you in this first judgment?",
   backToBrief: "Back to brief",
-  reasoningHeading: "What is carrying your judgment?",
+  reasoningHeading: "Which reasons shaped your first judgment?",
   reasoningIntro: "Add any reasons that mattered. This step is optional and does not change a score.",
   optionalReasoningTags: "Optional reasoning tags",
   seeReadings: "See the worldview readings",
-  readingsHeading: "Four ways to read the same case",
+  readingsHeading: "Compare four readings of the case",
   readingsIntro:
     "Each reading emphasizes a different cause and policy risk. Open any that challenge the reasons behind your first judgment.",
-  openWorldviewProfile: "Open worldview profile",
+  openWorldviewProfile: "Open Decision Pattern",
   howItReads: "How it reads the case",
   likelyMove: "Likely move",
   strongestObjection: "Strongest objection",
   updateCondition: "What would update it",
   testAssumption: "Test an assumption",
-  challengeHeading: "One assumption changes",
+  challengeHeading: "Test your judgment with a changed assumption",
   backToReadings: "Back to readings",
   makeFinalJudgment: "Make your final judgment",
   finalJudgment: "Your final judgment",
@@ -48,8 +48,8 @@ export const englishCurrentCaseFlow = {
   chooseFinalCourse: "Choose your final course",
   finalConfidence: "How confident are you now?",
   backToChallenge: "Back to challenge",
-  seeMovement: "See what moved",
-  movementHeading: "What moved",
+  seeMovement: "See your final judgment",
+  movementHeading: "Your judgment after the challenge",
   movementChanged: (
     initial: string,
     final: string,
@@ -69,9 +69,10 @@ export const englishCurrentCaseFlow = {
   reasonsMarked: "Reasons you marked",
   savedReasoningTags: "Saved reasoning tags",
   noReasoningTags: "No reasoning tags were added.",
-  compareFoundation: "Compared with your Foundation",
-  readFoundationPattern: (label: string) => `Read ${label}`,
-  takeFoundation: "Take the Foundation",
+  foundationConnectionLabel: "Not inferred",
+  foundationConnectionHeading: "Foundation connection",
+  foundationConnectionUnavailable:
+    "This case does not yet include a reviewed, versioned mapping between its readings and the Foundation. Your case judgment remains separate and does not create or change a Foundation result.",
   compareElsewhere: "Compare this judgment elsewhere",
   caseDocumentation: "Case documentation",
   printableSummary: "Printable Current Case summary",
@@ -96,23 +97,6 @@ export const englishCurrentCaseFlow = {
     3: "Mixed",
     4: "Fairly sure",
     5: "Very sure",
-  },
-  connectionLabels: {
-    consistent: "Baseline echo",
-    tension: "Contextual tension",
-    notCovered: "Coverage limit",
-    unavailable: "Foundation comparison",
-  },
-  connectionSummaries: {
-    consistent: (label: string) =>
-      `Your decision aligns with the ${label} reading included in this case. This contextual comparison leaves your Foundation score unchanged.`,
-    tension: (label: string) =>
-      `Your decision differs from the ${label} reading included in this case. The difference shows where this context pulls against your saved baseline.`,
-    notCovered: (label: string) =>
-      `The profile nearest your Foundation, ${label}, falls outside this case’s selected readings. This case cannot make a baseline comparison for that pattern.`,
-    unavailable: "Complete the Foundation to compare this judgment with your saved baseline.",
-    differentCohort:
-      "This Current Case response and saved Foundation were completed under different language or copy versions, so they are not compared.",
   },
 } as const
 
@@ -150,9 +134,12 @@ export const englishCurrentCaseSharing = {
 
 export const englishCurrentCaseArchive = {
   eyebrow: "Current Case",
-  title: "Judgment in the present",
+  title: "Assess a current case",
+  recentTitle: "Recent cases",
   intro:
-    "Make a first call on a sourced international-affairs case. Then test the call against competing readings and one changed assumption.",
+    "Read a sourced international-affairs case and make a first decision. Then compare your reasoning with alternative readings and a changed assumption.",
+  noActiveBody:
+    "No Current Case is inside its active editorial review window. Recent records remain available below with their evidence dates and status.",
   privacyNote:
     "Responses and in-progress drafts stay in this browser. Each record shows its evidence window, sources, and correction status.",
   categories: {
@@ -164,7 +151,9 @@ export const englishCurrentCaseArchive = {
   completed: (date: string) => `Completed ${date}`,
   draft: "Draft saved on this device",
   current: "Current case",
-  archive: "Archive case",
+  reviewDue: "Review due",
+  background: "Background",
+  archived: "Archived",
   review: "Review judgment",
   resume: "Resume case",
   open: "Open case",

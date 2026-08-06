@@ -24,7 +24,6 @@ import {
   resolvePerspectivePayload,
 } from "@/lib/perspectives/share"
 import { buildLocalizedProfileShareView } from "@/lib/profile-share-locale"
-import { buildProfileAssessment } from "@/lib/profile-helpers"
 import { FIELD_PROJECTION_VERSION } from "@/lib/results/position"
 import { dimensionScoresToArray, encodePayload, resolveFoundationPayload } from "@/lib/share"
 import type { ProfileStore } from "@/lib/profile-store"
@@ -308,7 +307,7 @@ const profileWithV2Overlays: ProfileStore = {
   ],
 }
 
-test("shared profile payloads roundtrip and reconstruct a stable integrated profile", () => {
+test("shared profile payloads roundtrip and reconstruct separate saved records", () => {
   const payload = buildProfileSharePayload(profile)
   assert.ok(payload)
 
@@ -318,10 +317,6 @@ test("shared profile payloads roundtrip and reconstruct a stable integrated prof
   assert.ok(resolved)
   assert.equal(resolved.payload.v, 3)
   assert.equal(resolved.profile.foundation?.familyKey, profile.foundation?.familyKey)
-  assert.equal(
-    resolved.assessment.state,
-    buildProfileAssessment(profile).state,
-  )
   assert.equal(resolved.profile.modules.security?.laneSummaries[0]?.key, "deterrence")
   assert.equal(resolved.profile.modules.technology?.laneSummaries[0]?.key, "controls")
   assert.equal(resolved.profile.modules.technology?.cardTypeScores?.actorLens?.control, 5.7)
@@ -349,8 +344,15 @@ test("Profile Share V3 contains canonical data only and renders one payload in e
   const chineseView = buildLocalizedProfileShareView(chinese.profile, "zh-Hans")
   assert.ok(englishView)
   assert.ok(chineseView)
+  assert.equal(englishView.title, "Concert")
+  assert.equal(chineseView.title, "Concert")
+  assert.equal(englishView.foundation.archetypeName, "Concert")
+  assert.equal(chineseView.foundation.archetypeName, "Concert")
+  assert.equal(englishView.foundation.archetypeCode, "R-")
+  assert.equal(chineseView.foundation.archetypeCode, "R-")
   assert.equal(englishView.foundation.familyLabel, "Liberal Institutionalist")
   assert.equal(chineseView.foundation.familyLabel, "自由制度主义")
+  assert.match(chineseView.intro, /原型专名/)
   assert.deepEqual(englishView.foundation.dimensions, chineseView.foundation.dimensions.map(
     (dimension, index) => ({
       ...dimension,
@@ -361,6 +363,40 @@ test("Profile Share V3 contains canonical data only and renders one payload in e
   assert.equal(chinese.profile.foundation?.dimensionScores.institutions, 5.8)
   assert.match(english.profile.foundation?.resultPath ?? "", /^\/results\//)
   assert.match(chinese.profile.foundation?.resultPath ?? "", /^\/zh\/results\//)
+
+  const conflictingCachedView = buildLocalizedProfileShareView(
+    {
+      ...english.profile,
+      foundation: {
+        ...english.profile.foundation!,
+        familyKey: "realist",
+        runnerUpKey: "criticalPoliticalEconomy",
+        strategyModifier: "Maximizer",
+        normativeModifier: "Universalist",
+        summary: "Conflicting cached Foundation copy",
+        dimensionScores: {
+          ...english.profile.foundation!.dimensionScores,
+          institutions: 1,
+        },
+      },
+    },
+    "en",
+  )
+  assert.ok(conflictingCachedView)
+  assert.equal(
+    conflictingCachedView.foundation.familyLabel,
+    "Liberal Institutionalist",
+  )
+  assert.deepEqual(
+    conflictingCachedView.foundation.modifiers,
+    ["Restrainer", "Pluralist"],
+  )
+  assert.equal(
+    conflictingCachedView.foundation.dimensions.find(
+      ({ key }) => key === "institutions",
+    )?.score,
+    5.8,
+  )
 })
 
 test("mixed locale-copy cohorts are visible but never described as research-equivalent", () => {

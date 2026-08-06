@@ -621,18 +621,28 @@ function normalizeFoundationSnapshot(
 
   const provenance = normalizeProvenance(candidate, legacy)
   if (!provenance) return null
-  const payloadRecord = resolveFoundationPayload(candidate.payload)?.provenance
+  const resolvedPayload = resolveFoundationPayload(candidate.payload)
+  const payloadRecord = resolvedPayload?.provenance
+  const payloadResult = resolvedPayload?.result
   const legacyEnglishCopy = legacy
     ? foundationLegacyEnglishCopy(candidate)
     : normalizeFoundationLegacyEnglishCopy(candidate.legacyEnglishCopy)
-  const familyLabel = familyLabelFromKey(candidate.familyKey)
-  const runnerUpLabel = familyLabelFromKey(candidate.runnerUpKey)
+  const familyKey = payloadResult?.familyKey ?? candidate.familyKey
+  const runnerUpKey = payloadResult?.runnerUpKey ?? candidate.runnerUpKey
+  const strategyModifier =
+    payloadResult?.strategyModifier ?? candidate.strategyModifier
+  const normativeModifier =
+    payloadResult?.normativeModifier ?? candidate.normativeModifier
+  const dimensionScores =
+    payloadResult?.dimensionScores ?? candidate.dimensionScores
+  const familyLabel = familyLabelFromKey(familyKey)
+  const runnerUpLabel = familyLabelFromKey(runnerUpKey)
   const narrative = buildFoundationNarrative({
-    familyKey: candidate.familyKey,
-    runnerUpKey: candidate.runnerUpKey,
-    strategyModifier: candidate.strategyModifier,
-    normativeModifier: candidate.normativeModifier,
-    dimensionScores: candidate.dimensionScores,
+    familyKey,
+    runnerUpKey,
+    strategyModifier,
+    normativeModifier,
+    dimensionScores,
   })
 
   return {
@@ -648,20 +658,20 @@ function normalizeFoundationSnapshot(
         ? candidate.scoringVersion
         : payloadRecord?.scoringVersion ?? 0,
     resultPath: publicPath(renderLocale, `/results/${candidate.payload}`),
-    familyKey: candidate.familyKey,
+    familyKey,
     familyLabel,
-    runnerUpKey: candidate.runnerUpKey,
+    runnerUpKey,
     runnerUpLabel,
     summary: narrative.summary,
-    dimensionScores: candidate.dimensionScores,
-    strategyModifier: candidate.strategyModifier,
-    normativeModifier: candidate.normativeModifier,
-    keyDrivers: getKeyDrivers(candidate.dimensionScores).map((driver) => ({
+    dimensionScores,
+    strategyModifier,
+    normativeModifier,
+    keyDrivers: getKeyDrivers(dimensionScores).map((driver) => ({
       type: driver.type,
       label: driver.label,
       description: driver.description,
     })),
-    strongLenses: getStrongLenses(candidate.dimensionScores).map((lens) => ({
+    strongLenses: getStrongLenses(dimensionScores).map((lens) => ({
       label: lens.label,
       description: lens.description,
     })),
@@ -1094,16 +1104,13 @@ function buildModuleDisplay({
     laneScores,
     cardTypeScores,
   }
-  const foundation = foundationPayload
-    ? resolveFoundationPayload(foundationPayload)?.dimensionScores
-    : undefined
   const interpretation = hasScores
     ? definition.interpret(analytics, classificationContext)
     : null
   const laneSummaries = hasLaneScores
     ? definition.summarizeLanes(
         analytics,
-        foundation,
+        undefined,
         classificationContext,
       )
     : fallback?.laneSummaries ?? []
@@ -1140,11 +1147,7 @@ function buildModuleDisplay({
     summary: interpretation?.summary ?? fallback?.summary ?? "",
     resultPath,
     instincts: interpretation?.instincts ?? fallback?.instincts ?? [],
-    ...(foundation && definition.compareToFoundation
-      ? { comparison: definition.compareToFoundation(analytics, foundation) }
-      : fallback?.comparison
-        ? { comparison: fallback.comparison }
-        : {}),
+    ...(fallback?.comparison ? { comparison: fallback.comparison } : {}),
     challenge: interpretation?.challenge ?? fallback?.challenge ?? "",
     measures: definition.measures,
     doesNotClaim: definition.doesNotClaim,

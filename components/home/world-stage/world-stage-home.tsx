@@ -285,7 +285,7 @@ export function WorldStageHome() {
             </h1>
             <p>{chinese
               ? zhHansWorldStageUi.introduction
-              : "Answer the Foundation, work through a current decision, or compare the arguments behind the profiles."}
+              : "Answer the Foundation, work through a current decision, or compare the arguments behind the traditions and Decision Patterns."}
             </p>
           </div>
 

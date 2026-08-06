@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test"
-import { getLatestPublishedCurrentCase } from "../lib/current-cases/catalog"
+import { getPublishedCurrentCases } from "../lib/current-cases/catalog"
 import {
   PROFILE_STORAGE_KEY,
   QUIZ_STORAGE_KEY,
@@ -21,7 +21,12 @@ const approvedPairs = [
     heading: /原始答案与已保存的历史记录只保存在当前浏览器/,
   },
   { en: "/feedback", zh: "/zh/feedback", heading: "报告事实、隐私或安全问题。" },
-  { en: "/cases", zh: "/zh/cases", heading: "判断当下事务" },
+  {
+    en: "/beta",
+    zh: "/zh/beta",
+    heading: "帮助检验这项清单是否清楚、公平并具有实际用途。",
+  },
+  { en: "/cases", zh: "/zh/cases", heading: "近期案例" },
 ] as const
 
 // Frozen tests/fixtures/profile-share-v3.json encoded with the shared codec.
@@ -185,7 +190,11 @@ test("one canonical Foundation result payload renders in English and Chinese", a
 
   await page.goto(chinesePath)
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
-  await expect(page.getByText("自由制度主义", { exact: true }).first()).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
+  await expect(
+    page.getByText("最相邻传统：自由制度主义", { exact: true }),
+  ).toBeVisible()
+  await expect(page.getByText(/原型专名沿用基础模型的规范名称/)).toBeVisible()
   await expect(page.getByText("结构版本 3 · 计分版本 1 · 文案版本 1")).toBeVisible()
   await expect(page.getByText("You first ask whether", { exact: false })).toHaveCount(0)
   await page.getByRole("button", { name: "复制分享链接" }).click()
@@ -239,9 +248,7 @@ test("one canonical Profile Share V3 payload renders in English and Chinese", as
 
   await page.goto(englishPath)
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
-  await expect(page.getByRole("heading", {
-    name: /clearly Liberal Institutionalist/,
-  })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", new RegExp(`${englishPath}$`))
   await expect(page.locator('link[rel="alternate"][hreflang="zh-Hans"]')).toHaveAttribute(
     "href",
@@ -250,7 +257,8 @@ test("one canonical Profile Share V3 payload renders in English and Chinese", as
 
   await page.goto(`${chinesePath}?source=shared-profile#foundation`)
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
-  await expect(page.getByRole("heading", { name: "自由制度主义：一份连续画像" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
+  await expect(page.getByText(/原型专名/).first()).toBeVisible()
   await expect(page.getByText("5.80")).toBeVisible()
   await page.getByRole("link", { name: "切换至英文" }).last().click()
   await expect(page).toHaveURL(
@@ -264,14 +272,17 @@ test("Chinese Profile derives display labels from canonical saved records", asyn
     { key: PROFILE_STORAGE_KEY, value: JSON.stringify(profileStoreV5) },
   )
   await page.goto("/zh/profile")
-  await expect(page.getByRole("heading", { name: "自由制度主义：一组连续画像" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
+  await expect(page.getByRole("heading", {
+    name: "最相邻的模型传统：自由制度主义",
+  })).toBeVisible()
   await expect(page.getByText("第二相邻参照：社会建构主义")).toBeVisible()
   await expect(page.getByText("制度与规则")).toBeVisible()
   await expect(page.getByText("Liberal Institutionalist")).toHaveCount(0)
 })
 
 test("approved Chinese long-form routes never silently render unapproved English prose", async ({ page }) => {
-  const current = getLatestPublishedCurrentCase()
+  const current = getPublishedCurrentCases()[0] ?? null
   expect(current).not.toBeNull()
   if (current) {
     await page.goto(`/zh/cases/${current.slug}`)
@@ -300,25 +311,26 @@ test("approved Chinese long-form routes never silently render unapproved English
   }
 })
 
-test("English and Chinese /current redirects preserve route slugs and locale", async ({ page }) => {
-  const current = getLatestPublishedCurrentCase()
-  expect(current).not.toBeNull()
-  if (!current) return
-
+test("English and Chinese /current routes preserve locale when no launch case is active", async ({ page }) => {
   await page.goto("/current")
-  await expect(page).toHaveURL(new RegExp(`/cases/${current.slug}$`))
+  await expect(page).toHaveURL(/\/cases$/)
+  await expect(page.getByRole("heading", { name: "Recent cases" })).toBeVisible()
+  await expect(page.locator("li").getByText("Current case", { exact: true })).toHaveCount(0)
 
   await page.goto("/zh/current")
-  await expect(page).toHaveURL(new RegExp(`/zh/cases/${current.slug}$`))
-  await expect(page.getByRole("heading", { name: "案例" })).toBeVisible()
+  await expect(page).toHaveURL(/\/zh\/cases$/)
+  await expect(page.getByRole("heading", { name: "近期案例" })).toBeVisible()
+  await expect(page.locator("li").getByText("当前案例", { exact: true })).toHaveCount(0)
+  await expect(page.locator("li").first()).toContainText("待复核")
+  await expect(page.locator("li").last()).toContainText("背景案例")
 })
 
 test("Current Case keeps its locale-neutral draft IDs and step across language switching", async ({ page }) => {
-  const current = getLatestPublishedCurrentCase()
+  const current = getPublishedCurrentCases()[0] ?? null
   expect(current).not.toBeNull()
   if (!current) return
 
-  await page.goto("/zh/current")
+  await page.goto(`/zh/cases/${current.slug}`)
   await page.getByRole("button", { name: "作出初步判断" }).click()
   await page.locator('input[name="initial-option"]').first().check()
   await page.locator('input[name="initial-confidence"][value="3"]').check()
@@ -327,12 +339,14 @@ test("Current Case keeps its locale-neutral draft IDs and step across language s
 
   await page.getByRole("link", { name: "切换至英文" }).first().click()
   await expect(page).toHaveURL(new RegExp(`/cases/${current.slug}$`))
-  await expect(page.getByRole("heading", { name: "What is carrying your judgment?" })).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Which reasons shaped your first judgment?" }),
+  ).toBeVisible()
   await expect(page.locator('input[type="checkbox"]').first()).toBeChecked()
 
   await page.getByRole("link", { name: "Switch to Simplified Chinese" }).first().click()
   await expect(page).toHaveURL(new RegExp(`/zh/cases/${current.slug}$`))
-  await expect(page.getByRole("heading", { name: "什么因素支撑了你的判断？" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "哪些理由影响了你的初步判断？" })).toBeVisible()
   await expect(page.locator('input[type="checkbox"]').first()).toBeChecked()
 })
 
@@ -402,7 +416,7 @@ test("Chinese Worldview Map never double-prefixes a localized saved result", asy
 })
 
 test("Chinese Current Case and profile routes expose localized Open Graph metadata", async ({ page, request }) => {
-  const current = getLatestPublishedCurrentCase()
+  const current = getPublishedCurrentCases()[0] ?? null
   expect(current).not.toBeNull()
   if (!current) return
 
@@ -418,8 +432,8 @@ test("Chinese Current Case and profile routes expose localized Open Graph metada
   }
 
   await page.goto("/zh/explore/atlas/institution-builder")
-  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "规则与合作｜世界观画像")
-  await expect(page.locator('meta[property="og:description"]')).toHaveAttribute("content", /这种画像/u)
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "规则与合作｜决策模式")
+  await expect(page.locator('meta[property="og:description"]')).toHaveAttribute("content", /这种决策模式/u)
 })
 
 test("English and Chinese share routes are private and no-store", async ({ request }) => {
@@ -451,7 +465,7 @@ test("World Stage sends only its origin to the restricted Mapbox token", async (
 test.describe("390px Simplified Chinese shell", () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
-  const current = getLatestPublishedCurrentCase()
+  const current = getPublishedCurrentCases()[0] ?? null
   const dynamicPaths = current
     ? [`/zh/cases/${current.slug}`, `/zh/cases/${current.slug}/sources`]
     : []
@@ -524,7 +538,7 @@ test.describe("390px Simplified Chinese shell", () => {
 })
 
 test("Chinese Current Case print keeps the source ledger and CJK print stack", async ({ page }) => {
-  const current = getLatestPublishedCurrentCase()
+  const current = getPublishedCurrentCases()[0] ?? null
   expect(current).not.toBeNull()
   if (!current) return
 
@@ -548,7 +562,7 @@ test("Chinese Current Case print keeps the source ledger and CJK print stack", a
 })
 
 test("approved Chinese routes have renderable CJK glyphs", async ({ page }) => {
-  const current = getLatestPublishedCurrentCase()
+  const current = getPublishedCurrentCases()[0] ?? null
   const paths = [
     "/zh",
     "/zh/method",

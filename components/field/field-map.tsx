@@ -657,8 +657,8 @@ function ClusterGlyph({ cx, cy }: { cx: number; cy: number }) {
  * steel hue and an outlined entity shape; the reader's own marks are the only
  * filled accent marks.
  *
- * Worldview profiles are crosses tinted with their nearest family's tradition
- * colour, so ten profiles read as four groups at a glance instead of ten
+ * Decision Patterns are crosses tinted with their primary family's tradition
+ * colour, so ten patterns read as four groups at a glance instead of ten
  * identical marks.
  *
  * On contrast: the tint sits on a 1.7px stroke, thinner than the label text
@@ -778,7 +778,7 @@ export function FieldMapKey({
         ? TRADITION_ANCHORS.map((anchor) => (
             <KeyRow
               key={anchor.key}
-              label={`${copy?.key.worldviewProfile ?? "Worldview profile"} · ${copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key]}`}
+              label={`${copy?.key.worldviewProfile ?? "Decision Pattern"} · ${copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key]}`}
             >
               <g stroke={`var(${anchor.colorVar})`} strokeWidth={1.6}>
                 <line x1={3} y1={8} x2={13} y2={8} />

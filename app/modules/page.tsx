@@ -7,17 +7,17 @@ const plannedModuleTracks = {
     {
       title: "International Economics and Finance",
       summary:
-        "A geoeconomic overlay on trade, finance, sanctions, industrial policy, and economic statecraft.",
+        "A geoeconomic issue read on trade, finance, sanctions, industrial policy, and economic statecraft.",
     },
     {
       title: "Governance, Politics, and Society",
       summary:
-        "A domestic-order overlay on institutions, legitimacy, polarization, and state capacity under stress.",
+        "A domestic-order issue read on institutions, legitimacy, polarization, and state capacity under stress.",
     },
     {
       title: "Development, Climate, and Sustainability",
       summary:
-        "A cross-border overlay on growth, resilience, climate pressure, and competing development priorities.",
+        "A cross-border issue read on growth, resilience, climate pressure, and competing development priorities.",
     },
   ],
   regional: [
@@ -62,7 +62,7 @@ const plannedModuleTracks = {
 export const metadata: Metadata = {
   title: "Focus Areas — IR Worldview Inventory",
   description:
-    "Take a focus-area module in Security or Technology and compare the result back to your Foundation baseline.",
+    "Take a focus-area module in Security or Technology and save the result beside your Foundation.",
 }
 
 export default async function ModulesPage(
@@ -81,10 +81,10 @@ export default async function ModulesPage(
           <div className="lobby-hero-grid">
             <div className="stack-lg">
               <p className="section-kicker">Step 2 · Focus Areas</p>
-              <h1>Add a focused overlay to the Foundation</h1>
+              <h1>Add a focused issue read beside the Foundation</h1>
               <p className="lobby-lead">
-                Use Security and Technology to see where your Foundation result holds, hardens, or
-                starts to split in concrete cases.
+                Use Security and Technology to examine concrete policy judgments. Each result
+                remains a separate domain record and leaves the Foundation unchanged.
               </p>
               <div className="row gap-sm wrap">
                 {foundation ? (
@@ -106,14 +106,15 @@ export default async function ModulesPage(
                 <p className="section-kicker">How to read this layer</p>
                 <p className="muted lobby-side-text">
                   Broad priors and issue instincts are related, but not identical. The point here
-                  is to see what changes when the case becomes specific.
+                  is to read the issue on its own terms when the case becomes specific.
                 </p>
               </div>
               {foundation ? (
                 <div className="lobby-note-band stack-xs">
-                  <p className="lobby-note-title">Foundation comparison is available</p>
+                  <p className="lobby-note-title">Your Foundation stays linked</p>
                   <p className="muted lobby-side-text">
-                    Choose either module and the result page will compare it with your Foundation.
+                    Choose either module and its result will sit beside your saved Foundation
+                    without rescoring it.
                   </p>
                 </div>
               ) : (
@@ -132,8 +133,8 @@ export default async function ModulesPage(
           <div className="signal-list signal-list--three">
             <div className="signal-list-item">
               <strong>What Focus Areas cover</strong>
-              Security and Technology begin from familiar policy debates, then test the baseline
-              from a smaller number of other vantage points.
+              Security and Technology begin from familiar policy debates, then record a focused
+              read across a smaller number of domain-specific lanes.
             </div>
             <div className="signal-list-item">
               <strong>How long it takes</strong>
@@ -152,8 +153,8 @@ export default async function ModulesPage(
             <p className="section-kicker">Available Focus Areas</p>
             <h2>Choose a policy area to examine first</h2>
             <p className="muted lobby-section-copy">
-              Each module keeps your Foundation in view while the cases become more specific and
-              politically exposed.
+              Each module produces its own issue record. No module score is translated onto the
+              Foundation scale.
             </p>
           </div>
           <div className="module-choice-grid">
@@ -221,8 +222,8 @@ export default async function ModulesPage(
                   Add more issue areas before broadening into regions
                 </h3>
                 <p className="muted lobby-entry-text">
-                  Functional modules extend the same Foundation-to-module structure without
-                  changing the frame of the project.
+                  Functional modules extend the same separate-record structure without changing
+                  the frame of the project.
                 </p>
               </div>
               <div className="planned-module-grid">
@@ -279,9 +280,9 @@ export default async function ModulesPage(
         <section className="stack-md lobby-band">
           <div className="stack-sm">
             <p className="section-kicker">Same product family</p>
-            <h2>The AI companion and browse surfaces stay adjacent to the IR overlays</h2>
+            <h2>The AI companion and browse surfaces stay adjacent to the IR records</h2>
             <p className="muted lobby-section-copy">
-              The AI Governance Compass runs alongside the IR Foundation and issue overlays. The
+              The AI Governance Compass runs alongside the IR Foundation and issue records. The
               field guide and Profile keep the whole product legible rather than scattering the
               pieces across separate experiences.
             </p>
@@ -302,7 +303,7 @@ export default async function ModulesPage(
             <Link href="/profile" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Profile</span>
-                <span className="resource-list-text">Keep the Foundation, overlays, and saved AI result in one view.</span>
+                <span className="resource-list-text">Keep the Foundation and separate issue records in one view.</span>
               </span>
             </Link>
           </div>

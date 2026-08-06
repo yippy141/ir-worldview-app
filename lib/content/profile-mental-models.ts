@@ -6,7 +6,7 @@ export type ProfileMentalModel = {
 }
 
 /**
- * Editorial teaching devices for profile pages. These explain a decision
+ * Editorial teaching devices for Decision Pattern pages. These explain a decision
  * habit; they are separate from the source-verified historical case records.
  */
 export const profileMentalModels: readonly ProfileMentalModel[] = [
@@ -14,7 +14,7 @@ export const profileMentalModels: readonly ProfileMentalModel[] = [
     patternId: "broad-spectrum-bridge-builder",
     analogy: "A second opinion",
     explanation:
-      "A clinician orders one more test before naming the problem. This profile keeps rival diagnoses open while the evidence accumulates.",
+      "A clinician orders one more test before naming the problem. This pattern keeps rival diagnoses open while the evidence accumulates.",
     whereItBreaks: "Some decisions arrive before a second opinion is available.",
   },
   {
@@ -82,7 +82,7 @@ export const profileMentalModels: readonly ProfileMentalModel[] = [
     patternId: "cross-pressured-synthesizer",
     analogy: "Different tools, one workshop",
     explanation:
-      "A practiced carpenter changes tools with the task. This profile changes logics when the domain changes.",
+      "A practiced carpenter changes tools with the task. This pattern changes logics when the domain changes.",
     whereItBreaks:
       "Switching tools looks inconsistent when the rule for choosing among them stays implicit.",
   },

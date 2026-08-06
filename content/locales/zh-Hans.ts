@@ -49,7 +49,7 @@ export const chineseShellContent = {
         id: "use",
         title: "如何使用",
         paragraphs: [
-          "英文基础问卷要求你先完成作答，再逐项复核，最后生成结果。议题专题和情境推演用于观察具体问题或角色条件是否会改变基线判断。观点资料与方法页面说明模型覆盖了什么，又遗漏了什么。",
+          "英文基础问卷要求你先完成作答，再逐项复核，最后生成结果。议题专题形成与基础画像并列的独立领域记录；情境推演用于观察角色条件下的判断。观点资料与方法页面说明模型覆盖了什么，又遗漏了什么。",
         ],
         actions: [
           { href: "/method", label: "阅读方法", kind: "primary" },
@@ -82,7 +82,7 @@ export const chineseShellContent = {
         id: "payoff",
         title: "结果可以告诉你什么",
         paragraphs: [
-          "主要结果是一组七维画像。一个或两个国际关系传统会作为相邻模式的简写出现；战略风格和规范风格则作为修饰项单独呈现。混合结果并不异常，往往正是最值得阅读的部分。",
+          "主要结果是一组七维画像。一个或两个国际关系传统会作为相邻模式的简写出现；战略风格和规范风格则作为修饰项单独呈现。回答接近多个传统时，结果会直接呈现这种重叠。",
         ],
         bullets: [
           "传统名称不是永久身份。",
@@ -340,11 +340,11 @@ export const chineseShellContent = {
       "capacity-constrained-state": "能力受限国家",
       "protection-authority": "保护或法律授权机构",
     },
-    eyebrow: "共享世界观档案",
-    title: (familyLabel) => `${familyLabel}：一份连续画像`,
+    eyebrow: "共享基础原型",
+    title: (archetypeName) => archetypeName,
     intro:
-      "这份链接保存的是稳定标识、分数与版本信息。页面文字按当前语言即时生成；它不是人口排名，也不把解释性标签当作固定身份。",
-    foundationHeading: "基础画像",
+      "这份链接保存的是稳定标识、分数与版本信息。标题采用基础模型的规范原型专名；该专名与原型释义尚无经审校的中文版本。下方中文内容继续使用已审校的基础家族解读。",
+    foundationHeading: "最相邻的模型传统",
     foundationSummary: (familyLabel, runnerUpLabel) =>
       `在本工具覆盖的四个理论家族中，这组分数最接近${familyLabel}；${runnerUpLabel}是最近的相邻参照。标签只是七个维度组合的简写。`,
     moduleSummary:

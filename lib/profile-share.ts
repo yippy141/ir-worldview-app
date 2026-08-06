@@ -12,7 +12,6 @@ import type {
 } from "@/lib/perspectives/types"
 import type { ModuleLaneSummary, ModuleSlug } from "@/lib/modules/types"
 import { buildProfileAssessment, type ProfileState } from "@/lib/profile-helpers"
-import type { ProfileAssessment } from "@/lib/profile-helpers"
 import { isValidProfileTimestamp, parseProfileStore } from "@/lib/profile-store"
 import type {
   AiGovernanceSnapshot,
@@ -155,7 +154,6 @@ export type ProfileSharePayload =
 export type ResolvedProfileShare = {
   payload: ProfileSharePayload
   profile: ProfileStore
-  assessment: ProfileAssessment
 }
 
 const PROFILE_SHARE_PATH_PATTERN = /\/profile\/share\/([A-Za-z0-9\-_]+)/i
@@ -361,7 +359,6 @@ export function resolveProfileSharePayload(
     return {
       payload,
       profile,
-      assessment: buildProfileAssessment(profile),
     }
   }
 
@@ -414,7 +411,6 @@ export function resolveProfileSharePayload(
   return {
     payload,
     profile,
-    assessment: buildProfileAssessment(profile),
   }
 }
 

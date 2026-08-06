@@ -10,11 +10,12 @@ The initial pack should contain:
 2. one technology, trade, finance, energy, or economic-statecraft case; and
 3. one institutional, legitimacy, humanitarian, climate, or governance case.
 
-Recommend one launch case and mark two as archive cases. A candidate is suitable only when primary
-or authoritative evidence exists, a reader can make a meaningful decision, diagnosis, forecast, or
-threshold judgment, and at least three Worldview Map profiles illuminate genuinely different
-mechanisms. Do not invent secret information, write a morally obvious option, or include a profile
-merely to represent every modeled tradition.
+Recommend one `active` launch case and mark the other two as background or archive cases. The launch
+recommendation is eligible only through its authored `reviewDueAt` date. A candidate is suitable
+only when primary or authoritative evidence exists, a reader can make a meaningful decision,
+diagnosis, forecast, or threshold judgment, and at least three Worldview Map profiles illuminate
+genuinely different mechanisms. Do not invent secret information, write a morally obvious option,
+or include a profile merely to represent every modeled tradition.
 
 ## Evidence pack checklist
 
@@ -28,7 +29,9 @@ For each candidate, deliver a complete `CurrentCase` record and a short research
 - direct working URLs and explicit claim-to-source coverage;
 - factual disputes, interpretive disputes, global and counterparty perspectives, sensitive wording,
   and correction risks;
-- the evidence-window dates and an approximately 150-word editorial memo; and
+- the evidence-window dates, the last genuinely reviewed `asOf` date, an explicit `reviewDueAt`
+  checkpoint, and a `fast`, `standard`, or `slow` cadence;
+- an approximately 150-word editorial memo; and
 - paraphrase only—do not reproduce article text.
 
 ## Handoff and approval
@@ -40,4 +43,6 @@ claim has coverage, and record unresolved contradictions rather than smoothing t
 Editorial review decides whether a case is comprehensible in 250–450 words, whether the options are
 mechanistically distinct, whether counterparties are represented fairly, and whether objections and
 update conditions are strong enough to pressure-test each reading. Only then should the typed record
-be copied into the production catalog and marked `published`.
+be copied into the production catalog and marked `published`. Research never advances `asOf`,
+changes freshness status, or publishes a revisit automatically; each change requires a reviewed,
+versioned editorial record.

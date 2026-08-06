@@ -1,7 +1,10 @@
 import type { Metadata } from "next"
 import { CurrentCaseArchive } from "@/components/current-case/current-case-archive"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
-import { getPublishedCurrentCases } from "@/lib/current-cases/catalog"
+import {
+  getActivePublishedLaunchCurrentCase,
+  getPublishedCurrentCases,
+} from "@/lib/current-cases/catalog"
 import { toCurrentCasePublicRecord } from "@/lib/current-cases/presentation"
 import styles from "@/components/current-case/current-case.module.css"
 
@@ -13,16 +16,18 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/cases", {
 
 export default function CurrentCasesPage() {
   const cases = getPublishedCurrentCases()
+  const activeCase = getActivePublishedLaunchCurrentCase()
 
   return (
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <div>
         <p className="eyebrow">Current Case</p>
-          <h1>Judgment in the present</h1>
+          <h1>{activeCase ? "Assess a current case" : "Recent cases"}</h1>
           <p className={styles.archiveIntro}>
-            Make a first call on a sourced international-affairs case. Then test the call against
-            competing readings and one changed assumption.
+            {activeCase
+              ? "Read a sourced international-affairs case and make a first decision. Then compare your reasoning with alternative readings and a changed assumption."
+              : "No Current Case is inside its active editorial review window. Recent records remain available below with their evidence dates and status."}
           </p>
         </div>
         <p className={styles.pageMeta}>
@@ -40,7 +45,10 @@ export default function CurrentCasesPage() {
           </p>
         </section>
       ) : (
-        <CurrentCaseArchive records={cases.map(toCurrentCasePublicRecord)} />
+        <CurrentCaseArchive
+          records={cases.map(toCurrentCasePublicRecord)}
+          activeCaseId={activeCase?.id ?? null}
+        />
       )}
     </div>
   )

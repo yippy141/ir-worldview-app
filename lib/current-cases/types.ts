@@ -1,8 +1,7 @@
-import type { DimensionKey } from "@/lib/types"
 import type { Locale } from "@/i18n/routing"
 import type { CurrentCaseReasoningTag } from "@/lib/current-cases/reasoning-tags"
 
-export const CURRENT_CASE_SCHEMA_VERSION = 1 as const
+export const CURRENT_CASE_SCHEMA_VERSION = 2 as const
 
 export const CURRENT_CASE_PUBLICATION_STATUSES = [
   "draft",
@@ -16,6 +15,18 @@ export type CurrentCasePublicationStatus =
 
 export const CURRENT_CASE_LAUNCH_ROLES = ["launch", "archive"] as const
 export type CurrentCaseLaunchRole = (typeof CURRENT_CASE_LAUNCH_ROLES)[number]
+
+export const CURRENT_CASE_FRESHNESS_STATUSES = [
+  "active",
+  "review-due",
+  "background",
+  "archived",
+] as const
+export type CurrentCaseFreshnessStatus =
+  (typeof CURRENT_CASE_FRESHNESS_STATUSES)[number]
+
+export const CURRENT_CASE_CADENCES = ["fast", "standard", "slow"] as const
+export type CurrentCaseCadence = (typeof CURRENT_CASE_CADENCES)[number]
 
 export const CURRENT_CASE_CATEGORIES = [
   "security",
@@ -72,7 +83,7 @@ export type CurrentCaseDecision = {
 }
 
 export type CurrentCaseWorldviewReading = {
-  /** Stable Atlas profile ID; never a new scored Foundation family. */
+  /** Stable legacy Decision Pattern ID; retained for catalog and URL compatibility. */
   profileId: string
   noticesFirst: string
   interpretation: string
@@ -162,6 +173,10 @@ export type CurrentCase = {
   category: CurrentCaseCategory
   publishedAt: string | null
   updatedAt: string
+  asOf: string
+  reviewDueAt: string
+  freshnessStatus: CurrentCaseFreshnessStatus
+  cadence: CurrentCaseCadence
   evidenceWindow: CurrentCaseEvidenceWindow
   /** The public case briefing. Publication requires 250–450 words. */
   briefing: string
@@ -256,19 +271,8 @@ export type CurrentCaseResponseStore = {
   responses: Record<string, CompletedCurrentCaseResponse[]>
 }
 
-export type CurrentCaseFoundationConnectionKind =
-  | "consistent"
-  | "tension"
-  | "not-covered"
-  | "unavailable"
-
 export type CurrentCaseFoundationConnection = {
-  kind: CurrentCaseFoundationConnectionKind
-  unavailableReason?: "missing-foundation" | "different-cohort"
+  kind: "unavailable"
+  unavailableReason: "missing-authored-mapping"
   selectedOptionId: string
-  foundationPatternId: string | null
-  foundationPatternLabel: string | null
-  readingProfileId: string | null
-  dimensions: DimensionKey[]
-  summary: string
 }

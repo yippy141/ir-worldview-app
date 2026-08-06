@@ -5,6 +5,7 @@ import { getLocale, getMessages } from "next-intl/server"
 import { siteConfig } from "@/lib/site-config"
 import { SiteChrome } from "@/components/layout/site-chrome"
 import { resolveMetadataBase } from "@/i18n/paths"
+import { betaNavigationEnabled } from "@/lib/beta-config"
 import type { Metadata } from "next"
 import type { Viewport } from "next"
 
@@ -56,6 +57,7 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale()
   const messages = await getMessages()
+  const showBetaInPrimaryNavigation = betaNavigationEnabled()
 
   return (
     <html
@@ -65,7 +67,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     >
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <SiteChrome>{children}</SiteChrome>
+          <SiteChrome betaNavigationEnabled={showBetaInPrimaryNavigation}>
+            {children}
+          </SiteChrome>
         </NextIntlClientProvider>
       </body>
     </html>

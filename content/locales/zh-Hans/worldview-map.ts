@@ -1,14 +1,14 @@
 export const zhHansWorldviewMapUi = {
   page: {
     title: "世界观地图",
-    intro: "定位你的基线，比较相邻的世界观画像，并观察情境或公开立场如何改变同一组基础判断。",
+    intro: "定位你的基线，比较编辑型决策模式，并观察情境或公开立场如何改变同一组基础判断。",
     methodLink: "了解地图如何生成",
     loading: "正在加载世界观地图…",
     trustHeading: "这张地图可以显示什么",
     trustNote:
-      "世界观画像是编辑型阅读辅助，不是人群类型。公开立场是按来源编码的有日期快照，部分重要传统仍未得到充分建模。所有坐标使用同一套基础画像投影；点与点的距离不是经过校准的差异量尺。",
+      "决策模式是编辑型阅读辅助，不是根据用户答案分配的结果，也不是人群类型。公开立场是按来源编码的有日期快照，部分重要传统仍未得到充分建模。所有坐标使用同一套基础画像投影；点与点的距离不是经过校准的差异量尺。",
     trustLink: "阅读方法与局限",
-    continueHeading: "比较另一种画像或公开立场",
+    continueHeading: "比较另一种模式或公开立场",
     actions: {
       foundation: "完成基础问卷",
       perspective: "尝试另一种战略处境",
@@ -32,7 +32,7 @@ export const zhHansWorldviewMapUi = {
     note: "选择一到两个图层。所有图层使用同一套投影。",
     labels: {
       "my-profile": "我的基线",
-      "atlas-patterns": "世界观画像",
+      "atlas-patterns": "决策模式",
       "perspective-runs": "我的情境变化",
       "reference-profiles": "思想家与公开立场",
       friends: "朋友",
@@ -105,7 +105,7 @@ export const zhHansWorldviewMapUi = {
   key: {
     myBaseline: "我的基线",
     perspectiveShift: "我的情境变化",
-    worldviewProfile: "世界观画像",
+    worldviewProfile: "决策模式",
     thinker: "思想家",
     leader: "政治领导人",
     government: "政府",
@@ -128,7 +128,7 @@ export const zhHansWorldviewMapUi = {
     tags: {
       baseline: "基线",
       "perspective-run": "情境变化",
-      "atlas-pattern": "世界观画像",
+      "atlas-pattern": "决策模式",
       "reference-profile": "公开立场",
       "reference-movement": "思潮",
       draft: "草稿",
@@ -146,7 +146,7 @@ export const zhHansWorldviewMapUi = {
     actions: {
       baseline: "打开基础结果",
       "perspective-run": "查看推演结果",
-      "atlas-pattern": "阅读这份世界观画像",
+      "atlas-pattern": "阅读这份决策模式",
       "reference-profile": "阅读公开立场",
       "reference-movement": "阅读这一思潮",
     },

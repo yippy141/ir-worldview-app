@@ -78,7 +78,7 @@ export const technologyModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "Most cases start from familiar debates about chokepoints, industrial policy, AI governance, and strategic dependence. A smaller set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
+    "The cases examine chokepoints, industrial policy, AI governance, and strategic dependence from the positions of sanctioned states, middle powers, and nonaligned actors.",
   measures: [
     "openness versus control",
     "market adaptation versus state-capacity building",
@@ -158,7 +158,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: control with capacity-building",
         summary:
-          "You generally believe technological advantage depends on guarding chokepoints, building productive depth, and treating dependence as an exposure to manage.",
+          "Your answers favor guarding chokepoints and building productive depth; they treat dependence as an exposure to manage.",
         instincts: [
           "You are comfortable using control and industrial policy together.",
           "You treat productive capacity as a strategic asset, not just an economic one.",
@@ -173,7 +173,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: coordinated governance",
         summary:
-          "You generally favor a coordinated technology strategy: shared standards, narrow controls, and durable alignment among capable partners.",
+          "Your answers favor shared standards backed by targeted controls that capable partners can sustain.",
         instincts: [
           "You prefer tools that partners can actually implement together.",
           "You treat governance capacity as part of strategic power, not a soft add-on.",
@@ -206,7 +206,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Technology read: openness with targeted safeguards",
         summary:
-          "You generally believe over-securitizing technology can do more long-run damage than the risks it is meant to solve, especially when it hardens the field too early.",
+          "Your answers treat broad securitization as a greater long-run cost than targeted safeguards, especially when restrictions could harden the field too early.",
         instincts: [
           "You default toward openness with targeted safeguards rather than broad control.",
           "You trust competitive adaptation more than heavy industrial direction.",
@@ -220,14 +220,14 @@ export const technologyModule: ModuleDefinition = {
     return {
       headline: "Technology read: no single tool dominates",
       summary:
-        "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
+        "No single tool leads your Technology result. The lane meters show your answers across the three technology lanes.",
       instincts: [
-        "No axis in this module separated far enough from the others to lead the read.",
-        "Chokepoint control, industrial capacity, and coordination each stayed live across your answers.",
-        "The lane meters carry more information than this headline does.",
+        "The three lane readings remain mixed enough that this result cannot name one leading technology policy.",
+        "Your answers place different technology-policy costs ahead in different cases.",
+        "Read each lane meter for the exact pattern.",
       ],
       challenge:
-        "Your threshold for harder control or broader openness is still unspecified. A case that forces one tool ahead of the others would settle it.",
+        "A case that makes the costs of broader control explicit would test which tool leads.",
     }
   },
   summarizeLanes(analytics, foundation, context) {
@@ -288,7 +288,7 @@ export const technologyModule: ModuleDefinition = {
       return {
         headline: "Explanation and Decision",
         summary:
-          "You often diagnose the field in strategic terms, but your decision cards still put more weight on coordinated rules and shared standards.",
+          "Your explanation cards diagnose the case in strategic terms, while your decision cards give more weight to coordinated rules and shared standards.",
       }
     }
 
@@ -369,7 +369,7 @@ function summarizeTechnologyLane(
       "control",
       control,
     )
-    let summary = "This lane sits between chokepoint control and open exchange; neither pulled clear."
+    let summary = "Your control answers give similar weight to chokepoint protection and open exchange."
 
     if (controlPosition.value >= controlPosition.upper) {
       summary =
@@ -404,7 +404,7 @@ function summarizeTechnologyLane(
       "industrial",
       industrial,
     )
-    let summary = "This lane sits between market adaptation and state-led capacity; neither pulled clear."
+    let summary = "Your capacity answers give similar weight to market adaptation and state-led investment."
 
     if (industrialPosition.value >= industrialPosition.upper) {
       summary =
@@ -447,7 +447,7 @@ function summarizeTechnologyLane(
     "safety",
     safety,
   )
-  let summary = "This lane sits between national discretion and coordinated rules; neither pulled clear."
+  let summary = "Your governance answers give similar weight to national discretion and coordinated rules."
 
   if (
     governancePosition.value >= governancePosition.upper &&

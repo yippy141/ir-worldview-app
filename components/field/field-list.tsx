@@ -15,7 +15,7 @@ import styles from "./worldview-map.module.css"
 const KIND_TAGS: Record<FieldItem["kind"], string> = {
   baseline: "Baseline",
   "perspective-run": "Perspective shift",
-  "atlas-pattern": "Worldview profile",
+  "atlas-pattern": "Decision Pattern",
   "reference-profile": "Public position",
   "reference-movement": "Movement",
 }

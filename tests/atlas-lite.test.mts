@@ -5,10 +5,7 @@ import {
   getAtlasPatternHref,
   getAtlasLitePattern,
   getAtlasLitePatterns,
-  matchAtlasLiteFoundation,
-  matchAtlasLiteProfile,
 } from "@/lib/atlas-lite"
-import type { FoundationSnapshot, ModuleSnapshot } from "@/lib/profile-store"
 
 const legacyPatternIdentity = [
   { id: "broad-spectrum-bridge-builder", name: "Bridge Builder" },
@@ -93,128 +90,8 @@ test("atlas exposes a bounded curated pattern set, valid neighbors, and detail-r
   }
 })
 
-test("overlapping foundations map to the bridge-builder atlas pattern", () => {
-  const match = matchAtlasLiteFoundation({
-    familyKey: "realist",
-    runnerUpKey: "institutionalist",
-    strategyModifier: "Hedger",
-    normativeModifier: "Conditional Solidarist",
-    foundationState: "lowDifferentiation",
-    dimensionScores: {
-      securityCompetition: 4.2,
-      institutions: 4.1,
-      domesticFilters: 4.0,
-      normsIdentity: 4.0,
-      politicalEconomy: 4.1,
-      restraint: 4.0,
-      orderJustice: 4.0,
-    },
-  })
-
-  assert.equal(match.nearest.id, "broad-spectrum-bridge-builder")
-})
-
-test("true-tension profiles map to the cross-pressured atlas pattern", () => {
-  const foundation: FoundationSnapshot = {
-    timestamp: 1,
-    payload: "payload",
-    instrumentStructuralVersion: 3,
-    scoringVersion: 1,
-    resultPath: "/results/payload",
-    familyKey: "institutionalist",
-    familyLabel: "Liberal Institutionalist",
-    runnerUpKey: "constructivist",
-    runnerUpLabel: "Social Constructivist",
-    summary: "summary",
-    dimensionScores: {
-      securityCompetition: 4.3,
-      institutions: 5.8,
-      domesticFilters: 4.9,
-      normsIdentity: 5.1,
-      politicalEconomy: 4.7,
-      restraint: 5.4,
-      orderJustice: 5.3,
-    },
-    strategyModifier: "Restrainer",
-    normativeModifier: "Pluralist",
-    keyDrivers: [],
-    strongLenses: [],
-    locale: "en",
-    localeCopyVersion: 1,
+test("atlas records are static editorial content without assignment rules", () => {
+  for (const pattern of getAtlasLitePatterns()) {
+    assert.equal(Object.hasOwn(pattern, "rules"), false)
   }
-
-  const moduleSnapshots: ModuleSnapshot[] = [
-    {
-      timestamp: 2,
-      slug: "security",
-      instrumentVersion: 2,
-      locale: "en",
-      localeCopyVersion: 1,
-      laneScores: {},
-      title: "Security",
-      shorthand: "Security Pressure",
-      mode: "standard",
-      headline: "headline",
-      summary: "summary",
-      resultPath: "/modules/security/results/abc",
-      scores: {
-        activism: 5.5,
-        escalation: 5.3,
-        alliance: 5.8,
-        legitimacy: 5.2,
-      },
-      instincts: [],
-      challenge: "challenge",
-      measures: [],
-      doesNotClaim: [],
-      evidence: [],
-      laneSummaries: [],
-      overlayDeltas: {
-        securityCompetition: 0.55,
-        institutions: 0.42,
-        restraint: -0.7,
-        orderJustice: -0.48,
-      },
-    },
-    {
-      timestamp: 3,
-      slug: "technology",
-      instrumentVersion: 2,
-      locale: "en",
-      localeCopyVersion: 1,
-      laneScores: {},
-      title: "Technology",
-      shorthand: "Tech Power",
-      mode: "standard",
-      headline: "headline",
-      summary: "summary",
-      resultPath: "/modules/technology/results/def",
-      scores: {
-        control: 5.8,
-        governance: 4.0,
-        industrial: 5.4,
-        safety: 4.8,
-      },
-      instincts: [],
-      challenge: "challenge",
-      measures: [],
-      doesNotClaim: [],
-      evidence: [],
-      laneSummaries: [],
-      overlayDeltas: {
-        securityCompetition: 0.7,
-        institutions: -0.6,
-        politicalEconomy: 0.65,
-        restraint: -0.35,
-      },
-    },
-  ]
-
-  const match = matchAtlasLiteProfile({
-    foundation,
-    profileState: "trueTension",
-    moduleSnapshots,
-  })
-
-  assert.equal(match.nearest.id, "cross-pressured-synthesizer")
 })

@@ -111,6 +111,24 @@ test("new V5 persistence strips render-time display copy", () => {
   assert.equal(persisted.foundation.scoringVersion, 1)
 })
 
+test("Foundation hydration trusts the versioned payload over conflicting cached result fields", () => {
+  const candidate = JSON.parse(readFixture(5))
+  candidate.foundation.familyKey = "realist"
+  candidate.foundation.runnerUpKey = "criticalPoliticalEconomy"
+  candidate.foundation.strategyModifier = "Maximizer"
+  candidate.foundation.normativeModifier = "Universalist"
+  candidate.foundation.dimensionScores.institutions = 1
+
+  const hydrated = parseProfileStore(JSON.stringify(candidate), "en")
+
+  assert.equal(hydrated.foundation?.familyKey, "institutionalist")
+  assert.equal(hydrated.foundation?.runnerUpKey, "constructivist")
+  assert.equal(hydrated.foundation?.strategyModifier, "Restrainer")
+  assert.equal(hydrated.foundation?.normativeModifier, "Pluralist")
+  assert.equal(hydrated.foundation?.dimensionScores.institutions, 5.8)
+  assert.equal(hydrated.foundation?.payload, candidate.foundation.payload)
+})
+
 test("V22 module rehydration preserves mode-specific classification cuts", () => {
   const scores = {
     activism: 4.41,

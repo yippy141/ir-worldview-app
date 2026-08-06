@@ -1,18 +1,22 @@
 import type { ZhHansCurrentCaseRecord } from "@/content/locales/zh-Hans/types"
 
 export const zhHansEuropeMissileDefenceCase = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   id: "security-europe-anti-ballistic-coalition-ukraine-2026-07",
   slug: "europe-missile-defence-coalition-ukraine",
   version: 1,
   publicationStatus: "published",
-  launchRole: "launch",
+  launchRole: "archive",
   originalTitle: "Europe’s integrated anti-ballistic-missile coalition for Ukraine",
   title: "欧洲为乌克兰组建一体化反弹道导弹联盟",
   dek: "十个欧洲国家与乌克兰正在检验：紧迫的战时需求，能否转化为可信的欧洲导弹防御体系。",
   category: "security",
   publishedAt: "2026-07-17",
   updatedAt: "2026-07-17",
+  asOf: "2026-07-17",
+  reviewDueAt: "2026-07-24",
+  freshnessStatus: "review-due",
+  cadence: "fast",
   evidenceWindow: { start: "2026-06-26", end: "2026-07-17" },
   briefing:
     "2026 年 7 月 13 日至 14 日，一批欧洲国家与乌克兰把一般性的支持表态推进为更有组织的反弹道导弹议程。巴黎联盟声明成立了一个由十国组成、纯防御性质的联盟，目标是为欧洲发展共同反弹道导弹能力。另一份法乌联合声明则承诺优先加强乌克兰的防空与反弹道导弹能力，涉及 SAMP/T NG、Aster 30 生产许可和雷达交付。此前不久，北约安卡拉峰会宣布了大规模新增采购、提高国防开支，并承诺在 2026 年向乌克兰提供数额可观的支持；与此同时，美国正在审查驻欧兵力，并已削减部分可供北约调用的能力，盟国也更担心美国今后在欧洲的兵力可用性。\n\n欧洲政府现在面临两项相互关联的任务：一是帮助乌克兰应对下一轮打击，二是建设一套欧洲军队能够大规模生产、整合和运用的导弹防御体系。该联盟把紧急采购与生产许可、雷达交付及长期共同架构连接起来。欧洲更快提升自主能力，可以增强韧性；但如果政治目标超出产业和作战整合能力，重复建设、指挥体系碎片化以及美国关键支援能力减少，也可能削弱威慑。俄罗斯的导弹攻势、交付周期，以及与停火安排相连的安全保证是否可信，都会影响这一门槛判断。\n\n联盟必须决定：多少资源用于尽快提升乌克兰的装备与训练供给，多少用于长期欧洲架构，以及项目应在多大程度上继续嵌入北约规划。答案将表明，这究竟是对美国能力的部分替代，还是仍以美国支持为基础、较为有限的欧洲对冲。",
@@ -194,7 +198,7 @@ export const zhHansEuropeMissileDefenceCase = {
     {
       href: "/explore/atlas",
       label: "世界观地图",
-      reason: "把四种读法与相邻的世界观画像并列比较。",
+      reason: "把四种读法与相邻的编辑型决策模式并列比较。",
     },
   ],
   sources: [
@@ -296,7 +300,7 @@ export const zhHansEuropeMissileDefenceCase = {
     },
   ],
   editorialMemo:
-    "本案适合作为首发案例，因为它把同盟政治、产业政策、军事创新以及美国承诺的不确定性压缩为一个可作判断的问题。官方来源较为充分：联盟已经成立，法乌产业安排具体，北约峰会也提供了清晰背景。与此同时，路透社和 IISS 的材料提醒读者，欧洲最尖锐的约束不只是资金或意愿，而是对美国支援能力、整合架构和兵力可用性的持续依赖。由此形成一个明确的门槛问题：这是战略替代的第一层实质建设，还是政治上有用但并不完整的对冲？几种世界观画像可以据此得出不同结论，而不需要预设任何一个答案在道德上更高。",
+    "本案适合作为首发案例，因为它把同盟政治、产业政策、军事创新以及美国承诺的不确定性压缩为一个可作判断的问题。官方来源较为充分：联盟已经成立，法乌产业安排具体，北约峰会也提供了清晰背景。与此同时，路透社和 IISS 的材料提醒读者，欧洲最尖锐的约束不只是资金或意愿，而是对美国支援能力、整合架构和兵力可用性的持续依赖。由此形成一个明确的门槛问题：这是战略替代的第一层实质建设，还是政治上有用但并不完整的对冲？几种决策模式可以据此得出不同结论，而不需要预设任何一个答案在道德上更高。",
   editorialReview: {
     researchReviewedAt: "2026-07-17",
     sourceCheckedAt: "2026-07-17",
