@@ -9,6 +9,7 @@ import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { normFromNormativeModifier } from "@/lib/archetypes"
 import { ACTIVE_MODULE_COMPARISON_STATUS } from "@/lib/modules/types"
 import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
+import type { ProfileShareFoundationRecord } from "@/lib/profile-share"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
 import type { FamilyKey } from "@/lib/types"
@@ -29,24 +30,28 @@ type Props = {
   profile: ProfileStore
   mode: "local" | "shared"
   actionSlot?: ReactNode
+  foundationRecord?: ProfileShareFoundationRecord
 }
 
-export function ProfileReport({ profile, mode, actionSlot }: Props) {
-  if (!profile.foundation) {
+export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: Props) {
+  const foundation = profile.foundation
+  const displayFoundation = foundation ?? foundationRecord
+  if (!displayFoundation) {
     return null
   }
 
-  const foundation = profile.foundation
   const moduleSnapshots = Object.values(profile.modules)
     .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
     .sort((a, b) => b.timestamp - a.timestamp)
   const aiSnapshot = profile.aiGovernance
-  const foundationIdentity = resolveFoundationIdentityFromSnapshot(foundation)
+  const foundationIdentity = foundation
+    ? resolveFoundationIdentityFromSnapshot(foundation)
+    : null
   const foundationArchetype = foundationIdentity?.archetype ?? null
   const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security") ?? null
   const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology") ?? null
   const nextSteps = buildProfileNextSteps({
-    foundationPayload: foundation.payload,
+    foundationPayload: displayFoundation.payload,
     securitySnapshot,
     technologySnapshot,
     aiSnapshot,
@@ -102,7 +107,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
           </p>
           {mode === "local" ? (
             <p style={{ margin: 0 }}>
-              <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+              <Link href={displayFoundation.resultPath} style={{ color: "var(--accent)" }}>
                 Open the saved Foundation result →
               </Link>
             </p>
@@ -111,7 +116,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
       )}
 
       <DomainRecordsSection
-        foundation={foundation}
+        foundation={displayFoundation}
         foundationIdentity={foundationIdentity}
         moduleSnapshots={moduleSnapshots}
         aiSnapshot={aiSnapshot}
@@ -269,12 +274,12 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                     {foundationIdentity.result.runnerUpLabel}.
                   </p>
                   <p style={{ margin: 0 }}>
-                    <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+                    <Link href={displayFoundation.resultPath} style={{ color: "var(--accent)" }}>
                       Open Foundation result →
                     </Link>
                   </p>
                   <div className="profile-anchor-grid">
-                    {foundation.keyDrivers.map((driver) => (
+                    {(foundation?.keyDrivers ?? []).map((driver) => (
                       <div key={driver.label} className="profile-anchor-item stack-xs">
                         <p className="eyebrow">{driver.type}</p>
                         <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{driver.label}</p>
@@ -283,7 +288,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                         </p>
                       </div>
                     ))}
-                    {foundation.strongLenses.map((lens) => (
+                    {(foundation?.strongLenses ?? []).map((lens) => (
                       <div key={lens.label} className="profile-anchor-item stack-xs">
                         <p className="eyebrow">Emphasis</p>
                         <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{lens.label}</p>
@@ -305,7 +310,7 @@ export function ProfileReport({ profile, mode, actionSlot }: Props) {
                     presented as a current identity.
                   </p>
                   <p style={{ margin: 0 }}>
-                    <Link href={foundation.resultPath} style={{ color: "var(--accent)" }}>
+                    <Link href={displayFoundation.resultPath} style={{ color: "var(--accent)" }}>
                       Open the archived result route →
                     </Link>
                   </p>
@@ -354,7 +359,7 @@ function DomainRecordsSection({
   mode,
   actionSlot,
 }: {
-  foundation: NonNullable<ProfileStore["foundation"]>
+  foundation: ProfileShareFoundationRecord
   foundationIdentity: ReturnType<typeof resolveFoundationIdentityFromSnapshot>
   moduleSnapshots: ModuleSnapshot[]
   aiSnapshot: ProfileStore["aiGovernance"]

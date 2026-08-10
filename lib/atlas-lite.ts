@@ -222,7 +222,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     detailDrivers: [
       "Institutional tools are valued for coordination, signaling, and burden-sharing.",
       "Restraint is often preferred to dramatic moves that partners cannot sustain.",
-      "A realist runner-up often remains close because power and pressure are never fully out of view.",
+      "Power and pressure remain in view, which keeps the realist family nearby.",
     ],
     underestimates: [
       "Moments when speed and coercive clarity outrun coalition process.",
@@ -272,7 +272,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     detailDrivers: [
       "Institutional design is treated as a real source of order, not just a mirror of power.",
       "Domestic politics stays in view because commitments are only credible if states can actually keep them.",
-      "The pattern does not need a hard rivalry frame to explain most cases.",
+      "The pattern can explain a case without defaulting to a hard rivalry frame.",
     ],
     underestimates: [
       "How quickly hard rivalry can hollow out rules and monitoring arrangements.",

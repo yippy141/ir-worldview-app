@@ -141,7 +141,7 @@ export const trajectories: Trajectory[] = [
     name: "Guardian in the Background",
     tegmarkName: "Protector god",
     plainSummary:
-      "A superintelligence maximizes human agency in the foreground while invisibly preventing catastrophes. Most people never know it exists.",
+      "A superintelligence maximizes human agency in the foreground while preventing catastrophes without revealing its presence.",
     assumptions: [
       "Alignment succeeds at the hardest version of the problem: helping without being seen to help.",
       "Hiding its existence is stable across decades of human science and curiosity.",

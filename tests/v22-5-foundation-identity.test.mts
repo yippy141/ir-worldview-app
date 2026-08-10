@@ -184,7 +184,7 @@ test("current Foundation results present the Foundation archetype, not a Decisio
 
   assert.match(
     source,
-    /<h1\b[^>]*id="foundation-result-heading"[^>]*>\s*\{archetype\.name\}\s*<\/h1>/s,
+    /<h1\b[^>]*id="foundation-result-heading"[^>]*>[\s\S]*?\{archetype\.name\}[\s\S]*?<\/h1>/,
   )
   assert.doesNotMatch(
     source,

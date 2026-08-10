@@ -163,6 +163,8 @@ export const englishCurrentCaseArchive = {
   recordHeader: {
     published: "Published",
     evidenceThrough: "Evidence through",
+    reviewDue: "Review due",
+    status: "Status",
     version: "Version",
     directSources: (count: number) => `${count} direct sources`,
   },

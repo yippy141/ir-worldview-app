@@ -24,8 +24,14 @@ export default async function ComparePage(
   const rawRight = firstValue(params.right)
   const leftPayload = rawLeft ? normalizeProfileShareInput(rawLeft) : null
   const rightPayload = rawRight ? normalizeProfileShareInput(rawRight) : null
-  const leftResolved = leftPayload ? resolveProfileSharePayload(leftPayload) : null
-  const rightResolved = rightPayload ? resolveProfileSharePayload(rightPayload) : null
+  const leftCandidate = leftPayload ? resolveProfileSharePayload(leftPayload) : null
+  const rightCandidate = rightPayload ? resolveProfileSharePayload(rightPayload) : null
+  const leftResolved = leftCandidate?.foundationStatus === "resolved"
+    ? leftCandidate
+    : null
+  const rightResolved = rightCandidate?.foundationStatus === "resolved"
+    ? rightCandidate
+    : null
   const attemptedCompare = Boolean(rawLeft || rawRight)
   const invalidInput = attemptedCompare && (!leftResolved || !rightResolved)
 

@@ -28,6 +28,8 @@ export const zhHansCurrentCaseArchive = {
   recordHeader: {
     published: "发布于",
     evidenceThrough: "证据更新至",
+    reviewDue: "复核截止日",
+    status: "状态",
     version: "版本",
     directSources: (count: number) => `${count} 个直接来源`,
   },

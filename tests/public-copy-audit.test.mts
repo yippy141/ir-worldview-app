@@ -9,11 +9,24 @@ const auditScript = resolve(projectRoot, "scripts/audit-public-copy.mjs")
 
 type AuditFinding = {
   audience: string
+  rule: string
+  file: string
   context: string
   matched: string
   reason: string
   action: string
   strict: boolean
+}
+
+function runAudit(): AuditReport {
+  const result = spawnSync(
+    process.execPath,
+    [auditScript, "--format=json"],
+    { cwd: projectRoot, encoding: "utf8" },
+  )
+
+  assert.equal(result.status, 0, result.stderr)
+  return JSON.parse(result.stdout) as AuditReport
 }
 
 type AuditReport = {
@@ -22,14 +35,7 @@ type AuditReport = {
 }
 
 test("public-copy audit covers active content roots and emits editorial context", () => {
-  const result = spawnSync(
-    process.execPath,
-    [auditScript, "--format=json"],
-    { cwd: projectRoot, encoding: "utf8" },
-  )
-
-  assert.equal(result.status, 0, result.stderr)
-  const report = JSON.parse(result.stdout) as AuditReport
+  const report = runAudit()
 
   for (const target of [
     "app",
@@ -71,14 +77,7 @@ test("operational and frozen compatibility findings cannot fail strict mode", ()
 })
 
 test("active controlled-beta language is not mistaken for stale release history", () => {
-  const result = spawnSync(
-    process.execPath,
-    [auditScript, "--format=json"],
-    { cwd: projectRoot, encoding: "utf8" },
-  )
-
-  assert.equal(result.status, 0, result.stderr)
-  const report = JSON.parse(result.stdout) as AuditReport
+  const report = runAudit()
   const betaReleaseFindings = report.findings.filter((finding) =>
     finding.reason.startsWith("Release and schema-era labels") &&
     (
@@ -88,6 +87,34 @@ test("active controlled-beta language is not mistaken for stale release history"
   )
 
   assert.deepEqual(betaReleaseFindings, [])
+})
+
+test("reader-facing copy makes no unsupported population-frequency claims", () => {
+  const report = runAudit()
+  const unsupported = report.findings.filter(
+    (finding) =>
+      finding.audience === "public" &&
+      finding.rule === "unsupported-prevalence-language",
+  )
+
+  assert.deepEqual(
+    unsupported.map((finding) => `${finding.file}: ${finding.matched}`),
+    [],
+  )
+
+  const readerVisibleCompatibilityCopy = [
+    "lib/futures/trajectories.ts",
+    "lib/atlas-lite.ts",
+    "lib/modules/security-v21.ts",
+    "lib/modules/technology-v21.ts",
+  ]
+    .map((file) => readFileSync(resolve(projectRoot, file), "utf8"))
+    .join("\n")
+
+  assert.doesNotMatch(
+    readerVisibleCompatibilityCopy,
+    /\bmost (?:people|cases|answer patterns)\b/i,
+  )
 })
 
 test("public-copy audit is read-only and keeps every required advisory detector", () => {

@@ -14,9 +14,14 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/cases", {
     "Make a judgment on a source-backed international-affairs case, then test it against competing worldview readings.",
 })
 
+export const revalidate = 3600
+
 export default function CurrentCasesPage() {
+  const referenceDate = new Date().toISOString().slice(0, 10)
   const cases = getPublishedCurrentCases()
-  const activeCase = getActivePublishedLaunchCurrentCase()
+  const activeCase = getActivePublishedLaunchCurrentCase(cases, {
+    referenceDate,
+  })
 
   return (
     <div className={styles.page}>
@@ -48,6 +53,7 @@ export default function CurrentCasesPage() {
         <CurrentCaseArchive
           records={cases.map(toCurrentCasePublicRecord)}
           activeCaseId={activeCase?.id ?? null}
+          referenceDate={referenceDate}
         />
       )}
     </div>

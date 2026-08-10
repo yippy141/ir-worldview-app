@@ -16,6 +16,16 @@ export const zhHansProfileRecordsUi = {
     map: "先浏览世界观地图",
     note: "无需账户。本页只读取当前浏览器保存的结果。",
   },
+  unavailableFoundation: {
+    eyebrow: "画像记录",
+    title: "基础身份不可用",
+    body:
+      "这份画像的基础结果无法读取，因此系统不会推断或补写原型。其他已保存记录保持不变。",
+    archivedTitle: "已归档的基础记录",
+    archivedBody:
+      "这条旧记录的基础结果标识无法重建。为避免把缓存标签当作当前身份，本页不显示这些标签，但会保留其余画像记录。",
+    openArchived: "打开已保存的基础结果",
+  },
   report: {
     eyebrow: "我的画像",
     title: (archetype: string) => archetype,
@@ -49,9 +59,30 @@ export const zhHansProfileRecordsUi = {
     missingAi: "完成人工智能治理指南针后，这里会显示独立的治理结果。",
     openResult: "打开结果",
     addResult: "添加结果",
+    englishOnlyDetails:
+      "安全、技术、人工智能治理与视角演练的详细结果页目前仅提供英文版。",
+    perspectivesEyebrow: "视角演练",
+    perspectivesTitle: "已保存的情境视角",
+    perspectivesEmpty: "尚未保存视角演练。",
+    perspectivesWithBaseline:
+      "每次演练都保留完成时的基础参照，并作为独立情境记录保存。",
+    perspectivesWithoutBaseline:
+      "这些演练记录仍可查看；由于当前基础结果无法读取，本页不显示与当前基础画像的比较。",
+    perspectiveUnavailable: "未本地化的历史视角记录",
+    addEnglishPerspective: "打开英文视角演练",
+    openEnglishResult: "打开英文结果",
+    historyTitle: (count: number) => `结果历史 · ${count} 条较早记录`,
+    historyNote: "以下是当前浏览器保存的较早结果。",
+    historyFoundation: "基础问卷",
+    historyAi: "人工智能治理",
+    historyUnavailable: "身份不可用",
+    historyView: "查看",
   },
   share: {
     metadataTitle: (archetype: string) => `${archetype}｜共享基础原型`,
+    unavailableMetadataTitle: "基础身份不可用｜共享画像",
+    unavailableMetadataDescription:
+      "这份共享画像保留了无法重建身份的基础记录，以及其他可读取的专题与情境记录。",
     invalidMetadataTitle: "共享档案无法读取｜国际关系世界观清单",
     invalidMetadataDescription: "此共享档案链接无法解码。",
     invalidEyebrow: "共享档案无效",

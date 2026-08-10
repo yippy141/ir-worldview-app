@@ -79,7 +79,7 @@ export const technologyV21Module: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "Most cases start from familiar debates about chokepoints, industrial policy, AI governance, and strategic dependence. A smaller set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
+    "The cases start from familiar debates about chokepoints, industrial policy, AI governance, and strategic dependence. A separate set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
   measures: [
     "openness versus control",
     "market adaptation versus state-capacity building",
@@ -185,7 +185,7 @@ export const technologyV21Module: ModuleDefinition = {
     return {
       headline: "Technology read: no single tool dominates",
       summary:
-        "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
+        "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. The current question set did not separate these tools enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
       instincts: [
         "No axis in this module separated far enough from the others to lead the read.",
         "Chokepoint control, industrial capacity, and coordination each stayed live across your answers.",

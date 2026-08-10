@@ -61,10 +61,16 @@ test("Profile hydration no longer reconstructs a module-to-Foundation comparison
 })
 
 test("active Profile sharing prefers the canonical separate-domain payload", () => {
-  const source = readSource("components/profile/profile-dashboard.tsx")
+  const dashboard = readSource("components/profile/profile-dashboard.tsx")
+  const writer = readSource("lib/profile-share.ts")
 
-  assert.match(source, /hasLegacyModule/)
-  assert.match(source, /buildProfileSharePayload\(profile\)/)
-  assert.match(source, /buildProfileSharePayloadV1\(profile\)/)
-  assert.match(source, /legacy module has no canonical token/)
+  assert.match(dashboard, /buildCompatibleProfileSharePayload\(profile\)/)
+  assert.doesNotMatch(dashboard, /buildProfileSharePayloadV1\(profile\)/)
+  assert.match(writer, /hasLegacyModule/)
+  assert.match(writer, /hasUnavailableFoundation/)
+  assert.match(writer, /buildProfileSharePayloadV2\(profile\)/)
+  assert.match(writer, /buildProfileSharePayload\(profile\)/)
+  assert.doesNotMatch(writer, /return buildProfileSharePayloadV1\(profile\)/)
+  assert.match(writer, /display-only legacy module has no canonical token/)
+  assert.match(writer, /keeps AI[\s*]+Governance and Perspective Runs/)
 })

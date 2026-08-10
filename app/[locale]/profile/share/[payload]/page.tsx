@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
+import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { publicPath } from "@/i18n/paths"
 import { buildLocalizedProfileShareView } from "@/lib/profile-share-locale"
 import { ACTIVE_MODULE_COMPARISON_STATUS } from "@/lib/modules/types"
@@ -15,7 +16,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { payload } = await params
   const resolved = resolveProfileSharePayload(payload, "zh-Hans")
   const view = resolved
-    ? buildLocalizedProfileShareView(resolved.profile, "zh-Hans")
+    ? buildLocalizedProfileShareView(resolved.profile, "zh-Hans", {
+        preserveUnavailableFoundation:
+          resolved.foundationStatus === "unavailable",
+      })
     : null
   const englishPath = `/profile/share/${payload}`
   const chinesePath = publicPath("zh-Hans", englishPath)
@@ -23,9 +27,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: view
-      ? copy.metadataTitle(view.foundation.archetypeName)
+      ? view.foundation
+        ? copy.metadataTitle(view.foundation.archetypeName)
+        : copy.unavailableMetadataTitle
       : copy.invalidMetadataTitle,
-    description: view?.intro ?? copy.invalidMetadataDescription,
+    description: view
+      ? view.foundation
+        ? view.intro
+        : copy.unavailableMetadataDescription
+      : copy.invalidMetadataDescription,
     robots: { index: false, follow: false },
     alternates: {
       canonical: chinesePath,
@@ -42,9 +52,13 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
   const { payload } = await params
   const resolved = resolveProfileSharePayload(payload, "zh-Hans")
   const view = resolved
-    ? buildLocalizedProfileShareView(resolved.profile, "zh-Hans")
+    ? buildLocalizedProfileShareView(resolved.profile, "zh-Hans", {
+        preserveUnavailableFoundation:
+          resolved.foundationStatus === "unavailable",
+      })
     : null
   const copy = zhHansProfileRecordsUi.share
+  const unavailable = zhHansProfileRecordsUi.unavailableFoundation
   const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
 
   if (!view) {
@@ -73,32 +87,49 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
           <div className="row gap-sm wrap">
             <LanguageSwitcher label="englishPage" className="cta-secondary" />
           </div>
+          <ProfileShareActions
+            payload={payload}
+            headline={view.foundation?.archetypeName ?? unavailable.title}
+            locale="zh-Hans"
+          />
         </header>
 
-        <section className="result-section stack-md">
-          <div className="stack-xs">
-            <p className="eyebrow">{view.foundation.heading}</p>
-            <h2>{view.foundation.familyLabel}</h2>
-            <p>{view.foundation.summary}</p>
-            <p className="muted">{copy.runnerUp}：{view.foundation.runnerUpLabel}</p>
-          </div>
-          <div className="row gap-sm wrap" aria-label={copy.modifiersAria}>
-            <span className="atlas-tag">
-              {copy.archetypeCode}：{view.foundation.archetypeCode}
-            </span>
-            {view.foundation.modifiers.map((modifier) => (
-              <span key={modifier} className="atlas-tag">{modifier}</span>
-            ))}
-          </div>
-          <dl className="locale-profile-dimensions">
-            {view.foundation.dimensions.map((dimension) => (
-              <div key={dimension.key}>
-                <dt>{dimension.label}</dt>
-                <dd>{dimension.score.toFixed(2)}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
+        {view.foundation ? (
+          <section className="result-section stack-md">
+            <div className="stack-xs">
+              <p className="eyebrow">{view.foundation.heading}</p>
+              <h2>{view.foundation.familyLabel}</h2>
+              <p>{view.foundation.summary}</p>
+              <p className="muted">
+                {copy.runnerUp}：{view.foundation.runnerUpLabel}
+              </p>
+            </div>
+            <div className="row gap-sm wrap" aria-label={copy.modifiersAria}>
+              <span className="atlas-tag">
+                {copy.archetypeCode}：{view.foundation.archetypeCode}
+              </span>
+              {view.foundation.modifiers.map((modifier) => (
+                <span key={modifier} className="atlas-tag">{modifier}</span>
+              ))}
+            </div>
+            <dl className="locale-profile-dimensions">
+              {view.foundation.dimensions.map((dimension) => (
+                <div key={dimension.key}>
+                  <dt>{dimension.label}</dt>
+                  <dd>{dimension.score.toFixed(2)}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ) : (
+          <section className="result-section stack-md">
+            <div className="stack-xs">
+              <p className="eyebrow">{unavailable.eyebrow}</p>
+              <h2>{unavailable.archivedTitle}</h2>
+              <p className="muted">{unavailable.archivedBody}</p>
+            </div>
+          </section>
+        )}
 
         {view.modules.length > 0 || view.ai ? (
           <section className="result-section stack-md">

@@ -9,6 +9,7 @@ import type { Locale } from "@/i18n/routing"
 import {
   type CurrentCasePublicRecord,
 } from "@/lib/current-cases/presentation"
+import { getEffectiveCurrentCaseFreshnessStatus } from "@/lib/current-cases/validation"
 import {
   getCurrentCaseDraft,
   getLatestCurrentCaseResponse,
@@ -22,9 +23,11 @@ import styles from "./current-case.module.css"
 export function CurrentCaseArchive({
   records,
   activeCaseId,
+  referenceDate,
 }: {
   records: CurrentCasePublicRecord[]
   activeCaseId: string | null
+  referenceDate: string
 }) {
   const [store, setStore] = useState<CurrentCaseResponseStore | null>(null)
   const locale = useLocale() as Locale
@@ -45,23 +48,30 @@ export function CurrentCaseArchive({
         const draft = store ? getCurrentCaseDraft(store, record.id) : null
         const validDraft =
           draft && draft.step !== "brief" && isDraftForCurrentCase(draft, record) ? draft : null
+        const effectiveFreshnessStatus =
+          getEffectiveCurrentCaseFreshnessStatus(record, referenceDate)
         const archiveFreshnessStatus =
-          record.id === activeCaseId
+          effectiveFreshnessStatus === "active" && record.id === activeCaseId
             ? "active"
-            : record.freshnessStatus === "active"
+            : effectiveFreshnessStatus === "active"
               ? "review-due"
-              : record.freshnessStatus
-        const status = validResponse
+              : effectiveFreshnessStatus ?? "review-due"
+        const progressStatus = validResponse
           ? copy.completed(formatLocalizedDate(validResponse.completedAt, locale, "medium"))
           : validDraft
             ? copy.draft
-            : archiveFreshnessStatus === "active"
-              ? copy.current
-              : archiveFreshnessStatus === "review-due"
-                ? copy.reviewDue
-                : archiveFreshnessStatus === "background"
-                  ? copy.background
-                  : copy.archived
+            : null
+        const freshnessStatus =
+          archiveFreshnessStatus === "active"
+            ? copy.current
+            : archiveFreshnessStatus === "review-due"
+              ? copy.reviewDue
+              : archiveFreshnessStatus === "background"
+                ? copy.background
+                : copy.archived
+        const status = progressStatus
+          ? `${progressStatus} · ${freshnessStatus}`
+          : freshnessStatus
         const action = validResponse ? copy.review : validDraft ? copy.resume : copy.open
 
         return (

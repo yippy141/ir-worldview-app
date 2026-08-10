@@ -27,7 +27,7 @@ import type {
   StrategyModifier,
 } from "@/lib/types"
 import type { Locale } from "@/i18n/routing"
-import { publicPath } from "@/i18n/paths"
+import { internalPath, publicPath } from "@/i18n/paths"
 import {
   LEGACY_ENGLISH_PROVENANCE,
   isCompletionLocale,
@@ -495,7 +495,7 @@ function normalizeModuleHistorySnapshot(
 function normalizeModuleSnapshot(
   value: unknown,
   slug: ModuleSlug,
-  renderLocale: Locale,
+  _renderLocale: Locale,
   legacy: boolean,
 ): ModuleSnapshot | null {
   if (typeof value !== "object" || value === null) return null
@@ -566,7 +566,6 @@ function normalizeModuleSnapshot(
     laneScores,
     cardTypeScores: cardTypeScores ?? {},
     overlayDeltas,
-    renderLocale,
     fallback: legacyEnglishCopy,
   })
   if (!display) return null
@@ -693,7 +692,7 @@ const AI_AXIS_KEYS: AiAxisKey[] = [
 
 function normalizeAiGovernanceSnapshot(
   value: unknown,
-  renderLocale: Locale,
+  _renderLocale: Locale,
   legacy: boolean,
 ): AiGovernanceSnapshot | null {
   if (typeof value !== "object" || value === null) return null
@@ -740,7 +739,7 @@ function normalizeAiGovernanceSnapshot(
   return {
     timestamp: candidate.timestamp,
     payload: candidate.payload,
-    resultPath: publicPath(renderLocale, `/ai/results/${candidate.payload}`),
+    resultPath: `/ai/results/${candidate.payload}`,
     archetypeKey: candidate.archetypeKey,
     archetypeLabel,
     riskLens: candidate.riskLens,
@@ -756,7 +755,7 @@ function normalizeAiGovernanceSnapshot(
 
 function normalizePerspectiveRunSnapshot(
   value: unknown,
-  renderLocale: Locale,
+  _renderLocale: Locale,
   legacy: boolean,
 ): PerspectiveRunSnapshot | null {
   if (typeof value !== "object" || value === null) return null
@@ -811,11 +810,10 @@ function normalizePerspectiveRunSnapshot(
     baselineDeltas: candidate.baselineDeltas,
     strongestShiftKeys: candidate.strongestShiftKeys,
     resultPath: payload
-      ? publicPath(
-          renderLocale,
-          `/perspectives/${candidate.perspectiveId}/result/${payload}`,
-        )
-      : legacyCopy?.resultPath ?? "",
+      ? `/perspectives/${candidate.perspectiveId}/result/${payload}`
+      : legacyCopy
+        ? internalPath(legacyCopy.resultPath)
+        : "",
     ...(payload ? { payload } : {}),
     ...provenance,
     ...(legacyCopy ? { legacyEnglishCopy: legacyCopy } : {}),
@@ -1071,7 +1069,6 @@ function buildModuleDisplay({
   laneScores,
   cardTypeScores,
   overlayDeltas: _overlayDeltas,
-  renderLocale,
   fallback,
 }: {
   slug: ModuleSlug
@@ -1082,7 +1079,6 @@ function buildModuleDisplay({
   laneScores: Record<string, Record<string, number>>
   cardTypeScores: Partial<Record<ChoiceCardType, Record<string, number>>>
   overlayDeltas: Partial<Record<DimensionKey, number>>
-  renderLocale: Locale
   fallback: ModuleLegacyEnglishCopy | null
 }): ModuleDisplay | null {
   const resolvedModule = payload ? resolveModulePayload(payload) : null
@@ -1130,12 +1126,14 @@ function buildModuleDisplay({
       )
     : fallback?.evidence ?? []
   const resultPath = payload
-    ? `${publicPath(renderLocale, `/modules/${slug}/results/${payload}`)}${
+    ? `/modules/${slug}/results/${payload}${
         foundationPayload
           ? `?foundation=${encodeURIComponent(foundationPayload)}`
           : ""
       }`
-    : fallback?.resultPath ?? ""
+    : fallback
+      ? internalPath(fallback.resultPath)
+      : ""
 
   if (!interpretation && !fallback) return null
 

@@ -1,6 +1,7 @@
 import test from "node:test"
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
+import { createHash } from "node:crypto"
 import {
   AGGREGATE_TABLES,
   assertCoreSmoke,
@@ -23,6 +24,10 @@ import {
 import { parseTier1VerificationPhase } from "@/scripts/tier1-production-verify"
 
 const expectedDatabase = "ir_worldview_production"
+const productionHost = "production-host.example"
+const expectedHostSha256 = createHash("sha256")
+  .update(productionHost)
+  .digest("hex")
 
 test("Tier 1 Production operations use only read-only catalog and counter SQL", () => {
   const mutatingSql =
@@ -163,11 +168,12 @@ test("suppression verification derives a same-origin GET without printing the pa
 
 test("operations configuration keeps connection strings out of argv and errors", () => {
   const secret =
-    "postgresql://secret-user:secret-password@secret-host.example/production"
+    `postgresql://secret-user:secret-password@${productionHost}/${expectedDatabase}`
   assert.deepEqual(
     requireOperationsEnvironment({
       TIER1_OPERATIONS_DATABASE_URL: secret,
       TIER1_EXPECTED_DATABASE: expectedDatabase,
+      TIER1_EXPECTED_HOST_SHA256: expectedHostSha256,
     }),
     {
       connectionString: secret,
@@ -185,10 +191,40 @@ test("operations configuration keeps connection strings out of argv and errors",
     () => requireOperationsEnvironment({}),
     /TIER1_OPERATIONS_DATABASE_URL is required/,
   )
+  assert.throws(
+    () =>
+      requireOperationsEnvironment({
+        TIER1_OPERATIONS_DATABASE_URL: secret,
+        TIER1_EXPECTED_DATABASE: expectedDatabase,
+      }),
+    /TIER1_EXPECTED_HOST_SHA256/,
+  )
 
   const packageJson = JSON.parse(source("package.json"))
   assert.match(packageJson.scripts["tier1:preflight"], /preflight\.ts$/)
   assert.match(packageJson.scripts["tier1:verify"], /verify\.ts$/)
+})
+
+test("target identity rejects a matching database name with the wrong host fingerprint", () => {
+  const wrongHostSecret =
+    `postgresql://secret-user:secret-password@preview-host.example/${expectedDatabase}`
+  assert.throws(
+    () =>
+      requireOperationsEnvironment({
+        TIER1_OPERATIONS_DATABASE_URL: wrongHostSecret,
+        TIER1_EXPECTED_DATABASE: expectedDatabase,
+        TIER1_EXPECTED_HOST_SHA256: expectedHostSha256,
+      }),
+    (error: unknown) => {
+      assert.ok(error instanceof Error)
+      assert.match(error.message, /host identity/i)
+      assert.doesNotMatch(
+        error.message,
+        /preview-host|production-host|postgresql|secret-user|secret-password/,
+      )
+      return true
+    },
+  )
 })
 
 test("verification phases are explicit and fail closed", () => {
@@ -198,6 +234,10 @@ test("verification phases are explicit and fail closed", () => {
   assert.throws(() => parseTier1VerificationPhase([]), /exactly one/)
   assert.throws(() => parseTier1VerificationPhase(["smoke", "reset"]), /exactly one/)
   assert.throws(() => parseTier1VerificationPhase(["unknown"]), /smoke, reset, or status/)
+
+  const verificationSource = source("scripts/tier1-production-verify.ts")
+  assert.match(verificationSource, /catch \(error\) \{[\s\S]*?process\.exitCode = 1\s+return/)
+  assert.doesNotMatch(verificationSource, /phase = "reset"/)
 })
 
 test("pinned migration checksums remain current", async () => {
@@ -208,6 +248,11 @@ test("Production runbook retains every owner-operated activation gate", () => {
   const runbook = source(
     "docs/operations/TIER1_PRODUCTION_ACTIVATION.md",
   )
+  const smokeDelta =
+    `+${CORE_SMOKE_EXPECTATION.dimensionCount} / ` +
+    `+${CORE_SMOKE_EXPECTATION.labelCount} / ` +
+    `+${CORE_SMOKE_EXPECTATION.completionCount} / ` +
+    `+${CORE_SMOKE_EXPECTATION.latencyCount}`
 
   for (const required of [
     "separate from Preview/staging",
@@ -218,8 +263,9 @@ test("Production runbook retains every owner-operated activation gate", () => {
     "zero replay rows",
     "Production-only runtime variables",
     "exactly one Production smoke",
-    "+7 / +1 / +14 / +14",
-    "n < 100",
+    smokeDelta,
+    `n < ${CORE_SMOKE_EXPECTATION.suppressionThreshold}`,
+    "TIER1_EXPECTED_HOST_SHA256",
     "Reset the smoke counters before recruitment",
     "TIER1_AGGREGATES_ENABLED=false",
     "first five real completions",
@@ -230,6 +276,82 @@ test("Production runbook retains every owner-operated activation gate", () => {
 
   assert.match(runbook, /owner performs[\s\S]*manually/i)
   assert.match(runbook, /Do not run `npm run replay:scoring`/)
+  assert.equal(
+    runbook.split(smokeDelta).length - 1,
+    2,
+    "the stop condition and activation closure must use the Core smoke deltas",
+  )
+  assert.match(
+    runbook,
+    new RegExp(
+      `answer all ${CORE_SMOKE_EXPECTATION.completionCount} Core items`,
+    ),
+  )
+  assert.match(
+    runbook,
+    new RegExp(
+      `only aggregate movement is ` +
+        `${CORE_SMOKE_EXPECTATION.dimensionCount} dimension counters, ` +
+        `${CORE_SMOKE_EXPECTATION.labelCount} label,\\s+` +
+        `${CORE_SMOKE_EXPECTATION.completionCount} completion steps, and ` +
+        `${CORE_SMOKE_EXPECTATION.latencyCount} item-latency counters`,
+    ),
+  )
+  const expectedStepRange =
+    `steps \`0\`–\`${CORE_SMOKE_EXPECTATION.completionCount - 1}\``
+  assert.equal(
+    runbook.split(expectedStepRange).length - 1,
+    2,
+    "the smoke contract and verifier description must use the Core step range",
+  )
+  assert.match(
+    runbook,
+    new RegExp(
+      `n = ${CORE_SMOKE_EXPECTATION.suppressionThreshold}\\b`,
+    ),
+  )
+
+  for (const [label, expected] of [
+    ["Dimension counter delta", CORE_SMOKE_EXPECTATION.dimensionCount],
+    ["Label counter delta", CORE_SMOKE_EXPECTATION.labelCount],
+    ["Completion counter delta", CORE_SMOKE_EXPECTATION.completionCount],
+    ["Item-latency counter delta", CORE_SMOKE_EXPECTATION.latencyCount],
+  ] as const) {
+    const expectedRow = `| ${label} | \`+${expected}\` |`
+    assert.ok(
+      runbook.includes(expectedRow),
+      `${label} must match CORE_SMOKE_EXPECTATION`,
+    )
+  }
+  assert.ok(
+    runbook.includes(
+      "| Core items and reached steps | " +
+        `\`${CORE_SMOKE_EXPECTATION.completionCount}\`, steps ` +
+        `\`0\`–\`${CORE_SMOKE_EXPECTATION.completionCount - 1}\` |`,
+    ),
+  )
+  assert.ok(
+    runbook.includes(
+      "| Public comparison threshold | exact-cohort " +
+        `\`n >= ${CORE_SMOKE_EXPECTATION.suppressionThreshold}\` |`,
+    ),
+  )
+
+  for (const [metric, expected] of [
+    ["dimension", CORE_SMOKE_EXPECTATION.dimensionCount],
+    ["label", CORE_SMOKE_EXPECTATION.labelCount],
+    ["completion", CORE_SMOKE_EXPECTATION.completionCount],
+    ["latency", CORE_SMOKE_EXPECTATION.latencyCount],
+  ] as const) {
+    assert.match(
+      runbook,
+      new RegExp(
+        `${metric}_rows\\s*<>\\s*${expected}\\s+or\\s+` +
+          `${metric}_total\\s*<>\\s*${expected}`,
+      ),
+      `${metric} reset assertion must match CORE_SMOKE_EXPECTATION`,
+    )
+  }
 })
 
 function validInspection(

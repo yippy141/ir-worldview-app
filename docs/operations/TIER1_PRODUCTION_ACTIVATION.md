@@ -70,16 +70,21 @@ record and record:
 - owner and UTC start time;
 - intended `main` commit SHA;
 - Production Neon project, branch, and database names or IDs;
+- the SHA-256 fingerprint of the confirmed Production database hostname;
 - the separate Preview/staging project, branch, and database names or IDs;
 - the intended Vercel Production project and deployment;
 - a statement that recruitment has not started.
 
 Do not record a connection string, password, pooled host URI, smoke result URL,
-or result payload.
+or result payload. The hostname fingerprint may be recorded because it does
+not disclose the hostname.
 
 The owner must confirm in the Neon console that the Production database or
-branch is separate from Preview/staging. SQL cannot prove branch identity.
-Do not clone respondent-level data into it.
+branch is separate from Preview/staging, then derive and record the expected
+hostname fingerprint from that confirmed endpoint. The later preflight
+compares this independently recorded fingerprint before connecting. A
+database name alone does not prove branch identity. Do not clone
+respondent-level data into it.
 
 ## 2. Apply migrations `001`–`003`
 
@@ -111,12 +116,17 @@ The preflight uses:
 
 - `TIER1_OPERATIONS_DATABASE_URL`: an operator-supplied Postgres connection
   used only by the local inspection command;
-- `TIER1_EXPECTED_DATABASE`: the exact dedicated Production database name.
+- `TIER1_EXPECTED_DATABASE`: the exact dedicated Production database name;
+- `TIER1_EXPECTED_HOST_SHA256`: the lowercase SHA-256 fingerprint of the
+  hostname for the Production endpoint confirmed and recorded in step 1.
 
 Load the connection string from the password manager or Neon console into the
 environment without echoing it and without placing it in argv or shell
-history. Do not store it in `.env`, a transcript, or the repository. The
-operations URL is not a Vercel runtime variable.
+history. Load the expected hostname fingerprint separately from the activation
+record. Do not derive the expected value from the connection string being
+checked: that would make a Preview endpoint self-validating. Do not store the
+connection string in `.env`, a transcript, or the repository. The operations
+URL and fingerprint are not Vercel runtime variables.
 
 Then run:
 
@@ -130,6 +140,8 @@ connection string, host, role, database name, or raw driver error.
 
 It fails unless all of the following are true:
 
+- the connection hostname matches the independently recorded
+  `TIER1_EXPECTED_HOST_SHA256` fingerprint;
 - the connected database matches `TIER1_EXPECTED_DATABASE`;
 - the `public` schema contains exactly four aggregate tables and four replay
   tables;
@@ -209,8 +221,8 @@ npm run tier1:verify -- smoke
 The post-activation command is read-only. It:
 
 - repeats the exact catalog and migration checks;
-- verifies that the only aggregate movement is seven dimension counters, one
-  label, 14 completion steps, and 14 item-latency counters;
+- verifies that the only aggregate movement is 7 dimension counters, 1 label,
+  14 completion steps, and 14 item-latency counters;
 - verifies steps `0`–`13` and the exact English Core cohort;
 - verifies all replay tables remain at zero rows;
 - sends one same-origin `GET` to the public stats endpoint using the smoke

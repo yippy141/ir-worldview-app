@@ -5,7 +5,10 @@ import { createLocalizedMetadata } from "@/i18n/metadata"
 import { getBetaParticipationUrl } from "@/lib/beta-config"
 
 export function generateMetadata(): Metadata {
-  return createLocalizedMetadata("zh-Hans", "/beta", zhHansBetaPage.metadata)
+  return {
+    ...createLocalizedMetadata("zh-Hans", "/beta", zhHansBetaPage.metadata),
+    robots: { index: false, follow: false },
+  }
 }
 
 export default function ZhHansBetaPage() {

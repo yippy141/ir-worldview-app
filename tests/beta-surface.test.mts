@@ -80,10 +80,12 @@ test("English and Simplified Chinese beta copy share the safety contract", () =>
 
 test("beta routes render an accessible outbound link but no in-app collection surface", () => {
   const component = source("components/beta/controlled-beta-page.tsx")
+  const englishRoute = source("app/beta/page.tsx")
+  const chineseRoute = source("app/[locale]/beta/page.tsx")
   const routeSources = [
     component,
-    source("app/beta/page.tsx"),
-    source("app/[locale]/beta/page.tsx"),
+    englishRoute,
+    chineseRoute,
   ].join("\n")
 
   assert.match(component, /target="_blank"/)
@@ -91,11 +93,21 @@ test("beta routes render an accessible outbound link but no in-app collection su
   assert.match(component, /aria-describedby="beta-external-service-note"/)
   assert.match(component, /className="sr-only"/)
   assert.match(component, /participationUrl \?/)
+  assert.match(englishRoute, /robots:\s*\{ index: false, follow: false \}/)
+  assert.match(chineseRoute, /robots:\s*\{ index: false, follow: false \}/)
 
   assert.doesNotMatch(routeSources, /<form\b/i)
   assert.doesNotMatch(routeSources, /\bfetch\s*\(/)
   assert.doesNotMatch(routeSources, /\/api\//)
   assert.doesNotMatch(routeSources, /@\/lib\/(?:db|tier1\/store)/)
+})
+
+test("controlled-beta routes stay out of the public sitemap", async () => {
+  const { default: sitemap } = await import("@/app/sitemap")
+  const paths = sitemap().map((entry) => new URL(entry.url).pathname)
+
+  assert.equal(paths.includes("/beta"), false)
+  assert.equal(paths.includes("/zh/beta"), false)
 })
 
 test("the factual-correction route remains separate from beta recruitment", () => {

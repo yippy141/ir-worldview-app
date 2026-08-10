@@ -51,7 +51,23 @@ changed.
   reinterpreted. They show an honest “Foundation identity unavailable” hero
   and do not expose cached family labels as a current identity. Saved Focus
   Area results, Perspective runs, history, and Profile actions remain
-  accessible.
+  accessible. The localized Profile and shared Profile follow the same rule:
+  they show a Chinese unavailable/archived Foundation state without treating
+  the Profile as empty or the share link as invalid.
+- Current Profile shares use V3 when the Foundation and every included module
+  have canonical payloads. If any module is a legacy display-only snapshot, or
+  the saved Foundation token can no longer be reconstructed, the write path
+  uses the V2 compatibility envelope so that the Foundation record, legacy
+  module, AI Governance, and Perspective Runs remain in the same shared
+  Profile. Existing V1 and V2 payload decoding remains unchanged; a
+  structurally valid legacy envelope with an unresolvable Foundation is shown
+  as an unavailable identity rather than rejected as an invalid link.
+- Foundation payload V5 currently reconstructs its canonical identity from
+  the encoded dimension scores and form calibration with the current scorer.
+  This is stable while V5 has one scorer implementation. A future scorer
+  version must add an explicit versioned reconstruction path or migration;
+  otherwise an already-saved V5 snapshot could resolve to a different
+  identity even though its encoded scores are unchanged.
 - All ten historical IDs and `/explore/atlas/<id>` URLs remain stable, as do
   the localized `/zh/explore/atlas/<id>` routes and the opaque
   `atlas-patterns` Worldview Map layer/query key.
@@ -69,6 +85,12 @@ archetype explanation have not completed Chinese editorial review. They retain
 the approved Chinese closest-tradition narrative as supporting copy; no silent
 English gloss fallback was added.
 
+Foundation result routes are translated and use the locale-aware internal
+route contract. Module, AI Governance, and Perspective detail routes remain
+English-only; Chinese Profile copy states that boundary and links directly to
+their canonical English paths rather than constructing unavailable `/zh`
+routes.
+
 ## Tests added or updated
 
 - exact current and frozen Foundation payload identity resolution;
@@ -81,6 +103,10 @@ English gloss fallback was added.
   public locales;
 - legacy V1/V2 local Profiles retain their saved subordinate results without
   inventing a Foundation identity;
+- a legacy-module Profile round-trips through V2 with its AI Governance and
+  Perspective Run records intact;
+- Chinese Profile links resolve translated Foundation routes once and send
+  English-only domain details to their canonical English routes;
 - English and Chinese result/Profile browser flows and Decision Pattern detail
   routes.
 
@@ -89,9 +115,9 @@ English gloss fallback was added.
 | Gate | Result |
 |---|---|
 | `npm run lint` | Pass |
-| `npm run test` | Pass — 398 tests |
-| `npm run build` | Pass — 146 routes generated |
-| `npm run test:e2e` | Pass — 48 passed, 1 intentionally skipped |
+| `npm run test` | Pass — 436 tests |
+| `npm run build` | Pass — 149 static pages generated |
+| `npm run test:e2e` | Pass — 50 passed, 1 intentionally skipped |
 
 The intentionally skipped browser check is the existing local-development
 cache-header assertion; it runs under CI's production server mode.

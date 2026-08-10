@@ -1,20 +1,31 @@
 import type { Metadata } from "next"
 import { CurrentCaseArchive } from "@/components/current-case/current-case-archive"
 import { zhHansCurrentCaseArchive } from "@/content/locales/zh-Hans/current-cases/archive"
-import { zhHansCurrentCases } from "@/content/locales/zh-Hans/current-cases/index"
 import { zhHansRouteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createLocalizedMetadata } from "@/i18n/metadata"
-import { getActivePublishedLaunchCurrentCase } from "@/lib/current-cases/catalog"
-import { toZhHansCurrentCasePublicRecord } from "@/lib/current-cases/zh-hans"
+import {
+  getActivePublishedLaunchCurrentCase,
+  getPublishedCurrentCases,
+} from "@/lib/current-cases/catalog"
+import {
+  localizePublishedCurrentCases,
+  toZhHansCurrentCasePublicRecord,
+} from "@/lib/current-cases/zh-hans"
 import styles from "@/components/current-case/current-case.module.css"
 
 export function generateMetadata(): Metadata {
   return createLocalizedMetadata("zh-Hans", "/cases", zhHansRouteMetadata.cases)
 }
 
+export const revalidate = 3600
+
 export default function ChineseCurrentCasesPage() {
-  const cases = zhHansCurrentCases.filter((record) => record.publicationStatus === "published")
-  const activeCase = getActivePublishedLaunchCurrentCase()
+  const referenceDate = new Date().toISOString().slice(0, 10)
+  const canonicalCases = getPublishedCurrentCases()
+  const cases = localizePublishedCurrentCases(canonicalCases)
+  const activeCase = getActivePublishedLaunchCurrentCase(canonicalCases, {
+    referenceDate,
+  })
   const content = zhHansCurrentCaseArchive
 
   return (
@@ -39,6 +50,7 @@ export default function ChineseCurrentCasesPage() {
         <CurrentCaseArchive
           records={cases.map(toZhHansCurrentCasePublicRecord)}
           activeCaseId={activeCase?.id ?? null}
+          referenceDate={referenceDate}
         />
       )}
     </div>

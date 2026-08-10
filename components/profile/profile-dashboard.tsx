@@ -14,8 +14,7 @@ import {
   type ProfileStore,
 } from "@/lib/profile-store"
 import {
-  buildProfileSharePayload,
-  buildProfileSharePayloadV1,
+  buildCompatibleProfileSharePayload,
   encodeProfileSharePayload,
 } from "@/lib/profile-share"
 
@@ -92,16 +91,8 @@ export function ProfileDashboard() {
     )
   }
 
-  // Current, canonical records use V3, which stores each domain independently.
-  // V1 remains available only when a legacy module has no canonical token and
-  // would otherwise disappear from the shared record.
   const sharePayload = (() => {
-    const hasLegacyModule = Object.values(profile.modules).some(
-      (snapshot) => snapshot && !snapshot.payload,
-    )
-    const payload = hasLegacyModule
-      ? buildProfileSharePayloadV1(profile)
-      : buildProfileSharePayload(profile)
+    const payload = buildCompatibleProfileSharePayload(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
   const foundationArchetype =

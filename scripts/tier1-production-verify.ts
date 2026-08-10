@@ -94,7 +94,7 @@ function isMainModule() {
   )
 }
 
-if (isMainModule()) {
+async function runFromCommandLine() {
   let phase: Tier1VerificationPhase
   try {
     phase = parseTier1VerificationPhase(process.argv.slice(2))
@@ -103,15 +103,19 @@ if (isMainModule()) {
       safeTier1FailureMessage(error, "Tier 1 Production verification"),
     )
     process.exitCode = 1
-    phase = "reset"
+    return
   }
 
-  if (process.exitCode !== 1) {
-    runTier1ProductionVerification(phase).catch((error: unknown) => {
-      console.error(
-        safeTier1FailureMessage(error, "Tier 1 Production verification"),
-      )
-      process.exitCode = 1
-    })
+  try {
+    await runTier1ProductionVerification(phase)
+  } catch (error) {
+    console.error(
+      safeTier1FailureMessage(error, "Tier 1 Production verification"),
+    )
+    process.exitCode = 1
   }
+}
+
+if (isMainModule()) {
+  void runFromCommandLine()
 }

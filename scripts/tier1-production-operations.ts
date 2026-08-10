@@ -653,23 +653,39 @@ export function requireOperationsEnvironment(
   const connectionString =
     environment.TIER1_OPERATIONS_DATABASE_URL?.trim() ?? ""
   const expectedDatabase = environment.TIER1_EXPECTED_DATABASE?.trim() ?? ""
+  const expectedHostSha256 =
+    environment.TIER1_EXPECTED_HOST_SHA256?.trim().toLowerCase() ?? ""
   if (!connectionString) {
     throw new Tier1OperationsCheckError(
       "TIER1_OPERATIONS_DATABASE_URL is required.",
     )
   }
+  let databaseUrl: URL
   try {
-    const url = new URL(connectionString)
+    databaseUrl = new URL(connectionString)
     if (
-      !["postgres:", "postgresql:"].includes(url.protocol) ||
-      !url.hostname ||
-      !url.pathname.slice(1)
+      !["postgres:", "postgresql:"].includes(databaseUrl.protocol) ||
+      !databaseUrl.hostname ||
+      !databaseUrl.pathname.slice(1)
     ) {
       throw new Error("invalid")
     }
   } catch {
     throw new Tier1OperationsCheckError(
       "TIER1_OPERATIONS_DATABASE_URL must be a valid Postgres URL.",
+    )
+  }
+  if (!/^[a-f0-9]{64}$/.test(expectedHostSha256)) {
+    throw new Tier1OperationsCheckError(
+      "TIER1_EXPECTED_HOST_SHA256 must be the Production database host SHA-256 fingerprint.",
+    )
+  }
+  const actualHostSha256 = createHash("sha256")
+    .update(databaseUrl.hostname.toLowerCase())
+    .digest("hex")
+  if (actualHostSha256 !== expectedHostSha256) {
+    throw new Tier1OperationsCheckError(
+      "Database host identity does not match TIER1_EXPECTED_HOST_SHA256.",
     )
   }
   if (!expectedDatabase || expectedDatabase.length > 63) {

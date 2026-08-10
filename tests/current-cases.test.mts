@@ -1,5 +1,6 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
 import {
   CURRENT_CASE_CATALOG_STATUS,
   currentCaseCatalog,
@@ -16,9 +17,11 @@ import type {
   CurrentCase,
 } from "@/lib/current-cases/types"
 import {
+  getEffectiveCurrentCaseFreshnessStatus,
   getCurrentCaseOptionDifferentiationIssues,
   validateCurrentCaseForPublication,
 } from "@/lib/current-cases/validation"
+import { getPublishedZhHansCurrentCases } from "@/lib/current-cases/zh-hans"
 import type { FoundationSnapshot } from "@/lib/profile-store"
 import {
   validateWorldStageCatalog,
@@ -284,6 +287,70 @@ test("launch freshness is valid through the review deadline and fails the next d
     null,
   )
   assert.equal(getPublishedCurrentCases([record])[0], record)
+})
+
+test("effective freshness uses an injected date and keeps the deadline inclusive", () => {
+  const record = reviewedCase()
+
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(record, "2026-07-24"),
+    "active",
+  )
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(
+      record,
+      new Date("2026-07-25T00:00:00.000Z"),
+    ),
+    "review-due",
+  )
+
+  record.launchRole = "archive"
+  record.freshnessStatus = "background"
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(record, "2027-01-01"),
+    "background",
+  )
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(record, "not-a-date"),
+    null,
+  )
+})
+
+test("English and Chinese publication sets both fail closed for an invalid catalog", () => {
+  const invalidCatalog = structuredClone(currentCaseCatalog)
+  invalidCatalog[1].id = invalidCatalog[0].id
+
+  assert.equal(
+    validateCurrentCaseCatalogForPublication(invalidCatalog, {
+      referenceDate: "2026-08-06",
+    }).ok,
+    false,
+  )
+  assert.deepEqual(getPublishedCurrentCases(invalidCatalog), [])
+  assert.deepEqual(getPublishedZhHansCurrentCases(invalidCatalog), [])
+})
+
+test("English and Chinese case indexes and details regenerate freshness hourly", () => {
+  const routeFiles = [
+    "app/cases/page.tsx",
+    "app/cases/[slug]/page.tsx",
+    "app/[locale]/cases/page.tsx",
+    "app/[locale]/cases/[slug]/page.tsx",
+  ]
+
+  for (const routeFile of routeFiles) {
+    const source = readFileSync(new URL(`../${routeFile}`, import.meta.url), "utf8")
+    assert.match(
+      source,
+      /export const revalidate = 3600/,
+      `${routeFile} must refresh deadline presentation hourly`,
+    )
+    assert.match(
+      source,
+      /new Date\(\)\.toISOString\(\)\.slice\(0, 10\)/,
+      `${routeFile} must supply the date-only freshness contract`,
+    )
+  }
 })
 
 test("published catalogs allow no launch and reject multiple launches", () => {

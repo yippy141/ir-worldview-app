@@ -9,6 +9,7 @@ import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-
 import { familyLabelFromKey } from "@/lib/result-helpers"
 import type { ModuleSnapshot, ProfileStore } from "@/lib/profile-store"
 import type { DimensionKey } from "@/lib/types"
+import { zhHansProfileRecordsUi } from "@/content/locales/zh-Hans/profile-records"
 
 const ZH_SHARE = chineseShellContent.profileShare
 
@@ -26,7 +27,7 @@ export type LocalizedProfileShareView = {
     modifiers: string[]
     summary: string
     dimensions: Array<{ key: DimensionKey; label: string; score: number }>
-  }
+  } | null
   modules: Array<{ slug: ModuleSnapshot["slug"]; title: string; summary: string }>
   ai: { title: string; label: string; summary: string } | null
   perspectives: Array<{ id: string; label: string }>
@@ -36,59 +37,43 @@ export type LocalizedProfileShareView = {
 export function buildLocalizedProfileShareView(
   profile: ProfileStore,
   locale: Locale,
+  options: { preserveUnavailableFoundation?: boolean } = {},
 ): LocalizedProfileShareView | null {
   const foundation = profile.foundation
-  if (!foundation) return null
-  const foundationIdentity =
-    resolveFoundationIdentityFromSnapshot(foundation)
-  if (!foundationIdentity) return null
-  const { archetype: foundationArchetype, result: foundationResult } =
-    foundationIdentity
+  if (!foundation && !options.preserveUnavailableFoundation) return null
+  const foundationIdentity = foundation
+    ? resolveFoundationIdentityFromSnapshot(foundation)
+    : null
   const zh = locale === "zh-Hans"
-  const familyLabel = zh
-    ? ZH_SHARE.familyLabels[foundationResult.familyKey]
-    : familyLabelFromKey(foundationResult.familyKey)
-  const runnerUpLabel = zh
-    ? ZH_SHARE.familyLabels[foundationResult.runnerUpKey]
-    : familyLabelFromKey(foundationResult.runnerUpKey)
+  const unavailable = zhHansProfileRecordsUi.unavailableFoundation
   const origins = profileOriginCohorts(profile)
 
   return {
     locale,
-    eyebrow: zh ? ZH_SHARE.eyebrow : "Shared Foundation profile",
-    title: zh
-      ? ZH_SHARE.title(foundationArchetype.name)
-      : foundationArchetype.name,
-    intro: zh
-      ? ZH_SHARE.intro
-      : foundationArchetype.gloss,
-    foundation: {
-      heading: zh ? ZH_SHARE.foundationHeading : "Foundation",
-      archetypeName: foundationArchetype.name,
-      archetypeCode: foundationArchetype.code,
-      familyLabel,
-      runnerUpLabel,
-      modifiers: [
-        zh
-          ? ZH_SHARE.strategyLabels[foundationResult.strategyModifier]
-          : foundationResult.strategyModifier,
-        zh
-          ? ZH_SHARE.normativeLabels[foundationResult.normativeModifier]
-          : foundationResult.normativeModifier,
-      ],
-      summary: zh
-        ? ZH_SHARE.foundationSummary(familyLabel, runnerUpLabel)
-        : foundationResult.explanation,
-      dimensions: (Object.keys(dimensionLabels) as DimensionKey[]).map(
-        (key) => ({
-          key,
-          label: zh
-            ? chineseShellContent.methods.dimensions[key].heading
-            : dimensionLabels[key],
-          score: foundationResult.dimensionScores[key],
-        }),
-      ),
-    },
+    eyebrow: foundationIdentity
+      ? zh
+        ? ZH_SHARE.eyebrow
+        : "Shared Foundation profile"
+      : zh
+        ? unavailable.eyebrow
+        : "Shared profile unavailable",
+    title: foundationIdentity
+      ? zh
+        ? ZH_SHARE.title(foundationIdentity.archetype.name)
+        : foundationIdentity.archetype.name
+      : zh
+        ? unavailable.title
+        : "Foundation identity unavailable",
+    intro: foundationIdentity
+      ? zh
+        ? ZH_SHARE.intro
+        : foundationIdentity.archetype.gloss
+      : zh
+        ? unavailable.body
+        : "This Profile’s Foundation payload could not be resolved, so no archetype has been inferred. The saved result remains unchanged.",
+    foundation: foundationIdentity
+      ? buildLocalizedFoundationView(foundationIdentity, zh)
+      : null,
     modules: Object.values(profile.modules).flatMap((snapshot) =>
       snapshot
         ? [{
@@ -115,8 +100,10 @@ export function buildLocalizedProfileShareView(
       : null,
     perspectives: profile.perspectiveRuns.map((run) => ({
       id: run.id,
-      label: zh && isPerspectiveId(run.perspectiveId)
-        ? ZH_SHARE.perspectiveLabels[run.perspectiveId]
+      label: zh
+        ? isPerspectiveId(run.perspectiveId)
+          ? ZH_SHARE.perspectiveLabels[run.perspectiveId]
+          : zhHansProfileRecordsUi.report.perspectiveUnavailable
         : getPerspectiveDefinition(run.perspectiveId)?.label ?? run.perspectiveLabel,
     })),
     provenanceNotice: origins.size > 1
@@ -124,6 +111,50 @@ export function buildLocalizedProfileShareView(
         ? ZH_SHARE.provenanceNotice
         : "This profile contains completions from different locale or copy versions. They may be viewed together, but are not presented as research-equivalent measurements."
       : null,
+  }
+}
+
+function buildLocalizedFoundationView(
+  foundationIdentity: NonNullable<
+    ReturnType<typeof resolveFoundationIdentityFromSnapshot>
+  >,
+  zh: boolean,
+): NonNullable<LocalizedProfileShareView["foundation"]> {
+  const { archetype: foundationArchetype, result: foundationResult } =
+    foundationIdentity
+  const familyLabel = zh
+    ? ZH_SHARE.familyLabels[foundationResult.familyKey]
+    : familyLabelFromKey(foundationResult.familyKey)
+  const runnerUpLabel = zh
+    ? ZH_SHARE.familyLabels[foundationResult.runnerUpKey]
+    : familyLabelFromKey(foundationResult.runnerUpKey)
+
+  return {
+    heading: zh ? ZH_SHARE.foundationHeading : "Foundation",
+    archetypeName: foundationArchetype.name,
+    archetypeCode: foundationArchetype.code,
+    familyLabel,
+    runnerUpLabel,
+    modifiers: [
+      zh
+        ? ZH_SHARE.strategyLabels[foundationResult.strategyModifier]
+        : foundationResult.strategyModifier,
+      zh
+        ? ZH_SHARE.normativeLabels[foundationResult.normativeModifier]
+        : foundationResult.normativeModifier,
+    ],
+    summary: zh
+      ? ZH_SHARE.foundationSummary(familyLabel, runnerUpLabel)
+      : foundationResult.explanation,
+    dimensions: (Object.keys(dimensionLabels) as DimensionKey[]).map(
+      (key) => ({
+        key,
+        label: zh
+          ? chineseShellContent.methods.dimensions[key].heading
+          : dimensionLabels[key],
+        score: foundationResult.dimensionScores[key],
+      }),
+    ),
   }
 }
 

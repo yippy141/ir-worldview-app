@@ -11,7 +11,7 @@ export async function generateMetadata(
   const { payload } = await params
   const resolved = resolveProfileSharePayload(payload)
 
-  if (!resolved?.profile.foundation) {
+  if (!resolved) {
     const title = "Shared Profile — IR Worldview Inventory"
     const description =
       "Open a shared IR Worldview Profile, or create your own Foundation result and saved profile layers."
@@ -20,7 +20,9 @@ export async function generateMetadata(
   }
 
   const foundation = resolved.profile.foundation
-  const archetype = resolveFoundationArchetypeFromSnapshot(foundation)
+  const archetype = foundation
+    ? resolveFoundationArchetypeFromSnapshot(foundation)
+    : null
   const title = archetype
     ? `${archetype.name} profile — IR Worldview Inventory`
     : "Foundation identity unavailable — Shared Profile"
@@ -69,7 +71,7 @@ export default async function SharedProfilePage(
   const { payload } = await params
   const resolved = resolveProfileSharePayload(payload)
 
-  if (!resolved?.profile.foundation) {
+  if (!resolved) {
     return (
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
@@ -87,14 +89,20 @@ export default async function SharedProfilePage(
       </div>
     )
   }
-  const foundationArchetype =
-    resolveFoundationArchetypeFromSnapshot(resolved.profile.foundation)
+  const foundationArchetype = resolved.profile.foundation
+    ? resolveFoundationArchetypeFromSnapshot(resolved.profile.foundation)
+    : null
 
   return (
     <div className="wide-container">
       <ProfileReport
         profile={resolved.profile}
         mode="shared"
+        foundationRecord={
+          resolved.foundationStatus === "unavailable"
+            ? resolved.foundationRecord
+            : undefined
+        }
         actionSlot={
           <ProfileShareActions
             payload={payload}

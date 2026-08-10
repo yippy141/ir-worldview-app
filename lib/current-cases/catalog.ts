@@ -9,6 +9,7 @@ import usBrazilTariffs from "@/content/current-cases/us-brazil-section-301-tarif
 }
 import type { CurrentCase, CurrentCaseSource } from "@/lib/current-cases/types"
 import {
+  getEffectiveCurrentCaseFreshnessStatus,
   validateCurrentCaseForPublication,
   type CurrentCasePublicationValidationOptions,
   type CurrentCaseValidationError,
@@ -145,7 +146,16 @@ export function getActivePublishedLaunchCurrentCase(
     ) ?? null
   if (!launch) return null
 
-  return validateCurrentCaseForPublication(launch, options).ok ? launch : null
+  const referenceDate = options.referenceDate ?? new Date()
+  if (
+    getEffectiveCurrentCaseFreshnessStatus(launch, referenceDate) !== "active"
+  ) {
+    return null
+  }
+
+  return validateCurrentCaseForPublication(launch, { referenceDate }).ok
+    ? launch
+    : null
 }
 
 export function getSourcesForCurrentCaseClaim(

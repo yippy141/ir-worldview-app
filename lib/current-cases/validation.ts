@@ -8,6 +8,7 @@ import {
   CURRENT_CASE_SCHEMA_VERSION,
   CURRENT_CASE_SOURCE_KINDS,
   type CurrentCase,
+  type CurrentCaseFreshnessStatus,
   type CurrentCaseOption,
 } from "@/lib/current-cases/types"
 import { isReasoningTagId } from "@/lib/current-cases/reasoning-tags"
@@ -93,6 +94,31 @@ function normalizeReferenceDate(value: string | Date | undefined) {
   if (value === undefined) return new Date().toISOString().slice(0, 10)
   if (typeof value === "string") return isIsoDate(value) ? value : null
   return Number.isNaN(value.valueOf()) ? null : value.toISOString().slice(0, 10)
+}
+
+/**
+ * Resolves authored freshness against a caller-supplied UTC day. Archive,
+ * background, and already-review-due records retain their authored status;
+ * only an active record is downgraded after its inclusive review deadline.
+ * Invalid dates fail closed rather than producing an active status.
+ */
+export function getEffectiveCurrentCaseFreshnessStatus(
+  record: Pick<CurrentCase, "freshnessStatus" | "reviewDueAt">,
+  referenceDate: string | Date,
+): CurrentCaseFreshnessStatus | null {
+  const normalizedReferenceDate = normalizeReferenceDate(referenceDate)
+  if (
+    normalizedReferenceDate === null ||
+    !isIsoDate(record.reviewDueAt) ||
+    !CURRENT_CASE_FRESHNESS_STATUSES.includes(record.freshnessStatus)
+  ) {
+    return null
+  }
+
+  return record.freshnessStatus === "active" &&
+    normalizedReferenceDate > record.reviewDueAt
+    ? "review-due"
+    : record.freshnessStatus
 }
 
 function normalizeDifferentiator(value: string) {
