@@ -26,9 +26,9 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | calibration | lib/modules/calibration.ts | 16540e8cf20a5363aeb4e8f05b648e629c6c2b7ee6b8b66861191ab656cbd7f4 |
 | scoring-runtime | lib/modules/runtime-v1.ts | 9997c9d63d8f998d1507aaaa57356cffeb84f9520f709f9dd5e2ea39150e3e50 |
 | scoring-runtime | lib/modules/runtime-v2.ts | d33cd5cc22f437e24feb1ad5feb40a1d611f4ce121bb314cb6fd35a6fed878e2 |
-| scoring-runtime | lib/modules/security-v21.ts | 6f5df33b89b462bc4e06f160ff6bff81abbf5e879a67e40762a866ea084818ee |
+| scoring-runtime | lib/modules/security-v21.ts | c2d1b0d99a0350ca51c8a4b20e5893d8684290722b2531b906a30c260374c15f |
 | scoring-runtime | lib/modules/security.ts | 75b45c7b77780d63cfbb5887121847a65fa30536056f19d03b256589a0227648 |
-| scoring-runtime | lib/modules/technology-v21.ts | 05d4e6eaa238cf9f0e8c8df02fd94b87701a882b37d39130ea986d2a50bdf139 |
+| scoring-runtime | lib/modules/technology-v21.ts | 431874aaf7129398d1d3fb08c244e36e0a7e631f2ce3cf07ac3a89e5cfb53130 |
 | scoring-runtime | lib/modules/technology.ts | 37d07809d6132a431757cfc1b4fb50070d85984b3c07740b6e01891a5df84fe6 |
 | scoring-runtime | lib/modules/versions.ts | abf85729ac15da6a723b17042f1ee4d31bb218f764d52d412de3d0eaa370f572 |
 | scoring-runtime | lib/option-order.ts | 2fcfdb95d91d358db30a7d42bb86da1b754517b581fb5326c64f87841e29d83c |
@@ -37,18 +37,23 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | calibration | lib/scoring/v2-calibration.ts | 9e4161036ae17b47c1367fcf8caf0db1d5d2cb80cb56e63a997369a5da132c9b |
 | scoring-runtime | lib/scoring/v2.ts | 295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c |
 | scoring-runtime | lib/scoring/versions.ts | 87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c |
-| copy-audit | scripts/audit-public-copy.mjs | b0614ea2258f0b0a18ae30aeeeebd430f025afd8723cd352c4fd05fc6b899784 |
+| copy-audit | scripts/audit-public-copy.mjs | 08c562f389a3c135ac430b4a012346ce57044f10a0f7924d7f72184e01033abc |
 | calibration | scripts/calibrate-modules-bootstrap.mjs | d7094911334cdf2c65584b93f6a397b3c584b596f5b86058e124854a030d09da |
 | calibration | scripts/calibrate-modules.mts | 3ef3404b4c6d3f22200bbf801b462acb4b569ec5566c91c42b2df0646c0b2854 |
 | calibration | scripts/calibrate-targeted-forms.mts | 632442daa133683d99c87f8b5c3fc8ed6c595979970f07bd384b5d3f5ea13794 |
+| copy-audit | scripts/code-unit-order.mjs | 8c1a37d324055d96678f1ad723d7dc1e3e067dd8801cb438001c03854877bc66 |
 | diagnostic | scripts/diagnose-instrument.mts | a6c72119c51f455cb4c9affb814c9a1d5329ae469ef6b1797142bf28d303e1d2 |
 | diagnostic | scripts/validate-instrument.mts | e902909d7da60baf007650be3bb663bf78bce476fe4f8669d499211ba229a5ec |
-| evidence-baseline | tests/fixtures/evidence-audit-baseline.json | 3219e9b0c92ab7d8c504b1391ff5479dc468748526ce442d74d63555cbc77e4d |
+| compatibility-test | tests/evidence-audit.test.mts | 99c0847d3dc4f2098d397e11a58e5ba3cea5289443ad3a2922889661cc9943f7 |
+| compatibility-test | tests/evidence-instrument-analysis.test.mts | 4fb9f6c838346151da46795f344f83830f754519c97f54eecc3d299cc4175854 |
+| evidence-baseline | tests/fixtures/evidence-audit-baseline.json | 51194d3a431046fc237567d20918bca210e4b5fee6db6db805749a21656f6e7f |
 | compatibility-test | tests/fixtures/instrument-version-golden.json | 444940da7418f398213ac7f8beb5e19ef802cf1f36488f2aac9ce35fc266c4f9 |
+| compatibility-test | tests/fixtures/v21-module-copy-golden.json | 75f9475dc15f2f487ad7dfc3ec5ac2c78cc547927847605ec9f9e8a7f96b59e7 |
 | compatibility-test | tests/instrument-measurement-gates.test.mts | 1ff5804dfb26bf455a67c61a1866cd939a19ee59ab1334e52b2b57d63078035d |
 | compatibility-test | tests/instrument-version-compatibility.test.mts | ef21df2cfa4e1b78ef9f9b347e750bf50d1d2d198fc57ad17271aa7f4659b88c |
 | compatibility-test | tests/option-order.test.mts | 456a3abb313f146c7b2e76e6ce88ba495263cbaf33eeca28e899b0c104d399db |
-| compatibility-test | tests/public-copy-audit.test.mts | 480cf8b0d42c355220f61d04c35e3f0585cf9779deb4fa5ce0dc09961cad29af |
+| compatibility-test | tests/public-copy-audit.test.mts | 33e85f3f5f4bcd7a3affc08e691bb95e5813a4b55fb511beb48be3dc888768ab |
+| compatibility-test | tests/v21-module-copy.test.mts | 78b4a8eb19de8ef221942bf2c955dd188dec71b0c02c4f47fcc51cd258e12635 |
 
 ## Current bank coverage
 
@@ -95,16 +100,16 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 
 The JSON artifact contains every option and option-set distribution. This table identifies each bank's widest observed option-length spread and counts sets with unequal modal-verb or absolutism counts.
 
-| Bank | Option sets | Widest word spread | Item / source | Modal-asymmetric sets | Absolutism-asymmetric sets |
-| --- | --- | --- | --- | --- | --- |
-| ai-governance-bank-v2 | 15 | 10 | futureSociety / analystOptions | 7 | 5 |
-| ai-governance-bank-v3 | 15 | 10 | futureSociety / analystOptions | 7 | 5 |
-| foundation-bank-v2 | 22 | 13 | an_case_burdens / options | 12 | 8 |
-| foundation-scoring-v1 | 22 | 0 | an_case_burdens / options | 0 | 0 |
-| security-bank-v2 | 15 | 10 | iran_threshold / options | 14 | 1 |
-| security-bank-v3 | 15 | 10 | iran_threshold / options | 14 | 1 |
-| technology-bank-v2 | 15 | 8 | data_center_dependence / options | 14 | 9 |
-| technology-bank-v3 | 15 | 10 | chips_controls / options | 15 | 8 |
+| Bank | Generation | Option sets | Widest word spread | Item / source | Modal-asymmetric sets | Absolutism-asymmetric sets |
+| --- | --- | --- | --- | --- | --- | --- |
+| ai-governance-bank-v2 | legacy | 15 | 10 | futureSociety / analystOptions | 7 | 5 |
+| ai-governance-bank-v3 | current | 15 | 10 | futureSociety / analystOptions | 7 | 5 |
+| foundation-bank-v2 | current | 22 | 13 | an_case_burdens / options | 12 | 8 |
+| foundation-scoring-v1 | legacy | 22 | 0 | an_case_burdens / options | 0 | 0 |
+| security-bank-v2 | legacy | 15 | 10 | iran_threshold / options | 14 | 1 |
+| security-bank-v3 | current | 15 | 10 | iran_threshold / options | 14 | 1 |
+| technology-bank-v2 | legacy | 15 | 8 | data_center_dependence / options | 14 | 9 |
+| technology-bank-v3 | current | 15 | 10 | chips_controls / options | 15 | 8 |
 
 ### Repeated and near-duplicate option text
 
@@ -116,37 +121,217 @@ Exact repeated groups: 0. Near-duplicate pairs: 0.
 
 Exact repeated groups: 0. Near-duplicate pairs: 0.
 
-## Declared-axis option-signal separation
+## Declared-axis midpoint/range gate
 
-| Bank | Policy | Reviewed items | Not meaningfully separated |
-| --- | --- | --- | --- |
-| ai-governance-bank-v2 | not declared / not applicable | 0 | none |
-| ai-governance-bank-v3 | midpoint 0; spread 0.5 | 37 | none |
-| foundation-bank-v2 | not declared / not applicable | 0 | none |
-| foundation-scoring-v1 | not declared / not applicable | 0 | none |
-| security-bank-v2 | not declared / not applicable | 0 | none |
-| security-bank-v3 | midpoint 4; spread 2 | 15 | none |
-| technology-bank-v2 | not declared / not applicable | 0 | none |
-| technology-bank-v3 | midpoint 4; spread 2 | 15 | none |
+For every declared axis in every effective option set, the authored gate checks only:
+
+- at least one signal strictly below the policy midpoint;
+- at least one signal strictly above the policy midpoint; and
+- total range at least the authored minimum.
+
+An item appears in the failure column when any declared axis in any effective option set fails midpoint straddle or minimum range. Passing does not establish validity, reliability, or psychometric discrimination.
+
+| Bank | Generation | Policy | Reviewed items | Items failing midpoint-straddle or minimum-range requirements |
+| --- | --- | --- | --- | --- |
+| ai-governance-bank-v2 | legacy | not declared / not applicable | 0 | none |
+| ai-governance-bank-v3 | current | midpoint 0; minimum range 0.5 | 37 | none |
+| foundation-bank-v2 | current | not declared / not applicable | 0 | none |
+| foundation-scoring-v1 | legacy | not declared / not applicable | 0 | none |
+| security-bank-v2 | legacy | not declared / not applicable | 0 | none |
+| security-bank-v3 | current | midpoint 4; minimum range 2 | 15 | none |
+| technology-bank-v2 | legacy | not declared / not applicable | 0 | none |
+| technology-bank-v3 | current | midpoint 4; minimum range 2 | 15 | none |
+
+### Descriptive declared-axis option geometry
+
+Missing signals are counted explicitly and use the policy midpoint for the gate and geometry summaries. Duplicate signal values count options beyond the first occurrence of each exact value. Sole minimum/maximum flags identify whether one option alone occupies that extreme. These are non-blocking review aids.
+
+| Bank | Generation | Item | Effective option set | Axis | Options | Distinct signal values | Non-midpoint options | Missing signals | Duplicate signal values | Sole minimum | Sole maximum | Midpoint/range gate |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ai-governance-bank-v3 | current | capabilityThreshold | analystOptions (analyst) | riskHorizon | 4 | 3 | 2 | 2 | 1 | yes | yes | passes |
+| ai-governance-bank-v3 | current | capabilityThreshold | analystOptions (analyst) | deploymentPace | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | capabilityThreshold | analystOptions (analyst) | oversight | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | capabilityThreshold | options (standard) | riskHorizon | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | capabilityThreshold | options (standard) | deploymentPace | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | capabilityThreshold | options (standard) | oversight | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | analystOptions (analyst) | deploymentPace | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | analystOptions (analyst) | geopolitics | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | analystOptions (analyst) | militaryRole | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | analystOptions (analyst) | legitimacy | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | options (standard) | deploymentPace | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | options (standard) | geopolitics | 3 | 3 | 2 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | options (standard) | militaryRole | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | rivalBreakthrough | options (standard) | legitimacy | 3 | 3 | 2 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | openWeights | analystOptions (analyst) | oversight | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | openWeights | analystOptions (analyst) | openness | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | openWeights | options (standard) | oversight | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | openWeights | options (standard) | openness | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | militaryIntegration | analystOptions (analyst) | deploymentPace | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | militaryIntegration | analystOptions (analyst) | geopolitics | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | militaryIntegration | analystOptions (analyst) | militaryRole | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | militaryIntegration | options (standard) | deploymentPace | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | militaryIntegration | options (standard) | geopolitics | 3 | 3 | 2 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | militaryIntegration | options (standard) | militaryRole | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | multilateralVerification | analystOptions (analyst) | oversight | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | multilateralVerification | analystOptions (analyst) | geopolitics | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | multilateralVerification | analystOptions (analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | multilateralVerification | options (standard) | oversight | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | multilateralVerification | options (standard) | geopolitics | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | multilateralVerification | options (standard) | legitimacy | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | futureSociety | analystOptions (analyst) | deploymentPace | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | futureSociety | analystOptions (analyst) | legitimacy | 4 | 3 | 2 | 2 | 1 | yes | yes | passes |
+| ai-governance-bank-v3 | current | futureSociety | analystOptions (analyst) | humanFuture | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | futureSociety | options (standard) | deploymentPace | 3 | 3 | 2 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | futureSociety | options (standard) | legitimacy | 3 | 3 | 2 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | futureSociety | options (standard) | humanFuture | 3 | 3 | 3 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | auditIncidentRegime | analystOptions (analyst) | deploymentPace | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | auditIncidentRegime | analystOptions (analyst) | oversight | 4 | 3 | 4 | 0 | 1 | yes | no | passes |
+| ai-governance-bank-v3 | current | auditIncidentRegime | analystOptions (analyst) | legitimacy | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | computeGovernance | analystOptions (analyst) | oversight | 4 | 3 | 4 | 0 | 1 | no | yes | passes |
+| ai-governance-bank-v3 | current | computeGovernance | analystOptions (analyst) | geopolitics | 4 | 3 | 2 | 2 | 1 | yes | yes | passes |
+| ai-governance-bank-v3 | current | computeGovernance | analystOptions (analyst) | openness | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | computeGovernance | analystOptions (analyst) | legitimacy | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | criticalInfrastructure | analystOptions (analyst) | deploymentPace | 4 | 3 | 4 | 0 | 1 | yes | yes | passes |
+| ai-governance-bank-v3 | current | criticalInfrastructure | analystOptions (analyst) | oversight | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| ai-governance-bank-v3 | current | criticalInfrastructure | analystOptions (analyst) | legitimacy | 4 | 4 | 3 | 1 | 0 | yes | yes | passes |
+| security-bank-v3 | current | taiwan_quarantine | options (standard, analyst) | activism | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | taiwan_quarantine | options (standard, analyst) | escalation | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | taiwan_quarantine | options (standard, analyst) | alliance | 4 | 3 | 4 | 0 | 1 | yes | yes | passes |
+| security-bank-v3 | current | gray_zone_sabotage | options (standard, analyst) | activism | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | gray_zone_sabotage | options (standard, analyst) | escalation | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | shipping_attacks | options (standard, analyst) | activism | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | shipping_attacks | options (standard, analyst) | escalation | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | eastern_flank | options (standard, analyst) | activism | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | eastern_flank | options (standard, analyst) | escalation | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | eastern_flank | options (standard, analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | maritime_pressure | options (standard, analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | maritime_pressure | options (standard, analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | middle_power_alignment | options (standard, analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | atrocity_response | options (standard, analyst) | activism | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | atrocity_response | options (standard, analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | aid_corridor | options (standard, analyst) | activism | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | aid_corridor | options (standard, analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | ceasefire_accountability | options (standard, analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | iran_threshold | options (analyst) | activism | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | iran_threshold | options (analyst) | escalation | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | beijing_below_war | options (analyst) | activism | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | beijing_below_war | options (analyst) | escalation | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | nuclear_hedging | options (analyst) | escalation | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | nuclear_hedging | options (analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | patron_trust_gap | options (analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | sanctions_enforcement | options (analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | sanctions_enforcement | options (analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | selective_enforcement_memory | options (analyst) | alliance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| security-bank-v3 | current | selective_enforcement_memory | options (analyst) | legitimacy | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | chips_controls | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | chips_controls | options (standard, analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | open_weight_models | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | open_weight_models | options (standard, analyst) | safety | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | sovereign_stacks | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | sovereign_stacks | options (standard, analyst) | governance | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | sovereign_stacks | options (standard, analyst) | industrial | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | fab_resilience | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | fab_resilience | options (standard, analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | fab_resilience | options (standard, analyst) | industrial | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | industrial_policy | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | industrial_policy | options (standard, analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | industrial_policy | options (standard, analyst) | industrial | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | public_compute | options (standard, analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | public_compute | options (standard, analyst) | industrial | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | public_compute | options (standard, analyst) | safety | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | frontier_ai_governance | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | frontier_ai_governance | options (standard, analyst) | governance | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | frontier_ai_governance | options (standard, analyst) | safety | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | military_ai | options (standard, analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | military_ai | options (standard, analyst) | safety | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | digital_development | options (standard, analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | digital_development | options (standard, analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | containment_critique | options (analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | containment_critique | options (analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | data_center_dependence | options (analyst) | control | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | data_center_dependence | options (analyst) | governance | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | subsidy_race | options (analyst) | governance | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | subsidy_race | options (analyst) | industrial | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | regional_public_compute | options (analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | regional_public_compute | options (analyst) | governance | 4 | 4 | 3 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | regional_public_compute | options (analyst) | industrial | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | incident_reporting | options (analyst) | control | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | incident_reporting | options (analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | ai_standards_voice | options (analyst) | governance | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+| technology-bank-v3 | current | ai_standards_voice | options (analyst) | safety | 4 | 4 | 4 | 0 | 0 | yes | yes | passes |
+
+### Duplicate complete option vectors
+
+Complete vectors cover every axis in the instrument axis universe; missing components use the policy midpoint. Exact duplicate groups are reported descriptively and do not create a new gate.
+
+| Bank | Generation | Item | Effective option set | Duplicate complete-vector groups |
+| --- | --- | --- | --- | --- |
+| ai-governance-bank-v3 | current | capabilityThreshold | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | capabilityThreshold | options (standard) | none |
+| ai-governance-bank-v3 | current | rivalBreakthrough | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | rivalBreakthrough | options (standard) | none |
+| ai-governance-bank-v3 | current | openWeights | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | openWeights | options (standard) | none |
+| ai-governance-bank-v3 | current | militaryIntegration | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | militaryIntegration | options (standard) | none |
+| ai-governance-bank-v3 | current | multilateralVerification | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | multilateralVerification | options (standard) | none |
+| ai-governance-bank-v3 | current | futureSociety | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | futureSociety | options (standard) | none |
+| ai-governance-bank-v3 | current | auditIncidentRegime | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | computeGovernance | analystOptions (analyst) | none |
+| ai-governance-bank-v3 | current | criticalInfrastructure | analystOptions (analyst) | none |
+| security-bank-v3 | current | taiwan_quarantine | options (standard, analyst) | none |
+| security-bank-v3 | current | gray_zone_sabotage | options (standard, analyst) | none |
+| security-bank-v3 | current | shipping_attacks | options (standard, analyst) | none |
+| security-bank-v3 | current | eastern_flank | options (standard, analyst) | none |
+| security-bank-v3 | current | maritime_pressure | options (standard, analyst) | none |
+| security-bank-v3 | current | middle_power_alignment | options (standard, analyst) | none |
+| security-bank-v3 | current | atrocity_response | options (standard, analyst) | none |
+| security-bank-v3 | current | aid_corridor | options (standard, analyst) | none |
+| security-bank-v3 | current | ceasefire_accountability | options (standard, analyst) | none |
+| security-bank-v3 | current | iran_threshold | options (analyst) | none |
+| security-bank-v3 | current | beijing_below_war | options (analyst) | none |
+| security-bank-v3 | current | nuclear_hedging | options (analyst) | none |
+| security-bank-v3 | current | patron_trust_gap | options (analyst) | none |
+| security-bank-v3 | current | sanctions_enforcement | options (analyst) | none |
+| security-bank-v3 | current | selective_enforcement_memory | options (analyst) | none |
+| technology-bank-v3 | current | chips_controls | options (standard, analyst) | none |
+| technology-bank-v3 | current | open_weight_models | options (standard, analyst) | none |
+| technology-bank-v3 | current | sovereign_stacks | options (standard, analyst) | none |
+| technology-bank-v3 | current | fab_resilience | options (standard, analyst) | none |
+| technology-bank-v3 | current | industrial_policy | options (standard, analyst) | none |
+| technology-bank-v3 | current | public_compute | options (standard, analyst) | none |
+| technology-bank-v3 | current | frontier_ai_governance | options (standard, analyst) | none |
+| technology-bank-v3 | current | military_ai | options (standard, analyst) | none |
+| technology-bank-v3 | current | digital_development | options (standard, analyst) | none |
+| technology-bank-v3 | current | containment_critique | options (analyst) | none |
+| technology-bank-v3 | current | data_center_dependence | options (analyst) | none |
+| technology-bank-v3 | current | subsidy_race | options (analyst) | none |
+| technology-bank-v3 | current | regional_public_compute | options (analyst) | none |
+| technology-bank-v3 | current | incident_reporting | options (analyst) | none |
+| technology-bank-v3 | current | ai_standards_voice | options (analyst) | none |
 
 ## Actor, theater, tag, and knowledge-load concentration
 
 Shares are raw item coverage for review, not population estimates or pass/fail gates.
 
-| Bank | Actor-role leader | Actor undeclared | Theater leader | Theater undeclared | Perspective-tag leader | Knowledge-load leader |
-| --- | --- | --- | --- | --- | --- | --- |
-| ai-governance-bank-v2 | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | undeclared 37 (100.0%) |
-| ai-governance-bank-v3 | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | undeclared 37 (100.0%) |
-| foundation-bank-v2 | undeclared 68 (100.0%) | 68/68 | undeclared 68 (100.0%) | 68/68 | undeclared 68 (100.0%) | undeclared 68 (100.0%) |
-| foundation-scoring-v1 | undeclared 44 (100.0%) | 44/44 | undeclared 44 (100.0%) | 44/44 | undeclared 44 (100.0%) | undeclared 44 (100.0%) |
-| security-bank-v2 | rivalLogic 7 (46.7%) | 0/15 | undeclared 15 (100.0%) | 15/15 | alliance-manager, humanitarian, maritime, middle-power, nonaligned 4 (26.7%) | medium 9 (60.0%) |
-| security-bank-v3 | rivalLogic 7 (46.7%) | 0/15 | undeclared 15 (100.0%) | 15/15 | alliance-manager, humanitarian, maritime, middle-power, nonaligned 4 (26.7%) | medium 9 (60.0%) |
-| technology-bank-v2 | developmental 9 (60.0%) | 0/15 | undeclared 15 (100.0%) | 15/15 | developmental 8 (53.3%) | medium 9 (60.0%) |
-| technology-bank-v3 | developmental 9 (60.0%) | 0/15 | undeclared 15 (100.0%) | 15/15 | developmental 8 (53.3%) | medium 9 (60.0%) |
+| Bank | Generation | Actor-role leader | Actor undeclared | Theater leader | Theater undeclared | Perspective-tag leader | Knowledge-load leader |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ai-governance-bank-v2 | legacy | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | undeclared 37 (100.0%) |
+| ai-governance-bank-v3 | current | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | 37/37 | undeclared 37 (100.0%) | undeclared 37 (100.0%) |
+| foundation-bank-v2 | current | undeclared 68 (100.0%) | 68/68 | undeclared 68 (100.0%) | 68/68 | undeclared 68 (100.0%) | undeclared 68 (100.0%) |
+| foundation-scoring-v1 | legacy | undeclared 44 (100.0%) | 44/44 | undeclared 44 (100.0%) | 44/44 | undeclared 44 (100.0%) | undeclared 44 (100.0%) |
+| security-bank-v2 | legacy | rivalLogic 7 (46.7%) | 0/15 | undeclared 15 (100.0%) | 15/15 | alliance-manager, humanitarian, maritime, middle-power, nonaligned 4 (26.7%) | medium 9 (60.0%) |
+| security-bank-v3 | current | rivalLogic 7 (46.7%) | 0/15 | undeclared 15 (100.0%) | 15/15 | alliance-manager, humanitarian, maritime, middle-power, nonaligned 4 (26.7%) | medium 9 (60.0%) |
+| technology-bank-v2 | legacy | developmental 9 (60.0%) | 0/15 | undeclared 15 (100.0%) | 15/15 | developmental 8 (53.3%) | medium 9 (60.0%) |
+| technology-bank-v3 | current | developmental 9 (60.0%) | 0/15 | undeclared 15 (100.0%) | 15/15 | developmental 8 (53.3%) | medium 9 (60.0%) |
 
 ## Response-style results
 
-| Cohort | Generation | Fixture | Outcome | Score range |
+These rows come from deterministic mechanical fixtures; no human respondent data is used. They test scorer behavior under constructed answer patterns. They do not establish validity, reliability, prevalence, or representativeness.
+
+| Instrument tuple | Generation | Fixture | Outcome | Score range |
 | --- | --- | --- | --- | --- |
 | ai-governance:b2:s1:analyst | legacy | all-maximum | precautionarySteward / Frontier-risk first / Precaution-first / Competition-first | 6.70–7.00 |
 | ai-governance:b2:s1:analyst | legacy | all-minimum | openEcosystemBuilder / Present-harms first / Deployment-first / Coordination-first | 1.00–2.30 |
@@ -261,9 +446,40 @@ Shares are raw item coverage for review, not population estimates or pass/fail g
 | technology:b3:s2:standard | current | midpoint | Technology read: openness with targeted safeguards | 3.50–4.06 |
 | technology:b3:s2:standard | current | seeded-random-20260728 | Technology read: no single tool dominates | 3.66–4.97 |
 
+### Analyst secondary/backup-choice stress fixtures
+
+Eligible analyst tuples add three structural fixtures over complete vectors centered at the instrument midpoint. A fixed primary is chosen from options with both positive and negative cosine-similarity partners where possible. The reinforcing fixture uses the most positively aligned distinct option; the competing fixture uses the most negatively opposed distinct option. If a sign is unavailable, that item's secondary is omitted and disclosed rather than mislabeled. Ties follow authored option order. The JSON artifact records each semantic ID, similarity review, and omission reason. Standard-mode tuples remain primary-only.
+
+| Instrument tuple | Generation | Fixture | Outcome | Score range | Eligible items | Secondary fields | Skipped secondary/backup items |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ai-governance:b2:s1:analyst | legacy | analyst-secondary-competing | democraticGuardrailist / Present-harms first / Deployment-first / Competitive hedger | 3.21–6.52 | 3 | 3 | none |
+| ai-governance:b2:s1:analyst | legacy | analyst-secondary-primary-only | democraticGuardrailist / Mixed risk lens / Deployment-first / Competitive hedger | 3.70–6.70 | 3 | 0 | none |
+| ai-governance:b2:s1:analyst | legacy | analyst-secondary-reinforcing | democraticGuardrailist / Mixed risk lens / Threshold guardrails / Competitive hedger | 3.70–6.80 | 3 | 3 | none |
+| ai-governance:b3:s2:analyst | current | analyst-secondary-competing | democraticGuardrailist / Present-harms first / Threshold guardrails / Competitive hedger | 3.77–6.52 | 3 | 3 | none |
+| ai-governance:b3:s2:analyst | current | analyst-secondary-primary-only | democraticGuardrailist / Mixed risk lens / Threshold guardrails / Competitive hedger | 3.90–7.00 | 3 | 0 | none |
+| ai-governance:b3:s2:analyst | current | analyst-secondary-reinforcing | democraticGuardrailist / Mixed risk lens / Precaution-first / Competitive hedger | 3.90–7.00 | 3 | 3 | none |
+| foundation:bna:s1:analyst | legacy | analyst-secondary-competing | institutionalist / Hedger / Conditional Solidarist | 4.01–4.75 | 22 | 22 | none |
+| foundation:bna:s1:analyst | legacy | analyst-secondary-primary-only | institutionalist / Hedger / Conditional Solidarist | 3.94–5.06 | 22 | 0 | none |
+| foundation:bna:s1:analyst | legacy | analyst-secondary-reinforcing | institutionalist / Hedger / Conditional Solidarist | 4.24–5.07 | 22 | 22 | none |
+| foundation:b2:s2:analyst | current | analyst-secondary-competing | institutionalist / Hedger / Universalist | 4.01–4.73 | 22 | 22 | none |
+| foundation:b2:s2:analyst | current | analyst-secondary-primary-only | institutionalist / Restrainer / Universalist | 3.94–4.95 | 22 | 0 | none |
+| foundation:b2:s2:analyst | current | analyst-secondary-reinforcing | institutionalist / Restrainer / Conditional Solidarist | 4.21–5.00 | 22 | 22 | none |
+| security:b2:s1:analyst | legacy | analyst-secondary-competing | Security read: no single lane dominates | 3.94–4.58 | 15 | 13 | nuclear_hedging: no-negatively-opposed-candidate; selective_enforcement_memory: no-negatively-opposed-candidate |
+| security:b2:s1:analyst | legacy | analyst-secondary-primary-only | Security read: restraint and crisis ceilings | 3.52–4.88 | 15 | 0 | none |
+| security:b2:s1:analyst | legacy | analyst-secondary-reinforcing | Security read: no single lane dominates | 3.72–5.04 | 15 | 15 | none |
+| security:b3:s2:analyst | current | analyst-secondary-competing | Security read: restraint and crisis ceilings | 3.97–4.12 | 15 | 15 | none |
+| security:b3:s2:analyst | current | analyst-secondary-primary-only | Security read: restraint and crisis ceilings | 4.06–4.29 | 15 | 0 | none |
+| security:b3:s2:analyst | current | analyst-secondary-reinforcing | Security read: no single lane dominates | 4.29–4.39 | 15 | 15 | none |
+| technology:b2:s1:analyst | legacy | analyst-secondary-competing | Technology read: no single tool dominates | 4.18–4.71 | 15 | 15 | none |
+| technology:b2:s1:analyst | legacy | analyst-secondary-primary-only | Technology read: no single tool dominates | 4.22–5.13 | 15 | 0 | none |
+| technology:b2:s1:analyst | legacy | analyst-secondary-reinforcing | Technology read: no single tool dominates | 4.43–5.17 | 15 | 15 | none |
+| technology:b3:s2:analyst | current | analyst-secondary-competing | Technology read: openness with targeted safeguards | 4.12–4.44 | 15 | 15 | none |
+| technology:b3:s2:analyst | current | analyst-secondary-primary-only | Technology read: no single tool dominates | 4.15–4.65 | 15 | 0 | none |
+| technology:b3:s2:analyst | current | analyst-secondary-reinforcing | Technology read: no single tool dominates | 4.38–4.72 | 15 | 15 | none |
+
 ### Named directional fixtures
 
-| Cohort | Generation | Fixture | Outcome | Score range |
+| Instrument tuple | Generation | Fixture | Outcome | Score range |
 | --- | --- | --- | --- | --- |
 | ai-governance:b2:s1:analyst | legacy | deploymentPace-high | democraticGuardrailist / Frontier-risk first / Precaution-first / Coordination-first | 3.20–7.00 |
 | ai-governance:b2:s1:analyst | legacy | deploymentPace-low | openEcosystemBuilder / Present-harms first / Deployment-first / Competition-first | 1.00–6.20 |
@@ -452,26 +668,26 @@ Shares are raw item coverage for review, not population estimates or pass/fail g
 
 ## Presentation-seed invariance
 
-Fixture baseline digest: `e5c3245085743997cb6c8a95137a99d1e198796bda1c4e1adb32653e21873bc5` — matches the checked-in baseline.
+Fixture baseline digest: `16d7f05a33a87ca92f84e66c67850dbc47e7efb90cacb7f3e8e0e463309e8ed6` — matches the checked-in baseline.
 
-| Cohort | Generation | Option sets | Changed orders | Semantic result invariant |
-| --- | --- | --- | --- | --- |
-| ai-governance:b2:s1:analyst | legacy | 9 | 9 | yes |
-| ai-governance:b2:s1:standard | legacy | 6 | 6 | yes |
-| ai-governance:b3:s2:analyst | current | 9 | 9 | yes |
-| ai-governance:b3:s2:standard | current | 6 | 6 | yes |
-| foundation:b2:s2:analyst | current | 22 | 22 | yes |
-| foundation:b2:s2:standard | current | 6 | 6 | yes |
-| foundation:bna:s1:analyst | legacy | 22 | 22 | yes |
-| foundation:bna:s1:standard | legacy | 6 | 6 | yes |
-| security:b2:s1:analyst | legacy | 15 | 15 | yes |
-| security:b2:s1:standard | legacy | 9 | 9 | yes |
-| security:b3:s2:analyst | current | 15 | 15 | yes |
-| security:b3:s2:standard | current | 9 | 9 | yes |
-| technology:b2:s1:analyst | legacy | 15 | 14 | yes |
-| technology:b2:s1:standard | legacy | 9 | 8 | yes |
-| technology:b3:s2:analyst | current | 15 | 14 | yes |
-| technology:b3:s2:standard | current | 9 | 8 | yes |
+| Generation | Instrument | Bank / scorer | Mode | Seed A | Seed B | Option sets with changed visible order | Semantic answer-ID digests A = B | Result-contract digests A = B | Scenario-order digests A = B |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| legacy | ai-governance | bank 2 / scorer 1 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 9 | `d80babaec4e03d00b0d33b39511fc2c300f4aba71557cf2ef2a02b3d54013898` = `d80babaec4e03d00b0d33b39511fc2c300f4aba71557cf2ef2a02b3d54013898` | `e0fef76cdeaf85f7a68896e93f844cc67d426f8fc9c97d33b45ddfb7ed3c0574` = `e0fef76cdeaf85f7a68896e93f844cc67d426f8fc9c97d33b45ddfb7ed3c0574` | `13ef392587b374a57474654c88836482f8a7233568dd9bcd4d1376b11c3a6eda` = `13ef392587b374a57474654c88836482f8a7233568dd9bcd4d1376b11c3a6eda` |
+| legacy | ai-governance | bank 2 / scorer 1 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 6 | `3dd527cd8085e018c33a4467f639e3acbe05123bf903657fd95ca172167b4d57` = `3dd527cd8085e018c33a4467f639e3acbe05123bf903657fd95ca172167b4d57` | `3d3b35e785dc524d0cba8ee46da4f511befa101804c3c44170a1bc87a9f0f1a4` = `3d3b35e785dc524d0cba8ee46da4f511befa101804c3c44170a1bc87a9f0f1a4` | `bd5d36efe0519b8f6050aab0f436009595bad11a886597dd094ab2b6a9c0f1ff` = `bd5d36efe0519b8f6050aab0f436009595bad11a886597dd094ab2b6a9c0f1ff` |
+| current | ai-governance | bank 3 / scorer 2 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 9 | `d80babaec4e03d00b0d33b39511fc2c300f4aba71557cf2ef2a02b3d54013898` = `d80babaec4e03d00b0d33b39511fc2c300f4aba71557cf2ef2a02b3d54013898` | `802869996654809b960741cac1520dbca92139aac768c0bbefce385246299358` = `802869996654809b960741cac1520dbca92139aac768c0bbefce385246299358` | `13ef392587b374a57474654c88836482f8a7233568dd9bcd4d1376b11c3a6eda` = `13ef392587b374a57474654c88836482f8a7233568dd9bcd4d1376b11c3a6eda` |
+| current | ai-governance | bank 3 / scorer 2 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 6 | `3dd527cd8085e018c33a4467f639e3acbe05123bf903657fd95ca172167b4d57` = `3dd527cd8085e018c33a4467f639e3acbe05123bf903657fd95ca172167b4d57` | `bc7a9c0537e4770d03582f2f76f25a48ed93bab73d0b21348b1f55634fe05528` = `bc7a9c0537e4770d03582f2f76f25a48ed93bab73d0b21348b1f55634fe05528` | `bd5d36efe0519b8f6050aab0f436009595bad11a886597dd094ab2b6a9c0f1ff` = `bd5d36efe0519b8f6050aab0f436009595bad11a886597dd094ab2b6a9c0f1ff` |
+| current | foundation | bank 2 / scorer 2 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 22 | `2338aada3c7be2a7cabed27552c1f1f471fb9fc50ccc67b8445bbe39eec753bd` = `2338aada3c7be2a7cabed27552c1f1f471fb9fc50ccc67b8445bbe39eec753bd` | `294770d453a265837bad0099c64e519bd31f5330bf035cafd61aa98051f46c9f` = `294770d453a265837bad0099c64e519bd31f5330bf035cafd61aa98051f46c9f` | not applicable |
+| current | foundation | bank 2 / scorer 2 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 6 | `c6ccc44d70d6d8190cfb044ed74310cc7b6cde5e28891ddfc60c36bf36b946c7` = `c6ccc44d70d6d8190cfb044ed74310cc7b6cde5e28891ddfc60c36bf36b946c7` | `ff592b267ea61a75b5365628b1ba68a3ec8e1fd645a659f9bb0e483217cdff26` = `ff592b267ea61a75b5365628b1ba68a3ec8e1fd645a659f9bb0e483217cdff26` | not applicable |
+| legacy | foundation | bank n/a / scorer 1 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 22 | `a5d2222fe60947f462b995c086d561522ddc1cbb8782be48187986c9dc63aee6` = `a5d2222fe60947f462b995c086d561522ddc1cbb8782be48187986c9dc63aee6` | `8eb76bda9c320a5f8c4d5efce2c9bae48809effa20181ccc7e40909001110763` = `8eb76bda9c320a5f8c4d5efce2c9bae48809effa20181ccc7e40909001110763` | not applicable |
+| legacy | foundation | bank n/a / scorer 1 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 6 | `f48da32959e0deb7e8f32afa84b271bbee69a1813421540731ee93df6b783e59` = `f48da32959e0deb7e8f32afa84b271bbee69a1813421540731ee93df6b783e59` | `697e12794251faabaedc76292dd75874a27a73b37f034b1ab8825b296053b989` = `697e12794251faabaedc76292dd75874a27a73b37f034b1ab8825b296053b989` | not applicable |
+| legacy | security | bank 2 / scorer 1 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 15 | `5353e0cf334d44152cb6cb940269f3be23e75456b410e721834e40e9ff73a244` = `5353e0cf334d44152cb6cb940269f3be23e75456b410e721834e40e9ff73a244` | `7b32636d0a00dc7ceb9eb37cdfdf079a70c0122ec9f5e57dba696dc63c659a13` = `7b32636d0a00dc7ceb9eb37cdfdf079a70c0122ec9f5e57dba696dc63c659a13` | not applicable |
+| legacy | security | bank 2 / scorer 1 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 9 | `ce64b7bd47600ae70db413fc69c63f8723e8149cf5399cc7ae5ac8aa5e278b32` = `ce64b7bd47600ae70db413fc69c63f8723e8149cf5399cc7ae5ac8aa5e278b32` | `19ab67427e6174888b0950d60b1f5f30187acb993a90bcc9b652c601303110d0` = `19ab67427e6174888b0950d60b1f5f30187acb993a90bcc9b652c601303110d0` | not applicable |
+| current | security | bank 3 / scorer 2 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 15 | `5353e0cf334d44152cb6cb940269f3be23e75456b410e721834e40e9ff73a244` = `5353e0cf334d44152cb6cb940269f3be23e75456b410e721834e40e9ff73a244` | `3891e1104592ac4596d1a3b0519f5a15c2df7665e0b40d467435791b035ed011` = `3891e1104592ac4596d1a3b0519f5a15c2df7665e0b40d467435791b035ed011` | not applicable |
+| current | security | bank 3 / scorer 2 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 9 | `ce64b7bd47600ae70db413fc69c63f8723e8149cf5399cc7ae5ac8aa5e278b32` = `ce64b7bd47600ae70db413fc69c63f8723e8149cf5399cc7ae5ac8aa5e278b32` | `41824df6524759022779433a75d9e63480b0c31f528e3b20fdbf9a02c628bba5` = `41824df6524759022779433a75d9e63480b0c31f528e3b20fdbf9a02c628bba5` | not applicable |
+| legacy | technology | bank 2 / scorer 1 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 14 | `1b3e715e64df0af185502a171d284154371a118881672ebba59c9b9d2c3c1ea9` = `1b3e715e64df0af185502a171d284154371a118881672ebba59c9b9d2c3c1ea9` | `a4baa4667c9bec36b69a568658b6cf262608b52749979b8c5d881734c0f03ebb` = `a4baa4667c9bec36b69a568658b6cf262608b52749979b8c5d881734c0f03ebb` | not applicable |
+| legacy | technology | bank 2 / scorer 1 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 8 | `167b91cd97bb802294fad2a3b285ef7e84c40626635f411ec49360c799c67a33` = `167b91cd97bb802294fad2a3b285ef7e84c40626635f411ec49360c799c67a33` | `77e6ee471e63d5d25a5756eb71872f385f1954aea0025228eeacae4805145d3b` = `77e6ee471e63d5d25a5756eb71872f385f1954aea0025228eeacae4805145d3b` | not applicable |
+| current | technology | bank 3 / scorer 2 | analyst | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 14 | `1b3e715e64df0af185502a171d284154371a118881672ebba59c9b9d2c3c1ea9` = `1b3e715e64df0af185502a171d284154371a118881672ebba59c9b9d2c3c1ea9` | `4e61032bd544ebd93abb19319979753b727a3c451ea46baca7f76f56cc30261f` = `4e61032bd544ebd93abb19319979753b727a3c451ea46baca7f76f56cc30261f` | not applicable |
+| current | technology | bank 3 / scorer 2 | standard | evidence-semantic-order-a-v1 | evidence-semantic-order-b-v1 | 8 | `167b91cd97bb802294fad2a3b285ef7e84c40626635f411ec49360c799c67a33` = `167b91cd97bb802294fad2a3b285ef7e84c40626635f411ec49360c799c67a33` | `1b5b1b932aa93b21643460758fe2833b603737224d3113b8f6b1abd6c8f0511f` = `1b5b1b932aa93b21643460758fe2833b603737224d3113b8f6b1abd6c8f0511f` | not applicable |
 
 ## Public-copy audit delta
 
@@ -538,6 +754,7 @@ None.
 - Module actor-lens items contribute card-type evidence but are excluded from aggregate and lane scores, so both any-scored and primary-scored shares are shown.
 - Actor roles come only from explicit `actorRole` metadata or the repository's controlled perspective-tag matrix.
 - No bank declares theater metadata. The audit records `undeclared`; it does not infer theater from prose, place names, tags, or IDs.
-- Declared-axis separation reuses the checked-in V22 measurement contracts: a 2.0 spread around 4 for module signals and a 0.5 spread around 0 for AI scenario deltas.
+- The declared-axis midpoint/range gate reuses the checked-in V22 measurement contracts: minimum total range 2.0 with policy midpoint 4 for module signals, and minimum total range 0.5 with policy midpoint 0 for AI scenario deltas.
+- Option-geometry fields and duplicate-vector groups are descriptive review aids, not new pass/fail thresholds or psychometric evidence.
 - Near-duplicate text is an advisory string heuristic, not a measurement gate.
 - Always-first, always-last, and alternating fixtures use a fixed presentation seed. Presentation invariance separately holds semantic answer IDs constant across two different seeds.

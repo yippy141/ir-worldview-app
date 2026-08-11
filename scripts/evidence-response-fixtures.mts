@@ -79,6 +79,10 @@ const RESPONSE_STYLES = [
 
 type ResponseStyle = (typeof RESPONSE_STYLES)[number]
 type Direction = "low" | "high"
+type SecondaryChoiceStrategy =
+  | "primary-only"
+  | "reinforcing"
+  | "competing"
 
 export type JsonPrimitive = string | number | boolean | null
 export type JsonValue =
@@ -89,11 +93,35 @@ export type JsonObject = { [key: string]: JsonValue }
 
 export type EvidenceFixtureRecord = {
   name: string
-  kind: "response-style" | "axis-direction"
+  kind: "response-style" | "axis-direction" | "secondary-choice"
   axis?: string
   direction?: Direction
   answeredItems: number
   answersDigest: string
+  secondaryChoiceConstruction?: {
+    strategy: SecondaryChoiceStrategy
+    eligibleItemCount: number
+    secondaryFieldCount: number
+    skippedSecondaryItems: Array<{
+      itemId: string
+      reason:
+        | "no-positively-aligned-candidate"
+        | "no-negatively-opposed-candidate"
+    }>
+    selections: Array<{
+      itemId: string
+      primaryOptionId: string
+      secondaryOptionId?: string
+      similarityReview: {
+        metric: "centered-cosine"
+        candidateMinimum: number
+        candidateMaximum: number
+        hasAlignedAndOpposedCandidates: boolean
+        selectedSecondarySimilarity?: number
+        selectedRelationship?: "aligned" | "opposed"
+      }
+    }>
+  }
   result: JsonObject
 }
 
@@ -118,10 +146,11 @@ export type EvidencePresentationInvariance = {
   seeds: [string, string]
   presentationQuestionCount: number
   changedPresentationQuestions: number
-  semanticAnswersDigest: string
-  resultDigest: string
-  scenarioSequence?: string[]
-  passed: true
+  semanticAnswersDigests: [string, string]
+  semanticSecondaryChoiceCounts: [number, number]
+  resultContractDigests: [string, string]
+  scenarioSequences?: [string[], string[]]
+  scenarioSequenceDigests?: [string, string]
 }
 
 export type EvidenceResponseFixtureReport = {
@@ -220,8 +249,16 @@ export function buildEvidenceResponseFixtureReport(): EvidenceResponseFixtureRep
     randomSeed: EVIDENCE_RANDOM_SEED,
     stylePresentationSeed: EVIDENCE_STYLE_PRESENTATION_SEED,
     fixtureDefinitions: canonicalObject({
-      primaryOnly:
+      responseStyleAndAxisDirection:
         "Response-style and axis-direction fixtures use primary choices only.",
+      analystSecondaryPrimaryOnly:
+        "For every eligible analyst item, center complete option vectors at the instrument midpoint. Choose the closest-to-midpoint primary among options that have both a positively aligned and negatively opposed cosine-similarity partner; if no option has both signs, choose the closest-to-midpoint option with a positively aligned partner. Ties follow authored option order. Omit the secondary/backup field.",
+      analystSecondaryReinforcing:
+        "Use the same primary, then choose its distinct positively aligned option with the greatest centered-vector cosine similarity as the reinforcing secondary/backup. Ties follow authored option order; an item with no positive partner is disclosed and omitted.",
+      analystSecondaryCompeting:
+        "Use the same primary, then choose its distinct negatively opposed option with the lowest centered-vector cosine similarity as the competing secondary/backup. Ties follow authored option order; an item with no negative partner is disclosed and omitted rather than mislabeled as opposition.",
+      analystSecondarySharedRules:
+        "Only valid, distinct semantic option IDs are used. Missing signal components use the instrument midpoint. Every secondary-bearing fixture must retain at least one qualified secondary or construction fails closed. Fixed-seed presentation checks preserve pinned-last options but never change the selected semantic primary/secondary IDs. Standard fixtures remain primary-only.",
       "all-minimum":
         "Every scored scalar is set to its semantic minimum after reverse coding; every nominal choice minimizes its combined centered option signal.",
       "all-maximum":
@@ -368,6 +405,31 @@ function buildFoundationEvidenceCohort(
     )
   })
 
+  if (cohort.mode === "analyst") {
+    for (const strategy of [
+      "primary-only",
+      "reinforcing",
+      "competing",
+    ] as const) {
+      const built = buildFoundationSecondaryChoiceAnswers(
+        cohort.questions,
+        strategy,
+      )
+      if (built.construction.eligibleItemCount > 0) {
+        fixtures.push(
+          secondaryChoiceFixture(
+            strategy,
+            built.answers,
+            foundationResultContract(
+              cohort.scorer.generateResult(built.answers, cohort.mode),
+            ),
+            built.construction,
+          ),
+        )
+      }
+    }
+  }
+
   for (const axis of FOUNDATION_AXES) {
     for (const direction of ["low", "high"] as const) {
       const answers = buildFoundationAxisAnswers(
@@ -418,6 +480,30 @@ function buildModuleEvidenceCohort(
     )
   })
 
+  if (cohort.mode === "analyst") {
+    for (const strategy of [
+      "primary-only",
+      "reinforcing",
+      "competing",
+    ] as const) {
+      const built = buildModuleSecondaryChoiceAnswers(
+        cohort.questions,
+        axes,
+        strategy,
+      )
+      if (built.construction.eligibleItemCount > 0) {
+        fixtures.push(
+          secondaryChoiceFixture(
+            strategy,
+            built.answers,
+            moduleResultContract(cohort, built.answers),
+            built.construction,
+          ),
+        )
+      }
+    }
+  }
+
   for (const axis of axes) {
     for (const direction of ["low", "high"] as const) {
       const answers = buildModuleAxisAnswers(
@@ -467,6 +553,35 @@ function buildAiEvidenceCohort(
       ),
     )
   })
+
+  if (cohort.mode === "analyst") {
+    for (const strategy of [
+      "primary-only",
+      "reinforcing",
+      "competing",
+    ] as const) {
+      const built = buildAiSecondaryChoiceAnswers(
+        cohort,
+        axes,
+        strategy,
+      )
+      if (built.construction.eligibleItemCount > 0) {
+        fixtures.push(
+          secondaryChoiceFixture(
+            strategy,
+            built.answers,
+            aiResultContract(
+              cohort.version.scoring.generateAiGovernanceResult(
+                built.answers,
+                cohort.mode,
+              ),
+            ),
+            built.construction,
+          ),
+        )
+      }
+    }
+  }
 
   for (const axis of axes) {
     for (const direction of ["low", "high"] as const) {
@@ -686,6 +801,411 @@ function buildAiAxisAnswers(
   return answers
 }
 
+type SecondaryChoiceConstruction = NonNullable<
+  EvidenceFixtureRecord["secondaryChoiceConstruction"]
+>
+
+function buildFoundationSecondaryChoiceAnswers(
+  questions: FoundationEvidenceQuestion[],
+  strategy: SecondaryChoiceStrategy,
+): {
+  answers: Answers
+  construction: SecondaryChoiceConstruction
+} {
+  const answers: Answers = {}
+  const selections: SecondaryChoiceConstruction["selections"] = []
+
+  for (const question of questions) {
+    if (question.kind === "likert") {
+      answers[question.id] = 4
+      continue
+    }
+
+    const options = question.options ?? []
+    if (options.length === 0) continue
+    const primary = chooseNeutralOption(options, FOUNDATION_AXES, 4)
+    if (!question.allowSecondChoiceInAnalyst) {
+      answers[question.id] = primary.id
+      continue
+    }
+
+    const selection = buildSecondaryChoiceSelection({
+      questionId: question.id,
+      options,
+      axes: FOUNDATION_AXES,
+      midpoint: 4,
+      strategy,
+    })
+    answers[question.id] = {
+      primary: selection.primaryOptionId,
+      ...(selection.secondaryOptionId
+        ? { secondary: selection.secondaryOptionId }
+        : {}),
+    } satisfies RankedChoiceAnswer
+    selections.push(selection)
+  }
+
+  return {
+    answers,
+    construction: secondaryChoiceConstruction(strategy, selections),
+  }
+}
+
+function buildModuleSecondaryChoiceAnswers(
+  questions: ModuleQuestion[],
+  axes: readonly string[],
+  strategy: SecondaryChoiceStrategy,
+): {
+  answers: ModuleAnswers
+  construction: SecondaryChoiceConstruction
+} {
+  const answers: ModuleAnswers = {}
+  const selections: SecondaryChoiceConstruction["selections"] = []
+
+  for (const question of questions) {
+    const options = moduleSignalOptions(question)
+    const primary = chooseNeutralOption(options, axes, 4)
+    if (!question.allowSecondChoiceInAnalyst) {
+      answers[question.id] = { primary: primary.id }
+      continue
+    }
+
+    const selection = buildSecondaryChoiceSelection({
+      questionId: question.id,
+      options,
+      axes,
+      midpoint: 4,
+      strategy,
+    })
+    answers[question.id] = {
+      primary: selection.primaryOptionId,
+      ...(selection.secondaryOptionId
+        ? { secondary: selection.secondaryOptionId }
+        : {}),
+    }
+    selections.push(selection)
+  }
+
+  return {
+    answers,
+    construction: secondaryChoiceConstruction(strategy, selections),
+  }
+}
+
+function buildAiSecondaryChoiceAnswers(
+  cohort: AiCohort,
+  axes: readonly string[],
+  strategy: SecondaryChoiceStrategy,
+): {
+  answers: AiAnswers
+  construction: SecondaryChoiceConstruction
+} {
+  const answers: AiAnswers = {}
+  const selections: SecondaryChoiceConstruction["selections"] = []
+
+  for (const question of cohort.likertQuestions) {
+    answers[question.id] = 4
+  }
+
+  let sequence = [...cohort.rootScenarios]
+  while (true) {
+    for (const scenario of sequence) {
+      if (answers[scenario.id] !== undefined) continue
+      const rawOptions = cohort.version.schema.getScenarioOptions(
+        scenario,
+        cohort.mode,
+      )
+      const options = aiSignalOptions(rawOptions)
+      const primary = chooseNeutralOption(options, axes, 0)
+      if (!scenario.allowBackupChoiceInAnalyst) {
+        answers[scenario.id] = primary.id as AiAnswers[string]
+        continue
+      }
+
+      const selection = buildSecondaryChoiceSelection({
+        questionId: scenario.id,
+        options,
+        axes,
+        midpoint: 0,
+        strategy,
+      })
+      answers[scenario.id] = {
+        primary: selection.primaryOptionId,
+        ...(selection.secondaryOptionId
+          ? { secondary: selection.secondaryOptionId }
+          : {}),
+      } as AiRankedChoiceAnswer
+      selections.push(selection)
+    }
+
+    const nextSequence =
+      cohort.version.scoring.getAiScenarioSequence(
+        answers,
+        cohort.mode,
+      )
+    if (
+      nextSequence.every(
+        (scenario) => answers[scenario.id] !== undefined,
+      )
+    ) {
+      break
+    }
+    sequence = nextSequence
+  }
+
+  return {
+    answers,
+    construction: secondaryChoiceConstruction(strategy, selections),
+  }
+}
+
+function buildSecondaryChoiceSelection({
+  questionId,
+  options,
+  axes,
+  midpoint,
+  strategy,
+}: {
+  questionId: string
+  options: SignalOption[]
+  axes: readonly string[]
+  midpoint: number
+  strategy: SecondaryChoiceStrategy
+}): SecondaryChoiceConstruction["selections"][number] {
+  const plan = buildAlignedSecondaryChoicePlan(
+    questionId,
+    options,
+    axes,
+    midpoint,
+  )
+  const primary = plan.primary
+  const presented = getSeededOptionOrder(
+    options,
+    EVIDENCE_STYLE_PRESENTATION_SEED,
+    questionId,
+  )
+  requirePresentedId(presented, primary.id, questionId)
+  requirePinnedOptionsLast(presented, questionId)
+
+  if (strategy === "primary-only") {
+    return {
+      itemId: questionId,
+      primaryOptionId: primary.id,
+      similarityReview: plan.similarityReview,
+    }
+  }
+
+  const selected =
+    strategy === "reinforcing"
+      ? plan.reinforcing
+      : plan.competing
+  if (!selected) {
+    return {
+      itemId: questionId,
+      primaryOptionId: primary.id,
+      similarityReview: plan.similarityReview,
+    }
+  }
+
+  const secondary = selected.option
+  requirePresentedId(presented, secondary.id, questionId)
+  if (secondary.id === primary.id) {
+    throw new Error(`${questionId} repeated its primary as secondary.`)
+  }
+
+  return {
+    itemId: questionId,
+    primaryOptionId: primary.id,
+    secondaryOptionId: secondary.id,
+    similarityReview: {
+      ...plan.similarityReview,
+      selectedSecondarySimilarity: roundSimilarity(
+        selected.similarity,
+      ),
+      selectedRelationship:
+        strategy === "reinforcing" ? "aligned" : "opposed",
+    },
+  }
+}
+
+const SECONDARY_SIMILARITY_EPSILON = 1e-9
+
+type SecondarySimilarityCandidate = {
+  option: SignalOption
+  authoredIndex: number
+  similarity: number
+}
+
+function buildAlignedSecondaryChoicePlan(
+  questionId: string,
+  options: SignalOption[],
+  axes: readonly string[],
+  midpoint: number,
+) {
+  const plans = options.flatMap((primary, primaryIndex) => {
+    const candidates = options.flatMap((candidate, candidateIndex) => {
+      if (candidateIndex === primaryIndex) return []
+      const similarity = centeredCosineSimilarity(
+        primary,
+        candidate,
+        axes,
+        midpoint,
+      )
+      return similarity === null
+        ? []
+        : [{ option: candidate, authoredIndex: candidateIndex, similarity }]
+    })
+    const positive = candidates.filter(
+      (candidate) =>
+        candidate.similarity > SECONDARY_SIMILARITY_EPSILON,
+    )
+    const negative = candidates.filter(
+      (candidate) =>
+        candidate.similarity < -SECONDARY_SIMILARITY_EPSILON,
+    )
+    if (positive.length === 0) return []
+    return [{
+      primary,
+      primaryIndex,
+      primaryCenterDistance: centeredVectorSquaredNorm(
+        primary,
+        axes,
+        midpoint,
+      ),
+      candidates,
+      positive,
+      negative,
+      hasBothSigns: negative.length > 0,
+    }]
+  })
+  const plansWithBothSigns = plans.filter((plan) => plan.hasBothSigns)
+  const candidates =
+    plansWithBothSigns.length > 0 ? plansWithBothSigns : plans
+  const plan = [...candidates].sort(
+    (left, right) =>
+      left.primaryCenterDistance - right.primaryCenterDistance ||
+      left.primaryIndex - right.primaryIndex,
+  )[0]
+  if (!plan) {
+    throw new Error(
+      `${questionId} has no primary with a positively aligned distinct option.`,
+    )
+  }
+
+  const reinforcing = [...plan.positive].sort(
+    (left, right) =>
+      right.similarity - left.similarity ||
+      left.authoredIndex - right.authoredIndex,
+  )[0]
+  const competing = [...plan.negative].sort(
+    (left, right) =>
+      left.similarity - right.similarity ||
+      left.authoredIndex - right.authoredIndex,
+  )[0]
+  if (
+    competing &&
+    reinforcing.similarity <=
+      competing.similarity + SECONDARY_SIMILARITY_EPSILON
+  ) {
+    throw new Error(
+      `${questionId} did not produce strictly separated reinforcing and competing similarities.`,
+    )
+  }
+  const similarityValues = plan.candidates.map(
+    (candidate) => candidate.similarity,
+  )
+
+  return {
+    primary: plan.primary,
+    reinforcing,
+    competing,
+    similarityReview: {
+      metric: "centered-cosine" as const,
+      candidateMinimum: roundSimilarity(
+        Math.min(...similarityValues),
+      ),
+      candidateMaximum: roundSimilarity(
+        Math.max(...similarityValues),
+      ),
+      hasAlignedAndOpposedCandidates: plan.hasBothSigns,
+    },
+  }
+}
+
+function centeredCosineSimilarity(
+  left: SignalOption,
+  right: SignalOption,
+  axes: readonly string[],
+  midpoint: number,
+): number | null {
+  let dotProduct = 0
+  let leftSquaredNorm = 0
+  let rightSquaredNorm = 0
+
+  for (const axis of axes) {
+    const leftValue = (left.signals[axis] ?? midpoint) - midpoint
+    const rightValue = (right.signals[axis] ?? midpoint) - midpoint
+    dotProduct += leftValue * rightValue
+    leftSquaredNorm += leftValue ** 2
+    rightSquaredNorm += rightValue ** 2
+  }
+  if (leftSquaredNorm === 0 || rightSquaredNorm === 0) return null
+  return dotProduct / Math.sqrt(leftSquaredNorm * rightSquaredNorm)
+}
+
+function centeredVectorSquaredNorm(
+  option: SignalOption,
+  axes: readonly string[],
+  midpoint: number,
+) {
+  return axes.reduce((total, axis) => {
+    const centered = (option.signals[axis] ?? midpoint) - midpoint
+    return total + centered ** 2
+  }, 0)
+}
+
+function roundSimilarity(value: number) {
+  return Number(value.toFixed(6))
+}
+
+function secondaryChoiceConstruction(
+  strategy: SecondaryChoiceStrategy,
+  selections: SecondaryChoiceConstruction["selections"],
+): SecondaryChoiceConstruction {
+  const construction: SecondaryChoiceConstruction = {
+    strategy,
+    eligibleItemCount: selections.length,
+    secondaryFieldCount: selections.filter(
+      (selection) => selection.secondaryOptionId !== undefined,
+    ).length,
+    skippedSecondaryItems:
+      strategy === "primary-only"
+        ? []
+        : selections
+            .filter(
+              (selection) =>
+                selection.secondaryOptionId === undefined,
+            )
+            .map((selection) => ({
+              itemId: selection.itemId,
+              reason:
+                strategy === "reinforcing"
+                  ? "no-positively-aligned-candidate" as const
+                  : "no-negatively-opposed-candidate" as const,
+            })),
+    selections,
+  }
+  if (
+    strategy !== "primary-only" &&
+    construction.secondaryFieldCount === 0
+  ) {
+    throw new Error(
+      `${strategy} fixture has no qualified secondary choices.`,
+    )
+  }
+  return construction
+}
+
 function responseStyleScalar(
   style: ResponseStyle,
   reverse: boolean,
@@ -883,9 +1403,18 @@ function buildFoundationInvariance(
     seeds: [firstSeed, secondSeed],
     presentationQuestionCount: presentation.total,
     changedPresentationQuestions: presentation.changed,
-    semanticAnswersDigest: digest(firstAnswers),
-    resultDigest: digest(firstResult),
-    passed: true,
+    semanticAnswersDigests: [
+      digest(firstAnswers),
+      digest(secondAnswers),
+    ],
+    semanticSecondaryChoiceCounts: [
+      countSecondaryChoices(firstAnswers),
+      countSecondaryChoices(secondAnswers),
+    ],
+    resultContractDigests: [
+      digest(firstResult),
+      digest(secondResult),
+    ],
   }
 }
 
@@ -934,9 +1463,18 @@ function buildModuleInvariance(
     seeds: [firstSeed, secondSeed],
     presentationQuestionCount: presentation.total,
     changedPresentationQuestions: presentation.changed,
-    semanticAnswersDigest: digest(firstAnswers),
-    resultDigest: digest(firstResult),
-    passed: true,
+    semanticAnswersDigests: [
+      digest(firstAnswers),
+      digest(secondAnswers),
+    ],
+    semanticSecondaryChoiceCounts: [
+      countSecondaryChoices(firstAnswers),
+      countSecondaryChoices(secondAnswers),
+    ],
+    resultContractDigests: [
+      digest(firstResult),
+      digest(secondResult),
+    ],
   }
 }
 
@@ -1011,10 +1549,23 @@ function buildAiInvariance(
     seeds: [firstSeed, secondSeed],
     presentationQuestionCount: presentation.total,
     changedPresentationQuestions: presentation.changed,
-    semanticAnswersDigest: digest(firstAnswers),
-    resultDigest: digest(firstResult),
-    scenarioSequence: [...firstSequence],
-    passed: true,
+    semanticAnswersDigests: [
+      digest(firstAnswers),
+      digest(secondAnswers),
+    ],
+    semanticSecondaryChoiceCounts: [
+      countSecondaryChoices(firstAnswers),
+      countSecondaryChoices(secondAnswers),
+    ],
+    resultContractDigests: [
+      digest(firstResult),
+      digest(secondResult),
+    ],
+    scenarioSequences: [[...firstSequence], [...secondSequence]],
+    scenarioSequenceDigests: [
+      digest(firstSequence),
+      digest(secondSequence),
+    ],
   }
 }
 
@@ -1275,6 +1826,22 @@ function responseFixture(
   }
 }
 
+function secondaryChoiceFixture(
+  strategy: SecondaryChoiceStrategy,
+  answers: Answers | ModuleAnswers | AiAnswers,
+  result: JsonObject,
+  construction: SecondaryChoiceConstruction,
+): EvidenceFixtureRecord {
+  return {
+    name: `analyst-secondary-${strategy}`,
+    kind: "secondary-choice",
+    answeredItems: Object.keys(answers).length,
+    answersDigest: digest(answers),
+    secondaryChoiceConstruction: construction,
+    result,
+  }
+}
+
 function axisFixture(
   axis: string,
   direction: Direction,
@@ -1328,6 +1895,37 @@ function requirePresentedId<T extends { id: string }>(
       `${questionId} lost semantic option ${id} during presentation ordering.`,
     )
   }
+}
+
+function requirePinnedOptionsLast(
+  options: readonly SignalOption[],
+  questionId: string,
+) {
+  const firstPinnedIndex = options.findIndex(
+    (option) => option.pinned === "last",
+  )
+  if (
+    firstPinnedIndex >= 0 &&
+    options.slice(firstPinnedIndex).some(
+      (option) => option.pinned !== "last",
+    )
+  ) {
+    throw new Error(
+      `${questionId} did not preserve its pinned-last option order.`,
+    )
+  }
+}
+
+function countSecondaryChoices(
+  answers: Answers | ModuleAnswers | AiAnswers,
+) {
+  return Object.values(answers).filter(
+    (answer) =>
+      typeof answer === "object" &&
+      answer !== null &&
+      "secondary" in answer &&
+      typeof answer.secondary === "string",
+  ).length
 }
 
 function cohortKey(cohort: {

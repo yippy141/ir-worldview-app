@@ -3,14 +3,20 @@ import assert from "node:assert/strict"
 import { spawnSync } from "node:child_process"
 import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
+// Node's strip-types runtime requires the explicit .mts extension.
+// @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
+import { compareEvidenceStrings } from "@/scripts/evidence-utils.mts"
+import { compareCodeUnitStrings } from "@/scripts/code-unit-order.mjs"
 
 const projectRoot = resolve(import.meta.dirname, "..")
 const auditScript = resolve(projectRoot, "scripts/audit-public-copy.mjs")
 
 type AuditFinding = {
+  priority: string
   audience: string
   rule: string
   file: string
+  line: number
   context: string
   matched: string
   reason: string
@@ -143,4 +149,69 @@ test("public-copy audit is read-only and keeps every required advisory detector"
   ]) {
     assert.match(source, new RegExp(`id: "${rule}"`), `missing detector: ${rule}`)
   }
+})
+
+test("public-copy ordering matches the evidence code-unit comparator", () => {
+  const values = [
+    "é",
+    "alpha_beta",
+    "z",
+    "😀",
+    "a",
+    "ä",
+    "alpha-beta",
+    "Z",
+    "e\u0301",
+    "A",
+  ]
+
+  assert.deepEqual(
+    [...values].sort(compareCodeUnitStrings),
+    [...values].sort(compareEvidenceStrings),
+  )
+  assert.deepEqual(
+    [...values].sort(compareCodeUnitStrings),
+    [
+      "A",
+      "Z",
+      "a",
+      "alpha-beta",
+      "alpha_beta",
+      "e\u0301",
+      "z",
+      "ä",
+      "é",
+      "😀",
+    ],
+  )
+  assert.doesNotMatch(readFileSync(auditScript, "utf8"), /localeCompare/)
+})
+
+test("public-copy audit output is byte-stable and code-unit sorted", () => {
+  const run = () => spawnSync(
+    process.execPath,
+    [auditScript, "--format=json"],
+    { cwd: projectRoot, encoding: "utf8" },
+  )
+  const first = run()
+  const second = run()
+
+  assert.equal(first.status, 0, first.stderr)
+  assert.equal(second.status, 0, second.stderr)
+  assert.equal(second.stdout, first.stdout)
+
+  const report = JSON.parse(first.stdout) as AuditReport
+  const findingKey = (finding: AuditFinding) =>
+    `${finding.priority}\0${finding.file}\0${finding.line}\0${finding.rule}`
+  const expected = [...report.findings].sort((left, right) =>
+    compareCodeUnitStrings(left.priority, right.priority) ||
+    compareCodeUnitStrings(left.file, right.file) ||
+    left.line - right.line ||
+    compareCodeUnitStrings(left.rule, right.rule),
+  )
+
+  assert.deepEqual(
+    report.findings.map(findingKey),
+    expected.map(findingKey),
+  )
 })

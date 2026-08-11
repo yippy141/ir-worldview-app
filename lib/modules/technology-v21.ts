@@ -185,7 +185,7 @@ export const technologyV21Module: ModuleDefinition = {
     return {
       headline: "Technology read: no single tool dominates",
       summary:
-        "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. The current question set did not separate these tools enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
+        "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. Your answers did not separate these tools enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
       instincts: [
         "No axis in this module separated far enough from the others to lead the read.",
         "Chokepoint control, industrial capacity, and coordination each stayed live across your answers.",

@@ -133,6 +133,7 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
   { path: "scripts/calibrate-modules-bootstrap.mjs", category: "calibration" },
   { path: "scripts/diagnose-instrument.mts", category: "diagnostic" },
   { path: "scripts/validate-instrument.mts", category: "diagnostic" },
+  { path: "scripts/code-unit-order.mjs", category: "copy-audit" },
   { path: "scripts/audit-public-copy.mjs", category: "copy-audit" },
   {
     path: "tests/instrument-version-compatibility.test.mts",
@@ -143,12 +144,28 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
     category: "compatibility-test",
   },
   {
+    path: "tests/evidence-instrument-analysis.test.mts",
+    category: "compatibility-test",
+  },
+  {
+    path: "tests/evidence-audit.test.mts",
+    category: "compatibility-test",
+  },
+  {
     path: "tests/public-copy-audit.test.mts",
+    category: "compatibility-test",
+  },
+  {
+    path: "tests/v21-module-copy.test.mts",
     category: "compatibility-test",
   },
   { path: "tests/option-order.test.mts", category: "compatibility-test" },
   {
     path: "tests/fixtures/instrument-version-golden.json",
+    category: "compatibility-test",
+  },
+  {
+    path: "tests/fixtures/v21-module-copy-golden.json",
     category: "compatibility-test",
   },
   {
@@ -288,7 +305,8 @@ export function renderEvidenceMarkdown(report: EvidenceAuditReport): string {
     "- Module actor-lens items contribute card-type evidence but are excluded from aggregate and lane scores, so both any-scored and primary-scored shares are shown.",
     "- Actor roles come only from explicit `actorRole` metadata or the repository's controlled perspective-tag matrix.",
     "- No bank declares theater metadata. The audit records `undeclared`; it does not infer theater from prose, place names, tags, or IDs.",
-    "- Declared-axis separation reuses the checked-in V22 measurement contracts: a 2.0 spread around 4 for module signals and a 0.5 spread around 0 for AI scenario deltas.",
+    "- The declared-axis midpoint/range gate reuses the checked-in V22 measurement contracts: minimum total range 2.0 with policy midpoint 4 for module signals, and minimum total range 0.5 with policy midpoint 0 for AI scenario deltas.",
+    "- Option-geometry fields and duplicate-vector groups are descriptive review aids, not new pass/fail thresholds or psychometric evidence.",
     "- Near-duplicate text is an advisory string heuristic, not a measurement gate.",
     "- Always-first, always-last, and alternating fixtures use a fixed presentation seed. Presentation invariance separately holds semantic answer IDs constant across two different seeds.",
     "",
@@ -300,10 +318,10 @@ export function renderEvidenceMarkdown(report: EvidenceAuditReport): string {
 export function renderEvidenceConsoleSummary(
   report: EvidenceAuditReport,
 ): string {
-  const separationCount = report.instrumentEvidence.instruments.reduce(
+  const midpointRangeFailureCount = report.instrumentEvidence.instruments.reduce(
     (sum, instrument) =>
       sum +
-      instrument.axisSeparation.itemsNotMeaningfullySeparated.length,
+      instrument.axisSeparation.itemsFailingMidpointRangeGate.length,
     0,
   )
   const invariance = report.responseEvidence.presentationInvariance
@@ -314,10 +332,10 @@ export function renderEvidenceConsoleSummary(
     `Instrument banks: ${report.instrumentEvidence.instruments.length} ` +
       `(${report.instrumentEvidence.instruments.filter((entry) => entry.descriptor.generation === "current").length} current, ` +
       `${report.instrumentEvidence.instruments.filter((entry) => entry.descriptor.generation === "legacy").length} legacy).`,
-    `Declared-axis review findings: ${separationCount}.`,
+    `Items failing the declared-axis midpoint/range gate: ${midpointRangeFailureCount}.`,
     `Response fixtures: ${report.fixtureBaseline.actualResponseRecordCount}; ` +
       `baseline ${report.fixtureBaseline.matches ? "matches" : "DIFFERS"}.`,
-    `Presentation invariance: ${invariance.filter((entry) => entry.passed).length}/${invariance.length}.`,
+    `Presentation-invariance records: ${invariance.length}; generation fails closed on any semantic-answer, result-contract, or scenario-order mismatch.`,
     `Copy P2 delta: ${copy.newCount} new, ${copy.resolvedCount} resolved, ` +
       `${copy.unchangedCount} unchanged.`,
     "Wrote artifacts/evidence/current-summary.md",
@@ -431,6 +449,7 @@ function appendOptionTextSection(
     markdownTable(
       [
         "Bank",
+        "Generation",
         "Option sets",
         "Widest word spread",
         "Item / source",
@@ -444,6 +463,7 @@ function appendOptionTextSection(
         )
         return [
           instrument.descriptor.key,
+          instrument.descriptor.generation,
           instrument.optionText.asymmetry.length,
           widest?.wordCount.spread ?? 0,
           widest ? `${widest.itemId} / ${widest.source}` : "n/a",
@@ -503,24 +523,120 @@ function appendSeparationSection(
   lines: string[],
   evidence: InstrumentEvidenceReport,
 ) {
+  const geometryRows: Array<Array<string | number>> = []
+  const duplicateVectorRows: Array<Array<string | number>> = []
+
+  for (const instrument of evidence.instruments) {
+    for (const item of instrument.axisSeparation.items) {
+      for (const optionSet of item.optionSets) {
+        const optionSetLabel =
+          `${optionSet.source} (${optionSet.effectiveModes.join(", ")})`
+        duplicateVectorRows.push([
+          instrument.descriptor.key,
+          instrument.descriptor.generation,
+          item.itemId,
+          optionSetLabel,
+          optionSet.duplicateCompleteOptionVectors.length > 0
+            ? optionSet.duplicateCompleteOptionVectors
+                .map(
+                  (group) =>
+                    `${group.optionIds.join(", ")} => ${stableCompactJson(group.signals)}`,
+                )
+                .join("; ")
+            : "none",
+        ])
+        for (const axis of optionSet.axes) {
+          geometryRows.push([
+            instrument.descriptor.key,
+            instrument.descriptor.generation,
+            item.itemId,
+            optionSetLabel,
+            axis.axis,
+            axis.optionCount,
+            axis.distinctSignalValueCount,
+            axis.nonMidpointOptionCount,
+            axis.missingSignalCount,
+            axis.duplicateSignalValueCount,
+            axis.soleMinimum ? "yes" : "no",
+            axis.soleMaximum ? "yes" : "no",
+            axis.passesMidpointRangeGate ? "passes" : "fails",
+          ])
+        }
+      }
+    }
+  }
+
   lines.push(
-    "## Declared-axis option-signal separation",
+    "## Declared-axis midpoint/range gate",
+    "",
+    "For every declared axis in every effective option set, the authored gate checks only:",
+    "",
+    "- at least one signal strictly below the policy midpoint;",
+    "- at least one signal strictly above the policy midpoint; and",
+    "- total range at least the authored minimum.",
+    "",
+    "An item appears in the failure column when any declared axis in any effective option set fails midpoint straddle or minimum range. Passing does not establish validity, reliability, or psychometric discrimination.",
     "",
     markdownTable(
-      ["Bank", "Policy", "Reviewed items", "Not meaningfully separated"],
+      [
+        "Bank",
+        "Generation",
+        "Policy",
+        "Reviewed items",
+        "Items failing midpoint-straddle or minimum-range requirements",
+      ],
       evidence.instruments.map((instrument) => [
         instrument.descriptor.key,
+        instrument.descriptor.generation,
         instrument.axisSeparation.policy
-          ? `midpoint ${instrument.axisSeparation.policy.midpoint}; spread ${instrument.axisSeparation.policy.minimumSpread}`
+          ? `midpoint ${instrument.axisSeparation.policy.midpoint}; minimum range ${instrument.axisSeparation.policy.minimumSpread}`
           : "not declared / not applicable",
         instrument.axisSeparation.items.filter(
           (item) =>
             item.status === "reviewed-option-signals" ||
             item.status === "direct-likert-scale",
         ).length,
-        instrument.axisSeparation.itemsNotMeaningfullySeparated.join(", ") ||
+        instrument.axisSeparation.itemsFailingMidpointRangeGate.join(", ") ||
           "none",
       ]),
+    ),
+    "",
+    "### Descriptive declared-axis option geometry",
+    "",
+    "Missing signals are counted explicitly and use the policy midpoint for the gate and geometry summaries. Duplicate signal values count options beyond the first occurrence of each exact value. Sole minimum/maximum flags identify whether one option alone occupies that extreme. These are non-blocking review aids.",
+    "",
+    markdownTable(
+      [
+        "Bank",
+        "Generation",
+        "Item",
+        "Effective option set",
+        "Axis",
+        "Options",
+        "Distinct signal values",
+        "Non-midpoint options",
+        "Missing signals",
+        "Duplicate signal values",
+        "Sole minimum",
+        "Sole maximum",
+        "Midpoint/range gate",
+      ],
+      geometryRows,
+    ),
+    "",
+    "### Duplicate complete option vectors",
+    "",
+    "Complete vectors cover every axis in the instrument axis universe; missing components use the policy midpoint. Exact duplicate groups are reported descriptively and do not create a new gate.",
+    "",
+    markdownTable(
+      [
+        "Bank",
+        "Generation",
+        "Item",
+        "Effective option set",
+        "Duplicate complete-vector groups",
+      ],
+      duplicateVectorRows,
     ),
     "",
   )
@@ -538,6 +654,7 @@ function appendConcentrationSection(
     markdownTable(
       [
         "Bank",
+        "Generation",
         "Actor-role leader",
         "Actor undeclared",
         "Theater leader",
@@ -547,6 +664,7 @@ function appendConcentrationSection(
       ],
       evidence.instruments.map((instrument) => [
         instrument.descriptor.key,
+        instrument.descriptor.generation,
         formatConcentration(instrument.concentrations.actorRole),
         `${instrument.concentrations.actorRole.undeclaredItems}/${instrument.concentrations.actorRole.denominatorItems}`,
         formatConcentration(instrument.concentrations.theater),
@@ -565,6 +683,7 @@ function appendResponseSection(
 ) {
   const responseRows: Array<Array<string | number>> = []
   const directionalRows: Array<Array<string | number>> = []
+  const secondaryChoiceRows: Array<Array<string | number>> = []
 
   for (const cohort of response.cohorts) {
     for (const fixture of cohort.fixtures) {
@@ -577,8 +696,20 @@ function appendResponseSection(
       ]
       if (fixture.kind === "response-style") {
         responseRows.push(row)
-      } else {
+      } else if (fixture.kind === "axis-direction") {
         directionalRows.push(row)
+      } else {
+        const construction = fixture.secondaryChoiceConstruction
+        secondaryChoiceRows.push([
+          ...row,
+          construction?.eligibleItemCount ?? 0,
+          construction?.secondaryFieldCount ?? 0,
+          construction?.skippedSecondaryItems.length
+            ? construction.skippedSecondaryItems
+                .map(({ itemId, reason }) => `${itemId}: ${reason}`)
+                .join("; ")
+            : "none",
+        ])
       }
     }
   }
@@ -586,15 +717,47 @@ function appendResponseSection(
   lines.push(
     "## Response-style results",
     "",
+    "These rows come from deterministic mechanical fixtures; no human respondent data is used. They test scorer behavior under constructed answer patterns. They do not establish validity, reliability, prevalence, or representativeness.",
+    "",
     markdownTable(
-      ["Cohort", "Generation", "Fixture", "Outcome", "Score range"],
+      [
+        "Instrument tuple",
+        "Generation",
+        "Fixture",
+        "Outcome",
+        "Score range",
+      ],
       responseRows,
+    ),
+    "",
+    "### Analyst secondary/backup-choice stress fixtures",
+    "",
+    "Eligible analyst tuples add three structural fixtures over complete vectors centered at the instrument midpoint. A fixed primary is chosen from options with both positive and negative cosine-similarity partners where possible. The reinforcing fixture uses the most positively aligned distinct option; the competing fixture uses the most negatively opposed distinct option. If a sign is unavailable, that item's secondary is omitted and disclosed rather than mislabeled. Ties follow authored option order. The JSON artifact records each semantic ID, similarity review, and omission reason. Standard-mode tuples remain primary-only.",
+    "",
+    markdownTable(
+      [
+        "Instrument tuple",
+        "Generation",
+        "Fixture",
+        "Outcome",
+        "Score range",
+        "Eligible items",
+        "Secondary fields",
+        "Skipped secondary/backup items",
+      ],
+      secondaryChoiceRows,
     ),
     "",
     "### Named directional fixtures",
     "",
     markdownTable(
-      ["Cohort", "Generation", "Fixture", "Outcome", "Score range"],
+      [
+        "Instrument tuple",
+        "Generation",
+        "Fixture",
+        "Outcome",
+        "Score range",
+      ],
       directionalRows,
     ),
     "",
@@ -614,18 +777,30 @@ function appendInvarianceSection(
     "",
     markdownTable(
       [
-        "Cohort",
         "Generation",
-        "Option sets",
-        "Changed orders",
-        "Semantic result invariant",
+        "Instrument",
+        "Bank / scorer",
+        "Mode",
+        "Seed A",
+        "Seed B",
+        "Option sets with changed visible order",
+        "Semantic answer-ID digests A = B",
+        "Result-contract digests A = B",
+        "Scenario-order digests A = B",
       ],
       report.responseEvidence.presentationInvariance.map((entry) => [
-        entry.cohortKey,
         entry.legacy ? "legacy" : "current",
-        entry.presentationQuestionCount,
+        entry.instrument,
+        `${entry.bankVersion === null ? "bank n/a" : `bank ${entry.bankVersion}`} / scorer ${entry.scoringVersion}`,
+        entry.mode,
+        entry.seeds[0],
+        entry.seeds[1],
         entry.changedPresentationQuestions,
-        entry.passed ? "yes" : "no",
+        formatDigestEquality(entry.semanticAnswersDigests),
+        formatDigestEquality(entry.resultContractDigests),
+        entry.scenarioSequenceDigests
+          ? formatDigestEquality(entry.scenarioSequenceDigests)
+          : "not applicable",
       ]),
     ),
     "",
@@ -759,6 +934,10 @@ function formatConcentration(value: {
     `${value.leaders.join(", ")} ${value.leaderItemCount} ` +
     `(${(value.leaderShareOfItems * 100).toFixed(1)}%)`
   )
+}
+
+function formatDigestEquality(digests: readonly [string, string]) {
+  return `\`${digests[0]}\` = \`${digests[1]}\``
 }
 
 function optionLocationLabel(location: {

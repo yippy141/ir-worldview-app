@@ -31,6 +31,9 @@ jobs:
       - name: Audit public copy
         run: npm run copy:audit:strict
 
+      - name: Verify checked-in evidence artifacts
+        run: npm run evidence:audit:check
+
       - name: Lint
         run: npm run lint
 

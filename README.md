@@ -197,11 +197,28 @@ Run the production build:
 npm run build
 ```
 
-Run the critical browser smoke suite:
+Run a focused browser test while developing:
 
 ```bash
-npx playwright test
+npm run test:e2e -- e2e/critical-smoke.spec.ts
 ```
+
+Non-CI Playwright runs are for focused local debugging. They use the Next.js
+development server, one worker, and the file or `--grep` filter supplied on the
+command line.
+
+Before a release, build once and run the authoritative full browser suite in
+CI mode:
+
+```bash
+npm run build
+CI=1 npm run test:e2e
+```
+
+CI mode uses the production-equivalent `next start` path and one worker.
+Playwright always starts the server for the current checkout; it never reuses
+an existing process. If port 3000 is already occupied, stop that process before
+running the suite. Do not point a run at a server left over from another branch.
 
 Before a production release, complete
 [`docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md`](docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md).

@@ -2,10 +2,15 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import { createHash } from "node:crypto"
 import {
+  mkdirSync,
+  mkdtempSync,
   readFileSync,
   readdirSync,
+  rmSync,
   statSync,
+  writeFileSync,
 } from "node:fs"
+import { tmpdir } from "node:os"
 import { resolve } from "node:path"
 import { spawnSync } from "node:child_process"
 import securityBank from "@/content/instrument/security.v3.json" with {
@@ -20,6 +25,12 @@ import { buildEvidenceResponseFixtureReport, EVIDENCE_RANDOM_SEED } from "@/scri
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
 import { hashJson } from "@/scripts/evidence-utils.mts"
+// Node's strip-types runtime requires the explicit .mts extension.
+// @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
+import { buildEvidenceAuditReport, renderEvidenceMarkdown } from "@/scripts/evidence-report.mts"
+// Node's strip-types runtime requires the explicit .mts extension.
+// @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
+import { checkEvidenceArtifactBytes, generateEvidenceArtifactBytes } from "@/scripts/evidence-audit.mts"
 
 const projectRoot = resolve(import.meta.dirname, "..")
 const auditScript = resolve(projectRoot, "scripts/evidence-audit.mts")
@@ -36,6 +47,21 @@ const baselinePath = resolve(
   projectRoot,
   "tests/fixtures/evidence-audit-baseline.json",
 )
+
+type BuiltEvidenceReport = Awaited<
+  ReturnType<typeof buildEvidenceAuditReport>
+>
+let freshReportsPromise: Promise<
+  [BuiltEvidenceReport, BuiltEvidenceReport]
+> | undefined
+
+function buildTwoFreshReports() {
+  freshReportsPromise ??= Promise.all([
+    buildEvidenceAuditReport(projectRoot),
+    buildEvidenceAuditReport(projectRoot),
+  ])
+  return freshReportsPromise
+}
 
 type Baseline = {
   schemaVersion: number
@@ -90,7 +116,7 @@ type ArtifactReport = {
   }
 }
 
-test("evidence audit leaves every production, calibration, and fixture input unchanged", () => {
+test("evidence audit exposes separate writer and read-only check commands", () => {
   const packageJson = JSON.parse(
     readFileSync(resolve(projectRoot, "package.json"), "utf8"),
   ) as { scripts?: Record<string, string> }
@@ -98,8 +124,37 @@ test("evidence audit leaves every production, calibration, and fixture input unc
     packageJson.scripts?.["evidence:audit"],
     "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts",
   )
+  assert.equal(
+    packageJson.scripts?.["evidence:audit:check"],
+    "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts --check",
+  )
+})
 
-  const before = snapshotProtectedInputs()
+test("committed evidence artifacts exactly equal two consecutive in-memory generations", async () => {
+  const [firstReport, secondReport] = await buildTwoFreshReports()
+  const first = generateEvidenceArtifactBytes(firstReport)
+  const second = generateEvidenceArtifactBytes(secondReport)
+
+  assert.ok(first.markdown.equals(second.markdown))
+  assert.ok(first.json.equals(second.json))
+  assert.ok(
+    first.markdown.equals(readFileSync(artifactMarkdownPath)),
+    "committed Markdown evidence is stale",
+  )
+  assert.ok(
+    first.json.equals(readFileSync(artifactJsonPath)),
+    "committed JSON evidence is stale",
+  )
+})
+
+test("check mode writes neither evidence artifacts nor the evidence baseline", () => {
+  const beforeProtected = snapshotProtectedInputs()
+  const beforeArtifacts = snapshotFiles([
+    artifactMarkdownPath,
+    artifactJsonPath,
+    baselinePath,
+  ])
+
   const result = spawnSync(
     process.execPath,
     [
@@ -107,7 +162,7 @@ test("evidence audit leaves every production, calibration, and fixture input unc
       "--import",
       aliasLoader,
       auditScript,
-      "--format=json",
+      "--check",
     ],
     {
       cwd: projectRoot,
@@ -117,13 +172,72 @@ test("evidence audit leaves every production, calibration, and fixture input unc
     },
   )
 
+  assert.deepEqual(snapshotProtectedInputs(), beforeProtected)
+  assert.deepEqual(
+    snapshotFiles([
+      artifactMarkdownPath,
+      artifactJsonPath,
+      baselinePath,
+    ]),
+    beforeArtifacts,
+  )
   assert.equal(result.status, 0, result.stderr)
-  assert.deepEqual(snapshotProtectedInputs(), before)
-  assert.ok(statSync(artifactJsonPath).isFile())
-  assert.ok(statSync(artifactMarkdownPath).isFile())
-  assert.equal(readFileSync(artifactJsonPath, "utf8"), result.stdout)
+  assert.match(
+    result.stdout,
+    /match freshly generated UTF-8 bytes/u,
+  )
+})
 
-  const report = JSON.parse(result.stdout) as ArtifactReport
+test("an intentionally altered scratch evidence artifact is detected as stale", async () => {
+  const scratchRoot = mkdtempSync(
+    resolve(tmpdir(), "ir-evidence-audit-check-"),
+  )
+  try {
+    const outputDirectory = resolve(scratchRoot, "artifacts/evidence")
+    mkdirSync(outputDirectory, { recursive: true })
+    const [report] = await buildTwoFreshReports()
+    const generated = generateEvidenceArtifactBytes(
+      report,
+    )
+    writeFileSync(
+      resolve(outputDirectory, "current-summary.md"),
+      generated.markdown,
+    )
+    writeFileSync(
+      resolve(outputDirectory, "current-summary.json"),
+      generated.json,
+    )
+
+    assert.deepEqual(
+      await checkEvidenceArtifactBytes(generated, scratchRoot),
+      { matches: true, mismatches: [] },
+    )
+    writeFileSync(
+      resolve(outputDirectory, "current-summary.md"),
+      Buffer.concat([
+        generated.markdown,
+        Buffer.from("scratch alteration\n", "utf8"),
+      ]),
+    )
+    assert.deepEqual(
+      await checkEvidenceArtifactBytes(generated, scratchRoot),
+      {
+        matches: false,
+        mismatches: [
+          {
+            path: "artifacts/evidence/current-summary.md",
+            reason: "stale",
+          },
+        ],
+      },
+    )
+  } finally {
+    rmSync(scratchRoot, { recursive: true, force: true })
+  }
+})
+
+test("evidence report declares its bounded deterministic method", async () => {
+  const [report] = await buildTwoFreshReports()
   assert.deepEqual(report.deterministicMethod, {
     absolutePaths: "omitted",
     database: "not-used",
@@ -147,6 +261,43 @@ test("evidence audit leaves every production, calibration, and fixture input unc
   )
 })
 
+test("Markdown uses precise gate, generation, invariance, and synthetic-fixture language", async () => {
+  const [report] = await buildTwoFreshReports()
+  const markdown = renderEvidenceMarkdown(report)
+  const artifactFacing = JSON.stringify(report)
+
+  assert.match(markdown, /## Declared-axis midpoint\/range gate/u)
+  assert.match(
+    markdown,
+    /at least one signal strictly below the policy midpoint/u,
+  )
+  assert.match(
+    markdown,
+    /any declared axis in any effective option set fails/u,
+  )
+  assert.doesNotMatch(markdown, /meaningfully separated/iu)
+  assert.doesNotMatch(artifactFacing, /MeaningfullySeparated/u)
+  assert.match(markdown, /\| Bank \| Generation \| Option sets \|/u)
+  assert.match(markdown, /\| Bank \| Generation \| Policy \|/u)
+  assert.match(
+    markdown,
+    /\| Bank \| Generation \| Actor-role leader \|/u,
+  )
+  assert.match(markdown, /no human respondent data is used/u)
+  assert.match(
+    markdown,
+    /They do not establish validity, reliability, prevalence, or representativeness/u,
+  )
+  assert.doesNotMatch(markdown, /\| Cohort \|/u)
+  assert.match(
+    markdown,
+    /Semantic answer-ID digests A = B/u,
+  )
+  assert.match(markdown, /Result-contract digests A = B/u)
+  assert.match(markdown, /Scenario-order digests A = B/u)
+  assert.doesNotMatch(artifactFacing, /"passed":/u)
+})
+
 test("response fixture output is deterministic and matches its checked-in baseline", () => {
   const first = buildEvidenceResponseFixtureReport()
   const second = buildEvidenceResponseFixtureReport()
@@ -162,6 +313,7 @@ test("response fixture output is deterministic and matches its checked-in baseli
 
   assert.deepEqual(second, first)
   assert.equal(first.randomSeed, EVIDENCE_RANDOM_SEED)
+  assert.equal(responseRecordCount, 320)
   assert.equal(hashJson(payload), baseline.responseFixture.digest)
   assert.equal(
     responseRecordCount,
@@ -213,14 +365,292 @@ test("presentation order cannot change scores for any current or legacy runtime"
 
   assert.equal(response.presentationInvariance.length, 16)
   for (const evidence of response.presentationInvariance) {
-    assert.equal(evidence.passed, true, evidence.cohortKey)
+    assert.equal("passed" in evidence, false, evidence.cohortKey)
     assert.ok(
       evidence.changedPresentationQuestions > 0,
       `${evidence.cohortKey} did not exercise a changed order`,
     )
-    assert.match(evidence.semanticAnswersDigest, /^[0-9a-f]{64}$/u)
-    assert.match(evidence.resultDigest, /^[0-9a-f]{64}$/u)
+    assert.deepEqual(
+      evidence.semanticAnswersDigests[0],
+      evidence.semanticAnswersDigests[1],
+      `${evidence.cohortKey} changed semantic primary/secondary IDs`,
+    )
+    assert.deepEqual(
+      evidence.semanticSecondaryChoiceCounts[0],
+      evidence.semanticSecondaryChoiceCounts[1],
+      `${evidence.cohortKey} changed its secondary-field count`,
+    )
+    assert.deepEqual(
+      evidence.resultContractDigests[0],
+      evidence.resultContractDigests[1],
+      `${evidence.cohortKey} changed its result contract`,
+    )
+    for (const digest of [
+      ...evidence.semanticAnswersDigests,
+      ...evidence.resultContractDigests,
+      ...(evidence.scenarioSequenceDigests ?? []),
+    ]) {
+      assert.match(digest, /^[0-9a-f]{64}$/u)
+    }
+    if (evidence.scenarioSequenceDigests) {
+      assert.equal(
+        evidence.scenarioSequenceDigests[0],
+        evidence.scenarioSequenceDigests[1],
+        `${evidence.cohortKey} changed scenario order`,
+      )
+      assert.deepEqual(
+        evidence.scenarioSequences?.[0],
+        evidence.scenarioSequences?.[1],
+      )
+    }
   }
+})
+
+test("every eligible analyst tuple has primary-only, reinforcing, and competing secondary-choice fixtures", () => {
+  const response = buildEvidenceResponseFixtureReport()
+  const eligibleAnalystTuples = response.cohorts.filter((cohort) =>
+    cohort.fixtures.some(
+      (fixture) => fixture.kind === "secondary-choice",
+    ),
+  )
+
+  assert.equal(eligibleAnalystTuples.length, 8)
+  assert.equal(
+    eligibleAnalystTuples.filter((cohort) => cohort.legacy).length,
+    4,
+  )
+  assert.equal(
+    eligibleAnalystTuples.filter((cohort) => !cohort.legacy).length,
+    4,
+  )
+
+  let eligibleSelectionCount = 0
+  let reinforcingSecondaryCount = 0
+  let competingSecondaryCount = 0
+
+  for (const cohort of eligibleAnalystTuples) {
+    assert.equal(cohort.mode, "analyst", cohort.key)
+    const fixtures = cohort.fixtures.filter(
+      (fixture) => fixture.kind === "secondary-choice",
+    )
+    assert.deepEqual(
+      fixtures.map(
+        (fixture) => fixture.secondaryChoiceConstruction?.strategy,
+      ).sort(),
+      ["competing", "primary-only", "reinforcing"],
+      cohort.key,
+    )
+    const fixtureByStrategy = Object.fromEntries(
+      fixtures.map((fixture) => [
+        fixture.secondaryChoiceConstruction?.strategy,
+        fixture,
+      ]),
+    )
+    const primaryOnly = fixtureByStrategy["primary-only"]
+      .secondaryChoiceConstruction
+    const reinforcing = fixtureByStrategy.reinforcing
+      .secondaryChoiceConstruction
+    const competing = fixtureByStrategy.competing
+      .secondaryChoiceConstruction
+    assert.ok(primaryOnly)
+    assert.ok(reinforcing)
+    assert.ok(competing)
+    eligibleSelectionCount += primaryOnly.eligibleItemCount
+    reinforcingSecondaryCount += reinforcing.secondaryFieldCount
+    competingSecondaryCount += competing.secondaryFieldCount
+
+    for (const fixture of fixtures) {
+      const construction = fixture.secondaryChoiceConstruction
+      assert.ok(construction, `${cohort.key}/${fixture.name}`)
+      assert.ok(construction.eligibleItemCount > 0)
+      assert.equal(
+        construction.selections.length,
+        construction.eligibleItemCount,
+      )
+      if (construction.strategy === "primary-only") {
+        assert.equal(construction.secondaryFieldCount, 0)
+        assert.deepEqual(construction.skippedSecondaryItems, [])
+      } else {
+        assert.ok(construction.secondaryFieldCount > 0)
+        assert.equal(
+          construction.skippedSecondaryItems.length,
+          construction.eligibleItemCount -
+            construction.secondaryFieldCount,
+        )
+      }
+      for (const selection of construction.selections) {
+        assert.ok(selection.primaryOptionId)
+        assert.equal(
+          selection.similarityReview.metric,
+          "centered-cosine",
+        )
+        if (construction.strategy === "primary-only") {
+          assert.equal(selection.secondaryOptionId, undefined)
+          assert.equal(
+            selection.similarityReview.selectedSecondarySimilarity,
+            undefined,
+          )
+        } else {
+          if (selection.secondaryOptionId) {
+            assert.notEqual(
+              selection.primaryOptionId,
+              selection.secondaryOptionId,
+            )
+            const similarity =
+              selection.similarityReview.selectedSecondarySimilarity
+            assert.equal(typeof similarity, "number")
+            if (construction.strategy === "reinforcing") {
+              assert.ok((similarity ?? 0) > 0)
+              assert.equal(
+                similarity,
+                selection.similarityReview.candidateMaximum,
+              )
+              assert.equal(
+                selection.similarityReview.selectedRelationship,
+                "aligned",
+              )
+            } else {
+              assert.ok((similarity ?? 0) < 0)
+              assert.equal(
+                similarity,
+                selection.similarityReview.candidateMinimum,
+              )
+              assert.equal(
+                selection.similarityReview.selectedRelationship,
+                "opposed",
+              )
+            }
+          } else {
+            assert.equal(construction.strategy, "competing")
+            assert.equal(
+              selection.similarityReview.hasAlignedAndOpposedCandidates,
+              false,
+            )
+            assert.ok(
+              construction.skippedSecondaryItems.some(
+                ({ itemId, reason }) =>
+                  itemId === selection.itemId &&
+                  reason === "no-negatively-opposed-candidate",
+              ),
+            )
+          }
+        }
+      }
+    }
+
+    for (const [index, primarySelection] of
+      primaryOnly.selections.entries()) {
+      const reinforcingSelection = reinforcing.selections[index]
+      const competingSelection = competing.selections[index]
+      assert.equal(
+        reinforcingSelection.itemId,
+        primarySelection.itemId,
+      )
+      assert.equal(
+        competingSelection.itemId,
+        primarySelection.itemId,
+      )
+      assert.equal(
+        reinforcingSelection.primaryOptionId,
+        primarySelection.primaryOptionId,
+      )
+      assert.equal(
+        competingSelection.primaryOptionId,
+        primarySelection.primaryOptionId,
+      )
+      if (
+        reinforcingSelection.secondaryOptionId &&
+        competingSelection.secondaryOptionId
+      ) {
+        assert.ok(
+          (reinforcingSelection.similarityReview
+            .selectedSecondarySimilarity ?? -1) >
+            (competingSelection.similarityReview
+              .selectedSecondarySimilarity ?? 1),
+        )
+      }
+    }
+  }
+
+  assert.equal(eligibleSelectionCount, 110)
+  assert.equal(reinforcingSecondaryCount, 110)
+  assert.equal(competingSecondaryCount, 108)
+
+  const legacySecurity = eligibleAnalystTuples.find(
+    (cohort) => cohort.key === "security:b2:s1:analyst",
+  )
+  const legacySecurityCompeting = legacySecurity?.fixtures.find(
+    (fixture) =>
+      fixture.secondaryChoiceConstruction?.strategy === "competing",
+  )?.secondaryChoiceConstruction
+  assert.equal(legacySecurityCompeting?.secondaryFieldCount, 13)
+  assert.deepEqual(
+    legacySecurityCompeting?.skippedSecondaryItems.map(
+      ({ itemId }) => itemId,
+    ),
+    ["nuclear_hedging", "selective_enforcement_memory"],
+  )
+
+  for (const cohort of response.cohorts.filter(
+    (entry) => entry.mode === "standard",
+  )) {
+    assert.equal(
+      cohort.fixtures.some(
+        (fixture) => fixture.kind === "secondary-choice",
+      ),
+      false,
+      cohort.key,
+    )
+    const invariance = response.presentationInvariance.find(
+      (entry) => entry.cohortKey === cohort.key,
+    )
+    assert.deepEqual(invariance?.semanticSecondaryChoiceCounts, [0, 0])
+  }
+})
+
+test("a known eligible runtime scores the secondary field and changes its result digest", () => {
+  const response = buildEvidenceResponseFixtureReport()
+  const cohort = response.cohorts.find(
+    (entry) => entry.key === "security:b3:s2:analyst",
+  )
+  assert.ok(cohort)
+  const primaryOnly = cohort.fixtures.find(
+    (fixture) =>
+      fixture.secondaryChoiceConstruction?.strategy === "primary-only",
+  )
+  const competing = cohort.fixtures.find(
+    (fixture) =>
+      fixture.secondaryChoiceConstruction?.strategy === "competing",
+  )
+  assert.ok(primaryOnly)
+  assert.ok(competing)
+  assert.equal(
+    primaryOnly.secondaryChoiceConstruction?.secondaryFieldCount,
+    0,
+  )
+  assert.ok(
+    (competing.secondaryChoiceConstruction?.secondaryFieldCount ?? 0) > 0,
+  )
+  assert.deepEqual(
+    competing.secondaryChoiceConstruction?.selections.map(
+      ({ itemId, primaryOptionId }) => ({ itemId, primaryOptionId }),
+    ),
+    primaryOnly.secondaryChoiceConstruction?.selections.map(
+      ({ itemId, primaryOptionId }) => ({ itemId, primaryOptionId }),
+    ),
+    "primary IDs must stay fixed so the result change is attributable to secondary fields",
+  )
+  assert.notEqual(primaryOnly.answersDigest, competing.answersDigest)
+  assert.notEqual(hashJson(primaryOnly.result), hashJson(competing.result))
+
+  const invariance = response.presentationInvariance.find(
+    (entry) => entry.cohortKey === cohort.key,
+  )
+  assert.ok((invariance?.semanticSecondaryChoiceCounts[0] ?? 0) > 0)
+  assert.equal(
+    invariance?.semanticAnswersDigests[0],
+    invariance?.semanticAnswersDigests[1],
+  )
 })
 
 test("legacy banks remain separate from current-bank evidence", () => {
@@ -286,6 +716,23 @@ function snapshotProtectedInputs(): Record<string, string> {
       file.slice(projectRoot.length + 1),
       createHash("sha256").update(readFileSync(file)).digest("hex"),
     ]),
+  )
+}
+
+function snapshotFiles(files: readonly string[]) {
+  return Object.fromEntries(
+    files.map((file) => {
+      const contents = readFileSync(file)
+      const stat = statSync(file)
+      return [
+        file,
+        {
+          sha256: createHash("sha256").update(contents).digest("hex"),
+          size: stat.size,
+          mtimeMs: stat.mtimeMs,
+        },
+      ]
+    }),
   )
 }
 

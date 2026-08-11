@@ -719,17 +719,30 @@ export type EvidenceAxisSeparation = {
     | "not-applicable"
     | "legacy-not-declared"
   declaredAxes: string[]
-  allDeclaredAxesMeaningfullySeparated: boolean | null
+  allDeclaredAxesPassMidpointRangeGate: boolean | null
   optionSets: Array<{
     source: "options" | "analystOptions"
     effectiveModes: EvidenceMode[]
+    duplicateCompleteOptionVectors: EvidenceDuplicateOptionVector[]
     axes: Array<
       DeclaredAxisEvaluation & {
         axis: string
-        meaningfullySeparated: boolean
+        optionCount: number
+        distinctSignalValueCount: number
+        nonMidpointOptionCount: number
+        missingSignalCount: number
+        duplicateSignalValueCount: number
+        soleMinimum: boolean
+        soleMaximum: boolean
+        passesMidpointRangeGate: boolean
       }
     >
   }>
+}
+
+export type EvidenceDuplicateOptionVector = {
+  optionIds: string[]
+  signals: Record<string, number>
 }
 
 export type EvidenceConcentration = {
@@ -789,7 +802,7 @@ export type InstrumentEvidenceAnalysis = {
   axisSeparation: {
     policy: EvidenceBankSpec["separationPolicy"]
     items: EvidenceAxisSeparation[]
-    itemsNotMeaningfullySeparated: string[]
+    itemsFailingMidpointRangeGate: string[]
   }
   concentrations: {
     actorRole: EvidenceConcentration
@@ -1293,7 +1306,7 @@ function buildAxisSeparation(
             ? "legacy-not-declared"
             : "not-applicable",
         declaredAxes,
-        allDeclaredAxesMeaningfullySeparated: null,
+        allDeclaredAxesPassMidpointRangeGate: null,
         optionSets: [],
       }
     }
@@ -1309,7 +1322,7 @@ function buildAxisSeparation(
         kind: String(item.kind),
         status: "direct-likert-scale",
         declaredAxes,
-        allDeclaredAxesMeaningfullySeparated: passes,
+        allDeclaredAxesPassMidpointRangeGate: passes,
         optionSets: [],
       }
     }
@@ -1321,7 +1334,7 @@ function buildAxisSeparation(
         kind: String(item.kind),
         status: "not-applicable",
         declaredAxes,
-        allDeclaredAxesMeaningfullySeparated: null,
+        allDeclaredAxesPassMidpointRangeGate: null,
         optionSets: [],
       }
     }
@@ -1332,23 +1345,33 @@ function buildAxisSeparation(
     ).map((set) => ({
       source: set.source,
       effectiveModes: set.effectiveModes,
+      duplicateCompleteOptionVectors: findDuplicateCompleteOptionVectors(
+        set.options,
+        descriptor.axes,
+        policy.midpoint,
+      ),
       axes: declaredAxes.map((axis) => {
+        const geometry = analyzeDeclaredAxisOptionGeometry(
+          set.options,
+          axis,
+          policy.midpoint,
+        )
         const evaluation = evaluateDeclaredAxis(
-          set.options.map((option) => {
-            const signal = isRecord(option.signals)
-              ? option.signals[axis]
-              : undefined
-            return typeof signal === "number" && Number.isFinite(signal)
-              ? signal
-              : policy.midpoint
-          }),
+          geometry.signalValues,
           policy.midpoint,
           policy.minimumSpread,
         )
         return {
           axis,
           ...evaluation,
-          meaningfullySeparated: evaluation.passes,
+          optionCount: geometry.optionCount,
+          distinctSignalValueCount: geometry.distinctSignalValueCount,
+          nonMidpointOptionCount: geometry.nonMidpointOptionCount,
+          missingSignalCount: geometry.missingSignalCount,
+          duplicateSignalValueCount: geometry.duplicateSignalValueCount,
+          soleMinimum: geometry.soleMinimum,
+          soleMaximum: geometry.soleMaximum,
+          passesMidpointRangeGate: evaluation.passes,
         }
       }),
     }))
@@ -1356,7 +1379,7 @@ function buildAxisSeparation(
       declaredAxes.length > 0 &&
       optionSets.length > 0 &&
       optionSets.every((set) =>
-        set.axes.every((axis) => axis.meaningfullySeparated),
+        set.axes.every((axis) => axis.passesMidpointRangeGate),
       )
 
     return {
@@ -1364,7 +1387,7 @@ function buildAxisSeparation(
       kind: String(item.kind),
       status: "reviewed-option-signals",
       declaredAxes,
-      allDeclaredAxesMeaningfullySeparated: passes,
+      allDeclaredAxesPassMidpointRangeGate: passes,
       optionSets,
     }
   })
@@ -1372,13 +1395,116 @@ function buildAxisSeparation(
   return {
     policy: descriptor.separationPolicy,
     items: results,
-    itemsNotMeaningfullySeparated: results
+    itemsFailingMidpointRangeGate: results
       .filter(
-        (result) => result.allDeclaredAxesMeaningfullySeparated === false,
+        (result) => result.allDeclaredAxesPassMidpointRangeGate === false,
       )
       .map((result) => result.itemId)
       .sort(compareText),
   }
+}
+
+export type EvidenceDeclaredAxisOptionGeometry = {
+  signalValues: number[]
+  optionCount: number
+  distinctSignalValueCount: number
+  nonMidpointOptionCount: number
+  missingSignalCount: number
+  duplicateSignalValueCount: number
+  soleMinimum: boolean
+  soleMaximum: boolean
+}
+
+/**
+ * Describe authored option geometry without adding a new measurement gate.
+ * Missing values use the policy midpoint, matching evaluateDeclaredAxis.
+ */
+export function analyzeDeclaredAxisOptionGeometry(
+  options: readonly { signals?: unknown }[],
+  axis: string,
+  midpoint: number,
+): EvidenceDeclaredAxisOptionGeometry {
+  let missingSignalCount = 0
+  const signalValues = options.map((option) => {
+    const signal = isRecord(option.signals)
+      ? option.signals[axis]
+      : undefined
+    if (typeof signal !== "number" || !Number.isFinite(signal)) {
+      missingSignalCount += 1
+      return midpoint
+    }
+    return signal
+  })
+  const distinctSignalValueCount = new Set(signalValues).size
+  const minimum =
+    signalValues.length > 0 ? Math.min(...signalValues) : midpoint
+  const maximum =
+    signalValues.length > 0 ? Math.max(...signalValues) : midpoint
+
+  return {
+    signalValues,
+    optionCount: options.length,
+    distinctSignalValueCount,
+    nonMidpointOptionCount: signalValues.filter(
+      (value) => value !== midpoint,
+    ).length,
+    missingSignalCount,
+    duplicateSignalValueCount:
+      signalValues.length - distinctSignalValueCount,
+    soleMinimum:
+      signalValues.length > 0 &&
+      signalValues.filter((value) => value === minimum).length === 1,
+    soleMaximum:
+      signalValues.length > 0 &&
+      signalValues.filter((value) => value === maximum).length === 1,
+  }
+}
+
+/**
+ * Find semantically duplicate complete vectors across the instrument axis
+ * universe. Missing components use the policy midpoint.
+ */
+export function findDuplicateCompleteOptionVectors(
+  options: readonly { id?: unknown; signals?: unknown }[],
+  axes: readonly string[],
+  midpoint: number,
+): EvidenceDuplicateOptionVector[] {
+  const sortedAxes = [...new Set(axes)].sort(compareText)
+  const groups = new Map<
+    string,
+    { optionIds: string[]; signals: Record<string, number> }
+  >()
+
+  for (const option of options) {
+    const authoredSignals = isRecord(option.signals)
+      ? option.signals
+      : {}
+    const signals = Object.fromEntries(
+      sortedAxes.map((axis) => {
+        const value = authoredSignals[axis]
+        return [
+          axis,
+          typeof value === "number" && Number.isFinite(value)
+            ? value
+            : midpoint,
+        ]
+      }),
+    )
+    const key = JSON.stringify(signals)
+    const group = groups.get(key) ?? { optionIds: [], signals }
+    group.optionIds.push(String(option.id))
+    groups.set(key, group)
+  }
+
+  return [...groups.values()]
+    .filter((group) => group.optionIds.length > 1)
+    .map((group) => ({
+      optionIds: [...group.optionIds].sort(compareText),
+      signals: group.signals,
+    }))
+    .sort((left, right) =>
+      compareText(left.optionIds.join("\u0000"), right.optionIds.join("\u0000")),
+    )
 }
 
 function buildMetadataGaps(

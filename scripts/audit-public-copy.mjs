@@ -3,6 +3,7 @@
 import { readFile, readdir, stat } from "node:fs/promises"
 import { extname, relative, resolve, sep } from "node:path"
 import ts from "typescript"
+import { compareCodeUnitStrings } from "./code-unit-order.mjs"
 
 const projectRoot = resolve(import.meta.dirname, "..")
 const scanTargets = [
@@ -862,10 +863,10 @@ function deduplicate(items) {
 
 function compareFindings(left, right) {
   return (
-    left.priority.localeCompare(right.priority) ||
-    left.file.localeCompare(right.file) ||
+    compareCodeUnitStrings(left.priority, right.priority) ||
+    compareCodeUnitStrings(left.file, right.file) ||
     left.line - right.line ||
-    left.rule.localeCompare(right.rule)
+    compareCodeUnitStrings(left.rule, right.rule)
   )
 }
 

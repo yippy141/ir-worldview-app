@@ -185,7 +185,7 @@ export const securityV21Module: ModuleDefinition = {
     return {
       headline: "Security read: no single lane dominates",
       summary:
-        "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. The current question set did not separate these lanes enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
+        "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. Your answers did not separate these lanes enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
       instincts: [
         "No lane in this module separated far enough from the others to lead the read.",
         "Deterrence, alliance durability, and legitimacy each stayed live across your answers.",
