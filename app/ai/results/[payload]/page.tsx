@@ -122,7 +122,7 @@ export default async function AiResultPage(
   // The section header, table, and contrast sentence use the same frozen key.
   const runnerUpKey = deepDive.comparison.runnerUpKey
   const runnerUpLabel = deepDive.comparison.runnerUpLabel
-  const identityCode = [archetypeLabel, decoded.rl, decoded.pm, decoded.gm]
+  const identityCode = [decoded.rl, decoded.pm, decoded.gm]
 
   return (
     <div className="wide-container">
@@ -155,6 +155,14 @@ export default async function AiResultPage(
             ))}
           </p>
           <p className="result-verdict__gloss">{deepDive.governingInstinct}</p>
+          <div className="result-verdict__actions print-hidden">
+            <Link href="/quiz" className="cta-primary">
+              Take the IR Foundation
+            </Link>
+            <Link href="/profile" className="cta-secondary">
+              View Profile
+            </Link>
+          </div>
         </header>
 
         {/* ── 2. Strongest signals ── */}

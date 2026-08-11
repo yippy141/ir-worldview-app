@@ -250,8 +250,17 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
     await evidencePage.close()
   }
 
-  await page.getByRole("button", { name: "Copy share link" }).click()
-  await expect(page.getByRole("button", { name: "Link copied" })).toBeVisible()
+  const fullAnalysis = page.locator(
+    ".result-appendix-section details.profile-details",
+  )
+  await fullAnalysis.locator("summary").click()
+  const resultActions = fullAnalysis.locator(".result-details-body")
+  await resultActions
+    .getByRole("button", { name: "Copy share link", exact: true })
+    .click()
+  await expect(
+    resultActions.getByRole("button", { name: "Copied!", exact: true }),
+  ).toBeVisible()
   const shareUrl = await page.evaluate(() => navigator.clipboard.readText())
   expect(shareUrl).toBe(page.url())
 

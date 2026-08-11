@@ -105,25 +105,34 @@ export function ShareActions({
 
   return (
     <div className="row gap-sm print-hidden wrap">
-      <button type="button" className="primary-button" onClick={handleShare}>
-        {copyState === "copied"
-          ? copy.copied
-          : canNativeShare
-          ? copy.share
-          : copy.copyShare}
-      </button>
       <button
         type="button"
-        className="secondary-button"
-        onClick={handleCopy}
+        className="primary-button"
+        onClick={handleShare}
         aria-live="polite"
       >
         {copyState === "copied"
-          ? copy.linkCopied
-          : copyState === "error"
+          ? copy.copied
+          : copyState === "error" && !canNativeShare
             ? copy.copyUnavailable
-            : copy.copyLink}
+          : canNativeShare
+            ? copy.share
+            : copy.copyShare}
       </button>
+      {canNativeShare ? (
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={handleCopy}
+          aria-live="polite"
+        >
+          {copyState === "copied"
+            ? copy.linkCopied
+            : copyState === "error"
+              ? copy.copyUnavailable
+              : copy.copyLink}
+        </button>
+      ) : null}
       <button
         type="button"
         className="secondary-button"

@@ -115,6 +115,14 @@ export function ModuleResultView({
             ))}
           </p>
           <p className="result-verdict__gloss">{result.summary}</p>
+          <div className="result-verdict__actions print-hidden">
+            <Link
+              href={foundationPayload ? "/profile" : "/quiz"}
+              className="cta-primary"
+            >
+              {foundationPayload ? "View Profile" : "Take the IR Foundation"}
+            </Link>
+          </div>
         </header>
 
         {/* ── 2. Lane meters ── */}

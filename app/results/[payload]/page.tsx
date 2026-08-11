@@ -385,6 +385,9 @@ export default async function ResultPage(
                 {archetype.name}
               </h1>
               <p className="foundation-result-code">{archetypeCode}</p>
+              <p className="foundation-result-tradition">
+                Closest modeled tradition: {familyLabel}
+              </p>
               <p className="result-lead">{archetype.gloss}</p>
               {archetype.analogue && analogueHref ? (
                 <p className="foundation-result-analogue">

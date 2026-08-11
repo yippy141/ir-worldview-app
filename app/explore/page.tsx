@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ExplorePage() {
   return (
-    <div className="wide-container">
+    <div className="wide-container explore-page">
       {/* Header */}
       <div className="article-header stack-sm">
         <p className="eyebrow">Worldview library</p>

@@ -34,20 +34,33 @@ function readShareFixture(version: 1 | 2 | 3): ProfileSharePayload {
   ) as ProfileSharePayload
 }
 
-test("saving a separate domain module leaves Foundation dimensions and archetype unchanged", () => {
-  const initial = parseProfileStore(readStoreFixture(5), "en")
+test("saving separate domain records leaves the layered Profile Foundation identity unchanged", () => {
+  const foundationProfile = parseProfileStore(readStoreFixture(5), "en")
+  const legacySecurity = parseProfileStore(
+    readStoreFixture(4),
+    "en",
+  ).modules.security
   const legacyTechnology = parseProfileStore(
     readStoreFixture(2),
     "en",
   ).modules.technology
-  assert.ok(initial.foundation)
+  const legacyAiGovernance = parseProfileStore(
+    readStoreFixture(3),
+    "en",
+  ).aiGovernance
+  assert.ok(foundationProfile.foundation)
+  assert.ok(legacySecurity)
   assert.ok(legacyTechnology)
+  assert.ok(legacyAiGovernance)
 
-  const foundationBefore = structuredClone(initial.foundation)
+  const foundationBefore = structuredClone(foundationProfile.foundation)
   const identityBefore = resolveFoundationArchetypeFromSnapshot(foundationBefore)
   assert.ok(identityBefore)
 
-  let storedProfile = serializeProfileStore(initial)
+  let storedProfile = serializeProfileStore({
+    ...foundationProfile,
+    aiGovernance: legacyAiGovernance,
+  })
   const previousWindow = Object.getOwnPropertyDescriptor(globalThis, "window")
   Object.defineProperty(globalThis, "window", {
     configurable: true,
@@ -65,6 +78,13 @@ test("saving a separate domain module leaves Foundation dimensions and archetype
   })
 
   try {
+    assert.equal(
+      saveModuleSnapshot({
+        ...legacySecurity,
+        timestamp: legacySecurity.timestamp + 1,
+      } as ModuleSnapshot),
+      true,
+    )
     assert.equal(
       saveModuleSnapshot({
         ...legacyTechnology,
@@ -87,7 +107,11 @@ test("saving a separate domain module leaves Foundation dimensions and archetype
       { code: identityAfter.code, name: identityAfter.name },
       { code: identityBefore.code, name: identityBefore.name },
     )
+    assert.deepEqual(Object.keys(saved.modules).sort(), ["security", "technology"])
+    assert.equal(saved.modules.security?.slug, "security")
     assert.equal(saved.modules.technology?.slug, "technology")
+    assert.equal(saved.aiGovernance?.payload, legacyAiGovernance.payload)
+    assert.equal(saved.aiGovernance?.archetypeKey, legacyAiGovernance.archetypeKey)
   } finally {
     if (previousWindow) {
       Object.defineProperty(globalThis, "window", previousWindow)
