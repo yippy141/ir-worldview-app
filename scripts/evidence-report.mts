@@ -14,7 +14,7 @@ import { buildEvidenceResponseFixtureReport, EVIDENCE_RANDOM_SEED, type Evidence
 import { buildCopyAuditDelta, readEvidenceAuditBaseline, runPublicCopyAudit, type CopyAuditDelta } from "@/scripts/evidence-copy-delta.mts"
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
-import { compareEvidenceStrings, hashJson, hashText, stableCompactJson } from "@/scripts/evidence-utils.mts"
+import { compareEvidenceStrings, EVIDENCE_ARTIFACT_SCHEMA_VERSION, hashJson, hashText, stableCompactJson } from "@/scripts/evidence-utils.mts"
 
 type SourceCategory =
   | "instrument-bank"
@@ -24,6 +24,13 @@ type SourceCategory =
   | "copy-audit"
   | "compatibility-test"
   | "evidence-baseline"
+  | "evidence-bank-validation"
+  | "evidence-canonicalization"
+  | "evidence-copy-delta"
+  | "evidence-entrypoint"
+  | "evidence-instrument-analysis"
+  | "evidence-renderer"
+  | "evidence-response-fixtures"
 
 type SourceSpec = {
   path: string
@@ -35,7 +42,7 @@ export type EvidenceSourceManifestEntry = SourceSpec & {
 }
 
 export type EvidenceAuditReport = {
-  schemaVersion: 1
+  schemaVersion: typeof EVIDENCE_ARTIFACT_SCHEMA_VERSION
   command: "npm run evidence:audit"
   deterministicMethod: {
     randomSeed: number
@@ -132,6 +139,34 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
   { path: "scripts/calibrate-modules.mts", category: "calibration" },
   { path: "scripts/calibrate-modules-bootstrap.mjs", category: "calibration" },
   { path: "scripts/diagnose-instrument.mts", category: "diagnostic" },
+  {
+    path: "scripts/evidence-audit.mts",
+    category: "evidence-entrypoint",
+  },
+  {
+    path: "scripts/evidence-bank-validation.mts",
+    category: "evidence-bank-validation",
+  },
+  {
+    path: "scripts/evidence-copy-delta.mts",
+    category: "evidence-copy-delta",
+  },
+  {
+    path: "scripts/evidence-instrument-analysis.mts",
+    category: "evidence-instrument-analysis",
+  },
+  {
+    path: "scripts/evidence-report.mts",
+    category: "evidence-renderer",
+  },
+  {
+    path: "scripts/evidence-response-fixtures.mts",
+    category: "evidence-response-fixtures",
+  },
+  {
+    path: "scripts/evidence-utils.mts",
+    category: "evidence-canonicalization",
+  },
   { path: "scripts/validate-instrument.mts", category: "diagnostic" },
   { path: "scripts/code-unit-order.mjs", category: "copy-audit" },
   { path: "scripts/audit-public-copy.mjs", category: "copy-audit" },
@@ -214,7 +249,7 @@ export async function buildEvidenceAuditReport(
   })
 
   return {
-    schemaVersion: 1,
+    schemaVersion: EVIDENCE_ARTIFACT_SCHEMA_VERSION,
     command: "npm run evidence:audit",
     deterministicMethod: {
       randomSeed: EVIDENCE_RANDOM_SEED,
@@ -279,7 +314,7 @@ export function renderEvidenceMarkdown(report: EvidenceAuditReport): string {
     "## Source manifest",
     "",
     markdownTable(
-      ["Category", "Path", "SHA-256"],
+      ["Source role", "Path", "SHA-256"],
       report.sources.map((source) => [
         source.category,
         source.path,
@@ -301,6 +336,7 @@ export function renderEvidenceMarkdown(report: EvidenceAuditReport): string {
   lines.push(
     "## Method notes",
     "",
+    `- Public evidence artifact schema version: ${EVIDENCE_ARTIFACT_SCHEMA_VERSION}. The nested instrument-evidence and response-fixture reports use the same schema version.`,
     "- Foundation validation-block items are counted as research-validation scored but not primary-result scored; both shares are shown.",
     "- Module actor-lens items contribute card-type evidence but are excluded from aggregate and lane scores, so both any-scored and primary-scored shares are shown.",
     "- Actor roles come only from explicit `actorRole` metadata or the repository's controlled perspective-tag matrix.",
@@ -569,6 +605,8 @@ function appendSeparationSection(
   lines.push(
     "## Declared-axis midpoint/range gate",
     "",
+    "The Foundation bank is outside this gate because it does not declare item-level discriminating axes under the current instrument contract.",
+    "",
     "For every declared axis in every effective option set, the authored gate checks only:",
     "",
     "- at least one signal strictly below the policy midpoint;",
@@ -772,6 +810,8 @@ function appendInvarianceSection(
   lines.push(
     "## Presentation-seed invariance",
     "",
+    "For analyst tuples, matching semantic answer-ID digests and secondary-choice counts indicate that the same semantic secondary IDs were preserved across both presentation seeds.",
+    "",
     `Fixture baseline digest: \`${baseline.actualDigest}\` — ` +
       `${baseline.matches ? "matches" : "does not match"} the checked-in baseline.`,
     "",
@@ -779,23 +819,25 @@ function appendInvarianceSection(
       [
         "Generation",
         "Instrument",
-        "Bank / scorer",
         "Mode",
+        "Bank / scorer",
         "Seed A",
         "Seed B",
-        "Option sets with changed visible order",
-        "Semantic answer-ID digests A = B",
-        "Result-contract digests A = B",
-        "Scenario-order digests A = B",
+        "Changed option sets / total option sets",
+        "Semantic secondary-choice count",
+        "Semantic answer-ID digests",
+        "Result-contract digests",
+        "Scenario-order digests",
       ],
       report.responseEvidence.presentationInvariance.map((entry) => [
         entry.legacy ? "legacy" : "current",
         entry.instrument,
-        `${entry.bankVersion === null ? "bank n/a" : `bank ${entry.bankVersion}`} / scorer ${entry.scoringVersion}`,
         entry.mode,
+        `${entry.bankVersion === null ? "bank n/a" : `bank ${entry.bankVersion}`} / scorer ${entry.scoringVersion}`,
         entry.seeds[0],
         entry.seeds[1],
-        entry.changedPresentationQuestions,
+        `${entry.changedPresentationQuestions} of ${entry.presentationQuestionCount} option sets changed visible order`,
+        formatSemanticSecondaryChoiceCount(entry),
         formatDigestEquality(entry.semanticAnswersDigests),
         formatDigestEquality(entry.resultContractDigests),
         entry.scenarioSequenceDigests
@@ -936,8 +978,21 @@ function formatConcentration(value: {
   )
 }
 
-function formatDigestEquality(digests: readonly [string, string]) {
-  return `\`${digests[0]}\` = \`${digests[1]}\``
+export function formatDigestEquality(digests: readonly [string, string]) {
+  const operator = digests[0] === digests[1] ? "=" : "≠"
+  return `\`${digests[0]}\` ${operator} \`${digests[1]}\``
+}
+
+function formatSemanticSecondaryChoiceCount(
+  entry: EvidenceResponseFixtureReport["presentationInvariance"][number],
+) {
+  if (entry.mode !== "analyst") return "not applicable"
+  const [first, second] = entry.semanticSecondaryChoiceCounts
+  if (first !== second) return `${first} ≠ ${second}`
+  if (entry.semanticAnswersDigests[0] !== entry.semanticAnswersDigests[1]) {
+    return `${first}; preservation not established`
+  }
+  return `${first} preserved`
 }
 
 function optionLocationLabel(location: {

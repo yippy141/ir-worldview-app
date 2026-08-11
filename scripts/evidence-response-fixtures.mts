@@ -47,6 +47,9 @@ import type {
   QuizMode,
   RankedChoiceAnswer,
 } from "@/lib/types"
+// Node's strip-types runtime requires the explicit .mts extension.
+// @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
+import { EVIDENCE_ARTIFACT_SCHEMA_VERSION } from "@/scripts/evidence-utils.mts"
 
 export const EVIDENCE_RANDOM_SEED = 20260728
 export const EVIDENCE_STYLE_PRESENTATION_SEED =
@@ -154,7 +157,7 @@ export type EvidencePresentationInvariance = {
 }
 
 export type EvidenceResponseFixtureReport = {
-  schemaVersion: 1
+  schemaVersion: typeof EVIDENCE_ARTIFACT_SCHEMA_VERSION
   randomSeed: number
   stylePresentationSeed: string
   fixtureDefinitions: JsonObject
@@ -245,7 +248,7 @@ export function buildEvidenceResponseFixtureReport(): EvidenceResponseFixtureRep
   )
 
   return {
-    schemaVersion: 1,
+    schemaVersion: EVIDENCE_ARTIFACT_SCHEMA_VERSION,
     randomSeed: EVIDENCE_RANDOM_SEED,
     stylePresentationSeed: EVIDENCE_STYLE_PRESENTATION_SEED,
     fixtureDefinitions: canonicalObject({

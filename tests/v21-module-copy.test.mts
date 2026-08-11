@@ -92,3 +92,20 @@ test("the V21 copy fixture and erratum stay coupled", () => {
     }
   }
 })
+
+test("the V21 copy erratum records its corrective commit without placeholders", () => {
+  const erratum = readFileSync(
+    resolve(projectRoot, goldenCopy.erratumDocument),
+    "utf8",
+  )
+
+  assert.match(
+    erratum,
+    /7288192bf63bf604163a302a4f075cbb57284884/u,
+  )
+  assert.doesNotMatch(erratum, /uncommitted/iu)
+  assert.doesNotMatch(
+    erratum,
+    /\bTODO\b|this corrective patch|record (?:the )?.*hash|fill[- ]?this[- ]?in/iu,
+  )
+})

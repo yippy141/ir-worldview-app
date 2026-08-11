@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto"
 
+export const EVIDENCE_ARTIFACT_SCHEMA_VERSION = 2 as const
+
 export type CountEntry = {
   key: string
   count: number

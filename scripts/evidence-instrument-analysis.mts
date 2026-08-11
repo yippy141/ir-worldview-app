@@ -5,6 +5,9 @@ import {
   type DeclaredAxisEvaluation,
 } from "@/lib/instrument/measurement-gates"
 import { MODULE_PERSPECTIVE_MATRIX } from "@/lib/modules/framework"
+// Node's strip-types runtime requires the explicit .mts extension.
+// @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
+import { EVIDENCE_ARTIFACT_SCHEMA_VERSION } from "@/scripts/evidence-utils.mts"
 
 type JsonRecord = Record<string, unknown>
 type EvidenceGeneration = "current" | "legacy"
@@ -840,7 +843,7 @@ export type EvidenceTextReuse = {
 }
 
 export type InstrumentEvidenceReport = {
-  schemaVersion: 1
+  schemaVersion: typeof EVIDENCE_ARTIFACT_SCHEMA_VERSION
   instruments: InstrumentEvidenceAnalysis[]
   textReuseByGeneration: Record<EvidenceGeneration, EvidenceTextReuse>
 }
@@ -959,7 +962,7 @@ export function analyzeInstrumentEvidence(
   }
 
   return {
-    schemaVersion: 1,
+    schemaVersion: EVIDENCE_ARTIFACT_SCHEMA_VERSION,
     instruments,
     textReuseByGeneration: {
       current: findTextReuse(locationsByGeneration.current),

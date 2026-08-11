@@ -2,12 +2,16 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import { createHash } from "node:crypto"
 import {
+  cpSync,
+  lstatSync,
   mkdirSync,
   mkdtempSync,
+  readlinkSync,
   readFileSync,
   readdirSync,
   rmSync,
   statSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs"
 import { tmpdir } from "node:os"
@@ -24,10 +28,10 @@ import { validateSupportedInstrumentBank } from "@/scripts/evidence-bank-validat
 import { buildEvidenceResponseFixtureReport, EVIDENCE_RANDOM_SEED } from "@/scripts/evidence-response-fixtures.mts"
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
-import { hashJson } from "@/scripts/evidence-utils.mts"
+import { EVIDENCE_ARTIFACT_SCHEMA_VERSION, hashJson } from "@/scripts/evidence-utils.mts"
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
-import { buildEvidenceAuditReport, renderEvidenceMarkdown } from "@/scripts/evidence-report.mts"
+import { buildEvidenceAuditReport, formatDigestEquality, renderEvidenceMarkdown } from "@/scripts/evidence-report.mts"
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
 import { checkEvidenceArtifactBytes, generateEvidenceArtifactBytes } from "@/scripts/evidence-audit.mts"
@@ -78,6 +82,7 @@ type Baseline = {
 }
 
 type ArtifactReport = {
+  schemaVersion: number
   deterministicMethod: {
     absolutePaths: string
     network: string
@@ -88,6 +93,7 @@ type ArtifactReport = {
     writes: string[]
   }
   instrumentEvidence: {
+    schemaVersion: number
     instruments: Array<{
       descriptor: {
         key: string
@@ -145,6 +151,22 @@ test("committed evidence artifacts exactly equal two consecutive in-memory gener
     first.json.equals(readFileSync(artifactJsonPath)),
     "committed JSON evidence is stale",
   )
+})
+
+test("public evidence schemas are pinned to version 2", async () => {
+  const [report] = await buildTwoFreshReports()
+  const artifact = JSON.parse(
+    readFileSync(artifactJsonPath, "utf8"),
+  ) as ArtifactReport
+
+  assert.equal(EVIDENCE_ARTIFACT_SCHEMA_VERSION, 2)
+  assert.equal(report.schemaVersion, 2)
+  assert.equal(report.instrumentEvidence.schemaVersion, 2)
+  assert.equal(report.responseEvidence.schemaVersion, 2)
+  assert.equal(artifact.schemaVersion, 2)
+  assert.equal(artifact.instrumentEvidence.schemaVersion, 2)
+  assert.equal(artifact.responseEvidence.schemaVersion, 2)
+  assert.equal(readBaseline().schemaVersion, 2)
 })
 
 test("check mode writes neither evidence artifacts nor the evidence baseline", () => {
@@ -236,6 +258,97 @@ test("an intentionally altered scratch evidence artifact is detected as stale", 
   }
 })
 
+test("CI check command is read-only and rejects stale or missing scratch artifacts", () => {
+  const scratchRoot = mkdtempSync(
+    resolve(tmpdir(), "ir-evidence-audit-cli-check-"),
+  )
+  const realEvidenceBefore = snapshotFiles([
+    artifactMarkdownPath,
+    artifactJsonPath,
+    baselinePath,
+  ])
+
+  try {
+    for (const directory of [
+      "app",
+      "artifacts",
+      "components",
+      "content",
+      "i18n",
+      "lib",
+      "messages",
+      "scripts",
+      "tests",
+    ]) {
+      cpSync(resolve(projectRoot, directory), resolve(scratchRoot, directory), {
+        recursive: true,
+      })
+    }
+    cpSync(
+      resolve(projectRoot, "package.json"),
+      resolve(scratchRoot, "package.json"),
+    )
+    symlinkSync(
+      resolve(projectRoot, "node_modules"),
+      resolve(scratchRoot, "node_modules"),
+    )
+
+    const scratchMarkdown = resolve(
+      scratchRoot,
+      "artifacts/evidence/current-summary.md",
+    )
+    const scratchJson = resolve(
+      scratchRoot,
+      "artifacts/evidence/current-summary.json",
+    )
+    const cleanMarkdown = readFileSync(scratchMarkdown)
+
+    const cleanBefore = snapshotTree(scratchRoot)
+    const clean = runEvidenceAuditCheckCommand(scratchRoot)
+    assert.equal(clean.status, 0, clean.stderr)
+    assert.match(clean.stdout, /match freshly generated UTF-8 bytes/u)
+    assert.deepEqual(snapshotTree(scratchRoot), cleanBefore)
+
+    writeFileSync(
+      scratchMarkdown,
+      Buffer.concat([
+        cleanMarkdown,
+        Buffer.from("scratch alteration\n", "utf8"),
+      ]),
+    )
+    const staleBefore = snapshotTree(scratchRoot)
+    const stale = runEvidenceAuditCheckCommand(scratchRoot)
+    assert.notEqual(stale.status, 0)
+    assert.match(
+      `${stale.stdout}\n${stale.stderr}`,
+      /artifacts\/evidence\/current-summary\.md: stale/u,
+    )
+    assert.deepEqual(snapshotTree(scratchRoot), staleBefore)
+
+    writeFileSync(scratchMarkdown, cleanMarkdown)
+    rmSync(scratchJson)
+    const missingBefore = snapshotTree(scratchRoot)
+    const missing = runEvidenceAuditCheckCommand(scratchRoot)
+    assert.notEqual(missing.status, 0)
+    assert.match(
+      `${missing.stdout}\n${missing.stderr}`,
+      /artifacts\/evidence\/current-summary\.json: missing/u,
+    )
+    assert.deepEqual(snapshotTree(scratchRoot), missingBefore)
+
+    assert.deepEqual(
+      snapshotFiles([
+        artifactMarkdownPath,
+        artifactJsonPath,
+        baselinePath,
+      ]),
+      realEvidenceBefore,
+    )
+  } finally {
+    rmSync(scratchRoot, { recursive: true, force: true })
+  }
+})
+
 test("evidence report declares its bounded deterministic method", async () => {
   const [report] = await buildTwoFreshReports()
   assert.deepEqual(report.deterministicMethod, {
@@ -259,6 +372,41 @@ test("evidence report declares its bounded deterministic method", async () => {
     report.copyAudit.advisory.newFindings.length <=
       report.copyAudit.advisory.newCount,
   )
+})
+
+test("every core evidence-generator module appears in the source manifest exactly once", async () => {
+  const [report] = await buildTwoFreshReports()
+  const expectedRoles = {
+    "lib/option-order.ts": "scoring-runtime",
+    "scripts/code-unit-order.mjs": "copy-audit",
+    "scripts/evidence-audit.mts": "evidence-entrypoint",
+    "scripts/evidence-bank-validation.mts": "evidence-bank-validation",
+    "scripts/evidence-copy-delta.mts": "evidence-copy-delta",
+    "scripts/evidence-instrument-analysis.mts":
+      "evidence-instrument-analysis",
+    "scripts/evidence-report.mts": "evidence-renderer",
+    "scripts/evidence-response-fixtures.mts":
+      "evidence-response-fixtures",
+    "scripts/evidence-utils.mts": "evidence-canonicalization",
+  } as const
+  const paths = report.sources.map(({ path }) => path)
+
+  assert.equal(new Set(paths).size, paths.length)
+  for (const [path, category] of Object.entries(expectedRoles)) {
+    const matches = report.sources.filter((source) => source.path === path)
+    assert.equal(matches.length, 1, `${path} must appear exactly once`)
+    assert.equal(matches[0]?.category, category)
+  }
+})
+
+test("digest equality rendering is truthful for equal and unequal inputs", () => {
+  assert.equal(
+    formatDigestEquality(["same", "same"]),
+    "`same` = `same`",
+  )
+  const unequal = formatDigestEquality(["left", "right"])
+  assert.equal(unequal, "`left` ≠ `right`")
+  assert.doesNotMatch(unequal, / = /u)
 })
 
 test("Markdown uses precise gate, generation, invariance, and synthetic-fixture language", async () => {
@@ -289,13 +437,35 @@ test("Markdown uses precise gate, generation, invariance, and synthetic-fixture 
     /They do not establish validity, reliability, prevalence, or representativeness/u,
   )
   assert.doesNotMatch(markdown, /\| Cohort \|/u)
+  assert.match(markdown, /Semantic answer-ID digests/u)
+  assert.match(markdown, /Result-contract digests/u)
+  assert.match(markdown, /Scenario-order digests/u)
+  assert.doesNotMatch(markdown, /digests A = B/u)
+  assert.doesNotMatch(artifactFacing, /"passed":/u)
+})
+
+test("Markdown restores the invariance denominator and analyst secondary-choice evidence", async () => {
+  const [report] = await buildTwoFreshReports()
+  const markdown = renderEvidenceMarkdown(report)
+
   assert.match(
     markdown,
-    /Semantic answer-ID digests A = B/u,
+    /14 of 15 option sets changed visible order/u,
   )
-  assert.match(markdown, /Result-contract digests A = B/u)
-  assert.match(markdown, /Scenario-order digests A = B/u)
-  assert.doesNotMatch(artifactFacing, /"passed":/u)
+  assert.match(markdown, /Semantic secondary-choice count/u)
+  assert.match(markdown, /\| analyst \|[^\n]*\| 15 preserved \|/u)
+  assert.match(markdown, /\| standard \|[^\n]*\| not applicable \|/u)
+  assert.doesNotMatch(markdown, /always-yes pass/iu)
+})
+
+test("Markdown states why Foundation is outside the declared-axis gate", async () => {
+  const [report] = await buildTwoFreshReports()
+  const markdown = renderEvidenceMarkdown(report)
+
+  assert.match(
+    markdown,
+    /The Foundation bank is outside this gate because it does not declare item-level discriminating axes under the current instrument contract\./u,
+  )
 })
 
 test("response fixture output is deterministic and matches its checked-in baseline", () => {
@@ -734,6 +904,54 @@ function snapshotFiles(files: readonly string[]) {
       ]
     }),
   )
+}
+
+function runEvidenceAuditCheckCommand(projectDirectory: string) {
+  return spawnSync("npm", ["run", "evidence:audit:check"], {
+    cwd: projectDirectory,
+    encoding: "utf8",
+    maxBuffer: 8 * 1024 * 1024,
+    timeout: 120_000,
+  })
+}
+
+function snapshotTree(root: string): Record<string, unknown> {
+  const snapshot: Record<string, unknown> = {}
+
+  function visit(directory: string) {
+    const entries = readdirSync(directory, { withFileTypes: true }).sort(
+      (left, right) =>
+        left.name < right.name ? -1 : left.name > right.name ? 1 : 0,
+    )
+    for (const entry of entries) {
+      const path = resolve(directory, entry.name)
+      const relativePath = path.slice(root.length + 1)
+      const stat = lstatSync(path)
+      if (stat.isSymbolicLink()) {
+        snapshot[relativePath] = {
+          kind: "symlink",
+          target: readlinkSync(path),
+        }
+      } else if (stat.isDirectory()) {
+        snapshot[relativePath] = {
+          kind: "directory",
+          mtimeMs: stat.mtimeMs,
+        }
+        visit(path)
+      } else {
+        const contents = readFileSync(path)
+        snapshot[relativePath] = {
+          kind: "file",
+          sha256: createHash("sha256").update(contents).digest("hex"),
+          size: stat.size,
+          mtimeMs: stat.mtimeMs,
+        }
+      }
+    }
+  }
+
+  visit(root)
+  return snapshot
 }
 
 function collectFiles(directory: string): string[] {

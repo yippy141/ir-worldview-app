@@ -1,12 +1,16 @@
 # V22.5 legacy module copy errata
 
 Date: 2026-08-11  
-Correction range: `60dcd55..(this corrective patch, uncommitted)`. The full
-base hash is `60dcd5543683900ea5cef4b282cc4d8a29fdc249`. The original fallback
-prevalence wording was introduced by
-`680bc799e0bd5c90c3ae3e37c25973ad8f543af3` on 2026-08-03; `60dcd554` made the
-first description and summary corrections on 2026-08-10. Record the corrective
-patch's final commit hash here when it is committed.
+Correction history: `60dcd5543683900ea5cef4b282cc4d8a29fdc249`
+made the initial description and summary corrections on 2026-08-10;
+`7288192bf63bf604163a302a4f075cbb57284884` made the final copy-only correction
+on 2026-08-11. The full two-commit correction range is
+`9e7761797a0dbc204d39b78832deb4de0d1e9e45..7288192bf63bf604163a302a4f075cbb57284884`;
+the final follow-up delta alone is
+`60dcd5543683900ea5cef4b282cc4d8a29fdc249..7288192bf63bf604163a302a4f075cbb57284884`.
+In the current branch ancestry, the original fallback prevalence wording was
+introduced in `1fd4c8659fb8c4d81b27989e234de2c3c3b8a0be` and carried into the
+frozen V21 definitions in `402dcd72e0bfb88a0be6b64b0338c26d92a9ccb6`.
 
 ## Scope and affected versions
 
@@ -58,7 +62,7 @@ Interim replacement in `60dcd554`:
 > separate these lanes enough to support a single leader, so treat this as an
 > unsettled position and read the lane meters for the detail.
 
-Final replacement in this corrective patch:
+Final replacement in `7288192`:
 
 > Your answers sit between deterrence, alliance management, and legitimacy
 > without any one of them pulling clear. Your answers did not separate these
@@ -99,7 +103,7 @@ Interim replacement in `60dcd554`:
 > separate these tools enough to support a single leader, so treat this as an
 > unsettled position and read the lane meters for the detail.
 
-Final replacement in this corrective patch:
+Final replacement in `7288192`:
 
 > Your answers sit between control, capacity-building, and coordinated rules
 > without any one of them pulling clear. Your answers did not separate these

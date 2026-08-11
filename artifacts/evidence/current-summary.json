@@ -35527,7 +35527,7 @@
         }
       }
     ],
-    "schemaVersion": 1,
+    "schemaVersion": 2,
     "textReuseByGeneration": {
       "current": {
         "exact": [],
@@ -54598,10 +54598,10 @@
       }
     ],
     "randomSeed": 20260728,
-    "schemaVersion": 1,
+    "schemaVersion": 2,
     "stylePresentationSeed": "evidence-response-style-order-v1"
   },
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "sources": [
     {
       "category": "instrument-bank",
@@ -54779,6 +54779,41 @@
       "sha256": "a6c72119c51f455cb4c9affb814c9a1d5329ae469ef6b1797142bf28d303e1d2"
     },
     {
+      "category": "evidence-entrypoint",
+      "path": "scripts/evidence-audit.mts",
+      "sha256": "6f9ff2793b3a696d0a86937f35cc7b1969a846b6b14f363aa44cc8b01e353cc0"
+    },
+    {
+      "category": "evidence-bank-validation",
+      "path": "scripts/evidence-bank-validation.mts",
+      "sha256": "b52d70ef053c0f9b171f52c86f6f063e72b31ef2c4106e9cd02486960a416511"
+    },
+    {
+      "category": "evidence-copy-delta",
+      "path": "scripts/evidence-copy-delta.mts",
+      "sha256": "2a4fef55124cdf3d67203fa06d670f4983162a883804b2e0a523abe3de951e43"
+    },
+    {
+      "category": "evidence-instrument-analysis",
+      "path": "scripts/evidence-instrument-analysis.mts",
+      "sha256": "64f72a8fe4b4e7860430487ce92854f484900bcd08aa9515587a2a6ebdfd06cb"
+    },
+    {
+      "category": "evidence-renderer",
+      "path": "scripts/evidence-report.mts",
+      "sha256": "1e06ef0ef2a26404ec0f6424eae57ef431f33eb6e31fa3e6617e17bda57e9c8c"
+    },
+    {
+      "category": "evidence-response-fixtures",
+      "path": "scripts/evidence-response-fixtures.mts",
+      "sha256": "7b60c6ea3704bb628c620cc856f54e44bdf88f5e66733baa387e2b2e29017e18"
+    },
+    {
+      "category": "evidence-canonicalization",
+      "path": "scripts/evidence-utils.mts",
+      "sha256": "e80b75b95b56f68866077eb080c1347e75a128763c895802e2208cc4c80314b0"
+    },
+    {
       "category": "diagnostic",
       "path": "scripts/validate-instrument.mts",
       "sha256": "e902909d7da60baf007650be3bb663bf78bce476fe4f8669d499211ba229a5ec"
@@ -54786,7 +54821,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/evidence-audit.test.mts",
-      "sha256": "99c0847d3dc4f2098d397e11a58e5ba3cea5289443ad3a2922889661cc9943f7"
+      "sha256": "c37483816782bfcb076513744f73ffea108a93168537d50a78d1c515c27592ef"
     },
     {
       "category": "compatibility-test",
@@ -54796,7 +54831,7 @@
     {
       "category": "evidence-baseline",
       "path": "tests/fixtures/evidence-audit-baseline.json",
-      "sha256": "51194d3a431046fc237567d20918bca210e4b5fee6db6db805749a21656f6e7f"
+      "sha256": "4411a0f399918f837f218fde84bb6457112a716ef56b479a8733914421508d0f"
     },
     {
       "category": "compatibility-test",
@@ -54831,7 +54866,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/v21-module-copy.test.mts",
-      "sha256": "78b4a8eb19de8ef221942bf2c955dd188dec71b0c02c4f47fcc51cd258e12635"
+      "sha256": "378c1fffaa13b567f8ede3aab8044cc15e4e7f9e25cdc78a1523b8cbfdf746a4"
     }
   ]
 }

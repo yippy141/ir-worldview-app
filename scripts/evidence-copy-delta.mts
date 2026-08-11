@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises"
 import { resolve } from "node:path"
 // Node's strip-types runtime requires the explicit .mts extension.
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
-import { compareEvidenceStrings, hashJson } from "@/scripts/evidence-utils.mts"
+import { compareEvidenceStrings, EVIDENCE_ARTIFACT_SCHEMA_VERSION, hashJson } from "@/scripts/evidence-utils.mts"
 
 export type PublicCopyFinding = {
   priority: "P0" | "P1" | "P2"
@@ -41,7 +41,7 @@ export type AdvisoryCopyFindingEntry = AdvisoryCopyBaselineEntry & {
 }
 
 export type EvidenceAuditBaseline = {
-  schemaVersion: 1
+  schemaVersion: typeof EVIDENCE_ARTIFACT_SCHEMA_VERSION
   advisoryCopyAudit: {
     priority: "P2"
     entries: AdvisoryCopyBaselineEntry[]
@@ -292,7 +292,7 @@ function assertEvidenceAuditBaseline(
 ): asserts value is EvidenceAuditBaseline {
   if (
     !isObject(value) ||
-    value.schemaVersion !== 1 ||
+    value.schemaVersion !== EVIDENCE_ARTIFACT_SCHEMA_VERSION ||
     !isObject(value.advisoryCopyAudit) ||
     value.advisoryCopyAudit.priority !== "P2" ||
     !Array.isArray(value.advisoryCopyAudit.entries) ||
