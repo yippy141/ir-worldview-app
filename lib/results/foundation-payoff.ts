@@ -62,51 +62,51 @@ const familyFrames: Record<
   }
 > = {
   realist: {
-    noticeFirst: "You first ask whether power, credible threats, and rivalry will override declared intentions.",
-    distrust: "You tend to distrust cooperation that depends on goodwill without leverage or enforcement.",
+    noticeFirst: "Power and rivalry take priority when declared intentions lack credible constraints.",
+    distrust: "Cooperation based on goodwill alone receives little weight without leverage or enforcement.",
     underweight:
-      "You may underweight cases where rules, identity, or economic dependence change what actors want in the first place.",
+      "Rules or identity can sometimes change what actors want as well as constrain them.",
     debateLens: {
-      "Great-power rivalry": "Look for incentives, credible costs, and escalation limits before trusting public assurances.",
+      "Great-power rivalry": "Look for credible costs and escalation limits before trusting public assurances.",
       "Technology competition": "Ask where dependence creates vulnerability and who can control the key chokepoints.",
-      "Sanctions and supply chains": "Watch whether pressure can actually change behavior, not only whether it signals resolve.",
-      "Humanitarian crisis": "Test moral urgency against precedent, escalation risk, and the durability of any settlement.",
+      "Sanctions and supply chains": "Watch whether pressure can change behavior. A signal of resolve alone is insufficient.",
+      "Humanitarian crisis": "Test moral urgency against the precedent set and whether a settlement can last.",
     },
   },
   institutionalist: {
-    noticeFirst: "You first ask whether rules, monitoring, and repeated cooperation can change incentives.",
-    distrust: "You tend to distrust pure power explanations that ignore institutions that make cheating costly.",
+    noticeFirst: "Rules matter when monitoring and repeated cooperation change incentives.",
+    distrust: "Pure power explanations are incomplete when institutions make cheating costly.",
     underweight:
-      "You may underweight how quickly rules weaken when powerful actors decide the bargain no longer serves them.",
+      "Powerful actors can abandon rules when the bargain no longer serves them.",
     debateLens: {
       "Great-power rivalry": "Ask whether institutions can reduce misperception or lock in narrow cooperation despite rivalry.",
-      "Technology competition": "Look for standards, inspections, and coalitions that make risky behavior harder to hide.",
+      "Technology competition": "Look for standards and inspections that make risky behavior harder to hide.",
       "Sanctions and supply chains": "Ask whether coordination spreads costs and makes pressure more legitimate.",
-      "Humanitarian crisis": "Look for authorization, thresholds, and burden-sharing before trusting unilateral action.",
+      "Humanitarian crisis": "Require authorization and credible burden-sharing before trusting unilateral action.",
     },
   },
   constructivist: {
-    noticeFirst: "You first ask how legitimacy, identity, and shared expectations shape what actors think is possible.",
-    distrust: "You tend to distrust accounts that treat interests as fixed before the argument even begins.",
+    noticeFirst: "Legitimacy and identity shape what actors believe is possible.",
+    distrust: "Accounts that assume fixed interests leave out how actors define them.",
     underweight:
-      "You may underweight material leverage, enforcement, and the hard limits imposed by coercive power.",
+      "Material leverage and coercive power can set limits that interpretation cannot remove.",
     debateLens: {
-      "Great-power rivalry": "Ask how threat images, status, and historical memory shape the meaning of each move.",
-      "Technology competition": "Look at which narratives make openness, control, or sovereignty seem legitimate.",
-      "Sanctions and supply chains": "Ask whether pressure changes norms and identities, not only material incentives.",
-      "Humanitarian crisis": "Watch how legitimacy, recognition, and responsibility are framed by the actors involved.",
+      "Great-power rivalry": "Ask how historical memory shapes the threat image behind each move.",
+      "Technology competition": "Which narrative makes a policy of openness or control legitimate?",
+      "Sanctions and supply chains": "Ask whether pressure changes norms and identities as well as material incentives.",
+      "Humanitarian crisis": "Watch how the actors frame legitimacy and responsibility.",
     },
   },
   criticalPoliticalEconomy: {
-    noticeFirst: "You first ask who benefits from the economic structure behind the policy choice.",
-    distrust: "You tend to distrust neutral language that hides hierarchy, dependence, or unequal adjustment costs.",
+    noticeFirst: "The starting question is who benefits from the economic structure behind the policy choice.",
+    distrust: "Neutral language can conceal hierarchy, dependence, and unequal adjustment costs.",
     underweight:
-      "You may underweight security fears, institutional constraints, or identity claims that are not just covers for material interest.",
+      "Security fears, institutional constraints, and identity claims may have force beyond material interests.",
     debateLens: {
       "Great-power rivalry": "Ask who profits from the rivalry frame and which dependencies it leaves untouched.",
-      "Technology competition": "Look for ownership, labor, data, finance, and who captures the gains from control.",
+      "Technology competition": "Ask who owns the infrastructure and captures the gains from control.",
       "Sanctions and supply chains": "Ask who absorbs the costs and who controls the chokepoints that make pressure bite.",
-      "Humanitarian crisis": "Look at the political economy of vulnerability, reconstruction, debt, and outside leverage.",
+      "Humanitarian crisis": "Trace how reconstruction and debt distribute outside leverage.",
     },
   },
 }
@@ -114,7 +114,7 @@ const familyFrames: Record<
 const rivalArguments: Record<FamilyKey, string> = {
   realist: "The realist challenge is that power and security incentives may survive every appeal to rules or legitimacy.",
   institutionalist:
-    "The institutionalist challenge is that rules can change incentives when monitoring, repetition, and costs are real.",
+    "The institutionalist challenge is that rules can change incentives when compliance is observable and violations carry costs.",
   constructivist:
     "The constructivist challenge is that legitimacy and identity can change what actors think their interests are.",
   criticalPoliticalEconomy:
@@ -175,11 +175,11 @@ function buildMainTension(
 ): FoundationPayoff["mainTension"] {
   if (tensionKey === "low-differentiation") {
     return {
-      title: "What makes you choose a lens",
+      title: "What decides the case",
       body:
-        "Your baseline does not supply one default answer. It waits for the issue to reveal whether power, rules, identity, or dependence matters most.",
+        "Your baseline does not supply one default answer. The issue determines whether you give priority to power, rules, identity, or dependence.",
       rivalArgument:
-        "A concrete case should force one of those logics to outrank the others.",
+        "A concrete case should reveal which consideration outranks the others.",
     }
   }
 
@@ -221,7 +221,7 @@ function buildMainTension(
     return {
       title: "Dependence versus diplomacy",
       body:
-        "You look behind diplomacy to who controls credit, production, and market access. The unresolved question is when those structures determine the outcome and when governments can still bargain around them.",
+        "You look behind diplomacy to control over financial and productive resources. The unresolved question is when those structures determine the outcome and when governments can still bargain around them.",
       rivalArgument: rivalArguments[input.runnerUpKey],
     }
   }
@@ -229,26 +229,26 @@ function buildMainTension(
   return {
     title: "Rivalry versus cooperation",
     body:
-      "You treat rivalry as a durable constraint. The unresolved question is when verification, bargaining, or shared costs can still contain it.",
+      "You treat rivalry as a durable constraint. The unresolved question is when verification or shared costs can still contain it.",
     rivalArgument: rivalArguments[input.runnerUpKey],
   }
 }
 
 function restraintTension(modifier: StrategyModifier) {
   if (modifier === "Restrainer") {
-    return "You usually put limits first. The unresolved question is which openings are important enough to justify pressing harder."
+    return "Limits come first in this result. The unresolved question is which openings are important enough to justify pressing harder."
   }
 
   if (modifier === "Maximizer") {
     return "You are willing to press an advantage. The unresolved question is when the added gain stops being worth escalation or overextension."
   }
 
-  return "You keep both restraint and advantage in play. The unresolved question is what evidence should make one outrank the other."
+  return "Your answers balance restraint against advantage. The unresolved question is what evidence should make one outrank the other."
 }
 
 function orderJusticeTension(modifier: NormativeModifier) {
   if (modifier === "Pluralist") {
-    return "You usually put sovereignty and precedent first. The unresolved question is what level of harm, if any, should override that rule."
+    return "Sovereignty and precedent come first in this result. The unresolved question is what level of harm, if any, should override that rule."
   }
 
   if (modifier === "Universalist") {
@@ -302,18 +302,18 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
   if (tensionKey === "low-differentiation") {
     return {
       href: "/explore/atlas",
-      label: "Browse Worldview profiles",
+      label: "Browse Decision Patterns",
       reason:
-        "Start by comparing nearby Worldview profiles before forcing a sharper label than the baseline supports.",
+        "Use the editorial Decision Patterns as comparisons without treating one as an assigned result.",
     }
   }
 
   if (tensionKey === "rules-leverage" || tensionKey === "dependence-diplomacy") {
     return {
       href: "/modules/technology",
-      label: "Compare in Technology",
+      label: "Read the Technology domain",
       reason:
-        "Technology cases make rules, dependence, chokepoints, and enforcement tradeoffs harder to avoid.",
+        "Technology cases make dependence and enforcement tradeoffs concrete.",
     }
   }
 
@@ -322,14 +322,14 @@ function buildNextStep(tensionKey: TensionKey): FoundationPayoff["nextStep"] {
       href: "/ai",
       label: "Try AI Governance",
       reason:
-        "AI governance makes legitimacy, rule-setting, and authority under uncertainty concrete.",
+        "AI governance makes authority under uncertainty concrete.",
     }
   }
 
   return {
     href: "/modules/security",
-    label: "Compare in Security",
+    label: "Read the Security domain",
     reason:
-      "Security cases make rivalry, restraint, escalation, order, and advantage show up quickly.",
+      "Security cases make the tradeoff between rivalry and restraint concrete.",
   }
 }

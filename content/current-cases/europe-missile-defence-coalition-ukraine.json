@@ -1,15 +1,19 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "security-europe-anti-ballistic-coalition-ukraine-2026-07",
   "slug": "europe-missile-defence-coalition-ukraine",
   "version": 1,
   "publicationStatus": "published",
-  "launchRole": "launch",
+  "launchRole": "archive",
   "title": "Europe’s integrated anti-ballistic-missile coalition for Ukraine",
   "dek": "Ten European states and Ukraine are testing whether urgent wartime demand can become a credible European missile-defence architecture.",
   "category": "security",
   "publishedAt": "2026-07-17",
   "updatedAt": "2026-07-17",
+  "asOf": "2026-07-17",
+  "reviewDueAt": "2026-07-24",
+  "freshnessStatus": "review-due",
+  "cadence": "fast",
   "evidenceWindow": {
     "start": "2026-06-26",
     "end": "2026-07-17"
@@ -171,7 +175,7 @@
     {
       "href": "/explore/atlas",
       "label": "Worldview Map",
-      "reason": "Compare the four readings with nearby modeled profiles."
+      "reason": "Compare the four readings with nearby editorial Decision Patterns."
     }
   ],
   "sources": [
@@ -263,7 +267,7 @@
       "mitigation": "Distinguish confirmed reductions from reported review options in every revision."
     }
   ],
-  "editorialMemo": "This is the strongest launch case because it compresses alliance politics, industrial statecraft, military innovation, and uncertainty about U.S. commitments into one decision-grade question. The official sources are unusually rich: there is a real coalition, a real French-Ukrainian industrial package, and a clear NATO summit frame. At the same time, the Reuters and IISS material keep the case honest by showing that Europe’s sharpest constraint is not only money or intent. It is the continuing dependence on U.S.-provided enablers, integration architecture, and force availability. That creates a clean threshold test for users: are they looking at the first serious layer of strategic substitution, or at a politically useful but incomplete hedge? The case also lets several worldview profiles disagree without any one answer being morally preloaded. It is timely, concrete, and likely to remain decision-relevant over the next 30–90 days.",
+  "editorialMemo": "This is the strongest launch case because it compresses alliance politics, industrial statecraft, military innovation, and uncertainty about U.S. commitments into one decision-grade question. The official sources are unusually rich: there is a real coalition, a real French-Ukrainian industrial package, and a clear NATO summit frame. At the same time, the Reuters and IISS material keep the case honest by showing that Europe’s sharpest constraint is not only money or intent. It is the continuing dependence on U.S.-provided enablers, integration architecture, and force availability. That creates a clean threshold test for users: are they looking at the first serious layer of strategic substitution, or at a politically useful but incomplete hedge? The case also lets several Decision Patterns disagree without any one answer being morally preloaded. It is timely, concrete, and likely to remain decision-relevant over the next 30–90 days.",
   "editorialReview": {
     "researchReviewedAt": "2026-07-17",
     "sourceCheckedAt": "2026-07-17",

@@ -1,0 +1,25 @@
+{
+  "erratumDocument": "docs/v22-5/V22_5_LEGACY_MODULE_COPY_ERRATA.md",
+  "tuple": {
+    "bankVersion": 2,
+    "scoringVersion": 1
+  },
+  "localeCopyVersions": {
+    "legacyEnglish": 0,
+    "moduleEnglish": 1
+  },
+  "security": {
+    "originalDescription": "Most cases start from familiar security debates about deterrence, alliances, escalation, and legitimacy. A smaller set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
+    "replacementDescription": "The cases start from familiar security debates about deterrence, alliances, escalation, and legitimacy. A separate set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
+    "originalPrevalenceSummary": "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
+    "interimSummary": "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. The current question set did not separate these lanes enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
+    "replacementSummary": "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. Your answers did not separate these lanes enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail."
+  },
+  "technology": {
+    "originalDescription": "Most cases start from familiar debates about chokepoints, industrial policy, AI governance, and strategic dependence. A smaller set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
+    "replacementDescription": "The cases start from familiar debates about chokepoints, industrial policy, AI governance, and strategic dependence. A separate set of pressure tests shifts to sanctioned, middle-power, and nonaligned perspectives when the vantage point changes the policy read.",
+    "originalPrevalenceSummary": "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
+    "interimSummary": "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. The current question set did not separate these tools enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
+    "replacementSummary": "Your answers sit between control, capacity-building, and coordinated rules without any one of them pulling clear. Your answers did not separate these tools enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail."
+  }
+}

@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ScaleBar } from "@/components/visual-primitives"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
-import { getAtlasPatternHref, matchAtlasLiteFoundation } from "@/lib/atlas-lite"
+import { getAtlasPatternHref } from "@/lib/atlas-lite"
 import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
 import {
   PAYLOAD_DIMENSION_ORDER,
@@ -234,14 +234,6 @@ export default async function ResultPage(
   })
   const pressureQuestions = getPressureTestQuestions(result.familyKey)
   const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
-  const atlasMatch = matchAtlasLiteFoundation({
-    familyKey: result.familyKey,
-    runnerUpKey: neighborKey,
-    strategyModifier: result.strategyModifier,
-    normativeModifier: result.normativeModifier,
-    dimensionScores,
-    foundationState: foundationNarrative.state,
-  })
   const pressureCase = verifiedCaseLibrary.cases.find(
     (caseStudy) => caseStudy.caseId === foundationPayoff.caseTest.caseId,
   ) ?? null
@@ -346,8 +338,8 @@ export default async function ResultPage(
         },
         {
           href: `/modules?foundation=${encodeURIComponent(payload)}`,
-          label: "Add a focus-area overlay",
-          text: "Pressure-test the baseline in Security or Technology before treating it as settled.",
+          label: "Add a focus-area record",
+          text: "Read Security or Technology on its own domain scale beside this Foundation.",
         },
       ],
     },
@@ -393,6 +385,9 @@ export default async function ResultPage(
                 {archetype.name}
               </h1>
               <p className="foundation-result-code">{archetypeCode}</p>
+              <p className="foundation-result-tradition">
+                Closest modeled tradition: {familyLabel}
+              </p>
               <p className="result-lead">{archetype.gloss}</p>
               {archetype.analogue && analogueHref ? (
                 <p className="foundation-result-analogue">
@@ -523,7 +518,7 @@ export default async function ResultPage(
                     <p>{foundationPayoff.mainTension.body}</p>
                   </article>
                   <article className="foundation-result-reading stack-xs">
-                    <p className="foundation-result-reading__label">Pulls the other way</p>
+                    <p className="foundation-result-reading__label">Nearest challenge</p>
                     <h3>Why {neighborLabel} remains nearby</h3>
                     <p>{foundationPayoff.mainTension.rivalArgument}</p>
                   </article>
@@ -542,11 +537,6 @@ export default async function ResultPage(
                     <dd>{normativeModifierGloss(result.normativeModifier)}</dd>
                   </div>
                 </dl>
-                <p>
-                  <Link href={getAtlasPatternHref(atlasMatch.nearest.id)} className="result-strong">
-                    Read the {atlasMatch.nearest.publicName} profile →
-                  </Link>
-                </p>
               </section>
 
               {pressureCase ? (
@@ -572,15 +562,23 @@ export default async function ResultPage(
               ) : null}
 
               <section className="stack-md" aria-labelledby="foundation-domain-heading">
-                <h2 id="foundation-domain-heading">Where this profile may change by issue</h2>
+                <h2 id="foundation-domain-heading">How to apply this Foundation by issue</h2>
                 <div className="foundation-domain-grid">
                   <article className="foundation-domain-note stack-xs">
                     <h3>Security</h3>
-                    <p>{atlasMatch.nearest.securitySummary}</p>
+                    <p>
+                      {foundationPayoff.liveDebates.find(
+                        (debate) => debate.title === "Great-power rivalry",
+                      )?.text}
+                    </p>
                   </article>
                   <article className="foundation-domain-note stack-xs">
                     <h3>Technology</h3>
-                    <p>{atlasMatch.nearest.technologySummary}</p>
+                    <p>
+                      {foundationPayoff.liveDebates.find(
+                        (debate) => debate.title === "Technology competition",
+                      )?.text}
+                    </p>
                   </article>
                   <article className="foundation-domain-note stack-xs">
                     <h3>{issueAreaTilts[0]?.issue ?? "What may change the reading"}</h3>
@@ -863,10 +861,10 @@ function getFallbackMixedNote(
   }
 
   if (state === "sharplyDifferentiated") {
-    return "The baseline is comparatively consistent across dimensions. The main test now is whether it still holds under issue-specific pressure."
+    return "Cross-dimension consistency makes this baseline comparatively clear. The main test now is whether it still holds under issue-specific pressure."
   }
 
-  return "The baseline is clear, but a nearby runner-up still stays live in harder cases. That overlap is part of the result."
+  return "A nearby runner-up remains relevant in harder cases even though the baseline is clear. That overlap is part of the result."
 }
 
 function withFoundationPayload(href: string, payload: string) {

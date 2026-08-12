@@ -3226,8 +3226,8 @@ html:lang(zh-Hans) .quiz-shell-label {
   padding: 5px 10px;
   font-size: 0.8rem;
   line-height: 1.3;
-  color: var(--muted);
-  background: color-mix(in srgb, var(--paper) 72%, white 28%);
+  color: var(--text-2);
+  background: var(--panel-2);
 }
 
 .atlas-pressure-note {
@@ -3381,6 +3381,10 @@ html:lang(zh-Hans) .quiz-shell-label {
     radial-gradient(circle at center, color-mix(in srgb, var(--accent) 10%, transparent 90%) 0%, transparent 72%);
   pointer-events: none;
   z-index: -1;
+}
+
+.explore-page .article-header::before {
+  right: 0;
 }
 
 .profile-hero::before {
@@ -4185,8 +4189,8 @@ html:lang(zh-Hans) .quiz-shell-label {
   font-weight: 600;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: var(--muted);
-  background: color-mix(in srgb, var(--panel-2) 58%, white 42%);
+  color: var(--text-2);
+  background: var(--panel-2);
   border: 1px solid var(--border-soft);
   border-radius: 3px;
   white-space: nowrap;
@@ -4600,6 +4604,107 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 .profile-module-grid--report {
   gap: 30px 34px;
+}
+
+.profile-domain-intro {
+  max-width: 720px;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.profile-domain-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.profile-domain-status span {
+  display: inline-flex;
+  gap: 7px;
+  align-items: baseline;
+}
+
+.profile-domain-status strong {
+  color: var(--text);
+}
+
+.profile-domain-status code {
+  color: var(--text);
+  font-size: 0.76rem;
+}
+
+.profile-domain-records {
+  border-top: 2px solid var(--text);
+}
+
+.profile-domain-record {
+  display: grid;
+  gap: 12px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.profile-domain-record__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 18px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.profile-domain-record h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.profile-domain-record__result {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(1.15rem, 2vw, 1.42rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.profile-domain-record__summary {
+  max-width: 760px;
+  margin: 0;
+  line-height: 1.65;
+}
+
+.profile-domain-record__link {
+  width: fit-content;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (min-width: 760px) {
+  .profile-domain-record {
+    grid-template-columns: minmax(150px, 0.32fr) minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .profile-domain-record__meta {
+    display: grid;
+    justify-content: start;
+  }
+
+  .profile-domain-record__link {
+    margin-top: 30px;
+    white-space: nowrap;
+  }
 }
 
 .profile-module-entry {
@@ -8091,6 +8196,14 @@ html:lang(zh-Hans) .quiz-shell-label {
   text-transform: uppercase;
 }
 
+.foundation-result-tradition {
+  margin: 0;
+  color: var(--text-2);
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
 .foundation-result-analogue {
   max-width: 62ch;
   color: var(--muted);
@@ -8564,6 +8677,18 @@ html:lang(zh-Hans) .quiz-shell-label {
     content-visibility: visible !important;
   }
 
+  .profile-details::details-content {
+    display: block !important;
+    block-size: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    content-visibility: visible !important;
+  }
+
+  .alt-compare-scroll {
+    overflow: visible !important;
+  }
+
   .result-appendix-section .profile-details {
     break-before: page;
     page-break-before: always;
@@ -9017,6 +9142,13 @@ html:lang(zh-Hans) .quiz-shell-label {
   text-wrap: pretty;
 }
 
+.result-verdict__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
 /* One visual per section, prose in support underneath it. */
 .result-figure > h2 {
   margin: 0 0 28px;
@@ -9167,12 +9299,29 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 /* ── Nearest-alternative comparison ───────────────────────────────────── */
 
+.alt-compare-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.alt-compare-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .alt-compare {
   width: 100%;
   max-width: 760px;
   border-collapse: collapse;
   font-family: var(--sans);
   font-size: 0.86rem;
+}
+
+.explore-page .article-section > p,
+.explore-page .article-section > .stack-xs > p,
+.explore-page .article-section > .stack-sm > div > p,
+.explore-page .gap-entry > p {
+  max-width: 70ch;
 }
 
 .alt-compare th,

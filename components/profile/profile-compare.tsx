@@ -1,11 +1,8 @@
 import Link from "next/link"
-import { AtlasFingerprint } from "@/components/atlas/atlas-fingerprint"
-import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
-import { getAtlasPatternHref, matchAtlasLiteProfile } from "@/lib/atlas-lite"
-import { buildIntegratedHeadline } from "@/lib/profile-helpers"
+import { normFromNormativeModifier } from "@/lib/archetypes"
 import { buildProfileComparison } from "@/lib/profile-compare"
+import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import type { ResolvedProfileShare } from "@/lib/profile-share"
-import type { ModuleSnapshot } from "@/lib/profile-store"
 
 type Props = {
   left: ResolvedProfileShare
@@ -16,22 +13,10 @@ type Props = {
 
 export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props) {
   const comparison = buildProfileComparison(left.profile, right.profile)
-  const leftHeadline = buildIntegratedHeadline(left.profile)
-  const rightHeadline = buildIntegratedHeadline(right.profile)
-  const leftAtlas = matchAtlasLiteProfile({
-    foundation: left.profile.foundation!,
-    profileState: left.assessment.state,
-    moduleSnapshots: Object.values(left.profile.modules).filter(
-      (snapshot): snapshot is ModuleSnapshot => Boolean(snapshot),
-    ),
-  })
-  const rightAtlas = matchAtlasLiteProfile({
-    foundation: right.profile.foundation!,
-    profileState: right.assessment.state,
-    moduleSnapshots: Object.values(right.profile.modules).filter(
-      (snapshot): snapshot is ModuleSnapshot => Boolean(snapshot),
-    ),
-  })
+  const leftFoundation = left.profile.foundation!
+  const rightFoundation = right.profile.foundation!
+  const leftIdentity = resolveFoundationIdentityFromSnapshot(leftFoundation)
+  const rightIdentity = resolveFoundationIdentityFromSnapshot(rightFoundation)
 
   return (
     <section className="stack-lg">
@@ -60,10 +45,18 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
 
       <section className="compare-summary-grid">
         <article className="panel stack-sm">
-          <p className="eyebrow">Left profile</p>
-          <h2 style={{ marginBottom: 0 }}>{leftHeadline}</h2>
+          <p className="eyebrow">Left Foundation archetype</p>
+          <h2 style={{ marginBottom: 0 }}>
+            {leftIdentity?.archetype.name ?? "Foundation identity unavailable"}
+          </h2>
+          {leftIdentity ? (
+            <p className="foundation-result-code">
+              {leftIdentity.archetype.code} / {normFromNormativeModifier(leftIdentity.result.normativeModifier)}
+            </p>
+          ) : null}
           <p className="muted" style={{ lineHeight: "1.65", marginBottom: 0 }}>
-            {left.assessment.summary}
+            {leftIdentity?.archetype.gloss
+              ?? "This shared Profile’s Foundation payload could not be resolved, so no identity was inferred."}
           </p>
           <p style={{ marginBottom: 0 }}>
             <Link href={`/profile/share/${leftPayload}`} style={{ color: "var(--accent)" }}>
@@ -73,10 +66,18 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
         </article>
 
         <article className="panel stack-sm">
-          <p className="eyebrow">Right profile</p>
-          <h2 style={{ marginBottom: 0 }}>{rightHeadline}</h2>
+          <p className="eyebrow">Right Foundation archetype</p>
+          <h2 style={{ marginBottom: 0 }}>
+            {rightIdentity?.archetype.name ?? "Foundation identity unavailable"}
+          </h2>
+          {rightIdentity ? (
+            <p className="foundation-result-code">
+              {rightIdentity.archetype.code} / {normFromNormativeModifier(rightIdentity.result.normativeModifier)}
+            </p>
+          ) : null}
           <p className="muted" style={{ lineHeight: "1.65", marginBottom: 0 }}>
-            {right.assessment.summary}
+            {rightIdentity?.archetype.gloss
+              ?? "This shared Profile’s Foundation payload could not be resolved, so no identity was inferred."}
           </p>
           <p style={{ marginBottom: 0 }}>
             <Link href={`/profile/share/${rightPayload}`} style={{ color: "var(--accent)" }}>
@@ -91,7 +92,8 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
           <p className="eyebrow">Foundation spine comparison</p>
           <h2>Where the baseline lines up, and where it does not</h2>
           <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-            This is the cleanest shared reference point before the domain overlays are added back in.
+            This section compares Foundation dimensions only. Security and Technology differences
+            below compare the same domain with itself.
           </p>
         </div>
         <div className="compare-spine-legend">
@@ -158,53 +160,6 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
         </article>
       </section>
 
-      <section className="compare-summary-grid">
-        <article className="atlas-pattern-card stack-sm">
-          <div className="stack-xs">
-            <p className="eyebrow">Left worldview profile</p>
-            <h2 style={{ marginBottom: 0 }}>{leftAtlas.nearest.publicName}</h2>
-            <p className="muted" style={{ fontSize: "0.8rem" }}>{leftAtlas.nearest.technicalDescriptor}</p>
-            <AtlasPatternFamily pattern={leftAtlas.nearest} compact />
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-              {leftAtlas.nearest.cardSummary}
-            </p>
-          </div>
-          <AtlasFingerprint fingerprint={leftAtlas.nearest.fingerprint} compact />
-          <div className="atlas-inline-links">
-            <Link href={getAtlasPatternHref(leftAtlas.nearest.id)} style={{ color: "var(--accent)" }}>
-              Read pattern
-            </Link>
-            {leftAtlas.neighbors.map((pattern) => (
-              <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                {pattern.publicName}
-              </Link>
-            ))}
-          </div>
-        </article>
-
-        <article className="atlas-pattern-card stack-sm">
-          <div className="stack-xs">
-            <p className="eyebrow">Right worldview profile</p>
-            <h2 style={{ marginBottom: 0 }}>{rightAtlas.nearest.publicName}</h2>
-            <p className="muted" style={{ fontSize: "0.8rem" }}>{rightAtlas.nearest.technicalDescriptor}</p>
-            <AtlasPatternFamily pattern={rightAtlas.nearest} compact />
-            <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-              {rightAtlas.nearest.cardSummary}
-            </p>
-          </div>
-          <AtlasFingerprint fingerprint={rightAtlas.nearest.fingerprint} compact />
-          <div className="atlas-inline-links">
-            <Link href={getAtlasPatternHref(rightAtlas.nearest.id)} style={{ color: "var(--accent)" }}>
-              Read pattern
-            </Link>
-            {rightAtlas.neighbors.map((pattern) => (
-              <Link key={pattern.id} href={getAtlasPatternHref(pattern.id)} style={{ color: "var(--accent)" }}>
-                {pattern.publicName}
-              </Link>
-            ))}
-          </div>
-        </article>
-      </section>
     </section>
   )
 }

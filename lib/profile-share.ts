@@ -12,7 +12,6 @@ import type {
 } from "@/lib/perspectives/types"
 import type { ModuleLaneSummary, ModuleSlug } from "@/lib/modules/types"
 import { buildProfileAssessment, type ProfileState } from "@/lib/profile-helpers"
-import type { ProfileAssessment } from "@/lib/profile-helpers"
 import { isValidProfileTimestamp, parseProfileStore } from "@/lib/profile-store"
 import type {
   AiGovernanceSnapshot,
@@ -152,10 +151,17 @@ export type ProfileSharePayload =
   | ProfileSharePayloadV2
   | ProfileSharePayloadV3
 
+export type ProfileShareFoundationRecord = {
+  timestamp: number
+  payload: string
+  resultPath: string
+}
+
 export type ResolvedProfileShare = {
   payload: ProfileSharePayload
   profile: ProfileStore
-  assessment: ProfileAssessment
+  foundationStatus: "resolved" | "unavailable"
+  foundationRecord: ProfileShareFoundationRecord
 }
 
 const PROFILE_SHARE_PATH_PATTERN = /\/profile\/share\/([A-Za-z0-9\-_]+)/i
@@ -199,6 +205,26 @@ export function buildProfileSharePayload(profile: ProfileStore): ProfileSharePay
     ...(ai ? { ai } : {}),
     ...(perspectiveRuns.length > 0 ? { pr: perspectiveRuns } : {}),
   }
+}
+
+/**
+ * V3 is the canonical write format. V2 remains the compatibility write path
+ * when a display-only legacy module has no canonical token, or when a legacy
+ * Foundation token can no longer be reconstructed. Unlike V1, it keeps AI
+ * Governance and Perspective Runs in the same shared Profile.
+ */
+export function buildCompatibleProfileSharePayload(
+  profile: ProfileStore,
+): ProfileSharePayloadV2 | ProfileSharePayloadV3 | null {
+  const hasLegacyModule = Object.values(profile.modules).some(
+    (snapshot) => snapshot && !snapshot.payload,
+  )
+  const hasUnavailableFoundation = Boolean(
+    profile.foundation && !resolveFoundationPayload(profile.foundation.payload),
+  )
+  return hasLegacyModule || hasUnavailableFoundation
+    ? buildProfileSharePayloadV2(profile)
+    : buildProfileSharePayload(profile)
 }
 
 export function buildProfileSharePayloadV2(profile: ProfileStore): ProfileSharePayloadV2 | null {
@@ -361,16 +387,21 @@ export function resolveProfileSharePayload(
     return {
       payload,
       profile,
-      assessment: buildProfileAssessment(profile),
+      foundationStatus: "resolved",
+      foundationRecord: {
+        timestamp: profile.foundation.timestamp,
+        payload: profile.foundation.payload,
+        resultPath: profile.foundation.resultPath,
+      },
     }
   }
 
+  const foundationTimestamp = payload.v === 2 ? payload.ft : 1
   const foundation = buildFoundationSnapshot(
     payload.f,
-    payload.v === 2 ? payload.ft : 1,
+    foundationTimestamp,
     locale,
   )
-  if (!foundation) return null
 
   const modules = Object.fromEntries(
     payload.ms
@@ -403,7 +434,7 @@ export function resolveProfileSharePayload(
   const profile: ProfileStore = {
     v: 5,
     foundation,
-    foundationHistory: [foundation],
+    foundationHistory: foundation ? [foundation] : [],
     modules,
     moduleHistory,
     aiGovernance,
@@ -414,7 +445,12 @@ export function resolveProfileSharePayload(
   return {
     payload,
     profile,
-    assessment: buildProfileAssessment(profile),
+    foundationStatus: foundation ? "resolved" : "unavailable",
+    foundationRecord: {
+      timestamp: foundationTimestamp,
+      payload: payload.f,
+      resultPath: publicPath(locale, `/results/${payload.f}`),
+    },
   }
 }
 
@@ -637,14 +673,14 @@ function buildModuleSnapshot(
 
 function buildAiGovernanceSnapshot(
   shared: ProfileShareAiV2,
-  locale: Locale,
+  _locale: Locale,
 ): AiGovernanceSnapshot | null {
   const decoded = decodeAiPayload(shared.p)
   if (!decoded) return null
   return {
     timestamp: shared.t,
     payload: shared.p,
-    resultPath: publicPath(locale, `/ai/results/${shared.p}`),
+    resultPath: `/ai/results/${shared.p}`,
     archetypeKey: decoded.ak,
     archetypeLabel: shared.l,
     riskLens: decoded.rl,
@@ -665,7 +701,7 @@ function buildAiGovernanceSnapshot(
 
 function buildPerspectiveRunSnapshot(
   shared: ProfileSharePerspectiveRunV2,
-  locale: Locale,
+  _locale: Locale,
 ): PerspectiveRunSnapshot | null {
   const perspective = getPerspectiveDefinition(shared.p)
   if (!perspective || perspective.scenarioSetVersion !== shared.sv) return null
@@ -683,7 +719,7 @@ function buildPerspectiveRunSnapshot(
     dimensionScores: perspectiveTupleToDimensionScores(shared.ds),
     baselineDeltas: shared.bd,
     strongestShiftKeys: shared.sk,
-    resultPath: publicPath(locale, shared.r),
+    resultPath: shared.r,
     payload: resultPayload,
     ...LEGACY_ENGLISH_PROVENANCE,
     legacyEnglishCopy: {

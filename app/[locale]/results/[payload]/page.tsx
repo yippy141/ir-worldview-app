@@ -40,10 +40,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         scoringCalibration: resolved.scoringCalibration,
       })
     : null
-  const title = narrative
-    ? `${narrative.familyLabel}结果｜国际关系世界观清单`
+  const archetype = resolved
+    ? resolveArchetype(
+        resolved.result,
+        getV2ScoringCalibration(resolved.scoringCalibration)
+          .lowDifferentiationThreshold,
+      )
+    : null
+  const title = narrative && archetype
+    ? `${archetype.name}（基础原型）｜国际关系世界观清单`
     : "共享结果无法读取｜国际关系世界观清单"
-  const description = narrative?.summary ?? "此基础结果链接无法解码。"
+  const description = narrative && archetype
+    ? `规范基础原型 ${archetype.name}（${archetype.code}）。${narrative.summary}`
+    : "此基础结果链接无法解码。"
 
   return {
     title,
@@ -155,12 +164,17 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         <header className="result-section stack-lg" aria-labelledby="zh-foundation-result-heading">
           <div className="stack-md">
             <p className="eyebrow">
-              {resultTier === "core" ? "基础暂定画像" : "基础画像"}
+              {resultTier === "core" ? "基础暂定原型" : "基础原型"}
             </p>
             <h1 id="zh-foundation-result-heading" className="result-hero-title">
-              {narrative.headline}
+              {archetype.name}
             </h1>
-            <p className="muted result-lead">{narrative.summary}</p>
+            <p className="muted result-lead">
+              <strong>{archetype.code}</strong> · {narrative.summary}
+            </p>
+            <p className="muted result-note">
+              原型专名沿用基础模型的规范名称；中文名称与原型释义尚未完成编辑审校。
+            </p>
             <p className="muted result-note">
               {resultTier === "core"
                 ? "本结果由 14 道核心题计算。"
@@ -179,10 +193,10 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
               </div>
             ) : null}
             <div className="row gap-sm wrap" aria-label="结果标签">
-              <span className="atlas-tag">{narrative.familyLabel}</span>
+              <span className="atlas-tag">最相邻传统：{narrative.familyLabel}</span>
               <span className="atlas-tag">{narrative.strategyLabel}</span>
               <span className="atlas-tag">{narrative.normativeLabel}</span>
-              <span className="atlas-tag">相邻参照：{narrative.runnerUpLabel}</span>
+              <span className="atlas-tag">第二相邻参照：{narrative.runnerUpLabel}</span>
             </div>
           </div>
 
@@ -191,6 +205,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
             familyLabel={narrative.familyLabel}
             strategyModifier={narrative.strategyLabel}
             normativeModifier={narrative.normativeLabel}
+            displayLabel={`${archetype.name} · ${archetype.code} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
             locale="zh-Hans"
           />
         </header>

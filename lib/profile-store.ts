@@ -27,7 +27,7 @@ import type {
   StrategyModifier,
 } from "@/lib/types"
 import type { Locale } from "@/i18n/routing"
-import { publicPath } from "@/i18n/paths"
+import { internalPath, publicPath } from "@/i18n/paths"
 import {
   LEGACY_ENGLISH_PROVENANCE,
   isCompletionLocale,
@@ -495,7 +495,7 @@ function normalizeModuleHistorySnapshot(
 function normalizeModuleSnapshot(
   value: unknown,
   slug: ModuleSlug,
-  renderLocale: Locale,
+  _renderLocale: Locale,
   legacy: boolean,
 ): ModuleSnapshot | null {
   if (typeof value !== "object" || value === null) return null
@@ -566,7 +566,6 @@ function normalizeModuleSnapshot(
     laneScores,
     cardTypeScores: cardTypeScores ?? {},
     overlayDeltas,
-    renderLocale,
     fallback: legacyEnglishCopy,
   })
   if (!display) return null
@@ -621,18 +620,28 @@ function normalizeFoundationSnapshot(
 
   const provenance = normalizeProvenance(candidate, legacy)
   if (!provenance) return null
-  const payloadRecord = resolveFoundationPayload(candidate.payload)?.provenance
+  const resolvedPayload = resolveFoundationPayload(candidate.payload)
+  const payloadRecord = resolvedPayload?.provenance
+  const payloadResult = resolvedPayload?.result
   const legacyEnglishCopy = legacy
     ? foundationLegacyEnglishCopy(candidate)
     : normalizeFoundationLegacyEnglishCopy(candidate.legacyEnglishCopy)
-  const familyLabel = familyLabelFromKey(candidate.familyKey)
-  const runnerUpLabel = familyLabelFromKey(candidate.runnerUpKey)
+  const familyKey = payloadResult?.familyKey ?? candidate.familyKey
+  const runnerUpKey = payloadResult?.runnerUpKey ?? candidate.runnerUpKey
+  const strategyModifier =
+    payloadResult?.strategyModifier ?? candidate.strategyModifier
+  const normativeModifier =
+    payloadResult?.normativeModifier ?? candidate.normativeModifier
+  const dimensionScores =
+    payloadResult?.dimensionScores ?? candidate.dimensionScores
+  const familyLabel = familyLabelFromKey(familyKey)
+  const runnerUpLabel = familyLabelFromKey(runnerUpKey)
   const narrative = buildFoundationNarrative({
-    familyKey: candidate.familyKey,
-    runnerUpKey: candidate.runnerUpKey,
-    strategyModifier: candidate.strategyModifier,
-    normativeModifier: candidate.normativeModifier,
-    dimensionScores: candidate.dimensionScores,
+    familyKey,
+    runnerUpKey,
+    strategyModifier,
+    normativeModifier,
+    dimensionScores,
   })
 
   return {
@@ -648,20 +657,20 @@ function normalizeFoundationSnapshot(
         ? candidate.scoringVersion
         : payloadRecord?.scoringVersion ?? 0,
     resultPath: publicPath(renderLocale, `/results/${candidate.payload}`),
-    familyKey: candidate.familyKey,
+    familyKey,
     familyLabel,
-    runnerUpKey: candidate.runnerUpKey,
+    runnerUpKey,
     runnerUpLabel,
     summary: narrative.summary,
-    dimensionScores: candidate.dimensionScores,
-    strategyModifier: candidate.strategyModifier,
-    normativeModifier: candidate.normativeModifier,
-    keyDrivers: getKeyDrivers(candidate.dimensionScores).map((driver) => ({
+    dimensionScores,
+    strategyModifier,
+    normativeModifier,
+    keyDrivers: getKeyDrivers(dimensionScores).map((driver) => ({
       type: driver.type,
       label: driver.label,
       description: driver.description,
     })),
-    strongLenses: getStrongLenses(candidate.dimensionScores).map((lens) => ({
+    strongLenses: getStrongLenses(dimensionScores).map((lens) => ({
       label: lens.label,
       description: lens.description,
     })),
@@ -683,7 +692,7 @@ const AI_AXIS_KEYS: AiAxisKey[] = [
 
 function normalizeAiGovernanceSnapshot(
   value: unknown,
-  renderLocale: Locale,
+  _renderLocale: Locale,
   legacy: boolean,
 ): AiGovernanceSnapshot | null {
   if (typeof value !== "object" || value === null) return null
@@ -730,7 +739,7 @@ function normalizeAiGovernanceSnapshot(
   return {
     timestamp: candidate.timestamp,
     payload: candidate.payload,
-    resultPath: publicPath(renderLocale, `/ai/results/${candidate.payload}`),
+    resultPath: `/ai/results/${candidate.payload}`,
     archetypeKey: candidate.archetypeKey,
     archetypeLabel,
     riskLens: candidate.riskLens,
@@ -746,7 +755,7 @@ function normalizeAiGovernanceSnapshot(
 
 function normalizePerspectiveRunSnapshot(
   value: unknown,
-  renderLocale: Locale,
+  _renderLocale: Locale,
   legacy: boolean,
 ): PerspectiveRunSnapshot | null {
   if (typeof value !== "object" || value === null) return null
@@ -801,11 +810,10 @@ function normalizePerspectiveRunSnapshot(
     baselineDeltas: candidate.baselineDeltas,
     strongestShiftKeys: candidate.strongestShiftKeys,
     resultPath: payload
-      ? publicPath(
-          renderLocale,
-          `/perspectives/${candidate.perspectiveId}/result/${payload}`,
-        )
-      : legacyCopy?.resultPath ?? "",
+      ? `/perspectives/${candidate.perspectiveId}/result/${payload}`
+      : legacyCopy
+        ? internalPath(legacyCopy.resultPath)
+        : "",
     ...(payload ? { payload } : {}),
     ...provenance,
     ...(legacyCopy ? { legacyEnglishCopy: legacyCopy } : {}),
@@ -1061,7 +1069,6 @@ function buildModuleDisplay({
   laneScores,
   cardTypeScores,
   overlayDeltas: _overlayDeltas,
-  renderLocale,
   fallback,
 }: {
   slug: ModuleSlug
@@ -1072,7 +1079,6 @@ function buildModuleDisplay({
   laneScores: Record<string, Record<string, number>>
   cardTypeScores: Partial<Record<ChoiceCardType, Record<string, number>>>
   overlayDeltas: Partial<Record<DimensionKey, number>>
-  renderLocale: Locale
   fallback: ModuleLegacyEnglishCopy | null
 }): ModuleDisplay | null {
   const resolvedModule = payload ? resolveModulePayload(payload) : null
@@ -1094,16 +1100,13 @@ function buildModuleDisplay({
     laneScores,
     cardTypeScores,
   }
-  const foundation = foundationPayload
-    ? resolveFoundationPayload(foundationPayload)?.dimensionScores
-    : undefined
   const interpretation = hasScores
     ? definition.interpret(analytics, classificationContext)
     : null
   const laneSummaries = hasLaneScores
     ? definition.summarizeLanes(
         analytics,
-        foundation,
+        undefined,
         classificationContext,
       )
     : fallback?.laneSummaries ?? []
@@ -1123,12 +1126,14 @@ function buildModuleDisplay({
       )
     : fallback?.evidence ?? []
   const resultPath = payload
-    ? `${publicPath(renderLocale, `/modules/${slug}/results/${payload}`)}${
+    ? `/modules/${slug}/results/${payload}${
         foundationPayload
           ? `?foundation=${encodeURIComponent(foundationPayload)}`
           : ""
       }`
-    : fallback?.resultPath ?? ""
+    : fallback
+      ? internalPath(fallback.resultPath)
+      : ""
 
   if (!interpretation && !fallback) return null
 
@@ -1140,11 +1145,7 @@ function buildModuleDisplay({
     summary: interpretation?.summary ?? fallback?.summary ?? "",
     resultPath,
     instincts: interpretation?.instincts ?? fallback?.instincts ?? [],
-    ...(foundation && definition.compareToFoundation
-      ? { comparison: definition.compareToFoundation(analytics, foundation) }
-      : fallback?.comparison
-        ? { comparison: fallback.comparison }
-        : {}),
+    ...(fallback?.comparison ? { comparison: fallback.comparison } : {}),
     challenge: interpretation?.challenge ?? fallback?.challenge ?? "",
     measures: definition.measures,
     doesNotClaim: definition.doesNotClaim,

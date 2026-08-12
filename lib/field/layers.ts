@@ -39,7 +39,7 @@ export const FIELD_LAYER_CONFIGS = [
   },
   {
     id: "atlas-patterns",
-    label: "Worldview profiles",
+    label: "Decision Patterns",
     kind: "contextual",
     releaseStatus: "available",
     defaultAvailable: true,

@@ -28,10 +28,11 @@ export const zhHansCopyDeckManifest = {
     "ai-instrument",
     "module-instruments",
     "perspective-instruments",
-    // The archetype layer — names, glosses, historical analogues, and the
-    // evidence pages — has no approved Chinese copy. Chinese result routes
-    // omit it and render the family narrative instead. It is never shown in
-    // English as a silent fallback. See docs/v22/V22_ARCHETYPE_NAMING_DECISION.md.
+    // Archetype names, glosses, historical analogues, and evidence pages have
+    // no approved Chinese copy. Result and Profile routes show only the
+    // locale-neutral canonical name/code with an explicit localization notice;
+    // they omit untranslated glosses and evidence. See
+    // docs/v22/V22_ARCHETYPE_NAMING_DECISION.md.
     "archetype-layer",
   ],
 } as const

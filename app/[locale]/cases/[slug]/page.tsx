@@ -5,20 +5,22 @@ import { CurrentCasePageHeader } from "@/components/current-case/current-case-pa
 import { CurrentCasePrintSummary } from "@/components/current-case/current-case-print-summary"
 import styles from "@/components/current-case/current-case.module.css"
 import {
-  zhHansCurrentCaseBySlug,
-  zhHansCurrentCases,
-} from "@/content/locales/zh-Hans/current-cases/index"
+  getPublishedZhHansCurrentCaseBySlug,
+  getPublishedZhHansCurrentCases,
+  toZhHansCurrentCasePublicRecord,
+} from "@/lib/current-cases/zh-hans"
 import { zhHansCurrentCaseMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createDynamicLocalizedMetadata } from "@/i18n/metadata"
-import { toZhHansCurrentCasePublicRecord } from "@/lib/current-cases/zh-hans"
 
 type Props = {
   params: Promise<{ slug: string }>
 }
 
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const record = zhHansCurrentCaseBySlug[slug]
+  const record = getPublishedZhHansCurrentCaseBySlug(slug)
   if (!record) return { title: "当前案例未找到｜国际关系世界观清单" }
   const content = zhHansCurrentCaseMetadata[slug]
   return {
@@ -37,23 +39,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export function generateStaticParams() {
-  return zhHansCurrentCases.map((record) => ({ slug: record.slug }))
+  return getPublishedZhHansCurrentCases().map((record) => ({
+    slug: record.slug,
+  }))
 }
 
 export default async function ZhHansCurrentCasePage({ params }: Props) {
+  const referenceDate = new Date().toISOString().slice(0, 10)
   const { slug } = await params
-  const record = zhHansCurrentCaseBySlug[slug]
-  if (!record || record.publicationStatus !== "published") notFound()
+  const record = getPublishedZhHansCurrentCaseBySlug(slug)
+  if (!record) notFound()
   const publicRecord = toZhHansCurrentCasePublicRecord(record)
 
   return (
     <article className={styles.page}>
-      <CurrentCasePageHeader record={publicRecord} locale="zh-Hans" />
+      <CurrentCasePageHeader
+        record={publicRecord}
+        locale="zh-Hans"
+        referenceDate={referenceDate}
+      />
       <CurrentCaseApp record={publicRecord} />
       <CurrentCasePrintSummary
         record={publicRecord}
         locale="zh-Hans"
         localizedSources={record.sources}
+        referenceDate={referenceDate}
       />
     </article>
   )

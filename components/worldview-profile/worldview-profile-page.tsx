@@ -32,7 +32,7 @@ const contentsLinks: ContentsLink[] = [
   { href: "#analogy", label: "Analogy and limit" },
   { href: "#strengths-and-blind-spots", label: "Strengths and blind spots" },
   { href: "#domain-shifts", label: "Domain shifts" },
-  { href: "#nearby-profiles", label: "Nearby profiles" },
+  { href: "#nearby-profiles", label: "Nearby Decision Patterns" },
   { href: "#pressure-test", label: "Pressure test" },
   { href: "#method-and-status", label: "Method and status" },
 ]
@@ -48,7 +48,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
     <div className={`wide-container ${styles.page}`}>
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className="eyebrow">Worldview profile</p>
+          <p className="eyebrow">Decision Pattern</p>
           <h1 className={styles.publicName}>{pattern.publicName}</h1>
           <p className={styles.descriptor}>{pattern.technicalDescriptor}</p>
 
@@ -94,8 +94,9 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             <>
               <h2>No reviewed case is attached yet</h2>
               <p>
-                The verified library does not currently name this profile as a best fit or strongest
-                rival. The page keeps the gap visible instead of filling it with an inferred example.
+                The verified library does not currently use this pattern as a best-fit or strongest
+                rival reading. The page keeps the gap visible instead of filling it with an inferred
+                example.
               </p>
               <a href="#method-and-status">See the coverage rule ↓</a>
             </>
@@ -110,7 +111,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
 
         <article className={styles.article}>
           <section id="decision-rule" className={styles.section} aria-labelledby="decision-heading">
-            <h2 id="decision-heading">How this profile decides</h2>
+            <h2 id="decision-heading">How this pattern decides</h2>
             <p className={styles.leadBody}>{pattern.detailSummary}</p>
             <p className={styles.supportingBody}>{pattern.cardPressureNote}</p>
           </section>
@@ -136,7 +137,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
                 <h3>Case coverage remains open</h3>
                 <p>
                   No reviewed case currently names {pattern.publicName} in one of the two
-                  reviewed reading positions. Cases attached to other profiles stay off this page.
+                  reviewed reading positions. Cases attached to other patterns stay off this page.
                 </p>
               </div>
             )}
@@ -156,7 +157,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
                 </p>
               </div>
             ) : (
-              <p className={styles.supportingBody}>No editorial analogy has been reviewed for this profile.</p>
+              <p className={styles.supportingBody}>No editorial analogy has been reviewed for this pattern.</p>
             )}
           </section>
 
@@ -188,7 +189,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
 
           <section id="domain-shifts" className={styles.section} aria-labelledby="domains-heading">
             <div className={styles.sectionHeading}>
-              <h2 id="domains-heading">Where the profile can change by domain</h2>
+              <h2 id="domains-heading">How the pattern reads different domains</h2>
               <p>Domain results are saved separately and do not change the Foundation.</p>
             </div>
             <div className={styles.domainList}>
@@ -206,7 +207,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               />
               <DomainEntry
                 title="AI"
-                body="This profile has no profile-specific AI reading. The AI Governance Compass adds a separate AI result when you complete it."
+                body="This pattern has no pattern-specific AI reading. The AI Governance Compass adds a separate AI result when you complete it."
                 href="/ai"
                 linkLabel="Open the AI Governance Compass"
               />
@@ -225,7 +226,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             aria-labelledby="neighbors-heading"
           >
             <div className={styles.sectionHeading}>
-              <h2 id="neighbors-heading">Nearby profiles</h2>
+              <h2 id="neighbors-heading">Nearby Decision Patterns</h2>
               <p>{pattern.confusionNote}</p>
             </div>
             <div className={styles.neighborList}>
@@ -243,7 +244,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
           </section>
 
           <section id="pressure-test" className={styles.section} aria-labelledby="pressure-heading">
-            <h2 id="pressure-heading">Questions that test this fit</h2>
+            <h2 id="pressure-heading">Questions that test this pattern</h2>
             <ol className={styles.pressureList}>
               {pattern.pressureTestQuestions.map((question) => (
                 <li key={question}>{question}</li>
@@ -265,16 +266,17 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             </div>
             <div className={styles.methodCopy}>
               <p>
-                Worldview profiles are authored summaries of a multidimensional match. They are
-                continuous, interpretive profiles rather than population types or fixed identities.
+                Decision Patterns are authored editorial reading aids. They are not calculated from,
+                matched to, or assigned to a user’s answers, and they are not population types or
+                fixed identities.
               </p>
               <p>
-                Only cases that explicitly name this profile as the best fit or strongest rival
+                Only cases that explicitly name this pattern as the best fit or strongest rival
                 appear here. Other reviewed cases remain off this page.
               </p>
               <p>
                 Historical case readings are teaching comparisons. They do not validate the scoring
-                model, assign governments or public figures to profiles, or settle which interpretation
+                model, assign governments or public figures to patterns, or settle which interpretation
                 of a case is correct.
               </p>
             </div>
@@ -463,14 +465,14 @@ function buildClaimLabels(claims: VerifiedCaseClaim[]) {
 
 function coverageCopy(level: "several" | "thin" | "none", count: number) {
   if (level === "several") {
-    return `${count} reviewed cases test this profile’s logic from more than one setting.`
+    return `${count} reviewed cases test this pattern’s logic from more than one setting.`
   }
 
   if (level === "thin") {
-    return "Thin coverage: one reviewed case is available. Treat it as an example; it cannot provide comprehensive support for the profile."
+    return "Thin coverage: one reviewed case is available. Treat it as an example; it cannot provide comprehensive support for the pattern."
   }
 
-  return "No reviewed case currently names this profile as a best fit or strongest rival."
+  return "No reviewed case currently names this pattern as a best fit or strongest rival."
 }
 
 function roleLabel(role: ReviewedPatternCase["currentReading"]["role"]) {

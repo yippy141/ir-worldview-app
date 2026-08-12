@@ -6,7 +6,7 @@ import { glossaryTerms } from "@/lib/content/glossary"
 export const metadata: Metadata = createEnglishApprovedMetadata("/method", {
   title: "Methods — IR Worldview Inventory",
   description:
-    "How the IR Worldview Inventory works across the Foundation, Focus Areas, integrated Profile, and editorial limitations.",
+    "How the IR Worldview Inventory works across the Foundation, separate Focus Area records, the Profile, and editorial limitations.",
 })
 
 const dimensions = [
@@ -62,7 +62,7 @@ const resultLayers = [
   },
   {
     heading: "4. Focus Areas",
-    body: "Security and Technology Focus Areas test the baseline in concrete issue files. Their top-line read stays separate from the Foundation result rather than pretending to be a more scientific replacement for it.",
+    body: "Security and Technology Focus Areas produce separate records from concrete issue files. Their domain scales are not translated onto the Foundation or combined into a master score.",
   },
 ]
 
@@ -73,7 +73,7 @@ const limitations = [
   },
   {
     heading: "Traditions are shorthand",
-    body: "Realism, institutionalism, constructivism, and critical political economy are modeled here as simplified reference profiles. Most serious readers draw from more than one tradition depending on the issue.",
+    body: "Realism, institutionalism, constructivism, and critical political economy are modeled here as simplified reference profiles. The inventory preserves issue-specific combinations instead of forcing every answer into one tradition.",
   },
   {
     heading: "Political economy is not a catch-all",
@@ -122,7 +122,7 @@ export default function MethodPage() {
           <ul style={{ margin: "8px 0 0", paddingLeft: "20px", lineHeight: "1.85", color: "var(--muted)" }}>
             <li>This editorial questionnaire has not been validated as a scientific instrument.</li>
             <li>Tradition labels are shorthand for a multidimensional profile.</li>
-            <li>Mixed outputs are normal and can be meaningful.</li>
+            <li>Mixed outputs show where your answers draw on more than one modeled tradition.</li>
             <li>No score is a population percentile. Sample percentiles appear only when a comparable cohort is large enough.</li>
           </ul>
         </div>
@@ -149,7 +149,7 @@ export default function MethodPage() {
       </section>
 
       <section className="panel stack-md">
-        <div className="stack-xs">
+              <div className="stack-xs">
           <h2>How to read a result</h2>
           <p className="muted" style={{ lineHeight: "1.65" }}>
             Read the profile first. Tradition names provide concise references for nearby patterns
@@ -282,10 +282,10 @@ export default function MethodPage() {
           between two marks carries no measured amount of ideological difference.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          Worldview profiles use authored fingerprints. Low, medium, and high levels become 2.5,
-          4, and 5.5 on the internal Foundation scale. Dimensions absent from a profile fingerprint
-          use the midpoint of 4 for projection. Profile marks are authored editorial examples; no
-          population sample underlies them.
+          Decision Patterns use authored fingerprints. Low, medium, and high levels become 2.5,
+          4, and 5.5 on the internal Foundation scale. Dimensions absent from a pattern fingerprint
+          use the midpoint of 4 for projection. Decision Pattern marks are authored editorial
+          examples; no population sample underlies them.
         </p>
       </section>
 
@@ -413,11 +413,11 @@ export default function MethodPage() {
             },
             {
               heading: "Family weights are authored reference profiles",
-              body: "The four tradition profiles used for classification — realism, institutionalism, constructivism, and critical political economy — are stylized reference points built from editorial judgment about what each tradition centrally holds. They are not derived from a sample of scholars or validated against an external standard. The closest modeled fit is an interpretive shorthand, not a certified diagnosis.",
+              body: "The four authored tradition reference points used to identify the closest tradition-level fit — realism, institutionalism, constructivism, and critical political economy — are stylized summaries built from editorial judgment about what each tradition centrally holds. They are not derived from a sample of scholars or validated against an external standard. The closest modeled fit is an interpretive shorthand, not a certified diagnosis.",
             },
             {
-              heading: "Module overlays are editorial transforms, not fresh Foundation measurements",
-              body: "Module results come from module-specific questions and are reported as a domain-specific read of your instincts in that issue area. They do not re-measure the seven Foundation dimensions from scratch. The module overlay is an editorial relative pull — it shifts emphasis within the space the Foundation result already defines rather than replacing it with a more precise measurement. Treating it as additional scientific precision would overstate what the model does.",
+              heading: "Module results are separate domain records, not Foundation measurements",
+              body: "Module results come from module-specific questions and are reported on their own domain scales. They sit beside the Foundation and do not rescore its seven dimensions or archetype. There is no numeric bridge and no master score combining the records.",
             },
           ].map((item) => (
             <div

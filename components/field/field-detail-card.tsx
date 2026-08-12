@@ -9,7 +9,7 @@ import styles from "./worldview-map.module.css"
 const KIND_ACTION_LABELS: Record<FieldItem["kind"], string> = {
   baseline: "Open Foundation result",
   "perspective-run": "View run result",
-  "atlas-pattern": "Read this worldview profile",
+  "atlas-pattern": "Read this Decision Pattern",
   "reference-profile": "Read the profile",
   "reference-movement": "Read the movement",
 }

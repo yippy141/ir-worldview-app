@@ -45,7 +45,8 @@ IR Worldview Inventory is a Next.js editorial interactive about how people read 
 - `/method` methodology and limitations
 - `/learn` additional explanatory content
 - `/references` key sources and reading list
-- `/feedback` feedback form
+- `/feedback` factual corrections, privacy questions, and security reports
+- `/beta` optional controlled-beta recruitment and product-feedback guidance
 - `/cases` published Current Case archive
 - `/cases/[slug]` evidence-backed Current Case judgment flow, sharing, and print summary
 
@@ -77,6 +78,17 @@ npm run dev
 ```
 
 Open `http://localhost:3000`.
+
+### Controlled beta participation
+
+Set `V22_5_BETA_PARTICIPATION_URL` to an owner-reviewed HTTPS interview
+scheduler or feedback form. If the value is absent or invalid, `/beta` remains
+available and explains that participation is not currently open from the page.
+
+Set `V22_5_BETA_NAV_ENABLED=true` only when the beta route should appear in the
+desktop and mobile primary navigation. Configuring the external URL alone does
+not expose the route in navigation. The app does not collect beta free text or
+contact data; submissions are handled by the configured external service.
 
 ### Optional Mapbox background
 
@@ -121,6 +133,12 @@ rows, consent records, contact information, cookies, or other identifiers.
 Counters are separated by exact item form, completion locale, and locale-copy
 version. The browser measurement opt-out suppresses both Tier 1 and product
 analytics submissions.
+
+Production activation is owner-operated. Follow
+`docs/operations/TIER1_PRODUCTION_ACTIVATION.md`; automated coding tasks must
+not change Vercel or Neon. The local `tier1:preflight` and `tier1:verify`
+commands use read-only database transactions, accept the operations connection
+through the environment, and never print connection or result-link details.
 
 The later opt-in research layer can replay stored Foundation answers with an
 immutable scoring implementation:
@@ -179,11 +197,28 @@ Run the production build:
 npm run build
 ```
 
-Run the critical browser smoke suite:
+Run a focused browser test while developing:
 
 ```bash
-npx playwright test
+npm run test:e2e -- e2e/critical-smoke.spec.ts
 ```
+
+Non-CI Playwright runs are for focused local debugging. They use the Next.js
+development server, one worker, and the file or `--grep` filter supplied on the
+command line.
+
+Before a release, build once and run the authoritative full browser suite in
+CI mode:
+
+```bash
+npm run build
+CI=1 npm run test:e2e
+```
+
+CI mode uses the production-equivalent `next start` path and one worker.
+Playwright always starts the server for the current checkout; it never reuses
+an existing process. If port 3000 is already occupied, stop that process before
+running the suite. Do not point a run at a server left over from another branch.
 
 Before a production release, complete
 [`docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md`](docs/deployment/V19_PRODUCTION_DEPLOYMENT_CHECKLIST.md).

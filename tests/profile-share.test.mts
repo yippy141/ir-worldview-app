@@ -2,6 +2,7 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
 import {
+  buildCompatibleProfileSharePayload,
   buildProfileSharePayload,
   buildProfileSharePayloadV1,
   buildProfileSharePayloadV2,
@@ -24,10 +25,9 @@ import {
   resolvePerspectivePayload,
 } from "@/lib/perspectives/share"
 import { buildLocalizedProfileShareView } from "@/lib/profile-share-locale"
-import { buildProfileAssessment } from "@/lib/profile-helpers"
 import { FIELD_PROJECTION_VERSION } from "@/lib/results/position"
 import { dimensionScoresToArray, encodePayload, resolveFoundationPayload } from "@/lib/share"
-import type { ProfileStore } from "@/lib/profile-store"
+import { parseProfileStore, type ProfileStore } from "@/lib/profile-store"
 import { encodeUrlPayload } from "@/lib/url-payload"
 
 const foundationPayload = encodePayload({
@@ -308,7 +308,7 @@ const profileWithV2Overlays: ProfileStore = {
   ],
 }
 
-test("shared profile payloads roundtrip and reconstruct a stable integrated profile", () => {
+test("shared profile payloads roundtrip and reconstruct separate saved records", () => {
   const payload = buildProfileSharePayload(profile)
   assert.ok(payload)
 
@@ -318,10 +318,6 @@ test("shared profile payloads roundtrip and reconstruct a stable integrated prof
   assert.ok(resolved)
   assert.equal(resolved.payload.v, 3)
   assert.equal(resolved.profile.foundation?.familyKey, profile.foundation?.familyKey)
-  assert.equal(
-    resolved.assessment.state,
-    buildProfileAssessment(profile).state,
-  )
   assert.equal(resolved.profile.modules.security?.laneSummaries[0]?.key, "deterrence")
   assert.equal(resolved.profile.modules.technology?.laneSummaries[0]?.key, "controls")
   assert.equal(resolved.profile.modules.technology?.cardTypeScores?.actorLens?.control, 5.7)
@@ -349,18 +345,64 @@ test("Profile Share V3 contains canonical data only and renders one payload in e
   const chineseView = buildLocalizedProfileShareView(chinese.profile, "zh-Hans")
   assert.ok(englishView)
   assert.ok(chineseView)
-  assert.equal(englishView.foundation.familyLabel, "Liberal Institutionalist")
-  assert.equal(chineseView.foundation.familyLabel, "自由制度主义")
-  assert.deepEqual(englishView.foundation.dimensions, chineseView.foundation.dimensions.map(
+  const englishFoundation = englishView.foundation
+  const chineseFoundation = chineseView.foundation
+  assert.ok(englishFoundation)
+  assert.ok(chineseFoundation)
+  assert.equal(englishView.title, "Concert")
+  assert.equal(chineseView.title, "Concert")
+  assert.equal(englishFoundation.archetypeName, "Concert")
+  assert.equal(chineseFoundation.archetypeName, "Concert")
+  assert.equal(englishFoundation.archetypeCode, "R-")
+  assert.equal(chineseFoundation.archetypeCode, "R-")
+  assert.equal(englishFoundation.familyLabel, "Liberal Institutionalist")
+  assert.equal(chineseFoundation.familyLabel, "自由制度主义")
+  assert.match(chineseView.intro, /原型专名/)
+  assert.deepEqual(englishFoundation.dimensions, chineseFoundation.dimensions.map(
     (dimension, index) => ({
       ...dimension,
-      label: englishView.foundation.dimensions[index].label,
+      label: englishFoundation.dimensions[index].label,
     }),
   ))
   assert.equal(english.profile.foundation?.dimensionScores.institutions, 5.8)
   assert.equal(chinese.profile.foundation?.dimensionScores.institutions, 5.8)
   assert.match(english.profile.foundation?.resultPath ?? "", /^\/results\//)
   assert.match(chinese.profile.foundation?.resultPath ?? "", /^\/zh\/results\//)
+
+  const conflictingCachedView = buildLocalizedProfileShareView(
+    {
+      ...english.profile,
+      foundation: {
+        ...english.profile.foundation!,
+        familyKey: "realist",
+        runnerUpKey: "criticalPoliticalEconomy",
+        strategyModifier: "Maximizer",
+        normativeModifier: "Universalist",
+        summary: "Conflicting cached Foundation copy",
+        dimensionScores: {
+          ...english.profile.foundation!.dimensionScores,
+          institutions: 1,
+        },
+      },
+    },
+    "en",
+  )
+  assert.ok(conflictingCachedView)
+  assert.ok(conflictingCachedView.foundation)
+  assert.equal(
+    conflictingCachedView.foundation.familyLabel,
+    "Liberal Institutionalist",
+  )
+  assert.deepEqual(
+    conflictingCachedView.foundation.modifiers,
+    ["Restrainer", "Pluralist"],
+  )
+  assert.equal(
+    conflictingCachedView.foundation.dimensions.find(
+      ({ key }) => key === "institutions",
+    )?.score,
+    5.8,
+  )
 })
 
 test("mixed locale-copy cohorts are visible but never described as research-equivalent", () => {
@@ -398,6 +440,108 @@ test("Profile Share V2 roundtrips optional AI and Perspective Run data with date
   assert.equal(resolved.profile.perspectiveRuns[0]?.id, "run-exposed-ally-1")
   assert.equal(resolved.profile.perspectiveRuns[0]?.timestamp, 11)
   assert.equal(resolved.profile.perspectiveRuns[0]?.perspectiveLabel, "Exposed ally or vulnerable small state")
+})
+
+test("the compatible writer preserves a legacy module, AI Governance, and a Perspective Run through shared rendering", () => {
+  const legacySecurity = structuredClone(profileWithV2Overlays.modules.security)
+  assert.ok(legacySecurity)
+  delete legacySecurity.payload
+  const legacyProfile: ProfileStore = {
+    ...profileWithV2Overlays,
+    modules: { security: legacySecurity },
+  }
+
+  const payload = buildCompatibleProfileSharePayload(legacyProfile)
+  assert.ok(payload)
+  assert.equal(payload.v, 2)
+  assert.equal(payload.ms.length, 1)
+  assert.equal(payload.ms[0]?.s, "security")
+  assert.equal(payload.ai?.p, aiPayload)
+  assert.equal(payload.pr?.[0]?.i, "run-exposed-ally-1")
+
+  const encoded = encodeProfileSharePayload(payload)
+  const decoded = decodeProfileSharePayload(encoded)
+  assert.ok(decoded)
+  assert.equal(decoded.v, 2)
+  assert.equal(decoded.ms[0]?.s, "security")
+  assert.equal(decoded.ai?.p, aiPayload)
+  assert.equal(decoded.pr?.[0]?.i, "run-exposed-ally-1")
+
+  const resolved = resolveProfileSharePayload(encoded, "en")
+  assert.ok(resolved)
+  assert.equal(resolved.profile.modules.security?.headline, legacySecurity.headline)
+  assert.equal(resolved.profile.aiGovernance?.payload, aiPayload)
+  assert.equal(resolved.profile.perspectiveRuns[0]?.id, "run-exposed-ally-1")
+
+  const rendered = buildLocalizedProfileShareView(resolved.profile, "en")
+  assert.ok(rendered)
+  assert.equal(rendered.modules.length, 1)
+  assert.equal(rendered.modules[0]?.slug, "security")
+  assert.equal(rendered.ai?.label, "Coordination Architect")
+  assert.deepEqual(rendered.perspectives, [
+    {
+      id: "run-exposed-ally-1",
+      label: "Exposed ally or vulnerable small state",
+    },
+  ])
+})
+
+test("an unresolvable legacy Foundation remains a shareable Profile record", () => {
+  const legacyProfile = parseProfileStore(
+    readFileSync(
+      new URL("./fixtures/profile-store-v1.json", import.meta.url),
+      "utf8",
+    ),
+    "zh-Hans",
+  )
+
+  const payload = buildCompatibleProfileSharePayload(legacyProfile)
+  assert.ok(payload)
+  assert.equal(payload.v, 2)
+
+  const encoded = encodeProfileSharePayload(payload)
+  const decoded = decodeProfileSharePayload(encoded)
+  assert.ok(decoded)
+  assert.equal(decoded.v, 2)
+
+  const resolved = resolveProfileSharePayload(encoded, "zh-Hans")
+  assert.ok(resolved)
+  assert.equal(resolved.foundationStatus, "unavailable")
+  assert.equal(resolved.profile.foundation, null)
+  assert.equal(resolved.profile.modules.security?.headline, "Legacy security result")
+
+  const rendered = buildLocalizedProfileShareView(
+    resolved.profile,
+    "zh-Hans",
+    { preserveUnavailableFoundation: true },
+  )
+  assert.ok(rendered)
+  assert.equal(rendered.foundation, null)
+  assert.equal(rendered.modules[0]?.slug, "security")
+})
+
+test("an unresolvable Foundation without modules still uses the compatibility envelope", () => {
+  const legacyProfile = parseProfileStore(
+    readFileSync(
+      new URL("./fixtures/profile-store-v1.json", import.meta.url),
+      "utf8",
+    ),
+    "en",
+  )
+  legacyProfile.modules = {}
+  legacyProfile.moduleHistory = []
+
+  const payload = buildCompatibleProfileSharePayload(legacyProfile)
+  assert.ok(payload)
+  assert.equal(payload.v, 2)
+
+  const resolved = resolveProfileSharePayload(
+    encodeProfileSharePayload(payload),
+    "en",
+  )
+  assert.ok(resolved)
+  assert.equal(resolved.foundationStatus, "unavailable")
+  assert.equal(resolved.profile.foundation, null)
 })
 
 test("Profile Share V2 keeps the latest fifty valid Perspective Runs", () => {
@@ -496,12 +640,6 @@ test("shared profile inputs can be normalized from raw payloads, paths, and full
 test("malformed shared profile payloads fail safely", () => {
   const malformedPayloads = [
     "%%%bad%%%payload",
-    encodeRawPayload({
-      v: 1,
-      f: "bad-foundation",
-      ms: [],
-      ps: "stableModeration",
-    }),
     encodeRawPayload({
       v: 1,
       f: foundationPayload,

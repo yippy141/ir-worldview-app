@@ -119,8 +119,8 @@ export default function AiPage() {
             <p className="section-kicker">Optional depth</p>
             <h2>Where the AI Compass connects to the rest of the project</h2>
             <p className="muted lobby-side-text">
-              The IR Foundation and Focus Areas let you compare this result with your judgments
-              about security, institutions, political economy, and technology.
+              Read this result beside the IR Foundation and Focus Area records. Each keeps its own
+              domain scale; the Profile does not combine them into a master score.
             </p>
           </div>
           <div className="resource-list">

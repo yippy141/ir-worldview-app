@@ -64,42 +64,42 @@ const DIMENSION_FRAMES: Record<DimensionKey, { high: string; low: string }> = {
 
 const FAMILY_MEANINGS: Record<FamilyKey, string> = {
   realist:
-    "This baseline returns first to power, rivalry, and the difficulty of treating reassurance as self-executing.",
+    "Power and rivalry set the starting point; reassurance alone does not resolve strategic uncertainty.",
   institutionalist:
-    "This baseline returns first to rules, incentives, and the conditions under which cooperation can hold.",
+    "Rules matter when they alter incentives and make commitments more credible.",
   constructivist:
-    "This baseline returns first to legitimacy, framing, and the way identities shape what threats and interests mean.",
+    "Legitimacy and identity shape how actors define threats and interests.",
   criticalPoliticalEconomy:
-    "This baseline returns first to leverage, dependence, and the uneven structures underneath formal international order.",
+    "Leverage and dependence expose the uneven structures beneath formal international order.",
 }
 
 const FAMILY_DEBATE_FRAMES: Record<FamilyKey, string> = {
   realist:
-    "In live debates, this profile tends to attend first to power shifts, deterrence credibility, and whether an institution can survive strategic pressure.",
+    "The reading gives priority to shifts in power and credible deterrence. It also asks whether institutions survive strategic pressure.",
   institutionalist:
-    "In live debates, this profile tends to attend first to rule credibility, monitoring, and whether institutions can actually change incentives.",
+    "Rule credibility and monitoring lead the reading, especially where institutions can change incentives.",
   constructivist:
-    "In live debates, this profile tends to attend first to framing, legitimacy, and the historical relationship shaping the case.",
+    "The reading starts with legitimacy and the history that shapes how actors frame the case.",
   criticalPoliticalEconomy:
-    "In live debates, this profile tends to attend first to leverage, dependence, and who controls the economic architecture of the issue.",
+    "Control over leverage and dependence leads the reading, especially in the economic architecture of the issue.",
 }
 
 const STRATEGY_FRAMES: Record<StrategyModifier, string> = {
   Restrainer:
-    "Strategically, it keeps returning to overextension risk and the costs of locking in too many commitments.",
+    "The strategy modifier favors limiting commitments when overextension risk rises.",
   Hedger:
-    "Strategically, it keeps restraint and competition live at the same time rather than settling the question in advance.",
+    "Restraint and competition remain balanced until the case supplies a reason to favor one.",
   Maximizer:
-    "Strategically, it is more willing to tolerate hard bargaining when a durable advantage looks attainable.",
+    "A durable advantage can justify harder bargaining in this strategic posture.",
 }
 
 const NORMATIVE_FRAMES: Record<NormativeModifier, string> = {
   Pluralist:
-    "Normatively, it gives sovereignty and order a high threshold before outside actors should override them.",
+    "The normative modifier sets a high threshold before outside actors may override sovereignty and order.",
   "Conditional Solidarist":
-    "Normatively, it treats order and justice as a live tradeoff rather than an already solved hierarchy.",
+    "Order and justice remain an unresolved tradeoff in the normative modifier.",
   Universalist:
-    "Normatively, it keeps open the possibility that severe moral stakes can override sovereignty in hard cases.",
+    "Severe moral stakes can override sovereignty in hard cases under this normative modifier.",
 }
 
 export function assessFoundationNarrative(
@@ -182,7 +182,7 @@ export function buildFoundationNarrative({
         ),
       },
       {
-        title: "So what this usually means",
+        title: "How this affects the reading",
         text: `${FAMILY_DEBATE_FRAMES[familyKey]} ${STRATEGY_FRAMES[strategyModifier]} ${NORMATIVE_FRAMES[normativeModifier]}`,
       },
       {
@@ -206,14 +206,14 @@ function buildSummaryLine(
   strongestSignals: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `No single tradition dominates. ${familyLabelValue} is the clearest starting point, while the profile still spans ${strongestSignals} and keeps ${runnerUpLabel} close behind.`
+    return `${familyLabelValue} and ${runnerUpLabel} are the two nearest modeled traditions, separated by a narrow gap. The strongest dimension results concern ${strongestSignals}.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `${familyLabelValue} is the clearest shorthand here. The profile pulls most strongly toward ${strongestSignals}.`
+    return `${familyLabelValue} has a clearer modeled lead over ${runnerUpLabel}. The strongest dimension results concern ${strongestSignals}.`
   }
 
-  return `${familyLabelValue} is the clearest shorthand for this baseline. The strongest pulls are ${strongestSignals}.`
+  return `The nearest modeled tradition is ${familyLabelValue}, followed by ${runnerUpLabel}. The strongest dimension results concern ${strongestSignals}.`
 }
 
 function buildMeaningText(
@@ -223,14 +223,14 @@ function buildMeaningText(
   runnerUpLabel: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `${FAMILY_MEANINGS[familyKey]} Several dimensions stay close to the middle. ${familyLabelValue} provides a starting point, while ${runnerUpLabel} remains close and several lines of argument stay active in the profile.`
+    return `${FAMILY_MEANINGS[familyKey]} Several dimensions remain near the midpoint. ${familyLabelValue} and ${runnerUpLabel} are the nearest traditions, and their gap is narrow.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `${FAMILY_MEANINGS[familyKey]} Several dimensions reinforce one another strongly enough that the Foundation has a clearer center of gravity. The label still summarizes a multidimensional profile.`
+    return `${FAMILY_MEANINGS[familyKey]} The dimension results point in a compatible direction and produce a clearer tradition-level result. ${familyLabelValue} still summarizes seven separate dimensions.`
   }
 
-  return `${FAMILY_MEANINGS[familyKey]} The baseline leans clearly enough to name a usable default, while neighboring arguments remain active. ${familyLabelValue} is the clearest starting point, and ${runnerUpLabel} captures the closest alternative logic.`
+  return `${FAMILY_MEANINGS[familyKey]} ${familyLabelValue} is the nearest modeled tradition, while ${runnerUpLabel} supplies the closest alternative explanation.`
 }
 
 function buildWhyText(
@@ -240,14 +240,14 @@ function buildWhyText(
   strongestSignals: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `The main movement away from the midpoint shows up in ${strongestSignals}, but the gap between the two closest traditions remains narrow. That is why this reads better as a light tilt than as a hard classification. The useful signal is which considerations you return to slightly more often when the questions get harder.`
+    return `The largest distances from the midpoint occur in ${strongestSignals}, but the two nearest traditions remain close. The result therefore supports a qualified reading and does not warrant a hard classification.`
   }
 
   if (state === "sharplyDifferentiated") {
-    return `The model landed on ${familyLabelValue} because the strongest signals point in a compatible direction: ${strongestSignals}. The separation from ${runnerUpLabel} is wide enough to produce a clear tradition-level pattern.`
+    return `Compatible dimension results create a clearer lead for ${familyLabelValue}: ${strongestSignals}. The gap from ${runnerUpLabel} is wide enough to produce a clearer tradition-level result.`
   }
 
-  return `The model landed on ${familyLabelValue} because the strongest pull in the profile comes from ${strongestSignals}, while ${runnerUpLabel} remains close enough to influence the reading. The runner-up is part of the explanation.`
+  return `The dimension results in ${strongestSignals} place ${familyLabelValue} first. ${runnerUpLabel} remains close enough to explain part of the result.`
 }
 
 function buildPressureTestText(
@@ -258,10 +258,10 @@ function buildPressureTestText(
   rivalArgument: string,
 ) {
   if (state === "lowDifferentiation") {
-    return `Next, see whether focused domain questions sharpen the pattern. If Security or Technology keeps pushing the same way, the overlap may narrow. If the Focus Areas diverge, the result shows that your emphasis changes by issue. Keep ${runnerUpLabel} in view as the closest comparison.`
+    return `Next, read focused domain questions on their own terms. Security and Technology can add separate issue records without narrowing or rescoring this Foundation result. ${runnerUpLabel} remains the closest Foundation comparison.`
   }
 
-  return `Next, examine what this baseline is prone to discount. ${tendsMiss} The strongest rival challenge often comes from ${rivalFamilyLabel}: ${rivalArgument} If that objection survives your first explanation, treat the Foundation result as one account of the case with clear limits.`
+  return `Next, examine what this baseline is prone to discount. ${tendsMiss} The authored rival challenge comes from ${rivalFamilyLabel}: ${rivalArgument} If that objection survives your first explanation, treat the Foundation result as one account of the case with clear limits.`
 }
 
 function getTopDimensions(scores: DimensionScores, n: number) {
@@ -275,8 +275,8 @@ function describeDimensionFrame(dimension: DimensionKey, score: number) {
   const frame = DIMENSION_FRAMES[dimension]
   if (Math.abs(score - 4) < 0.25) {
     return dimension === "restraint" || dimension === "orderJustice"
-      ? `a still-open question around ${frame.high}`
-      : `a still-open question around ${frame.low}`
+      ? `an unresolved balance involving ${frame.high}`
+      : `near-midpoint uncertainty about ${frame.low}`
   }
 
   return score >= 4 ? frame.high : frame.low

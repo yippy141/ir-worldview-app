@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "economic-statecraft-us-brazil-section301-2026-07",
   "slug": "us-brazil-section-301-tariffs",
   "version": 1,
@@ -10,6 +10,10 @@
   "category": "economic-statecraft",
   "publishedAt": "2026-07-17",
   "updatedAt": "2026-07-17",
+  "asOf": "2026-07-17",
+  "reviewDueAt": "2026-07-22",
+  "freshnessStatus": "review-due",
+  "cadence": "fast",
   "evidenceWindow": {
     "start": "2026-06-26",
     "end": "2026-07-17"
@@ -268,7 +272,7 @@
       "mitigation": "Recalculate the described scope whenever a new USTR action enters the record."
     }
   ],
-  "editorialMemo": "This is a strong archive case because it captures a live shift in American economic-statecraft technique. The legal and policy story matters as much as the tariff headline. After the administration’s broader emergency-tariff route was curtailed, Section 301 became the more durable instrument for selective pressure. Brazil is an especially useful counterparty because it is neither a tiny economy nor a peer superpower; it is large enough to resist, exposed enough to feel pain, and politically motivated to answer without obvious self-harm. That gives the case a genuinely interesting strategic menu rather than a single obvious response. It also permits several worldview profiles to illuminate different mechanisms: coercive leverage, policy-space defence, coalition management, and structural hierarchy. I would not lead with it only because the core logic is narrower than the launch case. But it is an excellent archive record for users thinking about tariffs as statecraft rather than as simple trade policy.",
+  "editorialMemo": "This is a strong archive case because it captures a live shift in American economic-statecraft technique. The legal and policy story matters as much as the tariff headline. After the administration’s broader emergency-tariff route was curtailed, Section 301 became the more durable instrument for selective pressure. Brazil is an especially useful counterparty because it is neither a tiny economy nor a peer superpower; it is large enough to resist, exposed enough to feel pain, and politically motivated to answer without obvious self-harm. That gives the case a genuinely interesting strategic menu rather than a single obvious response. It also permits several Decision Patterns to illuminate different mechanisms: coercive leverage, policy-space defence, coalition management, and structural hierarchy. I would not lead with it only because the core logic is narrower than the launch case. But it is an excellent archive record for users thinking about tariffs as statecraft rather than as simple trade policy.",
   "editorialReview": {
     "researchReviewedAt": "2026-07-17",
     "sourceCheckedAt": "2026-07-17",

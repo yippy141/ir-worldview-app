@@ -9,7 +9,9 @@ import usBrazilTariffs from "@/content/current-cases/us-brazil-section-301-tarif
 }
 import type { CurrentCase, CurrentCaseSource } from "@/lib/current-cases/types"
 import {
+  getEffectiveCurrentCaseFreshnessStatus,
   validateCurrentCaseForPublication,
+  type CurrentCasePublicationValidationOptions,
   type CurrentCaseValidationError,
 } from "@/lib/current-cases/validation"
 
@@ -32,6 +34,7 @@ export type CurrentCaseCatalogValidationResult =
 
 export function validateCurrentCaseCatalogForPublication(
   catalog: readonly unknown[] = currentCaseCatalog,
+  options: CurrentCasePublicationValidationOptions = {},
 ): CurrentCaseCatalogValidationResult {
   const errors: Array<
     CurrentCaseValidationError & { caseId: string; caseIndex: number }
@@ -47,7 +50,7 @@ export function validateCurrentCaseCatalogForPublication(
     if (candidate.publicationStatus !== "published") return
 
     if (candidate.launchRole === "launch") launchCount += 1
-    const result = validateCurrentCaseForPublication(record)
+    const result = validateCurrentCaseForPublication(record, options)
     if (!result.ok) {
       for (const error of result.errors) {
         errors.push({ ...error, caseId, caseIndex })
@@ -80,11 +83,11 @@ export function validateCurrentCaseCatalogForPublication(
     }
   })
 
-  if (ids.size > 0 && launchCount !== 1) {
+  if (launchCount > 1) {
     errors.push({
       code: "field.invalid",
       path: "launchRole",
-      message: "A non-empty published catalog requires exactly one launch case.",
+      message: "A published catalog may contain at most one launch case.",
       caseId: "catalog",
       caseIndex: -1,
     })
@@ -96,7 +99,10 @@ export function validateCurrentCaseCatalogForPublication(
 export function getPublishedCurrentCases(
   catalog: readonly unknown[] = currentCaseCatalog,
 ): CurrentCase[] {
-  const catalogValidation = validateCurrentCaseCatalogForPublication(catalog)
+  const catalogValidation = validateCurrentCaseCatalogForPublication(
+    catalog,
+    getCompatibilityValidationOptions(catalog),
+  )
   if (!catalogValidation.ok) return []
 
   return catalog
@@ -123,9 +129,33 @@ export function getPublishedCurrentCaseById(
 
 export function getLatestPublishedCurrentCase(
   catalog: readonly unknown[] = currentCaseCatalog,
+  options: Pick<CurrentCasePublicationValidationOptions, "referenceDate"> = {},
+) {
+  return getActivePublishedLaunchCurrentCase(catalog, options)
+}
+
+export function getActivePublishedLaunchCurrentCase(
+  catalog: readonly unknown[] = currentCaseCatalog,
+  options: Pick<CurrentCasePublicationValidationOptions, "referenceDate"> = {},
 ) {
   const published = getPublishedCurrentCases(catalog)
-  return published.find((record) => record.launchRole === "launch") ?? published[0] ?? null
+  const launch =
+    published.find(
+      (record) =>
+        record.launchRole === "launch" && record.freshnessStatus === "active",
+    ) ?? null
+  if (!launch) return null
+
+  const referenceDate = options.referenceDate ?? new Date()
+  if (
+    getEffectiveCurrentCaseFreshnessStatus(launch, referenceDate) !== "active"
+  ) {
+    return null
+  }
+
+  return validateCurrentCaseForPublication(launch, { referenceDate }).ok
+    ? launch
+    : null
 }
 
 export function getSourcesForCurrentCaseClaim(
@@ -142,10 +172,34 @@ function comparePublishedCases(left: CurrentCase, right: CurrentCase) {
   return dateOrder || right.version - left.version
 }
 
-const shippedCatalogValidation = validateCurrentCaseCatalogForPublication()
+const shippedCatalogValidation = validateCurrentCaseCatalogForPublication(
+  currentCaseCatalog,
+  getCompatibilityValidationOptions(currentCaseCatalog),
+)
 
 if (!shippedCatalogValidation.ok) {
   throw new Error(
     `Invalid published Current Case catalog: ${JSON.stringify(shippedCatalogValidation.errors)}`,
   )
+}
+
+/**
+ * A record remains readable after its active window closes. Compatibility
+ * rendering therefore validates an authored launch on its inclusive deadline;
+ * active selection validates it again against the requested UTC day.
+ */
+function getCompatibilityValidationOptions(
+  catalog: readonly unknown[],
+): Pick<CurrentCasePublicationValidationOptions, "referenceDate"> {
+  const launch = catalog.find((record) => {
+    const candidate = record as Partial<CurrentCase>
+    return (
+      candidate.publicationStatus === "published" &&
+      candidate.launchRole === "launch"
+    )
+  }) as Partial<CurrentCase> | undefined
+
+  return typeof launch?.reviewDueAt === "string"
+    ? { referenceDate: launch.reviewDueAt }
+    : {}
 }

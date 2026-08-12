@@ -2,20 +2,54 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import { publicPath } from "@/i18n/paths"
+import type { Locale } from "@/i18n/routing"
 import { copyText } from "@/lib/clipboard"
 
 type Props = {
   payload: string
   headline: string
+  locale?: Locale
 }
 
-export function ProfileShareActions({ payload, headline }: Props) {
+const profileShareCopy = {
+  en: {
+    copied: "Copied!",
+    share: "Share profile",
+    linkCopied: "Link copied!",
+    copyUnavailable: "Copy unavailable",
+    copyLink: "Copy link",
+    compare: "Compare profiles",
+    savePdf: "Save as PDF",
+    fallback: "Profile share link",
+    title: "IR Worldview Profile",
+  },
+  "zh-Hans": {
+    copied: "已复制",
+    share: "分享画像",
+    linkCopied: "链接已复制",
+    copyUnavailable: "无法自动复制",
+    copyLink: "复制链接",
+    compare: "比较画像（英文）",
+    savePdf: "打印或存为 PDF",
+    fallback: "画像分享链接",
+    title: "国际关系世界观画像",
+  },
+} as const
+
+export function ProfileShareActions({
+  payload,
+  headline,
+  locale = "en",
+}: Props) {
+  const copy = profileShareCopy[locale]
   const [copyState, setCopyState] = useState<"idle" | "copied" | "error">("idle")
+  const sharePath = publicPath(locale, `/profile/share/${payload}`)
 
   const shareUrl =
     typeof window !== "undefined"
-      ? new URL(`/profile/share/${payload}`, window.location.origin).toString()
-      : `/profile/share/${payload}`
+      ? new URL(sharePath, window.location.origin).toString()
+      : sharePath
 
   async function handleCopy() {
     const copied = (await copyText(shareUrl)) || (await copyText(headline))
@@ -31,7 +65,7 @@ export function ProfileShareActions({ payload, headline }: Props) {
     if (typeof navigator.share === "function") {
       try {
         await navigator.share({
-          title: "IR Worldview Profile",
+          title: copy.title,
           text: headline,
           url: shareUrl,
         })
@@ -47,7 +81,7 @@ export function ProfileShareActions({ payload, headline }: Props) {
   return (
     <div className="row gap-sm wrap print-hidden">
       <button type="button" className="primary-button" onClick={handleShare}>
-        {copyState === "copied" ? "Copied!" : "Share profile"}
+        {copyState === "copied" ? copy.copied : copy.share}
       </button>
       <button
         type="button"
@@ -56,20 +90,20 @@ export function ProfileShareActions({ payload, headline }: Props) {
         aria-live="polite"
       >
         {copyState === "copied"
-          ? "Link copied!"
+          ? copy.linkCopied
           : copyState === "error"
-            ? "Copy unavailable"
-            : "Copy link"}
+            ? copy.copyUnavailable
+            : copy.copyLink}
       </button>
       <Link href="/compare" className="secondary-button">
-        Compare profiles
+        {copy.compare}
       </Link>
       <button type="button" className="secondary-button" onClick={() => window.print()}>
-        Save as PDF
+        {copy.savePdf}
       </button>
       {copyState === "error" ? (
         <label className="share-copy-fallback">
-          Profile share link
+          {copy.fallback}
           <input
             type="text"
             readOnly

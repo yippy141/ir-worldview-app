@@ -1,22 +1,27 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
 import {
   CURRENT_CASE_CATALOG_STATUS,
   currentCaseCatalog,
+  getActivePublishedLaunchCurrentCase,
   getLatestPublishedCurrentCase,
   getPublishedCurrentCases,
   getSourcesForCurrentCaseClaim,
   validateCurrentCaseCatalogForPublication,
 } from "@/lib/current-cases/catalog"
+import { currentCaseContent } from "@/content/locales/current-cases"
 import { compareCompletedCaseWithFoundation } from "@/lib/current-cases/profile-connection"
 import type {
   CompletedCurrentCaseResponse,
   CurrentCase,
 } from "@/lib/current-cases/types"
 import {
+  getEffectiveCurrentCaseFreshnessStatus,
   getCurrentCaseOptionDifferentiationIssues,
   validateCurrentCaseForPublication,
 } from "@/lib/current-cases/validation"
+import { getPublishedZhHansCurrentCases } from "@/lib/current-cases/zh-hans"
 import type { FoundationSnapshot } from "@/lib/profile-store"
 import {
   validateWorldStageCatalog,
@@ -31,7 +36,7 @@ function words(count: number, stem: string) {
 
 function reviewedCase(): CurrentCase {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     id: "case-001",
     slug: "tested-strategic-choice",
     version: 1,
@@ -42,6 +47,10 @@ function reviewedCase(): CurrentCase {
     category: "security",
     publishedAt: "2026-07-17",
     updatedAt: "2026-07-17",
+    asOf: "2026-07-17",
+    reviewDueAt: "2026-07-24",
+    freshnessStatus: "active",
+    cadence: "fast",
     evidenceWindow: { start: "2026-07-01", end: "2026-07-16" },
     briefing: words(260, "briefing"),
     actors: ["Actor A", "Actor B"],
@@ -222,21 +231,193 @@ const response: CompletedCurrentCaseResponse = {
   localeCopyVersion: 1,
 }
 
-test("the production catalog publishes the three approved records and resolves the launch case", () => {
+test("the production catalog preserves the three approved records without a stale launch", () => {
   assert.equal(CURRENT_CASE_CATALOG_STATUS, "approved-research-pack")
   assert.equal(currentCaseCatalog.length, 3)
-  assert.deepEqual(validateCurrentCaseCatalogForPublication(), { ok: true, errors: [] })
-  assert.equal(getPublishedCurrentCases().length, 3)
-  assert.equal(
-    getLatestPublishedCurrentCase()?.slug,
-    "europe-missile-defence-coalition-ukraine",
+  assert.deepEqual(validateCurrentCaseCatalogForPublication(), {
+    ok: true,
+    errors: [],
+  })
+  assert.deepEqual(
+    validateCurrentCaseCatalogForPublication(currentCaseCatalog, {
+      referenceDate: "2026-08-06",
+    }),
+    { ok: true, errors: [] },
   )
+  assert.equal(getPublishedCurrentCases().length, 3)
+  assert.equal(getActivePublishedLaunchCurrentCase(), null)
+  assert.equal(getLatestPublishedCurrentCase(), null)
 })
 
 test("a complete reviewed case satisfies the publication contract", () => {
   const record = reviewedCase()
-  assert.deepEqual(validateCurrentCaseForPublication(record), { ok: true, errors: [] })
+  assert.deepEqual(
+    validateCurrentCaseForPublication(record, { referenceDate: record.reviewDueAt }),
+    { ok: true, errors: [] },
+  )
   assert.equal(getPublishedCurrentCases([record])[0], record)
+})
+
+test("launch freshness is valid through the review deadline and fails the next day", () => {
+  const record = reviewedCase()
+
+  assert.deepEqual(
+    validateCurrentCaseForPublication(record, { referenceDate: "2026-07-24" }),
+    { ok: true, errors: [] },
+  )
+  assert.equal(
+    getActivePublishedLaunchCurrentCase([record], {
+      referenceDate: "2026-07-24",
+    }),
+    record,
+  )
+
+  const expired = validateCurrentCaseForPublication(record, {
+    referenceDate: "2026-07-25",
+  })
+  assert.equal(expired.ok, false)
+  assert.equal(
+    expired.errors.some((error) => error.code === "freshness.review-due"),
+    true,
+  )
+  assert.equal(
+    getActivePublishedLaunchCurrentCase([record], {
+      referenceDate: "2026-07-25",
+    }),
+    null,
+  )
+  assert.equal(getPublishedCurrentCases([record])[0], record)
+})
+
+test("effective freshness uses an injected date and keeps the deadline inclusive", () => {
+  const record = reviewedCase()
+
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(record, "2026-07-24"),
+    "active",
+  )
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(
+      record,
+      new Date("2026-07-25T00:00:00.000Z"),
+    ),
+    "review-due",
+  )
+
+  record.launchRole = "archive"
+  record.freshnessStatus = "background"
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(record, "2027-01-01"),
+    "background",
+  )
+  assert.equal(
+    getEffectiveCurrentCaseFreshnessStatus(record, "not-a-date"),
+    null,
+  )
+})
+
+test("English and Chinese publication sets both fail closed for an invalid catalog", () => {
+  const invalidCatalog = structuredClone(currentCaseCatalog)
+  invalidCatalog[1].id = invalidCatalog[0].id
+
+  assert.equal(
+    validateCurrentCaseCatalogForPublication(invalidCatalog, {
+      referenceDate: "2026-08-06",
+    }).ok,
+    false,
+  )
+  assert.deepEqual(getPublishedCurrentCases(invalidCatalog), [])
+  assert.deepEqual(getPublishedZhHansCurrentCases(invalidCatalog), [])
+})
+
+test("English and Chinese case indexes and details regenerate freshness hourly", () => {
+  const routeFiles = [
+    "app/cases/page.tsx",
+    "app/cases/[slug]/page.tsx",
+    "app/[locale]/cases/page.tsx",
+    "app/[locale]/cases/[slug]/page.tsx",
+  ]
+
+  for (const routeFile of routeFiles) {
+    const source = readFileSync(new URL(`../${routeFile}`, import.meta.url), "utf8")
+    assert.match(
+      source,
+      /export const revalidate = 3600/,
+      `${routeFile} must refresh deadline presentation hourly`,
+    )
+    assert.match(
+      source,
+      /new Date\(\)\.toISOString\(\)\.slice\(0, 10\)/,
+      `${routeFile} must supply the date-only freshness contract`,
+    )
+  }
+})
+
+test("published catalogs allow no launch and reject multiple launches", () => {
+  const archived = reviewedCase()
+  archived.launchRole = "archive"
+  archived.freshnessStatus = "background"
+
+  assert.deepEqual(
+    validateCurrentCaseCatalogForPublication([archived], {
+      referenceDate: "2026-08-06",
+    }),
+    { ok: true, errors: [] },
+  )
+  assert.equal(
+    getActivePublishedLaunchCurrentCase([archived], {
+      referenceDate: "2026-08-06",
+    }),
+    null,
+  )
+
+  const secondLaunch = structuredClone(reviewedCase())
+  secondLaunch.id = "case-002"
+  secondLaunch.slug = "another-tested-strategic-choice"
+  const duplicateLaunches = validateCurrentCaseCatalogForPublication(
+    [reviewedCase(), secondLaunch],
+    { referenceDate: "2026-07-24" },
+  )
+  assert.equal(duplicateLaunches.ok, false)
+  assert.equal(
+    duplicateLaunches.errors.some(
+      (error) => error.caseId === "catalog" && error.path === "launchRole",
+    ),
+    true,
+  )
+})
+
+test("active freshness and launch role must agree", () => {
+  const inactiveLaunch = reviewedCase()
+  inactiveLaunch.freshnessStatus = "review-due"
+  const inactiveLaunchValidation = validateCurrentCaseForPublication(
+    inactiveLaunch,
+    { referenceDate: "2026-07-25" },
+  )
+  assert.equal(inactiveLaunchValidation.ok, false)
+  assert.equal(
+    inactiveLaunchValidation.errors.some(
+      (error) =>
+        error.code === "freshness.invalid" &&
+        error.path === "freshnessStatus",
+    ),
+    true,
+  )
+
+  const activeArchive = reviewedCase()
+  activeArchive.launchRole = "archive"
+  const activeArchiveValidation = validateCurrentCaseForPublication(
+    activeArchive,
+    { referenceDate: "2026-07-24" },
+  )
+  assert.equal(activeArchiveValidation.ok, false)
+  assert.equal(
+    activeArchiveValidation.errors.some(
+      (error) =>
+        error.code === "freshness.invalid" && error.path === "launchRole",
+    ),
+    true,
+  )
 })
 
 test("publication fails closed on uncovered claims and preserves recorded URLs", () => {
@@ -273,35 +454,51 @@ test("answer-option validation rejects duplicated logics and tradeoffs", () => {
   assert.equal(issues.some((issue) => issue.code === "option.duplicate-tradeoff"), true)
 })
 
-test("Foundation comparison is pure and does not create a new score", () => {
+test("Foundation connection stays unavailable until a versioned authored mapping exists", () => {
   const record = reviewedCase()
   const recordBefore = structuredClone(record)
   const responseBefore = structuredClone(response)
   const foundationBefore = structuredClone(foundation)
 
   const connection = compareCompletedCaseWithFoundation(record, response, foundation)
-  assert.equal(connection.kind, "consistent")
-  assert.equal(connection.foundationPatternId, "broad-spectrum-bridge-builder")
-  assert.equal(connection.readingProfileId, "broad-spectrum-bridge-builder")
+  assert.deepEqual(connection, {
+    kind: "unavailable",
+    unavailableReason: "missing-authored-mapping",
+    selectedOptionId: "coordinate",
+  })
   assert.equal("score" in connection, false)
+  assert.equal("foundationPatternId" in connection, false)
+  assert.equal("readingProfileId" in connection, false)
   assert.deepEqual(record, recordBefore)
   assert.deepEqual(response, responseBefore)
   assert.deepEqual(foundation, foundationBefore)
 })
 
-test("Foundation comparison does not cross completion-locale or copy-version cohorts", () => {
-  for (const incompatibleFoundation of [
+test("Foundation connection unavailability is explicit in both public locales", () => {
+  assert.match(
+    currentCaseContent("en").flow.foundationConnectionUnavailable,
+    /reviewed, versioned mapping/,
+  )
+  assert.match(
+    currentCaseContent("zh-Hans").flow.foundationConnectionUnavailable,
+    /编辑审核、注明版本/,
+  )
+})
+
+test("Foundation connection never infers from missing or incompatible saved baselines", () => {
+  for (const unavailableFoundation of [
+    null,
     { ...foundation, locale: "zh-Hans" as const },
     { ...foundation, localeCopyVersion: foundation.localeCopyVersion + 1 },
   ]) {
     const connection = compareCompletedCaseWithFoundation(
       reviewedCase(),
       response,
-      incompatibleFoundation,
+      unavailableFoundation,
     )
     assert.equal(connection.kind, "unavailable")
-    assert.equal(connection.unavailableReason, "different-cohort")
-    assert.equal(connection.foundationPatternId, null)
+    assert.equal(connection.unavailableReason, "missing-authored-mapping")
+    assert.equal("foundationPatternId" in connection, false)
   }
 })
 

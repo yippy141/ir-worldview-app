@@ -1,8 +1,11 @@
 export const zhHansCurrentCaseArchive = {
   eyebrow: "当前案例",
-  title: "判断当下事务",
+  title: "研判当前案例",
+  recentTitle: "近期案例",
   intro:
-    "先对一项有来源依据的国际事务作出判断，再用相互竞争的世界观读法和一项假设变化检验这项判断。",
+    "阅读一项有来源依据的国际事务案例并作出初步判断，再将你的理由与不同读法及一项假设变化进行比较。",
+  noActiveBody:
+    "目前没有处于有效编辑复核期内的当前案例。下方仍保留近期记录，并标明其证据日期和状态。",
   privacyNote:
     "回答和未完成的草稿只保存在当前浏览器。每条记录都会标明证据时间窗、来源和更正状态。",
   categories: {
@@ -14,7 +17,9 @@ export const zhHansCurrentCaseArchive = {
   completed: (date: string) => `完成于 ${date}`,
   draft: "本设备已保存草稿",
   current: "当前案例",
-  archive: "存档案例",
+  reviewDue: "待复核",
+  background: "背景案例",
+  archived: "存档案例",
   review: "查看判断",
   resume: "继续作答",
   open: "打开案例",
@@ -23,6 +28,8 @@ export const zhHansCurrentCaseArchive = {
   recordHeader: {
     published: "发布于",
     evidenceThrough: "证据更新至",
+    reviewDue: "复核截止日",
+    status: "状态",
     version: "版本",
     directSources: (count: number) => `${count} 个直接来源`,
   },

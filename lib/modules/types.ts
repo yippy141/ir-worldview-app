@@ -111,6 +111,15 @@ export type ModuleCardTypeRead = {
   summary: string
 }
 
+export const ACTIVE_MODULE_COMPARISON_STATUS = {
+  kind: "separate-domain-read",
+  numericBridge: "none",
+  masterScore: "none",
+} as const
+
+export type ModuleComparisonStatus =
+  typeof ACTIVE_MODULE_COMPARISON_STATUS
+
 export type ModuleAnalytics = {
   mode?: QuizMode
   scores: Record<string, number>

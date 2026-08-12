@@ -78,7 +78,7 @@ export const securityModule: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "Most cases start from familiar security debates about deterrence, alliances, escalation, and legitimacy. A smaller set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
+    "The cases examine deterrence, alliances, escalation, and legitimacy from the positions of exposed partners, rival powers, and nonaligned states.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",
@@ -158,7 +158,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Security read: pressure and visible deterrence",
         summary:
-          "Under security pressure, you generally believe delay is costly and visible commitment helps keep rivals from pushing further.",
+          "Your answers treat delay as costly and visible commitment as a way to deter further probing.",
         instincts: [
           "You worry most about what hesitation teaches an adversary.",
           "You treat credibility failures as harder to reverse than bounded overcommitment.",
@@ -191,7 +191,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Security read: coalition-centered pressure management",
         summary:
-          "You generally believe security holds best when exposed partners trust the coalition and the coalition can carry the policy together.",
+          "Your answers put exposed-partner confidence and the coalition’s ability to sustain policy at the center of security.",
         instincts: [
           "You treat alliance cohesion as part of deterrence, not diplomatic decoration.",
           "You prefer strategies that partners can sustain together over dramatic unilateral gestures.",
@@ -206,7 +206,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Security read: protection-sensitive statecraft",
         summary:
-          "You generally believe force and deterrence hold best when they remain bounded by civilian protection, political legitimacy, and defensible authority.",
+          "Your answers favor force and deterrence only when civilian protection and defensible authority set clear bounds.",
         instincts: [
           "You keep asking what kind of precedent a response is setting.",
           "You distinguish narrow protection from open-ended license to act.",
@@ -220,14 +220,14 @@ export const securityModule: ModuleDefinition = {
     return {
       headline: "Security read: no single lane dominates",
       summary:
-        "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
+        "No single lane leads your Security result. The lane meters show your answers across the three security lanes.",
       instincts: [
-        "No lane in this module separated far enough from the others to lead the read.",
-        "Deterrence, alliance durability, and legitimacy each stayed live across your answers.",
-        "The lane meters carry more information than this headline does.",
+        "The three lane readings remain mixed enough that this result cannot name one leading security logic.",
+        "Your answers place different kinds of security costs ahead in different cases.",
+        "Read each lane meter for the exact pattern.",
       ],
       challenge:
-        "Your threshold for decisive action is still unspecified. A crisis that forces one lane above the others would settle it.",
+        "A case that makes the costs of immediate pressure explicit would test which lane leads.",
     }
   },
   summarizeLanes(analytics, foundation, context) {
@@ -277,7 +277,7 @@ export const securityModule: ModuleDefinition = {
       return {
         headline: "Explanation and Decision",
         summary:
-          "You often read cases structurally, but your decision cards keep legitimacy, civilian risk, and bounded action more active than your explanations alone would suggest.",
+          "Your explanation cards read cases structurally, while your decision cards give more weight to legitimacy, civilian risk, and bounded action.",
       }
     }
 
@@ -368,7 +368,7 @@ function summarizeSecurityLane(
       "escalation",
       escalation,
     )
-    let summary = "This lane sits between visible deterrence and crisis limitation; neither pulled clear."
+    let summary = "Your deterrence answers give similar weight to visible pressure and crisis limitation."
 
     if (
       activismPosition.value >= activismPosition.upper &&
@@ -410,7 +410,7 @@ function summarizeSecurityLane(
       "alliance",
       alliance,
     )
-    let summary = "This lane sits between coalition management and partner autonomy; neither pulled clear."
+    let summary = "Your alliance answers give similar weight to coalition management and partner autonomy."
 
     if (alliancePosition.value >= alliancePosition.upper) {
       summary =
@@ -444,7 +444,7 @@ function summarizeSecurityLane(
     "legitimacy",
     legitimacyScore,
   )
-  let summary = "This lane sits between order-first caution and civilian protection; neither pulled clear."
+  let summary = "Your legitimacy answers give similar weight to order-first caution and civilian protection."
 
   if (legitimacyPosition.value >= legitimacyPosition.upper) {
     summary =

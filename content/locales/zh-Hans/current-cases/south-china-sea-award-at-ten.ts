@@ -1,7 +1,7 @@
 import type { ZhHansCurrentCaseRecord } from "@/content/locales/zh-Hans/types"
 
 export const zhHansSouthChinaSeaAwardCase = {
-  schemaVersion: 1,
+  schemaVersion: 2,
   id: "institutional-legitimacy-south-china-sea-award-anniversary-2026-07",
   slug: "south-china-sea-award-at-ten",
   version: 1,
@@ -14,6 +14,10 @@ export const zhHansSouthChinaSeaAwardCase = {
   category: "institutions-and-governance",
   publishedAt: "2026-07-17",
   updatedAt: "2026-07-17",
+  asOf: "2026-07-17",
+  reviewDueAt: "2026-10-15",
+  freshnessStatus: "background",
+  cadence: "slow",
   evidenceWindow: { start: "2026-06-26", end: "2026-07-17" },
   briefing:
     "2016 年南海仲裁案裁决十周年之际，由菲律宾牵头，包括美国、日本、澳大利亚、加拿大、数个欧洲国家、新西兰和英国在内的一批国家公开重申：就裁决涉及的海洋权利和主张而言，该裁决具有终局性和法律约束力。联合声明还重申仲裁庭的结论，即中国以历史性权利为依据的广泛主张缺乏法律基础，并反对使用海警、军队和海上民兵力量威吓合法行动。欧盟另行发表声明，提出相同的核心法律立场，并主张依据《联合国海洋法公约》管控争端，最终达成一份有效、有实质内容且具有法律约束力的“南海行为准则”。中方随即明确回应。外交部发言人林剑称仲裁是政治闹剧，裁决非法、无效，并就联合声明和欧盟立场提出抗议。\n\n对仲裁庭、菲律宾及支持裁决的国家而言，裁决的法律地位已有明确结论；其政治效力仍有争议。支持方需要判断：当执行间接且有选择时，反复公开支持能否影响各方行为。域外国家还必须考虑，若这种支持被理解为反华阵营标志，是否会压缩东盟及其他中等强国的外交空间。争议的关键在于机制：正当性是否会通过重复表态和联合信号影响行为，还是法律必须与实力平衡及持续的海上存在相结合，才足以产生约束。\n\n下一步将显示，支持方究竟把公开重申视为主要工具，视为实际管控海上事件的基础，视为“南海行为准则”谈判中的杠杆，还是视为加强海上平衡的政治依据。每种方案保护的秩序要素不同，承担的风险也不同。",

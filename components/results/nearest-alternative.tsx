@@ -28,34 +28,41 @@ const EXPECTED_COPY: Record<ComparisonExpectation, string> = {
  */
 export function NearestAlternative({ primaryLabel, runnerUpLabel, rows }: Props) {
   return (
-    <table className="alt-compare">
-      <caption className="sr-only">
-        {primaryLabel} and {runnerUpLabel} compared where they diverge most
-      </caption>
-      <thead>
-        <tr>
-          <th scope="col">Dimension</th>
-          <th scope="col">{primaryLabel}</th>
-          <th scope="col">{runnerUpLabel}</th>
-          <th scope="col">You</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.key}>
-            <th scope="row">{row.label}</th>
-            <td data-expected={row.primaryExpected}>{EXPECTED_COPY[row.primaryExpected]}</td>
-            <td data-expected={row.runnerUpExpected}>{EXPECTED_COPY[row.runnerUpExpected]}</td>
-            <td className="alt-compare__score">
-              {row.userPercentile !== null &&
-              row.userPercentile !== undefined
-                ? `${formatOrdinal(row.userPercentile)} percentile · raw ${row.userScore.toFixed(1)}`
-                : row.userScore.toFixed(1)}
-            </td>
+    <div
+      className="alt-compare-scroll"
+      role="region"
+      aria-label={`${primaryLabel} and ${runnerUpLabel} comparison table`}
+      tabIndex={0}
+    >
+      <table className="alt-compare">
+        <caption className="sr-only">
+          {primaryLabel} and {runnerUpLabel} compared where they diverge most
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Dimension</th>
+            <th scope="col">{primaryLabel}</th>
+            <th scope="col">{runnerUpLabel}</th>
+            <th scope="col">You</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.key}>
+              <th scope="row">{row.label}</th>
+              <td data-expected={row.primaryExpected}>{EXPECTED_COPY[row.primaryExpected]}</td>
+              <td data-expected={row.runnerUpExpected}>{EXPECTED_COPY[row.runnerUpExpected]}</td>
+              <td className="alt-compare__score">
+                {row.userPercentile !== null &&
+                row.userPercentile !== undefined
+                  ? `${formatOrdinal(row.userPercentile)} percentile · raw ${row.userScore.toFixed(1)}`
+                  : row.userScore.toFixed(1)}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

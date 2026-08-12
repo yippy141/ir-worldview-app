@@ -1,8 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
-import { getLatestPublishedCurrentCase } from "@/lib/current-cases/catalog"
+import { getCurrentCaseDestination } from "@/lib/current-cases/routes"
 
 export function GET(request: NextRequest) {
-  const latest = getLatestPublishedCurrentCase()
-  const destination = latest ? `/zh/cases/${latest.slug}` : "/zh/cases"
+  const destination = getCurrentCaseDestination("zh-Hans")
   return NextResponse.redirect(new URL(destination, request.url), 307)
 }

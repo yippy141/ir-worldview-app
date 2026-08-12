@@ -79,7 +79,7 @@ export const securityV21Module: ModuleDefinition = {
     analyst: "14 to 18 minutes",
   },
   description:
-    "Most cases start from familiar security debates about deterrence, alliances, escalation, and legitimacy. A smaller set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
+    "The cases start from familiar security debates about deterrence, alliances, escalation, and legitimacy. A separate set of pressure tests shifts to exposed partners, rival powers, and nonaligned states when the vantage point changes the strategic read.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",
@@ -185,7 +185,7 @@ export const securityV21Module: ModuleDefinition = {
     return {
       headline: "Security read: no single lane dominates",
       summary:
-        "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. On the current question set most answer patterns land here, so treat this as an unsettled position and read the lane meters for the detail.",
+        "Your answers sit between deterrence, alliance management, and legitimacy without any one of them pulling clear. Your answers did not separate these lanes enough to support a single leader, so treat this as an unsettled position and read the lane meters for the detail.",
       instincts: [
         "No lane in this module separated far enough from the others to lead the read.",
         "Deterrence, alliance durability, and legitimacy each stayed live across your answers.",

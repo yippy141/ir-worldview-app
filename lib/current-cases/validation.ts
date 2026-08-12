@@ -1,11 +1,14 @@
 import { getAtlasLitePattern } from "@/lib/atlas-lite"
 import {
+  CURRENT_CASE_CADENCES,
   CURRENT_CASE_CATEGORIES,
   CURRENT_CASE_CHALLENGE_RESPONSE_IDS,
+  CURRENT_CASE_FRESHNESS_STATUSES,
   CURRENT_CASE_LAUNCH_ROLES,
   CURRENT_CASE_SCHEMA_VERSION,
   CURRENT_CASE_SOURCE_KINDS,
   type CurrentCase,
+  type CurrentCaseFreshnessStatus,
   type CurrentCaseOption,
 } from "@/lib/current-cases/types"
 import { isReasoningTagId } from "@/lib/current-cases/reasoning-tags"
@@ -39,6 +42,8 @@ export type CurrentCaseValidationCode =
   | "route.invalid"
   | "review.incomplete"
   | "publication.status"
+  | "freshness.invalid"
+  | "freshness.review-due"
 
 export type CurrentCaseValidationError = {
   code: CurrentCaseValidationCode
@@ -49,6 +54,11 @@ export type CurrentCaseValidationError = {
 export type CurrentCaseValidationResult =
   | { ok: true; errors: readonly [] }
   | { ok: false; errors: readonly CurrentCaseValidationError[] }
+
+export type CurrentCasePublicationValidationOptions = {
+  /** UTC day used for deadline checks. Defaults to the current UTC day. */
+  referenceDate?: string | Date
+}
 
 export type CurrentCaseOptionDifferentiationIssue = Pick<
   CurrentCaseValidationError,
@@ -78,6 +88,37 @@ function isIsoDate(value: unknown): value is string {
   if (typeof value !== "string" || !ISO_DATE.test(value)) return false
   const parsed = new Date(`${value}T00:00:00.000Z`)
   return !Number.isNaN(parsed.valueOf()) && parsed.toISOString().slice(0, 10) === value
+}
+
+function normalizeReferenceDate(value: string | Date | undefined) {
+  if (value === undefined) return new Date().toISOString().slice(0, 10)
+  if (typeof value === "string") return isIsoDate(value) ? value : null
+  return Number.isNaN(value.valueOf()) ? null : value.toISOString().slice(0, 10)
+}
+
+/**
+ * Resolves authored freshness against a caller-supplied UTC day. Archive,
+ * background, and already-review-due records retain their authored status;
+ * only an active record is downgraded after its inclusive review deadline.
+ * Invalid dates fail closed rather than producing an active status.
+ */
+export function getEffectiveCurrentCaseFreshnessStatus(
+  record: Pick<CurrentCase, "freshnessStatus" | "reviewDueAt">,
+  referenceDate: string | Date,
+): CurrentCaseFreshnessStatus | null {
+  const normalizedReferenceDate = normalizeReferenceDate(referenceDate)
+  if (
+    normalizedReferenceDate === null ||
+    !isIsoDate(record.reviewDueAt) ||
+    !CURRENT_CASE_FRESHNESS_STATUSES.includes(record.freshnessStatus)
+  ) {
+    return null
+  }
+
+  return record.freshnessStatus === "active" &&
+    normalizedReferenceDate > record.reviewDueAt
+    ? "review-due"
+    : record.freshnessStatus
 }
 
 function normalizeDifferentiator(value: string) {
@@ -155,6 +196,7 @@ export function hasDifferentiatedCurrentCaseOptions(
 
 export function validateCurrentCaseForPublication(
   value: unknown,
+  options: CurrentCasePublicationValidationOptions = {},
 ): CurrentCaseValidationResult {
   const errors: CurrentCaseValidationError[] = []
   const add = (
@@ -171,7 +213,11 @@ export function validateCurrentCaseForPublication(
   }
 
   if (value.schemaVersion !== CURRENT_CASE_SCHEMA_VERSION) {
-    add("schema.invalid", "schemaVersion", "Current Case schemaVersion must be 1.")
+    add(
+      "schema.invalid",
+      "schemaVersion",
+      `Current Case schemaVersion must be ${CURRENT_CASE_SCHEMA_VERSION}.`,
+    )
   }
   for (const field of ["id", "slug", "title", "dek", "briefing", "editorialMemo"] as const) {
     if (!isNonEmptyString(value[field])) {
@@ -194,6 +240,41 @@ export function validateCurrentCaseForPublication(
   if (!CURRENT_CASE_LAUNCH_ROLES.includes(value.launchRole as never)) {
     add("field.invalid", "launchRole", "Launch role must be launch or archive.")
   }
+  const freshnessStatusIsValid = CURRENT_CASE_FRESHNESS_STATUSES.includes(
+    value.freshnessStatus as never,
+  )
+  if (!freshnessStatusIsValid) {
+    add(
+      "freshness.invalid",
+      "freshnessStatus",
+      "Freshness status must be active, review-due, background, or archived.",
+    )
+  }
+  if (!CURRENT_CASE_CADENCES.includes(value.cadence as never)) {
+    add("freshness.invalid", "cadence", "Cadence must be fast, standard, or slow.")
+  }
+  if (
+    value.launchRole === "launch" &&
+    freshnessStatusIsValid &&
+    value.freshnessStatus !== "active"
+  ) {
+    add(
+      "freshness.invalid",
+      "freshnessStatus",
+      "A published launch case must have active freshness status.",
+    )
+  }
+  if (
+    value.freshnessStatus === "active" &&
+    CURRENT_CASE_LAUNCH_ROLES.includes(value.launchRole as never) &&
+    value.launchRole !== "launch"
+  ) {
+    add(
+      "freshness.invalid",
+      "launchRole",
+      "A published active case must be the launch case.",
+    )
+  }
   if (!CURRENT_CASE_CATEGORIES.includes(value.category as never)) {
     add("field.invalid", "category", "Category is outside the Current Case vocabulary.")
   }
@@ -202,6 +283,40 @@ export function validateCurrentCaseForPublication(
   }
   if (!isIsoDate(value.updatedAt)) {
     add("date.invalid", "updatedAt", "updatedAt must be an ISO date.")
+  }
+  if (!isIsoDate(value.asOf)) {
+    add("date.invalid", "asOf", "asOf must be an ISO date.")
+  }
+  if (!isIsoDate(value.reviewDueAt)) {
+    add("date.invalid", "reviewDueAt", "reviewDueAt must be an ISO date.")
+  }
+  if (
+    isIsoDate(value.asOf) &&
+    isIsoDate(value.reviewDueAt) &&
+    value.reviewDueAt < value.asOf
+  ) {
+    add(
+      "date.invalid",
+      "reviewDueAt",
+      "reviewDueAt cannot precede the record's asOf date.",
+    )
+  }
+
+  if (value.launchRole === "launch") {
+    const referenceDate = normalizeReferenceDate(options.referenceDate)
+    if (referenceDate === null) {
+      add(
+        "date.invalid",
+        "referenceDate",
+        "Publication validation requires a valid ISO reference date.",
+      )
+    } else if (isIsoDate(value.reviewDueAt) && referenceDate > value.reviewDueAt) {
+      add(
+        "freshness.review-due",
+        "reviewDueAt",
+        `The launch case passed its review deadline on ${value.reviewDueAt}.`,
+      )
+    }
   }
 
   if (!isRecord(value.evidenceWindow)) {
@@ -212,6 +327,13 @@ export function validateCurrentCaseForPublication(
     if (!isIsoDate(end)) add("date.invalid", "evidenceWindow.end", "End must be an ISO date.")
     if (isIsoDate(start) && isIsoDate(end) && start > end) {
       add("date.invalid", "evidenceWindow", "Evidence window cannot end before it starts.")
+    }
+    if (isIsoDate(end) && isIsoDate(value.asOf) && end > value.asOf) {
+      add(
+        "date.invalid",
+        "asOf",
+        "The asOf date cannot precede the end of the evidence window.",
+      )
     }
   }
 
@@ -488,7 +610,7 @@ function validateWorldviewReadings(
     add("reading.count", "worldviewReadings", "Published cases require 3–4 relevant readings.")
     return
   }
-  const profileIds = new Set<string>()
+  const patternIds = new Set<string>()
   const recommendedOptions = new Set<string>()
   value.forEach((reading, index) => {
     const path = `worldviewReadings[${index}]`
@@ -509,15 +631,15 @@ function validateWorldviewReadings(
       }
     }
     if (typeof reading.profileId === "string") {
-      if (profileIds.has(reading.profileId)) {
-        add("reading.duplicate", `${path}.profileId`, "Profile readings must be unique.")
+      if (patternIds.has(reading.profileId)) {
+        add("reading.duplicate", `${path}.profileId`, "Decision Pattern readings must be unique.")
       }
-      profileIds.add(reading.profileId)
+      patternIds.add(reading.profileId)
       if (!getAtlasLitePattern(reading.profileId)) {
         add(
           "reading.profile-unknown",
           `${path}.profileId`,
-          "Reading must resolve through a stable Atlas profile ID.",
+          "Reading must resolve through a stable Decision Pattern ID.",
         )
       }
     }

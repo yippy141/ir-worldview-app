@@ -6,6 +6,7 @@ export const approvedChinesePaths = [
   "/method",
   "/privacy",
   "/feedback",
+  "/beta",
   "/profile",
   "/cases",
   "/quiz",
@@ -23,7 +24,7 @@ const approvedChineseDynamicPatterns = [
 ] as const
 
 export const englishSitemapPaths = [
-  ...approvedChinesePaths,
+  ...approvedChinesePaths.filter((pathname) => pathname !== "/beta"),
   "/ai",
   "/ai/atlas",
   "/ai/field-guide",

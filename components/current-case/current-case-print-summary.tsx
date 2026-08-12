@@ -4,18 +4,31 @@ import type { ZhHansCurrentCaseSource } from "@/content/locales/zh-Hans/types"
 import { formatLocalizedDate } from "@/i18n/format"
 import type { Locale } from "@/i18n/routing"
 import type { CurrentCasePublicRecord } from "@/lib/current-cases/presentation"
+import { getEffectiveCurrentCaseFreshnessStatus } from "@/lib/current-cases/validation"
 
 export function CurrentCasePrintSummary({
   record,
   locale = "en",
   localizedSources,
+  referenceDate = new Date(),
 }: {
   record: CurrentCasePublicRecord
   locale?: Locale
   localizedSources?: readonly ZhHansCurrentCaseSource[]
+  referenceDate?: string | Date
 }) {
   const content = currentCaseContent(locale)
   const copy = content.flow
+  const effectiveFreshnessStatus =
+    getEffectiveCurrentCaseFreshnessStatus(record, referenceDate) ?? "review-due"
+  const freshnessLabel =
+    effectiveFreshnessStatus === "active"
+      ? content.archive.current
+      : effectiveFreshnessStatus === "review-due"
+        ? content.archive.reviewDue
+        : effectiveFreshnessStatus === "background"
+          ? content.archive.background
+          : content.archive.archived
 
   return (
     <section className={styles.printSummary} aria-label={copy.printableSummary}>
@@ -35,6 +48,14 @@ export function CurrentCasePrintSummary({
           <div>
             <dt>{copy.evidenceThrough}</dt>
             <dd>{formatLocalizedDate(record.evidenceWindow.end, locale)}</dd>
+          </div>
+          <div>
+            <dt>{content.archive.recordHeader.reviewDue}</dt>
+            <dd>{formatLocalizedDate(record.reviewDueAt, locale)}</dd>
+          </div>
+          <div>
+            <dt>{content.archive.recordHeader.status}</dt>
+            <dd>{freshnessLabel}</dd>
           </div>
         </dl>
       </header>

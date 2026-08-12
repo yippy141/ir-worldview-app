@@ -14,13 +14,13 @@ export const zhHansSiteMetadata = {
   socialShorthand: "IR Worldview Inventory",
   byline: "JinHua Yip 制作",
   author: "JinHua Yip",
-  defaultDescription: "梳理你在世界政治问题上依赖的论证，检验具体判断，并比较不同世界观画像。",
+  defaultDescription: "梳理你在世界政治问题上依赖的论证，检验具体判断，并比较不同国际关系传统与决策模式。",
 } as const
 
 export const zhHansRouteMetadata = {
   home: {
     title: "国际关系世界观清单",
-    description: "梳理你的外交政策判断，在具体情境中检验它们，并比较不同画像背后的论证。",
+    description: "梳理你的外交政策判断，在具体情境中检验它们，并比较不同传统与决策模式背后的论证。",
     openGraph: {
       type: "website",
       title: "国际关系世界观清单",
@@ -74,11 +74,11 @@ export const zhHansRouteMetadata = {
   },
   worldviewMap: {
     title: "世界观地图｜国际关系世界观清单",
-    description: "在同一套投影上比较你的基线、世界观画像、情境变化和按来源编码的公开立场。",
+    description: "在同一套投影上比较你的基线、编辑型决策模式、情境变化和按来源编码的公开立场。",
     openGraph: {
       type: "website",
       title: "世界观地图｜国际关系世界观清单",
-      description: "把个人基线、编辑型世界观画像和有来源的公开立场放在同一张地图上比较。",
+      description: "把个人基线、编辑型决策模式和有来源的公开立场放在同一张地图上比较。",
     },
   },
   publicPositions: {
@@ -116,11 +116,11 @@ export const zhHansWorldviewProfileMetadata = Object.fromEntries(
   zhHansWorldviewProfiles.map((profile) => [
     profile.id,
     {
-      title: `${profile.publicName}｜世界观画像｜国际关系世界观清单`,
+      title: `${profile.publicName}｜决策模式｜国际关系世界观清单`,
       description: `${profile.decisionRule}${profile.cardSummary}`,
       openGraph: {
         type: "article" as const,
-        title: `${profile.publicName}｜世界观画像`,
+        title: `${profile.publicName}｜决策模式`,
         description: profile.cardSummary,
       },
     },
@@ -162,12 +162,12 @@ export const zhHansOpenGraphImageCopy = {
     const profile = zhHansWorldviewProfileById[id]
     return profile
       ? {
-          alt: `世界观画像：${profile.publicName}`,
+          alt: `决策模式：${profile.publicName}`,
           brand: "国际关系世界观清单",
-          eyebrow: "世界观画像",
+          eyebrow: "决策模式",
           title: profile.publicName,
           description: profile.decisionRule,
-          footer: "连续画像，不是固定类型。",
+          footer: "编辑型阅读辅助，不是个人身份。",
         }
       : null
   },

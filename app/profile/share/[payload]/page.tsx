@@ -1,6 +1,6 @@
 import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
-import { buildIntegratedHeadline } from "@/lib/profile-helpers"
+import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
 import { resolveProfileSharePayload } from "@/lib/profile-share"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -11,7 +11,7 @@ export async function generateMetadata(
   const { payload } = await params
   const resolved = resolveProfileSharePayload(payload)
 
-  if (!resolved?.profile.foundation) {
+  if (!resolved) {
     const title = "Shared Profile — IR Worldview Inventory"
     const description =
       "Open a shared IR Worldview Profile, or create your own Foundation result and saved profile layers."
@@ -20,9 +20,15 @@ export async function generateMetadata(
   }
 
   const foundation = resolved.profile.foundation
-  const headline = buildIntegratedHeadline(resolved.profile)
-  const title = `${foundation.familyLabel} profile — IR Worldview Inventory`
-  const description = `Shared IR Worldview Profile for a ${foundation.familyLabel} result: ${headline}`
+  const archetype = foundation
+    ? resolveFoundationArchetypeFromSnapshot(foundation)
+    : null
+  const title = archetype
+    ? `${archetype.name} profile — IR Worldview Inventory`
+    : "Foundation identity unavailable — Shared Profile"
+  const description = archetype
+    ? `Shared Foundation profile: ${archetype.name}. ${archetype.gloss}`
+    : "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no identity is inferred."
 
   return buildProfileMetadata(title, description, payload)
 }
@@ -65,7 +71,7 @@ export default async function SharedProfilePage(
   const { payload } = await params
   const resolved = resolveProfileSharePayload(payload)
 
-  if (!resolved?.profile.foundation) {
+  if (!resolved) {
     return (
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
@@ -83,16 +89,26 @@ export default async function SharedProfilePage(
       </div>
     )
   }
+  const foundationArchetype = resolved.profile.foundation
+    ? resolveFoundationArchetypeFromSnapshot(resolved.profile.foundation)
+    : null
 
   return (
     <div className="wide-container">
       <ProfileReport
         profile={resolved.profile}
         mode="shared"
+        foundationRecord={
+          resolved.foundationStatus === "unavailable"
+            ? resolved.foundationRecord
+            : undefined
+        }
         actionSlot={
           <ProfileShareActions
             payload={payload}
-            headline={buildIntegratedHeadline(resolved.profile)}
+            headline={
+              foundationArchetype?.name ?? "Foundation identity unavailable"
+            }
           />
         }
       />

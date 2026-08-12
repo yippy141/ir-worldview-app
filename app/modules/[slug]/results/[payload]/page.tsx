@@ -2,7 +2,6 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ModuleResultView } from "@/components/modules/module-result"
 import { getModuleDefinition, resolveModulePayload } from "@/lib/modules/framework"
-import { decodePayload, payloadToDimensionScores } from "@/lib/share"
 import type { Metadata } from "next"
 
 interface Props {
@@ -33,7 +32,6 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
   const { foundation } = await searchParams
   const currentDefinition = getModuleDefinition(slug)
   const resolved = resolveModulePayload(payload)
-  const foundationData = foundation ? decodePayload(foundation) : null
 
   if (!currentDefinition) notFound()
 
@@ -64,7 +62,6 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
         payload={payload}
         mode={resolved.payload.mode}
         answers={resolved.payload.answers}
-        foundation={foundationData ? payloadToDimensionScores(foundationData) : undefined}
         foundationPayload={foundation}
       />
     </div>

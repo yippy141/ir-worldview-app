@@ -72,7 +72,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     internationalOrder: [
       "Likely to favor multilateral or plurilateral mechanisms that can still include broader legitimacy over time.",
       "Often sympathetic to independent verification because coordination without trust is fragile and trust without verification is naive.",
-      "More likely than most profiles to worry that a pure sovereignty frame leaves everyone less safe in the long run.",
+      "Treats a pure sovereignty frame as a risk because it can leave every state less safe in the long run.",
     ],
     strongestCritique:
       "Your critics will say that coordination can become a beautiful theory with weak enforcement, or worse, a legitimating layer over unequal power.",
@@ -97,7 +97,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     internationalOrder: [
       "Likely to favor public legitimacy and institutional accountability over fast technocratic coordination.",
       "Often attentive to whether governance is answerable to citizens, not only to states or labs.",
-      "More likely to worry that governance built without civic legitimacy will fail politically even if it looks technically elegant.",
+      "Treats civic legitimacy as necessary for governance to remain politically durable.",
     ],
     strongestCritique:
       "Your critics will say that democratic legitimacy is essential but often too slow, too fragmented, or too technically thin to supervise frontier systems well in real time.",
@@ -121,7 +121,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     ],
     internationalOrder: [
       "Likely to ask what middle powers, developing states, and public institutions can realistically do, not just what ideal theory recommends.",
-      "Often more attentive than other profiles to sovereignty, implementation bottlenecks, and state dependence on frontier vendors.",
+      "Centers sovereignty, implementation bottlenecks, and state dependence on frontier vendors.",
       "May favor diversified supply, procurement leverage, and domestic supervisory competence before grander institutional visions.",
     ],
     strongestCritique:
@@ -146,7 +146,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     ],
     internationalOrder: [
       "Likely to be skeptical of governance that looks like cartelization by powerful firms or states.",
-      "More likely to emphasize access, competition, and lower barriers for smaller actors and non-frontier countries.",
+      "Emphasizes access, competition, and lower barriers for smaller actors and non-frontier countries.",
       "Often attentive to whether safety regimes are genuinely risk-driven or mostly reallocating power upward.",
     ],
     strongestCritique:

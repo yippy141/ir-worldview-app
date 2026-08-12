@@ -41,7 +41,7 @@ import {
 import { toMapPosition as toCanonicalMapPosition } from "@/lib/results/position"
 import type { DimensionScores } from "@/lib/types"
 
-test("Worldview Map keeps legacy layer IDs with the reviewed V17 public labels", () => {
+test("Worldview Map keeps legacy layer IDs with the current public labels", () => {
   assert.deepEqual(
     FIELD_LAYER_CONFIGS.map(({ id, label, releaseStatus }) => ({
       id,
@@ -50,7 +50,7 @@ test("Worldview Map keeps legacy layer IDs with the reviewed V17 public labels",
     })),
     [
       { id: "my-profile", label: "My baseline", releaseStatus: "available" },
-      { id: "atlas-patterns", label: "Worldview profiles", releaseStatus: "available" },
+      { id: "atlas-patterns", label: "Decision Patterns", releaseStatus: "available" },
       { id: "perspective-runs", label: "My perspective shifts", releaseStatus: "available" },
       { id: "reference-profiles", label: "Thinkers & public positions", releaseStatus: "available" },
       { id: "friends", label: "Friends", releaseStatus: "hidden" },

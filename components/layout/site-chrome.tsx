@@ -7,6 +7,7 @@ import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import { Link } from "@/i18n/navigation"
 import { internalPath } from "@/i18n/paths"
 import { trackProductEvent } from "@/lib/analytics/adapter"
+import { getBetaNavigationItem } from "@/lib/beta-config"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
 
@@ -172,14 +173,33 @@ function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
   return null
 }
 
-export function SiteChrome({ children }: { children: React.ReactNode }) {
+export function SiteChrome({
+  children,
+  betaNavigationEnabled,
+}: {
+  children: React.ReactNode
+  betaNavigationEnabled: boolean
+}) {
   const pathname = usePathname()
   const locale = useLocale()
   const t = useTranslations("chrome")
   const currentPath = internalPath(pathname ?? "/")
   const quizMeta = locale === "en" ? getQuizChromeMeta(currentPath) : null
   const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
-  const moreActive = moreNavItems.some((item) => matchesPath(currentPath, item.href))
+  const betaNavigationItem = getBetaNavigationItem(betaNavigationEnabled)
+  const visibleMoreNavItems = betaNavigationItem
+    ? [...moreNavItems, betaNavigationItem]
+    : moreNavItems
+  const visibleMobileNavGroups = betaNavigationItem
+    ? mobileNavGroups.map((group, index) => (
+        index === 1
+          ? { ...group, items: [...group.items, betaNavigationItem] }
+          : group
+      ))
+    : mobileNavGroups
+  const moreActive = visibleMoreNavItems.some((item) =>
+    matchesPath(currentPath, item.href),
+  )
 
   if (isImmersiveRoute(currentPath)) {
     return (
@@ -271,7 +291,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
                     {t("more")}
                   </summary>
                   <div className="nav-disclosure-menu nav-disclosure-menu--compact">
-                    {moreNavItems.map((item) => (
+                    {visibleMoreNavItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
@@ -289,7 +309,7 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
             <details className="mobile-nav">
               <summary className="mobile-nav-summary">{t("menu")}</summary>
               <div className="mobile-nav-sheet mobile-nav-sheet--compact">
-                {mobileNavGroups.map((group) => (
+                {visibleMobileNavGroups.map((group) => (
                   <div key={group.labelKey} className="mobile-nav-group">
                     <p className="mobile-nav-label">{t(group.labelKey)}</p>
                     <p className="mobile-nav-group-text">{t(group.introKey)}</p>

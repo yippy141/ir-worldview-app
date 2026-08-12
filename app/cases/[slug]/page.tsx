@@ -14,6 +14,8 @@ type CurrentCasePageProps = {
   params: Promise<{ slug: string }>
 }
 
+export const revalidate = 3600
+
 export async function generateMetadata({ params }: CurrentCasePageProps): Promise<Metadata> {
   const { slug } = await params
   const record = getPublishedCurrentCaseBySlug(slug)
@@ -42,6 +44,7 @@ export function generateStaticParams() {
 }
 
 export default async function CurrentCasePage({ params }: CurrentCasePageProps) {
+  const referenceDate = new Date().toISOString().slice(0, 10)
   const { slug } = await params
   const record = getPublishedCurrentCaseBySlug(slug)
   if (!record) notFound()
@@ -49,9 +52,15 @@ export default async function CurrentCasePage({ params }: CurrentCasePageProps) 
 
   return (
     <article className={styles.page}>
-      <CurrentCasePageHeader record={publicRecord} />
+      <CurrentCasePageHeader
+        record={publicRecord}
+        referenceDate={referenceDate}
+      />
       <CurrentCaseApp record={publicRecord} />
-      <CurrentCasePrintSummary record={publicRecord} />
+      <CurrentCasePrintSummary
+        record={publicRecord}
+        referenceDate={referenceDate}
+      />
     </article>
   )
 }

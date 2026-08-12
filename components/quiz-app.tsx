@@ -52,7 +52,7 @@ const englishFoundationQuizUi = {
   setSummary: {
     core: `${questionCountsBySet.core} questions · about 6 to 8 minutes · followed by a provisional result.`,
     targetedExtended:
-      "5 follow-up questions selected to separate your two nearest modeled families.",
+      "5 follow-up questions examine the distinction between your two nearest modeled traditions.",
     fullExtended: `${questionCountsBySet.fullExtended} additional questions · the full extended set.`,
   },
   setLabels: {
@@ -67,11 +67,11 @@ const englishFoundationQuizUi = {
   startOver: "Start over",
   returnToReview: "← Return to review",
   questionProgress: (label, index, total) => `${label} · ${index} of ${total}`,
-  howToAnswer: "How to answer this card",
+  howToAnswer: "How to answer",
   publicDefensibilityNote:
-    "Do not answer based on what sounds most publicly defensible, what another actor in the case would prefer, or what officials currently say unless that is also your own judgment.",
+    "Select the judgment you would actually use. Public defensibility alone should not determine your answer.",
   analystSecondChoiceNote:
-    "In Advanced mode, you can also mark a backup answer if a second option still seems plausible.",
+    "If a second option remains plausible, Advanced mode lets you mark it as a lower-weight backup.",
   stronglyDisagree: "Strongly disagree",
   stronglyAgree: "Strongly agree",
   likertAria: (value) => `${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`,
@@ -97,10 +97,10 @@ const englishFoundationQuizUi = {
     both: "Both",
   },
   choiceInstructions: {
-    explanation: "Answer from your own analytic judgment. Choose the option that best explains what is driving the case.",
-    decision: "Answer from your own analytic judgment. Choose the consideration that should carry the most weight in the case.",
-    actorLens: "Answer from your own analytic judgment. Choose the logic that would look strongest from that actor's own strategic position, not the policy you personally prefer.",
-    both: "Answer from your own analytic judgment. Choose the option you find most persuasive overall.",
+    explanation: "Which option best explains what is driving the case? Choose the one you would use in your own analysis.",
+    decision: "Which consideration should lead the decision? Choose the one you would use to decide the case.",
+    actorLens: "Which logic best fits the named actor's strategic position? Judge the actor's position independently of the policy you would choose.",
+    both: "Which option is most persuasive overall? Choose the one that best matches your own judgment.",
   },
   dimensionLabels,
   positionMap: {

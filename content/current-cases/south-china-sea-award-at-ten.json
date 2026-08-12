@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07",
   "slug": "south-china-sea-award-at-ten",
   "version": 1,
@@ -10,6 +10,10 @@
   "category": "institutions-and-governance",
   "publishedAt": "2026-07-17",
   "updatedAt": "2026-07-17",
+  "asOf": "2026-07-17",
+  "reviewDueAt": "2026-10-15",
+  "freshnessStatus": "background",
+  "cadence": "slow",
   "evidenceWindow": {
     "start": "2026-06-26",
     "end": "2026-07-17"

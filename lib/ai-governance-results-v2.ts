@@ -350,7 +350,7 @@ export function getExpandedTensionCards(axisScores: AiAxisScores): TensionCard[]
     {
       title: "Tradeoffs you resolve case by case",
       text:
-        "Your scores are mixed across several axes. That usually means you are less ideological than threshold-driven. The hard part is saying where your default would change.",
+        "Your scores are mixed across several axes, so this result does not support one default across the domain. The open question is which conditions would change your choice.",
     },
   ]
 }

@@ -8,7 +8,7 @@ import styles from "./page.module.css"
 export const metadata: Metadata = {
   title: `${WORLDVIEW_MAP_LABEL} — IR Worldview Inventory`,
   description:
-    "Compare your baseline, worldview profiles, perspective shifts, and evidence-coded public positions on one shared projection.",
+    "Compare your baseline, editorial Decision Patterns, perspective shifts, and evidence-coded public positions on one shared projection.",
 }
 
 export default function FieldExplorerPage() {
@@ -18,7 +18,7 @@ export default function FieldExplorerPage() {
         <div className={styles.headerCopy}>
           <h1>{WORLDVIEW_MAP_LABEL}</h1>
           <p>
-            Locate your baseline, compare nearby worldview profiles, and examine how context or
+            Locate your baseline, compare editorial Decision Patterns, and examine how context or
             public positions shift the same underlying judgments.
           </p>
         </div>
@@ -36,15 +36,16 @@ export default function FieldExplorerPage() {
       <section className={styles.trustNote} aria-labelledby="worldview-map-method-note">
         <h2 id="worldview-map-method-note">What this map can show</h2>
         <p>
-          Worldview profiles are authored reading aids, not population types. Public positions are
-          evidence-coded snapshots, and some traditions remain under-modeled. Coordinates use the
-          same Foundation projection throughout; spacing is not a calibrated measure of difference.{" "}
+          Decision Patterns are authored reading aids, not results assigned to a user or population
+          types. Public positions are evidence-coded snapshots, and some traditions remain
+          under-modeled. Coordinates use the same Foundation projection throughout; spacing is not
+          a calibrated measure of difference.{" "}
           <Link href="/method">Read the methods and limits.</Link>
         </p>
       </section>
 
       <section className={styles.actions} aria-labelledby="worldview-map-continue">
-        <h2 id="worldview-map-continue">Compare another profile or posture</h2>
+        <h2 id="worldview-map-continue">Compare another pattern or posture</h2>
         <div className={styles.actionLinks}>
           <Link href="/quiz">Take the Foundation →</Link>
           <Link href="/perspectives">Try another vantage point →</Link>
