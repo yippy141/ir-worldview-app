@@ -5,6 +5,11 @@
 **Purpose:** moderated pretesting and evidence for revision  
 **Applies to:** Wave 0 walkthroughs and cognitive-interview Waves 1 and 2
 
+**Execution status:** No V22.5 human usability round was completed. See
+[`V22_5_HUMAN_TESTING_STATUS_2026-08-12.md`](./V22_5_HUMAN_TESTING_STATUS_2026-08-12.md)
+for the decision to defer one consolidated convenience-sample round and the
+limits on claims before that round.
+
 ## Purpose and limits
 
 This pack is for finding interpretation, response, hierarchy, and interaction
