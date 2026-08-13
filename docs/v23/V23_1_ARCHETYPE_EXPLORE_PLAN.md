@@ -70,7 +70,7 @@ Do not put the full methodology caveat, human-testing status, or long canon disc
 #### Section contract
 
 | Order | Section | Visible by default | Progressive disclosure and links | Presentation form |
-|---:|---|---|---|---|
+| ---: | --- | --- | --- | --- |
 | 1 | **How the labels fit together** | Identity/support/context hierarchy and short definitions | One “How scoring and evidence differ” disclosure; `/method` | A semantic ordered list, not nested cards |
 | 2 | **Eight Foundation archetypes** | All eight names, codes, glosses, and links | `/archetypes`; each stable `/archetypes/[slug]` | Four lens bands, each with `+/-` rows; restrained separators rather than eight identical floating cards |
 | 3 | **Variants and blends** | Three normative aliases and sign explanation; a blend example only if its pair interpretation is reviewed | Comparison details collapsed; links to relevant archetype pages | Compact comparison rows; no type-count marketing or synthesized pair claims |
@@ -235,7 +235,7 @@ Common construction rules:
 Four lens bases:
 
 | Lens | Abstract base topology | Distinguishing feature |
-|---|---|---|
+| --- | --- | --- |
 | `P` | Two separated vertical supports joined by one off-center horizontal bridge | Open top and bottom; asymmetry comes from bridge placement, not a literal letter P |
 | `R` | Two horizontal rails with short alternating orthogonal returns at opposite ends | Open frame; no closed badge or shield silhouette |
 | `M` | Two mirrored open curves facing a central gap | Curved topology; no enclosing circle, eye, or religious mandorla |
@@ -385,7 +385,7 @@ The two root JSON files and the proposed directory can technically coexist; the 
 ### F.2 Proposed-file contract
 
 | File | Owner | Schema and validation | Copy-audit coverage | Source fields | Translation status | Fallback behavior |
-|---|---|---|---|---|---|---|
+| --- | --- | --- | --- | --- | --- | --- |
 | `content/archetypes/catalog.en.json` | Editorial + methodology; engineering owns keys/schema | `ArchetypeContentCatalog` schema v1; exactly eight unique frozen codes/slugs; lens/posture/family consistency; complete required field wrappers; all relations resolve | Required recursive scan; strict public-copy checks | Claim-level `kind`, `sourceIds`, date/scope/qualification/review/status; shared source IDs resolve in evidence ledger | English source record with `contentVersion`; canonical names/codes may be separately declared locale-neutral | Missing/unreviewed text is `research-required` or `withheld`; renderer never generates or borrows another locale |
 | `content/archetypes/evidence.json` | Research editor | Evidence schema v2 after migration; stable source IDs, HTTPS, source kinds, review state, catalog-version link, and review history. Public `whyItFits`/`whereItBreaks` prose lives only in `catalog.en.json` | Required recursive scan for public source titles/labels; separate source-integrity tests | Full source ledger with author/institution, title, publisher, dates, URL, kind, status | Locale-neutral metadata plus source-language titles; translated summaries require separate approval | Missing evidence blocks publication of the linked claim, not the resolver or unrelated reviewed fields |
 | `content/explore/hub.en.json` | Product editorial + methodology | Section IDs/order locked to the nine-section IA; valid internal route IDs; high-value prose only; published reference counts are runtime-derived | Required recursive scan | Source IDs optional only for authored product/ontology explanation; historical, scholarly, and current-policy claims follow the mandatory Master Contract source rules | English only, versioned | No zh import. `/zh/explore` remains the status page |
@@ -611,7 +611,7 @@ The PR is acceptable only when:
 Use Chromium at 390×844, 768×900, and 1440×900, plus print preview. Test the default dark display and forced monochrome/currentColor print.
 
 | Surface | 390px | 768px | 1440px | Print |
-|---|---|---|---|---|
+| --- | --- | --- | --- | --- |
 | `/explore` | One-column order, 44px targets, no overflow | Section rhythm and optional jump nav | Editorial hierarchy, readable line length | All nine definitions, no controls, sources retained |
 | `/archetypes` | Four stacked lens groups; long names wrap | Pair layout remains legible | Four-lens directory, no card wall | Eight codes/names/sigils visible |
 | `/archetypes/p-plus` | Hero, objections, sources, no clipping | Two-column opportunities remain semantic | Full hierarchy and line length | Analogue fit/break and source URLs visible |
@@ -668,7 +668,7 @@ The repository has no accepted numeric Lighthouse or bundle baseline, so V23.1 m
 ## I.11 Release separation
 
 | Release | In scope | Explicitly out of scope |
-|---|---|---|
+| --- | --- | --- |
 | **V23.1 Archetype + Explore** | Canonical eight-record presentation content, index/detail, ontology hub, variants/blends explanation, static sigils, compatibility/audit/QA | Map redesign, scoring, new codes, domain measurement work |
 | **V23.2 Worldview Map** | Primary 4×2 matrix, exact baseline/blend/norm contract, secondary projection, optional overlays, honest overlap, mobile/print/a11y repair, zh fallback hardening | New scored identities or domain rescoring |
 | **V23.3 Security** | Security measurement/presentation work under a separate scoped prompt | Technology/AI/Foundation rewrite |
