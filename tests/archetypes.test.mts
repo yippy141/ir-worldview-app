@@ -2,6 +2,7 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import {
   archetypes,
+  getArchetypeByCode,
   resolveArchetype,
   type BlendArchetype,
 } from "@/lib/archetypes"
@@ -15,6 +16,153 @@ import type { Answers, QuizMode } from "@/lib/types"
 const MODE: QuizMode = "analyst"
 const RANDOM_N = 500
 const RANDOM_SEED = 20260728
+
+const goldenBlendOutputs = [
+  {
+    input: "P/R+",
+    code: "P/R+",
+    name: "Kairos–Grotian",
+    gloss:
+      "You read world politics through power and through rules at the same time, and you do not resolve the tension in advance.",
+    lenses: ["P", "R"],
+    posture: "+",
+    familyKeys: ["realist", "institutionalist"],
+    componentCodes: ["P+", "R+"],
+    analogue: null,
+  },
+  {
+    input: "P/R-",
+    code: "P/R-",
+    name: "Shi (勢)–Concert",
+    gloss:
+      "You read world politics through power and through rules at the same time, and you do not resolve the tension in advance.",
+    lenses: ["P", "R"],
+    posture: "-",
+    familyKeys: ["realist", "institutionalist"],
+    componentCodes: ["P-", "R-"],
+    analogue: null,
+  },
+  {
+    input: "P/M+",
+    code: "P/M+",
+    name: "Kairos–Satyagraha",
+    gloss:
+      "You read world politics through power and through meaning at the same time, and you do not resolve the tension in advance.",
+    lenses: ["P", "M"],
+    posture: "+",
+    familyKeys: ["realist", "constructivist"],
+    componentCodes: ["P+", "M+"],
+    analogue: null,
+  },
+  {
+    input: "P/M-",
+    code: "P/M-",
+    name: "Shi (勢)–Musyawarah",
+    gloss:
+      "You read world politics through power and through meaning at the same time, and you do not resolve the tension in advance.",
+    lenses: ["P", "M"],
+    posture: "-",
+    familyKeys: ["realist", "constructivist"],
+    componentCodes: ["P-", "M-"],
+    analogue: null,
+  },
+  {
+    input: "P/S+",
+    code: "P/S+",
+    name: "Kairos–Dirigisme",
+    gloss:
+      "You read world politics through power and through structure at the same time, and you do not resolve the tension in advance.",
+    lenses: ["P", "S"],
+    posture: "+",
+    familyKeys: ["realist", "criticalPoliticalEconomy"],
+    componentCodes: ["P+", "S+"],
+    analogue: null,
+  },
+  {
+    input: "P/S-",
+    code: "P/S-",
+    name: "Shi (勢)–Dependencia",
+    gloss:
+      "You read world politics through power and through structure at the same time, and you do not resolve the tension in advance.",
+    lenses: ["P", "S"],
+    posture: "-",
+    familyKeys: ["realist", "criticalPoliticalEconomy"],
+    componentCodes: ["P-", "S-"],
+    analogue: null,
+  },
+  {
+    input: "R/M+",
+    code: "R/M+",
+    name: "Grotian–Satyagraha",
+    gloss:
+      "You read world politics through rules and through meaning at the same time, and you do not resolve the tension in advance.",
+    lenses: ["R", "M"],
+    posture: "+",
+    familyKeys: ["institutionalist", "constructivist"],
+    componentCodes: ["R+", "M+"],
+    analogue: null,
+  },
+  {
+    input: "R/M-",
+    code: "R/M-",
+    name: "Concert–Musyawarah",
+    gloss:
+      "You read world politics through rules and through meaning at the same time, and you do not resolve the tension in advance.",
+    lenses: ["R", "M"],
+    posture: "-",
+    familyKeys: ["institutionalist", "constructivist"],
+    componentCodes: ["R-", "M-"],
+    analogue: null,
+  },
+  {
+    input: "R/S+",
+    code: "R/S+",
+    name: "Grotian–Dirigisme",
+    gloss:
+      "You read world politics through rules and through structure at the same time, and you do not resolve the tension in advance.",
+    lenses: ["R", "S"],
+    posture: "+",
+    familyKeys: ["institutionalist", "criticalPoliticalEconomy"],
+    componentCodes: ["R+", "S+"],
+    analogue: null,
+  },
+  {
+    input: "R/S-",
+    code: "R/S-",
+    name: "Concert–Dependencia",
+    gloss:
+      "You read world politics through rules and through structure at the same time, and you do not resolve the tension in advance.",
+    lenses: ["R", "S"],
+    posture: "-",
+    familyKeys: ["institutionalist", "criticalPoliticalEconomy"],
+    componentCodes: ["R-", "S-"],
+    analogue: null,
+  },
+  {
+    input: "M/S+",
+    code: "M/S+",
+    name: "Satyagraha–Dirigisme",
+    gloss:
+      "You read world politics through meaning and through structure at the same time, and you do not resolve the tension in advance.",
+    lenses: ["M", "S"],
+    posture: "+",
+    familyKeys: ["constructivist", "criticalPoliticalEconomy"],
+    componentCodes: ["M+", "S+"],
+    analogue: null,
+  },
+  {
+    input: "M/S-",
+    code: "M/S-",
+    name: "Musyawarah–Dependencia",
+    gloss:
+      "You read world politics through meaning and through structure at the same time, and you do not resolve the tension in advance.",
+    lenses: ["M", "S"],
+    posture: "-",
+    familyKeys: ["constructivist", "criticalPoliticalEconomy"],
+    componentCodes: ["M-", "S-"],
+    analogue: null,
+  },
+] as const
 
 type AnyQuestion = ReturnType<typeof getFoundationQuestions>[number] & {
   options?: { id: string }[]
@@ -93,6 +241,39 @@ function measureArchetypes() {
 
   return { pureCounts, blendCounts }
 }
+
+test("all twelve same-posture blend outputs preserve their compatibility contract", () => {
+  for (const expected of goldenBlendOutputs) {
+    const resolved = getArchetypeByCode(expected.input)
+
+    assert.ok(resolved)
+    assert.equal(isBlend(resolved), true, `${expected.input} must stay a blend`)
+    if (!isBlend(resolved)) continue
+
+    assert.deepEqual(
+      {
+        code: resolved.code,
+        name: resolved.name,
+        gloss: resolved.gloss,
+        lenses: resolved.lenses,
+        posture: resolved.posture,
+        familyKeys: resolved.familyKeys,
+        componentCodes: resolved.archetypes.map(({ code }) => code),
+        analogue: resolved.analogue,
+      },
+      {
+        code: expected.code,
+        name: expected.name,
+        gloss: expected.gloss,
+        lenses: [...expected.lenses],
+        posture: expected.posture,
+        familyKeys: [...expected.familyKeys],
+        componentCodes: [...expected.componentCodes],
+        analogue: expected.analogue,
+      },
+    )
+  }
+})
 
 test("seeded respondents always resolve to a valid, distributed archetype", (context) => {
   const { pureCounts, blendCounts } = measureArchetypes()

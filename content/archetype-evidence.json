@@ -1,115 +1,840 @@
 {
-  "version": 1,
+  "schemaVersion": 2,
+  "contentVersion": "23.1.0-draft.1",
+  "evidenceCatalogVersion": "23.1.0",
   "records": [
     {
       "code": "P+",
-      "whyItFits": "The Athenian argument at Melos treats unequal power as the decisive fact and presses an advantage before circumstances change.",
-      "whereItBreaks": "The dialogue can also be read as Thucydides' indictment of imperial arrogance and overreach. It is an extreme episode, not a neutral summary of every realist position.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-p-plus-01",
+        "legacy-p-plus-02"
+      ],
+      "researchSourceIds": [
+        "SEP-REALISM"
+      ],
+      "unresolvedFields": [
         {
-          "label": "Thucydides, The Melian Dialogue",
-          "href": "https://sourcebooks.fordham.edu/ancient/thuc-melian.asp"
+          "field": "terminology.kairosClassicalSemantics",
+          "status": "research-required",
+          "reason": "An authoritative classical-language source for the product's exact semantic note has not been verified."
         },
         {
-          "label": "Political Realism in International Relations",
-          "href": "https://plato.stanford.edu/entries/realism-intl-relations/"
+          "field": "historicalAnalogue.timingAsThucydideanCategory",
+          "status": "withheld",
+          "reason": "The timing link is an authored analogy and cannot be attributed to Thucydides as a named doctrine."
+        },
+        {
+          "field": "sources.THU-2013.stableUrlOrDoi",
+          "status": "research-required",
+          "reason": "The edition is identified, but a permanent Cambridge locator has not been verified."
+        },
+        {
+          "field": "sources.LEBOW-KELLY-2001.stableUrlOrDoi",
+          "status": "research-required",
+          "reason": "The article is identified, but a permanent publisher locator has not been verified."
+        },
+        {
+          "field": "sources.JAMES-2024.stableUrlOrDoi",
+          "status": "research-required",
+          "reason": "The article is identified, but a permanent publisher locator or DOI has not been verified."
         }
       ]
     },
     {
       "code": "P-",
-      "whyItFits": "The Art of War repeatedly favors position, information, and strategic advantage over costly direct confrontation.",
-      "whereItBreaks": "A military treatise is not a complete theory of international politics, and shi carries meanings that no two-sentence archetype can exhaust.",
-      "nameNote": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-p-minus-01"
+      ],
+      "researchSourceIds": [
+        "AMES-REP-1998"
+      ],
+      "unresolvedFields": [
         {
-          "label": "Roger T. Ames on shih and strategic advantage",
-          "href": "https://www.enotes.com/topics/sun-tzu/criticism/criticism/roger-t-ames-essay-date-1994"
+          "field": "sources.secondIndependentCriticalSunziTranslation",
+          "status": "research-required",
+          "reason": "A second independently verified critical translation is still needed."
+        },
+        {
+          "field": "historicalAnalogue.date",
+          "status": "research-required",
+          "reason": "The received text's composition history does not support an unqualified precise date in the research reviewed."
+        },
+        {
+          "field": "sources.AMES-1993.stableUrl",
+          "status": "research-required",
+          "reason": "The ISBN is verified, but a stable publisher or library locator is not."
+        },
+        {
+          "field": "sources.RAPHALS-2016.stableUrlOrDoi",
+          "status": "research-required",
+          "reason": "The article is identified, but its exact permanent locator has not been verified."
+        },
+        {
+          "field": "sources.CAC-2025.stableUrl",
+          "status": "research-required",
+          "reason": "The official-language example was verified without retaining a permanent locator."
+        },
+        {
+          "field": "currentUse.prcDoctrinalEquivalence",
+          "status": "withheld",
+          "reason": "Current lexical use does not establish continuity with a Sunzian state doctrine."
         }
       ]
     },
     {
       "code": "R+",
-      "whyItFits": "Grotius argued that relations among political communities remain subject to law and obligation, including during war.",
-      "whereItBreaks": "The Grotian tradition is broader than enforcement. It also concerns natural law, consent, moral restraint, and the possibility of an international society.",
-      "nameNote": "This product already borrows from Martin Wight's three traditions elsewhere: Pluralist and Solidarist are English School terms. In that scheme, Grotian names the rationalist middle way between realism and revolutionism, not the enforcement-forward pole it marks here. The two senses collide. Readers who know Wight's usage should treat this name as a reference to Grotius's own argument that law binds even in war, not as a claim to the middle position in Wight's triad.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-r-plus-01"
+      ],
+      "researchSourceIds": [
+        "GROTIUS-2005",
+        "BULL-1992",
+        "KEENE-2020"
+      ],
+      "unresolvedFields": [
         {
-          "label": "Internet Encyclopedia of Philosophy: Hugo Grotius",
-          "href": "https://iep.utm.edu/grotius/"
+          "field": "gloss.enforcementOnlyEquivalenceToGrotius",
+          "status": "withheld",
+          "reason": "Grotius's account of law and obligation is materially broader than enforcement."
+        },
+        {
+          "field": "terminology.wightEqualsProductUsage",
+          "status": "withheld",
+          "reason": "Wight's rationalist usage is not identical to the inventory's R+ pole."
         }
       ]
     },
     {
       "code": "R-",
-      "whyItFits": "The Vienna settlement and the Concert joined great-power consultation to mutual restraint in the management of European order.",
-      "whereItBreaks": "The Concert was hierarchical and exclusive. Its stability rested partly on spheres of influence and the limited voice of weaker states.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-r-minus-01"
+      ],
+      "researchSourceIds": [
+        "VIENNA-1815",
+        "ELROD-1976",
+        "RENDALL-2006",
+        "RAYMOND-2019",
+        "ANDERSON-2007"
+      ],
+      "unresolvedFields": [
         {
-          "label": "Council on Foreign Relations: A Concert of Powers for a Global Era",
-          "href": "https://www.cfr.org/articles/concert-powers-global-era"
+          "field": "historicalAnalogue.periodization",
+          "status": "research-required",
+          "reason": "The boundaries among the Vienna settlement, Congress System, and Concert remain contested."
+        },
+        {
+          "field": "claim.longPeace1815To1914CausedByConcert",
+          "status": "withheld",
+          "reason": "The causal and periodization claim overstates a disputed historical interpretation."
         }
       ]
     },
     {
       "code": "M+",
-      "whyItFits": "The Salt March broke a law in order to argue in public about its legitimacy, turning an ordinary commodity into a test of whether the colonial state could justify itself. Finnemore and Sikkink's norm life-cycle supplies the scholarly frame: a challenger contests an accepted standard, persuades an audience, and pushes a rival expectation toward acceptance.",
-      "whereItBreaks": "The archetype cites a method, not a biography. Gandhi's own record is contested — most directly by B. R. Ambedkar on caste and varna, and separately over his writing and conduct on race during the South African years — and naming satyagraha is not an endorsement of the man or of his politics. Norm change is also not only narrative change: later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-m-plus-01",
+        "legacy-m-plus-02",
+        "legacy-m-plus-03",
+        "legacy-m-plus-04"
+      ],
+      "researchSourceIds": [
+        "GANDHI-SALT",
+        "HAZAMA-2022",
+        "FINN-SIKK-1998",
+        "ACHARYA-2004",
+        "MADDIPATI-2024"
+      ],
+      "unresolvedFields": [
         {
-          "label": "Finnemore and Sikkink, International Norm Dynamics and Political Change",
-          "href": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/0A55ECBCC9E87EA49586E776EED8DB57/S0020818398440608a.pdf/international-norm-dynamics-and-political-change.pdf"
+          "field": "effectiveness.saltMarchCausedIndependence",
+          "status": "withheld",
+          "reason": "A single campaign cannot carry the causal explanation for Indian independence."
         },
         {
-          "label": "Acharya, How Ideas Spread",
-          "href": "https://www.cambridge.org/core/journals/international-organization/article/how-ideas-spread-whose-norms-matter-norm-localization-and-institutional-change-in-asian-regionalism/7C6449C7612BC9AEE0C574C4CD9E7B63"
+          "field": "biography.endorsement",
+          "status": "withheld",
+          "reason": "The archetype names a method and comparison, not a judgment on Gandhi's wider record."
         },
         {
-          "label": "Hazama, Unravelling the Myth of Gandhian Non-violence",
-          "href": "https://www.cambridge.org/core/journals/modern-intellectual-history/article/unravelling-the-myth-of-gandhian-nonviolence-why-did-gandhi-connect-his-principle-of-satyagraha-with-the-hindu-notion-of-ahimsa/AE0B11F66A8048CD92587964BA110C53"
-        },
-        {
-          "label": "Barua, Revisiting the Gandhi–Ambedkar Debates over 'Caste'",
-          "href": "https://journals.sagepub.com/doi/10.1177/0971685818805328"
+          "field": "primaryDefinition.gandhiLocator",
+          "status": "research-required",
+          "reason": "A stable volume and page locator for Gandhi's own definition has not been finalized."
         }
       ]
     },
     {
       "code": "M-",
-      "whyItFits": "ASEAN practice emphasizes consultation, consensus, informality, and avoiding public confrontation before collective decisions are announced.",
-      "whereItBreaks": "Musyawarah and mufakat come from Malay and Indonesian practice and were generalized outward into a regional method; they do not describe every member state's tradition equally, and the ASEAN Way is internally contested. Consensus and non-interference can also prevent timely collective action.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-m-minus-01"
+      ],
+      "researchSourceIds": [
+        "ASEAN-CHARTER-2015",
+        "KAWAMURA-2011",
+        "SOHRAH-2015",
+        "CHIOU-2010",
+        "JONES-2010"
+      ],
+      "unresolvedFields": [
         {
-          "label": "ASEAN Charter, Article 20: Consultation and Consensus",
-          "href": "https://www.asean.org/wp-content/uploads/2021/09/2.-February-2015-The-ASEAN-Charter-18th-Reprint.pdf"
+          "field": "terminology.purelyIndigenousMalayIndonesianOrigin",
+          "status": "withheld",
+          "reason": "Arabic and Islamic lexical lineage makes a pure-origin claim unsound."
+        },
+        {
+          "field": "historicalAnalogue.aseanWayEqualsMusyawarahMufakat",
+          "status": "withheld",
+          "reason": "ASEAN consultation and consensus is an analogue, not an identity."
+        },
+        {
+          "field": "historicalAnalogue.year1967AsDoctrinalOrigin",
+          "status": "withheld",
+          "reason": "ASEAN's founding year is not a verified origin date for the doctrine."
+        },
+        {
+          "field": "decisionRule.absoluteUnanimity",
+          "status": "withheld",
+          "reason": "Article 20 permits the Summit to determine a procedure when consensus fails."
+        },
+        {
+          "field": "history.preModernMalayUsage",
+          "status": "research-required",
+          "reason": "A specialist Malay-language genealogy has not been completed."
         }
       ]
     },
     {
       "code": "S+",
-      "whyItFits": "The Monnet Plan is dirigisme in its own language: a French planning commissariat concentrated postwar investment in a short list of basic sectors — coal, steel, electricity, rail transport, cement, farm machinery — and set targets that private firms were expected to meet.",
-      "whereItBreaks": "Indicative planning steered investment; it did not replace markets or private ownership. The plan also depended on postwar reconstruction conditions, external aid, and a particular domestic coalition, so it is a weak guide to what state direction can do under different fiscal and political constraints.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-s-plus-01"
+      ],
+      "researchSourceIds": [
+        "LEGIFRANCE-1946",
+        "MONNET-AMF-1946",
+        "LEMONDE-1946",
+        "BRUNET-2018",
+        "HCSP-2026"
+      ],
+      "unresolvedFields": [
         {
-          "label": "Brunet, The Creation of the Monnet Plan, 1945–1946: A Critical Re-Evaluation",
-          "href": "https://www.cambridge.org/core/journals/contemporary-european-history/article/abs/creation-of-the-monnet-plan-19451946-a-critical-reevaluation/DA6FD7BB4DDE6708266A5F805D7FC47C"
+          "field": "terminology.monnetSelfDescribedAsDirigisme",
+          "status": "withheld",
+          "reason": "The reviewed primary institutional language does not verify this self-description."
+        },
+        {
+          "field": "economy.privateFirmTargetsMandatoryAcrossEconomy",
+          "status": "withheld",
+          "reason": "The evidence supports selective planning in a mixed economy, not universal quotas."
+        },
+        {
+          "field": "context.exactShareFinancedByUsMarshallAid",
+          "status": "research-required",
+          "reason": "No reconciled authoritative percentage was established."
+        },
+        {
+          "field": "ownership.sectorBySectorPublicPrivateMap",
+          "status": "research-required",
+          "reason": "A sufficiently precise sector map is still needed for detailed ownership claims."
         }
       ]
     },
     {
       "code": "S-",
-      "whyItFits": "Prebisch's centre-periphery analysis treated trade and production structures as durable constraints on development and national room for action.",
-      "whereItBreaks": "Prebisch's reformist structuralism preceded and differed from several later dependencia schools. Reducing exposure is only one possible response to dependency.",
-      "sources": [
+      "legacySourceIds": [
+        "legacy-s-minus-01",
+        "legacy-s-minus-02"
+      ],
+      "researchSourceIds": [
+        "PREBISCH-1949",
+        "PREBISCH-1950",
+        "CARDOSO-FALETTO-1979",
+        "DUVALL-1978"
+      ],
+      "unresolvedFields": [
         {
-          "label": "ECLAC: The Economic Development of Latin America and Its Principal Problems",
-          "href": "https://repositorio.cepal.org/items/9a00fa5b-ad04-4520-ae4c-e3adba791790"
+          "field": "genealogy.prebischIsDependenciaFounder",
+          "status": "withheld",
+          "reason": "Prebischian structuralism is not interchangeable with the later dependency schools."
         },
         {
-          "label": "International Organization: Dependence and dependencia theory",
-          "href": "https://www.cambridge.org/core/journals/international-organization/article/abs/dependence-and-dependencia-theory-notes-toward-precision-of-concept-and-argument/1874D3608C2AA95D298E9B5B031DE0BE"
+          "field": "policy.autarkyOrSimpleExternalExposureReduction",
+          "status": "withheld",
+          "reason": "The proposition caricatures a heterogeneous body of policy arguments."
+        },
+        {
+          "field": "historicalAnalogue.year",
+          "status": "research-required",
+          "reason": "The Spanish primary text is dated 1949 and the revised English edition is dated 1950."
+        },
+        {
+          "field": "sources.portugueseLanguageDependencyAnchor",
+          "status": "research-required",
+          "reason": "A canonical Portuguese-language source has not yet been selected."
         }
       ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "legacy-p-plus-01",
+      "title": "Thucydides, The Melian Dialogue",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://sourcebooks.fordham.edu/ancient/thuc-melian.asp",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "reference",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-p-plus-02",
+      "title": "Political Realism in International Relations",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://plato.stanford.edu/entries/realism-intl-relations/",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "reference",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-p-minus-01",
+      "title": "Roger T. Ames on shih and strategic advantage",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.enotes.com/topics/sun-tzu/criticism/criticism/roger-t-ames-essay-date-1994",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "reference",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-r-plus-01",
+      "title": "Internet Encyclopedia of Philosophy: Hugo Grotius",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://iep.utm.edu/grotius/",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "reference",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-r-minus-01",
+      "title": "Council on Foreign Relations: A Concert of Powers for a Global Era",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.cfr.org/articles/concert-powers-global-era",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "reference",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-m-plus-01",
+      "title": "Finnemore and Sikkink, International Norm Dynamics and Political Change",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/0A55ECBCC9E87EA49586E776EED8DB57/S0020818398440608a.pdf/international-norm-dynamics-and-political-change.pdf",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "scholarly",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-m-plus-02",
+      "title": "Acharya, How Ideas Spread",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.cambridge.org/core/journals/international-organization/article/how-ideas-spread-whose-norms-matter-norm-localization-and-institutional-change-in-asian-regionalism/7C6449C7612BC9AEE0C574C4CD9E7B63",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "scholarly",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-m-plus-03",
+      "title": "Hazama, Unravelling the Myth of Gandhian Non-violence",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.cambridge.org/core/journals/modern-intellectual-history/article/unravelling-the-myth-of-gandhian-nonviolence-why-did-gandhi-connect-his-principle-of-satyagraha-with-the-hindu-notion-of-ahimsa/AE0B11F66A8048CD92587964BA110C53",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "scholarly",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-m-plus-04",
+      "title": "Barua, Revisiting the Gandhi–Ambedkar Debates over 'Caste'",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://journals.sagepub.com/doi/10.1177/0971685818805328",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "scholarly",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-m-minus-01",
+      "title": "ASEAN Charter, Article 20: Consultation and Consensus",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.asean.org/wp-content/uploads/2021/09/2.-February-2015-The-ASEAN-Charter-18th-Reprint.pdf",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "primary",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-s-plus-01",
+      "title": "Brunet, The Creation of the Monnet Plan, 1945–1946: A Critical Re-Evaluation",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.cambridge.org/core/journals/contemporary-european-history/article/abs/creation-of-the-monnet-plan-19451946-a-critical-reevaluation/DA6FD7BB4DDE6708266A5F805D7FC47C",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "scholarly",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-s-minus-01",
+      "title": "ECLAC: The Economic Development of Latin America and Its Principal Problems",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://repositorio.cepal.org/items/9a00fa5b-ad04-4520-ae4c-e3adba791790",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "primary",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "legacy-s-minus-02",
+      "title": "International Organization: Dependence and dependencia theory",
+      "authorOrInstitution": null,
+      "publisher": null,
+      "href": "https://www.cambridge.org/core/journals/international-organization/article/abs/dependence-and-dependencia-theory-notes-toward-precision-of-concept-and-argument/1874D3608C2AA95D298E9B5B031DE0BE",
+      "publishedAt": null,
+      "accessedAt": null,
+      "sourceKind": "scholarly",
+      "metadataStatus": "legacy-minimal",
+      "status": "provisional"
+    },
+    {
+      "id": "SEP-REALISM",
+      "title": "Political Realism in International Relations",
+      "authorOrInstitution": "Stanford Encyclopedia of Philosophy",
+      "publisher": "Metaphysics Research Lab, Stanford University",
+      "href": "https://plato.stanford.edu/entries/realism-intl-relations/",
+      "publishedAt": null,
+      "accessedAt": "2026-08-12",
+      "sourceKind": "reference",
+      "metadataStatus": "research-required",
+      "status": "provisional"
+    },
+    {
+      "id": "AMES-REP-1998",
+      "title": "Sunzi",
+      "authorOrInstitution": "Roger T. Ames",
+      "publisher": "Routledge Encyclopedia of Philosophy",
+      "href": "https://doi.org/10.4324/9780415249126-G054-1",
+      "publishedAt": "1998",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "GROTIUS-2005",
+      "title": "The Rights of War and Peace, 3 vols.",
+      "authorOrInstitution": "Hugo Grotius; edited by Richard Tuck",
+      "publisher": "Liberty Fund",
+      "href": "https://oll.libertyfund.org/titles/grotius-the-rights-of-war-and-peace-2005-ed-3-vols",
+      "publishedAt": "2005",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "BULL-1992",
+      "title": "The Importance of Grotius in the Study of International Relations",
+      "authorOrInstitution": "Hedley Bull",
+      "publisher": "Oxford University Press",
+      "href": "https://doi.org/10.1093/0198277717.003.0002",
+      "publishedAt": "1992-03-19",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "KEENE-2020",
+      "title": "Three Traditions of International Theory",
+      "authorOrInstitution": "Edward Keene",
+      "publisher": "Oxford University Press / Oxford Research Encyclopedia of International Studies",
+      "href": "https://doi.org/10.1093/acrefore/9780190846626.013.593",
+      "publishedAt": "2020-10-27",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "VIENNA-1815",
+      "title": "Acte du Congrès de Vienne du 9 Juin 1815, avec ses annexes",
+      "authorOrInstitution": "Congress of Vienna signatory powers",
+      "publisher": "Imprimerie Impériale et Royale; digitized by Wienbibliothek im Rathaus",
+      "href": "https://www.digital.wienbibliothek.at/wbrobv/content/titleinfo/2293309",
+      "publishedAt": "1815",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "ELROD-1976",
+      "title": "The Concert of Europe: A Fresh Look at an International System",
+      "authorOrInstitution": "Richard B. Elrod",
+      "publisher": "Cambridge University Press / World Politics",
+      "href": "https://doi.org/10.2307/2009888",
+      "publishedAt": "1976-01",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "RENDALL-2006",
+      "title": "Defensive realism and the Concert of Europe",
+      "authorOrInstitution": "Matthew Rendall",
+      "publisher": "Cambridge University Press / Review of International Studies",
+      "href": "https://doi.org/10.1017/S0260210506007145",
+      "publishedAt": "2006-07",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "RAYMOND-2019",
+      "title": "The Social Construction of Great Power Management, 1815–1822",
+      "authorOrInstitution": "Mark Raymond",
+      "publisher": "Oxford University Press",
+      "href": "https://doi.org/10.1093/oso/9780190913113.003.0003",
+      "publishedAt": "2019",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "ANDERSON-2007",
+      "title": "Metternich, Bismarck, and the Myth of the 'Long Peace,' 1815–1914",
+      "authorOrInstitution": "Sheldon Anderson",
+      "publisher": "Wiley / Peace & Change",
+      "href": "https://doi.org/10.1111/j.1468-0130.2007.00443.x",
+      "publishedAt": "2007",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "GANDHI-SALT",
+      "title": "Background to the Salt Satyagraha",
+      "authorOrInstitution": "Gandhi Heritage Portal",
+      "publisher": "Gandhi Heritage Portal",
+      "href": "https://www.gandhiheritageportal.org/hi/background-to-the-salt-satyagraha",
+      "publishedAt": null,
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "HAZAMA-2022",
+      "title": "Unravelling the Myth of Gandhian Non-violence: Why Did Gandhi Connect His Principle of Satyāgraha with the 'Hindu' Notion of Ahiṃsā?",
+      "authorOrInstitution": "Eijiro Hazama",
+      "publisher": "Cambridge University Press / Modern Intellectual History",
+      "href": "https://www.cambridge.org/core/journals/modern-intellectual-history/article/unravelling-the-myth-of-gandhian-nonviolence-why-did-gandhi-connect-his-principle-of-satyagraha-with-the-hindu-notion-of-ahimsa/AE0B11F66A8048CD92587964BA110C53",
+      "publishedAt": "2022-03-14",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "FINN-SIKK-1998",
+      "title": "International Norm Dynamics and Political Change",
+      "authorOrInstitution": "Martha Finnemore; Kathryn Sikkink",
+      "publisher": "Cambridge University Press / International Organization",
+      "href": "https://doi.org/10.1162/002081898550789",
+      "publishedAt": "1998",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "ACHARYA-2004",
+      "title": "How Ideas Spread: Whose Norms Matter? Norm Localization and Institutional Change in Asian Regionalism",
+      "authorOrInstitution": "Amitav Acharya",
+      "publisher": "Cambridge University Press / International Organization",
+      "href": "https://doi.org/10.1017/S0020818304582024",
+      "publishedAt": "2004-04",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "MADDIPATI-2024",
+      "title": "Satyagraha After Cancel Gandhi: Race and Caste through Labor and Architecture, c.1896–1942",
+      "authorOrInstitution": "Venugopal Maddipati",
+      "publisher": "Taylor & Francis / South Asian Studies",
+      "href": "https://doi.org/10.1080/02666030.2024.2338988",
+      "publishedAt": "2024",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "ASEAN-CHARTER-2015",
+      "title": "The ASEAN Charter, 18th Reprint",
+      "authorOrInstitution": "ASEAN",
+      "publisher": "ASEAN Secretariat, Jakarta",
+      "href": "https://www.asean.org/wp-content/uploads/2021/09/2.-February-2015-The-ASEAN-Charter-18th-Reprint.pdf",
+      "publishedAt": "2015-02",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "KAWAMURA-2011",
+      "title": "Consensus and Democracy in Indonesia: Musyawarah-Mufakat Revisited",
+      "authorOrInstitution": "Koichi Kawamura",
+      "publisher": "Institute of Developing Economies, JETRO",
+      "href": "https://www.ide.go.jp/English/Publish/Reports/Dp/308.html",
+      "publishedAt": "2011-09",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "SOHRAH-2015",
+      "title": "Konsep Syura dan Gagasan Demokrasi (Telaah Ayat-ayat Al-Qur'an)",
+      "authorOrInstitution": "Sohrah",
+      "publisher": "Al-Daulah",
+      "href": "https://doi.org/10.24252/ad.v4i1.1515",
+      "publishedAt": "2015",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "CHIOU-2010",
+      "title": "Unraveling the Logic of ASEAN's Decision-Making: Theoretical Analysis and Case Examination",
+      "authorOrInstitution": "Yi-hung Chiou",
+      "publisher": "Wiley / Asian Politics & Policy",
+      "href": "https://doi.org/10.1111/j.1943-0787.2010.01199.x",
+      "publishedAt": "2010",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "JONES-2010",
+      "title": "ASEAN's unchanged melody? The theory and practice of 'non-interference' in Southeast Asia",
+      "authorOrInstitution": "Lee Jones",
+      "publisher": "Taylor & Francis / The Pacific Review",
+      "href": "https://doi.org/10.1080/09512748.2010.495996",
+      "publishedAt": "2010",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "LEGIFRANCE-1946",
+      "title": "Décret du 3 janvier 1946 portant nomination du Commissaire général du Plan",
+      "authorOrInstitution": "French Government",
+      "publisher": "Journal officiel / Légifrance",
+      "href": "https://www.legifrance.gouv.fr/loda/id/JORFTEXT000000318069",
+      "publishedAt": "1946-01-03",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "MONNET-AMF-1946",
+      "title": "1er rapport du Commissaire général du Plan de modernisation et d'équipement au Président du Gouvernement provisoire",
+      "authorOrInstitution": "Commissariat général du Plan; Jean Monnet archival fonds",
+      "publisher": "Fondation Jean Monnet pour l'Europe",
+      "href": "https://archives.jean-monnet.ch/archives/AMF-002-003",
+      "publishedAt": "1946-03-16",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "LEMONDE-1946",
+      "title": "Le plan Monnet est publié ce soir. Il fixe à l'économie française ses objectifs jusqu'en 1950",
+      "authorOrInstitution": "Le Monde",
+      "publisher": "Le Monde",
+      "href": "https://www.lemonde.fr/archives/article/1946/11/28/le-plan-monnet-est-publie-ce-soir-il-fixe-a-l-economie-francaise-ses-objectifs-jusqu-en-1950_3060989_1819218.html",
+      "publishedAt": "1946-11-28",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "reference",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "BRUNET-2018",
+      "title": "The Creation of the Monnet Plan, 1945–1946: A Critical Re-Evaluation",
+      "authorOrInstitution": "Luc-André Brunet",
+      "publisher": "Cambridge University Press / Contemporary European History",
+      "href": "https://doi.org/10.1017/S0960777317000418",
+      "publishedAt": "2018-02",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "HCSP-2026",
+      "title": "80 ans du Plan : une histoire française du temps long",
+      "authorOrInstitution": "Haut-Commissariat à la Stratégie et au Plan",
+      "publisher": "French Government",
+      "href": "https://www.strategie-plan.gouv.fr/80-ans-du-plan-une-histoire-francaise-du-temps-long",
+      "publishedAt": "2026-06-01",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "current-official",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "PREBISCH-1949",
+      "title": "El desarrollo económico de la América Latina y algunos de sus principales problemas",
+      "authorOrInstitution": "Raúl Prebisch",
+      "publisher": "Comisión Económica para América Latina, Naciones Unidas",
+      "href": "https://hdl.handle.net/11362/30088",
+      "publishedAt": "1949-05-14",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "PREBISCH-1950",
+      "title": "The Economic Development of Latin America and Its Principal Problems",
+      "authorOrInstitution": "Raúl Prebisch",
+      "publisher": "United Nations / ECLAC",
+      "href": "https://hdl.handle.net/11362/29973",
+      "publishedAt": "1950-04-27",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "primary",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "CARDOSO-FALETTO-1979",
+      "title": "Dependency and Development in Latin America",
+      "authorOrInstitution": "Fernando Henrique Cardoso; Enzo Faletto; translated by Marjory Mattingly Urquidi",
+      "publisher": "University of California Press",
+      "href": "https://doi.org/10.2307/jj.13083432",
+      "publishedAt": "1979-03",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    },
+    {
+      "id": "DUVALL-1978",
+      "title": "Dependence and dependencia theory: notes toward precision of concept and argument",
+      "authorOrInstitution": "Raymond D. Duvall",
+      "publisher": "Cambridge University Press / International Organization",
+      "href": "https://doi.org/10.1017/S0020818300003866",
+      "publishedAt": "1978",
+      "accessedAt": "2026-08-12",
+      "sourceKind": "scholarly",
+      "metadataStatus": "complete",
+      "status": "provisional"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "review-owner-v23-1-relations-editorial",
+      "subjectIds": [
+        "p-plus.relatedCurrentCases",
+        "p-plus.relatedDecisionPatterns",
+        "p-minus.relatedCurrentCases",
+        "p-minus.relatedDecisionPatterns",
+        "r-plus.relatedCurrentCases",
+        "r-plus.relatedDecisionPatterns",
+        "r-minus.relatedCurrentCases",
+        "r-minus.relatedDecisionPatterns",
+        "m-plus.relatedCurrentCases",
+        "m-plus.relatedDecisionPatterns",
+        "m-minus.relatedCurrentCases",
+        "m-minus.relatedDecisionPatterns",
+        "s-plus.relatedCurrentCases",
+        "s-plus.relatedDecisionPatterns",
+        "s-minus.relatedCurrentCases",
+        "s-minus.relatedDecisionPatterns"
+      ],
+      "contentVersion": "23.1.0-draft.1",
+      "evidenceCatalogVersion": "23.1.0",
+      "reviewerId": "product-owner",
+      "reviewedAt": "2026-08-13",
+      "reviewerRole": "editorial",
+      "outcome": "approved",
+      "note": "The locked owner decision approves empty related Current Case and Decision Pattern arrays."
+    },
+    {
+      "id": "review-owner-v23-1-relations-methodology",
+      "subjectIds": [
+        "p-plus.relatedCurrentCases",
+        "p-plus.relatedDecisionPatterns",
+        "p-minus.relatedCurrentCases",
+        "p-minus.relatedDecisionPatterns",
+        "r-plus.relatedCurrentCases",
+        "r-plus.relatedDecisionPatterns",
+        "r-minus.relatedCurrentCases",
+        "r-minus.relatedDecisionPatterns",
+        "m-plus.relatedCurrentCases",
+        "m-plus.relatedDecisionPatterns",
+        "m-minus.relatedCurrentCases",
+        "m-minus.relatedDecisionPatterns",
+        "s-plus.relatedCurrentCases",
+        "s-plus.relatedDecisionPatterns",
+        "s-minus.relatedCurrentCases",
+        "s-minus.relatedDecisionPatterns"
+      ],
+      "contentVersion": "23.1.0-draft.1",
+      "evidenceCatalogVersion": "23.1.0",
+      "reviewerId": "product-owner",
+      "reviewedAt": "2026-08-13",
+      "reviewerRole": "methodology",
+      "outcome": "approved",
+      "note": "The locked owner decision prohibits inferred relations and approves reviewed empty arrays."
     }
   ]
 }

@@ -6,6 +6,7 @@ import {
   getArchetypeEvidenceBySlug,
   parseArchetypeEvidenceReturnPath,
 } from "@/lib/archetype-evidence"
+import { getArchetypeBySlug } from "@/lib/archetypes"
 import type { Metadata } from "next"
 
 interface Props {
@@ -22,9 +23,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const resolved = getArchetypeEvidenceBySlug(slug)
+  const archetype = getArchetypeBySlug(slug)
 
   if (!resolved) {
-    return { title: "Historical analogue — IR Worldview Inventory" }
+    return {
+      title: archetype
+        ? `${archetype.name}: historical analogue — IR Worldview Inventory`
+        : "Historical analogue — IR Worldview Inventory",
+    }
   }
 
   return {
@@ -40,11 +46,40 @@ export default async function ArchetypeEvidencePage({
   searchParams,
 }: Props) {
   const [{ slug }, { from }] = await Promise.all([params, searchParams])
+  const identity = getArchetypeBySlug(slug)
+  if (!identity) notFound()
+
   const resolved = getArchetypeEvidenceBySlug(slug)
-  if (!resolved) notFound()
+  const returnPath = parseArchetypeEvidenceReturnPath(from)
+
+  if (!resolved) {
+    return (
+      <article className="container archetype-evidence-page stack-xl">
+        <header className="stack-md">
+          <Link
+            href={returnPath ?? "/quiz"}
+            className="archetype-evidence-back"
+          >
+            {returnPath ? "← Back to your result" : "← Take the Foundation"}
+          </Link>
+          <div className="stack-sm">
+            <p className="eyebrow">Historical analogue</p>
+            <h1>{identity.name}</h1>
+            <p className="foundation-result-code">{identity.code}</p>
+          </div>
+        </header>
+        <section className="panel stack-sm" role="status">
+          <h2>Historical comparison under review</h2>
+          <p>
+            The historical comparison for this archetype is temporarily
+            unavailable while its evidence record is reviewed.
+          </p>
+        </section>
+      </article>
+    )
+  }
 
   const { archetype, analogue, evidence } = resolved
-  const returnPath = parseArchetypeEvidenceReturnPath(from)
 
   return (
     <article className="container archetype-evidence-page stack-xl">
@@ -81,6 +116,10 @@ export default async function ArchetypeEvidencePage({
         </section>
       </div>
 
+      <p className="muted result-note" role="note">
+        {evidence.qualification}
+      </p>
+
       {evidence.nameNote ? (
         <section
           className="panel stack-sm archetype-evidence-name-note"
@@ -105,7 +144,7 @@ export default async function ArchetypeEvidencePage({
               <a href={source.href} target="_blank" rel="noreferrer">
                 {source.label}
               </a>
-              <span>Reviewed source</span>
+              <span>Provisional source</span>
             </li>
           ))}
         </ul>

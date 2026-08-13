@@ -37,7 +37,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | calibration | lib/scoring/v2-calibration.ts | 9e4161036ae17b47c1367fcf8caf0db1d5d2cb80cb56e63a997369a5da132c9b |
 | scoring-runtime | lib/scoring/v2.ts | 295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c |
 | scoring-runtime | lib/scoring/versions.ts | 87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c |
-| copy-audit | scripts/audit-public-copy.mjs | 08c562f389a3c135ac430b4a012346ce57044f10a0f7924d7f72184e01033abc |
+| copy-audit | scripts/audit-public-copy.mjs | 00da5355738d64acec191b23f0534b69644d7c4bab6a6a1ea0b51f231c7cd208 |
 | calibration | scripts/calibrate-modules-bootstrap.mjs | d7094911334cdf2c65584b93f6a397b3c584b596f5b86058e124854a030d09da |
 | calibration | scripts/calibrate-modules.mts | 3ef3404b4c6d3f22200bbf801b462acb4b569ec5566c91c42b2df0646c0b2854 |
 | calibration | scripts/calibrate-targeted-forms.mts | 632442daa133683d99c87f8b5c3fc8ed6c595979970f07bd384b5d3f5ea13794 |
@@ -59,7 +59,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | compatibility-test | tests/instrument-measurement-gates.test.mts | 1ff5804dfb26bf455a67c61a1866cd939a19ee59ab1334e52b2b57d63078035d |
 | compatibility-test | tests/instrument-version-compatibility.test.mts | ef21df2cfa4e1b78ef9f9b347e750bf50d1d2d198fc57ad17271aa7f4659b88c |
 | compatibility-test | tests/option-order.test.mts | 456a3abb313f146c7b2e76e6ce88ba495263cbaf33eeca28e899b0c104d399db |
-| compatibility-test | tests/public-copy-audit.test.mts | 33e85f3f5f4bcd7a3affc08e691bb95e5813a4b55fb511beb48be3dc888768ab |
+| compatibility-test | tests/public-copy-audit.test.mts | 5703ca07a9e4c27d530e57bc20f708d656cf0c391693ecb0a013ae8202c0d3aa |
 | compatibility-test | tests/v21-module-copy.test.mts | 378c1fffaa13b567f8ede3aab8044cc15e4e7f9e25cdc78a1523b8cbfdf746a4 |
 
 ## Current bank coverage
@@ -702,15 +702,15 @@ Fixture baseline digest: `16d7f05a33a87ca92f84e66c67850dbc47e7efb90cacb7f3e8e0e4
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 558. Unchanged and suppressed: 558. New: 0. Resolved: 0.
+P2 advisory baseline: 558. Current: 570. Unchanged and suppressed: 558. New: 12. Resolved: 0.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
 | Priority | Count |
 | --- | --- |
-| P0 | 8 |
+| P0 | 9 |
 | P1 | 26 |
-| P2 | 558 |
+| P2 | 570 |
 
 ### P0 and P1 findings
 
@@ -720,6 +720,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | implementation-detail | operational | app/api/card/route.tsx:32 (route:/api/card#GET) | result payload |
 | P0 | public-release-language | editorial-source | content/locales/zh-Hans/manifest.ts:7 (content-key:content/locales/zh-Hans/manifest.ts#zhHansCopyDeckManifest.implementationRange) | V19.1 |
 | P0 | public-release-language | editorial-source | content/locales/zh-Hans/manifest.ts:7 (content-key:content/locales/zh-Hans/manifest.ts#zhHansCopyDeckManifest.implementationRange) | V20 |
+| P0 | public-release-language | operational | lib/archetype-content.ts:667 (content-key:lib/archetype-content.ts#validateContentRecord) | v1 |
 | P0 | public-release-language | operational | lib/reference-profiles/validation.ts:842 (content-key:lib/reference-profiles/validation.ts#validateEditorialState) | Version history |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:472 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:496 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
@@ -753,7 +754,20 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 
 ### New P2 findings
 
-None.
+| Count | Rule | Audience | Location | Matched |
+| --- | --- | --- | --- | --- |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
+| 1 | general-prevalence-language-review | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | usually |
+| 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
+| 1 | repeated-adjacent-opening | editorial-source | content/archetype-evidence.json (content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason) | the article is |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
+| 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | app/archetypes/[slug]/page.tsx (route:/archetypes/[slug]#generateMetadata.title) | historical analogue ir |
 
 ### Resolved P2 findings
 

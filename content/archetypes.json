@@ -1,90 +1,576 @@
-[
-  {
-    "name": "Kairos",
-    "code": "P+",
-    "gloss": "Your answers put power and timing first: a strategic opening is an opportunity to act.",
-    "familyKey": "realist",
-    "analogue": {
-      "label": "The Melian Dialogue",
-      "year": "416 BC",
-      "href": "https://en.wikipedia.org/wiki/Melian_dialogue"
+{
+  "schemaVersion": 1,
+  "contentVersion": "23.1.0-draft.1",
+  "evidenceCatalogVersion": "23.1.0",
+  "locale": "en",
+  "records": [
+    {
+      "identity": {
+        "name": "Kairos",
+        "code": "P+",
+        "slug": "p-plus",
+        "gloss": "Your answers put power and timing first: a strategic opening is an opportunity to act.",
+        "familyKey": "realist",
+        "analogue": {
+          "label": "The Melian Dialogue",
+          "year": "416 BC",
+          "href": "https://en.wikipedia.org/wiki/Melian_dialogue"
+        }
+      },
+      "content": {
+        "lens": "P",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "p-plus-notice-01", "kind": "authored-interpretation", "text": "This reading notices shifts in leverage and the moments when available choices may narrow.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "p-plus-instinct-01", "kind": "authored-interpretation", "text": "Keep options open until a consequential opening becomes clear.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "p-plus-instinct-02", "kind": "authored-interpretation", "text": "Concentrate limited resources where they can change the immediate balance.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "p-plus-instinct-03", "kind": "authored-interpretation", "text": "Act before a usable advantage closes or becomes more costly.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "p-plus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts less consultation and continuity in exchange for timely, concentrated action.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "p-plus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when delay would materially reduce the choices available.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "p-plus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that temporary leverage can displace legitimacy and longer-term consequences.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "p-plus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to mistake urgency for opportunity and press beyond a defensible aim.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "p-plus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if durable rules reliably preserved options despite delay.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "p-plus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if using an advantage predictably created greater resistance than gain.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "p-plus-variant-o", "kind": "authored-interpretation", "text": "Order-first Kairos would use a strategic opening to preserve coexistence and prevent wider disorder.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "p-plus-variant-c", "kind": "authored-interpretation", "text": "Conditional Kairos would act only when the authority, stakes, and likely consequences justify the opening.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "p-plus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Kairos would use leverage to protect obligations that settled arrangements leave unmet.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "The Melian Dialogue",
+          "displayDate": "416 BC",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Melian_dialogue",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-p-plus-why-it-fits", "kind": "authored-interpretation", "text": "The Athenian argument at Melos treats unequal power as the decisive fact and presses an advantage before circumstances change.", "sourceIds": ["legacy-p-plus-01", "legacy-p-plus-02"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-p-plus-where-it-breaks", "kind": "authored-interpretation", "text": "The dialogue can also be read as Thucydides' indictment of imperial arrogance and overreach. It is an extreme episode, not a neutral summary of every realist position.", "sourceIds": ["legacy-p-plus-01", "legacy-p-plus-02"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Shi (勢)",
+        "code": "P-",
+        "slug": "p-minus",
+        "gloss": "Power matters here as a position built over time; the priority is to establish leverage before forcing an outcome.",
+        "familyKey": "realist",
+        "analogue": {
+          "label": "The Art of War",
+          "year": "5th C. BC",
+          "href": "https://en.wikipedia.org/wiki/The_Art_of_War"
+        }
+      },
+      "content": {
+        "lens": "P",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "p-minus-notice-01", "kind": "authored-interpretation", "text": "This reading notices the configuration of incentives, dependencies, and positions before open confrontation begins.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "p-minus-instinct-01", "kind": "authored-interpretation", "text": "Build leverage before demanding a final decision.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "p-minus-instinct-02", "kind": "authored-interpretation", "text": "Change incentives, alignments, or practical conditions before escalating.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "p-minus-instinct-03", "kind": "authored-interpretation", "text": "Delay confrontation when time can improve the underlying position.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "p-minus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts slower and less visible progress in exchange for a stronger position.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "p-minus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when outcomes are shaped before the formal moment of choice.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "p-minus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that preparation can become indefinite delay or concealed manipulation.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "p-minus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to treat indirect leverage as control and underestimate adaptation by others.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "p-minus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if urgent harm made delay more costly than positional improvement.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "p-minus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if other actors could readily neutralize the conditions being assembled.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "p-minus-variant-o", "kind": "authored-interpretation", "text": "Order-first Shi would shape conditions that preserve coexistence and reduce pressure for imposed settlements.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "p-minus-variant-c", "kind": "authored-interpretation", "text": "Conditional Shi would build position only where the authority, stakes, and likely consequences warrant it.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "p-minus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Shi would reshape conditions so protection does not depend on accepting the existing hierarchy.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "The Art of War",
+          "displayDate": "5th C. BC",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/The_Art_of_War",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-p-minus-why-it-fits", "kind": "authored-interpretation", "text": "The Art of War repeatedly favors position, information, and strategic advantage over costly direct confrontation.", "sourceIds": ["legacy-p-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-p-minus-where-it-breaks", "kind": "authored-interpretation", "text": "A military treatise is not a complete theory of international politics, and shi carries meanings that no two-sentence archetype can exhaust.", "sourceIds": ["legacy-p-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": { "status": "partial", "value": { "id": "legacy-p-minus-name-note", "kind": "authored-interpretation", "text": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work.", "sourceIds": ["legacy-p-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] }
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Grotian",
+        "code": "R+",
+        "slug": "r-plus",
+        "gloss": "Your answers give rules force only when they are backed by credible enforcement.",
+        "familyKey": "institutionalist",
+        "analogue": {
+          "label": "Hugo Grotius / De Jure Belli ac Pacis",
+          "year": "1625",
+          "href": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis"
+        }
+      },
+      "content": {
+        "lens": "R",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "r-plus-notice-01", "kind": "authored-interpretation", "text": "This reading notices where commitments lack clear rules, capable institutions, or credible consequences.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "r-plus-instinct-01", "kind": "authored-interpretation", "text": "Translate shared commitments into specific duties and procedures.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "r-plus-instinct-02", "kind": "authored-interpretation", "text": "Coordinate enough capacity to make agreed consequences credible.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "r-plus-instinct-03", "kind": "authored-interpretation", "text": "Apply rules through procedures that remain legible and contestable.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "r-plus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts less discretion and some coercive risk in exchange for dependable follow-through.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "r-plus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when commitments repeatedly fail without a credible means of enforcement.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "r-plus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that enforcement power can be selective, unequal, and corrosive of legitimacy.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "r-plus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to equate compliance with legitimacy and extend enforcement beyond its mandate.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "r-plus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if reciprocal compliance remained durable without coercive backing.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "r-plus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if enforcement produced evasion and fragmentation more reliably than compliance.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "r-plus-variant-o", "kind": "authored-interpretation", "text": "Order-first Grotian would enforce common rules to protect coexistence and restrain destabilizing breaches.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "r-plus-variant-c", "kind": "authored-interpretation", "text": "Conditional Grotian would calibrate enforcement to the authority, stakes, and likely consequences of the case.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "r-plus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Grotian would enforce obligations even when powerful actors benefit from leaving them weak.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "Hugo Grotius / De Jure Belli ac Pacis",
+          "displayDate": "1625",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-r-plus-why-it-fits", "kind": "authored-interpretation", "text": "Grotius argued that relations among political communities remain subject to law and obligation, including during war.", "sourceIds": ["legacy-r-plus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-r-plus-where-it-breaks", "kind": "authored-interpretation", "text": "The Grotian tradition is broader than enforcement. It also concerns natural law, consent, moral restraint, and the possibility of an international society.", "sourceIds": ["legacy-r-plus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": { "status": "partial", "value": { "id": "legacy-r-plus-name-note", "kind": "authored-interpretation", "text": "This product already borrows from Martin Wight's three traditions elsewhere: Pluralist and Solidarist are English School terms. In that scheme, Grotian names the rationalist middle way between realism and revolutionism, not the enforcement-forward pole it marks here. The two senses collide. Readers who know Wight's usage should treat this name as a reference to Grotius's own argument that law binds even in war, not as a claim to the middle position in Wight's triad.", "sourceIds": ["legacy-r-plus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] }
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Concert",
+        "code": "R-",
+        "slug": "r-minus",
+        "gloss": "Durable cooperation here depends on powerful actors accepting rules and restraint.",
+        "familyKey": "institutionalist",
+        "analogue": {
+          "label": "The Congress of Vienna",
+          "year": "1815",
+          "href": "https://en.wikipedia.org/wiki/Congress_of_Vienna"
+        }
+      },
+      "content": {
+        "lens": "R",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "r-minus-notice-01", "kind": "authored-interpretation", "text": "This reading notices the interests, fears, and vetoes of actors able to disrupt a settlement.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "r-minus-instinct-01", "kind": "authored-interpretation", "text": "Negotiate reciprocal limits before rivalry becomes harder to contain.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "r-minus-instinct-02", "kind": "authored-interpretation", "text": "Create regular channels for consultation among consequential actors.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "r-minus-instinct-03", "kind": "authored-interpretation", "text": "Accept bounded settlements when maximal demands would threaten the wider order.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "r-minus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts incomplete inclusion and ambition in exchange for restraint among disruptive powers.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "r-minus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when no durable order can survive without consent from its most capable challengers.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "r-minus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that accommodation can privilege powerful actors and marginalize weaker ones.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "r-minus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to confuse agreement among elites with a legitimate and durable settlement.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "r-minus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if excluded actors could readily overturn the negotiated restraint.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "r-minus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if general rules constrained major powers more reliably than discretionary bargains.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "r-minus-variant-o", "kind": "authored-interpretation", "text": "Order-first Concert would use reciprocal restraint to preserve coexistence and prevent systemic breakdown.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "r-minus-variant-c", "kind": "authored-interpretation", "text": "Conditional Concert would bargain only where the authority, stakes, and likely consequences justify accommodation.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "r-minus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Concert would seek consultation without granting powerful actors a veto over basic protection.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "The Congress of Vienna",
+          "displayDate": "1815",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Congress_of_Vienna",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-r-minus-why-it-fits", "kind": "authored-interpretation", "text": "The Vienna settlement and the Concert joined great-power consultation to mutual restraint in the management of European order.", "sourceIds": ["legacy-r-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-r-minus-where-it-breaks", "kind": "authored-interpretation", "text": "The Concert was hierarchical and exclusive. Its stability rested partly on spheres of influence and the limited voice of weaker states.", "sourceIds": ["legacy-r-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Satyagraha",
+        "code": "M+",
+        "slug": "m-plus",
+        "gloss": "Your answers treat shared beliefs as politically decisive: changing the public narrative can change what power achieves.",
+        "familyKey": "constructivist",
+        "analogue": {
+          "label": "The Salt March",
+          "year": "1930",
+          "href": "https://en.wikipedia.org/wiki/Salt_March"
+        }
+      },
+      "content": {
+        "lens": "M",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "m-plus-notice-01", "kind": "authored-interpretation", "text": "This reading notices the public meanings and legitimacy judgments that make authority easier or harder to sustain.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "m-plus-instinct-01", "kind": "authored-interpretation", "text": "Reframe a dispute around the principle that gives it wider meaning.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "m-plus-instinct-02", "kind": "authored-interpretation", "text": "Make contestation visible enough for an alternative standard to become imaginable.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "m-plus-instinct-03", "kind": "authored-interpretation", "text": "Build a coalition around a different account of what conduct is acceptable.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "m-plus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts slower material bargaining in exchange for clearer public contestation of legitimacy.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "m-plus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when authority depends materially on public acceptance of its claims.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "m-plus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that persuasion can be overstated while coercion, organization, and material interests are understated.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "m-plus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to mistake symbolic visibility for durable change or shared moral agreement.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "m-plus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if public reframing left the relevant incentives and institutions unchanged.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "m-plus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if the proposed standard lacked an organized path to implementation.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "m-plus-variant-o", "kind": "authored-interpretation", "text": "Order-first Satyagraha would contest legitimacy in ways intended to restore workable coexistence.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "m-plus-variant-c", "kind": "authored-interpretation", "text": "Conditional Satyagraha would calibrate contestation to the authority, stakes, and likely consequences involved.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "m-plus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Satyagraha would challenge accepted standards when they leave protection or obligation unmet.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "The Salt March",
+          "displayDate": "1930",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Salt_March",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-m-plus-why-it-fits", "kind": "authored-interpretation", "text": "The Salt March broke a law in order to argue in public about its legitimacy, turning an ordinary commodity into a test of whether the colonial state could justify itself. Finnemore and Sikkink's norm life-cycle supplies the scholarly frame: a challenger contests an accepted standard, persuades an audience, and pushes a rival expectation toward acceptance.", "sourceIds": ["legacy-m-plus-01", "legacy-m-plus-02", "legacy-m-plus-03", "legacy-m-plus-04"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-m-plus-where-it-breaks", "kind": "authored-interpretation", "text": "The archetype cites a method, not a biography. Gandhi's own record is contested — most directly by B. R. Ambedkar on caste and varna, and separately over his writing and conduct on race during the South African years — and naming satyagraha is not an endorsement of the man or of his politics. Norm change is also not only narrative change: later research shows that localization, contestation, and implementation do not always follow a single linear cycle.", "sourceIds": ["legacy-m-plus-01", "legacy-m-plus-02", "legacy-m-plus-03", "legacy-m-plus-04"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Musyawarah",
+        "code": "M-",
+        "slug": "m-minus",
+        "gloss": "Legitimacy here grows through patient consensus and cannot be secured by demand alone.",
+        "familyKey": "constructivist",
+        "analogue": {
+          "label": "The ASEAN Way",
+          "year": "1967",
+          "href": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way"
+        }
+      },
+      "content": {
+        "lens": "M",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "m-minus-notice-01", "kind": "authored-interpretation", "text": "This reading notices relationships, procedural legitimacy, and objections that formal agreement may leave unspoken.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "m-minus-instinct-01", "kind": "authored-interpretation", "text": "Consult before positions harden into public commitments.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "m-minus-instinct-02", "kind": "authored-interpretation", "text": "Seek terms that differently situated participants can continue to live with.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "m-minus-instinct-03", "kind": "authored-interpretation", "text": "Preserve room for dissent and further dialogue inside a collective decision.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "m-minus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts slower and less ambitious decisions in exchange for broader ownership of the process.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "m-minus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when implementation depends on trust and continuing consent among participants.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "m-minus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that consensus can conceal unequal pressure, dilute urgent duties, or reward obstruction.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "m-minus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to treat silence as consent and continue consultation after delay becomes decisive.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "m-minus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if delay compounded harm that required a timely decision.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "m-minus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if nominal agreement concealed coercion or unresolved noncompliance.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "m-minus-variant-o", "kind": "authored-interpretation", "text": "Order-first Musyawarah would use deliberation to preserve coexistence, continuity, and mutual restraint.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "m-minus-variant-c", "kind": "authored-interpretation", "text": "Conditional Musyawarah would vary the needed consensus with the authority, stakes, and likely consequences.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "m-minus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Musyawarah would deliberate broadly without allowing consensus to erase duties to excluded people.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "The ASEAN Way",
+          "displayDate": "1967",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-m-minus-why-it-fits", "kind": "authored-interpretation", "text": "ASEAN practice emphasizes consultation, consensus, informality, and avoiding public confrontation before collective decisions are announced.", "sourceIds": ["legacy-m-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-m-minus-where-it-breaks", "kind": "authored-interpretation", "text": "Musyawarah and mufakat come from Malay and Indonesian practice and were generalized outward into a regional method; they do not describe every member state's tradition equally, and the ASEAN Way is internally contested. Consensus and non-interference can also prevent timely collective action.", "sourceIds": ["legacy-m-minus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Dirigisme",
+        "code": "S+",
+        "slug": "s-plus",
+        "gloss": "Your answers give production and finance a leading role, with the state actively shaping the dependencies they create.",
+        "familyKey": "criticalPoliticalEconomy",
+        "analogue": {
+          "label": "The Monnet Plan",
+          "year": "1946",
+          "href": "https://en.wikipedia.org/wiki/Monnet_Plan"
+        }
+      },
+      "content": {
+        "lens": "S",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "s-plus-notice-01", "kind": "authored-interpretation", "text": "This reading notices bottlenecks, investment gaps, and shared capacities that fragmented decisions may leave unresolved.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "s-plus-instinct-01", "kind": "authored-interpretation", "text": "Direct finance toward capabilities judged strategically necessary.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "s-plus-instinct-02", "kind": "authored-interpretation", "text": "Coordinate infrastructure and production where separate choices would work at cross-purposes.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "s-plus-instinct-03", "kind": "authored-interpretation", "text": "Attach clear public conditions to support intended to shape investment.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "s-plus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts less decentralization and greater capture risk in exchange for coordinated capacity.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "s-plus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when fragmented incentives cannot produce a necessary shared capability in time.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "s-plus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that concentrated direction can entrench errors, favored interests, and weak correction.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "s-plus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to turn selective coordination into permanent protection or detailed control.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "s-plus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if decentralized investment reliably supplied the necessary capacity on acceptable terms.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "s-plus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if public direction repeatedly misallocated resources and resisted correction.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "s-plus-variant-o", "kind": "authored-interpretation", "text": "Order-first Dirigisme would coordinate capacity to preserve continuity and meet basic collective needs.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "s-plus-variant-c", "kind": "authored-interpretation", "text": "Conditional Dirigisme would intervene where the authority, evidence, and constraints justify coordinated direction.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "s-plus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Dirigisme would direct capacity toward unmet needs and unequally distributed burdens.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "The Monnet Plan",
+          "displayDate": "1946",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Monnet_Plan",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-s-plus-why-it-fits", "kind": "authored-interpretation", "text": "The Monnet Plan is dirigisme in its own language: a French planning commissariat concentrated postwar investment in a short list of basic sectors — coal, steel, electricity, rail transport, cement, farm machinery — and set targets that private firms were expected to meet.", "sourceIds": ["legacy-s-plus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-s-plus-where-it-breaks", "kind": "authored-interpretation", "text": "Indicative planning steered investment; it did not replace markets or private ownership. The plan also depended on postwar reconstruction conditions, external aid, and a particular domestic coalition, so it is a weak guide to what state direction can do under different fiscal and political constraints.", "sourceIds": ["legacy-s-plus-01"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Dependencia",
+        "code": "S-",
+        "slug": "s-minus",
+        "gloss": "Reducing external dependence is central to resilience in this result.",
+        "familyKey": "criticalPoliticalEconomy",
+        "analogue": {
+          "label": "Raúl Prebisch",
+          "year": "1950",
+          "href": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch"
+        }
+      },
+      "content": {
+        "lens": "S",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "s-minus-notice-01", "kind": "authored-interpretation", "text": "This reading notices external chokepoints, financing constraints, and dependencies that can narrow practical autonomy.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "s-minus-instinct-01", "kind": "authored-interpretation", "text": "Diversify suppliers, finance, and markets where concentration creates asymmetric exposure.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "s-minus-instinct-02", "kind": "authored-interpretation", "text": "Build domestic or regional capacity where exit is otherwise prohibitively costly.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "s-minus-instinct-03", "kind": "authored-interpretation", "text": "Preserve policy space by reducing dependence on any single external gatekeeper.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": { "status": "partial", "value": { "id": "s-minus-accepted-tradeoff", "kind": "authored-interpretation", "text": "This reading accepts some efficiency and access costs in exchange for greater room to choose.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestCaseForReading": { "status": "partial", "value": { "id": "s-minus-strongest-case", "kind": "authored-interpretation", "text": "This reading is strongest when concentrated external dependence makes formal choice difficult to exercise.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "strongestObjection": { "status": "partial", "value": { "id": "s-minus-strongest-objection", "kind": "authored-interpretation", "text": "Its strongest objection is that dependence can be reciprocal and diversification can create costly new constraints.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "commonFailureMode": { "status": "partial", "value": { "id": "s-minus-failure-mode", "kind": "authored-interpretation", "text": "Its common failure mode is to treat all interdependence as domination and create new vulnerabilities through insulation.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            { "status": "partial", "value": { "id": "s-minus-weaken-fit-01", "kind": "authored-interpretation", "text": "The fit would weaken if open ties dispersed leverage and made switching inexpensive.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] },
+            { "status": "partial", "value": { "id": "s-minus-weaken-fit-02", "kind": "authored-interpretation", "text": "The fit would also weaken if domestic constraints explained the loss of autonomy better than external structure.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] }
+          ],
+          "qualification": "Draft interpretation pending owner review.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": { "status": "research-required", "value": null, "qualification": "Neighbor interpretations require owner review.", "reviewIds": [] },
+        "normativeVariants": [
+          { "state": "o", "publicLabel": "Order-first", "interpretation": { "status": "partial", "value": { "id": "s-minus-variant-o", "kind": "authored-interpretation", "text": "Order-first Dependencia would reduce dependencies that threaten continuity, coexistence, and practical autonomy.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "c", "publicLabel": "Conditional", "interpretation": { "status": "partial", "value": { "id": "s-minus-variant-c", "kind": "authored-interpretation", "text": "Conditional Dependencia would target dependencies whose asymmetry, stakes, and likely consequences justify the cost.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } },
+          { "state": "j", "publicLabel": "Justice-first", "interpretation": { "status": "partial", "value": { "id": "s-minus-variant-j", "kind": "authored-interpretation", "text": "Justice-first Dependencia would restructure dependencies that reproduce unequal burdens or deny meaningful agency.", "sourceIds": [], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "Draft interpretation pending owner review.", "reviewIds": [] } }
+        ],
+        "commonBlends": { "status": "withheld", "value": null, "qualification": "Pair-specific blend prose is withheld.", "reviewIds": [] },
+        "likelyDomainExpressions": { "status": "withheld", "value": null, "qualification": "Domain-expression hypotheses are withheld.", "reviewIds": [] },
+        "historicalAnalogue": {
+          "label": "Raúl Prebisch",
+          "displayDate": "1950",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch",
+          "whyItFits": { "status": "partial", "value": { "id": "legacy-s-minus-why-it-fits", "kind": "authored-interpretation", "text": "Prebisch's centre-periphery analysis treated trade and production structures as durable constraints on development and national room for action.", "sourceIds": ["legacy-s-minus-01", "legacy-s-minus-02"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "whereItBreaks": { "status": "partial", "value": { "id": "legacy-s-minus-where-it-breaks", "kind": "authored-interpretation", "text": "Prebisch's reformist structuralism preceded and differed from several later dependencia schools. Reducing exposure is only one possible response to dependency.", "sourceIds": ["legacy-s-minus-01", "legacy-s-minus-02"], "scope": null, "asOf": null, "evidenceWindow": null, "reviewDue": null }, "qualification": "This historical comparison uses provisional source metadata and remains pending research review.", "reviewIds": [] },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "relatedDecisionPatterns": { "status": "reviewed", "value": [], "qualification": null, "reviewIds": ["review-owner-v23-1-relations-editorial", "review-owner-v23-1-relations-methodology"] },
+        "publicationState": "draft",
+        "recordReviewIds": []
+      }
     }
-  },
-  {
-    "name": "Shi (勢)",
-    "code": "P-",
-    "gloss": "Power matters here as a position built over time; the priority is to establish leverage before forcing an outcome.",
-    "familyKey": "realist",
-    "analogue": {
-      "label": "The Art of War",
-      "year": "5th C. BC",
-      "href": "https://en.wikipedia.org/wiki/The_Art_of_War"
-    }
-  },
-  {
-    "name": "Grotian",
-    "code": "R+",
-    "gloss": "Your answers give rules force only when they are backed by credible enforcement.",
-    "familyKey": "institutionalist",
-    "analogue": {
-      "label": "Hugo Grotius / De Jure Belli ac Pacis",
-      "year": "1625",
-      "href": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis"
-    }
-  },
-  {
-    "name": "Concert",
-    "code": "R-",
-    "gloss": "Durable cooperation here depends on powerful actors accepting rules and restraint.",
-    "familyKey": "institutionalist",
-    "analogue": {
-      "label": "The Congress of Vienna",
-      "year": "1815",
-      "href": "https://en.wikipedia.org/wiki/Congress_of_Vienna"
-    }
-  },
-  {
-    "name": "Satyagraha",
-    "code": "M+",
-    "gloss": "Your answers treat shared beliefs as politically decisive: changing the public narrative can change what power achieves.",
-    "familyKey": "constructivist",
-    "analogue": {
-      "label": "The Salt March",
-      "year": "1930",
-      "href": "https://en.wikipedia.org/wiki/Salt_March"
-    }
-  },
-  {
-    "name": "Musyawarah",
-    "code": "M-",
-    "gloss": "Legitimacy here grows through patient consensus and cannot be secured by demand alone.",
-    "familyKey": "constructivist",
-    "analogue": {
-      "label": "The ASEAN Way",
-      "year": "1967",
-      "href": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way"
-    }
-  },
-  {
-    "name": "Dirigisme",
-    "code": "S+",
-    "gloss": "Your answers give production and finance a leading role, with the state actively shaping the dependencies they create.",
-    "familyKey": "criticalPoliticalEconomy",
-    "analogue": {
-      "label": "The Monnet Plan",
-      "year": "1946",
-      "href": "https://en.wikipedia.org/wiki/Monnet_Plan"
-    }
-  },
-  {
-    "name": "Dependencia",
-    "code": "S-",
-    "gloss": "Reducing external dependence is central to resilience in this result.",
-    "familyKey": "criticalPoliticalEconomy",
-    "analogue": {
-      "label": "Raúl Prebisch",
-      "year": "1950",
-      "href": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch"
-    }
-  }
-]
+  ]
+}

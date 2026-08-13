@@ -50,6 +50,7 @@ test("public-copy audit covers active content roots and emits editorial context"
     "content/instrument",
     "content/current-cases",
     "content/archetypes.json",
+    "content/archetype-evidence.json",
     "content/locales",
     "messages",
     "i18n",

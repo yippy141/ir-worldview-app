@@ -85,30 +85,22 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V22 measurement parity and presentation
+## Current sprint: V23.1 content and compatibility layer
 
-- The V21 Foundation repair is the template, not the finish line. Security,
-  Technology, and AI Governance carry the same class of failure and are the
-  first priority.
-- Every scored axis must be reachable at both poles. For choice items, an
-  item's option set must contain at least one option below and one above the
-  axis midpoint, with a spread of at least 2.0 on a 7-point axis or 0.5 on a
-  delta axis. Enforced in CI.
-- No score is displayed on a scale it cannot attain. If the attainable range
-  is 3.9 to 5.0, do not print "/ 7".
-- Likert valence: at least 40% explicit reverse coding per axis, in every
-  instrument including AI Governance. `reverse` is always stated, never
-  omitted.
-- Presentation changes may not rescue a failed measurement gate. Archetype
-  variants are presentation over already-scored values; new codes require new
-  dimensions and a new scoring version.
-- Tier 1 remains aggregate-only with no identifiers. Tier 2 and scoring
-  replay stay dormant.
-- Simplified Chinese runs a narrow declared contract this sprint. Missing
-  localised content is stated visibly, never filled by silent English
-  fallback.
-- Deferred to V23: hierarchy and threshold constructs, new families, new
-  archetype codes, Tier 2, adaptive selection.
+- Expand the two root archetype JSON catalogs in place with exactly eight
+  versioned records. Keep code, name, slug, gloss, family, and analogue display
+  values as an isolated frozen identity projection.
+- Rich interpretation is a separate, fail-closed layer with explicit field,
+  claim, source, review, and publication status. Missing content is
+  `research-required` or `withheld`, never generated filler.
+- Preserve all resolver, blend, issued-payload, Profile, comparison, and legacy
+  link behavior. Malformed rich content must not affect identity resolution.
+- English receives long-form content. Simplified Chinese keeps explicit status
+  surfaces with no silent English fallback. Related content ships as reviewed
+  empty arrays; pair-specific blends and domain expressions remain withheld.
+- This sprint does not add routes, redesign pages or Explore, add sigils,
+  change the Map, scoring, instruments, calibration, payloads, stores, modules,
+  Tier 1, or dependencies.
 
 ## End-of-sprint discipline
 

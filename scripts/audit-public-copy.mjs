@@ -13,6 +13,7 @@ const scanTargets = [
   "content/instrument",
   "content/current-cases",
   "content/archetypes.json",
+  "content/archetype-evidence.json",
   "content/locales",
   "messages",
   "i18n",
@@ -508,11 +509,14 @@ function visit(value, path, onString) {
 function excludedJsonPath(path) {
   const joined = path.join(".")
   const last = path.at(-1) ?? ""
+  const parent = path.at(-2) ?? ""
   return (
     last === "editorialMemo" ||
     /(?:^|\.)(?:sourceRecords|sources)\.\d+\.title$/.test(joined) ||
     /(?:legalQuotation|legalQuote|quotation|verbatimQuote)$/i.test(last) ||
-    /(?:^|\.)(?:\$id|\$schema|id|slug|href|url|sourceId|claimId|storageKey)$/.test(joined)
+    /(?:^|\.)(?:\$id|\$schema|id|slug|href|url|sourceId|claimId|storageKey)$/.test(joined) ||
+    /^(?:reviewIds|sourceIds|legacySourceIds|researchSourceIds|subjectIds|recordReviewIds)$/.test(parent) ||
+    /^(?:code|state|kind|status|evidenceStatus|publicationState|sourceKind|metadataStatus|reviewerRole|outcome|field|contentVersion|evidenceCatalogVersion|locale)$/.test(last)
   )
 }
 
@@ -751,6 +755,8 @@ function classifyAudience(file, candidate) {
   const fileName = toPosix(relative(projectRoot, file))
   if (fileName.startsWith("app/api/")) return "operational"
   if (fileName.startsWith("lib/research/")) return "operational"
+  if (fileName === "lib/archetype-content.ts") return "operational"
+  if (fileName === "content/archetype-evidence.json") return "editorial-source"
   if (/^lib\/modules\/(?:runtime-v1|[^/]+-v21)\.[cm]?[jt]sx?$/.test(fileName)) return "frozen"
   if (/^content\/instrument\/(?:security|technology|ai-governance)\.v2\.json$/.test(fileName)) {
     return "frozen"
