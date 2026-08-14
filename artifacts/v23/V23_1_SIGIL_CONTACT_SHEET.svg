@@ -1,0 +1,1745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1960" height="3460" viewBox="0 0 1960 3460" role="img" aria-label="V23.1 sigil collision-review contact sheet">
+  <rect width="1960" height="3460" fill="#e7e4dc"/>
+  <text x="40" y="64" fill="#0a1322" font-family="Georgia, serif" font-size="34" font-weight="600">V23.1 archetype sigil collision-review contact sheet</text>
+  <text x="40" y="98" fill="#39485c" font-family="Arial, sans-serif" font-size="15">Eight pure codes · 24/48/96px · watermark · dark · black/white reversal · print</text>
+  <text x="40" y="128" fill="#39485c" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">Geometry v23.1b-geometry-v1 · SHA-256 0c02d05b8bdbb814f64cb4633ba26ff467976ff8ad8fc71de630ae6fa1d7a6fe</text>
+  <text x="40" y="160" fill="#6a4633" font-family="Arial, sans-serif" font-size="14" font-weight="700">REVIEW STATUS: PENDING · THIS ARTIFACT IS NOT AN APPROVAL</text>
+    <g data-mode="default-dark">
+      <rect x="40" y="210" width="920" height="1580" rx="4" fill="#0a1322" stroke="#304563" stroke-width="1"/>
+      <text x="68" y="252" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700" letter-spacing="2">DEFAULT DARK · ASTROLABE</text>
+      <text x="68" y="284" fill="#8295ab" font-family="Arial, sans-serif" font-size="13">Production geometry · currentColor · static inline line/path primitives</text>
+      <line x1="64" y1="310" x2="936" y2="310" stroke="#304563" stroke-width="1"/>
+      <text x="362" y="338" text-anchor="middle" fill="#8295ab" font-family="Arial, sans-serif" font-size="12">24px</text>
+      <text x="472" y="338" text-anchor="middle" fill="#8295ab" font-family="Arial, sans-serif" font-size="12">48px</text>
+      <text x="612" y="338" text-anchor="middle" fill="#8295ab" font-family="Arial, sans-serif" font-size="12">96px</text>
+      <text x="804" y="338" text-anchor="middle" fill="#8295ab" font-family="Arial, sans-serif" font-size="12">watermark · 160px · 16%</text>
+      <g data-archetype-row="P+" color="#cea857">
+        <text x="70" y="443" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Kairos</text>
+        <text x="70" y="471" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P+</text>
+        <svg data-sigil-code="P+" data-scale="24" data-size="24"
+          x="350" y="436" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="48" data-size="48"
+          x="448" y="424" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="96" data-size="96"
+          x="564" y="400" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="watermark" data-size="160"
+          x="724" y="368" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <line x1="64" y1="536" x2="936" y2="536" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="P-" color="#cea857">
+        <text x="70" y="619" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Shi (勢)</text>
+        <text x="70" y="647" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P-</text>
+        <svg data-sigil-code="P-" data-scale="24" data-size="24"
+          x="350" y="612" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="48" data-size="48"
+          x="448" y="600" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="96" data-size="96"
+          x="564" y="576" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="watermark" data-size="160"
+          x="724" y="544" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <line x1="64" y1="712" x2="936" y2="712" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R+" color="#cea857">
+        <text x="70" y="795" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Grotian</text>
+        <text x="70" y="823" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R+</text>
+        <svg data-sigil-code="R+" data-scale="24" data-size="24"
+          x="350" y="788" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="48" data-size="48"
+          x="448" y="776" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="96" data-size="96"
+          x="564" y="752" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="watermark" data-size="160"
+          x="724" y="720" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <line x1="64" y1="888" x2="936" y2="888" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R-" color="#cea857">
+        <text x="70" y="971" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Concert</text>
+        <text x="70" y="999" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R-</text>
+        <svg data-sigil-code="R-" data-scale="24" data-size="24"
+          x="350" y="964" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="48" data-size="48"
+          x="448" y="952" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="96" data-size="96"
+          x="564" y="928" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="watermark" data-size="160"
+          x="724" y="896" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <line x1="64" y1="1064" x2="936" y2="1064" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M+" color="#cea857">
+        <text x="70" y="1147" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Satyagraha</text>
+        <text x="70" y="1175" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M+</text>
+        <svg data-sigil-code="M+" data-scale="24" data-size="24"
+          x="350" y="1140" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="48" data-size="48"
+          x="448" y="1128" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="96" data-size="96"
+          x="564" y="1104" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="watermark" data-size="160"
+          x="724" y="1072" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <line x1="64" y1="1240" x2="936" y2="1240" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M-" color="#cea857">
+        <text x="70" y="1323" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Musyawarah</text>
+        <text x="70" y="1351" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M-</text>
+        <svg data-sigil-code="M-" data-scale="24" data-size="24"
+          x="350" y="1316" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="48" data-size="48"
+          x="448" y="1304" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="96" data-size="96"
+          x="564" y="1280" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="watermark" data-size="160"
+          x="724" y="1248" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <line x1="64" y1="1416" x2="936" y2="1416" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S+" color="#cea857">
+        <text x="70" y="1499" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Dirigisme</text>
+        <text x="70" y="1527" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S+</text>
+        <svg data-sigil-code="S+" data-scale="24" data-size="24"
+          x="350" y="1492" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="48" data-size="48"
+          x="448" y="1480" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="96" data-size="96"
+          x="564" y="1456" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="watermark" data-size="160"
+          x="724" y="1424" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <line x1="64" y1="1592" x2="936" y2="1592" stroke="#304563" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S-" color="#cea857">
+        <text x="70" y="1675" fill="#eef2f7" font-family="Georgia, serif" font-size="23" font-weight="600">Dependencia</text>
+        <text x="70" y="1703" fill="#cea857" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S-</text>
+        <svg data-sigil-code="S-" data-scale="24" data-size="24"
+          x="350" y="1668" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="48" data-size="48"
+          x="448" y="1656" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="96" data-size="96"
+          x="564" y="1632" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="watermark" data-size="160"
+          x="724" y="1600" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <line x1="64" y1="1768" x2="936" y2="1768" stroke="#304563" stroke-width="1"/>
+      </g>
+    </g>
+    <g data-mode="black-on-white">
+      <rect x="1000" y="210" width="920" height="1580" rx="4" fill="#ffffff" stroke="#b8b8b8" stroke-width="1"/>
+      <text x="1028" y="252" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700" letter-spacing="2">BLACK ON WHITE</text>
+      <text x="1028" y="284" fill="#555555" font-family="Arial, sans-serif" font-size="13">Production geometry · currentColor · static inline line/path primitives</text>
+      <line x1="1024" y1="310" x2="1896" y2="310" stroke="#b8b8b8" stroke-width="1"/>
+      <text x="1322" y="338" text-anchor="middle" fill="#555555" font-family="Arial, sans-serif" font-size="12">24px</text>
+      <text x="1432" y="338" text-anchor="middle" fill="#555555" font-family="Arial, sans-serif" font-size="12">48px</text>
+      <text x="1572" y="338" text-anchor="middle" fill="#555555" font-family="Arial, sans-serif" font-size="12">96px</text>
+      <text x="1764" y="338" text-anchor="middle" fill="#555555" font-family="Arial, sans-serif" font-size="12">watermark · 160px · 16%</text>
+      <g data-archetype-row="P+" color="#000000">
+        <text x="1030" y="443" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Kairos</text>
+        <text x="1030" y="471" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P+</text>
+        <svg data-sigil-code="P+" data-scale="24" data-size="24"
+          x="1310" y="436" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="48" data-size="48"
+          x="1408" y="424" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="96" data-size="96"
+          x="1524" y="400" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="watermark" data-size="160"
+          x="1684" y="368" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <line x1="1024" y1="536" x2="1896" y2="536" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="P-" color="#000000">
+        <text x="1030" y="619" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Shi (勢)</text>
+        <text x="1030" y="647" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P-</text>
+        <svg data-sigil-code="P-" data-scale="24" data-size="24"
+          x="1310" y="612" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="48" data-size="48"
+          x="1408" y="600" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="96" data-size="96"
+          x="1524" y="576" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="watermark" data-size="160"
+          x="1684" y="544" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <line x1="1024" y1="712" x2="1896" y2="712" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R+" color="#000000">
+        <text x="1030" y="795" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Grotian</text>
+        <text x="1030" y="823" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R+</text>
+        <svg data-sigil-code="R+" data-scale="24" data-size="24"
+          x="1310" y="788" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="48" data-size="48"
+          x="1408" y="776" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="96" data-size="96"
+          x="1524" y="752" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="watermark" data-size="160"
+          x="1684" y="720" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <line x1="1024" y1="888" x2="1896" y2="888" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R-" color="#000000">
+        <text x="1030" y="971" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Concert</text>
+        <text x="1030" y="999" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R-</text>
+        <svg data-sigil-code="R-" data-scale="24" data-size="24"
+          x="1310" y="964" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="48" data-size="48"
+          x="1408" y="952" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="96" data-size="96"
+          x="1524" y="928" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="watermark" data-size="160"
+          x="1684" y="896" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <line x1="1024" y1="1064" x2="1896" y2="1064" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M+" color="#000000">
+        <text x="1030" y="1147" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Satyagraha</text>
+        <text x="1030" y="1175" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M+</text>
+        <svg data-sigil-code="M+" data-scale="24" data-size="24"
+          x="1310" y="1140" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="48" data-size="48"
+          x="1408" y="1128" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="96" data-size="96"
+          x="1524" y="1104" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="watermark" data-size="160"
+          x="1684" y="1072" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <line x1="1024" y1="1240" x2="1896" y2="1240" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M-" color="#000000">
+        <text x="1030" y="1323" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Musyawarah</text>
+        <text x="1030" y="1351" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M-</text>
+        <svg data-sigil-code="M-" data-scale="24" data-size="24"
+          x="1310" y="1316" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="48" data-size="48"
+          x="1408" y="1304" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="96" data-size="96"
+          x="1524" y="1280" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="watermark" data-size="160"
+          x="1684" y="1248" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <line x1="1024" y1="1416" x2="1896" y2="1416" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S+" color="#000000">
+        <text x="1030" y="1499" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Dirigisme</text>
+        <text x="1030" y="1527" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S+</text>
+        <svg data-sigil-code="S+" data-scale="24" data-size="24"
+          x="1310" y="1492" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="48" data-size="48"
+          x="1408" y="1480" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="96" data-size="96"
+          x="1524" y="1456" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="watermark" data-size="160"
+          x="1684" y="1424" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <line x1="1024" y1="1592" x2="1896" y2="1592" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S-" color="#000000">
+        <text x="1030" y="1675" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Dependencia</text>
+        <text x="1030" y="1703" fill="#000000" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S-</text>
+        <svg data-sigil-code="S-" data-scale="24" data-size="24"
+          x="1310" y="1668" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="48" data-size="48"
+          x="1408" y="1656" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="96" data-size="96"
+          x="1524" y="1632" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="watermark" data-size="160"
+          x="1684" y="1600" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <line x1="1024" y1="1768" x2="1896" y2="1768" stroke="#b8b8b8" stroke-width="1"/>
+      </g>
+    </g>
+    <g data-mode="white-on-black">
+      <rect x="40" y="1830" width="920" height="1580" rx="4" fill="#000000" stroke="#666666" stroke-width="1"/>
+      <text x="68" y="1872" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700" letter-spacing="2">WHITE ON BLACK</text>
+      <text x="68" y="1904" fill="#c5c5c5" font-family="Arial, sans-serif" font-size="13">Production geometry · currentColor · static inline line/path primitives</text>
+      <line x1="64" y1="1930" x2="936" y2="1930" stroke="#666666" stroke-width="1"/>
+      <text x="362" y="1958" text-anchor="middle" fill="#c5c5c5" font-family="Arial, sans-serif" font-size="12">24px</text>
+      <text x="472" y="1958" text-anchor="middle" fill="#c5c5c5" font-family="Arial, sans-serif" font-size="12">48px</text>
+      <text x="612" y="1958" text-anchor="middle" fill="#c5c5c5" font-family="Arial, sans-serif" font-size="12">96px</text>
+      <text x="804" y="1958" text-anchor="middle" fill="#c5c5c5" font-family="Arial, sans-serif" font-size="12">watermark · 160px · 16%</text>
+      <g data-archetype-row="P+" color="#ffffff">
+        <text x="70" y="2063" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Kairos</text>
+        <text x="70" y="2091" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P+</text>
+        <svg data-sigil-code="P+" data-scale="24" data-size="24"
+          x="350" y="2056" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="48" data-size="48"
+          x="448" y="2044" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="96" data-size="96"
+          x="564" y="2020" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="watermark" data-size="160"
+          x="724" y="1988" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <line x1="64" y1="2156" x2="936" y2="2156" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="P-" color="#ffffff">
+        <text x="70" y="2239" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Shi (勢)</text>
+        <text x="70" y="2267" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P-</text>
+        <svg data-sigil-code="P-" data-scale="24" data-size="24"
+          x="350" y="2232" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="48" data-size="48"
+          x="448" y="2220" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="96" data-size="96"
+          x="564" y="2196" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="watermark" data-size="160"
+          x="724" y="2164" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <line x1="64" y1="2332" x2="936" y2="2332" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R+" color="#ffffff">
+        <text x="70" y="2415" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Grotian</text>
+        <text x="70" y="2443" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R+</text>
+        <svg data-sigil-code="R+" data-scale="24" data-size="24"
+          x="350" y="2408" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="48" data-size="48"
+          x="448" y="2396" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="96" data-size="96"
+          x="564" y="2372" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="watermark" data-size="160"
+          x="724" y="2340" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <line x1="64" y1="2508" x2="936" y2="2508" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R-" color="#ffffff">
+        <text x="70" y="2591" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Concert</text>
+        <text x="70" y="2619" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R-</text>
+        <svg data-sigil-code="R-" data-scale="24" data-size="24"
+          x="350" y="2584" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="48" data-size="48"
+          x="448" y="2572" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="96" data-size="96"
+          x="564" y="2548" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="watermark" data-size="160"
+          x="724" y="2516" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <line x1="64" y1="2684" x2="936" y2="2684" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M+" color="#ffffff">
+        <text x="70" y="2767" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Satyagraha</text>
+        <text x="70" y="2795" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M+</text>
+        <svg data-sigil-code="M+" data-scale="24" data-size="24"
+          x="350" y="2760" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="48" data-size="48"
+          x="448" y="2748" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="96" data-size="96"
+          x="564" y="2724" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="watermark" data-size="160"
+          x="724" y="2692" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <line x1="64" y1="2860" x2="936" y2="2860" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M-" color="#ffffff">
+        <text x="70" y="2943" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Musyawarah</text>
+        <text x="70" y="2971" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M-</text>
+        <svg data-sigil-code="M-" data-scale="24" data-size="24"
+          x="350" y="2936" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="48" data-size="48"
+          x="448" y="2924" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="96" data-size="96"
+          x="564" y="2900" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="watermark" data-size="160"
+          x="724" y="2868" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <line x1="64" y1="3036" x2="936" y2="3036" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S+" color="#ffffff">
+        <text x="70" y="3119" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Dirigisme</text>
+        <text x="70" y="3147" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S+</text>
+        <svg data-sigil-code="S+" data-scale="24" data-size="24"
+          x="350" y="3112" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="48" data-size="48"
+          x="448" y="3100" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="96" data-size="96"
+          x="564" y="3076" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="watermark" data-size="160"
+          x="724" y="3044" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <line x1="64" y1="3212" x2="936" y2="3212" stroke="#666666" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S-" color="#ffffff">
+        <text x="70" y="3295" fill="#ffffff" font-family="Georgia, serif" font-size="23" font-weight="600">Dependencia</text>
+        <text x="70" y="3323" fill="#ffffff" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S-</text>
+        <svg data-sigil-code="S-" data-scale="24" data-size="24"
+          x="350" y="3288" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="48" data-size="48"
+          x="448" y="3276" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="96" data-size="96"
+          x="564" y="3252" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="watermark" data-size="160"
+          x="724" y="3220" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <line x1="64" y1="3388" x2="936" y2="3388" stroke="#666666" stroke-width="1"/>
+      </g>
+    </g>
+    <g data-mode="print" data-print-specimen="true">
+      <rect x="1000" y="1830" width="920" height="1580" rx="4" fill="#ffffff" stroke="#8a8a8a" stroke-width="1"/>
+      <text x="1028" y="1872" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" font-weight="700" letter-spacing="2">PRINT SPECIMEN · BLACK INK ON WHITE PAPER</text>
+      <text x="1028" y="1904" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="13">Production geometry · currentColor · static inline line/path primitives</text>
+      <line x1="1024" y1="1930" x2="1896" y2="1930" stroke="#8a8a8a" stroke-width="1"/>
+      <text x="1322" y="1958" text-anchor="middle" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="12">24px</text>
+      <text x="1432" y="1958" text-anchor="middle" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="12">48px</text>
+      <text x="1572" y="1958" text-anchor="middle" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="12">96px</text>
+      <text x="1764" y="1958" text-anchor="middle" fill="#4a4a4a" font-family="Arial, sans-serif" font-size="12">watermark · 160px · 16%</text>
+      <g data-archetype-row="P+" color="#111111">
+        <text x="1030" y="2063" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Kairos</text>
+        <text x="1030" y="2091" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P+</text>
+        <svg data-sigil-code="P+" data-scale="24" data-size="24"
+          x="1310" y="2056" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="48" data-size="48"
+          x="1408" y="2044" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="96" data-size="96"
+          x="1524" y="2020" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <svg data-sigil-code="P+" data-scale="watermark" data-size="160"
+          x="1684" y="1988" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="7" y2="3"/>
+          <line x1="17" y1="5" x2="17" y2="3"/>
+        </svg>
+        <line x1="1024" y1="2156" x2="1896" y2="2156" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="P-" color="#111111">
+        <text x="1030" y="2239" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Shi (勢)</text>
+        <text x="1030" y="2267" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">P-</text>
+        <svg data-sigil-code="P-" data-scale="24" data-size="24"
+          x="1310" y="2232" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="48" data-size="48"
+          x="1408" y="2220" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="96" data-size="96"
+          x="1524" y="2196" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <svg data-sigil-code="P-" data-scale="watermark" data-size="160"
+          x="1684" y="2164" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="7" y1="5" x2="7" y2="19"/>
+          <line x1="17" y1="5" x2="17" y2="19"/>
+          <line x1="7" y1="10" x2="17" y2="10"/>
+          <line x1="7" y1="5" x2="9" y2="5"/>
+          <line x1="17" y1="5" x2="15" y2="5"/>
+        </svg>
+        <line x1="1024" y1="2332" x2="1896" y2="2332" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R+" color="#111111">
+        <text x="1030" y="2415" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Grotian</text>
+        <text x="1030" y="2443" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R+</text>
+        <svg data-sigil-code="R+" data-scale="24" data-size="24"
+          x="1310" y="2408" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="48" data-size="48"
+          x="1408" y="2396" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="96" data-size="96"
+          x="1524" y="2372" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <svg data-sigil-code="R+" data-scale="watermark" data-size="160"
+          x="1684" y="2340" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="3" y2="8"/>
+          <line x1="19" y1="16" x2="21" y2="16"/>
+        </svg>
+        <line x1="1024" y1="2508" x2="1896" y2="2508" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="R-" color="#111111">
+        <text x="1030" y="2591" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Concert</text>
+        <text x="1030" y="2619" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">R-</text>
+        <svg data-sigil-code="R-" data-scale="24" data-size="24"
+          x="1310" y="2584" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="48" data-size="48"
+          x="1408" y="2572" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="96" data-size="96"
+          x="1524" y="2548" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <svg data-sigil-code="R-" data-scale="watermark" data-size="160"
+          x="1684" y="2516" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="5" y1="8" x2="19" y2="8"/>
+          <line x1="19" y1="8" x2="19" y2="10.5"/>
+          <line x1="5" y1="16" x2="19" y2="16"/>
+          <line x1="5" y1="13.5" x2="5" y2="16"/>
+          <line x1="5" y1="8" x2="5" y2="10"/>
+          <line x1="19" y1="16" x2="19" y2="14"/>
+        </svg>
+        <line x1="1024" y1="2684" x2="1896" y2="2684" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M+" color="#111111">
+        <text x="1030" y="2767" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Satyagraha</text>
+        <text x="1030" y="2795" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M+</text>
+        <svg data-sigil-code="M+" data-scale="24" data-size="24"
+          x="1310" y="2760" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="48" data-size="48"
+          x="1408" y="2748" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="96" data-size="96"
+          x="1524" y="2724" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <svg data-sigil-code="M+" data-scale="watermark" data-size="160"
+          x="1684" y="2692" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="15" y1="5" x2="15" y2="3"/>
+        </svg>
+        <line x1="1024" y1="2860" x2="1896" y2="2860" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="M-" color="#111111">
+        <text x="1030" y="2943" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Musyawarah</text>
+        <text x="1030" y="2971" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">M-</text>
+        <svg data-sigil-code="M-" data-scale="24" data-size="24"
+          x="1310" y="2936" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="48" data-size="48"
+          x="1408" y="2924" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="96" data-size="96"
+          x="1524" y="2900" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <svg data-sigil-code="M-" data-scale="watermark" data-size="160"
+          x="1684" y="2868" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <path d="M 9 5 C 9 7 5 8 5 12 C 5 16 9 17 9 19"/>
+          <path d="M 15 5 C 15 7 19 8 19 12 C 19 16 15 17 15 19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="15" y1="5" x2="13" y2="5"/>
+        </svg>
+        <line x1="1024" y1="3036" x2="1896" y2="3036" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S+" color="#111111">
+        <text x="1030" y="3119" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Dirigisme</text>
+        <text x="1030" y="3147" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S+</text>
+        <svg data-sigil-code="S+" data-scale="24" data-size="24"
+          x="1310" y="3112" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="48" data-size="48"
+          x="1408" y="3100" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="96" data-size="96"
+          x="1524" y="3076" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <svg data-sigil-code="S+" data-scale="watermark" data-size="160"
+          x="1684" y="3044" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="9" y2="3"/>
+          <line x1="9" y1="19" x2="9" y2="21"/>
+        </svg>
+        <line x1="1024" y1="3212" x2="1896" y2="3212" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+      <g data-archetype-row="S-" color="#111111">
+        <text x="1030" y="3295" fill="#111111" font-family="Georgia, serif" font-size="23" font-weight="600">Dependencia</text>
+        <text x="1030" y="3323" fill="#111111" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">S-</text>
+        <svg data-sigil-code="S-" data-scale="24" data-size="24"
+          x="1310" y="3288" width="24" height="24"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="48" data-size="48"
+          x="1408" y="3276" width="48" height="48"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="96" data-size="96"
+          x="1524" y="3252" width="96" height="96"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <svg data-sigil-code="S-" data-scale="watermark" data-size="160"
+          x="1684" y="3220" width="160" height="160"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="1.75" stroke-linecap="round"
+          stroke-linejoin="round" color="inherit" opacity="0.16">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <line x1="4" y1="12" x2="20" y2="12"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <line x1="9" y1="5" x2="9" y2="7"/>
+          <line x1="9" y1="9" x2="9" y2="11"/>
+          <line x1="9" y1="13" x2="9" y2="15"/>
+          <line x1="9" y1="17" x2="9" y2="19"/>
+          <line x1="9" y1="5" x2="11" y2="5"/>
+          <line x1="9" y1="19" x2="11" y2="19"/>
+        </svg>
+        <line x1="1024" y1="3388" x2="1896" y2="3388" stroke="#8a8a8a" stroke-width="1"/>
+      </g>
+    </g>
+  <text x="40" y="3418" fill="#39485c" font-family="Arial, sans-serif" font-size="13">Generated deterministically from lib/archetype-sigils.ts. Visible names and codes come from the frozen identity catalog.</text>
+</svg>

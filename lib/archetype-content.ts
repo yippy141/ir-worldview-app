@@ -151,6 +151,12 @@ export type LegacyArchetypeEvidence = {
   sources: Array<{ label: string; href: string }>
 }
 
+export type PublishedArchetypeStatus = {
+  reviewerId: "product-owner"
+  reviewedAt: string
+  evidenceStatus: ArchetypeRichContent["evidenceStatus"]
+}
+
 type ValidationContext = {
   contentVersion: string
   evidenceCatalogVersion: string
@@ -271,6 +277,64 @@ export function getPublishedArchetypeContent(
   code: Archetype["code"],
 ): ArchetypeContentRecord | null {
   return selectArchetypeContentRecord(rawCatalog, rawEvidence, code, true)
+}
+
+/**
+ * Returns the bounded publication metadata shown on the English detail route.
+ * It fails closed unless both owner editorial and methodology approvals cover
+ * the record at the current content version.
+ */
+export function getPublishedArchetypeStatus(
+  code: Archetype["code"],
+): PublishedArchetypeStatus | null {
+  return selectPublishedArchetypeStatus(rawCatalog, rawEvidence, code)
+}
+
+export function selectPublishedArchetypeStatus(
+  catalog: unknown,
+  evidence: unknown,
+  code: Archetype["code"],
+): PublishedArchetypeStatus | null {
+  const record = selectArchetypeContentRecord(catalog, evidence, code, true)
+  if (!record || !isRecord(catalog)) return null
+
+  const evidenceErrors: string[] = []
+  const context = buildEvidenceContext(evidence, evidenceErrors)
+  if (
+    evidenceErrors.length > 0 ||
+    context.contentVersion !== catalog.contentVersion ||
+    context.evidenceCatalogVersion !== catalog.evidenceCatalogVersion
+  ) {
+    return null
+  }
+
+  const approvals = (["editorial", "methodology"] as const).map((role) =>
+    record.content.recordReviewIds
+      .map((reviewId) => context.reviews.get(reviewId))
+      .find(
+        (review) =>
+          review?.reviewerId === "product-owner" &&
+          review.reviewerRole === role &&
+          review.outcome === "approved" &&
+          review.contentVersion === context.contentVersion &&
+          review.evidenceCatalogVersion === context.evidenceCatalogVersion &&
+          review.subjectIds.includes(record.identity.slug) &&
+          /^\d{4}-\d{2}-\d{2}$/u.test(review.reviewedAt),
+      ),
+  )
+  if (approvals.some((review) => !review)) return null
+
+  const reviewedAt = approvals
+    .flatMap((review) => review ? [review.reviewedAt] : [])
+    .sort((left, right) => left.localeCompare(right))
+    .at(-1)
+  if (!reviewedAt) return null
+
+  return {
+    reviewerId: "product-owner",
+    reviewedAt,
+    evidenceStatus: record.content.evidenceStatus,
+  }
 }
 
 export function selectArchetypeContentRecord(

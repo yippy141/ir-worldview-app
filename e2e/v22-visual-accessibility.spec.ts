@@ -491,55 +491,193 @@ test("domain-result hero actions stay in the first viewport at 390px and 1440px"
   }
 })
 
-test("Explore constrains editorial paragraphs and decorative overflow at 768px and 1440px", async ({
+test("V23.1B routes reflow at 320, 390, 768, and 1440 CSS pixels", async ({
   page,
 }) => {
+  const routes = ["/archetypes", "/archetypes/p-minus", "/explore"]
   for (const viewport of [
+    { width: 320, height: 844 },
+    { width: 390, height: 844 },
     { width: 768, height: 900 },
     { width: 1440, height: 900 },
   ]) {
     await page.setViewportSize(viewport)
-    await page.goto("/explore")
-    await page.evaluate(() => document.fonts.ready)
-
-    const paragraph = page.locator(".explore-page .article-section > p").first()
-    await expect(paragraph).toBeVisible()
-    const paragraphMetrics = await paragraph.evaluate((element) => {
-      const style = getComputedStyle(element)
-      const probe = document.createElement("span")
-      probe.style.position = "absolute"
-      probe.style.visibility = "hidden"
-      probe.style.display = "block"
-      probe.style.fontFamily = style.fontFamily
-      probe.style.fontSize = style.fontSize
-      probe.style.fontWeight = style.fontWeight
-      document.body.append(probe)
-      probe.style.width = "65ch"
-      const lowerBound = probe.getBoundingClientRect().width
-      probe.style.width = "72ch"
-      const upperBound = probe.getBoundingClientRect().width
-      probe.remove()
-      return {
-        width: element.getBoundingClientRect().width,
-        lowerBound,
-        upperBound,
-      }
-    })
-    expect(paragraphMetrics.width).toBeGreaterThanOrEqual(
-      paragraphMetrics.lowerBound - 1,
-    )
-    expect(paragraphMetrics.width).toBeLessThanOrEqual(
-      paragraphMetrics.upperBound + 1,
-    )
-
-    const gridWidth = await page.locator(".explore-grid").evaluate(
-      (element) => element.getBoundingClientRect().width,
-    )
-    expect(gridWidth).toBeGreaterThan(paragraphMetrics.width + 10)
-
-    const width = await documentWidth(page)
-    expect(width.scrollWidth).toBeLessThanOrEqual(width.clientWidth + 1)
+    for (const route of routes) {
+      await page.goto(route)
+      await page.evaluate(() => document.fonts.ready)
+      const width = await documentWidth(page)
+      expect(
+        width.scrollWidth,
+        `${route} at ${viewport.width}px`,
+      ).toBeLessThanOrEqual(width.clientWidth + 1)
+    }
   }
+})
+
+test("V23.1B editorial measure, targets, focus, and contrast remain legible", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto("/explore")
+  await page.evaluate(() => document.fonts.ready)
+
+  const sectionIntros = page.locator(
+    "[data-explore-section] > header > div > p",
+  )
+  const paragraph = sectionIntros.first()
+  await expect(paragraph).toBeVisible()
+  const paragraphMetrics = await paragraph.evaluate((element) => {
+    const style = getComputedStyle(element)
+    const probe = document.createElement("span")
+    probe.style.position = "absolute"
+    probe.style.visibility = "hidden"
+    probe.style.display = "block"
+    probe.style.fontFamily = style.fontFamily
+    probe.style.fontSize = style.fontSize
+    probe.style.fontWeight = style.fontWeight
+    document.body.append(probe)
+    probe.style.width = "65ch"
+    const lowerBound = probe.getBoundingClientRect().width
+    probe.style.width = "72ch"
+    const upperBound = probe.getBoundingClientRect().width
+    probe.remove()
+    return {
+      width: element.getBoundingClientRect().width,
+      lowerBound,
+      upperBound,
+    }
+  })
+  expect(paragraphMetrics.width).toBeGreaterThanOrEqual(paragraphMetrics.lowerBound - 1)
+  expect(paragraphMetrics.width).toBeLessThanOrEqual(paragraphMetrics.upperBound + 1)
+
+  const contrast = await renderedContrastSamples(sectionIntros)
+  expect(contrast.length).toBe(9)
+  for (const sample of contrast) {
+    expect(sample.ratio, sample.text).toBeGreaterThanOrEqual(4.5)
+  }
+
+  const objectTypeContrast = await renderedContrastSamples(
+    page.locator("[data-explore-object-type]"),
+  )
+  expect(objectTypeContrast.length).toBeGreaterThan(0)
+  for (const sample of objectTypeContrast) {
+    expect(sample.ratio, sample.text).toBeGreaterThanOrEqual(4.5)
+  }
+
+  await page.setViewportSize({ width: 320, height: 844 })
+  await page.goto("/archetypes")
+  const rows = page.locator("[data-archetype-directory] a[data-archetype-code]")
+  await expect(rows).toHaveCount(8)
+  for (const height of await rows.evaluateAll((elements) =>
+    elements.map((element) => element.getBoundingClientRect().height),
+  )) {
+    expect(height).toBeGreaterThanOrEqual(44)
+  }
+
+  for (let index = 0; index < 20; index += 1) {
+    await page.keyboard.press("Tab")
+    if (await page.evaluate(() => Boolean(document.activeElement?.hasAttribute("data-archetype-code")))) {
+      break
+    }
+  }
+  const focusedRow = page.locator("[data-archetype-code]:focus")
+  await expect(focusedRow).toHaveCount(1)
+  const focusStyle = await focusedRow.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) }
+  })
+  expect(focusStyle.style).not.toBe("none")
+  expect(focusStyle.width).toBeGreaterThanOrEqual(2)
+
+  await expect(page.locator("[data-archetype-row-action]").first()).toBeVisible()
+
+  await page.goto("/archetypes/p-minus")
+  const sigilContainment = await page.locator("[data-archetype-sigil-frame]").evaluate(
+    (frame) => {
+      const svg = frame.querySelector("svg")
+      if (!svg) return null
+      const outer = frame.getBoundingClientRect()
+      const inner = svg.getBoundingClientRect()
+      return {
+        contained:
+          inner.left >= outer.left - 1 &&
+          inner.right <= outer.right + 1 &&
+          inner.top >= outer.top - 1 &&
+          inner.bottom <= outer.bottom + 1,
+      }
+    },
+  )
+  expect(sigilContainment?.contained).toBe(true)
+
+  await page.goto("/explore")
+  const mobileJumpNav = page.getByRole("navigation", { name: "On this page" })
+  await expect(mobileJumpNav).toBeVisible()
+  const mobileJumpLinks = mobileJumpNav.getByRole("link")
+  await expect(mobileJumpLinks).toHaveCount(9)
+  for (const height of await mobileJumpLinks.evaluateAll((elements) =>
+    elements.map((element) => element.getBoundingClientRect().height),
+  )) {
+    expect(height).toBeGreaterThanOrEqual(44)
+  }
+})
+
+test("V23.1B sigils remain contained and monochrome in print", async ({
+  page,
+}) => {
+  test.skip(!process.env.CI, "Print regressions run against the production server.")
+  await page.setViewportSize({ width: 768, height: 900 })
+  await page.goto("/archetypes/p-minus")
+  const sigil = page.locator("[data-archetype-detail] svg").first()
+  await expect(sigil).toBeVisible()
+
+  await page.emulateMedia({ media: "print" })
+  const printState = await sigil.evaluate((element) => {
+    const svg = element as SVGSVGElement
+    const rect = svg.getBoundingClientRect()
+    const primitives = Array.from(svg.querySelectorAll("line, path"))
+    return {
+      stroke: getComputedStyle(svg).stroke,
+      bodyBackground: getComputedStyle(document.body).backgroundColor,
+      clipped: primitives.some((primitive) => {
+        const child = primitive.getBoundingClientRect()
+        return child.left < rect.left - 1 || child.right > rect.right + 1
+          || child.top < rect.top - 1 || child.bottom > rect.bottom + 1
+      }),
+      width: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }
+  })
+  expect(printState.bodyBackground).toBe("rgb(255, 255, 255)")
+  expect(printState.stroke).toBe("rgb(17, 17, 17)")
+  expect(printState.clipped).toBe(false)
+  expect(printState.width).toBeLessThanOrEqual(printState.clientWidth + 1)
+
+  const printedSourceUrl = await page
+    .locator("[data-archetype-source-ledger] a[href^='http']")
+    .first()
+    .evaluate((element) => getComputedStyle(element, "::after").content)
+  expect(printedSourceUrl).toContain("http")
+
+  await page.goto("/explore")
+  const disclosures = page.locator("[data-explore-section] details")
+  await expect(disclosures).toHaveCount(3)
+  const disclosureState = await disclosures.evaluateAll((elements) =>
+    elements.map((element) => {
+      const body = element.querySelector(":scope > :not(summary)")
+      return {
+        bodyDisplay: body ? getComputedStyle(body).display : null,
+        bodyHeight: body?.getBoundingClientRect().height ?? 0,
+      }
+    }),
+  )
+  for (const disclosure of disclosureState) {
+    expect(disclosure.bodyDisplay).not.toBe("none")
+    expect(disclosure.bodyHeight).toBeGreaterThan(0)
+  }
+  const explorePrintWidth = await documentWidth(page)
+  expect(explorePrintWidth.scrollWidth).toBeLessThanOrEqual(
+    explorePrintWidth.clientWidth + 1,
+  )
 })
 
 test("AI hero renders the archetype once and retains exactly three scoped modifiers", async ({

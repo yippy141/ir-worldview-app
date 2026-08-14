@@ -7,12 +7,17 @@ import {
   publicPath,
 } from "@/i18n/paths"
 import { getAtlasLitePatterns } from "@/lib/atlas-lite"
+import { archetypes, getArchetypePath } from "@/lib/archetypes"
 import { getPublishedCurrentCases } from "@/lib/current-cases/catalog"
 import { getVisibleReferenceEntities } from "@/lib/field/items"
+import { familySlug, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     ...englishSitemapPaths,
+    "/archetypes",
+    ...archetypes.map(({ code }) => getArchetypePath(code)),
+    ...MODELED_FAMILY_KEYS.map((familyKey) => `/explore/${familySlug(familyKey)}`),
     ...getPublishedCurrentCases().flatMap((record) => [
       `/cases/${record.slug}`,
       `/cases/${record.slug}/sources`,

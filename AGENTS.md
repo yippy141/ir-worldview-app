@@ -85,22 +85,24 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V23.1 content and compatibility layer
+## Current sprint: V23.1B archetype routes, sigils, and Explore
 
-- Expand the two root archetype JSON catalogs in place with exactly eight
-  versioned records. Keep code, name, slug, gloss, family, and analogue display
-  values as an isolated frozen identity projection.
-- Rich interpretation is a separate, fail-closed layer with explicit field,
-  claim, source, review, and publication status. Missing content is
-  `research-required` or `withheld`, never generated filler.
-- Preserve all resolver, blend, issued-payload, Profile, comparison, and legacy
-  link behavior. Malformed rich content must not affect identity resolution.
-- English receives long-form content. Simplified Chinese keeps explicit status
-  surfaces with no silent English fallback. Related content ships as reviewed
-  empty arrays; pair-specific blends and domain expressions remain withheld.
-- This sprint does not add routes, redesign pages or Explore, add sigils,
-  change the Map, scoring, instruments, calibration, payloads, stores, modules,
-  Tier 1, or dependencies.
+- Publish the owner-approved English archetype content through the fail-closed
+  rich-content selector. Preserve the frozen eight-code identity projection,
+  resolver and blend behavior, issued payloads, Profiles, comparisons, and
+  legacy result return links.
+- Build the static sigil set from exactly four neutral lens bases and two
+  posture transforms. Marks use bounded `currentColor` line/path geometry;
+  there is no blend mark, external asset, animation, or cultural emblem.
+- Add the English archetype directory, expand the eight stable detail routes,
+  and recompose Explore into the contracted nine-section field guide. Treat
+  modeled traditions, Decision Patterns, references, and Focus Areas as
+  supporting or contextual layers, never assigned identities.
+- Simplified Chinese keeps its explicit status surfaces and existing approved
+  Map, Decision Pattern, and reference behavior. No English long-form content
+  or accessible label may leak into an unapproved Chinese route.
+- This sprint does not change the Map, scoring, items, calibration, payloads,
+  stores, modules, Tier 1, dependencies, or Chinese approved-route manifests.
 
 ## End-of-sprint discipline
 

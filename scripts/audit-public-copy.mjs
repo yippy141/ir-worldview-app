@@ -14,6 +14,7 @@ const scanTargets = [
   "content/current-cases",
   "content/archetypes.json",
   "content/archetype-evidence.json",
+  "content/explore",
   "content/locales",
   "messages",
   "i18n",

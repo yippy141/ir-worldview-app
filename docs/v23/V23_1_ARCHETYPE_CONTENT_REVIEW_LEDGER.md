@@ -1,12 +1,12 @@
 # V23.1 Archetype Content Review Ledger
 
-Status: draft interpretation ledger; pending owner review
+Status: approved product-owner content checkpoint
 
-This ledger contains every newly authored public interpretation sentence in content version 23.1.0-draft.1. All 104 sentences below are pending owner review. They are stored with partial status and are not publicly renderable while their records remain draft.
+This ledger contains every newly authored public interpretation sentence in content version 23.1.0. The product owner approved all 104 sentences for English publication in the V23.1B implementation instruction on 2026-08-14. They are stored with reviewed status and resolve through the published rich-content selector.
 
-Automation and source-pack research helped structure and check these drafts. Neither constitutes external expert review, editorial approval, methodology approval, or human validation.
+Automation and source-pack research helped structure and check the original drafts. Neither constitutes external expert review or empirical validation. The approval recorded here is product-owner editorial and methodology approval only; it is not an external-expert endorsement.
 
-For approval, each authored interpretation requires editorial and methodology review records tied to the content version. Reviewers may approve, revise, or withhold each sentence independently.
+The evidence ledger records separate product-owner editorial and methodology reviews tied to every claim ID and content version 23.1.0. Historical comparison copy remains separately qualified as `partial` / `legacy-v1-provisional` pending research review.
 
 ## Kairos (P+)
 
@@ -322,7 +322,7 @@ For approval, each authored interpretation requires editorial and methodology re
 
 ## Shared compatibility/status copy
 
-The following new public strings accompany the fail-closed compatibility and status behavior. They are recorded here for owner review and do not assert that a historical claim has been approved.
+The following public strings accompany fail-closed compatibility and status behavior. They remain in the approved checkpoint for traceability and do not assert that a historical claim has been approved.
 
 ### Route status
 
@@ -331,11 +331,16 @@ The following new public strings accompany the fail-closed compatibility and sta
 
 ### Field-status and qualification templates
 
-- Draft interpretation pending owner review.
 - This historical comparison uses provisional source metadata and remains pending research review.
 - Neighbor interpretations require owner review.
 - Pair-specific blend prose is withheld.
 - Domain-expression hypotheses are withheld.
+
+### Retired draft qualification
+
+The published catalog no longer uses this qualification; it remains recorded only to preserve the draft history.
+
+- Draft interpretation pending owner review.
 
 ### Source and normative labels
 
@@ -346,4 +351,4 @@ The following new public strings accompany the fail-closed compatibility and sta
 
 ## Review disposition
 
-No newly authored interpretation in this ledger is approved. The reviewed empty related-content arrays record an owner decision to publish no Current Case or Decision Pattern relations in V23.1; they do not approve any sentence above.
+The product owner approved all 104 newly authored interpretation sentences in this ledger for English publication in the V23.1B implementation instruction dated 2026-08-14. The paired editorial and methodology review records document that owner approval at content version 23.1.0; they do not claim external-expert review or empirical validation. The reviewed empty related-content arrays separately record the owner decision to publish no Current Case or Decision Pattern relations in V23.1.

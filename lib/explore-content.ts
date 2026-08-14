@@ -1,5 +1,248 @@
-import type { FamilyKey } from "@/lib/types"
+import exploreHubData from "@/content/explore/hub.en.json" with { type: "json" }
+import type { LensCode } from "@/lib/archetypes"
+import type { DimensionKey, FamilyKey } from "@/lib/types"
 import { familyKeyFromSlug, familySlug } from "@/lib/worldview-config"
+
+export const EXPLORE_HUB_SCHEMA_VERSION = 1 as const
+
+export const EXPLORE_HUB_SECTION_ORDER = [
+  "how-labels-fit",
+  "foundation-archetypes",
+  "variants-blends",
+  "modeled-traditions",
+  "foundation-dimensions",
+  "decision-patterns",
+  "reference-positions",
+  "focus-context",
+  "coverage-methods",
+] as const
+
+export const EXPLORE_HUB_LENS_ORDER = ["P", "R", "M", "S"] as const
+
+export const EXPLORE_HUB_DIMENSION_ORDER = [
+  "securityCompetition",
+  "institutions",
+  "domesticFilters",
+  "normsIdentity",
+  "politicalEconomy",
+  "restraint",
+  "orderJustice",
+] as const satisfies readonly DimensionKey[]
+
+const EXPLORE_HUB_HIERARCHY_ORDER = [
+  "identity",
+  "support",
+  "context",
+] as const
+
+const EXPLORE_HUB_CONTEXT_ORDER = [
+  ["security", "/modules/security"],
+  ["technology", "/modules/technology"],
+  ["ai-governance", "/ai"],
+  ["perspective-runs", "/perspectives"],
+  ["current-cases", "/cases"],
+] as const
+
+export type ExploreHubSectionId = (typeof EXPLORE_HUB_SECTION_ORDER)[number]
+
+export type ExploreHubContent = {
+  schemaVersion: typeof EXPLORE_HUB_SCHEMA_VERSION
+  contentVersion: string
+  locale: "en"
+  hero: {
+    title: string
+    payoff: [string, string]
+    boundary: string
+  }
+  sections: Array<{
+    id: ExploreHubSectionId
+    heading: string
+    intro: string
+  }>
+  hierarchy: Array<{
+    id: (typeof EXPLORE_HUB_HIERARCHY_ORDER)[number]
+    label: string
+    description: string
+  }>
+  scoringEvidence: {
+    summary: string
+    body: string
+    href: "/method"
+    linkLabel: string
+  }
+  lensBands: Array<{
+    lens: LensCode
+    label: string
+    description: string
+  }>
+  postureExplanation: {
+    applyingAdvantage: string
+    restraint: string
+    equalWeight: string
+  }
+  normativeAliases: Array<{
+    state: "o" | "c" | "j"
+    label: "Order-first" | "Conditional" | "Justice-first"
+    description: string
+  }>
+  blendExplanation: string
+  dimensions: Array<{
+    key: DimensionKey
+    description: string
+  }>
+  decisionPatternDirectory: {
+    summary: string
+    mapLinkLabel: string
+    mapHref: "/explore/atlas"
+  }
+  referenceDirectory: {
+    countLabel: string
+    linkLabel: string
+    href: "/explore/reference"
+  }
+  contextRecords: Array<{
+    id: (typeof EXPLORE_HUB_CONTEXT_ORDER)[number][0]
+    objectType: string
+    title: string
+    description: string
+    href: (typeof EXPLORE_HUB_CONTEXT_ORDER)[number][1]
+  }>
+  coverage: {
+    detailsSummary: string
+    canonNote: string
+    methodLinkLabel: string
+    methodHref: "/method"
+  }
+}
+
+const rawExploreHubContent: unknown = exploreHubData
+
+export const exploreHubContentValidationErrors =
+  validateExploreHubContent(rawExploreHubContent)
+
+export function getExploreHubContent(
+  value: unknown = rawExploreHubContent,
+): ExploreHubContent | null {
+  return validateExploreHubContent(value).length === 0
+    ? (value as ExploreHubContent)
+    : null
+}
+
+export function validateExploreHubContent(value: unknown): string[] {
+  const errors: string[] = []
+  if (!isExploreRecord(value)) return ["explore hub must be an object."]
+
+  requireExploreKeys(
+    value,
+    [
+      "schemaVersion",
+      "contentVersion",
+      "locale",
+      "hero",
+      "sections",
+      "hierarchy",
+      "scoringEvidence",
+      "lensBands",
+      "postureExplanation",
+      "normativeAliases",
+      "blendExplanation",
+      "dimensions",
+      "decisionPatternDirectory",
+      "referenceDirectory",
+      "contextRecords",
+      "coverage",
+    ],
+    "explore hub",
+    errors,
+  )
+  if (value.schemaVersion !== EXPLORE_HUB_SCHEMA_VERSION) {
+    errors.push(`schemaVersion must be ${EXPLORE_HUB_SCHEMA_VERSION}.`)
+  }
+  if (
+    !isExploreString(value.contentVersion) ||
+    !/^\d+\.\d+\.\d+(?:[-.][A-Za-z0-9]+)*$/u.test(value.contentVersion)
+  ) {
+    errors.push("contentVersion must be a semantic content version.")
+  }
+  if (value.locale !== "en") errors.push("locale must be en.")
+
+  validateExploreHero(value.hero, errors)
+  validateOrderedExploreRecords(
+    value.sections,
+    EXPLORE_HUB_SECTION_ORDER,
+    "sections",
+    ["id", "heading", "intro"],
+    errors,
+  )
+  validateOrderedExploreRecords(
+    value.hierarchy,
+    EXPLORE_HUB_HIERARCHY_ORDER,
+    "hierarchy",
+    ["id", "label", "description"],
+    errors,
+  )
+  validateExploreLinkRecord(
+    value.scoringEvidence,
+    "scoringEvidence",
+    ["summary", "body", "href", "linkLabel"],
+    "href",
+    "/method",
+    errors,
+  )
+  validateOrderedExploreRecords(
+    value.lensBands,
+    EXPLORE_HUB_LENS_ORDER,
+    "lensBands",
+    ["lens", "label", "description"],
+    errors,
+    "lens",
+  )
+  validateExploreTextRecord(
+    value.postureExplanation,
+    "postureExplanation",
+    ["applyingAdvantage", "restraint", "equalWeight"],
+    errors,
+  )
+  validateNormativeAliases(value.normativeAliases, errors)
+  if (!isExploreString(value.blendExplanation)) {
+    errors.push("blendExplanation is required.")
+  }
+  validateOrderedExploreRecords(
+    value.dimensions,
+    EXPLORE_HUB_DIMENSION_ORDER,
+    "dimensions",
+    ["key", "description"],
+    errors,
+    "key",
+  )
+  validateExploreLinkRecord(
+    value.decisionPatternDirectory,
+    "decisionPatternDirectory",
+    ["summary", "mapLinkLabel", "mapHref"],
+    "mapHref",
+    "/explore/atlas",
+    errors,
+  )
+  validateExploreLinkRecord(
+    value.referenceDirectory,
+    "referenceDirectory",
+    ["countLabel", "linkLabel", "href"],
+    "href",
+    "/explore/reference",
+    errors,
+  )
+  validateContextRecords(value.contextRecords, errors)
+  validateExploreLinkRecord(
+    value.coverage,
+    "coverage",
+    ["detailsSummary", "canonNote", "methodLinkLabel", "methodHref"],
+    "methodHref",
+    "/method",
+    errors,
+  )
+
+  return errors
+}
 
 export type ExploreReading = {
   title: string
@@ -842,4 +1085,175 @@ export const coverageLevelLabels: Record<"strong" | "moderate" | "partial", stri
   strong: "Strongly modeled",
   moderate: "Moderately modeled",
   partial: "Partially modeled",
+}
+
+function validateExploreHero(value: unknown, errors: string[]): void {
+  if (!isExploreRecord(value)) {
+    errors.push("hero must be an object.")
+    return
+  }
+  requireExploreKeys(
+    value,
+    ["title", "payoff", "boundary"],
+    "hero",
+    errors,
+  )
+  for (const key of ["title", "boundary"] as const) {
+    if (!isExploreString(value[key])) errors.push(`hero.${key} is required.`)
+  }
+  if (
+    !Array.isArray(value.payoff) ||
+    value.payoff.length !== 2 ||
+    value.payoff.some((sentence) => !isExploreString(sentence))
+  ) {
+    errors.push("hero.payoff must contain exactly two sentences.")
+  }
+}
+
+function validateOrderedExploreRecords(
+  value: unknown,
+  order: readonly string[],
+  path: string,
+  keys: readonly string[],
+  errors: string[],
+  orderKey = "id",
+): void {
+  if (!Array.isArray(value) || value.length !== order.length) {
+    errors.push(`${path} must contain exactly ${order.length} records.`)
+    return
+  }
+  value.forEach((candidate, index) => {
+    const itemPath = `${path}[${index}]`
+    if (!isExploreRecord(candidate)) {
+      errors.push(`${itemPath} must be an object.`)
+      return
+    }
+    requireExploreKeys(candidate, keys, itemPath, errors)
+    if (candidate[orderKey] !== order[index]) {
+      errors.push(`${itemPath}.${orderKey} must be ${order[index]}.`)
+    }
+    for (const key of keys) {
+      if (key !== orderKey && !isExploreString(candidate[key])) {
+        errors.push(`${itemPath}.${key} is required.`)
+      }
+    }
+  })
+}
+
+function validateExploreTextRecord(
+  value: unknown,
+  path: string,
+  keys: readonly string[],
+  errors: string[],
+): void {
+  if (!isExploreRecord(value)) {
+    errors.push(`${path} must be an object.`)
+    return
+  }
+  requireExploreKeys(value, keys, path, errors)
+  for (const key of keys) {
+    if (!isExploreString(value[key])) errors.push(`${path}.${key} is required.`)
+  }
+}
+
+function validateExploreLinkRecord(
+  value: unknown,
+  path: string,
+  keys: readonly string[],
+  hrefKey: string,
+  expectedHref: string,
+  errors: string[],
+): void {
+  if (!isExploreRecord(value)) {
+    errors.push(`${path} must be an object.`)
+    return
+  }
+  requireExploreKeys(value, keys, path, errors)
+  for (const key of keys) {
+    if (!isExploreString(value[key])) errors.push(`${path}.${key} is required.`)
+  }
+  if (value[hrefKey] !== expectedHref) {
+    errors.push(`${path}.${hrefKey} must be ${expectedHref}.`)
+  }
+}
+
+function validateNormativeAliases(value: unknown, errors: string[]): void {
+  const expected = [
+    ["o", "Order-first"],
+    ["c", "Conditional"],
+    ["j", "Justice-first"],
+  ] as const
+  if (!Array.isArray(value) || value.length !== expected.length) {
+    errors.push("normativeAliases must contain exactly three records.")
+    return
+  }
+  value.forEach((candidate, index) => {
+    const path = `normativeAliases[${index}]`
+    if (!isExploreRecord(candidate)) {
+      errors.push(`${path} must be an object.`)
+      return
+    }
+    requireExploreKeys(candidate, ["state", "label", "description"], path, errors)
+    if (
+      candidate.state !== expected[index][0] ||
+      candidate.label !== expected[index][1]
+    ) {
+      errors.push(`${path} must preserve the equal-weight o/c/j alias order.`)
+    }
+    if (!isExploreString(candidate.description)) {
+      errors.push(`${path}.description is required.`)
+    }
+  })
+}
+
+function validateContextRecords(value: unknown, errors: string[]): void {
+  if (!Array.isArray(value) || value.length !== EXPLORE_HUB_CONTEXT_ORDER.length) {
+    errors.push(
+      `contextRecords must contain exactly ${EXPLORE_HUB_CONTEXT_ORDER.length} records.`,
+    )
+    return
+  }
+  value.forEach((candidate, index) => {
+    const path = `contextRecords[${index}]`
+    if (!isExploreRecord(candidate)) {
+      errors.push(`${path} must be an object.`)
+      return
+    }
+    requireExploreKeys(
+      candidate,
+      ["id", "objectType", "title", "description", "href"],
+      path,
+      errors,
+    )
+    const [id, href] = EXPLORE_HUB_CONTEXT_ORDER[index]
+    if (candidate.id !== id) errors.push(`${path}.id must be ${id}.`)
+    if (candidate.href !== href) errors.push(`${path}.href must be ${href}.`)
+    for (const key of ["objectType", "title", "description"] as const) {
+      if (!isExploreString(candidate[key])) errors.push(`${path}.${key} is required.`)
+    }
+  })
+}
+
+function requireExploreKeys(
+  value: Record<string, unknown>,
+  expected: readonly string[],
+  path: string,
+  errors: string[],
+): void {
+  const actual = Object.keys(value).sort()
+  const allowed = [...expected].sort()
+  if (
+    actual.length !== allowed.length ||
+    actual.some((key, index) => key !== allowed[index])
+  ) {
+    errors.push(`${path} has unexpected or missing fields.`)
+  }
+}
+
+function isExploreRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value))
+}
+
+function isExploreString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0
 }

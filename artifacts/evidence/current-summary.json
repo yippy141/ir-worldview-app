@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 570,
-      "newCount": 12,
+      "currentCount": 562,
+      "newCount": 11,
       "newFindings": [
         {
           "audience": "public",
@@ -115,22 +115,41 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .analogue is invalid."
-        },
-        {
-          "audience": "public",
-          "context": "route:/archetypes/[slug]#generateMetadata.title",
-          "count": 1,
-          "file": "app/archetypes/[slug]/page.tsx",
-          "fingerprint": "e4178615b11dea7b9da2d9a0b8468863732db677f77d63fd7bec3a70d5c49381",
-          "matched": "historical analogue ir",
-          "rule": "repeated-adjacent-opening",
-          "source": "Historical analogue — IR Worldview Inventory"
         }
       ],
       "priority": "P2",
-      "resolvedCount": 0,
-      "resolvedFindings": [],
-      "unchangedCount": 558
+      "resolvedCount": 7,
+      "resolvedFindings": [
+        {
+          "count": 1,
+          "fingerprint": "5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878"
+        },
+        {
+          "count": 1,
+          "fingerprint": "690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff"
+        },
+        {
+          "count": 1,
+          "fingerprint": "863d56b5a73c241f1be9faae45bb2a329dce039b0dc27706e0a37e54cbf8084e"
+        },
+        {
+          "count": 1,
+          "fingerprint": "9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8"
+        },
+        {
+          "count": 1,
+          "fingerprint": "9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb"
+        },
+        {
+          "count": 1,
+          "fingerprint": "c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1"
+        },
+        {
+          "count": 1,
+          "fingerprint": "c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d"
+        }
+      ],
+      "unchangedCount": 551
     },
     "higherPriorityFindings": [
       {
@@ -231,7 +250,7 @@
         "jsonPath": null,
         "key": "validateContentRecord",
         "kind": "release",
-        "line": 667,
+        "line": 731,
         "match": "v1",
         "matched": "v1",
         "priority": "P0",
@@ -914,7 +933,7 @@
         "priority": "P1"
       },
       {
-        "count": 570,
+        "count": 562,
         "priority": "P2"
       }
     ]
@@ -54894,7 +54913,7 @@
     {
       "category": "copy-audit",
       "path": "scripts/audit-public-copy.mjs",
-      "sha256": "00da5355738d64acec191b23f0534b69644d7c4bab6a6a1ea0b51f231c7cd208"
+      "sha256": "4afceb11edfb619f6b755082abb4088668d09e70226e9d5a1cfc2a7da2b5859c"
     },
     {
       "category": "calibration",
@@ -55004,7 +55023,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/public-copy-audit.test.mts",
-      "sha256": "5703ca07a9e4c27d530e57bc20f708d656cf0c391693ecb0a013ae8202c0d3aa"
+      "sha256": "73200fea5fb7bf2744bd798c9b8bd2f71699ce256c6798aa4cbbd18ea0d312d8"
     },
     {
       "category": "compatibility-test",

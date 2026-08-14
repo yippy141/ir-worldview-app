@@ -10,8 +10,10 @@ import {
   countArchetypeContentStatuses,
   getArchetypeContentDraft,
   getPublishedArchetypeContent,
+  getPublishedArchetypeStatus,
   selectArchetypeContentRecord,
   selectLegacyArchetypeEvidence,
+  selectPublishedArchetypeStatus,
   validateArchetypeContentCatalog,
 } from "@/lib/archetype-content"
 import {
@@ -199,11 +201,11 @@ test("V23.1 freezes exactly eight identity projections independently of rich con
   assert.equal(archetypeEvidenceCatalog.records.length, 8)
 })
 
-test("the eight draft cores satisfy field, variant, relation, and publication rules", () => {
+test("the eight approved cores satisfy field, variant, relation, and publication rules", () => {
   assert.deepEqual(archetypeContentValidationErrors, [])
   assert.deepEqual(countArchetypeContentStatuses(), {
-    reviewed: 16,
-    partial: 146,
+    reviewed: 144,
+    partial: 18,
     "research-required": 8,
     withheld: 16,
   })
@@ -211,14 +213,14 @@ test("the eight draft cores satisfy field, variant, relation, and publication ru
   for (const record of archetypeCatalog.records) {
     const { content } = record
     const code = record.identity.code as (typeof archetypes)[number]["code"]
-    assert.equal(content.publicationState, "draft")
+    assert.equal(content.publicationState, "published")
     assert.equal(content.noticesFirst.value.length, 1)
     assert.equal(content.likelyPolicyInstincts.value.length, 3)
     assert.equal(content.evidenceThatWouldWeakenFit.value.length >= 2, true)
-    assert.equal(content.acceptedTradeoff.status, "partial")
-    assert.equal(content.strongestCaseForReading.status, "partial")
-    assert.equal(content.strongestObjection.status, "partial")
-    assert.equal(content.commonFailureMode.status, "partial")
+    assert.equal(content.acceptedTradeoff.status, "reviewed")
+    assert.equal(content.strongestCaseForReading.status, "reviewed")
+    assert.equal(content.strongestObjection.status, "reviewed")
+    assert.equal(content.commonFailureMode.status, "reviewed")
     assert.deepEqual(
       content.normativeVariants.map(({ state, publicLabel }) => ({
         state,
@@ -240,11 +242,16 @@ test("the eight draft cores satisfy field, variant, relation, and publication ru
     assert.deepEqual(content.relatedDecisionPatterns.value, [])
     assert.equal(content.relatedDecisionPatterns.status, "reviewed")
     assert.ok(getArchetypeContentDraft(code))
-    assert.equal(getPublishedArchetypeContent(code), null)
+    assert.ok(getPublishedArchetypeContent(code))
+    assert.deepEqual(getPublishedArchetypeStatus(code), {
+      reviewerId: "product-owner",
+      reviewedAt: "2026-08-14",
+      evidenceStatus: "legacy-v1-provisional",
+    })
   }
 })
 
-test("all 104 new authored sentences are pending and appear verbatim once in the ledger", () => {
+test("all 104 owner-approved authored sentences appear verbatim once in the ledger", () => {
   const authored: Array<{ id: string; text: string }> = []
   visit(archetypeCatalog, (record) => {
     if (
@@ -263,9 +270,34 @@ test("all 104 new authored sentences are pending and appear verbatim once in the
     assert.equal(occurrences(reviewLedger, claim.id), 1, claim.id)
     assert.equal(occurrences(reviewLedger, claim.text), 1, claim.id)
   }
-  assert.match(reviewLedger, /pending owner review/iu)
-  assert.match(reviewLedger, /Neither constitutes external expert review/iu)
+  assert.match(reviewLedger, /approved all 104 sentences for English publication/iu)
+  assert.match(reviewLedger, /Neither constitutes external expert review or empirical validation/iu)
+  assert.match(reviewLedger, /product-owner editorial and methodology approval only/iu)
   assert.doesNotMatch(reviewLedger, /approved external expert/iu)
+  assert.doesNotMatch(
+    reviewLedger,
+    /No newly authored interpretation[^.]*is approved/iu,
+  )
+})
+
+test("published status metadata fails closed without dated owner role approvals", () => {
+  const malformedEvidence = structuredClone(archetypeEvidenceCatalog) as unknown
+  const reviews = array(object(malformedEvidence).reviews)
+  const ownerEditorial = reviews.find((review) =>
+    object(review).id === "review-owner-v23-1-content-editorial"
+  )
+  assert.ok(ownerEditorial)
+  object(ownerEditorial).reviewedAt = "date unavailable"
+
+  assert.equal(
+    selectPublishedArchetypeStatus(
+      archetypeCatalog,
+      malformedEvidence,
+      "P+",
+    ),
+    null,
+  )
+  assert.deepEqual(getArchetypeByCode("P+"), archetypes[0])
 })
 
 test("semantic rich-content failures fail closed without changing identity, blends, or legacy paths", () => {
@@ -328,6 +360,10 @@ test("publication and claim-class rules reject unreviewed or under-sourced claim
     "review-owner-v23-1-relations-editorial",
     "review-owner-v23-1-relations-methodology",
   ]
+  const firstNotice = object(array(notices.value)[0])
+  firstNotice.status = "partial"
+  firstNotice.qualification = "Draft interpretation pending owner review."
+  firstNotice.reviewIds = []
   assert.ok(
     validateArchetypeContentCatalog(published, archetypeEvidenceCatalog).some(
       (error) => error.includes("noticesFirst claims must be reviewed"),
