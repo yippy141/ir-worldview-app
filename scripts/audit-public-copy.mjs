@@ -4,6 +4,7 @@ import { readFile, readdir, stat } from "node:fs/promises"
 import { extname, relative, resolve, sep } from "node:path"
 import ts from "typescript"
 import { compareCodeUnitStrings } from "./code-unit-order.mjs"
+import { isContractedArchetypeBetaReference } from "./public-copy-contracts.mjs"
 
 const projectRoot = resolve(import.meta.dirname, "..")
 const scanTargets = [
@@ -54,8 +55,13 @@ const rules = [
     reason: "Release and schema-era labels expose internal product history in reader-facing copy.",
     action: "Describe current behavior; keep release history in engineering or decision records.",
     strict: true,
-    unless: (_text, context) =>
-      isActiveBetaProgramReference(context.match, context.file),
+    unless: (text, context) =>
+      isActiveBetaProgramReference(context.match, context.file) ||
+      isContractedArchetypeBetaReference({
+        text,
+        fileName: toPosix(relative(projectRoot, context.file)),
+        path: context.candidate.path,
+      }),
   },
   {
     id: "implementation-detail",

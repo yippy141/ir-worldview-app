@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og"
+import { formatArchetypeReadingCode } from "@/lib/archetype-display"
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import {
@@ -48,7 +49,7 @@ export async function GET(request: Request) {
     archetype.name.length > 27 ? 58 : archetype.name.length > 13 ? 70 : 84
   const dotLeft = 35 + ((coordinates.x + 1) / 2) * 270 - 9
   const dotTop = 35 + ((1 - coordinates.y) / 2) * 270 - 9
-  const displayCode = archetype.code.replaceAll("-", "−")
+  const displayReadingCode = formatArchetypeReadingCode(archetype.code, norm)
   const cardFonts = await loadCardFonts()
 
   return new ImageResponse(
@@ -113,7 +114,7 @@ export async function GET(request: Request) {
                   letterSpacing: "0.04em",
                 }}
               >
-                {displayCode} / {norm}
+                {displayReadingCode}
               </div>
               <div
                 style={{

@@ -8,11 +8,15 @@ export type ResultCardAccent =
   | "ai"
   | "profile"
 
+export type ResultCardModifier =
+  | string
+  | { label: string; accessibleLabel: string }
+
 type Props = {
   eyebrow: string
   label: string
   accent: ResultCardAccent
-  modifiers?: string[]
+  modifiers?: ResultCardModifier[]
   verdict?: string
   summary: string
   finding?: { label?: string; text: string } | null
@@ -48,8 +52,12 @@ export function ResultCardHero({
             {hasModifiers ? (
               <div className="result-card-hero__modifiers result-card-hero__modifiers--metadata">
                 {modifiers?.map((modifier) => (
-                  <span key={modifier} className="result-card-hero__chip">
-                    {modifier}
+                  <span
+                    key={modifierLabel(modifier)}
+                    className="result-card-hero__chip"
+                    aria-label={modifierAccessibleLabel(modifier)}
+                  >
+                    {modifierLabel(modifier)}
                   </span>
                 ))}
               </div>
@@ -62,8 +70,12 @@ export function ResultCardHero({
           {hasModifiers ? (
             <div className="result-card-hero__modifiers">
               {modifiers?.map((modifier) => (
-                <span key={modifier} className="result-card-hero__chip">
-                  {modifier}
+                <span
+                  key={modifierLabel(modifier)}
+                  className="result-card-hero__chip"
+                  aria-label={modifierAccessibleLabel(modifier)}
+                >
+                  {modifierLabel(modifier)}
                 </span>
               ))}
             </div>
@@ -82,4 +94,14 @@ export function ResultCardHero({
       {actions ? <div className="result-card-hero__actions">{actions}</div> : null}
     </section>
   )
+}
+
+function modifierLabel(modifier: ResultCardModifier): string {
+  return typeof modifier === "string" ? modifier : modifier.label
+}
+
+function modifierAccessibleLabel(
+  modifier: ResultCardModifier,
+): string | undefined {
+  return typeof modifier === "string" ? undefined : modifier.accessibleLabel
 }

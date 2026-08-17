@@ -353,9 +353,10 @@ test("Profile Share V3 contains canonical data only and renders one payload in e
   assert.equal(chineseView.title, "Concert")
   assert.equal(englishFoundation.archetypeName, "Concert")
   assert.equal(chineseFoundation.archetypeName, "Concert")
-  assert.equal(englishFoundation.archetypeCode, "R-")
-  assert.equal(chineseFoundation.archetypeCode, "R-")
-  assert.equal(englishFoundation.familyLabel, "Liberal Institutionalist")
+  assert.equal(englishFoundation.archetypeCode, "R−")
+  assert.equal(chineseFoundation.archetypeCode, "R−")
+  assert.equal(englishFoundation.familyLabel, "Institutionalism")
+  assert.equal(englishFoundation.runnerUpLabel, "Constructivism")
   assert.equal(chineseFoundation.familyLabel, "自由制度主义")
   assert.match(chineseView.intro, /原型专名/)
   assert.deepEqual(englishFoundation.dimensions, chineseFoundation.dimensions.map(
@@ -391,7 +392,7 @@ test("Profile Share V3 contains canonical data only and renders one payload in e
   assert.ok(conflictingCachedView.foundation)
   assert.equal(
     conflictingCachedView.foundation.familyLabel,
-    "Liberal Institutionalist",
+    "Institutionalism",
   )
   assert.deepEqual(
     conflictingCachedView.foundation.modifiers,

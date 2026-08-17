@@ -1,354 +1,332 @@
 # V23.1 Archetype Content Review Ledger
 
-Status: approved product-owner content checkpoint
+Status: `owner-authorized AI-assisted English beta`
 
-This ledger contains every newly authored public interpretation sentence in content version 23.1.0. The product owner approved all 104 sentences for English publication in the V23.1B implementation instruction on 2026-08-14. They are stored with reviewed status and resolve through the published rich-content selector.
+This ledger enumerates all 104 revised English public interpretation sentences in content version `23.1.0`. Each claim ID and sentence appears exactly once. Every entry remains `partial` with the qualification `Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.`
 
-Automation and source-pack research helped structure and check the original drafts. Neither constitutes external expert review or empirical validation. The approval recorded here is product-owner editorial and methodology approval only; it is not an external-expert endorsement.
+The product owner authorizes this AI-assisted English copy for bounded beta publication. That authorization is not sentence-level editorial or methodology approval, and it does not create review IDs for the 104 authored claims. Claim IDs, content version, source links, frozen identity values, and legacy historical comparison copy remain unchanged.
 
-The evidence ledger records separate product-owner editorial and methodology reviews tied to every claim ID and content version 23.1.0. Historical comparison copy remains separately qualified as `partial` / `legacy-v1-provisional` pending research review.
+Human editorial review is pending. External-expert review: none. Validation claim: none. Automated content, route, and rendering checks verify implementation constraints only; they are not human, expert, empirical, or psychometric validation.
 
 ## Kairos (P+)
 
 ### noticesFirst
 
-- **p-plus-notice-01:** This reading notices shifts in leverage and the moments when available choices may narrow.
+- **p-plus-notice-01:** Kairos attends first to changing leverage and to windows that may close.
 
 ### likelyPolicyInstincts
 
-- **p-plus-instinct-01:** Keep options open until a consequential opening becomes clear.
-- **p-plus-instinct-02:** Concentrate limited resources where they can change the immediate balance.
-- **p-plus-instinct-03:** Act before a usable advantage closes or becomes more costly.
+- **p-plus-instinct-01:** Preserve room to maneuver until an opening is consequential.
+- **p-plus-instinct-02:** Commit scarce resources at the point of greatest immediate effect.
+- **p-plus-instinct-03:** Move while an advantage remains usable and its cost is bounded.
 
 ### acceptedTradeoff
 
-- **p-plus-accepted-tradeoff:** This reading accepts less consultation and continuity in exchange for timely, concentrated action.
+- **p-plus-accepted-tradeoff:** Speed and concentration come at the price of consultation and continuity.
 
 ### strongestCaseForReading
 
-- **p-plus-strongest-case:** This reading is strongest when delay would materially reduce the choices available.
+- **p-plus-strongest-case:** It earns its keep when waiting would close meaningful options.
 
 ### strongestObjection
 
-- **p-plus-strongest-objection:** Its strongest objection is that temporary leverage can displace legitimacy and longer-term consequences.
+- **p-plus-strongest-objection:** A temporary edge may purchase action by spending legitimacy and future cooperation.
 
 ### commonFailureMode
 
-- **p-plus-failure-mode:** Its common failure mode is to mistake urgency for opportunity and press beyond a defensible aim.
+- **p-plus-failure-mode:** Urgency gets mistaken for opportunity; the response then outruns any defensible aim.
 
 ### evidenceThatWouldWeakenFit
 
-- **p-plus-weaken-fit-01:** The fit would weaken if durable rules reliably preserved options despite delay.
-- **p-plus-weaken-fit-02:** The fit would also weaken if using an advantage predictably created greater resistance than gain.
+- **p-plus-weaken-fit-01:** Durable rules that preserve choice through delay would count against this interpretation.
+- **p-plus-weaken-fit-02:** Evidence that using leverage breeds more resistance than gain would cut against the fit.
 
 ### normativeVariants
 
-- **p-plus-variant-o:** Order-first Kairos would use a strategic opening to preserve coexistence and prevent wider disorder.
-- **p-plus-variant-c:** Conditional Kairos would act only when the authority, stakes, and likely consequences justify the opening.
-- **p-plus-variant-j:** Justice-first Kairos would use leverage to protect obligations that settled arrangements leave unmet.
+- **p-plus-variant-o:** Order-first Kairos uses the opening to contain disorder and protect coexistence.
+- **p-plus-variant-c:** For Conditional Kairos, action is warranted only by the case's authority and foreseeable effects.
+- **p-plus-variant-j:** Justice-first Kairos directs leverage toward obligations left unmet by settled arrangements.
 
 ## Shi (勢) (P-)
 
 ### noticesFirst
 
-- **p-minus-notice-01:** This reading notices the configuration of incentives, dependencies, and positions before open confrontation begins.
+- **p-minus-notice-01:** Shi reads the field before the clash: incentives, dependencies, and positions reveal how leverage is forming.
 
 ### likelyPolicyInstincts
 
-- **p-minus-instinct-01:** Build leverage before demanding a final decision.
-- **p-minus-instinct-02:** Change incentives, alignments, or practical conditions before escalating.
-- **p-minus-instinct-03:** Delay confrontation when time can improve the underlying position.
+- **p-minus-instinct-01:** Accumulate bargaining strength before forcing a decision.
+- **p-minus-instinct-02:** Alter incentives and alignments before raising the level of confrontation.
+- **p-minus-instinct-03:** Let time work when it improves the underlying position.
 
 ### acceptedTradeoff
 
-- **p-minus-accepted-tradeoff:** This reading accepts slower and less visible progress in exchange for a stronger position.
+- **p-minus-accepted-tradeoff:** Visible progress slows so that the eventual position can harden.
 
 ### strongestCaseForReading
 
-- **p-minus-strongest-case:** This reading is strongest when outcomes are shaped before the formal moment of choice.
+- **p-minus-strongest-case:** The approach works best when the outcome is shaped well before formal choice.
 
 ### strongestObjection
 
-- **p-minus-strongest-objection:** Its strongest objection is that preparation can become indefinite delay or concealed manipulation.
+- **p-minus-strongest-objection:** Preparation may become a respectable name for endless delay or hidden manipulation.
 
 ### commonFailureMode
 
-- **p-minus-failure-mode:** Its common failure mode is to treat indirect leverage as control and underestimate adaptation by others.
+- **p-minus-failure-mode:** Indirect leverage is treated as control, leaving too little room for others to adapt.
 
 ### evidenceThatWouldWeakenFit
 
-- **p-minus-weaken-fit-01:** The fit would weaken if urgent harm made delay more costly than positional improvement.
-- **p-minus-weaken-fit-02:** The fit would also weaken if other actors could readily neutralize the conditions being assembled.
+- **p-minus-weaken-fit-01:** Immediate harm that makes waiting costlier than positional improvement would undermine the fit.
+- **p-minus-weaken-fit-02:** Easy countermeasures against the assembled conditions would undermine it as well.
 
 ### normativeVariants
 
-- **p-minus-variant-o:** Order-first Shi would shape conditions that preserve coexistence and reduce pressure for imposed settlements.
-- **p-minus-variant-c:** Conditional Shi would build position only where the authority, stakes, and likely consequences warrant it.
-- **p-minus-variant-j:** Justice-first Shi would reshape conditions so protection does not depend on accepting the existing hierarchy.
+- **p-minus-variant-o:** Order-first Shi shapes conditions to reduce pressure for imposed settlement and preserve coexistence.
+- **p-minus-variant-c:** Conditional Shi builds position only when a defensible mandate and expected effects warrant it.
+- **p-minus-variant-j:** Under Justice-first Shi, leverage reshapes conditions that make protection contingent on hierarchy.
 
 ## Grotian (R+)
 
 ### noticesFirst
 
-- **r-plus-notice-01:** This reading notices where commitments lack clear rules, capable institutions, or credible consequences.
+- **r-plus-notice-01:** Grotian reasoning starts with the gap between stated commitments and rules that can carry force.
 
 ### likelyPolicyInstincts
 
-- **r-plus-instinct-01:** Translate shared commitments into specific duties and procedures.
-- **r-plus-instinct-02:** Coordinate enough capacity to make agreed consequences credible.
-- **r-plus-instinct-03:** Apply rules through procedures that remain legible and contestable.
+- **r-plus-instinct-01:** Turn broad promises into explicit duties and procedures.
+- **r-plus-instinct-02:** Assemble enough capacity to make agreed consequences credible.
+- **r-plus-instinct-03:** Enforce through processes that remain visible and open to challenge.
 
 ### acceptedTradeoff
 
-- **r-plus-accepted-tradeoff:** This reading accepts less discretion and some coercive risk in exchange for dependable follow-through.
+- **r-plus-accepted-tradeoff:** Dependable follow-through costs discretion and creates a real risk of coercion.
 
 ### strongestCaseForReading
 
-- **r-plus-strongest-case:** This reading is strongest when commitments repeatedly fail without a credible means of enforcement.
+- **r-plus-strongest-case:** It proves most useful when commitments repeatedly collapse for want of enforceable backing.
 
 ### strongestObjection
 
-- **r-plus-strongest-objection:** Its strongest objection is that enforcement power can be selective, unequal, and corrosive of legitimacy.
+- **r-plus-strongest-objection:** Enforcement rarely lands evenly; selective power can hollow out the legitimacy of the rule.
 
 ### commonFailureMode
 
-- **r-plus-failure-mode:** Its common failure mode is to equate compliance with legitimacy and extend enforcement beyond its mandate.
+- **r-plus-failure-mode:** Compliance becomes the proxy for legitimacy, and the mandate expands past its stated bounds.
 
 ### evidenceThatWouldWeakenFit
 
-- **r-plus-weaken-fit-01:** The fit would weaken if reciprocal compliance remained durable without coercive backing.
-- **r-plus-weaken-fit-02:** The fit would also weaken if enforcement produced evasion and fragmentation more reliably than compliance.
+- **r-plus-weaken-fit-01:** Sustained reciprocal compliance without coercive backing would weaken this account.
+- **r-plus-weaken-fit-02:** Repeated evasion and fragmentation after enforcement would point the other way.
 
 ### normativeVariants
 
-- **r-plus-variant-o:** Order-first Grotian would enforce common rules to protect coexistence and restrain destabilizing breaches.
-- **r-plus-variant-c:** Conditional Grotian would calibrate enforcement to the authority, stakes, and likely consequences of the case.
-- **r-plus-variant-j:** Justice-first Grotian would enforce obligations even when powerful actors benefit from leaving them weak.
+- **r-plus-variant-o:** Order-first Grotian gives common rules force to contain destabilizing breaches.
+- **r-plus-variant-c:** Conditional Grotian scales enforcement to a defensible mandate and the foreseeable costs of the case.
+- **r-plus-variant-j:** Justice-first Grotian insists that obligations bind even those who benefit from weak enforcement.
 
 ## Concert (R-)
 
 ### noticesFirst
 
-- **r-minus-notice-01:** This reading notices the interests, fears, and vetoes of actors able to disrupt a settlement.
+- **r-minus-notice-01:** Concert first asks who can disrupt a settlement, what they fear, and what limits they will accept.
 
 ### likelyPolicyInstincts
 
-- **r-minus-instinct-01:** Negotiate reciprocal limits before rivalry becomes harder to contain.
-- **r-minus-instinct-02:** Create regular channels for consultation among consequential actors.
-- **r-minus-instinct-03:** Accept bounded settlements when maximal demands would threaten the wider order.
+- **r-minus-instinct-01:** Set reciprocal limits before rivalry becomes unmanageable.
+- **r-minus-instinct-02:** Keep consequential participants in regular consultation.
+- **r-minus-instinct-03:** Prefer a bounded settlement to maximal demands that endanger the wider order.
 
 ### acceptedTradeoff
 
-- **r-minus-accepted-tradeoff:** This reading accepts incomplete inclusion and ambition in exchange for restraint among disruptive powers.
+- **r-minus-accepted-tradeoff:** Restraint among disruptive powers is bought with less ambition and incomplete inclusion.
 
 ### strongestCaseForReading
 
-- **r-minus-strongest-case:** This reading is strongest when no durable order can survive without consent from its most capable challengers.
+- **r-minus-strongest-case:** The logic carries weight when a durable order needs consent from its strongest challengers.
 
 ### strongestObjection
 
-- **r-minus-strongest-objection:** Its strongest objection is that accommodation can privilege powerful actors and marginalize weaker ones.
+- **r-minus-strongest-objection:** Accommodation can turn power into privilege and leave weaker participants outside the bargain.
 
 ### commonFailureMode
 
-- **r-minus-failure-mode:** Its common failure mode is to confuse agreement among elites with a legitimate and durable settlement.
+- **r-minus-failure-mode:** Elite agreement is mistaken for legitimacy; the settlement then lacks roots beyond the negotiating room.
 
 ### evidenceThatWouldWeakenFit
 
-- **r-minus-weaken-fit-01:** The fit would weaken if excluded actors could readily overturn the negotiated restraint.
-- **r-minus-weaken-fit-02:** The fit would also weaken if general rules constrained major powers more reliably than discretionary bargains.
+- **r-minus-weaken-fit-01:** A settlement easily overturned by excluded parties would cast doubt on the fit.
+- **r-minus-weaken-fit-02:** Evidence that general rules constrain major powers better than discretionary bargains would do the same.
 
 ### normativeVariants
 
-- **r-minus-variant-o:** Order-first Concert would use reciprocal restraint to preserve coexistence and prevent systemic breakdown.
-- **r-minus-variant-c:** Conditional Concert would bargain only where the authority, stakes, and likely consequences justify accommodation.
-- **r-minus-variant-j:** Justice-first Concert would seek consultation without granting powerful actors a veto over basic protection.
+- **r-minus-variant-o:** Order-first Concert trades reciprocal restraint for protection against systemic breakdown.
+- **r-minus-variant-c:** Conditional Concert bargains only when accommodation has a defensible mandate and manageable consequences.
+- **r-minus-variant-j:** Justice-first Concert preserves consultation while denying powerful participants a veto over basic protection.
 
 ## Satyagraha (M+)
 
 ### noticesFirst
 
-- **m-plus-notice-01:** This reading notices the public meanings and legitimacy judgments that make authority easier or harder to sustain.
+- **m-plus-notice-01:** Satyagraha looks first to the public meanings that sustain authority—or strip it of acceptance.
 
 ### likelyPolicyInstincts
 
-- **m-plus-instinct-01:** Reframe a dispute around the principle that gives it wider meaning.
-- **m-plus-instinct-02:** Make contestation visible enough for an alternative standard to become imaginable.
-- **m-plus-instinct-03:** Build a coalition around a different account of what conduct is acceptable.
+- **m-plus-instinct-01:** Recast the dispute around the principle that gives it public meaning.
+- **m-plus-instinct-02:** Make the contest visible enough for another standard to become conceivable.
+- **m-plus-instinct-03:** Organize support around a different account of acceptable conduct.
 
 ### acceptedTradeoff
 
-- **m-plus-accepted-tradeoff:** This reading accepts slower material bargaining in exchange for clearer public contestation of legitimacy.
+- **m-plus-accepted-tradeoff:** Material bargaining slows while the struggle over legitimacy becomes unmistakable.
 
 ### strongestCaseForReading
 
-- **m-plus-strongest-case:** This reading is strongest when authority depends materially on public acceptance of its claims.
+- **m-plus-strongest-case:** The reading has greatest purchase where authority depends on public acceptance of its claims.
 
 ### strongestObjection
 
-- **m-plus-strongest-objection:** Its strongest objection is that persuasion can be overstated while coercion, organization, and material interests are understated.
+- **m-plus-strongest-objection:** It can overcredit persuasion while discounting organized coercion and material interest.
 
 ### commonFailureMode
 
-- **m-plus-failure-mode:** Its common failure mode is to mistake symbolic visibility for durable change or shared moral agreement.
+- **m-plus-failure-mode:** Symbolic visibility is taken for durable change, even when no shared standard or implementation follows.
 
 ### evidenceThatWouldWeakenFit
 
-- **m-plus-weaken-fit-01:** The fit would weaken if public reframing left the relevant incentives and institutions unchanged.
-- **m-plus-weaken-fit-02:** The fit would also weaken if the proposed standard lacked an organized path to implementation.
+- **m-plus-weaken-fit-01:** If reframing leaves incentives and institutions untouched, the interpretation loses force.
+- **m-plus-weaken-fit-02:** A standard with no organized route to implementation would further weaken it.
 
 ### normativeVariants
 
-- **m-plus-variant-o:** Order-first Satyagraha would contest legitimacy in ways intended to restore workable coexistence.
-- **m-plus-variant-c:** Conditional Satyagraha would calibrate contestation to the authority, stakes, and likely consequences involved.
-- **m-plus-variant-j:** Justice-first Satyagraha would challenge accepted standards when they leave protection or obligation unmet.
+- **m-plus-variant-o:** Order-first Satyagraha contests legitimacy to restore workable coexistence.
+- **m-plus-variant-c:** Conditional Satyagraha calibrates public contestation to its mandate and foreseeable effects.
+- **m-plus-variant-j:** For Justice-first Satyagraha, accepted standards must yield when they leave protection unmet.
 
 ## Musyawarah (M-)
 
 ### noticesFirst
 
-- **m-minus-notice-01:** This reading notices relationships, procedural legitimacy, and objections that formal agreement may leave unspoken.
+- **m-minus-notice-01:** Musyawarah listens for objections that formal agreement can bury and for relationships the process must sustain.
 
 ### likelyPolicyInstincts
 
-- **m-minus-instinct-01:** Consult before positions harden into public commitments.
-- **m-minus-instinct-02:** Seek terms that differently situated participants can continue to live with.
-- **m-minus-instinct-03:** Preserve room for dissent and further dialogue inside a collective decision.
+- **m-minus-instinct-01:** Consult before positions calcify into public commitments.
+- **m-minus-instinct-02:** Seek terms that differently placed participants can continue to live with.
+- **m-minus-instinct-03:** Leave room for dissent and renewed dialogue within the collective decision.
 
 ### acceptedTradeoff
 
-- **m-minus-accepted-tradeoff:** This reading accepts slower and less ambitious decisions in exchange for broader ownership of the process.
+- **m-minus-accepted-tradeoff:** Broader ownership is purchased with a slower, less ambitious decision.
 
 ### strongestCaseForReading
 
-- **m-minus-strongest-case:** This reading is strongest when implementation depends on trust and continuing consent among participants.
+- **m-minus-strongest-case:** It works when implementation will depend on trust and consent that must endure.
 
 ### strongestObjection
 
-- **m-minus-strongest-objection:** Its strongest objection is that consensus can conceal unequal pressure, dilute urgent duties, or reward obstruction.
+- **m-minus-strongest-objection:** Consensus can hide pressure, postpone urgent duties, and reward whoever is most willing to obstruct.
 
 ### commonFailureMode
 
-- **m-minus-failure-mode:** Its common failure mode is to treat silence as consent and continue consultation after delay becomes decisive.
+- **m-minus-failure-mode:** Silence is read as consent, and consultation continues after delay itself has become harmful.
 
 ### evidenceThatWouldWeakenFit
 
-- **m-minus-weaken-fit-01:** The fit would weaken if delay compounded harm that required a timely decision.
-- **m-minus-weaken-fit-02:** The fit would also weaken if nominal agreement concealed coercion or unresolved noncompliance.
+- **m-minus-weaken-fit-01:** Compounding harm that demands a timely decision would count heavily against this fit.
+- **m-minus-weaken-fit-02:** Nominal agreement masking coercion or unresolved noncompliance would count against it too.
 
 ### normativeVariants
 
-- **m-minus-variant-o:** Order-first Musyawarah would use deliberation to preserve coexistence, continuity, and mutual restraint.
-- **m-minus-variant-c:** Conditional Musyawarah would vary the needed consensus with the authority, stakes, and likely consequences.
-- **m-minus-variant-j:** Justice-first Musyawarah would deliberate broadly without allowing consensus to erase duties to excluded people.
+- **m-minus-variant-o:** Order-first Musyawarah uses deliberation to maintain coexistence without abandoning mutual restraint.
+- **m-minus-variant-c:** Under Conditional Musyawarah, the needed degree of consensus follows the decision's mandate and consequences.
+- **m-minus-variant-j:** Justice-first Musyawarah broadens deliberation but refuses to let consensus erase duties to excluded people.
 
 ## Dirigisme (S+)
 
 ### noticesFirst
 
-- **s-plus-notice-01:** This reading notices bottlenecks, investment gaps, and shared capacities that fragmented decisions may leave unresolved.
+- **s-plus-notice-01:** Dirigisme sees the bottleneck: scattered decisions have left a needed capacity unfunded or unbuilt.
 
 ### likelyPolicyInstincts
 
-- **s-plus-instinct-01:** Direct finance toward capabilities judged strategically necessary.
-- **s-plus-instinct-02:** Coordinate infrastructure and production where separate choices would work at cross-purposes.
-- **s-plus-instinct-03:** Attach clear public conditions to support intended to shape investment.
+- **s-plus-instinct-01:** Steer finance toward capabilities judged strategically necessary.
+- **s-plus-instinct-02:** Coordinate infrastructure and production when separate choices conflict.
+- **s-plus-instinct-03:** Tie public support to clear investment conditions.
 
 ### acceptedTradeoff
 
-- **s-plus-accepted-tradeoff:** This reading accepts less decentralization and greater capture risk in exchange for coordinated capacity.
+- **s-plus-accepted-tradeoff:** Coordinated capacity comes with less decentralization and more exposure to capture.
 
 ### strongestCaseForReading
 
-- **s-plus-strongest-case:** This reading is strongest when fragmented incentives cannot produce a necessary shared capability in time.
+- **s-plus-strongest-case:** Its case sharpens when fragmented incentives cannot deliver a shared capability in time.
 
 ### strongestObjection
 
-- **s-plus-strongest-objection:** Its strongest objection is that concentrated direction can entrench errors, favored interests, and weak correction.
+- **s-plus-strongest-objection:** Concentrated direction can lock in error, shelter favored interests, and weaken correction.
 
 ### commonFailureMode
 
-- **s-plus-failure-mode:** Its common failure mode is to turn selective coordination into permanent protection or detailed control.
+- **s-plus-failure-mode:** A targeted intervention hardens into permanent protection or detailed control.
 
 ### evidenceThatWouldWeakenFit
 
-- **s-plus-weaken-fit-01:** The fit would weaken if decentralized investment reliably supplied the necessary capacity on acceptable terms.
-- **s-plus-weaken-fit-02:** The fit would also weaken if public direction repeatedly misallocated resources and resisted correction.
+- **s-plus-weaken-fit-01:** Reliable decentralized investment on acceptable terms would erode the rationale.
+- **s-plus-weaken-fit-02:** Persistent public misallocation coupled with resistance to correction would erode it further.
 
 ### normativeVariants
 
-- **s-plus-variant-o:** Order-first Dirigisme would coordinate capacity to preserve continuity and meet basic collective needs.
-- **s-plus-variant-c:** Conditional Dirigisme would intervene where the authority, evidence, and constraints justify coordinated direction.
-- **s-plus-variant-j:** Justice-first Dirigisme would direct capacity toward unmet needs and unequally distributed burdens.
+- **s-plus-variant-o:** Order-first Dirigisme coordinates capacity to protect continuity and meet collective needs.
+- **s-plus-variant-c:** Conditional Dirigisme intervenes only where evidence and a bounded mandate support coordination.
+- **s-plus-variant-j:** Justice-first Dirigisme aims directed investment at unmet needs and unequal burdens.
 
 ## Dependencia (S-)
 
 ### noticesFirst
 
-- **s-minus-notice-01:** This reading notices external chokepoints, financing constraints, and dependencies that can narrow practical autonomy.
+- **s-minus-notice-01:** Dependencia traces how external chokepoints and costly dependencies narrow practical autonomy.
 
 ### likelyPolicyInstincts
 
-- **s-minus-instinct-01:** Diversify suppliers, finance, and markets where concentration creates asymmetric exposure.
-- **s-minus-instinct-02:** Build domestic or regional capacity where exit is otherwise prohibitively costly.
-- **s-minus-instinct-03:** Preserve policy space by reducing dependence on any single external gatekeeper.
+- **s-minus-instinct-01:** Diversify suppliers, finance, or markets where concentration creates asymmetric exposure.
+- **s-minus-instinct-02:** Develop domestic or regional capacity where exit would otherwise be prohibitive.
+- **s-minus-instinct-03:** Reduce reliance on any single gatekeeper to preserve policy room.
 
 ### acceptedTradeoff
 
-- **s-minus-accepted-tradeoff:** This reading accepts some efficiency and access costs in exchange for greater room to choose.
+- **s-minus-accepted-tradeoff:** Greater freedom to choose may require paying in efficiency and access.
 
 ### strongestCaseForReading
 
-- **s-minus-strongest-case:** This reading is strongest when concentrated external dependence makes formal choice difficult to exercise.
+- **s-minus-strongest-case:** The interpretation is most persuasive when concentrated dependence makes formal choice expensive to exercise.
 
 ### strongestObjection
 
-- **s-minus-strongest-objection:** Its strongest objection is that dependence can be reciprocal and diversification can create costly new constraints.
+- **s-minus-strongest-objection:** Interdependence may be reciprocal, while diversification simply replaces one expensive constraint with another.
 
 ### commonFailureMode
 
-- **s-minus-failure-mode:** Its common failure mode is to treat all interdependence as domination and create new vulnerabilities through insulation.
+- **s-minus-failure-mode:** Every tie is treated as domination, and insulation produces vulnerabilities of its own.
 
 ### evidenceThatWouldWeakenFit
 
-- **s-minus-weaken-fit-01:** The fit would weaken if open ties dispersed leverage and made switching inexpensive.
-- **s-minus-weaken-fit-02:** The fit would also weaken if domestic constraints explained the loss of autonomy better than external structure.
+- **s-minus-weaken-fit-01:** Open ties that disperse leverage and permit cheap switching would weaken the diagnosis.
+- **s-minus-weaken-fit-02:** A better explanation rooted in domestic constraints would weaken it further.
 
 ### normativeVariants
 
-- **s-minus-variant-o:** Order-first Dependencia would reduce dependencies that threaten continuity, coexistence, and practical autonomy.
-- **s-minus-variant-c:** Conditional Dependencia would target dependencies whose asymmetry, stakes, and likely consequences justify the cost.
-- **s-minus-variant-j:** Justice-first Dependencia would restructure dependencies that reproduce unequal burdens or deny meaningful agency.
-
-## Shared compatibility/status copy
-
-The following public strings accompany fail-closed compatibility and status behavior. They remain in the approved checkpoint for traceability and do not assert that a historical claim has been approved.
-
-### Route status
-
-- Historical comparison under review
-- The historical comparison for this archetype is temporarily unavailable while its evidence record is reviewed.
-
-### Field-status and qualification templates
-
-- This historical comparison uses provisional source metadata and remains pending research review.
-- Neighbor interpretations require owner review.
-- Pair-specific blend prose is withheld.
-- Domain-expression hypotheses are withheld.
-
-### Retired draft qualification
-
-The published catalog no longer uses this qualification; it remains recorded only to preserve the draft history.
-
-- Draft interpretation pending owner review.
-
-### Source and normative labels
-
-- Provisional source
-- Order-first
-- Conditional
-- Justice-first
+- **s-minus-variant-o:** Order-first Dependencia reduces dependencies that put continuity and practical autonomy at risk.
+- **s-minus-variant-c:** Conditional Dependencia targets only asymmetries whose expected harm justifies the cost of exit.
+- **s-minus-variant-j:** Justice-first Dependencia restructures ties that impose unequal burdens or deny meaningful agency.
 
 ## Review disposition
 
-The product owner approved all 104 newly authored interpretation sentences in this ledger for English publication in the V23.1B implementation instruction dated 2026-08-14. The paired editorial and methodology review records document that owner approval at content version 23.1.0; they do not claim external-expert review or empirical validation. The reviewed empty related-content arrays separately record the owner decision to publish no Current Case or Decision Pattern relations in V23.1.
+- Publication authorization: owner-authorized for bounded English beta use.
+- Copy provenance: AI-assisted.
+- Human editorial review: pending.
+- Sentence-level editorial or methodology approval: none recorded.
+- External-expert review: none.
+- Validation claim: none.
+- Historical comparison prose: excluded from this new-sentence ledger and unchanged; it remains `partial` / `legacy-v1-provisional` pending research review.
+- Related Current Case and Decision Pattern arrays: unchanged reviewed empty arrays under the separate locked owner decision.

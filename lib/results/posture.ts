@@ -29,7 +29,7 @@ const SCALE_MIN = 1
 const SCALE_MAX = 7
 
 export type PostureEndpoint = {
-  code: string
+  code: Archetype["code"] | BlendArchetype["code"]
   name: string
   gloss: string
   /** Present only for pure archetypes; blends have no evidence page. */

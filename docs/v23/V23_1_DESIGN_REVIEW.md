@@ -6,6 +6,14 @@ Outcome: **BOUNDED V23.1 PATCH REQUIRED**
 
 Review date: 2026-08-14
 
+Subsequent disposition: findings 1–3 remain binding only against geometry v1,
+which is blocked in `V23_1_SIGIL_COLLISION_REVIEW.md` and retained as rejected
+history. On 2026-08-18 the owner separately selected the exact System A
+manifest for bounded editorial-beta use after automated review and accepted
+the residual cultural risk. That later decision supersedes this review's
+recommendation to reject System A; it does not turn this document into an
+approval and does not grant universal cultural clearance.
+
 This is an independent read-only review of the V23.1B implementation. It is not
 an approval, and it is **not universal cultural clearance**. See
 [Scope and limits](#scope-and-limits).
@@ -211,7 +219,11 @@ the H1 "Kairos".
 - The circular badge overlapping the `P−` sigil in dev screenshots is the
   Next.js dev-tools indicator, not a product defect.
 
-## Assessment of the prior design exploration
+## Historical assessment of the prior design exploration
+
+The recommendation in this section is preserved as reviewer history and was
+superseded by the owner's 2026-08-18 System A beta decision. It is not the
+current production decision.
 
 The external design exploration is better than what shipped, and the
 implementation was right to reject part of it.
@@ -255,10 +267,11 @@ religious, national, ethnic, occult, political, military, extremist, corporate
 or certification-mark collision was identified.
 
 That negative result is bounded. A single automated reviewer at four scales in
-four rendering modes is not a cultural review. The two reviewer slots in
-`docs/v23/V23_1_SIGIL_COLLISION_REVIEW.md` remain correctly blank, and findings
-1–3 alone invalidate the current geometry before a cultural pass would be worth
-running.
+four rendering modes is not a cultural review. At the time of this review, both
+reviewer slots in `docs/v23/V23_1_SIGIL_COLLISION_REVIEW.md` were blank. The
+bounded patch subsequently records this Claude review as the independent
+blocking review; the second slot remains incomplete. Findings 1–3 alone
+invalidate the current geometry before a cultural pass would be worth running.
 
 Any geometry revision invalidates both digests recorded above and requires this
 review to be repeated.

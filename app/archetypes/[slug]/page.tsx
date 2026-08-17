@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ArchetypeSigil } from "@/components/archetypes/archetype-sigil"
+import { FoundationMark } from "@/components/archetypes/archetype-mark"
 import styles from "@/components/archetypes/archetypes.module.css"
 import {
   archetypeContentVersion,
@@ -17,9 +17,13 @@ import {
   getArchetypeEvidenceBySlug,
   parseArchetypeEvidenceReturnPath,
 } from "@/lib/archetype-evidence"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+  publicLensLabel,
+} from "@/lib/archetype-display"
 import { getArchetypeBySlug } from "@/lib/archetypes"
-import { getFamilyByKey } from "@/lib/explore-content"
-import { familySlug } from "@/lib/worldview-config"
+import { familySlug, traditionNounLabel } from "@/lib/worldview-config"
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -40,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${archetype.name} (${archetype.code}) — IR Worldview Inventory`,
+    title: `${archetype.name} (${formatArchetypeDisplayCode(archetype.code)}) — IR Worldview Inventory`,
     description: archetype.gloss,
   }
 }
@@ -70,7 +74,7 @@ export default async function ArchetypeDetailPage({
   const resolved = getArchetypeEvidenceBySlug(slug)
   const evidence = resolved?.evidence
   const returnPath = parseArchetypeEvidenceReturnPath(from)
-  const tradition = getFamilyByKey(identity.familyKey)
+  const tradition = traditionNounLabel(identity.familyKey)
   const postureLabel = identity.posture === "+" ? "Applying advantage" : "Restraint"
 
   return (
@@ -87,39 +91,56 @@ export default async function ArchetypeDetailPage({
       </Link>
 
       <header className={styles.detailHero}>
-        <div className={styles.heroSigil} data-archetype-sigil-frame>
-          <ArchetypeSigil
-            code={identity.code}
-            size={112}
-            decorative={false}
-            label={`${identity.name} archetype sigil`}
-          />
-        </div>
         <div className={styles.heroIdentity}>
-          <p className={styles.detailCode}>{identity.code}</p>
-          <h1>{identity.name}</h1>
-          <p className={styles.detailGloss}>{identity.gloss}</p>
+          <FoundationMark
+            code={identity.code}
+            presentation="hero"
+            className={styles.heroMark}
+          />
+          <div className={styles.heroCopy}>
+            <p
+              className={styles.detailCode}
+              data-archetype-code-label
+              aria-label={formatArchetypeCodeSpeech(identity.code)}
+            >
+              {formatArchetypeDisplayCode(identity.code)}
+            </p>
+            <h1>{identity.name}</h1>
+            <p className={styles.detailGloss}>{identity.gloss}</p>
+          </div>
         </div>
         <dl className={styles.identityRegister}>
           <div>
             <dt>Lens</dt>
-            <dd>{contentRecord ? contentRecord.content.lens : identity.lens}</dd>
+            <dd>{publicLensLabel(identity.lens)}</dd>
           </div>
           <div>
             <dt>Strategic posture</dt>
-            <dd>{postureLabel} ({identity.posture})</dd>
+            <dd>{postureLabel}</dd>
           </div>
           <div>
-            <dt>Supporting tradition</dt>
+            <dt>Closest modeled tradition</dt>
             <dd>
               <Link href={`/explore/${familySlug(identity.familyKey)}`}>
-                {tradition?.name ?? "Modeled tradition"}
+                {tradition}
               </Link>
-              <span>Supporting evidence, not a second identity.</span>
+              <span>
+                Supporting evidence for the Foundation result, not another
+                Foundation result.
+              </span>
             </dd>
           </div>
         </dl>
       </header>
+
+      <aside className={styles.markNote} aria-labelledby="about-mark-heading">
+        <h2 id="about-mark-heading">About the mark</h2>
+        <p>
+          This contemporary mark is editorial artwork created for the inventory.
+          It is not an authentic historical emblem, a cultural classification,
+          or an endorsement. The visible code and name carry the meaning.
+        </p>
+      </aside>
 
       {contentRecord ? (
         <div className={styles.detailBody}>
@@ -186,16 +207,6 @@ export default async function ArchetypeDetailPage({
             </dl>
           </section>
 
-          <section className={styles.readingSection} id="neighbors">
-            <div className={styles.sectionHeading}>
-              <h2>Nearest neighbors</h2>
-            </div>
-            <div className={styles.statusNotice} role="note">
-              <p className={styles.statusLabel}>Research required</p>
-              <p>{contentRecord.content.nearestNeighbors.qualification}</p>
-            </div>
-          </section>
-
           <section
             className={styles.readingSection}
             id="variants"
@@ -218,21 +229,6 @@ export default async function ArchetypeDetailPage({
             </div>
           </section>
 
-          <section className={styles.readingSection} id="blends">
-            <div className={styles.sectionHeading}><h2>Blends</h2></div>
-            <div className={styles.statusNotice} role="note">
-              <p className={styles.statusLabel}>Withheld</p>
-              <p>{contentRecord.content.commonBlends.qualification}</p>
-            </div>
-          </section>
-
-          <section className={styles.readingSection} id="domain-expressions">
-            <div className={styles.sectionHeading}><h2>Domain expressions</h2></div>
-            <div className={styles.statusNotice} role="note">
-              <p className={styles.statusLabel}>Withheld</p>
-              <p>{contentRecord.content.likelyDomainExpressions.qualification}</p>
-            </div>
-          </section>
         </div>
       ) : (
         <section className={styles.statusNotice} role="status">
@@ -312,15 +308,33 @@ export default async function ArchetypeDetailPage({
         </section>
       )}
 
-      <section className={styles.readingSection} id="related-records">
-        <div className={styles.sectionHeading}>
-          <h2>Related records</h2>
-          <p>
-            No Current Cases or Decision Patterns are assigned to this
-            archetype. Those records remain separate editorial layers.
-          </p>
-        </div>
-      </section>
+      {contentRecord ? (
+        <details
+          className={styles.researchStatus}
+          data-archetype-research-status
+          data-content-publication-status={publicationStatus?.publicationStatus}
+          data-content-review-status={publicationStatus?.reviewStatus}
+        >
+          <summary>Research and publication status</summary>
+          <div className={styles.researchStatusBody}>
+            <p>
+              Owner-authorized AI-assisted English beta copy; pending human
+              editorial review. No external expert review or validation has been
+              completed.
+            </p>
+            <p>
+              Content version {archetypeContentVersion}; evidence version{" "}
+              {archetypeEvidenceCatalogVersion}. Historical evidence remains a
+              provisional legacy comparison.
+            </p>
+            <p>
+              Neighbor analysis still requires research; blend and domain
+              sections are withheld; no reviewed related Current Case or Decision
+              Pattern records are published, so those empty sections are omitted.
+            </p>
+          </div>
+        </details>
+      ) : null}
 
       <footer className={styles.methodFooter}>
         <div>
@@ -328,28 +342,10 @@ export default async function ArchetypeDetailPage({
           <p>
             Archetypes summarize a continuous, multidimensional profile. They
             do not change the underlying Foundation score or assign people,
-            organizations, or traditions to a fixed type. No completed human
-            usability round exists; automated checks are not human validation.
+            organizations, or traditions to a fixed type. Automated checks are
+            pretesting, not editorial, expert, or methodological validation.
           </p>
         </div>
-        <dl>
-          <div><dt>Content</dt><dd>{archetypeContentVersion}</dd></div>
-          <div><dt>Evidence</dt><dd>{archetypeEvidenceCatalogVersion}</dd></div>
-          <div><dt>Publication</dt><dd>{contentRecord ? "Published" : "Unavailable"}</dd></div>
-          <div>
-            <dt>Owner review</dt>
-            <dd>
-              {publicationStatus ? (
-                <time dateTime={publicationStatus.reviewedAt}>{publicationStatus.reviewedAt}</time>
-              ) : "Unavailable"}
-            </dd>
-          </div>
-          <div>
-            <dt>Historical evidence</dt>
-            <dd>{publicationStatus?.evidenceStatus ?? "Unavailable"}</dd>
-          </div>
-          <div><dt>Human usability</dt><dd>No completed round</dd></div>
-        </dl>
         <Link href="/method">Read the method →</Link>
       </footer>
     </article>

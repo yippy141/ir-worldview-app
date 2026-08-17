@@ -35,7 +35,7 @@ import { getV2ScoringCalibration } from "@/lib/scoring"
 import { buildFoundationNarrative } from "@/lib/narrative/foundation"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
-import { familySlug } from "@/lib/worldview-config"
+import { familySlug, traditionNounLabel } from "@/lib/worldview-config"
 import { DimensionFieldMap } from "@/components/results/dimension-field-map"
 import { PlacementFirmnessBar } from "@/components/results/placement-firmness-bar"
 import { PostureStrip } from "@/components/results/posture-strip"
@@ -50,6 +50,11 @@ import {
   normFromNormativeModifier,
   resolveArchetype,
 } from "@/lib/archetypes"
+import {
+  formatArchetypeReadingCode,
+  formatArchetypeReadingCodeForSpeech,
+} from "@/lib/archetype-display"
+import { FoundationMark } from "@/components/archetypes/archetype-mark"
 import { archetypeEvidencePath } from "@/lib/archetype-evidence"
 import {
   getPercentile,
@@ -84,7 +89,8 @@ export async function generateMetadata(
   const norm = normFromNormativeModifier(
     resolved.result.normativeModifier,
   )
-  const resultLabel = `${archetype.name} · ${archetype.code} / ${norm}`
+  const resultLabel =
+    `${archetype.name} · ${formatArchetypeReadingCode(archetype.code, norm)}`
   const title = `${archetype.name} result — IR Worldview Inventory`
   const description =
     `Shared IR Worldview result: ${resultLabel}. ${archetype.gloss}`
@@ -180,9 +186,9 @@ export default async function ResultPage(
     nearestFitGap: result.nearestFitGap,
     lowDifferentiationThreshold,
   })
-  const familyLabel = result.familyLabel
+  const familyLabel = traditionNounLabel(result.familyKey)
   const neighborKey = result.runnerUpKey
-  const neighborLabel = result.runnerUpLabel
+  const neighborLabel = traditionNounLabel(neighborKey)
 
   const explanation = result.explanation
   const keyDrivers = getKeyDrivers(dimensionScores)
@@ -245,8 +251,20 @@ export default async function ResultPage(
     result,
     lowDifferentiationThreshold,
   )
-  const archetypeCode =
-    `${archetype.code} / ${normFromNormativeModifier(result.normativeModifier)}`
+  const primaryArchetypeComponent = "archetypes" in archetype
+    ? archetype.archetypes.find(
+        ({ familyKey }) => familyKey === result.familyKey,
+      ) ?? null
+    : null
+  const normativeSuffix = normFromNormativeModifier(result.normativeModifier)
+  const archetypeCode = formatArchetypeReadingCode(
+    archetype.code,
+    normativeSuffix,
+  )
+  const archetypeCodeSpeech = formatArchetypeReadingCodeForSpeech(
+    archetype.code,
+    normativeSuffix,
+  )
   const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
   const archetypeRarity = aggregateStats
     ? getProfileRarity(archetype.code, aggregateStats)
@@ -353,9 +371,9 @@ export default async function ResultPage(
             payload,
             resultPath: `/results/${payload}`,
             familyKey: result.familyKey,
-            familyLabel,
+            familyLabel: result.familyLabel,
             runnerUpKey: neighborKey,
-            runnerUpLabel: neighborLabel,
+            runnerUpLabel: result.runnerUpLabel,
             summary,
             dimensionScores,
             strategyModifier: result.strategyModifier,
@@ -381,12 +399,31 @@ export default async function ResultPage(
               <p className="eyebrow">
                 {resultTier === "core" ? "Provisional Foundation result" : "Foundation result"}
               </p>
+              {"archetypes" in archetype && primaryArchetypeComponent ? (
+                <FoundationMark
+                  code={archetype.code}
+                  primaryCode={primaryArchetypeComponent.code}
+                  presentation="hero"
+                  className="foundation-result-mark"
+                />
+              ) : "archetypes" in archetype ? null : (
+                <FoundationMark
+                  code={archetype.code}
+                  presentation="hero"
+                  className="foundation-result-mark"
+                />
+              )}
               <h1 id="foundation-result-heading" className="result-hero-title">
                 {archetype.name}
               </h1>
-              <p className="foundation-result-code">{archetypeCode}</p>
+              <p
+                className="foundation-result-code"
+                aria-label={archetypeCodeSpeech}
+              >
+                {archetypeCode}
+              </p>
               <p className="foundation-result-tradition">
-                Closest modeled tradition: {familyLabel}
+                Closest modeled tradition: {traditionNounLabel(result.familyKey)}
               </p>
               <p className="result-lead">{archetype.gloss}</p>
               {archetype.analogue && analogueHref ? (

@@ -11,6 +11,8 @@ import {
   getArchetypeContentDraft,
   getPublishedArchetypeContent,
   getPublishedArchetypeStatus,
+  OWNER_AUTHORIZED_BETA_PUBLICATION,
+  OWNER_AUTHORIZED_BETA_QUALIFICATION,
   selectArchetypeContentRecord,
   selectLegacyArchetypeEvidence,
   selectPublishedArchetypeStatus,
@@ -191,6 +193,10 @@ test("V23.1 freezes exactly eight identity projections independently of rich con
   )
   assert.equal(archetypeCatalog.schemaVersion, 1)
   assert.equal(archetypeCatalog.locale, "en")
+  assert.deepEqual(
+    archetypeCatalog.publicationAuthorization,
+    OWNER_AUTHORIZED_BETA_PUBLICATION,
+  )
   assert.equal(archetypeEvidenceCatalog.schemaVersion, 2)
   assert.equal(archetypeCatalog.contentVersion, archetypeEvidenceCatalog.contentVersion)
   assert.equal(
@@ -201,11 +207,11 @@ test("V23.1 freezes exactly eight identity projections independently of rich con
   assert.equal(archetypeEvidenceCatalog.records.length, 8)
 })
 
-test("the eight approved cores satisfy field, variant, relation, and publication rules", () => {
+test("the eight owner-authorized beta cores remain partial pending human editorial review", () => {
   assert.deepEqual(archetypeContentValidationErrors, [])
   assert.deepEqual(countArchetypeContentStatuses(), {
-    reviewed: 144,
-    partial: 18,
+    reviewed: 16,
+    partial: 146,
     "research-required": 8,
     withheld: 16,
   })
@@ -214,13 +220,35 @@ test("the eight approved cores satisfy field, variant, relation, and publication
     const { content } = record
     const code = record.identity.code as (typeof archetypes)[number]["code"]
     assert.equal(content.publicationState, "published")
+    assert.deepEqual(content.recordReviewIds, [])
     assert.equal(content.noticesFirst.value.length, 1)
     assert.equal(content.likelyPolicyInstincts.value.length, 3)
     assert.equal(content.evidenceThatWouldWeakenFit.value.length >= 2, true)
-    assert.equal(content.acceptedTradeoff.status, "reviewed")
-    assert.equal(content.strongestCaseForReading.status, "reviewed")
-    assert.equal(content.strongestObjection.status, "reviewed")
-    assert.equal(content.commonFailureMode.status, "reviewed")
+    for (const field of [
+      content.noticesFirst,
+      content.likelyPolicyInstincts,
+      content.evidenceThatWouldWeakenFit,
+    ]) {
+      assert.equal(field.status, "partial")
+      assert.equal(field.qualification, OWNER_AUTHORIZED_BETA_QUALIFICATION)
+      assert.deepEqual(field.reviewIds, [])
+      for (const claim of field.value) {
+        assert.equal(claim.status, "partial")
+        assert.equal(claim.qualification, OWNER_AUTHORIZED_BETA_QUALIFICATION)
+        assert.deepEqual(claim.reviewIds, [])
+      }
+    }
+    for (const claim of [
+      content.acceptedTradeoff,
+      content.strongestCaseForReading,
+      content.strongestObjection,
+      content.commonFailureMode,
+      ...content.normativeVariants.map(({ interpretation }) => interpretation),
+    ]) {
+      assert.equal(claim.status, "partial")
+      assert.equal(claim.qualification, OWNER_AUTHORIZED_BETA_QUALIFICATION)
+      assert.deepEqual(claim.reviewIds, [])
+    }
     assert.deepEqual(
       content.normativeVariants.map(({ state, publicLabel }) => ({
         state,
@@ -244,14 +272,17 @@ test("the eight approved cores satisfy field, variant, relation, and publication
     assert.ok(getArchetypeContentDraft(code))
     assert.ok(getPublishedArchetypeContent(code))
     assert.deepEqual(getPublishedArchetypeStatus(code), {
-      reviewerId: "product-owner",
-      reviewedAt: "2026-08-14",
+      publicationStatus: "owner-authorized-beta",
+      reviewStatus: "pending-human-editorial-review",
+      publicationAuthorization: OWNER_AUTHORIZED_BETA_PUBLICATION,
+      reviewerId: null,
+      reviewedAt: null,
       evidenceStatus: "legacy-v1-provisional",
     })
   }
 })
 
-test("all 104 owner-approved authored sentences appear verbatim once in the ledger", () => {
+test("all 104 owner-authorized beta sentences appear verbatim once in the ledger", () => {
   const authored: Array<{ id: string; text: string }> = []
   visit(archetypeCatalog, (record) => {
     if (
@@ -270,29 +301,74 @@ test("all 104 owner-approved authored sentences appear verbatim once in the ledg
     assert.equal(occurrences(reviewLedger, claim.id), 1, claim.id)
     assert.equal(occurrences(reviewLedger, claim.text), 1, claim.id)
   }
-  assert.match(reviewLedger, /approved all 104 sentences for English publication/iu)
-  assert.match(reviewLedger, /Neither constitutes external expert review or empirical validation/iu)
-  assert.match(reviewLedger, /product-owner editorial and methodology approval only/iu)
-  assert.doesNotMatch(reviewLedger, /approved external expert/iu)
-  assert.doesNotMatch(
+  assert.match(
     reviewLedger,
-    /No newly authored interpretation[^.]*is approved/iu,
+    /Status: `owner-authorized AI-assisted English beta`/u,
   )
+  assert.match(
+    reviewLedger,
+    /owner authorizes this AI-assisted English copy for bounded beta publication/iu,
+  )
+  assert.match(reviewLedger, /pending human editorial review/iu)
+  assert.match(reviewLedger, /external-expert review[^.]*none/iu)
+  assert.match(reviewLedger, /validation claim[^.]*none/iu)
+  assert.match(reviewLedger, /not sentence-level editorial or methodology approval/iu)
+  assert.doesNotMatch(reviewLedger, /approved all 104/iu)
+  assert.doesNotMatch(reviewLedger, /owner-approved content checkpoint/iu)
 })
 
-test("published status metadata fails closed without dated owner role approvals", () => {
-  const malformedEvidence = structuredClone(archetypeEvidenceCatalog) as unknown
-  const reviews = array(object(malformedEvidence).reviews)
-  const ownerEditorial = reviews.find((review) =>
-    object(review).id === "review-owner-v23-1-content-editorial"
+test("beta publication authorization fails closed without fabricating a dated review", () => {
+  assert.equal(
+    archetypeEvidenceCatalog.reviews.some(({ id }) =>
+      id === "review-owner-v23-1-content-editorial" ||
+      id === "review-owner-v23-1-content-methodology"
+    ),
+    false,
   )
-  assert.ok(ownerEditorial)
-  object(ownerEditorial).reviewedAt = "date unavailable"
+
+  const malformedCatalog = structuredClone(archetypeCatalog) as unknown
+  firstDraftClaim(malformedCatalog).field.qualification =
+    "Revision status unavailable."
 
   assert.equal(
     selectPublishedArchetypeStatus(
-      archetypeCatalog,
-      malformedEvidence,
+      malformedCatalog,
+      archetypeEvidenceCatalog,
+      "P+",
+    ),
+    null,
+  )
+
+  const missingAuthorization = structuredClone(archetypeCatalog) as unknown
+  delete object(missingAuthorization).publicationAuthorization
+  assert.ok(
+    validateArchetypeContentCatalog(
+      missingAuthorization,
+      archetypeEvidenceCatalog,
+    ).some((error) => error.includes("publicationAuthorization")),
+  )
+  assert.equal(
+    selectPublishedArchetypeStatus(
+      missingAuthorization,
+      archetypeEvidenceCatalog,
+      "P+",
+    ),
+    null,
+  )
+
+  const falseValidationClaim = structuredClone(archetypeCatalog) as unknown
+  object(object(falseValidationClaim).publicationAuthorization).validationClaim =
+    "validated"
+  assert.ok(
+    validateArchetypeContentCatalog(
+      falseValidationClaim,
+      archetypeEvidenceCatalog,
+    ).some((error) => error.includes("validationClaim must be none")),
+  )
+  assert.equal(
+    selectPublishedArchetypeStatus(
+      falseValidationClaim,
+      archetypeEvidenceCatalog,
       "P+",
     ),
     null,
@@ -349,24 +425,12 @@ test("semantic rich-content failures fail closed without changing identity, blen
   }
 })
 
-test("publication and claim-class rules reject unreviewed or under-sourced claims", () => {
+test("publication and claim-class rules reject unqualified or under-sourced claims", () => {
   const published = structuredClone(archetypeCatalog) as unknown
-  const publishedContent = firstContent(published)
-  publishedContent.publicationState = "published"
-  const notices = object(publishedContent.noticesFirst)
-  notices.status = "reviewed"
-  notices.qualification = null
-  notices.reviewIds = [
-    "review-owner-v23-1-relations-editorial",
-    "review-owner-v23-1-relations-methodology",
-  ]
-  const firstNotice = object(array(notices.value)[0])
-  firstNotice.status = "partial"
-  firstNotice.qualification = "Draft interpretation pending owner review."
-  firstNotice.reviewIds = []
+  firstDraftClaim(published).field.qualification = "Owner review optional."
   assert.ok(
     validateArchetypeContentCatalog(published, archetypeEvidenceCatalog).some(
-      (error) => error.includes("noticesFirst claims must be reviewed"),
+      (error) => error.includes("noticesFirst claims must match"),
     ),
   )
 
@@ -405,6 +469,72 @@ test("publication and claim-class rules reject unreviewed or under-sourced claim
       (error) => error.includes("approved research review"),
     ),
   )
+})
+
+test("authored copy rejects templated openings, duplicate sentences, and repeated six-word prefixes", () => {
+  const authored: Array<{ id: string; text: string }> = []
+  visit(archetypeCatalog, (record) => {
+    if (
+      typeof record.id === "string" &&
+      !record.id.startsWith("legacy-") &&
+      record.kind === "authored-interpretation" &&
+      typeof record.text === "string"
+    ) {
+      authored.push({ id: record.id, text: record.text })
+    }
+  })
+
+  assert.equal(authored.length, 104)
+  assert.equal(new Set(authored.map(({ text }) => text)).size, 104)
+
+  const prohibitedOpenings = [
+    "This reading notices",
+    "This reading accepts",
+    "This reading is strongest",
+    "Its strongest objection",
+    "Its common failure mode",
+    "The fit would weaken",
+    "The fit would also weaken",
+  ]
+  const prohibitedPhrases = [
+    "the authority, stakes, and likely consequences",
+    "sits between",
+    "pulls clear",
+    "deeper danger",
+    "stronger path",
+  ]
+
+  for (const { id, text } of authored) {
+    for (const opening of prohibitedOpenings) {
+      assert.equal(
+        text.toLocaleLowerCase("en").startsWith(opening.toLocaleLowerCase("en")),
+        false,
+        `${id}: ${opening}`,
+      )
+    }
+    for (const phrase of prohibitedPhrases) {
+      assert.equal(
+        text.toLocaleLowerCase("en").includes(phrase.toLocaleLowerCase("en")),
+        false,
+        `${id}: ${phrase}`,
+      )
+    }
+    assert.doesNotMatch(text, /\bkeeps?\b[^.!?]{0,48}\bin play\b/iu, id)
+  }
+
+  const sixWordPrefixes = new Map<string, string[]>()
+  for (const { id, text } of authored) {
+    const words = text
+      .normalize("NFKC")
+      .toLocaleLowerCase("en")
+      .match(/[\p{L}\p{N}]+(?:['’\-][\p{L}\p{N}]+)*/gu)
+    assert.ok(words && words.length >= 6, id)
+    const prefix = words.slice(0, 6).join(" ")
+    sixWordPrefixes.set(prefix, [...(sixWordPrefixes.get(prefix) ?? []), id])
+  }
+  for (const [prefix, ids] of sixWordPrefixes) {
+    assert.ok(ids.length <= 2, `${prefix}: ${ids.join(", ")}`)
+  }
 })
 
 test("source IDs, review subjects, and legacy metadata remain honest and resolvable", () => {

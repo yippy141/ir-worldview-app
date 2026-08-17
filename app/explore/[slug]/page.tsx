@@ -2,8 +2,11 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { coverageLevelLabels, getFamilyByKey, getFamilyBySlug } from "@/lib/explore-content"
 import { familySlug, familyTraditionClass, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
-import { ArchetypeSigil } from "@/components/archetypes/archetype-sigil"
 import { archetypes, getArchetypePath } from "@/lib/archetypes"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+} from "@/lib/archetype-display"
 import styles from "@/app/explore/explore.module.css"
 import type { Metadata } from "next"
 
@@ -75,7 +78,7 @@ export default async function ExploreDetailPage({ params }: Props) {
         data-tradition-boundary
       >
         <div>
-          <h2 id="tradition-boundary-heading">Supporting tradition, not assigned identity</h2>
+          <h2 id="tradition-boundary-heading">Supporting tradition, not a Foundation result</h2>
           <p>
             The Foundation uses this tradition as evidence for one explanatory
             lens. It does not classify everyone who draws on the tradition, and
@@ -89,11 +92,18 @@ export default async function ExploreDetailPage({ params }: Props) {
               key={archetype.code}
               data-tradition-archetype={archetype.code}
             >
-              <ArchetypeSigil code={archetype.code} size={40} />
-              <span>
+              <span className={styles.traditionCode} data-archetype-code-label>
+                <span aria-hidden="true">
+                  {formatArchetypeDisplayCode(archetype.code)}
+                </span>
+                <span className="sr-only">
+                  {formatArchetypeCodeSpeech(archetype.code)}
+                </span>
+              </span>
+              <span className={styles.traditionArchetypeCopy}>
                 <strong>{archetype.name}</strong>
                 <small>
-                  {archetype.code} · {archetype.posture === "+" ? "Applying advantage" : "Restraint"}
+                  {archetype.posture === "+" ? "Applying advantage" : "Restraint"}
                 </small>
               </span>
             </Link>

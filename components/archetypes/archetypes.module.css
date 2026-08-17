@@ -154,7 +154,7 @@
 
 .archetypeRow {
   display: grid;
-  grid-template-columns: 3rem 3.5rem minmax(0, 1fr) auto;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
   gap: 1rem 1.25rem;
   align-items: center;
   min-height: 7rem;
@@ -173,10 +173,21 @@
   outline-offset: 5px;
 }
 
-.rowSigil {
+.rowIdentity {
   display: grid;
-  place-items: center;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.directoryMark,
+.heroMark {
   color: var(--accent);
+}
+
+.directoryMark {
+  display: block;
 }
 
 .rowCode {
@@ -256,7 +267,7 @@
   }
 
   .archetypeRow {
-    grid-template-columns: 3rem 3rem minmax(0, 1fr) auto;
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
   }
 
   .rowActionLabel {
@@ -281,26 +292,19 @@
   }
 
   .archetypeRow {
-    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    grid-template-columns: 5rem minmax(0, 1fr) auto;
     gap: 0.55rem 0.85rem;
     padding: 1.15rem 0;
   }
 
-  .rowSigil {
-    grid-row: 1 / span 2;
-  }
-
-  .rowCode {
-    grid-column: 2;
-  }
-
-  .rowCopy {
-    grid-column: 2;
+  .rowIdentity {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.5rem;
   }
 
   .rowAction {
     grid-column: 3;
-    grid-row: 1 / span 2;
+    grid-row: auto;
     align-self: center;
   }
 
@@ -326,7 +330,6 @@
     page-break-inside: avoid;
   }
 
-  .rowSigil,
   .lensCode,
   .postureKey dt,
   .rowAction {
@@ -369,30 +372,28 @@
 
 .detailHero {
   display: grid;
-  grid-template-columns: 9rem minmax(0, 1fr) minmax(17rem, 0.5fr);
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.5fr);
   gap: 2rem 3rem;
   align-items: center;
   padding: 0 0 clamp(2.5rem, 6vw, 4.5rem);
   border-bottom: 1px solid var(--line-2);
 }
 
-.heroSigil {
-  display: grid;
-  place-items: center;
-  width: 9rem;
-  aspect-ratio: 1;
-  overflow: hidden;
-  color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 72%, var(--line) 28%);
-}
-
-.heroSigil svg {
-  display: block;
-  width: 78%;
-  height: auto;
-}
-
 .heroIdentity {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.heroMark {
+  display: inline-grid;
+  line-height: 0;
+  place-items: center;
+}
+
+.heroCopy {
   min-width: 0;
 }
 
@@ -412,6 +413,33 @@
   line-height: 1.6;
 }
 
+.markNote {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1.55fr);
+  gap: 1rem 3rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.markNote h2,
+.markNote p {
+  margin: 0;
+}
+
+.markNote h2 {
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.markNote p {
+  max-width: 68ch;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
 .identityRegister {
   margin: 0;
   border-top: 1px solid var(--line);
@@ -425,8 +453,7 @@
   border-bottom: 1px solid var(--line);
 }
 
-.identityRegister dt,
-.methodFooter dt {
+.identityRegister dt {
   color: var(--muted);
   font-family: var(--sans);
   font-size: 0.72rem;
@@ -435,8 +462,7 @@
   text-transform: uppercase;
 }
 
-.identityRegister dd,
-.methodFooter dd {
+.identityRegister dd {
   margin: 0;
   color: var(--text);
   font-family: var(--sans);
@@ -690,9 +716,52 @@
   text-transform: uppercase;
 }
 
+.researchStatus {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+}
+
+.researchStatus summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.75rem 0;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.researchStatus summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.researchStatusBody {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem 0 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.researchStatusBody p {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.researchStatusBody p:first-child {
+  color: var(--text);
+}
+
 .methodFooter {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(15rem, 0.6fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 2rem 3rem;
   align-items: start;
   padding-top: clamp(2.75rem, 6vw, 4.5rem);
@@ -705,19 +774,6 @@
   line-height: 1.65;
 }
 
-.methodFooter dl {
-  margin: 0;
-  border-top: 1px solid var(--line);
-}
-
-.methodFooter dl > div {
-  display: grid;
-  grid-template-columns: 6rem minmax(0, 1fr);
-  gap: 1rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px solid var(--line);
-}
-
 .methodFooter > a {
   font-family: var(--sans);
   font-size: 0.82rem;
@@ -727,15 +783,7 @@
 
 @media (max-width: 900px) {
   .detailHero {
-    grid-template-columns: 7rem minmax(0, 1fr);
-  }
-
-  .heroSigil {
-    width: 7rem;
-  }
-
-  .identityRegister {
-    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .methodFooter {
@@ -749,21 +797,23 @@
 
 @media (max-width: 680px) {
   .detailHero {
-    grid-template-columns: 4.5rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
   }
 
-  .heroSigil {
-    width: 4.5rem;
-  }
-
   .sectionHeading,
+  .markNote,
   .instinctGrid,
   .argumentLedger > div,
   .variantRows > div,
   .historyGrid,
   .methodFooter {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .heroIdentity {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
   }
 
   .identityRegister > div {
@@ -791,7 +841,6 @@
     padding-bottom: 1rem;
   }
 
-  .heroSigil,
   .statusNotice,
   .instinctGrid,
   .instinctGrid > div {
@@ -800,22 +849,33 @@
     border-color: #777777;
   }
 
-  .heroSigil,
+  .directoryMark,
+  .heroMark {
+    color: #111111;
+  }
+
+  .researchStatus > summary {
+    display: none;
+  }
+
+  .researchStatus::details-content {
+    display: block !important;
+    height: auto !important;
+    content-visibility: visible !important;
+  }
+
   .analogueHeading,
   .variantRows > div,
   .argumentLedger > div,
   .sourceLedger li,
+  .markNote,
   .statusNotice {
     break-inside: avoid;
     page-break-inside: avoid;
   }
 
   .detailHero {
-    grid-template-columns: 7rem minmax(0, 1fr) minmax(14rem, 0.5fr);
-  }
-
-  .heroSigil {
-    width: 7rem;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.5fr);
   }
 
   .sourceLedger a[href^="http"]::after {

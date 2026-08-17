@@ -19,6 +19,7 @@ import {
 } from "@/lib/percentiles"
 import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
 import { resolveArchetype } from "@/lib/archetypes"
+import { formatArchetypeDisplayCode } from "@/lib/archetype-display"
 import type { DimensionKey } from "@/lib/types"
 
 type Props = {
@@ -51,7 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     ? `${archetype.name}（基础原型）｜国际关系世界观清单`
     : "共享结果无法读取｜国际关系世界观清单"
   const description = narrative && archetype
-    ? `规范基础原型 ${archetype.name}（${archetype.code}）。${narrative.summary}`
+    ? `规范基础原型 ${archetype.name}（${formatArchetypeDisplayCode(archetype.code)}）。${narrative.summary}`
     : "此基础结果链接无法解码。"
 
   return {
@@ -170,7 +171,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
               {archetype.name}
             </h1>
             <p className="muted result-lead">
-              <strong>{archetype.code}</strong> · {narrative.summary}
+              <strong>{formatArchetypeDisplayCode(archetype.code)}</strong> · {narrative.summary}
             </p>
             <p className="muted result-note">
               原型专名沿用基础模型的规范名称；中文名称与原型释义尚未完成编辑审校。
@@ -205,7 +206,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
             familyLabel={narrative.familyLabel}
             strategyModifier={narrative.strategyLabel}
             normativeModifier={narrative.normativeLabel}
-            displayLabel={`${archetype.name} · ${archetype.code} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
+            displayLabel={`${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
             locale="zh-Hans"
           />
         </header>

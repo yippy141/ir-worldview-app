@@ -1,5 +1,9 @@
 import Link from "next/link"
 import { normFromNormativeModifier } from "@/lib/archetypes"
+import {
+  formatArchetypeReadingCode,
+  formatArchetypeReadingCodeForSpeech,
+} from "@/lib/archetype-display"
 import { buildProfileComparison } from "@/lib/profile-compare"
 import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import type { ResolvedProfileShare } from "@/lib/profile-share"
@@ -17,6 +21,12 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
   const rightFoundation = right.profile.foundation!
   const leftIdentity = resolveFoundationIdentityFromSnapshot(leftFoundation)
   const rightIdentity = resolveFoundationIdentityFromSnapshot(rightFoundation)
+  const leftNorm = leftIdentity
+    ? normFromNormativeModifier(leftIdentity.result.normativeModifier)
+    : null
+  const rightNorm = rightIdentity
+    ? normFromNormativeModifier(rightIdentity.result.normativeModifier)
+    : null
 
   return (
     <section className="stack-lg">
@@ -47,16 +57,22 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
         <article className="panel stack-sm">
           <p className="eyebrow">Left Foundation archetype</p>
           <h2 style={{ marginBottom: 0 }}>
-            {leftIdentity?.archetype.name ?? "Foundation identity unavailable"}
+            {leftIdentity?.archetype.name ?? "Foundation result unavailable"}
           </h2>
-          {leftIdentity ? (
-            <p className="foundation-result-code">
-              {leftIdentity.archetype.code} / {normFromNormativeModifier(leftIdentity.result.normativeModifier)}
+          {leftIdentity && leftNorm ? (
+            <p
+              className="foundation-result-code"
+              aria-label={formatArchetypeReadingCodeForSpeech(
+                leftIdentity.archetype.code,
+                leftNorm,
+              )}
+            >
+              {formatArchetypeReadingCode(leftIdentity.archetype.code, leftNorm)}
             </p>
           ) : null}
           <p className="muted" style={{ lineHeight: "1.65", marginBottom: 0 }}>
             {leftIdentity?.archetype.gloss
-              ?? "This shared Profile’s Foundation payload could not be resolved, so no identity was inferred."}
+              ?? "This shared Profile’s Foundation payload could not be resolved, so no Foundation reading was inferred."}
           </p>
           <p style={{ marginBottom: 0 }}>
             <Link href={`/profile/share/${leftPayload}`} style={{ color: "var(--accent)" }}>
@@ -68,16 +84,22 @@ export function ProfileCompare({ left, right, leftPayload, rightPayload }: Props
         <article className="panel stack-sm">
           <p className="eyebrow">Right Foundation archetype</p>
           <h2 style={{ marginBottom: 0 }}>
-            {rightIdentity?.archetype.name ?? "Foundation identity unavailable"}
+            {rightIdentity?.archetype.name ?? "Foundation result unavailable"}
           </h2>
-          {rightIdentity ? (
-            <p className="foundation-result-code">
-              {rightIdentity.archetype.code} / {normFromNormativeModifier(rightIdentity.result.normativeModifier)}
+          {rightIdentity && rightNorm ? (
+            <p
+              className="foundation-result-code"
+              aria-label={formatArchetypeReadingCodeForSpeech(
+                rightIdentity.archetype.code,
+                rightNorm,
+              )}
+            >
+              {formatArchetypeReadingCode(rightIdentity.archetype.code, rightNorm)}
             </p>
           ) : null}
           <p className="muted" style={{ lineHeight: "1.65", marginBottom: 0 }}>
             {rightIdentity?.archetype.gloss
-              ?? "This shared Profile’s Foundation payload could not be resolved, so no identity was inferred."}
+              ?? "This shared Profile’s Foundation payload could not be resolved, so no Foundation reading was inferred."}
           </p>
           <p style={{ marginBottom: 0 }}>
             <Link href={`/profile/share/${rightPayload}`} style={{ color: "var(--accent)" }}>

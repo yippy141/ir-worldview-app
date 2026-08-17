@@ -1,5 +1,9 @@
 import { expect, test, type Page } from "@playwright/test"
 import { getPublishedCurrentCases } from "../lib/current-cases/catalog"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+} from "../lib/archetype-display"
 import { archetypes, getArchetypePath } from "../lib/archetypes"
 import { EXPLORE_HUB_SECTION_ORDER } from "../lib/explore-content"
 import {
@@ -310,7 +314,7 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await page.goto("/profile")
 
     await expect(
-      page.getByRole("heading", { name: "Foundation identity unavailable" }),
+      page.getByRole("heading", { name: "Foundation result unavailable" }),
     ).toBeVisible()
     await expect(page.getByText("Stable thread", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
@@ -383,6 +387,25 @@ test("the archetype directory exposes exactly the eight canonical pure routes", 
   )).toEqual(
     archetypes.map(({ code }) => getArchetypePath(code)),
   )
+  await expect(page.locator("[data-archetype-directory] svg")).toHaveCount(8)
+  const codeLabels = page.locator(
+    "[data-archetype-directory] [data-archetype-code-label]",
+  )
+  await expect(codeLabels).toHaveCount(8)
+  await expect(codeLabels).toHaveText(
+    archetypes.map(({ code }) => formatArchetypeDisplayCode(code)),
+  )
+  for (const archetype of archetypes) {
+    const row = page.getByRole("link", {
+      name: `Open ${archetype.name}, ${formatArchetypeCodeSpeech(archetype.code)}`,
+      exact: true,
+    })
+    await expect(row).toBeVisible()
+    await expect(row).toHaveAccessibleDescription(archetype.gloss)
+    await expect(
+      row.locator(`[data-archetype-mark="${archetype.code}"]`),
+    ).toHaveAttribute("data-archetype-mark-size", "48")
+  }
   await expect(page.getByText(/8 types|eight types/i)).toHaveCount(0)
 })
 
@@ -395,7 +418,7 @@ test("Explore renders the contracted nine sections in order", async ({ page }) =
   )).toEqual(EXPLORE_HUB_SECTION_ORDER)
 })
 
-test("all eight archetype details publish the reviewed core and legacy comparison", async ({
+test("all eight archetype details publish the qualified partial core and legacy comparison", async ({
   page,
 }) => {
   for (const archetype of archetypes) {
@@ -404,9 +427,57 @@ test("all eight archetype details publish the reviewed core and legacy compariso
     await expect(
       page.getByRole("heading", { level: 1, name: archetype.name, exact: true }),
     ).toBeVisible()
+    const detail = page.locator("[data-archetype-detail]")
+    const codeLabel = detail.locator("[data-archetype-code-label]")
+    await expect(codeLabel).toHaveCount(1)
+    await expect(codeLabel).toHaveText(formatArchetypeDisplayCode(archetype.code))
+    await expect(codeLabel).toBeVisible()
+    await expect(detail.locator("svg")).toHaveCount(1)
+    const mark = detail.locator(
+      `[data-foundation-mark="pure"] [data-archetype-mark="${archetype.code}"]`,
+    )
+    await expect(mark).toHaveCount(1)
+    await expect(mark).toHaveAttribute("data-archetype-mark-render", "pictorial")
+    await expect(mark).toHaveAttribute("data-archetype-mark-size", "112")
+    await expect(mark).toHaveAttribute("aria-hidden", "true")
+    await expect(detail.locator("[data-archetype-sigil-frame]")).toHaveCount(0)
     await expect(
-      page.getByRole("img", { name: `${archetype.name} archetype sigil` }),
+      page.getByRole("heading", { name: "About the mark", exact: true }),
     ).toBeVisible()
+    await expect(
+      page.getByText(
+        "This contemporary mark is editorial artwork created for the inventory. It is not an authentic historical emblem, a cultural classification, or an endorsement. The visible code and name carry the meaning.",
+        { exact: true },
+      ),
+    ).toBeVisible()
+    await expect(
+      page.getByText(
+        "Supporting evidence for the Foundation result, not another Foundation result.",
+        { exact: true },
+      ),
+    ).toBeVisible()
+    const researchStatus = detail.locator(
+      "details[data-archetype-research-status]",
+    )
+    await expect(researchStatus).toHaveCount(1)
+    await expect(
+      researchStatus.locator("summary"),
+    ).toHaveText("Research and publication status")
+    await researchStatus.locator("summary").click()
+    await expect(researchStatus).toContainText(
+      "Owner-authorized AI-assisted English beta copy",
+    )
+    await expect(researchStatus).toContainText("pending human editorial review")
+    await expect(researchStatus).toContainText(
+      "No external expert review or validation has been completed.",
+    )
+    await expect(researchStatus).toContainText(
+      "Historical evidence remains a provisional legacy comparison.",
+    )
+    await expect(researchStatus).toContainText("empty sections are omitted")
+    await expect(researchStatus.locator("dl, dt, dd")).toHaveCount(0)
+    await expect(detail.getByRole("status")).toHaveCount(0)
+    await expect(detail.locator("footer dl")).toHaveCount(0)
     await expect(
       page.getByRole("heading", { name: "What this reading notices first" }),
     ).toBeVisible()
@@ -416,6 +487,20 @@ test("all eight archetype details publish the reviewed core and legacy compariso
     await expect(
       page.getByRole("heading", { name: "Where the comparison breaks" }),
     ).toBeVisible()
+    await expect(
+      detail.locator('#historical-comparison [role="note"]'),
+    ).toBeVisible()
+    for (const omittedHeading of [
+      "Nearest neighbors",
+      "Common blends",
+      "Domain expressions",
+      "Related Current Cases",
+      "Related Decision Patterns",
+    ]) {
+      await expect(
+        page.getByRole("heading", { name: omittedHeading, exact: true }),
+      ).toHaveCount(0)
+    }
     await expect(page.getByText("Interpretation under review")).toHaveCount(0)
   }
 })
@@ -444,9 +529,13 @@ test("tradition pages remain supporting evidence and publish no thinker assignme
   for (const familyKey of MODELED_FAMILY_KEYS) {
     await page.goto(`/explore/${familySlug(familyKey)}`)
     await expect(
-      page.getByRole("heading", { name: "Supporting tradition, not assigned identity" }),
+      page.getByRole("heading", { name: "Supporting tradition, not a Foundation result" }),
     ).toBeVisible()
     await expect(page.locator("[data-tradition-archetype]")).toHaveCount(2)
+    await expect(
+      page.locator("[data-tradition-boundary] [data-archetype-code-label]"),
+    ).toHaveCount(2)
+    await expect(page.locator("[data-tradition-boundary] svg")).toHaveCount(0)
     await expect(page.getByRole("heading", { name: "Associated thinkers" })).toHaveCount(0)
     await expect(page.locator(".thinker-entry")).toHaveCount(0)
     await expect(
@@ -465,7 +554,8 @@ test("unapproved Chinese archetype and Explore routes remain explicit status sur
       .toHaveCount(0)
     await expect(page.locator("[data-explore-section]"))
       .toHaveCount(0)
-    await expect(page.getByRole("img", { name: /archetype sigil/i })).toHaveCount(0)
+    await expect(page.locator("[data-archetype-code-label]")).toHaveCount(0)
+    await expect(page.locator("[data-archetype-mark]")).toHaveCount(0)
   }
 })
 

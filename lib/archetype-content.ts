@@ -14,8 +14,19 @@ export const archetypeEvidenceSchemaVersion = 2 as const
 export const LEGACY_COMPARISON_QUALIFICATION =
   "This historical comparison uses provisional source metadata and remains pending research review."
 
-export const DRAFT_INTERPRETATION_QUALIFICATION =
-  "Draft interpretation pending owner review."
+export const OWNER_AUTHORIZED_BETA_QUALIFICATION =
+  "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim."
+
+export const OWNER_AUTHORIZED_BETA_PUBLICATION = {
+  authorization: "owner-authorized",
+  contentClass: "ai-assisted-english-beta-copy",
+  humanEditorialReview: "pending",
+  externalExpertReview: "none",
+  validationClaim: "none",
+} as const
+
+export type ArchetypePublicationAuthorization =
+  typeof OWNER_AUTHORIZED_BETA_PUBLICATION
 
 export type ContentStatus =
   | "reviewed"
@@ -152,8 +163,11 @@ export type LegacyArchetypeEvidence = {
 }
 
 export type PublishedArchetypeStatus = {
-  reviewerId: "product-owner"
-  reviewedAt: string
+  publicationStatus: "owner-authorized-beta"
+  reviewStatus: "pending-human-editorial-review"
+  publicationAuthorization: ArchetypePublicationAuthorization
+  reviewerId: null
+  reviewedAt: null
   evidenceStatus: ArchetypeRichContent["evidenceStatus"]
 }
 
@@ -209,6 +223,11 @@ export function validateArchetypeContentCatalog(
   if (catalog.locale !== "en") {
     errors.push("catalog.locale must be en.")
   }
+  const publicationAuthorizationIsValid = validatePublicationAuthorization(
+    catalog.publicationAuthorization,
+    "catalog.publicationAuthorization",
+    errors,
+  )
   if (
     isNonEmptyString(catalog.contentVersion) &&
     context.contentVersion &&
@@ -253,6 +272,17 @@ export function validateArchetypeContentCatalog(
       localContext,
       errors,
     )
+    if (
+      publicationAuthorizationIsValid &&
+      isRecord(record) &&
+      isRecord(record.content) &&
+      record.content.publicationState === "published" &&
+      !isOwnerAuthorizedBetaCore(record.content)
+    ) {
+      errors.push(
+        `catalog.records[${index}].content must remain qualified partial AI-assisted beta copy with no sentence-level review IDs.`,
+      )
+    }
   })
   validateReviewSubjectResolution(catalog.records, localContext, errors)
 
@@ -271,7 +301,9 @@ export function getArchetypeContentDraft(
 
 /**
  * Public selector. A record fails closed unless it is explicitly published
- * and every required authored core has the review state required by contract.
+ * under the explicit owner-authorized AI-assisted English beta record, with
+ * every required authored core visibly marked as pending human editorial
+ * review and carrying no sentence-level review IDs.
  */
 export function getPublishedArchetypeContent(
   code: Archetype["code"],
@@ -281,8 +313,9 @@ export function getPublishedArchetypeContent(
 
 /**
  * Returns the bounded publication metadata shown on the English detail route.
- * It fails closed unless both owner editorial and methodology approvals cover
- * the record at the current content version.
+ * Owner authorization permits this AI-assisted copy to appear in beta; it is
+ * not sentence-level editorial or methodology approval, external-expert
+ * review, or a validation claim.
  */
 export function getPublishedArchetypeStatus(
   code: Archetype["code"],
@@ -297,42 +330,20 @@ export function selectPublishedArchetypeStatus(
 ): PublishedArchetypeStatus | null {
   const record = selectArchetypeContentRecord(catalog, evidence, code, true)
   if (!record || !isRecord(catalog)) return null
-
-  const evidenceErrors: string[] = []
-  const context = buildEvidenceContext(evidence, evidenceErrors)
-  if (
-    evidenceErrors.length > 0 ||
-    context.contentVersion !== catalog.contentVersion ||
-    context.evidenceCatalogVersion !== catalog.evidenceCatalogVersion
-  ) {
-    return null
-  }
-
-  const approvals = (["editorial", "methodology"] as const).map((role) =>
-    record.content.recordReviewIds
-      .map((reviewId) => context.reviews.get(reviewId))
-      .find(
-        (review) =>
-          review?.reviewerId === "product-owner" &&
-          review.reviewerRole === role &&
-          review.outcome === "approved" &&
-          review.contentVersion === context.contentVersion &&
-          review.evidenceCatalogVersion === context.evidenceCatalogVersion &&
-          review.subjectIds.includes(record.identity.slug) &&
-          /^\d{4}-\d{2}-\d{2}$/u.test(review.reviewedAt),
-      ),
+  const publicationAuthorization = readPublicationAuthorization(
+    catalog.publicationAuthorization,
   )
-  if (approvals.some((review) => !review)) return null
-
-  const reviewedAt = approvals
-    .flatMap((review) => review ? [review.reviewedAt] : [])
-    .sort((left, right) => left.localeCompare(right))
-    .at(-1)
-  if (!reviewedAt) return null
+  if (
+    !publicationAuthorization ||
+    !isOwnerAuthorizedBetaCore(record.content)
+  ) return null
 
   return {
-    reviewerId: "product-owner",
-    reviewedAt,
+    publicationStatus: "owner-authorized-beta",
+    reviewStatus: "pending-human-editorial-review",
+    publicationAuthorization,
+    reviewerId: null,
+    reviewedAt: null,
     evidenceStatus: record.content.evidenceStatus,
   }
 }
@@ -349,6 +360,12 @@ export function selectArchetypeContentRecord(
     catalog.locale !== "en" ||
     !isNonEmptyString(catalog.contentVersion) ||
     !isNonEmptyString(catalog.evidenceCatalogVersion)
+  ) {
+    return null
+  }
+  if (
+    publishedOnly &&
+    !readPublicationAuthorization(catalog.publicationAuthorization)
   ) {
     return null
   }
@@ -388,6 +405,7 @@ export function selectArchetypeContentRecord(
   if (publishedOnly && record.content.publicationState !== "published") {
     return null
   }
+  if (publishedOnly && !isOwnerAuthorizedBetaCore(record.content)) return null
   return record
 }
 
@@ -754,7 +772,7 @@ function validateContentRecord(
   )
 
   if (content.publicationState === "published") {
-    validatePublishedCore(content, `${path}.content`, errors)
+    validatePublishableCore(content, `${path}.content`, errors)
   }
 }
 
@@ -1133,7 +1151,7 @@ function validateUnresolvedField(
   }
 }
 
-function validatePublishedCore(
+function validatePublishableCore(
   content: Record<string, unknown>,
   path: string,
   errors: string[],
@@ -1144,18 +1162,22 @@ function validatePublishedCore(
     "evidenceThatWouldWeakenFit",
   ]) {
     const field = content[key]
-    if (!isRecord(field) || field.status !== "reviewed") {
-      errors.push(`${path}.${key} must be reviewed before publication.`)
+    if (!isRenderableAuthoredField(field)) {
+      errors.push(
+        `${path}.${key} must be reviewed or qualified owner-authorized beta copy before publication.`,
+      )
       continue
     }
     if (
       !Array.isArray(field.value) ||
       field.value.some(
-        (claim) => !isRecord(claim) || claim.status !== "reviewed",
+        (claim) =>
+          !isRenderableAuthoredField(claim) ||
+          claim.status !== field.status,
       )
     ) {
       errors.push(
-        `${path}.${key} claims must be reviewed before publication.`,
+        `${path}.${key} claims must match the field's reviewed or owner-authorized beta state.`,
       )
     }
   }
@@ -1165,8 +1187,10 @@ function validatePublishedCore(
     "strongestObjection",
     "commonFailureMode",
   ]) {
-    if (!isRecord(content[key]) || content[key].status !== "reviewed") {
-      errors.push(`${path}.${key} must be reviewed before publication.`)
+    if (!isRenderableAuthoredField(content[key])) {
+      errors.push(
+        `${path}.${key} must be reviewed or qualified owner-authorized beta copy before publication.`,
+      )
     }
   }
   if (Array.isArray(content.normativeVariants)) {
@@ -1174,14 +1198,63 @@ function validatePublishedCore(
       if (
         !isRecord(variant) ||
         !isRecord(variant.interpretation) ||
-        variant.interpretation.status !== "reviewed"
+        !isRenderableAuthoredField(variant.interpretation)
       ) {
         errors.push(
-          `${path}.normativeVariants[${index}] must be reviewed before publication.`,
+          `${path}.normativeVariants[${index}] must be reviewed or qualified owner-authorized beta copy before publication.`,
         )
       }
     })
   }
+}
+
+function isRenderableAuthoredField(value: unknown): value is Record<string, unknown> {
+  if (!isRecord(value)) return false
+  if (value.status === "reviewed") {
+    return value.value !== null && value.qualification === null
+  }
+  return isOwnerAuthorizedBetaField(value)
+}
+
+function isOwnerAuthorizedBetaField(
+  value: unknown,
+): value is Record<string, unknown> {
+  return isRecord(value) &&
+    value.status === "partial" &&
+    value.value !== null &&
+    value.qualification === OWNER_AUTHORIZED_BETA_QUALIFICATION &&
+    Array.isArray(value.reviewIds) &&
+    value.reviewIds.length === 0
+}
+
+function isOwnerAuthorizedBetaCore(content: unknown): boolean {
+  if (!isRecord(content) || !Array.isArray(content.normativeVariants)) {
+    return false
+  }
+  const listFields = [
+    content.noticesFirst,
+    content.likelyPolicyInstincts,
+    content.evidenceThatWouldWeakenFit,
+  ]
+  const claimFields = [
+    content.acceptedTradeoff,
+    content.strongestCaseForReading,
+    content.strongestObjection,
+    content.commonFailureMode,
+    ...content.normativeVariants.map((variant) =>
+      isRecord(variant) ? variant.interpretation : null
+    ),
+  ]
+
+  return Array.isArray(content.recordReviewIds) &&
+    content.recordReviewIds.length === 0 &&
+    listFields.every(
+      (field) =>
+        isOwnerAuthorizedBetaField(field) &&
+        Array.isArray(field.value) &&
+        field.value.every(isOwnerAuthorizedBetaField),
+    ) &&
+    claimFields.every(isOwnerAuthorizedBetaField)
 }
 
 function validateEvidenceRecord(
@@ -1467,6 +1540,47 @@ function validateStringArray(
     errors.push(`${path} cannot contain duplicates.`)
   }
   return strings
+}
+
+function validatePublicationAuthorization(
+  value: unknown,
+  path: string,
+  errors: string[],
+): value is ArchetypePublicationAuthorization {
+  if (!isRecord(value)) {
+    errors.push(`${path} must be an object.`)
+    return false
+  }
+
+  const expected = OWNER_AUTHORIZED_BETA_PUBLICATION
+  const expectedKeys = Object.keys(expected) as Array<keyof typeof expected>
+  const unexpectedKeys = Object.keys(value).filter(
+    (key) => !expectedKeys.includes(key as keyof typeof expected),
+  )
+  for (const key of unexpectedKeys) {
+    errors.push(`${path}.${key} is not allowed.`)
+  }
+  for (const key of expectedKeys) {
+    if (value[key] !== expected[key]) {
+      errors.push(`${path}.${key} must be ${expected[key]}.`)
+    }
+  }
+  return unexpectedKeys.length === 0 &&
+    expectedKeys.every((key) => value[key] === expected[key])
+}
+
+function readPublicationAuthorization(
+  value: unknown,
+): ArchetypePublicationAuthorization | null {
+  const errors: string[] = []
+  if (!validatePublicationAuthorization(
+    value,
+    "catalog.publicationAuthorization",
+    errors,
+  )) {
+    return null
+  }
+  return value
 }
 
 function readRootString(value: unknown, key: string): string {

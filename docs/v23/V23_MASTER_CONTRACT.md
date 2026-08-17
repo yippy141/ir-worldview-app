@@ -1,6 +1,6 @@
 # V23 Master Contract
 
-Status: architecture/content contract for owner review
+Status: binding architecture/content contract with V23.1 owner decisions recorded
 
 Scope: V23 Foundation archetype presentation, Explore ontology, and V23.2 Map handoff
 
@@ -14,12 +14,12 @@ This document reconciles the V23 brief with the implementation and the V22/V22.5
 
 Where the current repository and the V23 brief differ, this document records the incompatibility and either freezes the compatible behavior or marks an owner decision. The later V22.5 Foundation identity migration supersedes older V22 wording where those records conflict.
 
-The V23 identity stack is:
+The V23 interpretation stack is:
 
-1. The **Foundation archetype** is the only assigned general-worldview identity.
-2. A legitimate two-lens **blend** may be the Foundation identity when the existing resolver returns one.
-3. **Normative state** and **strategic posture** are modifiers, not additional identities.
-4. **Closest modeled tradition** is supporting evidence, not a second identity.
+1. The **Foundation archetype** supplies the headline Foundation reading.
+2. A legitimate two-lens **blend** may supply that Foundation result when the existing resolver returns one.
+3. **Normative state** and **strategic posture** are modifiers, not additional results.
+4. **Closest modeled tradition** is supporting evidence, not a second Foundation result.
 5. **Decision Patterns** are authored decision logics and are never calculated, matched, or assigned.
 6. Security, Technology, and AI Governance results are separate domain records.
 7. Perspective Runs, Current Case judgments, and evidence-coded public positions are contextual records.
@@ -54,13 +54,13 @@ There is no ninth scored archetype in V23. New archetype codes require new dimen
 
 | Public object | Code owner | Content owner | Public route(s) | May be assigned to a user? | In Profile? | On Worldview Map? | Versioned? | Current naming conflict | Migration requirement |
 |---|---|---|---|---|---|---|---|---|---|
-| **Foundation archetype** | `lib/archetypes.ts`, using Foundation output from `lib/scoring.ts`, `lib/scoring/v2.ts`, and `lib/share.ts` | `content/archetypes.json`; historical comparison in `content/archetype-evidence.json` | `/results/[payload]`, `/profile`, `/profile/share/[payload]`, `/archetypes/[slug]` | **Yes. The sole assigned general identity.** | Yes, resolved from the exact Foundation payload | Only as an unnamed continuous baseline point today | Foundation payload/scorer/calibration are versioned; base copy is not; evidence file is v1 | `Shi` versus current `Shi (勢)`; content split across two records | Freeze resolver and eight codes. Add a versioned presentation-content contract and enrich the existing detail URLs in place. Never infer identity from cached family fields. |
+| **Foundation archetype** | `lib/archetypes.ts`, using Foundation output from `lib/scoring.ts`, `lib/scoring/v2.ts`, and `lib/share.ts` | `content/archetypes.json`; historical comparison in `content/archetype-evidence.json` | `/results/[payload]`, `/profile`, `/profile/share/[payload]`, `/archetypes/[slug]` | **Yes. The headline Foundation reading.** | Yes, resolved from the exact Foundation payload | Only as an unnamed continuous baseline point today | Foundation payload/scorer/calibration are versioned; base copy is not; evidence file is v1 | `Shi` versus current `Shi (勢)`; content split across two records | Freeze resolver and eight codes. Add a versioned presentation-content contract and enrich the existing detail URLs in place. Never infer the result from cached family fields. |
 | **Blend** | Runtime construction in `lib/archetypes.ts`; threshold supplied by registered calibration | No authored catalog today | No detail route; rendered in result/Profile | **Yes**, when the existing resolver returns a low-differentiation two-lens result | Yes | Only the same continuous baseline point today | Indirectly scorer/payload/calibration-versioned; no content version | All 6 lens pairs at both signs are mechanically possible, but “common” or empirically distinct blends are not established | Preserve resolver behavior. Separate mechanically valid composite output from a reviewed `commonBlends` editorial list. Never invent a hybrid historical analogue. |
 | **Normative modifier** | `lib/types.ts`, `lib/scoring/v2.ts`, suffix mapping in `lib/archetypes.ts` | Current glosses in `lib/copy/glosses.ts` and result/Profile copy | `/results/[payload]`, `/profile`, share views | Yes, **only as a modifier** | Yes | Not explicit; `orderJustice` contributes to the secondary projection | Foundation payload/scorer-versioned | Persisted `Pluralist / Conditional Solidarist / Universalist` versus proposed `order-first / conditional / justice-first` | Keep persisted enums and `o/c/j` suffixes. Add owner-approved neutral display aliases; never present a ranked scale or second archetype. |
 | **Strategic posture** | `lib/types.ts`, `lib/scoring/v2.ts`, `postureFromStrategyModifier` in `lib/archetypes.ts` | Result/Profile explanatory copy | `/results/[payload]`, `/profile` | Yes, as supporting modifier and archetype sign | Yes | Not represented by the current projection because `restraint` is omitted | Foundation payload/scorer-versioned | Three-state `Restrainer / Hedger / Maximizer` is not one-to-one with two signs; `Hedger` resolves to `+` at raw restraint `<= 4` and `-` above `4` | Preserve all thresholds and the `Hedger` split. Explain `+` as applying advantage and `-` as restraint, not good/bad, more/less, or a direct rename of the three-state modifier. |
-| **Closest modeled tradition** | Family calculation in `lib/scoring/v2.ts`; canonical labels/slugs in `lib/worldview-config.ts` | Long-form tradition copy in `lib/explore-content.ts` | `/explore/[tradition]`, result/Profile support sections | Calculated, but **never assigned as a second identity** | Yes, subordinate to the archetype | Four authored anchors and family facets | Family result is payload/scorer-versioned; editorial copy is not | “Strategic Realist” result label versus “Realism” tradition page; scorer duplicates labels despite a declared source of truth | Retain four routes. Explain family/adjective distinction. Move high-value content to owner records and stop introducing duplicate labels/slugs. Do not refactor frozen scoring in V23.1. |
+| **Closest modeled tradition** | Family calculation in `lib/scoring/v2.ts`; canonical labels/slugs in `lib/worldview-config.ts` | Long-form tradition copy in `lib/explore-content.ts` | `/explore/[tradition]`, result/Profile support sections | Calculated, but **never a second Foundation result** | Yes, subordinate to the archetype | Four authored anchors and family facets | Family result is payload/scorer-versioned; editorial copy is not | Frozen scorer labels use adjective/person forms while public tradition pages use noun forms | Retain four routes. Keep frozen scorer labels, add one canonical public tradition-noun mapping, and stop introducing duplicate labels/slugs. Do not refactor frozen scoring in V23.1. |
 | **Decision Pattern** | Stable IDs, fingerprints, and compatibility contract in `lib/atlas-lite.ts` | English copy in `lib/atlas-lite.ts`; approved zh subset in `content/locales/zh-Hans/worldview-profiles.ts`; cases/mental models in separate content libraries | `/explore/atlas/[id]` and `/zh/explore/atlas/[id]`; collection is the Map route `/explore/atlas` | **Never** | Only a collapsed browse link, never a selected Pattern | Yes; `atlas-patterns` is currently on by default | No explicit catalog/content version | Internals still use `AtlasLitePattern`, `WorldviewProfile`, `profileId`, legacy `name`, and public `publicName`, competing with user Profile terminology | Freeze all ten IDs, order, URLs, technical names, fingerprints, neighbor links, and query key. Publicly say “Decision Pattern.” V23.2 makes it an optional overlay; do not revive matchers. |
-| **Module headline** | `lib/modules/types.ts`, Security/Technology definitions, bank/scorer version registries | Domain module content | `/modules/[slug]/results/[payload]` | Yes, **within its named domain only** | Yes, as a separate Security or Technology record | No | Bank/scorer/payload-versioned | An unqualified headline can sound like a general identity | Always qualify as “Security read” or “Technology read.” No semantic or code migration in V23.1. |
+| **Module headline** | `lib/modules/types.ts`, Security/Technology definitions, bank/scorer version registries | Domain module content | `/modules/[slug]/results/[payload]` | Yes, **within its named domain only** | Yes, as a separate Security or Technology record | No | Bank/scorer/payload-versioned | An unqualified headline can sound like a Foundation result | Always qualify as “Security read” or “Technology read.” No semantic or code migration in V23.1. |
 | **AI Governance archetype** | `lib/ai-governance-types.ts`, scorer and version registries | AI result and atlas content | `/ai/results/[payload]`, `/ai/atlas/[id]` | Yes, **within AI Governance only** | Yes, separately | No on the IR Map; AI-scoped reference records are list-only | Bank/scorer/payload-versioned | The public word “archetype” competes with the Foundation archetype | Preserve internal keys, types, payloads, routes, and existing labels. In shared IA use “AI Governance result” or fully qualified “AI Governance archetype,” never an unqualified identity. |
 | **Perspective Run** | `lib/perspectives/types.ts`, `catalog.ts`, `scoring.ts`, and `share.ts` | Perspective catalog and route copy | `/perspectives/[perspectiveId]/result/[payload]` | User-generated contextual result, **not an identity** | Yes | Yes, latest saved run per Perspective ID | Payload v1 plus `scenarioSetVersion`, locale/copy provenance | “Profile shift” could be read as a replacement result | Frame as a role-conditioned comparison to a stable baseline. Preserve all six Perspective IDs and issued payloads. |
 | **Reference thinker/public position** | `lib/reference-profiles/types.ts`, `validation.ts`, `catalog.ts` | Evidence-coded catalog with source, date, scope, qualification, reviewers, and status | `/explore/reference`, `/explore/reference/[id]`, approved zh counterparts | **Never** | No | Yes when the reviewed seven-dimension evidence is complete; otherwise list-only | Schema v1, catalog v2, record/history/review/evidence-window versioning | Sixteen unsourced “Associated thinkers” in tradition content compete with the four evidence-coded public records | The reference-profile contract is authoritative. Link only reviewed records as positions. Recast unsourced names as reading-list associations or withhold them; never auto-code a person into an archetype. |
@@ -71,14 +71,14 @@ There is no ninth scored archetype in V23. New archetype codes require new dimen
 | Collision | Binding resolution |
 |---|---|
 | Foundation archetype vs closest tradition | Archetype answers “what is my Foundation result?” Tradition explains the nearest modeled family. Archetype is always visually and verbally primary. |
-| Foundation archetype vs Decision Pattern | Only the archetype is assigned. “Decision Pattern” is the sole public term for the ten editorial logics. Legacy `profile` identifiers remain internal compatibility details. |
+| Foundation archetype vs Decision Pattern | Only the archetype supplies the headline Foundation reading. “Decision Pattern” is the sole public term for the ten editorial logics. Legacy `profile` identifiers remain internal compatibility details. |
 | Foundation archetype vs AI Governance archetype | Qualify the AI object by domain in every shared surface. It cannot replace, revise, or numerically feed the Foundation. |
 | Two-sign posture vs three-state Strategy modifier | Display both only with an explanation that the sign is a presentation derivation and that `Hedger` can fall on either side. Do not collapse or rename persisted states. |
 | Evidence-coded public positions vs “Associated thinkers” | Only reference-profile records may be presented as dated positions. Unsourced associations are reading guidance, not a profile, resonance score, or archetype assignment. |
 | Current Case reading vs saved user judgment | The case contains authored readings; Profile stores the user’s judgment. Neither is a Foundation classification. |
 | Continuous Map position vs archetype matrix | The 4×2 matrix is the primary categorical explanation in V23.2. The continuous projection survives as a secondary, explicitly limited view. |
 | `/explore/atlas` Map vs `/explore/atlas/[id]` Pattern pages | Preserve both namespaces. Navigation labels distinguish “Worldview Map” from “Decision Pattern detail”; no route rename is required. |
-| Module headline vs general identity | Every module label carries its domain. Profile keeps domain records below and separate from the Foundation payoff. |
+| Module headline vs Foundation result | Every module label carries its domain. Profile keeps domain records below and separate from the Foundation payoff. |
 
 ## C. Canonical archetype content contract
 
@@ -275,6 +275,14 @@ Renderability is strict: `reviewed` renders normally; `partial` renders its valu
 | `scholarly-interpretation` | A scholar’s argument, a tradition reading, or contested historiography | Reviewed scholarly source required; attribute the interpretation and state material disagreement. |
 | `current-policy-claim` | Current government, party, movement, institutional, or policy position | Primary/authoritative source required plus `asOf`, evidence window, scope, qualification, review date, and review due date. No timeless actor label. |
 
+**V23.1 bounded-beta supersession:** the owner-authorized root publication
+record permits the 104 AI-assisted English `authored-interpretation` sentences
+to render only as visibly qualified `partial` copy while human editorial review
+is pending. It does not create sentence-level editorial or methodology
+`ReviewId` records, change any claim to `reviewed`, provide external-expert
+review, or make a validation claim. The normal `ReviewId` rule above continues
+to govern any claim represented as `reviewed` and any later reviewed revision.
+
 The existing psychometric evidence audit does not review these historical or policy claims. V23.1 needs focused schema, source-integrity, and publication-status tests; it must not relabel those tests as validity evidence.
 
 Migration must not fabricate bibliography metadata. Existing `{label, href}` sources migrate losslessly to `title` and `href`; unknown author, publisher, publication date, and access date remain `null`, with `metadataStatus="legacy-minimal"` and `status="provisional"`. The currently public `whyItFits` and `whereItBreaks` claims may remain visible only as `partial` under the explicit record-level `legacy-v1-provisional` status and a visible source-metadata qualification. This grandfather rule applies only to those existing v1 claims. New historical, scholarly, or current-policy claims cannot publish until the normal source rule passes. An owner must approve this binding path before either schema migration; engineering must not infer missing metadata or browse for it in the implementation PR.
@@ -287,7 +295,7 @@ Migration must not fabricate bibliography metadata. Existing `{label, href}` sou
 | `whyItFits`, `whereItBreaks`, optional P-/R+ `nameNote`, and source URLs in `content/archetype-evidence.json` | Reuse as migration inputs. Move public prose into the canonical English catalog as typed claims; move the source ledger and review history into the evidence catalog. Do not retain duplicate prose in both files. Existing links alone do not satisfy all new source metadata. |
 | `lens`, `posture`, and slug | Currently derived. The owner-selected canonical identity record becomes their single editor-facing manifest under either Plan A or B; validate them against the code and expose them through the frozen identity accessor. Do not define a second slug table. |
 | Foundation family payoff and tradition copy | May seed editorial research, but cannot be copied mechanically into posture-specific archetypes. |
-| Notices, policy instincts, accepted tradeoff, strongest case/objection, failure mode, weakening evidence | New authored interpretation with editorial and methodology review. |
+| Notices, policy instincts, accepted tradeoff, strongest case/objection, failure mode, weakening evidence | New authored interpretation. V23.1 uses the bounded owner-authorized `partial` exception above; a `reviewed` state still requires editorial and methodology review. |
 | Neighbors and separating questions | New authored relations. Validate that every code resolves and no item points to itself. |
 | Normative variants | New presentation copy over frozen `o/c/j` states. It does not alter scoring. |
 | Common blends | New, curated presentation relations. “Common” means editor-selected for explanation, not measured prevalence. |
@@ -333,7 +341,7 @@ A **reviewed pair-specific** blend presentation must show:
 6. the shared posture sign and the separate normative modifier;
 7. a statement that the result is a family of nearby profiles, not a new natural kind.
 
-The code uses canonical lens order `P / R / M / S` for stable display; that order must not imply a primary and secondary identity. If future presentation needs to describe which family scored first, it may expose a presentation-only `leadingLens` from the already-decoded result, but must not change the blend code or give the two names unequal headline status.
+The code uses canonical lens order `P / R / M / S` for stable display; that order must not imply a primary and secondary result. If future presentation needs to describe which family scored first, it may expose a presentation-only `leadingLens` from the already-decoded result, but must not change the blend code or give the two names unequal headline status.
 
 An unreviewed pair preserves the existing compatibility label/gloss, shows the two reviewed archetype names/glosses, shared sign, and resolved normative modifier, then says that a pair-specific interpretation has not been editorially reviewed. It does **not** synthesize a shared premise, disagreement, separating case, or Focus Area at runtime. Only reviewed entries in `commonBlends` receive those deeper slots. “Common” is editorial shorthand and must not be presented as observed prevalence. Blends never receive invented hybrid analogues, unique sigils, new codes, or separate population claims. The product must not be marketed as “60 types.”
 
@@ -502,7 +510,7 @@ V23.1 long form is English-only.
 
 ### H.4 Invalid and legacy states
 
-Invalid Foundation payloads continue to fail closed with the existing recovery path. A Profile whose exact Foundation identity cannot be reconstructed keeps subordinate records but marks the Foundation unavailable; it must not fall back to a cached tradition, Decision Pattern, or module result. No V23 content version is added to old payloads.
+Invalid Foundation payloads continue to fail closed with the existing recovery path. A Profile whose exact Foundation result cannot be reconstructed keeps subordinate records but marks the Foundation unavailable; it must not fall back to a cached tradition, Decision Pattern, or module result. No V23 content version is added to old payloads.
 
 ## Repository contradictions and planned disposition
 
@@ -514,7 +522,7 @@ Invalid Foundation payloads continue to fail closed with the existing recovery p
 | `/archetypes` index is absent; the eight detail routes currently contain only historical comparison evidence | Add the index and enrich the same eight routes in V23.1; do not replace or redirect them. |
 | Current Map is a continuous projection with Decision Patterns on by default; it cannot represent posture because restraint is absent | Do not patch around it in V23.1. Implement the 4×2 primary matrix and optional overlays in V23.2; preserve projection v1 as secondary. |
 | Tradition pages publish sixteen unsourced “Associated thinkers” cards that do not meet the dated evidence-coded position contract | Remove those public position cards in V23.1; link only reviewed reference records or clearly identified reading associations. |
-| All twelve two-lens/same-sign combinations are mechanically resolvable, while empirical distinctness/commonness is unestablished | Preserve compatibility, show the two reviewed component readings plus a pair-review notice, and reserve relational prose for an owner-reviewed editorial list. |
+| All twelve two-lens/same-sign combinations are mechanically resolvable, while empirical distinctness/commonness is unestablished | Preserve compatibility, show the two owner-authorized-beta component readings plus a pair-review notice, and reserve relational prose for a future human-editorially-reviewed list. |
 | Foundation sign has two states while Strategy modifier has three | Explain both and preserve the Hedger split; do not merge or rename scoring states. |
 | Decision Pattern internals use `profile` terminology and AI uses the unqualified type name `archetype` | Freeze internal compatibility names; disambiguate public copy as “Decision Pattern” and “AI Governance result/archetype.” |
 | Archetype presentation copy is split, largely unversioned, and partially outside public-copy audit coverage | Use one canonical accessor and expand audit roots in V23.1. Prefer smaller in-place Plan B for this one PR unless the owner explicitly accepts Plan A’s migration surface; never add parallel identity records. |
@@ -525,27 +533,25 @@ Invalid Foundation payloads continue to fail closed with the existing recovery p
 ## Contract decisions that are already settled
 
 1. Keep eight pure archetypes and existing resolver-produced blends; add no scored code.
-2. Keep the Foundation archetype as the only assigned general identity.
+2. Keep the Foundation archetype as the headline Foundation reading.
 3. Preserve all payloads, stores, routes, IDs, slugs, and locale boundaries listed above.
 4. Enrich the eight existing archetype URLs rather than replacing the historical pages.
 5. Make the 4×2 matrix primary only in V23.2; retain the continuous projection as secondary.
 6. Use evidence-coded reference profiles for public positions; do not assign people or organizations to archetypes.
 7. Treat human/automated evidence honestly; no human-validation claim exists.
 
-## Owner decisions still required
+## V23.1 owner decisions recorded on 2026-08-18
 
-These do not authorize guessing in implementation:
-
-1. **P- display name:** confirm that the repository-locked `Shi (勢)` remains canonical despite the brief’s shorthand `Shi`. Recommendation: preserve `Shi (勢)` and its existing name note.
-2. **Normative aliases:** approve `order-first / conditional / justice-first`, their exact neutral glosses, and display order. Persisted enums and suffixes remain frozen either way.
-3. **Blend editorial set:** approve which pairs, if any, receive pair-specific `commonBlends` prose. All resolver outputs remain compatible; unreviewed pairs show only the existing compatibility gloss, two component readings, and an explicit pair-review notice.
-4. **Publication completeness:** approve `research-required`/withheld fields for launch versus requiring all eight records to be fully authored before V23.1 ships. Recommendation: allow explicit withheld status and never invent filler.
-5. **Related content:** approve the initial related Current Case and Decision Pattern links with written rationales, or ship empty reviewed arrays. No automatic relation is acceptable.
-6. **Source standard:** approve richer source metadata and the review owner for historical/culturally sensitive claims, especially Shi, Satyagraha, Musyawarah, Dirigisme, Dependencia, and the Grotian/Wight naming distinction.
-7. **Associated thinkers:** approve replacing the sixteen unsourced cards with links to eligible reference records plus clearly labeled reading associations. Recommendation: withhold any person-position card that lacks date, scope, source, qualification, and review.
-8. **Sigil geometry:** approve the four base topologies, the two posture transforms, and the cultural/visual collision review before the marks appear publicly.
-9. **Chinese scope:** confirm English-only V23.1 long form. Recommendation: retain the current explicit unavailable state until a localization owner approves a bounded deck.
-10. **Content migration:** approve Plan A, the atomic move to `content/archetypes/`, or Plan B, an in-place schema expansion plus merged accessor over the two existing root JSON files. Plan B is recommended for the one-PR V23.1 boundary; Plan A is the cleaner eventual layout but adds migration-only review surface. Do not create parallel canonical records.
-11. **Social cards:** if V23.1 adds sigils to share cards, approve real-platform preview checks for X, LinkedIn, WhatsApp, and WeChat. Local 1200×630 rendering alone is not platform evidence.
+1. **P- display name:** `Shi (勢)` is the canonical public name and retains its qualification.
+2. **Normative aliases:** `Order-first / Conditional / Justice-first` are the canonical public aliases; persisted enums and suffixes remain frozen.
+3. **Blend editorial set:** no pair-specific prose is published in V23.1. Resolver outputs remain compatible and never receive a new mark or analogue.
+4. **Publication completeness:** the 104 authored interpretation sentences remain qualified `partial` records. The owner authorizes the AI-assisted English copy for editorial beta publication while human editorial review remains pending. No external-expert review or validation is claimed.
+5. **Related content:** Current Case and Decision Pattern relations ship as reviewed empty arrays; no automatic bridge is permitted.
+6. **Source standard:** existing historical comparison copy remains qualified and provisional with unresolved research recorded explicitly. Missing metadata is not inferred.
+7. **Associated thinkers:** the sixteen unsourced position cards are removed from public rendering; evidence-coded reference records remain authoritative.
+8. **Editorial marks:** the old four-base/two-transform geometry is blocked history. The exact eight `v23-system-a-derived-1` marks in `assets/V23_SYSTEM_A_DERIVED_SIGILS_MANIFEST.json` are owner-selected for beta after automated collision review. The owner accepts bounded residual cultural risk; this is not universal cultural clearance. Production uses 112px hero, 48px directory, and code-only rendering below 32px. Blends use Diptych/Hallmark composition without a new mark.
+9. **Chinese scope:** V23.1 long form remains English-only; unapproved Chinese routes continue to fail closed.
+10. **Content migration:** Plan B is selected. The two root JSON files remain the canonical records behind one typed accessor.
+11. **Social cards:** System A marks are not added to share cards in this pass; no platform-preview claim is made.
 
 Human-testing timing is not open: the recorded consolidated usability round follows the next major user-facing integration and precedes broader promotion or controlled Tier 1 recruitment. It remains usability evidence, not psychometric validation.

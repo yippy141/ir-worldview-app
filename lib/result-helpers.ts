@@ -8,7 +8,7 @@ import {
 } from "@/lib/results/dimension-bands"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
-import { familyLabel } from "@/lib/worldview-config"
+import { familyLabel, traditionNounLabel } from "@/lib/worldview-config"
 import type {
   DimensionKey,
   DimensionScores,
@@ -106,7 +106,7 @@ export function buildSummary(familyKey: FamilyKey, dimensionScores: DimensionSco
   const top2 = getTopExplanatoryDimensions(dimensionScores, 2)
   const dim0 = dimensionLabels[top2[0]].toLowerCase()
   const dim1 = dimensionLabels[top2[1]].toLowerCase()
-  return `The strongest signals in your Foundation profile are ${dim0} and ${dim1}. ${familyLabel(familyKey)} is the closest tradition-level shorthand for that pattern. The label summarizes this result and does not define a permanent identity.`
+  return `The strongest signals in your Foundation profile are ${dim0} and ${dim1}. ${traditionNounLabel(familyKey)} is the closest tradition-level shorthand for that pattern. The label summarizes this result and does not define a permanent identity.`
 }
 
 // ── Closest traditions ────────────────────────────────────────────────────────
@@ -139,21 +139,21 @@ export function getClosestTraditions(
     .map(([key, score]) => ({
       key,
       score,
-      label: familyLabel(key),
+      label: traditionNounLabel(key),
     }))
 
   const primary = identity
     ? {
         key: identity.familyKey,
         score: familyScores[identity.familyKey],
-        label: familyLabel(identity.familyKey),
+        label: traditionNounLabel(identity.familyKey),
       }
     : ordered[0]
   const secondary = identity
     ? {
         key: identity.runnerUpKey,
         score: familyScores[identity.runnerUpKey],
-        label: familyLabel(identity.runnerUpKey),
+        label: traditionNounLabel(identity.runnerUpKey),
       }
     : ordered[1]
   const gap = identity?.nearestFitGap ?? primary.score - secondary.score
@@ -206,7 +206,7 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
         key: "political-economy-salience",
         label: "Political-economy salience",
         description:
-          "Trade, finance, sanctions, and dependence are central to how you explain outcomes. This dimension-level signal does not by itself assign a Critical Political Economy identity.",
+          "Trade, finance, sanctions, and dependence are central to how you explain outcomes. This dimension-level signal does not by itself produce a Critical political economy Foundation reading.",
       },
     })
   }
@@ -922,7 +922,7 @@ export function getWhatWouldChangeThis(
   nk: FamilyKey,
   d: DimensionScores,
 ): string {
-  const nkLabel = familyLabel(nk)
+  const nkLabel = traditionNounLabel(nk)
   const dim = separatingDimension[fk]?.[nk]
 
   if (!dim) {
@@ -947,10 +947,10 @@ export function getFlipAnalysis(
   if (Math.abs(score - 4) > 1.2) return null
 
   const dimLabel = dimensionLabels[dim].toLowerCase()
-  const nkLabel = familyLabel(nk)
+  const nkLabel = traditionNounLabel(nk)
 
   if (score >= 4) {
-    return `A ${dimLabel} score of ${score.toFixed(1)} is close enough to the ${nkLabel} position to keep that tradition relevant. Stronger answers on this dimension would make ${nkLabel} the closest modeled tradition.`
+    return `A ${dimLabel} score of ${score.toFixed(1)} is close enough to keep ${nkLabel} relevant. Stronger answers on this dimension would make ${nkLabel} the closest modeled tradition.`
   } else {
     return `At ${score.toFixed(1)}, ${dimLabel} remains near neutral. Giving this dimension more weight would move the result toward ${nkLabel}, which explains why that tradition remains the runner-up.`
   }
@@ -987,13 +987,13 @@ export function getWhyThisResult(
     return ["Your answers aligned consistently with the overall profile of this tradition across multiple dimensions."]
   }
 
-  const fkLabel = familyLabel(fk)
-  const nkLabel = familyLabel(nk)
+  const fkLabel = traditionNounLabel(fk)
+  const nkLabel = traditionNounLabel(nk)
 
   return top.map(({ dim, score }) => {
     const dimLabel = dimensionLabels[dim].toLowerCase()
     const directionWord = score >= 4.5 ? "high" : score <= 3.5 ? "low" : "moderate"
-    return `Your ${directionWord} score on ${dimLabel} aligned more with ${fkLabel} logic than with ${nkLabel}.`
+    return `Your ${directionWord} score on ${dimLabel} aligned more closely with ${fkLabel} than with ${nkLabel}.`
   })
 }
 
@@ -1084,7 +1084,7 @@ export function getWhatCouldShift(
   const dim = separatingDimension[fk]?.[nk]
   if (dim) {
     const dimLabel = dimensionLabels[dim].toLowerCase()
-    const nkLabel = familyLabel(nk)
+    const nkLabel = traditionNounLabel(nk)
     const score = d[dim]
     const dir = score < 4 ? "higher" : "lower"
     results.push(

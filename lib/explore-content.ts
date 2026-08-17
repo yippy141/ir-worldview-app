@@ -1,9 +1,13 @@
 import exploreHubData from "@/content/explore/hub.en.json" with { type: "json" }
 import type { LensCode } from "@/lib/archetypes"
 import type { DimensionKey, FamilyKey } from "@/lib/types"
-import { familyKeyFromSlug, familySlug } from "@/lib/worldview-config"
+import {
+  familyKeyFromSlug,
+  familySlug,
+  traditionNounLabel,
+} from "@/lib/worldview-config"
 
-export const EXPLORE_HUB_SCHEMA_VERSION = 1 as const
+export const EXPLORE_HUB_SCHEMA_VERSION = 2 as const
 
 export const EXPLORE_HUB_SECTION_ORDER = [
   "how-labels-fit",
@@ -72,14 +76,8 @@ export type ExploreHubContent = {
   }
   lensBands: Array<{
     lens: LensCode
-    label: string
     description: string
   }>
-  postureExplanation: {
-    applyingAdvantage: string
-    restraint: string
-    equalWeight: string
-  }
   normativeAliases: Array<{
     state: "o" | "c" | "j"
     label: "Order-first" | "Conditional" | "Justice-first"
@@ -100,9 +98,9 @@ export type ExploreHubContent = {
     linkLabel: string
     href: "/explore/reference"
   }
+  contextBoundary: string
   contextRecords: Array<{
     id: (typeof EXPLORE_HUB_CONTEXT_ORDER)[number][0]
-    objectType: string
     title: string
     description: string
     href: (typeof EXPLORE_HUB_CONTEXT_ORDER)[number][1]
@@ -143,12 +141,12 @@ export function validateExploreHubContent(value: unknown): string[] {
       "hierarchy",
       "scoringEvidence",
       "lensBands",
-      "postureExplanation",
       "normativeAliases",
       "blendExplanation",
       "dimensions",
       "decisionPatternDirectory",
       "referenceDirectory",
+      "contextBoundary",
       "contextRecords",
       "coverage",
     ],
@@ -193,15 +191,9 @@ export function validateExploreHubContent(value: unknown): string[] {
     value.lensBands,
     EXPLORE_HUB_LENS_ORDER,
     "lensBands",
-    ["lens", "label", "description"],
+    ["lens", "description"],
     errors,
     "lens",
-  )
-  validateExploreTextRecord(
-    value.postureExplanation,
-    "postureExplanation",
-    ["applyingAdvantage", "restraint", "equalWeight"],
-    errors,
   )
   validateNormativeAliases(value.normativeAliases, errors)
   if (!isExploreString(value.blendExplanation)) {
@@ -231,6 +223,9 @@ export function validateExploreHubContent(value: unknown): string[] {
     "/explore/reference",
     errors,
   )
+  if (!isExploreString(value.contextBoundary)) {
+    errors.push("contextBoundary is required.")
+  }
   validateContextRecords(value.contextRecords, errors)
   validateExploreLinkRecord(
     value.coverage,
@@ -297,7 +292,7 @@ export const exploreFamilies: ExploreFamily[] = [
   {
     slug: familySlug("realist"),
     familyKey: "realist",
-    name: "Realism",
+    name: traditionNounLabel("realist"),
     tagline: "World politics is shaped by the distribution of power and the absence of any authority above states.",
     summary: `Realism begins with a blunt structural premise: there is no government above governments. In a world where no authority can reliably punish defection or guarantee protection, states have to look after themselves. This is not a claim about human nature being evil — it is a claim about the structure of the international system. Even states that want peace cannot be certain others feel the same, so they prepare for the worst.
 
@@ -460,7 +455,7 @@ Realism is not a single view. Classical realists emphasize human nature and stat
   {
     slug: familySlug("institutionalist"),
     familyKey: "institutionalist",
-    name: "Institutionalism",
+    name: traditionNounLabel("institutionalist"),
     tagline: "Cooperation can be made durable through shared rules, monitoring, and repeated interaction — even without a world government.",
     summary: `If realism treats anarchy as a trap, institutionalism treats it as a challenge that can be managed. The core argument is that states cooperate less than they could, not because they are inherently hostile, but because they lack reliable information about each other's intentions and no way to verify compliance. International institutions — treaties, organizations, monitoring bodies, dispute-resolution mechanisms — can solve those problems without requiring trust or a world government.
 
@@ -625,7 +620,7 @@ Liberal institutionalism also takes domestic politics seriously. The "two-level 
   {
     slug: familySlug("constructivist"),
     familyKey: "constructivist",
-    name: "Constructivism",
+    name: traditionNounLabel("constructivist"),
     tagline: "The meaning of threats, alliances, and interests is partly constituted by identity, norms, and shared social expectations.",
     summary: `Constructivism asks a different kind of question: where do interests come from? Realists and institutionalists largely treat state interests as given — states want security, growth, and survival. Constructivists argue that what counts as a threat, what counts as a win, and what kinds of cooperation are imaginable all depend on shared identities, social expectations, and the historical context that shapes how states understand themselves and each other.
 
@@ -782,7 +777,7 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
   {
     slug: familySlug("criticalPoliticalEconomy"),
     familyKey: "criticalPoliticalEconomy",
-    name: "Critical Political Economy",
+    name: traditionNounLabel("criticalPoliticalEconomy"),
     tagline: "World politics is shaped by who controls production, finance, and access to markets — not just who has the most tanks.",
     summary: `Critical political economy starts from a different set of puzzles. It is less interested in who won the last great-power competition than in asking who sets the rules of the international economy, who benefits from them, and why some states have far less room to maneuver than their formal sovereignty might imply. The tradition draws on Marxist economics, dependency theory, and economic sociology to argue that the structure of global capitalism shapes world politics in ways that conventional security analysis misses.
 
@@ -1140,22 +1135,6 @@ function validateOrderedExploreRecords(
   })
 }
 
-function validateExploreTextRecord(
-  value: unknown,
-  path: string,
-  keys: readonly string[],
-  errors: string[],
-): void {
-  if (!isExploreRecord(value)) {
-    errors.push(`${path} must be an object.`)
-    return
-  }
-  requireExploreKeys(value, keys, path, errors)
-  for (const key of keys) {
-    if (!isExploreString(value[key])) errors.push(`${path}.${key} is required.`)
-  }
-}
-
 function validateExploreLinkRecord(
   value: unknown,
   path: string,
@@ -1221,14 +1200,14 @@ function validateContextRecords(value: unknown, errors: string[]): void {
     }
     requireExploreKeys(
       candidate,
-      ["id", "objectType", "title", "description", "href"],
+      ["id", "title", "description", "href"],
       path,
       errors,
     )
     const [id, href] = EXPLORE_HUB_CONTEXT_ORDER[index]
     if (candidate.id !== id) errors.push(`${path}.id must be ${id}.`)
     if (candidate.href !== href) errors.push(`${path}.href must be ${href}.`)
-    for (const key of ["objectType", "title", "description"] as const) {
+    for (const key of ["title", "description"] as const) {
       if (!isExploreString(candidate[key])) errors.push(`${path}.${key} is required.`)
     }
   })

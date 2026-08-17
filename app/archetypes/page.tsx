@@ -1,13 +1,18 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArchetypeSigil } from "@/components/archetypes/archetype-sigil"
+import { ArchetypeMark } from "@/components/archetypes/archetype-mark"
+import styles from "@/components/archetypes/archetypes.module.css"
 import {
   archetypes,
   getArchetypePath,
   type LensCode,
 } from "@/lib/archetypes"
-import { familyLabel } from "@/lib/worldview-config"
-import styles from "@/components/archetypes/archetypes.module.css"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+  publicLensLabel,
+} from "@/lib/archetype-display"
+import { traditionNounLabel } from "@/lib/worldview-config"
 
 export const metadata: Metadata = {
   title: "Foundation archetypes — IR Worldview Inventory",
@@ -17,28 +22,23 @@ export const metadata: Metadata = {
 
 const lensBands: ReadonlyArray<{
   lens: LensCode
-  title: string
   question: string
 }> = [
   {
     lens: "P",
-    title: "Power and timing",
-    question: "When do leverage, position, and the timing of action decide what is possible?",
+    question: "When can leverage and timing decide what remains possible?",
   },
   {
     lens: "R",
-    title: "Rules and institutions",
-    question: "What makes restraint, agreement, and common rules durable?",
+    question: "What turns an agreement into durable restraint?",
   },
   {
     lens: "M",
-    title: "Meaning and legitimacy",
-    question: "How do public standards, identity, and consent change political possibility?",
+    question: "How can legitimacy reshape the limits of political action?",
   },
   {
     lens: "S",
-    title: "Structure and dependence",
-    question: "How do production, finance, and dependency shape practical autonomy?",
+    question: "Where do production and finance narrow practical autonomy?",
   },
 ]
 
@@ -75,7 +75,7 @@ export default function ArchetypesPage() {
       <div className={styles.lensBands}>
         {lensBands.map((band) => {
           const entries = archetypes.filter(({ lens }) => lens === band.lens)
-          const supportingTradition = familyLabel(entries[0].familyKey)
+          const supportingTradition = traditionNounLabel(entries[0].familyKey)
 
           return (
             <section
@@ -87,7 +87,7 @@ export default function ArchetypesPage() {
               <header className={styles.lensHeader}>
                 <div>
                   <p className={styles.lensCode}>{band.lens}</p>
-                  <h2 id={`lens-${band.lens}`}>{band.title}</h2>
+                  <h2 id={`lens-${band.lens}`}>{publicLensLabel(band.lens)}</h2>
                 </div>
                 <div className={styles.lensContext}>
                   <p>{band.question}</p>
@@ -96,30 +96,42 @@ export default function ArchetypesPage() {
               </header>
 
               <div className={styles.archetypeRows}>
-                {entries.map((archetype) => (
-                  <Link
-                    className={styles.archetypeRow}
-                    href={getArchetypePath(archetype.code)}
-                    key={archetype.code}
-                    data-archetype-code={archetype.code}
-                  >
-                    <span className={styles.rowSigil} aria-hidden="true">
-                      <ArchetypeSigil code={archetype.code} size={48} />
-                    </span>
-                    <span className={styles.rowCode}>{archetype.code}</span>
-                    <span className={styles.rowCopy}>
-                      <strong>{archetype.name}</strong>
-                      <span>{archetype.gloss}</span>
-                    </span>
-                    <span
-                      className={styles.rowAction}
-                      aria-hidden="true"
-                      data-archetype-row-action
+                {entries.map((archetype) => {
+                  const glossId = `archetype-${archetype.slug}-gloss`
+
+                  return (
+                    <Link
+                      className={styles.archetypeRow}
+                      href={getArchetypePath(archetype.code)}
+                      key={archetype.code}
+                      data-archetype-code={archetype.code}
+                      aria-label={`Open ${archetype.name}, ${formatArchetypeCodeSpeech(archetype.code)}`}
+                      aria-describedby={glossId}
                     >
-                      <span className={styles.rowActionLabel}>Read</span> →
-                    </span>
-                  </Link>
-                ))}
+                      <span className={styles.rowIdentity}>
+                        <ArchetypeMark
+                          code={archetype.code}
+                          size={48}
+                          className={styles.directoryMark}
+                        />
+                        <span className={styles.rowCode} data-archetype-code-label>
+                          {formatArchetypeDisplayCode(archetype.code)}
+                        </span>
+                      </span>
+                      <span className={styles.rowCopy}>
+                        <strong>{archetype.name}</strong>
+                        <span id={glossId}>{archetype.gloss}</span>
+                      </span>
+                      <span
+                        className={styles.rowAction}
+                        aria-hidden="true"
+                        data-archetype-row-action
+                      >
+                        <span className={styles.rowActionLabel}>Read</span> →
+                      </span>
+                    </Link>
+                  )
+                })}
               </div>
             </section>
           )
@@ -129,7 +141,7 @@ export default function ArchetypesPage() {
       <footer className={styles.directoryFooter}>
         <p>
           Close Foundation results can resolve as a two-lens blend. Blends
-          keep the same posture sign and do not receive a third sigil.
+          keep the same posture sign and use a combined code label.
         </p>
         <nav className={styles.directoryFooterLinks} aria-label="Archetype directory resources">
           <Link href="/explore">See how the model fits together →</Link>

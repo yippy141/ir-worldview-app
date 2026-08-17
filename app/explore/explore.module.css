@@ -291,11 +291,13 @@
   font-size: 0.88rem;
 }
 
-.archetypeRows {
+.archetypePairs {
+  margin: 0;
+  padding: 0;
   border-bottom: 1px solid var(--line);
+  list-style: none;
 }
 
-.archetypeRow,
 .editorialRow,
 .referenceRow,
 .contextRow {
@@ -309,11 +311,16 @@
   text-decoration: none;
 }
 
-.archetypeRow {
-  grid-template-columns: 42px minmax(110px, 0.48fr) minmax(0, 1fr) 18px;
+.archetypePair {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 14px;
+  min-height: 56px;
+  align-items: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--line);
 }
 
-.archetypeRow:hover strong,
 .editorialRow:hover strong,
 .referenceRow:hover strong,
 .contextRow:hover strong {
@@ -336,23 +343,6 @@
 .rowArrow {
   color: var(--accent-light);
   justify-self: end;
-}
-
-.postureNote {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 24px;
-  max-width: 980px;
-  margin-top: 34px;
-  padding-top: 20px;
-  border-top: 1px solid var(--line);
-}
-
-.postureNote p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.6;
 }
 
 .continueLink {
@@ -407,6 +397,18 @@
 .editorialRow,
 .contextRow {
   grid-template-columns: 130px minmax(150px, 0.45fr) minmax(0, 1fr) 18px;
+}
+
+.contextBoundary {
+  max-width: 72ch;
+  margin: 0 0 20px;
+  color: var(--text-2);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.contextRow {
+  grid-template-columns: minmax(160px, 0.45fr) minmax(0, 1fr) 18px;
 }
 
 .definitionList {
@@ -548,11 +550,17 @@
   text-decoration: none;
 }
 
-.traditionArchetypes svg {
+.traditionCode {
+  display: grid;
+  min-height: 40px;
+  place-items: center;
   color: var(--accent-light);
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-.traditionArchetypes span {
+.traditionArchetypeCopy {
   display: grid;
   gap: 4px;
   min-width: 0;
@@ -618,6 +626,10 @@
     grid-template-columns: 120px minmax(150px, 0.55fr) minmax(0, 1fr) 18px;
   }
 
+  .contextRow {
+    grid-template-columns: minmax(150px, 0.5fr) minmax(0, 1fr) 18px;
+  }
+
   .traditionBoundary {
     grid-template-columns: minmax(0, 1fr);
     gap: 28px;
@@ -642,9 +654,7 @@
   }
 
   .jumpNav {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 16px;
-    padding: 16px 0;
+    display: none;
   }
 
   .section {
@@ -671,7 +681,6 @@
     gap: 8px;
   }
 
-  .archetypeRow,
   .editorialRow,
   .referenceRow,
   .contextRow {
@@ -680,14 +689,12 @@
     min-height: 88px;
   }
 
-  .archetypeRow strong,
   .editorialRow strong,
   .referenceRow strong,
   .contextRow strong {
     grid-column: 2;
   }
 
-  .archetypeRow .rowDescription,
   .editorialRow .rowDescription,
   .contextRow .rowDescription,
   .referenceMeta {
@@ -695,8 +702,7 @@
   }
 
   .editorialRow .objectType,
-  .referenceRow .objectType,
-  .contextRow .objectType {
+  .referenceRow .objectType {
     grid-column: 1 / -1;
   }
 
@@ -707,7 +713,6 @@
     grid-row: 2;
   }
 
-  .postureNote,
   .variantGrid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -727,6 +732,19 @@
     columns: 1;
   }
 
+  .contextRow {
+    grid-template-columns: minmax(0, 1fr) 18px;
+  }
+
+  .contextRow strong {
+    grid-column: 1;
+  }
+
+  .contextRow .rowArrow {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
   .traditionBoundary {
     margin-bottom: 28px;
     padding: 22px 0;
@@ -742,7 +760,6 @@
     grid-template-columns: 30px minmax(0, 1fr);
   }
 
-  .archetypeRow,
   .editorialRow,
   .referenceRow,
   .contextRow {
@@ -794,7 +811,7 @@
   }
 
   .lensBand,
-  .archetypeRow,
+  .archetypePair,
   .editorialRow,
   .referenceRow,
   .contextRow,
@@ -853,7 +870,7 @@
     page-break-inside: avoid;
   }
 
-  .traditionArchetypes svg {
+  .traditionCode {
     color: #111111;
   }
 

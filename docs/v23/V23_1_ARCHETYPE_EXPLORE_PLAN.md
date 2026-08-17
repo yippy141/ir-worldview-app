@@ -8,16 +8,25 @@ Repository baseline audited: `v23-1-archetype-explore` at `f95cc7c1629e7e608910b
 
 Prepared: 2026-08-12
 
+> **Owner supersession, 2026-08-18:** the 104 revised interpretation
+> sentences remain qualified `partial` records. The owner authorizes the
+> AI-assisted English copy for editorial beta publication while human
+> editorial review remains pending; no external-expert review or validation is
+> claimed. Geometry `v23.1b-geometry-v1` remains blocked as rejected design
+> history. The exact eight System A marks in
+> `assets/V23_SYSTEM_A_DERIVED_SIGILS_MANIFEST.json` are owner-selected for the
+> beta under the bounded collision decision recorded separately.
+
 ## 1. V23.1 outcome and PR boundary
 
-V23.1 makes the existing Foundation identity legible without changing how it is produced. The PR should deliver:
+V23.1 makes the existing Foundation result legible without changing how it is produced. The PR should deliver:
 
 - one clear ontology hub at `/explore`;
 - an English `/archetypes` index for exactly eight pure archetypes;
 - expanded canonical content on the eight existing `/archetypes/[slug]` URLs;
 - one versioned, owner-editable archetype content contract;
 - a bounded, owner-editable Explore hub record;
-- a deterministic, abstract, static sigil grammar for the eight pure codes;
+- the exact eight System A editorial marks, with code fallback below 32px;
 - explicit support/modifier/domain/context hierarchy;
 - preserved routes, payloads, stores, scoring, calibration, locale boundaries, and historical evidence;
 - schema, compatibility, copy, accessibility, responsive, and print gates.
@@ -34,7 +43,7 @@ Every affected surface should express the same order:
 
 ```text
 Foundation result
-  archetype OR legitimate two-lens blend          assigned general identity
+  archetype OR legitimate two-lens blend          headline Foundation reading
   + strategic posture                            supporting modifier/sign
   + normative state                              supporting modifier
   + closest modeled tradition                    supporting evidence
@@ -63,7 +72,7 @@ It contains:
 - one H1 and a two-sentence payoff;
 - the compact hierarchy above;
 - a primary link to `/archetypes` and a secondary link to `/profile` or the Foundation quiz;
-- one short boundary sentence: Decision Patterns and public positions are reading aids, not assigned identities.
+- one short boundary sentence: Decision Patterns and public positions are reading aids, not Foundation results.
 
 Do not put the full methodology caveat, human-testing status, or long canon discussion in the hero. Those belong below the first payoff.
 
@@ -71,14 +80,14 @@ Do not put the full methodology caveat, human-testing status, or long canon disc
 
 | Order | Section | Visible by default | Progressive disclosure and links | Presentation form |
 | ---: | --- | --- | --- | --- |
-| 1 | **How the labels fit together** | Identity/support/context hierarchy and short definitions | One “How scoring and evidence differ” disclosure; `/method` | A semantic ordered list, not nested cards |
-| 2 | **Eight Foundation archetypes** | All eight names, codes, glosses, and links | `/archetypes`; each stable `/archetypes/[slug]` | Four lens bands, each with `+/-` rows; restrained separators rather than eight identical floating cards |
+| 1 | **How the labels fit together** | Result/support/context hierarchy and short definitions | One “How scoring and evidence differ” disclosure; `/method` | A semantic ordered list, not nested cards |
+| 2 | **Foundation archetypes** | Four lens headings with two name/code pairs each and one short lens explanation | One link to the canonical `/archetypes` directory | Compact lens bands without duplicating the directory glosses or detail links |
 | 3 | **Variants and blends** | Three normative aliases and sign explanation; a blend example only if its pair interpretation is reviewed | Comparison details collapsed; links to relevant archetype pages | Compact comparison rows; no type-count marketing or synthesized pair claims |
 | 4 | **Four modeled traditions** | Four names, one-line scopes, and “supporting evidence” label | Existing `/explore/[tradition]` pages | Text-led link list or two-column editorial index |
 | 5 | **Seven Foundation dimensions** | All seven dimension names and one-line definitions | Scoring/attainable-range detail collapsed; `/method` | Semantic definition list; no decorative radar chart |
 | 6 | **Decision Patterns** | Definition, never-assigned boundary, and Map link | Ten names may sit in one collapsed directory; existing detail URLs | Editorial list, visually distinct from archetypes |
 | 7 | **Thinkers and public positions** | What evidence-coded partial resonance means; published record count derived at render from the validated visible reference catalog | `/explore/reference`; evidence/review explanation | Dated/source-status rows only; no unsourced “person as type” cards and no authored count literal |
-| 8 | **Focus Areas and contextual records** | Separate rows for Security, Technology, AI Governance, Perspective Runs, and Current Cases | Existing module, AI, Perspective, and case routes | Differentiated rows with explicit object type; not a uniform card grid |
+| 8 | **Focus Areas and contextual records** | Separate rows for Security, Technology, AI Governance, Perspective Runs, and Current Cases | Existing module, AI, Perspective, and case routes | Differentiated rows whose scope is explained in prose, without unexplained eyebrow categories |
 | 9 | **Coverage gaps and methods** | A short visible statement that four modeled traditions are not the field | Longer coverage/canon/method notes collapsed; `/method`, research status | Prose with readable line length and source links |
 
 The page should use a compact jump navigation on desktop only if it remains helpful after composition. Do not reproduce the current long undifferentiated essay or stack nine near-identical card grids.
@@ -138,7 +147,7 @@ Preserve the current `?from=/results/<opaque>` back link and its strict allowlis
 
 Keep the four existing routes and long-form scholarship. Make only bounded V23.1 changes:
 
-- put “supporting tradition, not assigned identity” near the first payoff;
+- put “supporting tradition, not Foundation result” near the first payoff;
 - link to that tradition’s `+/-` archetype pair with posture caveats;
 - keep the existing claims, subtraditions, issue readings, neighbors, and reading lists;
 - remove the sixteen unsourced “Associated thinkers” position cards from public rendering;
@@ -213,151 +222,90 @@ An archetype-detail link and decorative sigil are optional. Do not cache or pers
 
 ### B.10 Visual-system constraint
 
-Use the existing editorial Astrolabe system: restrained navy/brass neutrals, serif display hierarchy, legible sans text, rules, spacing, and document rhythm. Prefer bands, definition lists, and link rows over a wall of identical cards. Do not introduce gradients, neon, glass effects, oversized shadows, dashboard widgets, decorative charts, or a separate color identity for each archetype. Sigils and visible codes carry identity; color remains supplementary.
+Use the existing editorial Astrolabe system: restrained navy/brass neutrals, serif display hierarchy, legible sans text, rules, spacing, and document rhythm. Prefer bands, definition lists, and link rows over a wall of identical cards. Do not introduce gradients, neon, glass effects, oversized shadows, dashboard widgets, decorative charts, or a separate color identity for each archetype. Visible codes distinguish records; color remains supplementary.
 
-`components/archetypes/archetypes.module.css` owns index/detail layout and sigil contexts. `app/explore/explore.module.css` owns the hub and bounded tradition-page additions. Both include scoped mobile and print rules: print expands essential `<details>`, hides controls/CTAs, exposes source URLs, and prevents row/sigil clipping. Do not solve the redesign with additional inline style objects or broad global spillover.
+`components/archetypes/archetypes.module.css` owns index/detail layout and mark contexts. `app/explore/explore.module.css` owns the hub and bounded tradition-page additions. Both include scoped mobile and print rules: print expands essential `<details>`, hides controls/CTAs, exposes source URLs, and prevents row/mark clipping. Do not solve the redesign with additional inline style objects or broad global spillover.
 
-## E. Sigil system
+## E. System A editorial-mark system
 
-### E.1 Semantic grammar
+### E.1 Binding source and meaning
 
-The sigils are code-derived identifiers, not cultural emblems. They do not depict historical analogues, national traditions, religious objects, named people, or policy domains.
+`docs/v23/assets/V23_SYSTEM_A_DERIVED_SIGILS_MANIFEST.json` is the sole
+geometry source. Its version is `v23-system-a-derived-1`, its order is
+`P+ / P− / R+ / R− / M+ / M− / S+ / S−`, and its eight `svgBody` values are
+exact. The previous four-base/two-transform grammar is superseded and remains
+only in rejected design history.
 
-Common construction rules:
+The marks are contemporary editorial artwork and visual references. They are
+not authentic historical emblems, cultural classifications, endorsements, or
+evidence about the traditions named. Code, name, and prose carry the ontology;
+the artwork is never the sole encoding.
 
-- normalized `0 0 24 24` view box with a nominal safe area from 3 to 21;
-- monochrome `fill="none"`, `stroke="currentColor"`, nominal 1.75-unit stroke;
-- simple lines and paths with no text, embedded image, mask, filter, gradient, external reference, or animation;
-- no arrowheads, chevrons, stars, shields, flags, crests, crowns, weapons, crosses, crescents, runes, seals, or letterform tracing;
-- one upright orientation; do not rotate marks to create additional meanings;
-- visible code/name remains adjacent at 24px; the mark is never the sole encoding.
+### E.2 Rendering contract
 
-Four lens bases:
+- Render typed inline React/SVG geometry from the manifest; do not fetch or
+  `<use>` the documentation sprite in production.
+- Use `viewBox="0 0 100 100"`, `currentColor`, and only the manifest's exact
+  `g`, `path`, and `circle` geometry.
+- Production size is 112px in a hero and 48px in directory or relation rows.
+  Below 32px render the visible formatted code, including U+2212 for minus,
+  instead of pictorial geometry.
+- Keep marks static. No external asset, script, animation, transition, mask,
+  filter, gradient, generated ID, or runtime network request is allowed.
+- An adjacent name/code makes the SVG decorative (`aria-hidden="true"`,
+  `focusable="false"`). A meaningful standalone use requires a concise label
+  supplied by the caller; geometry never supplies locale copy.
+- No unapproved Chinese route imports the English manifest or an English
+  accessible label.
 
-| Lens | Abstract base topology | Distinguishing feature |
-| --- | --- | --- |
-| `P` | Two separated vertical supports joined by one off-center horizontal bridge | Open top and bottom; asymmetry comes from bridge placement, not a literal letter P |
-| `R` | Two horizontal rails with short alternating orthogonal returns at opposite ends | Open frame; no closed badge or shield silhouette |
-| `M` | Two mirrored open curves facing a central gap | Curved topology; no enclosing circle, eye, or religious mandorla |
-| `S` | Three separated horizontal strata crossed by one off-center vertical spine, with small gaps at every crossing | Layered structure without a stepped, rotational, woven, letterform, cross, or closed-insignia silhouette |
+### E.3 Pure and blend composition
 
-Each base declares two posture anchors and an outward vector. One transformation is applied mechanically to both anchors:
+There are exactly eight pure marks and no blend mark.
 
-- **Applying advantage `+` — `project`:** append a short collinear segment away from the center at both anchors. Endpoints stay blunt/round; there are no arrows or rays.
-- **Restraint `-` — `contain`:** append a short orthogonal return toward the center at both anchors, ending before the centerline. The returns never join into a box, cross, or lock.
+- A pure hero uses its one 112px mark.
+- A blend hero uses a **Diptych**: both component marks at equal size and
+  visual weight, plus the visible combined code and both names. The diptych is
+  composition, not a ninth definition.
+- A compact blend uses a **Hallmark**: the leading pure mark at full compact
+  size and a clearly bordered smaller companion mark, with the combined code
+  and both names kept visible. The size distinction reports the already
+  resolved leading-lens presentation only; it does not change the blend code
+  or score.
+- Any composition requested below 32px falls back to the combined code.
 
-This yields exactly eight deterministic marks. The transformation changes terminal behavior, not the lens topology. It must be legible at 24, 48, and 96px and at watermark scale.
+### E.4 Required uses and disclosure
 
-These descriptions are a construction contract, not final art. Geometry cannot ship until the collision review in E.5 passes.
+Required V23.1 uses are the `/archetypes` directory, the eight
+`/archetypes/[slug]` heroes, their print output, and pure/blend component
+coverage. Foundation result/Profile integration remains presentation-only and
+must not alter resolution, payload, or storage.
 
-### E.2 Definition type
+Every detail page includes concise “About the mark” copy stating that the mark
+is contemporary editorial artwork rather than an authentic historical emblem.
+The full decision and bounded-risk rationale live in
+`V23_1_SYSTEM_A_MARK_DECISION.md`.
 
-```ts
-type SigilPoint = readonly [x: number, y: number];
+### E.5 Bounded collision decision
 
-type SigilPrimitive =
-  | { kind: "line"; from: SigilPoint; to: SigilPoint }
-  | { kind: "path"; d: string };
-
-type PostureAnchor = {
-  point: SigilPoint;
-  outward: SigilPoint;
-};
-
-type LensSigilBase = {
-  lens: LensCode;
-  viewBox: "0 0 24 24";
-  primitives: readonly SigilPrimitive[];
-  postureAnchors: readonly [PostureAnchor, PostureAnchor];
-};
-
-type PostureTransform = {
-  posture: PostureSign;
-  operation: "project" | "contain";
-  extension: number;
-};
-
-type SigilDefinition = {
-  code: PureArchetypeCode;
-  lens: LensCode;
-  posture: PostureSign;
-  viewBox: "0 0 24 24";
-  strokeWidth: 1.75;
-  primitives: readonly SigilPrimitive[];
-};
-```
-
-The implementation derives the eight `SigilDefinition` records from exactly four `LensSigilBase` records and exactly two `PostureTransform` records. It must not hand-author eight unrelated SVG files.
-
-### E.3 Manifest and rendering ownership
-
-- `lib/archetype-sigils.ts` owns typed base geometry, posture operations, deterministic generation, and the exact eight-definition manifest.
-- Engineering owns determinism, view box, rendering safety, and type/code coverage.
-- Product design owns optical balance at required sizes.
-- Editorial/methodology owns the posture-label wording.
-- The owner signs the cultural/visual collision record before public use.
-
-`components/archetypes/archetype-sigil.tsx` is a server-safe component with no client boundary:
-
-```ts
-type ArchetypeSigilProps = {
-  code: PureArchetypeCode;
-  size: 24 | 48 | 96 | number;
-  className?: string;
-  decorative?: boolean;
-  label?: string;
-};
-```
-
-- `decorative=true`: SVG receives `aria-hidden="true"` and `focusable="false"`.
-- meaningful: SVG receives `role="img"` and a route-locale label supplied from the canonical content record, such as “Kairos archetype sigil, P plus.” Geometry never owns human-language copy.
-- If the adjacent link already announces the same name/code, the sigil is decorative to prevent duplicate speech.
-- On approved zh surfaces, a sigil remains decorative until localization explicitly approves its meaningful accessible name; an English manifest label must never leak.
-- The component inherits `currentColor`; it accepts no arbitrary fill palette.
-- Static SVG is the baseline. V23.1 adds no animation, transition, stroke-dash behavior, or motion dependency.
-
-### E.4 Required and optional uses
-
-Required V23.1:
-
-- `/archetypes` index rows;
-- `/archetypes/[slug]` hero and compact relation rows;
-- print versions of those surfaces.
-
-Optional V23.1, only after the core PR remains within bounds:
-
-- pure Foundation result and Profile hero;
-- 1200×630 share card;
-- small Explore archetype directory rows.
-
-Blends display the two pure sigils with a textual connector; they never receive a ninth/twelfth hybrid mark. Domain records and Decision Patterns do not reuse Foundation sigils.
-
-### E.5 Cultural and visual collision review
-
-Before merge, create `docs/v23/V23_1_SIGIL_COLLISION_REVIEW.md` for the exact rendered geometry. The record contains the geometry/version digest, component commit, render-artifact name and digest, 24/48/96px and watermark render matrix, reviewer IDs/roles/dates, categories checked, per-mark findings, requested changes, and an explicit `approved` or `blocked` outcome. The grammar may receive owner approval before implementation; final approval applies only after all eight exact marks have rendered. Two reviewers must independently check:
-
-- religious, national, ethnic, occult, and culturally proprietary resemblance;
-- political-party, military, police, extremist, and state-security insignia;
-- major corporate/product logos and common certification marks;
-- accidental letter, number, punctuation, or literal `+/-` dominance;
-- collisions between the eight marks at small size;
-- misleading resemblance created by cropping, dark mode, print, or 200% zoom.
-
-A flagged collision blocks that geometry. The base or transform is revised, the digest changes, and all eight derived marks are re-rendered and re-reviewed. The review does not claim universal cultural clearance; it records the categories and reviewers checked. The E2E render matrix is retained as a named CI/PR artifact rather than adding image snapshots to the repository; the checked-in review record binds approval to its digest.
+Geometry v1 remains blocked. System A is owner-selected for editorial beta
+after automated structural, exact-geometry, uniqueness, safe-bounds, dark,
+reversed, print, and 200%-zoom review. The owner accepts the residual bounded
+cultural risk for beta use. This is not universal cultural clearance and is
+not described as external-expert review. A later material geometry change
+requires a new manifest version, new digests, and a new decision record.
 
 ### E.6 Tests
 
-- exactly four bases, two transforms, and eight output definitions;
-- exact one-to-one coverage of the frozen pure codes and no blend definition;
-- eight unique serialized geometries;
-- deterministic output across calls and build environments;
-- `viewBox="0 0 24 24"`, `currentColor`, allowed primitive set, and bounded coordinates;
-- no `text`, `image`, `use`, external `href`, filter, mask, gradient, animation, script, or generated random ID;
-- deterministic inline SSR snapshots/serialization assertions for decorative and meaningful accessibility modes in `tests/v23-archetype-sigils.test.mts`;
-- a browser-rendered artifact at 24/48/96px and watermark scale in default dark, black-on-white, white-on-black, and print contexts;
-- adjacent visible code/name and non-color distinction;
-- static behavior under `prefers-reduced-motion`;
-- no clipping at 200% zoom and in print.
+- manifest and production renderers cover exactly eight frozen pure codes in
+  exact order, with eight unique bodies and no blend definition;
+- production serialization matches every supplied `svgBody`;
+- only allowed SVG elements/attributes appear; all visual paint is
+  `currentColor`; no external or active feature appears;
+- 112px hero, 48px directory, and code-only below 32px;
+- pure, Diptych, Hallmark, decorative, and meaningful SSR modes;
+- visible U+2212 minus, concise names, and adjacent decorative SVGs;
+- default, reversed, print, reduced-motion, and 200% safe-bounds browser checks;
+- the rejected geometry-v1 archive remains byte-bound and blocked.
 
 ## F. Copy ownership and content migration
 
@@ -397,7 +345,7 @@ Under Plan B, the first two rows map respectively to the existing `content/arche
 ### F.3 Runtime adapters
 
 - `lib/archetypes.ts` remains the resolver/identity compatibility API. It reads and validates only the frozen identity projection—code, canonical name, slug, gloss, family, and analogue display values—from the owner-selected canonical file. It never imports `lib/archetype-content.ts`, so malformed rich research fields cannot break Results, Profile, comparison, or legacy links.
-- `lib/archetype-content.ts` uses type-only imports from `lib/archetypes.ts`, validates and joins rich catalog/evidence fields, and fails closed per field/publication state on the index/detail surfaces. A bad claim blocks that claim or page build, never Foundation identity resolution.
+- `lib/archetype-content.ts` uses type-only imports from `lib/archetypes.ts`, validates and joins rich catalog/evidence fields, and fails closed per field/publication state on the index/detail surfaces. A bad claim blocks that claim or page build, never Foundation result resolution.
 - The canonical catalog is the sole slug-value owner. `lib/archetype-evidence.ts` owns only route parsing, path construction, static-param selection, and the safe result return-path allowlist; it validates/delegates to the canonical values instead of defining a slug table.
 - `lib/explore-content.ts` validates the nine-section hub record and keeps its four-tradition compatibility API during V23.1. If `traditions.en.json` moves in the same PR, it becomes a typed compatibility adapter; if not, that move is optional follow-up.
 
@@ -434,8 +382,8 @@ Do not move every string into JSON. The test is whether an editorial owner shoul
 
 1. **Reconfirm baseline and update sprint authority.** Verify branch/HEAD/clean tree; read both V23 contracts and frozen tests. Replace, rather than append to, the stale V22 “Current sprint” section in `AGENTS.md` with V23.1 boundaries.
 2. **Add the typed content layer.** Execute owner-selected Plan A (atomic move) or Plan B (in-place expansion), add schema/content versions and publication wrappers, separate frozen identity validation from rich publication validation, and lock exactly eight records. Preserve all existing values and evidence-page behavior before adding prose.
-3. **Migrate approved prose.** Reuse current gloss/analogue/fit/break/name-note/source content under the explicit legacy-source rule; add only owner-reviewed V23 fields. Mark unavailable fields `research-required` or `withheld`. Do not invent bibliography metadata, actor assignments, pair relations, or related links.
-4. **Implement and review static sigils.** Begin only after the owner approves the construction grammar. Add four bases, two transforms, the derived manifest, server component, and tests; render all eight; then complete the two-reviewer collision record against the exact geometry digest. A blocked or incomplete record stops merge.
+3. **Migrate qualified prose.** Reuse current gloss/analogue/fit/break/name-note/source content under the explicit legacy-source rule; add only the owner-authorized AI-assisted English beta fields covered by the root publication record. Human editorial review remains pending, and no external-expert review or validation is claimed. Mark unavailable fields `research-required` or `withheld`. Do not invent bibliography metadata, actor assignments, pair relations, or related links.
+4. **Implement and review System A.** Bind the typed server component to the exact supplied eight-mark manifest, render the 112px/48px and blend-composition matrix, complete the automated collision review, and record the owner-selected bounded beta decision. Preserve geometry v1 only as blocked history; do not claim universal cultural clearance.
 5. **Add the archetype index.** Build `/archetypes` as a static English page with four lens groups and eight stable detail links.
 6. **Expand detail pages in place.** Preserve all static params, historical sections, source links, name notes, and safe `from` behavior while adding the canonical content hierarchy.
 7. **Recompose `/explore`.** Consume the owner-editable nine-section record; use editorial bands/lists rather than a card wall; retain existing route and link to all subordinate systems accurately.
@@ -451,14 +399,14 @@ The required list below assumes recommended **Plan B**.
 #### Add (10)
 
 - `app/archetypes/page.tsx`
-- `components/archetypes/archetype-sigil.tsx`
+- `components/archetypes/archetype-mark.tsx`
 - `components/archetypes/archetypes.module.css`
 - `app/explore/explore.module.css`
 - `content/explore/hub.en.json`
 - `lib/archetype-content.ts`
-- `lib/archetype-sigils.ts`
+- `lib/archetype-marks.ts`
 - `tests/v23-archetype-content.test.mts`
-- `tests/v23-archetype-sigils.test.mts`
+- `tests/archetype-marks.test.mts`
 - `docs/v23/V23_1_SIGIL_COLLISION_REVIEW.md`
 
 #### Edit (15)
@@ -491,7 +439,7 @@ The required list below assumes recommended **Plan B**.
 - Edit the stale source-path comment in `lib/results/posture.ts` so it names the canonical accessor rather than a moved file.
 - Keep every other common path above. This makes Plan A approximately 28 core paths, or 30 if both evidence summaries regenerate.
 
-Under either plan, compatibility tests must pass before UI composition begins. The collision-review document is created as `blocked/pending` with the grammar, then may become `approved` only after two reviewers assess the exact rendered geometry digest.
+Under either plan, compatibility tests must pass before UI composition begins. The geometry-v1 collision record remains `blocked` against its exact digest. System A follows the later owner-selected editorial-beta decision: automated review binds the exact supplied manifest and rendered geometry, the owner accepts bounded residual cultural risk, and neither the record nor the release claims universal cultural clearance.
 
 ### I.3 Optional V23.1 work
 
@@ -501,7 +449,7 @@ Optional work is admitted only after required gates pass and the PR remains with
 - add or adapt `components/explore/family-card.tsx` only if the optional tradition-content move needs a new typed prop;
 - add archetype sigil/detail links to `app/results/[payload]/page.tsx`;
 - add archetype sigil/detail links to `components/profile/profile-report.tsx`;
-- add sigils to `app/api/card/route.tsx` and related share-card code/tests after real-platform preview scope is approved;
+- share-card marks remain out of scope for this System A pass;
 - publish reviewed related Current Case or Decision Pattern links;
 - add per-tradition evidence-coded reference rows where a reviewed authored relation exists.
 
@@ -534,8 +482,8 @@ If a required implementation unexpectedly needs one of these paths, stop and exp
 Use three logical review checkpoints inside the PR, even if the final branch is delivered as one PR:
 
 1. **Compatibility checkpoint:** owner-selected content migration/expansion + separate identity/rich-content accessors + existing archetype/evidence tests. UI output is unchanged.
-2. **Content checkpoint:** new schema fields, source/status validation, and owner-approved records. No route composition yet.
-3. **Presentation checkpoint:** sigils, index, expanded detail, Explore hub, responsive/print styles, and E2E coverage.
+2. **Content checkpoint:** new schema fields, source/status validation, and qualified partial records authorized as AI-assisted English beta copy pending human editorial review. No route composition yet.
+3. **Presentation checkpoint:** System A marks with sub-32px code fallback, index, expanded detail, Explore hub, responsive/print styles, and E2E coverage. Geometry v1 remains outside production.
 
 At each checkpoint, inspect the diff for changes to frozen code/name/slug mapping and forbidden files. The rollback point is the Prompt 0 baseline (or the future commit containing these two docs). Because V23.1 changes no persisted format or score, rollback is a single PR revert; all old links remain valid throughout.
 
@@ -544,7 +492,7 @@ At each checkpoint, inspect the diff for changes to frozen code/name/slug mappin
 ### Contract and unit tests
 
 - exactly eight pure codes, four lenses, two postures, three normative states, and no ninth code;
-- exact code/name/slug/family compatibility, including `Shi (勢)` pending owner decision;
+- exact code/name/slug/family compatibility, including owner-confirmed `Shi (勢)`;
 - existing pure and blend resolver fixtures unchanged;
 - valid same-posture two-lens composite output retained; blend analogues remain absent;
 - canonical catalog has eight unique records and resolves every neighbor/source/relation ID;
@@ -569,7 +517,7 @@ At each checkpoint, inspect the diff for changes to frozen code/name/slug mappin
 - the four tradition routes render and identify the family as support;
 - all ten Decision Pattern routes still render in English and Chinese;
 - `/zh/explore`, `/zh/archetypes`, and `/zh/archetypes/p-plus` render the explicit translation-status state;
-- representative pure and blend result/Profile fixtures preserve the Foundation identity hierarchy;
+- representative pure and blend result/Profile fixtures preserve the Foundation result hierarchy;
 - invalid and unreconstructable payload states remain graceful.
 
 ### Command gates
@@ -602,7 +550,7 @@ The PR is acceptable only when:
 5. unreviewed actor or related-content claims are withheld;
 6. English/zh boundaries fail closed;
 7. all required command, visual, print, accessibility, and performance gates pass;
-8. the collision review approves all eight sigils;
+8. the collision record binds all eight System A marks, reports automated review, and records the owner's bounded beta-risk acceptance without claiming universal clearance;
 9. the diff remains inside the agreed path/size ceiling or the PR is split before review;
 10. release notes call automation and visual QA pretesting, not human validation.
 
@@ -618,12 +566,12 @@ Use Chromium at 390×844, 768×900, and 1440×900, plus print preview. Test the 
 | `/archetypes/p-minus` and `/r-plus` | Name-note behavior and long glyph/name | Same | Same | Name note prints |
 | `/archetypes/m-minus` and `/s-minus` | Long canonical names, neighbor rows | Same | Same | No split/crop in compact rows |
 | One `/explore/[tradition]` | No sticky-width trap; thinker cards removed | TOC behavior | Support-role links visible | Reading/source lists survive |
-| Pure result, blend result, Profile | Identity unchanged; optional sigil nonessential | Same | Same | Existing print hierarchy unchanged |
-| Invalid result/Profile state | Recovery visible | Same | Same | No misleading identity |
+| Pure result, blend result, Profile | Foundation result unchanged; optional mark nonessential | Same | Same | Existing print hierarchy unchanged |
+| Invalid result/Profile state | Recovery visible | Same | Same | No misleading Foundation result |
 | `/zh/explore`, `/zh/archetypes/p-plus` | Explicit status; no English long form | Same | Same | Status only, no fallback |
 | Existing `/zh/results`, `/zh/profile`, `/zh/explore/atlas` | Regression, CJK glyphs, no overflow | Same | Same | Existing approved behavior |
 
-For every screen, assert `scrollWidth <= clientWidth + 1`. Add a 320-CSS-px/400% reflow check for the hub, index, representative detail, and zh status page. Review all eight sigils at 24/48/96px, 200% optical zoom, black/white reversal, and watermark scale. Screenshots are visual QA evidence, not human-validation evidence.
+For every screen, assert `scrollWidth <= clientWidth + 1`. Add a 320-CSS-px/400% reflow check for the hub, index, representative detail, and zh status page. Review all eight marks at 48/112px, sub-32px code fallback, 200% optical zoom, black/white reversal, print, plus Diptych and Hallmark blend composition. Screenshots are visual QA evidence, not human-validation evidence.
 
 ## I.8 Print QA
 
@@ -659,7 +607,7 @@ The repository has no accepted numeric Lighthouse or bundle baseline, so V23.1 m
 - zero external image, font, icon, or runtime network requests for sigils/content;
 - static/server-rendered `/explore`, `/archetypes`, and `/archetypes/[slug]`;
 - zero new client boundary or hydration for static archetype content;
-- eight compact inline SVG definitions generated from four bases/two transforms;
+- eight compact inline SVG definitions bound exactly to the System A manifest;
 - no animation JavaScript, geometry library, or runtime layout measurement;
 - no eager Map import or Map bundle change on the ontology pages;
 - all static params complete at build time;
@@ -693,13 +641,13 @@ The next prompt should contain these instructions, in this order:
 
 1. **Baseline:** name the branch and the commit containing both V23 documents; print current branch, HEAD, and status; require a clean tree.
 2. **Authority:** read `V23_MASTER_CONTRACT.md`, this plan, `AGENTS.md`, the V22.5 identity migration, the naming decision, human-testing status, and frozen compatibility tests.
-3. **Owner decisions:** state the approved P- display name, normative aliases/glosses, launch publication policy, legacy-source migration rule, initial reviewed blend/related-content set, Plan A or B content path, sigil construction-grammar approval and designated collision reviewers, and English-only zh boundary. Final sigil collision approval occurs only after rendering.
+3. **Owner decisions:** state the approved P- display name, normative aliases/glosses, owner-authorized AI-assisted beta publication status, legacy-source migration rule, initial reviewed blend/related-content set, Plan A or B content path, System A manifest selection and bounded cultural-risk acceptance, and English-only zh boundary.
 4. **Scope:** implement **required V23.1 only**; explicitly ban scoring, instruments, calibration, payload/store, Map, Decision Pattern identity, domain classifiers, Tier 1, dependencies, external assets/services, and unreviewed person assignments.
 5. **Content migration:** state the owner-selected path. For recommended Plan B, expand the two root JSON files in place; for Plan A, move them atomically into `content/archetypes/`. Add schema/content versions, the claim/source/status contract, exactly eight records, a frozen identity accessor, and a separate fail-closed rich-content validator.
-6. **Sigils:** implement four bases + two transforms + eight deterministic static definitions and the accessible server component; stop if the owner-approved collision contract cannot be met.
+6. **Marks:** implement the exact eight System A definitions and accessible server component, including code fallback, Diptych, and Hallmark; preserve the blocked geometry-v1 archive.
 7. **Routes:** add `/archetypes`; expand all eight existing detail routes in place; preserve historical sections, source ledger, names, slugs, static params, and safe `from` behavior.
 8. **Explore:** recompose `/explore` into the nine ordered sections using owner-editable content; add bounded tradition support links; remove public unsourced thinker-position cards.
 9. **Compatibility/i18n:** preserve all result/share/store/Decision Pattern/tradition/reference routes and formats; English long form only; zh status pages and approved surfaces remain explicit with no fallback; redirects remain empty.
 10. **Tests/audits:** add the contract, source, sigil, route, language, mobile, print, and accessibility tests named in this plan; update copy-audit roots; regenerate evidence summaries only if the check proves them stale.
 11. **Gates:** run `git diff --check`, validate, strict copy audit, evidence check, lint, test, typecheck, build, CI E2E, and final `git diff --check`; stop and report the first failure.
-12. **Handoff:** report exact changed files, owner-reviewed versus withheld content, route/payload compatibility evidence, visual/print/a11y results, artifact changes, remaining research, and diff size. Do not stage, commit, push, or open a PR unless separately requested.
+12. **Handoff:** report exact changed files, owner-authorized-beta versus withheld content, the pending human-editorial status, route/payload compatibility evidence, visual/print/a11y results, artifact changes, remaining research, and diff size. Do not stage, commit, push, or open a PR unless separately requested.

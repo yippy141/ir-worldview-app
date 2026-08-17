@@ -13,6 +13,7 @@ import {
   getFamilyBySlug,
   validateExploreHubContent,
 } from "@/lib/explore-content"
+import { PUBLIC_LENS_LABELS } from "@/lib/archetype-display"
 import { archetypes, getArchetypePath } from "@/lib/archetypes"
 import { getAtlasLitePatterns, getAtlasPatternHref } from "@/lib/atlas-lite"
 import { getVisibleReferenceEntities } from "@/lib/field/items"
@@ -21,6 +22,7 @@ import {
   familyKeyFromSlug,
   familySlug,
   MODELED_FAMILY_KEYS,
+  traditionNounLabel,
 } from "@/lib/worldview-config"
 
 test("modeled explore families use canonical slugs", () => {
@@ -42,7 +44,7 @@ test("Explore hub locks the nine-section ontology and bounded content schema", (
   assert.deepEqual(exploreHubContentValidationErrors, [])
   const hub = getExploreHubContent()
   assert.ok(hub)
-  assert.equal(hub.schemaVersion, 1)
+  assert.equal(hub.schemaVersion, 2)
   assert.equal(hub.locale, "en")
   assert.equal(hub.hero.payoff.length, 2)
   assert.deepEqual(
@@ -53,6 +55,13 @@ test("Explore hub locks the nine-section ontology and bounded content schema", (
     hub.lensBands.map(({ lens }) => lens),
     EXPLORE_HUB_LENS_ORDER,
   )
+  assert.deepEqual(Object.values(PUBLIC_LENS_LABELS), [
+    "Power",
+    "Rules",
+    "Meaning",
+    "Structure",
+  ])
+  assert.ok(hub.lensBands.every((band) => !("label" in band)))
   assert.deepEqual(
     hub.normativeAliases.map(({ state, label }) => ({ state, label })),
     [
@@ -61,6 +70,11 @@ test("Explore hub locks the nine-section ontology and bounded content schema", (
       { state: "j", label: "Justice-first" },
     ],
   )
+  assert.equal(
+    hub.contextBoundary,
+    "These records sit beside the Foundation. They do not rescore it.",
+  )
+  assert.ok(hub.contextRecords.every((record) => !("objectType" in record)))
   assert.deepEqual(
     hub.dimensions.map(({ key }) => key),
     EXPLORE_HUB_DIMENSION_ORDER,
@@ -88,6 +102,17 @@ test("Explore hub validation fails closed on reordered sections, unsafe routes, 
   assert.ok(
     validateExploreHubContent(reordered).some((error) =>
       error.includes("sections[0].id"),
+    ),
+  )
+
+  const duplicateLensLabel = structuredClone(exploreHubData) as unknown as {
+    lensBands: Array<Record<string, unknown>>
+  }
+  duplicateLensLabel.lensBands[0]!.label = "Power and timing"
+  assert.equal(getExploreHubContent(duplicateLensLabel), null)
+  assert.ok(
+    validateExploreHubContent(duplicateLensLabel).some((error) =>
+      error.includes("lensBands[0] has unexpected or missing fields"),
     ),
   )
 
@@ -151,7 +176,18 @@ test("Explore hub derives identities, dimensions, patterns, and reference rows f
   assert.match(routeSource, /hub\.sections\.map/)
   assert.match(routeSource, /data-explore-section=\{section\.id\}/)
   assert.match(routeSource, /getVisibleReferenceEntities\(\)/)
+  assert.match(routeSource, /data-explore-archetype-pair/)
+  assert.match(routeSource, /hub\.contextBoundary/)
+  assert.doesNotMatch(routeSource, /getArchetypePath/)
+  assert.doesNotMatch(routeSource, /archetype\.gloss/)
   assert.doesNotMatch(routeSource, /associatedThinkers/)
+})
+
+test("Explore tradition titles use the canonical public noun forms", () => {
+  assert.deepEqual(
+    exploreFamilies.map(({ name }) => name),
+    exploreFamilies.map(({ familyKey }) => traditionNounLabel(familyKey)),
+  )
 })
 
 test("explore cards and result neighbor links resolve to canonical slugs", () => {

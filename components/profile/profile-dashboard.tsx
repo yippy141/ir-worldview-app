@@ -108,7 +108,7 @@ export function ProfileDashboard() {
             <ProfileShareActions
               payload={sharePayload}
               headline={
-                foundationArchetype?.name ?? "Foundation identity unavailable"
+                foundationArchetype?.name ?? "Foundation result unavailable"
               }
             />
           ) : undefined

@@ -10,6 +10,7 @@ import {
 } from "@/lib/scoring"
 import { dimensionScoresToArray, encodePayload, resolveFoundationPayload } from "@/lib/share"
 import type { Answers, FamilyKey, Question } from "@/lib/types"
+import { TRADITION_NOUN_LABELS } from "@/lib/worldview-config"
 
 const standardQuestions = getFoundationQuestions("standard")
 
@@ -107,6 +108,14 @@ test("distinct foundation fixtures stay distinct through payload reconstruction"
       narrative.state,
       fixture.expectedState,
       `Expected ${fixture.name} to resolve as ${fixture.expectedState}.`,
+    )
+    assert.match(
+      `${narrative.summary} ${narrative.sections.map(({ text }) => text).join(" ")}`,
+      new RegExp(TRADITION_NOUN_LABELS[resolved.result.familyKey], "u"),
+    )
+    assert.doesNotMatch(
+      `${narrative.summary} ${narrative.sections.map(({ text }) => text).join(" ")}`,
+      /Strategic Realist|Liberal Institutionalist|Social Constructivist|Critical Political Economist/u,
     )
 
     summaries.add(narrative.summary)

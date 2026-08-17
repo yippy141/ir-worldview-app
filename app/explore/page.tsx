@@ -9,8 +9,12 @@ import {
 } from "@/lib/explore-content"
 import {
   archetypes,
-  getArchetypePath,
 } from "@/lib/archetypes"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+  publicLensLabel,
+} from "@/lib/archetype-display"
 import {
   getAtlasLitePatterns,
   getAtlasPatternHref,
@@ -150,33 +154,35 @@ function renderSection(
                   <header className={styles.lensHeader}>
                     <p>{band.lens}</p>
                     <div>
-                      <h3 id={`explore-lens-${band.lens}`}>{band.label}</h3>
+                      <h3 id={`explore-lens-${band.lens}`}>
+                        {publicLensLabel(band.lens)}
+                      </h3>
                       <p>{band.description}</p>
                     </div>
                   </header>
-                  <div className={styles.archetypeRows}>
+                  <ul className={styles.archetypePairs}>
                     {records.map((archetype) => (
-                      <Link
+                      <li
                         key={archetype.code}
-                        href={getArchetypePath(archetype.code)}
-                        className={styles.archetypeRow}
+                        className={styles.archetypePair}
                         data-archetype-code={archetype.code}
+                        data-explore-archetype-pair
                       >
-                        <span className={styles.code}>{archetype.code}</span>
+                        <span className={styles.code} data-archetype-code-label>
+                          <span aria-hidden="true">
+                            {formatArchetypeDisplayCode(archetype.code)}
+                          </span>
+                          <span className="sr-only">
+                            {formatArchetypeCodeSpeech(archetype.code)}
+                          </span>
+                        </span>
                         <strong>{archetype.name}</strong>
-                        <span className={styles.rowDescription}>{archetype.gloss}</span>
-                        <span className={styles.rowArrow} aria-hidden="true">→</span>
-                      </Link>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </section>
               )
             })}
-          </div>
-          <div className={styles.postureNote}>
-            <p>{hub.postureExplanation.applyingAdvantage}</p>
-            <p>{hub.postureExplanation.restraint}</p>
-            <p>{hub.postureExplanation.equalWeight}</p>
           </div>
           <p className={styles.continueLink}>
             <Link href="/archetypes">Open the full archetype directory →</Link>
@@ -299,12 +305,12 @@ function renderSection(
     case "focus-context":
       return (
         <div className={styles.sectionBody}>
+          <p className={styles.contextBoundary} role="note">
+            {hub.contextBoundary}
+          </p>
           <div className={styles.contextRows}>
             {hub.contextRecords.map((record) => (
               <Link key={record.id} href={record.href} className={styles.contextRow}>
-                <span className={styles.objectType} data-explore-object-type>
-                  {record.objectType}
-                </span>
                 <strong>{record.title}</strong>
                 <span className={styles.rowDescription}>{record.description}</span>
                 <span className={styles.rowArrow} aria-hidden="true">→</span>

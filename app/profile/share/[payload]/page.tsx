@@ -25,10 +25,10 @@ export async function generateMetadata(
     : null
   const title = archetype
     ? `${archetype.name} profile — IR Worldview Inventory`
-    : "Foundation identity unavailable — Shared Profile"
+    : "Foundation result unavailable — Shared Profile"
   const description = archetype
     ? `Shared Foundation profile: ${archetype.name}. ${archetype.gloss}`
-    : "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no identity is inferred."
+    : "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no Foundation reading is inferred."
 
   return buildProfileMetadata(title, description, payload)
 }
@@ -107,7 +107,7 @@ export default async function SharedProfilePage(
           <ProfileShareActions
             payload={payload}
             headline={
-              foundationArchetype?.name ?? "Foundation identity unavailable"
+              foundationArchetype?.name ?? "Foundation result unavailable"
             }
           />
         }

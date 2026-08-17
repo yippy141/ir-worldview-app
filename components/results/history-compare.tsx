@@ -10,17 +10,7 @@ import { dimensionLabels } from "@/lib/quiz-schema"
 import type { DimensionKey, FamilyKey, StrategyModifier, NormativeModifier, DimensionScores } from "@/lib/types"
 import { SCHEMA_VERSION } from "@/lib/quiz-schema"
 import type { CompletionProvenance } from "@/lib/locale-provenance"
-
-const FAMILY_LABELS: Record<string, string> = {
-  realist: "Strategic Realist",
-  institutionalist: "Liberal Institutionalist",
-  constructivist: "Social Constructivist",
-  criticalPoliticalEconomy: "Critical Political Economist",
-}
-
-function fLabel(key: string): string {
-  return FAMILY_LABELS[key] ?? key
-}
+import { traditionNounLabel } from "@/lib/worldview-config"
 
 type DimensionShift = {
   dim: DimensionKey
@@ -127,7 +117,7 @@ function CompareSection({
       <div className="stack-xs">
         <h2>Compared with your last saved result</h2>
         <p className="muted history-compare-date">
-          From {priorDate} — {fLabel(prior.familyKey)} · {prior.strategyModifier} ·{" "}
+          From {priorDate} — {traditionNounLabel(prior.familyKey)} · {prior.strategyModifier} ·{" "}
           {prior.normativeModifier}
         </p>
       </div>
@@ -144,12 +134,12 @@ function CompareSection({
             {familyChanged ? (
               <p className="history-line">
                 Changed from{" "}
-                <span className="result-strong">{fLabel(prior.familyKey)}</span> to{" "}
-                <span className="result-strong">{fLabel(current.familyKey)}</span>.
+                <span className="result-strong">{traditionNounLabel(prior.familyKey)}</span> to{" "}
+                <span className="result-strong">{traditionNounLabel(current.familyKey)}</span>.
               </p>
             ) : (
               <p className="history-line">
-                Unchanged — <span className="result-strong">{fLabel(current.familyKey)}</span>.
+                Unchanged — <span className="result-strong">{traditionNounLabel(current.familyKey)}</span>.
               </p>
             )}
           </div>

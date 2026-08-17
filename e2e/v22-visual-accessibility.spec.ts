@@ -240,7 +240,7 @@ test("Foundation result keeps the archetype H1 above closest-tradition metadata"
   ).toBeVisible()
   await expect(
     page.getByText(
-      "Closest modeled tradition: Liberal Institutionalist",
+      "Closest modeled tradition: Institutionalism",
       { exact: true },
     ),
   ).toBeVisible()
@@ -327,7 +327,7 @@ test("a four-record Profile preserves its Foundation identity after a module sav
     ).toBeVisible()
     await expect(
       page.locator(".result-card-hero__chip").getByText(
-        "Closest tradition: Liberal Institutionalist",
+        "Closest tradition: Institutionalism",
         { exact: true },
       ),
     ).toBeVisible()
@@ -341,7 +341,7 @@ test("a four-record Profile preserves its Foundation identity after a module sav
     await expect(records).toHaveCount(4)
     await expect(records.filter({
       has: page.getByRole("heading", { name: "Foundation record", exact: true }),
-    }).getByText("Primary identity · unchanged", { exact: true })).toBeVisible()
+    }).getByText("Foundation reading · unchanged", { exact: true })).toBeVisible()
 
     for (const title of ["Security", "Technology", "AI Governance"] as const) {
       const record = records.filter({
@@ -592,65 +592,91 @@ test("V23.1B editorial measure, targets, focus, and contrast remain legible", as
   await expect(page.locator("[data-archetype-row-action]").first()).toBeVisible()
 
   await page.goto("/archetypes/p-minus")
-  const sigilContainment = await page.locator("[data-archetype-sigil-frame]").evaluate(
-    (frame) => {
-      const svg = frame.querySelector("svg")
-      if (!svg) return null
-      const outer = frame.getBoundingClientRect()
-      const inner = svg.getBoundingClientRect()
-      return {
-        contained:
-          inner.left >= outer.left - 1 &&
-          inner.right <= outer.right + 1 &&
-          inner.top >= outer.top - 1 &&
-          inner.bottom <= outer.bottom + 1,
-      }
-    },
+  const codeFallback = page.locator(
+    "[data-archetype-detail] [data-archetype-code-label]",
   )
-  expect(sigilContainment?.contained).toBe(true)
+  await expect(codeFallback).toBeVisible()
+  await expect(codeFallback).toHaveText("P−")
+  const codeContainment = await codeFallback.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      contained:
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.left >= -1 &&
+        rect.right <= document.documentElement.clientWidth + 1,
+    }
+  })
+  expect(codeContainment.contained).toBe(true)
+  const mobileHeroMark = page.locator(
+    '[data-archetype-detail] [data-archetype-mark="P-"]',
+  )
+  await expect(mobileHeroMark).toBeVisible()
+  await expect(mobileHeroMark).toHaveAttribute("data-archetype-mark-size", "112")
+  await expect(mobileHeroMark).toHaveAttribute("aria-hidden", "true")
+  await expect(page.locator("[data-archetype-detail] svg")).toHaveCount(1)
+  await expect(page.locator("[data-archetype-sigil-frame]")).toHaveCount(0)
 
   await page.goto("/explore")
   const mobileJumpNav = page.getByRole("navigation", { name: "On this page" })
-  await expect(mobileJumpNav).toBeVisible()
-  const mobileJumpLinks = mobileJumpNav.getByRole("link")
-  await expect(mobileJumpLinks).toHaveCount(9)
-  for (const height of await mobileJumpLinks.evaluateAll((elements) =>
-    elements.map((element) => element.getBoundingClientRect().height),
-  )) {
-    expect(height).toBeGreaterThanOrEqual(44)
-  }
+  await expect(mobileJumpNav).toBeHidden()
 })
 
-test("V23.1B sigils remain contained and monochrome in print", async ({
+test("V23.1B code labels, marks, and sources remain legible in print", async ({
   page,
 }) => {
   test.skip(!process.env.CI, "Print regressions run against the production server.")
   await page.setViewportSize({ width: 768, height: 900 })
   await page.goto("/archetypes/p-minus")
-  const sigil = page.locator("[data-archetype-detail] svg").first()
-  await expect(sigil).toBeVisible()
+  const codeFallback = page.locator(
+    "[data-archetype-detail] [data-archetype-code-label]",
+  )
+  await expect(codeFallback).toBeVisible()
+  await expect(codeFallback).toHaveText("P−")
+  const heroMark = page.locator(
+    '[data-archetype-detail] [data-archetype-mark="P-"]',
+  )
+  await expect(heroMark).toBeVisible()
+  await expect(heroMark).toHaveAttribute("data-archetype-mark-render", "pictorial")
+  await expect(heroMark).toHaveAttribute("data-archetype-mark-size", "112")
+  await expect(page.locator("[data-archetype-detail] svg")).toHaveCount(1)
 
   await page.emulateMedia({ media: "print" })
-  const printState = await sigil.evaluate((element) => {
-    const svg = element as SVGSVGElement
-    const rect = svg.getBoundingClientRect()
-    const primitives = Array.from(svg.querySelectorAll("line, path"))
+  const printState = await codeFallback.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
     return {
-      stroke: getComputedStyle(svg).stroke,
+      text: element.textContent,
       bodyBackground: getComputedStyle(document.body).backgroundColor,
-      clipped: primitives.some((primitive) => {
-        const child = primitive.getBoundingClientRect()
-        return child.left < rect.left - 1 || child.right > rect.right + 1
-          || child.top < rect.top - 1 || child.bottom > rect.bottom + 1
-      }),
+      clipped:
+        rect.width <= 0 ||
+        rect.height <= 0 ||
+        rect.left < -1 ||
+        rect.right > document.documentElement.clientWidth + 1,
       width: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,
     }
   })
+  expect(printState.text).toBe("P−")
   expect(printState.bodyBackground).toBe("rgb(255, 255, 255)")
-  expect(printState.stroke).toBe("rgb(17, 17, 17)")
   expect(printState.clipped).toBe(false)
   expect(printState.width).toBeLessThanOrEqual(printState.clientWidth + 1)
+  const codeContrast = await renderedContrastSamples(codeFallback)
+  expect(codeContrast).toHaveLength(1)
+  expect(codeContrast[0].ratio).toBeGreaterThanOrEqual(4.5)
+
+  const printMarkState = await heroMark.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      color: getComputedStyle(element).color,
+      clipped:
+        rect.width <= 0 ||
+        rect.height <= 0 ||
+        rect.left < -1 ||
+        rect.right > document.documentElement.clientWidth + 1,
+    }
+  })
+  expect(printMarkState.color).toBe("rgb(17, 17, 17)")
+  expect(printMarkState.clipped).toBe(false)
 
   const printedSourceUrl = await page
     .locator("[data-archetype-source-ledger] a[href^='http']")
