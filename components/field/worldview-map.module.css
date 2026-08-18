@@ -252,6 +252,11 @@
   min-width: 0;
 }
 
+.filterDetails[open],
+.keyDetails[open] {
+  flex: 1 0 100%;
+}
+
 .filterSummary {
   min-height: 44px;
   display: flex;
@@ -478,6 +483,7 @@
 
 .listTitle {
   margin: 0;
+  scroll-margin-top: 88px;
   color: var(--text);
   font-family: var(--font-serif), Georgia, serif;
   font-size: 1.12rem;
@@ -788,13 +794,14 @@
 .matrixBlendConnector {
   position: relative;
   z-index: 3;
-  align-self: start;
+  align-self: end;
   height: 1px;
-  margin-top: 18px;
+  margin-top: 0;
   padding: 0;
   background: var(--accent);
   list-style: none;
   pointer-events: none;
+  transform: translateY(50%);
 }
 
 .matrixBlendConnector::before,
@@ -827,10 +834,7 @@
 }
 
 .matrixBaselineHeading {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: 22px;
+  display: block;
 }
 
 .matrixBaseline h3 {
@@ -858,6 +862,22 @@
   flex-wrap: wrap;
 }
 
+.matrixBaselineSelection {
+  display: flex;
+  align-items: baseline;
+  gap: 8px 18px;
+  flex-wrap: wrap;
+  margin-top: 7px;
+}
+
+.matrixBaselineSelection .matrixBaselineIdentity {
+  margin: 0;
+}
+
+.matrixBaselineGloss {
+  margin-top: 7px;
+}
+
 .matrixBaselineCode {
   color: var(--muted);
   font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
@@ -869,9 +889,10 @@
 }
 
 .matrixNormativeState > div {
-  display: grid;
-  gap: 4px;
-  padding-left: 18px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-left: 16px;
   border-left: 1px solid var(--line-2);
 }
 
@@ -1413,15 +1434,15 @@
     min-height: 44px;
   }
 
-  .explorer[data-view="list"] .mapStage {
+  .explorer[data-projection="continuous"][data-view="list"] .mapStage {
     display: none;
   }
 
-  .explorer[data-view="map"] .listRegion {
+  .explorer[data-projection="continuous"][data-view="map"] .listRegion {
     display: none;
   }
 
-  .explorer[data-view="map"] .mapStage {
+  .explorer[data-projection="continuous"][data-view="map"] .mapStage {
     position: fixed;
     z-index: 30;
     inset: 0;
@@ -1433,7 +1454,7 @@
     background: var(--bg);
   }
 
-  .mobileMapHeader {
+  .explorer[data-projection="continuous"][data-view="map"] .mobileMapHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1459,7 +1480,7 @@
   }
 
   /* Full-bleed: the plot runs edge to edge; the sheet handle sits below it. */
-  .explorer[data-view="map"] .mapStageBody {
+  .explorer[data-projection="continuous"][data-view="map"] .mapStageBody {
     display: grid;
     align-content: safe center;
     padding: 0 0 calc(128px + env(safe-area-inset-bottom));
@@ -1468,7 +1489,7 @@
 
   /* The sheet handle already says "Layers"; the fieldset legend stays for
      assistive technology only. */
-  .explorer[data-view="map"] .layerLegend {
+  .explorer[data-projection="continuous"][data-view="map"] .layerLegend {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1478,7 +1499,7 @@
     white-space: nowrap;
   }
 
-  .explorer[data-view="map"] .continuousProjection > .canvas {
+  .explorer[data-projection="continuous"][data-view="map"] .continuousProjection > .canvas {
     width: 100%;
   }
 
@@ -1500,7 +1521,7 @@
 
   /* Bottom sheet. It is the same element as the desktop control bar, so the
      layer toggles are never duplicated in the DOM. */
-  .explorer[data-view="map"] .controlBar {
+  .explorer[data-projection="continuous"][data-view="map"] .controlBar {
     position: fixed;
     z-index: 36;
     right: 0;
@@ -1514,7 +1535,7 @@
     background: var(--bg-2);
   }
 
-  .explorer[data-view="map"] .sheetHandle {
+  .explorer[data-projection="continuous"][data-view="map"] .sheetHandle {
     display: flex;
     align-items: baseline;
     gap: 10px;
@@ -1544,7 +1565,7 @@
     white-space: nowrap;
   }
 
-  .explorer[data-view="map"] .sheetHandle::after {
+  .explorer[data-projection="continuous"][data-view="map"] .sheetHandle::after {
     content: "";
     flex: 0 0 7px;
     width: 7px;
@@ -1556,18 +1577,18 @@
     transform: rotate(-135deg);
   }
 
-  .explorer[data-view="map"][data-sheet="open"] .sheetHandle::after {
+  .explorer[data-projection="continuous"][data-view="map"][data-sheet="open"] .sheetHandle::after {
     transform: rotate(45deg);
   }
 
   /* Collapsed sheet keeps the view toggle and the count reachable; only the
      layer chips and the disclosures fold away. */
-  .explorer[data-view="map"][data-sheet="closed"] .layerControls,
-  .explorer[data-view="map"][data-sheet="closed"] .controlBarSecondary {
+  .explorer[data-projection="continuous"][data-view="map"][data-sheet="closed"] .layerControls,
+  .explorer[data-projection="continuous"][data-view="map"][data-sheet="closed"] .controlBarSecondary {
     display: none;
   }
 
-  .explorer[data-view="map"] .controlBarBody {
+  .explorer[data-projection="continuous"][data-view="map"] .controlBarBody {
     gap: 12px;
     padding: 10px 0 14px;
     border-top: 1px solid var(--line);
@@ -1723,8 +1744,8 @@
     display: none;
   }
 
-  .matrixBaselineHeading {
-    grid-template-columns: minmax(0, 1fr);
+  .matrixBaselineSelection {
+    display: grid;
     gap: 16px;
   }
 
@@ -1890,15 +1911,7 @@
   }
 
   .matrixBlendConnector {
-    display: block !important;
-    margin-top: 15px;
-    background: #111111;
-  }
-
-  .matrixBlendConnector::before,
-  .matrixBlendConnector::after {
-    border-color: #111111;
-    background: #ffffff;
+    display: none !important;
   }
 
   .matrixBaseline {
@@ -1907,11 +1920,6 @@
     padding: 16px 0;
     break-inside: avoid;
     page-break-inside: avoid;
-  }
-
-  .matrixBaselineHeading {
-    grid-template-columns: minmax(0, 1fr) auto !important;
-    gap: 18px;
   }
 
   .matrixNormativeState > div {

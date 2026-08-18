@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 559,
-      "newCount": 14,
+      "currentCount": 558,
+      "newCount": 13,
       "newFindings": [
         {
           "audience": "public",
@@ -45,16 +45,6 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:components/field/field-explorer.tsx#FieldExplorer.div.aria-label",
-          "count": 1,
-          "file": "components/field/field-explorer.tsx",
-          "fingerprint": "375e67130d627bd8b8fb2968f29b6c5b0f7510e8d06e6bfc6c9c0490c4468306",
-          "matched": "map / map",
-          "rule": "repeated-adjacent-abstract-language",
-          "source": "map"
         },
         {
           "audience": "operational",
@@ -1119,7 +1109,7 @@
         "priority": "P1"
       },
       {
-        "count": 559,
+        "count": 558,
         "priority": "P2"
       }
     ]

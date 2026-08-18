@@ -26,7 +26,7 @@ import {
   isReferenceProfilePublishable,
   validateReferenceCatalog,
 } from "@/lib/reference-profiles/validation"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { FAMILY_LABELS, traditionNounLabel } from "@/lib/worldview-config"
 import { chineseShellContent } from "@/content/locales/zh-Hans"
 import { zhHansReferenceProfilesUi } from "@/content/locales/zh-Hans/reference-profiles-ui"
 import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
@@ -87,7 +87,7 @@ export function buildBaselineFieldItem(
   const familyKey = leadingCell.archetype.familyKey
   const familyLabel = zh
     ? zhHansWorldviewMapUi.filters.families[familyKey]
-    : FAMILY_LABELS[familyKey]
+    : traditionNounLabel(familyKey)
 
   return {
     id: "my-baseline",

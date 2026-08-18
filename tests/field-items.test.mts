@@ -24,6 +24,7 @@ import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 import type { FoundationSnapshot } from "@/lib/profile-store"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { DimensionScores } from "@/lib/types"
+import { traditionNounLabel } from "@/lib/worldview-config"
 
 const frozenV2FoundationPayload =
   "eyJ2IjoyLCJkcyI6WzYuMjUsMi41LDQsMy43NSw1LjUsNC4yNSwyLjc1XSwiZmsiOiJyZWFsaXN0IiwibmsiOiJpbnN0aXR1dGlvbmFsaXN0Iiwic20iOiJIZWRnZXIiLCJubSI6IkNvbmRpdGlvbmFsIFNvbGlkYXJpc3QifQ"
@@ -128,7 +129,7 @@ test("legacy baseline position and summary follow decoded payload data, not cach
   assert.equal(item.familyKey, resolved.result.familyKey)
   assert.equal(
     item.summary,
-    `Foundation baseline · closest to ${resolved.result.familyLabel}.`,
+    `Foundation baseline · closest to ${traditionNounLabel(resolved.result.familyKey)}.`,
   )
   assert.doesNotMatch(item.summary, /Conflicting cached family/u)
 })

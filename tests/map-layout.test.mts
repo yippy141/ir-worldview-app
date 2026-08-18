@@ -19,7 +19,7 @@ import {
   type MapLabelRequest,
 } from "@/lib/results/map-layout"
 import { TRADITION_ANCHORS } from "@/lib/results/position"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 
 const ANCHOR_FONT_SIZE = 12
 const ANCHOR_TRACKING = 0.08
@@ -121,7 +121,7 @@ test("tradition labels avoid each other, the axis labels, and the respondent mar
   const requests: MapLabelRequest[] = TRADITION_ANCHORS.map((anchor) => ({
     key: anchor.key,
     point: toMapPoint(anchor.position),
-    text: FAMILY_LABELS[anchor.key],
+    text: traditionNounLabel(anchor.key),
     fontSize: ANCHOR_FONT_SIZE,
     tracking: ANCHOR_TRACKING,
     maxWidth: MAP_LABEL_MAX_WIDTH,

@@ -10,7 +10,7 @@ import {
   type FieldLayerId,
   type FieldSelectionKey,
 } from "@/lib/field/layers"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import styles from "./worldview-map.module.css"
 
 const KIND_TAGS: Record<FieldItem["kind"], string> = {
@@ -113,7 +113,7 @@ export function FieldList({
                           {item.kind === "atlas-pattern" && item.familyKey ? (
                             <span className={styles.listTag}>
                               {copy?.filters.families[item.familyKey] ??
-                                FAMILY_LABELS[item.familyKey]}
+                                traditionNounLabel(item.familyKey)}
                             </span>
                           ) : null}
                           {item.draft ? (

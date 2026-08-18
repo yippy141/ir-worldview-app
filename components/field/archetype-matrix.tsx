@@ -250,33 +250,38 @@ function MatrixBaseline({
       <div className={styles.matrixBaselineHeading}>
         <div>
           <h3>Your Foundation reading</h3>
-          <p className={styles.matrixBaselineIdentity}>
-            <strong>{archetype.name}</strong>
-            <span
-              className={styles.matrixBaselineCode}
-              data-foundation-mark-code-label
-              aria-label={formatArchetypeCodeSpeech(archetype.code)}
+          <div className={styles.matrixBaselineSelection}>
+            <p
+              className={styles.matrixBaselineIdentity}
+              data-matrix-baseline-identity
             >
-              {formatArchetypeDisplayCode(archetype.code)}
-            </span>
-          </p>
-          <p>{archetype.gloss}</p>
-        </div>
-        <dl className={styles.matrixNormativeState}>
-          <div>
-            <dt>Normative orientation</dt>
-            <dd data-matrix-normative-alias>
-              {baseline.normativeState.publicLabel}
-            </dd>
+              <strong>{archetype.name}</strong>
+              <span
+                className={styles.matrixBaselineCode}
+                data-foundation-mark-code-label
+                aria-label={formatArchetypeCodeSpeech(archetype.code)}
+              >
+                {formatArchetypeDisplayCode(archetype.code)}
+              </span>
+            </p>
+            <dl className={styles.matrixNormativeState}>
+              <div>
+                <dt>Normative orientation</dt>
+                <dd data-matrix-normative-alias>
+                  {baseline.normativeState.publicLabel}
+                </dd>
+              </div>
+            </dl>
           </div>
-        </dl>
+          <p className={styles.matrixBaselineGloss}>{archetype.gloss}</p>
+        </div>
       </div>
 
       <div className={styles.matrixFoundationMark}>
         {isBlend ? (
           <FoundationMark
             code={archetype.code}
-            primaryCode={baseline.leadingPureCode}
+            primaryCode={archetype.archetypes[0].code}
             presentation="hero"
           />
         ) : (

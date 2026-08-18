@@ -702,7 +702,7 @@ Fixture baseline digest: `16d7f05a33a87ca92f84e66c67850dbc47e7efb90cacb7f3e8e0e4
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 559. Unchanged and suppressed: 545. New: 14. Resolved: 13.
+P2 advisory baseline: 558. Current: 558. Unchanged and suppressed: 545. New: 13. Resolved: 13.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -710,7 +710,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 15 |
 | P1 | 26 |
-| P2 | 559 |
+| P2 | 558 |
 
 ### P0 and P1 findings
 
@@ -766,7 +766,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
 | 1 | general-prevalence-language-review | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | usually |
-| 1 | repeated-adjacent-abstract-language | public | components/field/field-explorer.tsx (content-key:components/field/field-explorer.tsx#FieldExplorer.div.aria-label) | map / map |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
 | 1 | repeated-adjacent-opening | editorial-source | content/archetype-evidence.json (content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason) | the article is |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |

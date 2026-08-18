@@ -571,6 +571,16 @@ test("Worldview Map bare and legacy routes select the correct projection", async
   await expect(matrix.locator("[data-archetype-matrix-cell]")).toHaveCount(8)
   await expect(matrix.locator('[data-archetype-mark-render="pictorial"]')).toHaveCount(8)
   await expect(matrix.locator('[data-archetype-matrix-active="true"]')).toHaveCount(0)
+  await expect(
+    page.getByRole("heading", { name: "Contextual positions", exact: true }),
+  ).toBeVisible()
+  await expect(
+    page.getByText(
+      "No baseline or contextual overlays are active. The eight Foundation archetypes remain available in the matrix above.",
+      { exact: true },
+    ),
+  ).toBeVisible()
+  await expect(page.getByText("Nothing to show yet", { exact: true })).toHaveCount(0)
 
   for (const archetype of archetypes) {
     const cell = matrix.locator(
@@ -613,19 +623,64 @@ test("Worldview Map bare and legacy routes select the correct projection", async
     .toHaveAttribute("data-archetype-matrix-active", "true")
   await expect(matrix.locator('[data-archetype-matrix-cell="S+"]'))
     .toHaveAttribute("data-archetype-matrix-active", "true")
-  await expect(matrix.locator("[data-archetype-matrix-connector]")).toBeVisible()
-  await expect(
-    matrix.locator(
-      '[data-foundation-mark="blend"][data-foundation-mark-layout="diptych"]',
-    ),
-  ).toBeVisible()
+  const connector = matrix.locator("[data-archetype-matrix-connector]")
+  await expect(connector).toBeVisible()
+  const diptych = matrix.locator(
+    '[data-foundation-mark="blend"][data-foundation-mark-layout="diptych"]',
+  )
+  await expect(diptych).toBeVisible()
+  await expect(diptych.locator("[data-foundation-mark-primary]")).toHaveAttribute(
+    "data-foundation-mark-primary",
+    "M+",
+  )
+  await expect(diptych.locator("[data-foundation-mark-runner-up]")).toHaveAttribute(
+    "data-foundation-mark-runner-up",
+    "S+",
+  )
+  await expect(diptych.locator("[data-foundation-mark-name]")).toHaveText([
+    "Satyagraha",
+    "Dirigisme",
+  ])
   await expect(matrix.locator('[data-archetype-mark="M/S+"]')).toHaveCount(0)
   await expect(matrix.locator("[data-matrix-normative-alias]")).toHaveText(
     "Conditional",
   )
+
+  const connectorBox = await connector.boundingBox()
+  if (!connectorBox) throw new Error("Expected a rendered matrix connector.")
+  for (const badge of await matrix.getByText("Shared result", { exact: true }).all()) {
+    const badgeBox = await badge.boundingBox()
+    if (!badgeBox) throw new Error("Expected a rendered matrix result badge.")
+    const overlaps = !(
+      connectorBox.x + connectorBox.width <= badgeBox.x ||
+      badgeBox.x + badgeBox.width <= connectorBox.x ||
+      connectorBox.y + connectorBox.height <= badgeBox.y ||
+      badgeBox.y + badgeBox.height <= connectorBox.y
+    )
+    expect(overlaps).toBe(false)
+  }
+
+  const identityBox = await matrix.locator("[data-matrix-baseline-identity]").boundingBox()
+  const normativeBox = await matrix
+    .locator("dl:has([data-matrix-normative-alias])")
+    .boundingBox()
+  if (!identityBox || !normativeBox) {
+    throw new Error("Expected the baseline identity and normative state.")
+  }
+  expect(normativeBox.x - (identityBox.x + identityBox.width)).toBeLessThan(48)
+
+  await page.emulateMedia({ media: "print" })
+  await expect(connector).not.toBeVisible()
+  await page.emulateMedia({ media: "screen" })
   await expect(
     page.locator('#worldview-map-list [id^="field-item-my-profile"]'),
   ).toHaveCount(1)
+  const baselineListButton = page
+    .locator('#worldview-map-list [id^="field-item-my-profile"]')
+    .getByRole("button")
+  await baselineListButton.click()
+  await page.getByRole("button", { name: "Close details" }).click()
+  await expect(baselineListButton).toBeFocused()
 
   await page.getByRole("button", { name: "Continuous" }).click()
   await expect(
@@ -645,6 +700,28 @@ test("Worldview Map bare and legacy routes select the correct projection", async
   await expect(page.getByRole("button", { name: /^Decision Patterns/ }))
     .toHaveAttribute("aria-pressed", "true")
   await expect(matrix).not.toBeVisible()
+
+  const filters = page.locator("[data-worldview-map-filters]")
+  await filters.locator("summary").click()
+  const filterBox = await filters.boundingBox()
+  if (!filterBox) throw new Error("Expected the open filter disclosure.")
+  expect(filterBox.width).toBeGreaterThan(600)
+  for (const label of [
+    "Realism",
+    "Institutionalism",
+    "Constructivism",
+    "Critical political economy",
+  ]) {
+    await expect(filters.getByRole("button", { name: label, exact: true })).toBeVisible()
+  }
+  for (const label of [
+    "Strategic Realist",
+    "Liberal Institutionalist",
+    "Social Constructivist",
+    "Critical Political Economist",
+  ]) {
+    await expect(filters.getByRole("button", { name: label, exact: true })).toHaveCount(0)
+  }
 
   const collision = page
     .getByRole("button", { name: /overlapping items/i })
@@ -670,33 +747,66 @@ test("Worldview Map bare and legacy routes select the correct projection", async
 
   await page.setViewportSize({ width: 800, height: 900 })
   await page.goto("/explore/atlas?view=list")
+  await expect(matrix).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "Complete list", exact: true }),
+    page.getByRole("heading", { name: "Contextual positions", exact: true }),
   ).toBeVisible()
   await expect.poll(() => new URL(page.url()).search).toBe(
     "?projection=matrix&view=list",
   )
 })
 
-test("mobile matrix contains focus and returns it to the page", async ({ page }) => {
+test("mobile matrix stays inline while the continuous map keeps its focused modal flow", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/explore/atlas")
 
   const explorer = page.locator('[data-matrix-available="true"]')
-  const back = page.getByRole("button", { name: /Back to page/ })
-  await expect(back).toBeFocused()
+  const matrix = page.locator("[data-archetype-matrix]")
+  await expect(matrix).toBeVisible()
+  await expect(matrix.locator("[data-archetype-matrix-cell]")).toHaveCount(8)
+  await expect(
+    page.getByRole("heading", { name: "Contextual positions", exact: true }),
+  ).toBeVisible()
+  await expect(explorer).not.toHaveAttribute("role", "dialog")
+  await expect(page.getByRole("button", { name: /Back to list/ })).toHaveCount(0)
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).not.toBe(
+    "hidden",
+  )
 
-  await page.keyboard.press("Shift+Tab")
-  await expect.poll(() =>
-    page.evaluate(() =>
-      Boolean(document.activeElement?.closest('[data-matrix-available="true"]')),
-    ),
-  ).toBe(true)
+  await page.getByRole("button", { name: "Continuous", exact: true }).click()
+  const back = page.getByRole("button", { name: /Back to list/ })
+  await expect(explorer).toHaveAttribute("role", "dialog")
+  await expect(back).toBeFocused()
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe(
+    "hidden",
+  )
 
   await back.click()
-  await expect(page.locator("#worldview-map-page-heading")).toBeFocused()
+  const listHeading = page.getByRole("heading", {
+    name: "Complete list",
+    exact: true,
+  })
+  await expect(listHeading).toBeFocused()
+  const siteHeaderBox = await page.locator(".site-header").boundingBox()
+  const listHeadingBox = await listHeading.boundingBox()
+  if (!siteHeaderBox || !listHeadingBox) {
+    throw new Error("Expected the sticky header and focused list heading.")
+  }
+  expect(listHeadingBox.y).toBeGreaterThanOrEqual(
+    siteHeaderBox.y + siteHeaderBox.height - 1,
+  )
   await expect.poll(() => new URL(page.url()).search).toBe(
-    "?projection=matrix&view=list",
+    "?projection=continuous",
+  )
+
+  await page.getByRole("button", { name: "Matrix", exact: true }).click()
+  await expect(matrix).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Contextual positions", exact: true }),
+  ).toBeVisible()
+  await expect(explorer).not.toHaveAttribute("role", "dialog")
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).not.toBe(
+    "hidden",
   )
 })
 

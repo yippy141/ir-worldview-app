@@ -26,7 +26,7 @@ import {
 import { AXIS_LABELS, TRADITION_ANCHORS, familyColorVar } from "@/lib/results/position"
 import type { ReferenceEntityType } from "@/lib/reference-profiles/types"
 import type { FamilyKey } from "@/lib/types"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import styles from "./worldview-map.module.css"
 
 // The shared projection remains the Foundation-result geometry. Exact
@@ -125,7 +125,7 @@ function markerContextLabel(
     return marker.label
   }
   return `${marker.label} · ${
-    copy?.familyAnchors[marker.familyKey] ?? FAMILY_LABELS[marker.familyKey]
+    copy?.familyAnchors[marker.familyKey] ?? traditionNounLabel(marker.familyKey)
   }`
 }
 
@@ -136,7 +136,7 @@ function markerSecondaryLabel(
   const parts = [
     marker.kind === "atlas-pattern" && marker.familyKey
       ? copy?.familyAnchors[marker.familyKey] ??
-        FAMILY_LABELS[marker.familyKey]
+        traditionNounLabel(marker.familyKey)
       : null,
     marker.draft ? copy?.detail.draft ?? "Research draft" : null,
   ].filter((part): part is string => Boolean(part))
@@ -308,7 +308,7 @@ export function FieldMap({
       anchorPoints.map(({ anchor, point }) => ({
         key: anchor.key,
         point,
-        text: copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key],
+        text: copy?.familyAnchors[anchor.key] ?? traditionNounLabel(anchor.key),
         fontSize: ANCHOR_LABEL_PX,
         tracking: ANCHOR_TRACKING,
         maxWidth: MAP_LABEL_MAX_WIDTH,
@@ -835,7 +835,7 @@ export function FieldMapKey({
         ? TRADITION_ANCHORS.map((anchor) => (
             <KeyRow
               key={anchor.key}
-              label={`${copy?.key.worldviewProfile ?? "Decision Pattern"} · ${copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key]}`}
+              label={`${copy?.key.worldviewProfile ?? "Decision Pattern"} · ${copy?.familyAnchors[anchor.key] ?? traditionNounLabel(anchor.key)}`}
             >
               <g stroke={`var(${anchor.colorVar})`} strokeWidth={1.6}>
                 <line x1={3} y1={8} x2={13} y2={8} />

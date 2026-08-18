@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation"
 import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
 import { referenceEntityTypeLabel, type FieldItem } from "@/lib/field/items"
 import { FIELD_LAYER_CONFIG_BY_ID } from "@/lib/field/layers"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import styles from "./worldview-map.module.css"
 
 const KIND_ACTION_LABELS: Record<FieldItem["kind"], string> = {
@@ -32,7 +32,7 @@ export function FieldDetailCard({
     ?? FIELD_LAYER_CONFIG_BY_ID[item.layerId].label
   const patternFamilyLabel =
     item.kind === "atlas-pattern" && item.familyKey
-      ? copy?.filters.families[item.familyKey] ?? FAMILY_LABELS[item.familyKey]
+      ? copy?.filters.families[item.familyKey] ?? traditionNounLabel(item.familyKey)
       : null
 
   return (
