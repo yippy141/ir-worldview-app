@@ -6,6 +6,10 @@ import {
   type AtlasLitePattern,
 } from "@/lib/atlas-lite"
 import type { FieldFilterableItem, FieldLayerId } from "@/lib/field/layers"
+import {
+  ARCHETYPE_MATRIX_CELLS,
+  resolveWorldviewMapBaseline,
+} from "@/lib/field/archetype-matrix"
 import { toMapPosition, type MapPosition } from "@/lib/field/position"
 import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 import type { FoundationSnapshot } from "@/lib/profile-store"
@@ -22,7 +26,7 @@ import {
   isReferenceProfilePublishable,
   validateReferenceCatalog,
 } from "@/lib/reference-profiles/validation"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { FAMILY_LABELS, traditionNounLabel } from "@/lib/worldview-config"
 import { chineseShellContent } from "@/content/locales/zh-Hans"
 import { zhHansReferenceProfilesUi } from "@/content/locales/zh-Hans/reference-profiles-ui"
 import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
@@ -72,10 +76,18 @@ export function buildBaselineFieldItem(
   locale: Locale = "en",
 ): FieldItem | null {
   if (!foundation) return null
+  const baseline = resolveWorldviewMapBaseline(foundation)
+  if (!baseline) return null
+  const leadingCell = ARCHETYPE_MATRIX_CELLS.find(
+    ({ archetypeCode }) => archetypeCode === baseline.leadingPureCode,
+  )
+  if (!leadingCell) return null
+
   const zh = locale === "zh-Hans"
+  const familyKey = leadingCell.archetype.familyKey
   const familyLabel = zh
-    ? zhHansWorldviewMapUi.filters.families[foundation.familyKey]
-    : foundation.familyLabel
+    ? zhHansWorldviewMapUi.filters.families[familyKey]
+    : traditionNounLabel(familyKey)
 
   return {
     id: "my-baseline",
@@ -83,14 +95,17 @@ export function buildBaselineFieldItem(
     kind: "baseline",
     label: zh ? zhHansWorldviewMapUi.fieldItems.myBaseline : "My baseline",
     sortKey: "0-my-baseline",
-    searchableText: ["baseline", foundation.familyLabel],
-    position: toMapPosition(foundation.dimensionScores),
+    searchableText: ["baseline", familyLabel],
+    position: {
+      x: baseline.continuousProjection.x,
+      y: baseline.continuousProjection.y,
+    },
     summary: zh
       ? zhHansWorldviewMapUi.fieldItems.baselineSummary(familyLabel)
-      : `Foundation baseline · closest to ${foundation.familyLabel}.`,
+      : `Foundation baseline · closest to ${familyLabel}.`,
     href: internalPath(foundation.resultPath),
     metaLine: formatFieldDate(foundation.timestamp, locale),
-    familyKey: foundation.familyKey,
+    familyKey,
   }
 }
 
@@ -103,24 +118,34 @@ export function buildPerspectiveRunFieldItems(
   locale: Locale = "en",
 ): FieldItem[] {
   const zh = locale === "zh-Hans"
-  return runs.map((run) => ({
-    id: run.id,
-    layerId: "perspective-runs" as FieldLayerId,
-    kind: "perspective-run" as const,
-    label: zh && run.perspectiveId in chineseShellContent.profileShare.perspectiveLabels
-      ? chineseShellContent.profileShare.perspectiveLabels[
-          run.perspectiveId as keyof typeof chineseShellContent.profileShare.perspectiveLabels
-        ]
-      : run.perspectiveLabel,
-    sortKey: `${run.perspectiveLabel}-${run.timestamp}`,
-    searchableText: ["perspective run", run.perspectiveLabel],
-    position: toMapPosition(run.dimensionScores),
-    summary: zh
-      ? zhHansWorldviewMapUi.fieldItems.perspectiveSummary
-      : "Contextual shift recorded beside the Foundation baseline.",
-    href: internalPath(run.resultPath),
-    metaLine: formatFieldDate(run.timestamp, locale),
-  }))
+  return runs.map((run) => {
+    const localizedLabel =
+      zh && run.perspectiveId in chineseShellContent.profileShare.perspectiveLabels
+        ? chineseShellContent.profileShare.perspectiveLabels[
+            run.perspectiveId as keyof typeof chineseShellContent.profileShare.perspectiveLabels
+          ]
+        : null
+    const label = zh
+      ? localizedLabel ?? zhHansWorldviewMapUi.key.perspectiveShift
+      : run.perspectiveLabel
+
+    return {
+      id: run.id,
+      layerId: "perspective-runs" as FieldLayerId,
+      kind: "perspective-run" as const,
+      label,
+      sortKey: `${label}-${run.timestamp}`,
+      searchableText: zh
+        ? ["情境变化", label]
+        : ["perspective run", run.perspectiveLabel],
+      position: toMapPosition(run.dimensionScores),
+      summary: zh
+        ? zhHansWorldviewMapUi.fieldItems.perspectiveSummary
+        : "Contextual shift recorded beside the Foundation baseline.",
+      href: internalPath(run.resultPath),
+      metaLine: formatFieldDate(run.timestamp, locale),
+    }
+  })
 }
 
 /** Keep the latest run per pack — the map plots one dot per vantage point. */
@@ -185,27 +210,33 @@ export function atlasFingerprintToDimensionScores(
 
 export function buildAtlasPatternFieldItems(locale: Locale = "en"): FieldItem[] {
   const zh = locale === "zh-Hans"
-  return atlasLitePatterns.map((pattern) => ({
-    id: pattern.id,
-    layerId: "atlas-patterns" as FieldLayerId,
-    kind: "atlas-pattern" as const,
-    label: zhHansWorldviewProfileById[pattern.id]?.publicName && zh
-      ? zhHansWorldviewProfileById[pattern.id].publicName
-      : pattern.publicName,
-    sortKey: pattern.publicName,
-    searchableText: [
-      "decision pattern",
-      pattern.technicalDescriptor,
-      pattern.cardSummary,
-      FAMILY_LABELS[pattern.primaryFamily],
-    ],
-    position: toMapPosition(atlasFingerprintToDimensionScores(pattern)),
-    summary: zh
-      ? zhHansWorldviewProfileById[pattern.id]?.cardSummary ?? pattern.cardSummary
-      : pattern.cardSummary,
-    href: getAtlasPatternHref(pattern.id),
-    familyKey: pattern.primaryFamily,
-  }))
+  return atlasLitePatterns.flatMap((pattern) => {
+    const localized = zh ? zhHansWorldviewProfileById[pattern.id] : undefined
+    if (zh && !localized) return []
+
+    const label = zh ? localized!.publicName : pattern.publicName
+    const summary = zh ? localized!.cardSummary : pattern.cardSummary
+
+    return [{
+      id: pattern.id,
+      layerId: "atlas-patterns" as FieldLayerId,
+      kind: "atlas-pattern" as const,
+      label,
+      sortKey: label,
+      searchableText: zh
+        ? ["决策模式", label, summary]
+        : [
+            "decision pattern",
+            pattern.technicalDescriptor,
+            pattern.cardSummary,
+            FAMILY_LABELS[pattern.primaryFamily],
+          ],
+      position: toMapPosition(atlasFingerprintToDimensionScores(pattern)),
+      summary,
+      href: getAtlasPatternHref(pattern.id),
+      familyKey: pattern.primaryFamily,
+    }]
+  })
 }
 
 // ---------------------------------------------------------------------------

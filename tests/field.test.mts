@@ -2,9 +2,11 @@ import test from "node:test"
 import assert from "node:assert/strict"
 import {
   DEFAULT_FIELD_LAYER_AVAILABILITY,
+  DEFAULT_WORLDVIEW_MAP_OVERLAY_LAYER_IDS,
   FIELD_LAYER_CONFIGS,
   MAX_ACTIVE_FIELD_LAYERS,
   PUBLIC_FIELD_LAYER_CONFIGS,
+  WORLDVIEW_MAP_OVERLAY_LAYER_IDS,
   fieldSelectionKey,
   filterFieldItems,
   findSelectedFieldItem,
@@ -14,6 +16,7 @@ import {
   getStableFieldItems,
   normalizeActiveFieldLayers,
   normalizeFieldFilters,
+  normalizeWorldviewMapOverlayLayers,
   parseFieldFilters,
   parseFieldLayerIds,
   parseFieldSelectionKey,
@@ -22,6 +25,7 @@ import {
   serializeFieldLayerIds,
   toggleActiveFieldLayer,
   toggleFieldSelectionKey,
+  toggleWorldviewMapOverlayLayer,
   type FieldFilterableItem,
 } from "@/lib/field/layers"
 import {
@@ -121,6 +125,71 @@ test("two contextual layers remain possible when My profile is unavailable", () 
   )
 })
 
+test("Worldview Map contextual overlays are opt-in and may all be off", () => {
+  assert.deepEqual(DEFAULT_WORLDVIEW_MAP_OVERLAY_LAYER_IDS, [])
+  assert.deepEqual(WORLDVIEW_MAP_OVERLAY_LAYER_IDS, [
+    "atlas-patterns",
+    "perspective-runs",
+    "reference-profiles",
+  ])
+  assert.deepEqual(normalizeWorldviewMapOverlayLayers([]), [])
+  assert.deepEqual(
+    normalizeWorldviewMapOverlayLayers([
+      "reference-profiles",
+      "my-profile",
+      "atlas-patterns",
+      "reference-profiles",
+      "perspective-runs",
+    ]),
+    ["reference-profiles", "atlas-patterns"],
+  )
+  assert.deepEqual(
+    normalizeWorldviewMapOverlayLayers(
+      ["atlas-patterns", "reference-profiles"],
+      { "reference-profiles": false },
+    ),
+    ["atlas-patterns"],
+  )
+
+  const decisionPatterns = toggleWorldviewMapOverlayLayer(
+    [],
+    "atlas-patterns",
+  )
+  assert.deepEqual(decisionPatterns, ["atlas-patterns"])
+  assert.deepEqual(
+    toggleWorldviewMapOverlayLayer(decisionPatterns, "atlas-patterns"),
+    [],
+  )
+
+  const perspectiveRuns = toggleWorldviewMapOverlayLayer(
+    [],
+    "perspective-runs",
+  )
+  assert.deepEqual(perspectiveRuns, ["perspective-runs"])
+  assert.deepEqual(
+    toggleWorldviewMapOverlayLayer(perspectiveRuns, "perspective-runs"),
+    [],
+  )
+  assert.deepEqual(
+    toggleWorldviewMapOverlayLayer(
+      ["atlas-patterns", "reference-profiles"],
+      "perspective-runs",
+    ),
+    ["reference-profiles", "perspective-runs"],
+  )
+  assert.deepEqual(
+    toggleWorldviewMapOverlayLayer(
+      decisionPatterns,
+      "reference-profiles",
+      { "reference-profiles": false },
+    ),
+    decisionPatterns,
+  )
+
+  // The legacy compatibility helper retains its one-layer fallback contract.
+  assert.deepEqual(normalizeActiveFieldLayers([]), ["my-profile"])
+})
+
 test("layer state has a stable URL value and applies availability on parse", () => {
   const encoded = serializeFieldLayerIds([
     "my-profile",
@@ -154,6 +223,7 @@ test("the shared Worldview Map query codec preserves legacy keys and canonical s
   const parsed = parseWorldviewMapQuery(params)
   assert.equal(parsed.layerParam, "atlas-patterns,reference-profiles")
   assert.deepEqual(parsed.familyKeys, [familyKey])
+  assert.equal(parsed.projection, "continuous")
   assert.equal(parsed.reviewedWithin, "12")
   assert.equal(parsed.selectedKey, selection)
   assert.equal(parsed.view, "map")
@@ -162,6 +232,7 @@ test("the shared Worldview Map query codec preserves legacy keys and canonical s
     activeLayerIds: parseFieldLayerIds(parsed.layerParam),
     filters: parsed.filters,
     familyKeys: parsed.familyKeys,
+    projection: parsed.projection,
     reviewedWithin: parsed.reviewedWithin,
     selectedKey: parsed.selectedKey,
     view: parsed.view,
@@ -169,6 +240,106 @@ test("the shared Worldview Map query codec preserves legacy keys and canonical s
   const reparsed = parseWorldviewMapQuery(encoded)
   assert.deepEqual(reparsed, parsed)
   assert.equal(parseWorldviewMapQuery("sel=not-a-selection").selectedKey, null)
+})
+
+test("Worldview Map projection parsing distinguishes current and legacy links", () => {
+  assert.equal(parseWorldviewMapQuery("").projection, "matrix")
+  assert.equal(parseWorldviewMapQuery("").view, "map")
+  assert.equal(parseWorldviewMapQuery("?view=map").projection, "matrix")
+  assert.equal(parseWorldviewMapQuery("?q=rules").projection, "matrix")
+
+  assert.equal(
+    parseWorldviewMapQuery("?layers=atlas-patterns").projection,
+    "continuous",
+  )
+  assert.equal(parseWorldviewMapQuery("?layers=").projection, "continuous")
+  assert.equal(parseWorldviewMapQuery("?layers=").view, "list")
+  assert.equal(
+    parseWorldviewMapQuery("?sel=not-a-selection").projection,
+    "continuous",
+  )
+
+  assert.equal(
+    parseWorldviewMapQuery("?projection=matrix&layers=atlas-patterns")
+      .projection,
+    "matrix",
+  )
+  assert.equal(
+    parseWorldviewMapQuery("?projection=continuous").projection,
+    "continuous",
+  )
+  assert.equal(
+    parseWorldviewMapQuery("?projection=unknown&layers=atlas-patterns")
+      .projection,
+    "matrix",
+  )
+  assert.equal(
+    parseWorldviewMapQuery("?projection=&sel=not-a-selection").projection,
+    "matrix",
+  )
+})
+
+test("Worldview Map serialization can keep a default matrix route bare", () => {
+  const defaultMatrixState = {
+    activeLayerIds: ["my-profile", "atlas-patterns"] as const,
+    filters: parseFieldFilters(""),
+    familyKeys: [],
+    projection: "matrix" as const,
+    reviewedWithin: "" as const,
+    selectedKey: null,
+    view: "list" as const,
+  }
+
+  const protectedMatrix = serializeWorldviewMapQuery(defaultMatrixState)
+  assert.equal(new URLSearchParams(protectedMatrix).get("projection"), "matrix")
+  assert.equal(
+    parseWorldviewMapQuery(protectedMatrix).projection,
+    "matrix",
+  )
+
+  const matrixWithView = serializeWorldviewMapQuery(
+    { ...defaultMatrixState, view: "map" },
+    {},
+    { includeLayerParam: false },
+  )
+  assert.equal(matrixWithView, "")
+
+  const matrixList = serializeWorldviewMapQuery(
+    defaultMatrixState,
+    {},
+    { includeLayerParam: false },
+  )
+  assert.equal(matrixList, "projection=matrix&view=list")
+  assert.equal(parseWorldviewMapQuery(matrixList).projection, "matrix")
+
+  const bareMatrix = serializeWorldviewMapQuery(
+    { ...defaultMatrixState, view: "map" },
+    {},
+    { includeLayerParam: false, includeViewParam: false },
+  )
+  assert.equal(bareMatrix, "")
+  assert.equal(parseWorldviewMapQuery(bareMatrix).projection, "matrix")
+
+  const continuous = serializeWorldviewMapQuery(
+    { ...defaultMatrixState, projection: "continuous" },
+    {},
+    { includeLayerParam: false },
+  )
+  assert.equal(continuous, "projection=continuous")
+
+  const selection = fieldSelectionKey({
+    layerId: "reference-profiles",
+    itemId: "selected",
+  })
+  const selectedMatrix = serializeWorldviewMapQuery(
+    { ...defaultMatrixState, selectedKey: selection },
+    {},
+    { includeLayerParam: false },
+  )
+  const selectedParams = new URLSearchParams(selectedMatrix)
+  assert.equal(selectedParams.get("projection"), "matrix")
+  assert.equal(selectedParams.get("sel"), selection)
+  assert.equal(parseWorldviewMapQuery(selectedMatrix).projection, "matrix")
 })
 
 test("Field filters round-trip through a canonical URL query string", () => {
@@ -436,6 +607,19 @@ test("overlap grouping is deterministic, lossless, and leaves coordinates untouc
     },
   ])
   assert.equal(beyond.length, 2)
+
+  const exactOnly = groupOverlappingMapItems(
+    [
+      { key: "exact-a", position: { x: 0.125, y: -0.25 } },
+      { key: "exact-b", position: { x: 0.125, y: -0.25 } },
+      { key: "near", position: { x: 0.125001, y: -0.25 } },
+    ],
+    0,
+  )
+  assert.deepEqual(
+    exactOnly.map((group) => group.items.map((item) => item.key)),
+    [["exact-a", "exact-b"], ["near"]],
+  )
 })
 
 test("overlap fan offsets are finite and distinct", () => {

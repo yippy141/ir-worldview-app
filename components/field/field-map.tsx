@@ -26,11 +26,12 @@ import {
 import { AXIS_LABELS, TRADITION_ANCHORS, familyColorVar } from "@/lib/results/position"
 import type { ReferenceEntityType } from "@/lib/reference-profiles/types"
 import type { FamilyKey } from "@/lib/types"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import styles from "./worldview-map.module.css"
 
-// The shared projection remains the Foundation-result geometry. Overlap groups
-// change only transient display coordinates; every marker retains its canonical
+// The shared projection remains the Foundation-result geometry. Exact
+// collisions form one accessible cluster at the canonical coordinate. Fan-out
+// changes only transient display coordinates; every marker retains its source
 // MapPosition for selection, URLs, connectors, and semantic-list parity.
 const PLOT_LEFT = MAP_CENTER - MAP_PLOT_RADIUS
 const PLOT_SIDE = MAP_PLOT_RADIUS * 2
@@ -116,6 +117,32 @@ function targetId(kind: "marker" | "group", key: string) {
   return `${kind}:${key}`
 }
 
+function markerContextLabel(
+  marker: FieldMapMarker,
+  copy?: typeof zhHansWorldviewMapUi,
+): string {
+  if (marker.kind !== "atlas-pattern" || !marker.familyKey) {
+    return marker.label
+  }
+  return `${marker.label} · ${
+    copy?.familyAnchors[marker.familyKey] ?? traditionNounLabel(marker.familyKey)
+  }`
+}
+
+function markerSecondaryLabel(
+  marker: FieldMapMarker,
+  copy?: typeof zhHansWorldviewMapUi,
+): string | undefined {
+  const parts = [
+    marker.kind === "atlas-pattern" && marker.familyKey
+      ? copy?.familyAnchors[marker.familyKey] ??
+        traditionNounLabel(marker.familyKey)
+      : null,
+    marker.draft ? copy?.detail.draft ?? "Research draft" : null,
+  ].filter((part): part is string => Boolean(part))
+  return parts.length > 0 ? parts.join(" · ") : undefined
+}
+
 function labelPlacement(cx: number, cy: number) {
   const edge = MAP_VIEW_SIZE * 0.18
   return {
@@ -159,7 +186,7 @@ export function FieldMap({
   const overlapGroups = useMemo(
     () =>
       interactive
-        ? groupOverlappingMapItems(markers)
+        ? groupOverlappingMapItems(markers, 0)
         : markers.map((marker) => ({
             key: marker.key,
             position: marker.position,
@@ -207,9 +234,7 @@ export function FieldMap({
           cx: rendered.cx,
           cy: rendered.cy,
           label: rendered.marker.label,
-          secondary: rendered.marker.draft
-            ? copy?.detail.draft ?? "Research draft"
-            : undefined,
+          secondary: markerSecondaryLabel(rendered.marker, copy),
           own:
             rendered.marker.kind === "baseline" ||
             rendered.marker.kind === "perspective-run",
@@ -228,7 +253,9 @@ export function FieldMap({
           cy: anchor.cy,
           label: copy?.key.overlappingItems(group.items.length)
             ?? `${group.items.length} overlapping items`,
-          secondary: group.items.map((marker) => marker.label).join(" · "),
+          secondary: group.items
+            .map((marker) => markerContextLabel(marker, copy))
+            .join(" · "),
         }
       }
     }
@@ -240,7 +267,7 @@ export function FieldMap({
       cx: selected.cx,
       cy: selected.cy,
       label: selected.marker.label,
-      secondary: selected.marker.draft ? copy?.detail.draft ?? "Research draft" : undefined,
+      secondary: markerSecondaryLabel(selected.marker, copy),
       own:
         selected.marker.kind === "baseline" ||
         selected.marker.kind === "perspective-run",
@@ -281,7 +308,7 @@ export function FieldMap({
       anchorPoints.map(({ anchor, point }) => ({
         key: anchor.key,
         point,
-        text: copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key],
+        text: copy?.familyAnchors[anchor.key] ?? traditionNounLabel(anchor.key),
         fontSize: ANCHOR_LABEL_PX,
         tracking: ANCHOR_TRACKING,
         maxWidth: MAP_LABEL_MAX_WIDTH,
@@ -436,31 +463,42 @@ export function FieldMap({
                 expandedGroupKey === group.key ||
                 hoveredGroupKey === group.key ||
                 group.items.some((marker) => marker.selected)
-              if (expanded) return null
               const id = targetId("group", group.key)
               const describedBy = tooltipTarget?.targetId === id ? tooltipId : undefined
+              const toggleGroup = () => {
+                const opening = expandedGroupKey !== group.key
+                setExpandedGroupKey(opening ? group.key : null)
+                if (!opening) return
+                window.requestAnimationFrame(() => {
+                  const firstKey = group.items[0].key
+                  Array.from(
+                    document.querySelectorAll<HTMLElement>(
+                      "[data-field-marker-key]",
+                    ),
+                  )
+                    .find(
+                      (element) =>
+                        element.dataset.fieldMarkerKey === firstKey,
+                    )
+                    ?.focus()
+                })
+              }
               return (
                 <a
                   key={`group-${group.key}`}
                   href={markerHrefPrefix ? `#${markerHrefPrefix}${group.items[0].key}` : "#"}
                   className={styles.clusterLink}
                   data-field-cluster-key={group.key}
-                  aria-expanded={false}
+                  data-field-cluster-expanded={expanded ? "true" : "false"}
+                  role="button"
+                  aria-expanded={expanded}
                   aria-describedby={describedBy}
                   aria-label={copy
                     ? `${copy.key.overlappingItems(group.items.length)}：${group.items.map((marker) => marker.label).join("、")}`
-                    : `Show ${group.items.length} overlapping items: ${group.items.map((marker) => marker.label).join(", ")}`}
+                    : `Show ${group.items.length} overlapping items: ${group.items.map((marker) => markerContextLabel(marker)).join(", ")}`}
                   onClick={(event) => {
                     event.preventDefault()
-                    setExpandedGroupKey(group.key)
-                    window.requestAnimationFrame(() => {
-                      const firstKey = group.items[0].key
-                      Array.from(
-                        document.querySelectorAll<HTMLElement>("[data-field-marker-key]"),
-                      )
-                        .find((element) => element.dataset.fieldMarkerKey === firstKey)
-                        ?.focus()
-                    })
+                    toggleGroup()
                   }}
                   onPointerEnter={() => {
                     setHoveredTargetId(id)
@@ -470,6 +508,11 @@ export function FieldMap({
                   onFocus={() => setFocusedTargetId(id)}
                   onBlur={() => setFocusedTargetId(null)}
                   onKeyDown={(event) => {
+                    if (event.key === " " || event.key === "Enter") {
+                      event.preventDefault()
+                      toggleGroup()
+                      return
+                    }
                     if (event.key === "Escape") {
                       setExpandedGroupKey(null)
                       setFocusedTargetId(null)
@@ -477,6 +520,13 @@ export function FieldMap({
                   }}
                 >
                   <circle className={styles.clusterHit} cx={anchor.cx} cy={anchor.cy} r={CLUSTER_HIT_RADIUS} />
+                  <circle
+                    className={styles.clusterFocusRing}
+                    cx={anchor.cx}
+                    cy={anchor.cy}
+                    r={CLUSTER_HIT_RADIUS}
+                    aria-hidden="true"
+                  />
                   <ClusterGlyph cx={anchor.cx} cy={anchor.cy} />
                 </a>
               )
@@ -489,6 +539,13 @@ export function FieldMap({
               <>
                 <circle
                   className={styles.markerHit}
+                  cx={cx}
+                  cy={cy}
+                  r={MARKER_HIT_RADIUS}
+                  aria-hidden="true"
+                />
+                <circle
+                  className={styles.markerFocusRing}
                   cx={cx}
                   cy={cy}
                   r={MARKER_HIT_RADIUS}
@@ -529,7 +586,7 @@ export function FieldMap({
                 data-field-marker-key={marker.key}
                 aria-label={copy
                   ? `${marker.label}${marker.draft ? `（${copy.detail.draft}）` : ""}：${copy.list.open}`
-                  : `${marker.label}${marker.draft ? " (research draft)" : ""}: open details`}
+                  : `${markerContextLabel(marker)}${marker.draft ? " (research draft)" : ""}: open details`}
                 aria-describedby={describedBy}
                 aria-current={marker.selected ? "true" : undefined}
                 onClick={(event) => {
@@ -778,7 +835,7 @@ export function FieldMapKey({
         ? TRADITION_ANCHORS.map((anchor) => (
             <KeyRow
               key={anchor.key}
-              label={`${copy?.key.worldviewProfile ?? "Decision Pattern"} · ${copy?.familyAnchors[anchor.key] ?? FAMILY_LABELS[anchor.key]}`}
+              label={`${copy?.key.worldviewProfile ?? "Decision Pattern"} · ${copy?.familyAnchors[anchor.key] ?? traditionNounLabel(anchor.key)}`}
             >
               <g stroke={`var(${anchor.colorVar})`} strokeWidth={1.6}>
                 <line x1={3} y1={8} x2={13} y2={8} />

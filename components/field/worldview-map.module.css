@@ -73,8 +73,36 @@
   overflow: hidden;
 }
 
+.projectionToggle {
+  display: inline-flex;
+  border: 1px solid var(--line-2);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.projectionButton {
+  min-height: 44px;
+  padding: 8px 13px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+.projectionButton + .projectionButton,
+.viewButton + .viewButton {
+  border-left: 1px solid var(--line-2);
+}
+
+.projectionButtonActive {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--text);
+  font-weight: 650;
+}
+
 .viewButton {
-  min-height: 42px;
+  min-height: 44px;
   padding: 8px 13px;
   border: 0;
   background: transparent;
@@ -90,6 +118,7 @@
 }
 
 .viewButton:focus-visible,
+.projectionButton:focus-visible,
 .listJump:focus-visible,
 .mapBack:focus-visible,
 .sheetHandle:focus-visible,
@@ -136,7 +165,7 @@
 }
 
 .layerToggle {
-  min-height: 40px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -223,6 +252,11 @@
   min-width: 0;
 }
 
+.filterDetails[open],
+.keyDetails[open] {
+  flex: 1 0 100%;
+}
+
 .filterSummary {
   min-height: 44px;
   display: flex;
@@ -301,7 +335,7 @@
 }
 
 .filterOption {
-  min-height: 40px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   padding: 6px 8px;
@@ -340,7 +374,7 @@
 }
 
 .clearFilters {
-  min-height: 40px;
+  min-height: 44px;
   justify-self: start;
   padding: 5px 0;
   border: 0;
@@ -392,11 +426,32 @@
   justify-content: center;
 }
 
+.matrixProjection,
+.continuousProjection {
+  width: 100%;
+  min-width: 0;
+}
+
+.explorer[data-projection="matrix"] .continuousProjection,
+.explorer[data-projection="continuous"] .matrixProjection {
+  display: none;
+}
+
+.continuousNote {
+  width: min(100%, 720px);
+  margin: 0 auto 14px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
 /* The dedicated map page has no control rail to share the width with, so the
    plot runs larger than the 620-unit reference. Type stays at its rem sizes,
    which only improves the label-to-plot proportion. */
-.mapStageBody > .canvas {
+.continuousProjection > .canvas {
   width: min(100%, 720px);
+  margin-inline: auto;
 }
 
 .mobileMapHeader {
@@ -428,6 +483,7 @@
 
 .listTitle {
   margin: 0;
+  scroll-margin-top: 88px;
   color: var(--text);
   font-family: var(--font-serif), Georgia, serif;
   font-size: 1.12rem;
@@ -473,7 +529,7 @@
 }
 
 .detailClose {
-  min-height: 40px;
+  min-height: 44px;
   padding: 6px 0 6px 10px;
   border: 0;
   background: none;
@@ -517,6 +573,357 @@
   margin: 5px 0 0;
   font-size: 0.86rem;
   font-weight: 650;
+}
+
+/* ------------------------------------------------------------------ */
+/* Foundation archetype matrix                                        */
+/* ------------------------------------------------------------------ */
+
+.matrixSection {
+  display: grid;
+  gap: 24px;
+  width: 100%;
+  color: var(--text);
+}
+
+.matrixHeader {
+  display: grid;
+  gap: 8px;
+}
+
+.matrixHeader h2 {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.matrixHeader p {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.86rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.matrixLayout {
+  display: grid;
+  grid-template-columns: minmax(112px, 0.17fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.matrixPostureLabels {
+  display: grid;
+  grid-template-rows: 56px repeat(2, minmax(164px, 1fr));
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+  border-left: 1px solid var(--line-2);
+}
+
+.matrixPostureLabels > span:first-child {
+  border-bottom: 1px solid var(--line-2);
+}
+
+.matrixPostureLabel {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  padding: 14px 16px;
+  color: var(--text-2);
+  font-size: 0.72rem;
+  line-height: 1.35;
+}
+
+.matrixPostureLabel + .matrixPostureLabel {
+  border-top: 1px solid var(--line-2);
+}
+
+.matrixPostureSign {
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.matrixLensList,
+.matrixCellList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.matrixLensList {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: 56px repeat(2, minmax(164px, 1fr));
+  border: 1px solid var(--line-2);
+}
+
+.matrixLensGroup {
+  --matrix-column: 1;
+  min-width: 0;
+  display: grid;
+  grid-column: var(--matrix-column);
+  grid-row: 1 / span 3;
+  grid-template-rows: 56px repeat(2, minmax(0, 1fr));
+}
+
+.matrixLensGroup + .matrixLensGroup {
+  border-left: 1px solid var(--line-2);
+}
+
+.matrixLensHeading {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line-2);
+  color: var(--text-2);
+  font-family: var(--sans);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.matrixCellList {
+  min-height: 0;
+  display: grid;
+  grid-row: 2 / span 2;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+}
+
+.matrixCellItem {
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+}
+
+.matrixCellItem + .matrixCellItem {
+  border-top: 1px solid var(--line-2);
+}
+
+.matrixCellItemActive {
+  z-index: 2;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg) 92%);
+  outline: 2px solid color-mix(in srgb, var(--accent) 76%, var(--text) 24%);
+  outline-offset: -2px;
+}
+
+.matrixCellLink {
+  min-width: 0;
+  min-height: 164px;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  align-content: center;
+  gap: 10px;
+  padding: 30px 14px 16px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.matrixCellLink:hover .matrixCellName {
+  color: var(--accent);
+}
+
+.matrixCellLink:focus-visible {
+  position: relative;
+  z-index: 5;
+  outline: 2px solid var(--workspace-focus);
+  outline-offset: -4px;
+}
+
+.matrixCellPosture {
+  display: none;
+}
+
+.matrixCellIdentity {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.matrixMark {
+  flex: 0 0 auto;
+}
+
+.matrixCellCode {
+  color: var(--text-2);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.3;
+}
+
+.matrixCellName {
+  align-self: start;
+  min-width: 0;
+  color: var(--text);
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  text-wrap: pretty;
+}
+
+.matrixActiveLabel {
+  position: absolute;
+  z-index: 4;
+  top: 7px;
+  right: 8px;
+  padding: 2px 5px;
+  color: var(--accent);
+  background: var(--bg);
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.matrixBlendConnector {
+  position: relative;
+  z-index: 3;
+  align-self: end;
+  height: 1px;
+  margin-top: 0;
+  padding: 0;
+  background: var(--accent);
+  list-style: none;
+  pointer-events: none;
+  transform: translateY(50%);
+}
+
+.matrixBlendConnector::before,
+.matrixBlendConnector::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--bg);
+  transform: translateY(-50%);
+}
+
+.matrixBlendConnector::before {
+  left: -3px;
+}
+
+.matrixBlendConnector::after {
+  right: -3px;
+}
+
+.matrixBaseline {
+  display: grid;
+  gap: 20px;
+  padding: 22px 0 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.matrixBaselineHeading {
+  display: block;
+}
+
+.matrixBaseline h3 {
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.08rem;
+  line-height: 1.3;
+}
+
+.matrixBaselineHeading p,
+.matrixBaselineEmpty p,
+.matrixBlendNote {
+  max-width: 70ch;
+  margin: 7px 0 0;
+  color: var(--text-2);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+
+.matrixBaselineIdentity {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.matrixBaselineSelection {
+  display: flex;
+  align-items: baseline;
+  gap: 8px 18px;
+  flex-wrap: wrap;
+  margin-top: 7px;
+}
+
+.matrixBaselineSelection .matrixBaselineIdentity {
+  margin: 0;
+}
+
+.matrixBaselineGloss {
+  margin-top: 7px;
+}
+
+.matrixBaselineCode {
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+}
+
+.matrixNormativeState {
+  margin: 0;
+}
+
+.matrixNormativeState > div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-left: 16px;
+  border-left: 1px solid var(--line-2);
+}
+
+.matrixNormativeState dt {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.matrixNormativeState dd {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.matrixFoundationMark {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.matrixBlendNote {
+  margin-top: -4px;
+  color: var(--muted);
+}
+
+.matrixBaselineEmpty {
+  gap: 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -630,10 +1037,20 @@
 .clusterHit {
   fill: transparent;
   stroke: transparent;
+  stroke-width: 24px;
+  pointer-events: stroke;
+  vector-effect: non-scaling-stroke;
 }
 
-.markerLink:focus-visible .markerHit,
-.clusterLink:focus-visible .clusterHit {
+.markerFocusRing,
+.clusterFocusRing {
+  fill: none;
+  stroke: transparent;
+  pointer-events: none;
+}
+
+.markerLink:focus-visible .markerFocusRing,
+.clusterLink:focus-visible .clusterFocusRing {
   stroke: var(--workspace-focus);
   stroke-width: 1.8px;
 }
@@ -1017,15 +1434,15 @@
     min-height: 44px;
   }
 
-  .explorer[data-view="list"] .mapStage {
+  .explorer[data-projection="continuous"][data-view="list"] .mapStage {
     display: none;
   }
 
-  .explorer[data-view="map"] .listRegion {
+  .explorer[data-projection="continuous"][data-view="map"] .listRegion {
     display: none;
   }
 
-  .explorer[data-view="map"] .mapStage {
+  .explorer[data-projection="continuous"][data-view="map"] .mapStage {
     position: fixed;
     z-index: 30;
     inset: 0;
@@ -1037,7 +1454,7 @@
     background: var(--bg);
   }
 
-  .mobileMapHeader {
+  .explorer[data-projection="continuous"][data-view="map"] .mobileMapHeader {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1053,7 +1470,7 @@
   }
 
   .mapBack {
-    min-height: 42px;
+    min-height: 44px;
     padding: 6px 0;
     border: 0;
     background: none;
@@ -1063,7 +1480,7 @@
   }
 
   /* Full-bleed: the plot runs edge to edge; the sheet handle sits below it. */
-  .explorer[data-view="map"] .mapStageBody {
+  .explorer[data-projection="continuous"][data-view="map"] .mapStageBody {
     display: grid;
     align-content: safe center;
     padding: 0 0 calc(128px + env(safe-area-inset-bottom));
@@ -1072,7 +1489,7 @@
 
   /* The sheet handle already says "Layers"; the fieldset legend stays for
      assistive technology only. */
-  .explorer[data-view="map"] .layerLegend {
+  .explorer[data-projection="continuous"][data-view="map"] .layerLegend {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1082,7 +1499,7 @@
     white-space: nowrap;
   }
 
-  .explorer[data-view="map"] .mapStageBody > .canvas {
+  .explorer[data-projection="continuous"][data-view="map"] .continuousProjection > .canvas {
     width: 100%;
   }
 
@@ -1104,7 +1521,7 @@
 
   /* Bottom sheet. It is the same element as the desktop control bar, so the
      layer toggles are never duplicated in the DOM. */
-  .explorer[data-view="map"] .controlBar {
+  .explorer[data-projection="continuous"][data-view="map"] .controlBar {
     position: fixed;
     z-index: 36;
     right: 0;
@@ -1118,7 +1535,7 @@
     background: var(--bg-2);
   }
 
-  .explorer[data-view="map"] .sheetHandle {
+  .explorer[data-projection="continuous"][data-view="map"] .sheetHandle {
     display: flex;
     align-items: baseline;
     gap: 10px;
@@ -1148,24 +1565,30 @@
     white-space: nowrap;
   }
 
-  .explorer[data-view="map"] .sheetHandle::after {
-    content: "▲";
+  .explorer[data-projection="continuous"][data-view="map"] .sheetHandle::after {
+    content: "";
+    flex: 0 0 7px;
+    width: 7px;
+    height: 7px;
+    margin-right: 2px;
     color: var(--muted);
-    font-size: 0.62rem;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: rotate(-135deg);
   }
 
-  .explorer[data-view="map"][data-sheet="open"] .sheetHandle::after {
-    content: "▼";
+  .explorer[data-projection="continuous"][data-view="map"][data-sheet="open"] .sheetHandle::after {
+    transform: rotate(45deg);
   }
 
   /* Collapsed sheet keeps the view toggle and the count reachable; only the
      layer chips and the disclosures fold away. */
-  .explorer[data-view="map"][data-sheet="closed"] .layerControls,
-  .explorer[data-view="map"][data-sheet="closed"] .controlBarSecondary {
+  .explorer[data-projection="continuous"][data-view="map"][data-sheet="closed"] .layerControls,
+  .explorer[data-projection="continuous"][data-view="map"][data-sheet="closed"] .controlBarSecondary {
     display: none;
   }
 
-  .explorer[data-view="map"] .controlBarBody {
+  .explorer[data-projection="continuous"][data-view="map"] .controlBarBody {
     gap: 12px;
     padding: 10px 0 14px;
     border-top: 1px solid var(--line);
@@ -1219,8 +1642,117 @@
     padding-inline: 10px;
   }
 
+  .projectionButton {
+    padding-inline: 10px;
+  }
+
   .mapTooltip {
     max-width: 68%;
+  }
+}
+
+/* The document order is lens-major, so reflow becomes four short sections
+   without duplicating content or requiring a horizontal reading path. */
+@media (max-width: 720px) {
+  .matrixSection {
+    gap: 20px;
+    padding-top: 24px;
+  }
+
+  .matrixHeader,
+  .matrixBaseline {
+    padding-right: var(--mobile-gutter);
+    padding-left: var(--mobile-gutter);
+  }
+
+  .matrixLayout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .matrixPostureLabels {
+    display: none;
+  }
+
+  .matrixLensList {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    gap: 18px;
+    border: 0;
+  }
+
+  .matrixLensGroup {
+    grid-column: 1;
+    grid-row: auto;
+    grid-template-rows: auto auto;
+    border: 1px solid var(--line-2);
+  }
+
+  .matrixLensGroup + .matrixLensGroup {
+    border-left: 1px solid var(--line-2);
+  }
+
+  .matrixLensHeading {
+    justify-content: flex-start;
+    padding: 11px 13px;
+    text-align: left;
+  }
+
+  .matrixCellList {
+    grid-row: auto;
+    grid-template-rows: repeat(2, auto);
+  }
+
+  .matrixCellLink {
+    min-height: 116px;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-items: center;
+    gap: 8px 16px;
+    padding: 16px 14px;
+  }
+
+  .matrixCellPosture {
+    display: block;
+    grid-column: 1 / -1;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  .matrixCellIdentity {
+    grid-column: 1;
+  }
+
+  .matrixCellName {
+    grid-column: 2;
+    align-self: center;
+  }
+
+  .matrixCellItemActive .matrixCellPosture {
+    padding-right: 78px;
+    color: var(--text-2);
+  }
+
+  .matrixActiveLabel {
+    top: 14px;
+    right: 12px;
+  }
+
+  .matrixBlendConnector {
+    display: none;
+  }
+
+  .matrixBaselineSelection {
+    display: grid;
+    gap: 16px;
+  }
+
+  .matrixNormativeState > div {
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line-2);
+    border-left: 0;
   }
 }
 
@@ -1235,5 +1767,171 @@
     scroll-behavior: auto;
     transition: none;
     animation: none;
+  }
+}
+
+@media print {
+  .controlBar,
+  .mobileMapHeader,
+  .detailDrawer {
+    display: none !important;
+  }
+
+  .explorer[data-matrix-available="true"] .continuousProjection {
+    display: none !important;
+  }
+
+  .explorer,
+  .workspace,
+  .mapColumn,
+  .mapStage,
+  .mapStageBody,
+  .matrixProjection,
+  .listRegion {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .workspace,
+  .mapStage,
+  .mapStageBody {
+    padding: 0 !important;
+  }
+
+  .listRegion {
+    margin-top: 24px;
+    padding-top: 18px !important;
+  }
+
+  .matrixSection {
+    display: grid !important;
+    gap: 16px;
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .matrixHeader h2 {
+    font-size: 1.35rem;
+  }
+
+  .matrixHeader p {
+    font-size: 0.76rem;
+    line-height: 1.45;
+  }
+
+  .matrixLayout {
+    grid-template-columns: 94px minmax(0, 1fr) !important;
+  }
+
+  .matrixPostureLabels {
+    display: grid !important;
+    grid-template-rows: 48px repeat(2, minmax(128px, 1fr));
+  }
+
+  .matrixPostureLabel {
+    padding: 10px;
+    font-size: 0.64rem;
+  }
+
+  .matrixLensList {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-rows: 48px repeat(2, minmax(128px, 1fr)) !important;
+    gap: 0 !important;
+    border: 1px solid var(--line-2) !important;
+  }
+
+  .matrixLensGroup {
+    display: grid !important;
+    grid-column: var(--matrix-column) !important;
+    grid-row: 1 / span 3 !important;
+    grid-template-rows: 48px repeat(2, minmax(0, 1fr)) !important;
+    border-top: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  .matrixCellList {
+    display: grid !important;
+    grid-row: 2 / span 2 !important;
+    grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .matrixLensHeading {
+    justify-content: center !important;
+    padding: 7px 5px;
+    font-size: 0.68rem;
+    text-align: center !important;
+  }
+
+  .matrixCellLink {
+    min-height: 128px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto 1fr !important;
+    align-items: initial !important;
+    align-content: center;
+    gap: 6px;
+    padding: 24px 8px 10px;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .matrixCellPosture {
+    display: none !important;
+  }
+
+  .matrixCellIdentity,
+  .matrixCellName {
+    grid-column: 1 !important;
+  }
+
+  .matrixCellName {
+    align-self: start;
+    font-size: 0.78rem;
+    line-height: 1.25;
+  }
+
+  .matrixCellItemActive {
+    background: #f1f1f1;
+    outline-color: #111111;
+    print-color-adjust: exact;
+  }
+
+  .matrixActiveLabel {
+    top: 5px;
+    right: 5px;
+    color: #111111;
+    background: #ffffff;
+    font-size: 0.56rem;
+  }
+
+  .matrixBlendConnector {
+    display: none !important;
+  }
+
+  .matrixBaseline {
+    display: grid !important;
+    gap: 14px;
+    padding: 16px 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .matrixNormativeState > div {
+    padding: 0 0 0 14px;
+    border-top: 0;
+    border-left: 1px solid var(--line-2);
+  }
+
+  .matrixBaselineHeading p,
+  .matrixBaselineEmpty p,
+  .matrixBlendNote {
+    font-size: 0.72rem;
+    line-height: 1.45;
   }
 }

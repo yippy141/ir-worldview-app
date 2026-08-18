@@ -702,7 +702,7 @@ Fixture baseline digest: `16d7f05a33a87ca92f84e66c67850dbc47e7efb90cacb7f3e8e0e4
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 563. Unchanged and suppressed: 551. New: 12. Resolved: 7.
+P2 advisory baseline: 558. Current: 558. Unchanged and suppressed: 545. New: 13. Resolved: 13.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -710,7 +710,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 15 |
 | P1 | 26 |
-| P2 | 563 |
+| P2 | 558 |
 
 ### P0 and P1 findings
 
@@ -774,18 +774,25 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Rules, Meaning, and Structure / Foundation value is centered on the neutral score of 4, multiplied by an authored weight, and added to its axis |
 
 ### Resolved P2 findings
 
 | Count | Baseline fingerprint |
 | --- | --- |
+| 1 | 513db19820bb8477ecc56f1877f8d1a26e1e69047454a6ae311b8ee9cd635d36 |
 | 1 | 5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878 |
+| 1 | 689de962962d10b8cf83810e1db73fefa16f96bfbba692236db8504f24abd1ad |
 | 1 | 690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff |
+| 1 | 6e88fde52db2ed2178f126d9edf5c767d0e408ffe6f862e05118429fd312c6d2 |
+| 1 | 72a76c9f0594e8c30052ae5687c70ae0c16708125f62380cb4105f6f378c224f |
 | 1 | 863d56b5a73c241f1be9faae45bb2a329dce039b0dc27706e0a37e54cbf8084e |
 | 1 | 9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8 |
 | 1 | 9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb |
+| 1 | b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f |
 | 1 | c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1 |
 | 1 | c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d |
+| 1 | d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98 |
 
 ## Method notes
 

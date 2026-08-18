@@ -88,6 +88,28 @@ test("approved English and Simplified Chinese route pairs remain distinct", asyn
   await expect(page).toHaveURL(/\/about$/)
 })
 
+test("internal zh-Hans paths redirect to the canonical public Chinese surface", async ({
+  page,
+}) => {
+  await page.goto("/zh-Hans/explore/atlas?q=rules")
+  const atlasUrl = new URL(page.url())
+  expect(atlasUrl.pathname).toBe("/zh/explore/atlas")
+  expect(atlasUrl.searchParams.get("q")).toBe("rules")
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
+  await expect(
+    page.getByRole("heading", { name: "世界观地图", exact: true }),
+  ).toBeVisible()
+  await expect(page.locator("[data-archetype-matrix]")).toHaveCount(0)
+  await expect(page.getByRole("heading", { name: "Worldview Map", exact: true }))
+    .toHaveCount(0)
+
+  await page.goto("/zh-Hans/archetypes")
+  await expect(page).toHaveURL(/\/zh\/archetypes$/)
+  await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
+  await expect(page.getByRole("status")).toBeVisible()
+  await expect(page.locator("[data-archetype-mark]")).toHaveCount(0)
+})
+
 test("remaining unapproved Chinese instrument routes preserve opaque segments and show the questionnaire notice", async ({ page }) => {
   const paths = [
     "/zh/ai/results/ai_A-b.9_payload",
