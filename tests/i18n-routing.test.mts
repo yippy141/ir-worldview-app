@@ -9,11 +9,13 @@ import {
   publicPath,
 } from "@/i18n/paths"
 import { routing } from "@/i18n/routing"
+import { archetypes, getArchetypePath } from "@/lib/archetypes"
 import {
   isSensitiveSharePath,
   localizedSensitiveShareRoutes,
   privateNoStoreHeader,
 } from "@/lib/http-headers"
+import { familySlug, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 
 test("routing keeps English unprefixed and maps zh-Hans to the public /zh prefix", () => {
   assert.deepEqual(routing.locales, ["en", "zh-Hans"])
@@ -99,6 +101,28 @@ test("the approved Chinese Foundation route receives reciprocal language alterna
   assert.ok(atlasDetailEntries.every((entry) => entry.alternates?.languages?.["zh-Hans"]))
   assert.ok(caseSourceEntries.length >= 2)
   assert.ok(caseSourceEntries.every((entry) => entry.alternates?.languages?.["zh-Hans"]))
+})
+
+test("V23.1B archetype and tradition routes enter the sitemap in English only", () => {
+  const entries = sitemap()
+  const expectedPaths = [
+    "/archetypes",
+    ...archetypes.map(({ code }) => getArchetypePath(code)),
+    ...MODELED_FAMILY_KEYS.map((familyKey) => `/explore/${familySlug(familyKey)}`),
+  ]
+
+  for (const pathname of expectedPaths) {
+    const matches = entries.filter(
+      (entry) => new URL(entry.url).pathname === pathname,
+    )
+    assert.equal(matches.length, 1, pathname)
+    assert.equal(matches[0].alternates?.languages?.["zh-Hans"], undefined)
+    assert.equal(
+      entries.some((entry) => new URL(entry.url).pathname === `/zh${pathname}`),
+      false,
+      `/zh${pathname}`,
+    )
+  }
 })
 
 test("private share routing covers matching English and Chinese payload paths", () => {

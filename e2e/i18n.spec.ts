@@ -182,7 +182,9 @@ test("one canonical Foundation result payload renders in English and Chinese", a
 
   await page.goto(englishPath)
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
-  await expect(page.getByText("Liberal Institutionalist", { exact: true }).first()).toBeVisible()
+  await expect(
+    page.getByText("Closest modeled tradition: Institutionalism", { exact: true }),
+  ).toBeVisible()
   await expect(page.locator('link[rel="alternate"][hreflang="zh-Hans"]')).toHaveAttribute(
     "href",
     new RegExp(`${chinesePath}$`),

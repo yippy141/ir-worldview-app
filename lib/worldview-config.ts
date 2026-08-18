@@ -17,6 +17,15 @@ export const FAMILY_LABELS: Record<FamilyKey, string> = {
   criticalPoliticalEconomy: "Critical Political Economist",
 }
 
+// Public noun forms for the modeled traditions. Frozen scoring and payload
+// labels continue to use FAMILY_LABELS above.
+export const TRADITION_NOUN_LABELS = {
+  realist: "Realism",
+  institutionalist: "Institutionalism",
+  constructivist: "Constructivism",
+  criticalPoliticalEconomy: "Critical political economy",
+} as const satisfies Readonly<Record<FamilyKey, string>>
+
 // Canonical URL slugs for /explore/[slug] pages.
 // These must match the slugs defined in lib/explore-content.ts exploreFamilies.
 export const FAMILY_SLUGS: Record<FamilyKey, string> = {
@@ -32,6 +41,10 @@ const SLUG_TO_KEY = Object.fromEntries(
 
 export function familyLabel(key: FamilyKey): string {
   return FAMILY_LABELS[key]
+}
+
+export function traditionNounLabel(key: FamilyKey): string {
+  return TRADITION_NOUN_LABELS[key]
 }
 
 export function familySlug(key: FamilyKey): string {

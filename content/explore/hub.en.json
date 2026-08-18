@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 2,
+  "contentVersion": "23.1.1",
+  "locale": "en",
+  "hero": {
+    "title": "One Foundation result, several supporting views",
+    "payoff": [
+      "Your completed Foundation can resolve to one archetype or a same-posture two-lens blend.",
+      "Strategic posture, normative orientation, and the closest modeled tradition help explain that result; Focus Areas and contextual records remain separate."
+    ],
+    "boundary": "Decision Patterns and evidence-coded public positions are reading aids. They never become your Foundation result."
+  },
+  "sections": [
+    {
+      "id": "how-labels-fit",
+      "heading": "How the labels fit together",
+      "intro": "The inventory uses a deliberate hierarchy so that supporting evidence never competes with the Foundation result."
+    },
+    {
+      "id": "foundation-archetypes",
+      "heading": "Eight Foundation archetypes",
+      "intro": "Four explanatory lenses combine with two strategic postures. The rows summarize a continuous profile; they are not population types."
+    },
+    {
+      "id": "variants-blends",
+      "heading": "Variants and blends",
+      "intro": "Normative orientation changes how an archetype weighs order and justice. A blend keeps two lenses active under the same posture."
+    },
+    {
+      "id": "modeled-traditions",
+      "heading": "Four modeled traditions",
+      "intro": "The closest modeled tradition supports a Foundation reading; it is not a second Foundation result. Each tradition remains broader than the instrument can represent."
+    },
+    {
+      "id": "foundation-dimensions",
+      "heading": "Seven Foundation dimensions",
+      "intro": "These dimensions preserve the tradeoffs beneath the headline label. A score describes a position within this model, not a percentile."
+    },
+    {
+      "id": "decision-patterns",
+      "heading": "Decision Patterns",
+      "intro": "Decision Patterns are authored ways of approaching a choice. The directory supports comparison and does not calculate, match, or diagnose a user."
+    },
+    {
+      "id": "reference-positions",
+      "heading": "Thinkers and public positions",
+      "intro": "Published entries are dated, scoped interpretations built from cited public evidence. They describe a position within an evidence window and never assign a person or organization to an archetype."
+    },
+    {
+      "id": "focus-context",
+      "heading": "Focus Areas and contextual records",
+      "intro": "Security and Technology are Focus Area questionnaires; AI Governance is a separate domain result; Perspective Runs are role-conditioned comparisons; Current Cases are time-bounded judgment exercises."
+    },
+    {
+      "id": "coverage-methods",
+      "heading": "Coverage gaps and methods",
+      "intro": "Four modeled traditions do not exhaust International Relations. Important approaches remain under-modeled because the current dimensions and item coverage cannot represent them adequately."
+    }
+  ],
+  "hierarchy": [
+    {
+      "id": "identity",
+      "label": "Foundation result",
+      "description": "One pure archetype or a legitimate same-posture blend supplies the headline Foundation reading."
+    },
+    {
+      "id": "support",
+      "label": "Supporting interpretation",
+      "description": "Strategic posture, normative orientation, and the closest modeled tradition explain parts of the result without replacing it."
+    },
+    {
+      "id": "context",
+      "label": "Separate records",
+      "description": "Focus Areas, AI Governance, Perspective Runs, and Current Case judgments remain scoped to their own questions."
+    }
+  ],
+  "scoringEvidence": {
+    "summary": "How scoring and evidence differ",
+    "body": "Foundation scoring resolves the answers in a completed questionnaire. Historical comparisons and public positions use separate editorial evidence records; they do not feed back into the score.",
+    "href": "/method",
+    "linkLabel": "Read the scoring and evidence method"
+  },
+  "lensBands": [
+    {
+      "lens": "P",
+      "description": "How leverage, position, and strategic timing shape the available choice."
+    },
+    {
+      "lens": "R",
+      "description": "How rules, enforcement, consultation, and restraint make cooperation durable."
+    },
+    {
+      "lens": "M",
+      "description": "How public meaning, legitimacy, and shared expectations shape what action can sustain."
+    },
+    {
+      "lens": "S",
+      "description": "How production, finance, capacity, and external dependence constrain practical choice."
+    }
+  ],
+  "normativeAliases": [
+    {
+      "state": "o",
+      "label": "Order-first",
+      "description": "Starts by protecting coexistence, continuity, and limits on imposed agreement."
+    },
+    {
+      "state": "c",
+      "label": "Conditional",
+      "description": "Treats order and justice claims as conditional on the case, authority, and likely consequences."
+    },
+    {
+      "state": "j",
+      "label": "Justice-first",
+      "description": "Starts by asking what protection or obligation is owed beyond settled order."
+    }
+  ],
+  "blendExplanation": "A blend appears only when two modeled lenses resolve close enough under one posture. It remains a family of nearby profiles; pair-specific interpretation is withheld until it receives editorial review.",
+  "dimensions": [
+    {
+      "key": "securityCompetition",
+      "description": "How much weight rivalry, uncertainty about intentions, and positional competition receive in an explanation."
+    },
+    {
+      "key": "institutions",
+      "description": "How far rules, monitoring, and repeated interaction can make cooperation more durable."
+    },
+    {
+      "key": "domesticFilters",
+      "description": "How coalitions, regime type, capacity, and other domestic conditions shape foreign policy."
+    },
+    {
+      "key": "normsIdentity",
+      "description": "How legitimacy, recognition, identity, and social meaning shape interests and threats."
+    },
+    {
+      "key": "politicalEconomy",
+      "description": "How production, finance, trade dependence, sanctions, and leverage shape room for action."
+    },
+    {
+      "key": "restraint",
+      "description": "Whether the safer strategic instinct is to hold back or use an available advantage."
+    },
+    {
+      "key": "orderJustice",
+      "description": "How sovereignty, settled order, wider protection, and moral obligation are weighed in tension."
+    }
+  ],
+  "decisionPatternDirectory": {
+    "summary": "Browse all Decision Patterns",
+    "mapLinkLabel": "Open the Worldview Map",
+    "mapHref": "/explore/atlas"
+  },
+  "referenceDirectory": {
+    "countLabel": "Published entries in the validated directory",
+    "linkLabel": "Browse evidence-coded public positions",
+    "href": "/explore/reference"
+  },
+  "contextBoundary": "These records sit beside the Foundation. They do not rescore it.",
+  "contextRecords": [
+    {
+      "id": "security",
+      "title": "Security",
+      "description": "A Focus Area questionnaire about deterrence, escalation, alliances, and the use of force.",
+      "href": "/modules/security"
+    },
+    {
+      "id": "technology",
+      "title": "Technology",
+      "description": "A Focus Area questionnaire about controls, capacity, openness, and strategic dependence.",
+      "href": "/modules/technology"
+    },
+    {
+      "id": "ai-governance",
+      "title": "AI Governance",
+      "description": "A separate domain result about governance choices for advanced AI, kept outside the Foundation score.",
+      "href": "/ai"
+    },
+    {
+      "id": "perspective-runs",
+      "title": "Perspective Runs",
+      "description": "Role-conditioned comparisons that show how a stable baseline travels under a defined vantage point.",
+      "href": "/perspectives"
+    },
+    {
+      "id": "current-cases",
+      "title": "Current Cases",
+      "description": "Time-bounded judgment exercises with authored case readings and the user’s own recorded judgment.",
+      "href": "/cases"
+    }
+  ],
+  "coverage": {
+    "detailsSummary": "Read the current coverage gaps",
+    "canonNote": "The Foundation draws mainly from traditions developed in Anglo-American and Western European International Relations. It does not adjust a score for nationality or culture, and it does not claim equivalent coverage across strategic traditions.",
+    "methodLinkLabel": "Read the methods and limits",
+    "methodHref": "/method"
+  }
+}

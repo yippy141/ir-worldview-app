@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820">
+<rect width="100%" height="100%" fill="#0F1B2D"/>
+<style>.title{font:600 34px Georgia,serif;fill:#F4F1EA}.sub{font:14px Arial,sans-serif;fill:#8B9AAE}.code{font:700 15px monospace;fill:#C9A227}.name{font:600 22px Georgia,serif;fill:#F4F1EA}.note{font:12px Arial,sans-serif;fill:#AEB9C8}</style>
+<text x="55" y="52" class="title">System A — Derived · owner-selected V23 sigils</text>
+<text x="55" y="82" class="sub">Contemporary editorial marks. Codes and text carry the ontology; marks are mnemonic, not historical emblems.</text>
+<defs>
+<symbol id="sig-kairos" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="butt" stroke-linejoin="miter"><path d="M34 18 L34 82"/><path d="M27 18 L41 18"/><path d="M27 82 L41 82"/><path d="M34 50 L74 20"/><path d="M34 50 L74 78"/></g></symbol>
+<symbol id="sig-shi" viewBox="0 0 100 100"><g fill="currentColor"><path d="M24 27 C38 25 54 24 66 24 C72 24 74.5 27.5 73.5 32.5 L67 63 C65.4 71 59 75.5 49 76.5 L48.4 72.8 C56 71.6 61 68 62.4 61.6 L68.4 33 C69 30.4 68 29.2 65.6 29.4 C54 30 39 30.8 24.6 32.6 Z"/><path d="M50 12 C53.5 12 56 14.5 55 18 C51 34 43 52 33 65 C30 68.6 26.5 70.8 23 71.6 L21.8 68 C25 66.6 28 64 30.4 60.6 C39.5 47 46 30.5 47.6 17.5 C47.9 14.4 48 12.6 50 12 Z"/></g></symbol>
+<symbol id="sig-grotian" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linecap="butt"><circle cx="50" cy="46" r="30" stroke-width="1"/><circle cx="50" cy="46" r="24" stroke-width="3.2"/><path d="M14 70 L86 70" stroke-width="3.2"/><path d="M50 12 L50 70" stroke-width="3.2"/></g><circle cx="50" cy="46" r="2.2" fill="currentColor"/></symbol>
+<symbol id="sig-concert" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linecap="butt" stroke-linejoin="miter"><circle cx="50" cy="50" r="30" stroke-width="1"/><path d="M50 20 L78.5 40.7 L67.6 74.3 L32.4 74.3 L21.5 40.7 Z" stroke-width="3"/></g><g fill="currentColor"><circle cx="50" cy="20" r="2.4"/><circle cx="78.5" cy="40.7" r="2.4"/><circle cx="67.6" cy="74.3" r="2.4"/><circle cx="32.4" cy="74.3" r="2.4"/><circle cx="21.5" cy="40.7" r="2.4"/></g></symbol>
+<symbol id="sig-satyagraha" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linejoin="round"><path d="M20 28 L80 28" stroke-width="4.6" stroke-linecap="butt"/><path d="M30 28 C30 46 37 58 49 58 C59 58 63 50 58.5 44.5 C54 39 46.5 41.5 45 49.5 C41 68 58 80 82 74" stroke-width="3.6" stroke-linecap="round"/></g></symbol>
+<symbol id="sig-musyawarah" viewBox="0 0 100 100"><g fill="currentColor"><path d="M14 66 C27 54 40 48 52 48 C64 48 77 54 90 66 C77 58 64 54 52 54 C40 54 27 58 14 66 Z"/><path d="M29 18 C30 29 31.5 38 34.8 47.4 L30.8 48.8 C28.8 39 28 29 28 18.2 Z"/><path d="M50 12 C50 25 50.5 35 51.9 45.9 L48 46.8 C47.4 35.8 47.6 25 48.6 12.2 Z"/><path d="M71 18 C70.2 29 69 38.2 65.9 47.4 L69.7 48.9 C71.7 39.2 72.4 29 72.6 18.4 Z"/></g></symbol>
+<symbol id="sig-dirigisme" viewBox="0 0 100 100"><g fill="none" stroke="currentColor" stroke-linecap="butt" stroke-linejoin="miter"><path d="M22 18 L22 80 L86 80" stroke-width="2.8"/><path d="M22 30 L86 30" stroke-width="1.1"/><path d="M18 66 L22 66 M18 56 L22 56 M18 44 L22 44 M18 32 L22 32" stroke-width="1.1"/><path d="M34 80 L34 66" stroke-width="2.8"/><path d="M48 80 L48 56" stroke-width="2.8"/><path d="M62 80 L62 44" stroke-width="2.8"/><path d="M76 80 L76 32" stroke-width="2.8"/></g></symbol>
+<symbol id="sig-dependencia" viewBox="0 0 100 100"><g fill="currentColor"><path d="M28 14 L37 21 C25 35 24 58 35 71 C41 78.5 49 82.5 58 82 L58.5 92 C46 92.5 33 86 25 76 C11 58 12 31 28 14 Z"/><circle cx="66" cy="42" r="12.5"/><path d="M50 60 L84 72 L82.4 78 L48.4 66 Z"/></g></symbol>
+</defs>
+<rect x="55" y="115" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="75" y="146" class="code">P+</text>
+<text x="75" y="175" class="name">Kairos</text>
+<g transform="translate(127,193)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-kairos"/></svg></g>
+<g transform="translate(75,325)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-kairos"/></svg></g>
+<text x="137" y="349" class="note">112px hero · 48px directory</text>
+<rect x="340" y="115" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="360" y="146" class="code">P−</text>
+<text x="360" y="175" class="name">Shi (勢)</text>
+<g transform="translate(412,193)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-shi"/></svg></g>
+<g transform="translate(360,325)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-shi"/></svg></g>
+<text x="422" y="349" class="note">112px hero · 48px directory</text>
+<rect x="625" y="115" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="645" y="146" class="code">R+</text>
+<text x="645" y="175" class="name">Grotian</text>
+<g transform="translate(697,193)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-grotian"/></svg></g>
+<g transform="translate(645,325)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-grotian"/></svg></g>
+<text x="707" y="349" class="note">112px hero · 48px directory</text>
+<rect x="910" y="115" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="930" y="146" class="code">R−</text>
+<text x="930" y="175" class="name">Concert</text>
+<g transform="translate(982,193)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-concert"/></svg></g>
+<g transform="translate(930,325)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-concert"/></svg></g>
+<text x="992" y="349" class="note">112px hero · 48px directory</text>
+<rect x="55" y="425" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="75" y="456" class="code">M+</text>
+<text x="75" y="485" class="name">Satyagraha</text>
+<g transform="translate(127,503)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-satyagraha"/></svg></g>
+<g transform="translate(75,635)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-satyagraha"/></svg></g>
+<text x="137" y="659" class="note">112px hero · 48px directory</text>
+<rect x="340" y="425" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="360" y="456" class="code">M−</text>
+<text x="360" y="485" class="name">Musyawarah</text>
+<g transform="translate(412,503)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-musyawarah"/></svg></g>
+<g transform="translate(360,635)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-musyawarah"/></svg></g>
+<text x="422" y="659" class="note">112px hero · 48px directory</text>
+<rect x="625" y="425" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="645" y="456" class="code">S+</text>
+<text x="645" y="485" class="name">Dirigisme</text>
+<g transform="translate(697,503)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-dirigisme"/></svg></g>
+<g transform="translate(645,635)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-dirigisme"/></svg></g>
+<text x="707" y="659" class="note">112px hero · 48px directory</text>
+<rect x="910" y="425" width="250" height="270" fill="#14243A" stroke="#24344B"/>
+<text x="930" y="456" class="code">S−</text>
+<text x="930" y="485" class="name">Dependencia</text>
+<g transform="translate(982,503)" color="#C9A227"><svg width="112" height="112" viewBox="0 0 100 100"><use href="#sig-dependencia"/></svg></g>
+<g transform="translate(930,635)" color="#F4F1EA"><svg width="48" height="48" viewBox="0 0 100 100"><use href="#sig-dependencia"/></svg></g>
+<text x="992" y="659" class="note">112px hero · 48px directory</text>
+</svg>

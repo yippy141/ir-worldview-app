@@ -3,13 +3,163 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 558,
-      "newCount": 0,
-      "newFindings": [],
+      "currentCount": 563,
+      "newCount": 12,
+      "newFindings": [
+        {
+          "audience": "public",
+          "context": "route:/archetypes/[slug]#ArchetypeDetailPage.p",
+          "count": 1,
+          "file": "app/archetypes/[slug]/page.tsx",
+          "fingerprint": "0c06333afb09e4f9a2458217c38688ac718e12b524f99d055f2fa444afe69c3a",
+          "matched": "change the underlying Foundation score or assign people, organizations, or traditions to a fixed type / not editorial, expert, or methodological validation",
+          "rule": "repeated-three-part-list",
+          "source": "Archetypes summarize a continuous, multidimensional profile. They do not change the underlying Foundation score or assign people, organizations, or traditions to a fixed type. Automated checks are pretesting, not editorial, expert, or methodological validation."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "18fecc2e6701e187e9ce70109cddc03205d23d92584b11b4f9aaba1daf7819f7",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: ... .gloss is required."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinitions",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "1ba332de0849ca86b958995ce7e4d849708553e284a6cf0ef42e40fafad3d2fe",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: slugs must be unique."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text",
+          "count": 1,
+          "file": "content/archetypes.json",
+          "fingerprint": "35a986eb3c5811ec03a5186386a61d5a7381bbe4b6902f92926efb6b4c71c370",
+          "matched": "usually",
+          "rule": "general-prevalence-language-review",
+          "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
+        },
+        {
+          "audience": "operational",
+          "context": "content-key:lib/archetype-content.ts#validateClaimListField",
+          "count": 1,
+          "file": "lib/archetype-content.ts",
+          "fingerprint": "3b38a6b00bd13da24b63faae33684cad10007c3e3d0448ddd9b3b7e326773dc2",
+          "matched": "value must contain",
+          "rule": "repeated-adjacent-opening",
+          "source": "... .value must contain at least ... claims."
+        },
+        {
+          "audience": "editorial-source",
+          "context": "content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason",
+          "count": 1,
+          "file": "content/archetype-evidence.json",
+          "fingerprint": "4c210fcfb029c1ddf86161142fb6d57430eab1f1b331c9c067b689c3a0dafb24",
+          "matched": "the article is",
+          "rule": "repeated-adjacent-opening",
+          "source": "The article is identified, but a permanent publisher locator or DOI has not been verified."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "6ae7d7c7581737843cff6f5aaedf4fff808fea48c6ca6a4d73467c749007a2da",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: ... .familyKey does not match its code."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "7e0793259b6bf626ce59621b979c66381d7b9c534584c1ac964bc8b4a136fe6c",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: ... .code is invalid."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "9766cdedffa7bb758f01a19a273a292ee25ab282057dea7e41746e5a0c6c5456",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: ... .slug is invalid."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "9eecb7e83626093ae1e3b3d7268cf0c027eb87d35d31efd8a5c919bef25a3155",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: ... .name is required."
+        },
+        {
+          "audience": "operational",
+          "context": "content-key:lib/archetype-content.ts#validateArchetypeContentCatalog",
+          "count": 1,
+          "file": "lib/archetype-content.ts",
+          "fingerprint": "a490ac73eee7ddb8065e397f1f61d3a15e1c96b0dfc7485b30189abe207b77eb",
+          "matched": "catalog and evidence",
+          "rule": "repeated-adjacent-opening",
+          "source": "catalog and evidence catalog versions must match."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
+          "count": 1,
+          "file": "lib/archetypes.ts",
+          "fingerprint": "b96b648cdcfe12a4d4bae86908ca69ff2221c317cf6dd19095a0a4d45bb8e65f",
+          "matched": "invalid archetype identity",
+          "rule": "repeated-adjacent-opening",
+          "source": "Invalid archetype identity catalog: ... .analogue is invalid."
+        }
+      ],
       "priority": "P2",
-      "resolvedCount": 0,
-      "resolvedFindings": [],
-      "unchangedCount": 558
+      "resolvedCount": 7,
+      "resolvedFindings": [
+        {
+          "count": 1,
+          "fingerprint": "5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878"
+        },
+        {
+          "count": 1,
+          "fingerprint": "690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff"
+        },
+        {
+          "count": 1,
+          "fingerprint": "863d56b5a73c241f1be9faae45bb2a329dce039b0dc27706e0a37e54cbf8084e"
+        },
+        {
+          "count": 1,
+          "fingerprint": "9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8"
+        },
+        {
+          "count": 1,
+          "fingerprint": "9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb"
+        },
+        {
+          "count": 1,
+          "fingerprint": "c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1"
+        },
+        {
+          "count": 1,
+          "fingerprint": "c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d"
+        }
+      ],
+      "unchangedCount": 551
     },
     "higherPriorityFindings": [
       {
@@ -44,7 +194,7 @@
         "jsonPath": null,
         "key": "GET",
         "kind": "internal",
-        "line": 32,
+        "line": 33,
         "match": "result payload",
         "matched": "result payload",
         "priority": "P0",
@@ -97,6 +247,160 @@
         "rule": "public-release-language",
         "severity": "P0",
         "source": "V19.1–V20",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "OWNER_AUTHORIZED_BETA_QUALIFICATION",
+        "context": "content-key:lib/archetype-content.ts#OWNER_AUTHORIZED_BETA_QUALIFICATION",
+        "copyKey": "OWNER_AUTHORIZED_BETA_QUALIFICATION",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "OWNER_AUTHORIZED_BETA_QUALIFICATION",
+        "kind": "release",
+        "line": 18,
+        "match": "beta",
+        "matched": "beta",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "validateArchetypeContentCatalog",
+        "context": "content-key:lib/archetype-content.ts#validateArchetypeContentCatalog",
+        "copyKey": "validateArchetypeContentCatalog",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "validateArchetypeContentCatalog",
+        "kind": "release",
+        "line": 283,
+        "match": "beta",
+        "matched": "beta",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "catalog.records[ … ].content must remain qualified partial AI-assisted beta copy with no sentence-level review IDs.",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "validateContentRecord",
+        "context": "content-key:lib/archetype-content.ts#validateContentRecord",
+        "copyKey": "validateContentRecord",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "validateContentRecord",
+        "kind": "release",
+        "line": 749,
+        "match": "v1",
+        "matched": "v1",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "… .content.evidenceStatus must be legacy-v1-provisional.",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "validatePublishableCore",
+        "context": "content-key:lib/archetype-content.ts#validatePublishableCore",
+        "copyKey": "validatePublishableCore",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "validatePublishableCore",
+        "kind": "release",
+        "line": 1167,
+        "match": "beta",
+        "matched": "beta",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "… . … must be reviewed or qualified owner-authorized beta copy before publication.",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "validatePublishableCore",
+        "context": "content-key:lib/archetype-content.ts#validatePublishableCore",
+        "copyKey": "validatePublishableCore",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "validatePublishableCore",
+        "kind": "release",
+        "line": 1180,
+        "match": "beta",
+        "matched": "beta",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "… . … claims must match the field's reviewed or owner-authorized beta state.",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "validatePublishableCore",
+        "context": "content-key:lib/archetype-content.ts#validatePublishableCore",
+        "copyKey": "validatePublishableCore",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "validatePublishableCore",
+        "kind": "release",
+        "line": 1192,
+        "match": "beta",
+        "matched": "beta",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "… . … must be reviewed or qualified owner-authorized beta copy before publication.",
+        "strict": false,
+        "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
+      },
+      {
+        "action": "Describe current behavior; keep release history in engineering or decision records.",
+        "audience": "operational",
+        "contentKey": "validatePublishableCore",
+        "context": "content-key:lib/archetype-content.ts#validatePublishableCore",
+        "copyKey": "validatePublishableCore",
+        "file": "lib/archetype-content.ts",
+        "jsonPath": null,
+        "key": "validatePublishableCore",
+        "kind": "release",
+        "line": 1204,
+        "match": "beta",
+        "matched": "beta",
+        "priority": "P0",
+        "reason": "Release and schema-era labels expose internal product history in reader-facing copy.",
+        "route": null,
+        "rule": "public-release-language",
+        "severity": "P0",
+        "source": "… .normativeVariants[ … ] must be reviewed or qualified owner-authorized beta copy before publication.",
         "strict": false,
         "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
       },
@@ -763,7 +1067,7 @@
     ],
     "priorityCounts": [
       {
-        "count": 8,
+        "count": 15,
         "priority": "P0"
       },
       {
@@ -771,7 +1075,7 @@
         "priority": "P1"
       },
       {
-        "count": 558,
+        "count": 563,
         "priority": "P2"
       }
     ]
@@ -54751,7 +55055,7 @@
     {
       "category": "copy-audit",
       "path": "scripts/audit-public-copy.mjs",
-      "sha256": "08c562f389a3c135ac430b4a012346ce57044f10a0f7924d7f72184e01033abc"
+      "sha256": "ac4bc2e0880c0ac64f14fd0d559ec5617ac2ca6a50dd5b1620e27bbefb29fbf2"
     },
     {
       "category": "calibration",
@@ -54861,7 +55165,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/public-copy-audit.test.mts",
-      "sha256": "33e85f3f5f4bcd7a3affc08e691bb95e5813a4b55fb511beb48be3dc888768ab"
+      "sha256": "0d74af4f2ba5b8a5023dde61d2a87cbddbc9e6014e5e9423853c192e8b840cf2"
     },
     {
       "category": "compatibility-test",

@@ -7,6 +7,12 @@ import { resolve } from "node:path"
 // @ts-expect-error TypeScript's bundler resolver disallows that runtime form.
 import { compareEvidenceStrings } from "@/scripts/evidence-utils.mts"
 import { compareCodeUnitStrings } from "@/scripts/code-unit-order.mjs"
+import {
+  ARCHETYPE_BETA_CONTENT_CLASS,
+  ARCHETYPE_BETA_QUALIFICATION,
+  ARCHETYPE_BETA_ROUTE_DISCLOSURE,
+  isContractedArchetypeBetaReference,
+} from "@/scripts/public-copy-contracts.mjs"
 
 const projectRoot = resolve(import.meta.dirname, "..")
 const auditScript = resolve(projectRoot, "scripts/audit-public-copy.mjs")
@@ -50,6 +56,8 @@ test("public-copy audit covers active content roots and emits editorial context"
     "content/instrument",
     "content/current-cases",
     "content/archetypes.json",
+    "content/archetype-evidence.json",
+    "content/explore",
     "content/locales",
     "messages",
     "i18n",
@@ -85,6 +93,7 @@ test("operational and frozen compatibility findings cannot fail strict mode", ()
 test("active controlled-beta language is not mistaken for stale release history", () => {
   const report = runAudit()
   const betaReleaseFindings = report.findings.filter((finding) =>
+    finding.audience === "public" &&
     finding.reason.startsWith("Release and schema-era labels") &&
     (
       finding.context.includes("beta") ||
@@ -93,6 +102,57 @@ test("active controlled-beta language is not mistaken for stale release history"
   )
 
   assert.deepEqual(betaReleaseFindings, [])
+})
+
+test("the archetype beta exception admits only the exact contracted record", () => {
+  assert.equal(
+    isContractedArchetypeBetaReference({
+      text: ARCHETYPE_BETA_CONTENT_CLASS,
+      fileName: "content/archetypes.json",
+      path: "publicationAuthorization.contentClass",
+    }),
+    true,
+  )
+  assert.equal(
+    isContractedArchetypeBetaReference({
+      text: ARCHETYPE_BETA_QUALIFICATION,
+      fileName: "content/archetypes.json",
+      path: "records.0.content.noticesFirst.qualification",
+    }),
+    true,
+  )
+  assert.equal(
+    isContractedArchetypeBetaReference({
+      text: ARCHETYPE_BETA_ROUTE_DISCLOSURE,
+      fileName: "app/archetypes/[slug]/page.tsx",
+      path: "ArchetypeDetailPage.p",
+    }),
+    true,
+  )
+
+  for (const changed of [
+    ARCHETYPE_BETA_QUALIFICATION.replace("pending", "completed"),
+    ARCHETYPE_BETA_QUALIFICATION.replace("no validation claim", "validated"),
+    `${ARCHETYPE_BETA_ROUTE_DISCLOSURE} Approved.`,
+  ]) {
+    assert.equal(
+      isContractedArchetypeBetaReference({
+        text: changed,
+        fileName: "content/archetypes.json",
+        path: "records.0.content.noticesFirst.qualification",
+      }),
+      false,
+      changed,
+    )
+  }
+  assert.equal(
+    isContractedArchetypeBetaReference({
+      text: ARCHETYPE_BETA_QUALIFICATION,
+      fileName: "content/explore/hub.en.json",
+      path: "hero.boundary",
+    }),
+    false,
+  )
 })
 
 test("reader-facing copy makes no unsupported population-frequency claims", () => {

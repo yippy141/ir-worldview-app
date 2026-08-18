@@ -240,7 +240,7 @@ test("Foundation result keeps the archetype H1 above closest-tradition metadata"
   ).toBeVisible()
   await expect(
     page.getByText(
-      "Closest modeled tradition: Liberal Institutionalist",
+      "Closest modeled tradition: Institutionalism",
       { exact: true },
     ),
   ).toBeVisible()
@@ -327,7 +327,7 @@ test("a four-record Profile preserves its Foundation identity after a module sav
     ).toBeVisible()
     await expect(
       page.locator(".result-card-hero__chip").getByText(
-        "Closest tradition: Liberal Institutionalist",
+        "Closest tradition: Institutionalism",
         { exact: true },
       ),
     ).toBeVisible()
@@ -341,7 +341,7 @@ test("a four-record Profile preserves its Foundation identity after a module sav
     await expect(records).toHaveCount(4)
     await expect(records.filter({
       has: page.getByRole("heading", { name: "Foundation record", exact: true }),
-    }).getByText("Primary identity · unchanged", { exact: true })).toBeVisible()
+    }).getByText("Foundation reading · unchanged", { exact: true })).toBeVisible()
 
     for (const title of ["Security", "Technology", "AI Governance"] as const) {
       const record = records.filter({
@@ -491,55 +491,219 @@ test("domain-result hero actions stay in the first viewport at 390px and 1440px"
   }
 })
 
-test("Explore constrains editorial paragraphs and decorative overflow at 768px and 1440px", async ({
+test("V23.1B routes reflow at 320, 390, 768, and 1440 CSS pixels", async ({
   page,
 }) => {
+  const routes = ["/archetypes", "/archetypes/p-minus", "/explore"]
   for (const viewport of [
+    { width: 320, height: 844 },
+    { width: 390, height: 844 },
     { width: 768, height: 900 },
     { width: 1440, height: 900 },
   ]) {
     await page.setViewportSize(viewport)
-    await page.goto("/explore")
-    await page.evaluate(() => document.fonts.ready)
-
-    const paragraph = page.locator(".explore-page .article-section > p").first()
-    await expect(paragraph).toBeVisible()
-    const paragraphMetrics = await paragraph.evaluate((element) => {
-      const style = getComputedStyle(element)
-      const probe = document.createElement("span")
-      probe.style.position = "absolute"
-      probe.style.visibility = "hidden"
-      probe.style.display = "block"
-      probe.style.fontFamily = style.fontFamily
-      probe.style.fontSize = style.fontSize
-      probe.style.fontWeight = style.fontWeight
-      document.body.append(probe)
-      probe.style.width = "65ch"
-      const lowerBound = probe.getBoundingClientRect().width
-      probe.style.width = "72ch"
-      const upperBound = probe.getBoundingClientRect().width
-      probe.remove()
-      return {
-        width: element.getBoundingClientRect().width,
-        lowerBound,
-        upperBound,
-      }
-    })
-    expect(paragraphMetrics.width).toBeGreaterThanOrEqual(
-      paragraphMetrics.lowerBound - 1,
-    )
-    expect(paragraphMetrics.width).toBeLessThanOrEqual(
-      paragraphMetrics.upperBound + 1,
-    )
-
-    const gridWidth = await page.locator(".explore-grid").evaluate(
-      (element) => element.getBoundingClientRect().width,
-    )
-    expect(gridWidth).toBeGreaterThan(paragraphMetrics.width + 10)
-
-    const width = await documentWidth(page)
-    expect(width.scrollWidth).toBeLessThanOrEqual(width.clientWidth + 1)
+    for (const route of routes) {
+      await page.goto(route)
+      await page.evaluate(() => document.fonts.ready)
+      const width = await documentWidth(page)
+      expect(
+        width.scrollWidth,
+        `${route} at ${viewport.width}px`,
+      ).toBeLessThanOrEqual(width.clientWidth + 1)
+    }
   }
+})
+
+test("V23.1B editorial measure, targets, focus, and contrast remain legible", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto("/explore")
+  await page.evaluate(() => document.fonts.ready)
+
+  const sectionIntros = page.locator(
+    "[data-explore-section] > header > div > p",
+  )
+  const paragraph = sectionIntros.first()
+  await expect(paragraph).toBeVisible()
+  const paragraphMetrics = await paragraph.evaluate((element) => {
+    const style = getComputedStyle(element)
+    const probe = document.createElement("span")
+    probe.style.position = "absolute"
+    probe.style.visibility = "hidden"
+    probe.style.display = "block"
+    probe.style.fontFamily = style.fontFamily
+    probe.style.fontSize = style.fontSize
+    probe.style.fontWeight = style.fontWeight
+    document.body.append(probe)
+    probe.style.width = "65ch"
+    const lowerBound = probe.getBoundingClientRect().width
+    probe.style.width = "72ch"
+    const upperBound = probe.getBoundingClientRect().width
+    probe.remove()
+    return {
+      width: element.getBoundingClientRect().width,
+      lowerBound,
+      upperBound,
+    }
+  })
+  expect(paragraphMetrics.width).toBeGreaterThanOrEqual(paragraphMetrics.lowerBound - 1)
+  expect(paragraphMetrics.width).toBeLessThanOrEqual(paragraphMetrics.upperBound + 1)
+
+  const contrast = await renderedContrastSamples(sectionIntros)
+  expect(contrast.length).toBe(9)
+  for (const sample of contrast) {
+    expect(sample.ratio, sample.text).toBeGreaterThanOrEqual(4.5)
+  }
+
+  const objectTypeContrast = await renderedContrastSamples(
+    page.locator("[data-explore-object-type]"),
+  )
+  expect(objectTypeContrast.length).toBeGreaterThan(0)
+  for (const sample of objectTypeContrast) {
+    expect(sample.ratio, sample.text).toBeGreaterThanOrEqual(4.5)
+  }
+
+  await page.setViewportSize({ width: 320, height: 844 })
+  await page.goto("/archetypes")
+  const rows = page.locator("[data-archetype-directory] a[data-archetype-code]")
+  await expect(rows).toHaveCount(8)
+  for (const height of await rows.evaluateAll((elements) =>
+    elements.map((element) => element.getBoundingClientRect().height),
+  )) {
+    expect(height).toBeGreaterThanOrEqual(44)
+  }
+
+  for (let index = 0; index < 20; index += 1) {
+    await page.keyboard.press("Tab")
+    if (await page.evaluate(() => Boolean(document.activeElement?.hasAttribute("data-archetype-code")))) {
+      break
+    }
+  }
+  const focusedRow = page.locator("[data-archetype-code]:focus")
+  await expect(focusedRow).toHaveCount(1)
+  const focusStyle = await focusedRow.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return { style: style.outlineStyle, width: Number.parseFloat(style.outlineWidth) }
+  })
+  expect(focusStyle.style).not.toBe("none")
+  expect(focusStyle.width).toBeGreaterThanOrEqual(2)
+
+  await expect(page.locator("[data-archetype-row-action]").first()).toBeVisible()
+
+  await page.goto("/archetypes/p-minus")
+  const codeFallback = page.locator(
+    "[data-archetype-detail] [data-archetype-code-label]",
+  )
+  await expect(codeFallback).toBeVisible()
+  await expect(codeFallback).toHaveText("P−")
+  const codeContainment = await codeFallback.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      contained:
+        rect.width > 0 &&
+        rect.height > 0 &&
+        rect.left >= -1 &&
+        rect.right <= document.documentElement.clientWidth + 1,
+    }
+  })
+  expect(codeContainment.contained).toBe(true)
+  const mobileHeroMark = page.locator(
+    '[data-archetype-detail] [data-archetype-mark="P-"]',
+  )
+  await expect(mobileHeroMark).toBeVisible()
+  await expect(mobileHeroMark).toHaveAttribute("data-archetype-mark-size", "112")
+  await expect(mobileHeroMark).toHaveAttribute("aria-hidden", "true")
+  await expect(page.locator("[data-archetype-detail] svg")).toHaveCount(1)
+  await expect(page.locator("[data-archetype-sigil-frame]")).toHaveCount(0)
+
+  await page.goto("/explore")
+  const mobileJumpNav = page.getByRole("navigation", { name: "On this page" })
+  await expect(mobileJumpNav).toBeHidden()
+})
+
+test("V23.1B code labels, marks, and sources remain legible in print", async ({
+  page,
+}) => {
+  test.skip(!process.env.CI, "Print regressions run against the production server.")
+  await page.setViewportSize({ width: 768, height: 900 })
+  await page.goto("/archetypes/p-minus")
+  const codeFallback = page.locator(
+    "[data-archetype-detail] [data-archetype-code-label]",
+  )
+  await expect(codeFallback).toBeVisible()
+  await expect(codeFallback).toHaveText("P−")
+  const heroMark = page.locator(
+    '[data-archetype-detail] [data-archetype-mark="P-"]',
+  )
+  await expect(heroMark).toBeVisible()
+  await expect(heroMark).toHaveAttribute("data-archetype-mark-render", "pictorial")
+  await expect(heroMark).toHaveAttribute("data-archetype-mark-size", "112")
+  await expect(page.locator("[data-archetype-detail] svg")).toHaveCount(1)
+
+  await page.emulateMedia({ media: "print" })
+  const printState = await codeFallback.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      text: element.textContent,
+      bodyBackground: getComputedStyle(document.body).backgroundColor,
+      clipped:
+        rect.width <= 0 ||
+        rect.height <= 0 ||
+        rect.left < -1 ||
+        rect.right > document.documentElement.clientWidth + 1,
+      width: document.documentElement.scrollWidth,
+      clientWidth: document.documentElement.clientWidth,
+    }
+  })
+  expect(printState.text).toBe("P−")
+  expect(printState.bodyBackground).toBe("rgb(255, 255, 255)")
+  expect(printState.clipped).toBe(false)
+  expect(printState.width).toBeLessThanOrEqual(printState.clientWidth + 1)
+  const codeContrast = await renderedContrastSamples(codeFallback)
+  expect(codeContrast).toHaveLength(1)
+  expect(codeContrast[0].ratio).toBeGreaterThanOrEqual(4.5)
+
+  const printMarkState = await heroMark.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      color: getComputedStyle(element).color,
+      clipped:
+        rect.width <= 0 ||
+        rect.height <= 0 ||
+        rect.left < -1 ||
+        rect.right > document.documentElement.clientWidth + 1,
+    }
+  })
+  expect(printMarkState.color).toBe("rgb(17, 17, 17)")
+  expect(printMarkState.clipped).toBe(false)
+
+  const printedSourceUrl = await page
+    .locator("[data-archetype-source-ledger] a[href^='http']")
+    .first()
+    .evaluate((element) => getComputedStyle(element, "::after").content)
+  expect(printedSourceUrl).toContain("http")
+
+  await page.goto("/explore")
+  const disclosures = page.locator("[data-explore-section] details")
+  await expect(disclosures).toHaveCount(3)
+  const disclosureState = await disclosures.evaluateAll((elements) =>
+    elements.map((element) => {
+      const body = element.querySelector(":scope > :not(summary)")
+      return {
+        bodyDisplay: body ? getComputedStyle(body).display : null,
+        bodyHeight: body?.getBoundingClientRect().height ?? 0,
+      }
+    }),
+  )
+  for (const disclosure of disclosureState) {
+    expect(disclosure.bodyDisplay).not.toBe("none")
+    expect(disclosure.bodyHeight).toBeGreaterThan(0)
+  }
+  const explorePrintWidth = await documentWidth(page)
+  expect(explorePrintWidth.scrollWidth).toBeLessThanOrEqual(
+    explorePrintWidth.clientWidth + 1,
+  )
 })
 
 test("AI hero renders the archetype once and retains exactly three scoped modifiers", async ({

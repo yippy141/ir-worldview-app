@@ -22,14 +22,14 @@ import type { CanonicalFoundationResult } from "@/lib/scoring"
 // the separation, so this module supplies a one-dimensional scale to sit BESIDE
 // the map instead.
 //
-// Every name here comes from content/archetypes.json via lib/archetypes.ts. No
-// label is authored in this module.
+// Every name here comes from the frozen identity accessor in lib/archetypes.ts.
+// No label is authored in this module and rich content is not imported here.
 
 const SCALE_MIN = 1
 const SCALE_MAX = 7
 
 export type PostureEndpoint = {
-  code: string
+  code: Archetype["code"] | BlendArchetype["code"]
   name: string
   gloss: string
   /** Present only for pure archetypes; blends have no evidence page. */

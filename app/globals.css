@@ -8196,6 +8196,94 @@ html:lang(zh-Hans) .quiz-shell-label {
   text-transform: uppercase;
 }
 
+/* System A is inline, static, currentColor artwork. Pure Foundation readings
+   render one 112px mark. Blends remain compositions: an equal-scale Diptych
+   in heroes and a primary-plus-runner Hallmark in compact placements. */
+.archetype-mark {
+  display: block;
+  flex: 0 0 auto;
+  color: inherit;
+}
+
+.archetype-mark--code {
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.foundation-result-mark,
+.foundation-mark {
+  color: inherit;
+}
+
+.foundation-mark {
+  display: inline-grid;
+  justify-items: start;
+  gap: 8px;
+  max-width: 100%;
+}
+
+.foundation-mark__visual {
+  display: flex;
+  align-items: center;
+}
+
+.foundation-mark__panel {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+}
+
+.foundation-mark--diptych .foundation-mark__visual {
+  gap: 8px;
+}
+
+.foundation-mark--diptych .foundation-mark__panel {
+  width: 112px;
+  height: 112px;
+}
+
+.foundation-mark__connector {
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.foundation-mark__label {
+  max-width: 100%;
+  color: var(--text-2);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.foundation-mark__label [data-foundation-mark-code-label] {
+  color: var(--text);
+  font-family: var(--font-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.foundation-mark--hallmark .foundation-mark__visual {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  isolation: isolate;
+}
+
+.foundation-mark--hallmark .foundation-mark__primary {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.foundation-mark--hallmark .foundation-mark__runner-up {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: 2px;
+  background: var(--bg);
+}
+
 .foundation-result-tradition {
   margin: 0;
   color: var(--text-2);

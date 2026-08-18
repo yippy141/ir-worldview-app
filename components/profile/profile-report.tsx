@@ -3,16 +3,26 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { PerspectiveRunsSection } from "@/components/profile/perspective-runs-section"
-import { ResultCardHero, type ResultCardAccent } from "@/components/results/result-card-hero"
+import {
+  ResultCardHero,
+  type ResultCardAccent,
+  type ResultCardModifier,
+} from "@/components/results/result-card-hero"
 import { formatFieldDate } from "@/lib/field/items"
 import { WORLDVIEW_MAP_LABEL } from "@/lib/field/layers"
 import { normFromNormativeModifier } from "@/lib/archetypes"
+import {
+  formatArchetypeReadingCode,
+  formatArchetypeReadingCodeForSpeech,
+  type ArchetypeDisplayCode,
+} from "@/lib/archetype-display"
 import { ACTIVE_MODULE_COMPARISON_STATUS } from "@/lib/modules/types"
 import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import type { ProfileShareFoundationRecord } from "@/lib/profile-share"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
 import type { FamilyKey } from "@/lib/types"
+import { traditionNounLabel } from "@/lib/worldview-config"
 
 const FAMILY_ACCENT: Record<FamilyKey, ResultCardAccent> = {
   realist: "realist",
@@ -99,11 +109,11 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
         <section className="profile-hero profile-hero--anchored stack-md">
           <div className="profile-hero-head stack-sm">
             <p className="eyebrow">{mode === "local" ? "Profile unavailable" : "Shared profile unavailable"}</p>
-            <h1>Foundation identity unavailable</h1>
+            <h1>Foundation result unavailable</h1>
           </div>
           <p className="profile-hero-summary">
             This Profile’s Foundation payload could not be resolved, so no
-            archetype has been inferred. The saved result remains unchanged.
+            Foundation reading can be shown. The saved result remains unchanged.
           </p>
           {mode === "local" ? (
             <p style={{ margin: 0 }}>
@@ -157,7 +167,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
               <>
                 <div className="row gap-sm wrap">
                   <span className="mode-pill">
-                    Foundation: {foundationArchetype?.name ?? "identity unavailable"}
+                    Foundation: {foundationArchetype?.name ?? "result unavailable"}
                   </span>
                   <span className="ai-mode-pill">
                     AI result: {aiSnapshot.archetypeLabel}
@@ -270,8 +280,9 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
                 <summary>Foundation result and anchors</summary>
                 <div className="profile-collapsed-detail stack-md">
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
-                    Closest traditions: {foundationIdentity.result.familyLabel} and{" "}
-                    {foundationIdentity.result.runnerUpLabel}.
+                    Closest traditions:{" "}
+                    {traditionNounLabel(foundationIdentity.result.familyKey)} and{" "}
+                    {traditionNounLabel(foundationIdentity.result.runnerUpKey)}.
                   </p>
                   <p style={{ margin: 0 }}>
                     <Link href={displayFoundation.resultPath} style={{ color: "var(--accent)" }}>
@@ -307,7 +318,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem", margin: 0 }}>
                     This legacy record’s Foundation token cannot be resolved.
                     Cached family labels and derived anchors are therefore not
-                    presented as a current identity.
+                    presented as a current Foundation reading.
                   </p>
                   <p style={{ margin: 0 }}>
                     <Link href={displayFoundation.resultPath} style={{ color: "var(--accent)" }}>
@@ -402,17 +413,17 @@ function DomainRecordsSection({
         <article className="profile-domain-record">
           <div className="profile-domain-record__meta">
             <span>Foundation</span>
-            <span>Primary identity · unchanged</span>
+            <span>Foundation reading · unchanged</span>
           </div>
           <div className="stack-xs">
             <h3>Foundation record</h3>
             <p className="profile-domain-record__result">
-              {foundationIdentity?.archetype.name ?? "Identity unavailable"}
+              {foundationIdentity?.archetype.name ?? "Result unavailable"}
             </p>
             <p className="muted profile-domain-record__summary">
               {foundationIdentity
                 ? foundationIdentity.archetype.gloss
-                : "The saved Foundation token cannot be resolved, so this record is shown without inferring a replacement identity."}
+                : "The saved Foundation token cannot be resolved, so this record is shown without inferring a replacement Foundation reading."}
             </p>
           </div>
           {mode === "local" ? (
@@ -538,7 +549,7 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
                 <li key={`f-${snapshot.timestamp}`} className="profile-history-row">
                   <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
                   <span className="profile-history-row__label">
-                    Foundation · {identity?.archetype.name ?? "identity unavailable"}
+                    Foundation · {identity?.archetype.name ?? "result unavailable"}
                     {snapshot.mode ? ` · ${snapshot.mode === "analyst" ? "Analyst" : "Standard"}` : ""}
                   </span>
                   <Link href={snapshot.resultPath} className="profile-history-row__view">
@@ -579,11 +590,20 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
 
 function buildProfileModifiers(
   foundation: CanonicalFoundationResult,
-  archetypeCode: string,
-): string[] {
+  archetypeCode: ArchetypeDisplayCode,
+): ResultCardModifier[] {
+  const normativeSuffix = normFromNormativeModifier(
+    foundation.normativeModifier,
+  )
   return [
-    `${archetypeCode} / ${normFromNormativeModifier(foundation.normativeModifier)}`,
-    `Closest tradition: ${foundation.familyLabel}`,
+    {
+      label: formatArchetypeReadingCode(archetypeCode, normativeSuffix),
+      accessibleLabel: formatArchetypeReadingCodeForSpeech(
+        archetypeCode,
+        normativeSuffix,
+      ),
+    },
+    `Closest tradition: ${traditionNounLabel(foundation.familyKey)}`,
     foundation.strategyModifier,
     foundation.normativeModifier,
   ]

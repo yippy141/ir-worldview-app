@@ -1,90 +1,2681 @@
-[
-  {
-    "name": "Kairos",
-    "code": "P+",
-    "gloss": "Your answers put power and timing first: a strategic opening is an opportunity to act.",
-    "familyKey": "realist",
-    "analogue": {
-      "label": "The Melian Dialogue",
-      "year": "416 BC",
-      "href": "https://en.wikipedia.org/wiki/Melian_dialogue"
-    }
+{
+  "schemaVersion": 1,
+  "contentVersion": "23.1.0",
+  "evidenceCatalogVersion": "23.1.0",
+  "locale": "en",
+  "publicationAuthorization": {
+    "authorization": "owner-authorized",
+    "contentClass": "ai-assisted-english-beta-copy",
+    "humanEditorialReview": "pending",
+    "externalExpertReview": "none",
+    "validationClaim": "none"
   },
-  {
-    "name": "Shi (勢)",
-    "code": "P-",
-    "gloss": "Power matters here as a position built over time; the priority is to establish leverage before forcing an outcome.",
-    "familyKey": "realist",
-    "analogue": {
-      "label": "The Art of War",
-      "year": "5th C. BC",
-      "href": "https://en.wikipedia.org/wiki/The_Art_of_War"
+  "records": [
+    {
+      "identity": {
+        "name": "Kairos",
+        "code": "P+",
+        "slug": "p-plus",
+        "gloss": "Your answers put power and timing first: a strategic opening is an opportunity to act.",
+        "familyKey": "realist",
+        "analogue": {
+          "label": "The Melian Dialogue",
+          "year": "416 BC",
+          "href": "https://en.wikipedia.org/wiki/Melian_dialogue"
+        }
+      },
+      "content": {
+        "lens": "P",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Kairos attends first to changing leverage and to windows that may close.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Preserve room to maneuver until an opening is consequential.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Commit scarce resources at the point of greatest immediate effect.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Move while an advantage remains usable and its cost is bounded.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "p-plus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Speed and concentration come at the price of consultation and continuity.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "p-plus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "It earns its keep when waiting would close meaningful options.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "p-plus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "A temporary edge may purchase action by spending legitimacy and future cooperation.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "p-plus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Urgency gets mistaken for opportunity; the response then outruns any defensible aim.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "Durable rules that preserve choice through delay would count against this interpretation.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "Evidence that using leverage breeds more resistance than gain would cut against the fit.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Kairos uses the opening to contain disorder and protect coexistence.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "For Conditional Kairos, action is warranted only by the case's authority and foreseeable effects.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "p-plus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Justice-first Kairos directs leverage toward obligations left unmet by settled arrangements.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "The Melian Dialogue",
+          "displayDate": "416 BC",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Melian_dialogue",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-p-plus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "The Athenian argument at Melos treats unequal power as the decisive fact and presses an advantage before circumstances change.",
+              "sourceIds": [
+                "legacy-p-plus-01",
+                "legacy-p-plus-02"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-p-plus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "The dialogue can also be read as Thucydides' indictment of imperial arrogance and overreach. It is an extreme episode, not a neutral summary of every realist position.",
+              "sourceIds": [
+                "legacy-p-plus-01",
+                "legacy-p-plus-02"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Shi (勢)",
+        "code": "P-",
+        "slug": "p-minus",
+        "gloss": "Power matters here as a position built over time; the priority is to establish leverage before forcing an outcome.",
+        "familyKey": "realist",
+        "analogue": {
+          "label": "The Art of War",
+          "year": "5th C. BC",
+          "href": "https://en.wikipedia.org/wiki/The_Art_of_War"
+        }
+      },
+      "content": {
+        "lens": "P",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Shi reads the field before the clash: incentives, dependencies, and positions reveal how leverage is forming.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Accumulate bargaining strength before forcing a decision.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Alter incentives and alignments before raising the level of confrontation.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Let time work when it improves the underlying position.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "p-minus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Visible progress slows so that the eventual position can harden.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "p-minus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "The approach works best when the outcome is shaped well before formal choice.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "p-minus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "Preparation may become a respectable name for endless delay or hidden manipulation.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "p-minus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Indirect leverage is treated as control, leaving too little room for others to adapt.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "Immediate harm that makes waiting costlier than positional improvement would undermine the fit.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "Easy countermeasures against the assembled conditions would undermine it as well.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Shi shapes conditions to reduce pressure for imposed settlement and preserve coexistence.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Conditional Shi builds position only when a defensible mandate and expected effects warrant it.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "p-minus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Under Justice-first Shi, leverage reshapes conditions that make protection contingent on hierarchy.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "The Art of War",
+          "displayDate": "5th C. BC",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/The_Art_of_War",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-p-minus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "The Art of War repeatedly favors position, information, and strategic advantage over costly direct confrontation.",
+              "sourceIds": [
+                "legacy-p-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-p-minus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "A military treatise is not a complete theory of international politics, and shi carries meanings that no two-sentence archetype can exhaust.",
+              "sourceIds": [
+                "legacy-p-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-p-minus-name-note",
+              "kind": "authored-interpretation",
+              "text": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work.",
+              "sourceIds": [
+                "legacy-p-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          }
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Grotian",
+        "code": "R+",
+        "slug": "r-plus",
+        "gloss": "Your answers give rules force only when they are backed by credible enforcement.",
+        "familyKey": "institutionalist",
+        "analogue": {
+          "label": "Hugo Grotius / De Jure Belli ac Pacis",
+          "year": "1625",
+          "href": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis"
+        }
+      },
+      "content": {
+        "lens": "R",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Grotian reasoning starts with the gap between stated commitments and rules that can carry force.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Turn broad promises into explicit duties and procedures.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Assemble enough capacity to make agreed consequences credible.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Enforce through processes that remain visible and open to challenge.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "r-plus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Dependable follow-through costs discretion and creates a real risk of coercion.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "r-plus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "It proves most useful when commitments repeatedly collapse for want of enforceable backing.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "r-plus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "Enforcement rarely lands evenly; selective power can hollow out the legitimacy of the rule.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "r-plus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Compliance becomes the proxy for legitimacy, and the mandate expands past its stated bounds.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "Sustained reciprocal compliance without coercive backing would weaken this account.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "Repeated evasion and fragmentation after enforcement would point the other way.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Grotian gives common rules force to contain destabilizing breaches.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Conditional Grotian scales enforcement to a defensible mandate and the foreseeable costs of the case.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "r-plus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Justice-first Grotian insists that obligations bind even those who benefit from weak enforcement.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "Hugo Grotius / De Jure Belli ac Pacis",
+          "displayDate": "1625",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-r-plus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "Grotius argued that relations among political communities remain subject to law and obligation, including during war.",
+              "sourceIds": [
+                "legacy-r-plus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-r-plus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "The Grotian tradition is broader than enforcement. It also concerns natural law, consent, moral restraint, and the possibility of an international society.",
+              "sourceIds": [
+                "legacy-r-plus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-r-plus-name-note",
+              "kind": "authored-interpretation",
+              "text": "This product already borrows from Martin Wight's three traditions elsewhere: Pluralist and Solidarist are English School terms. In that scheme, Grotian names the rationalist middle way between realism and revolutionism, not the enforcement-forward pole it marks here. The two senses collide. Readers who know Wight's usage should treat this name as a reference to Grotius's own argument that law binds even in war, not as a claim to the middle position in Wight's triad.",
+              "sourceIds": [
+                "legacy-r-plus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          }
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Concert",
+        "code": "R-",
+        "slug": "r-minus",
+        "gloss": "Durable cooperation here depends on powerful actors accepting rules and restraint.",
+        "familyKey": "institutionalist",
+        "analogue": {
+          "label": "The Congress of Vienna",
+          "year": "1815",
+          "href": "https://en.wikipedia.org/wiki/Congress_of_Vienna"
+        }
+      },
+      "content": {
+        "lens": "R",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Concert first asks who can disrupt a settlement, what they fear, and what limits they will accept.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Set reciprocal limits before rivalry becomes unmanageable.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Keep consequential participants in regular consultation.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Prefer a bounded settlement to maximal demands that endanger the wider order.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "r-minus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Restraint among disruptive powers is bought with less ambition and incomplete inclusion.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "r-minus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "The logic carries weight when a durable order needs consent from its strongest challengers.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "r-minus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "Accommodation can turn power into privilege and leave weaker participants outside the bargain.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "r-minus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Elite agreement is mistaken for legitimacy; the settlement then lacks roots beyond the negotiating room.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "A settlement easily overturned by excluded parties would cast doubt on the fit.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "Evidence that general rules constrain major powers better than discretionary bargains would do the same.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Concert trades reciprocal restraint for protection against systemic breakdown.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Conditional Concert bargains only when accommodation has a defensible mandate and manageable consequences.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "r-minus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Justice-first Concert preserves consultation while denying powerful participants a veto over basic protection.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "The Congress of Vienna",
+          "displayDate": "1815",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Congress_of_Vienna",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-r-minus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "The Vienna settlement and the Concert joined great-power consultation to mutual restraint in the management of European order.",
+              "sourceIds": [
+                "legacy-r-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-r-minus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "The Concert was hierarchical and exclusive. Its stability rested partly on spheres of influence and the limited voice of weaker states.",
+              "sourceIds": [
+                "legacy-r-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Satyagraha",
+        "code": "M+",
+        "slug": "m-plus",
+        "gloss": "Your answers treat shared beliefs as politically decisive: changing the public narrative can change what power achieves.",
+        "familyKey": "constructivist",
+        "analogue": {
+          "label": "The Salt March",
+          "year": "1930",
+          "href": "https://en.wikipedia.org/wiki/Salt_March"
+        }
+      },
+      "content": {
+        "lens": "M",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Satyagraha looks first to the public meanings that sustain authority—or strip it of acceptance.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Recast the dispute around the principle that gives it public meaning.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Make the contest visible enough for another standard to become conceivable.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Organize support around a different account of acceptable conduct.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "m-plus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Material bargaining slows while the struggle over legitimacy becomes unmistakable.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "m-plus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "The reading has greatest purchase where authority depends on public acceptance of its claims.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "m-plus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "It can overcredit persuasion while discounting organized coercion and material interest.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "m-plus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Symbolic visibility is taken for durable change, even when no shared standard or implementation follows.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "If reframing leaves incentives and institutions untouched, the interpretation loses force.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "A standard with no organized route to implementation would further weaken it.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Satyagraha contests legitimacy to restore workable coexistence.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Conditional Satyagraha calibrates public contestation to its mandate and foreseeable effects.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "m-plus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "For Justice-first Satyagraha, accepted standards must yield when they leave protection unmet.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "The Salt March",
+          "displayDate": "1930",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Salt_March",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-m-plus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "The Salt March broke a law in order to argue in public about its legitimacy, turning an ordinary commodity into a test of whether the colonial state could justify itself. Finnemore and Sikkink's norm life-cycle supplies the scholarly frame: a challenger contests an accepted standard, persuades an audience, and pushes a rival expectation toward acceptance.",
+              "sourceIds": [
+                "legacy-m-plus-01",
+                "legacy-m-plus-02",
+                "legacy-m-plus-03",
+                "legacy-m-plus-04"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-m-plus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "The archetype cites a method, not a biography. Gandhi's own record is contested — most directly by B. R. Ambedkar on caste and varna, and separately over his writing and conduct on race during the South African years — and naming satyagraha is not an endorsement of the man or of his politics. Norm change is also not only narrative change: later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
+              "sourceIds": [
+                "legacy-m-plus-01",
+                "legacy-m-plus-02",
+                "legacy-m-plus-03",
+                "legacy-m-plus-04"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Musyawarah",
+        "code": "M-",
+        "slug": "m-minus",
+        "gloss": "Legitimacy here grows through patient consensus and cannot be secured by demand alone.",
+        "familyKey": "constructivist",
+        "analogue": {
+          "label": "The ASEAN Way",
+          "year": "1967",
+          "href": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way"
+        }
+      },
+      "content": {
+        "lens": "M",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Musyawarah listens for objections that formal agreement can bury and for relationships the process must sustain.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Consult before positions calcify into public commitments.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Seek terms that differently placed participants can continue to live with.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Leave room for dissent and renewed dialogue within the collective decision.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "m-minus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Broader ownership is purchased with a slower, less ambitious decision.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "m-minus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "It works when implementation will depend on trust and consent that must endure.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "m-minus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "Consensus can hide pressure, postpone urgent duties, and reward whoever is most willing to obstruct.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "m-minus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Silence is read as consent, and consultation continues after delay itself has become harmful.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "Compounding harm that demands a timely decision would count heavily against this fit.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "Nominal agreement masking coercion or unresolved noncompliance would count against it too.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Musyawarah uses deliberation to maintain coexistence without abandoning mutual restraint.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Under Conditional Musyawarah, the needed degree of consensus follows the decision's mandate and consequences.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "m-minus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Justice-first Musyawarah broadens deliberation but refuses to let consensus erase duties to excluded people.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "The ASEAN Way",
+          "displayDate": "1967",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-m-minus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "ASEAN practice emphasizes consultation, consensus, informality, and avoiding public confrontation before collective decisions are announced.",
+              "sourceIds": [
+                "legacy-m-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-m-minus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "Musyawarah and mufakat come from Malay and Indonesian practice and were generalized outward into a regional method; they do not describe every member state's tradition equally, and the ASEAN Way is internally contested. Consensus and non-interference can also prevent timely collective action.",
+              "sourceIds": [
+                "legacy-m-minus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Dirigisme",
+        "code": "S+",
+        "slug": "s-plus",
+        "gloss": "Your answers give production and finance a leading role, with the state actively shaping the dependencies they create.",
+        "familyKey": "criticalPoliticalEconomy",
+        "analogue": {
+          "label": "The Monnet Plan",
+          "year": "1946",
+          "href": "https://en.wikipedia.org/wiki/Monnet_Plan"
+        }
+      },
+      "content": {
+        "lens": "S",
+        "posture": "+",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Dirigisme sees the bottleneck: scattered decisions have left a needed capacity unfunded or unbuilt.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Steer finance toward capabilities judged strategically necessary.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Coordinate infrastructure and production when separate choices conflict.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Tie public support to clear investment conditions.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "s-plus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Coordinated capacity comes with less decentralization and more exposure to capture.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "s-plus-strongest-case",
+            "kind": "authored-interpretation",
+            "text": "Its case sharpens when fragmented incentives cannot deliver a shared capability in time.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "s-plus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "Concentrated direction can lock in error, shelter favored interests, and weaken correction.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "s-plus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "A targeted intervention hardens into permanent protection or detailed control.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "Reliable decentralized investment on acceptable terms would erode the rationale.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "Persistent public misallocation coupled with resistance to correction would erode it further.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Dirigisme coordinates capacity to protect continuity and meet collective needs.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Conditional Dirigisme intervenes only where evidence and a bounded mandate support coordination.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "s-plus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Justice-first Dirigisme aims directed investment at unmet needs and unequal burdens.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "The Monnet Plan",
+          "displayDate": "1946",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Monnet_Plan",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-s-plus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "The Monnet Plan is dirigisme in its own language: a French planning commissariat concentrated postwar investment in a short list of basic sectors — coal, steel, electricity, rail transport, cement, farm machinery — and set targets that private firms were expected to meet.",
+              "sourceIds": [
+                "legacy-s-plus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-s-plus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "Indicative planning steered investment; it did not replace markets or private ownership. The plan also depended on postwar reconstruction conditions, external aid, and a particular domestic coalition, so it is a weak guide to what state direction can do under different fiscal and political constraints.",
+              "sourceIds": [
+                "legacy-s-plus-01"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
+    },
+    {
+      "identity": {
+        "name": "Dependencia",
+        "code": "S-",
+        "slug": "s-minus",
+        "gloss": "Reducing external dependence is central to resilience in this result.",
+        "familyKey": "criticalPoliticalEconomy",
+        "analogue": {
+          "label": "Raúl Prebisch",
+          "year": "1950",
+          "href": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch"
+        }
+      },
+      "content": {
+        "lens": "S",
+        "posture": "-",
+        "noticesFirst": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-notice-01",
+                "kind": "authored-interpretation",
+                "text": "Dependencia traces how external chokepoints and costly dependencies narrow practical autonomy.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "likelyPolicyInstincts": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-instinct-01",
+                "kind": "authored-interpretation",
+                "text": "Diversify suppliers, finance, or markets where concentration creates asymmetric exposure.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-instinct-02",
+                "kind": "authored-interpretation",
+                "text": "Develop domestic or regional capacity where exit would otherwise be prohibitive.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-instinct-03",
+                "kind": "authored-interpretation",
+                "text": "Reduce reliance on any single gatekeeper to preserve policy room.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "acceptedTradeoff": {
+          "status": "partial",
+          "value": {
+            "id": "s-minus-accepted-tradeoff",
+            "kind": "authored-interpretation",
+            "text": "Greater freedom to choose may require paying in efficiency and access.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestCaseForReading": {
+          "status": "partial",
+          "value": {
+            "id": "s-minus-strongest-case",
+            "kind": "authored-interpretation",
+          "text": "The interpretation is most persuasive when concentrated dependence makes formal choice expensive to exercise.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "strongestObjection": {
+          "status": "partial",
+          "value": {
+            "id": "s-minus-strongest-objection",
+            "kind": "authored-interpretation",
+            "text": "Interdependence may be reciprocal, while diversification simply replaces one expensive constraint with another.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "commonFailureMode": {
+          "status": "partial",
+          "value": {
+            "id": "s-minus-failure-mode",
+            "kind": "authored-interpretation",
+            "text": "Every tie is treated as domination, and insulation produces vulnerabilities of its own.",
+            "sourceIds": [],
+            "scope": null,
+            "asOf": null,
+            "evidenceWindow": null,
+            "reviewDue": null
+          },
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "evidenceThatWouldWeakenFit": {
+          "status": "partial",
+          "value": [
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-weaken-fit-01",
+                "kind": "authored-interpretation",
+                "text": "Open ties that disperse leverage and permit cheap switching would weaken the diagnosis.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            },
+            {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-weaken-fit-02",
+                "kind": "authored-interpretation",
+                "text": "A better explanation rooted in domestic constraints would weaken it further.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          ],
+          "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+          "reviewIds": []
+        },
+        "nearestNeighbors": {
+          "status": "research-required",
+          "value": null,
+          "qualification": "Neighbor interpretations require owner review.",
+          "reviewIds": []
+        },
+        "normativeVariants": [
+          {
+            "state": "o",
+            "publicLabel": "Order-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-variant-o",
+                "kind": "authored-interpretation",
+                "text": "Order-first Dependencia reduces dependencies that put continuity and practical autonomy at risk.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "c",
+            "publicLabel": "Conditional",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-variant-c",
+                "kind": "authored-interpretation",
+                "text": "Conditional Dependencia targets only asymmetries whose expected harm justifies the cost of exit.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          },
+          {
+            "state": "j",
+            "publicLabel": "Justice-first",
+            "interpretation": {
+              "status": "partial",
+              "value": {
+                "id": "s-minus-variant-j",
+                "kind": "authored-interpretation",
+                "text": "Justice-first Dependencia restructures ties that impose unequal burdens or deny meaningful agency.",
+                "sourceIds": [],
+                "scope": null,
+                "asOf": null,
+                "evidenceWindow": null,
+                "reviewDue": null
+              },
+              "qualification": "Owner-authorized AI-assisted English beta copy; pending human editorial review; no external expert review; no validation claim.",
+              "reviewIds": []
+            }
+          }
+        ],
+        "commonBlends": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Pair-specific blend prose is withheld.",
+          "reviewIds": []
+        },
+        "likelyDomainExpressions": {
+          "status": "withheld",
+          "value": null,
+          "qualification": "Domain-expression hypotheses are withheld.",
+          "reviewIds": []
+        },
+        "historicalAnalogue": {
+          "label": "Raúl Prebisch",
+          "displayDate": "1950",
+          "normalizedDate": null,
+          "overviewHref": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch",
+          "whyItFits": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-s-minus-why-it-fits",
+              "kind": "authored-interpretation",
+              "text": "Prebisch's centre-periphery analysis treated trade and production structures as durable constraints on development and national room for action.",
+              "sourceIds": [
+                "legacy-s-minus-01",
+                "legacy-s-minus-02"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "whereItBreaks": {
+            "status": "partial",
+            "value": {
+              "id": "legacy-s-minus-where-it-breaks",
+              "kind": "authored-interpretation",
+              "text": "Prebisch's reformist structuralism preceded and differed from several later dependencia schools. Reducing exposure is only one possible response to dependency.",
+              "sourceIds": [
+                "legacy-s-minus-01",
+                "legacy-s-minus-02"
+              ],
+              "scope": null,
+              "asOf": null,
+              "evidenceWindow": null,
+              "reviewDue": null
+            },
+            "qualification": "This historical comparison uses provisional source metadata and remains pending research review.",
+            "reviewIds": []
+          },
+          "nameNote": null
+        },
+        "evidenceStatus": "legacy-v1-provisional",
+        "relatedCurrentCases": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "relatedDecisionPatterns": {
+          "status": "reviewed",
+          "value": [],
+          "qualification": null,
+          "reviewIds": [
+            "review-owner-v23-1-relations-editorial",
+            "review-owner-v23-1-relations-methodology"
+          ]
+        },
+        "publicationState": "published",
+        "recordReviewIds": []
+      }
     }
-  },
-  {
-    "name": "Grotian",
-    "code": "R+",
-    "gloss": "Your answers give rules force only when they are backed by credible enforcement.",
-    "familyKey": "institutionalist",
-    "analogue": {
-      "label": "Hugo Grotius / De Jure Belli ac Pacis",
-      "year": "1625",
-      "href": "https://en.wikipedia.org/wiki/De_jure_belli_ac_pacis"
-    }
-  },
-  {
-    "name": "Concert",
-    "code": "R-",
-    "gloss": "Durable cooperation here depends on powerful actors accepting rules and restraint.",
-    "familyKey": "institutionalist",
-    "analogue": {
-      "label": "The Congress of Vienna",
-      "year": "1815",
-      "href": "https://en.wikipedia.org/wiki/Congress_of_Vienna"
-    }
-  },
-  {
-    "name": "Satyagraha",
-    "code": "M+",
-    "gloss": "Your answers treat shared beliefs as politically decisive: changing the public narrative can change what power achieves.",
-    "familyKey": "constructivist",
-    "analogue": {
-      "label": "The Salt March",
-      "year": "1930",
-      "href": "https://en.wikipedia.org/wiki/Salt_March"
-    }
-  },
-  {
-    "name": "Musyawarah",
-    "code": "M-",
-    "gloss": "Legitimacy here grows through patient consensus and cannot be secured by demand alone.",
-    "familyKey": "constructivist",
-    "analogue": {
-      "label": "The ASEAN Way",
-      "year": "1967",
-      "href": "https://en.wikipedia.org/wiki/ASEAN#The_ASEAN_Way"
-    }
-  },
-  {
-    "name": "Dirigisme",
-    "code": "S+",
-    "gloss": "Your answers give production and finance a leading role, with the state actively shaping the dependencies they create.",
-    "familyKey": "criticalPoliticalEconomy",
-    "analogue": {
-      "label": "The Monnet Plan",
-      "year": "1946",
-      "href": "https://en.wikipedia.org/wiki/Monnet_Plan"
-    }
-  },
-  {
-    "name": "Dependencia",
-    "code": "S-",
-    "gloss": "Reducing external dependence is central to resilience in this result.",
-    "familyKey": "criticalPoliticalEconomy",
-    "analogue": {
-      "label": "Raúl Prebisch",
-      "year": "1950",
-      "href": "https://en.wikipedia.org/wiki/Ra%C3%BAl_Prebisch"
-    }
-  }
-]
+  ]
+}

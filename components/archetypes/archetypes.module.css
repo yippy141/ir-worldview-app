@@ -1,0 +1,887 @@
+.directory,
+.detail {
+  padding-top: clamp(2.5rem, 6vw, 5.25rem);
+  padding-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.directoryHeader {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+  gap: 2rem 4.5rem;
+  align-items: end;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.directoryHeader h1,
+.detailHero h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 520;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.directoryHeader > p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.postureKey {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.postureKey > div {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
+  background: var(--bg-2);
+}
+
+.postureKey dt,
+.rowCode,
+.lensCode,
+.detailCode,
+.statusLabel {
+  font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+.postureKey dt {
+  color: var(--accent);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.postureKey dd {
+  margin: 0;
+  color: var(--text-2);
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.postureKey strong {
+  color: var(--text);
+}
+
+.orientationNote {
+  grid-column: 1 / -1;
+  max-width: 72ch;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.orientationNote strong {
+  color: var(--text);
+}
+
+.lensBands {
+  border-bottom: 1px solid var(--line-2);
+}
+
+.lensBand {
+  padding: clamp(2.75rem, 6vw, 4.75rem) 0;
+  border-top: 1px solid var(--line-2);
+}
+
+.lensBand:first-child {
+  border-top: 0;
+}
+
+.lensHeader {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
+  gap: 2rem 4rem;
+  margin-bottom: 1.75rem;
+}
+
+.lensHeader > div:first-child {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.lensCode {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.lensHeader h2 {
+  margin: 0;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+.lensContext {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.lensContext p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--text-2);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.lensContext p:last-child {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.archetypeRows {
+  border-top: 1px solid var(--line);
+}
+
+.archetypeRow {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) auto;
+  gap: 1rem 1.25rem;
+  align-items: center;
+  min-height: 7rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.archetypeRow:hover {
+  text-decoration: none;
+}
+
+.archetypeRow:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 5px;
+}
+
+.rowIdentity {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.directoryMark,
+.heroMark {
+  color: var(--accent);
+}
+
+.directoryMark {
+  display: block;
+}
+
+.rowCode {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.rowCopy {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.rowCopy strong {
+  font-size: 1.3rem;
+  font-weight: 560;
+  line-height: 1.2;
+}
+
+.rowCopy > span {
+  max-width: 72ch;
+  color: var(--text-2);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+.rowAction {
+  color: var(--accent);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.archetypeRow:hover .rowCopy strong,
+.archetypeRow:hover .rowAction {
+  color: var(--accent-light);
+}
+
+.directoryFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-top: 2rem;
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  line-height: 1.65;
+}
+
+.directoryFooter p {
+  max-width: 66ch;
+  margin: 0;
+  color: var(--muted);
+}
+
+.directoryFooter a {
+  flex: 0 0 auto;
+  font-weight: 700;
+}
+
+.directoryFooterLinks {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 0.45rem;
+  align-content: start;
+}
+
+@media (max-width: 760px) {
+  .directoryHeader,
+  .lensHeader {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .postureKey {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .archetypeRow {
+    grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+  }
+
+  .rowActionLabel {
+    display: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .directory,
+  .detail {
+    padding-top: 2rem;
+  }
+
+  .directoryHeader h1,
+  .detailHero h1 {
+    font-size: clamp(2.45rem, 13vw, 3.5rem);
+  }
+
+  .lensHeader > div:first-child {
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .archetypeRow {
+    grid-template-columns: 5rem minmax(0, 1fr) auto;
+    gap: 0.55rem 0.85rem;
+    padding: 1.15rem 0;
+  }
+
+  .rowIdentity {
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .rowAction {
+    grid-column: 3;
+    grid-row: auto;
+    align-self: center;
+  }
+
+  .directoryFooter {
+    flex-direction: column;
+  }
+}
+
+@media print {
+  .directory,
+  .detail {
+    padding: 0;
+  }
+
+  .directoryHeader,
+  .lensHeader {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .lensBand,
+  .archetypeRow {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .lensCode,
+  .postureKey dt,
+  .rowAction {
+    color: #111111;
+  }
+
+  .postureKey,
+  .postureKey > div {
+    background: #ffffff;
+    border-color: #777777;
+  }
+
+  .directoryFooter a,
+  .rowAction {
+    display: none;
+  }
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 2.5rem;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.backLink:focus-visible,
+.methodFooter a:focus-visible,
+.sourceLedger a:focus-visible,
+.identityRegister a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.detailHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.5fr);
+  gap: 2rem 3rem;
+  align-items: center;
+  padding: 0 0 clamp(2.5rem, 6vw, 4.5rem);
+  border-bottom: 1px solid var(--line-2);
+}
+
+.heroIdentity {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+  min-width: 0;
+}
+
+.heroMark {
+  display: inline-grid;
+  line-height: 0;
+  place-items: center;
+}
+
+.heroCopy {
+  min-width: 0;
+}
+
+.detailCode {
+  margin: 0 0 0.75rem;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.detailGloss {
+  max-width: 58ch;
+  margin: 1.25rem 0 0;
+  color: var(--text-2);
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.markNote {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1.55fr);
+  gap: 1rem 3rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.markNote h2,
+.markNote p {
+  margin: 0;
+}
+
+.markNote h2 {
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.markNote p {
+  max-width: 68ch;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.identityRegister {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.identityRegister > div {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.identityRegister dt {
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.identityRegister dd {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.identityRegister dd span {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.detailBody {
+  border-bottom: 1px solid var(--line-2);
+}
+
+.readingSection {
+  padding: clamp(2.75rem, 6vw, 5rem) 0;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.sectionHeading {
+  display: grid;
+  grid-template-columns: minmax(15rem, 0.8fr) minmax(0, 1.2fr);
+  gap: 1.5rem 4rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+.sectionHeading h2,
+.methodFooter h2 {
+  margin: 0;
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
+  font-weight: 560;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.sectionHeading p {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.instinctGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.instinctGrid > div {
+  padding: 1.5rem;
+  background: var(--bg-2);
+}
+
+.instinctGrid h3,
+.argumentLedger dt,
+.historyGrid h3,
+.analogueHeading h3,
+.nameNote h3,
+.sourceLedger h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 620;
+  line-height: 1.35;
+}
+
+.instinctGrid ol,
+.argumentLedger ul {
+  margin: 1rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.instinctGrid li,
+.argumentLedger li,
+.instinctGrid p {
+  color: var(--text-2);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.argumentLedger {
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.argumentLedger > div {
+  display: grid;
+  grid-template-columns: minmax(13rem, 0.55fr) minmax(0, 1.45fr);
+  gap: 1.5rem 3rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.argumentLedger dd {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.argumentLedger ul {
+  margin-top: 0;
+}
+
+.statusNotice {
+  max-width: 72ch;
+  padding: 1.25rem 1.4rem;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+}
+
+.statusNotice h2,
+.statusNotice p {
+  margin: 0;
+}
+
+.statusNotice h2 + p {
+  margin-top: 0.65rem;
+}
+
+.statusNotice p {
+  color: var(--text-2);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.statusLabel {
+  margin: 0 0 0.5rem !important;
+  color: var(--accent) !important;
+  font-size: 0.7rem !important;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.variantRows {
+  border-top: 1px solid var(--line);
+}
+
+.variantRows > div {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.4fr) minmax(0, 1.6fr);
+  gap: 1.5rem 3rem;
+  padding: 1.35rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.variantRows p {
+  margin: 0;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.variantRows p:first-child {
+  color: var(--text);
+  font-weight: 620;
+}
+
+.historySection {
+  border-top: 1px solid var(--line-2);
+}
+
+.analogueHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.analogueHeading h3 {
+  font-size: 1.35rem;
+}
+
+.analogueHeading p {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+}
+
+.historyGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 3rem;
+  padding: 2rem 0;
+}
+
+.historyGrid p,
+.nameNote p,
+.qualification {
+  color: var(--text-2);
+  line-height: 1.7;
+}
+
+.qualification {
+  max-width: 72ch;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+}
+
+.nameNote {
+  max-width: 72ch;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.sourceLedger {
+  margin-top: 2.5rem;
+}
+
+.sourceLedger ul {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.sourceLedger li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.sourceLedger a {
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.sourceLedger span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.researchStatus {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+}
+
+.researchStatus summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.75rem 0;
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.researchStatus summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.researchStatusBody {
+  display: grid;
+  gap: 0.65rem;
+  padding: 1rem 0 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.researchStatusBody p {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+.researchStatusBody p:first-child {
+  color: var(--text);
+}
+
+.methodFooter {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem 3rem;
+  align-items: start;
+  padding-top: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+.methodFooter p {
+  max-width: 65ch;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.methodFooter > a {
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .detailHero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .methodFooter {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.6fr);
+  }
+
+  .methodFooter > a {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 680px) {
+  .detailHero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .sectionHeading,
+  .markNote,
+  .instinctGrid,
+  .argumentLedger > div,
+  .variantRows > div,
+  .historyGrid,
+  .methodFooter {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .heroIdentity {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .identityRegister > div {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+  }
+
+  .sourceLedger li,
+  .analogueHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+}
+
+@media print {
+  .backLink,
+  .methodFooter > a {
+    display: none;
+  }
+
+  .detailHero,
+  .readingSection,
+  .methodFooter {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .statusNotice,
+  .instinctGrid,
+  .instinctGrid > div {
+    color: #111111;
+    background: #ffffff;
+    border-color: #777777;
+  }
+
+  .directoryMark,
+  .heroMark {
+    color: #111111;
+  }
+
+  .researchStatus > summary {
+    display: none;
+  }
+
+  .researchStatus::details-content {
+    display: block !important;
+    height: auto !important;
+    content-visibility: visible !important;
+  }
+
+  .analogueHeading,
+  .variantRows > div,
+  .argumentLedger > div,
+  .sourceLedger li,
+  .markNote,
+  .statusNotice {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .detailHero {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.5fr);
+  }
+
+  .sourceLedger a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
+  }
+}

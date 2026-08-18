@@ -2,6 +2,12 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { coverageLevelLabels, getFamilyByKey, getFamilyBySlug } from "@/lib/explore-content"
 import { familySlug, familyTraditionClass, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
+import { archetypes, getArchetypePath } from "@/lib/archetypes"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+} from "@/lib/archetype-display"
+import styles from "@/app/explore/explore.module.css"
 import type { Metadata } from "next"
 
 interface Props {
@@ -30,8 +36,8 @@ const tocItems = [
   { id: "underweights", label: "What it underweights" },
   { id: "issue-readings", label: "How it reads major issues" },
   { id: "neighbors", label: "Neighboring traditions" },
-  { id: "thinkers", label: "Associated thinkers" },
   { id: "readings", label: "Reading list" },
+  { id: "references", label: "Evidence-coded references" },
   { id: "quiz-coverage", label: "How the Foundation models it" },
 ]
 
@@ -39,6 +45,9 @@ export default async function ExploreDetailPage({ params }: Props) {
   const { slug } = await params
   const family = getFamilyBySlug(slug)
   if (!family) notFound()
+  const postureArchetypes = archetypes
+    .filter(({ familyKey }) => familyKey === family.familyKey)
+    .sort((left, right) => left.posture === right.posture ? 0 : left.posture === "+" ? -1 : 1)
 
   return (
     <div className="wide-container">
@@ -54,7 +63,6 @@ export default async function ExploreDetailPage({ params }: Props) {
 
       {/* Page header (full width, above atlas grid) */}
       <div className="article-header stack-sm" style={{ maxWidth: "680px", marginBottom: "48px" }}>
-        <p className="eyebrow">Worldview library</p>
         <span className={`tradition-chip ${familyTraditionClass(family.familyKey)}`}>
           {family.name}
         </span>
@@ -63,6 +71,45 @@ export default async function ExploreDetailPage({ params }: Props) {
           {family.tagline}
         </p>
       </div>
+
+      <section
+        className={styles.traditionBoundary}
+        aria-labelledby="tradition-boundary-heading"
+        data-tradition-boundary
+      >
+        <div>
+          <h2 id="tradition-boundary-heading">Supporting tradition, not a Foundation result</h2>
+          <p>
+            The Foundation uses this tradition as evidence for one explanatory
+            lens. It does not classify everyone who draws on the tradition, and
+            it does not replace the archetype resolved from a full score.
+          </p>
+        </div>
+        <div className={styles.traditionArchetypes}>
+          {postureArchetypes.map((archetype) => (
+            <Link
+              href={getArchetypePath(archetype.code)}
+              key={archetype.code}
+              data-tradition-archetype={archetype.code}
+            >
+              <span className={styles.traditionCode} data-archetype-code-label>
+                <span aria-hidden="true">
+                  {formatArchetypeDisplayCode(archetype.code)}
+                </span>
+                <span className="sr-only">
+                  {formatArchetypeCodeSpeech(archetype.code)}
+                </span>
+              </span>
+              <span className={styles.traditionArchetypeCopy}>
+                <strong>{archetype.name}</strong>
+                <small>
+                  {archetype.posture === "+" ? "Applying advantage" : "Restraint"}
+                </small>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Atlas two-column layout */}
       <div className="atlas-layout">
@@ -210,36 +257,6 @@ export default async function ExploreDetailPage({ params }: Props) {
 
           <hr className="divider" />
 
-          {/* Associated thinkers */}
-          {family.associatedThinkers && family.associatedThinkers.length > 0 && (
-            <>
-              <section id="thinkers" className="article-section stack-md">
-                <h2>Associated thinkers</h2>
-                <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65" }}>
-                  Scholars whose work is central to this tradition. These are illustrative, not
-                  exhaustive. Real thinkers frequently draw on multiple frameworks and revise their
-                  positions over a career — these associations point to their primary contributions,
-                  not to fixed labels.
-                </p>
-                <div>
-                  {family.associatedThinkers.map((thinker) => (
-                    <div key={thinker.name} className="thinker-entry">
-                      <p style={{ fontWeight: 600, fontFamily: "Georgia, serif" }}>{thinker.name}</p>
-                      <p className="muted" style={{ fontSize: "0.8rem", marginTop: "2px" }}>
-                        {thinker.role}
-                      </p>
-                      <p style={{ fontSize: "0.875rem", lineHeight: "1.65", marginTop: "6px" }}>
-                        {thinker.note}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <hr className="divider" />
-            </>
-          )}
-
           {/* Readings — tiered */}
           <section id="readings" className="article-section stack-md">
             <h2>Reading list</h2>
@@ -304,9 +321,21 @@ export default async function ExploreDetailPage({ params }: Props) {
               )}
             </div>
 
-            <p style={{ fontSize: "0.875rem", marginTop: "8px" }}>
-              <Link href="/references" style={{ color: "var(--accent)" }}>
-                Full bibliography →
+          </section>
+
+          <hr className="divider" />
+
+          <section id="references" className="article-section stack-md">
+            <h2>Evidence-coded references</h2>
+            <p className="muted" style={{ lineHeight: "1.7" }}>
+              The reference directory presents dated, scoped public positions
+              with source records. It is a comparison layer: a person or
+              organization is never assigned to this tradition or to a
+              Foundation archetype.
+            </p>
+            <p>
+              <Link href="/explore/reference" style={{ color: "var(--accent)" }}>
+                Browse the reference directory →
               </Link>
             </p>
           </section>
@@ -336,7 +365,6 @@ export default async function ExploreDetailPage({ params }: Props) {
               <div
                 className="callout"
                 style={{
-                  borderLeft: "3px solid var(--accent-light)",
                   marginTop: "12px",
                 }}
               >

@@ -1,32 +1,22 @@
-import evidenceData from "@/content/archetype-evidence.json" with { type: "json" }
+import {
+  archetypeEvidenceSchemaVersion,
+  getLegacyArchetypeEvidence,
+  type LegacyArchetypeEvidence,
+} from "@/lib/archetype-content"
 import {
   archetypes,
+  getArchetypeByCode,
+  getArchetypeBySlug,
+  getArchetypePath,
+  getArchetypeSlug,
   type Archetype,
+  type ArchetypeSlug,
   type HistoricalAnalogue,
 } from "@/lib/archetypes"
 
-export type ArchetypeEvidenceSource = {
-  label: string
-  href: string
-}
+export type ArchetypeEvidenceSource = LegacyArchetypeEvidence["sources"][number]
 
-export type ArchetypeEvidence = {
-  code: Archetype["code"]
-  whyItFits: string
-  whereItBreaks: string
-  /**
-   * Optional footnote about the archetype's name rather than its analogue —
-   * used where the term collides with an established usage the product also
-   * borrows, or carries a live meaning outside the one the archetype intends.
-   */
-  nameNote?: string
-  sources: ArchetypeEvidenceSource[]
-}
-
-type ArchetypeEvidenceData = {
-  version: 1
-  records: ArchetypeEvidence[]
-}
+export type ArchetypeEvidence = LegacyArchetypeEvidence
 
 export type ResolvedArchetypeEvidence = {
   archetype: Archetype
@@ -34,27 +24,22 @@ export type ResolvedArchetypeEvidence = {
   evidence: ArchetypeEvidence
 }
 
-const data = evidenceData as ArchetypeEvidenceData
-const evidenceByCode = Object.fromEntries(
-  data.records.map((record) => [record.code, record]),
-) as Partial<Record<Archetype["code"], ArchetypeEvidence>>
+/**
+ * Compatibility list for the eight historical URLs. It is deliberately
+ * identity-derived: invalid or withheld rich content cannot remove a stable
+ * route, break a result link, or create a ninth path.
+ */
+export const archetypeEvidence = archetypes.map(({ code }) => ({ code }))
+export const archetypeEvidenceVersion = archetypeEvidenceSchemaVersion
 
-const validationErrors = validateEvidenceData(data)
-if (validationErrors.length > 0) {
-  throw new Error(
-    `Invalid archetype evidence data:\n${validationErrors.join("\n")}`,
-  )
-}
-
-export const archetypeEvidenceVersion = data.version
-export const archetypeEvidence = data.records
-
-export function archetypeEvidenceSlug(code: Archetype["code"]): string {
-  return `${code[0].toLowerCase()}-${code[1] === "+" ? "plus" : "minus"}`
+export function archetypeEvidenceSlug(
+  code: Archetype["code"],
+): ArchetypeSlug {
+  return getArchetypeSlug(code)
 }
 
 export function archetypeEvidencePath(code: Archetype["code"]): string {
-  return `/archetypes/${archetypeEvidenceSlug(code)}`
+  return getArchetypePath(code)
 }
 
 export function parseArchetypeEvidenceReturnPath(
@@ -66,12 +51,12 @@ export function parseArchetypeEvidenceReturnPath(
 
 export function getArchetypeEvidence(
   code: Archetype["code"],
-): ResolvedArchetypeEvidence {
-  const archetype = archetypes.find((candidate) => candidate.code === code)
-  const evidence = evidenceByCode[code]
+): ResolvedArchetypeEvidence | null {
+  const archetype = getArchetypeByCode(code)
+  const evidence = getLegacyArchetypeEvidence(code)
 
-  if (!archetype || !archetype.analogue || !evidence) {
-    throw new Error(`Missing archetype evidence for ${code}.`)
+  if (!archetype || "lenses" in archetype || !evidence) {
+    return null
   }
 
   return {
@@ -84,86 +69,19 @@ export function getArchetypeEvidence(
 export function getArchetypeEvidenceBySlug(
   slug: string,
 ): ResolvedArchetypeEvidence | null {
-  const archetype = archetypes.find(
-    (candidate) => archetypeEvidenceSlug(candidate.code) === slug,
-  )
-
+  const archetype = getArchetypeBySlug(slug)
   return archetype ? getArchetypeEvidence(archetype.code) : null
 }
 
+/**
+ * Retained as a compatibility API. Rich-content validation is owned by
+ * `lib/archetype-content.ts`; this adapter reports only whether each stable
+ * historical URL currently has a renderable legacy evidence projection.
+ */
 export function validateArchetypeEvidence(): string[] {
-  return validateEvidenceData(data)
-}
-
-function validateEvidenceData(candidate: ArchetypeEvidenceData): string[] {
-  const errors: string[] = []
-  const knownCodes = new Set(archetypes.map((archetype) => archetype.code))
-  const seenCodes = new Set<string>()
-  const seenSlugs = new Set<string>()
-
-  if (candidate.version !== 1) {
-    errors.push(`Unsupported evidence version ${String(candidate.version)}.`)
-  }
-
-  for (const archetype of archetypes) {
-    if (!archetype.analogue) {
-      errors.push(`${archetype.code} is missing its authored analogue.`)
-    } else if (!isHttpsUrl(archetype.analogue.href)) {
-      errors.push(`${archetype.code} analogue href must be an HTTPS URL.`)
-    }
-
-    const slug = archetypeEvidenceSlug(archetype.code)
-    if (seenSlugs.has(slug)) {
-      errors.push(`Duplicate archetype evidence slug ${slug}.`)
-    }
-    seenSlugs.add(slug)
-  }
-
-  for (const record of candidate.records) {
-    if (!knownCodes.has(record.code)) {
-      errors.push(`Unknown archetype evidence code ${record.code}.`)
-    }
-    if (seenCodes.has(record.code)) {
-      errors.push(`Duplicate archetype evidence code ${record.code}.`)
-    }
-    seenCodes.add(record.code)
-
-    if (!record.whyItFits.trim()) {
-      errors.push(`${record.code} is missing whyItFits.`)
-    }
-    if (!record.whereItBreaks.trim()) {
-      errors.push(`${record.code} is missing whereItBreaks.`)
-    }
-    if (record.nameNote !== undefined && !record.nameNote.trim()) {
-      errors.push(`${record.code} has an empty nameNote.`)
-    }
-    if (!Array.isArray(record.sources) || record.sources.length === 0) {
-      errors.push(`${record.code} must have at least one reviewed source.`)
-    }
-
-    for (const source of record.sources) {
-      if (!source.label.trim()) {
-        errors.push(`${record.code} has a source without a label.`)
-      }
-      if (!isHttpsUrl(source.href)) {
-        errors.push(`${record.code} source href must be an HTTPS URL.`)
-      }
-    }
-  }
-
-  for (const code of knownCodes) {
-    if (!seenCodes.has(code)) {
-      errors.push(`Missing archetype evidence record for ${code}.`)
-    }
-  }
-
-  return errors
-}
-
-function isHttpsUrl(value: string): boolean {
-  try {
-    return new URL(value).protocol === "https:"
-  } catch {
-    return false
-  }
+  return archetypes.flatMap((archetype) =>
+    getLegacyArchetypeEvidence(archetype.code)
+      ? []
+      : [`Missing renderable legacy archetype evidence for ${archetype.code}.`],
+  )
 }

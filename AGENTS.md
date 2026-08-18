@@ -85,30 +85,29 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: V22 measurement parity and presentation
+## Current sprint: bounded V23.1 content and ontology correction
 
-- The V21 Foundation repair is the template, not the finish line. Security,
-  Technology, and AI Governance carry the same class of failure and are the
-  first priority.
-- Every scored axis must be reachable at both poles. For choice items, an
-  item's option set must contain at least one option below and one above the
-  axis midpoint, with a spread of at least 2.0 on a 7-point axis or 0.5 on a
-  delta axis. Enforced in CI.
-- No score is displayed on a scale it cannot attain. If the attainable range
-  is 3.9 to 5.0, do not print "/ 7".
-- Likert valence: at least 40% explicit reverse coding per axis, in every
-  instrument including AI Governance. `reverse` is always stated, never
-  omitted.
-- Presentation changes may not rescue a failed measurement gate. Archetype
-  variants are presentation over already-scored values; new codes require new
-  dimensions and a new scoring version.
-- Tier 1 remains aggregate-only with no identifiers. Tier 2 and scoring
-  replay stay dormant.
-- Simplified Chinese runs a narrow declared contract this sprint. Missing
-  localised content is stated visibly, never filled by silent English
-  fallback.
-- Deferred to V23: hierarchy and threshold constructs, new families, new
-  archetype codes, Tier 2, adaptive selection.
+- Publish the revised English archetype content only as qualified `partial`
+  copy. The owner authorizes this AI-assisted English copy for editorial beta
+  use; human editorial review remains pending. Do not represent the 104
+  sentences as individually human-reviewed, externally expert-reviewed, or
+  validated. Preserve claim IDs, source links, and version alignment.
+- The first sigil geometry remains blocked as rejected design history. Ship
+  only the eight exact System A marks in the supplied typed manifest under the
+  owner-selected editorial-beta decision: 112px hero, 48px directory, and
+  code-only below 32px. Blends compose pure marks under the Diptych/Hallmark
+  rules and never receive a new mark. Treat the artwork as contemporary
+  editorial illustration, not an authentic historical emblem or universal
+  cultural clearance.
+- Add the English archetype directory, expand the eight stable detail routes,
+  and recompose Explore into the contracted nine-section field guide. Treat
+  modeled traditions, Decision Patterns, references, and Focus Areas as
+  supporting or contextual layers beside the headline Foundation reading.
+- Simplified Chinese keeps its explicit status surfaces and existing approved
+  Map, Decision Pattern, and reference behavior. No English long-form content
+  or accessible label may leak into an unapproved Chinese route.
+- This sprint does not change the Map, scoring, items, calibration, payloads,
+  stores, modules, Tier 1, dependencies, or Chinese approved-route manifests.
 
 ## End-of-sprint discipline
 

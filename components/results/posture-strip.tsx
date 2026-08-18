@@ -1,4 +1,8 @@
 import Link from "next/link"
+import {
+  formatArchetypeCodeSpeech,
+  formatArchetypeDisplayCode,
+} from "@/lib/archetype-display"
 import { resolveRestraintPosture, type PostureEndpoint } from "@/lib/results/posture"
 import type { PercentileResult } from "@/lib/percentiles"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
@@ -20,7 +24,12 @@ function Endpoint({
 }) {
   return (
     <div className="posture-strip__end" data-side={side} data-current={current}>
-      <span className="posture-strip__end-code">{endpoint.code}</span>
+      <span
+        className="posture-strip__end-code"
+        aria-label={formatArchetypeCodeSpeech(endpoint.code)}
+      >
+        {formatArchetypeDisplayCode(endpoint.code)}
+      </span>
       <span className="posture-strip__end-label">
         {endpoint.href ? <Link href={endpoint.href}>{endpoint.name}</Link> : endpoint.name}
       </span>
@@ -61,7 +70,7 @@ export function PostureStrip({
       <div
         className="posture-strip__scale"
         role="img"
-        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${posture.low.code}) and ${posture.high.name} (${posture.high.code}). This profile reads as ${posture.current.name}.`}
+        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${formatArchetypeCodeSpeech(posture.low.code)}) and ${posture.high.name} (${formatArchetypeCodeSpeech(posture.high.code)}). This profile reads as ${posture.current.name}.`}
       >
         <div className="posture-strip__track">
           <span

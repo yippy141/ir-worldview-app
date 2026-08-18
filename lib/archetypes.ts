@@ -11,6 +11,13 @@ export type LensCode = "P" | "R" | "M" | "S"
 export type PostureSign = "+" | "-"
 export type NormSuffix = "o" | "j" | "c"
 
+/**
+ * A slug that has been read from, and validated against, the canonical
+ * archetype catalog. The catalog owns the values; callers must not recreate
+ * them from codes or names.
+ */
+export type ArchetypeSlug = `${Lowercase<LensCode>}-${"plus" | "minus"}`
+
 export type HistoricalAnalogue = {
   label: string
   year: string
@@ -20,6 +27,7 @@ export type HistoricalAnalogue = {
 export type Archetype = {
   code: `${LensCode}${PostureSign}`
   name: string
+  slug: ArchetypeSlug
   gloss: string
   lens: LensCode
   posture: PostureSign
@@ -38,7 +46,7 @@ export type BlendArchetype = {
   analogue: null
 }
 
-type ArchetypeData = Omit<Archetype, "lens" | "posture">
+type ArchetypeIdentityData = Omit<Archetype, "lens" | "posture">
 
 const LENS_BY_FAMILY: Record<FamilyKey, LensCode> = {
   realist: "P",
@@ -74,7 +82,9 @@ const LENS_ORDER: LensCode[] = ["P", "R", "M", "S"]
 // restraint (−). This stays valid for both core and extended calibrations.
 export const HEDGER_POSTURE_MIDPOINT = 4
 
-export const archetypes = (archetypeData as ArchetypeData[]).map(
+const identityDefinitions = readIdentityDefinitions(archetypeData)
+
+export const archetypes = identityDefinitions.map(
   (definition): Archetype => ({
     ...definition,
     lens: definition.code[0] as LensCode,
@@ -85,6 +95,12 @@ export const archetypes = (archetypeData as ArchetypeData[]).map(
 const ARCHETYPE_BY_CODE = Object.fromEntries(
   archetypes.map((archetype) => [archetype.code, archetype]),
 ) as Record<Archetype["code"], Archetype>
+
+const ARCHETYPE_BY_SLUG = new Map<ArchetypeSlug, Archetype>(
+  archetypes.map(
+    (archetype): [ArchetypeSlug, Archetype] => [archetype.slug, archetype],
+  ),
+)
 
 export function lensFromFamily(familyKey: FamilyKey): LensCode {
   return LENS_BY_FAMILY[familyKey]
@@ -121,6 +137,20 @@ export function getArchetypeByCode(
     blendMatch[2] as LensCode,
     blendMatch[3] as PostureSign,
   )
+}
+
+export function getArchetypeBySlug(slug: string): Archetype | null {
+  return ARCHETYPE_BY_SLUG.get(slug as ArchetypeSlug) ?? null
+}
+
+export function getArchetypeSlug(
+  code: Archetype["code"],
+): ArchetypeSlug {
+  return ARCHETYPE_BY_CODE[code].slug
+}
+
+export function getArchetypePath(code: Archetype["code"]): string {
+  return `/archetypes/${getArchetypeSlug(code)}`
 }
 
 export function resolveArchetype(
@@ -174,4 +204,136 @@ function buildBlendArchetype(
 
 function blendNamePart(name: string): string {
   return name.startsWith("The ") ? name.slice(4) : name
+}
+
+function readIdentityDefinitions(value: unknown): ArchetypeIdentityData[] {
+  if (!isRecord(value) || !Array.isArray(value.records)) {
+    throw new Error("Invalid archetype identity catalog: records must be an array.")
+  }
+
+  const definitions = value.records.map((record, index) => {
+    if (!isRecord(record)) {
+      throw new Error(
+        `Invalid archetype identity catalog: records[${index}] must be an object.`,
+      )
+    }
+    return readIdentityDefinition(record.identity, index)
+  })
+  const codes = new Set(definitions.map(({ code }) => code))
+  const slugs = new Set(definitions.map(({ slug }) => slug))
+  const expectedCodes = new Set<string>(
+    (["P", "R", "M", "S"] as const).flatMap((lens) => [
+      `${lens}+`,
+      `${lens}-`,
+    ]),
+  )
+
+  if (
+    definitions.length !== expectedCodes.size ||
+    codes.size !== expectedCodes.size ||
+    [...expectedCodes].some((code) => !codes.has(code as Archetype["code"]))
+  ) {
+    throw new Error(
+      "Invalid archetype identity catalog: expected exactly the eight frozen pure codes.",
+    )
+  }
+  if (slugs.size !== definitions.length) {
+    throw new Error("Invalid archetype identity catalog: slugs must be unique.")
+  }
+
+  return definitions
+}
+
+function readIdentityDefinition(
+  value: unknown,
+  index: number,
+): ArchetypeIdentityData {
+  const path = `records[${index}].identity`
+  if (!isRecord(value)) {
+    throw new Error(`Invalid archetype identity catalog: ${path} must be an object.`)
+  }
+
+  const { code, name, slug, gloss, familyKey, analogue } = value
+  if (!isPureArchetypeCode(code)) {
+    throw new Error(`Invalid archetype identity catalog: ${path}.code is invalid.`)
+  }
+  if (!isNonEmptyString(name)) {
+    throw new Error(`Invalid archetype identity catalog: ${path}.name is required.`)
+  }
+  if (
+    !isArchetypeSlug(slug) ||
+    slug !== expectedArchetypeSlug(code)
+  ) {
+    throw new Error(`Invalid archetype identity catalog: ${path}.slug is invalid.`)
+  }
+  if (!isNonEmptyString(gloss)) {
+    throw new Error(`Invalid archetype identity catalog: ${path}.gloss is required.`)
+  }
+  if (!isFamilyKey(familyKey) || LENS_BY_FAMILY[familyKey] !== code[0]) {
+    throw new Error(
+      `Invalid archetype identity catalog: ${path}.familyKey does not match its code.`,
+    )
+  }
+  if (!isHistoricalAnalogue(analogue)) {
+    throw new Error(
+      `Invalid archetype identity catalog: ${path}.analogue is invalid.`,
+    )
+  }
+
+  return {
+    code,
+    name,
+    slug,
+    gloss,
+    familyKey,
+    analogue,
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value)
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0
+}
+
+function isPureArchetypeCode(value: unknown): value is Archetype["code"] {
+  return typeof value === "string" && /^[PRMS][+-]$/u.test(value)
+}
+
+function isArchetypeSlug(value: unknown): value is ArchetypeSlug {
+  return (
+    typeof value === "string" &&
+    /^[prms]-(?:plus|minus)$/u.test(value)
+  )
+}
+
+function expectedArchetypeSlug(code: Archetype["code"]): ArchetypeSlug {
+  const lens = code[0].toLowerCase() as Lowercase<LensCode>
+  return `${lens}-${code[1] === "+" ? "plus" : "minus"}`
+}
+
+function isFamilyKey(value: unknown): value is FamilyKey {
+  return (
+    typeof value === "string" &&
+    Object.hasOwn(LENS_BY_FAMILY, value)
+  )
+}
+
+function isHistoricalAnalogue(value: unknown): value is HistoricalAnalogue {
+  if (
+    !isRecord(value) ||
+    !isNonEmptyString(value.label) ||
+    !isNonEmptyString(value.year) ||
+    !isNonEmptyString(value.href)
+  ) {
+    return false
+  }
+
+  try {
+    return new URL(value.href).protocol === "https:"
+  } catch {
+    return false
+  }
 }

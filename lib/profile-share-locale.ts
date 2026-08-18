@@ -6,10 +6,11 @@ import {
 } from "@/lib/perspectives/catalog"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
-import { familyLabelFromKey } from "@/lib/result-helpers"
 import type { ModuleSnapshot, ProfileStore } from "@/lib/profile-store"
 import type { DimensionKey } from "@/lib/types"
 import { zhHansProfileRecordsUi } from "@/content/locales/zh-Hans/profile-records"
+import { formatArchetypeDisplayCode } from "@/lib/archetype-display"
+import { traditionNounLabel } from "@/lib/worldview-config"
 
 const ZH_SHARE = chineseShellContent.profileShare
 
@@ -63,14 +64,14 @@ export function buildLocalizedProfileShareView(
         : foundationIdentity.archetype.name
       : zh
         ? unavailable.title
-        : "Foundation identity unavailable",
+        : "Foundation result unavailable",
     intro: foundationIdentity
       ? zh
         ? ZH_SHARE.intro
         : foundationIdentity.archetype.gloss
       : zh
         ? unavailable.body
-        : "This Profile’s Foundation payload could not be resolved, so no archetype has been inferred. The saved result remains unchanged.",
+        : "This Profile’s Foundation payload could not be resolved, so no Foundation reading can be shown. The saved result remains unchanged.",
     foundation: foundationIdentity
       ? buildLocalizedFoundationView(foundationIdentity, zh)
       : null,
@@ -124,15 +125,15 @@ function buildLocalizedFoundationView(
     foundationIdentity
   const familyLabel = zh
     ? ZH_SHARE.familyLabels[foundationResult.familyKey]
-    : familyLabelFromKey(foundationResult.familyKey)
+    : traditionNounLabel(foundationResult.familyKey)
   const runnerUpLabel = zh
     ? ZH_SHARE.familyLabels[foundationResult.runnerUpKey]
-    : familyLabelFromKey(foundationResult.runnerUpKey)
+    : traditionNounLabel(foundationResult.runnerUpKey)
 
   return {
     heading: zh ? ZH_SHARE.foundationHeading : "Foundation",
     archetypeName: foundationArchetype.name,
-    archetypeCode: foundationArchetype.code,
+    archetypeCode: formatArchetypeDisplayCode(foundationArchetype.code),
     familyLabel,
     runnerUpLabel,
     modifiers: [

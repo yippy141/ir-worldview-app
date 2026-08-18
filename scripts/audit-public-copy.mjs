@@ -4,6 +4,7 @@ import { readFile, readdir, stat } from "node:fs/promises"
 import { extname, relative, resolve, sep } from "node:path"
 import ts from "typescript"
 import { compareCodeUnitStrings } from "./code-unit-order.mjs"
+import { isContractedArchetypeBetaReference } from "./public-copy-contracts.mjs"
 
 const projectRoot = resolve(import.meta.dirname, "..")
 const scanTargets = [
@@ -13,6 +14,8 @@ const scanTargets = [
   "content/instrument",
   "content/current-cases",
   "content/archetypes.json",
+  "content/archetype-evidence.json",
+  "content/explore",
   "content/locales",
   "messages",
   "i18n",
@@ -52,8 +55,13 @@ const rules = [
     reason: "Release and schema-era labels expose internal product history in reader-facing copy.",
     action: "Describe current behavior; keep release history in engineering or decision records.",
     strict: true,
-    unless: (_text, context) =>
-      isActiveBetaProgramReference(context.match, context.file),
+    unless: (text, context) =>
+      isActiveBetaProgramReference(context.match, context.file) ||
+      isContractedArchetypeBetaReference({
+        text,
+        fileName: toPosix(relative(projectRoot, context.file)),
+        path: context.candidate.path,
+      }),
   },
   {
     id: "implementation-detail",
@@ -508,11 +516,14 @@ function visit(value, path, onString) {
 function excludedJsonPath(path) {
   const joined = path.join(".")
   const last = path.at(-1) ?? ""
+  const parent = path.at(-2) ?? ""
   return (
     last === "editorialMemo" ||
     /(?:^|\.)(?:sourceRecords|sources)\.\d+\.title$/.test(joined) ||
     /(?:legalQuotation|legalQuote|quotation|verbatimQuote)$/i.test(last) ||
-    /(?:^|\.)(?:\$id|\$schema|id|slug|href|url|sourceId|claimId|storageKey)$/.test(joined)
+    /(?:^|\.)(?:\$id|\$schema|id|slug|href|url|sourceId|claimId|storageKey)$/.test(joined) ||
+    /^(?:reviewIds|sourceIds|legacySourceIds|researchSourceIds|subjectIds|recordReviewIds)$/.test(parent) ||
+    /^(?:code|state|kind|status|evidenceStatus|publicationState|sourceKind|metadataStatus|reviewerRole|outcome|field|contentVersion|evidenceCatalogVersion|locale)$/.test(last)
   )
 }
 
@@ -751,6 +762,8 @@ function classifyAudience(file, candidate) {
   const fileName = toPosix(relative(projectRoot, file))
   if (fileName.startsWith("app/api/")) return "operational"
   if (fileName.startsWith("lib/research/")) return "operational"
+  if (fileName === "lib/archetype-content.ts") return "operational"
+  if (fileName === "content/archetype-evidence.json") return "editorial-source"
   if (/^lib\/modules\/(?:runtime-v1|[^/]+-v21)\.[cm]?[jt]sx?$/.test(fileName)) return "frozen"
   if (/^content\/instrument\/(?:security|technology|ai-governance)\.v2\.json$/.test(fileName)) {
     return "frozen"

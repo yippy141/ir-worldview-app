@@ -1,15 +1,21 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
+import { resolve } from "node:path"
 import {
   archetypeEvidence,
   archetypeEvidencePath,
   archetypeEvidenceSlug,
+  getArchetypeEvidence,
   getArchetypeEvidenceBySlug,
   parseArchetypeEvidenceReturnPath,
   validateArchetypeEvidence,
 } from "@/lib/archetype-evidence"
+import { LEGACY_COMPARISON_QUALIFICATION } from "@/lib/archetype-content"
 import { archetypes, resolveArchetype } from "@/lib/archetypes"
 import { buildCanonicalFoundationResult } from "@/lib/scoring"
+
+const repositoryRoot = process.cwd()
 
 const ownerAuthoredNames = {
   "P+": "Kairos",
@@ -24,12 +30,16 @@ const ownerAuthoredNames = {
 
 // Names whose evidence page must footnote a collision or a live second
 // meaning, rather than presenting the term as unambiguous.
-const namesRequiringANote: readonly string[] = ["R+", "P-"]
+const namesRequiringANote = new Set<string>(["R+", "P-"])
 
 test("owner-authored pure archetypes and analogue evidence are complete", () => {
   assert.deepStrictEqual(validateArchetypeEvidence(), [])
   assert.equal(archetypes.length, 8)
   assert.equal(archetypeEvidence.length, 8)
+  assert.deepEqual(
+    archetypeEvidence.map(({ code }) => code),
+    archetypes.map(({ code }) => code),
+  )
 
   for (const archetype of archetypes) {
     assert.equal(archetype.name, ownerAuthoredNames[archetype.code])
@@ -38,11 +48,15 @@ test("owner-authored pure archetypes and analogue evidence are complete", () => 
     assert.match(archetype.analogue.href, /^https:\/\//)
 
     const slug = archetypeEvidenceSlug(archetype.code)
+    assert.equal(slug, archetype.slug)
     assert.equal(archetypeEvidencePath(archetype.code), `/archetypes/${slug}`)
+    const resolved = getArchetypeEvidenceBySlug(slug)
+    assert.equal(resolved?.archetype.code, archetype.code)
     assert.equal(
-      getArchetypeEvidenceBySlug(slug)?.archetype.code,
-      archetype.code,
+      resolved?.evidence.qualification,
+      LEGACY_COMPARISON_QUALIFICATION,
     )
+    assert.ok((resolved?.evidence.sources.length ?? 0) > 0)
   }
 
   assert.equal(
@@ -51,21 +65,50 @@ test("owner-authored pure archetypes and analogue evidence are complete", () => 
   )
 })
 
+test("historical paths delegate slug ownership to the canonical identity catalog", () => {
+  const source = readFileSync(
+    resolve(repositoryRoot, "lib/archetype-evidence.ts"),
+    "utf8",
+  )
+
+  assert.match(source, /return getArchetypeSlug\(code\)/)
+  assert.match(source, /return getArchetypePath\(code\)/)
+  assert.match(source, /getArchetypeBySlug\(slug\)/)
+  assert.doesNotMatch(source, /code\s*\[\s*[01]\s*\]/)
+  assert.doesNotMatch(source, /\.toLowerCase\s*\(/)
+  assert.doesNotMatch(source, /["']p-plus["']/)
+})
+
 test("names that collide with an established usage carry an evidence-page note", () => {
   for (const record of archetypeEvidence) {
-    if (namesRequiringANote.includes(record.code)) {
+    if (namesRequiringANote.has(record.code)) {
+      const evidence = getArchetypeEvidence(record.code)?.evidence
       assert.ok(
-        record.nameNote?.trim(),
+        evidence?.nameNote?.trim(),
         `${record.code} must footnote its name.`,
       )
     }
   }
 
-  const grotian = archetypeEvidence.find(({ code }) => code === "R+")
+  const grotian = getArchetypeEvidence("R+")?.evidence
   assert.match(grotian?.nameNote ?? "", /Wight/)
 
-  const shi = archetypeEvidence.find(({ code }) => code === "P-")
+  const shi = getArchetypeEvidence("P-")?.evidence
   assert.match(shi?.nameNote ?? "", /大势/)
+})
+
+test("legacy comparison pages label provisional evidence without claiming review", () => {
+  const source = readFileSync(
+    resolve(repositoryRoot, "app/archetypes/[slug]/page.tsx"),
+    "utf8",
+  )
+
+  assert.match(source, /\{evidence\.qualification\}/)
+  assert.match(source, />Provisional source</)
+  assert.doesNotMatch(source, />Reviewed source</)
+  assert.match(source, /if \(!identity\) notFound\(\)/)
+  assert.doesNotMatch(source, /if \(!resolved\) notFound\(\)/)
+  assert.match(source, /Historical comparison under review/)
 })
 
 test("blend names compose the two pure names and claim no analogue", () => {

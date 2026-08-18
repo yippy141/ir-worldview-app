@@ -4,7 +4,7 @@ import {
   getV2ScoringCalibration,
   type FoundationScoringCalibration,
 } from "@/lib/scoring"
-import { familyLabel } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import type {
   DimensionKey,
   DimensionScores,
@@ -149,8 +149,8 @@ export function buildFoundationNarrative({
     dimensionScores,
     scoringCalibration,
   )
-  const familyLabelValue = familyLabel(familyKey)
-  const runnerUpLabel = familyLabel(runnerUpKey)
+  const familyLabelValue = traditionNounLabel(familyKey)
+  const runnerUpLabel = traditionNounLabel(runnerUpKey)
   const [topDim, secondDim, thirdDim] = assessment.topDimensions
   const strongestSignals = joinList([
     describeDimensionFrame(topDim, dimensionScores[topDim]),
@@ -190,7 +190,7 @@ export function buildFoundationNarrative({
         text: buildPressureTestText(
           assessment.state,
           runnerUpLabel,
-          familyLabel(blindSpot.rivalFamily),
+          traditionNounLabel(blindSpot.rivalFamily),
           blindSpot.tendsMiss,
           blindSpot.rivalArgument,
         ),
