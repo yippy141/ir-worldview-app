@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 563,
-      "newCount": 12,
+      "currentCount": 559,
+      "newCount": 14,
       "newFindings": [
         {
           "audience": "public",
@@ -45,6 +45,16 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/field/field-explorer.tsx#FieldExplorer.div.aria-label",
+          "count": 1,
+          "file": "components/field/field-explorer.tsx",
+          "fingerprint": "375e67130d627bd8b8fb2968f29b6c5b0f7510e8d06e6bfc6c9c0490c4468306",
+          "matched": "map / map",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "map"
         },
         {
           "audience": "operational",
@@ -125,18 +135,44 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .analogue is invalid."
+        },
+        {
+          "audience": "public",
+          "context": "route:/method#MethodPage.p",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "bd56d3fa8c6f557dda66d61851ecf1e69fb85a622f94c8cc2808fc52c9870a50",
+          "matched": "Rules, Meaning, and Structure / Foundation value is centered on the neutral score of 4, multiplied by an authored weight, and added to its axis",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "The secondary continuous view has a horizontal axis from power and competition to rules and institutions, and a vertical axis from material and economic structure to ideas and norms. Each Foundation value is centered on the neutral score of 4, multiplied by an authored weight, and added to its axis. The two sums are divided by fixed spread constants and limited to the range from −1 to 1. This normalization is an editorial construction, not an estimate from a population."
         }
       ],
       "priority": "P2",
-      "resolvedCount": 7,
+      "resolvedCount": 13,
       "resolvedFindings": [
+        {
+          "count": 1,
+          "fingerprint": "513db19820bb8477ecc56f1877f8d1a26e1e69047454a6ae311b8ee9cd635d36"
+        },
         {
           "count": 1,
           "fingerprint": "5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878"
         },
         {
           "count": 1,
+          "fingerprint": "689de962962d10b8cf83810e1db73fefa16f96bfbba692236db8504f24abd1ad"
+        },
+        {
+          "count": 1,
           "fingerprint": "690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff"
+        },
+        {
+          "count": 1,
+          "fingerprint": "6e88fde52db2ed2178f126d9edf5c767d0e408ffe6f862e05118429fd312c6d2"
+        },
+        {
+          "count": 1,
+          "fingerprint": "72a76c9f0594e8c30052ae5687c70ae0c16708125f62380cb4105f6f378c224f"
         },
         {
           "count": 1,
@@ -152,14 +188,22 @@
         },
         {
           "count": 1,
+          "fingerprint": "b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f"
+        },
+        {
+          "count": 1,
           "fingerprint": "c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1"
         },
         {
           "count": 1,
           "fingerprint": "c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d"
+        },
+        {
+          "count": 1,
+          "fingerprint": "d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98"
         }
       ],
-      "unchangedCount": 551
+      "unchangedCount": 545
     },
     "higherPriorityFindings": [
       {
@@ -1075,7 +1119,7 @@
         "priority": "P1"
       },
       {
-        "count": 563,
+        "count": 559,
         "priority": "P2"
       }
     ]

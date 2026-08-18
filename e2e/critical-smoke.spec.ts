@@ -16,6 +16,7 @@ import {
 } from "../lib/storage-keys"
 import profileStoreV1 from "../tests/fixtures/profile-store-v1.json"
 import profileStoreV2 from "../tests/fixtures/profile-store-v2.json"
+import profileStoreV5 from "../tests/fixtures/profile-store-v5.json"
 import { familySlug, MODELED_FAMILY_KEYS } from "../lib/worldview-config"
 
 async function answerCurrentFoundationQuestion(page: Page) {
@@ -559,12 +560,166 @@ test("unapproved Chinese archetype and Explore routes remain explicit status sur
   }
 })
 
+test("Worldview Map bare and legacy routes select the correct projection", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 1000 })
+  await page.goto("/explore/atlas")
+
+  const matrix = page.locator("[data-archetype-matrix]")
+  await expect(matrix).toBeVisible()
+  await expect(matrix.locator("[data-archetype-matrix-cell]")).toHaveCount(8)
+  await expect(matrix.locator('[data-archetype-mark-render="pictorial"]')).toHaveCount(8)
+  await expect(matrix.locator('[data-archetype-matrix-active="true"]')).toHaveCount(0)
+
+  for (const archetype of archetypes) {
+    const cell = matrix.locator(
+      `[data-archetype-matrix-cell="${archetype.code}"]`,
+    )
+    await expect(cell.getByText(archetype.name, { exact: true })).toBeVisible()
+    await expect(
+      cell.getByText(formatArchetypeDisplayCode(archetype.code), { exact: true }),
+    ).toBeVisible()
+  }
+
+  await expect(page.getByRole("button", { name: "Matrix" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  )
+  for (const overlay of [
+    "Decision Patterns",
+    "My perspective shifts",
+    "Thinkers & public positions",
+  ]) {
+    await expect(page.getByRole("button", { name: new RegExp(`^${overlay}`) }))
+      .toHaveAttribute("aria-pressed", "false")
+  }
+  await expect.poll(() => new URL(page.url()).search).toBe("")
+
+  const blendPayload =
+    "eyJ2Ijo1LCJkcyI6WzEsMSw0LDQsNCw0LDRdLCJmayI6ImNyaXRpY2FsUG9saXRpY2FsRWNvbm9teSIsIm5rIjoiY29uc3RydWN0aXZpc3QiLCJzbSI6IkhlZGdlciIsIm5tIjoiQ29uZGl0aW9uYWwgU29saWRhcmlzdCIsIml2Ijo0LCJidiI6Miwic3YiOjIsImN2IjoxLCJjbCI6ImVuIiwicXMiOiJjb3JlIn0"
+  await page.evaluate(
+    ({ key, fixture, payload }) => {
+      const profile = structuredClone(fixture)
+      if (profile.foundation) profile.foundation.payload = payload
+      window.localStorage.setItem(key, JSON.stringify(profile))
+    },
+    { key: PROFILE_STORAGE_KEY, fixture: profileStoreV5, payload: blendPayload },
+  )
+  await page.reload()
+
+  await expect(matrix.locator('[data-archetype-matrix-active="true"]')).toHaveCount(2)
+  await expect(matrix.locator('[data-archetype-matrix-cell="M+"]'))
+    .toHaveAttribute("data-archetype-matrix-active", "true")
+  await expect(matrix.locator('[data-archetype-matrix-cell="S+"]'))
+    .toHaveAttribute("data-archetype-matrix-active", "true")
+  await expect(matrix.locator("[data-archetype-matrix-connector]")).toBeVisible()
+  await expect(
+    matrix.locator(
+      '[data-foundation-mark="blend"][data-foundation-mark-layout="diptych"]',
+    ),
+  ).toBeVisible()
+  await expect(matrix.locator('[data-archetype-mark="M/S+"]')).toHaveCount(0)
+  await expect(matrix.locator("[data-matrix-normative-alias]")).toHaveText(
+    "Conditional",
+  )
+  await expect(
+    page.locator('#worldview-map-list [id^="field-item-my-profile"]'),
+  ).toHaveCount(1)
+
+  await page.getByRole("button", { name: "Continuous" }).click()
+  await expect(
+    page.getByText(
+      "Secondary view. This projection does not encode applying advantage or restraint.",
+      { exact: true },
+    ),
+  ).toBeVisible()
+  await expect(matrix).not.toBeVisible()
+  await expect(page).toHaveURL(/projection=continuous/)
+
+  await page.goto("/explore/atlas?layers=atlas-patterns")
+  await expect(page.getByRole("button", { name: "Continuous" })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  )
+  await expect(page.getByRole("button", { name: /^Decision Patterns/ }))
+    .toHaveAttribute("aria-pressed", "true")
+  await expect(matrix).not.toBeVisible()
+
+  const collision = page
+    .getByRole("button", { name: /overlapping items/i })
+    .first()
+  await expect(collision).toHaveAttribute("aria-expanded", "false")
+  await expect(collision).toHaveAttribute("aria-label", / · /)
+  await collision.focus()
+  await collision.press("Space")
+  await expect(collision).toHaveAttribute("aria-expanded", "true")
+  await collision.press("Escape")
+  await expect(collision).toHaveAttribute("aria-expanded", "false")
+
+  const decisionPatterns = page.getByRole("button", {
+    name: /^Decision Patterns/,
+  })
+  await decisionPatterns.click()
+  await expect(decisionPatterns).toHaveAttribute("aria-pressed", "false")
+  await expect.poll(() => new URL(page.url()).searchParams.has("layers")).toBe(
+    false,
+  )
+  await page.reload()
+  await expect(decisionPatterns).toHaveAttribute("aria-pressed", "false")
+
+  await page.setViewportSize({ width: 800, height: 900 })
+  await page.goto("/explore/atlas?view=list")
+  await expect(
+    page.getByRole("heading", { name: "Complete list", exact: true }),
+  ).toBeVisible()
+  await expect.poll(() => new URL(page.url()).search).toBe(
+    "?projection=matrix&view=list",
+  )
+})
+
+test("mobile matrix contains focus and returns it to the page", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto("/explore/atlas")
+
+  const explorer = page.locator('[data-matrix-available="true"]')
+  const back = page.getByRole("button", { name: /Back to page/ })
+  await expect(back).toBeFocused()
+
+  await page.keyboard.press("Shift+Tab")
+  await expect.poll(() =>
+    page.evaluate(() =>
+      Boolean(document.activeElement?.closest('[data-matrix-available="true"]')),
+    ),
+  ).toBe(true)
+
+  await back.click()
+  await expect(page.locator("#worldview-map-page-heading")).toBeFocused()
+  await expect.poll(() => new URL(page.url()).search).toBe(
+    "?projection=matrix&view=list",
+  )
+})
+
+test("print forces the English matrix without removing the Chinese map", async ({
+  page,
+}) => {
+  await page.goto("/explore/atlas?projection=continuous")
+  await page.emulateMedia({ media: "print" })
+  await expect(page.locator("[data-archetype-matrix]")).toBeVisible()
+  await expect(page.locator("figure.field-canvas")).not.toBeVisible()
+
+  await page.goto("/zh/explore/atlas")
+  await expect(page.locator("[data-archetype-matrix]")).toHaveCount(0)
+  await expect(page.locator("figure.field-canvas")).toBeVisible()
+})
+
 test("Worldview Map switches between list and map views", async ({ page }) => {
   // Desktop shows the map and semantic list together. The explicit view switch
   // is the small-screen affordance, so exercise it below that breakpoint.
   await page.setViewportSize({ width: 800, height: 900 })
   await page.goto("/explore/atlas")
   await expect(page.getByRole("heading", { name: "Worldview Map", exact: true })).toBeVisible()
+  await page.getByRole("button", { name: "Continuous", exact: true }).click()
 
   const listButton = page.getByRole("button", { name: "List", exact: true })
   const mapButton = page.getByRole("button", { name: "Map", exact: true })
@@ -572,6 +727,9 @@ test("Worldview Map switches between list and map views", async ({ page }) => {
   await listButton.click()
   await expect(listButton).toHaveAttribute("aria-pressed", "true")
   await expect(page.getByRole("heading", { name: "Complete list" })).toBeVisible()
+  await expect.poll(() => new URL(page.url()).search).toBe(
+    "?projection=continuous",
+  )
 
   await mapButton.click()
   await expect(mapButton).toHaveAttribute("aria-pressed", "true")

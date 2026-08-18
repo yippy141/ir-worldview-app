@@ -85,29 +85,27 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: bounded V23.1 content and ontology correction
+## Current sprint: bounded V23.2 Worldview Map correction
 
-- Publish the revised English archetype content only as qualified `partial`
-  copy. The owner authorizes this AI-assisted English copy for editorial beta
-  use; human editorial review remains pending. Do not represent the 104
-  sentences as individually human-reviewed, externally expert-reviewed, or
-  validated. Preserve claim IDs, source links, and version alignment.
-- The first sigil geometry remains blocked as rejected design history. Ship
-  only the eight exact System A marks in the supplied typed manifest under the
-  owner-selected editorial-beta decision: 112px hero, 48px directory, and
-  code-only below 32px. Blends compose pure marks under the Diptych/Hallmark
-  rules and never receive a new mark. Treat the artwork as contemporary
-  editorial illustration, not an authentic historical emblem or universal
-  cultural clearance.
-- Add the English archetype directory, expand the eight stable detail routes,
-  and recompose Explore into the contracted nine-section field guide. Treat
-  modeled traditions, Decision Patterns, references, and Focus Areas as
-  supporting or contextual layers beside the headline Foundation reading.
-- Simplified Chinese keeps its explicit status surfaces and existing approved
-  Map, Decision Pattern, and reference behavior. No English long-form content
-  or accessible label may leak into an unapproved Chinese route.
-- This sprint does not change the Map, scoring, items, calibration, payloads,
-  stores, modules, Tier 1, dependencies, or Chinese approved-route manifests.
+- Make the exact eight-cell archetype matrix the default English Map view.
+  Resolve a baseline only from the exact Foundation payload: one active cell
+  for a pure result or two same-row cells for a blend. Keep the normative alias
+  beside the selection and never turn it into spatial rank.
+- Retain projection version 1 as a secondary continuous view and state plainly
+  that it does not encode posture. Preserve valid legacy `layers`, `sel`, and
+  `view` links through the `projection` compatibility rule.
+- Decision Patterns, Perspective Runs, and reference positions are optional
+  contextual overlays, off by default. Exact collisions form accessible
+  clusters at their source coordinate; never add random jitter.
+- Use the eight exact System A marks. A blend composes the two pure marks under
+  the Diptych rules and never receives a new mark. The optional decorative Map
+  field may be omitted; if present it stays static, sparse, and non-content.
+- Both projections retain a complete semantic list, keyboard access, non-color
+  encoding, visible focus, lens-grouped mobile reflow, and static print output.
+  Simplified Chinese retains approved behavior and fails closed before any
+  unapproved English copy or accessible label can appear.
+- Do not change scoring, payloads, archetype resolution, Decision Pattern IDs,
+  modules, Current Cases, Tier 1, dependencies, or approved locale manifests.
 
 ## End-of-sprint discipline
 

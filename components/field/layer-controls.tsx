@@ -15,6 +15,9 @@ type Props = {
   availability: FieldLayerAvailability
   counts: Partial<Record<FieldLayerId, number>>
   onToggle: (layerId: FieldLayerId) => void
+  layerIds?: readonly FieldLayerId[]
+  heading?: string
+  note?: string
   copy?: typeof zhHansWorldviewMapUi
 }
 
@@ -22,12 +25,27 @@ type Props = {
  * Four toggles do not need a column of their own. They run as a row of chips
  * above the map, and fold into the bottom sheet on small screens.
  */
-export function LayerControls({ activeLayerIds, availability, counts, onToggle, copy }: Props) {
+export function LayerControls({
+  activeLayerIds,
+  availability,
+  counts,
+  onToggle,
+  layerIds,
+  heading,
+  note,
+  copy,
+}: Props) {
+  const configs = layerIds
+    ? PUBLIC_FIELD_LAYER_CONFIGS.filter((config) => layerIds.includes(config.id))
+    : PUBLIC_FIELD_LAYER_CONFIGS
+
   return (
     <fieldset className={styles.layerControls}>
-      <legend className={styles.layerLegend}>{copy?.layers.heading ?? "Layers"}</legend>
+      <legend className={styles.layerLegend}>
+        {copy?.layers.heading ?? heading ?? "Layers"}
+      </legend>
       <div className={styles.layerChips}>
-        {PUBLIC_FIELD_LAYER_CONFIGS.map((config) => {
+        {configs.map((config) => {
           const available = isFieldLayerAvailable(config.id, availability)
           const active = activeLayerIds.includes(config.id)
 
@@ -75,7 +93,7 @@ export function LayerControls({ activeLayerIds, availability, counts, onToggle, 
         })}
       </div>
       <p className={styles.layerNote}>
-        {copy?.layers.note ?? "Choose one or two layers. Each uses the same projection."}
+        {copy?.layers.note ?? note ?? "Choose one or two layers. Each uses the same projection."}
       </p>
     </fieldset>
   )

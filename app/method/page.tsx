@@ -271,15 +271,29 @@ export default function MethodPage() {
       <section className="panel stack-md">
         <h2>How the Worldview Map is built</h2>
         <p style={{ lineHeight: "1.7" }}>
-          The Worldview Map projection converts seven Foundation values into two screen axes with
-          authored coefficients. Every personal baseline, Perspective Run, and eligible thinker or
-          public position
-          passes through the same projection.
+          The reference matrix is the default view. Its columns are Power, Rules, Meaning, and
+          Structure; its rows are applying advantage and restraint. The eight cells hold the eight
+          pure Foundation archetypes. An exact saved Foundation payload marks one cell for a pure
+          result or two cells in the same row for a blend.
         </p>
         <p style={{ lineHeight: "1.7" }}>
-          The map supports orientation and side-by-side reading. It has no validated metric for
-          distance, population density, uncertainty, or statistical similarity. Screen space
-          between two marks carries no measured amount of ideological difference.
+          The secondary continuous view has a horizontal axis from power and competition to rules
+          and institutions, and a vertical axis from material and economic structure to ideas and
+          norms. Each Foundation value is centered on the neutral score of 4, multiplied by an
+          authored weight, and added to its axis. The two sums are divided by fixed spread constants
+          and limited to the range from −1 to 1. This normalization is an editorial construction,
+          not an estimate from a population.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          Eligible personal baselines and Perspective Runs use those coefficients. Decision
+          Patterns and evidence-coded reference positions use the same projection as contextual
+          overlays. Restraint is not part of either axis, so this view cannot distinguish the two
+          matrix postures. Realism, Institutionalism, and Critical political economy all include
+          material explanations, so the vertical axis separates those references only weakly.
+        </p>
+        <p style={{ lineHeight: "1.7" }}>
+          The continuous view supports orientation and side-by-side reading. Screen distance is not
+          calibrated; it measures neither ideological difference nor uncertainty.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           Decision Patterns use authored fingerprints. Low, medium, and high levels become 2.5,

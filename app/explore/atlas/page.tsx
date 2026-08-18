@@ -8,7 +8,7 @@ import styles from "./page.module.css"
 export const metadata: Metadata = {
   title: `${WORLDVIEW_MAP_LABEL} — IR Worldview Inventory`,
   description:
-    "Compare your baseline, editorial Decision Patterns, perspective shifts, and evidence-coded public positions on one shared projection.",
+    "Locate a Foundation result in the eight-archetype matrix, then compare optional contextual positions in the continuous view.",
 }
 
 export default function FieldExplorerPage() {
@@ -16,13 +16,13 @@ export default function FieldExplorerPage() {
     <div className={`wide-container ${styles.page}`}>
       <header className={styles.header}>
         <div className={styles.headerCopy}>
-          <h1>{WORLDVIEW_MAP_LABEL}</h1>
+          <h1 id="worldview-map-page-heading" tabIndex={-1}>{WORLDVIEW_MAP_LABEL}</h1>
           <p>
-            Locate your baseline, compare editorial Decision Patterns, and examine how context or
-            public positions shift the same underlying judgments.
+            Four lenses, two strategic postures, and the eight Foundation archetypes they form. A
+            saved result marks one cell—or two cells when the reading is blended.
           </p>
         </div>
-        <Link href="/method" className={styles.methodLink}>How the map works →</Link>
+        <Link href="/method" className={styles.methodLink}>Methods and limits →</Link>
       </header>
 
       <Suspense
@@ -36,10 +36,11 @@ export default function FieldExplorerPage() {
       <section className={styles.trustNote} aria-labelledby="worldview-map-method-note">
         <h2 id="worldview-map-method-note">What this map can show</h2>
         <p>
-          Decision Patterns are authored reading aids, not results assigned to a user or population
-          types. Public positions are evidence-coded snapshots, and some traditions remain
-          under-modeled. Coordinates use the same Foundation projection throughout; spacing is not
-          a calibrated measure of difference.{" "}
+          The matrix explains the categorical Foundation reading. The continuous view compares
+          positions derived from the seven Foundation dimensions, but it does not encode applying
+          advantage or restraint. Decision Patterns are reading aids, not assigned results. Public
+          positions are dated evidence snapshots, and spacing is not a calibrated measure of
+          difference.{" "}
           <Link href="/method">Read the methods and limits.</Link>
         </p>
       </section>
