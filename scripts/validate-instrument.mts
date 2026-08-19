@@ -39,6 +39,7 @@ type InstrumentBank = JsonObject & {
 const INSTRUMENT_FILES = [
   "foundation.v2.json",
   "security.v3.json",
+  "security.v4.json",
   "technology.v3.json",
   "ai-governance.v3.json",
 ] as const
@@ -500,13 +501,14 @@ if (
 }
 
 const dimensionKeys = new Set(dimensionKeysFromType)
-const seenIds = new Map<string, string>()
+const seenIds = new Map<string, { file: string; instrument: string }>()
 const reverseCounts = new Map<string, { reversed: number; total: number }>()
 const foundationItemsById = new Map<string, InstrumentItem>()
 
 for (const { file, bank } of banks) {
   const instrument =
     typeof bank.instrument === "string" ? bank.instrument : file
+  const bankItemIds = new Set<string>()
 
   if (!Object.hasOwn(bank, "instrumentVersion")) {
     blockingErrors.push(`${file} is missing instrumentVersion.`)
@@ -514,13 +516,17 @@ for (const { file, bank } of banks) {
 
   for (const item of getItems(bank)) {
     const id = typeof item.id === "string" ? item.id : String(item.id)
+    if (bankItemIds.has(id)) {
+      blockingErrors.push(`Duplicate item id "${id}" appears within ${file}.`)
+    }
+    bankItemIds.add(id)
     const previous = seenIds.get(id)
-    if (previous) {
+    if (previous && previous.instrument !== instrument) {
       blockingErrors.push(
-        `Duplicate item id "${id}" appears in ${previous} and ${file}.`,
+        `Duplicate item id "${id}" appears in ${previous.file} and ${file}.`,
       )
-    } else {
-      seenIds.set(id, file)
+    } else if (!previous) {
+      seenIds.set(id, { file, instrument })
     }
 
     if (instrument === "foundation") {
@@ -759,5 +765,7 @@ if (blockingErrors.length > 0) {
   }
   process.exitCode = 1
 } else {
-  console.log(`Validated ${seenIds.size} unique items across ${banks.length} instruments.`)
+  console.log(
+    `Validated ${seenIds.size} unique item IDs across ${banks.length} instrument banks.`,
+  )
 }

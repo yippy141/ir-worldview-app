@@ -5,13 +5,16 @@ import type {
   ModuleSlug,
 } from "@/lib/modules/types"
 import { MODULE_CALIBRATIONS } from "@/lib/modules/calibration-data"
+import { SECURITY_V22_CALIBRATION } from "@/lib/modules/calibration-data-v22"
 import type { QuizMode } from "@/lib/types"
 
 export const MODULE_CALIBRATION_VERSION =
-  "v22-module-bank3-scorer2-uniform-primary-2026-08-05"
+  "v23.3-security-bank4-scorer2-uniform-primary-2026-08-19"
 
 export const MODULE_CALIBRATION_SOURCE = {
   method: "seeded independent-uniform primary option responses",
+  securityMethod:
+    "scored primary-only option responses; actor-lens cards are not drawn and cannot advance the calibration RNG",
   respondentCount: 500,
   seed: 20260728,
   instrumentSeeds: {
@@ -19,11 +22,48 @@ export const MODULE_CALIBRATION_SOURCE = {
     technology: 20261729,
   },
   modes: ["standard", "analyst"],
+  bankVersions: {
+    security: 4,
+    technology: 3,
+  },
+  scoringVersions: {
+    security: 2,
+    technology: 2,
+  },
+  generatedOn: "2026-08-19",
+  percentileMethod: "linear interpolation at rank (N - 1) × p",
+} as const
+
+export const SECURITY_V22_CALIBRATION_VERSION =
+  "v22-module-bank3-scorer2-uniform-primary-2026-08-05"
+
+export const SECURITY_V22_CALIBRATION_SOURCE = {
+  method: "seeded independent-uniform primary option responses",
+  respondentCount: 500,
+  seed: 20260728,
+  instrumentSeed: 20261728,
+  modes: ["standard", "analyst"],
   bankVersion: 3,
   scoringVersion: 2,
   generatedOn: "2026-08-05",
   percentileMethod: "linear interpolation at rank (N - 1) × p",
 } as const
+
+export type ModuleCalibrationVersion = {
+  bankVersion: number
+  scoringVersion: number
+}
+
+export const CURRENT_MODULE_CALIBRATION_VERSIONS = {
+  security: {
+    bankVersion: MODULE_CALIBRATION_SOURCE.bankVersions.security,
+    scoringVersion: MODULE_CALIBRATION_SOURCE.scoringVersions.security,
+  },
+  technology: {
+    bankVersion: MODULE_CALIBRATION_SOURCE.bankVersions.technology,
+    scoringVersion: MODULE_CALIBRATION_SOURCE.scoringVersions.technology,
+  },
+} as const satisfies Record<ModuleSlug, ModuleCalibrationVersion>
 
 export type ModuleCalibrationContext =
   | { kind: "headline" }
@@ -97,9 +137,10 @@ export function getModuleAxisCalibration(
   mode: QuizMode,
   context: ModuleCalibrationContext,
   axis: ModuleAxisKey,
+  version: ModuleCalibrationVersion =
+    CURRENT_MODULE_CALIBRATION_VERSIONS[slug],
 ): ModuleAxisCalibration {
-  const modeCalibration: ModuleModeCalibration =
-    MODULE_CALIBRATIONS[slug][mode]
+  const modeCalibration = getModuleModeCalibration(slug, mode, version)
   const calibration =
     context.kind === "headline"
       ? modeCalibration.headline[axis]
@@ -109,7 +150,8 @@ export function getModuleAxisCalibration(
     const contextLabel =
       context.kind === "headline" ? "headline" : `lane:${context.laneKey}`
     throw new Error(
-      `Missing module calibration for ${slug}.${mode}.${contextLabel}.${axis}.`,
+      `Missing module calibration for ${slug}.bank${version.bankVersion}.` +
+        `scorer${version.scoringVersion}.${mode}.${contextLabel}.${axis}.`,
     )
   }
 
@@ -129,8 +171,16 @@ export function standardizeModuleAxis(
   context: ModuleCalibrationContext,
   axis: ModuleAxisKey,
   raw: number,
+  version: ModuleCalibrationVersion =
+    CURRENT_MODULE_CALIBRATION_VERSIONS[slug],
 ): StandardizedModuleAxis {
-  const calibration = getModuleAxisCalibration(slug, mode, context, axis)
+  const calibration = getModuleAxisCalibration(
+    slug,
+    mode,
+    context,
+    axis,
+    version,
+  )
   if (Math.abs(calibration.sd) < MIN_CALIBRATION_SD) {
     throw new Error(
       `Module calibration SD is too small for ${slug}.${mode}.${axis}.`,
@@ -150,6 +200,8 @@ export function standardizeModuleAxis(
 
 export type ModuleCalibrationCut = {
   slug: ModuleSlug
+  bankVersion: number
+  scoringVersion: number
   mode: QuizMode
   context: ModuleCalibrationContext
   axis: ModuleAxisKey
@@ -195,10 +247,19 @@ function appendCalibrationCuts(
   context: ModuleCalibrationContext,
   axis: ModuleAxisKey,
 ) {
-  const calibration = getModuleAxisCalibration(slug, mode, context, axis)
+  const version = CURRENT_MODULE_CALIBRATION_VERSIONS[slug]
+  const calibration = getModuleAxisCalibration(
+    slug,
+    mode,
+    context,
+    axis,
+    version,
+  )
   for (const tail of ["lower", "upper"] as const) {
     target.push({
       slug,
+      bankVersion: version.bankVersion,
+      scoringVersion: version.scoringVersion,
       mode,
       context,
       axis,
@@ -207,4 +268,31 @@ function appendCalibrationCuts(
       attainable: calibration.attainable,
     })
   }
+}
+
+function getModuleModeCalibration(
+  slug: ModuleSlug,
+  mode: QuizMode,
+  version: ModuleCalibrationVersion,
+): ModuleModeCalibration {
+  if (
+    slug === "security" &&
+    version.bankVersion === 3 &&
+    version.scoringVersion === 2
+  ) {
+    return SECURITY_V22_CALIBRATION[mode]
+  }
+
+  const currentVersion = CURRENT_MODULE_CALIBRATION_VERSIONS[slug]
+  if (
+    version.bankVersion !== currentVersion.bankVersion ||
+    version.scoringVersion !== currentVersion.scoringVersion
+  ) {
+    throw new Error(
+      `Unsupported module calibration tuple for ${slug}: ` +
+        `bank ${version.bankVersion}, scorer ${version.scoringVersion}.`,
+    )
+  }
+
+  return MODULE_CALIBRATIONS[slug][mode]
 }

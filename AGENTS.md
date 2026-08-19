@@ -85,30 +85,6 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: bounded V23.1 content and ontology correction
-
-- Publish the revised English archetype content only as qualified `partial`
-  copy. The owner authorizes this AI-assisted English copy for editorial beta
-  use; human editorial review remains pending. Do not represent the 104
-  sentences as individually human-reviewed, externally expert-reviewed, or
-  validated. Preserve claim IDs, source links, and version alignment.
-- The first sigil geometry remains blocked as rejected design history. Ship
-  only the eight exact System A marks in the supplied typed manifest under the
-  owner-selected editorial-beta decision: 112px hero, 48px directory, and
-  code-only below 32px. Blends compose pure marks under the Diptych/Hallmark
-  rules and never receive a new mark. Treat the artwork as contemporary
-  editorial illustration, not an authentic historical emblem or universal
-  cultural clearance.
-- Add the English archetype directory, expand the eight stable detail routes,
-  and recompose Explore into the contracted nine-section field guide. Treat
-  modeled traditions, Decision Patterns, references, and Focus Areas as
-  supporting or contextual layers beside the headline Foundation reading.
-- Simplified Chinese keeps its explicit status surfaces and existing approved
-  Map, Decision Pattern, and reference behavior. No English long-form content
-  or accessible label may leak into an unapproved Chinese route.
-- This sprint does not change the Map, scoring, items, calibration, payloads,
-  stores, modules, Tier 1, dependencies, or Chinese approved-route manifests.
-
 ## End-of-sprint discipline
 
 When a sprint ends, replace the "Current sprint" section above with the next

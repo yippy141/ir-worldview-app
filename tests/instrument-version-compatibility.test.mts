@@ -19,6 +19,7 @@ import {
 import {
   MODULE_V21_TUPLE,
   MODULE_V22_TUPLE,
+  SECURITY_V4_TUPLE,
   SUPPORTED_MODULE_VERSIONS,
 } from "@/lib/modules/versions"
 import {
@@ -73,20 +74,30 @@ test("V21 module and AI banks are immutable snapshots", () => {
   }
 })
 
-test("supported registries expose only the approved V21 and V22 tuples", () => {
-  for (const slug of ["security", "technology"] as const) {
-    assert.deepEqual(
-      SUPPORTED_MODULE_VERSIONS[slug].map((version) => ({
-        bankVersion: version.bankVersion,
-        scoringVersion: version.scoringVersion,
-        runtimeVersion: version.runtime.MODULE_SCORING_VERSION,
-      })),
-      [
-        { ...MODULE_V21_TUPLE, runtimeVersion: 1 },
-        { ...MODULE_V22_TUPLE, runtimeVersion: 2 },
-      ],
-    )
-  }
+test("supported registries expose only the approved module tuples", () => {
+  assert.deepEqual(
+    SUPPORTED_MODULE_VERSIONS.security.map((version) => ({
+      bankVersion: version.bankVersion,
+      scoringVersion: version.scoringVersion,
+      runtimeVersion: version.runtime.MODULE_SCORING_VERSION,
+    })),
+    [
+      { ...MODULE_V21_TUPLE, runtimeVersion: 1 },
+      { ...MODULE_V22_TUPLE, runtimeVersion: 2 },
+      { ...SECURITY_V4_TUPLE, runtimeVersion: 2 },
+    ],
+  )
+  assert.deepEqual(
+    SUPPORTED_MODULE_VERSIONS.technology.map((version) => ({
+      bankVersion: version.bankVersion,
+      scoringVersion: version.scoringVersion,
+      runtimeVersion: version.runtime.MODULE_SCORING_VERSION,
+    })),
+    [
+      { ...MODULE_V21_TUPLE, runtimeVersion: 1 },
+      { ...MODULE_V22_TUPLE, runtimeVersion: 2 },
+    ],
+  )
 
   assert.deepEqual(
     SUPPORTED_AI_GOVERNANCE_VERSIONS.map((version) => ({
@@ -280,7 +291,7 @@ test("module payload tuple dispatch rejects every unsupported pairing", () => {
   assert.ok(resolved)
   assert.equal(resolved.runtime.MODULE_SCORING_VERSION, 2)
 
-  for (const [bv, sv] of [[2, 2], [3, 1], [4, 2]]) {
+  for (const [bv, sv] of [[2, 2], [3, 1], [4, 1], [4, 3], [5, 2]]) {
     assert.equal(
       resolveModulePayload(
         encodeUrlPayload({

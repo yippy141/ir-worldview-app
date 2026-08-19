@@ -23,6 +23,7 @@ export type SupportedInstrumentBankKey =
   | "foundation-scoring-v1"
   | "security-bank-v2"
   | "security-bank-v3"
+  | "security-bank-v4"
   | "technology-bank-v2"
   | "technology-bank-v3"
   | "ai-governance-bank-v2"
@@ -309,7 +310,11 @@ export function validateSupportedInstrumentBank(
       source,
       "$.instrumentVersion",
     )
-    if (version !== 2 && version !== 3) {
+    const supported =
+      instrument === "security"
+        ? version === 2 || version === 3 || version === 4
+        : version === 2 || version === 3
+    if (!supported) {
       fail(
         source,
         "$.instrumentVersion",
@@ -317,13 +322,15 @@ export function validateSupportedInstrumentBank(
       )
     }
 
-    validateModuleBank(object, source, instrument, version)
+    validateModuleBank(object, source, instrument, version as 2 | 3 | 4)
+    const isCurrent =
+      instrument === "security" ? version === 4 : version === 3
     return {
-      key: `${instrument}-bank-v${version}`,
+      key: `${instrument}-bank-v${version}` as SupportedInstrumentBankKey,
       instrument,
-      release: version === 3 ? "current" : "legacy",
+      release: isCurrent ? "current" : "legacy",
       bankVersion: version,
-      scoringVersion: version === 3 ? 2 : 1,
+      scoringVersion: version >= 3 ? 2 : 1,
     }
   }
 
@@ -654,7 +661,7 @@ function validateModuleBank(
   bank: UnknownObject,
   source: string,
   instrument: "security" | "technology",
-  version: 2 | 3,
+  version: 2 | 3 | 4,
 ) {
   requireAllowedFields(bank, VERSIONED_BANK_FIELDS, source, "$")
   requireFields(bank, VERSIONED_BANK_FIELDS, source, "$")
@@ -668,7 +675,7 @@ function validateModuleBank(
     const path = `$.items[${index}]`
     requireAllowedFields(
       item,
-      version === 3 ? MODULE_ITEM_V3_FIELDS : MODULE_ITEM_FIELDS,
+      version >= 3 ? MODULE_ITEM_V3_FIELDS : MODULE_ITEM_FIELDS,
       source,
       path,
     )
@@ -686,7 +693,7 @@ function validateModuleBank(
         "whyHard",
         "perspectiveTags",
         "knowledgeLoad",
-        ...(version === 3 ? ["discriminatingAxes"] : []),
+        ...(version >= 3 ? ["discriminatingAxes"] : []),
         "options",
       ],
       source,
@@ -729,7 +736,7 @@ function validateModuleBank(
       source,
       `${path}.allowSecondChoiceInAnalyst`,
     )
-    if (version === 3) {
+    if (version >= 3) {
       requireStringArray(
         item.discriminatingAxes,
         source,

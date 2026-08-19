@@ -7,11 +7,47 @@ export const MODULE_CALIBRATIONS = {
     "standard": {
       "headline": {
         "activism": {
-          "mean": 4.266460000000006,
-          "sd": 0.30125216746108224,
+          "mean": 4.296999999999998,
+          "sd": 0.3096975944368957,
           "attainable": {
-            "minimum": 3.21,
-            "maximum": 5.48
+            "minimum": 3.17,
+            "maximum": 5.54
+          },
+          "cuts": {
+            "lower": {
+              "percentile": 0.33,
+              "raw": 4.1667000000000005
+            },
+            "upper": {
+              "percentile": 0.67,
+              "raw": 4.43
+            }
+          }
+        },
+        "escalation": {
+          "mean": 4.326620000000001,
+          "sd": 0.29868909521440506,
+          "attainable": {
+            "minimum": 3.44,
+            "maximum": 5.32
+          },
+          "cuts": {
+            "lower": {
+              "percentile": 0.33,
+              "raw": 4.18
+            },
+            "upper": {
+              "percentile": 0.67,
+              "raw": 4.48
+            }
+          }
+        },
+        "alliance": {
+          "mean": 4.252159999999997,
+          "sd": 0.23969174871071397,
+          "attainable": {
+            "minimum": 3.61,
+            "maximum": 4.86
           },
           "cuts": {
             "lower": {
@@ -20,61 +56,25 @@ export const MODULE_CALIBRATIONS = {
             },
             "upper": {
               "percentile": 0.67,
-              "raw": 4.39
-            }
-          }
-        },
-        "escalation": {
-          "mean": 4.305180000000004,
-          "sd": 0.2376168504125915,
-          "attainable": {
-            "minimum": 3.58,
-            "maximum": 5.18
-          },
-          "cuts": {
-            "lower": {
-              "percentile": 0.33,
-              "raw": 4.2
-            },
-            "upper": {
-              "percentile": 0.67,
-              "raw": 4.4
-            }
-          }
-        },
-        "alliance": {
-          "mean": 4.244479999999999,
-          "sd": 0.256677871270587,
-          "attainable": {
-            "minimum": 3.63,
-            "maximum": 4.8
-          },
-          "cuts": {
-            "lower": {
-              "percentile": 0.33,
-              "raw": 4.11
-            },
-            "upper": {
-              "percentile": 0.67,
               "raw": 4.36
             }
           }
         },
         "legitimacy": {
-          "mean": 4.348460000000004,
-          "sd": 0.2788487554212857,
+          "mean": 4.405280000000001,
+          "sd": 0.2826321312236102,
           "attainable": {
-            "minimum": 3.5,
-            "maximum": 4.99
+            "minimum": 3.43,
+            "maximum": 5.12
           },
           "cuts": {
             "lower": {
               "percentile": 0.33,
-              "raw": 4.24
+              "raw": 4.29
             },
             "upper": {
               "percentile": 0.67,
-              "raw": 4.49
+              "raw": 4.53
             }
           }
         }
@@ -82,46 +82,46 @@ export const MODULE_CALIBRATIONS = {
       "lanes": {
         "deterrence": {
           "activism": {
-            "mean": 4.411640000000004,
-            "sd": 0.5848132269366008,
+            "mean": 4.457740000000008,
+            "sd": 0.5367814195741131,
             "attainable": {
-              "minimum": 3.17,
-              "maximum": 5.87
+              "minimum": 3.08,
+              "maximum": 5.92
             },
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.17
+                "raw": 4.22
               },
               "upper": {
                 "percentile": 0.67,
-                "raw": 4.63
+                "raw": 4.7
               }
             }
           },
           "escalation": {
-            "mean": 4.452960000000003,
-            "sd": 0.5106247530231963,
+            "mean": 4.469400000000003,
+            "sd": 0.5999146939357295,
             "attainable": {
-              "minimum": 3.43,
-              "maximum": 5.8
+              "minimum": 3.17,
+              "maximum": 5.97
             },
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.23
+                "raw": 4.13
               },
               "upper": {
                 "percentile": 0.67,
-                "raw": 4.63
+                "raw": 4.75
               }
             }
           }
         },
         "alliances": {
           "alliance": {
-            "mean": 4.575299999999997,
-            "sd": 0.8887603220216351,
+            "mean": 4.640899999999998,
+            "sd": 0.8730018270313069,
             "attainable": {
               "minimum": 2.9,
               "maximum": 6.25
@@ -129,7 +129,7 @@ export const MODULE_CALIBRATIONS = {
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4
+                "raw": 4.4
               },
               "upper": {
                 "percentile": 0.67,
@@ -140,8 +140,8 @@ export const MODULE_CALIBRATIONS = {
         },
         "legitimacy": {
           "legitimacy": {
-            "mean": 4.789839999999998,
-            "sd": 0.6553380611562246,
+            "mean": 4.770500000000005,
+            "sd": 0.6525386961705791,
             "attainable": {
               "minimum": 2.93,
               "maximum": 6
@@ -149,7 +149,7 @@ export const MODULE_CALIBRATIONS = {
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.53
+                "raw": 4.5
               },
               "upper": {
                 "percentile": 0.67,
@@ -163,74 +163,74 @@ export const MODULE_CALIBRATIONS = {
     "analyst": {
       "headline": {
         "activism": {
-          "mean": 4.3250399999999996,
-          "sd": 0.22700440171943803,
+          "mean": 4.284900000000004,
+          "sd": 0.22537477676084322,
           "attainable": {
-            "minimum": 3.33,
-            "maximum": 5.44
+            "minimum": 3.32,
+            "maximum": 5.4
           },
           "cuts": {
             "lower": {
               "percentile": 0.33,
-              "raw": 4.21
+              "raw": 4.1867
             },
             "upper": {
               "percentile": 0.67,
-              "raw": 4.43
+              "raw": 4.38
             }
           }
         },
         "escalation": {
-          "mean": 4.332520000000006,
-          "sd": 0.1860958075830835,
+          "mean": 4.303600000000005,
+          "sd": 0.22133558231789122,
           "attainable": {
-            "minimum": 3.58,
-            "maximum": 5.21
+            "minimum": 3.53,
+            "maximum": 5.22
           },
           "cuts": {
             "lower": {
               "percentile": 0.33,
-              "raw": 4.246700000000001
+              "raw": 4.19
             },
             "upper": {
               "percentile": 0.67,
-              "raw": 4.403300000000001
+              "raw": 4.41
             }
           }
         },
         "alliance": {
-          "mean": 4.301879999999997,
-          "sd": 0.20761807628431586,
+          "mean": 4.325579999999999,
+          "sd": 0.2454169179172453,
           "attainable": {
-            "minimum": 3.51,
-            "maximum": 5.01
+            "minimum": 3.44,
+            "maximum": 5.18
           },
           "cuts": {
             "lower": {
               "percentile": 0.33,
-              "raw": 4.21
+              "raw": 4.22
             },
             "upper": {
               "percentile": 0.67,
-              "raw": 4.39
+              "raw": 4.45
             }
           }
         },
         "legitimacy": {
-          "mean": 4.354379999999999,
-          "sd": 0.19968729453823528,
+          "mean": 4.441580000000001,
+          "sd": 0.23070869857896584,
           "attainable": {
-            "minimum": 3.56,
-            "maximum": 4.87
+            "minimum": 3.45,
+            "maximum": 5.11
           },
           "cuts": {
             "lower": {
               "percentile": 0.33,
-              "raw": 4.26
+              "raw": 4.3367
             },
             "upper": {
               "percentile": 0.67,
-              "raw": 4.46
+              "raw": 4.56
             }
           }
         }
@@ -238,46 +238,46 @@ export const MODULE_CALIBRATIONS = {
       "lanes": {
         "deterrence": {
           "activism": {
-            "mean": 4.477079999999995,
-            "sd": 0.4674324267741811,
+            "mean": 4.402640000000003,
+            "sd": 0.5475007126936001,
             "attainable": {
-              "minimum": 3.16,
+              "minimum": 3.08,
               "maximum": 5.92
             },
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.26
+                "raw": 4.13
               },
               "upper": {
                 "percentile": 0.67,
-                "raw": 4.66
+                "raw": 4.6366000000000005
               }
             }
           },
           "escalation": {
-            "mean": 4.471479999999997,
-            "sd": 0.39892481697683313,
+            "mean": 4.4117400000000035,
+            "sd": 0.5977129515076616,
             "attainable": {
-              "minimum": 3.38,
-              "maximum": 5.8
+              "minimum": 3.17,
+              "maximum": 5.97
             },
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.313400000000001
+                "raw": 4.0934
               },
               "upper": {
                 "percentile": 0.67,
-                "raw": 4.64
+                "raw": 4.7
               }
             }
           }
         },
         "alliances": {
           "alliance": {
-            "mean": 4.635980000000002,
-            "sd": 0.5971020344966174,
+            "mean": 4.602980000000001,
+            "sd": 0.635241150745132,
             "attainable": {
               "minimum": 3.02,
               "maximum": 6.25
@@ -285,19 +285,19 @@ export const MODULE_CALIBRATIONS = {
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.3701
+                "raw": 4.3
               },
               "upper": {
                 "percentile": 0.67,
-                "raw": 4.88
+                "raw": 4.85
               }
             }
           }
         },
         "legitimacy": {
           "legitimacy": {
-            "mean": 4.884520000000004,
-            "sd": 0.507293573387245,
+            "mean": 4.858999999999997,
+            "sd": 0.5362475174767711,
             "attainable": {
               "minimum": 2.94,
               "maximum": 6.06
@@ -305,11 +305,11 @@ export const MODULE_CALIBRATIONS = {
             "cuts": {
               "lower": {
                 "percentile": 0.33,
-                "raw": 4.66
+                "raw": 4.62
               },
               "upper": {
                 "percentile": 0.67,
-                "raw": 5.126600000000001
+                "raw": 5.12
               }
             }
           }

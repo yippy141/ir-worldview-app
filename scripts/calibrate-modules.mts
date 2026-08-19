@@ -8,6 +8,7 @@ import {
   type ModuleModeCalibration,
 } from "@/lib/modules/calibration"
 import { modules } from "@/lib/modules/framework"
+import { getCurrentModuleVersion } from "@/lib/modules/versions"
 import {
   buildModuleAnalytics,
   getModuleQuestions,
@@ -52,15 +53,29 @@ type GeneratedCalibrations = Record<
 
 function generateModuleCalibrations(): GeneratedCalibrations {
   return Object.fromEntries(
-    modules.map((moduleDefinition) => [
-      moduleDefinition.slug,
-      Object.fromEntries(
-        MODULE_CALIBRATION_SOURCE.modes.map((mode) => [
-          mode,
-          generateModeCalibration(moduleDefinition, mode),
-        ]),
-      ),
-    ]),
+    modules.map((moduleDefinition) => {
+      const currentVersion = getCurrentModuleVersion(moduleDefinition.slug)
+      assert.equal(
+        currentVersion.bankVersion,
+        MODULE_CALIBRATION_SOURCE.bankVersions[moduleDefinition.slug],
+        `${moduleDefinition.slug} calibration bank version is stale.`,
+      )
+      assert.equal(
+        currentVersion.scoringVersion,
+        MODULE_CALIBRATION_SOURCE.scoringVersions[moduleDefinition.slug],
+        `${moduleDefinition.slug} calibration scoring version is stale.`,
+      )
+
+      return [
+        moduleDefinition.slug,
+        Object.fromEntries(
+          MODULE_CALIBRATION_SOURCE.modes.map((mode) => [
+            mode,
+            generateModeCalibration(moduleDefinition, mode),
+          ]),
+        ),
+      ]
+    }),
   ) as GeneratedCalibrations
 }
 
@@ -72,6 +87,8 @@ function generateModeCalibration(
   const scoredQuestions = questions.filter(
     (question) => question.cardType !== "actorLens",
   )
+  const sampledQuestions =
+    moduleDefinition.slug === "security" ? scoredQuestions : questions
   const rng = makeRng(
     MODULE_CALIBRATION_SOURCE.instrumentSeeds[moduleDefinition.slug],
   )
@@ -79,7 +96,7 @@ function generateModeCalibration(
     { length: MODULE_CALIBRATION_SOURCE.respondentCount },
     () => {
       const answers: ModuleAnswers = {}
-      for (const question of questions) {
+      for (const question of sampledQuestions) {
         const option =
           question.options[Math.floor(rng() * question.options.length)]
         answers[question.id] = { primary: option.id }

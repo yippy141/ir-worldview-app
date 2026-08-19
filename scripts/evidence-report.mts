@@ -18,6 +18,7 @@ import { compareEvidenceStrings, EVIDENCE_ARTIFACT_SCHEMA_VERSION, hashJson, has
 
 type SourceCategory =
   | "instrument-bank"
+  | "design-source"
   | "scoring-runtime"
   | "calibration"
   | "diagnostic"
@@ -91,6 +92,26 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
     category: "instrument-bank",
   },
   {
+    path: "content/instrument/security.v4.json",
+    category: "instrument-bank",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_ACTOR_BALANCE_LEDGER.csv",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_ITEM_REVIEW.md",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_SOURCE_LEDGER.md",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_V4_CONTRACT.md",
+    category: "design-source",
+  },
+  {
     path: "content/instrument/technology.v2.json",
     category: "instrument-bank",
   },
@@ -113,6 +134,7 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
   { path: "lib/modules/runtime-v2.ts", category: "scoring-runtime" },
   { path: "lib/modules/versions.ts", category: "scoring-runtime" },
   { path: "lib/modules/security-v21.ts", category: "scoring-runtime" },
+  { path: "lib/modules/security-v22.ts", category: "scoring-runtime" },
   { path: "lib/modules/security.ts", category: "scoring-runtime" },
   { path: "lib/modules/technology-v21.ts", category: "scoring-runtime" },
   { path: "lib/modules/technology.ts", category: "scoring-runtime" },
@@ -135,10 +157,15 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
   { path: "lib/scoring-calibration.ts", category: "calibration" },
   { path: "lib/modules/calibration.ts", category: "calibration" },
   { path: "lib/modules/calibration-data.ts", category: "calibration" },
+  {
+    path: "lib/modules/calibration-data-v22.ts",
+    category: "calibration",
+  },
   { path: "scripts/calibrate-targeted-forms.mts", category: "calibration" },
   { path: "scripts/calibrate-modules.mts", category: "calibration" },
   { path: "scripts/calibrate-modules-bootstrap.mjs", category: "calibration" },
   { path: "scripts/diagnose-instrument.mts", category: "diagnostic" },
+  { path: "scripts/diagnose-security-v4.mts", category: "diagnostic" },
   {
     path: "scripts/evidence-audit.mts",
     category: "evidence-entrypoint",
@@ -168,10 +195,15 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
     category: "evidence-canonicalization",
   },
   { path: "scripts/validate-instrument.mts", category: "diagnostic" },
+  { path: "scripts/validate-security-v4.mts", category: "diagnostic" },
   { path: "scripts/code-unit-order.mjs", category: "copy-audit" },
   { path: "scripts/audit-public-copy.mjs", category: "copy-audit" },
   {
     path: "tests/instrument-version-compatibility.test.mts",
+    category: "compatibility-test",
+  },
+  {
+    path: "tests/security-v4.test.mts",
     category: "compatibility-test",
   },
   {
