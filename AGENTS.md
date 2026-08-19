@@ -85,28 +85,6 @@ depends more on the issue and relationship involved."
 - When a spec is ambiguous, choose the path that improves trust, clarity,
   maintainability, and editorial quality, in that order.
 
-## Current sprint: bounded V23.2 Worldview Map correction
-
-- Make the exact eight-cell archetype matrix the default English Map view.
-  Resolve a baseline only from the exact Foundation payload: one active cell
-  for a pure result or two same-row cells for a blend. Keep the normative alias
-  beside the selection and never turn it into spatial rank.
-- Retain projection version 1 as a secondary continuous view and state plainly
-  that it does not encode posture. Preserve valid legacy `layers`, `sel`, and
-  `view` links through the `projection` compatibility rule.
-- Decision Patterns, Perspective Runs, and reference positions are optional
-  contextual overlays, off by default. Exact collisions form accessible
-  clusters at their source coordinate; never add random jitter.
-- Use the eight exact System A marks. A blend composes the two pure marks under
-  the Diptych rules and never receives a new mark. The optional decorative Map
-  field may be omitted; if present it stays static, sparse, and non-content.
-- Both projections retain a complete semantic list, keyboard access, non-color
-  encoding, visible focus, lens-grouped mobile reflow, and static print output.
-  Simplified Chinese retains approved behavior and fails closed before any
-  unapproved English copy or accessible label can appear.
-- Do not change scoring, payloads, archetype resolution, Decision Pattern IDs,
-  modules, Current Cases, Tier 1, dependencies, or approved locale manifests.
-
 ## End-of-sprint discipline
 
 When a sprint ends, replace the "Current sprint" section above with the next

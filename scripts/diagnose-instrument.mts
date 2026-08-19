@@ -517,6 +517,8 @@ function runModuleDiagnostics() {
       const scoredQuestions = questions.filter(
         (question) => question.cardType !== "actorLens",
       )
+      const sampledQuestions =
+        moduleDefinition.slug === "security" ? scoredQuestions : questions
       // Reinitialize per mode so the existing Advanced seed remains unchanged.
       const moduleRng = makeRng(RANDOM_SEED + 1000 + moduleIndex)
       const axisSums = Object.fromEntries(
@@ -530,7 +532,7 @@ function runModuleDiagnostics() {
 
       for (let respondentIndex = 0; respondentIndex < RANDOM_N; respondentIndex += 1) {
         const answers: ModuleAnswers = {}
-        for (const question of questions) {
+        for (const question of sampledQuestions) {
           const option = question.options[
             Math.floor(moduleRng() * question.options.length)
           ]
@@ -565,7 +567,7 @@ function runModuleDiagnostics() {
       )
       console.log("| --- | ---: | :---: |")
       for (const axis of moduleDefinition.axes) {
-        const discriminatingCount = questions.filter(
+        const discriminatingCount = scoredQuestions.filter(
           (question) =>
             question.discriminatingAxes.includes(axis.key) &&
             evaluateDeclaredAxis(

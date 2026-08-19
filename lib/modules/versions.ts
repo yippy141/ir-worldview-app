@@ -4,6 +4,11 @@ import {
   securityModule,
 } from "@/lib/modules/security"
 import {
+  SECURITY_V22_BANK_VERSION,
+  SECURITY_V22_SCORING_VERSION,
+  securityV22Module,
+} from "@/lib/modules/security-v22"
+import {
   SECURITY_V21_BANK_VERSION,
   SECURITY_V21_SCORING_VERSION,
   securityV21Module,
@@ -42,6 +47,16 @@ export const MODULE_V22_TUPLE = {
   scoringVersion: 2,
 } as const satisfies ModuleVersionTuple
 
+export const SECURITY_V4_TUPLE = {
+  bankVersion: SECURITY_BANK_VERSION,
+  scoringVersion: SECURITY_SCORING_VERSION,
+} as const satisfies ModuleVersionTuple
+
+export const CURRENT_MODULE_TUPLES = {
+  security: SECURITY_V4_TUPLE,
+  technology: MODULE_V22_TUPLE,
+} as const satisfies Record<ModuleSlug, ModuleVersionTuple>
+
 export const SUPPORTED_MODULE_VERSIONS = {
   security: [
     {
@@ -49,6 +64,12 @@ export const SUPPORTED_MODULE_VERSIONS = {
       scoringVersion: SECURITY_V21_SCORING_VERSION,
       definition: securityV21Module,
       runtime: runtimeV1,
+    },
+    {
+      bankVersion: SECURITY_V22_BANK_VERSION,
+      scoringVersion: SECURITY_V22_SCORING_VERSION,
+      definition: securityV22Module,
+      runtime: runtimeV2,
     },
     {
       bankVersion: SECURITY_BANK_VERSION,
@@ -88,10 +109,11 @@ export function getModuleVersion(
 }
 
 export function getCurrentModuleVersion(slug: ModuleSlug): ModuleVersion {
+  const current = CURRENT_MODULE_TUPLES[slug]
   const version = getModuleVersion(
     slug,
-    MODULE_V22_TUPLE.bankVersion,
-    MODULE_V22_TUPLE.scoringVersion,
+    current.bankVersion,
+    current.scoringVersion,
   )
   if (!version) {
     throw new Error(`Missing current module version for ${slug}.`)

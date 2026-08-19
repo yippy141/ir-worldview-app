@@ -1,19 +1,47 @@
 import type {
   ModuleAnalytics,
+  ModuleAxisKey,
   ModuleDefinition,
   ModuleLaneSummary,
 } from "@/lib/modules/types"
 import {
   getModuleClassificationMode,
-  standardizeModuleAxis,
+  standardizeModuleAxis as standardizeModuleAxisForVersion,
 } from "@/lib/modules/calibration"
 import type { DimensionKey, DimensionScores, QuizMode } from "@/lib/types"
-import securityBankJson from "@/content/instrument/security.v4.json" with {
+import securityBankJson from "@/content/instrument/security.v3.json" with {
   type: "json",
 }
 
-export const SECURITY_BANK_VERSION = 4
-export const SECURITY_SCORING_VERSION = 2
+/**
+ * Immutable V22 Security instrument: item bank v3, scorer v2.
+ *
+ * Historical payloads resolve here after Security bank v4 becomes current.
+ */
+export const SECURITY_V22_BANK_VERSION = 3
+export const SECURITY_V22_SCORING_VERSION = 2
+
+const SECURITY_V22_CALIBRATION_VERSION = {
+  bankVersion: SECURITY_V22_BANK_VERSION,
+  scoringVersion: SECURITY_V22_SCORING_VERSION,
+} as const
+
+function standardizeModuleAxis(
+  slug: "security",
+  mode: QuizMode,
+  context: { kind: "headline" } | { kind: "lane"; laneKey: string },
+  axis: ModuleAxisKey,
+  raw: number,
+) {
+  return standardizeModuleAxisForVersion(
+    slug,
+    mode,
+    context,
+    axis,
+    raw,
+    SECURITY_V22_CALIBRATION_VERSION,
+  )
+}
 
 const securityLanes: ModuleDefinition["lanes"] = [
   {
@@ -66,7 +94,7 @@ const securityQuestionsByMode: ModuleDefinition["questionsByMode"] = {
   analyst: loadSecurityQuestions("analyst"),
 }
 
-export const securityModule: ModuleDefinition = {
+export const securityV22Module: ModuleDefinition = {
   slug: "security",
   defaultHeadline: "Security read: no single lane dominates",
   shortTitle: "Security",
@@ -74,22 +102,21 @@ export const securityModule: ModuleDefinition = {
   subtitle: "A focused read on deterrence, alliances, escalation, and the legitimacy of force",
   shorthand: "Security Pressure",
   timeEstimate: {
-    standard: "18 to 24 minutes",
-    analyst: "24 to 30 minutes",
+    standard: "8 to 10 minutes",
+    analyst: "14 to 18 minutes",
   },
   description:
-    "The cases examine deterrence, alliances, escalation, and legitimacy through scored issue judgments and separately reported perspective modeling.",
+    "The cases examine deterrence, alliances, escalation, and legitimacy from the positions of exposed partners, rival powers, and nonaligned states.",
   measures: [
     "pressure versus crisis-limiting instincts",
     "alliance-centered versus autonomy-sensitive coalition instincts",
     "order-first versus protection-sensitive views of force and legitimacy",
     "how explanation cards differ from decision cards when the case sharpens",
-    "how stated objectives and constraints shape actor instruments, reported separately from the scored result",
   ],
   doesNotClaim: [
     "a fixed security identity that overrides the Foundation baseline",
     "a full theory of grand strategy across every theater",
-    "endorsement, loyalty, or nationality-adjusted scoring from perspective-modeling choices",
+    "role-play or nationality-adjusted answers",
   ],
   axes: [
     {

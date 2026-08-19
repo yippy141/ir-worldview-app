@@ -12,7 +12,7 @@ import {
   getModuleQuestions,
   moduleAllowsSecondChoice,
 } from "@/lib/modules/framework"
-import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
+import { getCurrentModuleVersion } from "@/lib/modules/versions"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { ModuleAnswers, ModuleLane, ModuleSlug } from "@/lib/modules/types"
@@ -132,6 +132,7 @@ export function ModuleApp({
 
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const ready = questions.length > 0 && completedCount === questions.length
+  const usesSecurityV4Experience = slug === "security"
 
   function handleModeChange(nextMode: QuizMode) {
     if (nextMode === mode) return
@@ -167,10 +168,11 @@ export function ModuleApp({
   }
 
   function handleGenerate() {
+    const currentVersion = getCurrentModuleVersion(slug)
     const payload = encodeModulePayload({
       v: 3,
-      bv: MODULE_V22_TUPLE.bankVersion,
-      sv: MODULE_V22_TUPLE.scoringVersion,
+      bv: currentVersion.bankVersion,
+      sv: currentVersion.scoringVersion,
       slug,
       mode,
       answers,
@@ -223,9 +225,19 @@ export function ModuleApp({
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard uses {standardQuestionCount} questions. Advanced adds{" "}
-              {analystAdditionCount} cases and actor-position questions, for{" "}
-              {analystQuestionCount} in total. In either mode, choose one main answer per case and
-              add a backup only when another option genuinely fits.
+              {usesSecurityV4Experience ? (
+                <>
+                  {analystAdditionCount} additional cases, for {analystQuestionCount} in total.
+                  Choose one main answer in either mode; in Advanced, optionally mark one
+                  second-most persuasive choice.
+                </>
+              ) : (
+                <>
+                  {analystAdditionCount} cases and actor-position questions, for{" "}
+                  {analystQuestionCount} in total. In either mode, choose one main answer per case
+                  and add a backup only when another option genuinely fits.
+                </>
+              )}
             </p>
           </div>
           <div className="module-mode-grid">
@@ -283,12 +295,15 @@ export function ModuleApp({
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                 Read the scene and tradeoff before answering. On Explanation cards, choose the
                 cause that best accounts for the case. On Decision cards, choose the consideration
-                that should guide the response. On Actor lens cards, choose the logic that actor
-                would find strongest.
+                that should guide the response. On Actor lens cards,{" "}
+                {usesSecurityV4Experience
+                  ? "choose which instrument best fits the actor’s stated objectives and constraints. Understanding that logic is not an endorsement of the actor, its objectives, or the action."
+                  : "choose the logic that actor would find strongest."}
               </p>
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                Answer from your analytic judgment. If two options fit, make one your main choice
-                and mark the other as secondary.
+                {usesSecurityV4Experience
+                  ? "Answer from your analytic judgment. In Advanced, if two options fit, make one your main choice and mark the other as secondary."
+                  : "Answer from your analytic judgment. If two options fit, make one your main choice and mark the other as secondary."}
               </p>
             </div>
           </div>
@@ -325,7 +340,10 @@ export function ModuleApp({
           {laneQuestions.map((question, questionIndex) => {
             const primarySelection = answers[question.id]?.primary
             const secondarySelection = answers[question.id]?.secondary
-            const showSecondChoice = moduleAllowsSecondChoice(question) && Boolean(primarySelection)
+            const showSecondChoice =
+              (!usesSecurityV4Experience || mode === "analyst") &&
+              moduleAllowsSecondChoice(question) &&
+              Boolean(primarySelection)
             const presentedOptions = getSeededOptionOrder(
               question.options,
               orderSeed,
@@ -376,7 +394,7 @@ export function ModuleApp({
 
                 <div className="callout">
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {moduleInstructionCopy(question.cardType)}
+                    {moduleInstructionCopy(question.cardType, usesSecurityV4Experience)}
                   </p>
                 </div>
 
@@ -539,7 +557,10 @@ function cardTypeLabel(cardType: ChoiceCardType) {
   return "Both"
 }
 
-function moduleInstructionCopy(cardType: ChoiceCardType) {
+function moduleInstructionCopy(
+  cardType: ChoiceCardType,
+  usesSecurityV4Experience: boolean,
+) {
   if (cardType === "explanation") {
     return "Choose the option that best explains what is driving the case."
   }
@@ -549,7 +570,9 @@ function moduleInstructionCopy(cardType: ChoiceCardType) {
   }
 
   if (cardType === "actorLens") {
-    return "Choose the logic this actor would find strongest. Do not substitute the policy you personally prefer."
+    return usesSecurityV4Experience
+      ? "Choose which instrument best fits the actor’s stated objectives and constraints. Understanding that logic is not an endorsement of the actor, its objectives, or the action."
+      : "Choose the logic this actor would find strongest. Do not substitute the policy you personally prefer."
   }
 
   return "Choose the option that best explains the case and should guide the response."

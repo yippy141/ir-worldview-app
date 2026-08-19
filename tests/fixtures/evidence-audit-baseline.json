@@ -2233,9 +2233,9 @@
     "priority": "P2"
   },
   "responseFixture": {
-    "digest": "16d7f05a33a87ca92f84e66c67850dbc47e7efb90cacb7f3e8e0e463309e8ed6",
-    "invarianceRecordCount": 16,
-    "responseRecordCount": 320,
+    "digest": "3bf75239ce19f6e10e1a6f086ff66fc7646d37534238689249f5fc1349aa839a",
+    "invarianceRecordCount": 18,
+    "responseRecordCount": 353,
     "seed": 20260728
   },
   "schemaVersion": 2

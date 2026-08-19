@@ -47,6 +47,16 @@ export function ModuleResultView({
     mode,
     answers,
   )
+  const usesSecurityV4Presentation = slug === "security" && bankVersion === 4
+  const scoredSelections = selected.filter(
+    ({ question }) => question.cardType !== "actorLens",
+  )
+  const resultEvidenceSelections = usesSecurityV4Presentation
+    ? scoredSelections
+    : selected
+  const actorLensSelections = usesSecurityV4Presentation
+    ? selected.filter(({ question }) => question.cardType === "actorLens")
+    : []
   const questionCount =
     runtime.getModuleQuestions(moduleDefinition, mode).length
   const laneLabelMap = Object.fromEntries(
@@ -56,7 +66,7 @@ export function ModuleResultView({
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
   const decisiveCalls = buildDecisiveCalls({
     moduleDefinition,
-    selected,
+    selected: resultEvidenceSelections,
     laneLabelMap,
   })
   const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
@@ -85,7 +95,10 @@ export function ModuleResultView({
             measures: moduleDefinition.measures,
             doesNotClaim: moduleDefinition.doesNotClaim,
             evidence: selected.map(({ question, primary, secondary }) => ({
-              question: question.title,
+              question:
+                usesSecurityV4Presentation && question.cardType === "actorLens"
+                  ? `${question.title} — Perspective modeling (unscored)`
+                  : question.title,
               primary: primary?.title ?? "No selection",
               ...(secondary?.title ? { secondary: secondary.title } : {}),
             })),
@@ -168,10 +181,29 @@ export function ModuleResultView({
           <p className="result-figure__note">
             Each score reports a response direction within this module. Its endpoint labels name
             the two directions; they are not empirical bounds
-            {hasActorLens ? ". Explanation and Decision cards determine the main result; Actor lens cards provide context only." : "."}{" "}
+            {hasActorLens
+              ? usesSecurityV4Presentation
+                ? ". Scored Explanation and Decision cards determine the main result. Actor lens cards are excluded from the headline, axes, and lane results."
+                : ". Explanation and Decision cards determine the main result; Actor lens cards provide context only."
+              : "."}{" "}
             <Link href="/method">Methods sets out the limits →</Link>
           </p>
         </section>
+
+        {usesSecurityV4Presentation && hasActorLens ? (
+          <section className="result-section result-figure">
+            <h2>Perspective-modeling read</h2>
+            {result.cardTypeRead ? (
+              <p className="result-prose module-prose">{result.cardTypeRead.summary}</p>
+            ) : null}
+            <p className="result-figure__note">
+              These cards ask you to understand which instrument fits a stated decision cell’s
+              objectives and constraints. Understanding that logic is not endorsement of the actor,
+              its claim, or its objective. The choices remain visible below as separate descriptive
+              evidence and do not alter any scored {moduleDefinition.shortTitle} result.
+            </p>
+          </section>
+        ) : null}
 
         {/* ── 4. Relation to the Foundation ── */}
         <section className="result-section result-figure">
@@ -249,7 +281,7 @@ export function ModuleResultView({
           <details className="profile-details">
             <summary>Full analysis</summary>
             <div className="stack-lg result-details-body">
-              {result.cardTypeRead ? (
+              {!usesSecurityV4Presentation && result.cardTypeRead ? (
                 <div className="stack-md">
                   <h2>{result.cardTypeRead.headline}</h2>
                   <p className="result-prose module-prose">{result.cardTypeRead.summary}</p>
@@ -293,9 +325,9 @@ export function ModuleResultView({
               </div>
 
               <div className="stack-md">
-                <h2>Evidence log</h2>
+                <h2>{usesSecurityV4Presentation ? "Scored evidence log" : "Evidence log"}</h2>
                 <div className="driver-grid">
-                  {selected.map(({ question, primary, secondary }) => (
+                  {resultEvidenceSelections.map(({ question, primary, secondary }) => (
                     <div key={question.id} className="driver-card stack-sm">
                       <div className="stack-xs">
                         <p className="eyebrow">{question.title}</p>
@@ -324,6 +356,49 @@ export function ModuleResultView({
                   ))}
                 </div>
               </div>
+
+              {actorLensSelections.length > 0 ? (
+                <div className="stack-md">
+                  <div className="stack-xs">
+                    <h2>Perspective-modeling choices</h2>
+                    <p className="result-figure__note">
+                      These selections are reported separately from your scored evidence. They did
+                      not change the headline, axes, or lane results.
+                    </p>
+                  </div>
+                  <div className="driver-grid">
+                    {actorLensSelections.map(({ question, primary, secondary }) => (
+                      <div key={question.id} className="driver-card stack-sm">
+                        <div className="stack-xs">
+                          <p className="eyebrow">{question.title}</p>
+                          <p className="muted module-evidence-meta">
+                            {laneLabelMap[question.lane] ?? question.lane} · Perspective modeling
+                          </p>
+                          <p className="module-lane-copy">{question.prompt}</p>
+                        </div>
+                        <div className="stack-xs">
+                          <span className="option-card-meta">Most persuasive</span>
+                          <p className="driver-card__value">
+                            {primary?.title ?? "No selection"}
+                          </p>
+                          <p className="muted module-lane-delta">
+                            {primary?.label ?? "This question was not answered."}
+                          </p>
+                        </div>
+                        {secondary ? (
+                          <div className="stack-xs">
+                            <span className="option-card-meta option-card-meta--secondary">
+                              Second-most persuasive
+                            </span>
+                            <p className="driver-card__value">{secondary.title}</p>
+                            <p className="muted module-lane-delta">{secondary.label}</p>
+                          </div>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
 
               <ResearchStatusNotice instrumentLabel={`${moduleDefinition.shortTitle} module`} />
             </div>

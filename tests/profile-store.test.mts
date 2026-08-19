@@ -58,7 +58,12 @@ test("real v1 fixture migrates its current Foundation and legacy module safely",
 })
 
 test("real v2 fixture preserves current module overlay fields", () => {
-  const profile = parseProfileStore(readFixture(2))
+  const fixture = JSON.parse(readFixture(2))
+  fixture.modules.technology.cardTypeRead = {
+    headline: "Frozen technology card-type read",
+    summary: "Historical card-type copy remains readable.",
+  }
+  const profile = parseProfileStore(JSON.stringify(fixture))
 
   assert.equal(profile.v, 5)
   assert.equal(profile.foundationHistory.length, 1)
@@ -67,6 +72,10 @@ test("real v2 fixture preserves current module overlay fields", () => {
     securityCompetition: 0.4,
     politicalEconomy: 0.3,
   })
+  assert.equal(
+    profile.modules.technology?.cardTypeRead?.headline,
+    "Frozen technology card-type read",
+  )
   assert.deepEqual(profile.moduleHistory, [])
 })
 

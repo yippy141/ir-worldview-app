@@ -1087,6 +1087,11 @@ function buildModuleDisplay({
       ? resolvedModule.definition
       : getModuleDefinition(slug)
   if (!definition) return fallback
+  const preserveSecurityFallback =
+    slug === "security" && !resolvedModule && Boolean(fallback)
+  const labelsPerspectiveModeling =
+    resolvedModule?.payload.slug === "security" &&
+    resolvedModule.bankVersion === 4
   const hasScores = definition.axes.every((axis) => isFiniteNumber(scores[axis.key]))
   const hasLaneScores = definition.lanes.every((lane) => isNumberRecord(laneScores[lane.key]))
   const classificationMode =
@@ -1100,18 +1105,19 @@ function buildModuleDisplay({
     laneScores,
     cardTypeScores,
   }
-  const interpretation = hasScores
+  const interpretation = hasScores && !preserveSecurityFallback
     ? definition.interpret(analytics, classificationContext)
     : null
-  const laneSummaries = hasLaneScores
+  const laneSummaries = hasLaneScores && !preserveSecurityFallback
     ? definition.summarizeLanes(
         analytics,
         undefined,
         classificationContext,
       )
     : fallback?.laneSummaries ?? []
-  const cardTypeRead = definition.summarizeCardTypes?.(analytics)
-    ?? fallback?.cardTypeRead
+  const cardTypeRead = preserveSecurityFallback
+    ? fallback?.cardTypeRead
+    : definition.summarizeCardTypes?.(analytics) ?? fallback?.cardTypeRead
   const evidence = resolvedModule && resolvedModule.payload.slug === slug
     ? resolvedModule.runtime.getSelectedModuleOptions(
         definition,
@@ -1119,7 +1125,10 @@ function buildModuleDisplay({
         resolvedModule.payload.answers,
       ).map(
         ({ question, primary, secondary }) => ({
-          question: question.title,
+          question:
+            labelsPerspectiveModeling && question.cardType === "actorLens"
+              ? `${question.title} — Perspective modeling (unscored)`
+              : question.title,
           primary: primary?.title ?? "No selection",
           ...(secondary?.title ? { secondary: secondary.title } : {}),
         }),

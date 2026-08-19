@@ -106,7 +106,7 @@ test("classification calibration leaves displayed module and lane scores raw", (
   }
 })
 
-test("V22 module banks meet the non-negotiable coverage, centering, and saturation gates", () => {
+test("current module banks meet the non-negotiable coverage, centering, and saturation gates", () => {
   for (const moduleDefinition of modules) {
     for (const mode of MODES) {
       const questions = getModuleQuestions(moduleDefinition, mode)
@@ -116,7 +116,7 @@ test("V22 module banks meet the non-negotiable coverage, centering, and saturati
 
       for (const axis of moduleDefinition.axes) {
         const subject = `${moduleDefinition.slug}.${mode}.${axis.key}`
-        const coverage = questions.filter(
+        const coverage = scoredQuestions.filter(
           (question) =>
             question.discriminatingAxes.includes(axis.key) &&
             evaluateDeclaredAxis(

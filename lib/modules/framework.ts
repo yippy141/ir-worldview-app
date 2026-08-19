@@ -3,6 +3,7 @@ import { technologyModule } from "@/lib/modules/technology"
 import {
   getModuleVersion,
   MODULE_V21_TUPLE,
+  SECURITY_V4_TUPLE,
   type ModuleVersion,
 } from "@/lib/modules/versions"
 import * as currentModuleRuntime from "@/lib/modules/runtime-v2"
@@ -356,6 +357,20 @@ function validateModuleAnswers(
     const optionIds = new Set(question.options.map((option) => option.id))
     if (!optionIds.has(selection.primary)) return false
     if (selection.secondary && !optionIds.has(selection.secondary)) return false
+
+    const usesSecurityV4SecondaryContract =
+      version.definition.slug === "security" &&
+      version.bankVersion === SECURITY_V4_TUPLE.bankVersion &&
+      version.scoringVersion === SECURITY_V4_TUPLE.scoringVersion
+    if (
+      usesSecurityV4SecondaryContract &&
+      selection.secondary &&
+      (mode !== "analyst" ||
+        !question.allowSecondChoiceInAnalyst ||
+        selection.secondary === selection.primary)
+    ) {
+      return false
+    }
   }
 
   return true

@@ -17,7 +17,7 @@ import {
 import { tmpdir } from "node:os"
 import { resolve } from "node:path"
 import { spawnSync } from "node:child_process"
-import securityBank from "@/content/instrument/security.v3.json" with {
+import securityBank from "@/content/instrument/security.v4.json" with {
   type: "json",
 }
 // Node's strip-types runtime requires the explicit .mts extension.
@@ -274,6 +274,7 @@ test("CI check command is read-only and rejects stale or missing scratch artifac
       "artifacts",
       "components",
       "content",
+      "docs",
       "i18n",
       "lib",
       "messages",
@@ -483,7 +484,7 @@ test("response fixture output is deterministic and matches its checked-in baseli
 
   assert.deepEqual(second, first)
   assert.equal(first.randomSeed, EVIDENCE_RANDOM_SEED)
-  assert.equal(responseRecordCount, 320)
+  assert.equal(responseRecordCount, 353)
   assert.equal(hashJson(payload), baseline.responseFixture.digest)
   assert.equal(
     responseRecordCount,
@@ -533,7 +534,7 @@ test("unsupported instrument item fields fail closed before analysis", () => {
 test("presentation order cannot change scores for any current or legacy runtime", () => {
   const response = buildEvidenceResponseFixtureReport()
 
-  assert.equal(response.presentationInvariance.length, 16)
+  assert.equal(response.presentationInvariance.length, 18)
   for (const evidence of response.presentationInvariance) {
     assert.equal("passed" in evidence, false, evidence.cohortKey)
     assert.ok(
@@ -584,10 +585,10 @@ test("every eligible analyst tuple has primary-only, reinforcing, and competing 
     ),
   )
 
-  assert.equal(eligibleAnalystTuples.length, 8)
+  assert.equal(eligibleAnalystTuples.length, 9)
   assert.equal(
     eligibleAnalystTuples.filter((cohort) => cohort.legacy).length,
-    4,
+    5,
   )
   assert.equal(
     eligibleAnalystTuples.filter((cohort) => !cohort.legacy).length,
@@ -742,9 +743,9 @@ test("every eligible analyst tuple has primary-only, reinforcing, and competing 
     }
   }
 
-  assert.equal(eligibleSelectionCount, 110)
-  assert.equal(reinforcingSecondaryCount, 110)
-  assert.equal(competingSecondaryCount, 108)
+  assert.equal(eligibleSelectionCount, 133)
+  assert.equal(reinforcingSecondaryCount, 133)
+  assert.equal(competingSecondaryCount, 131)
 
   const legacySecurity = eligibleAnalystTuples.find(
     (cohort) => cohort.key === "security:b2:s1:analyst",
@@ -781,7 +782,7 @@ test("every eligible analyst tuple has primary-only, reinforcing, and competing 
 test("a known eligible runtime scores the secondary field and changes its result digest", () => {
   const response = buildEvidenceResponseFixtureReport()
   const cohort = response.cohorts.find(
-    (entry) => entry.key === "security:b3:s2:analyst",
+    (entry) => entry.key === "security:b4:s2:analyst",
   )
   assert.ok(cohort)
   const primaryOnly = cohort.fixtures.find(
@@ -839,13 +840,14 @@ test("legacy banks remain separate from current-bank evidence", () => {
   assert.deepEqual(current, [
     "ai-governance-bank-v3",
     "foundation-bank-v2",
-    "security-bank-v3",
+    "security-bank-v4",
     "technology-bank-v3",
   ])
   assert.deepEqual(legacy, [
     "ai-governance-bank-v2",
     "foundation-scoring-v1",
     "security-bank-v2",
+    "security-bank-v3",
     "technology-bank-v2",
   ])
   assert.equal(
@@ -858,7 +860,7 @@ test("legacy banks remain separate from current-bank evidence", () => {
   assert.ok(report.instrumentEvidence.textReuseByGeneration.legacy)
 
   const response = report.responseEvidence
-  assert.equal(response.cohorts.filter((cohort) => cohort.legacy).length, 8)
+  assert.equal(response.cohorts.filter((cohort) => cohort.legacy).length, 10)
   assert.equal(response.cohorts.filter((cohort) => !cohort.legacy).length, 8)
   assert.equal(report.fixtureBaseline.matches, true)
 })

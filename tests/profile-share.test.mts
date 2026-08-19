@@ -18,7 +18,7 @@ import {
   getModuleDefinition,
   getModuleQuestions,
 } from "@/lib/modules/framework"
-import { MODULE_V22_TUPLE } from "@/lib/modules/versions"
+import { getCurrentModuleVersion } from "@/lib/modules/versions"
 import { getPerspectiveDefinition } from "@/lib/perspectives/catalog"
 import {
   encodePerspectivePayload,
@@ -53,6 +53,7 @@ assert.ok(resolvedFoundation, "expected canonical foundation payload to resolve 
 function buildCanonicalModuleFixture(slug: "security" | "technology") {
   const definition = getModuleDefinition(slug)
   assert.ok(definition)
+  const version = getCurrentModuleVersion(slug)
   const mode = "standard" as const
   const answers = Object.fromEntries(
     getModuleQuestions(definition, mode).map((question) => [
@@ -64,8 +65,8 @@ function buildCanonicalModuleFixture(slug: "security" | "technology") {
   return {
     payload: encodeModulePayload({
       v: 3,
-      bv: MODULE_V22_TUPLE.bankVersion,
-      sv: MODULE_V22_TUPLE.scoringVersion,
+      bv: version.bankVersion,
+      sv: version.scoringVersion,
       slug,
       mode,
       answers,
@@ -73,7 +74,7 @@ function buildCanonicalModuleFixture(slug: "security" | "technology") {
     scores: analytics.scores,
     laneScores: analytics.laneScores,
     cardTypeScores: analytics.cardTypeScores,
-    instrumentVersion: MODULE_V22_TUPLE.bankVersion,
+    instrumentVersion: version.bankVersion,
   }
 }
 
