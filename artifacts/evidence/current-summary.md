@@ -868,7 +868,7 @@ Fixture baseline digest: `3bf75239ce19f6e10e1a6f086ff66fc7646d37534238689249f5fc
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 577. Unchanged and suppressed: 550. New: 27. Resolved: 8.
+P2 advisory baseline: 558. Current: 572. Unchanged and suppressed: 544. New: 28. Resolved: 14.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -876,7 +876,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 15 |
 | P1 | 26 |
-| P2 | 577 |
+| P2 | 572 |
 
 ### P0 and P1 findings
 
@@ -952,6 +952,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
 | 1 | repeated-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.18.options.1.label) | a hotline, rescue arrangements, and third-party incident investigation / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Rules, Meaning, and Structure / Foundation value is centered on the neutral score of 4, multiplied by an authored weight, and added to its axis |
 | 1 | general-prevalence-language-review | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.4.whyHard) | normally |
 | 1 | repeated-adjacent-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
 | 1 | repeated-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
@@ -960,14 +961,20 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 
 | Count | Baseline fingerprint |
 | --- | --- |
+| 1 | 513db19820bb8477ecc56f1877f8d1a26e1e69047454a6ae311b8ee9cd635d36 |
 | 1 | 5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878 |
+| 1 | 689de962962d10b8cf83810e1db73fefa16f96bfbba692236db8504f24abd1ad |
 | 1 | 690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff |
+| 1 | 6e88fde52db2ed2178f126d9edf5c767d0e408ffe6f862e05118429fd312c6d2 |
+| 1 | 72a76c9f0594e8c30052ae5687c70ae0c16708125f62380cb4105f6f378c224f |
 | 1 | 863d56b5a73c241f1be9faae45bb2a329dce039b0dc27706e0a37e54cbf8084e |
 | 1 | 890b3b7b2fd91e981ea8d7b7ab546f6ce680c8cb4a632960909a3b0f23cd4e67 |
 | 1 | 9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8 |
 | 1 | 9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb |
+| 1 | b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f |
 | 1 | c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1 |
 | 1 | c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d |
+| 1 | d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98 |
 
 ## Method notes
 

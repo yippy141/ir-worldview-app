@@ -339,7 +339,7 @@ test("FoundationMark renders pure hero and compact contracts without a client bo
   assert.match(compact, /aria-label="Dependencia mark"/u)
 })
 
-test("blend hero uses an equal-size Diptych with two pure marks and no blend mark", () => {
+test("blend hero uses a canonical equal-size Diptych with two pure marks and no blend mark", () => {
   const markup = render(FoundationMark, {
     code: "P/R+",
     primaryCode: "R+",
@@ -348,8 +348,8 @@ test("blend hero uses an equal-size Diptych with two pure marks and no blend mar
 
   assert.match(markup, /data-foundation-mark="blend"/u)
   assert.match(markup, /data-foundation-mark-layout="diptych"/u)
-  assert.match(markup, /data-foundation-mark-primary="R\+"/u)
-  assert.match(markup, /data-foundation-mark-runner-up="P\+"/u)
+  assert.match(markup, /data-foundation-mark-primary="P\+"/u)
+  assert.match(markup, /data-foundation-mark-runner-up="R\+"/u)
   assert.match(markup, /data-foundation-mark-connector/u)
   assert.deepEqual(pictorialSizes(markup), [112, 112])
   assert.equal(svgBodies(markup).length, 2)
@@ -357,6 +357,7 @@ test("blend hero uses an equal-size Diptych with two pure marks and no blend mar
   assert.match(markup, />P\/R\+</u)
   assert.match(markup, />Grotian</u)
   assert.match(markup, />Kairos</u)
+  assert.equal(markup.indexOf(">Kairos<") < markup.indexOf(">Grotian<"), true)
   assert.equal((markup.match(/aria-hidden="true"/gu) ?? []).length >= 3, true)
   assert.doesNotMatch(markup, /role="img"/u)
 })

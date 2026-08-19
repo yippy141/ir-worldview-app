@@ -29,6 +29,19 @@ export type FieldLayerConfig = {
 export const MAX_ACTIVE_FIELD_LAYERS = 2
 export const WORLDVIEW_MAP_LABEL = "Worldview Map"
 
+/** Contextual positions available as optional overlays on the Worldview Map. */
+export const WORLDVIEW_MAP_OVERLAY_LAYER_IDS = [
+  "atlas-patterns",
+  "perspective-runs",
+  "reference-profiles",
+] as const satisfies readonly FieldLayerId[]
+
+export type WorldviewMapOverlayLayerId =
+  (typeof WORLDVIEW_MAP_OVERLAY_LAYER_IDS)[number]
+
+export const DEFAULT_WORLDVIEW_MAP_OVERLAY_LAYER_IDS =
+  [] as const satisfies readonly WorldviewMapOverlayLayerId[]
+
 export const FIELD_LAYER_CONFIGS = [
   {
     id: "my-profile",
@@ -102,6 +115,15 @@ export function isFieldLayerId(value: unknown): value is FieldLayerId {
   )
 }
 
+export function isWorldviewMapOverlayLayerId(
+  value: unknown,
+): value is WorldviewMapOverlayLayerId {
+  return (
+    typeof value === "string" &&
+    (WORLDVIEW_MAP_OVERLAY_LAYER_IDS as readonly string[]).includes(value)
+  )
+}
+
 export function isFieldLayerAvailable(
   layerId: FieldLayerId,
   availability: FieldLayerAvailability = {},
@@ -140,6 +162,37 @@ function fallbackLayerId(
   if (isFieldLayerAvailable("my-profile", availability)) return "my-profile"
   return FIELD_LAYER_IDS.find((layerId) =>
     isFieldLayerAvailable(layerId, availability),
+  )
+}
+
+/**
+ * Normalize optional Map overlays without invoking the legacy layer fallback.
+ * An empty array is the intended default: contextual positions are opt-in.
+ */
+export function normalizeWorldviewMapOverlayLayers(
+  requested: readonly unknown[],
+  availability: FieldLayerAvailability = {},
+): WorldviewMapOverlayLayerId[] {
+  return uniqueAvailableLayerIds(requested, availability)
+    .filter(isWorldviewMapOverlayLayerId)
+    .slice(0, MAX_ACTIVE_FIELD_LAYERS)
+}
+
+/** Toggle an optional Map overlay while preserving the valid zero-layer state. */
+export function toggleWorldviewMapOverlayLayer(
+  current: readonly WorldviewMapOverlayLayerId[],
+  layerId: WorldviewMapOverlayLayerId,
+  availability: FieldLayerAvailability = {},
+): WorldviewMapOverlayLayerId[] {
+  if (!isFieldLayerAvailable(layerId, availability)) {
+    return normalizeWorldviewMapOverlayLayers(current, availability)
+  }
+
+  return normalizeWorldviewMapOverlayLayers(
+    current.includes(layerId)
+      ? current.filter((activeLayerId) => activeLayerId !== layerId)
+      : [...current.slice(-(MAX_ACTIVE_FIELD_LAYERS - 1)), layerId],
+    availability,
   )
 }
 

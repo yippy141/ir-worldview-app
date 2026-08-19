@@ -215,15 +215,20 @@ export function FoundationMark(props: FoundationMarkProps) {
   const resolved = getArchetypeByCode(props.code)
   if (!resolved || !("archetypes" in resolved)) return null
 
-  const primary = resolved.archetypes.find(
+  const leading = resolved.archetypes.find(
     ({ code }) => code === props.primaryCode,
   )
-  const runnerUp = resolved.archetypes.find(
+  const other = resolved.archetypes.find(
     ({ code }) => code !== props.primaryCode,
   )
-  if (!primary || !runnerUp) return null
+  if (!leading || !other) return null
 
   const isDiptych = presentation === "hero"
+  // A Diptych is equal-weight artwork, so it follows the blend's canonical
+  // code/name order. Only the compact Hallmark distinguishes a scored leader.
+  const [primary, runnerUp] = isDiptych
+    ? resolved.archetypes
+    : [leading, other]
   const runnerUpSize = isDiptych
     ? ARCHETYPE_MARK_HERO_SIZE
     : ARCHETYPE_MARK_MIN_PICTORIAL_SIZE

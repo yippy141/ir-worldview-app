@@ -2,7 +2,13 @@
 
 import { Link } from "@/i18n/navigation"
 import { useLocale } from "next-intl"
-import { useEffect, useMemo, useRef, useState } from "react"
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import { zhHansWorldviewMapUi } from "@/content/locales/zh-Hans/worldview-map"
@@ -10,7 +16,9 @@ import type { Locale } from "@/i18n/routing"
 import { FieldDetailCard } from "@/components/field/field-detail-card"
 import { FieldList } from "@/components/field/field-list"
 import { FieldMap, FieldMapKey, type FieldMapMarker } from "@/components/field/field-map"
+import { ArchetypeMatrix } from "@/components/field/archetype-matrix"
 import { LayerControls } from "@/components/field/layer-controls"
+import { resolveWorldviewMapBaseline } from "@/lib/field/archetype-matrix"
 import {
   applyExtendedFieldFilters,
   buildAtlasPatternFieldItems,
@@ -26,21 +34,26 @@ import {
   parseWorldviewMapQuery,
   serializeWorldviewMapQuery,
   WORLDVIEW_MAP_FAMILY_KEYS,
+  type WorldviewMapProjection,
   type WorldviewMapReviewWindow,
   type WorldviewMapView,
 } from "@/lib/field/map-state"
 import {
   PUBLIC_FIELD_LAYER_CONFIGS,
+  WORLDVIEW_MAP_OVERLAY_LAYER_IDS,
   WORLDVIEW_MAP_LABEL,
   fieldSelectionKey,
   filterFieldItems,
   findSelectedFieldItem,
   getNextFieldSelectionKey,
   getStableFieldItems,
+  isWorldviewMapOverlayLayerId,
+  normalizeWorldviewMapOverlayLayers,
   parseFieldFilters,
   parseFieldLayerIds,
   toggleActiveFieldLayer,
   toggleFieldSelectionKey,
+  toggleWorldviewMapOverlayLayer,
   type FieldFilters,
   type FieldLayerAvailability,
   type FieldLayerId,
@@ -55,7 +68,7 @@ import {
   type ReferenceScope,
 } from "@/lib/reference-profiles/types"
 import { loadProfileStore, type ProfileStore } from "@/lib/profile-store"
-import { FAMILY_LABELS } from "@/lib/worldview-config"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import type { FamilyKey } from "@/lib/types"
 import styles from "./worldview-map.module.css"
 
@@ -71,12 +84,17 @@ const ENGLISH_SCOPE_LABELS: Record<ReferenceScope, string> = {
 
 export function FieldExplorer() {
   const locale = useLocale() as Locale
+  const matrixAvailable = locale === "en"
   const copy = locale === "zh-Hans" ? zhHansWorldviewMapUi : undefined
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [initialQuery] = useState(() =>
     parseWorldviewMapQuery(searchParams.toString()),
   )
+  const [initialUrlState] = useState(() => ({
+    hasLayerParam: searchParams.has("layers"),
+    hasProjectionParam: searchParams.has("projection"),
+  }))
 
   const [profile, setProfile] = useState<ProfileStore | null>(null)
   const [profileLoaded, setProfileLoaded] = useState(false)
@@ -88,9 +106,21 @@ export function FieldExplorer() {
   const [selectedKey, setSelectedKey] = useState<FieldSelectionKey | null>(
     initialQuery.selectedKey,
   )
-  const [view, setView] = useState<WorldviewMapView>(initialQuery.view)
+  const [projection, setProjection] = useState<WorldviewMapProjection>(
+    matrixAvailable ? initialQuery.projection : "continuous",
+  )
+  const [view, setView] = useState<WorldviewMapView>(() =>
+    matrixAvailable
+      ? initialQuery.view
+      : searchParams.has("view")
+        ? initialQuery.view
+        : "list",
+  )
   /** Small-screen bottom sheet for the control bar; ignored above 900px. */
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [isNarrow, setIsNarrow] = useState(false)
+  const explorerRef = useRef<HTMLDivElement | null>(null)
+  const mobileMapBackRef = useRef<HTMLButtonElement | null>(null)
   const focusReturnKeyRef = useRef<FieldSelectionKey | null>(null)
   const detailDrawerRef = useRef<HTMLElement | null>(null)
   const viewTracked = useRef(false)
@@ -118,28 +148,51 @@ export function FieldExplorer() {
     return () => window.removeEventListener("storage", load)
   }, [locale])
 
-  // Lock the document only for the dedicated small-screen map state.
+  // Track the breakpoint used by the mobile map and modal detail sheet.
   useEffect(() => {
     const media = window.matchMedia("(max-width: 899px)")
-    const applyLock = () => {
-      document.body.style.overflow = view === "map" && media.matches ? "hidden" : ""
-    }
-    applyLock()
-    media.addEventListener("change", applyLock)
-    return () => {
-      media.removeEventListener("change", applyLock)
-      document.body.style.overflow = ""
-    }
-  }, [view])
+    const update = () => setIsNarrow(media.matches)
+    update()
+    media.addEventListener("change", update)
+    return () => media.removeEventListener("change", update)
+  }, [])
 
-  const resolvedLayers: FieldLayerId[] =
-    activeLayerIds ??
-    (profileLoaded
-      ? parseFieldLayerIds(
-          initialQuery.layerParam ?? DEFAULT_LAYERS.join(","),
-          availability,
-        )
-      : DEFAULT_LAYERS)
+  const initialLegacyCompatibilityMode =
+    matrixAvailable &&
+    initialQuery.projection === "continuous" &&
+    !initialUrlState.hasProjectionParam
+
+  const resolvedLayers = useMemo<FieldLayerId[]>(
+    () =>
+      activeLayerIds ??
+      (profileLoaded
+        ? matrixAvailable
+          ? initialUrlState.hasLayerParam
+            ? parseFieldLayerIds(initialQuery.layerParam, availability)
+            : initialLegacyCompatibilityMode
+              ? parseFieldLayerIds(DEFAULT_LAYERS.join(","), availability)
+              : []
+          : parseFieldLayerIds(
+              initialQuery.layerParam ?? DEFAULT_LAYERS.join(","),
+              availability,
+            )
+        : matrixAvailable
+          ? []
+          : DEFAULT_LAYERS),
+    [
+      activeLayerIds,
+      availability,
+      initialLegacyCompatibilityMode,
+      initialQuery.layerParam,
+      initialUrlState.hasLayerParam,
+      matrixAvailable,
+      profileLoaded,
+    ],
+  )
+
+  const shouldIncludeLayerParam =
+    !matrixAvailable ||
+    resolvedLayers.length > 0
 
   const shareableQuery = useMemo(
     () =>
@@ -148,13 +201,29 @@ export function FieldExplorer() {
           activeLayerIds: resolvedLayers,
           filters,
           familyKeys,
+          projection,
           reviewedWithin,
           selectedKey,
           view,
         },
         availability,
+        {
+          includeLayerParam: shouldIncludeLayerParam,
+          includeViewParam: matrixAvailable ? true : undefined,
+        },
       ),
-    [availability, familyKeys, filters, resolvedLayers, reviewedWithin, selectedKey, view],
+    [
+      availability,
+      familyKeys,
+      filters,
+      matrixAvailable,
+      projection,
+      resolvedLayers,
+      reviewedWithin,
+      selectedKey,
+      shouldIncludeLayerParam,
+      view,
+    ],
   )
 
   useEffect(() => {
@@ -168,6 +237,10 @@ export function FieldExplorer() {
   const baselineItem = useMemo(
     () => buildBaselineFieldItem(profile?.foundation ?? null, locale),
     [locale, profile],
+  )
+  const matrixBaseline = useMemo(
+    () => resolveWorldviewMapBaseline(profile?.foundation ?? null),
+    [profile],
   )
   const runItems = useMemo(
     () => buildPerspectiveRunFieldItems(profile?.perspectiveRuns ?? [], locale),
@@ -196,9 +269,10 @@ export function FieldExplorer() {
       familyKeys,
       reviewedWithinMonths: reviewedWithin ? Number(reviewedWithin) : null,
     })
-    // Facets never hide the user's baseline when its layer is explicitly active.
+    // The exact-payload English baseline is independent of contextual overlays.
+    // The approved Chinese workspace retains its legacy My profile layer rule.
     const withBaseline =
-      baselineItem && resolvedLayers.includes("my-profile")
+      baselineItem && (matrixAvailable || resolvedLayers.includes("my-profile"))
         ? [baselineItem, ...narrowed]
         : narrowed
     return getStableFieldItems(withBaseline)
@@ -207,6 +281,7 @@ export function FieldExplorer() {
     baselineItem,
     familyKeys,
     filters,
+    matrixAvailable,
     referenceItems,
     resolvedLayers,
     reviewedWithin,
@@ -215,6 +290,15 @@ export function FieldExplorer() {
 
   const selectedItem = findSelectedFieldItem(visibleItems, selectedKey)
   const selectedItemKey = selectedItem ? fieldSelectionKey(selectedItem) : null
+  const semanticListLayerIds: FieldLayerId[] =
+    matrixAvailable && baselineItem
+      ? [
+          "my-profile",
+          ...resolvedLayers.filter((layerId) => layerId !== "my-profile"),
+        ]
+      : resolvedLayers
+  const mobileContinuousMapActive =
+    isNarrow && projection === "continuous" && view === "map"
 
   useEffect(() => {
     if (!selectedItem || !window.matchMedia("(max-width: 899px)").matches) return
@@ -222,6 +306,56 @@ export function FieldExplorer() {
       detailDrawerRef.current?.querySelector<HTMLButtonElement>("button")?.focus()
     })
   }, [selectedItem])
+
+  useEffect(() => {
+    document.body.style.overflow =
+      mobileContinuousMapActive || (isNarrow && Boolean(selectedItem))
+        ? "hidden"
+        : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isNarrow, mobileContinuousMapActive, selectedItem])
+
+  useEffect(() => {
+    const modalActive =
+      mobileContinuousMapActive || (isNarrow && Boolean(selectedItem))
+    const explorer = explorerRef.current
+    if (!modalActive || !explorer) return
+
+    const siteMain = explorer.closest<HTMLElement>("#site-main")
+    const siteShell = explorer.closest<HTMLElement>(".site-shell")
+    const page = explorer.parentElement
+    const outside = new Set<HTMLElement>()
+
+    if (siteShell) {
+      for (const child of siteShell.children) {
+        if (child instanceof HTMLElement && child !== siteMain) {
+          outside.add(child)
+        }
+      }
+    }
+    if (page) {
+      for (const child of page.children) {
+        if (child instanceof HTMLElement && child !== explorer) {
+          outside.add(child)
+        }
+      }
+    }
+
+    const priorInert = [...outside].map(
+      (element) => [element, element.inert] as const,
+    )
+    for (const element of outside) element.inert = true
+
+    if (mobileContinuousMapActive && !selectedItem) {
+      window.requestAnimationFrame(() => mobileMapBackRef.current?.focus())
+    }
+
+    return () => {
+      for (const [element, inert] of priorInert) element.inert = inert
+    }
+  }, [isNarrow, mobileContinuousMapActive, selectedItem])
 
   const mapRunIds = useMemo(
     () =>
@@ -232,14 +366,14 @@ export function FieldExplorer() {
   )
 
   const currentBaselineRunIds = useMemo(() => {
-    const foundationScores = profile?.foundation?.dimensionScores
+    const foundationScores = matrixBaseline?.dimensionScores
     if (!foundationScores) return new Set<string>()
     return new Set(
       latestRunPerPerspective(profile?.perspectiveRuns ?? [])
         .filter((run) => perspectiveRunMatchesBaseline(run, foundationScores))
         .map((run) => run.id),
     )
-  }, [profile])
+  }, [matrixBaseline, profile])
 
   const mappableItems = visibleItems.filter(
     (item) =>
@@ -313,7 +447,41 @@ export function FieldExplorer() {
     .join(" + ")
 
   function handleToggleLayer(layerId: FieldLayerId) {
+    if (matrixAvailable && isWorldviewMapOverlayLayerId(layerId)) {
+      const current = normalizeWorldviewMapOverlayLayers(
+        resolvedLayers,
+        availability,
+      )
+      const next = toggleWorldviewMapOverlayLayer(
+        current,
+        layerId,
+        availability,
+      )
+      setActiveLayerIds(next)
+      if (!current.includes(layerId) && next.includes(layerId)) {
+        setProjection("continuous")
+        setView("map")
+      }
+      return
+    }
     setActiveLayerIds(toggleActiveFieldLayer(resolvedLayers, layerId, availability))
+  }
+
+  function handleProjectionChange(next: WorldviewMapProjection) {
+    setProjection(next)
+    setView("map")
+    setSheetOpen(false)
+    if (next === "matrix") setSelectedKey(null)
+  }
+
+  function handleMobileMapExit() {
+    setView("list")
+    setSheetOpen(false)
+    window.requestAnimationFrame(() => {
+      const listHeading = document.getElementById("worldview-map-list-heading")
+      listHeading?.focus({ preventScroll: true })
+      listHeading?.scrollIntoView({ block: "start" })
+    })
   }
 
   function handleSelect(key: FieldSelectionKey) {
@@ -333,9 +501,41 @@ export function FieldExplorer() {
       const marker = Array.from(
         document.querySelectorAll<HTMLElement>("[data-field-marker-key]"),
       ).find((element) => element.dataset.fieldMarkerKey === returnKey)
-      const target = view === "map" ? marker ?? listButton : listButton ?? marker
+      const target =
+        projection === "continuous" && view === "map"
+          ? marker ?? listButton
+          : listButton ?? marker
       target?.focus()
     })
+  }
+
+  function handleDetailKeyDown(event: ReactKeyboardEvent<HTMLElement>) {
+    if (event.key === "Escape") {
+      event.preventDefault()
+      handleCloseDetails()
+      return
+    }
+    if (event.key !== "Tab" || !isNarrow) return
+
+    const focusable = Array.from(
+      detailDrawerRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ) ?? [],
+    ).filter((element) => !element.hasAttribute("hidden"))
+    if (focusable.length === 0) {
+      event.preventDefault()
+      return
+    }
+
+    const first = focusable[0]
+    const last = focusable[focusable.length - 1]
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault()
+      last.focus()
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault()
+      first.focus()
+    }
   }
 
   function handleArrowNavigate(
@@ -362,17 +562,36 @@ export function FieldExplorer() {
   const emptyLine = filtersActive
     ? copy?.map.emptyFiltered ?? "No items match these filters. Clear one or more to widen the view."
     : copy?.map.empty ?? "Nothing to show yet. Activate a layer with saved or reviewed entries."
+  const matrixContextList = matrixAvailable && projection === "matrix"
+  const listEmptyLine =
+    matrixContextList && !filtersActive
+      ? "No baseline or contextual overlays are active. The eight Foundation archetypes remain available in the matrix above."
+      : emptyLine
 
   return (
     <div
+      ref={explorerRef}
       className={styles.explorer}
+      data-matrix-available={matrixAvailable ? "true" : "false"}
+      data-projection={projection}
       data-view={view}
       data-sheet={sheetOpen ? "open" : "closed"}
+      role={mobileContinuousMapActive && !selectedItem ? "dialog" : undefined}
+      aria-modal={mobileContinuousMapActive && !selectedItem ? true : undefined}
+      aria-label={
+        mobileContinuousMapActive && !selectedItem
+          ? copy?.page.title ?? WORLDVIEW_MAP_LABEL
+          : undefined
+      }
       aria-busy={loading}
     >
       {/* One horizontal control bar above the map. On small screens the same
           element becomes the bottom sheet over the full-bleed map. */}
-      <div className={styles.controlBar} aria-label={copy?.toolbar.ariaLabel ?? "Map workspace toolbar"}>
+      <nav
+        className={styles.controlBar}
+        aria-label={copy?.toolbar.ariaLabel ?? "Worldview Map views and context"}
+        inert={isNarrow && Boolean(selectedItem) ? true : undefined}
+      >
         <button
           type="button"
           className={styles.sheetHandle}
@@ -380,10 +599,10 @@ export function FieldExplorer() {
           onClick={() => setSheetOpen((open) => !open)}
         >
           <span className={styles.sheetHandleLabel}>
-            {copy?.layers.heading ?? "Layers"}
+            {copy?.layers.heading ?? "Context overlays"}
           </span>
           <span className={styles.sheetHandleSummary}>
-            {activeLayerSummary || copy?.toolbar.noActiveLayers || "No active layers"}
+            {activeLayerSummary || copy?.toolbar.noActiveLayers || "No context overlays"}
           </span>
         </button>
 
@@ -394,40 +613,74 @@ export function FieldExplorer() {
               availability={availability}
               counts={layerCounts}
               onToggle={handleToggleLayer}
+              layerIds={matrixAvailable ? WORLDVIEW_MAP_OVERLAY_LAYER_IDS : undefined}
+              heading="Context overlays"
+              note="Optional positions shown only in the continuous view. Choose up to two."
               copy={copy}
             />
 
             <div className={styles.controlBarActions}>
-              <span className={styles.toolbarMeta}>
-                {copy?.toolbar.itemCount(visibleItems.length) ??
-                  `${visibleItems.length} ${visibleItems.length === 1 ? "item" : "items"}`}
-              </span>
-              <a className={styles.listJump} href="#worldview-map-list">
-                {copy?.toolbar.completeList ?? "Complete list"} ↓
-              </a>
-              <div className={styles.viewToggle} role="group" aria-label={copy?.toolbar.view ?? "View"}>
-                <button
-                  type="button"
-                  className={`${styles.viewButton}${view === "list" ? ` ${styles.viewButtonActive}` : ""}`}
-                  aria-pressed={view === "list"}
-                  onClick={() => setView("list")}
+              {matrixAvailable ? (
+                <div
+                  className={styles.projectionToggle}
+                  role="group"
+                  aria-label="Map projection"
                 >
-                  {copy?.toolbar.list ?? "List"}
-                </button>
-                <button
-                  type="button"
-                  className={`${styles.viewButton}${view === "map" ? ` ${styles.viewButtonActive}` : ""}`}
-                  aria-pressed={view === "map"}
-                  onClick={() => setView("map")}
-                >
-                  {copy?.toolbar.map ?? "Map"}
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    className={`${styles.projectionButton}${projection === "matrix" ? ` ${styles.projectionButtonActive}` : ""}`}
+                    aria-pressed={projection === "matrix"}
+                    onClick={() => handleProjectionChange("matrix")}
+                  >
+                    Matrix
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.projectionButton}${projection === "continuous" ? ` ${styles.projectionButtonActive}` : ""}`}
+                    aria-pressed={projection === "continuous"}
+                    onClick={() => handleProjectionChange("continuous")}
+                  >
+                    Continuous
+                  </button>
+                </div>
+              ) : null}
+              {matrixAvailable && projection === "matrix" ? (
+                <span className={styles.toolbarMeta}>8 archetypes</span>
+              ) : (
+                <>
+                  <span className={styles.toolbarMeta}>
+                    {copy?.toolbar.itemCount(visibleItems.length) ??
+                      `${visibleItems.length} ${visibleItems.length === 1 ? "item" : "items"}`}
+                  </span>
+                  <a className={styles.listJump} href="#worldview-map-list">
+                    {copy?.toolbar.completeList ?? "Complete list"} ↓
+                  </a>
+                  <div className={styles.viewToggle} role="group" aria-label={copy?.toolbar.view ?? "View"}>
+                    <button
+                      type="button"
+                      className={`${styles.viewButton}${view === "list" ? ` ${styles.viewButtonActive}` : ""}`}
+                      aria-pressed={view === "list"}
+                      onClick={() => setView("list")}
+                    >
+                      {copy?.toolbar.list ?? "List"}
+                    </button>
+                    <button
+                      type="button"
+                      className={`${styles.viewButton}${view === "map" ? ` ${styles.viewButtonActive}` : ""}`}
+                      aria-pressed={view === "map"}
+                      onClick={() => setView("map")}
+                    >
+                      {copy?.toolbar.map ?? "Map"}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
-          <div className={styles.controlBarSecondary}>
-            <details className={styles.filterDetails}>
+          {!matrixAvailable || projection === "continuous" ? (
+            <div className={styles.controlBarSecondary}>
+            <details className={styles.filterDetails} data-worldview-map-filters>
               <summary className={styles.filterSummary}>
                 {copy?.filters.heading ?? "Filters"}
                 {filtersActive ? ` · ${copy?.filters.active ?? "active"}` : ""}
@@ -526,7 +779,7 @@ export function FieldExplorer() {
                           )
                         }
                       >
-                        {copy?.filters.families[familyKey] ?? FAMILY_LABELS[familyKey]}
+                        {copy?.filters.families[familyKey] ?? traditionNounLabel(familyKey)}
                       </button>
                     )
                   })}
@@ -567,53 +820,84 @@ export function FieldExplorer() {
               </div>
             </details>
 
-            <details className={styles.keyDetails}>
+            <details className={styles.keyDetails} data-worldview-map-key>
               <summary className={styles.filterSummary}>{copy?.map.mapKey ?? "Map key"}</summary>
               <FieldMapKey
                 kinds={["baseline", "perspective-run", "atlas-pattern", "reference"]}
                 copy={copy}
               />
             </details>
-          </div>
+            </div>
+          ) : null}
         </div>
-      </div>
+      </nav>
 
       <div
         className={`${styles.workspace}${selectedItem ? ` ${styles.workspaceWithDrawer}` : ""}`}
       >
-        <main className={styles.mapColumn}>
+        <main
+          className={styles.mapColumn}
+          inert={isNarrow && Boolean(selectedItem) ? true : undefined}
+        >
           <section className={styles.mapStage} aria-label={copy?.page.title ?? WORLDVIEW_MAP_LABEL}>
             <div className={styles.mobileMapHeader}>
               <button
+                ref={mobileMapBackRef}
                 type="button"
                 className={styles.mapBack}
-                onClick={() => setView("list")}
+                onClick={handleMobileMapExit}
               >
-                ← {copy?.toolbar.backToList ?? "Back to list"}
+                {`← ${copy?.toolbar.backToList ?? "Back to list"}`}
               </button>
               <strong>{copy?.page.title ?? WORLDVIEW_MAP_LABEL}</strong>
             </div>
             <div className={styles.mapStageBody}>
               {loading ? (
                 <p className={styles.mapLoading}>{copy?.map.loadingSavedLayers ?? "Loading saved layers…"}</p>
-              ) : mappableItems.length > 0 ? (
-                <FieldMap
-                  ariaLabel={copy?.map.ariaLabel ?? "Layered worldview map. Every plotted item also appears in the complete semantic list with the same details."}
-                  markers={markers}
-                  connectors={connectors}
-                  hulls={hulls}
-                  showAnchors
-                  onSelect={(key) => handleSelect(key as FieldSelectionKey)}
-                  markerHrefPrefix="field-item-"
-                  caption={
-                    filters.scopes.includes("ai-governance" as ReferenceScope)
-                      ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
-                      : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. The vertical axis separates realism, institutionalism, and critical political economy only weakly, because all three read world politics through material forces. Overlapping marks stack into one cluster that fans open on hover or selection."
-                  }
-                  copy={copy}
-                />
               ) : (
-                <p className={styles.mapEmpty}>{emptyLine}</p>
+                <>
+                  {matrixAvailable ? (
+                    <div
+                      className={styles.matrixProjection}
+                      aria-hidden={projection === "matrix" ? undefined : true}
+                      inert={projection === "matrix" ? undefined : true}
+                    >
+                      <ArchetypeMatrix baseline={matrixBaseline} />
+                    </div>
+                  ) : null}
+
+                  <div
+                    className={styles.continuousProjection}
+                    aria-hidden={projection === "continuous" ? undefined : true}
+                    inert={projection === "continuous" ? undefined : true}
+                  >
+                    {matrixAvailable ? (
+                      <p className={styles.continuousNote}>
+                        Secondary view. This projection does not encode applying
+                        advantage or restraint.
+                      </p>
+                    ) : null}
+                    {mappableItems.length > 0 ? (
+                      <FieldMap
+                        ariaLabel={copy?.map.ariaLabel ?? "Continuous worldview projection. Every plotted item also appears in the complete semantic list with the same details."}
+                        markers={markers}
+                        connectors={connectors}
+                        hulls={hulls}
+                        showAnchors
+                        onSelect={(key) => handleSelect(key as FieldSelectionKey)}
+                        markerHrefPrefix="field-item-"
+                        caption={
+                          filters.scopes.includes("ai-governance" as ReferenceScope)
+                            ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
+                            : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. The vertical axis separates Realism, Institutionalism, and Critical political economy only weakly because all three include material explanations. Exact collisions form one cluster at the shared coordinate; opening it reveals every item without changing its source position."
+                        }
+                        copy={copy}
+                      />
+                    ) : (
+                      <p className={styles.mapEmpty}>{emptyLine}</p>
+                    )}
+                  </div>
+                </>
               )}
             </div>
           </section>
@@ -624,20 +908,28 @@ export function FieldExplorer() {
             aria-labelledby="worldview-map-list-heading"
           >
             <div className={styles.listHeader}>
-              <h2 id="worldview-map-list-heading" className={styles.listTitle}>
-                {copy?.map.completeListHeading ?? "Complete list"}
+              <h2
+                id="worldview-map-list-heading"
+                className={styles.listTitle}
+                tabIndex={-1}
+              >
+                {matrixContextList
+                  ? "Contextual positions"
+                  : copy?.map.completeListHeading ?? "Complete list"}
               </h2>
               <p className={styles.listNote}>
-                {copy?.map.completeListNote ?? "All visible and list-only entries. Use ↑ and ↓ from an item to move."}
+                {matrixContextList
+                  ? "Complete list of the saved baseline and any optional overlays shown with this matrix."
+                  : copy?.map.completeListNote ?? "All visible and list-only entries. Use ↑ and ↓ from an item to move."}
               </p>
             </div>
             <FieldList
               items={visibleItems}
-              activeLayerIds={resolvedLayers}
+              activeLayerIds={semanticListLayerIds}
               selectedKey={selectedItemKey}
               onSelect={handleSelect}
               onArrowNavigate={handleArrowNavigate}
-              emptyLine={emptyLine}
+              emptyLine={listEmptyLine}
               copy={copy}
             />
 
@@ -656,10 +948,10 @@ export function FieldExplorer() {
           <aside
             ref={detailDrawerRef}
             className={styles.detailDrawer}
+            role={isNarrow ? "dialog" : undefined}
+            aria-modal={isNarrow ? true : undefined}
             aria-label={copy?.map.selectedDetailsAria ?? "Selected item details"}
-            onKeyDown={(event) => {
-              if (event.key === "Escape") handleCloseDetails()
-            }}
+            onKeyDown={handleDetailKeyDown}
           >
             <FieldDetailCard item={selectedItem} onClose={handleCloseDetails} copy={copy} />
           </aside>
@@ -669,8 +961,10 @@ export function FieldExplorer() {
       <p className="sr-only" role="status">
         {loading
           ? copy?.map.statusLoading ?? "Loading saved layers."
-          : copy?.map.statusShown(visibleItems.length, selectedItem?.label) ??
-            `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
+          : matrixAvailable && projection === "matrix"
+            ? `Eight archetypes shown.${matrixBaseline ? ` ${matrixBaseline.resolvedArchetype.name} is your Foundation reading.` : " No Foundation baseline is saved."}`
+            : copy?.map.statusShown(visibleItems.length, selectedItem?.label) ??
+              `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
       </p>
     </div>
   )

@@ -1,6 +1,8 @@
 import test from "node:test"
 import assert from "node:assert/strict"
+import { readFileSync } from "node:fs"
 import { atlasLitePatterns } from "@/lib/atlas-lite"
+import { zhHansWorldviewProfileById } from "@/content/locales/zh-Hans/worldview-profiles"
 import {
   applyExtendedFieldFilters,
   atlasFingerprintToDimensionScores,
@@ -20,21 +22,26 @@ import { getReferenceProfilePosition } from "@/lib/reference-profiles/validation
 import type { ReferenceCatalog } from "@/lib/reference-profiles/types"
 import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 import type { FoundationSnapshot } from "@/lib/profile-store"
+import { resolveFoundationPayload } from "@/lib/share"
 import type { DimensionScores } from "@/lib/types"
+import { traditionNounLabel } from "@/lib/worldview-config"
+
+const frozenV2FoundationPayload =
+  "eyJ2IjoyLCJkcyI6WzYuMjUsMi41LDQsMy43NSw1LjUsNC4yNSwyLjc1XSwiZmsiOiJyZWFsaXN0IiwibmsiOiJpbnN0aXR1dGlvbmFsaXN0Iiwic20iOiJIZWRnZXIiLCJubSI6IkNvbmRpdGlvbmFsIFNvbGlkYXJpc3QifQ"
 
 const baselineScores: DimensionScores = {
-  securityCompetition: 5.2,
-  institutions: 3.4,
-  domesticFilters: 4.1,
-  normsIdentity: 4.4,
-  politicalEconomy: 4.0,
-  restraint: 4.6,
-  orderJustice: 5.0,
+  securityCompetition: 6.25,
+  institutions: 2.5,
+  domesticFilters: 4,
+  normsIdentity: 3.75,
+  politicalEconomy: 5.5,
+  restraint: 4.25,
+  orderJustice: 2.75,
 }
 
 const foundationSnapshot: FoundationSnapshot = {
   timestamp: 1720000000000,
-  payload: "payload",
+  payload: frozenV2FoundationPayload,
   instrumentStructuralVersion: 3,
   scoringVersion: 1,
   resultPath: "/results/payload",
@@ -75,6 +82,58 @@ test("baseline field item projects through the shared projection", () => {
   assert.equal(buildBaselineFieldItem(null), null)
 })
 
+test("baseline field item fails closed when its exact Foundation payload is invalid", () => {
+  const cachedButInvalid = {
+    ...foundationSnapshot,
+    payload: "not-a-foundation-payload",
+    familyKey: "criticalPoliticalEconomy" as const,
+    familyLabel: "Conflicting cached family",
+    dimensionScores: {
+      ...baselineScores,
+      securityCompetition: 1,
+      institutions: 7,
+    },
+  }
+
+  assert.equal(buildBaselineFieldItem(cachedButInvalid), null)
+})
+
+test("legacy baseline position and summary follow decoded payload data, not cached fields", () => {
+  const resolved = resolveFoundationPayload(frozenV2FoundationPayload)
+  assert.ok(resolved)
+
+  const conflictingSnapshot: FoundationSnapshot = {
+    ...foundationSnapshot,
+    payload: frozenV2FoundationPayload,
+    resultPath: `/results/${frozenV2FoundationPayload}`,
+    familyKey: "criticalPoliticalEconomy",
+    familyLabel: "Conflicting cached family",
+    runnerUpKey: "constructivist",
+    runnerUpLabel: "Conflicting cached runner-up",
+    dimensionScores: {
+      securityCompetition: 1,
+      institutions: 7,
+      domesticFilters: 7,
+      normsIdentity: 7,
+      politicalEconomy: 7,
+      restraint: 1,
+      orderJustice: 7,
+    },
+    strategyModifier: "Maximizer",
+    normativeModifier: "Universalist",
+  }
+  const item = buildBaselineFieldItem(conflictingSnapshot)
+
+  assert.ok(item)
+  assert.deepEqual(item.position, toMapPosition(resolved.dimensionScores))
+  assert.equal(item.familyKey, resolved.result.familyKey)
+  assert.equal(
+    item.summary,
+    `Foundation baseline · closest to ${traditionNounLabel(resolved.result.familyKey)}.`,
+  )
+  assert.doesNotMatch(item.summary, /Conflicting cached family/u)
+})
+
 test("localized saved-result paths stay locale-neutral inside Field items", () => {
   const baseline = buildBaselineFieldItem({
     ...foundationSnapshot,
@@ -94,6 +153,23 @@ test("perspective run items keep run positions on the shared projection", () => 
   assert.deepEqual(item.position, toMapPosition(runSnapshot.dimensionScores))
   assert.equal(item.layerId, "perspective-runs")
   assert.equal(item.href, runSnapshot.resultPath)
+})
+
+test("an unapproved Chinese Perspective Run never exposes its English label", () => {
+  const englishLabel = "Unapproved future perspective"
+  const [item] = buildPerspectiveRunFieldItems(
+    [
+      {
+        ...runSnapshot,
+        perspectiveId: "future-unapproved-perspective",
+        perspectiveLabel: englishLabel,
+      },
+    ],
+    "zh-Hans",
+  )
+
+  assert.notEqual(item.label, englishLabel)
+  assert.doesNotMatch(JSON.stringify(item), new RegExp(englishLabel, "u"))
 })
 
 test("latestRunPerPerspective keeps one newest run per pack", () => {
@@ -130,6 +206,20 @@ test("atlas fingerprint mapping leaves unmapped dimensions at the midpoint", () 
   const scores = atlasFingerprintToDimensionScores(atlasLitePatterns[0])
   assert.equal(scores.domesticFilters, 4)
   assert.equal(scores.orderJustice, 4)
+})
+
+test("Chinese catalog rendering fails closed before any English Pattern fallback", () => {
+  const source = readFileSync(
+    new URL("../lib/field/items.ts", import.meta.url),
+    "utf8",
+  )
+
+  assert.doesNotMatch(source, /\?\?\s*pattern\.cardSummary/u)
+  assert.match(source, /if \(zh && !localized\) return \[\]/u)
+  assert.equal(
+    buildAtlasPatternFieldItems("zh-Hans").length,
+    Object.keys(zhHansWorldviewProfileById).length,
+  )
 })
 
 test("reference field items reuse the canonical reference projection", () => {
