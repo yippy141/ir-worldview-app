@@ -247,6 +247,11 @@ function buildGenericSynthesis(
   }
 }
 
+/**
+ * @deprecated Unreviewed legacy synthesis. V23.4 public surfaces must use an
+ * explicit reviewed semantic bridge or the not-comparable separate-domain
+ * default. This helper is retained only to avoid silently repurposing old copy.
+ */
 export function getCrossModuleSynthesis(
   foundationKey?: FamilyKey | null,
   aiArchetypeKey?: AiArchetypeKey | null,

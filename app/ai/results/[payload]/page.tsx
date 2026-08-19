@@ -242,7 +242,7 @@ export default async function AiResultPage(
           </div>
         </section>
 
-        <AiProjectBridge mode="result" aiArchetypeKey={profileResult.archetypeKey} />
+        <AiProjectBridge mode="result" />
 
         <section className="result-section result-appendix-section stack-md">
           <details className="profile-details">

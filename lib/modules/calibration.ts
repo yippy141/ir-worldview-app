@@ -1,3 +1,4 @@
+import { MODULE_SLUGS } from "@/lib/modules/types"
 import type {
   ModuleAnalytics,
   ModuleAxisKey,
@@ -216,7 +217,7 @@ export type ModuleCalibrationCut = {
 export function enumerateModuleCalibrationCuts(): ModuleCalibrationCut[] {
   const cuts: ModuleCalibrationCut[] = []
 
-  for (const slug of ["security", "technology"] as const) {
+  for (const slug of MODULE_SLUGS) {
     for (const mode of ["standard", "analyst"] as const) {
       for (const axis of MODULE_CLASSIFICATION_AXES[slug].headline) {
         appendCalibrationCuts(cuts, slug, mode, { kind: "headline" }, axis)

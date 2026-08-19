@@ -29,7 +29,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | scoring-runtime | lib/ai-governance-versions.ts | 09c351c88175671448fed98649a54c4a804976803eb5ba7cea8b3af371d43831 |
 | calibration | lib/modules/calibration-data-v22.ts | eba33d471192a1a5efff0309461bf64056c52b922ea10fdb29d75c6c92e83754 |
 | calibration | lib/modules/calibration-data.ts | 6a1d1a5ada8f2383a660d77db7b579deff69797d8a15d5f825220331143573ac |
-| calibration | lib/modules/calibration.ts | 6aaa9ec35751fb3ad1574a0045937a1c04b57d894b891045b777ab5e2b3bd392 |
+| calibration | lib/modules/calibration.ts | d5bd95681b7df6b3fa36cbf85bf4371baa003fa6fb9e2964ab158bc57e7d718f |
 | scoring-runtime | lib/modules/runtime-v1.ts | 9997c9d63d8f998d1507aaaa57356cffeb84f9520f709f9dd5e2ea39150e3e50 |
 | scoring-runtime | lib/modules/runtime-v2.ts | d33cd5cc22f437e24feb1ad5feb40a1d611f4ce121bb314cb6fd35a6fed878e2 |
 | scoring-runtime | lib/modules/security-v21.ts | c2d1b0d99a0350ca51c8a4b20e5893d8684290722b2531b906a30c260374c15f |

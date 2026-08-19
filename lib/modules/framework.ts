@@ -8,6 +8,7 @@ import {
 } from "@/lib/modules/versions"
 import * as currentModuleRuntime from "@/lib/modules/runtime-v2"
 import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
+import { MODULE_SLUGS } from "@/lib/modules/types"
 import type {
   ModuleAnalytics,
   ModuleAnswers,
@@ -381,5 +382,8 @@ function isQuizMode(value: unknown): value is QuizMode {
 }
 
 function isModuleSlug(value: unknown): value is ModuleSlug {
-  return value === "security" || value === "technology"
+  return (
+    typeof value === "string" &&
+    (MODULE_SLUGS as readonly string[]).includes(value)
+  )
 }
