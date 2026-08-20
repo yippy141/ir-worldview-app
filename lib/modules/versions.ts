@@ -1,7 +1,10 @@
 import {
   SECURITY_BANK_VERSION,
   SECURITY_SCORING_VERSION,
+  SECURITY_V4_BANK_VERSION,
+  SECURITY_V4_SCORING_VERSION,
   securityModule,
+  securityV4Module,
 } from "@/lib/modules/security"
 import {
   SECURITY_V22_BANK_VERSION,
@@ -48,12 +51,17 @@ export const MODULE_V22_TUPLE = {
 } as const satisfies ModuleVersionTuple
 
 export const SECURITY_V4_TUPLE = {
+  bankVersion: SECURITY_V4_BANK_VERSION,
+  scoringVersion: SECURITY_V4_SCORING_VERSION,
+} as const satisfies ModuleVersionTuple
+
+export const SECURITY_V5_TUPLE = {
   bankVersion: SECURITY_BANK_VERSION,
   scoringVersion: SECURITY_SCORING_VERSION,
 } as const satisfies ModuleVersionTuple
 
 export const CURRENT_MODULE_TUPLES = {
-  security: SECURITY_V4_TUPLE,
+  security: SECURITY_V5_TUPLE,
   technology: MODULE_V22_TUPLE,
 } as const satisfies Record<ModuleSlug, ModuleVersionTuple>
 
@@ -69,6 +77,12 @@ export const SUPPORTED_MODULE_VERSIONS = {
       bankVersion: SECURITY_V22_BANK_VERSION,
       scoringVersion: SECURITY_V22_SCORING_VERSION,
       definition: securityV22Module,
+      runtime: runtimeV2,
+    },
+    {
+      bankVersion: SECURITY_V4_BANK_VERSION,
+      scoringVersion: SECURITY_V4_SCORING_VERSION,
+      definition: securityV4Module,
       runtime: runtimeV2,
     },
     {

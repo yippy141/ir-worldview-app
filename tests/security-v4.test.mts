@@ -13,6 +13,10 @@ import {
   MODULE_V22_TUPLE,
   SECURITY_V4_TUPLE,
 } from "@/lib/modules/versions"
+import {
+  ACTOR_LENS_INSTRUCTION,
+  ACTOR_LENS_RESULT_SUMMARY,
+} from "@/lib/modules/perspective-bank"
 import type {
   ModuleAnalytics,
   ModuleAnswers,
@@ -317,7 +321,8 @@ test("Security v4 tuple dispatch and authored-order results stay golden", () => 
   for (const [bankVersion, scoringVersion] of [
     [4, 1],
     [4, 3],
-    [5, 2],
+    [5, 1],
+    [5, 3],
   ]) {
     assert.equal(
       resolveModulePayload(
@@ -530,11 +535,11 @@ test("Security v4 copy separates perspective from endorsement and stays domain-s
 
   assert.match(
     MODULE_APP_SOURCE,
-    /Understanding that logic is not an endorsement of the actor, its objectives, or the action\./u,
+    /ACTOR_LENS_INSTRUCTION/u,
   )
   assert.match(
     MODULE_RESULT_SOURCE,
-    /Understanding that logic is not endorsement of the actor,/u,
+    /ACTOR_LENS_INSTRUCTION/u,
   )
   assert.match(
     MODULE_RESULT_SOURCE,
@@ -544,6 +549,8 @@ test("Security v4 copy separates perspective from endorsement and stays domain-s
     MODULE_RESULT_SOURCE,
     /Issue results sit beside the Foundation and do not rescore it\./u,
   )
+  assert.match(ACTOR_LENS_INSTRUCTION, /does not imply endorsement/u)
+  assert.match(ACTOR_LENS_RESULT_SUMMARY, /No cross-actor average/u)
 
   for (const theater of ["taiwan", "iran"] as const) {
     const prefix = `${theater}_`

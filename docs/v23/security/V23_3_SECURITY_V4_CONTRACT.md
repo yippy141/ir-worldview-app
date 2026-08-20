@@ -1,5 +1,11 @@
 # V23.3 Security v4 design contract
 
+> **Superseded for new completions.** Security bank v4 remains a frozen
+> historical bank. The owner-authorized bank-v5 public-beta decision is recorded
+> in [V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md](./V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md).
+> The v4 HOLD/NO-GO language below remains part of the historical record and is
+> not a release approval.
+
 Status: **design-only; non-shipping; HOLD for implementation**
 Workstream: `CODEX V23.3A — SECURITY V4 DESIGN ONLY`
 Branch: `v23-3a-security-bank-design`

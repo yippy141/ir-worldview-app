@@ -7,6 +7,10 @@ import type {
   ModuleLaneSummary,
   ModuleSlug,
 } from "@/lib/modules/types"
+import {
+  ACTOR_LENS_RESULT_SUMMARY,
+  hasPerspectiveBankCapability,
+} from "@/lib/modules/perspective-bank"
 import type { PerspectiveRunSnapshot } from "@/lib/perspectives/types"
 import { getPerspectiveDefinition } from "@/lib/perspectives/catalog"
 import type {
@@ -1089,9 +1093,13 @@ function buildModuleDisplay({
   if (!definition) return fallback
   const preserveSecurityFallback =
     slug === "security" && !resolvedModule && Boolean(fallback)
-  const labelsPerspectiveModeling =
-    resolvedModule?.payload.slug === "security" &&
-    resolvedModule.bankVersion === 4
+  const labelsPerspectiveModeling = Boolean(
+    resolvedModule &&
+      hasPerspectiveBankCapability({
+        slug: resolvedModule.payload.slug,
+        bankVersion: resolvedModule.bankVersion,
+      }),
+  )
   const hasScores = definition.axes.every((axis) => isFiniteNumber(scores[axis.key]))
   const hasLaneScores = definition.lanes.every((lane) => isNumberRecord(laneScores[lane.key]))
   const classificationMode =
@@ -1117,7 +1125,12 @@ function buildModuleDisplay({
     : fallback?.laneSummaries ?? []
   const cardTypeRead = preserveSecurityFallback
     ? fallback?.cardTypeRead
-    : definition.summarizeCardTypes?.(analytics) ?? fallback?.cardTypeRead
+    : labelsPerspectiveModeling && cardTypeScores.actorLens
+      ? {
+          headline: "Perspective modeling",
+          summary: ACTOR_LENS_RESULT_SUMMARY,
+        }
+      : definition.summarizeCardTypes?.(analytics) ?? fallback?.cardTypeRead
   const evidence = resolvedModule && resolvedModule.payload.slug === slug
     ? resolvedModule.runtime.getSelectedModuleOptions(
         definition,

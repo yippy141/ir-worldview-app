@@ -20,6 +20,7 @@ import {
   MODULE_V21_TUPLE,
   MODULE_V22_TUPLE,
   SECURITY_V4_TUPLE,
+  SECURITY_V5_TUPLE,
   SUPPORTED_MODULE_VERSIONS,
 } from "@/lib/modules/versions"
 import {
@@ -85,6 +86,7 @@ test("supported registries expose only the approved module tuples", () => {
       { ...MODULE_V21_TUPLE, runtimeVersion: 1 },
       { ...MODULE_V22_TUPLE, runtimeVersion: 2 },
       { ...SECURITY_V4_TUPLE, runtimeVersion: 2 },
+      { ...SECURITY_V5_TUPLE, runtimeVersion: 2 },
     ],
   )
   assert.deepEqual(
@@ -291,7 +293,14 @@ test("module payload tuple dispatch rejects every unsupported pairing", () => {
   assert.ok(resolved)
   assert.equal(resolved.runtime.MODULE_SCORING_VERSION, 2)
 
-  for (const [bv, sv] of [[2, 2], [3, 1], [4, 1], [4, 3], [5, 2]]) {
+  for (const [bv, sv] of [
+    [2, 2],
+    [3, 1],
+    [4, 1],
+    [4, 3],
+    [5, 1],
+    [5, 3],
+  ]) {
     assert.equal(
       resolveModulePayload(
         encodeUrlPayload({

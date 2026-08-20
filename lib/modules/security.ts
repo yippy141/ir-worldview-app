@@ -1,19 +1,27 @@
 import type {
   ModuleAnalytics,
+  ModuleAxisKey,
   ModuleDefinition,
   ModuleLaneSummary,
 } from "@/lib/modules/types"
 import {
   getModuleClassificationMode,
-  standardizeModuleAxis,
+  standardizeModuleAxis as standardizeModuleAxisForVersion,
+  type ModuleCalibrationVersion,
 } from "@/lib/modules/calibration"
+import { ACTOR_LENS_RESULT_SUMMARY } from "@/lib/modules/perspective-bank"
 import type { DimensionKey, DimensionScores, QuizMode } from "@/lib/types"
-import securityBankJson from "@/content/instrument/security.v4.json" with {
+import securityBankV4Json from "@/content/instrument/security.v4.json" with {
+  type: "json",
+}
+import securityBankV5Json from "@/content/instrument/security.v5.json" with {
   type: "json",
 }
 
-export const SECURITY_BANK_VERSION = 4
+export const SECURITY_BANK_VERSION = 5
 export const SECURITY_SCORING_VERSION = 2
+export const SECURITY_V4_BANK_VERSION = 4
+export const SECURITY_V4_SCORING_VERSION = 2
 
 const securityLanes: ModuleDefinition["lanes"] = [
   {
@@ -48,10 +56,8 @@ type SecurityDataItem =
     modes: Array<"standard" | "analyst">
   }
 
-const securityDataItems =
-  securityBankJson.items as unknown as SecurityDataItem[]
-
 function loadSecurityQuestions(
+  securityDataItems: SecurityDataItem[],
   mode: "standard" | "analyst",
 ): ModuleDefinition["questionsByMode"]["standard"] {
   return securityDataItems.filter((item) => item.modes.includes(mode)).map((item) => {
@@ -61,12 +67,35 @@ function loadSecurityQuestions(
   })
 }
 
-const securityQuestionsByMode: ModuleDefinition["questionsByMode"] = {
-  standard: loadSecurityQuestions("standard"),
-  analyst: loadSecurityQuestions("analyst"),
+function standardizeSecurityAxis(
+  calibrationVersion: ModuleCalibrationVersion,
+  mode: QuizMode,
+  context: { kind: "headline" } | { kind: "lane"; laneKey: string },
+  axis: ModuleAxisKey,
+  raw: number,
+) {
+  return standardizeModuleAxisForVersion(
+    "security",
+    mode,
+    context,
+    axis,
+    raw,
+    calibrationVersion,
+  )
 }
 
-export const securityModule: ModuleDefinition = {
+function createSecurityModule(
+  bank: { items: unknown[] },
+  calibrationVersion: ModuleCalibrationVersion,
+  actorLensCopy: "frozen-v4" | "role-conditioned",
+): ModuleDefinition {
+  const securityDataItems = bank.items as SecurityDataItem[]
+  const securityQuestionsByMode: ModuleDefinition["questionsByMode"] = {
+    standard: loadSecurityQuestions(securityDataItems, "standard"),
+    analyst: loadSecurityQuestions(securityDataItems, "analyst"),
+  }
+
+  return {
   slug: "security",
   defaultHeadline: "Security read: no single lane dominates",
   shortTitle: "Security",
@@ -123,29 +152,29 @@ export const securityModule: ModuleDefinition = {
     const mode = getModuleClassificationMode(analytics, context)
     const { activism, escalation, alliance, legitimacy } = analytics.scores
     const headlineContext = { kind: "headline" } as const
-    const activismPosition = standardizeModuleAxis(
-      "security",
+    const activismPosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       headlineContext,
       "activism",
       activism,
     )
-    const escalationPosition = standardizeModuleAxis(
-      "security",
+    const escalationPosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       headlineContext,
       "escalation",
       escalation,
     )
-    const alliancePosition = standardizeModuleAxis(
-      "security",
+    const alliancePosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       headlineContext,
       "alliance",
       alliance,
     )
-    const legitimacyPosition = standardizeModuleAxis(
-      "security",
+    const legitimacyPosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       headlineContext,
       "legitimacy",
@@ -238,9 +267,27 @@ export const securityModule: ModuleDefinition = {
     const legitimacy = analytics.laneScores.legitimacy
 
     return [
-      summarizeSecurityLane("deterrence", deterrence, mode, foundation),
-      summarizeSecurityLane("alliances", alliances, mode, foundation),
-      summarizeSecurityLane("legitimacy", legitimacy, mode, foundation),
+      summarizeSecurityLane(
+        "deterrence",
+        deterrence,
+        mode,
+        calibrationVersion,
+        foundation,
+      ),
+      summarizeSecurityLane(
+        "alliances",
+        alliances,
+        mode,
+        calibrationVersion,
+        foundation,
+      ),
+      summarizeSecurityLane(
+        "legitimacy",
+        legitimacy,
+        mode,
+        calibrationVersion,
+        foundation,
+      ),
     ]
   },
   summarizeCardTypes(analytics) {
@@ -249,6 +296,13 @@ export const securityModule: ModuleDefinition = {
     const actorLens = analytics.cardTypeScores.actorLens
 
     if (actorLens) {
+      if (actorLensCopy === "role-conditioned") {
+        return {
+          headline: "Perspective modeling",
+          summary: ACTOR_LENS_RESULT_SUMMARY,
+        }
+      }
+
       if (decision && decision.alliance - actorLens.alliance >= 0.65) {
         return {
           headline: "Explanation, Decision, and Actor lens",
@@ -331,12 +385,33 @@ export const securityModule: ModuleDefinition = {
 
     return notes.join(" ")
   },
+  }
 }
+
+export const securityModule = createSecurityModule(
+  securityBankV5Json,
+  {
+    bankVersion: SECURITY_BANK_VERSION,
+    scoringVersion: SECURITY_SCORING_VERSION,
+  },
+  "role-conditioned",
+)
+
+/** Frozen Security bank-v4 definition for exact historical payload replay. */
+export const securityV4Module = createSecurityModule(
+  securityBankV4Json,
+  {
+    bankVersion: SECURITY_V4_BANK_VERSION,
+    scoringVersion: SECURITY_V4_SCORING_VERSION,
+  },
+  "frozen-v4",
+)
 
 function summarizeSecurityLane(
   laneKey: string,
   scores: Record<string, number>,
   mode: QuizMode,
+  calibrationVersion: ModuleCalibrationVersion,
   foundation?: DimensionScores,
 ): ModuleLaneSummary {
   const lane = securityLanes.find((candidate) => candidate.key === laneKey)
@@ -355,15 +430,15 @@ function summarizeSecurityLane(
     const activism = scores.activism ?? 4
     const escalation = scores.escalation ?? 4
     const laneContext = { kind: "lane", laneKey } as const
-    const activismPosition = standardizeModuleAxis(
-      "security",
+    const activismPosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       laneContext,
       "activism",
       activism,
     )
-    const escalationPosition = standardizeModuleAxis(
-      "security",
+    const escalationPosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       laneContext,
       "escalation",
@@ -404,8 +479,8 @@ function summarizeSecurityLane(
 
   if (laneKey === "alliances") {
     const alliance = scores.alliance ?? 4
-    const alliancePosition = standardizeModuleAxis(
-      "security",
+    const alliancePosition = standardizeSecurityAxis(
+      calibrationVersion,
       mode,
       { kind: "lane", laneKey },
       "alliance",
@@ -438,8 +513,8 @@ function summarizeSecurityLane(
   }
 
   const legitimacyScore = scores.legitimacy ?? 4
-  const legitimacyPosition = standardizeModuleAxis(
-    "security",
+  const legitimacyPosition = standardizeSecurityAxis(
+    calibrationVersion,
     mode,
     { kind: "lane", laneKey },
     "legitimacy",

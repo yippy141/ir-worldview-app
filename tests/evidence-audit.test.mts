@@ -17,7 +17,7 @@ import {
 import { tmpdir } from "node:os"
 import { resolve } from "node:path"
 import { spawnSync } from "node:child_process"
-import securityBank from "@/content/instrument/security.v4.json" with {
+import securityBank from "@/content/instrument/security.v5.json" with {
   type: "json",
 }
 // Node's strip-types runtime requires the explicit .mts extension.

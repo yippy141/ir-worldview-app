@@ -1,5 +1,11 @@
 # V23.3 Security source ledger
 
+> **Superseded for new completions.** This remains the frozen Security-v4 source
+> register and historical HOLD record. The narrowed v5 source record and public-
+> beta decision are in
+> [V23_3_SECURITY_V5_SOURCE_LEDGER.md](./V23_3_SECURITY_V5_SOURCE_LEDGER.md) and
+> [V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md](./V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md).
+
 Status: **design evidence; not a shipping bibliography**
 Access check: 2026-08-19
 Research cut-off: 2026-08-18

@@ -1,5 +1,11 @@
 # V23.3 Security v4 candidate item review
 
+> **Superseded for new completions.** Security bank v4 remains a frozen
+> historical bank, including the NO-GO finding below. The bank-v5 item review
+> and owner public-beta decision are in
+> [V23_3_SECURITY_V5_ITEM_REVIEW.md](./V23_3_SECURITY_V5_ITEM_REVIEW.md) and
+> [V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md](./V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md).
+
 Status: **complete design inventory; non-shipping; HOLD for implementation**
 Canonical candidate copy for V23.3A: this document
 Optional candidate JSON: intentionally omitted because the current closed schema cannot represent source, theater, actor, mechanism, or accepted-cost metadata without either dropping the audit trail or appearing production-compatible.

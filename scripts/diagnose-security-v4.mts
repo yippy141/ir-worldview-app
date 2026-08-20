@@ -16,7 +16,11 @@ import {
   getModuleAxisCalibration,
   MODULE_CLASSIFICATION_AXES,
 } from "@/lib/modules/calibration"
-import { getModuleVersion, SECURITY_V4_TUPLE } from "@/lib/modules/versions"
+import {
+  getModuleVersion,
+  SECURITY_V4_TUPLE,
+  type ModuleVersionTuple,
+} from "@/lib/modules/versions"
 import type {
   ModuleAnswers,
   ModuleAxisKey,
@@ -127,7 +131,7 @@ export async function buildSecurityV4DiagnosticReport(
   const v3 = getModuleVersion("security", 3, 2)
   if (!v4 || !v3) throw new Error("Security v3/v4 tuples must both be registered.")
 
-  const calibration = buildCalibrationRows()
+  const calibration = buildCalibrationRows(SECURITY_V4_TUPLE)
   const attainableRanges = Object.fromEntries(
     MODES.map((mode) => [
       mode,
@@ -211,7 +215,9 @@ export async function buildSecurityV4DiagnosticReport(
   }
 }
 
-function buildCalibrationRows(): CalibrationRow[] {
+export function buildCalibrationRows(
+  version: ModuleVersionTuple,
+): CalibrationRow[] {
   const rows: CalibrationRow[] = []
   const contexts = MODULE_CLASSIFICATION_AXES.security
 
@@ -222,7 +228,7 @@ function buildCalibrationRows(): CalibrationRow[] {
         mode,
         { kind: "headline" },
         axis,
-        SECURITY_V4_TUPLE,
+        version,
       )
       rows.push({ mode, context: "headline", axis, ...calibration })
     }
@@ -233,7 +239,7 @@ function buildCalibrationRows(): CalibrationRow[] {
           mode,
           { kind: "lane", laneKey },
           axis,
-          SECURITY_V4_TUPLE,
+          version,
         )
         rows.push({ mode, context: `lane:${laneKey}`, axis, ...calibration })
       }
@@ -242,7 +248,7 @@ function buildCalibrationRows(): CalibrationRow[] {
   return rows
 }
 
-function deriveAttainableRanges(questions: readonly ModuleQuestion[]) {
+export function deriveAttainableRanges(questions: readonly ModuleQuestion[]) {
   const scored = questions.filter((question) => question.cardType !== "actorLens")
   return Object.fromEntries(
     AXES.map((axis) => {
@@ -263,7 +269,7 @@ function deriveAttainableRanges(questions: readonly ModuleQuestion[]) {
   ) as Record<SecurityAxis, { minimum: number; maximum: number }>
 }
 
-function sampleDistribution(
+export function sampleDistribution(
   version: NonNullable<ReturnType<typeof getModuleVersion>>,
   mode: QuizMode,
   includeSecondary: boolean,
@@ -327,7 +333,7 @@ function sampleDistribution(
   }
 }
 
-function sampleAnalystSecondarySensitivity(
+export function sampleAnalystSecondarySensitivity(
   version: NonNullable<ReturnType<typeof getModuleVersion>>,
 ) {
   const questions = version.runtime.getModuleQuestions(
@@ -401,7 +407,7 @@ function sampleAnalystSecondarySensitivity(
   }
 }
 
-function proveActorLensExclusion(
+export function proveActorLensExclusion(
   version: NonNullable<ReturnType<typeof getModuleVersion>>,
   mode: QuizMode,
 ) {
