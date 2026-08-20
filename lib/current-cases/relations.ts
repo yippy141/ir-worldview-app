@@ -1,20 +1,32 @@
 import { currentCaseCatalog } from "@/lib/current-cases/catalog"
 import type { CurrentCase } from "@/lib/current-cases/types"
 import {
-  DEFAULT_DOMAIN_RELATION_POLICY,
-  DOMAIN_BRIDGE_PUBLICATION_STATES,
-  DOMAIN_RELATIONS,
-  DOMAIN_RELATION_STATUSES,
   STABLE_AUTHORING_ID_PATTERN,
-  isReviewedDomainRelationStatus,
-  type DomainBridgePublicationState,
-  type DomainRelation,
-  type DomainRelationStatus,
 } from "@/lib/modules/authoring-contract"
 import { getModuleDefinition } from "@/lib/modules/framework"
 import type { ModuleAxisKey, ModuleSlug } from "@/lib/modules/types"
 
 export const CURRENT_CASE_RELATION_SCHEMA_VERSION = 1 as const
+
+export const CURRENT_CASE_RELATIONS = [
+  "exercises",
+  "illustrates",
+  "challenges",
+  "contextualizes",
+  "not-mapped",
+] as const
+export type CurrentCaseRelation = (typeof CURRENT_CASE_RELATIONS)[number]
+
+export const CURRENT_CASE_AUTHORING_STATUSES = ["draft", "authored"] as const
+export type CurrentCaseAuthoringStatus =
+  (typeof CURRENT_CASE_AUTHORING_STATUSES)[number]
+
+export const CURRENT_CASE_REVIEW_STATUSES = [
+  "unreviewed",
+  "expert-reviewed",
+] as const
+export type CurrentCaseReviewStatus =
+  (typeof CURRENT_CASE_REVIEW_STATUSES)[number]
 
 /**
  * V23.4 defines an authoring contract, not a publication surface. Current Case
@@ -23,8 +35,8 @@ export const CURRENT_CASE_RELATION_SCHEMA_VERSION = 1 as const
  */
 export const CURRENT_CASE_RELATION_POLICY = {
   catalogPublication: "withheld",
-  defaultRelation: DEFAULT_DOMAIN_RELATION_POLICY.defaultRelation,
-  defaultRead: DEFAULT_DOMAIN_RELATION_POLICY.defaultRead,
+  defaultRelation: "not-mapped",
+  defaultRead: "separate-case-link",
   publicRelations: "forbidden-in-schema-v1",
   directFoundationTargets: "forbidden",
   transitiveInference: "forbidden",
@@ -61,13 +73,14 @@ export type CurrentCaseRelationDefinition = {
   caseRef: CurrentCaseRelationCaseRef
   subject: CurrentCaseRelationSubject
   target: CurrentCaseRelationTarget
-  relation: DomainRelation
+  relation: CurrentCaseRelation
   rationale: string
-  status: DomainRelationStatus
+  authoringStatus: CurrentCaseAuthoringStatus
+  reviewStatus: CurrentCaseReviewStatus
   contentVersion: number
-  sourceIds?: readonly string[]
-  reviewIds?: readonly string[]
-  publication: DomainBridgePublicationState
+  factualSourceIds?: readonly string[]
+  constructReviewIds?: readonly string[]
+  publication: "internal"
 }
 
 export type CurrentCaseRelationCatalog = {
@@ -203,10 +216,11 @@ export function validateCurrentCaseRelationCatalog(
         "target",
         "relation",
         "rationale",
-        "status",
+        "authoringStatus",
+        "reviewStatus",
         "contentVersion",
-        "sourceIds",
-        "reviewIds",
+        "factualSourceIds",
+        "constructReviewIds",
         "publication",
       ])
     ) {
@@ -252,12 +266,12 @@ export function validateCurrentCaseRelationCatalog(
     validateSubject(relation.subject, currentCase, `${path}.subject`, errors)
     validateTarget(relation.target, `${path}.target`, errors)
 
-    if (!(DOMAIN_RELATIONS as readonly unknown[]).includes(relation.relation)) {
+    if (!(CURRENT_CASE_RELATIONS as readonly unknown[]).includes(relation.relation)) {
       addError(
         errors,
         "field.invalid",
         `${path}.relation`,
-        `relation must be one of: ${DOMAIN_RELATIONS.join(", ")}.`,
+        `relation must be one of: ${CURRENT_CASE_RELATIONS.join(", ")}.`,
       )
     }
     if (!isNonEmptyString(relation.rationale)) {
@@ -268,12 +282,20 @@ export function validateCurrentCaseRelationCatalog(
         "rationale must be a non-empty authored explanation.",
       )
     }
-    if (!(DOMAIN_RELATION_STATUSES as readonly unknown[]).includes(relation.status)) {
+    if (!(CURRENT_CASE_AUTHORING_STATUSES as readonly unknown[]).includes(relation.authoringStatus)) {
       addError(
         errors,
         "field.invalid",
-        `${path}.status`,
-        `status must be one of: ${DOMAIN_RELATION_STATUSES.join(", ")}.`,
+        `${path}.authoringStatus`,
+        `authoringStatus must be one of: ${CURRENT_CASE_AUTHORING_STATUSES.join(", ")}.`,
+      )
+    }
+    if (!(CURRENT_CASE_REVIEW_STATUSES as readonly unknown[]).includes(relation.reviewStatus)) {
+      addError(
+        errors,
+        "field.invalid",
+        `${path}.reviewStatus`,
+        `reviewStatus must be one of: ${CURRENT_CASE_REVIEW_STATUSES.join(", ")}.`,
       )
     }
     if (!isPositiveInteger(relation.contentVersion)) {
@@ -286,46 +308,39 @@ export function validateCurrentCaseRelationCatalog(
     }
 
     const sourceIds = validateEvidenceIds(
-      relation.sourceIds,
-      `${path}.sourceIds`,
+      relation.factualSourceIds,
+      `${path}.factualSourceIds`,
       "evidence.source",
       currentCase?.sources.map((source) => source.id),
       errors,
     )
     const reviewIds = validateEvidenceIds(
-      relation.reviewIds,
-      `${path}.reviewIds`,
+      relation.constructReviewIds,
+      `${path}.constructReviewIds`,
       "evidence.review",
       currentCase?.editorialReview.reviewerIds,
       errors,
     )
 
     if (
-      (DOMAIN_BRIDGE_PUBLICATION_STATES as readonly unknown[]).includes(
-        relation.publication,
-      ) === false
+      relation.publication !== "internal"
     ) {
       addError(
         errors,
         "field.invalid",
         `${path}.publication`,
-        `publication must be one of: ${DOMAIN_BRIDGE_PUBLICATION_STATES.join(", ")}.`,
+        "publication must remain internal under the current contract.",
       )
     }
 
-    const validStatus = (DOMAIN_RELATION_STATUSES as readonly unknown[]).includes(
-      relation.status,
-    )
-    const reviewedStatus =
-      validStatus &&
-      isReviewedDomainRelationStatus(relation.status as DomainRelationStatus)
+    const reviewedStatus = relation.reviewStatus === "expert-reviewed"
 
     if (reviewedStatus && (!sourceIds.length || !reviewIds.length)) {
       addError(
         errors,
         "evidence.required",
         path,
-        "Reviewed relations require at least one case source ID and one case review ID.",
+        "Expert-reviewed case links require factual source IDs and construct-link review IDs.",
       )
     }
 

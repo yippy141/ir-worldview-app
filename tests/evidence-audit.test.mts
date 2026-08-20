@@ -484,7 +484,7 @@ test("response fixture output is deterministic and matches its checked-in baseli
 
   assert.deepEqual(second, first)
   assert.equal(first.randomSeed, EVIDENCE_RANDOM_SEED)
-  assert.equal(responseRecordCount, 353)
+  assert.equal(responseRecordCount, 386)
   assert.equal(hashJson(payload), baseline.responseFixture.digest)
   assert.equal(
     responseRecordCount,
@@ -534,7 +534,7 @@ test("unsupported instrument item fields fail closed before analysis", () => {
 test("presentation order cannot change scores for any current or legacy runtime", () => {
   const response = buildEvidenceResponseFixtureReport()
 
-  assert.equal(response.presentationInvariance.length, 18)
+  assert.equal(response.presentationInvariance.length, 20)
   for (const evidence of response.presentationInvariance) {
     assert.equal("passed" in evidence, false, evidence.cohortKey)
     assert.ok(
@@ -585,10 +585,10 @@ test("every eligible analyst tuple has primary-only, reinforcing, and competing 
     ),
   )
 
-  assert.equal(eligibleAnalystTuples.length, 9)
+  assert.equal(eligibleAnalystTuples.length, 10)
   assert.equal(
     eligibleAnalystTuples.filter((cohort) => cohort.legacy).length,
-    5,
+    6,
   )
   assert.equal(
     eligibleAnalystTuples.filter((cohort) => !cohort.legacy).length,
@@ -743,9 +743,9 @@ test("every eligible analyst tuple has primary-only, reinforcing, and competing 
     }
   }
 
-  assert.equal(eligibleSelectionCount, 133)
-  assert.equal(reinforcingSecondaryCount, 133)
-  assert.equal(competingSecondaryCount, 131)
+  assert.equal(eligibleSelectionCount, 156)
+  assert.equal(reinforcingSecondaryCount, 156)
+  assert.equal(competingSecondaryCount, 154)
 
   const legacySecurity = eligibleAnalystTuples.find(
     (cohort) => cohort.key === "security:b2:s1:analyst",
@@ -782,7 +782,7 @@ test("every eligible analyst tuple has primary-only, reinforcing, and competing 
 test("a known eligible runtime scores the secondary field and changes its result digest", () => {
   const response = buildEvidenceResponseFixtureReport()
   const cohort = response.cohorts.find(
-    (entry) => entry.key === "security:b4:s2:analyst",
+    (entry) => entry.key === "security:b5:s2:analyst",
   )
   assert.ok(cohort)
   const primaryOnly = cohort.fixtures.find(
@@ -840,7 +840,7 @@ test("legacy banks remain separate from current-bank evidence", () => {
   assert.deepEqual(current, [
     "ai-governance-bank-v3",
     "foundation-bank-v2",
-    "security-bank-v4",
+    "security-bank-v5",
     "technology-bank-v3",
   ])
   assert.deepEqual(legacy, [
@@ -848,6 +848,7 @@ test("legacy banks remain separate from current-bank evidence", () => {
     "foundation-scoring-v1",
     "security-bank-v2",
     "security-bank-v3",
+    "security-bank-v4",
     "technology-bank-v2",
   ])
   assert.equal(
@@ -860,7 +861,7 @@ test("legacy banks remain separate from current-bank evidence", () => {
   assert.ok(report.instrumentEvidence.textReuseByGeneration.legacy)
 
   const response = report.responseEvidence
-  assert.equal(response.cohorts.filter((cohort) => cohort.legacy).length, 10)
+  assert.equal(response.cohorts.filter((cohort) => cohort.legacy).length, 12)
   assert.equal(response.cohorts.filter((cohort) => !cohort.legacy).length, 8)
   assert.equal(report.fixtureBaseline.matches, true)
 })

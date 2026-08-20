@@ -35,7 +35,7 @@ This guide does not implement:
 - Economic Statecraft questions;
 - Energy/Resource questions;
 - Foundation changes;
-- Security v5;
+- another Security bank;
 - Technology rewrite;
 - AI rewrite;
 - Tier 1/Tier 2;
@@ -160,6 +160,7 @@ respondent norms, population percentiles, reliability evidence, or validation.
 A future V24 proposal must complete every V23.4 manifest field:
 
 - stable slug;
+- `manifestOrigin: authored-manifest`;
 - manifest, question-bank, scoring, and result-copy versions, plus a separate
   historical compatibility plan;
 - reviewed axes and endpoint semantics;
@@ -169,6 +170,11 @@ A future V24 proposal must complete every V23.4 manifest field:
 - domain-qualified, versioned result copy;
 - explicit locale status for every proposed locale; and
 - stable evidence, review, artifact, and validator hooks.
+
+Any public-beta or shipping proposal also requires a recognized structured
+release decision bound to that exact tuple, an unexpired review date, and a
+canonical manifest fingerprint fixture. A Markdown decision memo existing on
+disk is not approval.
 
 Creating or validating that manifest does not publish the module. A separate
 implementation must deliberately register the approved bank, tuple, routes,
@@ -180,10 +186,13 @@ Use the non-shipping V23.4 command only after the scope memo has an approved
 slug:
 
 ```text
-npm run module:scaffold -- <approved-slug> --output <authoring-directory>
+npm run module:scaffold -- <approved-slug> --output docs/module-authoring
 ```
 
-The explicit output belongs in the authoring area, not `content/instrument`.
+Inside the repository, the explicit output must be an existing approved
+authoring root such as `docs/module-authoring/` or
+`research/module-authoring/`, never `content/instrument`. A real output root
+outside the repository may also be supplied explicitly.
 Keep every template marked non-shipping. Do not add substantive placeholders
 merely to make the tree look complete. Missing constructs, questions, sources,
 reviews, and translations remain explicitly incomplete.
@@ -234,15 +243,16 @@ state the module pole meaning and, when a Foundation dimension is named, its
 Foundation pole meaning, give a rationale, carry a content version, and cite
 stable source and review IDs where required.
 
-An `authored` bridge remains internal. Only an explicit, valid
-`expert-reviewed` or `pilot-supported` bridge with non-empty, resolving source
-and review IDs may become eligible for a public semantic relation. Pilot
-support does not authorize numeric conversion or a validity claim.
+Schema v1 does not publish bridges. Authorship, review, and evidence are
+separate internal fields: `draft | authored`, `unreviewed | expert-reviewed`,
+and `untested | pilot-supported`. Every proposal remains `publication:
+internal`, must bind the exact module tuple plus a Foundation semantic or
+scorer/calibration context, and carries its own content version and review-due
+date. Pilot support does not authorize numeric conversion or a validity claim.
 
-Any later public caller must select that record exactly by bridge ID, content
-version, module axis, and the exact optional Foundation dimension. An axis-only
-lookup, latest-version guess, or fallback to another Foundation dimension is
-not permitted.
+A later schema v2 would need a separate structured publication decision bound
+to exact module and Foundation versions. Do not create that publication system
+in V24 authoring by inference.
 
 No bridge may use raw score proximity, deltas, regression, rank, shared bands,
 closest traditions, archetype labels, or a respondent's Current Case answer to
@@ -255,7 +265,9 @@ version to an exact module axis. Its subject may be the case, one decision
 option, or one reasoning tag. Option and reasoning-tag IDs are resolved only
 within that exact case version because they are not globally unique.
 
-V23.4 ships an empty Current Case relation catalog. V24 authoring must not
+The withheld relation vocabulary is `exercises | illustrates | challenges |
+contextualizes | not-mapped`. Factual case source IDs and construct-link review
+IDs remain separate. V23.4 ships an empty Current Case relation catalog. V24 authoring must not
 infer a link from category, slug, route label, reasoning tag text, Decision
 Pattern `profileId`, or semantic similarity. It must not publish a relation or
 alter the existing `unavailable / missing-authored-mapping` Foundation
@@ -282,7 +294,7 @@ version, payload meaning, or calibration by analogy.
 For each proposed public locale, the authoring ledger should record:
 
 - whether the bank, instructions, result copy, and bridge rationale are
-  source-complete, reviewed, partial, or not authored;
+  authored-complete, reviewed, partial, or not authored;
 - the source content version;
 - the localization review IDs; and
 - any field withheld from publication.

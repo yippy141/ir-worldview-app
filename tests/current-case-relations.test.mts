@@ -3,6 +3,7 @@ import assert from "node:assert/strict"
 import { currentCaseCatalog } from "@/lib/current-cases/catalog"
 import {
   CURRENT_CASE_RELATION_POLICY,
+  CURRENT_CASE_RELATIONS,
   CURRENT_CASE_RELATION_SCHEMA_VERSION,
   currentCaseRelationCatalog,
   getCurrentCaseRelationSubjectId,
@@ -17,7 +18,7 @@ const sampleCase = currentCaseCatalog[0]
 
 function authoredRelation(): CurrentCaseRelationDefinition {
   return {
-    id: "current-case.security.activism.qualifies.v1",
+    id: "current-case.security.activism.contextualizes.v1",
     caseRef: {
       caseId: sampleCase.id,
       caseVersion: sampleCase.version,
@@ -31,11 +32,12 @@ function authoredRelation(): CurrentCaseRelationDefinition {
       moduleSlug: "security",
       axisKey: "activism",
     },
-    relation: "qualifies",
+    relation: "contextualizes",
     rationale: "An authored test rationale for a direct Current Case-to-axis relation.",
-    status: "authored",
+    authoringStatus: "authored",
+    reviewStatus: "unreviewed",
     contentVersion: 1,
-    sourceIds: [sampleCase.sources[0].id],
+    factualSourceIds: [sampleCase.sources[0].id],
     publication: "internal",
   }
 }
@@ -63,8 +65,15 @@ test("schema-v1 Current Case relation catalog is empty, withheld, and valid", ()
     publication: "withheld",
     relations: [],
   })
-  assert.equal(CURRENT_CASE_RELATION_POLICY.defaultRelation, "not-comparable")
-  assert.equal(CURRENT_CASE_RELATION_POLICY.defaultRead, "separate-domain-read")
+  assert.deepEqual(CURRENT_CASE_RELATIONS, [
+    "exercises",
+    "illustrates",
+    "challenges",
+    "contextualizes",
+    "not-mapped",
+  ])
+  assert.equal(CURRENT_CASE_RELATION_POLICY.defaultRelation, "not-mapped")
+  assert.equal(CURRENT_CASE_RELATION_POLICY.defaultRead, "separate-case-link")
   assert.equal(CURRENT_CASE_RELATION_POLICY.transitiveInference, "forbidden")
   assert.deepEqual(validateCurrentCaseRelationCatalog(), { ok: true, errors: [] })
   assert.deepEqual(getPublishedCurrentCaseRelations(), [])
@@ -121,9 +130,9 @@ test("subject identities are stable and scoped by exact case ID and version", ()
 test("validator rejects invalid targets, statuses, and unresolved evidence", () => {
   const reviewed = {
     ...authoredRelation(),
-    status: "expert-reviewed",
-    sourceIds: [sampleCase.sources[0].id],
-    reviewIds: [sampleCase.editorialReview.reviewerIds[0]],
+    reviewStatus: "expert-reviewed",
+    factualSourceIds: [sampleCase.sources[0].id],
+    constructReviewIds: [sampleCase.editorialReview.reviewerIds[0]],
   }
   assert.equal(validateCurrentCaseRelationCatalog(catalogWith(reviewed)).ok, true)
 
@@ -136,7 +145,7 @@ test("validator rejects invalid targets, statuses, and unresolved evidence", () 
     true,
   )
 
-  const badStatus = { ...authoredRelation(), status: "reviewed" }
+  const badStatus = { ...authoredRelation(), reviewStatus: "reviewed" }
   assert.equal(
     hasError(validateCurrentCaseRelationCatalog(catalogWith(badStatus)), "field.invalid"),
     true,
@@ -144,9 +153,9 @@ test("validator rejects invalid targets, statuses, and unresolved evidence", () 
 
   const missingReviewedEvidence = {
     ...authoredRelation(),
-    status: "expert-reviewed",
-    sourceIds: [],
-    reviewIds: [],
+    reviewStatus: "expert-reviewed",
+    factualSourceIds: [],
+    constructReviewIds: [],
   }
   assert.equal(
     hasError(
@@ -158,8 +167,8 @@ test("validator rejects invalid targets, statuses, and unresolved evidence", () 
 
   const unresolvedEvidence = {
     ...reviewed,
-    sourceIds: ["missing-source"],
-    reviewIds: ["missing-review"],
+    factualSourceIds: ["missing-source"],
+    constructReviewIds: ["missing-review"],
   }
   const unresolved = validateCurrentCaseRelationCatalog(
     catalogWith(unresolvedEvidence),
@@ -169,7 +178,7 @@ test("validator rejects invalid targets, statuses, and unresolved evidence", () 
 
   const unreviewedPublic = {
     ...authoredRelation(),
-    sourceIds: [],
+    factualSourceIds: [],
     publication: "public",
   }
   const publicValidation = validateCurrentCaseRelationCatalog(
@@ -235,9 +244,9 @@ test("Foundation, legacy-pattern, score, and transitive relation paths fail clos
   // cannot follow that axis onward to a Foundation bridge or infer a relation.
   const reviewedInternal = {
     ...authoredRelation(),
-    status: "expert-reviewed",
-    sourceIds: [sampleCase.sources[0].id],
-    reviewIds: [sampleCase.editorialReview.reviewerIds[0]],
+    reviewStatus: "expert-reviewed",
+    factualSourceIds: [sampleCase.sources[0].id],
+    constructReviewIds: [sampleCase.editorialReview.reviewerIds[0]],
   }
   assert.equal(
     validateCurrentCaseRelationCatalog(catalogWith(reviewedInternal)).ok,

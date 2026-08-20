@@ -55,13 +55,28 @@ function resultCopyFromDefinition(
 
 export const securityModuleManifest = {
   schemaVersion: DOMAIN_MODULE_MANIFEST_SCHEMA_VERSION,
-  releaseState: "shipping",
+  manifestOrigin: "derived-legacy-adapter",
+  releaseState: "public-beta",
+  releaseDecision: {
+    decisionId: "security-v5-public-beta-2026-08-21",
+    decisionPath:
+      "docs/v23/security/V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md",
+    approvedQuestionBankVersion: 5,
+    approvedScoringVersion: 2,
+    approvedResultCopyVersion: 2,
+    approvedManifestVersion: 2,
+    decisionStatus: "approved-public-beta",
+    reviewDueAt: "2026-11-21T00:00:00Z",
+  },
+  evidenceStatus: "provenance-recorded",
+  manifestFingerprint:
+    "5b6e6acf8387d5f990d9f9e7b3a678aa3d99aabe62f21c704a9627c3be2473ca",
   slug: "security",
   versions: {
-    manifest: 1,
+    manifest: 2,
     questionBank: SECURITY_BANK_VERSION,
     scoring: SECURITY_SCORING_VERSION,
-    resultCopy: 1,
+    resultCopy: 2,
   },
   axes: axesFromDefinition(securityModule),
   lanes: lanesFromDefinition(securityModule),
@@ -80,35 +95,47 @@ export const securityModuleManifest = {
   localeStatus: {
     sourceLocale: "en",
     locales: [
-      { locale: "en", status: "source-complete", contentVersion: 1 },
+      { locale: "en", status: "authored-complete", contentVersion: 2 },
       { locale: "zh-Hans", status: "not-authored" },
     ],
   },
   evidenceAuditHooks: {
     evidence: [
       {
-        id: "security-v4-source-ledger",
-        path: "docs/v23/security/V23_3_SECURITY_SOURCE_LEDGER.md",
+        id: "security-v5-source-ledger",
+        path: "docs/v23/security/V23_3_SECURITY_V5_SOURCE_LEDGER.md",
       },
       {
-        id: "security-v4-actor-balance-ledger",
-        path: "docs/v23/security/V23_3_SECURITY_ACTOR_BALANCE_LEDGER.csv",
+        id: "security-v5-actor-balance-ledger",
+        path: "docs/v23/security/V23_3_SECURITY_V5_ACTOR_BALANCE_LEDGER.csv",
       },
     ],
     reviews: [
       {
-        id: "security-v4-item-review",
-        path: "docs/v23/security/V23_3_SECURITY_ITEM_REVIEW.md",
+        id: "security-v5-item-review",
+        path: "docs/v23/security/V23_3_SECURITY_V5_ITEM_REVIEW.md",
       },
       {
-        id: "security-v4-contract",
-        path: "docs/v23/security/V23_3_SECURITY_V4_CONTRACT.md",
+        id: "security-v5-beta-decision",
+        path: "docs/v23/security/V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md",
       },
     ],
     audits: [
-      { id: "instrument-structure", packageScript: "validate:structure" },
-      { id: "security-v4-balance", packageScript: "validate:security-v4" },
-      { id: "module-calibration", packageScript: "calibrate:modules" },
+      {
+        id: "instrument-structure",
+        packageScript: "validate:structure",
+        path: "scripts/validate-instrument.mts",
+      },
+      {
+        id: "security-v5-balance",
+        packageScript: "validate:security-v5",
+        path: "scripts/validate-security-v5.mts",
+      },
+      {
+        id: "module-calibration",
+        packageScript: "calibrate:modules",
+        path: "scripts/calibrate-modules.mts",
+      },
     ],
   },
   relationPolicy: DEFAULT_DOMAIN_RELATION_POLICY,
@@ -117,10 +144,25 @@ export const securityModuleManifest = {
 
 export const technologyModuleManifest = {
   schemaVersion: DOMAIN_MODULE_MANIFEST_SCHEMA_VERSION,
-  releaseState: "shipping",
+  manifestOrigin: "derived-legacy-adapter",
+  releaseState: "public-beta",
+  releaseDecision: {
+    decisionId: "technology-v3-public-beta-2026-08-21",
+    decisionPath:
+      "docs/v23/V23_4_TECHNOLOGY_V3_BETA_RELEASE_DECISION.md",
+    approvedQuestionBankVersion: 3,
+    approvedScoringVersion: 2,
+    approvedResultCopyVersion: 1,
+    approvedManifestVersion: 2,
+    decisionStatus: "approved-public-beta",
+    reviewDueAt: "2026-11-21T00:00:00Z",
+  },
+  evidenceStatus: "provenance-recorded",
+  manifestFingerprint:
+    "0dee7367ac98a0af6ce2903b6687a36fb27c1b81a9b0fb7b282badebd55f719e",
   slug: "technology",
   versions: {
-    manifest: 1,
+    manifest: 2,
     questionBank: TECHNOLOGY_BANK_VERSION,
     scoring: TECHNOLOGY_SCORING_VERSION,
     resultCopy: 1,
@@ -142,7 +184,7 @@ export const technologyModuleManifest = {
   localeStatus: {
     sourceLocale: "en",
     locales: [
-      { locale: "en", status: "source-complete", contentVersion: 1 },
+      { locale: "en", status: "authored-complete", contentVersion: 1 },
       { locale: "zh-Hans", status: "not-authored" },
     ],
   },
@@ -160,9 +202,21 @@ export const technologyModuleManifest = {
       },
     ],
     audits: [
-      { id: "instrument-structure", packageScript: "validate:structure" },
-      { id: "module-calibration", packageScript: "calibrate:modules" },
-      { id: "module-diagnostics", packageScript: "diagnose" },
+      {
+        id: "instrument-structure",
+        packageScript: "validate:structure",
+        path: "scripts/validate-instrument.mts",
+      },
+      {
+        id: "module-calibration",
+        packageScript: "calibrate:modules",
+        path: "scripts/calibrate-modules.mts",
+      },
+      {
+        id: "module-diagnostics",
+        packageScript: "diagnose",
+        path: "scripts/diagnose-instrument.mts",
+      },
     ],
   },
   relationPolicy: DEFAULT_DOMAIN_RELATION_POLICY,

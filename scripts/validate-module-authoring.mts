@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { existsSync, readFileSync } from "node:fs"
+import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { pathToFileURL } from "node:url"
 import {
@@ -9,6 +9,7 @@ import {
 } from "@/lib/current-cases/relations"
 import {
   formatModuleAuthoringIssues,
+  validateDomainModuleManifestPaths,
   validateModuleAuthoringRecord,
   type ModuleAuthoringValidationIssue,
 } from "@/lib/modules/authoring-validation"
@@ -16,6 +17,9 @@ import { modules } from "@/lib/modules/framework"
 import { MODULE_AUTHORING_RECORDS } from "@/lib/modules/manifests"
 import { MODULE_SLUGS } from "@/lib/modules/types"
 import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import manifestFingerprints from "@/tests/fixtures/module-manifest-fingerprints.json" with {
+  type: "json",
+}
 
 export type RegisteredModuleAuthoringValidationReport = {
   ok: boolean
@@ -31,6 +35,30 @@ export type RegisteredModuleAuthoringValidationReport = {
 
 type PackageJson = {
   scripts?: Record<string, string>
+}
+
+export function matchesCanonicalManifestFingerprint(
+  manifest: {
+    slug: string
+    versions: { manifest: number; resultCopy: number }
+    manifestFingerprint: string
+  },
+  fixtures: Record<
+    string,
+    {
+      manifestVersion: number
+      resultCopyVersion: number
+      fingerprint: string
+    }
+  > = manifestFingerprints,
+) {
+  const expected = fixtures[manifest.slug]
+  return Boolean(
+    expected &&
+      expected.manifestVersion === manifest.versions.manifest &&
+      expected.resultCopyVersion === manifest.versions.resultCopy &&
+      expected.fingerprint === manifest.manifestFingerprint,
+  )
 }
 
 export function validateRegisteredModuleAuthoring(
@@ -98,30 +126,11 @@ export function validateRegisteredModuleAuthoring(
     }
 
     const hookIssues: ModuleAuthoringValidationIssue[] = []
-    for (const hook of [
-      ...record.manifest.evidenceAuditHooks.evidence,
-      ...record.manifest.evidenceAuditHooks.reviews,
-    ]) {
-      if (!existsSync(resolve(rootDirectory, hook.path))) {
-        hookIssues.push({
-          code: "hook.path-missing",
-          path: hook.path,
-          message: `Hook ${hook.id} does not resolve to a repository file.`,
-        })
-      }
-    }
-    if (
-      record.manifest.calibration.artifactPath &&
-      !existsSync(
-        resolve(rootDirectory, record.manifest.calibration.artifactPath),
-      )
-    ) {
-      hookIssues.push({
-        code: "calibration.path-missing",
-        path: record.manifest.calibration.artifactPath,
-        message: "Calibration artifact does not resolve.",
-      })
-    }
+    const pathValidation = validateDomainModuleManifestPaths(
+      record.manifest,
+      rootDirectory,
+    )
+    if (!pathValidation.ok) hookIssues.push(...pathValidation.issues)
     for (const hook of record.manifest.evidenceAuditHooks.audits) {
       if (!packageScripts[hook.packageScript]) {
         hookIssues.push({
@@ -137,6 +146,12 @@ export function validateRegisteredModuleAuthoring(
         hookIssues,
       ),
     )
+
+    if (!matchesCanonicalManifestFingerprint(record.manifest)) {
+      issues.push(
+        `${record.manifest.slug}: manifestFingerprint: canonical fingerprint fixture requires an explicit manifest/result-copy version bump.`,
+      )
+    }
 
     return {
       slug: record.manifest.slug,
@@ -167,7 +182,7 @@ function main() {
     )
   }
   console.log(
-    "Module authoring contract valid; public relations default to not-comparable.",
+    "Module authoring contract valid; schema-v1 public relations are forbidden.",
   )
 }
 

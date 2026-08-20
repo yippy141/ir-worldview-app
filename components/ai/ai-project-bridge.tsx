@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
 import { DEFAULT_DOMAIN_RELATION_READ } from "@/lib/modules/authoring-contract"
+import { buildAiFoundationBaseline } from "@/lib/ai-foundation-baseline"
 
 export function AiProjectBridge({
   mode,
@@ -20,6 +21,10 @@ export function AiProjectBridge({
     return () => window.removeEventListener("storage", load)
   }, [])
 
+  const baseline = foundation
+    ? buildAiFoundationBaseline(foundation)
+    : null
+
   if (mode === "landing") {
     return (
       <section className="ai-bridge-panel stack-md" aria-label="AI project bridge">
@@ -27,20 +32,18 @@ export function AiProjectBridge({
           <p className="eyebrow">Same overall project</p>
           <h2 style={{ margin: 0 }}>AI belongs beside the IR baseline</h2>
           <p className="ai-bridge-note">
-            The Foundation names your starting view of world politics. The AI Governance Compass
-            asks how that view travels when the problem is frontier AI.
+            The Foundation records a broad view of world politics. The AI Governance Compass
+            records judgments about frontier-AI governance on its own domain scale.
           </p>
         </div>
 
         <div className="ai-bridge-grid">
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">Current IR baseline</p>
-            {foundation ? (
+            {baseline ? (
               <>
-                <p className="ai-bridge-title">{foundation.familyLabel} on this device</p>
-                <p className="ai-bridge-note">
-                  {foundation.strategyModifier} · {foundation.normativeModifier}
-                </p>
+                <p className="ai-bridge-title">{baseline.primaryLabel}</p>
+                <p className="ai-bridge-note">{baseline.secondaryLabel}</p>
               </>
             ) : (
               <>
@@ -55,8 +58,8 @@ export function AiProjectBridge({
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">What changes here</p>
             <p className="ai-bridge-note">
-              The AI result does not rewrite your Foundation label. It shows how your governing
-              instincts behave in a different policy field.
+              The AI result does not rewrite the Foundation. Without a reviewed bridge, the two
+              records sit side by side and no relationship is inferred between them.
             </p>
           </article>
         </div>
@@ -69,7 +72,7 @@ export function AiProjectBridge({
       <div className="stack-xs">
         <p className="eyebrow">IR relationship</p>
         <h2>AI and the Foundation remain separate domain reads</h2>
-        {foundation ? null : (
+        {baseline ? null : (
           <p className="muted result-note">
             No IR Foundation baseline is saved on this device yet. The AI result still stands on
             its own.
@@ -77,21 +80,19 @@ export function AiProjectBridge({
         )}
       </div>
 
-      {foundation ? (
+      {baseline ? (
         <div className="ai-bridge-grid">
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">IR baseline on this device</p>
-            <p className="ai-bridge-title">{foundation.familyLabel}</p>
-            <p className="ai-bridge-note">
-              {foundation.strategyModifier} · {foundation.normativeModifier}
-            </p>
+            <p className="ai-bridge-title">{baseline.primaryLabel}</p>
+            <p className="ai-bridge-note">{baseline.secondaryLabel}</p>
           </article>
 
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">Relation status</p>
             <p className="ai-bridge-title">
               {DEFAULT_DOMAIN_RELATION_READ.relation === "not-comparable"
-                ? "Not comparable"
+                ? "Separate reads — no reviewed bridge"
                 : DEFAULT_DOMAIN_RELATION_READ.relation}
             </p>
             <p className="ai-bridge-note">

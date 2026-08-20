@@ -90,8 +90,9 @@ endorsement claim is made. Tier 1 remains off.
 
 ## Rollback
 
-Rollback sets new completions to the frozen tuple below while preserving all
-issued v3, v4, and v5 links through their registered decoders:
+Rollback withdraws the public beta and stops new Security completions. The
+frozen tuple below becomes the internal compatibility default while all issued
+v3, v4, and v5 links remain readable through their registered decoders:
 
 | Field | Rollback value |
 |---|---|
@@ -101,6 +102,6 @@ issued v3, v4, and v5 links through their registered decoders:
 | Result-copy version | 1 |
 | Manifest version | 1 |
 
-Rollback does not relabel v4 as approved. It is an operational compatibility
-fallback while the public beta is withdrawn and the release decision is
-revisited.
+Rollback does not relabel v4 as approved and permits no new public v4
+completion. It is an internal operational fallback while the public beta is
+withdrawn and the release decision is revisited.
