@@ -22,6 +22,14 @@ export const SECURITY_V4_BANK_SHA256 =
   "685317aa2ad0d9f4eea883e6bae9c800364a3865aeb6a49cb2f7f44f600eea4d"
 export const SECURITY_V4_LEDGER_SHA256 =
   "eb0e6b2df2812b4f0ef710e93dc40a466273937c22950e9888c1cc0f61ed53f7"
+export const SECURITY_V5_BANK_PATH = "content/instrument/security.v5.json"
+export const SECURITY_V5_LEDGER_PATH =
+  "docs/v23/security/V23_3_SECURITY_V5_ACTOR_BALANCE_LEDGER.csv"
+export const SECURITY_V5_SCORING_VERSION = 2
+export const SECURITY_V5_BANK_SHA256 =
+  "2fe8fadc4ab0189b4a5a57d36e0351e7f7cdc0dc1845114b6a12988b85fe383b"
+export const SECURITY_V5_LEDGER_SHA256 =
+  "2733efb6698e906012daf8bd41550a1db4fe00d6a451cf7d8df9ae3e990fafd9"
 
 const MODES = ["standard", "analyst"] as const
 const AXES = ["activism", "escalation", "alliance", "legitimacy"] as const
@@ -108,16 +116,16 @@ export type SecurityV4TheaterShare = {
 
 export type SecurityV4ValidationReport = {
   versions: {
-    bank: 4
+    bank: number
     scoring: 2
   }
-  bankPath: typeof SECURITY_V4_BANK_PATH
-  ledgerPath: typeof SECURITY_V4_LEDGER_PATH
-  bankSha256: typeof SECURITY_V4_BANK_SHA256
-  ledgerSha256: typeof SECURITY_V4_LEDGER_SHA256
-  itemCount: 23
-  optionCount: 92
-  ledgerRowCount: 42
+  bankPath: string
+  ledgerPath: string
+  bankSha256: string
+  ledgerSha256: string
+  itemCount: number
+  optionCount: number
+  ledgerRowCount: number
   modes: Record<SecurityMode, SecurityV4ModeCounts>
   theaterShares: SecurityV4TheaterShare[]
   actorLensItemIds: string[]
@@ -142,6 +150,46 @@ export class SecurityV4ValidationError extends Error {
     this.name = "SecurityV4ValidationError"
     this.problems = [...problems]
   }
+}
+
+export class SecurityV5ValidationError extends Error {
+  readonly problems: string[]
+
+  constructor(problems: readonly string[]) {
+    super(
+      "Security v5 validation failed:\n" +
+        problems.map((problem) => `- ${problem}`).join("\n"),
+    )
+    this.name = "SecurityV5ValidationError"
+    this.problems = [...problems]
+  }
+}
+
+type SecurityValidationConfig = {
+  bankVersion: 4 | 5
+  scoringVersion: 2
+  bankPath: string
+  ledgerPath: string
+  bankSha256: string
+  ledgerSha256: string
+}
+
+const SECURITY_V4_VALIDATION_CONFIG: SecurityValidationConfig = {
+  bankVersion: 4,
+  scoringVersion: SECURITY_V4_SCORING_VERSION,
+  bankPath: SECURITY_V4_BANK_PATH,
+  ledgerPath: SECURITY_V4_LEDGER_PATH,
+  bankSha256: SECURITY_V4_BANK_SHA256,
+  ledgerSha256: SECURITY_V4_LEDGER_SHA256,
+}
+
+const SECURITY_V5_VALIDATION_CONFIG: SecurityValidationConfig = {
+  bankVersion: 5,
+  scoringVersion: SECURITY_V5_SCORING_VERSION,
+  bankPath: SECURITY_V5_BANK_PATH,
+  ledgerPath: SECURITY_V5_LEDGER_PATH,
+  bankSha256: SECURITY_V5_BANK_SHA256,
+  ledgerSha256: SECURITY_V5_LEDGER_SHA256,
 }
 
 const STANDARD_ITEM_IDS = [
@@ -319,11 +367,35 @@ const LEDGER_HEADERS = [
 export async function buildSecurityV4ValidationReport(
   projectRoot = process.cwd(),
 ): Promise<SecurityV4ValidationReport> {
+  return buildSecurityValidationReport(
+    SECURITY_V4_VALIDATION_CONFIG,
+    projectRoot,
+  )
+}
+
+export async function buildSecurityV5BankValidationReport(
+  projectRoot = process.cwd(),
+): Promise<SecurityV4ValidationReport> {
+  return buildSecurityValidationReport(
+    SECURITY_V5_VALIDATION_CONFIG,
+    projectRoot,
+  )
+}
+
+async function buildSecurityValidationReport(
+  config: SecurityValidationConfig,
+  projectRoot: string,
+): Promise<SecurityV4ValidationReport> {
   const [bankText, ledgerText] = await Promise.all([
-    readFile(resolve(projectRoot, SECURITY_V4_BANK_PATH), "utf8"),
-    readFile(resolve(projectRoot, SECURITY_V4_LEDGER_PATH), "utf8"),
+    readFile(resolve(projectRoot, config.bankPath), "utf8"),
+    readFile(resolve(projectRoot, config.ledgerPath), "utf8"),
   ])
-  return validateSecurityV4(JSON.parse(bankText), ledgerText, bankText)
+  return validateSecurityBank(
+    JSON.parse(bankText),
+    ledgerText,
+    bankText,
+    config,
+  )
 }
 
 export function validateSecurityV4(
@@ -331,20 +403,47 @@ export function validateSecurityV4(
   ledgerText: string,
   bankText?: string,
 ): SecurityV4ValidationReport {
+  return validateSecurityBank(
+    rawBank,
+    ledgerText,
+    bankText,
+    SECURITY_V4_VALIDATION_CONFIG,
+  )
+}
+
+export function validateSecurityV5(
+  rawBank: unknown,
+  ledgerText: string,
+  bankText?: string,
+): SecurityV4ValidationReport {
+  return validateSecurityBank(
+    rawBank,
+    ledgerText,
+    bankText,
+    SECURITY_V5_VALIDATION_CONFIG,
+  )
+}
+
+function validateSecurityBank(
+  rawBank: unknown,
+  ledgerText: string,
+  bankText: string | undefined,
+  config: SecurityValidationConfig,
+): SecurityV4ValidationReport {
   const problems: string[] = []
   const bankSha256 = bankText
     ? createHash("sha256").update(bankText).digest("hex")
-    : SECURITY_V4_BANK_SHA256
+    : config.bankSha256
   const ledgerSha256 = createHash("sha256").update(ledgerText).digest("hex")
-  if (bankSha256 !== SECURITY_V4_BANK_SHA256) {
+  if (bankSha256 !== config.bankSha256) {
     problems.push(
-      `bank SHA-256 drifted; expected ${SECURITY_V4_BANK_SHA256}, ` +
+      `bank SHA-256 drifted; expected ${config.bankSha256}, ` +
         `received ${bankSha256}.`,
     )
   }
-  if (ledgerSha256 !== SECURITY_V4_LEDGER_SHA256) {
+  if (ledgerSha256 !== config.ledgerSha256) {
     problems.push(
-      `ledger SHA-256 drifted; expected ${SECURITY_V4_LEDGER_SHA256}, ` +
+      `ledger SHA-256 drifted; expected ${config.ledgerSha256}, ` +
         `received ${ledgerSha256}.`,
     )
   }
@@ -354,9 +453,9 @@ export function validateSecurityV4(
   if (bank.instrument !== "security") {
     problems.push(`bank instrument must be security; received ${bank.instrument}.`)
   }
-  if (bank.instrumentVersion !== 4) {
+  if (bank.instrumentVersion !== config.bankVersion) {
     problems.push(
-      `bank instrumentVersion must be 4; received ${bank.instrumentVersion}.`,
+      `bank instrumentVersion must be ${config.bankVersion}; received ${bank.instrumentVersion}.`,
     )
   }
 
@@ -527,20 +626,24 @@ export function validateSecurityV4(
   const theaterShares = buildTheaterShares(ledger, itemsById, problems)
   validateLedgerShareColumns(ledger, theaterShares, problems)
 
-  if (problems.length > 0) throw new SecurityV4ValidationError(problems)
+  if (problems.length > 0) {
+    throw config.bankVersion === 4
+      ? new SecurityV4ValidationError(problems)
+      : new SecurityV5ValidationError(problems)
+  }
 
   return {
-    versions: { bank: 4, scoring: SECURITY_V4_SCORING_VERSION },
-    bankPath: SECURITY_V4_BANK_PATH,
-    ledgerPath: SECURITY_V4_LEDGER_PATH,
-    bankSha256: SECURITY_V4_BANK_SHA256,
-    ledgerSha256: SECURITY_V4_LEDGER_SHA256,
-    itemCount: bank.items.length as 23,
+    versions: { bank: config.bankVersion, scoring: config.scoringVersion },
+    bankPath: config.bankPath,
+    ledgerPath: config.ledgerPath,
+    bankSha256: config.bankSha256,
+    ledgerSha256: config.ledgerSha256,
+    itemCount: bank.items.length,
     optionCount: bank.items.reduce<number>(
       (sum, item) => sum + item.options.length,
       0,
-    ) as 92,
-    ledgerRowCount: ledger.length as 42,
+    ),
+    ledgerRowCount: ledger.length,
     modes,
     theaterShares,
     actorLensItemIds: bank.items

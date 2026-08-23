@@ -96,6 +96,10 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
     category: "instrument-bank",
   },
   {
+    path: "content/instrument/security.v5.json",
+    category: "instrument-bank",
+  },
+  {
     path: "docs/v23/security/V23_3_SECURITY_ACTOR_BALANCE_LEDGER.csv",
     category: "design-source",
   },
@@ -109,6 +113,22 @@ const SOURCE_SPECS: readonly SourceSpec[] = [
   },
   {
     path: "docs/v23/security/V23_3_SECURITY_V4_CONTRACT.md",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_V5_ACTOR_BALANCE_LEDGER.csv",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_V5_SOURCE_LEDGER.md",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_V5_ITEM_REVIEW.md",
+    category: "design-source",
+  },
+  {
+    path: "docs/v23/security/V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md",
     category: "design-source",
   },
   {

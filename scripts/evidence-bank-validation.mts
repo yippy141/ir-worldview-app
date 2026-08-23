@@ -24,6 +24,7 @@ export type SupportedInstrumentBankKey =
   | "security-bank-v2"
   | "security-bank-v3"
   | "security-bank-v4"
+  | "security-bank-v5"
   | "technology-bank-v2"
   | "technology-bank-v3"
   | "ai-governance-bank-v2"
@@ -312,7 +313,7 @@ export function validateSupportedInstrumentBank(
     )
     const supported =
       instrument === "security"
-        ? version === 2 || version === 3 || version === 4
+        ? version === 2 || version === 3 || version === 4 || version === 5
         : version === 2 || version === 3
     if (!supported) {
       fail(
@@ -322,9 +323,9 @@ export function validateSupportedInstrumentBank(
       )
     }
 
-    validateModuleBank(object, source, instrument, version as 2 | 3 | 4)
+    validateModuleBank(object, source, instrument, version as 2 | 3 | 4 | 5)
     const isCurrent =
-      instrument === "security" ? version === 4 : version === 3
+      instrument === "security" ? version === 5 : version === 3
     return {
       key: `${instrument}-bank-v${version}` as SupportedInstrumentBankKey,
       instrument,
@@ -661,7 +662,7 @@ function validateModuleBank(
   bank: UnknownObject,
   source: string,
   instrument: "security" | "technology",
-  version: 2 | 3 | 4,
+  version: 2 | 3 | 4 | 5,
 ) {
   requireAllowedFields(bank, VERSIONED_BANK_FIELDS, source, "$")
   requireFields(bank, VERSIONED_BANK_FIELDS, source, "$")

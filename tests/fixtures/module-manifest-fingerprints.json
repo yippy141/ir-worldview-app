@@ -1,0 +1,12 @@
+{
+  "security": {
+    "manifestVersion": 2,
+    "resultCopyVersion": 2,
+    "fingerprint": "5b6e6acf8387d5f990d9f9e7b3a678aa3d99aabe62f21c704a9627c3be2473ca"
+  },
+  "technology": {
+    "manifestVersion": 2,
+    "resultCopyVersion": 1,
+    "fingerprint": "0dee7367ac98a0af6ce2903b6687a36fb27c1b81a9b0fb7b282badebd55f719e"
+  }
+}

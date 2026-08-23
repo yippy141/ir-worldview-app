@@ -1,0 +1,1646 @@
+{
+  "instrument": "security",
+  "instrumentVersion": 5,
+  "items": [
+    {
+      "id": "gray_zone_sabotage",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "Gray-zone sabotage",
+      "prompt": "What is the most persuasive reading of what the rival is testing?",
+      "scene": "Foreign ministers meet at an alliance ministerial tomorrow. After three weeks of cable cuts, rail disruptions, and port outages across two allied states, they must decide which vulnerability the campaign is testing before issuing a public statement. Here, attribution means identifying who carried out the disruptions with enough confidence to support a public response; a response threshold is the announced level of harm that triggers a specified action.",
+      "whyHard": "If attribution stays contested, allies can agree the pattern is hostile while still disagreeing about whether it calls for punishment, resilience, or restraint.",
+      "perspectiveTags": [
+        "alliance-manager",
+        "cyber",
+        "infrastructure",
+        "major-power"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "resolve_probe",
+          "title": "Test response thresholds",
+          "label": "Publish a cumulative-disruption threshold and pair each attribution update with predefined response steps, testing whether ambiguity has enabled costs below that line. Accepted cost: This can mistake cumulative damage for a deliberate signal about thresholds.",
+          "signals": {
+            "activism": 5.6,
+            "escalation": 5.8,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "coalition_probe",
+          "title": "Test coalition fracture points",
+          "label": "Create a joint attribution cell and consultation trigger, treating disagreement among partners as the campaign's main lever. Accepted cost: This centers allied politics and can understate direct operational damage.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 4.8,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "resilience_probe",
+          "title": "Map resilience gaps",
+          "label": "Prioritize repair, redundancy, and recovery exercises, treating the incidents as exploitation of infrastructure weakness. Accepted cost: This can understate coercive intent and delay a firmer response.",
+          "signals": {
+            "activism": 3.5,
+            "escalation": 3.8,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "bait_for_escalation",
+          "title": "Deny an escalation opportunity",
+          "label": "Hold punitive measures while hardening systems and building publishable attribution, treating a premature response as the vulnerability being tested. Accepted cost: Caution can leave sustained disruption insufficiently contested.",
+          "signals": {
+            "activism": 3.4,
+            "escalation": 3.6,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "eastern_flank",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Eastern-flank reassurance",
+      "prompt": "What should matter most in the posture decision?",
+      "scene": "At next week's North Atlantic Treaty Organization (NATO) ministerial, allied governments must choose the eastern-flank posture after repeated sabotage scares and airspace incidents. A frontline member is asking for a more permanent allied presence. Here, pre-positioned stocks are supplies stored forward before a crisis; a rotational deployment is a force that enters and leaves on a schedule; and a force ceiling is a stated upper limit on deployed personnel or equipment.",
+      "whyHard": "A signal that reassures exposed allies may also look like routine escalation if it becomes too rigid or too symbolic.",
+      "perspectiveTags": [
+        "alliance-manager",
+        "frontline-state",
+        "deterrence"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "make_the_promise_visible",
+          "title": "Put the commitment forward",
+          "label": "Station a standing multinational unit under a joint command so an attack immediately implicates several allies. Accepted cost: This reduces crisis flexibility and makes a local incident more likely to implicate the whole alliance.",
+          "signals": {
+            "activism": 5.9,
+            "escalation": 6,
+            "alliance": 6.3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "build_reinforcement_depth",
+          "title": "Make reinforcement executable",
+          "label": "Pre-position stocks, secure rail and air access, and rehearse reinforcement without permanently enlarging the forward force. Accepted cost: The peacetime signal is less visible, and reinforcements may arrive after a crisis begins.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 4.9,
+            "alliance": 6,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "prioritize_local_denial",
+          "title": "Build frontline denial",
+          "label": "Fund local air defense, mobilization, civil defense, and hardened infrastructure under the frontline state's command. Accepted cost: The frontline state bears more cost and opening-phase risk, with less automatic allied involvement.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 4.6,
+            "alliance": 3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "pair_reassurance_with_limits",
+          "title": "Pair presence with ceilings",
+          "label": "Use rotational deployments with a public force ceiling, incident hotline, and review date. Accepted cost: Public ceilings may invite probing and leave the frontline ally less reassured.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.5,
+            "alliance": 4.4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "maritime_pressure",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Outside help without formal alignment",
+      "prompt": "What should matter most when outside states offer support?",
+      "scene": "A Southeast Asian state's cabinet must choose what outside support to accept before maritime patrol talks begin in 72 hours. A much larger power is applying repeated pressure, but the government does not want formal bloc alignment to narrow its diplomatic room. Here, visiting-force access permits outside military units to use specified facilities without creating a permanent base; a shared coast-guard picture is a jointly compiled record of vessel activity.",
+      "whyHard": "Outside backing can strengthen the smaller state, but the wrong form of backing can also reduce the autonomy it is trying to preserve.",
+      "perspectiveTags": [
+        "small-state",
+        "middle-power",
+        "hedging",
+        "maritime"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "hard_external_backing",
+          "title": "Accept joint operational backing",
+          "label": "Authorize joint patrols and limited visiting-force access so outside material power directly offsets the larger state. Accepted cost: This narrows diplomatic autonomy and raises the chance that outside-force involvement intensifies the contest.",
+          "signals": {
+            "activism": 5.1,
+            "escalation": 5.3,
+            "alliance": 6.2,
+            "legitimacy": 4.2
+          }
+        },
+        {
+          "id": "protect_hedging_room",
+          "title": "Diversify support without basing",
+          "label": "Take surveillance, training, and equipment from several partners while declining exclusive access or a defense commitment. Accepted cost: Immediate deterrence is weaker, and the larger power may exploit continued ambiguity.",
+          "signals": {
+            "activism": 3.5,
+            "escalation": 4,
+            "alliance": 2.8,
+            "legitimacy": 4.9
+          }
+        },
+        {
+          "id": "multilateralize_pressure",
+          "title": "Build regional monitoring and process",
+          "label": "Create a shared coast-guard picture, coordinated legal filings, and a regional diplomatic contact group. Accepted cost: The response is slower and uneven and may not stop coercion at sea in the near term.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4,
+            "alliance": 4.9,
+            "legitimacy": 5.9
+          }
+        },
+        {
+          "id": "build_local_resilience",
+          "title": "Keep combat control national",
+          "label": "Accept surveillance support, coast-guard training, and nationally controlled equipment but no outside combat forces. Accepted cost: A near-term capability gap remains, with no assurance that outside forces will intervene if pressure escalates.",
+          "signals": {
+            "activism": 4.7,
+            "escalation": 4.6,
+            "alliance": 3.6,
+            "legitimacy": 3.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "middle_power_alignment",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "actorLens",
+      "title": "Border pressure when a state wants help but not full alignment",
+      "prompt": "Which logic should guide the cabinet's choice?",
+      "scene": "A large democracy faces repeated Chinese pressure along a disputed border. Its cabinet must choose an assistance package before next month's defense summit: weapons, intelligence help, and investment from the United States and other major powers, without letting that choice dictate every trade and diplomatic decision. Here, domestic denial means national defenses designed to make an attack fail or become costly; diversified procurement means buying from multiple suppliers; exclusive basing gives one outside partner privileged military access; and an opt-out lets a government decline a specified coalition action.",
+      "whyHard": "From Washington or other allied capitals, closer alignment can look like the obvious answer. From inside this cabinet, preserving bargaining room may still look like part of security itself.",
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "hedging"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "ambiguity_will_fail",
+          "title": "Lock in the security partnership",
+          "label": "Make multi-year intelligence, arms, logistics, and investment commitments with Washington before a sharper crisis limits the choice. Accepted cost: This creates earlier dependence on Washington and less freedom to compartmentalize trade and diplomacy.",
+          "signals": {
+            "activism": 5,
+            "escalation": 5.2,
+            "alliance": 6.1,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "layered_alignment_is_real",
+          "title": "Compartmentalize cooperation",
+          "label": "Deepen intelligence and defense ties while writing explicit carve-outs for trade, finance, and unrelated diplomacy. Accepted cost: A major crisis may collapse those compartments and force linked choices.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.3,
+            "alliance": 5,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "autonomy_is_rational",
+          "title": "Build bargaining room into security",
+          "label": "Combine domestic denial and diversified procurement while refusing exclusive basing or whole-of-state alignment. Accepted cost: Guarantees remain weaker, and potential partners may reserve support when the border crisis sharpens.",
+          "signals": {
+            "activism": 3.7,
+            "escalation": 4,
+            "alliance": 2.8,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "problem_based_coalitions",
+          "title": "Use issue-specific coalitions",
+          "label": "Join time-limited coalitions with defined missions and opt-outs rather than one comprehensive alignment. Accepted cost: Commitments are thinner and coordination is slower when a crisis crosses issue boundaries.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4.1,
+            "alliance": 4.8,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "atrocity_response",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "decision",
+      "title": "Mass atrocity and outside action",
+      "prompt": "Which rule should guide the team's recommendation?",
+      "scene": "Mass civilian killing is underway, the United Nations (UN) Security Council is blocked, and outside military action would be legally contested. By tomorrow, an operational mission team must recommend whether to intervene and, if so, define the mission's scope and stopping rule. Here, a mandate is the legal or political authority for a mission, and a force ceiling is a stated upper limit on deployed personnel or equipment.",
+      "whyHard": "The central tension is whether the gravity of the harm justifies acting without the level of legal and political grounding that would normally be required.",
+      "perspectiveTags": [
+        "vulnerable-state",
+        "humanitarian",
+        "regional-order"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "legal_bar_remains_high",
+          "title": "Withhold force without durable authority",
+          "label": "Use relief, sanctions, evidence preservation, and negotiations while seeking a mandate or regional agreement before military action. Accepted cost: Civilians may remain exposed while durable authority is unavailable.",
+          "signals": {
+            "activism": 3.4,
+            "escalation": 4,
+            "alliance": 4,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "limited_protection_can_qualify",
+          "title": "Authorize a bounded protection mission",
+          "label": "Permit a geographically and time-limited protection operation with defensive rules, a review date, and a stated stopping rule. Accepted cost: The mission has contested legality and can expand when forces come under fire.",
+          "signals": {
+            "activism": 5.2,
+            "escalation": 4.2,
+            "alliance": 4,
+            "legitimacy": 6.2
+          }
+        },
+        {
+          "id": "regional_authority_should_anchor",
+          "title": "Let nearby states bound the mission",
+          "label": "Require regional governments to set the objective, force ceiling, and exit conditions before outside units deploy. Accepted cost: Agreement may be delayed and the resulting mission narrower than outside planners prefer.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 4.4,
+            "alliance": 4,
+            "legitimacy": 5.7
+          }
+        },
+        {
+          "id": "reduce_harm_without_widening",
+          "title": "Use noncombat harm-reduction tools",
+          "label": "Expand relief, sanctions, monitoring, and documentation without deploying combat forces. Accepted cost: These tools may not halt the killing before more civilians die.",
+          "signals": {
+            "activism": 3,
+            "escalation": 3.5,
+            "alliance": 4,
+            "legitimacy": 4.8
+          }
+        }
+      ]
+    },
+    {
+      "id": "aid_corridor",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "decision",
+      "title": "Aid corridors without clear authorization",
+      "prompt": "Which course should the coalition choose?",
+      "scene": "A government is choking off food and medicine to a besieged region, whose relief stocks will run out in five days. By tomorrow, a coalition of outside states must decide whether to escort maritime and air relief corridors despite unclear United Nations (UN) authorization and regional concern about a wider mission. Here, an escort is an armed force assigned to protect relief movement; a mandate is the legal or political authority for that mission; and host-state authority means consent from the government whose territory or airspace is used.",
+      "whyHard": "The problem is how to relieve urgent civilian harm without quietly turning a relief mission into a broader warfighting mandate.",
+      "perspectiveTags": [
+        "humanitarian",
+        "regional-order",
+        "civilian-protection"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "open_the_corridor",
+          "title": "Start a bounded escorted corridor",
+          "label": "Begin escorted deliveries under defensive rules, a fixed route, and an initial review after 72 hours. Accepted cost: Escorts may exchange fire and turn a relief mission into a wider confrontation.",
+          "signals": {
+            "activism": 5.6,
+            "escalation": 4.1,
+            "alliance": 4,
+            "legitimacy": 6.1
+          }
+        },
+        {
+          "id": "seek_regional_cover",
+          "title": "Put regional states in the lead",
+          "label": "Negotiate a regionally led corridor with designated ports, inspection rules, and a narrower cargo schedule. Accepted cost: Relief is delayed and the mission is constrained by regional bargaining.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.1,
+            "alliance": 4,
+            "legitimacy": 5.6
+          }
+        },
+        {
+          "id": "secure_authority_first",
+          "title": "Secure authority before escorts",
+          "label": "Seek UN or host-state authority and pre-negotiate monitoring before armed escorts enter the contested area. Accepted cost: Some civilians may not receive relief before current stocks run out.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.9,
+            "alliance": 4,
+            "legitimacy": 3
+          }
+        },
+        {
+          "id": "intensify_indirect_pressure",
+          "title": "Coerce access without escorts",
+          "label": "Apply targeted sanctions, publish evidence, and condition diplomatic relief on unimpeded aid deliveries. Accepted cost: Coercive diplomacy may fail before existing relief stocks run out.",
+          "signals": {
+            "activism": 3.6,
+            "escalation": 3.7,
+            "alliance": 4,
+            "legitimacy": 4.9
+          }
+        }
+      ]
+    },
+    {
+      "id": "ceasefire_accountability",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "explanation",
+      "title": "Ceasefire versus accountability",
+      "prompt": "Which weakness is most likely to make this ceasefire a pause before renewed violence?",
+      "scene": "The parties have accepted a 72-hour ceasefire draft, but disagree over monitors, access to evidence, and when investigations restart. Before the draft expires tomorrow night, the mediation team must recommend the verification package most likely to keep the ceasefire from becoming a pause before renewed violence.",
+      "whyHard": "The same compromise can look like prudence to one camp and norm erosion to another.",
+      "perspectiveTags": [
+        "post-conflict",
+        "humanitarian",
+        "transitional-justice"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "stop_killing_first",
+          "title": "Monitoring starts too late",
+          "label": "Without monitors at the start, small incidents generate competing stories and reciprocal fire before a common record exists. Accepted cost: Prioritizing rapid deployment means accepting thinner initial evidence access and a risk that accountability is deferred or lost.",
+          "signals": {
+            "activism": 3.3,
+            "escalation": 3.6,
+            "alliance": 4,
+            "legitimacy": 5.7
+          }
+        },
+        {
+          "id": "accountability_sets_limits",
+          "title": "Accountability has no clock",
+          "label": "Without a fixed investigation date and access rule, each side expects evidence obligations to be postponed and sees less reason to preserve it. Accepted cost: Treating the clock as decisive accepts a greater chance that parties reject or break the ceasefire rather than face the obligation.",
+          "signals": {
+            "activism": 3.7,
+            "escalation": 3.9,
+            "alliance": 4,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "regional_monitoring_compromise",
+          "title": "The monitor lacks political acceptance",
+          "label": "A monitor seen as externally imposed will be denied access, while a first-stage regional team may obtain enough consent to keep observation operating. Accepted cost: Prioritizing political acceptance means tolerating uneven capacity and a risk that evidence is lost before broader access begins.",
+          "signals": {
+            "activism": 3.8,
+            "escalation": 3.8,
+            "alliance": 4,
+            "legitimacy": 5.1
+          }
+        },
+        {
+          "id": "bad_peace_can_recycle_harm",
+          "title": "Violations have no consequence ladder",
+          "label": "Monitoring without a predefined, independently triggered consequence makes limited breaches cheap and allows them to accumulate. Accepted cost: Treating enforcement as the central weakness accepts that a contested finding can trigger consequences that destabilize the truce.",
+          "signals": {
+            "activism": 4.4,
+            "escalation": 4.2,
+            "alliance": 4,
+            "legitimacy": 4.7
+          }
+        }
+      ]
+    },
+    {
+      "id": "nuclear_hedging",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Alliance guarantees and nuclear options",
+      "prompt": "What should matter most in the response to the exposed ally's nuclear debate?",
+      "scene": "A guarantor government's security team has five days to package a response for an allied meeting. An exposed ally is debating an independent nuclear option because it no longer fully trusts the outside guarantee. “Preparation short of a weapon” here means safeguarded civilian fuel-cycle capacity and planning without assembling a nuclear explosive.",
+      "whyHard": "Reassurance, nonproliferation, and autonomy all matter here, but pushing one too hard can undermine the others.",
+      "perspectiveTags": [
+        "alliance-manager",
+        "frontline-state",
+        "nuclear"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "restore_confidence_fast",
+          "title": "Add visible, time-limited reassurance",
+          "label": "Use rotational deployments, joint nuclear consultation, and a scheduled guarantee review to make support observable. Accepted cost: The guarantor accepts deeper exposure and greater entrapment risk in the ally's future crises.",
+          "signals": {
+            "activism": 5.3,
+            "escalation": 5.6,
+            "alliance": 6.3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "lower_demand_for_latency",
+          "title": "Trade assurance for restraint",
+          "label": "Offer integrated air/missile defense, assured fuel supply, and crisis consultation in return for verified limits on independent nuclear preparation. Accepted cost: Reassurance is slower, and the ally may keep hedging while the framework is negotiated.",
+          "signals": {
+            "activism": 3.9,
+            "escalation": 3.2,
+            "alliance": 5,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "tolerate_some_hedging",
+          "title": "Permit a safeguarded hedge",
+          "label": "Tolerate safeguarded civilian fuel-cycle work and planning short of assembly while increasing inspection and consultation. Accepted cost: Proliferation risk rises, and other allies may copy preparations short of weaponization.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.7,
+            "alliance": 3.4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "protect_nonproliferation_early",
+          "title": "Condition the guarantee on a verified ceiling",
+          "label": "Tie fuel, technology, and parts of the guarantee to a monitored no-weaponization commitment and regional assurance talks. Accepted cost: This creates friction with the ally and leaves some immediate security fears unanswered.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 4.6,
+            "alliance": 5.4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "patron_trust_gap",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "decision",
+      "title": "Security help without full trust",
+      "prompt": "From this partner state's side, what should carry the most weight?",
+      "scene": "A regional power faces a stronger neighbor and relies on an outside patron for air defense, intelligence, and financing. It wants deeper help, but doubts that the patron would bear equal risk in a longer crisis. Its cabinet must design the security relationship before new basing talks begin next week.",
+      "whyHard": "Outside guarantees can deter and entrap at the same time. The same tie can look like protection or dependence depending on how much trust remains.",
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "regional-security"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "lock_in_guarantee",
+          "title": "Bind the patron through assets and agreements",
+          "label": "Seek a treaty commitment, shared basing investment, and pooled procurement that are costly for the patron to reverse. Accepted cost: The state becomes more dependent and has less freedom to refuse the patron's basing or crisis demands.",
+          "signals": {
+            "activism": 5.2,
+            "escalation": 5.3,
+            "alliance": 6.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "diversify_backers",
+          "title": "Spread critical functions across partners",
+          "label": "Divide air defense, intelligence, financing, and procurement among several outside partners. Accepted cost: Duplication and coordination costs rise, and no partner is clearly responsible in a crisis.",
+          "signals": {
+            "activism": 3.8,
+            "escalation": 4,
+            "alliance": 2.9,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "build_denial_home",
+          "title": "Shift the center of gravity home",
+          "label": "Invest in national air defense, reserves, civil preparedness, and mobilization before expanding foreign basing. Accepted cost: Domestic costs are high and outside commitment stays limited during the years needed to build those defenses.",
+          "signals": {
+            "activism": 4.9,
+            "escalation": 4.6,
+            "alliance": 3.4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "keep_it_issue_based",
+          "title": "Contract for separate functions",
+          "label": "Use separate, reviewable agreements for air defense, intelligence, financing, and basing rather than one comprehensive guarantee. Accepted cost: The guarantee is shallower, and partners may withhold support beyond the agreed function.",
+          "signals": {
+            "activism": 4.1,
+            "escalation": 4.2,
+            "alliance": 4.8,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "sanctions_enforcement",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "explanation",
+      "title": "Sanctions leakage and swing states",
+      "prompt": "What is the strongest reading of why several swing states resist tighter enforcement?",
+      "scene": "The coalition's finance ministers have 72 hours before a vote to choose an enforcement package for third-country firms and ports. Several swing states say tighter enforcement would let wealthy powers export the rules and costs of their war through other people's trade networks. Here, a safe harbor is an explicit exemption from penalties, and an appeals process lets a firm or government contest an enforcement decision.",
+      "whyHard": "The same resistance can be read as opportunism, autonomy protection, or a real legitimacy objection to how coercion is being organized.",
+      "perspectiveTags": [
+        "middle-power",
+        "nonaligned",
+        "sanctions",
+        "developmental"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "resistance_is_about_leakage",
+          "title": "Avoid unshared compliance exposure",
+          "label": "The states expect their firms and ports to bear penalties and administrative costs without influence over the coalition's strategy, so they demand assistance, safe harbors, and an appeals process. Accepted cost: Tailored exceptions slow enforcement and leave more room for evasion.",
+          "signals": {
+            "activism": 5.5,
+            "escalation": 4.9,
+            "alliance": 5.2,
+            "legitimacy": 3
+          }
+        },
+        {
+          "id": "resistance_is_about_coalition_breadth",
+          "title": "Preserve optional participation",
+          "label": "They expect mandatory enforcement to push reluctant governments out, so they prefer reversible, minimum commitments that keep them at the table. Accepted cost: Continued leakage weakens sanctions in exchange for broader participation.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.1,
+            "alliance": 6,
+            "legitimacy": 5.2
+          }
+        },
+        {
+          "id": "resistance_is_about_autonomy",
+          "title": "Retain independent trade control",
+          "label": "They reject serving as enforcement arms for another coalition and reserve licensing and port policy to their own governments. Accepted cost: Independent trade choices can materially reduce the coalition's leverage.",
+          "signals": {
+            "activism": 3.7,
+            "escalation": 3.8,
+            "alliance": 2.9,
+            "legitimacy": 5.1
+          }
+        },
+        {
+          "id": "resistance_is_about_legal_grounding",
+          "title": "Require a public legal mandate",
+          "label": "They condition coercive inspections and penalties on a published legal basis, common definitions, and review rights. Accepted cost: Enforcement is delayed and evasion continues while that basis is built.",
+          "signals": {
+            "activism": 4,
+            "escalation": 3.9,
+            "alliance": 4.6,
+            "legitimacy": 6.2
+          }
+        }
+      ]
+    },
+    {
+      "id": "selective_enforcement_memory",
+      "kind": "case",
+      "modes": [
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "explanation",
+      "title": "Selective enforcement and intervention memory",
+      "prompt": "What is the strongest reading of why many post-colonial states resist harder enforcement?",
+      "scene": "Before a United Nations (UN) vote next week, a caucus of post-colonial states must agree its position on sanctions, no-fly options, and criminal investigations after mass repression in a weak state. The members condemn the violence but resist the enforcement push because the same wealthy powers have not acted with equal urgency in other crises. Here, a no-fly measure restricts aircraft from a defined airspace, and a mandate is the legal or political authority for enforcing it.",
+      "whyHard": "The resistance can reflect cynicism, sovereignty concerns, or a real judgment about how selective enforcement shapes order.",
+      "perspectiveTags": [
+        "nonaligned",
+        "regional-order",
+        "humanitarian",
+        "vulnerable-state"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "selective_force_is_the_issue",
+          "title": "Demand consistent criteria",
+          "label": "Require published thresholds and retrospective review across crises before supporting new coercive measures. Accepted cost: Withholding support over past inconsistency can leave people in the present crisis with fewer protections.",
+          "signals": {
+            "activism": 3.9,
+            "escalation": 4,
+            "alliance": 4.5,
+            "legitimacy": 6.1
+          }
+        },
+        {
+          "id": "sovereignty_barrier_is_the_issue",
+          "title": "Keep a high intervention threshold",
+          "label": "Oppose no-fly or force measures without consent or a broadly accepted mandate, even when sanctions and investigations proceed. Accepted cost: Perpetrators retain greater freedom of action while the sovereignty threshold stays high.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.9,
+            "alliance": 4.2,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "regional_ownership_is_missing",
+          "title": "Put regional institutions in control",
+          "label": "Condition support on regional authority over the mission's scope, review, and exit. Accepted cost: Action is delayed and narrowed by regional states' competing interests.",
+          "signals": {
+            "activism": 4.3,
+            "escalation": 4.2,
+            "alliance": 5.2,
+            "legitimacy": 5.8
+          }
+        },
+        {
+          "id": "burden_is_asymmetric",
+          "title": "Offset spillover before escalating enforcement",
+          "label": "Require financing, trade relief, and displacement support for affected third countries before backing stronger sanctions or no-fly measures. Accepted cost: Pressure on perpetrators is slower and weaker while third-country costs are negotiated.",
+          "signals": {
+            "activism": 4,
+            "escalation": 4.1,
+            "alliance": 3,
+            "legitimacy": 5.3
+          }
+        }
+      ]
+    },
+    {
+      "id": "taiwan_inspection_regime_core",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "A reversible inspection regime",
+      "prompt": "Which mechanism most threatens to turn this reversible coercive action into either a normalized restriction or an unintended escalation?",
+      "scene": "Beijing announces a ten-day “maritime safety and customs enforcement” regime around three major Taiwanese ports. China Coast Guard (CCG) vessels order selected merchant ships to stop for inspection. People's Liberation Army (PLA) aircraft and naval vessels remain nearby but have not fired. Several major shipping firms suspend calls voluntarily, and Taipei refuses to recognize the inspections as lawful. These are stipulated scenario conditions; the card does not assume a settled legal classification.",
+      "whyHard": "Commercial withdrawal, precedent, coalition delay, and jurisdictional ambiguity can reinforce one another. Identifying one as primary changes what evidence and risk a response would emphasize.",
+      "perspectiveTags": [
+        "major-power",
+        "deterrence",
+        "maritime",
+        "frontline-state"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "commercial_self_deterrence",
+          "title": "Commercial withdrawal amplifies limited enforcement",
+          "label": "Insurers and carriers suspend service faster than vessels can be inspected, so selective interference produces broad disruption without a continuous ring of vessels. Accepted cost: Prioritizing this mechanism can understate deliberate threshold testing and the military risk around inspections.",
+          "signals": {
+            "activism": 3.8,
+            "escalation": 3.2,
+            "alliance": 4.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "precedent_through_nonchallenge",
+          "title": "Repetition creates an enforcement precedent",
+          "label": "Each unopposed inspection makes the next one easier to describe and operate as routine, shifting expectations before formal status changes. Accepted cost: Prioritizing precedent can encourage a physical challenge that turns a legal-political contest into an armed encounter.",
+          "signals": {
+            "activism": 6.1,
+            "escalation": 6.2,
+            "alliance": 5.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "encounter_commitment_spiral",
+          "title": "Local encounters activate wider commitments",
+          "label": "Inspectors, protective vessels, and military overwatch operate under separate red lines, so a maneuver or collision can force leaders to defend credibility before intent is clarified. Accepted cost: Prioritizing this pathway can understate commercial withdrawal and the gradual precedent created without an armed encounter.",
+          "signals": {
+            "activism": 5.5,
+            "escalation": 6,
+            "alliance": 5.8,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "jurisdictional_ambiguity",
+          "title": "Technical compliance hardens a contested frame",
+          "label": "Temporary identification or safety arrangements let each side claim its legal position was preserved, allowing coercive procedures to continue under ambiguous language. Accepted cost: Prioritizing the claimed-authority frame can overstate symbolism relative to material traffic and escalation pressures.",
+          "signals": {
+            "activism": 2.9,
+            "escalation": 2.7,
+            "alliance": 3.4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "taiwan_beijing_instrument",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "actorLens",
+      "title": "Beijing's pressure instrument",
+      "prompt": "Which operating logic should guide the cell's use of pressure?",
+      "scene": "Beijing has announced a ten-day “maritime safety and customs enforcement” regime around three major Taiwanese ports. China Coast Guard (CCG) vessels order selected merchant ships to stop for inspection; nearby People's Liberation Army (PLA) aircraft and naval vessels have not fired. Several major shipping firms suspend calls, and Taipei rejects the inspections as lawful. Assume a Beijing decision cell wants to increase pressure while retaining an off-ramp short of a major PLA attack. In the choices, naval exclusion means using warships to keep traffic out; a military blockade is an armed effort to prevent entry or exit; and an aviation notice tells aircraft operators about a route, hazard, or restriction.",
+      "whyHard": "More disruption creates leverage but makes the operation harder to keep reversible or describe as enforcement below war.",
+      "perspectiveTags": [
+        "major-power",
+        "deterrence",
+        "maritime"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "continuous_naval_exclusion",
+          "title": "Impose continuous naval exclusion",
+          "label": "Use naval forces to exclude traffic around all major ports and maximize immediate disruption. Accepted cost: The operation becomes difficult to distinguish from a military blockade and raises intervention risk.",
+          "signals": {
+            "activism": 6.3,
+            "escalation": 6.2,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "reciprocal_pause_offer",
+          "title": "Trade suspension for a reciprocal pause",
+          "label": "Suspend maritime interference in return for a pause in specified Taiwanese and foreign political or military activities. Accepted cost: Beijing must accept an outcome short of its broader political objectives.",
+          "signals": {
+            "activism": 3.1,
+            "escalation": 2.9,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "selective_ccg_inspections",
+          "title": "Use selective, expiring inspections",
+          "label": "Conduct highly selective CCG inspections with announced expiry dates and heavy PLA overwatch, keeping daily encounters in a law-enforcement frame. Accepted cost: Selectivity reduces economic pressure and may be circumvented.",
+          "signals": {
+            "activism": 4.9,
+            "escalation": 4.5,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "distributed_nonseizure_pressure",
+          "title": "Shift to non-seizure pressure",
+          "label": "Rely on licensing, aviation notices, cyber pressure, and information operations rather than ship seizures. Accepted cost: Effects are slower, less visible, and easier for Taiwan and partners to mitigate.",
+          "signals": {
+            "activism": 4,
+            "escalation": 3.5,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "taiwan_taipei_continuity",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance"
+      ],
+      "lane": "deterrence",
+      "cardType": "actorLens",
+      "title": "Taipei's commerce and continuity choice",
+      "prompt": "Which trade-off should govern the cell's next step?",
+      "scene": "Beijing has announced a ten-day “maritime safety and customs enforcement” regime around three major Taiwanese ports. China Coast Guard vessels order selected merchant ships to stop for inspection; nearby People's Liberation Army (PLA) aircraft and naval vessels have not fired. Several major shipping firms suspend calls, and Taipei rejects the inspections as lawful. Assume a Taipei decision cell must weigh commercial continuity, non-recognition of Beijing's claimed authority, and the risk of an uncontrolled clash.",
+      "whyHard": "Visible resistance may reinforce non-acquiescence while raising the probability of an armed encounter; adaptation can preserve commerce while making coercion look effective.",
+      "perspectiveTags": [
+        "frontline-state",
+        "deterrence",
+        "maritime"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "physically_prevent_inspections",
+          "title": "Prevent inspections physically",
+          "label": "Order Taiwanese enforcement vessels to prevent every inspection and show immediate refusal to accept Beijing's claim. Accepted cost: Local encounters can rapidly become armed incidents under PLA overwatch.",
+          "signals": {
+            "activism": 6.2,
+            "escalation": 6.3,
+            "alliance": 4.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "concentrate_traffic",
+          "title": "Concentrate traffic on less-contested approaches",
+          "label": "Temporarily route traffic through less-contested approaches while pursuing international diplomatic action. Accepted cost: Beijing may treat adaptation as proof that its regime is changing behavior.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3,
+            "alliance": 4.7,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "conditional_stand_down_talks",
+          "title": "Offer conditional stand-down talks",
+          "label": "Offer reciprocal stand-down talks if compulsory inspections cease, without recognizing Beijing's claimed authority. Accepted cost: Domestic audiences may perceive negotiation under pressure as a concession.",
+          "signals": {
+            "activism": 2.8,
+            "escalation": 2.7,
+            "alliance": 3.5,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "operate_and_support_shipping",
+          "title": "Prioritize commercial continuity",
+          "label": "Keep ports open, subsidize insurance and rerouting, and document interference without initially ordering force against inspectors. Accepted cost: Some vessels may still comply with PRC instructions, allowing the regime to operate visibly.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 3.8,
+            "alliance": 5.7,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "taiwan_washington_coalition",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "actorLens",
+      "title": "Coalition design under unequal exposure",
+      "prompt": "Which organizing rule should govern coalition action under those differences?",
+      "scene": "Beijing has announced a ten-day “maritime safety and customs enforcement” regime around three major Taiwanese ports. China Coast Guard vessels order selected merchant ships to stop for inspection; nearby People's Liberation Army (PLA) aircraft and naval vessels have not fired. Several major shipping firms suspend calls, and Taipei rejects the inspections as lawful. A U.S.–Japan–Philippines–Republic of Korea (South Korea) coordination group agrees that disruption and escalation matter, but members differ in exposure, legal authority, force priorities, and risk tolerance. No basing, escort, strike, or combat commitment is pre-authorized. Here, a common floor is the action every member accepts; modular participation lets governments opt into different parts of a package; and burden-sharing describes how costs and risks are divided.",
+      "whyHard": "Uniformity can make commitment visible but gives the most exposed or reluctant member a veto; modularity moves sooner while displaying unequal participation.",
+      "perspectiveTags": [
+        "alliance-manager",
+        "major-power",
+        "maritime"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "common_nonmilitary_floor",
+          "title": "Set a nonmilitary coalition floor",
+          "label": "Keep forces distant and make commercial resilience plus diplomacy the response every member undertakes. Accepted cost: The common floor may not deter a coercive regime Beijing is prepared to sustain.",
+          "signals": {
+            "activism": 3,
+            "escalation": 2.7,
+            "alliance": 3.3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "modular_participation",
+          "title": "Use modular participation",
+          "label": "Let each government opt into separately approved intelligence, commercial, diplomatic, or military blocks rather than require one package. Accepted cost: Beijing can exploit visible differences and gaps in participation.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 3.8,
+            "alliance": 6,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "unanimous_military_package",
+          "title": "Require a common military package",
+          "label": "Condition significant action on a shared military response by every partner. Accepted cost: The highest-risk or least-willing member effectively receives a veto and can delay response.",
+          "signals": {
+            "activism": 5.8,
+            "escalation": 5.8,
+            "alliance": 6.3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "us_led_action",
+          "title": "Use U.S.-led military action",
+          "label": "Let Washington lead operations while partners provide primarily political endorsement and selected support. Accepted cost: Bases and partners may be exposed without comparable control, creating burden-sharing and legitimacy tensions.",
+          "signals": {
+            "activism": 6.1,
+            "escalation": 6,
+            "alliance": 4.8,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "iran_ceasefire_core",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "A disputed incident inside a fragile ceasefire",
+      "prompt": "Which failure mechanism most threatens to let this disputed incident collapse the wider bargain?",
+      "scene": "A ceasefire remains formally in force. During the previous 72 hours, two merchant vessels have been attacked, Iran and the United States each accuse the other of violating the agreement, and Gulf governments report new drone interceptions. International Atomic Energy Agency (IAEA) inspectors still lack “continuity of knowledge”: they cannot verify what relevant nuclear material remains at affected declared sites or whether it was moved. Neither side has announced withdrawal from negotiations. These are stipulated scenario conditions; attribution remains unsettled.",
+      "whyHard": "Attribution, issue linkage, deterrence, and commercial exit can each transmit a local incident into a wider breakdown. Treating one as primary can leave another pathway insufficiently managed.",
+      "perspectiveTags": [
+        "regional-security",
+        "maritime",
+        "nuclear",
+        "deterrence"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "attribution_spiral",
+          "title": "Competing attribution triggers reciprocal action",
+          "label": "Each party treats its own evidence as sufficient and retaliates before a shared or third-party process can separate the incidents. Accepted cost: Prioritizing attribution accepts a short response delay and the risk that parties dispute or manipulate the verifier.",
+          "signals": {
+            "activism": 3.9,
+            "escalation": 3.1,
+            "alliance": 5.4,
+            "legitimacy": 6
+          }
+        },
+        {
+          "id": "issue_linkage_overload",
+          "title": "Every file becomes one compliance test",
+          "label": "Maritime incidents, IAEA access, sanctions, and force posture become conditions for one another, so failure on the hardest file blocks stabilization elsewhere. Accepted cost: Prioritizing issue linkage can delay action on the immediate shipping and military danger while a broader bargain is structured.",
+          "signals": {
+            "activism": 4.3,
+            "escalation": 3.6,
+            "alliance": 4.7,
+            "legitimacy": 6.2
+          }
+        },
+        {
+          "id": "deterrence_decay",
+          "title": "Unanswered violations invite further testing",
+          "label": "Each side interprets restraint after an alleged breach as evidence that additional attacks will carry little cost. Accepted cost: Prioritizing deterrence accepts that even a limited response may trigger retaliation and renew general hostilities.",
+          "signals": {
+            "activism": 6.1,
+            "escalation": 6.2,
+            "alliance": 4,
+            "legitimacy": 2.9
+          }
+        },
+        {
+          "id": "commercial_exit",
+          "title": "Private withdrawal makes disruption self-sustaining",
+          "label": "Carriers, crews, and insurers leave faster than negotiators can restore confidence, creating economic pressure that narrows every party's bargaining room. Accepted cost: Prioritizing commercial exit can defer accountability and nuclear uncertainty while parties use the pause to rebuild capabilities.",
+          "signals": {
+            "activism": 2.8,
+            "escalation": 3.2,
+            "alliance": 3.3,
+            "legitimacy": 4.5
+          }
+        }
+      ]
+    },
+    {
+      "id": "iran_tehran_leverage",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "actorLens",
+      "title": "Tehran's reciprocal-instrument choice",
+      "prompt": "Which instrument should guide the decision cell's next negotiating step?",
+      "scene": "Public records describe a first-stage U.S.–Iran memorandum, and later United Nations reporting describes a fragile ceasefire. For this hypothetical decision exercise, assume that ceasefire remains in force. No shipping lane or strait is closed, and no maritime attack is attributed to Tehran. Assume a Tehran decision cell wants to reduce renewed strikes on Iran while retaining bargaining value. The available instruments concern declared-site inspections, fuel-cycle limits, missile-test notifications, and regional incident communications. Here, a declared site is a nuclear facility Iran has reported to the International Atomic Energy Agency (IAEA); fuel-cycle activity means processing and holding nuclear material covered by safeguards; a missile-test notification gives advance notice of a specified test; and an incident hotline is a direct channel used to clarify potentially dangerous events. These are hypothetical constraints, not claims about a selected Iranian plan.",
+      "whyHard": "Each instrument can make one part of reciprocal bargaining more observable, but each also gives up flexibility before the other parties have delivered a final settlement.",
+      "perspectiveTags": [
+        "regional-security",
+        "maritime",
+        "sanctions"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "staged_declared_site_access",
+          "title": "Stage access to declared sites",
+          "label": "Grant time-limited IAEA access to named declared sites in return for a scheduled reciprocal negotiating step. Accepted cost: Earlier access reduces ambiguity before sanctions relief or other reciprocal steps are secured.",
+          "signals": {
+            "activism": 2.8,
+            "escalation": 3,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "time_bound_fuel_cycle_limits",
+          "title": "Offer time-bound fuel-cycle limits",
+          "label": "Accept reversible limits on specified fuel-cycle activity in return for defined economic relief. Accepted cost: The limits constrain bargaining flexibility while delivery of relief may be delayed or disputed.",
+          "signals": {
+            "activism": 6.2,
+            "escalation": 6.3,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "missile_test_notifications",
+          "title": "Notify specified missile tests",
+          "label": "Pause named missile tests for a fixed period and give advance notice of specified defensive exercises. Accepted cost: The pause reduces visible military signaling without requiring other parties to curb deployments or strikes.",
+          "signals": {
+            "activism": 4.1,
+            "escalation": 3.7,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "regional_incident_hotline",
+          "title": "Open a regional incident hotline",
+          "label": "Create direct incident communications and advance notifications with Gulf governments without linking them to a comprehensive regional settlement. Accepted cost: The channel exposes communications and cannot control decisions by armed groups or other governments.",
+          "signals": {
+            "activism": 5,
+            "escalation": 5.5,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "iran_israel_gulf_thresholds",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "actorLens",
+      "title": "Coalition thresholds with divergent end states",
+      "prompt": "Which rule should govern coalition action while that disagreement persists?",
+      "scene": "A ceasefire remains formally in force after two merchant-vessel attacks in 72 hours, mutual U.S.–Iranian accusations, and new Gulf drone interceptions. International Atomic Energy Agency (IAEA) inspectors cannot verify what relevant nuclear material remains at affected declared sites or whether it moved, and neither side has left negotiations. Israeli, U.S., and Gulf decision cells agree that renewed attacks must be deterred but disagree about tolerable residual Iranian capability. Gulf governments do not automatically share every Israeli war aim. Here, residual capability means the nuclear, missile, or armed-group capacity left after an agreement; preventive action means using force to stop a feared future capability; and posture means the combination of capabilities and constraints the coalition would accept.",
+      "whyHard": "A narrow trigger can sustain unity without settling the desired end state; a comprehensive position can clarify aims while making interim stabilization harder.",
+      "perspectiveTags": [
+        "alliance-manager",
+        "regional-security",
+        "deterrence"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "defense_verification_pause",
+          "title": "Emphasize defense and verification",
+          "label": "Shift to missile defense, maritime protection, and verification while suspending offensive operations. Accepted cost: Iranian capabilities may recover during the pause.",
+          "signals": {
+            "activism": 3,
+            "escalation": 2.8,
+            "alliance": 4.7,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "observable_violation_thresholds",
+          "title": "Agree on observable violation thresholds",
+          "label": "Tie coalition response to behavior all members can observe, such as attacks on shipping or specified missile activity, while keeping broader objectives outside the trigger. Accepted cost: Deeper disagreement over Iran's long-term power remains unresolved.",
+          "signals": {
+            "activism": 4.5,
+            "escalation": 4.2,
+            "alliance": 5.8,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "unilateral_israeli_prevention",
+          "title": "Separate Israeli prevention from other tracks",
+          "label": "Preserve Israeli freedom for unilateral preventive action while Gulf states and Washington maintain separate ceasefire channels. Accepted cost: Unilateral action can collapse diplomacy and expose Gulf and U.S. assets to retaliation.",
+          "signals": {
+            "activism": 6.2,
+            "escalation": 6.3,
+            "alliance": 3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "consensus_final_posture",
+          "title": "Require consensus on the final posture",
+          "label": "Withhold ceasefire incentives until the members agree on an acceptable Iranian nuclear, missile, and aligned-group posture. Accepted cost: Spoilers gain time, and interim stabilization becomes harder.",
+          "signals": {
+            "activism": 5.7,
+            "escalation": 5.6,
+            "alliance": 6.2,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "iran_mediator_navigation",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "escalation",
+        "legitimacy"
+      ],
+      "lane": "legitimacy",
+      "cardType": "actorLens",
+      "title": "Navigation without a comprehensive settlement",
+      "prompt": "Which operating rule should govern the state's response to commercial exposure?",
+      "scene": "A ceasefire remains formally in force after two merchant-vessel attacks in 72 hours, mutual U.S.–Iranian accusations, and new Gulf drone interceptions. International Atomic Energy Agency (IAEA) inspectors cannot verify what relevant nuclear material remains at affected declared sites or whether it moved, and neither side has left negotiations. A mediator or heavily exposed trading state must weigh predictable navigation, continued access to the parties, enforcement credibility, and independence from a fragile agreement while the wider disputes remain unsettled. Here, strategic-stock releases draw from emergency energy reserves; third-party investigation uses investigators outside the disputing parties; and predictable navigation means commercial ships can transit under known procedures.",
+      "whyHard": "A narrow maritime bargain can protect third parties but compartmentalize the conflict; a comprehensive or enforced approach addresses more causes while extending exposure or confrontation.",
+      "perspectiveTags": [
+        "middle-power",
+        "maritime",
+        "regional-order"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "reroute_and_wait",
+          "title": "Reroute while waiting for exhaustion",
+          "label": "Use temporary rerouting and releases from emergency energy reserves while mediators wait for the parties' battlefield incentives to change. Accepted cost: Commercial disruption continues and the approach does little to arrest escalation.",
+          "signals": {
+            "activism": 2.9,
+            "escalation": 3.4,
+            "alliance": 4,
+            "legitimacy": 3.6
+          }
+        },
+        {
+          "id": "narrow_safe_navigation",
+          "title": "Build a narrow safe-navigation regime",
+          "label": "Establish vessel notification, a hotline, rescue arrangements, and incident investigation by outsiders to the dispute. Accepted cost: Nuclear, missile, and aligned-group disputes remain unresolved.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 2.8,
+            "alliance": 4,
+            "legitimacy": 6.2
+          }
+        },
+        {
+          "id": "naval_enforcement_without_iran",
+          "title": "Enforce transit without Iranian participation",
+          "label": "Use an international naval force to sustain commercial passage without waiting for Iranian agreement. Accepted cost: Commercial protection becomes a potential recurring military confrontation.",
+          "signals": {
+            "activism": 5.8,
+            "escalation": 6,
+            "alliance": 4,
+            "legitimacy": 3
+          }
+        },
+        {
+          "id": "settlement_before_navigation",
+          "title": "Link navigation to a comprehensive settlement",
+          "label": "Keep predictable navigation inside a bargain covering the wider political and security disputes. Accepted cost: Shipping remains exposed while a much harder agreement is negotiated.",
+          "signals": {
+            "activism": 2.6,
+            "escalation": 3,
+            "alliance": 4,
+            "legitimacy": 5.1
+          }
+        }
+      ]
+    },
+    {
+      "id": "ukraine_ceasefire_stall",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "explanation",
+      "title": "Why talks do not stop the war",
+      "prompt": "What best explains why talks can continue without producing a general ceasefire?",
+      "scene": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. Russia's full-scale invasion of Ukraine continues while talks remain open. Ukraine publicly pairs a ceasefire with outside security commitments; Russia publicly seeks a Ukraine outside military alliances and without nuclear weapons, among other terms. Here, an outside security commitment means promised weapons, intelligence, forces, or another response if war resumes. For this scenario, assume both sides accept outside monitoring in principle but disagree about what must be settled before a general ceasefire.",
+      "whyHard": "Future-force fears, coercive leverage, issue linkage, and verification can each sustain negotiations and fighting at the same time. The card asks which mechanism is most limiting, not which side is right or which settlement should be chosen.",
+      "perspectiveTags": [
+        "regional-security",
+        "deterrence",
+        "post-conflict"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "balance_shift_during_pause",
+          "title": "A pause could shift the balance",
+          "label": "Each side fears the other will use a ceasefire to rebuild forces and improve its next-round position. Accepted cost: Prioritizing this mechanism can overstate how much agreed safeguards can contain rearmament risk.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 5.7,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "pressure_changes_terms",
+          "title": "Fighting is bargaining leverage",
+          "label": "Leaders may believe continued military and economic pressure will force better terms than are available now. Accepted cost: Prioritizing this mechanism can understate how often added pressure widens rather than narrows the bargaining gap.",
+          "signals": {
+            "activism": 5.9,
+            "escalation": 5.4,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "issues_move_together",
+          "title": "The hardest issues are linked",
+          "label": "Territory, sanctions, and future security arrangements affect one another, so a ceasefire is withheld until the wider package is clearer. Accepted cost: Prioritizing this mechanism can overstate the need to settle linked disputes before implementing a limited ceasefire.",
+          "signals": {
+            "activism": 4.2,
+            "escalation": 4.3,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "monitoring_must_scale",
+          "title": "Monitoring has to prove itself",
+          "label": "Neither side trusts a general ceasefire, so smaller local or sector-specific pauses test whether violations can be detected before coverage expands. Accepted cost: Prioritizing this mechanism can understate the coordination problems and boundary disputes created by partial coverage.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.3,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "ukraine_kyiv_security_architecture",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation",
+        "alliance"
+      ],
+      "lane": "alliances",
+      "cardType": "actorLens",
+      "title": "Kyiv after a ceasefire",
+      "prompt": "From Kyiv's decision-cell perspective, which security mechanism should carry the most weight?",
+      "scene": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. The territorial dispute remains unresolved. For this scenario, assume a ceasefire is available, Ukraine remains outside the North Atlantic Treaty Organization (NATO), and Kyiv must choose one post-ceasefire arrangement to reduce the risk of renewed attack. The arrangement can combine Ukrainian forces, foreign support, monitoring, and limits; none guarantees protection without shifting cost, exposure, or freedom of action. Here, a guarantor is an outside state that promises a specified response; a trigger is the verified event that activates that response; and a monitored force limit is a cap whose compliance is checked by agreed observers.",
+      "whyHard": "Each arrangement moves the burden, timing, and escalation risk differently; none provides both automatic outside protection and complete Ukrainian freedom of action at no cost.",
+      "perspectiveTags": [
+        "frontline-state",
+        "alliance-manager",
+        "deterrence"
+      ],
+      "knowledgeLoad": "low",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "national_denial_capacity",
+          "title": "Build national denial capacity",
+          "label": "Ukraine maintains large, dispersed forces, air defenses, reserves, and stockpiles so another attack cannot win quickly. Accepted cost: This diverts money and labor from reconstruction and leaves Kyiv carrying most of the opening risk.",
+          "signals": {
+            "activism": 5.1,
+            "escalation": 4.9,
+            "alliance": 3,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "multinational_force",
+          "title": "Deploy a multinational force",
+          "label": "Foreign units deploy after the ceasefire under a published response plan, so another attack immediately puts guarantor personnel at risk. Accepted cost: Contributors accept direct combat exposure, and Russia may reject a settlement that includes the force.",
+          "signals": {
+            "activism": 5.8,
+            "escalation": 6,
+            "alliance": 6.2,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "triggered_remote_support",
+          "title": "Precommit support without foreign bases",
+          "label": "Partners keep equipment ready nearby and agree that a verified attack releases arms, intelligence, financing, and sanctions without permanent foreign bases. Accepted cost: Ukraine may still absorb the first blow, and delivery depends on partners honoring the trigger under pressure.",
+          "signals": {
+            "activism": 4.8,
+            "escalation": 5,
+            "alliance": 5.6,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "reciprocal_force_limits",
+          "title": "Use reciprocal force limits",
+          "label": "Ukraine keeps a defined self-defense force while both sides accept monitored limits on foreign units and specified weapons near agreed areas. Accepted cost: Kyiv gives up some deployment freedom and risks limits that are harder to enforce against Russia.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.3,
+            "alliance": 4.1,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "ukraine_moscow_bargaining_tradeoff",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "activism",
+        "escalation"
+      ],
+      "lane": "deterrence",
+      "cardType": "actorLens",
+      "title": "Moscow's bargaining trade-off",
+      "prompt": "From Moscow's decision-cell perspective, which logic should guide the next move if not every objective can be won at once?",
+      "scene": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. Moscow publicly seeks a Ukraine outside military alliances and without nuclear weapons, together with territorial and wider security terms. For this scenario, assume Russian negotiators cannot obtain every stated demand and must decide which gain to prioritize to end large-scale fighting. Here, legal recognition means formally accepting a territorial claim, and a monitored limit is a cap whose compliance is checked by agreed observers.",
+      "whyHard": "Each route exchanges territorial, economic, or deployment leverage for a different form of uncertainty; none converts coercion into every stated objective without continuing cost.",
+      "perspectiveTags": [
+        "major-power",
+        "deterrence",
+        "sanctions"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "deployment_limits_without_recognition",
+          "title": "Prioritize limits on outside forces",
+          "label": "Russia accepts no immediate legal recognition of its territorial claims if Ukraine and outside states accept monitored limits on specified foreign forces and long-range weapons. Accepted cost: Moscow accepts an armed Ukrainian state and leaves sovereignty claims unresolved.",
+          "signals": {
+            "activism": 3.8,
+            "escalation": 3.6,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "claims_for_relief",
+          "title": "Exchange claims for economic relief",
+          "label": "Russia withdraws from some occupied areas or drops some claims in return for staged lifting of trade and finance restrictions and a Ukrainian pledge to remain outside military alliances. Accepted cost: This gives up goals presented domestically as important and depends on outsiders delivering the relief.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.3,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "hold_line_defer_recognition",
+          "title": "Hold the line and defer recognition",
+          "label": "Russia accepts a monitored ceasefire at the positions held when the ceasefire begins without legal recognition, keeping control in practice as leverage for later talks. Accepted cost: Trade restrictions and legal uncertainty persist, while Ukraine can rebuild during the pause.",
+          "signals": {
+            "activism": 4.9,
+            "escalation": 4.2,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        },
+        {
+          "id": "pressure_for_selected_recognition",
+          "title": "Use a deadline to seek territorial recognition",
+          "label": "Russia continues military pressure for a stated period to seek recognition of selected occupied areas, then returns to ceasefire terms even if wider demands remain unresolved. Accepted cost: This accepts further losses and attacks on Russian territory, and the deadline may expire without improving the bargain.",
+          "signals": {
+            "activism": 6.1,
+            "escalation": 5.9,
+            "alliance": 4,
+            "legitimacy": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "ukraine_external_division_of_labor",
+      "kind": "case",
+      "modes": [
+        "standard",
+        "analyst"
+      ],
+      "discriminatingAxes": [
+        "escalation",
+        "alliance",
+        "legitimacy"
+      ],
+      "lane": "alliances",
+      "cardType": "actorLens",
+      "title": "Dividing the outside role",
+      "prompt": "Which coordination rule should govern these outside states' roles?",
+      "scene": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. At its July 2026 summit, the North Atlantic Treaty Organization (NATO) said European allies and Canada finance the vast majority of current outside security assistance to Ukraine; China and India publicly call for dialogue. For this scenario, assume the war and talks continue, and Europe, the United States, China, and India all want a ceasefire but differ over military risk. They need an arrangement for monitoring, deterrence, reconstruction, and enforcement without entering the current war. Here, verification means jointly assessing whether a party complied; enforcement means acting after a verified breach; and a military guarantor promises a specified security response.",
+      "whyHard": "Specialized roles can match capability but fragment responsibility; narrower guarantor, verification, or economic arrangements each trade breadth for enforcement or military exposure.",
+      "perspectiveTags": [
+        "alliance-manager",
+        "middle-power",
+        "nonaligned",
+        "post-conflict"
+      ],
+      "knowledgeLoad": "medium",
+      "allowSecondChoiceInAnalyst": true,
+      "options": [
+        {
+          "id": "specialized_roles",
+          "title": "Assign separate roles",
+          "label": "European states carry most military support and reconstruction, the United States supplies selected high-end capabilities, and China and India support talks and monitoring. Accepted cost: No actor owns cross-role enforcement, so a verified breach can fall between military and diplomatic mandates while the violator consolidates gains.",
+          "signals": {
+            "activism": 4.6,
+            "escalation": 4.4,
+            "alliance": 5.3,
+            "legitimacy": 5
+          }
+        },
+        {
+          "id": "willing_guarantor_core",
+          "title": "Use a narrower military-guarantor group",
+          "label": "A smaller U.S.–European group publishes a response plan for renewed attack, while China and India join verification or reconstruction but not the military commitment. Accepted cost: The guarantee has narrower political backing and gives its military members greater risk of direct confrontation.",
+          "signals": {
+            "activism": 5.8,
+            "escalation": 5.9,
+            "alliance": 6.2,
+            "legitimacy": 3.6
+          }
+        },
+        {
+          "id": "joint_verification",
+          "title": "Use broad powers for verification, not force",
+          "label": "Europe, the United States, China, and India jointly oversee monitoring and jointly state when a breach has occurred, but each chooses its own response. Accepted cost: Broad participation may make findings harder to dismiss, but divergent interests can delay or hollow out enforcement.",
+          "signals": {
+            "activism": 3.5,
+            "escalation": 3.3,
+            "alliance": 5,
+            "legitimacy": 6
+          }
+        },
+        {
+          "id": "economic_conditionality",
+          "title": "Build the deal around economic conditions",
+          "label": "Outside states release reconstruction funds and lift trade or finance restrictions in stages when compliance is verified, without promising military intervention. Accepted cost: Economic leverage may not stop a renewed attack, leaving Ukraine to carry the security risk.",
+          "signals": {
+            "activism": 3.2,
+            "escalation": 3.2,
+            "alliance": 3.3,
+            "legitimacy": 4.9
+          }
+        }
+      ]
+    }
+  ]
+}

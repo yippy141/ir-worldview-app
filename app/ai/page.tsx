@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { aiQuestionCountsByMode, aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
 import type { Metadata } from "next"
 
@@ -37,6 +38,8 @@ export default function AiPage() {
             <Link href="/quiz">IR Foundation</Link>.
           </p>
         </section>
+
+        <AiProjectBridge mode="landing" />
 
         <section className="lobby-signals lobby-signals--plain">
           <div className="signal-list signal-list--three">

@@ -3,11 +3,12 @@ import { technologyModule } from "@/lib/modules/technology"
 import {
   getModuleVersion,
   MODULE_V21_TUPLE,
-  SECURITY_V4_TUPLE,
   type ModuleVersion,
 } from "@/lib/modules/versions"
+import { hasPerspectiveBankCapability } from "@/lib/modules/perspective-bank"
 import * as currentModuleRuntime from "@/lib/modules/runtime-v2"
 import { decodeUrlPayload, encodeUrlPayload } from "@/lib/url-payload"
+import { MODULE_SLUGS } from "@/lib/modules/types"
 import type {
   ModuleAnalytics,
   ModuleAnswers,
@@ -358,12 +359,12 @@ function validateModuleAnswers(
     if (!optionIds.has(selection.primary)) return false
     if (selection.secondary && !optionIds.has(selection.secondary)) return false
 
-    const usesSecurityV4SecondaryContract =
-      version.definition.slug === "security" &&
-      version.bankVersion === SECURITY_V4_TUPLE.bankVersion &&
-      version.scoringVersion === SECURITY_V4_TUPLE.scoringVersion
+    const usesPerspectiveBankContract = hasPerspectiveBankCapability({
+      slug: version.definition.slug,
+      bankVersion: version.bankVersion,
+    })
     if (
-      usesSecurityV4SecondaryContract &&
+      usesPerspectiveBankContract &&
       selection.secondary &&
       (mode !== "analyst" ||
         !question.allowSecondChoiceInAnalyst ||
@@ -381,5 +382,8 @@ function isQuizMode(value: unknown): value is QuizMode {
 }
 
 function isModuleSlug(value: unknown): value is ModuleSlug {
-  return value === "security" || value === "technology"
+  return (
+    typeof value === "string" &&
+    (MODULE_SLUGS as readonly string[]).includes(value)
+  )
 }

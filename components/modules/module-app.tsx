@@ -13,6 +13,10 @@ import {
   moduleAllowsSecondChoice,
 } from "@/lib/modules/framework"
 import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import {
+  ACTOR_LENS_INSTRUCTION,
+  hasPerspectiveBankCapability,
+} from "@/lib/modules/perspective-bank"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { ModuleAnswers, ModuleLane, ModuleSlug } from "@/lib/modules/types"
@@ -31,6 +35,7 @@ export function ModuleApp({
 }) {
   const router = useRouter()
   const moduleDefinition = getModuleDefinition(slug)
+  const currentVersion = moduleDefinition ? getCurrentModuleVersion(slug) : null
   const [mode, setMode] = useState<QuizMode>("standard")
   const [answers, setAnswers] = useState<ModuleAnswers>({})
   const [orderSeed, setOrderSeed] = useState("")
@@ -132,7 +137,13 @@ export function ModuleApp({
 
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const ready = questions.length > 0 && completedCount === questions.length
-  const usesSecurityV4Experience = slug === "security"
+  const usesPerspectiveBankExperience = Boolean(
+    currentVersion &&
+      hasPerspectiveBankCapability({
+        slug,
+        bankVersion: currentVersion.bankVersion,
+      }),
+  )
 
   function handleModeChange(nextMode: QuizMode) {
     if (nextMode === mode) return
@@ -168,7 +179,7 @@ export function ModuleApp({
   }
 
   function handleGenerate() {
-    const currentVersion = getCurrentModuleVersion(slug)
+    if (!currentVersion) return
     const payload = encodeModulePayload({
       v: 3,
       bv: currentVersion.bankVersion,
@@ -225,7 +236,7 @@ export function ModuleApp({
             <p className="eyebrow">Mode</p>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Standard uses {standardQuestionCount} questions. Advanced adds{" "}
-              {usesSecurityV4Experience ? (
+              {usesPerspectiveBankExperience ? (
                 <>
                   {analystAdditionCount} additional cases, for {analystQuestionCount} in total.
                   Choose one main answer in either mode; in Advanced, optionally mark one
@@ -296,12 +307,12 @@ export function ModuleApp({
                 Read the scene and tradeoff before answering. On Explanation cards, choose the
                 cause that best accounts for the case. On Decision cards, choose the consideration
                 that should guide the response. On Actor lens cards,{" "}
-                {usesSecurityV4Experience
+                {usesPerspectiveBankExperience
                   ? "choose which instrument best fits the actor’s stated objectives and constraints. Understanding that logic is not an endorsement of the actor, its objectives, or the action."
                   : "choose the logic that actor would find strongest."}
               </p>
               <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                {usesSecurityV4Experience
+                {usesPerspectiveBankExperience
                   ? "Answer from your analytic judgment. In Advanced, if two options fit, make one your main choice and mark the other as secondary."
                   : "Answer from your analytic judgment. If two options fit, make one your main choice and mark the other as secondary."}
               </p>
@@ -341,7 +352,7 @@ export function ModuleApp({
             const primarySelection = answers[question.id]?.primary
             const secondarySelection = answers[question.id]?.secondary
             const showSecondChoice =
-              (!usesSecurityV4Experience || mode === "analyst") &&
+              (!usesPerspectiveBankExperience || mode === "analyst") &&
               moduleAllowsSecondChoice(question) &&
               Boolean(primarySelection)
             const presentedOptions = getSeededOptionOrder(
@@ -394,7 +405,10 @@ export function ModuleApp({
 
                 <div className="callout">
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-                    {moduleInstructionCopy(question.cardType, usesSecurityV4Experience)}
+                    {moduleInstructionCopy(
+                      question.cardType,
+                      usesPerspectiveBankExperience,
+                    )}
                   </p>
                 </div>
 
@@ -559,7 +573,7 @@ function cardTypeLabel(cardType: ChoiceCardType) {
 
 function moduleInstructionCopy(
   cardType: ChoiceCardType,
-  usesSecurityV4Experience: boolean,
+  usesPerspectiveBankExperience: boolean,
 ) {
   if (cardType === "explanation") {
     return "Choose the option that best explains what is driving the case."
@@ -570,8 +584,8 @@ function moduleInstructionCopy(
   }
 
   if (cardType === "actorLens") {
-    return usesSecurityV4Experience
-      ? "Choose which instrument best fits the actor’s stated objectives and constraints. Understanding that logic is not an endorsement of the actor, its objectives, or the action."
+    return usesPerspectiveBankExperience
+      ? ACTOR_LENS_INSTRUCTION
       : "Choose the logic this actor would find strongest. Do not substitute the policy you personally prefer."
   }
 

@@ -1,3 +1,4 @@
+import { MODULE_SLUGS } from "@/lib/modules/types"
 import type {
   ModuleAnalytics,
   ModuleAxisKey,
@@ -6,10 +7,11 @@ import type {
 } from "@/lib/modules/types"
 import { MODULE_CALIBRATIONS } from "@/lib/modules/calibration-data"
 import { SECURITY_V22_CALIBRATION } from "@/lib/modules/calibration-data-v22"
+import { SECURITY_V4_CALIBRATION } from "@/lib/modules/calibration-data-v4"
 import type { QuizMode } from "@/lib/types"
 
 export const MODULE_CALIBRATION_VERSION =
-  "v23.3-security-bank4-scorer2-uniform-primary-2026-08-19"
+  "v23.4-security-bank5-technology-bank3-scorer2-uniform-primary-2026-08-21"
 
 export const MODULE_CALIBRATION_SOURCE = {
   method: "seeded independent-uniform primary option responses",
@@ -23,7 +25,7 @@ export const MODULE_CALIBRATION_SOURCE = {
   },
   modes: ["standard", "analyst"],
   bankVersions: {
-    security: 4,
+    security: 5,
     technology: 3,
   },
   scoringVersions: {
@@ -216,7 +218,7 @@ export type ModuleCalibrationCut = {
 export function enumerateModuleCalibrationCuts(): ModuleCalibrationCut[] {
   const cuts: ModuleCalibrationCut[] = []
 
-  for (const slug of ["security", "technology"] as const) {
+  for (const slug of MODULE_SLUGS) {
     for (const mode of ["standard", "analyst"] as const) {
       for (const axis of MODULE_CLASSIFICATION_AXES[slug].headline) {
         appendCalibrationCuts(cuts, slug, mode, { kind: "headline" }, axis)
@@ -281,6 +283,14 @@ function getModuleModeCalibration(
     version.scoringVersion === 2
   ) {
     return SECURITY_V22_CALIBRATION[mode]
+  }
+
+  if (
+    slug === "security" &&
+    version.bankVersion === 4 &&
+    version.scoringVersion === 2
+  ) {
+    return SECURITY_V4_CALIBRATION[mode]
   }
 
   const currentVersion = CURRENT_MODULE_CALIBRATION_VERSIONS[slug]

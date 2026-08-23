@@ -1,7 +1,8 @@
 import type { ChoiceCardType, DimensionKey, DimensionScores, QuizMode } from "@/lib/types"
 import type { PinnedOptionPosition } from "@/lib/option-order"
 
-export type ModuleSlug = "security" | "technology"
+export const MODULE_SLUGS = ["security", "technology"] as const
+export type ModuleSlug = (typeof MODULE_SLUGS)[number]
 
 export type ModuleAxisKey =
   | "activism"
@@ -103,6 +104,7 @@ export type ModuleLaneSummary = {
   score: number
   lowLabel: string
   highLabel: string
+  /** @deprecated Legacy display/decode copy only; never author a live bridge from this field. */
   delta?: string
 }
 
@@ -136,7 +138,9 @@ export type ModuleResult = ModuleInterpretation & {
   laneSummaries: ModuleLaneSummary[]
   cardTypeRead?: ModuleCardTypeRead
   cardTypeScores: Partial<Record<ChoiceCardType, Record<string, number>>>
+  /** @deprecated Frozen replay output only; active module saves must write an empty object. */
   overlayDeltas: Partial<Record<DimensionKey, number>>
+  /** @deprecated Frozen replay/display copy only; not a reviewed domain bridge. */
   comparison?: string
 }
 
@@ -164,7 +168,9 @@ export type ModuleDefinition = {
     context?: ModuleClassificationContext,
   ) => ModuleLaneSummary[]
   summarizeCardTypes?: (analytics: ModuleAnalytics) => ModuleCardTypeRead | undefined
+  /** @deprecated Frozen version replay only; excluded from the V23.4 authoring contract. */
   buildOverlayDeltas: (analytics: ModuleAnalytics) => Partial<Record<DimensionKey, number>>
+  /** @deprecated Frozen version replay only; excluded from the V23.4 authoring contract. */
   compareToFoundation?: (
     analytics: ModuleAnalytics,
     foundation: DimensionScores,

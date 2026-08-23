@@ -1,0 +1,36 @@
+{
+  "tuple": {
+    "bankVersion": 5,
+    "scoringVersion": 2
+  },
+  "bankSha256": "2fe8fadc4ab0189b4a5a57d36e0351e7f7cdc0dc1845114b6a12988b85fe383b",
+  "calibrationSha256": "97bf80cbd1cb4af2c202e1b70efbd25ec7b262e88250c6558cd80f090442e9be",
+  "standard": {
+    "headline": "Security read: pressure and visible deterrence",
+    "scores": {
+      "activism": 4.6,
+      "escalation": 4.53,
+      "alliance": 4.68,
+      "legitimacy": 4.54
+    },
+    "lanes": {
+      "deterrence": 4.52,
+      "alliances": 6.25,
+      "legitimacy": 4.9
+    }
+  },
+  "analyst": {
+    "headline": "Security read: pressure and visible deterrence",
+    "scores": {
+      "activism": 4.63,
+      "escalation": 4.56,
+      "alliance": 4.77,
+      "legitimacy": 4.46
+    },
+    "lanes": {
+      "deterrence": 4.76,
+      "alliances": 5.61,
+      "legitimacy": 4.7
+    }
+  }
+}

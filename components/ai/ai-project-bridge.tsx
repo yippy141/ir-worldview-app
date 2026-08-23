@@ -1,17 +1,15 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
-import { getCrossModuleSynthesis } from "@/lib/ai-governance-cross-module-synthesis"
+import { useEffect, useState } from "react"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
-import type { AiArchetypeKey } from "@/lib/ai-governance-types"
+import { DEFAULT_DOMAIN_RELATION_READ } from "@/lib/modules/authoring-contract"
+import { buildAiFoundationBaseline } from "@/lib/ai-foundation-baseline"
 
 export function AiProjectBridge({
   mode,
-  aiArchetypeKey,
 }: {
   mode: "landing" | "result"
-  aiArchetypeKey?: AiArchetypeKey
 }) {
   const [foundation, setFoundation] = useState<FoundationSnapshot | null>(null)
 
@@ -23,10 +21,9 @@ export function AiProjectBridge({
     return () => window.removeEventListener("storage", load)
   }, [])
 
-  const synthesis = useMemo(
-    () => getCrossModuleSynthesis(foundation?.familyKey ?? null, aiArchetypeKey ?? null),
-    [foundation, aiArchetypeKey],
-  )
+  const baseline = foundation
+    ? buildAiFoundationBaseline(foundation)
+    : null
 
   if (mode === "landing") {
     return (
@@ -35,20 +32,18 @@ export function AiProjectBridge({
           <p className="eyebrow">Same overall project</p>
           <h2 style={{ margin: 0 }}>AI belongs beside the IR baseline</h2>
           <p className="ai-bridge-note">
-            The Foundation names your starting view of world politics. The AI Governance Compass
-            asks how that view travels when the problem is frontier AI.
+            The Foundation records a broad view of world politics. The AI Governance Compass
+            records judgments about frontier-AI governance on its own domain scale.
           </p>
         </div>
 
         <div className="ai-bridge-grid">
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">Current IR baseline</p>
-            {foundation ? (
+            {baseline ? (
               <>
-                <p className="ai-bridge-title">{foundation.familyLabel} on this device</p>
-                <p className="ai-bridge-note">
-                  {foundation.strategyModifier} · {foundation.normativeModifier}
-                </p>
+                <p className="ai-bridge-title">{baseline.primaryLabel}</p>
+                <p className="ai-bridge-note">{baseline.secondaryLabel}</p>
               </>
             ) : (
               <>
@@ -63,8 +58,8 @@ export function AiProjectBridge({
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">What changes here</p>
             <p className="ai-bridge-note">
-              The AI result does not rewrite your Foundation label. It shows how your governing
-              instincts behave in a different policy field.
+              The AI result does not rewrite the Foundation. Without a reviewed bridge, the two
+              records sit side by side and no relationship is inferred between them.
             </p>
           </article>
         </div>
@@ -76,37 +71,41 @@ export function AiProjectBridge({
     <section className="result-section stack-md">
       <div className="stack-xs">
         <p className="eyebrow">IR relationship</p>
-        <h2>How this AI result relates to your IR baseline</h2>
-        {foundation ? null : (
+        <h2>AI and the Foundation remain separate domain reads</h2>
+        {baseline ? null : (
           <p className="muted result-note">
-            No IR Foundation baseline is saved on this device yet, so the comparison stays general.
+            No IR Foundation baseline is saved on this device yet. The AI result still stands on
+            its own.
           </p>
         )}
       </div>
 
-      {foundation ? (
+      {baseline ? (
         <div className="ai-bridge-grid">
           <article className="ai-bridge-card stack-xs">
             <p className="ai-bridge-kicker">IR baseline on this device</p>
-            <p className="ai-bridge-title">{foundation.familyLabel}</p>
+            <p className="ai-bridge-title">{baseline.primaryLabel}</p>
+            <p className="ai-bridge-note">{baseline.secondaryLabel}</p>
+          </article>
+
+          <article className="ai-bridge-card stack-xs">
+            <p className="ai-bridge-kicker">Relation status</p>
+            <p className="ai-bridge-title">
+              {DEFAULT_DOMAIN_RELATION_READ.relation === "not-comparable"
+                ? "Separate reads — no reviewed bridge"
+                : DEFAULT_DOMAIN_RELATION_READ.relation}
+            </p>
             <p className="ai-bridge-note">
-              {foundation.strategyModifier} · {foundation.normativeModifier}
+              No explicit reviewed bridge currently connects AI axes to Foundation dimensions.
             </p>
           </article>
 
           <article className="ai-bridge-card stack-xs">
-            <p className="ai-bridge-kicker">Compared with your IR baseline</p>
-            <ul className="content-list ai-bridge-list">
-              {synthesis.likelyAlignment.slice(0, 2).map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-              <li>{synthesis.likelyTensions[0]}</li>
-            </ul>
-          </article>
-
-          <article className="ai-bridge-card stack-xs">
-            <p className="ai-bridge-kicker">So what this adds</p>
-            <p className="ai-bridge-note">{synthesis.practicalImplication}</p>
+            <p className="ai-bridge-kicker">How to read the two records</p>
+            <p className="ai-bridge-note">
+              Read them side by side. The app does not infer alignment from a Foundation family,
+              an AI archetype, or raw 1–7 values, and it does not combine them into a master score.
+            </p>
             <p style={{ margin: 0 }}>
               <Link href="/profile" style={{ color: "var(--accent)" }}>
                 Open Profile →
@@ -118,7 +117,8 @@ export function AiProjectBridge({
         <div className="callout stack-xs">
           <p style={{ fontWeight: 600 }}>Foundation baseline not yet saved</p>
           <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-            The AI result still stands on its own, but the best next step is to save a Foundation result and then read the two together inside Profile.
+            You may save a Foundation result and read the two records side by side inside Profile.
+            The records remain separate unless a reviewed bridge is explicitly authored.
           </p>
           <p style={{ margin: 0 }}>
             <Link href="/quiz" style={{ color: "var(--accent)" }}>

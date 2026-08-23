@@ -40,6 +40,7 @@ const INSTRUMENT_FILES = [
   "foundation.v2.json",
   "security.v3.json",
   "security.v4.json",
+  "security.v5.json",
   "technology.v3.json",
   "ai-governance.v3.json",
 ] as const

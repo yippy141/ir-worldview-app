@@ -11,6 +11,11 @@ import {
   type ModuleSlug,
 } from "@/lib/modules/types"
 import type { ModuleVersion } from "@/lib/modules/versions"
+import {
+  ACTOR_LENS_INSTRUCTION,
+  ACTOR_LENS_RESULT_SUMMARY,
+  hasPerspectiveBankCapability,
+} from "@/lib/modules/perspective-bank"
 import type { ChoiceCardType, QuizMode } from "@/lib/types"
 
 export function ModuleResultView({
@@ -47,14 +52,17 @@ export function ModuleResultView({
     mode,
     answers,
   )
-  const usesSecurityV4Presentation = slug === "security" && bankVersion === 4
+  const usesPerspectiveBankPresentation = hasPerspectiveBankCapability({
+    slug,
+    bankVersion,
+  })
   const scoredSelections = selected.filter(
     ({ question }) => question.cardType !== "actorLens",
   )
-  const resultEvidenceSelections = usesSecurityV4Presentation
+  const resultEvidenceSelections = usesPerspectiveBankPresentation
     ? scoredSelections
     : selected
-  const actorLensSelections = usesSecurityV4Presentation
+  const actorLensSelections = usesPerspectiveBankPresentation
     ? selected.filter(({ question }) => question.cardType === "actorLens")
     : []
   const questionCount =
@@ -96,14 +104,24 @@ export function ModuleResultView({
             doesNotClaim: moduleDefinition.doesNotClaim,
             evidence: selected.map(({ question, primary, secondary }) => ({
               question:
-                usesSecurityV4Presentation && question.cardType === "actorLens"
+                usesPerspectiveBankPresentation &&
+                question.cardType === "actorLens"
                   ? `${question.title} — Perspective modeling (unscored)`
                   : question.title,
               primary: primary?.title ?? "No selection",
               ...(secondary?.title ? { secondary: secondary.title } : {}),
             })),
             laneSummaries: result.laneSummaries,
-            ...(result.cardTypeRead ? { cardTypeRead: result.cardTypeRead } : {}),
+            ...(result.cardTypeRead
+              ? {
+                  cardTypeRead: usesPerspectiveBankPresentation
+                    ? {
+                        headline: "Perspective modeling",
+                        summary: ACTOR_LENS_RESULT_SUMMARY,
+                      }
+                    : result.cardTypeRead,
+                }
+              : {}),
             ...(Object.keys(result.cardTypeScores).length > 0
               ? { cardTypeScores: result.cardTypeScores }
               : {}),
@@ -182,7 +200,7 @@ export function ModuleResultView({
             Each score reports a response direction within this module. Its endpoint labels name
             the two directions; they are not empirical bounds
             {hasActorLens
-              ? usesSecurityV4Presentation
+              ? usesPerspectiveBankPresentation
                 ? ". Scored Explanation and Decision cards determine the main result. Actor lens cards are excluded from the headline, axes, and lane results."
                 : ". Explanation and Decision cards determine the main result; Actor lens cards provide context only."
               : "."}{" "}
@@ -190,17 +208,16 @@ export function ModuleResultView({
           </p>
         </section>
 
-        {usesSecurityV4Presentation && hasActorLens ? (
+        {usesPerspectiveBankPresentation && hasActorLens ? (
           <section className="result-section result-figure">
             <h2>Perspective-modeling read</h2>
-            {result.cardTypeRead ? (
-              <p className="result-prose module-prose">{result.cardTypeRead.summary}</p>
-            ) : null}
+            <p className="result-prose module-prose">
+              {ACTOR_LENS_RESULT_SUMMARY}
+            </p>
             <p className="result-figure__note">
-              These cards ask you to understand which instrument fits a stated decision cell’s
-              objectives and constraints. Understanding that logic is not endorsement of the actor,
-              its claim, or its objective. The choices remain visible below as separate descriptive
-              evidence and do not alter any scored {moduleDefinition.shortTitle} result.
+              {ACTOR_LENS_INSTRUCTION} The choices remain visible below as
+              separate descriptive evidence and do not alter any scored{" "}
+              {moduleDefinition.shortTitle} result.
             </p>
           </section>
         ) : null}
@@ -281,7 +298,7 @@ export function ModuleResultView({
           <details className="profile-details">
             <summary>Full analysis</summary>
             <div className="stack-lg result-details-body">
-              {!usesSecurityV4Presentation && result.cardTypeRead ? (
+              {!usesPerspectiveBankPresentation && result.cardTypeRead ? (
                 <div className="stack-md">
                   <h2>{result.cardTypeRead.headline}</h2>
                   <p className="result-prose module-prose">{result.cardTypeRead.summary}</p>
@@ -325,7 +342,11 @@ export function ModuleResultView({
               </div>
 
               <div className="stack-md">
-                <h2>{usesSecurityV4Presentation ? "Scored evidence log" : "Evidence log"}</h2>
+                <h2>
+                  {usesPerspectiveBankPresentation
+                    ? "Scored evidence log"
+                    : "Evidence log"}
+                </h2>
                 <div className="driver-grid">
                   {resultEvidenceSelections.map(({ question, primary, secondary }) => (
                     <div key={question.id} className="driver-card stack-sm">
