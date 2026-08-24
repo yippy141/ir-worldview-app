@@ -93,7 +93,7 @@ test("AI landing and result copy make no relationship inference", () => {
     "utf8",
   )
   assert.match(component, /buildAiFoundationBaseline/u)
-  assert.match(component, /Separate reads — no reviewed bridge/u)
+  assert.match(component, /Separate reads\. No reviewed bridge\./u)
   assert.match(component, /no relationship is inferred/u)
   assert.match(component, /does not infer alignment/u)
   assert.doesNotMatch(component, /foundation\.familyLabel/u)

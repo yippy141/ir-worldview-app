@@ -16,7 +16,6 @@ import {
   formatArchetypeReadingCodeForSpeech,
   type ArchetypeDisplayCode,
 } from "@/lib/archetype-display"
-import { ACTIVE_MODULE_COMPARISON_STATUS } from "@/lib/modules/types"
 import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import type { ProfileShareFoundationRecord } from "@/lib/profile-share"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
@@ -377,7 +376,6 @@ function DomainRecordsSection({
   mode: "local" | "shared"
   actionSlot?: ReactNode
 }) {
-  const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
   const modulesBySlug = Object.fromEntries(
     moduleSnapshots.map((snapshot) => [snapshot.slug, snapshot]),
   ) as Partial<Record<ModuleSnapshot["slug"], ModuleSnapshot>>
@@ -388,32 +386,16 @@ function DomainRecordsSection({
         <p className="eyebrow">Profile structure</p>
         <h2 className="profile-section-heading">Foundation and issue records</h2>
         <p className="muted profile-domain-intro">
-          Issue results sit beside the Foundation and do not rescore it.
+          The Foundation is your core record. Completed Focus Areas and AI results appear beside
+          it as issue-specific records; none changes the Foundation result.
         </p>
-      </div>
-
-      <div className="profile-domain-status" aria-label="Issue comparison status">
-        <span>
-          <strong>Status</strong>
-          <code>{comparisonStatus.kind}</code>
-        </span>
-        <span>
-          {comparisonStatus.numericBridge === "none"
-            ? "No numeric bridge"
-            : comparisonStatus.numericBridge}
-        </span>
-        <span>
-          {comparisonStatus.masterScore === "none"
-            ? "No master score"
-            : comparisonStatus.masterScore}
-        </span>
       </div>
 
       <div className="profile-domain-records">
         <article className="profile-domain-record">
           <div className="profile-domain-record__meta">
             <span>Foundation</span>
-            <span>Foundation reading · unchanged</span>
+            <span>Core record</span>
           </div>
           <div className="stack-xs">
             <h3>Foundation record</h3>

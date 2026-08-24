@@ -7,14 +7,14 @@
     "more": "More",
     "menu": "Menu",
     "productPath": "Product path",
-    "productIntro": "Use Current Case for live judgment, build a Foundation baseline, and add Focus Areas, AI, or Perspective Runs where useful.",
+    "productIntro": "Browse Cases, build a Foundation baseline, and add Focus Areas, AI Governance, or Perspective Runs where useful.",
     "browseContext": "Browse and context",
     "browseIntro": "Use the Worldview Map, the field guide, and methods when you want to browse profiles or challenge the model.",
     "nav": {
-      "currentCase": "Current Case",
+      "currentCase": "Cases",
       "foundation": "Foundation",
       "focusAreas": "Focus Areas",
-      "ai": "AI",
+      "ai": "AI Governance",
       "profile": "My Profile",
       "perspectives": "Perspective Runs",
       "worldviewMap": "Worldview Map",
@@ -23,7 +23,7 @@
       "methods": "Methods",
       "privacy": "Privacy",
       "references": "References",
-      "feedback": "Feedback",
+      "feedback": "Corrections and contact",
       "beta": "Controlled Beta",
       "publicPositions": "Thinkers & public positions"
     }

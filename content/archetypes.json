@@ -649,7 +649,7 @@
             "value": {
               "id": "legacy-p-minus-name-note",
               "kind": "authored-interpretation",
-              "text": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work.",
+              "text": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense of building your own position rather than forcing the outcome. It does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work.",
               "sourceIds": [
                 "legacy-p-minus-01"
               ],
@@ -1381,7 +1381,7 @@
               "value": {
                 "id": "m-plus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Satyagraha looks first to the public meanings that sustain authority—or strip it of acceptance.",
+                "text": "Satyagraha looks first to the public meanings that sustain authority or strip it of acceptance.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1651,7 +1651,7 @@
             "value": {
               "id": "legacy-m-plus-where-it-breaks",
               "kind": "authored-interpretation",
-              "text": "The archetype cites a method, not a biography. Gandhi's own record is contested — most directly by B. R. Ambedkar on caste and varna, and separately over his writing and conduct on race during the South African years — and naming satyagraha is not an endorsement of the man or of his politics. Norm change is also not only narrative change: later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
+              "text": "The archetype cites a method, not a biography. Gandhi's own record is contested, most directly by B. R. Ambedkar on caste and varna, and separately over his writing and conduct on race during the South African years. Naming satyagraha is not an endorsement of the man or of his politics. Norm change is also not only narrative change: later research shows that localization, contestation, and implementation do not always follow a single linear cycle.",
               "sourceIds": [
                 "legacy-m-plus-01",
                 "legacy-m-plus-02",
@@ -2293,7 +2293,7 @@
             "value": {
               "id": "legacy-s-plus-why-it-fits",
               "kind": "authored-interpretation",
-              "text": "The Monnet Plan is dirigisme in its own language: a French planning commissariat concentrated postwar investment in a short list of basic sectors — coal, steel, electricity, rail transport, cement, farm machinery — and set targets that private firms were expected to meet.",
+              "text": "The Monnet Plan is dirigisme in its own language: a French planning commissariat concentrated postwar investment in coal, steel, electricity, rail transport, cement, and farm machinery, and set targets that private firms were expected to meet.",
               "sourceIds": [
                 "legacy-s-plus-01"
               ],

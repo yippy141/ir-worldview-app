@@ -2,6 +2,7 @@ import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
 import { resolveProfileSharePayload } from "@/lib/profile-share"
+import { buildEnglishProfileSocialCopy } from "@/lib/foundation-social-copy"
 import type { Metadata } from "next"
 import Link from "next/link"
 
@@ -12,7 +13,7 @@ export async function generateMetadata(
   const resolved = resolveProfileSharePayload(payload)
 
   if (!resolved) {
-    const title = "Shared Profile — IR Worldview Inventory"
+    const title = "Shared Profile | IR Worldview Inventory"
     const description =
       "Open a shared IR Worldview Profile, or create your own Foundation result and saved profile layers."
 
@@ -23,12 +24,10 @@ export async function generateMetadata(
   const archetype = foundation
     ? resolveFoundationArchetypeFromSnapshot(foundation)
     : null
-  const title = archetype
-    ? `${archetype.name} profile — IR Worldview Inventory`
-    : "Foundation result unavailable — Shared Profile"
-  const description = archetype
-    ? `Shared Foundation profile: ${archetype.name}. ${archetype.gloss}`
-    : "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no Foundation reading is inferred."
+  const socialCopy = archetype ? buildEnglishProfileSocialCopy(archetype) : null
+  const title = socialCopy?.title ?? "Foundation result unavailable | Shared Profile"
+  const description = socialCopy?.description
+    ?? "This shared Profile preserves its saved results, but its Foundation payload cannot be resolved and no Foundation reading is inferred."
 
   return buildProfileMetadata(title, description, payload)
 }

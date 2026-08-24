@@ -95,6 +95,16 @@ const rules = [
     strict: true,
   },
   {
+    id: "authored-english-em-dash",
+    priority: "P1",
+    kind: "punctuation",
+    pattern: /—/gu,
+    reason: "Authored English product prose uses an em dash, which conflicts with the editorial constitution.",
+    action: "Use a period, comma, colon, or a direct sentence rewrite. Preserve quotations, proper names, Chinese typography, and machine separators.",
+    strict: true,
+    unless: (text, context) => isAuthorizedEmDash(text, context.file, context.candidate),
+  },
+  {
     id: "sits-between-template",
     priority: "P1",
     kind: "template-review",
@@ -764,8 +774,8 @@ function classifyAudience(file, candidate) {
   if (fileName.startsWith("lib/research/")) return "operational"
   if (fileName === "lib/archetype-content.ts") return "operational"
   if (fileName === "content/archetype-evidence.json") return "editorial-source"
-  if (/^lib\/modules\/(?:runtime-v1|[^/]+-v21)\.[cm]?[jt]sx?$/.test(fileName)) return "frozen"
-  if (/^content\/instrument\/(?:security|technology|ai-governance)\.v2\.json$/.test(fileName)) {
+  if (/^lib\/modules\/(?:runtime-v1|(?:security|technology)-v2[12])\.[cm]?[jt]sx?$/.test(fileName)) return "frozen"
+  if (/^content\/instrument\/(?:security\.v[2-5]|technology\.v[23]|ai-governance\.v[23])\.json$/.test(fileName)) {
     return "frozen"
   }
   if (/^(?:lib|i18n)\/.*(?:validation|validator|store|registry|versions?|request|routing|paths?)\.[cm]?[jt]sx?$/.test(fileName)) return "operational"
@@ -824,6 +834,15 @@ function isNecessaryPrivacyDisclosure(text, file) {
     fileName === "app/privacy/page.tsx" &&
     /\b(?:excluded|does not include|not collected|not stored)\b/iu.test(text)
   )
+}
+
+function isAuthorizedEmDash(text, file, candidate) {
+  const fileName = toPosix(relative(projectRoot, file))
+  if (fileName.includes("/zh-Hans/") || fileName === "messages/zh-Hans.json") return true
+  // A standalone divider is interface punctuation, not authored prose. Mixed
+  // English and Chinese prose does not inherit a blanket exemption.
+  if (/^[\s|·•–—:]+$/u.test(text)) return true
+  return /(?:quotation|quote|verbatim|properName)$/iu.test(candidate.path ?? "")
 }
 
 function isActiveBetaProgramReference(match, file) {

@@ -514,7 +514,7 @@ test("Current Case leads the live numbered menu and My Profile remains a visible
       { index: "03", label: "Focus Areas" },
       { index: "04", label: "Perspective Runs" },
       { index: "05", label: "Worldview Map" },
-      { index: "06", label: "AI & Futures" },
+      { index: "06", label: "AI Governance" },
     ],
   )
   assert.deepEqual(validateWorldStageCatalog(undefined, worldStageMenuItemsWithCurrentCase), {

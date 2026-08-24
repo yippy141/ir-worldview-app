@@ -17,14 +17,14 @@ export const aiGlossary: GlossaryEntry[] = [
     id: "capability-threshold",
     term: "Capability threshold",
     definition:
-      "A defined level of AI capability that triggers additional governance responses — such as mandatory evaluation, restricted deployment, or escalation to a regulatory body. Thresholds can be specified by benchmark performance, by particular dangerous capabilities such as autonomous cyberattack, or by the volume of compute used in training.",
+      "A defined level of AI capability that triggers additional governance responses, such as mandatory evaluation, restricted deployment, or escalation to a regulatory body. Thresholds can be specified by benchmark performance, by particular dangerous capabilities such as autonomous cyberattack, or by the volume of compute used in training.",
     seeAlso: ["evaluation", "frontier-model"],
   },
   {
     id: "compute-governance",
     term: "Compute governance",
     definition:
-      "Policy approaches that regulate access to the hardware — GPUs, TPUs, and the data centers that house them — used to train and run large AI models. Because advanced chips are produced by a small number of firms in limited locations, compute is treated as a potentially tractable chokepoint for governance. Proposals range from export controls to know-your-customer requirements on cloud providers.",
+      "Policy approaches that regulate access to the hardware used to train and run large AI models, including GPUs, TPUs, and the data centers that house them. Because advanced chips are produced by a small number of firms in limited locations, compute is treated as a potentially tractable chokepoint for governance. Proposals range from export controls to know-your-customer requirements on cloud providers.",
     seeAlso: ["frontier-model", "sovereignty"],
   },
   {
@@ -45,7 +45,7 @@ export const aiGlossary: GlossaryEntry[] = [
     id: "evaluation",
     term: "Evaluation",
     definition:
-      "Structured testing of AI systems for specific capabilities, safety properties, or risks, run by labs internally, by independent third parties, or by government agencies. Evaluations are the primary mechanism for detecting dangerous capabilities before deployment, but current methods have significant gaps — particularly for emergent or deceptive behaviors.",
+      "Structured testing of AI systems for specific capabilities, safety properties, or risks, run by labs internally, by independent third parties, or by government agencies. Evaluations are the primary mechanism for detecting dangerous capabilities before deployment, but current methods have significant gaps, particularly for emergent or deceptive behaviors.",
     seeAlso: ["capability-threshold", "verification"],
   },
   {
@@ -80,7 +80,7 @@ export const aiGlossary: GlossaryEntry[] = [
     id: "sovereignty",
     term: "Sovereignty",
     definition:
-      "A country's or institution's capacity to govern, develop, or constrain AI within its jurisdiction, independent of foreign providers. Sovereignty concerns arise when critical AI infrastructure — compute, models, data — is controlled by foreign entities or a small number of private firms. Policy responses include domestic compute investment, local data requirements, and limits on foreign AI procurement.",
+      "A country's or institution's capacity to govern, develop, or constrain AI within its jurisdiction, independent of foreign providers. Sovereignty concerns arise when critical AI infrastructure, including compute, models, and data, is controlled by foreign entities or a small number of private firms. Policy responses include domestic compute investment, local data requirements, and limits on foreign AI procurement.",
     seeAlso: ["compute-governance", "openness"],
   },
   {

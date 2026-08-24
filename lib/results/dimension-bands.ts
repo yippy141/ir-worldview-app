@@ -96,33 +96,22 @@ export const DIMENSION_POLES: Record<DimensionKey, { low: string; high: string }
 export type DimensionPush = {
   dimension: DimensionKey
   score: number
-  /** Signed distance from the observed centre, in half-spreads, clamped to [-1, 1]. */
+  /** Signed position on the reported 1-7 scale, centred at its midpoint. */
   deviation: number
   /** Pole the score sits toward. */
   pole: string
 }
 
 /**
- * Express each dimension as a standardised distance from the centre of the
- * observed distribution, so a diverging chart can show which dimensions pushed
- * a result rather than describing them in sentences.
- *
- * Raw scores are not comparable across dimensions: the observed spread runs
- * from 1.04 points on restraint to 1.97 on identity, so the same raw distance
- * from the mean means different things. Dividing by each dimension's own
- * half-spread (p90 to p10) puts all seven on one axis.
- *
- * The spread is taken from percentiles rather than a standard deviation on
- * purpose. The per-dimension standard deviations are small enough that any
- * respondent with a real position would saturate the chart, and a chart where
- * every bar is full-length carries no information.
+ * Express each dimension on its declared 1-7 scale. The midpoint is zero and
+ * either endpoint is one. This is a direct position display, not a comparison
+ * with synthetic respondents or a claim about which dimension caused the
+ * family classification.
  */
 export function getDimensionPush(scores: Record<DimensionKey, number>): DimensionPush[] {
   return (Object.keys(OBSERVED_DIMENSION_RANGES) as DimensionKey[])
     .map((dimension) => {
-      const range = OBSERVED_DIMENSION_RANGES[dimension]
-      const halfSpread = (range.p90 - range.p10) / 2
-      const raw = halfSpread > 0 ? (scores[dimension] - range.mean) / halfSpread : 0
+      const raw = (scores[dimension] - 4) / 3
       const deviation = Math.max(-1, Math.min(1, raw))
 
       return {

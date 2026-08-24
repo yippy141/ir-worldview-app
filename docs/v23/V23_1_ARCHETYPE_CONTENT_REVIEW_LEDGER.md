@@ -168,7 +168,7 @@ Human editorial review is pending. External-expert review: none. Validation clai
 
 ### noticesFirst
 
-- **m-plus-notice-01:** Satyagraha looks first to the public meanings that sustain authority—or strip it of acceptance.
+- **m-plus-notice-01:** Satyagraha looks first to the public meanings that sustain authority or strip it of acceptance.
 
 ### likelyPolicyInstincts
 

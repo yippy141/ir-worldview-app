@@ -1,0 +1,56 @@
+.triggerOnly {
+  display: contents;
+}
+
+.confirmation {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 560px);
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+}
+
+.prompt {
+  margin: 0;
+  color: var(--text);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.danger {
+  min-height: 44px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--text);
+  padding: 9px 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.danger:hover {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+.danger:focus-visible {
+  outline: 2px solid var(--accent-light);
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .confirmation {
+    width: 100%;
+  }
+
+  .actions > * {
+    flex: 1 1 140px;
+    min-height: 44px;
+  }
+}

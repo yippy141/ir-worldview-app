@@ -4,7 +4,6 @@ export type ComparisonRow = {
   key: string
   label: string
   userScore: number
-  userPercentile?: number | null
   primaryExpected: ComparisonExpectation
   runnerUpExpected: ComparisonExpectation
 }
@@ -52,25 +51,11 @@ export function NearestAlternative({ primaryLabel, runnerUpLabel, rows }: Props)
               <th scope="row">{row.label}</th>
               <td data-expected={row.primaryExpected}>{EXPECTED_COPY[row.primaryExpected]}</td>
               <td data-expected={row.runnerUpExpected}>{EXPECTED_COPY[row.runnerUpExpected]}</td>
-              <td className="alt-compare__score">
-                {row.userPercentile !== null &&
-                row.userPercentile !== undefined
-                  ? `${formatOrdinal(row.userPercentile)} percentile · raw ${row.userScore.toFixed(1)}`
-                  : row.userScore.toFixed(1)}
-              </td>
+              <td className="alt-compare__score">{row.userScore.toFixed(1)}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   )
-}
-
-function formatOrdinal(value: number) {
-  const mod100 = value % 100
-  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
-  if (value % 10 === 1) return `${value}st`
-  if (value % 10 === 2) return `${value}nd`
-  if (value % 10 === 3) return `${value}rd`
-  return `${value}th`
 }

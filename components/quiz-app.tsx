@@ -10,6 +10,7 @@ import {
   type FoundationQuizUiCopy,
 } from "@/content/locales/zh-Hans/foundation-ui"
 import { QuizPositionMap } from "@/components/quiz/quiz-position-map"
+import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
 import { publicPath } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
@@ -65,6 +66,11 @@ const englishFoundationQuizUi = {
   contextAssistOn: "Context assist on",
   contextAssistOff: "Context assist off",
   startOver: "Start over",
+  resetConfirmation: {
+    prompt: "Starting over will clear every answer in this Foundation draft. Continue?",
+    confirm: "Clear draft",
+    cancel: "Keep draft",
+  },
   returnToReview: "← Return to review",
   questionProgress: (label, index, total) => `${label} · ${index} of ${total}`,
   howToAnswer: "How to answer",
@@ -465,9 +471,14 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             >
               {session.contextAssist ? copy.contextAssistOn : copy.contextAssistOff}
             </button>
-            <button type="button" className="secondary-button" onClick={resetQuiz}>
-              {copy.startOver}
-            </button>
+            <DestructiveActionConfirmation
+              hasData={Object.keys(session.answers).length > 0}
+              triggerLabel={copy.startOver}
+              prompt={copy.resetConfirmation.prompt}
+              confirmLabel={copy.resetConfirmation.confirm}
+              cancelLabel={copy.resetConfirmation.cancel}
+              onConfirm={resetQuiz}
+            />
           </div>
         </div>
 

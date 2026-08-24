@@ -10,8 +10,12 @@ import {
   useSyncExternalStore,
   type CSSProperties,
 } from "react"
-import { zhHansWorldStageUi } from "@/content/locales/zh-Hans/world-stage"
+import {
+  getZhHansWorldStageMenuItems,
+  zhHansWorldStageUi,
+} from "@/content/locales/zh-Hans/world-stage"
 import { zhHansSiteMetadata } from "@/content/locales/zh-Hans/metadata"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { formatLocalizedDate } from "@/i18n/format"
 import type { Locale } from "@/i18n/routing"
 import {
@@ -23,7 +27,8 @@ import {
 } from "@/lib/world-stage/map-config"
 import {
   getWorldStageScene,
-  worldStageMenuItems,
+  getWorldStageMenuItems,
+  groupWorldStageMenuItems,
   worldStageSceneOptions,
   worldStageUtilityDestinations,
 } from "@/lib/world-stage/scenes"
@@ -32,6 +37,7 @@ import {
   WORLD_STAGE_FLOW_RELATIONS,
   WORLD_STAGE_SEMICONDUCTOR_ROLES,
   type WorldStageFlowRelation,
+  type WorldStageMenuId,
   type WorldStageSemiconductorRole,
 } from "@/lib/world-stage/types"
 import { WorldStageMap, type WorldStageMapHandle } from "./world-stage-map"
@@ -40,10 +46,11 @@ import styles from "./world-stage.module.css"
 const secondaryLinks = [
   { label: "Compare", href: "/compare" },
   { label: "About", href: "/about" },
+  { label: "Futures", href: "/futures" },
   { label: "Methods", href: "/method" },
   { label: "References", href: "/references" },
   { label: "Privacy", href: "/privacy" },
-  { label: "Feedback", href: "/feedback" },
+  { label: "Corrections and contact", href: "/feedback" },
 ] as const
 
 const semiconductorRoleLabels: Record<WorldStageSemiconductorRole, string> = {
@@ -78,17 +85,42 @@ function getReducedMotionServerSnapshot() {
   return true
 }
 
-export function WorldStageHome() {
+export function WorldStageHome({
+  hasActiveCurrentCase,
+}: {
+  hasActiveCurrentCase: boolean
+}) {
   const locale = useLocale() as Locale
   const chinese = locale === "zh-Hans"
-  const menuItems = chinese ? zhHansWorldStageUi.menu : worldStageMenuItems
+  const menuItems = chinese
+    ? getZhHansWorldStageMenuItems(hasActiveCurrentCase)
+    : getWorldStageMenuItems(hasActiveCurrentCase)
+  const menuGroups = groupWorldStageMenuItems(menuItems)
+  const choiceGroups = [
+    {
+      id: "start-here",
+      label: chinese ? zhHansWorldStageUi.choiceGroups.startHere : "Start here",
+      items: menuGroups.startHere,
+      listClassName: styles.startHereList,
+    },
+    {
+      id: "continue-exploring",
+      label: chinese
+        ? zhHansWorldStageUi.choiceGroups.continueExploring
+        : "Continue exploring",
+      items: menuGroups.continueExploring,
+      listClassName: styles.continueExploringList,
+    },
+  ] as const
   const sceneOptions = chinese ? zhHansWorldStageUi.sceneOptions : worldStageSceneOptions
   const utilityDestinations = chinese
     ? zhHansWorldStageUi.utility
     : worldStageUtilityDestinations
   const footerLinks = chinese ? zhHansWorldStageUi.secondaryLinks : secondaryLinks
   const controls = zhHansWorldStageUi.controls
-  const [previewIndex, setPreviewIndex] = useState(0)
+  const [previewItemId, setPreviewItemId] = useState<WorldStageMenuId>(
+    menuItems[0]?.id ?? "foundation",
+  )
   const [activeSceneIndex, setActiveSceneIndex] = useState(0)
   const [motionOverride, setMotionOverride] = useState<boolean | null>(null)
   const [sceneHeld, setSceneHeld] = useState(false)
@@ -104,7 +136,7 @@ export function WorldStageHome() {
     getReducedMotionSnapshot,
     getReducedMotionServerSnapshot,
   )
-  const activeItem = menuItems[previewIndex]
+  const activeItem = menuItems.find((item) => item.id === previewItemId) ?? menuItems[0]
   const activeSceneOption = sceneOptions[activeSceneIndex]
   const activeScene = chinese
     ? getZhHansWorldStageScene(activeSceneOption.sceneId)
@@ -209,16 +241,6 @@ export function WorldStageHome() {
       id="site-main"
       data-sequence={automaticMotionPaused ? "paused" : "running"}
     >
-      <WorldStageMap
-        ref={mapRef}
-        scene={activeScene}
-        filters={mapFilters}
-        motionPaused={automaticMotionPaused}
-        reducedMotion={reducedMotion}
-        onInteraction={holdSceneForInspection}
-        copy={chinese ? controls : undefined}
-      />
-
       <header className={styles.header}>
         <Link
           href="/"
@@ -233,6 +255,7 @@ export function WorldStageHome() {
               {destination.label}
             </Link>
           ))}
+          <LanguageSwitcher className={styles.languageControl} />
           <button
             type="button"
             className={styles.motionControl}
@@ -252,6 +275,79 @@ export function WorldStageHome() {
           </button>
         </div>
       </header>
+
+      <div className={styles.primaryLayout}>
+        <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
+          <div className={styles.introduction}>
+            <h1 id="world-stage-heading">
+              {chinese ? zhHansWorldStageUi.heading : "Choose a starting point."}
+            </h1>
+            <p>{chinese
+              ? hasActiveCurrentCase
+                ? zhHansWorldStageUi.introduction
+                : zhHansWorldStageUi.archiveIntroduction
+              : hasActiveCurrentCase
+                ? "Answer the Foundation, work through a current decision, or compare the arguments behind the traditions and Decision Patterns."
+                : "Answer the Foundation, review recent cases, or compare the arguments behind the traditions and Decision Patterns."}
+            </p>
+          </div>
+
+          <nav aria-label={chinese ? controls.worldStageSections : "World Stage sections"}>
+            <div className={styles.choiceGroups}>
+              {choiceGroups.map((group) => (
+                <div className={styles.choiceGroup} key={group.id}>
+                  <h2 className={styles.choiceGroupHeading} id={`world-stage-${group.id}`}>
+                    {group.label}
+                  </h2>
+                  <ul
+                    className={`${styles.menuList} ${group.listClassName}`}
+                    aria-labelledby={`world-stage-${group.id}`}
+                  >
+                    {group.items.map((item) => (
+                      <li key={item.id}>
+                        <Link
+                          href={item.href}
+                          className={styles.menuItem}
+                          aria-describedby={`world-stage-description-${item.id}`}
+                          onFocus={() => setPreviewItemId(item.id)}
+                          onPointerEnter={() => setPreviewItemId(item.id)}
+                        >
+                          <span className={styles.menuIndex} aria-hidden="true">
+                            {item.index}
+                          </span>
+                          <span className={styles.menuLabel}>{item.label}</span>
+                          <span className={styles.menuLens}>{item.lens}</span>
+                          <span className={styles.menuIndicator} aria-hidden="true">
+                            →
+                          </span>
+                          <span
+                            className={styles.visuallyHidden}
+                            id={`world-stage-description-${item.id}`}
+                          >
+                            {item.description} {item.action}.
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </nav>
+        </section>
+
+        <aside
+          className={styles.detail}
+          aria-label={chinese ? controls.details(activeItem.label) : `${activeItem.label} details`}
+          key={`detail-${activeItem.id}`}
+        >
+          <p className={styles.detailDescription}>{activeItem.description}</p>
+          <Link className={styles.routeLink} href={activeItem.href}>
+            {activeItem.action}
+            <span aria-hidden="true">→</span>
+          </Link>
+        </aside>
+      </div>
 
       <div className={styles.mapMeta} key={`map-${activeSceneOption.sceneId}`}>
         <p className={styles.lensLabel}>
@@ -277,62 +373,15 @@ export function WorldStageHome() {
         )}
       </div>
 
-      <div className={styles.primaryLayout}>
-        <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
-          <div className={styles.introduction}>
-            <h1 id="world-stage-heading">
-              {chinese ? zhHansWorldStageUi.heading : "Choose a starting point."}
-            </h1>
-            <p>{chinese
-              ? zhHansWorldStageUi.introduction
-              : "Answer the Foundation, work through a current decision, or compare the arguments behind the traditions and Decision Patterns."}
-            </p>
-          </div>
-
-          <nav aria-label={chinese ? controls.worldStageSections : "World Stage sections"}>
-            <ul className={styles.menuList}>
-              {menuItems.map((item, index) => {
-                return (
-                  <li key={item.id}>
-                    <Link
-                      href={item.href}
-                      className={styles.menuItem}
-                      aria-describedby={`world-stage-description-${item.id}`}
-                      onFocus={() => setPreviewIndex(index)}
-                      onPointerEnter={() => setPreviewIndex(index)}
-                    >
-                      <span className={styles.menuIndex} aria-hidden="true">{item.index}</span>
-                      <span className={styles.menuLabel}>{item.label}</span>
-                      <span className={styles.menuLens}>{item.lens}</span>
-                      <span className={styles.menuIndicator} aria-hidden="true">
-                        →
-                      </span>
-                      <span
-                        className={styles.visuallyHidden}
-                        id={`world-stage-description-${item.id}`}
-                      >
-                        {item.description} {item.action}.
-                      </span>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ul>
-          </nav>
-        </section>
-
-        <aside
-          className={styles.detail}
-          aria-label={chinese ? controls.details(activeItem.label) : `${activeItem.label} details`}
-          key={`detail-${activeItem.id}`}
-        >
-          <p className={styles.detailDescription}>{activeItem.description}</p>
-          <Link className={styles.routeLink} href={activeItem.href}>
-            {activeItem.action}
-            <span aria-hidden="true">→</span>
-          </Link>
-        </aside>
-      </div>
+      <WorldStageMap
+        ref={mapRef}
+        scene={activeScene}
+        filters={mapFilters}
+        motionPaused={automaticMotionPaused}
+        reducedMotion={reducedMotion}
+        onInteraction={holdSceneForInspection}
+        copy={chinese ? controls : undefined}
+      />
 
       <div
         className={styles.mapControls}

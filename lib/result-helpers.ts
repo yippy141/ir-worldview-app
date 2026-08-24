@@ -1,11 +1,4 @@
 import { dimensionLabels } from "@/lib/quiz-schema"
-import {
-  OBSERVED_DIMENSION_RANGES,
-  byBand,
-  dimensionBand,
-  dimensionHighCut,
-  dimensionLowCut,
-} from "@/lib/results/dimension-bands"
 import { familyDescriptions, familyProfiles } from "@/lib/scoring"
 import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
 import { familyLabel, traditionNounLabel } from "@/lib/worldview-config"
@@ -183,69 +176,75 @@ export type StrongLens = {
   description: string
 }
 
-function getBandStrength(dimension: DimensionKey, score: number): number {
-  const band = dimensionBand(dimension, score)
-  const { mean } = OBSERVED_DIMENSION_RANGES[dimension]
+type RawDimensionPosition = "high" | "midRange" | "low"
 
-  if (band === "high") {
-    return (score - mean) / (dimensionHighCut(dimension) - mean)
-  }
-  if (band === "low") {
-    return (mean - score) / (mean - dimensionLowCut(dimension))
-  }
-  return 0
+function rawDimensionPosition(score: number): RawDimensionPosition {
+  if (score > 4) return "high"
+  if (score < 4) return "low"
+  return "midRange"
+}
+
+function byRawPosition<T>(
+  score: number,
+  copy: Record<RawDimensionPosition, T>,
+): T {
+  return copy[rawDimensionPosition(score)]
+}
+
+function getRawPoleStrength(score: number): number {
+  return Math.abs(score - 4) / 3
 }
 
 export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] {
   const lenses: { weight: number; lens: StrongLens }[] = []
 
-  if (dimensionBand("politicalEconomy", dimensionScores.politicalEconomy) === "high") {
+  if (dimensionScores.politicalEconomy >= 5) {
     lenses.push({
-      weight: getBandStrength("politicalEconomy", dimensionScores.politicalEconomy),
+      weight: getRawPoleStrength(dimensionScores.politicalEconomy),
       lens: {
         key: "political-economy-salience",
         label: "Political-economy salience",
         description:
-          "Trade, finance, sanctions, and dependence are central to how you explain outcomes. This dimension-level signal does not by itself produce a Critical political economy Foundation reading.",
+          "The aggregate score lies toward explanations centered on trade, finance, sanctions, and dependence. That dimension alone does not produce a Critical political economy Foundation reading.",
       },
     })
   }
 
-  if (dimensionBand("domesticFilters", dimensionScores.domesticFilters) === "high") {
+  if (dimensionScores.domesticFilters >= 5) {
     lenses.push({
-      weight: getBandStrength("domesticFilters", dimensionScores.domesticFilters),
+      weight: getRawPoleStrength(dimensionScores.domesticFilters),
       lens: {
         key: "domestic-politics",
         label: "Domestic-politics sensitivity",
         description:
-          "You emphasize coalitions, regime type, and bureaucratic capacity when explaining why states facing similar pressures still behave differently.",
+          "The aggregate score lies toward explanations centered on coalitions, regime type, and bureaucratic capacity.",
       },
     })
   }
 
-  if (dimensionBand("normsIdentity", dimensionScores.normsIdentity) === "high") {
+  if (dimensionScores.normsIdentity >= 5) {
     lenses.push({
-      weight: getBandStrength("normsIdentity", dimensionScores.normsIdentity),
+      weight: getRawPoleStrength(dimensionScores.normsIdentity),
       lens: {
         key: "identity-legitimacy",
         label: "Identity / legitimacy sensitivity",
         description:
-          "You are attentive to how legitimacy, recognition, and shared expectations shape what actors think threats, interests, and obligations mean.",
+          "The aggregate score lies toward explanations in which legitimacy, recognition, and shared expectations shape threats, interests, and obligations.",
       },
     })
   }
 
-  const orderJusticeBand = dimensionBand("orderJustice", dimensionScores.orderJustice)
-  if (orderJusticeBand !== "midRange") {
+  const orderJusticePosition = rawDimensionPosition(dimensionScores.orderJustice)
+  if (dimensionScores.orderJustice >= 5 || dimensionScores.orderJustice <= 3) {
     lenses.push({
-      weight: getBandStrength("orderJustice", dimensionScores.orderJustice),
+      weight: getRawPoleStrength(dimensionScores.orderJustice),
       lens: {
         key: "normative-justice",
         label: "Normative / justice sensitivity",
         description:
-          orderJusticeBand === "low"
-            ? "You do not treat sovereignty as the final word in every hard case. Extreme moral stakes remain live in your analysis."
-            : "You treat order, precedent, and the costs of intervention as hard constraints, not as secondary clean-up questions.",
+          orderJusticePosition === "low"
+            ? "The aggregate score lies toward allowing extreme moral stakes to outweigh sovereignty in some hard cases."
+            : "The aggregate score lies toward giving order, precedent, and the costs of intervention substantial weight.",
       },
     })
   }
@@ -260,91 +259,91 @@ export function getStrongLenses(dimensionScores: DimensionScores): StrongLens[] 
 
 const dimensionDriverLabels: Record<DimensionKey, (score: number) => string> = {
   securityCompetition: (s) =>
-    byBand("securityCompetition", s, {
-      high: "Rivalry as a persistent constraint",
-      midRange: "Rivalry stays background",
-      low: "Skeptical of rivalry framing",
+    byRawPosition(s, {
+      high: "Closer to persistent rivalry",
+      midRange: "No directional pull on rivalry",
+      low: "Closer to conditional rivalry",
     }),
   institutions: (s) =>
-    byBand("institutions", s, {
-      high: "Institutions matter independently",
-      midRange: "Institutions stay conditional",
-      low: "Institutions as power mirrors",
+    byRawPosition(s, {
+      high: "Closer to rules that bind",
+      midRange: "No directional pull on institutions",
+      low: "Closer to power-first institutions",
     }),
   domesticFilters: (s) =>
-    byBand("domesticFilters", s, {
-      high: "Domestic politics as a real driver",
-      midRange: "Domestic politics stays marginal",
-      low: "External constraints dominate",
+    byRawPosition(s, {
+      high: "Closer to domestic-politics explanations",
+      midRange: "No directional pull on domestic filters",
+      low: "Closer to system-pressure explanations",
     }),
   normsIdentity: (s) =>
-    byBand("normsIdentity", s, {
-      high: "Identity and legitimacy are causal",
-      midRange: "Legitimacy stays contextual",
-      low: "Norms as rhetorical cover",
+    byRawPosition(s, {
+      high: "Closer to legitimacy as causal",
+      midRange: "No directional pull on legitimacy",
+      low: "Closer to material-interest explanations",
     }),
   politicalEconomy: (s) =>
-    byBand("politicalEconomy", s, {
-      high: "Political economy is central",
-      midRange: "Economics stays secondary",
-      low: "Security and diplomacy first",
+    byRawPosition(s, {
+      high: "Closer to markets and dependence",
+      midRange: "No directional pull on political economy",
+      low: "Closer to security and diplomacy",
     }),
   restraint: (s) =>
-    byBand("restraint", s, {
-      high: "Restraint as the safer path",
-      midRange: "Restraint stays situational",
-      low: "Maximization under uncertainty",
+    byRawPosition(s, {
+      high: "Closer to setting strategic limits",
+      midRange: "No directional pull on restraint",
+      low: "Closer to pressing advantage",
     }),
   orderJustice: (s) =>
-    byBand("orderJustice", s, {
-      high: "Order over universal justice",
-      midRange: "Order and justice stay open",
-      low: "Justice can override sovereignty",
+    byRawPosition(s, {
+      high: "Closer to order first",
+      midRange: "No directional pull on order and justice",
+      low: "Closer to justice overriding sovereignty",
     }),
 }
 
 const dimensionDriverDescriptions: Record<DimensionKey, (score: number) => string> = {
   securityCompetition: (s) =>
-    byBand("securityCompetition", s, {
-      high: "You treat uncertainty about rivals' intentions as a structural feature of international politics that reassurance cannot solve.",
-      midRange: "Your answers treat rivalry as one pressure among several. Which pressure wins depends on the case in front of you.",
-      low: "You are not persuaded that security competition is the central organizing logic of world politics.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward persistent rivalry over reassurance or issue-specific cooperation.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward reassurance and issue-specific cooperation over persistent rivalry.",
     }),
   institutions: (s) =>
-    byBand("institutions", s, {
-      high: "You expect well-designed institutions to shift incentives and make cooperation more durable, regardless of which power is currently strongest.",
-      midRange: "You expect rules to help when they are credible and enforced. You do not expect them to hold on their own.",
-      low: "You are skeptical that institutions do much beyond reflecting what the dominant states already want.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward institutional rules having independent effects on incentives and cooperation.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward institutions reflecting underlying state power.",
     }),
   domesticFilters: (s) =>
-    byBand("domesticFilters", s, {
-      high: "You emphasize how regime type, coalitions, and bureaucratic capacity shape what states actually do in foreign policy.",
-      midRange: "Domestic politics enters your reasoning when it visibly overrides an external constraint.",
-      low: "You expect external constraints to explain most foreign policy, with domestic politics adding noise.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward regime type, coalitions, and bureaucratic capacity as explanations.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward external constraints over domestic-politics explanations.",
     }),
   normsIdentity: (s) =>
-    byBand("normsIdentity", s, {
-      high: "You read the meaning of a threat or alliance as partly constituted by identity, legitimacy, and shared understandings, beyond the material facts.",
-      midRange: "Legitimacy shapes how you read a move without deciding whether the move was right.",
-      low: "You read appeals to norms and legitimacy as mostly rhetorical packaging for material interests.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward identity, legitimacy, and shared understandings as explanations.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward material interests over norms or legitimacy as explanations.",
     }),
   politicalEconomy: (s) =>
-    byBand("politicalEconomy", s, {
-      high: "You read world politics through capitalism, production structures, finance, and the distribution of economic dependence.",
-      midRange: "You track economic dependence as one input into a decision that turns on other things.",
-      low: "You expect security and diplomacy to be largely explicable without foregrounding global economic hierarchy.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward production, finance, and economic dependence as explanations.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward security and diplomacy over economic hierarchy as explanations.",
     }),
   restraint: (s) =>
-    byBand("restraint", s, {
-      high: "You treat avoiding overextension and resisting permanent primacy as the safer grand strategy.",
-      midRange: "You judge overextension case by case. No standing rule about when to hold back comes through.",
-      low: "You expect major powers to exploit windows of opportunity and press for durable advantage when they can.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward avoiding overextension and setting limits.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward using windows of opportunity and pursuing durable advantage.",
     }),
   orderJustice: (s) =>
-    byBand("orderJustice", s, {
-      high: "You treat preserving international order, even imperfect order, as usually more valuable than pursuing universal moral obligations across borders.",
-      midRange: "You weigh order against justice case by case. Neither pole sets your default.",
-      low: "You accept that justice concerns can legitimately override sovereignty when the moral stakes are high enough.",
+    byRawPosition(s, {
+      high: "The aggregate score lies toward order, precedent, and sovereignty.",
+      midRange: "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another.",
+      low: "The aggregate score lies toward justice claims when sovereignty and moral stakes conflict.",
     }),
 }
 
@@ -370,46 +369,46 @@ export function getKeyDrivers(dimensionScores: DimensionScores): DriverCard[] {
 
 export const dimensionOneLiners: Record<DimensionKey, (score: number) => string> = {
   securityCompetition: (s) =>
-    byBand("securityCompetition", s, {
-      high: "You treat uncertainty about rivals' intentions as a durable constraint on what cooperation can achieve.",
-      midRange: "Rivalry registers in your answers without organising them.",
-      low: "You are less persuaded that security competition defines the international system.",
+    byRawPosition(s, {
+      high: "Your answers lean toward persistent rivalry as a constraint on cooperation.",
+      midRange: "Your answers sit at the midpoint between persistent and conditional rivalry.",
+      low: "Your answers lean toward rivalry as conditional on the issue and relationship.",
     }),
   institutions: (s) =>
-    byBand("institutions", s, {
-      high: "You expect institutions to shift outcomes on their own, beyond what the strongest states already wanted.",
-      midRange: "Institutions carry weight in your answers without carrying the argument.",
-      low: "You are skeptical that institutions shape outcomes beyond what powerful states would do anyway.",
+    byRawPosition(s, {
+      high: "Your answers lean toward institutions changing incentives and outcomes.",
+      midRange: "Your answers sit at the midpoint between rules that bind and power-first institutions.",
+      low: "Your answers lean toward institutions reflecting what powerful states already want.",
     }),
   domesticFilters: (s) =>
-    byBand("domesticFilters", s, {
-      high: "You emphasize how regime type, coalitions, and bureaucratic capacity shape foreign policy.",
-      midRange: "Domestic politics enters your reasoning at the edges.",
-      low: "You expect external constraints to explain most foreign policy, with domestic politics adding noise.",
+    byRawPosition(s, {
+      high: "Your answers lean toward domestic institutions and coalitions shaping foreign policy.",
+      midRange: "Your answers sit at the midpoint between domestic and systemic explanations.",
+      low: "Your answers lean toward external constraints shaping foreign policy.",
     }),
   normsIdentity: (s) =>
-    byBand("normsIdentity", s, {
-      high: "You read the meaning of threats and alliances as depending partly on identities and shared expectations.",
-      midRange: "Legitimacy shows up in your answers as context for the decision.",
-      low: "You read norms and legitimacy as mostly rhetorical cover for material interests.",
+    byRawPosition(s, {
+      high: "Your answers lean toward identity and shared expectations shaping threats and alliances.",
+      midRange: "Your answers sit at the midpoint between legitimacy and material-interest explanations.",
+      low: "Your answers lean toward material interests explaining appeals to norms and legitimacy.",
     }),
   politicalEconomy: (s) =>
-    byBand("politicalEconomy", s, {
-      high: "You read world politics through capitalism, finance, and economic dependence.",
-      midRange: "Economic structure sits behind your answers without driving them.",
-      low: "You expect security and diplomacy to be largely explicable without foregrounding economic hierarchy.",
+    byRawPosition(s, {
+      high: "Your answers lean toward production, finance, and economic dependence as explanatory forces.",
+      midRange: "Your answers sit at the midpoint between political-economy and security-first explanations.",
+      low: "Your answers lean toward security and diplomacy as the primary explanation.",
     }),
   restraint: (s) =>
-    byBand("restraint", s, {
-      high: "You treat avoiding overextension and resisting permanent primacy as the safest grand strategy.",
-      midRange: "Your answers stop short of a standing rule about when to hold back.",
-      low: "You expect major powers to press for durable advantage when windows of opportunity open.",
+    byRawPosition(s, {
+      high: "Your answers lean toward avoiding overextension and setting strategic limits.",
+      midRange: "Your answers sit at the midpoint between restraint and pressing advantage.",
+      low: "Your answers lean toward pressing for durable advantage when opportunities open.",
     }),
   orderJustice: (s) =>
-    byBand("orderJustice", s, {
-      high: "You treat preserving international order, even imperfect order, as usually more valuable than enforcing universal justice.",
-      midRange: "Order and justice trade off case by case in your answers.",
-      low: "You accept that justice can override sovereignty when the moral stakes are high enough.",
+    byRawPosition(s, {
+      high: "Your answers lean toward preserving order and sovereignty under pressure.",
+      midRange: "Your answers sit at the midpoint between order and justice.",
+      low: "Your answers lean toward justice overriding sovereignty in some high-stakes cases.",
     }),
 }
 
@@ -425,7 +424,7 @@ export const tensionRules: TensionRule[] = [
   {
     key: "institutions-security",
     condition: (d) => d.institutions >= 5 && d.securityCompetition >= 5,
-    text: "When the issue turns strategic, rivalry reasserts itself. You believe institutions matter, but so does positional advantage. Which one wins depends on the issue — a coherent position, but one that is harder to apply in advance.",
+    text: "When the issue turns strategic, rivalry reasserts itself. You believe institutions matter, but so does positional advantage. Which one wins depends on the issue. The position is coherent, but harder to apply in advance.",
   },
   {
     key: "restraint-competition",
@@ -532,7 +531,7 @@ export const neighborOverlapTexts: Partial<Record<FamilyKey, Partial<Record<Fami
       institutionalist:
         "Both traditions see more than raw power at work. Where institutionalists emphasize repeated interaction and rules, you emphasize the identities and expectations that give those rules meaning.",
       criticalPoliticalEconomy:
-        "Both traditions look beyond the state as a billiard ball. Your overlap with critical PE reflects an interest in how ideas, identity, and material structures interact — a productive tension in critical IR scholarship.",
+        "Both traditions look beyond the state as a billiard ball. Your overlap with critical PE reflects an interest in how ideas, identity, and material structures interact, a productive tension in critical IR scholarship.",
     },
     criticalPoliticalEconomy: {
       realist:
@@ -540,7 +539,7 @@ export const neighborOverlapTexts: Partial<Record<FamilyKey, Partial<Record<Fami
       institutionalist:
         "You see political economy as primary. Your runner-up score reflects some belief that institutions, if genuinely reformed, could matter. The question your profile leaves open is whether that reform is realistic.",
       constructivist:
-        "Both traditions look beyond material power and security. Your overlap with constructivism reflects an interest in how ideas, legitimacy, and economic structures interact — a key area in critical IPE scholarship.",
+        "Both traditions look beyond material power and security. Your overlap with constructivism reflects an interest in how ideas, legitimacy, and economic structures interact, a key area in critical IPE scholarship.",
     },
   }
 
@@ -559,7 +558,7 @@ export const suggestedReadings: Record<
     {
       title: "Theory of International Politics",
       author: "Kenneth Waltz",
-      note: "The foundational text of structural realism — why the distribution of power shapes state behavior regardless of intentions.",
+      note: "The foundational text of structural realism, explaining why the distribution of power shapes state behavior regardless of intentions.",
     },
     {
       title: "The Peloponnesian War",
@@ -581,14 +580,14 @@ export const suggestedReadings: Record<
     {
       title: "The Great Transformation",
       author: "Karl Polanyi",
-      note: "A historical argument for how markets and governance co-evolve — relevant to why domestic filters and transnational actors matter.",
+      note: "A historical argument for how markets and governance co-evolve, relevant to why domestic filters and transnational actors matter.",
     },
   ],
   constructivist: [
     {
       title: "Anarchy Is What States Make of It",
       author: "Alexander Wendt",
-      note: "The article that put constructivism on the mainstream IR map — argues that anarchy's meaning depends on social interaction.",
+      note: "The article that put constructivism on the mainstream IR map. It argues that anarchy's meaning depends on social interaction.",
     },
     {
       title: "The Culture of National Security",
@@ -605,12 +604,12 @@ export const suggestedReadings: Record<
     {
       title: "States and Markets",
       author: "Susan Strange",
-      note: "The argument that financial structures create power independent of formal authority — still the sharpest introduction to structural power.",
+      note: "The argument that financial structures create power independent of formal authority. It remains the sharpest introduction to structural power.",
     },
     {
       title: "Global Political Economy",
       author: "Robert Gilpin",
-      note: "A readable overview of the three main approaches — realist, liberal, and Marxist — to international economic order.",
+      note: "A readable overview of the three main approaches to international economic order: realist, liberal, and Marxist.",
     },
     {
       title: "Development as Freedom",
@@ -646,7 +645,7 @@ export function getSubtraditionAffinity(
         return {
           name: "Defensive realism",
           note:
-            "Compared with the authored realist reference, your restraint score is notably high. Defensive realists argue that the structure of anarchy often rewards restraint — that overextension and offensive moves provoke balancing coalitions more than they produce durable security. This is consistent with your answers.",
+            "Compared with the authored realist reference, your restraint score is notably high. Defensive realists argue that the structure of anarchy often rewards restraint because overextension and offensive moves provoke balancing coalitions more than they produce durable security. This is consistent with your answers.",
         }
       if (d.restraint <= 3)
         return {
@@ -658,7 +657,7 @@ export function getSubtraditionAffinity(
         return {
           name: "Classical realism",
           note:
-            "A realist who also gives weight to domestic politics and statecraft leans toward the classical tradition — Morgenthau's emphasis on prudence, leadership, and the human drives behind power competition, rather than purely structural accounts.",
+            "A realist who also gives weight to domestic politics and statecraft leans toward the classical tradition, with Morgenthau's emphasis on prudence, leadership, and the human drives behind power competition rather than purely structural accounts.",
         }
       return {
         name: "Structural realism",
@@ -671,7 +670,7 @@ export function getSubtraditionAffinity(
         return {
           name: "Two-level game / democratic peace",
           note:
-            "You give high weight to both institutions and domestic politics — the combination that characterizes the democratic peace and two-level game strands of liberal institutionalism. Domestic constraints are not noise; they shape what governments can credibly commit to internationally.",
+            "You give high weight to both institutions and domestic politics, the combination that characterizes the democratic peace and two-level game strands of liberal institutionalism. Domestic constraints are not noise; they shape what governments can credibly commit to internationally.",
         }
       if (d.domesticFilters >= 5)
         return {
@@ -701,7 +700,7 @@ export function getSubtraditionAffinity(
       return {
         name: "Soft constructivism",
         note:
-          "You lean constructivist but with moderate scores — suggesting an openness to ideational explanations without fully committing to identity as the master variable. This is sometimes called 'soft' or 'thin' constructivism.",
+          "You lean constructivist but with moderate scores, suggesting an openness to ideational explanations without fully committing to identity as the master variable. This is sometimes called 'soft' or 'thin' constructivism.",
       }
 
     case "criticalPoliticalEconomy":
@@ -709,13 +708,13 @@ export function getSubtraditionAffinity(
         return {
           name: "Dependency theory / development focus",
           note:
-            "Your attention to domestic political economy alongside global structures is consistent with the dependency theory strand — which emphasizes how core-periphery dynamics are reproduced through domestic class coalitions and development policy, not just external imposition.",
+            "Your attention to domestic political economy alongside global structures is consistent with the dependency theory strand, which emphasizes how core-periphery dynamics are reproduced through domestic class coalitions and development policy, not just external imposition.",
         }
       if (d.institutions >= 4.5)
         return {
           name: "Structural power / IPE",
           note:
-            "You score higher on institutions than most critical PE adherents, suggesting an orientation closer to Strange's structural power framework — which takes international institutions seriously as sites of structural power rather than dismissing them entirely.",
+            "You score higher on institutions than most critical PE adherents, suggesting an orientation closer to Strange's structural power framework. This approach treats international institutions as sites of structural power rather than dismissing them entirely.",
         }
       return {
         name: "Marxist / world-systems",
@@ -742,7 +741,7 @@ export function getIssueAreaTilts(familyKey: FamilyKey, d: DimensionScores): Iss
       issue: "Trade and economic governance",
       tilt: "Institutionalist undertow",
       note:
-        "The realist closest-tradition fit is tempered by a notably high institutions score. On trade and economic governance — where enforcement is easier and stakes lower than in security — your answers may draw more on institutionalist logic than that closest fit alone suggests.",
+        "The realist closest-tradition fit is tempered by a notably high institutions score. On trade and economic governance, where enforcement is easier and stakes lower than in security, your answers may draw more on institutionalist logic than that closest fit alone suggests.",
     })
   }
 
@@ -844,8 +843,8 @@ const separationPhrases: Partial<
   realist: {
     institutionalist: (s) =>
       s >= 4
-        ? `Your institutions score (${s.toFixed(1)}) is relatively high for the authored realist reference — you are more open to institutional mechanisms than that reference. This is the main bridge between the closest modeled tradition and the runner-up.`
-        : `Your low institutions score (${s.toFixed(1)}) is the clearest gap between your answers and the institutionalist runner-up. Institutionalism rests on the premise that rules and monitoring can sustain cooperation — your answers are skeptical of that.`,
+        ? `Your institutions score (${s.toFixed(1)}) is relatively high for the authored realist reference. You are more open to institutional mechanisms than that reference. This is the main bridge between the closest modeled tradition and the runner-up.`
+        : `Your low institutions score (${s.toFixed(1)}) is the clearest gap between your answers and the institutionalist runner-up. Institutionalism rests on the premise that rules and monitoring can sustain cooperation. Your answers are skeptical of that.`,
     constructivist: (s) =>
       s >= 4
         ? `Compared with the authored realist reference, an identity and legitimacy score of ${s.toFixed(1)} gives more weight to legitimacy and identity. That is the bridge to your constructivist runner-up.`

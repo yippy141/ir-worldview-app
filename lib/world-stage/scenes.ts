@@ -302,10 +302,23 @@ export const currentCaseWorldStageMenuItem = {
   index: "01",
   label: "Current Case",
   sceneId: "foundation",
+  availability: "live",
   lens: "Assess a current case",
   description: "Work through one sourced international-affairs choice and test your assumptions.",
   href: "/current",
   action: "Open Current Case",
+} as const satisfies WorldStageMenuItem
+
+export const recentCasesWorldStageMenuItem = {
+  id: "current-case",
+  index: "02",
+  label: "Recent Cases",
+  sceneId: "foundation",
+  availability: "archive",
+  lens: "Review recent cases",
+  description: "Browse sourced international-affairs cases after their active review windows close.",
+  href: "/cases",
+  action: "Browse Recent Cases",
 } as const satisfies WorldStageMenuItem
 
 export const worldStageMenuItems = [
@@ -315,6 +328,7 @@ export const worldStageMenuItems = [
     index: "02",
     label: "Foundation",
     sceneId: "foundation",
+    availability: "available",
     lens: "Baseline judgments",
     description: "Build a baseline across seven recurring foreign-policy tradeoffs.",
     href: "/quiz",
@@ -325,8 +339,9 @@ export const worldStageMenuItems = [
     index: "03",
     label: "Focus Areas",
     sceneId: "focus-areas",
+    availability: "available",
     lens: "Issue-specific pressure",
-    description: "Test how security, technology, and geoeconomics change the argument.",
+    description: "Test how security and technology change the argument.",
     href: "/modules",
     action: "Open Focus Areas",
   },
@@ -335,6 +350,7 @@ export const worldStageMenuItems = [
     index: "04",
     label: "Perspective Runs",
     sceneId: "perspectives",
+    availability: "available",
     lens: "Judgment under context",
     description: "Revisit the same dimensions from a defined strategic situation.",
     href: "/perspectives",
@@ -345,6 +361,7 @@ export const worldStageMenuItems = [
     index: "05",
     label: "Worldview Map",
     sceneId: "worldview-map",
+    availability: "available",
     lens: "Patterns and public postures",
     description:
       "Compare your baseline with editorial Decision Patterns, Perspective Runs, and reviewed public postures.",
@@ -354,14 +371,41 @@ export const worldStageMenuItems = [
   {
     id: "ai-futures",
     index: "06",
-    label: "AI & Futures",
+    label: "AI Governance",
     sceneId: "futures",
+    availability: "available",
     lens: "Technology and order",
-    description: "Examine AI governance choices and the futures those choices could shape.",
+    description: "Examine how you reason about AI governance choices in a separate domain result.",
     href: "/ai",
     action: "Open AI Governance",
   },
 ] as const satisfies readonly WorldStageMenuItem[]
+
+export const worldStageMenuItemsWithoutActiveCurrentCase = [
+  { ...worldStageMenuItems[1], index: "01" },
+  recentCasesWorldStageMenuItem,
+  ...worldStageMenuItems.slice(2),
+] as const satisfies readonly WorldStageMenuItem[]
+
+export function getWorldStageMenuItems(hasActiveCurrentCase: boolean) {
+  return hasActiveCurrentCase
+    ? worldStageMenuItems
+    : worldStageMenuItemsWithoutActiveCurrentCase
+}
+
+export function groupWorldStageMenuItems(
+  menuItems: readonly WorldStageMenuItem[],
+) {
+  const startHere = menuItems.filter(
+    (item) => item.id === "foundation" || item.availability === "live",
+  )
+  const startHereIds = new Set(startHere.map((item) => item.id))
+
+  return {
+    startHere,
+    continueExploring: menuItems.filter((item) => !startHereIds.has(item.id)),
+  } as const
+}
 
 /** Kept as an alias for the V19 contract tests introduced before activation. */
 export const worldStageMenuItemsWithCurrentCase = worldStageMenuItems

@@ -17,7 +17,7 @@ type CurrentCaseSourcesPageProps = {
 }
 
 export const metadata: Metadata = {
-  title: "Current Case sources — IR Worldview Inventory",
+  title: "Current Case sources | IR Worldview Inventory",
 }
 
 export function generateStaticParams() {

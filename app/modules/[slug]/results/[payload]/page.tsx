@@ -18,12 +18,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : getModuleDefinition(slug)
 
   if (!moduleDefinition) {
-    return { title: "Module result — IR Worldview Inventory" }
+    return { title: "Focus Area result | IR Worldview Inventory" }
   }
 
   return {
-    title: `${moduleDefinition.title} result — IR Worldview Inventory`,
-    description: `Your ${moduleDefinition.title} module result.`,
+    title: `${moduleDefinition.title} result | IR Worldview Inventory`,
+    description: `Your ${moduleDefinition.title} Focus Area result.`,
   }
 }
 
@@ -39,8 +39,8 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
     return (
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
-          <p className="eyebrow">Invalid module result</p>
-          <h1>This module result could not be decoded.</h1>
+          <p className="eyebrow">Invalid Focus Area result</p>
+          <h1>This Focus Area result could not be decoded.</h1>
           <p className="muted" style={{ lineHeight: "1.65" }}>
             The link may be incomplete, corrupted, or from an older version of the module.
           </p>

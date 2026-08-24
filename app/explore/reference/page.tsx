@@ -6,7 +6,7 @@ import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Thinkers & public positions — IR Worldview Inventory",
+  title: "Thinkers & public positions | IR Worldview Inventory",
   description:
     "Evidence-coded public postures of thinkers, doctrines, and governance currents, placed in the same field as the Foundation.",
 }

@@ -27,6 +27,12 @@ function observedMeanProfile(): DimensionScores {
   ) as DimensionScores
 }
 
+function midpointProfile(): DimensionScores {
+  return Object.fromEntries(
+    DIMENSION_KEYS.map((dimension) => [dimension, 4]),
+  ) as DimensionScores
+}
+
 test("a score at the middle of the observed distribution never reads as conviction", () => {
   for (const dimension of DIMENSION_KEYS) {
     const { mean } = OBSERVED_DIMENSION_RANGES[dimension]
@@ -71,15 +77,15 @@ test("domestic politics and markets stop reading as conviction at a score of 5",
   }
 })
 
-test("every dimension has distinct copy for all three bands", () => {
+test("every dimension has distinct copy at the low pole, midpoint, and high pole", () => {
   for (const dimension of DIMENSION_KEYS) {
     const copy = [
-      dimensionOneLiners[dimension](dimensionLowCut(dimension) - 0.5),
-      dimensionOneLiners[dimension](OBSERVED_DIMENSION_RANGES[dimension].mean),
-      dimensionOneLiners[dimension](dimensionHighCut(dimension) + 0.5),
+      dimensionOneLiners[dimension](3),
+      dimensionOneLiners[dimension](4),
+      dimensionOneLiners[dimension](5),
     ]
 
-    assert.equal(new Set(copy).size, 3, `${dimension} reuses copy across bands.`)
+    assert.equal(new Set(copy).size, 3, `${dimension} reuses copy across raw positions.`)
     for (const line of copy) {
       assert.ok(line.length > 0)
       assert.ok(
@@ -90,25 +96,21 @@ test("every dimension has distinct copy for all three bands", () => {
   }
 })
 
-test("key drivers describe a flat profile without claiming a strong lean", () => {
-  const flatProfile = observedMeanProfile()
+test("key drivers describe the raw midpoint without claiming a directional lean", () => {
+  const flatProfile = midpointProfile()
 
   for (const driver of getKeyDrivers(flatProfile)) {
-    assert.equal(
-      dimensionBand(driver.dimension, flatProfile[driver.dimension]),
-      "midRange",
-      `${driver.dimension} should stay mid-range for an average profile.`,
-    )
+    assert.match(driver.label, /No directional pull/u)
     assert.ok(driver.label.length > 0)
     assert.ok(driver.description.length > 0)
   }
 })
 
-test("strong lenses stay empty at the observed means", () => {
-  assert.deepEqual(getStrongLenses(observedMeanProfile()), [])
+test("strong lenses stay empty at the raw midpoint", () => {
+  assert.deepEqual(getStrongLenses(midpointProfile()), [])
 })
 
-test("each strong lens becomes reachable at its calibrated dimension band", () => {
+test("each strong lens becomes reachable at its declared raw-scale threshold", () => {
   const cases = [
     ["politicalEconomy", "political-economy-salience", "high"],
     ["domesticFilters", "domestic-politics", "high"],
@@ -118,11 +120,11 @@ test("each strong lens becomes reachable at its calibrated dimension band", () =
   ] as const
 
   for (const [dimension, expectedKey, direction] of cases) {
-    const scores = observedMeanProfile()
+    const scores = midpointProfile()
     scores[dimension] =
       direction === "high"
-        ? dimensionHighCut(dimension)
-        : dimensionLowCut(dimension)
+        ? 5
+        : 3
 
     assert.deepEqual(
       getStrongLenses(scores).map((lens) => lens.key),
@@ -132,13 +134,11 @@ test("each strong lens becomes reachable at its calibrated dimension band", () =
   }
 })
 
-test("an average profile puts every push bar on the spine", () => {
-  // The diverging chart must not imply a dimension pushed the result when the
-  // score sits exactly at the centre of what the instrument produces.
-  for (const row of getDimensionPush(observedMeanProfile())) {
+test("the raw 1-7 midpoint puts every position bar on the spine", () => {
+  for (const row of getDimensionPush(midpointProfile())) {
     assert.ok(
       Math.abs(row.deviation) < 0.01,
-      `${row.dimension} should sit on the spine at its observed mean.`,
+      `${row.dimension} should sit on the spine at the raw midpoint.`,
     )
   }
 })

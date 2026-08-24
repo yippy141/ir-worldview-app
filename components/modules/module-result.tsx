@@ -6,17 +6,19 @@ import {
   ACTIVE_MODULE_COMPARISON_STATUS,
   type ModuleAnswers,
   type ModuleDefinition,
-  type ModuleOption,
-  type ModuleQuestion,
   type ModuleSlug,
 } from "@/lib/modules/types"
+import {
+  buildModuleDecisiveCalls,
+  formatModuleCardType,
+} from "@/lib/modules/result-copy"
 import type { ModuleVersion } from "@/lib/modules/versions"
 import {
   ACTOR_LENS_INSTRUCTION,
   ACTOR_LENS_RESULT_SUMMARY,
   hasPerspectiveBankCapability,
 } from "@/lib/modules/perspective-bank"
-import type { ChoiceCardType, QuizMode } from "@/lib/types"
+import type { QuizMode } from "@/lib/types"
 
 export function ModuleResultView({
   moduleDefinition,
@@ -72,7 +74,7 @@ export function ModuleResultView({
   ) as Record<string, string>
   const hasActorLens = Boolean(result.cardTypeScores.actorLens)
   const resultPath = `/modules/${slug}/results/${payload}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`
-  const decisiveCalls = buildDecisiveCalls({
+  const decisiveCalls = buildModuleDecisiveCalls({
     moduleDefinition,
     selected: resultEvidenceSelections,
     laneLabelMap,
@@ -106,7 +108,7 @@ export function ModuleResultView({
               question:
                 usesPerspectiveBankPresentation &&
                 question.cardType === "actorLens"
-                  ? `${question.title} — Perspective modeling (unscored)`
+                  ? `${question.title} (Perspective modeling, unscored)`
                   : question.title,
               primary: primary?.title ?? "No selection",
               ...(secondary?.title ? { secondary: secondary.title } : {}),
@@ -224,27 +226,11 @@ export function ModuleResultView({
 
         {/* ── 4. Relation to the Foundation ── */}
         <section className="result-section result-figure">
-          <h2>Foundation status</h2>
-          <div className="driver-grid">
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">Status</p>
-              <p className="driver-card__value">{comparisonStatus.kind}</p>
-            </div>
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">Numeric bridge</p>
-              <p className="driver-card__value">
-                {comparisonStatus.numericBridge === "none" ? "None" : comparisonStatus.numericBridge}
-              </p>
-            </div>
-            <div className="driver-card stack-xs">
-              <p className="eyebrow">Master score</p>
-              <p className="driver-card__value">
-                {comparisonStatus.masterScore === "none" ? "None" : comparisonStatus.masterScore}
-              </p>
-            </div>
-          </div>
-          <p className="result-figure__note">
-            Issue results sit beside the Foundation and do not rescore it.
+          <h2>How this relates to the Foundation</h2>
+          <p className="result-prose module-prose">
+            {comparisonStatus.kind === "separate-domain-read"
+              ? `Read this as a ${moduleDefinition.shortTitle.toLowerCase()}-specific result. It can sit beside your Foundation in the Profile, but it never changes the Foundation’s seven dimensions or family summary.`
+              : "This result is reported independently from the Foundation."}
           </p>
         </section>
 
@@ -278,10 +264,10 @@ export function ModuleResultView({
               href={foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules"}
               className="cta-primary"
             >
-              Try another focus-area module
+              Try another Focus Area
             </Link>
             <Link href={`/modules/${slug}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`} className="cta-secondary">
-              Retake this module
+              Retake this Focus Area
             </Link>
             {foundationPayload ? (
               <Link href={`/results/${foundationPayload}`} className="cta-secondary">
@@ -353,7 +339,7 @@ export function ModuleResultView({
                       <div className="stack-xs">
                         <p className="eyebrow">{question.title}</p>
                         <p className="muted module-evidence-meta">
-                          {laneLabelMap[question.lane] ?? question.lane} · {formatCardType(question.cardType)}
+                          {laneLabelMap[question.lane] ?? question.lane} · {formatModuleCardType(question.cardType)}
                         </p>
                         <p className="module-lane-copy">{question.prompt}</p>
                       </div>
@@ -428,120 +414,4 @@ export function ModuleResultView({
       </article>
     </div>
   )
-}
-
-type SelectedModuleCall = {
-  question: ModuleQuestion
-  primary: ModuleOption | null
-  secondary: ModuleOption | null
-}
-
-type DecisiveCall = {
-  id: string
-  caseTitle: string
-  laneLabel: string
-  cardType: string
-  framing: string
-  implication: string
-}
-
-function buildDecisiveCalls({
-  moduleDefinition,
-  selected,
-  laneLabelMap,
-}: {
-  moduleDefinition: ModuleDefinition
-  selected: SelectedModuleCall[]
-  laneLabelMap: Record<string, string>
-}): DecisiveCall[] {
-  const axisMap = Object.fromEntries(
-    moduleDefinition.axes.map((axis) => [axis.key, axis]),
-  ) as Record<string, ModuleDefinition["axes"][number]>
-
-  return selected
-    .flatMap((selection) => {
-      if (!selection.primary) return []
-
-      const signalStrength = Object.entries(selection.primary.signals)
-        .map(([axisKey, value]) => ({
-          axisKey,
-          value,
-          strength: Math.abs(value - 4),
-        }))
-        .sort((left, right) => right.strength - left.strength)
-
-      const strongest = signalStrength.find((signal) => axisMap[signal.axisKey])
-      if (!strongest) return []
-
-      return [
-        {
-          selection,
-          primary: selection.primary,
-          strongest,
-          rank:
-            strongest.strength +
-            (signalStrength[1]?.strength ?? 0) * 0.35 +
-            (selection.question.cardType === "actorLens" ? 0.15 : 0),
-        },
-      ]
-    })
-    .sort((left, right) => right.rank - left.rank)
-    .slice(0, 6)
-    .map(({ selection, primary, strongest }) => {
-      const axis = axisMap[strongest.axisKey]
-      const leansHigh = strongest.value >= 4
-      const direction = leansHigh ? axis.highLabel : axis.lowLabel
-      const contrast = leansHigh ? axis.lowLabel : axis.highLabel
-
-      return {
-        id: selection.question.id,
-        caseTitle: selection.question.title,
-        laneLabel: laneLabelMap[selection.question.lane] ?? selection.question.lane,
-        cardType: formatCardType(selection.question.cardType),
-        framing: primary.title,
-        implication: buildDecisiveImplication({
-          cardType: selection.question.cardType,
-          axisLabel: axis.label,
-          direction,
-          contrast,
-        }),
-      }
-    })
-}
-
-function buildDecisiveImplication({
-  cardType,
-  axisLabel,
-  direction,
-  contrast,
-}: {
-  cardType: ChoiceCardType
-  axisLabel: string
-  direction: string
-  contrast: string
-}) {
-  const axis = axisLabel.toLowerCase()
-  const toward = direction.toLowerCase()
-  const away = contrast.toLowerCase()
-
-  if (cardType === "actorLens") {
-    return `From that actor's position, this makes ${axis} the pressure point: closer to ${toward} than ${away}.`
-  }
-
-  if (cardType === "decision") {
-    return `As a decision, this puts the response mainly on ${axis}: closer to ${toward} than ${away}.`
-  }
-
-  if (cardType === "explanation") {
-    return `As an explanation, this reads the case mainly through ${axis}: closer to ${toward} than ${away}.`
-  }
-
-  return `This choice makes ${axis} the clearest pressure point: closer to ${toward} than ${away}.`
-}
-
-function formatCardType(cardType: ChoiceCardType) {
-  if (cardType === "explanation") return "Explanation"
-  if (cardType === "decision") return "Decision"
-  if (cardType === "actorLens") return "Actor lens"
-  return "Both"
 }

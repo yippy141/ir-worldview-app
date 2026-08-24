@@ -1,6 +1,5 @@
 "use client"
 
-import "mapbox-gl/dist/mapbox-gl.css"
 import { createPortal } from "react-dom"
 import {
   useCallback,
@@ -44,7 +43,7 @@ import {
 } from "./world-stage-fallback-map"
 import styles from "./world-stage.module.css"
 
-type MapboxModule = typeof import("mapbox-gl")
+type MapboxModule = typeof import("./mapbox-runtime")
 type MapboxMap = import("mapbox-gl").Map
 type AutomaticTransition = "scene" | "spin" | "zoom" | null
 
@@ -64,6 +63,7 @@ type WorldStageMapProps = {
     improveMap: string
     tooltipSources: string
     tooltipClose: string
+    mapDetailsAndSources: string
   }
 }
 
@@ -794,7 +794,7 @@ export function WorldStageMap({
       if (activeSceneRef.current) setSceneData(activeSceneRef.current)
     }
 
-    void import("mapbox-gl")
+    void import("./mapbox-runtime")
       .then((module: MapboxModule) => {
         if (cancelled || !mapContainerRef.current || !activeSceneRef.current) return
 
@@ -951,7 +951,8 @@ export function WorldStageMap({
         : null}
 
       <section className={styles.visuallyHidden}>
-        <h2>{scene.publicLabel}</h2>
+        <h2>{copy?.mapDetailsAndSources ?? "Map details and sources"}</h2>
+        <h3>{scene.publicLabel}</h3>
         <p id={`world-stage-map-caption-${scene.id}`}>
           {copy
             ? `${scene.caption} ${copy.lensOwner}：${scene.lensOwner}。${copy.asOf} ${scene.asOf}。`

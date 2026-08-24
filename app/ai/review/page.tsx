@@ -2,7 +2,7 @@ import { AiGovernanceReviewScreen } from "@/components/quiz/ai-governance-review
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Review — AI Governance Compass",
+  title: "Review | AI Governance Compass",
   description: "Review your answers before generating your AI governance profile.",
 }
 

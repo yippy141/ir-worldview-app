@@ -314,7 +314,7 @@ export function buildProfileTriad(profile: ProfileStore): ProfileTriad {
     tension =
       "The closest traditions still sit close together. The label is an initial reference point with loose boundaries."
   } else if (assessment.state === "domainConditionedShift" && signals.strongestShift) {
-    tension = `One domain — ${signals.strongestShift.moduleLabel.toLowerCase()} — changes which costs you weight first while the baseline stays recognizable.`
+    tension = `The ${signals.strongestShift.moduleLabel.toLowerCase()} domain changes which costs you weight first while the baseline stays recognizable.`
   }
 
   return { steady, shifted, tension }

@@ -7,11 +7,11 @@
     "more": "更多",
     "menu": "菜单",
     "productPath": "使用路径",
-    "productIntro": "先用“当前案例”判断具体问题，再建立基础画像；如有需要，可继续查看专题、AI 治理或情境推演。",
+    "productIntro": "浏览案例，建立基础画像；如有需要，可继续查看专题、AI 治理或情境推演。",
     "browseContext": "浏览与说明",
     "browseIntro": "世界观地图、观点资料和方法页面用于比较不同立场，并检查本工具的边界。",
     "nav": {
-      "currentCase": "当前案例",
+      "currentCase": "案例",
       "foundation": "基础问卷",
       "focusAreas": "议题专题",
       "ai": "AI 治理",

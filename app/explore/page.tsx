@@ -28,7 +28,7 @@ import { familySlug } from "@/lib/worldview-config"
 import styles from "./explore.module.css"
 
 export const metadata: Metadata = {
-  title: "Explore — IR Worldview Inventory",
+  title: "Explore | IR Worldview Inventory",
   description:
     "How Foundation archetypes, modifiers, traditions, Decision Patterns, public positions, and separate contextual records fit together.",
 }
