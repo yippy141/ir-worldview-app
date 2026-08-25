@@ -299,13 +299,13 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   ).toBeVisible()
   await expect(
     page.getByText(
-      "Issue results sit beside the Foundation and do not rescore it.",
+      "The Foundation is your core record. Completed Focus Areas and AI results appear beside it as issue-specific records; none changes the Foundation result.",
       { exact: true },
     ),
   ).toBeVisible()
-  await expect(page.getByText("separate-domain-read", { exact: true })).toBeVisible()
-  await expect(page.getByText("No numeric bridge", { exact: true })).toBeVisible()
-  await expect(page.getByText("No master score", { exact: true })).toBeVisible()
+  await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
+  await expect(page.getByText("No numeric bridge", { exact: true })).toHaveCount(0)
+  await expect(page.getByText("No master score", { exact: true })).toHaveCount(0)
   await expect(page.getByText(/^Worldview profile:/)).toHaveCount(0)
   await expect(page.getByText("No Foundation baseline is saved", { exact: false })).toHaveCount(0)
 })
@@ -335,11 +335,11 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
     await expect(
       page.getByText(
-        "Issue results sit beside the Foundation and do not rescore it.",
+        "The Foundation is your core record. Completed Focus Areas and AI results appear beside it as issue-specific records; none changes the Foundation result.",
         { exact: true },
       ),
     ).toBeVisible()
-    await expect(page.getByText("separate-domain-read", { exact: true })).toBeVisible()
+    await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Biggest shift", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Relative pull", { exact: false })).toHaveCount(0)
     await expect(
