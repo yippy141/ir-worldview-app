@@ -197,7 +197,7 @@ test("Current Case shares a case-only invitation without an answer-bearing API",
   await expect(page.getByText("Case invitation copied.")).toBeVisible()
   expect(challengeApiCalls).toBe(0)
 
-  await page.getByRole("checkbox", { name: /Include my final choice/ }).check()
+  await page.getByRole("checkbox", { name: /Add my final choice/ }).check()
   await expect(page.getByRole("button", { name: "Share my reading" })).toBeVisible()
   expect(challengeApiCalls).toBe(0)
 })
