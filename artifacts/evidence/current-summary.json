@@ -75440,7 +75440,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/security-v4.test.mts",
-      "sha256": "5cf978e6b89f81e78fe7308676465021eb65f29e997c25b0abd6876424cd1f49"
+      "sha256": "4a7bfe02b9831a6153c89c0840dabe2a06c10724a3737b2d0e62544ff25ce50a"
     },
     {
       "category": "compatibility-test",

@@ -547,7 +547,7 @@ test("Security v4 copy separates perspective from endorsement and stays domain-s
   )
   assert.match(
     MODULE_RESULT_SOURCE,
-    /Issue results sit beside the Foundation and do not rescore it\./u,
+    /it never changes the Foundation’s seven dimensions or family summary\./u,
   )
   assert.match(ACTOR_LENS_INSTRUCTION, /does not imply endorsement/u)
   assert.match(ACTOR_LENS_RESULT_SUMMARY, /No cross-actor average/u)

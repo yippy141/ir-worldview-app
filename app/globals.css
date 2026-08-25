@@ -6270,10 +6270,10 @@ html:lang(zh-Hans) .quiz-shell-label {
 
 @media (max-width: 720px) {
   .quiz-shell-header .wide-container {
-    width: min(100%, 350px);
+    width: calc(100% - 40px);
     max-width: 350px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .quiz-shell-title {
@@ -6288,10 +6288,10 @@ html:lang(zh-Hans) .quiz-shell-label {
   .wide-container:has(.ai-atlas-detail-hero-grid),
   .wide-container:has(.ai-fg-layout),
   .wide-container:has(.ai-result-hero) {
-    width: min(100%, 350px);
+    width: calc(100% - 40px);
     max-width: 350px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .module-linkage-strip,

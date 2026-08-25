@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { ModuleApp } from "@/components/modules/module-app"
 import { getModuleDefinition } from "@/lib/modules/framework"
+import { resolveFoundationPayload } from "@/lib/share"
 import type { Metadata } from "next"
 
 interface Props {
@@ -13,11 +14,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const moduleDefinition = getModuleDefinition(slug)
 
   if (!moduleDefinition) {
-    return { title: "Module — IR Worldview Inventory" }
+    return { title: "Module | IR Worldview Inventory" }
   }
 
   return {
-    title: `${moduleDefinition.title} — IR Worldview Inventory`,
+    title: `${moduleDefinition.title} | IR Worldview Inventory`,
     description: moduleDefinition.description,
   }
 }
@@ -29,9 +30,13 @@ export default async function ModulePage({ params, searchParams }: Props) {
 
   if (!moduleDefinition) notFound()
 
+  const verifiedFoundation = foundation && resolveFoundationPayload(foundation)
+    ? foundation
+    : undefined
+
   return (
     <div className="wide-container">
-      <ModuleApp slug={moduleDefinition.slug} foundationPayload={foundation} />
+      <ModuleApp slug={moduleDefinition.slug} foundationPayload={verifiedFoundation} />
     </div>
   )
 }

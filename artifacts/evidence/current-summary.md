@@ -74,7 +74,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | compatibility-test | tests/instrument-version-compatibility.test.mts | a43809045e6cc188cc43f76417b87f96c9ef9c89b071053412dcc91dbc89603c |
 | compatibility-test | tests/option-order.test.mts | 456a3abb313f146c7b2e76e6ce88ba495263cbaf33eeca28e899b0c104d399db |
 | compatibility-test | tests/public-copy-audit.test.mts | 0d74af4f2ba5b8a5023dde61d2a87cbddbc9e6014e5e9423853c192e8b840cf2 |
-| compatibility-test | tests/security-v4.test.mts | 5cf978e6b89f81e78fe7308676465021eb65f29e997c25b0abd6876424cd1f49 |
+| compatibility-test | tests/security-v4.test.mts | 4a7bfe02b9831a6153c89c0840dabe2a06c10724a3737b2d0e62544ff25ce50a |
 | compatibility-test | tests/v21-module-copy.test.mts | 378c1fffaa13b567f8ede3aab8044cc15e4e7f9e25cdc78a1523b8cbfdf746a4 |
 
 ## Current bank coverage
