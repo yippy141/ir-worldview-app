@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
 import { AI_GOVERNANCE_STORAGE_KEY, getAiCoreQuestions, getScenarioOptions } from "@/lib/ai-governance-schema"
 import { generateAiGovernanceResult, getAiScenarioSequence, getNeighboringArchetypeKey } from "@/lib/ai-governance-scoring"
 import { encodeAiPayload, aiAxisScoresToArray } from "@/lib/ai-governance-share"
@@ -210,9 +211,13 @@ export function AiGovernanceReviewScreen() {
           <button type="button" className="secondary-button" onClick={handleBackToQuiz}>
             Back to inventory
           </button>
-          <button type="button" className="secondary-button" onClick={handleReset}>
-            Start over
-          </button>
+          <DestructiveActionConfirmation
+            hasData={answeredCount > 0}
+            triggerLabel="Start over"
+            prompt="Starting over will clear every AI Governance answer on this review page. Continue?"
+            confirmLabel="Clear answers"
+            onConfirm={handleReset}
+          />
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
           The profile is computed when you click &ldquo;Generate.&rdquo; No data leaves your browser.

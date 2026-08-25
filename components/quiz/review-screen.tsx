@@ -7,6 +7,7 @@ import {
   zhHansFoundationReviewUi,
   type FoundationReviewUiCopy,
 } from "@/content/locales/zh-Hans/foundation-ui"
+import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
 import { publicPath } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
@@ -59,6 +60,11 @@ const englishFoundationReviewUi = {
   generate: "Generate my result →",
   back: "Back to foundation",
   startOver: "Start over",
+  resetConfirmation: {
+    prompt: "Starting over will clear every Foundation answer on this review page. Continue?",
+    confirm: "Clear answers",
+    cancel: "Keep answers",
+  },
   localProcessing:
     "Your result is computed in this browser. When coarse measurement is on and the aggregate service is enabled, first-party counters receive reached steps and, at result generation, derived scores and labels plus item IDs with coarse response-time buckets. They contain no answers, raw timestamps, response ordering, or identifier.",
   setLabels: {
@@ -76,7 +82,7 @@ const englishFoundationReviewUi = {
     6: "Agree",
     7: "Strongly agree",
   },
-  mostPersuasive: (title, label) => `Most persuasive: ${title} — ${label}`,
+  mostPersuasive: (title, label) => `Most persuasive: ${title}: ${label}`,
   rankedPersuasive: (primary, secondary) =>
     `Most persuasive: ${primary} · Second-most persuasive: ${secondary}`,
   questionKinds: {
@@ -279,9 +285,14 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
           <button type="button" className="secondary-button" onClick={handleBackToQuiz}>
             {copy.back}
           </button>
-          <button type="button" className="secondary-button" onClick={handleReset}>
-            {copy.startOver}
-          </button>
+          <DestructiveActionConfirmation
+            hasData={answeredCount > 0}
+            triggerLabel={copy.startOver}
+            prompt={copy.resetConfirmation.prompt}
+            confirmLabel={copy.resetConfirmation.confirm}
+            cancelLabel={copy.resetConfirmation.cancel}
+            onConfirm={handleReset}
+          />
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
           {copy.localProcessing}

@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
+import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
 import { situationLabel } from "@/lib/perspectives/situations"
 import { getPerspectiveDefinition, isPerspectiveId } from "@/lib/perspectives/catalog"
 import {
@@ -459,9 +460,13 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
               >
                 {generating ? "Generating…" : "See where this run lands →"}
               </button>
-              <button type="button" className="secondary-button" onClick={startOver}>
-                Start over
-              </button>
+              <DestructiveActionConfirmation
+                hasData={answeredCount > 0}
+                triggerLabel="Start over"
+                prompt="Starting over will clear every recommendation in this Perspective Run. Continue?"
+                confirmLabel="Clear run"
+                onConfirm={startOver}
+              />
             </div>
             {generationError ? (
               <p className="muted perspective-run__note" role="alert">
