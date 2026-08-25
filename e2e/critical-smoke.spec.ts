@@ -1,5 +1,8 @@
 import { expect, test, type Page } from "@playwright/test"
-import { getPublishedCurrentCases } from "../lib/current-cases/catalog"
+import {
+  getActivePublishedLaunchCurrentCase,
+  getPublishedCurrentCases,
+} from "../lib/current-cases/catalog"
 import {
   formatArchetypeCodeSpeech,
   formatArchetypeDisplayCode,
@@ -80,13 +83,20 @@ async function completeLoadedCurrentCase(
   ).toBeVisible()
 }
 
-test("public entry points expose Current Case and resolve the published case", async ({ page }) => {
+test("public entry points match reviewed Current Case availability", async ({ page }) => {
   const record = getPublishedCurrentCases()[0] ?? null
+  const activeCase = getActivePublishedLaunchCurrentCase()
   expect(record).not.toBeNull()
   if (!record) return
 
   await page.goto("/")
-  await expect(page.getByRole("link", { name: /^Current Case\b/ })).toBeVisible()
+  if (activeCase) {
+    await expect(page.getByRole("link", { name: /^Current Case\b/ })).toBeVisible()
+  } else {
+    await expect(page.getByRole("link", { name: /^Foundation\b/ }).first()).toBeVisible()
+    await expect(page.getByRole("link", { name: /^Recent Cases\b/ })).toBeVisible()
+    await expect(page.getByRole("link", { name: /^Current Case\b/ })).toHaveCount(0)
+  }
   await expect(page.getByText("Atlas", { exact: true })).toHaveCount(0)
 
   const svgFallback = page.locator('svg:has(path[data-iso3])')
@@ -95,11 +105,15 @@ test("public entry points expose Current Case and resolve the published case", a
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
 
   await page.goto("/current")
-  await expect(page).toHaveURL(/\/cases$/)
-  await expect(page.getByRole("heading", { name: "Recent cases" })).toBeVisible()
-  await expect(page.locator("li").getByText("Current case", { exact: true })).toHaveCount(0)
-  await expect(page.locator("li").first()).toContainText("Review due")
-  await expect(page.locator("li").last()).toContainText("Background")
+  if (activeCase) {
+    await expect(page).toHaveURL(new RegExp(`/cases/${activeCase.slug}$`))
+  } else {
+    await expect(page).toHaveURL(/\/cases$/)
+    await expect(page.getByRole("heading", { name: "Recent cases" })).toBeVisible()
+    await expect(page.locator("li").getByText("Current case", { exact: true })).toHaveCount(0)
+    await expect(page.locator("li").first()).toContainText("Review due")
+    await expect(page.locator("li").last()).toContainText("Background")
+  }
 
   await page.goto(`/cases/${record.slug}`)
   await expect(page.getByRole("heading", { name: "Read the case briefing" })).toBeVisible()
@@ -285,13 +299,13 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   ).toBeVisible()
   await expect(
     page.getByText(
-      "Issue results sit beside the Foundation and do not rescore it.",
+      "The Foundation is your core record. Completed Focus Areas and AI results appear beside it as issue-specific records; none changes the Foundation result.",
       { exact: true },
     ),
   ).toBeVisible()
-  await expect(page.getByText("separate-domain-read", { exact: true })).toBeVisible()
-  await expect(page.getByText("No numeric bridge", { exact: true })).toBeVisible()
-  await expect(page.getByText("No master score", { exact: true })).toBeVisible()
+  await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
+  await expect(page.getByText("No numeric bridge", { exact: true })).toHaveCount(0)
+  await expect(page.getByText("No master score", { exact: true })).toHaveCount(0)
   await expect(page.getByText(/^Worldview profile:/)).toHaveCount(0)
   await expect(page.getByText("No Foundation baseline is saved", { exact: false })).toHaveCount(0)
 })
@@ -321,11 +335,11 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
     await expect(
       page.getByText(
-        "Issue results sit beside the Foundation and do not rescore it.",
+        "The Foundation is your core record. Completed Focus Areas and AI results appear beside it as issue-specific records; none changes the Foundation result.",
         { exact: true },
       ),
     ).toBeVisible()
-    await expect(page.getByText("separate-domain-read", { exact: true })).toBeVisible()
+    await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Biggest shift", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Relative pull", { exact: false })).toHaveCount(0)
     await expect(
