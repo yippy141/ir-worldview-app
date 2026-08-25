@@ -10,6 +10,228 @@
 for the decision to defer one consolidated convenience-sample round and the
 limits on claims before that round.
 
+## V23.5 amendment and precedence
+
+**Added:** 24 August 2026
+**Applies to:** V23.5 smoke walkthroughs, moderated Wave 1, and revision Wave 2
+
+This amendment keeps the existing consent, sampling, neutral probing, issue
+taxonomy, severity, revision, privacy, storage, and reporting system. It adds
+the present product, AI v3, Current Case, mobile endurance, reset expectations,
+option valence, knowledge load, and paired-reflection questions required for
+V23.5.
+
+For V23.5 sessions, this amendment supersedes only the older required path,
+timing table, Simplified Chinese count, and field-checklist items that require
+every participant to complete Standard Security. The older item probes and
+Security anchors remain approved tools. Use them when a participant receives
+the Security assignment.
+
+### V23.5 build and evidence boundary
+
+Before recruiting, record:
+
+- exact preview Git SHA and deployment ID;
+- V23.5 roadmap and protocol revision;
+- Foundation, AI, Security, and Technology tuples used;
+- fixed Current Case date and whether the tested state is active or inactive;
+- device, viewport, locale, and motion setting;
+- routes or items assigned to each session track; and
+- owner approval that no critical automated or visual issue is open.
+
+Do not field against a mutable live Current Case clock. Do not compare notes
+across materially different builds or wording revisions.
+
+### V23.5 study sequence
+
+| Stage | Participants | Required product coverage | Decision rule |
+| --- | ---: | --- | --- |
+| Smoke walkthroughs | 3–5 | Homepage first path, Foundation, result, Profile, Current Case expectation, destructive controls, mobile navigation | Fix a blocker before Wave 1 |
+| Wave 1 | 6–8 new participants | Foundation, AI v3, assigned Security and Technology probes, result hierarchy, separate-domain explanation, Current Case, mobile endurance | Revise when a trigger is met |
+| Wave 2 | 6–8 new participants | Consequentially changed items and flows, plus unchanged controls needed to detect regression | Close, revise again, or defer with owner rationale |
+
+Include at least one Simplified Chinese session in Wave 1. Aim for at least one
+in Wave 2 when a consequential Chinese-supported surface changed. This is
+interface and comprehension pretesting only. Do not claim translation,
+measurement, or cross-locale equivalence.
+
+### V23.5 session tracks
+
+Keep sessions to 90 minutes where feasible and never exceed 120 minutes. Offer
+a break before the second questionnaire. Assign coverage across the wave
+rather than forcing every participant through every product surface.
+
+Every Wave 1 participant completes:
+
+1. homepage first-path observation;
+2. the 14-item Foundation core and Foundation result;
+3. AI Governance v3 Standard and its result;
+4. Profile with Foundation and AI shown as separate records;
+5. one active or inactive Current Case expectation task;
+6. one reset-expectation task without destroying completed work; and
+7. one mobile or narrow-viewport leg.
+
+Assign each participant one Focus Area probe set:
+
+- **Security set:** `gray_zone_sabotage`, `middle_power_alignment`, and one
+  item changed or questioned by the current audit; or
+- **Technology set:** three owner-selected items covering one knowledge-load
+  risk, one option-valence risk, and one actor or jurisdiction framing risk.
+
+At least three participants per wave receive each set. A Focus Area result may
+be tested only after the participant completes its real Standard questionnaire.
+Do not manufacture a result from selected probe items. If session time cannot
+support a full Focus Area, test the item response process and omit result claims.
+
+Wave 2 assignments follow the triggered issue ledger. Keep enough unchanged
+Foundation, AI, and hierarchy material to detect regression. Do not make every
+Wave 2 participant repeat every unchanged item.
+
+### Present-product probes
+
+Ask before explaining intended navigation:
+
+1. “What do you think this product lets you do?”
+2. “Where would you start, and why?”
+3. “Which choices look like equal starting points?”
+4. “What do you expect Current Case or Recent Cases to contain today?”
+5. “What do you expect Foundation, Focus Areas, and AI Governance to do
+   differently?”
+6. “Which label feels like an internal product term rather than reader
+   language?”
+7. “What would you expect to remain if you leave and return?”
+
+For a reset control, do not activate it after completed work. Ask:
+
+1. “What do you expect this control to remove?”
+2. “Would you expect a warning now? What if no answer existed?”
+3. “If you switch Standard and Advanced, what should happen to each draft?”
+
+Then use a disposable or partial test draft to observe cancel and confirm.
+
+For Current Case, use the assigned frozen state:
+
+- Active: “What makes this current rather than recent?”
+- Inactive: “What do you expect after choosing Recent Cases?”
+- Both: “Does any label promise an assessment that the destination cannot
+  provide?”
+
+### Mobile-endurance protocol
+
+Run at least one full questionnaire leg at 390 CSS pixels in every session.
+Run at least two sessions per wave at 320 CSS pixels for control overlap and
+reflow. Let participants use their own zoom or text-size preference.
+
+Record:
+
+- when they first mention fatigue or losing position;
+- whether progress feels credible;
+- whether they expect selection to advance;
+- whether Back, Next, review, reset, locale, motion, and exit remain findable;
+- whether sticky chrome conceals content;
+- accidental taps or targets described as too small;
+- reload and resume expectations; and
+- whether one-question pagination helps orientation or creates unnecessary
+  friction.
+
+Do not treat completion time alone as an endurance finding. Separate reading,
+thinking, interface recovery, and device-friction time where observable.
+
+### Option-valence and knowledge-load probes
+
+The existing moral-valence and knowledge-load probes remain binding. Add these
+retrospective questions once per questionnaire:
+
+1. “Which answer looked most like the intelligent or informed answer?”
+2. “Which answer looked most moderate, safe, democratic, responsible, or
+   morally decent?”
+3. “Did that appearance pull you away from the answer you first considered?”
+4. “Where did you lack enough information to answer honestly?”
+5. “When that happened, did you guess, choose the middle, skip, or rely on the
+   clarification?”
+6. “Which answer demanded the most policy knowledge to recognize?”
+7. “Did any option combine several attractive ideas while another had to own
+   one clear cost?”
+
+Code the exact observable issue. Do not label disagreement with the item author
+as a defect.
+
+### AI v3 and separate-domain probes
+
+Ask after the AI result and before teaching the intended relationship:
+
+1. “What is the main AI Governance result?”
+2. “What did it use from your Foundation result, if anything?”
+3. “Did answering AI change, test, confirm, or correct your Foundation?”
+4. “Do these axes look numerically comparable to Foundation dimensions?”
+5. “Does this page imply one result is more true or authoritative?”
+6. “What does separate domain mean in your own words?”
+7. “Which sentence made that relationship clearest?”
+8. “Which sentence repeated a warning you already understood?”
+9. “Would you describe the AI label as a scientific type, an authored summary,
+   or something else? Why?”
+
+Code `HIER-DOMAIN` whenever a participant reasonably reads AI as rescoring,
+validating, or diagnosing Foundation. Code `COPY-CLAIM` when a label or
+explanation appears more measured or stable than its evidence supports.
+
+### Paired-reflection supplement
+
+Use this supplement only after the owner approves exact version-bound pairs.
+It may be a moderated prototype behind a disabled research flag or a static
+research aid. It is not a scored product path.
+
+Required behavior for an interactive prototype:
+
+- re-ask both questions;
+- reveal both selected choices only after both responses;
+- keep answers in component memory only;
+- discard on navigation or refresh;
+- exclude answers from storage, URLs, analytics, Profile, sharing, and Open
+  Graph;
+- show no match, mismatch, rate, consistency, inferred logic, or moral
+  evaluation; and
+- fail closed on a missing or mismatched version.
+
+Counterbalance Foundation-first and AI-first order across participants.
+
+Ask before showing the authored reason for the pair:
+
+1. “Why do you think these two questions were placed together?”
+2. “What, if anything, do the two choices say about one another?”
+3. “Does this feel like a test of consistency?”
+4. “Do you think the product sees a match or mismatch?”
+5. “Does either choice now look better, smarter, or more defensible?”
+6. “Would you expect this pair to change a result or be saved to Profile?”
+7. “What conclusion would be unfair to draw from these two answers?”
+
+Then reveal the authored juxtaposition reason and limitation. Ask:
+
+1. “Does the explanation remove or strengthen the sense of a consistency
+   test?”
+2. “What is the most useful reflection this pair supports?”
+3. “What wording still sounds evaluative?”
+
+Stop the paired-reflection pilot if one participant reports privacy or
+materially misleading behavior, or if two independent participants infer a
+consistency score, a hidden match, or moral evaluation. Do not ship the
+prototype merely by adding a disclaimer.
+
+### V23.5 release triggers
+
+Stop the affected fielding and return to owner review after:
+
+- one privacy, serious accessibility, broken-route, data-loss, or materially
+  misleading interpretation issue;
+- two independent reports of the same consequential comprehension, option
+  valence, knowledge-load, or navigation problem;
+- repeated interpretation of an authored family as a scientific
+  classification; or
+- repeated belief that Security, Technology, or AI changes Foundation.
+
+Participant-level records stay outside Git. Commit only aggregate issue IDs,
+severity, build and content versions, owner decisions, and retest outcomes.
+
 ## Purpose and limits
 
 This pack is for finding interpretation, response, hierarchy, and interaction
@@ -998,3 +1220,63 @@ Describe the memo as **pretesting evidence and revision decisions**.
 - [ ] Every triggered issue has a decision and rationale.
 - [ ] Completed participant files have deletion dates.
 - [ ] Reporting uses pretesting and revision language only.
+
+## V23.5 field checklist
+
+Use this checklist instead of the older Security-only path checklist for
+V23.5 fielding. All older privacy, consent, sampling, issue-coding, severity,
+and retention requirements still apply.
+
+### Before each V23.5 session
+
+- [ ] Preview deployment ID and exact Git SHA match the wave record.
+- [ ] Current Case state uses a frozen active or inactive date.
+- [ ] Foundation, AI, and assigned Focus Area tuples are recorded.
+- [ ] Participant is new to the wave and has the assigned track.
+- [ ] Planned locale, viewport, device, and motion setting are recorded.
+- [ ] Simplified Chinese boundaries are disclosed accurately.
+- [ ] Browser profile contains no previous participant's records.
+- [ ] Recording is off unless separately approved.
+- [ ] Notes remain in the restricted participant store, not Git.
+- [ ] No result URL, Profile link, or raw answer-vector field exists in notes.
+
+### During each V23.5 session
+
+- [ ] Observe homepage first path before explaining it.
+- [ ] Complete Foundation core and Foundation result.
+- [ ] Complete AI v3 Standard and AI result in Wave 1 unless a stop rule fires.
+- [ ] Probe Foundation and AI domain separation.
+- [ ] Complete the assigned Security or Technology item probes.
+- [ ] Test a real Focus Area result only after the real questionnaire is complete.
+- [ ] Open Profile and probe hierarchy.
+- [ ] Test Current Case expectations in the assigned frozen state.
+- [ ] Ask reset expectations without risking completed work.
+- [ ] Complete a 390px questionnaire leg.
+- [ ] Probe option valence and knowledge load retrospectively.
+- [ ] Use paired reflection only when the pair and protocol are approved.
+- [ ] Honor skip, stop, and `do not quote` requests immediately.
+
+### After each V23.5 session
+
+- [ ] Clear the test browser's local records.
+- [ ] Complete the session summary within 30 minutes.
+- [ ] Separate participant evidence from moderator interpretation.
+- [ ] Assign issue codes and severity without overcounting comments.
+- [ ] Record build, item, locale, and pair revisions for every issue.
+- [ ] Escalate an S1 finding immediately.
+- [ ] Update only the restricted participant record.
+- [ ] Add de-identified aggregate issue counts and decisions to the Git-safe log.
+
+### Before V23.5 release
+
+- [ ] Smoke walkthroughs include 3 to 5 people.
+- [ ] Wave 1 includes 6 to 8 new participants.
+- [ ] Wave 2 includes 6 to 8 new participants on consequential changes.
+- [ ] At least one Wave 1 session uses the supported Simplified Chinese path.
+- [ ] At least three participants per wave receive each Focus Area probe set.
+- [ ] 320px checks occur in at least two sessions per wave.
+- [ ] No critical issue remains open.
+- [ ] Every major issue is fixed and retested or deferred with owner rationale.
+- [ ] No report claims prevalence, norms, reliability, validity, stable traits,
+      or locale equivalence.
+- [ ] Participant-level notes have retention and deletion dates outside Git.
