@@ -1,4 +1,14 @@
+import type { Metadata } from "next"
+import { notFound } from "next/navigation"
+
+export const metadata: Metadata = {
+  title: "Development notes | IR Worldview Inventory",
+  robots: { index: false, follow: false },
+}
+
 export default function LearnPage() {
+  if (process.env.NODE_ENV === "production") notFound()
+
   return (
     <div className="container stack-lg">
       <section className="panel stack-md">

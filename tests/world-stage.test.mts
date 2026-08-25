@@ -26,11 +26,14 @@ import {
   WORLD_STAGE_MAX_SPIN_ZOOM,
 } from "@/lib/world-stage/map-config"
 import {
+  getWorldStageMenuItems,
+  groupWorldStageMenuItems,
   validateWorldStageCatalog,
   WORLD_STAGE_OMITTED_FLOW_IDS,
   WORLD_STAGE_RESEARCH_SCENE_IDS,
   WORLD_STAGE_REVIEWED_ISO3_KEYS,
   worldStageMenuItems,
+  worldStageMenuItemsWithoutActiveCurrentCase,
   worldStageSceneOptions,
   worldStageScenes,
 } from "@/lib/world-stage/scenes"
@@ -132,6 +135,31 @@ function childSourceRefs(scene: WorldStageScene) {
   ).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
 }
 
+function relativeLuminance(hex: string) {
+  const channels = hex
+    .slice(1)
+    .match(/.{2}/gu)
+    ?.map((channel) => Number.parseInt(channel, 16) / 255) ?? []
+  const linear = channels.map((channel) =>
+    channel <= 0.04045
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4,
+  )
+  return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+}
+
+function contrastRatio(foreground: string, background: string) {
+  const lighter = Math.max(
+    relativeLuminance(foreground),
+    relativeLuminance(background),
+  )
+  const darker = Math.min(
+    relativeLuminance(foreground),
+    relativeLuminance(background),
+  )
+  return (lighter + 0.05) / (darker + 0.05)
+}
+
 test("the reviewed World Stage catalog and complete six-menu mapping are valid", () => {
   assert.deepEqual(validateWorldStageCatalog(), { ok: true, errors: [] })
   assert.deepEqual(
@@ -154,6 +182,25 @@ test("the reviewed World Stage catalog and complete six-menu mapping are valid",
   }
 })
 
+test("homepage secondary text token clears AA contrast on the stage background", () => {
+  const stylesheet = readFileSync(
+    new URL(
+      "../components/home/world-stage/world-stage.module.css",
+      import.meta.url,
+    ),
+    "utf8",
+  )
+  const background = stylesheet.match(/--stage-navy:\s*(#[0-9a-f]{6})/iu)?.[1]
+  const faint = stylesheet.match(/--stage-faint:\s*(#[0-9a-f]{6})/iu)?.[1]
+
+  assert.ok(background)
+  assert.ok(faint)
+  assert.ok(
+    contrastRatio(faint, background) >= 4.5,
+    `${faint} on ${background} must meet WCAG AA for normal text`,
+  )
+})
+
 test("the six menu contracts keep five reviewed map routes plus the Current Case destination", () => {
   assert.deepEqual(
     worldStageMenuItems.map(({ id, sceneId, href }) => ({ id, sceneId, href })),
@@ -168,6 +215,86 @@ test("the six menu contracts keep five reviewed map routes plus the Current Case
   )
   assert.equal(new Set(worldStageMenuItems.map((item) => item.sceneId)).size, 5)
   assert.equal(worldStageScenes.some((scene) => scene.id === ("current-case" as string)), false)
+})
+
+test("the homepage menu demotes Current Case when no reviewed case is live", () => {
+  assert.equal(getWorldStageMenuItems(true), worldStageMenuItems)
+  assert.equal(
+    getWorldStageMenuItems(false),
+    worldStageMenuItemsWithoutActiveCurrentCase,
+  )
+  assert.deepEqual(
+    worldStageMenuItemsWithoutActiveCurrentCase.slice(0, 2).map(
+      ({ id, index, label, href, availability }) => ({
+        id,
+        index,
+        label,
+        href,
+        availability,
+      }),
+    ),
+    [
+      {
+        id: "foundation",
+        index: "01",
+        label: "Foundation",
+        href: "/quiz",
+        availability: "available",
+      },
+      {
+        id: "current-case",
+        index: "02",
+        label: "Recent Cases",
+        href: "/cases",
+        availability: "archive",
+      },
+    ],
+  )
+  assert.deepEqual(
+    validateWorldStageCatalog(undefined, worldStageMenuItemsWithoutActiveCurrentCase),
+    { ok: true, errors: [] },
+  )
+})
+
+test("the homepage separates starting paths from continued exploration", () => {
+  const activeGroups = groupWorldStageMenuItems(getWorldStageMenuItems(true))
+  assert.deepEqual(
+    activeGroups.startHere.map((item) => item.id),
+    ["current-case", "foundation"],
+  )
+  assert.deepEqual(
+    activeGroups.continueExploring.map((item) => item.id),
+    ["focus-areas", "perspective-runs", "worldview-map", "ai-futures"],
+  )
+
+  const inactiveItems = getWorldStageMenuItems(false)
+  const inactiveGroups = groupWorldStageMenuItems(inactiveItems)
+  assert.deepEqual(
+    inactiveGroups.startHere.map((item) => item.id),
+    ["foundation"],
+  )
+  assert.deepEqual(
+    inactiveGroups.continueExploring.map((item) => item.id),
+    ["current-case", "focus-areas", "perspective-runs", "worldview-map", "ai-futures"],
+  )
+  assert.ok(activeGroups.startHere.length <= 3)
+  assert.ok(inactiveGroups.startHere.length <= 3)
+  assert.deepEqual(
+    [...inactiveGroups.startHere, ...inactiveGroups.continueExploring].map(
+      (item) => item.id,
+    ),
+    inactiveItems.map((item) => item.id),
+  )
+
+  const componentSource = readFileSync(
+    new URL(
+      "../components/home/world-stage/world-stage-home.tsx",
+      import.meta.url,
+    ),
+    "utf8",
+  )
+  assert.match(componentSource, /"Start here"/)
+  assert.match(componentSource, /"Continue exploring"/)
 })
 
 test("map controls expose the five independent public map views", () => {
