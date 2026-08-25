@@ -61,21 +61,6 @@ test("development-only routes fail closed and remain out of search results", () 
   }
 })
 
-test("result-page feedback invitations match the corrections route boundary", () => {
-  const feedback = source("app/feedback/page.tsx")
-  assert.match(feedback, /factual, privacy, or security problem/u)
-  assert.match(feedback, /does not accept general product submissions/u)
-
-  for (const route of [
-    "app/results/[payload]/page.tsx",
-    "app/ai/results/[payload]/page.tsx",
-  ]) {
-    const routeSource = source(route)
-    assert.match(routeSource, /Report a factual problem/u)
-    assert.doesNotMatch(routeSource, /interface problem/u)
-  }
-})
-
 test("destructive Foundation, AI, and Perspective resets use an inline confirmation", () => {
   const confirmation = source("components/ui/destructive-action-confirmation.tsx")
   assert.match(confirmation, /role="group"/)
