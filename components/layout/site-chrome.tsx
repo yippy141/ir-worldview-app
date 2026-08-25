@@ -205,9 +205,11 @@ export function SiteChrome({
     return (
       <div className="site-shell">
         <a href="#site-main" className="skip-link">{t("skip")}</a>
-        <div className="immersive-language-switcher">
-          <LanguageSwitcher />
-        </div>
+        {currentPath === "/" ? null : (
+          <div className="immersive-language-switcher">
+            <LanguageSwitcher />
+          </div>
+        )}
         {children}
       </div>
     )
