@@ -17,6 +17,7 @@
     "test:e2e": "playwright test",
     "copy:audit": "node scripts/audit-public-copy.mjs",
     "copy:audit:strict": "node scripts/audit-public-copy.mjs --strict",
+    "copy:render:runtime": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/render-runtime-copy.mts",
     "evidence:audit": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts",
     "evidence:audit:check": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts --check",
     "tier1:preflight": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/tier1-production-preflight.ts",

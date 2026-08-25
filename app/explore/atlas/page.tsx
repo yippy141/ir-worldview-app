@@ -6,7 +6,7 @@ import type { Metadata } from "next"
 import styles from "./page.module.css"
 
 export const metadata: Metadata = {
-  title: `${WORLDVIEW_MAP_LABEL} — IR Worldview Inventory`,
+  title: `${WORLDVIEW_MAP_LABEL} | IR Worldview Inventory`,
   description:
     "Locate a Foundation result in the eight-archetype matrix, then compare optional contextual positions in the continuous view.",
 }
@@ -19,7 +19,7 @@ export default function FieldExplorerPage() {
           <h1 id="worldview-map-page-heading" tabIndex={-1}>{WORLDVIEW_MAP_LABEL}</h1>
           <p>
             Four lenses, two strategic postures, and the eight Foundation archetypes they form. A
-            saved result marks one cell—or two cells when the reading is blended.
+            saved result marks one cell, or two cells when the reading is blended.
           </p>
         </div>
         <Link href="/method" className={styles.methodLink}>Methods and limits →</Link>

@@ -2,9 +2,9 @@ import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "References — IR Worldview Inventory",
+  title: "References | IR Worldview Inventory",
   description:
-    "Selected bibliography for the IR Worldview Inventory — primary texts and foundational works by tradition.",
+    "Selected bibliography for the IR Worldview Inventory, with primary texts and foundational works by tradition.",
 }
 
 type RefEntry = {
@@ -38,7 +38,7 @@ const realistRefs: RefEntry[] = [
     title: "Theory of International Politics",
     year: 1979,
     publisher: "Addison-Wesley. Reissued by McGraw-Hill.",
-    note: "The founding text of structural realism (neorealism). Shifts the causal argument from human nature to the architecture of the system — anarchy and the distribution of capabilities. Sets the terms for most subsequent theoretical debate.",
+    note: "The founding text of structural realism (neorealism). Shifts the causal argument from human nature to the architecture of the system: anarchy and the distribution of capabilities. Sets the terms for most subsequent theoretical debate.",
     url: "https://www.waveland.com/browse.php?t=144",
   },
   {
@@ -77,7 +77,7 @@ const institutionalistRefs: RefEntry[] = [
     title: "After Hegemony: Cooperation and Discord in the World Political Economy",
     year: 1984,
     publisher: "Princeton University Press.",
-    note: "The central text of liberal institutionalism. Argues that international regimes can sustain cooperation even after the dominant power that created them declines — against the realist expectation that order depends on hegemony.",
+    note: "The central text of liberal institutionalism. Argues that international regimes can sustain cooperation even after the dominant power that created them declines, contrary to the realist expectation that order depends on hegemony.",
     url: "https://press.princeton.edu/books/paperback/9780691122489/after-hegemony",
   },
   {
@@ -85,14 +85,14 @@ const institutionalistRefs: RefEntry[] = [
     title: "Power and Interdependence",
     year: 1977,
     publisher: "Little, Brown. Fourth edition, Longman, 2011.",
-    note: "Introduces complex interdependence as an alternative to realist assumptions — multiple channels of contact, no hierarchy of issues, military force not always effective. A key bridge between realism and institutionalism.",
+    note: "Introduces complex interdependence as an alternative to realist assumptions: multiple channels of contact, no hierarchy of issues, and limits on the effectiveness of military force. A key bridge between realism and institutionalism.",
   },
   {
     author: "Putnam, Robert D.",
     title: "Diplomacy and Domestic Politics: The Logic of Two-Level Games",
     year: 1988,
     publisher: "International Organization, vol. 42, no. 3.",
-    note: "Argues that international negotiations are simultaneously domestic political contests. Win-sets — the range of agreements that can survive ratification — shape what is achievable abroad. One of the most cited articles in IR.",
+    note: "Argues that international negotiations are simultaneously domestic political contests. Win-sets, the range of agreements that can survive ratification, shape what is achievable abroad. One of the most cited articles in IR.",
     url: "https://www.jstor.org/stable/2706785",
   },
   {
@@ -125,7 +125,7 @@ const constructivistRefs: RefEntry[] = [
     title: "Anarchy Is What States Make of It: The Social Construction of Power Politics",
     year: 1992,
     publisher: "International Organization, vol. 46, no. 2.",
-    note: "The article that established constructivism as a mainstream IR approach. Argues that anarchy has no single fixed logic — its consequences depend on the identities and relationships states construct. Directly challenges Waltz.",
+    note: "The article that established constructivism as a mainstream IR approach. Argues that anarchy has no single fixed logic because its consequences depend on the identities and relationships states construct. Directly challenges Waltz.",
     url: "https://www.jstor.org/stable/2706858",
   },
   {
@@ -148,7 +148,7 @@ const constructivistRefs: RefEntry[] = [
     title: "International Norm Dynamics and Political Change",
     year: 1998,
     publisher: "International Organization, vol. 52, no. 4.",
-    note: "Introduces the norm life cycle — emergence, cascade, internalization — and explains how norms spread and gain causal force. The most cited constructivist article on norm diffusion.",
+    note: "Introduces the norm life cycle from emergence to cascade to internalization, and explains how norms spread and gain causal force. The most cited constructivist article on norm diffusion.",
     url: "https://www.jstor.org/stable/2601361",
   },
   {
@@ -173,21 +173,21 @@ const critPERefs: RefEntry[] = [
     title: "States and Markets",
     year: 1988,
     publisher: "Blackwell. Second edition, Pinter, 1994.",
-    note: "Argues that structural power — control over production, finance, security, and knowledge — creates political authority independent of formal state power. The sharpest introduction to international political economy as a distinct field.",
+    note: "Argues that structural power, through control over production, finance, security, and knowledge, creates political authority independent of formal state power. The sharpest introduction to international political economy as a distinct field.",
   },
   {
     author: "Cox, Robert W.",
     title: "Social Forces, States and World Orders: Beyond International Relations Theory",
     year: 1981,
     publisher: "Millennium: Journal of International Studies, vol. 10, no. 2.",
-    note: "The founding text of neo-Gramscian IPE. Argues that theory always serves someone's interests — that hegemony operates as much through ideas and institutions as through force. 'Problem-solving theory versus critical theory' is a central distinction.",
+    note: "The founding text of neo-Gramscian IPE. Argues that theory always serves someone's interests and that hegemony operates as much through ideas and institutions as through force. 'Problem-solving theory versus critical theory' is a central distinction.",
   },
   {
     author: "Gilpin, Robert",
     title: "The Political Economy of International Relations",
     year: 1987,
     publisher: "Princeton University Press.",
-    note: "A comprehensive survey of the three main approaches to IPE — nationalism, liberalism, and Marxism — through major policy debates. Useful background for understanding where critical PE positions itself.",
+    note: "A survey of the three main approaches to IPE, nationalism, liberalism, and Marxism, through major policy debates. Useful background for understanding where critical PE positions itself.",
   },
   {
     author: "Prebisch, Raúl",
@@ -201,7 +201,7 @@ const critPERefs: RefEntry[] = [
     title: "Dependency and Development in Latin America",
     year: 1979,
     publisher: "University of California Press. (Originally published in Spanish, 1969.)",
-    note: "The most sophisticated dependency theory text — avoids mechanical determinism by examining how domestic class alliances mediate dependency relations. Influential in both IR and comparative politics.",
+    note: "The most sophisticated dependency theory text. It avoids mechanical determinism by examining how domestic class alliances mediate dependency relations. Influential in both IR and comparative politics.",
   },
   {
     author: "Helleiner, Eric",
@@ -225,7 +225,7 @@ const methodsRefs: RefEntry[] = [
     title: "The Nature of Belief Systems in Mass Publics",
     year: 1964,
     publisher: "In D. E. Apter (ed.), Ideology and Discontent. Free Press.",
-    note: "The foundational text on constraint in political belief systems. Asks whether ordinary citizens hold coherent ideological positions — relevant to what self-report instruments like this one can and cannot measure.",
+    note: "The foundational text on constraint in political belief systems. Asks whether ordinary citizens hold coherent ideological positions, a question relevant to what self-report instruments like this one can and cannot measure.",
   },
   {
     author: "Zaller, John R.",

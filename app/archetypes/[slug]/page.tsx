@@ -40,11 +40,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const archetype = getArchetypeBySlug(slug)
   if (!archetype) {
-    return { title: "Foundation archetype — IR Worldview Inventory" }
+    return { title: "Foundation archetype | IR Worldview Inventory" }
   }
 
   return {
-    title: `${archetype.name} (${formatArchetypeDisplayCode(archetype.code)}) — IR Worldview Inventory`,
+    title: `${archetype.name} (${formatArchetypeDisplayCode(archetype.code)}) | IR Worldview Inventory`,
     description: archetype.gloss,
   }
 }

@@ -15,7 +15,7 @@ import {
 import { traditionNounLabel } from "@/lib/worldview-config"
 
 export const metadata: Metadata = {
-  title: "Foundation archetypes — IR Worldview Inventory",
+  title: "Foundation archetypes | IR Worldview Inventory",
   description:
     "Browse the Foundation archetypes by explanatory lens and strategic posture.",
 }
@@ -58,11 +58,11 @@ export default function ArchetypesPage() {
         <dl className={styles.postureKey} aria-label="Strategic posture key">
           <div>
             <dt>+</dt>
-            <dd><strong>Applying advantage</strong> — acting when position or opportunity supports it.</dd>
+            <dd><strong>Applying advantage:</strong> acting when position or opportunity supports it.</dd>
           </div>
           <div>
             <dt>−</dt>
-            <dd><strong>Restraint</strong> — containing pressure, preserving consent, or improving position first.</dd>
+            <dd><strong>Restraint:</strong> containing pressure, preserving consent, or improving position first.</dd>
           </div>
         </dl>
         <p className={styles.orientationNote}>

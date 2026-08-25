@@ -16,11 +16,11 @@ export async function generateMetadata(
   const pattern = getAtlasLitePattern(id)
 
   if (!pattern) {
-    return { title: "Decision Patterns — IR Worldview Inventory" }
+    return { title: "Decision Patterns | IR Worldview Inventory" }
   }
 
   return {
-    title: `${pattern.publicName} — Decision Pattern — IR Worldview Inventory`,
+    title: `${pattern.publicName} | Decision Pattern | IR Worldview Inventory`,
     description: `${pattern.decisionRule} ${pattern.cardSummary}`,
   }
 }

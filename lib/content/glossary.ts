@@ -16,7 +16,7 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     term: "Institutionalism",
     definition:
-      "An approach arguing that international institutions — treaties, organizations, rules — can make cooperation more durable even in the absence of a central authority to enforce them.",
+      "An approach arguing that international institutions, including treaties, organizations, and rules, can make cooperation more durable even in the absence of a central authority to enforce them.",
   },
   {
     term: "Constructivism",
@@ -31,12 +31,12 @@ export const glossaryTerms: GlossaryTerm[] = [
   {
     term: "Pluralism",
     definition:
-      "In normative IR theory, the view that international order rests on sovereign equality and non-intervention — states should not be forced to conform to a single standard of governance.",
+      "In normative IR theory, the view that international order rests on sovereign equality and non-intervention. States should not be forced to conform to a single standard of governance.",
   },
   {
     term: "Solidarism",
     definition:
-      "The view that there are universal moral obligations that can, in extreme cases, override state sovereignty — for instance, to stop mass atrocities.",
+      "The view that there are universal moral obligations that can, in extreme cases, override state sovereignty, for instance to stop mass atrocities.",
   },
   {
     term: "Restraint",

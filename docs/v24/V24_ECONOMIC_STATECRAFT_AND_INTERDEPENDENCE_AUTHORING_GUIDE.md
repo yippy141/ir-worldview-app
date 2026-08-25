@@ -1,6 +1,8 @@
 # V24 Economic Statecraft and Interdependence authoring guide
 
-Status: **authoring-only; non-shipping; no item bank**
+Status: **historical research input; superseded as execution authority; authoring-only; non-shipping; no item bank**
+
+Current treatment: Economic Statecraft is V25 and remains blocked until the AI v4 authoring, pilot, compatibility, and release process is proven. See `docs/roadmap/V23_5_V26_MASTER_ROADMAP.md`.
 
 Depends on: `docs/v23/V23_4_DOMAIN_AUTHORING_CONTRACT.md`
 
