@@ -4,13 +4,11 @@ import {
   formatArchetypeDisplayCode,
 } from "@/lib/archetype-display"
 import { resolveRestraintPosture, type PostureEndpoint } from "@/lib/results/posture"
-import type { PercentileResult } from "@/lib/percentiles"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
 
 type Props = {
   result: CanonicalFoundationResult
   lowDifferentiationThreshold?: number
-  percentile?: PercentileResult | null
 }
 
 function Endpoint({
@@ -50,12 +48,9 @@ function Endpoint({
 export function PostureStrip({
   result,
   lowDifferentiationThreshold,
-  percentile = null,
 }: Props) {
   const posture = resolveRestraintPosture(result, lowDifferentiationThreshold)
-  const scoreLabel = percentile
-    ? `${formatOrdinal(percentile.percentile)} percentile, raw score ${posture.score.toFixed(1)}`
-    : `raw score ${posture.score.toFixed(1)}`
+  const scoreLabel = `raw score ${posture.score.toFixed(1)}`
 
   return (
     <section
@@ -103,27 +98,11 @@ export function PostureStrip({
         </span>
       </p>
 
-      {percentile ? (
-        <p className="muted result-note-xs" role="note">
-          Restraint percentile cohort n=
-          {percentile.n.toLocaleString("en-US")}.
-        </p>
-      ) : null}
-
       <p className="muted result-note-xs">
         {posture.blend
-          ? "Both ends read world politics through the same two lenses. They part company on restraint, which the map's two axes do not weigh — so the map cannot separate them and this scale does."
-          : "Both ends read world politics through the same lens. They part company on restraint, which the map's two axes do not weigh — so the map cannot separate them and this scale does."}
+          ? "Both ends read world politics through the same two lenses. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."
+          : "Both ends read world politics through the same lens. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."}
       </p>
     </section>
   )
-}
-
-function formatOrdinal(value: number) {
-  const mod100 = value % 100
-  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
-  if (value % 10 === 1) return `${value}st`
-  if (value % 10 === 2) return `${value}nd`
-  if (value % 10 === 3) return `${value}rd`
-  return `${value}th`
 }

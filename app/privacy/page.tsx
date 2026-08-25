@@ -5,13 +5,14 @@ import { LocalDataControls } from "@/components/privacy/local-data-controls"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 
 export const metadata: Metadata = createEnglishApprovedMetadata("/privacy", {
-  title: "Privacy and Data Use — IR Worldview Inventory",
+  title: "Privacy and Data Use | IR Worldview Inventory",
   description:
     "How the IR Worldview Inventory handles local results, sharing, coarse measurement, and research collection.",
 })
 
 const commitments = [
-  "Raw answers and saved Foundation, Focus Area, AI, Perspective, Profile, and Current Case histories remain browser-local.",
+  "Draft answers and saved Foundation, Focus Area, AI, Perspective, Profile, and Current Case histories remain browser-local until you generate or share a result link.",
+  "Generated result links encode the data needed to reopen the result. Some links, including Focus Area links, contain answer selections.",
   "The site does not collect research responses or research contact details.",
   "Product measurement uses a closed event and property allowlist with a browser opt-out.",
   "No ads, profile-data sale, political targeting, session replay, or individual scoring dashboard.",
@@ -22,13 +23,14 @@ export default function PrivacyPage() {
     <div className="container stack-lg">
       <section className="panel stack-md">
         <p className="eyebrow">Privacy and data use</p>
-        <h1>Your raw answers and saved history stay in this browser.</h1>
+        <h1>Your drafts and saved history stay in this browser.</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
           The inventory requires no account. Saved results and Current Case judgments support your
-          Profile on this device. When coarse measurement is enabled, the separate aggregate
-          counters described below receive derived buckets. Raw answers and saved histories stay
-          outside those counters.
-          The site does not collect research responses.
+          Profile on this device. Generating a result creates a URL that encodes the data needed to
+          reopen it; the Sharing section explains that boundary. When coarse measurement is
+          enabled, the separate aggregate counters described below receive derived buckets. Draft
+          answers and saved histories stay outside those counters. The site does not collect
+          research responses.
         </p>
       </section>
 
@@ -89,8 +91,11 @@ export default function PrivacyPage() {
         <h2>Sharing</h2>
         <p style={{ lineHeight: "1.7" }}>
           Foundation, AI, module, Perspective, and shared Profile links encode the data needed to
-          reopen the shared view. Treat those URLs as disclosures you control. Removing local
-          history does not retract a link already sent or remove it from browser or message history.
+          reopen the shared view. A Focus Area result link includes its answer selections; other
+          result types may encode derived scores, labels, or saved layers. Opening or sharing one of
+          these URLs exposes that encoded data to the recipient and to services that handle the
+          request. Treat those URLs as disclosures you control. Removing local history does not
+          retract a link already sent or remove it from browser or message history.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           Ordinary Current Case links contain no answer. You may explicitly add your final reading

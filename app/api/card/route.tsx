@@ -1,15 +1,13 @@
 import { ImageResponse } from "next/og"
-import { formatArchetypeReadingCode } from "@/lib/archetype-display"
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import {
   buildFoundationShareCardInput,
-  formatShareCardRarity,
   parseFoundationShareCardRequest,
 } from "@/lib/share-card"
 import { resolveFoundationPayload } from "@/lib/share"
-import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
 import { getV2ScoringCalibration } from "@/lib/scoring"
+import { buildFoundationCardCopy } from "@/lib/foundation-social-copy"
 
 export const runtime = "nodejs"
 export const dynamic = "force-dynamic"
@@ -32,24 +30,22 @@ export async function GET(request: Request) {
   if (!resolved) {
     return new Response("Invalid Foundation result payload.", { status: 400 })
   }
-  const stats = await readAggregateStatsForFoundationPayload(resolved)
   const { lowDifferentiationThreshold } = getV2ScoringCalibration(
     resolved.scoringCalibration,
   )
   const input = buildFoundationShareCardInput(
     resolved.result,
-    stats,
     lowDifferentiationThreshold,
   )
 
-  const { archetype, norm, percentiles, coordinates, rarity } = input
+  const { archetype, norm, coordinates } = input
+  const cardCopy = buildFoundationCardCopy(archetype, norm)
   const isBlend = archetype.code.includes("/")
-  const hasCjkTitle = /[\u3000-\u9fff]/u.test(archetype.name)
+  const hasCjkTitle = /[\u3000-\u9fff]/u.test(cardCopy.name)
   const titleSize =
-    archetype.name.length > 27 ? 58 : archetype.name.length > 13 ? 70 : 84
+    cardCopy.name.length > 27 ? 58 : cardCopy.name.length > 13 ? 70 : 84
   const dotLeft = 35 + ((coordinates.x + 1) / 2) * 270 - 9
   const dotTop = 35 + ((1 - coordinates.y) / 2) * 270 - 9
-  const displayReadingCode = formatArchetypeReadingCode(archetype.code, norm)
   const cardFonts = await loadCardFonts()
 
   return new ImageResponse(
@@ -99,7 +95,7 @@ export async function GET(request: Request) {
               width: 704,
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              justifyContent: "center",
               paddingRight: 44,
             }}
           >
@@ -114,7 +110,7 @@ export async function GET(request: Request) {
                   letterSpacing: "0.04em",
                 }}
               >
-                {displayReadingCode}
+                {cardCopy.readingCode}
               </div>
               <div
                 style={{
@@ -129,7 +125,7 @@ export async function GET(request: Request) {
                   whiteSpace: hasCjkTitle && !isBlend ? "nowrap" : "normal",
                 }}
               >
-                {archetype.name}
+                {cardCopy.name}
               </div>
               <div
                 style={{
@@ -141,70 +137,10 @@ export async function GET(request: Request) {
                   lineHeight: 1.28,
                 }}
               >
-                {archetype.gloss}
+                {cardCopy.gloss}
               </div>
             </div>
 
-            {percentiles.length === 3 ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 10,
-                  paddingBottom: 6,
-                }}
-              >
-                {percentiles.map((entry) => (
-                  <div
-                    key={entry.dimension}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      height: 28,
-                    }}
-                  >
-                    <span
-                      style={{
-                        width: 216,
-                        color: "#dbe3ed",
-                        fontSize: 19,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {entry.label}
-                    </span>
-                    <span
-                      style={{
-                        width: 334,
-                        height: 10,
-                        display: "flex",
-                        background: "#304563",
-                      }}
-                    >
-                      <span
-                        style={{
-                          width: `${entry.percentile}%`,
-                          height: "100%",
-                          display: "flex",
-                          background: "#cea857",
-                        }}
-                      />
-                    </span>
-                    <span
-                      style={{
-                        width: 82,
-                        color: "#eef2f7",
-                        fontSize: 20,
-                        fontWeight: 700,
-                        textAlign: "right",
-                      }}
-                    >
-                      {formatOrdinal(entry.percentile)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : null}
           </div>
 
           <div
@@ -324,11 +260,7 @@ export async function GET(request: Request) {
               gap: 5,
             }}
           >
-            <span>
-              {rarity
-                ? formatShareCardRarity(rarity)
-                : "Closest modeled family shown as a continuous profile"}
-            </span>
+            <span>Closest modeled family shown as a continuous profile</span>
             {archetype.analogue ? (
               <span style={{ color: "#8295ab", fontSize: 16 }}>
                 Historical analogue · {archetype.analogue.label},{" "}
@@ -410,13 +342,4 @@ function toArrayBuffer(data: Buffer): ArrayBuffer {
     data.byteOffset,
     data.byteOffset + data.byteLength,
   ) as ArrayBuffer
-}
-
-function formatOrdinal(value: number) {
-  const mod100 = value % 100
-  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
-  if (value % 10 === 1) return `${value}st`
-  if (value % 10 === 2) return `${value}nd`
-  if (value % 10 === 3) return `${value}rd`
-  return `${value}th`
 }

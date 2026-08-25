@@ -3,10 +3,7 @@ import { ScaleBar } from "@/components/visual-primitives"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { getAtlasPatternHref } from "@/lib/atlas-lite"
 import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
-import {
-  PAYLOAD_DIMENSION_ORDER,
-  resolveFoundationPayload,
-} from "@/lib/share"
+import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
 import {
   getClosestTraditions,
   getComparisonDimensions,
@@ -24,8 +21,7 @@ import {
   getPressureTestQuestions,
 } from "@/lib/result-helpers"
 import {
-  dimensionBand,
-  dimensionBandLabels,
+  DIMENSION_POLES,
   getDimensionPush,
 } from "@/lib/results/dimension-bands"
 import { PushChart } from "@/components/results/push-chart"
@@ -53,16 +49,11 @@ import {
 import {
   formatArchetypeReadingCode,
   formatArchetypeReadingCodeForSpeech,
+  explainArchetypeReadingCode,
 } from "@/lib/archetype-display"
+import { buildEnglishFoundationResultSocialCopy } from "@/lib/foundation-social-copy"
 import { FoundationMark } from "@/components/archetypes/archetype-mark"
 import { archetypeEvidencePath } from "@/lib/archetype-evidence"
-import {
-  getPercentile,
-  getProfileRarity,
-  type AggregateStats,
-  type PercentileResult,
-} from "@/lib/percentiles"
-import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
 import type { DimensionKey } from "@/lib/types"
 import type { Metadata } from "next"
 
@@ -72,7 +63,7 @@ export async function generateMetadata(
   const { payload } = await params
   const resolved = resolveFoundationPayload(payload)
   if (!resolved) {
-    const title = "Shared IR result — IR Worldview Inventory"
+    const title = "Shared IR result | IR Worldview Inventory"
     const description =
       "Open a shared IR Worldview Inventory result, or take the Foundation questionnaire to generate your own profile."
 
@@ -89,19 +80,15 @@ export async function generateMetadata(
   const norm = normFromNormativeModifier(
     resolved.result.normativeModifier,
   )
-  const resultLabel =
-    `${archetype.name} · ${formatArchetypeReadingCode(archetype.code, norm)}`
-  const title = `${archetype.name} result — IR Worldview Inventory`
-  const description =
-    `Shared IR Worldview result: ${resultLabel}. ${archetype.gloss}`
+  const socialCopy = buildEnglishFoundationResultSocialCopy(archetype, norm)
   const cardImage = buildFoundationShareCardUrl(payload)
 
   return buildResultMetadata(
     payload,
-    title,
-    description,
+    socialCopy.title,
+    socialCopy.description,
     cardImage,
-    `${archetype.name} Foundation profile`,
+    socialCopy.cardAlt,
   )
 }
 
@@ -174,11 +161,6 @@ export default async function ResultPage(
     lowDifferentiationThreshold,
     sharplyDifferentiatedThreshold,
   } = getV2ScoringCalibration(resolved.scoringCalibration)
-  const aggregateStats = await readAggregateStatsForFoundationPayload(resolved)
-  const dimensionPercentiles = buildDimensionPercentiles(dimensionScores, aggregateStats)
-  const hasPercentiles = PAYLOAD_DIMENSION_ORDER.some(
-    (dimension) => dimensionPercentiles[dimension] !== null,
-  )
   const familyScores = result.familyScores
   const closestTraditions = getClosestTraditions(familyScores, {
     familyKey: result.familyKey,
@@ -266,9 +248,6 @@ export default async function ResultPage(
     normativeSuffix,
   )
   const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
-  const archetypeRarity = aggregateStats
-    ? getProfileRarity(archetype.code, aggregateStats)
-    : null
   const analoguePath = archetype.analogue
     ? archetypeEvidencePath(archetype.code)
     : null
@@ -422,6 +401,9 @@ export default async function ResultPage(
               >
                 {archetypeCode}
               </p>
+              <p className="foundation-result-code-key">
+                {explainArchetypeReadingCode(archetype.code, normativeSuffix)}
+              </p>
               <p className="foundation-result-tradition">
                 Closest modeled tradition: {traditionNounLabel(result.familyKey)}
               </p>
@@ -434,19 +416,6 @@ export default async function ResultPage(
                   </Link>
                 </p>
               ) : null}
-              {archetypeRarity ? (
-                <div className="stack-xs">
-                  <p>
-                    Same archetype:{" "}
-                    {formatPercentage(archetypeRarity.percentage)}% of completed
-                    results in this cohort.
-                  </p>
-                  <p className="muted result-note-xs" role="note">
-                    Archetype cohort n=
-                    {archetypeRarity.n.toLocaleString("en-US")}.
-                  </p>
-                </div>
-              ) : null}
             </div>
 
             <div className="foundation-result-bands stack-sm">
@@ -456,24 +425,13 @@ export default async function ResultPage(
                   <ScaleBar
                     label={dimensionLabels[dimension]}
                     value={score}
-                    valueLabel={formatDimensionScore(score, dimensionPercentiles[dimension])}
+                    valueLabel={formatDimensionScore(score)}
+                    lowLabel={DIMENSION_POLES[dimension].low}
+                    highLabel={DIMENSION_POLES[dimension].high}
                     tone="baseline"
-                    className="foundation-percentile-scale"
                   />
-                  {dimensionPercentiles[dimension] ? null : (
-                    <span
-                      className="foundation-result-band__tag"
-                      data-band={dimensionBand(dimension, score)}
-                    >
-                      {dimensionBandLabels[dimensionBand(dimension, score)]}
-                    </span>
-                  )}
                 </div>
               ))}
-              <PercentileFootnote
-                dimensions={topDimensions.map(([dimension]) => dimension)}
-                percentiles={dimensionPercentiles}
-              />
             </div>
 
             <p className="foundation-result-change">{whatWouldChangeThis}</p>
@@ -501,16 +459,13 @@ export default async function ResultPage(
             <PostureStrip
               result={result}
               lowDifferentiationThreshold={lowDifferentiationThreshold}
-              percentile={dimensionPercentiles.restraint}
             />
           </div>
         </header>
 
         <section className="result-section result-appendix-section stack-lg">
           <p className="foundation-result-methods-line muted">
-            {hasPercentiles
-              ? "Percentiles describe the current completed-result sample, and the family name is a nearby label for the pattern. "
-              : "Scores are positions within this model, and the family name is a nearby label for the pattern. "}
+            Scores are positions within this model, and the family name is a nearby label for the pattern.{" "}
             <Link href="/method">How this is built, and where it stops →</Link>
           </p>
 
@@ -639,21 +594,16 @@ export default async function ResultPage(
                     label: dimensionLabels[row.dimension],
                     deviation: row.deviation,
                     score: row.score,
-                    percentile: dimensionPercentiles[row.dimension],
                     pole: row.pole,
                   }))}
                   lowCaption="Toward the low pole"
-                  centreCaption="Centre of the observed range"
+                  centreCaption="Midpoint of the 1–7 scale"
                   highCaption="Toward the high pole"
                 />
-                <PercentileFootnote
-                  dimensions={PAYLOAD_DIMENSION_ORDER}
-                  percentiles={dimensionPercentiles}
-                />
                 <p className="muted result-note">
-                  Each bar is the distance from the centre of the range this instrument
-                  produces on that dimension, scaled by that dimension&rsquo;s own spread so the
-                  seven are comparable. Long bars moved the result; short bars did not.
+                  Each bar shows the raw 1–7 position for one dimension, with 4 as the
+                      midpoint. Bar length does not show standing among other people or prove how
+                      much that dimension caused the family result.
                 </p>
                 <ul className="foundation-signal-legend">
                   {keyDrivers.map((driver) => (
@@ -661,17 +611,10 @@ export default async function ResultPage(
                       <p>
                         <strong>{driver.label}.</strong> {driver.description}
                       </p>
-                      <DimensionScoreValue
-                        score={dimensionScores[driver.dimension]}
-                        percentile={dimensionPercentiles[driver.dimension]}
-                      />
+                      <DimensionScoreValue score={dimensionScores[driver.dimension]} />
                     </li>
                   ))}
                 </ul>
-                <PercentileFootnote
-                  dimensions={keyDrivers.map((driver) => driver.dimension)}
-                  percentiles={dimensionPercentiles}
-                />
               </section>
 
               <section className="stack-md" aria-labelledby="foundation-alt-heading">
@@ -683,15 +626,9 @@ export default async function ResultPage(
                     key: row.dim,
                     label: row.label,
                     userScore: row.userScore,
-                    userPercentile:
-                      dimensionPercentiles[row.dim]?.percentile ?? null,
                     primaryExpected: row.primaryExpected,
                     runnerUpExpected: row.runnerUpExpected,
                   }))}
-                />
-                <PercentileFootnote
-                  dimensions={comparisonDimensions.map((row) => row.dim)}
-                  percentiles={dimensionPercentiles}
                 />
                 {runnerUpSeparation ? (
                   <p className="muted result-note">{runnerUpSeparation}</p>
@@ -706,12 +643,10 @@ export default async function ResultPage(
                       <ScaleBar
                         label={dimensionLabels[dim]}
                         value={dimensionScores[dim]}
-                        valueLabel={formatDimensionScore(
-                          dimensionScores[dim],
-                          dimensionPercentiles[dim],
-                        )}
+                        valueLabel={formatDimensionScore(dimensionScores[dim])}
+                        lowLabel={DIMENSION_POLES[dim].low}
+                        highLabel={DIMENSION_POLES[dim].high}
                         tone="baseline"
-                        className="foundation-percentile-scale"
                       />
                       <p className="muted result-note-xs">
                         {dimensionOneLiners[dim](dimensionScores[dim])}
@@ -719,10 +654,6 @@ export default async function ResultPage(
                     </div>
                   ))}
                 </div>
-                <PercentileFootnote
-                  dimensions={PAYLOAD_DIMENSION_ORDER}
-                  percentiles={dimensionPercentiles}
-                />
               </section>
 
               <div className="result-prose stack-md">
@@ -766,7 +697,7 @@ export default async function ResultPage(
               <div className="stack-md">
                 <p>
                   <Link href="/feedback">
-                    Report a factual or interface problem →
+                    Report a factual problem →
                   </Link>
                 </p>
                 <ResearchStatusNotice instrumentLabel="Foundation" />
@@ -807,86 +738,18 @@ export default async function ResultPage(
   )
 }
 
-function buildDimensionPercentiles(
-  dimensionScores: Record<DimensionKey, number>,
-  stats: AggregateStats | null,
-): Record<DimensionKey, PercentileResult | null> {
-  return Object.fromEntries(
-    PAYLOAD_DIMENSION_ORDER.map((dimension) => [
-      dimension,
-      stats
-        ? getPercentile(
-            "foundation",
-            stats.mode,
-            dimension,
-            dimensionScores[dimension],
-            stats,
-          )
-        : null,
-    ]),
-  ) as Record<DimensionKey, PercentileResult | null>
-}
-
-function DimensionScoreValue({
-  score,
-  percentile,
-}: {
-  score: number
-  percentile: PercentileResult | null
-}) {
+function DimensionScoreValue({ score }: { score: number }) {
   return (
     <span className="foundation-signal-row__score">
-      <strong>
-        {percentile ? `${formatOrdinal(percentile.percentile)} percentile` : score.toFixed(2)}
-      </strong>
-      {percentile ? <span>Raw score {score.toFixed(2)}</span> : null}
+      <strong>{score.toFixed(2)}</strong>
     </span>
-  )
-}
-
-function PercentileFootnote({
-  dimensions,
-  percentiles,
-}: {
-  dimensions: readonly DimensionKey[]
-  percentiles: Record<DimensionKey, PercentileResult | null>
-}) {
-  const sampleSizes = dimensions.flatMap((dimension) => {
-    const result = percentiles[dimension]
-    return result
-      ? [`${dimensionLabels[dimension]} n=${result.n.toLocaleString("en-US")}`]
-      : []
-  })
-  if (sampleSizes.length === 0) return null
-
-  return (
-    <p className="muted result-note-xs" role="note">
-      Percentile sample: {sampleSizes.join("; ")}. Midrank percentiles use
-      current completed Foundation results.
-    </p>
   )
 }
 
 // The scorer cannot reach the ends of the response scale, so no score is
 // printed with a nominal-scale denominator.
-function formatDimensionScore(score: number, percentile: PercentileResult | null) {
-  return percentile
-    ? `${formatOrdinal(percentile.percentile)} percentile · raw score ${score.toFixed(2)}`
-    : score.toFixed(2)
-}
-
-function formatOrdinal(value: number) {
-  const mod100 = value % 100
-  if (mod100 >= 11 && mod100 <= 13) return `${value}th`
-
-  if (value % 10 === 1) return `${value}st`
-  if (value % 10 === 2) return `${value}nd`
-  if (value % 10 === 3) return `${value}rd`
-  return `${value}th`
-}
-
-function formatPercentage(value: number) {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1)
+function formatDimensionScore(score: number) {
+  return score.toFixed(2)
 }
 
 function getFallbackMixedNote(

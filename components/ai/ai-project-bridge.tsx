@@ -92,7 +92,7 @@ export function AiProjectBridge({
             <p className="ai-bridge-kicker">Relation status</p>
             <p className="ai-bridge-title">
               {DEFAULT_DOMAIN_RELATION_READ.relation === "not-comparable"
-                ? "Separate reads — no reviewed bridge"
+                ? "Separate reads. No reviewed bridge."
                 : DEFAULT_DOMAIN_RELATION_READ.relation}
             </p>
             <p className="ai-bridge-note">

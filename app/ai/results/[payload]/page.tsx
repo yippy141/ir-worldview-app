@@ -30,7 +30,7 @@ export async function generateMetadata(
   const { payload } = await params
   const resolved = resolveAiPayload(payload)
   if (!resolved) {
-    const title = "Shared AI Governance result — AI Governance Compass"
+    const title = "Shared AI Governance result | AI Governance Compass"
     const description =
       "Open a shared AI Governance Compass result, or take the questionnaire to map your frontier-AI governance instincts."
 
@@ -48,7 +48,7 @@ export async function generateMetadata(
     resolved.scoring.archetypeLabels,
   )
   const label = resolved.scoring.archetypeLabels[decoded.ak]
-  const title = `${label} result — AI Governance Compass`
+  const title = `${label} result | AI Governance Compass`
   const description = `Shared AI Governance Compass result: ${deepDive.governingInstinct}`
 
   return buildAiResultMetadata(title, description)
@@ -193,8 +193,8 @@ export default async function AiResultPage(
             tone="ai"
           />
           <p className="result-figure__note">
-            Each bar is the distance from the midpoint of the 1-7 axis. Long bars moved the
-            archetype; short bars did not.{" "}
+            Each bar shows distance from the midpoint of the 1-7 axis. Bar length does not
+            measure rarity or isolate how much one axis caused the archetype result.{" "}
             <Link href="/method">Methods sets out the limits →</Link>
           </p>
         </section>
@@ -287,7 +287,7 @@ export default async function AiResultPage(
               <div className="stack-md">
                 <p>
                   <Link href="/feedback">
-                    Report a factual or interface problem →
+                    Report a factual problem →
                   </Link>
                 </p>
                 <div className="row gap-sm wrap">

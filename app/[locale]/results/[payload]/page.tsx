@@ -9,18 +9,11 @@ import {
   zhHansFoundationDimensionRows,
 } from "@/lib/narrative/foundation-zh-hans"
 import { getKeyDrivers, getStrongLenses } from "@/lib/result-helpers"
-import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
+import { resolveFoundationPayload } from "@/lib/share"
 import { getV2ScoringCalibration } from "@/lib/scoring"
-import {
-  getPercentile,
-  getProfileRarity,
-  type AggregateStats,
-  type PercentileResult,
-} from "@/lib/percentiles"
-import { readAggregateStatsForFoundationPayload } from "@/lib/research/aggregate-stats"
 import { resolveArchetype } from "@/lib/archetypes"
 import { formatArchetypeDisplayCode } from "@/lib/archetype-display"
-import type { DimensionKey } from "@/lib/types"
+import { buildZhHansFoundationResultSocialCopy } from "@/lib/foundation-social-copy"
 
 type Props = {
   params: Promise<{ locale: string; payload: string }>
@@ -48,12 +41,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           .lowDifferentiationThreshold,
       )
     : null
-  const title = narrative && archetype
-    ? `${archetype.name}（基础原型）｜国际关系世界观清单`
-    : "共享结果无法读取｜国际关系世界观清单"
-  const description = narrative && archetype
-    ? `规范基础原型 ${archetype.name}（${formatArchetypeDisplayCode(archetype.code)}）。${narrative.summary}`
-    : "此基础结果链接无法解码。"
+  const socialCopy = narrative && archetype
+    ? buildZhHansFoundationResultSocialCopy(archetype, narrative.summary)
+    : null
+  const title = socialCopy?.title ?? "共享结果无法读取｜国际关系世界观清单"
+  const description = socialCopy?.description ?? "此基础结果链接无法解码。"
 
   return {
     title,
@@ -105,14 +97,6 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
   const { lowDifferentiationThreshold } = getV2ScoringCalibration(
     resolved.scoringCalibration,
   )
-  const aggregateStats = await readAggregateStatsForFoundationPayload(resolved)
-  const dimensionPercentiles = buildDimensionPercentiles(
-    dimensionScores,
-    aggregateStats,
-  )
-  const hasPercentiles = PAYLOAD_DIMENSION_ORDER.some(
-    (dimension) => dimensionPercentiles[dimension] !== null,
-  )
   const narrative = buildZhHansFoundationNarrative({
     familyKey: result.familyKey,
     runnerUpKey: result.runnerUpKey,
@@ -122,9 +106,6 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
     scoringCalibration: resolved.scoringCalibration,
   })
   const archetype = resolveArchetype(result, lowDifferentiationThreshold)
-  const archetypeRarity = aggregateStats
-    ? getProfileRarity(archetype.code, aggregateStats)
-    : null
   const dimensions = zhHansFoundationDimensionRows(dimensionScores)
   const keyDrivers = getKeyDrivers(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
@@ -181,18 +162,6 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
                 ? "本结果由 14 道核心题计算。"
                 : "本结果由核心题与扩展题共同计算。"}
             </p>
-            {archetypeRarity ? (
-              <div className="stack-xs">
-                <p>
-                  同一模型原型占当前同组已完成结果的{" "}
-                  {formatPercentage(archetypeRarity.percentage)}%。
-                </p>
-                <p className="muted result-note-xs" role="note">
-                  同组样本量 n=
-                  {archetypeRarity.n.toLocaleString("zh-CN")}。
-                </p>
-              </div>
-            ) : null}
             <div className="row gap-sm wrap" aria-label="结果标签">
               <span className="atlas-tag">最相邻传统：{narrative.familyLabel}</span>
               <span className="atlas-tag">{narrative.strategyLabel}</span>
@@ -266,37 +235,20 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
             <p className="eyebrow">七维画像</p>
             <h2 id="zh-dimensions-heading">哪些判断把结果拉向不同方向</h2>
             <p className="muted result-note">
-              {hasPercentiles
-                ? "百分位以当前已完成基础问卷的样本为参照，不代表总体人群。原始分数同时保留。"
-                : "以下显示原始分数，不附量尺分母。"}
+              以下显示原始分数，不附量尺分母。
             </p>
           </div>
           <dl className="locale-profile-dimensions">
-            {dimensions.map((dimension) => {
-              const percentile = dimensionPercentiles[dimension.key]
-              return (
-                <div key={dimension.key}>
-                  <dt>{dimension.label}</dt>
-                  <dd>
-                    <strong>
-                      {percentile
-                        ? `第 ${percentile.percentile} 百分位`
-                        : dimension.score.toFixed(2)}
-                    </strong>
-                    <span className="muted">
-                      {percentile
-                        ? `原始分数 ${dimension.score.toFixed(2)} · ${dimension.reading}`
-                        : dimension.reading}
-                    </span>
-                  </dd>
-                </div>
-              )
-            })}
+            {dimensions.map((dimension) => (
+              <div key={dimension.key}>
+                <dt>{dimension.label}</dt>
+                <dd>
+                  <strong>{dimension.score.toFixed(2)}</strong>
+                  <span className="muted">{dimension.reading}</span>
+                </dd>
+              </div>
+            ))}
           </dl>
-          <ZhHansPercentileFootnote
-            dimensions={dimensions}
-            percentiles={dimensionPercentiles}
-          />
         </section>
 
         <aside className="result-section stack-md" aria-labelledby="zh-beta-note-heading">
@@ -319,50 +271,4 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
       </article>
     </div>
   )
-}
-
-function buildDimensionPercentiles(
-  dimensionScores: Record<DimensionKey, number>,
-  stats: AggregateStats | null,
-): Record<DimensionKey, PercentileResult | null> {
-  return Object.fromEntries(
-    PAYLOAD_DIMENSION_ORDER.map((dimension) => [
-      dimension,
-      stats
-        ? getPercentile(
-            "foundation",
-            stats.mode,
-            dimension,
-            dimensionScores[dimension],
-            stats,
-          )
-        : null,
-    ]),
-  ) as Record<DimensionKey, PercentileResult | null>
-}
-
-function ZhHansPercentileFootnote({
-  dimensions,
-  percentiles,
-}: {
-  dimensions: readonly { key: DimensionKey; label: string }[]
-  percentiles: Record<DimensionKey, PercentileResult | null>
-}) {
-  const sampleSizes = dimensions.flatMap((dimension) => {
-    const result = percentiles[dimension.key]
-    return result
-      ? [`${dimension.label} n=${result.n.toLocaleString("zh-CN")}`]
-      : []
-  })
-  if (sampleSizes.length === 0) return null
-
-  return (
-    <p className="muted result-note-xs" role="note">
-      百分位样本量：{sampleSizes.join("；")}。采用当前已完成基础问卷结果的中位秩百分位。
-    </p>
-  )
-}
-
-function formatPercentage(value: number) {
-  return Number.isInteger(value) ? String(value) : value.toFixed(1)
 }
