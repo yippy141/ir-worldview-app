@@ -10,9 +10,16 @@ async function chooseFirstAnswer(page: Page) {
   await frame.locator("button.option-card").first().click()
 }
 
-async function expectFocusedHeading(page: Page) {
+async function expectFocusedHeadingBelowStickyHeader(page: Page) {
   const heading = questionFrame(page).getByRole("heading", { level: 2 })
   await expect(heading).toBeFocused()
+  const [headingBox, headerBox] = await Promise.all([
+    heading.boundingBox(),
+    page.locator(".quiz-shell-header").boundingBox(),
+  ])
+  expect(headingBox).not.toBeNull()
+  expect(headerBox).not.toBeNull()
+  expect(headingBox!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height - 1)
 }
 
 test("Focus Area keeps one reversible question on screen and restores position", async ({
@@ -35,11 +42,11 @@ test("Focus Area keeps one reversible question on screen and restores position",
   await frame.getByRole("button", { name: "Next", exact: true }).click()
   await expect(frame.getByText(/^2 of \d+$/)).toBeVisible()
   await expect(frame.getByRole("heading", { level: 2 })).not.toHaveText(firstTitle)
-  await expectFocusedHeading(page)
+  await expectFocusedHeadingBelowStickyHeader(page)
 
   await page.reload()
   await expect(questionFrame(page).getByText(/^2 of \d+$/)).toBeVisible()
-  await expectFocusedHeading(page)
+  await expectFocusedHeadingBelowStickyHeader(page)
 
   await questionFrame(page).getByRole("button", { name: "Back", exact: true }).click()
   await expect(questionFrame(page).getByRole("heading", { level: 2 })).toHaveText(firstTitle)
