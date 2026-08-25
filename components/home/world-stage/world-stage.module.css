@@ -285,6 +285,7 @@
   top: clamp(102px, 14vh, 138px);
   right: max(22px, calc(env(safe-area-inset-right) + 18px));
   width: min(370px, 33vw);
+  pointer-events: none;
   text-align: right;
   animation: stateReveal 220ms ease-out both;
 }
