@@ -59,3 +59,21 @@ export function formatArchetypeReadingCodeForSpeech(
 ): string {
   return `${formatArchetypeCodeSpeech(code)}, ${normativeDisplayAlias(normativeSuffix)}`
 }
+
+export function explainArchetypeReadingCode(
+  code: ArchetypeDisplayCode,
+  normativeSuffix: NormSuffix,
+): string {
+  const lensLabels = code
+    .slice(0, -1)
+    .split("/")
+    .map((lens) => publicLensLabel(lens as LensCode))
+  const lensText = lensLabels.length === 1
+    ? `${lensLabels[0]} names the leading explanatory lens`
+    : `${lensLabels.join(" and ")} name the two leading explanatory lenses`
+  const postureText = code.endsWith("+")
+    ? "the plus sign marks applying advantage"
+    : "the minus sign marks restraint"
+
+  return `${lensText}; ${postureText}; ${normativeDisplayAlias(normativeSuffix)} names the result’s order-and-justice posture.`
+}

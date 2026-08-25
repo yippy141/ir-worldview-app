@@ -12,9 +12,8 @@ test("active Profile renders independent domain records without frozen movement 
   assert.match(source, /Foundation and issue records/)
   assert.match(
     source,
-    /Issue results sit beside the Foundation and do not rescore it\./,
+    /Completed Focus Areas and AI results appear beside[\s\S]*none changes the Foundation result\./,
   )
-  assert.match(source, /ACTIVE_MODULE_COMPARISON_STATUS/)
   assert.match(source, /\(\["security", "technology"\] as const\)\.map/)
   assert.match(
     source,

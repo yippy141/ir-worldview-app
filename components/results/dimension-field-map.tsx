@@ -93,7 +93,7 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
         <svg
           viewBox={`0 0 ${MAP_VIEW_SIZE} ${MAP_VIEW_SIZE}`}
           role="img"
-          aria-label={`Field map placing this profile among the four modeled traditions — ${TRADITION_ANCHORS.map((anchor) => FAMILY_LABELS[anchor.key]).join(", ")}`}
+          aria-label={`Field map showing this profile against four authored tradition reference anchors: ${TRADITION_ANCHORS.map((anchor) => FAMILY_LABELS[anchor.key]).join(", ")}`}
           className="field-map__svg"
         >
           {/* Plot frame and centre axes */}
@@ -189,8 +189,8 @@ export function DimensionFieldMap({ dimensionScores, lowDifferentiation = false 
       <p className="field-map__caption muted">
         The dot is where your answers place you. The vertical axis separates
         realism, institutionalism, and critical political economy only weakly,
-        because all three read world politics through material forces — so
-        distance between those three says less than distance to constructivism.
+        because all three read world politics through material forces. Distance
+        between those three says less than distance to constructivism.
       </p>
     </div>
   )

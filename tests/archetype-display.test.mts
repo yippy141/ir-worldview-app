@@ -7,6 +7,7 @@ import {
   formatArchetypeDisplayCode,
   formatArchetypeReadingCode,
   formatArchetypeReadingCodeForSpeech,
+  explainArchetypeReadingCode,
   NORMATIVE_DISPLAY_ALIASES,
   PUBLIC_LENS_LABELS,
 } from "@/lib/archetype-display"
@@ -73,6 +74,17 @@ test("public reading codes expand normative suffixes instead of exposing them", 
   )
 })
 
+test("first-contact code explanations define lenses, posture signs, and normative labels", () => {
+  assert.equal(
+    explainArchetypeReadingCode("P+", "j"),
+    "Power names the leading explanatory lens; the plus sign marks applying advantage; Justice-first names the result’s order-and-justice posture.",
+  )
+  assert.equal(
+    explainArchetypeReadingCode("R/M-", "c"),
+    "Rules and Meaning name the two leading explanatory lenses; the minus sign marks restraint; Conditional names the result’s order-and-justice posture.",
+  )
+})
+
 test("owned public routes use display helpers and contain no raw normative suffix", () => {
   const source = [
     "app/archetypes/page.tsx",
@@ -96,7 +108,8 @@ test("result, profile, share-card, posture, and locale surfaces use the shared f
       /formatArchetypeReadingCode/,
       /formatArchetypeReadingCodeForSpeech/,
     ],
-    "app/api/card/route.tsx": [/formatArchetypeReadingCode/],
+    "app/api/card/route.tsx": [/buildFoundationCardCopy/],
+    "lib/foundation-social-copy.ts": [/formatArchetypeReadingCode/],
     "components/profile/profile-compare.tsx": [
       /formatArchetypeReadingCode/,
       /formatArchetypeReadingCodeForSpeech/,

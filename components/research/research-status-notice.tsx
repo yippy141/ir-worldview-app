@@ -11,10 +11,11 @@ export function ResearchStatusNotice({ instrumentLabel }: Props) {
         <p className="eyebrow">Research collection</p>
         <h2 style={{ margin: 0, fontSize: "1.05rem" }}>Research responses are not collected</h2>
         <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-          Your raw answers and saved {instrumentLabel} history stay in this browser unless you
-          explicitly share a link. Separate first-party aggregate counters may receive derived
-          buckets when coarse measurement is enabled. The site does not collect research
-          responses or contact details.
+          Draft answers and saved {instrumentLabel} history stay in this browser. Generated result
+          links contain the data needed to reopen a result; Focus Area links include selected
+          answer IDs. Separate first-party aggregate counters may receive derived buckets when
+          coarse measurement is enabled. The site does not collect research responses or contact
+          details.
         </p>
       </div>
 

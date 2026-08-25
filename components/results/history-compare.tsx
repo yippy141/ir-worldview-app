@@ -124,8 +124,8 @@ function CompareSection({
 
       {nothingChanged ? (
         <p className="muted history-line">
-          Your result is consistent with the previous one — no meaningful changes across family,
-          modifiers, or dimension scores.
+          Your result is consistent with the previous one. Family, modifiers, and dimension scores
+          show no meaningful changes.
         </p>
       ) : (
         <div className="stack-md">
@@ -139,7 +139,7 @@ function CompareSection({
               </p>
             ) : (
               <p className="history-line">
-                Unchanged — <span className="result-strong">{traditionNounLabel(current.familyKey)}</span>.
+                Unchanged: <span className="result-strong">{traditionNounLabel(current.familyKey)}</span>.
               </p>
             )}
           </div>
