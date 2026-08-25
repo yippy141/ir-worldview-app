@@ -75,31 +75,31 @@ const FAMILY_MEANINGS: Record<FamilyKey, string> = {
 
 const FAMILY_DEBATE_FRAMES: Record<FamilyKey, string> = {
   realist:
-    "The reading gives priority to shifts in power and credible deterrence. It also asks whether institutions survive strategic pressure.",
+    "Across the Foundation items, your answers gave early weight to imposed costs and credible deterrence. Institutional promises carried more weight when powerful states retained reasons to honor them.",
   institutionalist:
-    "Rule credibility and monitoring lead the reading, especially where institutions can change incentives.",
+    "Across the Foundation items, your answers gave weight to rules that change incentives, monitoring that detects violations, and agreements that reduce uncertainty.",
   constructivist:
-    "The reading starts with legitimacy and the history that shapes how actors frame the case.",
+    "Across the Foundation items, your answers gave weight to legitimacy, memory, and identity when interpreting what actors see as possible or threatening.",
   criticalPoliticalEconomy:
-    "Control over leverage and dependence leads the reading, especially in the economic architecture of the issue.",
+    "Across the Foundation items, your answers gave weight to control over finance, production, and supply chains, including who bears the costs of dependence.",
 }
 
 const STRATEGY_FRAMES: Record<StrategyModifier, string> = {
   Restrainer:
-    "The strategy modifier favors limiting commitments when overextension risk rises.",
+    "On strategy items, your answers favored narrower objectives and room to disengage when commitments risked outrunning capacity.",
   Hedger:
-    "Restraint and competition remain balanced until the case supplies a reason to favor one.",
+    "On strategy items, your answers kept both escalation and restraint available until the harder-to-reverse risk became clearer.",
   Maximizer:
-    "A durable advantage can justify harder bargaining in this strategic posture.",
+    "On strategy items, your answers gave more weight to using durable advantages to change the terms of a bargain.",
 }
 
 const NORMATIVE_FRAMES: Record<NormativeModifier, string> = {
   Pluralist:
-    "The normative modifier sets a high threshold before outside actors may override sovereignty and order.",
+    "On normative items, your answers required exceptional evidence before overriding sovereignty because the precedent could outlive the crisis.",
   "Conditional Solidarist":
-    "Order and justice remain an unresolved tradeoff in the normative modifier.",
+    "On normative items, your answers weighed the harm of intervention against the harm of leaving an abuse unanswered.",
   Universalist:
-    "Severe moral stakes can override sovereignty in hard cases under this normative modifier.",
+    "On normative items, your answers accepted some cost to sovereignty when threats to people became severe enough.",
 }
 
 export function assessFoundationNarrative(

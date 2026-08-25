@@ -3,7 +3,7 @@ import { QuizApp } from "@/components/quiz-app"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Foundation — IR Worldview Inventory",
+  title: "Foundation | IR Worldview Inventory",
   description:
     "Complete the 14-item Foundation core, then optionally add targeted or full extended questions.",
 }

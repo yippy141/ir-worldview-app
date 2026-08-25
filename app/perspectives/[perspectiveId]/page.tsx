@@ -13,8 +13,8 @@ export async function generateMetadata(
   const { perspectiveId } = await params
   const perspective = perspectiveCatalog.find((candidate) => candidate.id === perspectiveId)
   const title = perspective
-    ? `${perspective.label} — Perspective Run`
-    : "Perspective Run — IR Worldview Inventory"
+    ? `${perspective.label} | Perspective Run`
+    : "Perspective Run | IR Worldview Inventory"
 
   return {
     title,

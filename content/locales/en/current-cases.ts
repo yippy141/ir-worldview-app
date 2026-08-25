@@ -127,7 +127,7 @@ export const englishCurrentCaseSharing = {
   invitationCopied: "Case invitation copied.",
   invitationShared: "Case invitation shared.",
   includeChoice: (choice: string, confidence: number) =>
-    `Include my final choice — “${choice}” — and confidence of ${confidence}/5 in sharing controls.`,
+    `Add my final choice, “${choice}”, and confidence of ${confidence}/5 to the share text.`,
   shareMyReading: "Share my reading",
   copyMyReading: "Copy my reading",
 } as const

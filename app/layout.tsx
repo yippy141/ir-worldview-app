@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   title: siteConfig.publicTitle,
   description:
-    "Map how you think about world politics — IR theory, security, technology, and AI governance.",
+    "Map how you think about world politics across IR theory, security, technology, and AI governance.",
 }
 
 export const viewport: Viewport = {

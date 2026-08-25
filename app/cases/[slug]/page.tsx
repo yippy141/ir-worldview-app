@@ -19,9 +19,9 @@ export const revalidate = 3600
 export async function generateMetadata({ params }: CurrentCasePageProps): Promise<Metadata> {
   const { slug } = await params
   const record = getPublishedCurrentCaseBySlug(slug)
-  if (!record) return { title: "Current Case not found — IR Worldview Inventory" }
+  if (!record) return { title: "Current Case not found | IR Worldview Inventory" }
   return {
-    title: `${record.title} — Current Case`,
+    title: `${record.title} | Current Case`,
     description: record.dek,
     alternates: { canonical: `/cases/${record.slug}` },
     openGraph: {

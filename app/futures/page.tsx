@@ -4,9 +4,9 @@ import { TrajectoryMap } from "@/components/futures/trajectory-map"
 import { TrajectoryCard } from "@/components/futures/trajectory-card"
 
 export const metadata: Metadata = {
-  title: "Twelve Trajectories — IR Worldview Inventory",
+  title: "Twelve Trajectories | IR Worldview Inventory",
   description:
-    "An editorial field map of where advanced AI could take us — twelve outcome scenarios adapted from Max Tegmark's Life 3.0 and updated with 2026 signals. Not predictions, not scored.",
+    "An editorial field map of where advanced AI could take us: twelve outcome scenarios adapted from Max Tegmark's Life 3.0 and updated with 2026 signals. Not predictions, not scored.",
 }
 
 export default function FuturesPage() {
@@ -17,8 +17,8 @@ export default function FuturesPage() {
         <h1>Twelve Trajectories</h1>
         <p className="muted" style={{ lineHeight: "1.7", fontSize: "1.05rem", maxWidth: "620px" }}>
           A field map of where sustained progress in advanced AI could take us. The twelve
-          trajectories below are distinct outcome scenarios — not forecasts, not a ranking, and not
-          scored. Nothing here feeds the inventory or your Profile. It exists to give the debate a
+          trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or
+          scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a
           shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals
           bear on it.
         </p>
