@@ -8,17 +8,9 @@ import { Link } from "@/i18n/navigation"
 import { internalPath } from "@/i18n/paths"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getBetaNavigationItem } from "@/lib/beta-config"
+import { getQuizChromeMeta } from "@/lib/quiz-chrome"
 import { siteConfig } from "@/lib/site-config"
 import { isImmersiveRoute } from "@/lib/site-shell"
-
-type QuizChromeMeta = {
-  title: string
-  sectionLabel: string
-  exitHref: string
-  exitLabel: string
-  steps: string[]
-  activeStep: string
-}
 
 type PublicNavItem = {
   href: string
@@ -102,11 +94,6 @@ const mobileNavGroups: MobileNavGroup[] = [
   },
 ]
 
-const moduleTitles: Record<string, string> = {
-  security: "Security & Strategy",
-  technology: "Technology & Geoeconomics",
-}
-
 function matchesPath(pathname: string, href: string) {
   if (href === "/explore") {
     return pathname === "/explore" || (
@@ -117,60 +104,6 @@ function matchesPath(pathname: string, href: string) {
   }
 
   return pathname === href || pathname.startsWith(`${href}/`)
-}
-
-function getQuizChromeMeta(pathname: string | null): QuizChromeMeta | null {
-  if (!pathname) return null
-
-  if (pathname === "/quiz" || pathname === "/quiz/review") {
-    return {
-      title: "Foundation Questionnaire",
-      sectionLabel: "IR Worldview Inventory",
-      exitHref: "/",
-      exitLabel: "Exit to home",
-      steps: ["Quiz", "Review"],
-      activeStep: pathname === "/quiz/review" ? "Review" : "Quiz",
-    }
-  }
-
-  if (pathname === "/ai/quiz" || pathname === "/ai/review") {
-    return {
-      title: "AI Questionnaire",
-      sectionLabel: "AI Governance Compass",
-      exitHref: "/ai",
-      exitLabel: "Exit to AI home",
-      steps: ["Quiz", "Review"],
-      activeStep: pathname === "/ai/review" ? "Review" : "Quiz",
-    }
-  }
-
-  const perspectiveMatch = pathname.match(/^\/perspectives\/([^/]+)$/)
-  if (perspectiveMatch) {
-    return {
-      title: "Perspective Brief",
-      sectionLabel: "Perspective Run",
-      exitHref: "/perspectives",
-      exitLabel: "Exit to briefs",
-      steps: [],
-      activeStep: "",
-    }
-  }
-
-  const moduleMatch = pathname.match(/^\/modules\/([^/]+)$/)
-  if (moduleMatch) {
-    const slug = moduleMatch[1]
-
-    return {
-      title: `${moduleTitles[slug] ?? "Focus-area"} Questionnaire`,
-      sectionLabel: "Issue module",
-      exitHref: "/modules",
-      exitLabel: "Exit to modules",
-      steps: ["Questions"],
-      activeStep: "Questions",
-    }
-  }
-
-  return null
 }
 
 export function SiteChrome({
@@ -184,7 +117,7 @@ export function SiteChrome({
   const locale = useLocale()
   const t = useTranslations("chrome")
   const currentPath = internalPath(pathname ?? "/")
-  const quizMeta = locale === "en" ? getQuizChromeMeta(currentPath) : null
+  const quizMeta = getQuizChromeMeta(currentPath, locale)
   const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
   const betaNavigationItem = getBetaNavigationItem(betaNavigationEnabled)
   const visibleMoreNavItems = betaNavigationItem
@@ -205,9 +138,11 @@ export function SiteChrome({
     return (
       <div className="site-shell">
         <a href="#site-main" className="skip-link">{t("skip")}</a>
-        <div className="immersive-language-switcher">
-          <LanguageSwitcher />
-        </div>
+        {currentPath === "/" ? null : (
+          <div className="immersive-language-switcher">
+            <LanguageSwitcher />
+          </div>
+        )}
         {children}
       </div>
     )
@@ -235,7 +170,7 @@ export function SiteChrome({
               </div>
 
               <div className="quiz-shell-actions">
-                <div className="quiz-shell-steps" aria-label="Route progress">
+                <div className="quiz-shell-steps" aria-label={quizMeta.progressLabel}>
                   {quizMeta.steps.map((step) => (
                     <span
                       key={step}
