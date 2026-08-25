@@ -166,6 +166,7 @@ export type WorldStageMenuItem = {
   index: string
   label: string
   sceneId: WorldStageSceneId
+  availability: "live" | "archive" | "available"
   lens: string
   description: string
   href: string

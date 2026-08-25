@@ -1,13 +1,21 @@
 import type { ZhHansWorldStageSceneCopy } from "@/content/locales/zh-Hans/types"
+import { getWorldStageMenuItems } from "@/lib/world-stage/scenes"
+import type { WorldStageMenuItem } from "@/lib/world-stage/types"
 
 export const zhHansWorldStageUi = {
   brandAriaLabel: "国际关系世界观清单首页",
   heading: "选择一个起点。",
   introduction: "完成基础问卷，判断一个当前案例，或比较不同传统与决策模式背后的论证。",
+  archiveIntroduction: "完成基础问卷，回顾近期案例，或比较不同传统与决策模式背后的论证。",
+  choiceGroups: {
+    startHere: "从这里开始",
+    continueExploring: "继续探索",
+  },
   utility: [{ id: "profile", label: "我的画像", href: "/profile" }],
   secondaryLinks: [
     { label: "比较画像", href: "/compare" },
     { label: "关于", href: "/about" },
+    { label: "未来情景", href: "/futures" },
     { label: "方法", href: "/method" },
     { label: "参考文献", href: "/references" },
     { label: "隐私", href: "/privacy" },
@@ -19,6 +27,7 @@ export const zhHansWorldStageUi = {
       index: "01",
       label: "当前案例",
       sceneId: "foundation",
+      availability: "live",
       lens: "研判当前案例",
       description: "判断一项有来源依据的国际事务，再检验支撑这项判断的假设。",
       href: "/current",
@@ -29,6 +38,7 @@ export const zhHansWorldStageUi = {
       index: "02",
       label: "基础问卷",
       sceneId: "foundation",
+      availability: "available",
       lens: "建立判断基线",
       description: "围绕七项反复出现的外交政策取舍，建立你的判断基线。",
       href: "/quiz",
@@ -39,8 +49,9 @@ export const zhHansWorldStageUi = {
       index: "03",
       label: "议题专题",
       sceneId: "focus-areas",
+      availability: "available",
       lens: "具体议题的压力",
-      description: "观察安全、技术和地缘经济问题如何改变论证的重点。",
+      description: "观察安全与技术问题如何改变论证的重点。",
       href: "/modules",
       action: "打开议题专题",
     },
@@ -49,6 +60,7 @@ export const zhHansWorldStageUi = {
       index: "04",
       label: "情境推演",
       sceneId: "perspectives",
+      availability: "available",
       lens: "特定处境下的判断",
       description: "从一个明确的战略处境出发，重新判断同一组维度。",
       href: "/perspectives",
@@ -59,6 +71,7 @@ export const zhHansWorldStageUi = {
       index: "05",
       label: "世界观地图",
       sceneId: "worldview-map",
+      availability: "available",
       lens: "决策模式与公开立场",
       description: "把你的基线与编辑型决策模式、情境变化和经过审读的公开立场并列比较。",
       href: "/explore/atlas",
@@ -67,10 +80,11 @@ export const zhHansWorldStageUi = {
     {
       id: "ai-futures",
       index: "06",
-      label: "AI 与未来议题",
+      label: "AI 治理",
       sceneId: "futures",
+      availability: "available",
       lens: "技术与秩序",
-      description: "考察 AI 治理选择，以及这些选择可能塑造的未来。",
+      description: "考察你如何理解 AI 治理选择，并生成一项独立的领域结果。",
       href: "/ai",
       action: "打开 AI 治理",
     },
@@ -122,6 +136,7 @@ export const zhHansWorldStageUi = {
     tooltipReviewedThrough: "审读截至",
     tooltipSources: "来源",
     tooltipClose: "关闭来源详情",
+    mapDetailsAndSources: "地图详情与来源",
     lensOwner: "视角中心",
     asOf: "截至",
     roleLabels: {
@@ -160,6 +175,41 @@ export const zhHansWorldStageUi = {
     improveMap: "改进此地图",
   },
 } as const
+
+const zhHansRecentCasesMenuItem = {
+  id: "current-case",
+  index: "02",
+  label: "近期案例",
+  sceneId: "foundation",
+  availability: "archive",
+  lens: "回顾近期案例",
+  description: "浏览已经结束现行审读窗口、但仍保留来源和状态说明的国际事务案例。",
+  href: "/cases",
+  action: "浏览近期案例",
+} as const satisfies WorldStageMenuItem
+
+export function getZhHansWorldStageMenuItems(
+  hasActiveCurrentCase: boolean,
+): readonly WorldStageMenuItem[] {
+  const localizedById = new Map(
+    zhHansWorldStageUi.menu.map((item) => [item.id, item] as const),
+  )
+
+  return getWorldStageMenuItems(hasActiveCurrentCase).map((canonical) => {
+    if (canonical.id === "current-case" && canonical.availability === "archive") {
+      return zhHansRecentCasesMenuItem
+    }
+
+    const localized = localizedById.get(canonical.id)
+    if (!localized) return canonical
+    return {
+      ...localized,
+      index: canonical.index,
+      href: canonical.href,
+      availability: canonical.availability,
+    }
+  })
+}
 
 export const zhHansWorldStageScenes = [
   {
