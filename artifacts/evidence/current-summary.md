@@ -74,7 +74,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | compatibility-test | tests/instrument-version-compatibility.test.mts | a43809045e6cc188cc43f76417b87f96c9ef9c89b071053412dcc91dbc89603c |
 | compatibility-test | tests/option-order.test.mts | 456a3abb313f146c7b2e76e6ce88ba495263cbaf33eeca28e899b0c104d399db |
 | compatibility-test | tests/public-copy-audit.test.mts | 0d74af4f2ba5b8a5023dde61d2a87cbddbc9e6014e5e9423853c192e8b840cf2 |
-| compatibility-test | tests/security-v4.test.mts | 5cf978e6b89f81e78fe7308676465021eb65f29e997c25b0abd6876424cd1f49 |
+| compatibility-test | tests/security-v4.test.mts | 4a7bfe02b9831a6153c89c0840dabe2a06c10724a3737b2d0e62544ff25ce50a |
 | compatibility-test | tests/v21-module-copy.test.mts | 378c1fffaa13b567f8ede3aab8044cc15e4e7f9e25cdc78a1523b8cbfdf746a4 |
 
 ## Current bank coverage
@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 580. Unchanged and suppressed: 540. New: 40. Resolved: 18.
+P2 advisory baseline: 558. Current: 583. Unchanged and suppressed: 540. New: 43. Resolved: 18.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 26 |
-| P2 | 580 |
+| P2 | 583 |
 
 ### P0 and P1 findings
 
@@ -1060,6 +1060,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | lens-metaphor-review | public | lib/modules/calibration.ts (content-key:lib/modules/calibration.ts#MODULE_CALIBRATION_SOURCE.securityMethod) | lens cards |
 | 1 | repeated-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.18.options.1.label) | a hotline, rescue arrangements, and incident investigation by outsiders to the dispute / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | general-prevalence-language-review | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | usually |
+| 1 | weak-generic-heading | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.0.label) | Start here |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
 | 1 | repeated-adjacent-opening | editorial-source | content/archetype-evidence.json (content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason) | the article is |
 | 1 | lens-metaphor-review | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | lens cards |
@@ -1069,7 +1070,9 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityLanes.2.description) | Order, legitimacy, and protection / legal authority, civilian protection, and bounded action |
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityV22Module.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#WorldStageHome.p) | answer the foundation |
 | 1 | repeated-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
+| 1 | weak-generic-heading | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.1.label) | Continue exploring |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | answer from your |
 | 1 | lens-metaphor-review | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |

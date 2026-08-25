@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 580,
-      "newCount": 40,
+      "currentCount": 583,
+      "newCount": 43,
       "newFindings": [
         {
           "audience": "public",
@@ -117,6 +117,16 @@
           "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense — build your own position rather than force the outcome — and does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
         },
         {
+          "audience": "public",
+          "context": "content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.0.label",
+          "count": 1,
+          "file": "components/home/world-stage/world-stage-home.tsx",
+          "fingerprint": "39192907b063907279a357234a3fadaf562cb8f394e648ca51cf58210e326d17",
+          "matched": "Start here",
+          "rule": "weak-generic-heading",
+          "source": "Start here"
+        },
+        {
           "audience": "operational",
           "context": "content-key:lib/archetype-content.ts#validateClaimListField",
           "count": 1,
@@ -208,6 +218,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:components/home/world-stage/world-stage-home.tsx#WorldStageHome.p",
+          "count": 1,
+          "file": "components/home/world-stage/world-stage-home.tsx",
+          "fingerprint": "6cd35a876766a7af79e49e31c730cd6ac88f6a20e5e3af2efbb9065e311abb49",
+          "matched": "answer the foundation",
+          "rule": "repeated-adjacent-opening",
+          "source": "Answer the Foundation, review recent cases, or compare the arguments behind the traditions and Decision Patterns."
+        },
+        {
+          "audience": "public",
           "context": "content-key:content/instrument/security.v5.json#items.20.scene",
           "count": 1,
           "file": "content/instrument/security.v5.json",
@@ -215,6 +235,16 @@
           "matched": "foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action",
           "rule": "repeated-three-part-list",
           "source": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. The territorial dispute remains unresolved. For this scenario, assume a ceasefire is available, Ukraine remains outside the North Atlantic Treaty Organization (NATO), and Kyiv must choose one post-ceasefire arrangement to reduce the risk of renewed attack. The arrangement can combine Ukrainian forces, foreign support, monitoring, and limits; none guarantees protection without shifting cost, exposure, or freedom of action. Here, a guarantor is an outside state that promises a specified response; a trigger is the verified event that activates that response; and a monitored force limit is a cap whose compliance is checked by agreed observers."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.1.label",
+          "count": 1,
+          "file": "components/home/world-stage/world-stage-home.tsx",
+          "fingerprint": "7c09b8f3c46c63731c6169d5f510a7891a0c1d7c921666fb5835f2e48f16414f",
+          "matched": "Continue exploring",
+          "rule": "weak-generic-heading",
+          "source": "Continue exploring"
         },
         {
           "audience": "public",
@@ -1443,7 +1473,7 @@
         "priority": "P1"
       },
       {
-        "count": 580,
+        "count": 583,
         "priority": "P2"
       }
     ]
@@ -75410,7 +75440,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/security-v4.test.mts",
-      "sha256": "5cf978e6b89f81e78fe7308676465021eb65f29e997c25b0abd6876424cd1f49"
+      "sha256": "4a7bfe02b9831a6153c89c0840dabe2a06c10724a3737b2d0e62544ff25ce50a"
     },
     {
       "category": "compatibility-test",
