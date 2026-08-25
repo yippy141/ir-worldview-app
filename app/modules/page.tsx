@@ -1,5 +1,7 @@
 import Link from "next/link"
+import { ModulesFoundationState } from "@/components/modules/modules-foundation-state"
 import { modules } from "@/lib/modules/framework"
+import { resolveFoundationPayload } from "@/lib/share"
 import type { Metadata } from "next"
 
 const plannedModuleTracks = {
@@ -60,9 +62,9 @@ const plannedModuleTracks = {
 } as const
 
 export const metadata: Metadata = {
-  title: "Focus Areas — IR Worldview Inventory",
+  title: "Focus Areas | IR Worldview Inventory",
   description:
-    "Take a focus-area module in Security or Technology and save the result beside your Foundation.",
+    "Take a Security or Technology Focus Area and save the result beside your Foundation.",
 }
 
 export default async function ModulesPage(
@@ -73,6 +75,9 @@ export default async function ModulesPage(
   },
 ) {
   const { foundation } = await searchParams
+  const verifiedFoundation = foundation && resolveFoundationPayload(foundation)
+    ? foundation
+    : undefined
 
   return (
     <div className="wide-container">
@@ -86,19 +91,10 @@ export default async function ModulesPage(
                 Use Security and Technology to examine concrete policy judgments. Each result
                 remains a separate domain record and leaves the Foundation unchanged.
               </p>
-              <div className="row gap-sm wrap">
-                {foundation ? (
-                  <>
-                    <Link href="#available-modules" className="cta-primary">Choose a focus area</Link>
-                    <Link href="/profile" className="cta-secondary">View Profile</Link>
-                  </>
-                ) : (
-                  <>
-                    <Link href="/quiz" className="cta-primary">Take the Foundation first</Link>
-                    <Link href="#available-modules" className="cta-secondary">Browse Focus Areas</Link>
-                  </>
-                )}
-              </div>
+              <ModulesFoundationState
+                linkedFoundation={Boolean(verifiedFoundation)}
+                variant="actions"
+              />
             </div>
 
             <aside className="lobby-side-note lobby-side-note--offset stack-sm">
@@ -109,22 +105,10 @@ export default async function ModulesPage(
                   is to read the issue on its own terms when the case becomes specific.
                 </p>
               </div>
-              {foundation ? (
-                <div className="lobby-note-band stack-xs">
-                  <p className="lobby-note-title">Your Foundation stays linked</p>
-                  <p className="muted lobby-side-text">
-                    Choose either module and its result will sit beside your saved Foundation
-                    without rescoring it.
-                  </p>
-                </div>
-              ) : (
-                <div className="lobby-note-band stack-xs">
-                  <p className="lobby-note-title">Foundation still comes first</p>
-                  <p className="muted lobby-side-text">
-                    You can browse the Focus Areas now. They read best after the Foundation.
-                  </p>
-                </div>
-              )}
+              <ModulesFoundationState
+                linkedFoundation={Boolean(verifiedFoundation)}
+                variant="note"
+              />
             </aside>
           </div>
         </section>
@@ -143,7 +127,7 @@ export default async function ModulesPage(
             </div>
             <div className="signal-list-item">
               <strong>What it does not claim</strong>
-              A module result is an issue read, not a better or truer Foundation result.
+              A Focus Area result is an issue read, not a better or truer Foundation result.
             </div>
           </div>
         </section>
@@ -153,7 +137,7 @@ export default async function ModulesPage(
             <p className="section-kicker">Available Focus Areas</p>
             <h2>Choose a policy area to examine first</h2>
             <p className="muted lobby-section-copy">
-              Each module produces its own issue record. No module score is translated onto the
+              Each Focus Area produces its own issue record. No Focus Area score is translated onto the
               Foundation scale.
             </p>
           </div>
@@ -169,7 +153,7 @@ export default async function ModulesPage(
                   <p className="muted lobby-entry-text">{moduleDefinition.description}</p>
                   <div className="stack-xs">
                     <Link
-                      href={`/modules/${moduleDefinition.slug}${foundation ? `?foundation=${encodeURIComponent(foundation)}` : ""}`}
+                      href={`/modules/${moduleDefinition.slug}${verifiedFoundation ? `?foundation=${encodeURIComponent(verifiedFoundation)}` : ""}`}
                       className="cta-primary"
                     >
                       Open {moduleDefinition.shortTitle} questionnaire

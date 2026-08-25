@@ -81,7 +81,7 @@ test("active module results neither render nor save frozen comparison fields", (
   assert.match(source, /ACTIVE_MODULE_COMPARISON_STATUS/)
   assert.match(
     source,
-    /Issue results sit beside the Foundation and do not rescore it\./,
+    /It can sit beside your Foundation in the Profile, but it never changes the Foundation’s seven dimensions or family summary\./,
   )
   assert.match(source, /overlayDeltas:\s*\{\}/)
   assert.doesNotMatch(source, /result\.overlayDeltas/)
