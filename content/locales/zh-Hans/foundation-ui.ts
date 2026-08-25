@@ -17,6 +17,11 @@ export type FoundationQuizUiCopy = {
   contextAssistOn: string
   contextAssistOff: string
   startOver: string
+  resetConfirmation: {
+    prompt: string
+    confirm: string
+    cancel: string
+  }
   returnToReview: string
   questionProgress: (label: string, index: number, total: number) => string
   howToAnswer: string
@@ -63,6 +68,11 @@ export type FoundationReviewUiCopy = {
   generate: string
   back: string
   startOver: string
+  resetConfirmation: {
+    prompt: string
+    confirm: string
+    cancel: string
+  }
   localProcessing: string
   setLabels: Readonly<Record<FoundationQuestionSet, string>>
   edit: string
@@ -93,6 +103,11 @@ export const zhHansFoundationQuizUi = {
   contextAssistOn: "解释辅助：开",
   contextAssistOff: "解释辅助：关",
   startOver: "重新开始",
+  resetConfirmation: {
+    prompt: "重新开始会清除这份基础问卷草稿。是否继续？",
+    confirm: "清除草稿",
+    cancel: "保留草稿",
+  },
   returnToReview: "← 返回复核页",
   questionProgress: (label, index, total) => `${label} · 第 ${index} 题，共 ${total} 题`,
   howToAnswer: "如何回答本题",
@@ -156,6 +171,11 @@ export const zhHansFoundationReviewUi = {
   generate: "生成我的结果 →",
   back: "返回基础问卷",
   startOver: "重新开始",
+  resetConfirmation: {
+    prompt: "重新开始会清除复核页中的全部基础问卷答案。是否继续？",
+    confirm: "清除答案",
+    cancel: "保留答案",
+  },
   localProcessing:
     "结果在当前浏览器中计算。仅当你允许粗粒度产品分析且汇总服务已启用时，第一方计数器才会接收问卷到达步骤；生成结果时，仅接收推导出的分数与标签，以及各题 ID 和粗粒度答题时长区间，不包含你的答案、原始时间戳、答题顺序或任何标识符。",
   setLabels: zhHansFoundationQuizUi.setLabels,

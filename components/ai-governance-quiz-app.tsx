@@ -16,6 +16,7 @@ import { AI_GOVERNANCE_V22_TUPLE } from "@/lib/ai-governance-versions"
 import type { AiAnswers, AiClarification, AiQuestion, AiQuizMode, AiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { isAiRankedChoiceAnswer } from "@/lib/ai-governance-types"
 import { AiGlossaryDrawer } from "@/components/quiz/ai-glossary-drawer"
+import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
 import {
   createOptionOrderSeed,
   getSeededOptionOrder,
@@ -86,6 +87,7 @@ export function AiGovernanceQuizApp() {
     hasIndexedQuestion && !isNaN(initialQ) ? initialQ : 0,
   )
   const [supportOpen, setSupportOpen] = useState(false)
+  const [focusModeGateAfterReset, setFocusModeGateAfterReset] = useState(false)
   const [glossaryOpen, setGlossaryOpen] = useState(false)
   const [ready, setReady] = useState(false)
 
@@ -185,6 +187,7 @@ export function AiGovernanceQuizApp() {
   }
 
   function resetQuiz() {
+    setFocusModeGateAfterReset(true)
     setState(createEmptyState())
     setCurrentIndex(0)
     setSupportOpen(false)
@@ -204,6 +207,7 @@ export function AiGovernanceQuizApp() {
         <ModeGate
           currentMode={gateMode}
           hasDraft={hasDraft}
+          focusPrimaryOnMount={focusModeGateAfterReset}
           onStart={start}
           onReset={resetQuiz}
           onOpenGlossary={() => setGlossaryOpen(true)}
@@ -259,9 +263,13 @@ export function AiGovernanceQuizApp() {
         </div>
 
         <div className="row gap-sm wrap center">
-          <button type="button" className="secondary-button" onClick={resetQuiz}>
-            Start over
-          </button>
+          <DestructiveActionConfirmation
+            hasData={Object.keys(state.answers).length > 0}
+            triggerLabel="Start over"
+            prompt="Starting over will clear every answer in this AI Governance draft. Continue?"
+            confirmLabel="Clear draft"
+            onConfirm={resetQuiz}
+          />
           <button type="button" className="secondary-button" onClick={() => setGlossaryOpen(true)}>
             Glossary
           </button>
@@ -475,12 +483,14 @@ export function AiGovernanceQuizApp() {
 function ModeGate({
   currentMode,
   hasDraft,
+  focusPrimaryOnMount,
   onStart,
   onReset,
   onOpenGlossary,
 }: {
   currentMode: AiQuizMode
   hasDraft: boolean
+  focusPrimaryOnMount: boolean
   onStart: (mode: AiQuizMode) => void
   onReset: () => void
   onOpenGlossary: () => void
@@ -500,8 +510,8 @@ function ModeGate({
           <h1>Map how you think about AI safety, governance, and the future</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
             Position statements and branching scenarios map where you stand across eight AI
-            governance dimensions. The result is a structured interpretation — not a personality
-            profile or a validated instrument.
+            governance dimensions. The result is a structured interpretation. It is neither a
+            personality profile nor a validated instrument.
           </p>
           <div className="callout stack-sm" style={{ maxWidth: "720px" }}>
             <div className="stack-xs">
@@ -513,8 +523,8 @@ function ModeGate({
               </p>
             </div>
             <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem", margin: 0 }}>
-              The focused quiz shell keeps navigation light here. Browse pages and feedback remain
-              available after you exit the module.
+              The focused quiz shell keeps navigation light here. Browse pages and the corrections
+              and contact route remain available after you exit the questionnaire.
             </p>
           </div>
         </div>
@@ -554,13 +564,23 @@ function ModeGate({
         </div>
 
         <div className="row gap-sm wrap">
-          <button type="button" className="primary-button" onClick={() => onStart(selectedMode)}>
-            {hasDraft && !modeChanged ? "Resume draft" : "Begin"}
-          </button>
+          <DestructiveActionConfirmation
+            hasData={modeChanged}
+            triggerLabel={hasDraft && !modeChanged ? "Resume draft" : "Begin"}
+            triggerClassName="primary-button"
+            focusTriggerOnMount={focusPrimaryOnMount}
+            prompt="Switching modes will clear every answer in the current AI Governance draft. Continue?"
+            confirmLabel="Switch mode"
+            onConfirm={() => onStart(selectedMode)}
+          />
           {hasDraft ? (
-            <button type="button" className="secondary-button" onClick={onReset}>
-              Start over
-            </button>
+            <DestructiveActionConfirmation
+              hasData
+              triggerLabel="Start over"
+              prompt="Starting over will clear every answer in this AI Governance draft. Continue?"
+              confirmLabel="Clear draft"
+              onConfirm={onReset}
+            />
           ) : null}
           <button type="button" className="secondary-button" onClick={onOpenGlossary}>
             Glossary
