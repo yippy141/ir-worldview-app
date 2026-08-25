@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 583. Unchanged and suppressed: 540. New: 43. Resolved: 18.
+P2 advisory baseline: 558. Current: 597. Unchanged and suppressed: 532. New: 65. Resolved: 26.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,14 +995,14 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 26 |
-| P2 | 583 |
+| P2 | 597 |
 
 ### P0 and P1 findings
 
 | Priority | Rule | Audience | Location | Matched |
 | --- | --- | --- | --- | --- |
 | P0 | implementation-detail | operational | app/api/aggregate/stats/route.ts:40 (route:/api/aggregate/stats#invalidPayloadResponse.error) | result payload |
-| P0 | implementation-detail | operational | app/api/card/route.tsx:33 (route:/api/card#GET) | result payload |
+| P0 | implementation-detail | operational | app/api/card/route.tsx:31 (route:/api/card#GET) | result payload |
 | P0 | public-release-language | editorial-source | content/locales/zh-Hans/manifest.ts:7 (content-key:content/locales/zh-Hans/manifest.ts#zhHansCopyDeckManifest.implementationRange) | V19.1 |
 | P0 | public-release-language | editorial-source | content/locales/zh-Hans/manifest.ts:7 (content-key:content/locales/zh-Hans/manifest.ts#zhHansCopyDeckManifest.implementationRange) | V20 |
 | P0 | public-release-language | operational | lib/archetype-content.ts:18 (content-key:lib/archetype-content.ts#OWNER_AUTHORIZED_BETA_QUALIFICATION) | beta |
@@ -1050,34 +1050,50 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | Count | Rule | Audience | Location | Matched |
 | --- | --- | --- | --- | --- |
 | 1 | repeated-three-part-list | public | app/archetypes/[slug]/page.tsx (route:/archetypes/[slug]#ArchetypeDetailPage.p) | change the underlying Foundation score or assign people, organizations, or traditions to a fixed type / not editorial, expert, or methodological validation |
+| 1 | repeated-adjacent-opening | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | both ends read |
+| 1 | repeated-adjacent-abstract-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map / map, map |
 | 1 | repeated-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
 | 1 | repeated-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
 | 1 | lens-metaphor-review | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
 | 1 | lens-metaphor-review | public | lib/modules/calibration.ts (content-key:lib/modules/calibration.ts#MODULE_CALIBRATION_SOURCE.securityMethod) | lens cards |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.low) | the aggregate score |
 | 1 | repeated-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.18.options.1.label) | a hotline, rescue arrangements, and incident investigation by outsiders to the dispute / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | general-prevalence-language-review | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | usually |
 | 1 | weak-generic-heading | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.0.label) | Start here |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.midRange) | the aggregate score |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.midRange) | the aggregate score |
 | 1 | repeated-adjacent-opening | editorial-source | content/archetype-evidence.json (content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason) | the article is |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.low) | the aggregate score |
 | 1 | lens-metaphor-review | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | lens cards |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.midRange) | the aggregate score |
 | 1 | general-prevalence-language-review | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.4.whyHard) | normally |
 | 1 | general-prevalence-language-review | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.19.options.1.label) | often |
 | 1 | repeated-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low) | the aggregate score |
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityLanes.2.description) | Order, legitimacy, and protection / legal authority, civilian protection, and bounded action |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.midRange) | the aggregate score |
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityV22Module.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#WorldStageHome.p) | answer the foundation |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low) | the aggregate score |
 | 1 | repeated-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
+| 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | map, map |
 | 1 | weak-generic-heading | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.1.label) | Continue exploring |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | answer from your |
 | 1 | lens-metaphor-review | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
 | 1 | lens-metaphor-review | public | components/modules/module-result.tsx (content-key:components/modules/module-result.tsx#ModuleResultView.p) | lens cards |
+| 1 | layer-metaphor-review | public | app/privacy/page.tsx (route:/privacy#PrivacyPage.p) | saved layers |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.midRange) | the aggregate score |
+| 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | lib/modules/security-v22.ts (content-key:lib/modules/security-v22.ts#securityV22Module) | under security pressure |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
@@ -1086,35 +1102,49 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.18.options.1.label) | a hotline, rescue arrangements, and third-party incident investigation / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | repeated-adjacent-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.midRange) | the aggregate score |
 | 1 | repeated-adjacent-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Rules, Meaning, and Structure / Foundation value is centered on the neutral score of 4, multiplied by an authored weight, and added to its axis |
 | 1 | repeated-adjacent-opening | operational | lib/modules/authoring-validation.ts (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | decision id is |
 | 1 | general-prevalence-language-review | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.4.whyHard) | normally |
 | 1 | repeated-adjacent-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getStrongLenses.lens.description) | the aggregate score |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.low) | the aggregate score |
+| 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.midRange) | the aggregate score |
+| 1 | general-prevalence-language-review | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | often |
 | 1 | repeated-three-part-list | public | content/instrument/security.v5.json (content-key:content/instrument/security.v5.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
 | 1 | repeated-three-part-list | public | content/instrument/security.v4.json (content-key:content/instrument/security.v4.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
+| 1 | field-metaphor-review | public | components/results/dimension-field-map.tsx (content-key:components/results/dimension-field-map.tsx#DimensionFieldMap.svg.aria-label) | Field map |
 
 ### Resolved P2 findings
 
 | Count | Baseline fingerprint |
 | --- | --- |
+| 1 | 0285c8894fb80acea387d9808311d6a82ba08f6434013da69041157151c6f371 |
+| 1 | 103de392efc3d21dc75dfc9d8860216af7c39bc8fc871391a7b0a4ec259e5780 |
 | 1 | 1207472e8099e95d6a4d2a87cb240e8ff38bbe189dfba5decff83a75e1343108 |
+| 1 | 2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe |
 | 1 | 44d147a4740d15d2a264803f352e34fae81aa47af0438616672d6418740aa929 |
 | 1 | 513db19820bb8477ecc56f1877f8d1a26e1e69047454a6ae311b8ee9cd635d36 |
 | 1 | 5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878 |
 | 1 | 689de962962d10b8cf83810e1db73fefa16f96bfbba692236db8504f24abd1ad |
 | 1 | 690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff |
+| 1 | 698006e9c48998d7dc62d0f0052ce4a1cac8b366406044eeab3e61acc2e0e896 |
 | 1 | 6e88fde52db2ed2178f126d9edf5c767d0e408ffe6f862e05118429fd312c6d2 |
 | 1 | 72a76c9f0594e8c30052ae5687c70ae0c16708125f62380cb4105f6f378c224f |
+| 1 | 79d6a6439d0b099e69f9a03f6c789d68e0e70c65b1fe14fa26bf36903e2f91a7 |
 | 1 | 863d56b5a73c241f1be9faae45bb2a329dce039b0dc27706e0a37e54cbf8084e |
 | 1 | 890b3b7b2fd91e981ea8d7b7ab546f6ce680c8cb4a632960909a3b0f23cd4e67 |
 | 1 | 9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8 |
 | 1 | 9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb |
+| 1 | af3ede19fc879cdde3f8f35b1e02844753b4fa67ccad6170816b0e5b311b5acb |
 | 1 | b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f |
 | 1 | c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1 |
 | 1 | c7a830318d139fcc98035a9984ba7720d0f2141a7f1bb79d001d6a256e757b8a |
+| 1 | c8fbfc73683418b690194e9f389a1e78b8e2f4ed7e0851404da71500a8cea24e |
 | 1 | c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d |
 | 1 | d513984fe792771557ec1894a2da0fc427ee77dbab69f7f3869e9029ad0bb20f |
 | 1 | d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98 |
+| 1 | e1a92a2eaa88dd89bdfb4ff3f0390d6e8e2925b69d8873e394170add96f8ed47 |
 
 ## Method notes
 

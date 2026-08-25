@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 583,
-      "newCount": 43,
+      "currentCount": 597,
+      "newCount": 65,
       "newFindings": [
         {
           "audience": "public",
@@ -15,6 +15,26 @@
           "matched": "change the underlying Foundation score or assign people, organizations, or traditions to a fixed type / not editorial, expert, or methodological validation",
           "rule": "repeated-three-part-list",
           "source": "Archetypes summarize a continuous, multidimensional profile. They do not change the underlying Foundation score or assign people, organizations, or traditions to a fixed type. Automated checks are pretesting, not editorial, expert, or methodological validation."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/results/posture-strip.tsx#PostureStrip.p",
+          "count": 1,
+          "file": "components/results/posture-strip.tsx",
+          "fingerprint": "0c37013d84d66765d60dd3480967ae9075eab331b251771d5bf9340e6052ad58",
+          "matched": "both ends read",
+          "rule": "repeated-adjacent-opening",
+          "source": "Both ends read world politics through the same lens. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/results/posture-strip.tsx#PostureStrip.p",
+          "count": 1,
+          "file": "components/results/posture-strip.tsx",
+          "fingerprint": "11b8a952d60ec1039cff394b58272ed005c41b8ca2c4afe8954f36788caf8d56",
+          "matched": "lenses, map, map / map, map",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "Both ends read world politics through the same lens. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."
         },
         {
           "audience": "public",
@@ -45,6 +65,16 @@
           "matched": "aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate",
           "rule": "repeated-three-part-list",
           "source": "Rely on licensing, aviation notices, cyber pressure, and information operations rather than ship seizures. Accepted cost: Effects are slower, less visible, and easier for Taiwan and partners to mitigate."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "175fbd070fe28001f597f9c50892fe496b823432af9b6ced1f04766079d6d1b7",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward external constraints over domestic-politics explanations."
         },
         {
           "audience": "public",
@@ -98,6 +128,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "2a6a866bc05b2ab3a67e641b3700b444e785e54d21970c6af4f78c3f851123f8",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward using windows of opportunity and pursuing durable advantage."
+        },
+        {
+          "audience": "public",
           "context": "content-key:content/instrument/security.v5.json#items.18.options.1.label",
           "count": 1,
           "file": "content/instrument/security.v5.json",
@@ -137,6 +177,26 @@
           "source": "... .value must contain at least ... claims."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "406945d4c2ec9785bc6564a35bc47ba8edb58b40467e0c9afd6d099d2dcfde43",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "42bca0584de9df5a15ac505c82548733529d923bee12a264991609a6ae31a9b5",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
           "audience": "editorial-source",
           "context": "content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason",
           "count": 1,
@@ -148,6 +208,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "4cb22489a5af15b7065d082b890bb125db191829c8033105c24d60dd9ac0de3f",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward justice claims when sovereignty and moral stakes conflict."
+        },
+        {
+          "audience": "public",
           "context": "content-key:components/modules/module-app.tsx#ModuleApp.p",
           "count": 1,
           "file": "components/modules/module-app.tsx",
@@ -155,6 +225,16 @@
           "matched": "lens cards",
           "rule": "lens-metaphor-review",
           "source": "Read the scene and tradeoff before answering. On Explanation cards, choose the cause that best accounts for the case. On Decision cards, choose the consideration that should guide the response. On Actor lens cards,"
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "5694247e084ebe9496bacef364409acfb88076ae220381f3465bb369d298d195",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
         },
         {
           "audience": "public",
@@ -188,6 +268,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "6179a3f11ad223a5283d0f256887a1efd4dbc785d101c39d528be6a02cd1846f",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward security and diplomacy over economic hierarchy as explanations."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/modules/security-v22.ts#securityLanes.2.description",
           "count": 1,
           "file": "lib/modules/security-v22.ts",
@@ -195,6 +285,16 @@
           "matched": "Order, legitimacy, and protection / legal authority, civilian protection, and bounded action",
           "rule": "repeated-adjacent-three-part-list",
           "source": "How you weigh order, legal authority, civilian protection, and bounded action."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "6958d81a174821d1615c175daac30c754f0843a46cb07ed39007aaf08193b21c",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
         },
         {
           "audience": "public",
@@ -228,6 +328,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "718d67044ef51e879f6f1e65e07c668991a88858e987f0b1de1fe9cd4ec1fa6d",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward reassurance and issue-specific cooperation over persistent rivalry."
+        },
+        {
+          "audience": "public",
           "context": "content-key:content/instrument/security.v5.json#items.20.scene",
           "count": 1,
           "file": "content/instrument/security.v5.json",
@@ -238,6 +348,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:components/results/posture-strip.tsx#PostureStrip.p",
+          "count": 1,
+          "file": "components/results/posture-strip.tsx",
+          "fingerprint": "7a488f90f925a38dac60ed011eee81faba4b405225a9624a9aafbbe37b68238d",
+          "matched": "map, map",
+          "rule": "repeated-abstract-map-language",
+          "source": "Both ends read world politics through the same lens. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."
+        },
+        {
+          "audience": "public",
           "context": "content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.1.label",
           "count": 1,
           "file": "components/home/world-stage/world-stage-home.tsx",
@@ -245,6 +365,16 @@
           "matched": "Continue exploring",
           "rule": "weak-generic-heading",
           "source": "Continue exploring"
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "7d2747fb08c0b91da054de49bdf62838410cbc6cbc1f7ae0c76797651746cd7b",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward material interests over norms or legitimacy as explanations."
         },
         {
           "audience": "public",
@@ -288,6 +418,16 @@
         },
         {
           "audience": "public",
+          "context": "route:/privacy#PrivacyPage.p",
+          "count": 1,
+          "file": "app/privacy/page.tsx",
+          "fingerprint": "975c18fd72490d07edc65e8736f8e86c62369ea9a6de17897dc987462a09f4ea",
+          "matched": "saved layers",
+          "rule": "layer-metaphor-review",
+          "source": "Foundation, AI, module, Perspective, and shared Profile links encode the data needed to reopen the shared view. A Focus Area result link includes its answer selections; other result types may encode derived scores, labels, or saved layers. Opening or sharing one of these URLs exposes that encoded data to the recipient and to services that handle the request. Treat those URLs as disclosures you control. Removing local history does not retract a link already sent or remove it from browser or message history."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
           "count": 1,
           "file": "lib/archetypes.ts",
@@ -295,6 +435,26 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .slug is invalid."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "98b1289464289ca58781c6017d5b577b487db5af629e7644549980662d644e8b",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/results/posture-strip.tsx#PostureStrip.p",
+          "count": 1,
+          "file": "components/results/posture-strip.tsx",
+          "fingerprint": "9c281e6829664e5cabb080864eca35bb01989843de3c8eccc5a68920873aa788",
+          "matched": "lenses, map, map",
+          "rule": "repeated-abstract-map-language",
+          "source": "Both ends read world politics through the same two lenses. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."
         },
         {
           "audience": "public",
@@ -378,6 +538,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "bbc9d9a44e67019a03136a73afd472a955b95e91a957752b7d0ded57069df75f",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
           "context": "route:/method#MethodPage.p",
           "count": 1,
           "file": "app/method/page.tsx",
@@ -418,6 +588,46 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#getStrongLenses.lens.description",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "c9c41658dbf3b24c46d5768188045f871ee0c097f4a001e4eea69e14e127186e",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward giving order, precedent, and the costs of intervention substantial weight."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.low",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "d0c7f2f3d53a884d56b9d107d34c5a245b4262eb8e9069d45fd28193e2ae7123",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score lies toward institutions reflecting underlying state power."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.midRange",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "d41ebe4fccd0eaaa5808d8dfab2156806a687df7305c5db3f4e53a2ab4f84ebe",
+          "matched": "the aggregate score",
+          "rule": "repeated-adjacent-opening",
+          "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/result-helpers.ts#getSubtraditionAffinity.note",
+          "count": 1,
+          "file": "lib/result-helpers.ts",
+          "fingerprint": "ded6b85761e4636d1230d85dc23cfa9aa8db2c7d85f784ef98315b24b272f4b5",
+          "matched": "often",
+          "rule": "general-prevalence-language-review",
+          "source": "Compared with the authored realist reference, your restraint score is notably high. Defensive realists argue that the structure of anarchy often rewards restraint because overextension and offensive moves provoke balancing coalitions more than they produce durable security. This is consistent with your answers."
+        },
+        {
+          "audience": "public",
           "context": "content-key:content/instrument/security.v5.json#items.12.options.3.label",
           "count": 1,
           "file": "content/instrument/security.v5.json",
@@ -435,14 +645,36 @@
           "matched": "foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action",
           "rule": "repeated-three-part-list",
           "source": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. The territorial dispute remains unresolved. For this scenario, assume a ceasefire is available, Ukraine remains outside the North Atlantic Treaty Organization (NATO), and Kyiv must choose one post-ceasefire arrangement to reduce the risk of renewed attack. The arrangement can combine Ukrainian forces, foreign support, monitoring, and limits; none guarantees protection without shifting cost, exposure, or freedom of action."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/results/dimension-field-map.tsx#DimensionFieldMap.svg.aria-label",
+          "count": 1,
+          "file": "components/results/dimension-field-map.tsx",
+          "fingerprint": "fe60e7cf25fb4650afd29b2affa702de653601652dd605e1af85ee789e25567b",
+          "matched": "Field map",
+          "rule": "field-metaphor-review",
+          "source": "Field map showing this profile against four authored tradition reference anchors: ..."
         }
       ],
       "priority": "P2",
-      "resolvedCount": 18,
+      "resolvedCount": 26,
       "resolvedFindings": [
         {
           "count": 1,
+          "fingerprint": "0285c8894fb80acea387d9808311d6a82ba08f6434013da69041157151c6f371"
+        },
+        {
+          "count": 1,
+          "fingerprint": "103de392efc3d21dc75dfc9d8860216af7c39bc8fc871391a7b0a4ec259e5780"
+        },
+        {
+          "count": 1,
           "fingerprint": "1207472e8099e95d6a4d2a87cb240e8ff38bbe189dfba5decff83a75e1343108"
+        },
+        {
+          "count": 1,
+          "fingerprint": "2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe"
         },
         {
           "count": 1,
@@ -466,11 +698,19 @@
         },
         {
           "count": 1,
+          "fingerprint": "698006e9c48998d7dc62d0f0052ce4a1cac8b366406044eeab3e61acc2e0e896"
+        },
+        {
+          "count": 1,
           "fingerprint": "6e88fde52db2ed2178f126d9edf5c767d0e408ffe6f862e05118429fd312c6d2"
         },
         {
           "count": 1,
           "fingerprint": "72a76c9f0594e8c30052ae5687c70ae0c16708125f62380cb4105f6f378c224f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "79d6a6439d0b099e69f9a03f6c789d68e0e70c65b1fe14fa26bf36903e2f91a7"
         },
         {
           "count": 1,
@@ -490,6 +730,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "af3ede19fc879cdde3f8f35b1e02844753b4fa67ccad6170816b0e5b311b5acb"
+        },
+        {
+          "count": 1,
           "fingerprint": "b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f"
         },
         {
@@ -502,6 +746,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "c8fbfc73683418b690194e9f389a1e78b8e2f4ed7e0851404da71500a8cea24e"
+        },
+        {
+          "count": 1,
           "fingerprint": "c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d"
         },
         {
@@ -511,9 +759,13 @@
         {
           "count": 1,
           "fingerprint": "d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98"
+        },
+        {
+          "count": 1,
+          "fingerprint": "e1a92a2eaa88dd89bdfb4ff3f0390d6e8e2925b69d8873e394170add96f8ed47"
         }
       ],
-      "unchangedCount": 540
+      "unchangedCount": 532
     },
     "higherPriorityFindings": [
       {
@@ -548,7 +800,7 @@
         "jsonPath": null,
         "key": "GET",
         "kind": "internal",
-        "line": 33,
+        "line": 31,
         "match": "result payload",
         "matched": "result payload",
         "priority": "P0",
@@ -1473,7 +1725,7 @@
         "priority": "P1"
       },
       {
-        "count": 583,
+        "count": 597,
         "priority": "P2"
       }
     ]
