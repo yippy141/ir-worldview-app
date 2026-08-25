@@ -341,7 +341,7 @@ test("a four-record Profile preserves its Foundation identity after a module sav
     await expect(records).toHaveCount(4)
     await expect(records.filter({
       has: page.getByRole("heading", { name: "Foundation record", exact: true }),
-    }).getByText("Core record", { exact: true })).toBeVisible()
+    }).getByText("Foundation reading · unchanged", { exact: true })).toBeVisible()
 
     for (const title of ["Security", "Technology", "AI Governance"] as const) {
       const record = records.filter({
