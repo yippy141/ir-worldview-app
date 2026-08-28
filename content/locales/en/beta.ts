@@ -2,12 +2,12 @@ import type { BetaPageContent } from "@/content/locales/beta-types"
 
 export const englishBetaPage = {
   metadata: {
-    title: "Controlled Beta — IR Worldview Inventory",
+    title: "Controlled Beta | IR Worldview Inventory",
     description:
       "Optional interviews and product feedback about whether the IR Worldview Inventory is clear, fair, and useful.",
     openGraph: {
       type: "website",
-      title: "Controlled Beta — IR Worldview Inventory",
+      title: "Controlled Beta | IR Worldview Inventory",
       description:
         "Help test the comprehension, fairness, and usefulness of this editorial interactive.",
     },

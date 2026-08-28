@@ -71,12 +71,12 @@ const crossRead = [
       "In IR, the live question is whether legitimacy is procedural (rule-following) or substantive (outcome-defending), and across whose institutions it has to hold.",
     aiAxisLabel: "Legitimacy and rule-setting",
     aiBody:
-      "On the AI side, the same question becomes: who has standing to audit, license, or pause a model — and on what authority.",
+      "On the AI side, the same question becomes: who has standing to audit, license, or pause a model, and what grants that authority.",
   },
   {
     irLabel: "Security rivalry",
     irBody:
-      "In IR, competition can be self-fulfilling — a security-dilemma reading turns defensive moves into offensive ones, and escalation follows.",
+      "In IR, competition can be self-fulfilling. A security-dilemma reading turns defensive moves into offensive ones, and escalation follows.",
     aiAxisLabel: "Competition vs coordination",
     aiBody:
       "On the AI side, that lens asks how much pace pressure is real strategic constraint and how much is invoked to dismiss safety arguments.",
@@ -108,8 +108,8 @@ const startReading = [
   },
   {
     kicker: "Browsing",
-    title: "Open the AI Atlas",
-    text: "The Atlas is the compact map of patterns. The Field Guide is the explainer behind each card — no second assessment.",
+    title: "Use the compact map",
+    text: "The Atlas maps governance patterns. The Field Guide explains each one without adding another assessment.",
     href: "/ai/atlas",
     linkLabel: "Open the AI Atlas",
   },
@@ -131,9 +131,9 @@ const futureScenarios = [
 ] as const
 
 export const metadata: Metadata = {
-  title: "Field Guide — AI Governance Compass",
+  title: "Field Guide | AI Governance Compass",
   description:
-    "Reader's companion to the AI Atlas. Scope notes, eight axes, where archetypes part ways, IR ↔ AI cross-read, and under-modeled perspectives. Explainer only — no scoring, no second assessment.",
+    "Reader's companion to the AI Atlas. Scope notes, eight axes, where archetypes part ways, IR ↔ AI cross-read, and under-modeled perspectives. Explainer only. No scoring or second assessment.",
 }
 
 export default function AiFieldGuidePage() {
@@ -146,7 +146,7 @@ export default function AiFieldGuidePage() {
           <p className="ai-fg-banner">
             <span className="ai-fg-banner__lbl">Explainer</span>
             <span className="ai-fg-banner__body">
-              Reading surface only — no scoring, no second assessment, no quiz on this page.
+              Reading surface only. This page has no scoring, second assessment, or quiz.
             </span>
           </p>
           <h1 className="ai-hero-h1">A reader&rsquo;s companion to the AI Atlas.</h1>
@@ -239,7 +239,7 @@ export default function AiFieldGuidePage() {
                 <h2 className="ai-fg-section__title">The eight axes</h2>
                 <p className="ai-fg-section__deck">
                   The vocabulary the AI module uses. Names, one-line description, and opposing
-                  poles only — no positions and no scores.
+                  poles only. It assigns no positions or scores.
                 </p>
               </header>
               <ol className="ai-fg-axes">

@@ -38,8 +38,8 @@ export async function generateMetadata(
   const { id } = await params
   const entity = getVisibleReferenceEntityById(id)
   const title = entity
-    ? `${entity.name} — Reference profile`
-    : "Reference profile — IR Worldview Inventory"
+    ? `${entity.name} | Reference profile`
+    : "Reference profile | IR Worldview Inventory"
 
   return {
     title,

@@ -24,8 +24,8 @@ export async function generateMetadata(
     : null
 
   const title = resolved
-    ? `${resolved.perspective.label} run — IR Worldview Inventory`
-    : "Perspective run — IR Worldview Inventory"
+    ? `${resolved.perspective.label} run | IR Worldview Inventory`
+    : "Perspective run | IR Worldview Inventory"
 
   return {
     title,

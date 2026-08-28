@@ -12,7 +12,7 @@ import {
 const atlasEntries = getAiAtlasEntries()
 
 export const metadata: Metadata = {
-  title: "Atlas — AI Governance Compass",
+  title: "Atlas | AI Governance Compass",
   description:
     "Browse the modeled AI-governance families as compact fingerprint cards: name, one-line definition, two differentiators, nearest neighbor.",
 }

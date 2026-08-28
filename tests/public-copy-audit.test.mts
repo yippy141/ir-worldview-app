@@ -90,6 +90,15 @@ test("operational and frozen compatibility findings cannot fail strict mode", ()
   assert.ok(nonPublic.every((finding) => finding.strict === false))
 })
 
+test("every immutable versioned module bank is classified as frozen compatibility", () => {
+  const source = readFileSync(auditScript, "utf8")
+
+  assert.match(source, /\(\?:security\|technology\)-v2\[12\]/)
+  assert.match(source, /security\\\.v\[2-5\]/)
+  assert.match(source, /technology\\\.v\[23\]/)
+  assert.match(source, /ai-governance\\\.v\[23\]/)
+})
+
 test("active controlled-beta language is not mistaken for stale release history", () => {
   const report = runAudit()
   const betaReleaseFindings = report.findings.filter((finding) =>
@@ -209,6 +218,17 @@ test("public-copy audit is read-only and keeps every required advisory detector"
   ]) {
     assert.match(source, new RegExp(`id: "${rule}"`), `missing detector: ${rule}`)
   }
+})
+
+test("strict copy audit enforces the authored-English em-dash rule with narrow exemptions", () => {
+  const source = readFileSync(auditScript, "utf8")
+
+  assert.match(source, /id: "authored-english-em-dash"/)
+  assert.match(source, /pattern: \/—\/gu/)
+  assert.match(source, /isAuthorizedEmDash/)
+  assert.match(source, /standalone divider/u)
+  assert.doesNotMatch(source, /Script=Han/)
+  assert.doesNotMatch(source, /fileName\.includes\("\/content\/"\)/)
 })
 
 test("public-copy ordering matches the evidence code-unit comparator", () => {

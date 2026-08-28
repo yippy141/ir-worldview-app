@@ -29,12 +29,12 @@ export async function generateMetadata(
 
   if (!entry) {
     return {
-      title: "AI Atlas — AI Governance Compass",
+      title: "AI Atlas | AI Governance Compass",
     }
   }
 
   return {
-    title: `${entry.label} — AI Atlas`,
+    title: `${entry.label} | AI Atlas`,
     description: entry.shortSummary,
   }
 }
@@ -162,7 +162,7 @@ export default async function AiAtlasDetailPage(
             <h2>What this archetype tends to support in practice</h2>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               If your result reads close to this archetype, these are the kinds of policy and
-              institutional moves it tends to pull toward — not predictions and not endorsements.
+              institutional moves it tends to pull toward. These are tendencies, not predictions or endorsements.
             </p>
           </div>
           <ul className="ai-atlas-detail-implications">
@@ -178,7 +178,7 @@ export default async function AiAtlasDetailPage(
             <h2>Where this archetype is actively contested</h2>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               A short, manually curated rail of live arguments where this archetype is doing real
-              work right now. Not a news feed and not a forecast — just where to pay attention.
+              work right now. This is where to pay attention, not a news feed or forecast.
             </p>
           </div>
           <div className="ai-atlas-detail-debates">

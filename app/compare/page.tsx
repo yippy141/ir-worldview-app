@@ -7,7 +7,7 @@ import {
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Compare Profiles — IR Worldview Inventory",
+  title: "Compare Profiles | IR Worldview Inventory",
   description:
     "Compare two shared IR Worldview profiles side by side. The comparison is read-only and is not saved to an account.",
 }
