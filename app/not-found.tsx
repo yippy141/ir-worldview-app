@@ -2,7 +2,7 @@ import Link from "next/link"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Page not found — IR Worldview Inventory",
+  title: "Page not found | IR Worldview Inventory",
 }
 
 export default function NotFound() {
@@ -10,7 +10,7 @@ export default function NotFound() {
     <div className="container" style={{ paddingTop: "48px" }}>
       <div className="stack-md">
         <div className="stack-sm">
-          <p className="eyebrow">404 — Page not found</p>
+          <p className="eyebrow">404: Page not found</p>
           <h1>This page does not exist.</h1>
           <p className="muted" style={{ lineHeight: "1.65" }}>
             The URL may be mistyped, the page may have moved, or a result link may be from an

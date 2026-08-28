@@ -1,4 +1,4 @@
-import { chineseShellContent } from "@/content/locales"
+import { chineseShellContent } from "@/content/locales/index"
 import { zhHansFoundationQuizUi } from "@/content/locales/zh-Hans/foundation-ui"
 import { assessFoundationNarrative } from "@/lib/narrative/foundation"
 import type { FoundationScoringCalibration } from "@/lib/scoring"

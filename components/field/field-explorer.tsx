@@ -835,7 +835,7 @@ export function FieldExplorer() {
       <div
         className={`${styles.workspace}${selectedItem ? ` ${styles.workspaceWithDrawer}` : ""}`}
       >
-        <main
+        <div
           className={styles.mapColumn}
           inert={isNarrow && Boolean(selectedItem) ? true : undefined}
         >
@@ -942,7 +942,7 @@ export function FieldExplorer() {
               )}
             </p>
           </section>
-        </main>
+        </div>
 
         {selectedItem ? (
           <aside

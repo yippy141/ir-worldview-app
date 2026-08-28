@@ -21,9 +21,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
   const family = getFamilyBySlug(slug)
-  if (!family) return { title: "Explore — IR Worldview Inventory" }
+  if (!family) return { title: "Explore | IR Worldview Inventory" }
   return {
-    title: `${family.name} — IR Worldview Inventory`,
+    title: `${family.name} | IR Worldview Inventory`,
     description: family.tagline,
   }
 }

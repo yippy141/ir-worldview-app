@@ -33,7 +33,7 @@ const startHereEntries: ReadingEntry[] = [
     author: "Yoshua Bengio et al.",
     year: 2023,
     description:
-      "A broad-coalition statement naming specific governance concerns — concentration of power, loss of control, and inadequate oversight — alongside the capabilities case for urgency. Represents the frontier-risk mainstream position.",
+      "A broad-coalition statement naming specific governance concerns, including concentration of power, loss of control, and inadequate oversight, alongside the capabilities case for urgency. Represents the frontier-risk mainstream position.",
     url: "https://arxiv.org/abs/2310.17688",
   },
   {
@@ -65,7 +65,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Stuart Russell",
       year: 2019,
       description:
-        "The technical and philosophical case for why advanced AI requires fundamentally different design principles — corrigibility, uncertainty about human preferences, and the ability to be corrected. Argues control is not a secondary concern.",
+        "The technical and philosophical case for why advanced AI requires fundamentally different design principles: corrigibility, uncertainty about human preferences, and the ability to be corrected. Argues control is not a secondary concern.",
     },
     {
       id: "hendrycks-2023-catastrophic-risks",
@@ -73,7 +73,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Dan Hendrycks, Mantas Mazeika, Thomas Woodside",
       year: 2023,
       description:
-        "A systematic survey of AI risk categories — misuse, misalignment, and structural risks — that argues precautionary governance is warranted even under deep uncertainty. A reference for the frontier-risk case.",
+        "A systematic survey of AI risk categories, including misuse, misalignment, and structural risks, that argues precautionary governance is warranted even under deep uncertainty. A reference for the frontier-risk case.",
       url: "https://arxiv.org/abs/2306.12001",
     },
     {
@@ -82,7 +82,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Toby Ord",
       year: 2020,
       description:
-        "Situates AI risk in the broader context of catastrophic and existential risk. Makes the case for taking severe low-probability scenarios seriously as a governance priority — and for why urgency is rational under uncertainty.",
+        "Situates AI risk in the broader context of catastrophic and existential risk. Explains why severe low-probability scenarios can justify urgent governance under uncertainty.",
     },
   ],
 
@@ -136,7 +136,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Miles Brundage et al.",
       year: 2020,
       description:
-        "Proposes technical and institutional mechanisms — audit, certification, red-teaming — that would let coordination commitments become credible rather than merely declaratory. A constructive complement to coordination-optimism.",
+        "Proposes technical and institutional mechanisms, including audit, certification, and red-teaming, that would let coordination commitments become credible rather than merely declaratory. A constructive complement to coordination-optimism.",
       url: "https://arxiv.org/abs/2004.07213",
     },
   ],
@@ -175,7 +175,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Rush Doshi",
       year: 2021,
       description:
-        "Reconstructs China's strategy across economic, military, and political domains. Shows how state capacity — not just intent — determines whether governance commitments can be credibly made and enforced.",
+        "Reconstructs China's strategy across economic, military, and political domains. Shows how state capacity, alongside intent, determines whether governance commitments can be credibly made and enforced.",
     },
     {
       id: "cset-2020-strengthening",
@@ -191,7 +191,7 @@ const forYourTypeByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "David Freeman Engstrom et al.",
       year: 2020,
       description:
-        "Surveys how federal agencies already use AI and finds that capacity gaps — not lack of rules — are the primary barrier to accountable algorithmic governance. Grounds the state-capacity argument in current administrative practice.",
+        "Surveys how federal agencies already use AI and finds that capacity gaps are the primary barrier to accountable algorithmic governance, rather than a lack of rules. Grounds the state-capacity argument in current administrative practice.",
     },
   ],
 
@@ -291,7 +291,7 @@ const bestCritiqueByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "Gillian Hadfield",
       year: 2019,
       description:
-        "Argues that traditional democratic regulatory institutions — legislation, agencies, courts — are structurally poorly suited to the speed and complexity of AI. Challenges the assumption that more democratic accountability automatically yields better governance.",
+        "Argues that traditional democratic regulatory institutions, including legislation, agencies, and courts, are structurally poorly suited to the speed and complexity of AI. Challenges the assumption that more democratic accountability automatically yields better governance.",
     },
     {
       id: "coglianese-2019-regulating-by-robot",
@@ -338,7 +338,7 @@ const bestCritiqueByArchetype: Record<AiArchetypeKey, ReadingEntry[]> = {
       author: "David Gray Widder, Sarah West, Meredith Whittaker",
       year: 2023,
       description:
-        "A critical analysis distinguishing genuine openness from strategic use of open-source framing by incumbents. Argues that openness alone does not address concentration — and may entrench it under some conditions.",
+        "A critical analysis distinguishing genuine openness from strategic use of open-source framing by incumbents. Argues that openness alone does not address concentration and may entrench it under some conditions.",
     },
   ],
 }

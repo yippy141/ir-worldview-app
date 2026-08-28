@@ -4,7 +4,7 @@ import { createEnglishApprovedMetadata } from "@/i18n/metadata"
 import { siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = createEnglishApprovedMetadata("/feedback", {
-  title: "Corrections and Contact — IR Worldview Inventory",
+  title: "Corrections and Contact | IR Worldview Inventory",
   description: "How to report a factual, privacy, or security problem without submitting result data.",
 })
 

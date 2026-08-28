@@ -165,7 +165,7 @@ export default function AiPage() {
             </Link>
             <Link href="/feedback" className="resource-list-link">
               <span className="resource-list-copy">
-                <span className="resource-list-title">Feedback</span>
+                <span className="resource-list-title">Corrections and contact</span>
                 <span className="resource-list-text">Report a factual, privacy, or security problem.</span>
               </span>
             </Link>
