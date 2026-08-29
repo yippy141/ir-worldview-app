@@ -259,7 +259,7 @@ overlay hidden.
 
 `result-scroll-reduced-motion-full-1440.png` is byte-identical to
 `result-scroll-full-1440.png` (SHA-256
-`581f17b3cd5ecd4b54694f7857e2d1c3285fffa0e9be1569830bc3bc8168cb07`). The
+`c613e252c32c451358be19f823c0ef8a9a88f48ba17a7df0a256e272342916fd`). The
 reduced-motion page is the same complete page, not a degraded one.
 
 ### Read order
@@ -357,6 +357,7 @@ Newly authored prototype copy, in full:
 | Draft line | You have an unfinished Foundation with {n} answers on this device. Resume the Foundation. |
 | Prototype stamp | Prototype. Not the production root. |
 | Result section headings | Why this result. What carried the result. Decisive choices. Across the four domains. Where this reading may fail. |
+| Result section labels | taken. strongest rival. No record on this device. |
 | Result leads and empty states | Six paragraphs, listed in the source of `result-scroll.tsx` and `result-scroll-local-records.tsx`. |
 | Plate | One page introduction and three treatment notes. |
 

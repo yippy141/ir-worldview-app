@@ -17,7 +17,6 @@ import styles from "./result-scroll.module.css"
 
 type Props = Readonly<{
   expectedArchetypeCode: string
-  expectedArchetypeName: string
   expectedFamilyKey: FamilyKey
   expectedRunnerUpKey: FamilyKey
 }>
@@ -41,7 +40,6 @@ type DomainRow = Readonly<{
  */
 export function ResultScrollLocalRecords({
   expectedArchetypeCode,
-  expectedArchetypeName,
   expectedFamilyKey,
   expectedRunnerUpKey,
 }: Props) {
@@ -112,7 +110,7 @@ export function ResultScrollLocalRecords({
           <h2 id="scroll-choices">Decisive choices</h2>
           <p className={styles.sectionLead}>
             {trace.status === "available"
-              ? "These are the scenario items in the unfinished Foundation on this device where the option you took pulled hardest toward this reading and away from its nearest alternative."
+              ? "These are the scenario items in the Foundation draft stored on this device where the option you took pulled hardest toward this reading and away from its nearest alternative."
               : "This section needs the answers themselves, and a result link does not carry them."}
           </p>
         </div>
@@ -134,14 +132,14 @@ export function ResultScrollLocalRecords({
                     </div>
                   </div>
                   <p className={styles.footnote}>
-                    The two options disagree most on{" "}
-                    {choice.reversalDimensionLabel.toLowerCase()}. Taking the
-                    other option on this item would move that dimension toward{" "}
-                    {choice.rivalDimensionValue > choice.selectedDimensionValue
-                      ? "the higher"
-                      : "the lower"}{" "}
-                    end and reduce the distance to{" "}
-                    {expectedArchetypeName} on it.
+                    These two options disagree most on{" "}
+                    {choice.reversalDimensionLabel.toLowerCase()}. The one you
+                    took reads{" "}
+                    {choice.selectedDimensionValue < choice.rivalDimensionValue
+                      ? "lower"
+                      : "higher"}{" "}
+                    on it, so choosing the other would have moved that
+                    dimension the other way.
                   </p>
                 </li>
               ))}

@@ -236,7 +236,6 @@ export function ResultScroll() {
 
       <ResultScrollLocalRecords
         expectedArchetypeCode={archetype.code}
-        expectedArchetypeName={archetype.name}
         expectedFamilyKey={familyKey}
         expectedRunnerUpKey={runnerUpKey}
       />

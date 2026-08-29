@@ -264,7 +264,7 @@ test.describe("study result prototype", () => {
     await expect(choices.locator("li")).not.toHaveCount(0)
     await expect(choices.locator("[data-role='selected']")).not.toHaveCount(0)
     await expect(choices.locator("[data-role='rival']")).not.toHaveCount(0)
-    await expect(choices).toContainText("The two options disagree most on")
+    await expect(choices).toContainText("These two options disagree most on")
   })
 
   test("keeps the four domain records separate and unscored together", async ({
