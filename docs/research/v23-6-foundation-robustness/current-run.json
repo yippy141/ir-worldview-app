@@ -1,0 +1,348 @@
+{
+  "schemaVersion": 1,
+  "diagnostic": "v23-6-foundation-label-robustness",
+  "sourceSha": "e1728b30478cb666cb26082a1cf07f0da8290462",
+  "deterministic": true,
+  "generatedAt": null,
+  "elapsedRuntimeMs": null,
+  "seeds": {
+    "uniform": 20260728,
+    "calibratedSynthetic": 2026082901,
+    "boundaryFocused": 2026082902,
+    "canonical": 2026082903,
+    "responseStyleStress": 2026082904
+  },
+  "forms": [
+    {
+      "key": "core",
+      "group": "core",
+      "questionSet": "core",
+      "pair": null,
+      "calibration": "core",
+      "itemCount": 14,
+      "likertCount": 14,
+      "forcedChoiceCount": 0
+    },
+    {
+      "key": "targeted:realist|institutionalist",
+      "group": "targeted",
+      "questionSet": "targetedExtended",
+      "pair": [
+        "realist",
+        "institutionalist"
+      ],
+      "calibration": "targetedExtended:realist|institutionalist",
+      "itemCount": 19,
+      "likertCount": 14,
+      "forcedChoiceCount": 5
+    },
+    {
+      "key": "targeted:realist|constructivist",
+      "group": "targeted",
+      "questionSet": "targetedExtended",
+      "pair": [
+        "realist",
+        "constructivist"
+      ],
+      "calibration": "targetedExtended:realist|constructivist",
+      "itemCount": 19,
+      "likertCount": 14,
+      "forcedChoiceCount": 5
+    },
+    {
+      "key": "targeted:realist|criticalPoliticalEconomy",
+      "group": "targeted",
+      "questionSet": "targetedExtended",
+      "pair": [
+        "realist",
+        "criticalPoliticalEconomy"
+      ],
+      "calibration": "targetedExtended:realist|criticalPoliticalEconomy",
+      "itemCount": 19,
+      "likertCount": 14,
+      "forcedChoiceCount": 5
+    },
+    {
+      "key": "targeted:institutionalist|constructivist",
+      "group": "targeted",
+      "questionSet": "targetedExtended",
+      "pair": [
+        "institutionalist",
+        "constructivist"
+      ],
+      "calibration": "targetedExtended:institutionalist|constructivist",
+      "itemCount": 19,
+      "likertCount": 14,
+      "forcedChoiceCount": 5
+    },
+    {
+      "key": "targeted:institutionalist|criticalPoliticalEconomy",
+      "group": "targeted",
+      "questionSet": "targetedExtended",
+      "pair": [
+        "institutionalist",
+        "criticalPoliticalEconomy"
+      ],
+      "calibration": "targetedExtended:institutionalist|criticalPoliticalEconomy",
+      "itemCount": 19,
+      "likertCount": 14,
+      "forcedChoiceCount": 5
+    },
+    {
+      "key": "targeted:constructivist|criticalPoliticalEconomy",
+      "group": "targeted",
+      "questionSet": "targetedExtended",
+      "pair": [
+        "constructivist",
+        "criticalPoliticalEconomy"
+      ],
+      "calibration": "targetedExtended:constructivist|criticalPoliticalEconomy",
+      "itemCount": 19,
+      "likertCount": 14,
+      "forcedChoiceCount": 5
+    },
+    {
+      "key": "fullExtended",
+      "group": "full",
+      "questionSet": "fullExtended",
+      "pair": null,
+      "calibration": "extended",
+      "itemCount": 68,
+      "likertCount": 46,
+      "forcedChoiceCount": 22
+    }
+  ],
+  "samples": [
+    {
+      "ensemble": "boundaryFocused",
+      "form": "core",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "fullExtended",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "targeted:institutionalist|constructivist",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "targeted:institutionalist|criticalPoliticalEconomy",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "targeted:realist|constructivist",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "targeted:realist|criticalPoliticalEconomy",
+      "count": 64
+    },
+    {
+      "ensemble": "boundaryFocused",
+      "form": "targeted:realist|institutionalist",
+      "count": 64
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "core",
+      "count": 240
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "fullExtended",
+      "count": 160
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "count": 120
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:institutionalist|constructivist",
+      "count": 120
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:institutionalist|criticalPoliticalEconomy",
+      "count": 120
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:realist|constructivist",
+      "count": 120
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:realist|criticalPoliticalEconomy",
+      "count": 120
+    },
+    {
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:realist|institutionalist",
+      "count": 120
+    },
+    {
+      "ensemble": "canonical",
+      "form": "core",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "fullExtended",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "targeted:institutionalist|constructivist",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "targeted:institutionalist|criticalPoliticalEconomy",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "targeted:realist|constructivist",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "targeted:realist|criticalPoliticalEconomy",
+      "count": 16
+    },
+    {
+      "ensemble": "canonical",
+      "form": "targeted:realist|institutionalist",
+      "count": 16
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "core",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "fullExtended",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "targeted:institutionalist|constructivist",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "targeted:institutionalist|criticalPoliticalEconomy",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "targeted:realist|constructivist",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "targeted:realist|criticalPoliticalEconomy",
+      "count": 24
+    },
+    {
+      "ensemble": "responseStyleStress",
+      "form": "targeted:realist|institutionalist",
+      "count": 24
+    },
+    {
+      "ensemble": "uniform",
+      "form": "core",
+      "count": 300
+    },
+    {
+      "ensemble": "uniform",
+      "form": "fullExtended",
+      "count": 160
+    },
+    {
+      "ensemble": "uniform",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "count": 160
+    },
+    {
+      "ensemble": "uniform",
+      "form": "targeted:institutionalist|constructivist",
+      "count": 160
+    },
+    {
+      "ensemble": "uniform",
+      "form": "targeted:institutionalist|criticalPoliticalEconomy",
+      "count": 160
+    },
+    {
+      "ensemble": "uniform",
+      "form": "targeted:realist|constructivist",
+      "count": 160
+    },
+    {
+      "ensemble": "uniform",
+      "form": "targeted:realist|criticalPoliticalEconomy",
+      "count": 160
+    },
+    {
+      "ensemble": "uniform",
+      "form": "targeted:realist|institutionalist",
+      "count": 160
+    }
+  ],
+  "totals": {
+    "baseVectors": 3372,
+    "answerPerturbationTrials": 266177,
+    "postureDimensionTrials": 6744
+  },
+  "monotonicity": {
+    "likertDimensionViolations": 0,
+    "postureViolations": 0
+  },
+  "protectedFileDigests": {
+    "content/instrument/foundation.v2.json": "1d47666272d54557313d89ccd437497bda685bac63f814044afff833f114e0e6",
+    "content/instrument/foundation.scoring.v1.json": "e760f6f5b3037babcb5f64bcdcf54c54b4e8c1471a6d3c17a6bed33626712a00",
+    "lib/quiz-schema.ts": "d345a96e63dc0446a5ae9acaf7f7acbe14d57679abc5641ed6e00d80d0496caa",
+    "lib/scoring.ts": "494f41da19956ddba21a54eb0d4caef7654267dbf5c77664885712387ebdcfac",
+    "lib/scoring/v2.ts": "295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c",
+    "lib/scoring/v2-calibration.ts": "9e4161036ae17b47c1367fcf8caf0db1d5d2cb80cb56e63a997369a5da132c9b",
+    "lib/scoring-calibration.ts": "6f3da32f4d4c5e3c9ca434a90856969fdc8f84db5ce50e60755be584ee2b1f4b",
+    "lib/scoring/versions.ts": "87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c",
+    "lib/archetypes.ts": "16446f885b64f8666ab109e09a46f12b2befce66d5bee4d014016b4c362f1d30",
+    "lib/types.ts": "a50d826025b586a6649344d2cd001ccfc4b59b375f44b53f85774a867272c23c",
+    "lib/share.ts": "3b619506369cc3f4e13abf3e4b4b74b24eff173f714407b58bbc41003ceaa334",
+    "lib/url-payload.ts": "a409a74ef4a0f0148aa077f96bfc610483eb4af5e9eaf13c34be3fe54bd4ff75"
+  },
+  "artifactDigests": {
+    "per-item-influence.csv": "4c2127218c64ddf17f38ac68f0916a4157db568173901bccdfacbcc5de482005",
+    "transition-matrix.csv": "caf7eb5753688708111979ce17b0ab83944d4614efc5132acb861356e7165779",
+    "ensemble-summary.csv": "d7b2d1d49e178d38a4c763946c0e7b47403d87d1b03a399b9bf7fb10d8c4ebb7",
+    "boundary-analysis.csv": "83d1b2c7e00e6e3d827f7099c984476e25e7bc37343f0863d777174e8169cf12",
+    "worst-case-fixtures.json": "d656cefb04a0dc6450ebc8a9fad75d77d7d8dcda2e7acba3074dc17f7f5d2805"
+  },
+  "interpretationBoundary": "Structural sensitivity only; no reliability, validity, prevalence, or population inference."
+}

@@ -1,0 +1,1558 @@
+{
+  "schemaVersion": 1,
+  "description": "Mechanical response fixtures for reproducing high-influence and representative transitions; not human records or psychometric evidence.",
+  "worstCaseFixtures": [
+    {
+      "id": "responseStyleStress:core:0006",
+      "ensemble": "responseStyleStress",
+      "form": "core",
+      "calibration": "core",
+      "tags": [
+        "response-style:acquiescent"
+      ],
+      "answerPerturbationTrials": 56,
+      "fullArchetypeFlipRate": 0.928571,
+      "answers": {
+        "sc2": 6,
+        "v21_sc_rev_02": 6,
+        "in2": 6,
+        "v21_in_rev_03": 6,
+        "df1": 6,
+        "v21_df_rev_04": 6,
+        "ni2": 6,
+        "v21_ni_rev_05": 6,
+        "pe2": 6,
+        "v21_pe_rev_02": 6,
+        "rs2": 6,
+        "v21_rs_rev_04": 6,
+        "oj1": 6,
+        "oj2": 6
+      },
+      "before": {
+        "family": "realist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0,
+        "strategyModifier": "Hedger",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 4,
+          "institutions": 4,
+          "domesticFilters": 4,
+          "normsIdentity": 4,
+          "politicalEconomy": 4,
+          "restraint": 4,
+          "orderJustice": 4
+        },
+        "familyScores": {
+          "realist": 0,
+          "institutionalist": 0,
+          "constructivist": 0,
+          "criticalPoliticalEconomy": 0
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "P/R+",
+        "readingCode": "P/R+.c",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "df1",
+        "fromAnswer": 6,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "domesticFilters": -2
+        },
+        "transitions": {
+          "family": "realist->constructivist",
+          "routing": "blend->blend",
+          "posture": "+->+",
+          "archetype": "P/R+->P/M+"
+        },
+        "after": {
+          "family": "constructivist",
+          "runnerUp": "realist",
+          "nearestFitGap": 0.07999999999999999,
+          "strategyModifier": "Hedger",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 4,
+            "institutions": 4,
+            "domesticFilters": 2,
+            "normsIdentity": 4,
+            "politicalEconomy": 4,
+            "restraint": 4,
+            "orderJustice": 4
+          },
+          "familyScores": {
+            "realist": 0.23,
+            "institutionalist": -0.45,
+            "constructivist": 0.31,
+            "criticalPoliticalEconomy": -0.67
+          },
+          "routing": "blend",
+          "posture": "+",
+          "archetype": "P/M+",
+          "readingCode": "P/M+.c",
+          "placementState": "lowDifferentiation"
+        }
+      }
+    },
+    {
+      "id": "responseStyleStress:core:0007",
+      "ensemble": "responseStyleStress",
+      "form": "core",
+      "calibration": "core",
+      "tags": [
+        "response-style:acquiescent"
+      ],
+      "answerPerturbationTrials": 42,
+      "fullArchetypeFlipRate": 0.928571,
+      "answers": {
+        "sc2": 7,
+        "v21_sc_rev_02": 7,
+        "in2": 7,
+        "v21_in_rev_03": 7,
+        "df1": 7,
+        "v21_df_rev_04": 7,
+        "ni2": 7,
+        "v21_ni_rev_05": 7,
+        "pe2": 7,
+        "v21_pe_rev_02": 7,
+        "rs2": 7,
+        "v21_rs_rev_04": 7,
+        "oj1": 7,
+        "oj2": 7
+      },
+      "before": {
+        "family": "realist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0,
+        "strategyModifier": "Hedger",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 4,
+          "institutions": 4,
+          "domesticFilters": 4,
+          "normsIdentity": 4,
+          "politicalEconomy": 4,
+          "restraint": 4,
+          "orderJustice": 4
+        },
+        "familyScores": {
+          "realist": 0,
+          "institutionalist": 0,
+          "constructivist": 0,
+          "criticalPoliticalEconomy": 0
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "P/R+",
+        "readingCode": "P/R+.c",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "df1",
+        "fromAnswer": 7,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "domesticFilters": -3
+        },
+        "transitions": {
+          "family": "realist->constructivist",
+          "routing": "blend->blend",
+          "posture": "+->+",
+          "archetype": "P/R+->P/M+"
+        },
+        "after": {
+          "family": "constructivist",
+          "runnerUp": "realist",
+          "nearestFitGap": 0.12,
+          "strategyModifier": "Hedger",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 4,
+            "institutions": 4,
+            "domesticFilters": 1,
+            "normsIdentity": 4,
+            "politicalEconomy": 4,
+            "restraint": 4,
+            "orderJustice": 4
+          },
+          "familyScores": {
+            "realist": 0.34,
+            "institutionalist": -0.68,
+            "constructivist": 0.46,
+            "criticalPoliticalEconomy": -1
+          },
+          "routing": "blend",
+          "posture": "+",
+          "archetype": "P/M+",
+          "readingCode": "P/M+.c",
+          "placementState": "lowDifferentiation"
+        }
+      }
+    },
+    {
+      "id": "responseStyleStress:core:0010",
+      "ensemble": "responseStyleStress",
+      "form": "core",
+      "calibration": "core",
+      "tags": [
+        "response-style:disacquiescent"
+      ],
+      "answerPerturbationTrials": 56,
+      "fullArchetypeFlipRate": 0.928571,
+      "answers": {
+        "sc2": 2,
+        "v21_sc_rev_02": 2,
+        "in2": 2,
+        "v21_in_rev_03": 2,
+        "df1": 2,
+        "v21_df_rev_04": 2,
+        "ni2": 2,
+        "v21_ni_rev_05": 2,
+        "pe2": 2,
+        "v21_pe_rev_02": 2,
+        "rs2": 2,
+        "v21_rs_rev_04": 2,
+        "oj1": 2,
+        "oj2": 2
+      },
+      "before": {
+        "family": "realist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0,
+        "strategyModifier": "Hedger",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 4,
+          "institutions": 4,
+          "domesticFilters": 4,
+          "normsIdentity": 4,
+          "politicalEconomy": 4,
+          "restraint": 4,
+          "orderJustice": 4
+        },
+        "familyScores": {
+          "realist": 0,
+          "institutionalist": 0,
+          "constructivist": 0,
+          "criticalPoliticalEconomy": 0
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "P/R+",
+        "readingCode": "P/R+.c",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "df1",
+        "fromAnswer": 2,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "domesticFilters": 2
+        },
+        "transitions": {
+          "family": "realist->criticalPoliticalEconomy",
+          "routing": "blend->blend",
+          "posture": "+->+",
+          "archetype": "P/R+->R/S+"
+        },
+        "after": {
+          "family": "criticalPoliticalEconomy",
+          "runnerUp": "institutionalist",
+          "nearestFitGap": 0.22000000000000003,
+          "strategyModifier": "Hedger",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 4,
+            "institutions": 4,
+            "domesticFilters": 6,
+            "normsIdentity": 4,
+            "politicalEconomy": 4,
+            "restraint": 4,
+            "orderJustice": 4
+          },
+          "familyScores": {
+            "realist": -0.23,
+            "institutionalist": 0.45,
+            "constructivist": -0.31,
+            "criticalPoliticalEconomy": 0.67
+          },
+          "routing": "blend",
+          "posture": "+",
+          "archetype": "R/S+",
+          "readingCode": "R/S+.c",
+          "placementState": "lowDifferentiation"
+        }
+      }
+    },
+    {
+      "id": "responseStyleStress:core:0011",
+      "ensemble": "responseStyleStress",
+      "form": "core",
+      "calibration": "core",
+      "tags": [
+        "response-style:disacquiescent"
+      ],
+      "answerPerturbationTrials": 42,
+      "fullArchetypeFlipRate": 0.928571,
+      "answers": {
+        "sc2": 1,
+        "v21_sc_rev_02": 1,
+        "in2": 1,
+        "v21_in_rev_03": 1,
+        "df1": 1,
+        "v21_df_rev_04": 1,
+        "ni2": 1,
+        "v21_ni_rev_05": 1,
+        "pe2": 1,
+        "v21_pe_rev_02": 1,
+        "rs2": 1,
+        "v21_rs_rev_04": 1,
+        "oj1": 1,
+        "oj2": 1
+      },
+      "before": {
+        "family": "realist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0,
+        "strategyModifier": "Hedger",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 4,
+          "institutions": 4,
+          "domesticFilters": 4,
+          "normsIdentity": 4,
+          "politicalEconomy": 4,
+          "restraint": 4,
+          "orderJustice": 4
+        },
+        "familyScores": {
+          "realist": 0,
+          "institutionalist": 0,
+          "constructivist": 0,
+          "criticalPoliticalEconomy": 0
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "P/R+",
+        "readingCode": "P/R+.c",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "df1",
+        "fromAnswer": 1,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "domesticFilters": 3
+        },
+        "transitions": {
+          "family": "realist->criticalPoliticalEconomy",
+          "routing": "blend->blend",
+          "posture": "+->+",
+          "archetype": "P/R+->R/S+"
+        },
+        "after": {
+          "family": "criticalPoliticalEconomy",
+          "runnerUp": "institutionalist",
+          "nearestFitGap": 0.31999999999999995,
+          "strategyModifier": "Hedger",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 4,
+            "institutions": 4,
+            "domesticFilters": 7,
+            "normsIdentity": 4,
+            "politicalEconomy": 4,
+            "restraint": 4,
+            "orderJustice": 4
+          },
+          "familyScores": {
+            "realist": -0.34,
+            "institutionalist": 0.68,
+            "constructivist": -0.46,
+            "criticalPoliticalEconomy": 1
+          },
+          "routing": "blend",
+          "posture": "+",
+          "archetype": "R/S+",
+          "readingCode": "R/S+.c",
+          "placementState": "lowDifferentiation"
+        }
+      }
+    },
+    {
+      "id": "boundaryFocused:targeted:constructivist|criticalPoliticalEconomy:0001",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "calibration": "targetedExtended:constructivist|criticalPoliticalEconomy",
+      "tags": [
+        "family-boundary",
+        "ties-and-near-ties"
+      ],
+      "answerPerturbationTrials": 71,
+      "fullArchetypeFlipRate": 0.873239,
+      "answers": {
+        "sc2": 3,
+        "v21_sc_rev_02": 3,
+        "in2": 6,
+        "v21_in_rev_03": 5,
+        "df1": 2,
+        "v21_df_rev_04": 5,
+        "ni2": 3,
+        "v21_ni_rev_05": 3,
+        "pe2": 6,
+        "v21_pe_rev_02": 4,
+        "rs2": 4,
+        "v21_rs_rev_04": 6,
+        "oj1": 3,
+        "oj2": 6,
+        "an_case_sanctions_alignment": {
+          "primary": "stability",
+          "secondary": "hedge"
+        },
+        "an_tradeoff_energy_alignment": "protect_home",
+        "an_case_middle_power": {
+          "primary": "extract",
+          "secondary": "peers"
+        },
+        "an_case_green_finance": {
+          "primary": "bloc",
+          "secondary": "space"
+        },
+        "an_tradeoff_ceasefire_settlement": {
+          "primary": "hold_accountability_line",
+          "secondary": "stop_harm_now"
+        }
+      },
+      "before": {
+        "family": "constructivist",
+        "runnerUp": "criticalPoliticalEconomy",
+        "nearestFitGap": 0,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Universalist",
+        "dimensionScores": {
+          "securityCompetition": 4,
+          "institutions": 4.96,
+          "domesticFilters": 4.65,
+          "normsIdentity": 4.53,
+          "politicalEconomy": 5.1,
+          "restraint": 4.38,
+          "orderJustice": 3.64
+        },
+        "familyScores": {
+          "realist": -0.31,
+          "institutionalist": 0.38,
+          "constructivist": 0.42,
+          "criticalPoliticalEconomy": 0.42
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "M/S+",
+        "readingCode": "M/S+.j",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "forced-choice-alternative",
+        "itemId": "an_tradeoff_energy_alignment",
+        "fromAnswer": "protect_home",
+        "toAnswer": "defend_rule",
+        "dimensionDeltas": {
+          "institutions": 0.1,
+          "domesticFilters": -0.39,
+          "politicalEconomy": 0.07,
+          "restraint": -0.23,
+          "orderJustice": 0.51
+        },
+        "transitions": {
+          "family": "constructivist->constructivist",
+          "routing": "blend->pure",
+          "posture": "+->+",
+          "archetype": "M/S+->M+"
+        },
+        "after": {
+          "family": "constructivist",
+          "runnerUp": "institutionalist",
+          "nearestFitGap": 0.43,
+          "strategyModifier": "Maximizer",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 4,
+            "institutions": 5.06,
+            "domesticFilters": 4.26,
+            "normsIdentity": 4.53,
+            "politicalEconomy": 5.17,
+            "restraint": 4.15,
+            "orderJustice": 4.15
+          },
+          "familyScores": {
+            "realist": 0.04,
+            "institutionalist": 0.08,
+            "constructivist": 0.51,
+            "criticalPoliticalEconomy": -0.13
+          },
+          "routing": "pure",
+          "posture": "+",
+          "archetype": "M+",
+          "readingCode": "M+.c",
+          "placementState": "stableModeration"
+        }
+      }
+    },
+    {
+      "id": "boundaryFocused:targeted:institutionalist|constructivist:0048",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:institutionalist|constructivist",
+      "calibration": "targetedExtended:institutionalist|constructivist",
+      "tags": [
+        "ties-and-near-ties"
+      ],
+      "answerPerturbationTrials": 65,
+      "fullArchetypeFlipRate": 0.861538,
+      "answers": {
+        "sc2": 4,
+        "v21_sc_rev_02": 3,
+        "in2": 5,
+        "v21_in_rev_03": 6,
+        "df1": 7,
+        "v21_df_rev_04": 7,
+        "ni2": 7,
+        "v21_ni_rev_05": 6,
+        "pe2": 1,
+        "v21_pe_rev_02": 3,
+        "rs2": 6,
+        "v21_rs_rev_04": 1,
+        "oj1": 2,
+        "oj2": 7,
+        "an_tradeoff_tech_order": {
+          "primary": "chokepoints",
+          "secondary": "edge"
+        },
+        "case_semiconductors": {
+          "primary": "dependence",
+          "secondary": "coalition"
+        },
+        "an_case_digital_stack": "autonomy",
+        "an_case_intervention_memory": {
+          "primary": "regional",
+          "secondary": "aftermath"
+        },
+        "tradeoff_intervention": {
+          "primary": "mandate",
+          "secondary": "protection"
+        }
+      },
+      "before": {
+        "family": "criticalPoliticalEconomy",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0.020000000000000018,
+        "strategyModifier": "Restrainer",
+        "normativeModifier": "Universalist",
+        "dimensionScores": {
+          "securityCompetition": 4.5,
+          "institutions": 4.43,
+          "domesticFilters": 4.15,
+          "normsIdentity": 4.87,
+          "politicalEconomy": 4.72,
+          "restraint": 5.35,
+          "orderJustice": 2.96
+        },
+        "familyScores": {
+          "realist": -1.07,
+          "institutionalist": 0.53,
+          "constructivist": 0.52,
+          "criticalPoliticalEconomy": 0.55
+        },
+        "routing": "blend",
+        "posture": "-",
+        "archetype": "R/S-",
+        "readingCode": "R/S-.j",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "v21_df_rev_04",
+        "fromAnswer": 7,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "domesticFilters": 2.17
+        },
+        "transitions": {
+          "family": "criticalPoliticalEconomy->criticalPoliticalEconomy",
+          "routing": "blend->pure",
+          "posture": "-->-",
+          "archetype": "R/S-->S-"
+        },
+        "after": {
+          "family": "criticalPoliticalEconomy",
+          "runnerUp": "institutionalist",
+          "nearestFitGap": 0.32000000000000006,
+          "strategyModifier": "Restrainer",
+          "normativeModifier": "Universalist",
+          "dimensionScores": {
+            "securityCompetition": 4.5,
+            "institutions": 4.43,
+            "domesticFilters": 6.32,
+            "normsIdentity": 4.87,
+            "politicalEconomy": 4.72,
+            "restraint": 5.35,
+            "orderJustice": 2.96
+          },
+          "familyScores": {
+            "realist": -1.38,
+            "institutionalist": 1.15,
+            "constructivist": 0.09,
+            "criticalPoliticalEconomy": 1.47
+          },
+          "routing": "pure",
+          "posture": "-",
+          "archetype": "S-",
+          "readingCode": "S-.j",
+          "placementState": "stableModeration"
+        }
+      }
+    },
+    {
+      "id": "boundaryFocused:targeted:constructivist|criticalPoliticalEconomy:0031",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "calibration": "targetedExtended:constructivist|criticalPoliticalEconomy",
+      "tags": [
+        "pure-blend-threshold"
+      ],
+      "answerPerturbationTrials": 66,
+      "fullArchetypeFlipRate": 0.833333,
+      "answers": {
+        "sc2": 2,
+        "v21_sc_rev_02": 6,
+        "in2": 2,
+        "v21_in_rev_03": 5,
+        "df1": 3,
+        "v21_df_rev_04": 3,
+        "ni2": 1,
+        "v21_ni_rev_05": 1,
+        "pe2": 1,
+        "v21_pe_rev_02": 2,
+        "rs2": 7,
+        "v21_rs_rev_04": 7,
+        "oj1": 3,
+        "oj2": 4,
+        "an_case_sanctions_alignment": "hedge",
+        "an_tradeoff_energy_alignment": "defend_rule",
+        "an_case_middle_power": "shield",
+        "an_case_green_finance": {
+          "primary": "home",
+          "secondary": "bloc"
+        },
+        "an_tradeoff_ceasefire_settlement": {
+          "primary": "read_the_power_distribution",
+          "secondary": "hold_accountability_line"
+        }
+      },
+      "before": {
+        "family": "constructivist",
+        "runnerUp": "criticalPoliticalEconomy",
+        "nearestFitGap": 0.17999999999999994,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 3.3,
+          "institutions": 4.08,
+          "domesticFilters": 4.8,
+          "normsIdentity": 4.39,
+          "politicalEconomy": 4.51,
+          "restraint": 4.27,
+          "orderJustice": 4.47
+        },
+        "familyScores": {
+          "realist": 0.26,
+          "institutionalist": -0.82,
+          "constructivist": 0.72,
+          "criticalPoliticalEconomy": 0.54
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "M/S+",
+        "readingCode": "M/S+.c",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "forced-choice-alternative",
+        "itemId": "an_case_middle_power",
+        "fromAnswer": "shield",
+        "toAnswer": "hedge",
+        "dimensionDeltas": {
+          "securityCompetition": -1.3,
+          "institutions": 0.07,
+          "politicalEconomy": 0.12,
+          "restraint": 0.4
+        },
+        "transitions": {
+          "family": "constructivist->constructivist",
+          "routing": "blend->pure",
+          "posture": "+->-",
+          "archetype": "M/S+->M-"
+        },
+        "after": {
+          "family": "constructivist",
+          "runnerUp": "criticalPoliticalEconomy",
+          "nearestFitGap": 0.4700000000000001,
+          "strategyModifier": "Hedger",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 2,
+            "institutions": 4.15,
+            "domesticFilters": 4.8,
+            "normsIdentity": 4.39,
+            "politicalEconomy": 4.63,
+            "restraint": 4.67,
+            "orderJustice": 4.47
+          },
+          "familyScores": {
+            "realist": -1.01,
+            "institutionalist": 0,
+            "constructivist": 1.33,
+            "criticalPoliticalEconomy": 0.86
+          },
+          "routing": "pure",
+          "posture": "-",
+          "archetype": "M-",
+          "readingCode": "M-.c",
+          "placementState": "stableModeration"
+        }
+      }
+    },
+    {
+      "id": "boundaryFocused:targeted:institutionalist|constructivist:0051",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:institutionalist|constructivist",
+      "calibration": "targetedExtended:institutionalist|constructivist",
+      "tags": [
+        "ties-and-near-ties"
+      ],
+      "answerPerturbationTrials": 68,
+      "fullArchetypeFlipRate": 0.823529,
+      "answers": {
+        "sc2": 2,
+        "v21_sc_rev_02": 1,
+        "in2": 6,
+        "v21_in_rev_03": 1,
+        "df1": 6,
+        "v21_df_rev_04": 4,
+        "ni2": 6,
+        "v21_ni_rev_05": 3,
+        "pe2": 5,
+        "v21_pe_rev_02": 2,
+        "rs2": 7,
+        "v21_rs_rev_04": 6,
+        "oj1": 2,
+        "oj2": 2,
+        "an_tradeoff_tech_order": {
+          "primary": "edge",
+          "secondary": "chokepoints"
+        },
+        "case_semiconductors": "framing",
+        "an_case_digital_stack": {
+          "primary": "dependence",
+          "secondary": "security"
+        },
+        "an_case_intervention_memory": {
+          "primary": "threshold",
+          "secondary": "shield"
+        },
+        "tradeoff_intervention": {
+          "primary": "protection",
+          "secondary": "precedent"
+        }
+      },
+      "before": {
+        "family": "constructivist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0.020000000000000018,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 4.66,
+          "institutions": 5.25,
+          "domesticFilters": 5,
+          "normsIdentity": 5.26,
+          "politicalEconomy": 5.56,
+          "restraint": 4.3,
+          "orderJustice": 3.83
+        },
+        "familyScores": {
+          "realist": -0.42,
+          "institutionalist": 0.57,
+          "constructivist": 0.59,
+          "criticalPoliticalEconomy": 0.57
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "R/M+",
+        "readingCode": "R/M+.c",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "forced-choice-alternative",
+        "itemId": "case_semiconductors",
+        "fromAnswer": "framing",
+        "toAnswer": "edge",
+        "dimensionDeltas": {
+          "securityCompetition": 0.56,
+          "institutions": -0.48,
+          "normsIdentity": -0.15,
+          "restraint": -0.39
+        },
+        "transitions": {
+          "family": "constructivist->realist",
+          "routing": "blend->pure",
+          "posture": "+->+",
+          "archetype": "R/M+->P+"
+        },
+        "after": {
+          "family": "realist",
+          "runnerUp": "criticalPoliticalEconomy",
+          "nearestFitGap": 0.32999999999999985,
+          "strategyModifier": "Maximizer",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 5.22,
+            "institutions": 4.77,
+            "domesticFilters": 5,
+            "normsIdentity": 5.11,
+            "politicalEconomy": 5.56,
+            "restraint": 3.91,
+            "orderJustice": 3.83
+          },
+          "familyScores": {
+            "realist": 1.13,
+            "institutionalist": -0.68,
+            "constructivist": -0.28,
+            "criticalPoliticalEconomy": 0.8
+          },
+          "routing": "pure",
+          "posture": "+",
+          "archetype": "P+",
+          "readingCode": "P+.c",
+          "placementState": "stableModeration"
+        }
+      }
+    },
+    {
+      "id": "boundaryFocused:targeted:institutionalist|constructivist:0056",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:institutionalist|constructivist",
+      "calibration": "targetedExtended:institutionalist|constructivist",
+      "tags": [
+        "ties-and-near-ties"
+      ],
+      "answerPerturbationTrials": 67,
+      "fullArchetypeFlipRate": 0.820896,
+      "answers": {
+        "sc2": 2,
+        "v21_sc_rev_02": 6,
+        "in2": 4,
+        "v21_in_rev_03": 1,
+        "df1": 1,
+        "v21_df_rev_04": 7,
+        "ni2": 4,
+        "v21_ni_rev_05": 5,
+        "pe2": 4,
+        "v21_pe_rev_02": 1,
+        "rs2": 2,
+        "v21_rs_rev_04": 4,
+        "oj1": 3,
+        "oj2": 4,
+        "an_tradeoff_tech_order": {
+          "primary": "narrow",
+          "secondary": "chokepoints"
+        },
+        "case_semiconductors": "edge",
+        "an_case_digital_stack": {
+          "primary": "security",
+          "secondary": "interoperability"
+        },
+        "an_case_intervention_memory": {
+          "primary": "regional",
+          "secondary": "threshold"
+        },
+        "tradeoff_intervention": "protection"
+      },
+      "before": {
+        "family": "realist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 0.020000000000000018,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Universalist",
+        "dimensionScores": {
+          "securityCompetition": 4.19,
+          "institutions": 5.15,
+          "domesticFilters": 1,
+          "normsIdentity": 4.03,
+          "politicalEconomy": 5.36,
+          "restraint": 3.76,
+          "orderJustice": 3.33
+        },
+        "familyScores": {
+          "realist": 0.2,
+          "institutionalist": 0.18,
+          "constructivist": 0.17,
+          "criticalPoliticalEconomy": -0.74
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "P/R+",
+        "readingCode": "P/R+.j",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "forced-choice-alternative",
+        "itemId": "tradeoff_intervention",
+        "fromAnswer": "protection",
+        "toAnswer": "consequences",
+        "dimensionDeltas": {
+          "domesticFilters": 1.2,
+          "normsIdentity": -0.27,
+          "restraint": 0.35,
+          "orderJustice": 0.36
+        },
+        "transitions": {
+          "family": "realist->institutionalist",
+          "routing": "blend->pure",
+          "posture": "+->+",
+          "archetype": "P/R+->R+"
+        },
+        "after": {
+          "family": "institutionalist",
+          "runnerUp": "realist",
+          "nearestFitGap": 0.55,
+          "strategyModifier": "Maximizer",
+          "normativeModifier": "Universalist",
+          "dimensionScores": {
+            "securityCompetition": 4.19,
+            "institutions": 5.15,
+            "domesticFilters": 2.2,
+            "normsIdentity": 3.76,
+            "politicalEconomy": 5.36,
+            "restraint": 4.11,
+            "orderJustice": 3.69
+          },
+          "familyScores": {
+            "realist": 0.01,
+            "institutionalist": 0.56,
+            "constructivist": -0.57,
+            "criticalPoliticalEconomy": -0.48
+          },
+          "routing": "pure",
+          "posture": "+",
+          "archetype": "R+",
+          "readingCode": "R+.j",
+          "placementState": "stableModeration"
+        }
+      }
+    },
+    {
+      "id": "boundaryFocused:targeted:realist|institutionalist:0010",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:realist|institutionalist",
+      "calibration": "targetedExtended:realist|institutionalist",
+      "tags": [
+        "family-boundary",
+        "ties-and-near-ties"
+      ],
+      "answerPerturbationTrials": 67,
+      "fullArchetypeFlipRate": 0.820896,
+      "answers": {
+        "sc2": 2,
+        "v21_sc_rev_02": 3,
+        "in2": 1,
+        "v21_in_rev_03": 1,
+        "df1": 2,
+        "v21_df_rev_04": 1,
+        "ni2": 2,
+        "v21_ni_rev_05": 4,
+        "pe2": 2,
+        "v21_pe_rev_02": 6,
+        "rs2": 2,
+        "v21_rs_rev_04": 6,
+        "oj1": 7,
+        "oj2": 3,
+        "an_tradeoff_evidence": {
+          "primary": "coalitions",
+          "secondary": "capabilities"
+        },
+        "an_case_rising_power_voice": {
+          "primary": "status_recognition",
+          "secondary": "hierarchy_contest"
+        },
+        "an_tradeoff_rival": {
+          "primary": "integration",
+          "secondary": "update"
+        },
+        "an_tradeoff_parallel_order": {
+          "primary": "reform",
+          "secondary": "power"
+        },
+        "an_case_digital_stack": "dependence"
+      },
+      "before": {
+        "family": "institutionalist",
+        "runnerUp": "realist",
+        "nearestFitGap": 0.020000000000000018,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Pluralist",
+        "dimensionScores": {
+          "securityCompetition": 4.02,
+          "institutions": 4.6,
+          "domesticFilters": 5,
+          "normsIdentity": 4.34,
+          "politicalEconomy": 3.92,
+          "restraint": 2.97,
+          "orderJustice": 6
+        },
+        "familyScores": {
+          "realist": 0.21,
+          "institutionalist": 0.23,
+          "constructivist": 0.18,
+          "criticalPoliticalEconomy": -1.09
+        },
+        "routing": "blend",
+        "posture": "+",
+        "archetype": "P/R+",
+        "readingCode": "P/R+.o",
+        "placementState": "lowDifferentiation"
+      },
+      "representativeFlip": {
+        "mutation": "forced-choice-alternative",
+        "itemId": "an_case_digital_stack",
+        "fromAnswer": "dependence",
+        "toAnswer": "autonomy",
+        "dimensionDeltas": {
+          "securityCompetition": -0.16,
+          "institutions": 0.12,
+          "normsIdentity": 0.18,
+          "politicalEconomy": -0.85,
+          "restraint": 0.61
+        },
+        "transitions": {
+          "family": "institutionalist->constructivist",
+          "routing": "blend->blend",
+          "posture": "+->+",
+          "archetype": "P/R+->R/M+"
+        },
+        "after": {
+          "family": "constructivist",
+          "runnerUp": "institutionalist",
+          "nearestFitGap": 0.16000000000000003,
+          "strategyModifier": "Maximizer",
+          "normativeModifier": "Pluralist",
+          "dimensionScores": {
+            "securityCompetition": 3.86,
+            "institutions": 4.72,
+            "domesticFilters": 5,
+            "normsIdentity": 4.52,
+            "politicalEconomy": 3.07,
+            "restraint": 3.58,
+            "orderJustice": 6
+          },
+          "familyScores": {
+            "realist": -0.66,
+            "institutionalist": 0.87,
+            "constructivist": 1.03,
+            "criticalPoliticalEconomy": -2
+          },
+          "routing": "blend",
+          "posture": "+",
+          "archetype": "R/M+",
+          "readingCode": "R/M+.o",
+          "placementState": "lowDifferentiation"
+        }
+      }
+    }
+  ],
+  "representativeExamples": [
+    {
+      "id": "uniform:targeted:institutionalist|criticalPoliticalEconomy:0153",
+      "ensemble": "uniform",
+      "form": "targeted:institutionalist|criticalPoliticalEconomy",
+      "calibration": "targetedExtended:institutionalist|criticalPoliticalEconomy",
+      "tags": [],
+      "answerPerturbationTrials": 65,
+      "fullArchetypeFlipRate": 0.138462,
+      "answers": {
+        "sc2": 4,
+        "v21_sc_rev_02": 5,
+        "in2": 4,
+        "v21_in_rev_03": 7,
+        "df1": 7,
+        "v21_df_rev_04": 3,
+        "ni2": 2,
+        "v21_ni_rev_05": 1,
+        "pe2": 4,
+        "v21_pe_rev_02": 5,
+        "rs2": 5,
+        "v21_rs_rev_04": 7,
+        "oj1": 7,
+        "oj2": 1,
+        "an_tradeoff_ceasefire_settlement": {
+          "primary": "stop_harm_now",
+          "secondary": "read_the_power_distribution"
+        },
+        "an_case_rising_power_voice": "status_recognition",
+        "an_tradeoff_tech_order": {
+          "primary": "narrow",
+          "secondary": "edge"
+        },
+        "an_tradeoff_energy_alignment": "defend_rule",
+        "an_case_sanctions_alignment": "diversify"
+      },
+      "before": {
+        "family": "constructivist",
+        "runnerUp": "criticalPoliticalEconomy",
+        "nearestFitGap": 1.3399999999999999,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Pluralist",
+        "dimensionScores": {
+          "securityCompetition": 3.93,
+          "institutions": 4.33,
+          "domesticFilters": 5.78,
+          "normsIdentity": 5.1,
+          "politicalEconomy": 4.63,
+          "restraint": 4.27,
+          "orderJustice": 5.62
+        },
+        "familyScores": {
+          "realist": -0.29,
+          "institutionalist": -0.26,
+          "constructivist": 1.43,
+          "criticalPoliticalEconomy": 0.09
+        },
+        "routing": "pure",
+        "posture": "+",
+        "archetype": "M+",
+        "readingCode": "M+.o",
+        "placementState": "sharplyDifferentiated"
+      },
+      "representativeFlip": {
+        "mutation": "forced-choice-alternative",
+        "itemId": "an_case_rising_power_voice",
+        "fromAnswer": "status_recognition",
+        "toAnswer": "security_transition",
+        "dimensionDeltas": {
+          "securityCompetition": 0.61,
+          "institutions": -0.13,
+          "normsIdentity": -0.83
+        },
+        "transitions": {
+          "family": "constructivist->realist",
+          "routing": "pure->pure",
+          "posture": "+->+",
+          "archetype": "M+->P+"
+        },
+        "after": {
+          "family": "realist",
+          "runnerUp": "criticalPoliticalEconomy",
+          "nearestFitGap": 0.96,
+          "strategyModifier": "Maximizer",
+          "normativeModifier": "Pluralist",
+          "dimensionScores": {
+            "securityCompetition": 4.54,
+            "institutions": 4.2,
+            "domesticFilters": 5.78,
+            "normsIdentity": 4.27,
+            "politicalEconomy": 4.63,
+            "restraint": 4.27,
+            "orderJustice": 5.62
+          },
+          "familyScores": {
+            "realist": 0.97,
+            "institutionalist": -0.7,
+            "constructivist": -0.65,
+            "criticalPoliticalEconomy": 0.01
+          },
+          "routing": "pure",
+          "posture": "+",
+          "archetype": "P+",
+          "readingCode": "P+.o",
+          "placementState": "sharplyDifferentiated"
+        }
+      }
+    },
+    {
+      "id": "calibratedSynthetic:targeted:institutionalist|constructivist:0022",
+      "ensemble": "calibratedSynthetic",
+      "form": "targeted:institutionalist|constructivist",
+      "calibration": "targetedExtended:institutionalist|constructivist",
+      "tags": [
+        "latent-family:constructivist"
+      ],
+      "answerPerturbationTrials": 70,
+      "fullArchetypeFlipRate": 0,
+      "answers": {
+        "sc2": 3,
+        "v21_sc_rev_02": 5,
+        "in2": 4,
+        "v21_in_rev_03": 3,
+        "df1": 4,
+        "v21_df_rev_04": 6,
+        "ni2": 6,
+        "v21_ni_rev_05": 1,
+        "pe2": 5,
+        "v21_pe_rev_02": 3,
+        "rs2": 5,
+        "v21_rs_rev_04": 4,
+        "oj1": 5,
+        "oj2": 4,
+        "an_tradeoff_tech_order": "narrow",
+        "case_semiconductors": {
+          "primary": "framing",
+          "secondary": "coalition"
+        },
+        "an_case_digital_stack": "interoperability",
+        "an_case_intervention_memory": {
+          "primary": "regional",
+          "secondary": "threshold"
+        },
+        "tradeoff_intervention": "mandate"
+      },
+      "before": {
+        "family": "constructivist",
+        "runnerUp": "institutionalist",
+        "nearestFitGap": 2.2199999999999998,
+        "strategyModifier": "Restrainer",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 3.46,
+          "institutions": 5.61,
+          "domesticFilters": 3,
+          "normsIdentity": 6.12,
+          "politicalEconomy": 4.87,
+          "restraint": 4.86,
+          "orderJustice": 4.21
+        },
+        "familyScores": {
+          "realist": -3.02,
+          "institutionalist": 1.68,
+          "constructivist": 3.9,
+          "criticalPoliticalEconomy": -1.06
+        },
+        "routing": "pure",
+        "posture": "-",
+        "archetype": "M-",
+        "readingCode": "M-.c",
+        "placementState": "sharplyDifferentiated"
+      },
+      "representativeFlip": null
+    },
+    {
+      "id": "boundaryFocused:targeted:constructivist|criticalPoliticalEconomy:0040",
+      "ensemble": "boundaryFocused",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "calibration": "targetedExtended:constructivist|criticalPoliticalEconomy",
+      "tags": [
+        "posture-midpoint"
+      ],
+      "answerPerturbationTrials": 65,
+      "fullArchetypeFlipRate": 0.476923,
+      "answers": {
+        "sc2": 3,
+        "v21_sc_rev_02": 1,
+        "in2": 7,
+        "v21_in_rev_03": 6,
+        "df1": 5,
+        "v21_df_rev_04": 5,
+        "ni2": 5,
+        "v21_ni_rev_05": 1,
+        "pe2": 7,
+        "v21_pe_rev_02": 2,
+        "rs2": 4,
+        "v21_rs_rev_04": 7,
+        "oj1": 7,
+        "oj2": 5,
+        "an_case_sanctions_alignment": "stability",
+        "an_tradeoff_energy_alignment": {
+          "primary": "defend_rule",
+          "secondary": "hedge_diplomatically"
+        },
+        "an_case_middle_power": {
+          "primary": "extract",
+          "secondary": "peers"
+        },
+        "an_case_green_finance": {
+          "primary": "space",
+          "secondary": "home"
+        },
+        "an_tradeoff_ceasefire_settlement": {
+          "primary": "read_the_power_distribution",
+          "secondary": "stop_harm_now"
+        }
+      },
+      "before": {
+        "family": "criticalPoliticalEconomy",
+        "runnerUp": "constructivist",
+        "nearestFitGap": 0.29000000000000004,
+        "strategyModifier": "Maximizer",
+        "normativeModifier": "Pluralist",
+        "dimensionScores": {
+          "securityCompetition": 5,
+          "institutions": 4.85,
+          "domesticFilters": 5,
+          "normsIdentity": 5.67,
+          "politicalEconomy": 5.82,
+          "restraint": 3.97,
+          "orderJustice": 4.6
+        },
+        "familyScores": {
+          "realist": 0.76,
+          "institutionalist": -1.1,
+          "constructivist": 0.95,
+          "criticalPoliticalEconomy": 1.24
+        },
+        "routing": "pure",
+        "posture": "+",
+        "archetype": "S+",
+        "readingCode": "S+.o",
+        "placementState": "stableModeration"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "sc2",
+        "fromAnswer": 3,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "securityCompetition": 2
+        },
+        "transitions": {
+          "family": "criticalPoliticalEconomy->realist",
+          "routing": "pure->pure",
+          "posture": "+->+",
+          "archetype": "S+->P+"
+        },
+        "after": {
+          "family": "realist",
+          "runnerUp": "criticalPoliticalEconomy",
+          "nearestFitGap": 1.35,
+          "strategyModifier": "Maximizer",
+          "normativeModifier": "Pluralist",
+          "dimensionScores": {
+            "securityCompetition": 7,
+            "institutions": 4.85,
+            "domesticFilters": 5,
+            "normsIdentity": 5.67,
+            "politicalEconomy": 5.82,
+            "restraint": 3.97,
+            "orderJustice": 4.6
+          },
+          "familyScores": {
+            "realist": 2.19,
+            "institutionalist": -2.04,
+            "constructivist": -0.14,
+            "criticalPoliticalEconomy": 0.84
+          },
+          "routing": "pure",
+          "posture": "+",
+          "archetype": "P+",
+          "readingCode": "P+.o",
+          "placementState": "sharplyDifferentiated"
+        }
+      }
+    },
+    {
+      "id": "canonical:targeted:constructivist|criticalPoliticalEconomy:0007",
+      "ensemble": "canonical",
+      "form": "targeted:constructivist|criticalPoliticalEconomy",
+      "calibration": "targetedExtended:constructivist|criticalPoliticalEconomy",
+      "tags": [
+        "archetype-directed:institutionalist",
+        "restraint-justice"
+      ],
+      "answerPerturbationTrials": 71,
+      "fullArchetypeFlipRate": 0,
+      "answers": {
+        "sc2": 3,
+        "v21_sc_rev_02": 5,
+        "in2": 6,
+        "v21_in_rev_03": 2,
+        "df1": 6,
+        "v21_df_rev_04": 2,
+        "ni2": 5,
+        "v21_ni_rev_05": 3,
+        "pe2": 5,
+        "v21_pe_rev_02": 3,
+        "rs2": 6,
+        "v21_rs_rev_04": 3,
+        "oj1": 3,
+        "oj2": 6,
+        "an_case_sanctions_alignment": {
+          "primary": "stability",
+          "secondary": "hedge"
+        },
+        "an_tradeoff_energy_alignment": {
+          "primary": "protect_home",
+          "secondary": "phase_reduction"
+        },
+        "an_case_middle_power": {
+          "primary": "peers",
+          "secondary": "extract"
+        },
+        "an_case_green_finance": {
+          "primary": "bloc",
+          "secondary": "stabilize"
+        },
+        "an_tradeoff_ceasefire_settlement": {
+          "primary": "stop_harm_now",
+          "secondary": "sequence_peace_and_justice"
+        }
+      },
+      "before": {
+        "family": "institutionalist",
+        "runnerUp": "constructivist",
+        "nearestFitGap": 1.9,
+        "strategyModifier": "Restrainer",
+        "normativeModifier": "Universalist",
+        "dimensionScores": {
+          "securityCompetition": 3,
+          "institutions": 5.63,
+          "domesticFilters": 5.93,
+          "normsIdentity": 5.05,
+          "politicalEconomy": 4.89,
+          "restraint": 5.43,
+          "orderJustice": 2.92
+        },
+        "familyScores": {
+          "realist": -3.19,
+          "institutionalist": 3.19,
+          "constructivist": 1.29,
+          "criticalPoliticalEconomy": 0.65
+        },
+        "routing": "pure",
+        "posture": "-",
+        "archetype": "R-",
+        "readingCode": "R-.j",
+        "placementState": "sharplyDifferentiated"
+      },
+      "representativeFlip": null
+    },
+    {
+      "id": "responseStyleStress:targeted:institutionalist|constructivist:0011",
+      "ensemble": "responseStyleStress",
+      "form": "targeted:institutionalist|constructivist",
+      "calibration": "targetedExtended:institutionalist|constructivist",
+      "tags": [
+        "response-style:disacquiescent"
+      ],
+      "answerPerturbationTrials": 57,
+      "fullArchetypeFlipRate": 0.403509,
+      "answers": {
+        "sc2": 1,
+        "v21_sc_rev_02": 1,
+        "in2": 1,
+        "v21_in_rev_03": 1,
+        "df1": 1,
+        "v21_df_rev_04": 1,
+        "ni2": 1,
+        "v21_ni_rev_05": 1,
+        "pe2": 1,
+        "v21_pe_rev_02": 1,
+        "rs2": 1,
+        "v21_rs_rev_04": 1,
+        "oj1": 1,
+        "oj2": 1,
+        "an_tradeoff_tech_order": {
+          "primary": "hierarchy",
+          "secondary": "edge"
+        },
+        "case_semiconductors": {
+          "primary": "framing",
+          "secondary": "edge"
+        },
+        "an_case_digital_stack": {
+          "primary": "autonomy",
+          "secondary": "security"
+        },
+        "an_case_intervention_memory": {
+          "primary": "aftermath",
+          "secondary": "shield"
+        },
+        "tradeoff_intervention": {
+          "primary": "consequences",
+          "secondary": "precedent"
+        }
+      },
+      "before": {
+        "family": "constructivist",
+        "runnerUp": "criticalPoliticalEconomy",
+        "nearestFitGap": 0.32999999999999996,
+        "strategyModifier": "Restrainer",
+        "normativeModifier": "Conditional Solidarist",
+        "dimensionScores": {
+          "securityCompetition": 4.26,
+          "institutions": 3.95,
+          "domesticFilters": 4.35,
+          "normsIdentity": 4.89,
+          "politicalEconomy": 4.67,
+          "restraint": 4.92,
+          "orderJustice": 4.25
+        },
+        "familyScores": {
+          "realist": -0.39,
+          "institutionalist": -0.41,
+          "constructivist": 0.73,
+          "criticalPoliticalEconomy": 0.4
+        },
+        "routing": "pure",
+        "posture": "-",
+        "archetype": "M-",
+        "readingCode": "M-.c",
+        "placementState": "stableModeration"
+      },
+      "representativeFlip": {
+        "mutation": "core-omission",
+        "itemId": "v21_in_rev_03",
+        "fromAnswer": 1,
+        "toAnswer": null,
+        "dimensionDeltas": {
+          "institutions": -1.6
+        },
+        "transitions": {
+          "family": "constructivist->criticalPoliticalEconomy",
+          "routing": "pure->pure",
+          "posture": "-->-",
+          "archetype": "M-->S-"
+        },
+        "after": {
+          "family": "criticalPoliticalEconomy",
+          "runnerUp": "constructivist",
+          "nearestFitGap": 1.21,
+          "strategyModifier": "Restrainer",
+          "normativeModifier": "Conditional Solidarist",
+          "dimensionScores": {
+            "securityCompetition": 4.26,
+            "institutions": 2.35,
+            "domesticFilters": 4.35,
+            "normsIdentity": 4.89,
+            "politicalEconomy": 4.67,
+            "restraint": 4.92,
+            "orderJustice": 4.25
+          },
+          "familyScores": {
+            "realist": 0.66,
+            "institutionalist": -2.36,
+            "constructivist": 0.67,
+            "criticalPoliticalEconomy": 1.88
+          },
+          "routing": "pure",
+          "posture": "-",
+          "archetype": "S-",
+          "readingCode": "S-.c",
+          "placementState": "sharplyDifferentiated"
+        }
+      }
+    }
+  ]
+}

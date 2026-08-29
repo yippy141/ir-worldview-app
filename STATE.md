@@ -1,39 +1,96 @@
 # STATE
 
-Updated: 2026-08-25
+Updated: 2026-08-30
 Role: concise memory aid, never sole authority
 
-## Last fully gated code
+## Current repository head
+
+- Branch under review: `main`
+- Main SHA: `e1728b30478cb666cb26082a1cf07f0da8290462`
+- Commit subject: `Merge pull request #45 from yippy141/integration/v23-5-1`
+- Merge parents: `adf2181ea09413591b3b16a6fc44f908005f7021` and `a52fd862437f9b392ea9e0cd35b92f804981bf1a`
+- Tree: `1c69f9f48b74ce021c9514521ddeccb6d6b90e14`
+- Commits ahead of the last accepted V23.4 SHA: 54
+- `origin/main` matched local `main` at this verification.
+
+## PR #45 integration
+
+PR #45 merged the `integration/v23-5-1` branch into `main` on 2026-08-29. That
+branch carried the seven partitioned V23.5 commits plus the reconciled
+integration merge of `codex/v23-5-trust-legibility-prs`. The V23.5 candidate is
+therefore no longer a side branch. It is the content of `main`.
+
+Merging to `main` records integration, not acceptance. The human and evidence
+gates listed under release status remain open.
+
+## Last accepted release lineage
 
 - Accepted lineage: V23.4
-- Code SHA: `a80fe4d02d818ae546672d15f64aa596a25b1ceb`
-- Production deployment: `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa`
-- Production SHA: `a80fe4d02d818ae546672d15f64aa596a25b1ceb`
-- Baseline gate: typecheck, validation, strict copy audit, lint, 573 tests, and build all passed
-- Active implementation branch: `codex/v23-5-trust-legibility-split`
+- Accepted code SHA: `a80fe4d02d818ae546672d15f64aa596a25b1ceb`
+- That SHA remains the last lineage the owner accepted. Nothing in this file
+  promotes PR #45 to an accepted release.
 
-## Committed V23.5 candidate checkpoint
+## Production deployment
 
-- Candidate code SHA: `77ce296619ab3287f8656667b77363488e617c97`
-- Base SHA: `a80fe4d02d818ae546672d15f64aa596a25b1ceb`
-- The implementation is partitioned into seven reviewable commits: homepage integrity, reset safety, Focus Area persistence and pagination, responsive quiz chrome, result claims, Method information architecture, and runtime-copy review.
-- Automated checkpoint on 2026-08-24: typecheck, validation, strict copy audit, lint, 594 unit tests, 84 Chromium tests, evidence freshness, tokenless build, and ordinary build passed
-- Strict copy result: 0 blocking findings and 664 advisory review signals
-- Runtime-copy inventory: 14,248 occurrences and 1,378 unique texts; structural manifest passed, editorial approval remains unrecorded
-- Impeccable detector: reported inherited side-border and width-transition review signals in changed whole files; the diff introduces none of the flagged declarations, so they remain manual design-review items rather than an automated release claim
-- Release status: not accepted and not deployable until the pending runtime-copy, deterministic evidence, manual visual, and human research gates close
+- Production SHA: **not verified**
+- Reason: this working environment has no Vercel CLI, no Vercel API credential,
+  and no build log for the current deployment. The production alias
+  `https://irworldview.jhyip.com` answers 200 and exposes no commit identifier
+  in its headers or markup.
+- Last recorded deployment: `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` at commit
+  `a80fe4d`, recorded 2026-08-24. That record predates PR #45 and must not be
+  treated as current.
+- Do not infer the production SHA from `main`, from this file, or from visible
+  copy. Retrieve it from the Vercel deployment record or build log.
+
+## Release status
+
+- V23.5 Trust and Legibility is integrated into `main` and not accepted.
+- The pending gates are runtime-copy editorial approval, deterministic evidence
+  reproduction, manual visual review, and human research sessions.
+- No deployment is authorized by this file.
+
+## Current evidence work
+
+- PR #47, `v23-6-evidence-baseline`, is the current robustness-evidence work. It
+  preserves a deterministic structural-sensitivity diagnostic and its accepted
+  artifacts without changing public runtime behavior.
+- The evidence makes no reliability, validity, prevalence, or population claim.
+  Its synthetic ensembles are authored mechanical probes, and its descriptive
+  bins are not pass/fail thresholds.
+- This work does not accept or deploy V23.6 and does not authorize a bank,
+  scorer, calibration, archetype, payload, or share-format change.
+
+## Separate PR #46
+
+- PR #46, `v23-6-visual-authorship-study`, remains open and unmerged at
+  `e2a74c25c029bd5eda6d027d3679705586e54dd2`.
+- It is a bounded, non-shipping visual-authorship study with development-only
+  prototype routes. It remains separate from the robustness-evidence work and
+  is not part of an accepted or deployed V23.6 release.
 
 ## Current owner outcome
 
-Ship **V23.5 Trust and Legibility** before any new scored module. Protect user work, correct Current Case availability, repair mobile and accessibility defects, simplify the information hierarchy, and review runtime-composed copy without changing scoring or payload contracts.
+Ship **V23.5 Trust and Legibility** before any new scored module. Protect user
+work, correct Current Case availability, repair mobile and accessibility
+defects, simplify the information hierarchy, and review runtime-composed copy
+without changing scoring or payload contracts.
 
-## Known divergence since the gated SHA
+## Known divergence since the accepted SHA
 
-- Canonical roadmap and implementation documents are present on the candidate branch.
-- Committed V23.5 implementation is present for Current Case availability, destructive confirmations, keyed Focus Area drafts, one-question flow, accessibility and responsive repairs, homepage and module information architecture, Method and result hierarchy, and runtime-copy fixtures. The automated checkpoint passes, but the candidate is not accepted until the remaining human and evidence gates close.
-- The exact changed paths and current behavior must be verified from Git and runtime evidence before dispatch, review, or handoff.
-- The Claude V24 review package is preserved at `docs/archive/2026-08-21-claude-v24-review/` for provenance but is superseded and non-executable.
-- The private studio scaffold exists at `/Users/jinhuayip/Developer/jinhua-studio-control`. It is initialized locally, uncommitted, and has no remote. It is not yet an operating control plane.
+- The V23.5 implementation is now on `main` rather than on a candidate branch.
+  Current Case availability, destructive confirmations, keyed Focus Area drafts,
+  one-question flow, accessibility and responsive repairs, homepage and module
+  information architecture, Method and result hierarchy, and runtime-copy
+  fixtures are all present there.
+- The exact changed paths and current behavior must be verified from Git and
+  runtime evidence before dispatch, review, or handoff.
+- The Claude V24 review package is preserved at
+  `docs/archive/2026-08-21-claude-v24-review/` for provenance but is superseded
+  and non-executable.
+- The private studio scaffold exists at
+  `/Users/jinhuayip/Developer/jinhua-studio-control`. It is initialized locally,
+  uncommitted, and has no remote. It is not yet an operating control plane.
 
 ## Locked decisions
 
@@ -59,6 +116,7 @@ Ship **V23.5 Trust and Legibility** before any new scored module. Protect user w
 - Which AI v3 constructs belong to AI rather than Security or Technology?
 - Can the verified tokenless Mapbox no-initialization boundary be turned into a durable CI network assertion?
 - Which pending runtime-copy rows require revision after named human review in their complete surface context?
+- Which root direction does the owner choose after the V23.6 visual-authorship study?
 
 ## Reproduce machine facts first
 
@@ -72,6 +130,8 @@ npm run validate
 npm run copy:audit:strict
 npm run lint
 npm run test
+npm run diagnose:foundation-robustness
+npm run diagnose:foundation-robustness:check
 npm run evidence:audit:check
 npm run copy:render:runtime
 npm run build
