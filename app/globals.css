@@ -31,7 +31,8 @@
   --border-soft: var(--line-2);
   --shadow: 0 10px 24px rgba(0, 0, 0, 0.38);
 
-  /* Font stacks (families loaded via next/font in app/layout.tsx) */
+  /* Font stacks (editorial and interface families load via next/font). */
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", "Roboto Mono", monospace;
   --sans: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
@@ -101,7 +102,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+  font-family: var(--sans);
   background: var(--bg);
   color: var(--text);
   -webkit-font-smoothing: antialiased;

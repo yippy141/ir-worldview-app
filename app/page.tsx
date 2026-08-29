@@ -1,7 +1,8 @@
 import type { Metadata } from "next"
-import { WorldStageHome } from "@/components/home/world-stage/world-stage-home"
+import { RootHome } from "@/components/home/root/root-home"
+import { getRootCopy } from "@/content/root"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
-import { getActivePublishedLaunchCurrentCase } from "@/lib/current-cases/catalog"
+import { ROOT_GLOBE_VISUAL } from "@/lib/root/orthographic"
 import { siteConfig } from "@/lib/site-config"
 
 export const metadata: Metadata = createEnglishApprovedMetadata("/", {
@@ -10,16 +11,12 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/", {
     "Map your foreign-policy judgments, test them in context, and explore the arguments behind the inventory.",
 })
 
-// Current Case availability depends on an editorial date window. Keep the
-// homepage request-bound so an expired case cannot remain promoted from a
-// stale build or cache entry.
-export const dynamic = "force-dynamic"
-
 export default function HomePage() {
-  const referenceDate = new Date().toISOString().slice(0, 10)
-  const hasActiveCurrentCase = Boolean(
-    getActivePublishedLaunchCurrentCase(undefined, { referenceDate }),
+  return (
+    <RootHome
+      locale="en"
+      copy={getRootCopy("en")}
+      visual={ROOT_GLOBE_VISUAL}
+    />
   )
-
-  return <WorldStageHome hasActiveCurrentCase={hasActiveCurrentCase} />
 }

@@ -90,6 +90,13 @@ test("public entry points match reviewed Current Case availability", async ({ pa
   if (!record) return
 
   await page.goto("/")
+  await expect(page.getByRole("navigation", { name: "Primary destinations" })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Atlas", exact: true })).toBeVisible()
+  await expect(page.locator("[data-root-visual-state]"))
+    .toHaveAttribute("data-root-visual-state", "inventory")
+  await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
+
+  await page.goto("/world-stage")
   if (activeCase) {
     await expect(page.getByRole("link", { name: /^Current Case\b/ })).toBeVisible()
   } else {
@@ -97,8 +104,6 @@ test("public entry points match reviewed Current Case availability", async ({ pa
     await expect(page.getByRole("link", { name: /^Recent Cases\b/ })).toBeVisible()
     await expect(page.getByRole("link", { name: /^Current Case\b/ })).toHaveCount(0)
   }
-  await expect(page.getByText("Atlas", { exact: true })).toHaveCount(0)
-
   const svgFallback = page.locator('svg:has(path[data-iso3])')
   await expect(svgFallback).toBeVisible()
   expect(await svgFallback.locator('path[data-iso3]').count()).toBeGreaterThan(0)
@@ -120,7 +125,7 @@ test("public entry points match reviewed Current Case availability", async ({ pa
 })
 
 test("World Stage opens the Foundation and a draft resumes after reload", async ({ page }) => {
-  await page.goto("/")
+  await page.goto("/world-stage")
 
   const stageNav = page.getByRole("navigation", { name: "World Stage sections" })
   await stageNav.getByRole("link", { name: /Foundation/ }).click()
@@ -990,7 +995,7 @@ test.describe("390px viewport", () => {
 
   test("World Stage and Foundation remain within the viewport", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" })
-    await page.goto("/")
+    await page.goto("/world-stage")
 
     const mapViews = page.locator("#world-stage-map-view option")
     await expect(mapViews).toHaveText([

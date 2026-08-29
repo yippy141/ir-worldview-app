@@ -475,11 +475,17 @@ test("English and Chinese share routes are private and no-store", async ({ reque
 })
 
 test("World Stage sends only its origin to the restricted Mapbox token", async ({ request }) => {
-  for (const pathname of ["/", "/zh"]) {
+  for (const pathname of ["/world-stage", "/zh/world-stage"]) {
     const response = await request.get(pathname)
     expect(response.headers()["referrer-policy"], pathname).toBe(
       "strict-origin-when-cross-origin",
     )
+  }
+
+
+  for (const pathname of ["/", "/zh"]) {
+    const response = await request.get(pathname)
+    expect(response.headers()["referrer-policy"], pathname).toBe("no-referrer")
   }
 
   const privateResponse = await request.get("/results/referrer-policy-test")
@@ -496,6 +502,7 @@ test.describe("390px Simplified Chinese shell", () => {
 
   for (const pathname of [
     "/zh",
+    "/zh/world-stage",
     "/zh/method",
     "/zh/quiz",
     "/zh/results/mobile_payload",

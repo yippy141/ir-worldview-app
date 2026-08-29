@@ -1,8 +1,8 @@
 # IR Worldview Astrolabe Design Authority
 
-Status: binding for V23.5 presentation work
+Status: binding for V23.6 presentation work
 Applies to: IR Worldview Inventory only
-Last reviewed: 2026-08-24
+Last reviewed: 2026-08-30
 
 ## 1. Scope and override
 
@@ -26,24 +26,32 @@ Atmosphere is strongest at the homepage and map. Questionnaires, results, Profil
 
 ## 3. Typography
 
-The bundled fonts in `app/layout.tsx` are authoritative.
+V23.6 supersedes the V23.5 Newsreader, Archivo, and Space Mono decision. The
+bundled fonts in `app/layout.tsx` are authoritative.
 
 | Role | Typeface | Use |
 | --- | --- | --- |
-| Editorial voice | Newsreader | Display headings, result headlines, long-form reading, important questions |
-| Interface | Archivo | Navigation, controls, labels, short explanatory text |
-| Evidence | Space Mono | Sources, dates, version data, codes after definition, small instrument labels |
+| Editorial voice | Spectral | Wordmark, active root destination, display headings, result headlines, long-form reading, important questions |
+| Interface | Libre Franklin | Navigation, controls, body copy, labels, and short explanatory text |
+| Evidence | System mono | Genuine sources, dates, version data, and codes after definition |
 
 Simplified Chinese uses the declared system stacks in `app/globals.css`: Songti-style serif for editorial voice, PingFang or equivalent sans for interface text, and a compatible mono stack for evidence.
 
 Rules:
 
-- Do not introduce Inter, Geist, IBM Plex, or another family in V23.5.
+- Spectral and Libre Franklin are bundled from the official Google Fonts
+  releases under the SIL Open Font License 1.1. Their licence files remain
+  beside the assets in `public/fonts/`.
+- Do not introduce a typography package or an additional display family.
 - Use no more than the three existing roles on one surface.
 - A first-contact reader should not need an internal code to understand a heading.
 - Body copy should stay readable at browser zoom and 400 percent reflow.
 - Use balanced wrapping for short headings and natural wrapping for paragraphs.
-- Do not use all caps for sentences. Reserve spaced uppercase or small mono labels for short metadata.
+- Do not use all caps for sentences. Reserve tracked uppercase for rare, short
+  orientation labels. Reserve mono for evidence and version metadata, not
+  ordinary navigation or editorial framing.
+- Prefer hierarchy from scale, weight, and whitespace over repeated uniform
+  hairlines.
 
 ## 4. Color
 
