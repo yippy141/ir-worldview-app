@@ -2,7 +2,7 @@
 
 Status: binding release record
 Release: V23.5 Trust and Legibility
-Last repository checkpoint: 2026-08-25
+Last repository checkpoint: 2026-08-29
 
 ## Purpose
 
@@ -26,37 +26,57 @@ If two authorities conflict outside the narrow override granted to `DESIGN.md`, 
 
 | Fact | Verified value |
 | --- | --- |
-| Accepted release lineage | V23.4 |
+| Current `main` SHA | `e1728b30478cb666cb26082a1cf07f0da8290462` |
+| Commit subject | `Merge pull request #45 from yippy141/integration/v23-5-1` |
+| Merge parent 1 | `adf2181ea09413591b3b16a6fc44f908005f7021` |
+| Merge parent 2 | `a52fd862437f9b392ea9e0cd35b92f804981bf1a` |
+| Current `main` tree | `1c69f9f48b74ce021c9514521ddeccb6d6b90e14` |
+| `origin/main` at verification | `e1728b30478cb666cb26082a1cf07f0da8290462` |
+| Commits ahead of the accepted V23.4 SHA | 54 |
+| Last accepted release lineage | V23.4 |
 | Accepted code SHA | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
-| Commit subject | `Merge pull request #36 from yippy141/v23-4-domain-authoring-contract` |
-| Merge parent 1 | `a76f97da302c12375c93672ad6076ef79fa8d830` |
-| Merge parent 2 | `708713a57c3a7b1dd86bd84636920780875a2db8` |
+| Accepted commit subject | `Merge pull request #36 from yippy141/v23-4-domain-authoring-contract` |
 | Accepted tree | `cd8f330bca536710a577092fbe91a2a591a45660` |
-| V23.4 branch tree | `cd8f330bca536710a577092fbe91a2a591a45660` |
-| Active candidate branch | `codex/v23-5-trust-legibility-split` |
-| Upstream main at verification | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
-| Candidate code SHA | `77ce296619ab3287f8656667b77363488e617c97` |
-| Worktree at latest checkpoint | Candidate code partitioned into seven commits; canonical documentation and evidence are being finalized separately |
+| Active branch | `v23-6-visual-authorship-study` |
 
-The merge commit contains both the previous `main` lineage and the V23.4 branch. Its tree is byte-identical to the V23.4 branch tree. The earlier report that V23.4 was unmerged resulted from a stale local clone.
+PR #45 merged `integration/v23-5-1` into `main` on 2026-08-29. That branch
+carried the seven partitioned V23.5 commits together with the reconciled
+integration merge of `codex/v23-5-trust-legibility-prs`. The V23.5 candidate is
+now the content of `main` rather than a separate branch, and the earlier
+candidate SHA `77ce296619ab3287f8656667b77363488e617c97` is superseded.
 
-## Verified deployment
+Merging to `main` records integration only. V23.4 remains the last lineage the
+owner accepted. Nothing here promotes PR #45 to an accepted release.
 
-| Fact | Verified value |
+The V23.4 merge commit contains both the previous `main` lineage and the V23.4
+branch. Its tree is byte-identical to the V23.4 branch tree. The earlier report
+that V23.4 was unmerged resulted from a stale local clone.
+
+## Deployment
+
+| Fact | Value |
 | --- | --- |
 | Vercel project | `ir-worldview-app` |
-| Deployment ID | `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` |
-| Deployment source | GitHub `main` |
-| Deployment commit | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
 | Production alias | `https://irworldview.jhyip.com` |
+| Current production SHA | **not verified** |
+| Last recorded deployment | `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` at commit `a80fe4d`, recorded 2026-08-24 |
 
-The production build log records `Commit: a80fe4d`. Local `main`, `origin/main`, and production therefore identify the same accepted lineage at this checkpoint.
+The current production SHA could not be verified at this checkpoint. The
+working environment used for the 2026-08-29 verification has no Vercel CLI, no
+Vercel API credential, and no build log for the live deployment. The production
+alias answers 200 and exposes no commit identifier in its response headers or
+markup.
 
-The latest Vercel check at 2026-08-24 14:23 CST still identified deployment `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` as the Ready production deployment and its build log still identified commit `a80fe4d`. The candidate branch is ahead in reviewable commits, but those commits are not an accepted release until the remaining gates pass.
+The last recorded deployment predates PR #45. Do not treat it as the current
+production deployment, and do not infer production from `main` or from visible
+copy. Retrieve the SHA from the Vercel deployment record or build log before any
+release claim.
 
 ## Baseline gate evidence
 
-All commands below passed on the reconciled baseline before V23.5 product changes:
+All commands below passed on the reconciled V23.4 baseline before V23.5
+product changes. They are historical evidence for that SHA, not a checkpoint for
+current `main`:
 
 | Check | Result |
 | --- | --- |
@@ -103,7 +123,7 @@ Deployment environment values were not inferred from source code. Each deploymen
 
 ### Facts
 
-- Production, local `main`, and `origin/main` were reconciled to the exact V23.4 merge SHA above.
+- Local `main` and `origin/main` matched at `e1728b3` on 2026-08-29. The production SHA was not verified at that check, so the three are not known to be reconciled.
 - AI Governance bank v3 already exists.
 - Result payloads and ProfileStore snapshots do not provide a contract for retrieving exact completed item answers.
 - Runtime-composed paragraphs exist and must be reviewed as rendered wholes.
