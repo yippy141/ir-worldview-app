@@ -37,7 +37,7 @@ If two authorities conflict outside the narrow override granted to `DESIGN.md`, 
 | Accepted code SHA | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
 | Accepted commit subject | `Merge pull request #36 from yippy141/v23-4-domain-authoring-contract` |
 | Accepted tree | `cd8f330bca536710a577092fbe91a2a591a45660` |
-| Current evidence work | `v23-6-evidence-baseline` |
+| Current evidence work | PR #47, `v23-6-evidence-baseline` |
 | Separate study | PR #46, `v23-6-visual-authorship-study`, open and unmerged at `e2a74c25c029bd5eda6d027d3679705586e54dd2` |
 
 PR #45 merged `integration/v23-5-1` into `main` on 2026-08-29. That branch
@@ -49,12 +49,12 @@ candidate SHA `77ce296619ab3287f8656667b77363488e617c97` is superseded.
 Merging to `main` records integration only. V23.4 remains the last lineage the
 owner accepted. Nothing here promotes PR #45 to an accepted release.
 
-The current work prepares `v23-6-evidence-baseline` as the Foundation
-robustness evidence PR. It preserves a deterministic structural-sensitivity
-diagnostic and accepted evidence only. It changes no public runtime behavior
-and does not accept or deploy V23.6. PR #46 remains a separate, open, unmerged,
-non-shipping visual-authorship study; none of its prototype implementation or
-screenshots belongs in the robustness evidence PR.
+PR #47, `v23-6-evidence-baseline`, is the current Foundation robustness
+evidence work. It preserves a deterministic structural-sensitivity diagnostic
+and accepted evidence only. It changes no public runtime behavior and does not
+accept or deploy V23.6. PR #46 remains a separate, open, unmerged, non-shipping
+visual-authorship study; none of its prototype implementation or screenshots
+belongs in the robustness evidence PR.
 
 The V23.4 merge commit contains both the previous `main` lineage and the V23.4
 branch. Its tree is byte-identical to the V23.4 branch tree. The earlier report

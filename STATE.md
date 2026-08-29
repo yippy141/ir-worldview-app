@@ -52,7 +52,7 @@ gates listed under release status remain open.
 
 ## Current evidence work
 
-- `v23-6-evidence-baseline` is the current robustness-evidence branch. It
+- PR #47, `v23-6-evidence-baseline`, is the current robustness-evidence work. It
   preserves a deterministic structural-sensitivity diagnostic and its accepted
   artifacts without changing public runtime behavior.
 - The evidence makes no reliability, validity, prevalence, or population claim.
