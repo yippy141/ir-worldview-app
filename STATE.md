@@ -1,6 +1,6 @@
 # STATE
 
-Updated: 2026-08-29
+Updated: 2026-08-30
 Role: concise memory aid, never sole authority
 
 ## Current repository head
@@ -50,13 +50,24 @@ gates listed under release status remain open.
   reproduction, manual visual review, and human research sessions.
 - No deployment is authorized by this file.
 
-## Active branch
+## Current evidence work
 
-- `v23-6-visual-authorship-study`, a bounded non-shipping visual-authorship
-  study. It adds development-only prototype routes that fail closed in
-  production. It changes no item bank, scorer, calibration, archetype
-  resolution, payload format, Profile storage contract, bridge publication
-  status, feature flag, dependency, or approved Chinese copy.
+- `v23-6-evidence-baseline` is the current robustness-evidence branch. It
+  preserves a deterministic structural-sensitivity diagnostic and its accepted
+  artifacts without changing public runtime behavior.
+- The evidence makes no reliability, validity, prevalence, or population claim.
+  Its synthetic ensembles are authored mechanical probes, and its descriptive
+  bins are not pass/fail thresholds.
+- This work does not accept or deploy V23.6 and does not authorize a bank,
+  scorer, calibration, archetype, payload, or share-format change.
+
+## Separate PR #46
+
+- PR #46, `v23-6-visual-authorship-study`, remains open and unmerged at
+  `e2a74c25c029bd5eda6d027d3679705586e54dd2`.
+- It is a bounded, non-shipping visual-authorship study with development-only
+  prototype routes. It remains separate from the robustness-evidence work and
+  is not part of an accepted or deployed V23.6 release.
 
 ## Current owner outcome
 
@@ -119,6 +130,8 @@ npm run validate
 npm run copy:audit:strict
 npm run lint
 npm run test
+npm run diagnose:foundation-robustness
+npm run diagnose:foundation-robustness:check
 npm run evidence:audit:check
 npm run copy:render:runtime
 npm run build

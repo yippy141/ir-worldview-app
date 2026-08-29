@@ -2,7 +2,7 @@
 
 Status: binding release record
 Release: V23.5 Trust and Legibility
-Last repository checkpoint: 2026-08-29
+Last repository checkpoint: 2026-08-30
 
 ## Purpose
 
@@ -37,7 +37,8 @@ If two authorities conflict outside the narrow override granted to `DESIGN.md`, 
 | Accepted code SHA | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
 | Accepted commit subject | `Merge pull request #36 from yippy141/v23-4-domain-authoring-contract` |
 | Accepted tree | `cd8f330bca536710a577092fbe91a2a591a45660` |
-| Active branch | `v23-6-visual-authorship-study` |
+| Current evidence work | `v23-6-evidence-baseline` |
+| Separate study | PR #46, `v23-6-visual-authorship-study`, open and unmerged at `e2a74c25c029bd5eda6d027d3679705586e54dd2` |
 
 PR #45 merged `integration/v23-5-1` into `main` on 2026-08-29. That branch
 carried the seven partitioned V23.5 commits together with the reconciled
@@ -47,6 +48,13 @@ candidate SHA `77ce296619ab3287f8656667b77363488e617c97` is superseded.
 
 Merging to `main` records integration only. V23.4 remains the last lineage the
 owner accepted. Nothing here promotes PR #45 to an accepted release.
+
+The current work prepares `v23-6-evidence-baseline` as the Foundation
+robustness evidence PR. It preserves a deterministic structural-sensitivity
+diagnostic and accepted evidence only. It changes no public runtime behavior
+and does not accept or deploy V23.6. PR #46 remains a separate, open, unmerged,
+non-shipping visual-authorship study; none of its prototype implementation or
+screenshots belongs in the robustness evidence PR.
 
 The V23.4 merge commit contains both the previous `main` lineage and the V23.4
 branch. Its tree is byte-identical to the V23.4 branch tree. The earlier report
@@ -62,7 +70,7 @@ that V23.4 was unmerged resulted from a stale local clone.
 | Last recorded deployment | `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` at commit `a80fe4d`, recorded 2026-08-24 |
 
 The current production SHA could not be verified at this checkpoint. The
-working environment used for the 2026-08-29 verification has no Vercel CLI, no
+working environment used for the 2026-08-30 verification has no Vercel CLI, no
 Vercel API credential, and no build log for the live deployment. The production
 alias answers 200 and exposes no commit identifier in its response headers or
 markup.
@@ -123,7 +131,7 @@ Deployment environment values were not inferred from source code. Each deploymen
 
 ### Facts
 
-- Local `main` and `origin/main` matched at `e1728b3` on 2026-08-29. The production SHA was not verified at that check, so the three are not known to be reconciled.
+- Local `main` and `origin/main` matched at `e1728b3` on 2026-08-30. The production SHA was not verified at that check, so the three are not known to be reconciled.
 - AI Governance bank v3 already exists.
 - Result payloads and ProfileStore snapshots do not provide a contract for retrieving exact completed item answers.
 - Runtime-composed paragraphs exist and must be reviewed as rendered wholes.
@@ -167,6 +175,8 @@ npm run validate
 npm run copy:audit:strict
 npm run lint
 npm run test
+npm run diagnose:foundation-robustness
+npm run diagnose:foundation-robustness:check
 npm run build
 ```
 
