@@ -1,0 +1,96 @@
+.frame {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.canvas {
+  width: min(100%, 46rem);
+  height: auto;
+  max-height: calc(var(--root-viewport-height, 100svh) * 0.78);
+  overflow: visible;
+}
+
+.field {
+  fill: var(--bg);
+}
+
+.limb {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 1.2;
+  opacity: 0.75;
+}
+
+.graticule {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 0.8;
+  opacity: 0.34;
+}
+
+.land {
+  fill: color-mix(in srgb, var(--steel) 16%, transparent);
+  stroke: color-mix(in srgb, var(--steel) 46%, transparent);
+  stroke-width: 0.9;
+  fill-rule: evenodd;
+}
+
+.ringBack {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 1.4;
+  opacity: 0.4;
+}
+
+.ringFront {
+  fill: none;
+  stroke: var(--accent-dim);
+  stroke-width: 1.6;
+  opacity: 0.85;
+}
+
+.highlight {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  opacity: 1;
+}
+
+.sigil {
+  color: var(--accent);
+  opacity: 0.4;
+}
+
+.ringGroup {
+  transform-origin: 50% 50%;
+}
+
+.ringGroup[data-motion="ambient"] {
+  animation: v236-ring-turn 240s linear infinite;
+}
+
+@keyframes v236-ring-turn {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ringGroup[data-motion="ambient"] {
+    animation: none;
+  }
+}
+
+@media (max-width: 979px) {
+  .canvas {
+    max-height: none;
+    opacity: 0.42;
+  }
+}

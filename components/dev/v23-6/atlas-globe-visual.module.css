@@ -1,0 +1,130 @@
+.frame {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 12px;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+}
+
+.stack {
+  position: relative;
+  width: min(100%, 46rem);
+  aspect-ratio: 1;
+  max-height: calc(var(--root-viewport-height, 100svh) * 0.72);
+}
+
+.base,
+.mapHost {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.base {
+  transition: opacity 420ms ease-out;
+}
+
+.frame[data-map-ready="true"] .base {
+  opacity: 0;
+}
+
+.mapHost {
+  opacity: 0;
+  border-radius: 50%;
+  transition: opacity 420ms ease-out;
+}
+
+.frame[data-map-ready="true"] .mapHost {
+  opacity: 1;
+}
+
+.limb {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 1;
+  opacity: 0.7;
+}
+
+.graticule {
+  fill: none;
+  stroke: var(--line-2);
+  stroke-width: 0.8;
+  opacity: 0.3;
+}
+
+.land {
+  fill: color-mix(in srgb, var(--steel) 18%, transparent);
+  stroke: color-mix(in srgb, var(--steel) 48%, transparent);
+  stroke-width: 0.9;
+  fill-rule: evenodd;
+}
+
+.overlayShape {
+  fill-opacity: 0.5;
+  stroke-width: 0.9;
+  stroke-opacity: 0.85;
+  fill-rule: evenodd;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 16px;
+  font-family: var(--t-ui-family, var(--font-sans));
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--faint);
+  pointer-events: auto;
+}
+
+.overlayNote time {
+  font-family: var(--t-evidence-family, var(--font-mono));
+  letter-spacing: 0.01em;
+}
+
+.attribution a {
+  color: var(--faint);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.attribution a:hover,
+.attribution a:focus-visible {
+  color: var(--text-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .base,
+  .mapHost {
+    transition: none;
+  }
+}
+
+@media (max-width: 979px) {
+  .frame {
+    grid-template-rows: 1fr auto;
+    align-content: stretch;
+    height: 100%;
+  }
+
+  .stack {
+    max-height: none;
+    opacity: 0.4;
+  }
+
+  .overlayShape {
+  fill-opacity: 0.5;
+  stroke-width: 0.9;
+  stroke-opacity: 0.85;
+  fill-rule: evenodd;
+}
+
+.caption {
+    align-self: end;
+    padding-bottom: 8px;
+  }
+}
