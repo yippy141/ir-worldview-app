@@ -1,10 +1,25 @@
 # V23.5 to V26 Master Roadmap
 
-Status: sole executable product roadmap
+Status: **paused and superseded for new work**, retained as historical record
 Owner: Jinhua Yip
 Prepared: 2026-08-24
 Implementation checkpoint: 2026-08-25
+Paused: 2026-08-31
 Baseline: `a80fe4d02d818ae546672d15f64aa596a25b1ceb`
+
+> **This roadmap is no longer the executable sequence.** V23.6 merged into
+> `main` as `6ae4ddb` on 2026-08-30, and the owner has paused this sequence
+> ahead of a product re-foundation. Current authority is
+> [`POST_V23_6_PRODUCT_RESET_STATUS.md`](POST_V23_6_PRODUCT_RESET_STATUS.md).
+>
+> Phases 4 through 7 below, covering human recruitment, AI v4, Economic
+> Statecraft, and Energy Transition, are **not authorized to begin**. Do not
+> read any phase, gate, or entry condition in this file as permission to start
+> new product work. The release boundaries, compatibility locks, and privacy
+> locks recorded here remain binding.
+>
+> Everything below is preserved unchanged as the historical record of decisions,
+> gates, and boundaries.
 
 ## 1. Outcome
 

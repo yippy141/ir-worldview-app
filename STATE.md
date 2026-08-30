@@ -1,29 +1,44 @@
 # STATE
 
-Updated: 2026-08-30
+Updated: 2026-08-31
 Role: concise memory aid, never sole authority
+
+Product status: the V23.5-to-V26 execution sequence is paused pending a
+product-re-foundation decision. Read
+`docs/roadmap/POST_V23_6_PRODUCT_RESET_STATUS.md` first.
 
 ## Current repository head
 
-- Candidate branch: `v23-6-production-conversion`
-- Verified base and `origin/main`: `68806043ea83fad425f0db8f3507704a4aad3f7d`
-- Base subject: `Merge pull request #47 from yippy141/v23-6-evidence-baseline`
-- Base parents: `e1728b30478cb666cb26082a1cf07f0da8290462` and `f9e1eab1186f7747215c0ab8ac0e4fffd883f88a`
-- Base tree: `682e0257e713a3d1e65c0241e1ec8ccb8013855f`
-- Base commits ahead of the last accepted V23.4 SHA: 58
-- The candidate was branched directly from that verified base. Recheck
-  `origin/main` before opening the pull request; this record is not permission
-  to overwrite newer work.
+- `origin/main`: `6ae4ddbfb9dc6bd40b617f05cd03efa6a51ef80c`
+- Subject: `Merge pull request #48 from yippy141/v23-6-production-conversion`
+- Merge parents: `68806043ea83fad425f0db8f3507704a4aad3f7d` (PR #47 evidence
+  baseline) and `f873a0a46e3f44dfff94b0071cffe4bb9ce6c0bc` (V23.6 branch head)
+- Tree: `3ce17323b17886af682276dcba02db47bdc7ac02`
+- Commits ahead of the last accepted V23.4 SHA: 63
+- Verified 2026-08-31. Recheck `origin/main` before any dispatch; this record is
+  not permission to overwrite newer work.
+
+## PR #48 V23.6 production conversion
+
+PR #48 merged `v23-6-production-conversion` into `main` at 2026-08-30T16:36:13Z
+as merge commit `6ae4ddb`. V23.6 is on `main`.
+
+Four states must not be collapsed:
+
+- **Merged:** yes, merge commit `6ae4ddb`.
+- **Deployed:** unknown. See the production deployment section below.
+- **Owner-accepted as a release:** no. No acceptance record exists.
+- **Validated with human evidence:** no. No participant research has been run.
+
+Merging records integration only. It is not acceptance, deployment, or
+validation.
 
 ## PR #47 evidence baseline
 
 PR #47 merged `v23-6-evidence-baseline` into `main`. It preserves the accepted
 Foundation robustness diagnostic and protected-file digests without changing
-public runtime behavior. That merge is the exact base of the V23.6 production
-candidate.
-
-Merging the evidence baseline records integration, not product acceptance. The
-V23.6 production candidate remains unmerged, unaccepted, and undeployed.
+public runtime behavior. That merge is the first parent of the PR #48 merge and
+was the exact base of the V23.6 production branch.
 
 ## Last accepted release lineage
 
@@ -40,19 +55,22 @@ V23.6 production candidate remains unmerged, unaccepted, and undeployed.
   `https://irworldview.jhyip.com` answers 200 and exposes no commit identifier
   in its headers or markup.
 - Last recorded deployment: `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` at commit
-  `a80fe4d`, recorded 2026-08-24. That record predates PR #45 and must not be
-  treated as current.
+  `a80fe4d`, recorded 2026-08-24. That record predates PR #45, PR #47, and
+  PR #48, and must not be treated as current.
 - Do not infer the production SHA from `main`, from this file, or from visible
   copy. Retrieve it from the Vercel deployment record or build log.
 
 ## Release status
 
-- V23.5 Trust and Legibility and the V23.6 evidence baseline are integrated into
-  `main`; neither is promoted to an accepted release by this file.
-- `v23-6-production-conversion` is a review candidate only.
+- V23.5 Trust and Legibility, the V23.6 evidence baseline, and the V23.6
+  production conversion are all merged into `main`. None is promoted to an
+  accepted release by this file.
 - Pending gates include owner review of bilingual copy and visual evidence,
   deterministic evidence reproduction, full CI, and human research sessions.
 - No deployment is authorized by this file.
+- No new product implementation is authorized until a product-re-foundation
+  decision is approved. See
+  `docs/roadmap/POST_V23_6_PRODUCT_RESET_STATUS.md`.
 
 ## Current evidence work
 
@@ -67,12 +85,13 @@ V23.6 production candidate remains unmerged, unaccepted, and undeployed.
 
 ## Separate PR #46
 
-- PR #46, `v23-6-visual-authorship-study`, is not contained by the verified
-  `main` base. Its study ref is
-  `e2a74c25c029bd5eda6d027d3679705586e54dd2`.
+- PR #46, `v23-6-visual-authorship-study`, was **closed without merging**. It is
+  not contained by `main`. Its study ref is
+  `e2a74c25c029bd5eda6d027d3679705586e54dd2`, preserved on
+  `origin/v23-6-visual-authorship-study`.
 - It is a bounded, non-shipping visual-authorship study with development-only
-  prototype routes. It remains separate from the robustness-evidence work and
-  is not part of an accepted or deployed V23.6 release.
+  prototype routes. It is preserved as a design study and is not current
+  production authority.
 
 ## Current owner outcome
 
@@ -111,7 +130,9 @@ keeps separate Profile records without changing scoring or payload contracts.
   bundled locally under their open licences.
 - Keep the production root free of Mapbox and preserve the full map at
   `/world-stage`.
-- Start AI v4 only after the V23.5 human-evidence gate.
+- AI v4 is not authorized. It was previously gated on the V23.5 human-evidence
+  gate; it is now additionally blocked pending the product-re-foundation
+  decision.
 
 ## Hypotheses
 
@@ -126,8 +147,10 @@ keeps separate Profile records without changing scoring or payload contracts.
 - Which AI v3 constructs belong to AI rather than Security or Technology?
 - Can the verified tokenless Mapbox no-initialization boundary be turned into a durable CI network assertion?
 - Which pending runtime-copy rows require revision after named human review in their complete surface context?
-- Does the V23.6 production candidate pass owner review of the bilingual copy,
-  result explanation, print report, and evidence package?
+- Does merged V23.6 pass owner review of the bilingual copy, result explanation,
+  print report, and evidence package? Merging did not settle this.
+- What are the product's name, public information architecture, and first-use
+  experience? This is the single next decision.
 
 ## Reproduce machine facts first
 
@@ -155,7 +178,8 @@ Retrieve the production SHA from the current Vercel deployment record or build l
 
 - Baseline and decisions: `BASELINE_AND_DECISIONS.md`
 - Visual authority: `DESIGN.md`
-- Master sequence: `docs/roadmap/V23_5_V26_MASTER_ROADMAP.md`
+- Current status and roadmap pause: `docs/roadmap/POST_V23_6_PRODUCT_RESET_STATUS.md`
+- Master sequence, paused and historical: `docs/roadmap/V23_5_V26_MASTER_ROADMAP.md`
 - Active implementation contracts: `docs/roadmap/V23_5_IMPLEMENTATION_PROMPT_PACK.md`
 - Release checks: `docs/roadmap/RELEASE_TEST_MATRIX.md`
 - Runtime-copy review: `docs/editorial/V23_5_RUNTIME_COPY_REVIEW_LEDGER.md`
