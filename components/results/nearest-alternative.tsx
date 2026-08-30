@@ -3,6 +3,8 @@ export type ComparisonExpectation = "high" | "neutral" | "low"
 export type ComparisonRow = {
   key: string
   label: string
+  lowLabel?: string
+  highLabel?: string
   userScore: number
   primaryExpected: ComparisonExpectation
   runnerUpExpected: ComparisonExpectation
@@ -48,7 +50,14 @@ export function NearestAlternative({ primaryLabel, runnerUpLabel, rows }: Props)
         <tbody>
           {rows.map((row) => (
             <tr key={row.key}>
-              <th scope="row">{row.label}</th>
+              <th scope="row">
+                {row.label}
+                {row.lowLabel && row.highLabel ? (
+                  <span className="alt-compare__poles">
+                    {row.lowLabel} — {row.highLabel}
+                  </span>
+                ) : null}
+              </th>
               <td data-expected={row.primaryExpected}>{EXPECTED_COPY[row.primaryExpected]}</td>
               <td data-expected={row.runnerUpExpected}>{EXPECTED_COPY[row.runnerUpExpected]}</td>
               <td className="alt-compare__score">{row.userScore.toFixed(1)}</td>

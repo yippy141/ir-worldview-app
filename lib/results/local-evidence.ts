@@ -135,6 +135,12 @@ export type FoundationEvidenceHandoff = Readonly<{
   mode: QuizMode
 }>
 
+export type FoundationEvidenceProfileSnapshot = Readonly<{
+  payload: string
+  mode?: QuizMode
+  localEvidenceId?: string
+}>
+
 type ReadWriteStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">
 
 export type PersistFoundationLocalEvidenceInput = Readonly<{
@@ -290,6 +296,29 @@ export function writeFoundationEvidenceHandoff(
   storage.setItem(FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY, JSON.stringify(handoff))
 }
 
+/**
+ * Restore the one-shot binding for an exact local Profile snapshot. The
+ * opaque completion ID stays in session storage and never enters the URL.
+ */
+export async function writeFoundationEvidenceHandoffForProfileSnapshot(
+  storage: Pick<Storage, "setItem">,
+  snapshot: FoundationEvidenceProfileSnapshot,
+): Promise<boolean> {
+  if (!snapshot.localEvidenceId || !snapshot.mode) return false
+  const resolved = resolveFoundationPayload(snapshot.payload)
+  if (!resolved || resolved.payload.v !== 5) return false
+  const payloadDigest = await foundationPayloadDigest(snapshot.payload)
+  if (!payloadDigest) return false
+
+  writeFoundationEvidenceHandoff(storage, {
+    v: STORE_VERSION,
+    localCompletionId: snapshot.localEvidenceId,
+    payloadDigest,
+    mode: snapshot.mode,
+  })
+  return true
+}
+
 /** A handoff is consumed once so opening a shared URL later cannot reuse it. */
 export function consumeFoundationEvidenceHandoff(
   storage: Pick<Storage, "getItem" | "removeItem">,
@@ -356,6 +385,16 @@ export function deleteFoundationLocalEvidence(
   if (completions.length === current.completions.length) return false
   writeEvidenceStore(storage, { v: STORE_VERSION, completions })
   return true
+}
+
+/** Delete only the evidence owned by one exact Profile snapshot. */
+export function deleteFoundationLocalEvidenceForProfileSnapshot(
+  storage: ReadWriteStorage,
+  snapshot: Pick<FoundationEvidenceProfileSnapshot, "localEvidenceId">,
+): boolean {
+  return snapshot.localEvidenceId
+    ? deleteFoundationLocalEvidence(storage, snapshot.localEvidenceId)
+    : false
 }
 
 /** Delete all local completion records cryptographically bound to one payload. */

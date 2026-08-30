@@ -230,37 +230,42 @@ async function renderedContrastSamples(locator: Locator): Promise<ContrastSample
   })
 }
 
-test("Foundation result keeps the archetype H1 above closest-tradition metadata", async ({
+test("Foundation result keeps the payoff H1 before registered-reading metadata", async ({
   page,
 }) => {
   await page.goto(`/results/${FOUNDATION_PAYLOAD}`)
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "Concert", exact: true }),
+    page.getByRole("heading", {
+      level: 1,
+      name: "Registered legacy Foundation read: Institutionalism",
+      exact: true,
+    }),
   ).toBeVisible()
-  await expect(
-    page.getByText(
-      "Closest modeled tradition: Institutionalism",
-      { exact: true },
-    ),
-  ).toBeVisible()
-  await expect(page.locator("article.result-article h1")).toHaveCount(1)
+  const registeredReading = page.locator(
+    '[data-foundation-result-story] aside[aria-label="Registered reading"]',
+  )
+  await expect(registeredReading.getByText("Concert", { exact: true })).toBeVisible()
+  await expect(registeredReading.locator("h1")).toHaveCount(0)
+  await expect(page.locator("[data-foundation-result-story] h1")).toHaveCount(1)
 
   const hierarchy = await page
     .locator(
-      "#foundation-result-heading, .foundation-result-tradition, .foundation-result-lede .result-lead",
+      [
+        "#foundation-result-heading",
+        '[aria-label="Immediate result payoff"]',
+        'aside[aria-label="Registered reading"]',
+      ].join(", "),
     )
     .evaluateAll((elements) =>
       elements.map((element) =>
-        element.id || Array.from(element.classList).find((name) =>
-          name === "foundation-result-tradition" || name === "result-lead",
-        ),
+        element.id || element.getAttribute("aria-label"),
       ),
     )
   expect(hierarchy).toEqual([
     "foundation-result-heading",
-    "foundation-result-tradition",
-    "result-lead",
+    "Immediate result payoff",
+    "Registered reading",
   ])
 })
 
@@ -280,9 +285,9 @@ test("dark-theme result-label chips meet WCAG AA across result and Profile surfa
       selector: ".result-card-hero__chip",
     },
     {
-      label: "Chinese local Profile",
+      label: "Chinese local Profile reviewed-relations callout",
       path: "/zh/profile",
-      selector: ".atlas-tag",
+      selector: '[aria-labelledby="zh-profile-relations"] .callout strong',
     },
     {
       label: "shared Profile",
@@ -311,7 +316,7 @@ test("dark-theme result-label chips meet WCAG AA across result and Profile surfa
   }
 })
 
-test("a four-record Profile preserves its Foundation identity after a module save", async ({
+test("a Profile preserves its Foundation payoff and three domain records after a module save", async ({
   page,
 }) => {
   await page.goto("/")
@@ -322,11 +327,18 @@ test("a four-record Profile preserves its Foundation identity after a module sav
   await page.goto("/profile")
 
   const assertLayeredProfile = async () => {
+    const foundationPayoff = page.locator("section.result-card-hero")
+    await expect(foundationPayoff).toHaveAttribute(
+      "aria-label",
+      "Saved Foundation read: Concert",
+    )
+    await expect(foundationPayoff.getByRole("heading", {
+      level: 1,
+      name: "Concert",
+      exact: true,
+    })).toBeVisible()
     await expect(
-      page.getByRole("heading", { level: 1, name: "Concert", exact: true }),
-    ).toBeVisible()
-    await expect(
-      page.locator(".result-card-hero__chip").getByText(
+      foundationPayoff.locator(".result-card-hero__chip").getByText(
         "Closest tradition: Institutionalism",
         { exact: true },
       ),
@@ -338,10 +350,24 @@ test("a four-record Profile preserves its Foundation identity after a module sav
     })).toHaveCount(0)
 
     const records = page.locator("article.profile-domain-record")
-    await expect(records).toHaveCount(4)
+    await expect(records).toHaveCount(3)
     await expect(records.filter({
       has: page.getByRole("heading", { name: "Foundation record", exact: true }),
-    }).getByText("Core record", { exact: true })).toBeVisible()
+    })).toHaveCount(0)
+
+    const payoffThenDomains = await page
+      .locator("section.result-card-hero, #profile-domain-records")
+      .evaluateAll((elements) =>
+        elements.map((element) =>
+          element.id || (element.classList.contains("result-card-hero")
+            ? "foundation-payoff"
+            : null),
+        ),
+      )
+    expect(payoffThenDomains).toEqual([
+      "foundation-payoff",
+      "profile-domain-records",
+    ])
 
     for (const title of ["Security", "Technology", "AI Governance"] as const) {
       const record = records.filter({
@@ -349,7 +375,7 @@ test("a four-record Profile preserves its Foundation identity after a module sav
       })
       await expect(record).toBeVisible()
       await expect(
-        record.getByText("Separate issue record", { exact: true }),
+        record.getByText("Separate domain record", { exact: true }),
       ).toBeVisible()
     }
   }
@@ -415,9 +441,11 @@ test.describe("390px result tables", () => {
     expect(width.scrollWidth).toBeLessThanOrEqual(width.innerWidth + 1)
 
     await page.goto(`/results/${FOUNDATION_PAYLOAD}`)
-    const analysis = page.locator(".result-appendix-section details.profile-details")
-    await analysis.locator("summary").click()
-    const foundationWrapper = analysis.locator(".alt-compare-scroll")
+    const nearestChapter = page.locator(
+      '[data-foundation-story-chapter="nearest"]',
+    )
+    await expect(nearestChapter).toBeVisible()
+    const foundationWrapper = nearestChapter.locator(".alt-compare-scroll")
     await expect(foundationWrapper).toBeVisible()
     await expect(foundationWrapper).toHaveAttribute("role", "region")
     await expect(foundationWrapper).toHaveAttribute("aria-label", /comparison table$/)
@@ -747,11 +775,14 @@ for (const nativeShare of [false, true] as const) {
       }
     }, nativeShare)
     await page.goto(`/results/${FOUNDATION_PAYLOAD}`)
-    const disclosure = page.locator(
-      ".result-appendix-section details.profile-details",
+    const footer = page.locator(
+      "[data-foundation-result-story] > footer",
     )
-    await disclosure.locator("summary").click()
-    const actions = disclosure.locator(".result-details-body")
+    await expect(footer).toBeVisible()
+    const actions = footer
+      .getByRole("button", { name: "Save as PDF", exact: true })
+      .locator("..")
+    await expect(actions).toBeVisible()
 
     if (nativeShare) {
       await expect(
@@ -793,89 +824,141 @@ for (const nativeShare of [false, true] as const) {
   })
 }
 
-test("production print expands closed Foundation analysis and restores screen collapse", async ({
+test("production print lays out every Foundation chapter and restores sticky screen visuals", async ({
   page,
 }) => {
   test.skip(!process.env.CI, "Print regressions run against the production server.")
   await page.goto(`/results/${FOUNDATION_PAYLOAD}`)
-  const disclosure = page.locator(".result-appendix-section details.profile-details")
-  const summary = disclosure.locator("summary")
-  const body = disclosure.locator(".result-details-body")
+  const story = page.locator("[data-foundation-result-story]")
+  const chapters = story.locator("[data-foundation-story-chapter]")
+  const visuals = story.locator("[data-foundation-chapter-visual]")
 
-  await expect(disclosure).not.toHaveAttribute("open", "")
-  await expect(body).toBeHidden()
-  const collapsedHeaderHeight = await summary.evaluate(
-    (element) => element.getBoundingClientRect().height,
+  await expect(chapters).toHaveCount(7)
+  await expect(visuals).toHaveCount(7)
+  const screenPositions = await visuals.evaluateAll((elements) =>
+    elements.map((element) => getComputedStyle(element).position),
   )
+  expect(screenPositions).toEqual(Array(7).fill("sticky"))
 
   await page.emulateMedia({ media: "print" })
-  await expect(disclosure).not.toHaveAttribute("open", "")
-  await expect(body).toBeVisible()
-  const printMetrics = await disclosure.evaluate((element) => {
-    const content = element.querySelector<HTMLElement>(".result-details-body")
-    const pseudo = getComputedStyle(element, "::details-content")
-    return {
-      detailsHeight: element.getBoundingClientRect().height,
-      bodyHeight: content?.getBoundingClientRect().height ?? 0,
-      pseudoBlockSize: pseudo.blockSize,
-      pseudoHeight: pseudo.height,
-      pseudoOverflow: pseudo.overflow,
-      pseudoContentVisibility: pseudo.contentVisibility,
-    }
-  })
-  expect(printMetrics.bodyHeight).toBeGreaterThan(collapsedHeaderHeight * 3)
-  expect(printMetrics.detailsHeight).toBeGreaterThan(collapsedHeaderHeight * 3)
-  expect(printMetrics.detailsHeight).toBeGreaterThanOrEqual(
-    printMetrics.bodyHeight - 1,
+  const printVisuals = await visuals.evaluateAll((elements) =>
+    elements.map((element) => {
+      const style = getComputedStyle(element)
+      const rect = element.getBoundingClientRect()
+      return {
+        display: style.display,
+        position: style.position,
+        height: rect.height,
+        width: rect.width,
+      }
+    }),
   )
-  expect(printMetrics.pseudoBlockSize).not.toBe("0px")
-  expect(printMetrics.pseudoHeight).not.toBe("0px")
-  expect(printMetrics.pseudoOverflow).toBe("visible")
-  expect(printMetrics.pseudoContentVisibility).toBe("visible")
+  for (const visual of printVisuals) {
+    expect(visual.display).not.toBe("none")
+    expect(visual.position).toBe("static")
+    expect(visual.height).toBeGreaterThan(20)
+    expect(visual.width).toBeGreaterThan(20)
+  }
+
+  const printChapters = await chapters.evaluateAll((elements) =>
+    elements.map((element) => ({
+      height: element.getBoundingClientRect().height,
+      hasHeading: Boolean(element.querySelector("h2")),
+    })),
+  )
+  for (const chapter of printChapters) {
+    expect(chapter.height).toBeGreaterThan(40)
+    expect(chapter.hasHeading).toBe(true)
+  }
 
   await page.emulateMedia({ media: "screen" })
-  await expect(disclosure).not.toHaveAttribute("open", "")
-  await expect(body).toBeHidden()
+  const restoredPositions = await visuals.evaluateAll((elements) =>
+    elements.map((element) => getComputedStyle(element).position),
+  )
+  expect(restoredPositions).toEqual(screenPositions)
 })
 
-test("production print renders Profile detail bodies instead of empty bordered bars", async ({
+test("production print keeps the complete Profile reading visible without empty bars", async ({
   page,
 }) => {
   test.skip(!process.env.CI, "Print regressions run against the production server.")
   await seedLayeredProfile(page)
   await page.goto("/profile")
-  const aiDisclosure = page.locator("details.profile-details").filter({
-    has: page.getByText("AI result details", { exact: true }),
-  })
-  const aiBody = aiDisclosure.locator(".profile-collapsed-detail")
-  await expect(aiDisclosure).not.toHaveAttribute("open", "")
-  await expect(aiBody).toBeHidden()
+  const foundationPayoff = page.locator("section.result-card-hero")
+  const domainSection = page.locator(
+    'section[aria-labelledby="profile-domain-records"]',
+  )
+  const domainRecords = domainSection.locator("article.profile-domain-record")
+  const relationsSection = page.locator(
+    'section[aria-labelledby="profile-reviewed-relations"]',
+  )
+  const nextSection = page.locator(
+    'section[aria-labelledby="profile-next-action"]',
+  )
+
+  await expect(foundationPayoff.getByRole("heading", {
+    level: 1,
+    name: "Concert",
+    exact: true,
+  })).toBeVisible()
+  await expect(domainRecords).toHaveCount(3)
+  await expect(relationsSection.getByText(
+    "No reviewed cross-domain relation is available.",
+    { exact: true },
+  )).toBeVisible()
+  await expect(nextSection.getByRole("heading", {
+    name: "What to open next",
+    exact: true,
+  })).toBeVisible()
 
   await page.emulateMedia({ media: "print" })
-  await expect(aiBody).toBeVisible()
-  const details = await page.locator("details.profile-details").evaluateAll(
-    (elements) => elements.map((element) => {
-      const summary = element.querySelector(":scope > summary")
-      const content = Array.from(element.children).filter(
-        (child) => child.tagName !== "SUMMARY",
-      )
+  const printableSections = await page
+    .locator([
+      "section.result-card-hero",
+      'section[aria-labelledby="profile-domain-records"]',
+      'section[aria-labelledby="profile-reviewed-relations"]',
+      'section[aria-labelledby="profile-next-action"]',
+    ].join(", "))
+    .evaluateAll((elements) =>
+      elements.map((element) => {
+        const rect = element.getBoundingClientRect()
+        const style = getComputedStyle(element)
+        return {
+          display: style.display,
+          height: rect.height,
+          width: rect.width,
+          text: element.textContent?.trim() ?? "",
+        }
+      }),
+    )
+  expect(printableSections).toHaveLength(4)
+  for (const section of printableSections) {
+    expect(section.display).not.toBe("none")
+    expect(section.height).toBeGreaterThan(40)
+    expect(section.width).toBeGreaterThan(40)
+    expect(section.text.length).toBeGreaterThan(20)
+  }
+
+  const printedRecords = await domainRecords.evaluateAll((elements) =>
+    elements.map((element) => {
+      const rect = element.getBoundingClientRect()
       return {
-        totalHeight: element.getBoundingClientRect().height,
-        summaryHeight: summary?.getBoundingClientRect().height ?? 0,
-        contentHeight: content.reduce(
-          (height, child) => height + child.getBoundingClientRect().height,
-          0,
-        ),
+        height: rect.height,
+        hasHeading: Boolean(element.querySelector("h3")),
+        hasResult: Boolean(element.querySelector(".profile-domain-record__result")),
       }
     }),
   )
-  expect(details.length).toBeGreaterThanOrEqual(3)
-  for (const detail of details) {
-    expect(detail.contentHeight).toBeGreaterThan(20)
-    expect(detail.totalHeight).toBeGreaterThan(detail.summaryHeight + 20)
+  expect(printedRecords).toHaveLength(3)
+  for (const record of printedRecords) {
+    expect(record.height).toBeGreaterThan(20)
+    expect(record.hasHeading).toBe(true)
+    expect(record.hasResult).toBe(true)
   }
 
   await page.emulateMedia({ media: "screen" })
-  await expect(aiDisclosure).not.toHaveAttribute("open", "")
-  await expect(aiBody).toBeHidden()
+  await expect(foundationPayoff).toBeVisible()
+  await expect(domainRecords).toHaveCount(3)
+  await expect(relationsSection).toBeVisible()
+  await expect(nextSection).toBeVisible()
 })

@@ -106,16 +106,13 @@ test("Chinese Profile links translated results once and English-only results can
 
   await expect(
     page.getByText(
-      "安全、技术、人工智能治理与视角演练的详细结果页目前仅提供英文版。",
+      "安全、技术、人工智能治理与视角演练的详细结果页目前没有经审校的中文版；相关链接会明确打开英文页面。",
       { exact: true },
     ),
   ).toBeVisible()
   await expect(
-    page.getByRole("link", { name: "在世界观地图中查看" }),
-  ).toHaveAttribute(
-    "href",
-    /^\/zh\/explore\/atlas\?layers=my-profile(?:%2C|,)atlas-patterns$/,
-  )
+    page.getByRole("link", { name: /打开图谱/ }),
+  ).toHaveAttribute("href", "/zh/explore/atlas")
 
   const security = page.locator("article.profile-domain-record").filter({
     has: page.getByRole("heading", { name: "安全记录" }),
@@ -127,15 +124,15 @@ test("Chinese Profile links translated results once and English-only results can
     has: page.getByRole("heading", { name: "人工智能治理记录" }),
   })
 
-  await expect(security.getByRole("link", { name: /打开结果/ })).toHaveAttribute(
+  await expect(security.getByRole("link", { name: "打开英文结果" })).toHaveAttribute(
     "href",
     "/modules/security/results/retired-v4-token",
   )
-  await expect(technology.getByRole("link", { name: /添加结果/ })).toHaveAttribute(
+  await expect(technology.getByRole("link", { name: "添加英文结果" })).toHaveAttribute(
     "href",
     "/modules/technology",
   )
-  await expect(ai.getByRole("link", { name: /打开结果/ })).toHaveAttribute(
+  await expect(ai.getByRole("link", { name: "打开英文结果" })).toHaveAttribute(
     "href",
     "/ai/results/legacy-ai-v1",
   )
@@ -159,7 +156,7 @@ test("legacy Chinese Profiles keep saved records without inventing a Foundation 
   await page.goto("/zh/profile")
 
   await expect(
-    page.getByRole("heading", { level: 1, name: "基础身份不可用" }),
+    page.getByRole("heading", { level: 1, name: "保存在这台设备上的画像记录" }),
   ).toBeVisible()
   await expect(page.getByText("你的画像从基础问卷开始。")).toHaveCount(0)
   await expect(
@@ -206,7 +203,7 @@ test("legacy Chinese Profiles keep saved records without inventing a Foundation 
   await expect(page.getByRole("heading", { name: "安全" })).toBeVisible()
   await expect(page.getByText("协调架构者", { exact: true })).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "已保存的情境视角" }),
+    page.getByRole("heading", { name: "这份档案包含哪些情境视角" }),
   ).toBeVisible()
   await expect(page.getByRole("button", { name: "分享画像" })).toBeVisible()
 })

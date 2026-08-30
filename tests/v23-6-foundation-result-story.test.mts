@@ -62,7 +62,7 @@ test("legacy heading fails closed on exact-form contribution claims", () => {
   assert.doesNotMatch(heading.lead, /leads this Foundation read/u)
 })
 
-test("result story has one enhanced sticky rail and a fail-open linear document", () => {
+test("result story has one sticky rail with chapter-local visuals in DOM order", () => {
   const storySource = readFileSync(
     path.join(repositoryRoot, "components/results/foundation-result-story.tsx"),
     "utf8",
@@ -77,14 +77,10 @@ test("result story has one enhanced sticky rail and a fail-open linear document"
     1,
     "The desktop story must expose one sticky visual region.",
   )
-  assert.match(storySource, /typeof IntersectionObserver === "undefined"/u)
-  assert.ok(
-    storySource.indexOf("typeof IntersectionObserver") <
-      storySource.indexOf('setAttribute("data-enhanced", "true")'),
-    "Enhancement must stay off when IntersectionObserver is unavailable.",
-  )
-  assert.match(stylesSource, /\.stickyRegion\s*\{[\s\S]*?display:\s*none/u)
+  assert.match(storySource, /data-foundation-chapter-visual/u)
+  assert.doesNotMatch(storySource, /IntersectionObserver|data-enhanced/u)
   assert.match(stylesSource, /@media \(min-width: 768px\)/u)
+  assert.match(stylesSource, /\.inlineVisual\s*\{[\s\S]*?position:\s*sticky/u)
   assert.match(stylesSource, /@media \(max-width: 767px\)/u)
   assert.match(stylesSource, /@media \(prefers-reduced-motion: reduce\)/u)
   assert.match(stylesSource, /@media print/u)

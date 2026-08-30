@@ -4,9 +4,11 @@ import {
   consumeFoundationEvidenceHandoff,
   deleteFoundationLocalEvidence,
   deleteFoundationLocalEvidenceForPayload,
+  deleteFoundationLocalEvidenceForProfileSnapshot,
   foundationPayloadDigest,
   lookupFoundationLocalEvidence,
   persistFoundationLocalEvidence,
+  writeFoundationEvidenceHandoffForProfileSnapshot,
 } from "@/lib/results/local-evidence"
 import {
   foundationScoringCalibrationForForm,
@@ -18,6 +20,7 @@ import {
 } from "@/lib/share"
 import { getFoundationResultQuestions } from "@/lib/quiz-schema"
 import {
+  FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY,
   FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY,
 } from "@/lib/storage-keys"
 import type {
@@ -138,6 +141,95 @@ test("exact handoff matches while a shared result and a tuple mismatch fail clos
   )
 })
 
+test("an exact local Profile snapshot can restore its consumed one-shot handoff", async () => {
+  const localStorage = new MemoryStorage()
+  const sessionStorage = new MemoryStorage()
+  const evidence = await persistFoundationLocalEvidence({
+    storage: localStorage,
+    sessionStorage,
+    payload,
+    answers,
+    completionLocale: "en",
+    questionSet,
+    mode: "analyst",
+    scoringCalibration: calibration,
+    localCompletionId: "completion-profile-revisit",
+  })
+  const digest = await foundationPayloadDigest(payload)
+  assert.ok(digest)
+
+  assert.ok(consumeFoundationEvidenceHandoff(sessionStorage, digest))
+  assert.equal(consumeFoundationEvidenceHandoff(sessionStorage, digest), null)
+  assert.equal(
+    await writeFoundationEvidenceHandoffForProfileSnapshot(sessionStorage, {
+      payload,
+      mode: "analyst",
+      localEvidenceId: evidence.binding.localCompletionId,
+    }),
+    true,
+  )
+
+  const restored = consumeFoundationEvidenceHandoff(sessionStorage, digest)
+  assert.ok(restored)
+  assert.equal(restored.localCompletionId, "completion-profile-revisit")
+  assert.equal(
+    lookupFoundationLocalEvidence(
+      localStorage,
+      payload,
+      digest,
+      restored,
+    ).status,
+    "available",
+  )
+
+  assert.equal(
+    await writeFoundationEvidenceHandoffForProfileSnapshot(sessionStorage, {
+      payload,
+      mode: "analyst",
+      localEvidenceId: evidence.binding.localCompletionId,
+    }),
+    true,
+  )
+  assert.ok(consumeFoundationEvidenceHandoff(sessionStorage, digest))
+})
+
+test("Profile handoff restoration fails closed without an exact current local binding", async () => {
+  const sessionStorage = new MemoryStorage()
+  assert.equal(
+    await writeFoundationEvidenceHandoffForProfileSnapshot(sessionStorage, {
+      payload,
+      mode: "analyst",
+    }),
+    false,
+  )
+  assert.equal(
+    await writeFoundationEvidenceHandoffForProfileSnapshot(sessionStorage, {
+      payload,
+      localEvidenceId: "missing-mode",
+    }),
+    false,
+  )
+  assert.equal(
+    await writeFoundationEvidenceHandoffForProfileSnapshot(sessionStorage, {
+      payload: encodePayload({
+        v: 2,
+        ds: [4, 4, 4, 4, 4, 4, 4],
+        fk: "realist",
+        nk: "institutionalist",
+        sm: "Hedger",
+        nm: "Pluralist",
+      }),
+      mode: "analyst",
+      localEvidenceId: "legacy-completion",
+    }),
+    false,
+  )
+  assert.equal(
+    sessionStorage.getItem(FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY),
+    null,
+  )
+})
+
 test("legacy results report unavailable without consulting local records", async () => {
   const legacyPayload = encodePayload({
     v: 2,
@@ -184,7 +276,9 @@ test("deletion can target one completion or every record bound to a payload", as
   }
 
   assert.equal(
-    deleteFoundationLocalEvidence(localStorage, "completion-one"),
+    deleteFoundationLocalEvidenceForProfileSnapshot(localStorage, {
+      localEvidenceId: "completion-one",
+    }),
     true,
   )
   assert.equal(

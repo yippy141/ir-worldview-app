@@ -2,18 +2,30 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
+import {
+  ZhHansFoundationResultStory,
+  type ZhHansComparisonRow,
+} from "@/components/i18n/zh-hans-foundation-result-story"
 import { ShareActions } from "@/components/results/share-actions"
+import {
+  zhHansFoundationDimensionPoles,
+  zhHansFoundationQuizUi,
+} from "@/content/locales/zh-Hans/foundation-ui"
 import { localizedAlternates, publicPath } from "@/i18n/paths"
 import {
   buildZhHansFoundationNarrative,
-  zhHansFoundationDimensionRows,
 } from "@/lib/narrative/foundation-zh-hans"
-import { getKeyDrivers, getStrongLenses } from "@/lib/result-helpers"
+import { getComparisonDimensions, getKeyDrivers, getStrongLenses } from "@/lib/result-helpers"
+import { decomposeFoundationFamilyDifference } from "@/lib/results/foundation-contributions"
 import { resolveFoundationPayload } from "@/lib/share"
 import { getV2ScoringCalibration } from "@/lib/scoring"
-import { resolveArchetype } from "@/lib/archetypes"
+import {
+  lensFromFamily,
+  resolveArchetype,
+} from "@/lib/archetypes"
 import { formatArchetypeDisplayCode } from "@/lib/archetype-display"
 import { buildZhHansFoundationResultSocialCopy } from "@/lib/foundation-social-copy"
+import type { PureArchetypeCode } from "@/lib/archetype-marks"
 
 type Props = {
   params: Promise<{ locale: string; payload: string }>
@@ -94,9 +106,10 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
   }
 
   const { dimensionScores, result, provenance, resultTier } = resolved
-  const { lowDifferentiationThreshold } = getV2ScoringCalibration(
-    resolved.scoringCalibration,
-  )
+  const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
+  const lowDifferentiation =
+    result.nearestFitGap < calibration.lowDifferentiationThreshold
+  const currentPayload = resolved.payload.v === 5
   const narrative = buildZhHansFoundationNarrative({
     familyKey: result.familyKey,
     runnerUpKey: result.runnerUpKey,
@@ -105,170 +118,138 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
     dimensionScores,
     scoringCalibration: resolved.scoringCalibration,
   })
-  const archetype = resolveArchetype(result, lowDifferentiationThreshold)
-  const dimensions = zhHansFoundationDimensionRows(dimensionScores)
+  const archetype = resolveArchetype(
+    result,
+    calibration.lowDifferentiationThreshold,
+  )
   const keyDrivers = getKeyDrivers(dimensionScores)
   const strongLenses = getStrongLenses(dimensionScores)
+  const comparisonRows: ZhHansComparisonRow[] = getComparisonDimensions(
+    result.familyKey,
+    result.runnerUpKey,
+    dimensionScores,
+  ).map((row) => ({
+    key: row.dim,
+    label: zhHansFoundationQuizUi.dimensionLabels[row.dim],
+    lowLabel: zhHansFoundationDimensionPoles[row.dim].low,
+    highLabel: zhHansFoundationDimensionPoles[row.dim].high,
+    userScore: row.userScore,
+    primaryExpected: row.primaryExpected,
+    runnerUpExpected: row.runnerUpExpected,
+  }))
+  const contribution = currentPayload
+    ? decomposeFoundationFamilyDifference({
+        dimensionScores,
+        calibration: resolved.scoringCalibration,
+        primaryFamily: result.familyKey,
+        runnerUpFamily: result.runnerUpKey,
+      })
+    : null
+  const primaryMatrixCode = `${lensFromFamily(result.familyKey)}${archetype.posture}` as PureArchetypeCode
+  const runnerMatrixCode = `${lensFromFamily(result.runnerUpKey)}${archetype.posture}` as PureArchetypeCode
   const completionLabel = provenance.completionLocale === "zh-Hans"
-    ? "简体中文改编测试版完成记录"
-    : "以英文完成的共享结果 · 当前以中文显示"
-  const nearestFitGap = result.nearestFitGap
+    ? "此结果由简体中文改编测试版生成"
+    : "此共享结果以英文完成，当前页面仅提供经审校的中文结果说明"
   const targetedExtensionHref = `${publicPath("zh-Hans", "/quiz")}?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
   const fullExtensionHref = `${publicPath("zh-Hans", "/quiz")}?extension=full`
+  const nextAction = !currentPayload
+    ? {
+        href: publicPath("zh-Hans", "/quiz"),
+        label: "完成当前基础问卷",
+        reason: "较早版本链接没有精确的完成题组元组。重新完成当前问卷后，可查看与本次提交相绑定的解释。",
+      }
+    : resultTier === "core"
+      ? lowDifferentiation
+        ? {
+            href: targetedExtensionHref,
+            label: "回答五道定向题",
+            reason: `${narrative.familyLabel}与${narrative.runnerUpLabel}仍然接近。五道跟进题专门检验两者之间的区别。`,
+          }
+        : {
+            href: fullExtensionHref,
+            label: "完成全部扩展题",
+            reason: "扩展题会为这份核心初步读法增加更多题目依据，同时保留当前结果。",
+          }
+      : {
+          href: publicPath("zh-Hans", "/cases"),
+          label: "用一个案例检验这份读法",
+          reason: "选择一个有明确证据时间窗的案例，比较具体约束出现时哪些判断仍然成立。",
+        }
 
   return (
     <div className="wide-container locale-foundation-result">
-      <article className="result-article">
-        <FoundationProfileSync
-          snapshot={{
-            payload,
-            resultPath: publicPath("zh-Hans", `/results/${payload}`),
-            familyKey: result.familyKey,
-            familyLabel: narrative.familyLabel,
-            runnerUpKey: result.runnerUpKey,
-            runnerUpLabel: narrative.runnerUpLabel,
-            summary: narrative.summary,
-            dimensionScores,
-            strategyModifier: result.strategyModifier,
-            normativeModifier: result.normativeModifier,
-            keyDrivers: keyDrivers.map((driver) => ({
-              type: driver.type,
-              label: driver.label,
-              description: driver.description,
-            })),
-            strongLenses: strongLenses.map((lens) => ({
-              label: lens.label,
-              description: lens.description,
-            })),
-          }}
-        />
+      <FoundationProfileSync
+        snapshot={{
+          payload,
+          resultPath: publicPath("zh-Hans", `/results/${payload}`),
+          familyKey: result.familyKey,
+          familyLabel: narrative.familyLabel,
+          runnerUpKey: result.runnerUpKey,
+          runnerUpLabel: narrative.runnerUpLabel,
+          summary: narrative.summary,
+          dimensionScores,
+          strategyModifier: result.strategyModifier,
+          normativeModifier: result.normativeModifier,
+          keyDrivers: keyDrivers.map((driver) => ({
+            type: driver.type,
+            label: driver.label,
+            description: driver.description,
+          })),
+          strongLenses: strongLenses.map((lens) => ({
+            label: lens.label,
+            description: lens.description,
+          })),
+        }}
+      />
 
-        <header className="result-section stack-lg" aria-labelledby="zh-foundation-result-heading">
-          <div className="stack-md">
-            <p className="eyebrow">
-              {resultTier === "core" ? "基础暂定原型" : "基础原型"}
-            </p>
-            <h1 id="zh-foundation-result-heading" className="result-hero-title">
-              {archetype.name}
-            </h1>
-            <p className="muted result-lead">
-              <strong>{formatArchetypeDisplayCode(archetype.code)}</strong> · {narrative.summary}
-            </p>
-            <p className="muted result-note">
-              原型专名沿用基础模型的规范名称；中文名称与原型释义尚未完成编辑审校。
-            </p>
-            <p className="muted result-note">
-              {resultTier === "core"
-                ? "本结果由 14 道核心题计算。"
-                : "本结果由核心题与扩展题共同计算。"}
-            </p>
-            <div className="row gap-sm wrap" aria-label="结果标签">
-              <span className="atlas-tag">最相邻传统：{narrative.familyLabel}</span>
-              <span className="atlas-tag">{narrative.strategyLabel}</span>
-              <span className="atlas-tag">{narrative.normativeLabel}</span>
-              <span className="atlas-tag">第二相邻参照：{narrative.runnerUpLabel}</span>
-            </div>
-          </div>
-
-          <ShareActions
-            payload={payload}
-            familyLabel={narrative.familyLabel}
-            strategyModifier={narrative.strategyLabel}
-            normativeModifier={narrative.normativeLabel}
-            displayLabel={`${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
-            locale="zh-Hans"
-          />
-        </header>
-
-        {resultTier === "core" ? (
-          <section className="result-section stack-md" aria-labelledby="zh-foundation-extension-heading">
-            <div className="stack-xs">
-              <p className="eyebrow">可选跟进</p>
-              <h2 id="zh-foundation-extension-heading">
-                {nearestFitGap < lowDifferentiationThreshold
-                  ? `检验“${narrative.familyLabel}”与“${narrative.runnerUpLabel}”之间的边界`
-                  : "增加扩展题组"}
-              </h2>
-              <p className="muted result-note">
-                {nearestFitGap < lowDifferentiationThreshold
-                  ? "两个最接近的模型家族仍然相近。系统已选出 5 道最能检验两者差异的跟进题。"
-                  : "核心结果已经出现较清晰的区分。你可以保留当前结果，也可以完成全部扩展题，获得更广的读法。"}
-              </p>
-            </div>
-            <div className="row gap-sm wrap">
-              {nearestFitGap < lowDifferentiationThreshold ? (
-                <Link href={targetedExtensionHref} className="cta-primary">
-                  回答 5 道定向题
-                </Link>
-              ) : null}
-              <Link
-                href={fullExtensionHref}
-                className={
-                  nearestFitGap < lowDifferentiationThreshold
-                    ? "cta-secondary"
-                    : "cta-primary"
-                }
-              >
-                完成全部扩展题
-              </Link>
-            </div>
-          </section>
-        ) : null}
-
-        <section className="result-section stack-md" aria-labelledby="zh-result-reading-heading">
-          <div className="stack-xs">
-            <p className="eyebrow">解释</p>
-            <h2 id="zh-result-reading-heading">如何阅读这组结果</h2>
-          </div>
-          <div className="driver-grid">
-            {narrative.sections.map((section) => (
-              <section key={section.title} className="driver-card stack-xs">
-                <h3>{section.title}</h3>
-                <p className="muted">{section.text}</p>
-              </section>
-            ))}
-          </div>
-        </section>
-
-        <section className="result-section stack-md" aria-labelledby="zh-dimensions-heading">
-          <div className="stack-xs">
-            <p className="eyebrow">七维画像</p>
-            <h2 id="zh-dimensions-heading">哪些判断把结果拉向不同方向</h2>
-            <p className="muted result-note">
-              以下显示原始分数，不附量尺分母。
-            </p>
-          </div>
-          <dl className="locale-profile-dimensions">
-            {dimensions.map((dimension) => (
-              <div key={dimension.key}>
-                <dt>{dimension.label}</dt>
-                <dd>
-                  <strong>{dimension.score.toFixed(2)}</strong>
-                  <span className="muted">{dimension.reading}</span>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </section>
-
-        <aside className="result-section stack-md" aria-labelledby="zh-beta-note-heading">
-          <div className="stack-xs">
-            <p className="eyebrow">版本与边界</p>
-            <h2 id="zh-beta-note-heading">{completionLabel}</h2>
+      <ZhHansFoundationResultStory
+        payload={payload}
+        resultTier={resultTier}
+        questionSet={resolved.questionSet}
+        legacy={!currentPayload}
+        lowDifferentiation={lowDifferentiation}
+        primaryFamily={result.familyKey}
+        primaryLabel={narrative.familyLabel}
+        runnerUpFamily={result.runnerUpKey}
+        runnerUpLabel={narrative.runnerUpLabel}
+        strategyModifier={result.strategyModifier}
+        normativeModifier={result.normativeModifier}
+        strategyLabel={narrative.strategyLabel}
+        normativeLabel={narrative.normativeLabel}
+        archetype={archetype}
+        archetypeCode={formatArchetypeDisplayCode(archetype.code)}
+        primaryMatrixCode={primaryMatrixCode}
+        runnerMatrixCode={runnerMatrixCode}
+        comparisonRows={comparisonRows}
+        contributionRows={contribution?.rows ?? []}
+        immediateHeadline={narrative.headline}
+        familyMeaning={narrative.sections[0].text}
+        strategicMeaning={narrative.sections[2].text}
+        caseTest={narrative.sections[3].text}
+        nextAction={nextAction}
+        completionLabel={completionLabel}
+        provenance={{
+          instrumentStructuralVersion: provenance.instrumentStructuralVersion,
+          scoringVersion: provenance.scoringVersion,
+          localeCopyVersion: provenance.localeCopyVersion,
+        }}
+        utility={
+          <>
+            <ShareActions
+              payload={payload}
+              familyLabel={narrative.familyLabel}
+              strategyModifier={narrative.strategyLabel}
+              normativeModifier={narrative.normativeLabel}
+              displayLabel={`${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
+              locale="zh-Hans"
+            />
             <p className="muted">
-              中文版保留共享题目结构与计分规则，但它是经过编辑改编的测试版，尚未被验证为与英文版等价。不同完成语言的数据不会合并使用，也不据此作跨语言比较。
+              中文解释保留既有的经审校基础家族长文。模型规范专名仍以英文显示，并明确标注其编辑状态。
             </p>
-            <p className="muted">
-              结构版本 {provenance.instrumentStructuralVersion} · 计分版本 {provenance.scoringVersion} · 文案版本 {provenance.localeCopyVersion}
-            </p>
-          </div>
-          <div className="row gap-sm wrap">
-            <Link href="/zh/method" className="cta-secondary">阅读方法与局限</Link>
-            <Link href="/zh/profile" className="cta-secondary">查看我的画像</Link>
-            <LanguageSwitcher label="englishPage" className="cta-secondary" />
-          </div>
-        </aside>
-      </article>
+            <LanguageSwitcher label="englishPage" className="cta-secondary print-hidden" />
+          </>
+        }
+      />
     </div>
   )
 }

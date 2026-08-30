@@ -158,6 +158,16 @@ export const zhHansFoundationQuizUi = {
   },
 } satisfies FoundationQuizUiCopy
 
+export const zhHansFoundationDimensionPoles = {
+  securityCompetition: { low: "缓和与再保证", high: "竞争与不确定性" },
+  institutions: { low: "权力优先", high: "规则具有约束力" },
+  domesticFilters: { low: "体系压力", high: "国内政治" },
+  normsIdentity: { low: "物质利益", high: "身份与正当性" },
+  politicalEconomy: { low: "安全与外交", high: "市场与依赖" },
+  restraint: { low: "扩大优势", high: "限制行动边界" },
+  orderJustice: { low: "正义可优先", high: "秩序优先" },
+} satisfies Readonly<Record<DimensionKey, { low: string; high: string }>>
+
 export const zhHansFoundationReviewUi = {
   loading: "正在读取答案…",
   eyebrow: "复核答案",

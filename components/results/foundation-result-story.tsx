@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 import { FoundationMark } from "@/components/archetypes/archetype-mark"
 import { FoundationDomainRecords } from "@/components/results/foundation-domain-records"
 import { FoundationLocalEvidence } from "@/components/results/foundation-local-evidence"
@@ -61,8 +61,6 @@ export type FoundationResultStoryProps = {
 }
 
 export function FoundationResultStory(props: FoundationResultStoryProps) {
-  const storyRef = useRef<HTMLElement>(null)
-  const [activeChapter, setActiveChapter] = useState("nearest")
   const heading = buildFoundationResultHeading(props)
   const primaryCode = matrixCode(
     props.primaryFamily,
@@ -77,38 +75,6 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
         ({ familyKey }) => familyKey === props.primaryFamily,
       )?.code
     : null
-
-  useEffect(() => {
-    const story = storyRef.current
-    if (!story) return
-    const chapters = Array.from(
-      story.querySelectorAll<HTMLElement>("[data-foundation-story-chapter]"),
-    )
-    if (chapters.length === 0 || typeof IntersectionObserver === "undefined") {
-      return
-    }
-    story.setAttribute("data-enhanced", "true")
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const current = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0]
-        const chapterId = current?.target.getAttribute("data-foundation-story-chapter")
-        if (chapterId) setActiveChapter(chapterId)
-      },
-      {
-        rootMargin: "-24% 0px -58% 0px",
-        threshold: [0, 0.2, 0.45, 0.7],
-      },
-    )
-
-    chapters.forEach((chapter) => observer.observe(chapter))
-    return () => {
-      observer.disconnect()
-      story.removeAttribute("data-enhanced")
-    }
-  }, [])
 
   const chapters: StoryChapterDefinition[] = [
     {
@@ -282,7 +248,6 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
 
   return (
     <article
-      ref={storyRef}
       className={styles.story}
       data-foundation-result-story
     >
@@ -342,28 +307,16 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       </header>
 
       <div className={styles.storyBody}>
-        <div className={styles.chapters}>
+        <div
+          className={styles.chapters}
+          data-foundation-sticky-region
+          role="group"
+          aria-label="Scroll-led result chapters"
+        >
           {chapters.map((chapter) => (
             <StoryChapter key={chapter.id} {...chapter} />
           ))}
         </div>
-
-        <aside
-          className={styles.stickyRegion}
-          data-foundation-sticky-region
-          aria-label="Chapter visual"
-        >
-          {chapters.map((chapter) => (
-            <div
-              key={chapter.id}
-              className={styles.stickyPanel}
-              data-active={activeChapter === chapter.id ? "true" : "false"}
-            >
-              <p className={styles.visualLabel}>{chapter.visualLabel}</p>
-              {chapter.renderVisual()}
-            </div>
-          ))}
-        </aside>
       </div>
 
       <footer className={styles.footer}>
@@ -413,7 +366,7 @@ function StoryChapter({
         <h2 id={headingId} className={styles.chapterTitle}>{title}</h2>
         {copy}
       </div>
-      <div className={styles.inlineVisual}>
+      <div className={styles.inlineVisual} data-foundation-chapter-visual>
         <p className={styles.visualLabel}>{visualLabel}</p>
         {renderVisual()}
       </div>

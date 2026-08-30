@@ -27,6 +27,7 @@ import {
   getStrongLenses,
 } from "@/lib/result-helpers"
 import { decomposeFoundationFamilyDifference } from "@/lib/results/foundation-contributions"
+import { DIMENSION_POLES } from "@/lib/results/dimension-bands"
 import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
 import { getV2ScoringCalibration } from "@/lib/scoring"
 import { resolveFoundationPayload } from "@/lib/share"
@@ -148,6 +149,8 @@ export default async function ResultPage(
   ).map((row) => ({
     key: row.dim,
     label: row.label,
+    lowLabel: DIMENSION_POLES[row.dim].low,
+    highLabel: DIMENSION_POLES[row.dim].high,
     userScore: row.userScore,
     primaryExpected: row.primaryExpected,
     runnerUpExpected: row.runnerUpExpected,

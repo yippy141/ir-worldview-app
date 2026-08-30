@@ -1,7 +1,9 @@
 # V23.6 bundled font sources
 
 The application bundles official open-licensed releases acquired on
-2026-08-30, so no font request is made during page rendering.
+2026-08-30, so page rendering makes no third-party font request and does not
+depend on a font host. Browsers still request these self-hosted assets from the
+application origin.
 
 | Family | Local assets | Official source | Licence |
 | --- | --- | --- | --- |

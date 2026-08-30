@@ -117,6 +117,11 @@ export function ModuleApp({
 
     pendingFocusTarget.current = null
     target.focus({ preventScroll: true })
+    const stickyHeader = document.querySelector<HTMLElement>(".quiz-shell-header")
+    if (stickyHeader) {
+      const headerBottom = stickyHeader.getBoundingClientRect().bottom
+      target.style.scrollMarginTop = `${Math.ceil(headerBottom + 12)}px`
+    }
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     target.scrollIntoView({
       behavior: reduceMotion ? "auto" : "smooth",

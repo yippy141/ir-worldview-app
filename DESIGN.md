@@ -55,7 +55,7 @@ Rules:
 
 ## 4. Color
 
-The current root tokens are the source of truth for V23.5.
+The current root tokens are the source of truth for V23.6.
 
 ```css
 :root {
@@ -88,7 +88,7 @@ Rules:
 - Normal explanatory text must meet WCAG AA contrast of at least 4.5:1 against its actual surface.
 - `--faint` is authorized for normal secondary prose on `--bg`, `--bg-2`, and `--panel`. Its measured contrast is 5.38:1, 5.04:1, and 4.67:1 respectively. Recheck it against any color-mixed or new surface before use.
 - Color cannot be the only signal for status, selection, confidence, or category.
-- Do not add a light theme in V23.5.
+- Do not add a light theme in V23.6.
 - Do not adopt an alternate navy and gold palette from a mockup.
 - Raw colors already used by maps, share cards, or print are technical debt to inventory. Do not replace them mechanically without a visual comparison.
 
@@ -110,7 +110,9 @@ Rules:
 
 - Maintain one dominant reading column on text-heavy pages.
 - Use asymmetry when it clarifies priority. Do not fill space with matching cards.
-- The homepage first choice group has no more than three peers.
+- The V23.6 homepage is the approved exception: its single editorial menu has
+  exactly five peer destinations, with one selected explanation and visual
+  state at a time.
 - Result pages show payoff before caveat.
 - The Method page may use an anchored contents rail or index, but the reading order must remain coherent without it.
 - Evidence ledgers follow the introduction and primary task in the document order.
@@ -127,7 +129,7 @@ Rules:
 - Avoid stacked bordered panels when headings and spacing can show the hierarchy.
 - Shadows remain rare and low contrast. No elevated SaaS-card stacks or oversized glow.
 
-Existing radius variation is debt, not precedent for new values. V23.5 may normalize a touched component when screenshots prove that the change preserves identity and meaning.
+Existing radius variation is debt, not precedent for new values. V23.6 may normalize a touched component when screenshots prove that the change preserves identity and meaning.
 
 ## 7. Controls and interaction
 

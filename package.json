@@ -28,6 +28,8 @@
     "diagnose": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-instrument.mts",
     "diagnose:foundation-robustness": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-foundation-robustness.mts",
     "diagnose:foundation-robustness:check": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-foundation-robustness.mts --check",
+    "evidence:v23-6:capture": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/v23-6/capture-release-evidence.mts",
+    "evidence:v23-6:measure": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/v23-6/measure-route-assets.mts",
     "diagnose:security-v4": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-security-v4.mts",
     "diagnose:security-v5": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/diagnose-security-v5.mts",
     "module:scaffold": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/scaffold-module.mts",

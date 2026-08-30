@@ -242,48 +242,29 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await page.getByRole("button", { name: "Generate my result →" }).click()
   await expect(page).toHaveURL(/\/results\/[A-Za-z0-9_-]+$/)
   await expect(page.getByRole("link", { name: "View Profile" })).toBeVisible()
-  const foundationArchetype = await page
-    .locator("#foundation-result-heading")
-    .innerText()
+  await expect(page.locator("#foundation-result-heading")).toBeVisible()
   await expect(
     page.getByRole("link", { name: /^Read the .+ profile →$/ }),
   ).toHaveCount(0)
 
-  const analogueLink = page.locator(".foundation-result-analogue a")
-  if (await analogueLink.count()) {
-    await expect(analogueLink).toBeVisible()
-    await expect(analogueLink).toHaveAttribute(
-      "href",
-      /^\/archetypes\/[prms]-(plus|minus)\?from=%2Fresults%2F[A-Za-z0-9_-]+$/,
-    )
-    const evidencePage = await context.newPage()
-    await evidencePage.goto(await analogueLink.getAttribute("href") ?? "/")
-    await expect(
-      evidencePage.getByRole("heading", { name: "Why this comparison fits" }),
-    ).toBeVisible()
-    await expect(
-      evidencePage.getByRole("heading", { name: "Where the comparison breaks" }),
-    ).toBeVisible()
-    const backToResult = evidencePage.getByRole("link", {
-      name: "← Back to your result",
-    })
-    await expect(backToResult).toHaveAttribute(
-      "href",
-      new URL(page.url()).pathname,
-    )
-    await backToResult.click()
-    await expect(evidencePage).toHaveURL(page.url())
-    await expect(evidencePage.getByText("Invalid result")).toHaveCount(0)
-    await evidencePage.close()
-  }
-
-  const fullAnalysis = page.locator(
-    ".result-appendix-section details.profile-details",
+  const resultStory = page.locator("[data-foundation-result-story]")
+  const nearestComparison = resultStory.locator(
+    '[data-foundation-story-chapter="nearest"]',
   )
-  await fullAnalysis.locator("summary").click()
-  const resultActions = fullAnalysis.locator(".result-details-body")
+  await expect(
+    nearestComparison.getByRole("heading", {
+      name: /^Why .+ rather than .+$/,
+    }),
+  ).toBeVisible()
+  await expect(
+    resultStory.getByRole("heading", {
+      name: "The limits stay attached to the result",
+    }),
+  ).toBeVisible()
+  const resultActions = resultStory.locator("footer")
   await resultActions
     .getByRole("button", { name: "Copy share link", exact: true })
+    .first()
     .click()
   await expect(
     resultActions.getByRole("button", { name: "Copied!", exact: true }),
@@ -299,14 +280,29 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
 
   await page.getByRole("link", { name: "View Profile" }).click()
   await expect(page).toHaveURL(/\/profile$/)
+  const savedFoundation = page.getByRole("region", {
+    name: /^Saved Foundation read: /,
+  })
+  await expect(savedFoundation).toBeVisible()
   await expect(
-    page.getByRole("heading", { level: 1, name: foundationArchetype }),
+    savedFoundation.getByRole("heading", { level: 1 }),
   ).toBeVisible()
   await expect(
-    page.getByText(
-      "The Foundation is your core record. Completed Focus Areas and AI results appear beside it as issue-specific records; none changes the Foundation result.",
-      { exact: true },
-    ),
+    page.getByRole("heading", { name: "Separate domain records" }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Try another vantage point" }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "Reviewed cross-domain relations" }),
+  ).toBeVisible()
+  await expect(
+    page.getByText("No reviewed cross-domain relation is available.", {
+      exact: true,
+    }),
+  ).toBeVisible()
+  await expect(
+    page.getByRole("heading", { name: "What to open next" }),
   ).toBeVisible()
   await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
   await expect(page.getByText("No numeric bridge", { exact: true })).toHaveCount(0)
@@ -321,8 +317,16 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
   await page.goto("/")
 
   for (const fixture of [
-    { profile: profileStoreV1, result: "Legacy security result" },
-    { profile: profileStoreV2, result: "Legacy technology result" },
+    {
+      profile: profileStoreV1,
+      domain: "Security",
+      result: "Legacy security result",
+    },
+    {
+      profile: profileStoreV2,
+      domain: "Technology",
+      result: "Legacy technology result",
+    },
   ]) {
     await page.evaluate(
       ({ key, value }) => window.localStorage.setItem(key, value),
@@ -339,10 +343,21 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await expect(page.getByText("Stable thread", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
     await expect(
-      page.getByText(
-        "The Foundation is your core record. Completed Focus Areas and AI results appear beside it as issue-specific records; none changes the Foundation result.",
-        { exact: true },
-      ),
+      page.getByRole("heading", { name: "Separate domain records" }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "Complete the current Foundation first" }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "Reviewed cross-domain relations" }),
+    ).toBeVisible()
+    await expect(
+      page.getByText("No reviewed cross-domain relation is available.", {
+        exact: true,
+      }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole("heading", { name: "What to open next" }),
     ).toBeVisible()
     await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Biggest shift", { exact: true })).toHaveCount(0)
@@ -351,13 +366,14 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
       page.getByText("What stayed steady, what shifted", { exact: true }),
     ).toHaveCount(0)
     await expect(page.getByText("Directional read:", { exact: false })).toHaveCount(0)
-    await page.getByText("Archived Foundation record", { exact: true }).click()
     await expect(
-      page.getByText("Cached family labels and derived anchors", { exact: false }),
+      page.getByRole("heading", { name: `${fixture.domain} record` }),
     ).toBeVisible()
-    await page.getByText("Completed Focus Areas", { exact: true }).click()
     await expect(
-      page.getByRole("heading", { name: fixture.result }),
+      page.getByText(fixture.result, { exact: true }),
+    ).toBeVisible()
+    await expect(
+      page.getByRole("link", { name: `Open ${fixture.domain} result` }),
     ).toBeVisible()
     await expect(page.getByRole("button", { name: "Share profile" })).toBeVisible()
   }

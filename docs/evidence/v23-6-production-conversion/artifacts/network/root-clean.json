@@ -1,0 +1,418 @@
+{
+  "url": "http://127.0.0.1:3000",
+  "cleanLoad": true,
+  "cacheDisabled": true,
+  "serviceWorkersBlocked": true,
+  "requests": [
+    {
+      "requestId": "3C6FC4BBA971E75E6158B9BBD11C0D3D",
+      "url": "http://127.0.0.1:3000/",
+      "type": "Document",
+      "mimeType": "text/html",
+      "status": 200,
+      "encodedDataLength": 68535,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.6",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/0gxk2knbyo8s2.css",
+      "type": "Stylesheet",
+      "mimeType": "text/css",
+      "status": 200,
+      "encodedDataLength": 28085,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.16",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/0zmvyptk783y8.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 12663,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.15",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/14mrh2-p_w84d.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 13481,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.10",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/27jktro2p5rq9.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 9842,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.17",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/2aidsrz7fmvxw.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 2752,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.7",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/2w516v7ck9ax6.css",
+      "type": "Stylesheet",
+      "mimeType": "text/css",
+      "status": 200,
+      "encodedDataLength": 1040,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.8",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/35o3d-spy-gx2.css",
+      "type": "Stylesheet",
+      "mimeType": "text/css",
+      "status": 200,
+      "encodedDataLength": 2540,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.14",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/37gi059r74ayb.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 11708,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.11",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/3hdj40qmts5sf.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 71661,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.12",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/3w_28btay2ch6.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 39266,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.9",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/3yiddnbtmgj46.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 9967,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.13",
+      "url": "http://127.0.0.1:3000/_next/static/chunks/turbopack-33w42xbc9azvw.js",
+      "type": "Script",
+      "mimeType": "application/javascript",
+      "status": 200,
+      "encodedDataLength": 4754,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.2",
+      "url": "http://127.0.0.1:3000/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+      "type": "Font",
+      "mimeType": "font/woff2",
+      "status": 200,
+      "encodedDataLength": 29845,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.3",
+      "url": "http://127.0.0.1:3000/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+      "type": "Font",
+      "mimeType": "font/woff2",
+      "status": 200,
+      "encodedDataLength": 15593,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.4",
+      "url": "http://127.0.0.1:3000/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+      "type": "Font",
+      "mimeType": "font/woff2",
+      "status": 200,
+      "encodedDataLength": 14537,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.5",
+      "url": "http://127.0.0.1:3000/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+      "type": "Font",
+      "mimeType": "font/woff2",
+      "status": 200,
+      "encodedDataLength": 15673,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    },
+    {
+      "requestId": "49876.40",
+      "url": "http://127.0.0.1:3000/?_rsc=tXyZJ52UQVBCVsD3",
+      "type": "Fetch",
+      "mimeType": "text/x-component",
+      "status": 200,
+      "encodedDataLength": 0,
+      "fromDiskCache": false,
+      "fromServiceWorker": false
+    }
+  ],
+  "transfer": {
+    "all": {
+      "requests": 18,
+      "browserTransferBytes": 351942
+    },
+    "document": {
+      "requests": 1,
+      "browserTransferBytes": 68535
+    },
+    "javascript": {
+      "requests": 9,
+      "browserTransferBytes": 176094
+    },
+    "css": {
+      "requests": 3,
+      "browserTransferBytes": 31665
+    },
+    "fonts": {
+      "requests": 4,
+      "browserTransferBytes": 75648
+    },
+    "images": {
+      "requests": 0,
+      "browserTransferBytes": 0
+    },
+    "other": {
+      "requests": 1,
+      "browserTransferBytes": 0
+    }
+  },
+  "performance": {
+    "navigation": [
+      {
+        "name": "http://127.0.0.1:3000/",
+        "transferSize": 67564,
+        "encodedBodySize": 67264,
+        "decodedBodySize": 184957,
+        "domContentLoadedMs": 116.40000000596046,
+        "loadMs": 116.40000000596046
+      }
+    ],
+    "resources": [
+      {
+        "name": "http://127.0.0.1:3000/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+        "initiatorType": "link",
+        "transferSize": 29636,
+        "encodedBodySize": 29336,
+        "decodedBodySize": 29336,
+        "durationMs": 4.899999976158142
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+        "initiatorType": "link",
+        "transferSize": 15384,
+        "encodedBodySize": 15084,
+        "decodedBodySize": 15084,
+        "durationMs": 6
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+        "initiatorType": "link",
+        "transferSize": 14328,
+        "encodedBodySize": 14028,
+        "decodedBodySize": 14028,
+        "durationMs": 5
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+        "initiatorType": "link",
+        "transferSize": 15464,
+        "encodedBodySize": 15164,
+        "decodedBodySize": 15164,
+        "durationMs": 7.4000000059604645
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/2w516v7ck9ax6.css",
+        "initiatorType": "link",
+        "transferSize": 750,
+        "encodedBodySize": 450,
+        "decodedBodySize": 1332,
+        "durationMs": 6.299999982118607
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/0gxk2knbyo8s2.css",
+        "initiatorType": "link",
+        "transferSize": 27784,
+        "encodedBodySize": 27484,
+        "decodedBodySize": 172251,
+        "durationMs": 10.699999988079071
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/35o3d-spy-gx2.css",
+        "initiatorType": "link",
+        "transferSize": 2249,
+        "encodedBodySize": 1949,
+        "decodedBodySize": 7834,
+        "durationMs": 7.4000000059604645
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/3yiddnbtmgj46.js",
+        "initiatorType": "link",
+        "transferSize": 9661,
+        "encodedBodySize": 9361,
+        "decodedBodySize": 32497,
+        "durationMs": 8.699999988079071
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/27jktro2p5rq9.js",
+        "initiatorType": "script",
+        "transferSize": 9536,
+        "encodedBodySize": 9236,
+        "decodedBodySize": 44414,
+        "durationMs": 9.199999988079071
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/3hdj40qmts5sf.js",
+        "initiatorType": "script",
+        "transferSize": 71312,
+        "encodedBodySize": 71012,
+        "decodedBodySize": 227538,
+        "durationMs": 17.400000005960464
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/turbopack-33w42xbc9azvw.js",
+        "initiatorType": "script",
+        "transferSize": 4448,
+        "encodedBodySize": 4148,
+        "decodedBodySize": 10580,
+        "durationMs": 11.5
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/3w_28btay2ch6.js",
+        "initiatorType": "script",
+        "transferSize": 38935,
+        "encodedBodySize": 38635,
+        "decodedBodySize": 141735,
+        "durationMs": 15.700000017881393
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/37gi059r74ayb.js",
+        "initiatorType": "script",
+        "transferSize": 11402,
+        "encodedBodySize": 11102,
+        "decodedBodySize": 32713,
+        "durationMs": 12.900000005960464
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/14mrh2-p_w84d.js",
+        "initiatorType": "script",
+        "transferSize": 13175,
+        "encodedBodySize": 12875,
+        "decodedBodySize": 54646,
+        "durationMs": 13.600000023841858
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/2aidsrz7fmvxw.js",
+        "initiatorType": "script",
+        "transferSize": 2447,
+        "encodedBodySize": 2147,
+        "decodedBodySize": 6029,
+        "durationMs": 14
+      },
+      {
+        "name": "http://127.0.0.1:3000/_next/static/chunks/0zmvyptk783y8.js",
+        "initiatorType": "script",
+        "transferSize": 12357,
+        "encodedBodySize": 12057,
+        "decodedBodySize": 39815,
+        "durationMs": 13.900000005960464
+      },
+      {
+        "name": "http://127.0.0.1:3000/?_rsc=tXyZJ52UQVBCVsD3",
+        "initiatorType": "fetch",
+        "transferSize": 1034,
+        "encodedBodySize": 734,
+        "decodedBodySize": 1417,
+        "durationMs": 3.199999988079071
+      }
+    ],
+    "fonts": {
+      "spectralLoaded": true,
+      "libreFranklinLoaded": true,
+      "body": {
+        "familyStack": "libreFranklin, \"libreFranklin Fallback\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primaryFamily": "libreFranklin",
+        "registeredFaceCount": 1,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": true,
+        "renderedWithRegisteredFace": true
+      },
+      "brand": {
+        "familyStack": "spectral, \"spectral Fallback\", Georgia, serif",
+        "primaryFamily": "spectral",
+        "registeredFaceCount": 3,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": false,
+        "renderedWithRegisteredFace": true
+      },
+      "activeMenu": {
+        "familyStack": "spectral, \"spectral Fallback\", Georgia, serif",
+        "primaryFamily": "spectral",
+        "registeredFaceCount": 3,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": false,
+        "renderedWithRegisteredFace": true
+      }
+    },
+    "canvasCount": 0,
+    "rootVisualCount": 1,
+    "scriptSources": [
+      "http://127.0.0.1:3000/_next/static/chunks/27jktro2p5rq9.js",
+      "http://127.0.0.1:3000/_next/static/chunks/3hdj40qmts5sf.js",
+      "http://127.0.0.1:3000/_next/static/chunks/3w_28btay2ch6.js",
+      "http://127.0.0.1:3000/_next/static/chunks/turbopack-33w42xbc9azvw.js",
+      "http://127.0.0.1:3000/_next/static/chunks/37gi059r74ayb.js",
+      "http://127.0.0.1:3000/_next/static/chunks/14mrh2-p_w84d.js",
+      "http://127.0.0.1:3000/_next/static/chunks/0zmvyptk783y8.js",
+      "http://127.0.0.1:3000/_next/static/chunks/2aidsrz7fmvxw.js",
+      "http://127.0.0.1:3000/_next/static/chunks/0cz1d0mv5g_q7.js",
+      "http://127.0.0.1:3000/_next/static/chunks/3yiddnbtmgj46.js"
+    ]
+  },
+  "mapboxRequests": [],
+  "assertions": {
+    "noMapboxRequest": true,
+    "noCanvas": true,
+    "geographicSvgPresent": true,
+    "spectralLoaded": true,
+    "libreFranklinLoaded": true
+  }
+}

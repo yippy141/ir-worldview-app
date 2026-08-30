@@ -13,6 +13,7 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/method", {
 const contents = [
   { href: "#what-results-mean", label: "What the result means" },
   { href: "#how-answers-become-a-profile", label: "How answers become a profile" },
+  { href: "#foundation-robustness", label: "Foundation robustness diagnostic" },
   { href: "#evidence-and-versioning", label: "Evidence and versioning" },
   { href: "#limits-privacy-and-corrections", label: "Limits, privacy, and corrections" },
 ]
@@ -402,6 +403,42 @@ export default function MethodPage() {
               system.
             </p>
           </header>
+
+          <section className={styles.subsection} aria-labelledby="foundation-robustness">
+            <h3 id="foundation-robustness">Foundation robustness diagnostic</h3>
+            <div className={styles.prose}>
+              <p>
+                The Foundation robustness diagnostic uses constructed answer sets, not human
+                participants. It reruns the live scorer and result resolver after the smallest
+                permitted answer changes, forced-choice substitutions, and defined omission and
+                neutralisation probes. This is a deterministic structural-sensitivity diagnostic.
+              </p>
+              <p>
+                Results changed more often near family boundaries and the boundary between a
+                single-family and blended reading. The correlated synthetic and canonical
+                ensembles changed less often when their starting results were farther from those
+                boundaries.
+              </p>
+              <p>
+                The diagnostic supports no claim about reliability, validity, or population
+                distributions. The exact methods, seeds, protected-file digests, and generated
+                data are available in the project repository.
+              </p>
+              <p>
+                The posture sign uses 4 as a registered raw-score boundary. Four is not the
+                constructed null center for every form. For the exact full form, the registered
+                independent-null calibration centers restraint at 4.657735. The authored
+                forced-choice signals make that form asymmetric around the raw boundary, so equal
+                numeric distances on either side of 4 should not be read as equivalent positions
+                around the form&apos;s constructed center.
+              </p>
+            </div>
+            <p className={styles.relatedLink}>
+              <a href="https://github.com/yippy141/ir-worldview-app/tree/main/docs/research/v23-6-foundation-robustness">
+                Open the exact diagnostic methods and data
+              </a>
+            </p>
+          </section>
 
           <section className={styles.subsection} aria-labelledby="worldview-map">
             <h3 id="worldview-map">How the Worldview Map is built</h3>
