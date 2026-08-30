@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import { CurrentJudgmentsSection } from "@/components/profile/current-judgments-section"
 import { ProfileReport } from "@/components/profile/profile-report"
+import { hasAnyCurrentProfileRecord } from "@/components/profile/profile-record-presence"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { loadCurrentCaseResponseStore } from "@/lib/current-cases/response-store"
 import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
@@ -53,32 +54,31 @@ export function ProfileDashboard() {
     )
   }
 
-  if (!profile.foundation) {
+  if (!hasAnyCurrentProfileRecord(profile)) {
     return (
       <div className="stack-lg">
         <section className="profile-state-panel profile-state-panel--empty stack-lg">
           <div className="profile-state-panel__intro stack-sm">
             <p className="eyebrow">Profile</p>
-            <h1>Your Profile begins with the Foundation.</h1>
+            <h1>No Profile records are saved yet.</h1>
             <p className="profile-state-panel__body">
-              Start with the Foundation. Your results stay on this device unless you choose to
-              share them. Afterward, you can add Focus Area and AI results. Each remains separate
-              so you can read each domain on its own terms.
+              Start with the Foundation for a broad baseline, or open a separate domain inventory.
+              Results stay on this device unless you choose to share them.
             </p>
           </div>
 
           <div className="profile-state-actions" aria-label="Profile starting points">
             <Link href="/quiz" className="profile-state-action profile-state-action--primary">
               <span className="profile-state-action__label">Start the Foundation</span>
-              <span className="profile-state-action__meta">Build the baseline first.</span>
+              <span className="profile-state-action__meta">Answer fourteen broad questions.</span>
             </Link>
             <Link href="/ai" className="profile-state-action">
               <span className="profile-state-action__label">Try AI Governance</span>
-              <span className="profile-state-action__meta">Read your AI-policy judgments.</span>
+              <span className="profile-state-action__meta">Create a separate AI-policy record.</span>
             </Link>
             <Link href="/explore" className="profile-state-action">
               <span className="profile-state-action__label">Browse the field guide</span>
-              <span className="profile-state-action__meta">Read the traditions and Decision Patterns before answering questions.</span>
+              <span className="profile-state-action__meta">Read traditions and Decision Patterns as reference points.</span>
             </Link>
           </div>
 
@@ -95,8 +95,9 @@ export function ProfileDashboard() {
     const payload = buildCompatibleProfileSharePayload(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
-  const foundationArchetype =
-    resolveFoundationArchetypeFromSnapshot(profile.foundation)
+  const foundationArchetype = profile.foundation
+    ? resolveFoundationArchetypeFromSnapshot(profile.foundation)
+    : null
 
   return (
     <>

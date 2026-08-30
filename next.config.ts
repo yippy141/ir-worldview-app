@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
       },
       // Vercel matches the public prefix while local Next starts may match the
       // internal locale key after next-intl rewrites it. Cover both forms.
-      ...["/", "/zh", "/zh-Hans"].map((source) => ({
+      ...["/world-stage", "/zh/world-stage", "/zh-Hans/world-stage"].map((source) => ({
         source,
         headers: [mapReferrerHeader],
       })),

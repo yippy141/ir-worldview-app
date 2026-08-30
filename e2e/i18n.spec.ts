@@ -168,7 +168,9 @@ test("Chinese Foundation review records canonical version and completion-locale 
   await expect(page.getByText(questions[0].prompt, { exact: true })).toHaveCount(0)
   await page.getByRole("button", { name: "生成我的结果 →" }).click()
   await expect(page).toHaveURL(/\/zh\/results\/[A-Za-z0-9_-]+$/)
-  await expect(page.getByRole("heading", { name: "简体中文改编测试版完成记录" })).toBeVisible()
+  await expect(page.locator("[data-zh-foundation-result-story] h1")).toContainText(
+    "基础读法",
+  )
 
   const payload = decodeURIComponent(new URL(page.url()).pathname.split("/").at(-1) ?? "")
   const resolved = resolveFoundationPayload(payload)
@@ -181,6 +183,12 @@ test("Chinese Foundation review records canonical version and completion-locale 
     resultTier: "core",
     questionSet: "core",
   })
+  await expect(
+    page.getByText("此结果由简体中文改编测试版生成。", { exact: false }),
+  ).toBeVisible()
+  await expect(
+    page.getByText("结构版本 4 · 评分版本 2 · 中文文案版本 1", { exact: true }),
+  ).toBeVisible()
 })
 
 test("one canonical Foundation result payload renders in English and Chinese", async ({ page }) => {
@@ -204,9 +212,10 @@ test("one canonical Foundation result payload renders in English and Chinese", a
 
   await page.goto(englishPath)
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
-  await expect(
-    page.getByText("Closest modeled tradition: Institutionalism", { exact: true }),
-  ).toBeVisible()
+  await expect(page.getByRole("heading", {
+    level: 1,
+    name: "Registered legacy Foundation read: Institutionalism",
+  })).toBeVisible()
   await expect(page.locator('link[rel="alternate"][hreflang="zh-Hans"]')).toHaveAttribute(
     "href",
     new RegExp(`${chinesePath}$`),
@@ -214,12 +223,20 @@ test("one canonical Foundation result payload renders in English and Chinese", a
 
   await page.goto(chinesePath)
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
-  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
+  await expect(page.getByRole("heading", {
+    level: 1,
+    name: "较早版本的基础读法：自由制度主义",
+  })).toBeVisible()
+  await expect(page.getByText("Concert", { exact: true })).toBeVisible()
   await expect(
-    page.getByText("最相邻传统：自由制度主义", { exact: true }),
+    page.getByText("当前参照：自由制度主义", { exact: true }),
   ).toBeVisible()
-  await expect(page.getByText(/原型专名沿用基础模型的规范名称/)).toBeVisible()
-  await expect(page.getByText("结构版本 3 · 计分版本 1 · 文案版本 1")).toBeVisible()
+  await expect(page.getByText("最近替代：社会建构主义", { exact: true })).toBeVisible()
+  await expect(page.locator("[data-zh-foundation-chapter-visual]")).toHaveCount(7)
+  await expect(page.getByText(/原型专名沿用基础模型的规范英文名称/)).toBeVisible()
+  await expect(
+    page.getByText("结构版本 3 · 评分版本 1 · 中文文案版本 1", { exact: true }),
+  ).toBeVisible()
   await expect(page.getByText("You first ask whether", { exact: false })).toHaveCount(0)
   await page.getByRole("button", { name: "复制分享链接" }).click()
   await expect(page.getByRole("button", { name: "已复制", exact: true })).toBeVisible()
@@ -281,9 +298,16 @@ test("one canonical Profile Share V3 payload renders in English and Chinese", as
 
   await page.goto(`${chinesePath}?source=shared-profile#foundation`)
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
-  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
-  await expect(page.getByText(/原型专名/).first()).toBeVisible()
-  await expect(page.getByText("5.80")).toBeVisible()
+  await expect(page.getByRole("heading", {
+    level: 1,
+    name: "共享的画像记录",
+  })).toBeVisible()
+  await expect(page.getByText("Concert", { exact: true })).toBeVisible()
+  await expect(page.getByText(/注册专名沿用基础模型的规范英文名称/)).toBeVisible()
+  await expect(page.locator("[data-profile-question]")).toHaveCount(5)
+  await expect(page.locator("[data-profile-domain-slot]")).toHaveCount(3)
+  await expect(page.locator('[data-reviewed-relations="unavailable"]')).toBeVisible()
+  await expect(page.getByText("5.80", { exact: true })).toHaveCount(0)
   await page.getByRole("link", { name: "切换至英文" }).last().click()
   await expect(page).toHaveURL(
     new RegExp(`${englishPath}\\?source=shared-profile#foundation$`),
@@ -296,12 +320,27 @@ test("Chinese Profile derives display labels from canonical saved records", asyn
     { key: PROFILE_STORAGE_KEY, value: JSON.stringify(profileStoreV5) },
   )
   await page.goto("/zh/profile")
-  await expect(page.getByRole("heading", { name: "Concert" })).toBeVisible()
   await expect(page.getByRole("heading", {
-    name: "最相邻的模型传统：自由制度主义",
+    level: 1,
+    name: "保存在这台设备上的画像记录",
   })).toBeVisible()
-  await expect(page.getByText("第二相邻参照：社会建构主义")).toBeVisible()
-  await expect(page.getByText("制度与规则")).toBeVisible()
+  await expect(page.getByRole("heading", { name: "已保存的基础解读" })).toBeVisible()
+  await expect(page.getByText(
+    "当前解读最接近自由制度主义，并保留社会建构主义作为最近参照。",
+    { exact: true },
+  )).toBeVisible()
+  await expect(page.getByText(
+    "最相邻的模型传统：自由制度主义；最近参照：社会建构主义。",
+    { exact: true },
+  )).toBeVisible()
+  await expect(page.locator("article.profile-domain-record")).toHaveCount(3)
+  await expect(page.getByRole("heading", {
+    name: "经审校的跨领域关系",
+  })).toBeVisible()
+  await expect(page.getByText(
+    "目前没有经过审校、可在此展示的跨领域关系。",
+    { exact: true },
+  )).toBeVisible()
   await expect(page.getByText("Liberal Institutionalist")).toHaveCount(0)
 })
 
@@ -475,11 +514,17 @@ test("English and Chinese share routes are private and no-store", async ({ reque
 })
 
 test("World Stage sends only its origin to the restricted Mapbox token", async ({ request }) => {
-  for (const pathname of ["/", "/zh"]) {
+  for (const pathname of ["/world-stage", "/zh/world-stage"]) {
     const response = await request.get(pathname)
     expect(response.headers()["referrer-policy"], pathname).toBe(
       "strict-origin-when-cross-origin",
     )
+  }
+
+
+  for (const pathname of ["/", "/zh"]) {
+    const response = await request.get(pathname)
+    expect(response.headers()["referrer-policy"], pathname).toBe("no-referrer")
   }
 
   const privateResponse = await request.get("/results/referrer-policy-test")
@@ -496,6 +541,7 @@ test.describe("390px Simplified Chinese shell", () => {
 
   for (const pathname of [
     "/zh",
+    "/zh/world-stage",
     "/zh/method",
     "/zh/quiz",
     "/zh/results/mobile_payload",
@@ -523,25 +569,25 @@ test.describe("390px Simplified Chinese shell", () => {
     await page.goto("/zh/method")
     await expect(page.getByRole("heading", { name: "这项清单如何工作" })).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect(page).toHaveScreenshot("zh-method-390.png")
+    await expect.soft(page).toHaveScreenshot("zh-method-390.png")
 
     await page.goto("/zh/quiz")
     await expect(page.getByRole("heading", {
       name: getZhHansFoundationQuestionsForSet("core")[0].prompt,
     })).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect(page).toHaveScreenshot("zh-foundation-quiz-390.png")
+    await expect.soft(page).toHaveScreenshot("zh-foundation-quiz-390.png")
 
     await page.goto(`/zh/results/${FOUNDATION_SHARE_V3_TOKEN}`)
     await expect(page.locator("main h1")).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect(page).toHaveScreenshot("zh-foundation-result-390.png")
+    await expect.soft(page).toHaveScreenshot("zh-foundation-result-390.png")
 
     if (current) {
       await page.goto(`/zh/cases/${current.slug}/sources`)
       await expect(page.locator("main h1")).toBeVisible()
       await settleVisualSnapshot(page)
-      await expect(page).toHaveScreenshot("zh-current-case-sources-390.png")
+      await expect.soft(page).toHaveScreenshot("zh-current-case-sources-390.png")
     }
   })
 

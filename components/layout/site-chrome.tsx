@@ -10,7 +10,10 @@ import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getBetaNavigationItem } from "@/lib/beta-config"
 import { getQuizChromeMeta } from "@/lib/quiz-chrome"
 import { siteConfig } from "@/lib/site-config"
-import { isImmersiveRoute } from "@/lib/site-shell"
+import {
+  immersiveRouteOwnsLanguageControl,
+  isImmersiveRoute,
+} from "@/lib/site-shell"
 
 type PublicNavItem = {
   href: string
@@ -138,7 +141,7 @@ export function SiteChrome({
     return (
       <div className="site-shell">
         <a href="#site-main" className="skip-link">{t("skip")}</a>
-        {currentPath === "/" ? null : (
+        {immersiveRouteOwnsLanguageControl(currentPath) ? null : (
           <div className="immersive-language-switcher">
             <LanguageSwitcher />
           </div>

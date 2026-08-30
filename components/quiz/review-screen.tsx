@@ -22,6 +22,7 @@ import {
 } from "@/lib/scoring"
 import { buildFoundationSharePayload, encodePayload } from "@/lib/share"
 import { markProfileSaveIntent } from "@/lib/profile-save-intent"
+import { persistFoundationLocalEvidence } from "@/lib/results/local-evidence"
 import {
   buildTier1Cohort,
   submitTier1AggregateResult,
@@ -148,7 +149,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
     router.push(`${publicPath(locale, "/quiz")}?q=${index}&from=review`)
   }
 
-  function handleGenerate() {
+  async function handleGenerate() {
     if (!session || !session.activeMode || !foundationComplete) return
 
     setGenerating(true)
@@ -180,7 +181,29 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         ),
       )
 
-      markProfileSaveIntent("foundation", payload, { mode: session.activeMode })
+      let localEvidenceId: string | undefined
+      try {
+        const evidence = await persistFoundationLocalEvidence({
+          storage: window.localStorage,
+          sessionStorage: window.sessionStorage,
+          payload,
+          answers: resultAnswers,
+          completionLocale: locale,
+          questionSet: session.questionSet,
+          targetedFamilyPair: session.targetedFamilyPair,
+          mode: session.activeMode,
+          scoringCalibration,
+        })
+        localEvidenceId = evidence.binding.localCompletionId
+      } catch {
+        // Storage, digest, or exact-match failures leave this result truthful:
+        // the local evidence section will render an unavailable state.
+      }
+
+      markProfileSaveIntent("foundation", payload, {
+        mode: session.activeMode,
+        ...(localEvidenceId ? { localEvidenceId } : {}),
+      })
       const resultQuestions = getFoundationResultQuestions(
         session.questionSet,
         session.targetedFamilyPair,

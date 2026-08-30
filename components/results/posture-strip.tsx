@@ -65,7 +65,7 @@ export function PostureStrip({
       <div
         className="posture-strip__scale"
         role="img"
-        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${formatArchetypeCodeSpeech(posture.low.code)}) and ${posture.high.name} (${formatArchetypeCodeSpeech(posture.high.code)}). This profile reads as ${posture.current.name}.`}
+        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${formatArchetypeCodeSpeech(posture.low.code)}) and ${posture.high.name} (${formatArchetypeCodeSpeech(posture.high.code)}). The registered raw-score routing boundary is 4. This profile reads as ${posture.current.name}.`}
       >
         <div className="posture-strip__track">
           <span
@@ -96,6 +96,11 @@ export function PostureStrip({
         <span className="posture-strip__score">
           restraint {scoreLabel}
         </span>
+      </p>
+
+      <p className="muted result-note-xs">
+        A raw score of 4 is the registered routing boundary for the posture sign. It is not a
+        symmetric center for every form.
       </p>
 
       <p className="muted result-note-xs">

@@ -9,37 +9,36 @@ import { betaNavigationEnabled } from "@/lib/beta-config"
 import type { Metadata } from "next"
 import type { Viewport } from "next"
 
-// Bundled fonts keep builds and social cards independent of third-party font
-// availability. CSS variables preserve the existing typography contract.
-const newsreader = localFont({
-  src: "../public/fonts/newsreader-variable.ttf",
-  weight: "200 800",
-  display: "swap",
-  variable: "--font-serif",
-})
-
-const archivo = localFont({
-  src: "../public/fonts/archivo-variable.ttf",
-  weight: "100 900",
-  display: "swap",
-  variable: "--font-sans",
-})
-
-const spaceMono = localFont({
+// Official OFL assets are bundled so rendering never depends on a third-party
+// request. Simplified Chinese continues to use the reviewed system stacks in
+// globals.css.
+const spectral = localFont({
   src: [
     {
-      path: "../public/fonts/space-mono-regular.woff2",
+      path: "../public/fonts/spectral-latin-regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../public/fonts/space-mono-bold.woff2",
-      weight: "700",
+      path: "../public/fonts/spectral-latin-medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/spectral-latin-semibold.woff2",
+      weight: "600",
       style: "normal",
     },
   ],
   display: "swap",
-  variable: "--font-mono",
+  variable: "--font-serif",
+})
+
+const libreFranklin = localFont({
+  src: "../public/fonts/libre-franklin-latin-variable.woff2",
+  weight: "300 700",
+  display: "swap",
+  variable: "--font-sans",
 })
 
 export const metadata: Metadata = {
@@ -63,7 +62,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html
       lang={locale}
       data-locale={locale}
-      className={`${newsreader.variable} ${archivo.variable} ${spaceMono.variable}`}
+      className={`${spectral.variable} ${libreFranklin.variable}`}
     >
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>

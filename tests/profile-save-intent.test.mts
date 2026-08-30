@@ -29,12 +29,16 @@ test("result save intents are identity-bound and consumed once", () => {
   })
 
   try {
-    markProfileSaveIntent("foundation", "local-result", { mode: "analyst" })
+    markProfileSaveIntent("foundation", "local-result", {
+      mode: "analyst",
+      localEvidenceId: "evidence-completion-1",
+    })
 
     assert.equal(consumeProfileSaveIntent("foundation", "shared-result"), null)
     assert.deepEqual(consumeProfileSaveIntent("foundation", "local-result"), {
       identity: "local-result",
       mode: "analyst",
+      localEvidenceId: "evidence-completion-1",
     })
     assert.equal(consumeProfileSaveIntent("foundation", "local-result"), null)
   } finally {

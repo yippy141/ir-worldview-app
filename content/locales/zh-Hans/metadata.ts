@@ -27,6 +27,15 @@ export const zhHansRouteMetadata = {
       description: "从一项当前判断或七维基础画像出发，比较你反复依赖的国际关系论证。",
     },
   },
+  worldStage: {
+    title: "世界舞台｜国际关系世界观清单",
+    description: "打开完整地理地图，查阅已经审阅的来源与图层，并进入当前或近期案例。",
+    openGraph: {
+      type: "website",
+      title: "世界舞台｜国际关系世界观清单",
+      description: "在完整地图上查阅图层、来源与证据时间窗，并进入当前或近期案例。",
+    },
+  },
   about: {
     title: "关于｜国际关系世界观清单",
     description: "了解国际关系世界观清单的用途、使用路径和编辑边界。",

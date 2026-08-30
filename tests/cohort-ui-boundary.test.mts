@@ -30,10 +30,34 @@ test("Foundation results and share images cannot present cohort comparisons", ()
 })
 
 test("public Foundation scales use raw positions and named poles, not synthetic bands", () => {
-  const source = readFileSync("app/results/[payload]/page.tsx", "utf8")
+  const resultSource = readFileSync("app/results/[payload]/page.tsx", "utf8")
+  const comparisonSource = readFileSync(
+    "components/results/nearest-alternative.tsx",
+    "utf8",
+  )
+  const zhResultSource = readFileSync(
+    "app/[locale]/results/[payload]/page.tsx",
+    "utf8",
+  )
+  const zhComparisonSource = readFileSync(
+    "components/i18n/zh-hans-foundation-result-story.tsx",
+    "utf8",
+  )
 
-  assert.match(source, /DIMENSION_POLES/)
-  assert.match(source, /lowLabel=\{DIMENSION_POLES\[dimension\]\.low\}/)
-  assert.match(source, /highLabel=\{DIMENSION_POLES\[dimension\]\.high\}/)
-  assert.doesNotMatch(source, /dimensionBand|dimensionBandLabels/)
+  assert.match(resultSource, /lowLabel: DIMENSION_POLES\[row\.dim\]\.low/)
+  assert.match(resultSource, /highLabel: DIMENSION_POLES\[row\.dim\]\.high/)
+  assert.match(comparisonSource, /\{row\.lowLabel\} — \{row\.highLabel\}/)
+  assert.match(
+    zhResultSource,
+    /lowLabel: zhHansFoundationDimensionPoles\[row\.dim\]\.low/,
+  )
+  assert.match(
+    zhResultSource,
+    /highLabel: zhHansFoundationDimensionPoles\[row\.dim\]\.high/,
+  )
+  assert.match(zhComparisonSource, /\{row\.lowLabel\} — \{row\.highLabel\}/)
+  assert.doesNotMatch(
+    `${resultSource}\n${comparisonSource}\n${zhResultSource}\n${zhComparisonSource}`,
+    /dimensionBand|dimensionBandLabels/,
+  )
 })

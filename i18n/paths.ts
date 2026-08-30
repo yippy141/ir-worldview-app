@@ -9,6 +9,7 @@ export const approvedChinesePaths = [
   "/beta",
   "/profile",
   "/cases",
+  "/world-stage",
   "/quiz",
   "/explore/atlas",
   "/explore/reference",

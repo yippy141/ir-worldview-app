@@ -11,3 +11,7 @@ export const ANALYTICS_FIRST_SEEN_STORAGE_KEY = "ir-worldview-analytics-first-se
 export const PROFILE_SAVE_INTENT_KEY = "ir-worldview-profile-save-intents-v1"
 export const TIER1_SUBMITTED_RESULTS_STORAGE_KEY =
   "ir-worldview-tier1-submitted-results-v1"
+export const FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY =
+  "ir-worldview-foundation-local-evidence-v1"
+export const FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY =
+  "ir-worldview-foundation-local-evidence-handoff-v1"

@@ -72,6 +72,7 @@ test("the approved Chinese Foundation route receives reciprocal language alterna
     "/beta",
     "/profile",
     "/cases",
+    "/world-stage",
     "/quiz",
     "/explore/atlas",
     "/explore/reference",

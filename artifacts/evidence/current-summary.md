@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 617. Unchanged and suppressed: 492. New: 125. Resolved: 66.
+P2 advisory baseline: 558. Current: 619. Unchanged and suppressed: 490. New: 129. Resolved: 68.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 617 |
+| P2 | 619 |
 
 ### P0 and P1 findings
 
@@ -1047,7 +1047,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | sits-between-template | frozen | lib/modules/technology-v21.ts:339 (frozen-compatibility:lib/modules/technology-v21.ts#summary) | sits between |
 | P1 | pulls-clear-template | frozen | lib/modules/technology-v21.ts:365 (frozen-compatibility:lib/modules/technology-v21.ts#summary) | pulled clear |
 | P1 | sits-between-template | frozen | lib/modules/technology-v21.ts:365 (frozen-compatibility:lib/modules/technology-v21.ts#summary) | sits between |
-| P1 | authored-english-em-dash | operational | lib/profile-store.ts:1143 (content-key:lib/profile-store.ts#evidence.question) | — |
+| P1 | authored-english-em-dash | operational | lib/profile-store.ts:1152 (content-key:lib/profile-store.ts#evidence.question) | — |
 
 ### New P2 findings
 
@@ -1060,6 +1060,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
 | 1 | repeated-adjacent-opening | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module) | under security pressure |
+| 1 | repeated-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | The diagnostic supports no claim about reliability, validity, or population distributions / seeds, protected-file digests, and generated data are available in the project repository |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.1.label) | often |
 | 1 | repeated-adjacent-abstract-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map / map, map |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
@@ -1102,9 +1103,10 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | lens-metaphor-review | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | lens cards |
 | 1 | repeated-adjacent-three-part-list | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.midRange) | the aggregate score |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.16.paragraphs.4) | 往往 |
 | 1 | deeper-danger-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.2.label) | The deeper danger |
-| 1 | repeated-adjacent-abstract-language | public | app/method/page.tsx (route:/method#MethodPage.h3) | Maps, layers / Map |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low) | the aggregate score |
+| 1 | general-prevalence-language-review | public | app/method/page.tsx (route:/method#MethodPage.p) | often |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
 | 1 | what-matters-most-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.32.prompt) | what matters most |
 | 1 | repeated-adjacent-abstract-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.stateLimit) | layer, layers / layer |
@@ -1165,6 +1167,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.midRange) | the aggregate score |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.11.paragraphs.0) | 通常 |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | often |
 | 1 | general-prevalence-language-review | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | often |
 | 1 | repeated-abstract-map-language | public | app/method/page.tsx (route:/method#MethodPage.p) | Maps, layers |
@@ -1174,6 +1177,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.scene) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system |
 | 1 | layer-metaphor-review | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | across layers |
 | 1 | repeated-three-part-list | public | app/futures/page.tsx (route:/futures#FuturesPage.p) | They are not forecasts, rankings, or scored results / what each outcome assumes, who takes it seriously, and which 2026 signals bear on it |
+| 1 | pressure-test-repetition | public | components/results/foundation-result-story.tsx (content-key:components/results/foundation-result-story.tsx#chapters.p) | pressure test |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.14.whyHard) | broad participation, development costs, or national discretion should guide the standards / settle whether other states will see them as legitimate, fair to developing economies, or compatible with national authority |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
 | 1 | field-metaphor-review | public | components/results/dimension-field-map.tsx (content-key:components/results/dimension-field-map.tsx#DimensionFieldMap.svg.aria-label) | Field map |
@@ -1244,9 +1248,11 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | d982f0746dfde0d41eb4a0bdb43450f70072a6570ed4a49f2aaf57cfd9fc4b16 |
 | 1 | d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98 |
 | 1 | dcf48d26486cd031f7c754d8deff725495d0374f34a80ecb2ced3fb2630de29a |
+| 1 | dd5f55b5a6441a0b03546ac3050597085b47a92b155d5963fceacc4eff95a56a |
 | 1 | e1a92a2eaa88dd89bdfb4ff3f0390d6e8e2925b69d8873e394170add96f8ed47 |
 | 1 | e307e383b818b5c5280a8f6c11ee90578e38ff137a04b60e515e202e5d692d42 |
 | 1 | e6f8e5717781d3936a8b4ed87da552bbeb07b0c026c64d3937bf093746b8ccef |
+| 1 | ec5d03c329cab439dd801542b9b7be2efde3e7c3b0aad0d3a69b14bbd760489a |
 | 1 | f4275fc95e801a786b8647f037a826fca00ca217a7073fc45b7b8246136e42bd |
 | 1 | f62687a82fa5e6296a259b49c09dabe71fe764b60268ec364181bc3f2823daf4 |
 

@@ -125,7 +125,14 @@ test("Foundation results render pure marks and blend Diptychs without inventing 
     "112",
   )
   await expect(pureMark.locator("svg")).toHaveAttribute("aria-hidden", "true")
-  await expect(page.getByRole("heading", { level: 1, name: "Kairos" })).toBeVisible()
+  await expect(page.getByRole("heading", {
+    level: 1,
+    name: "Realism leads this Foundation read",
+  })).toBeVisible()
+  await expect(
+    page.getByRole("complementary", { name: "Registered reading" })
+      .getByText("Kairos", { exact: true }),
+  ).toBeVisible()
 
   await page.goto(`/results/${BLEND_RESULT_PAYLOAD}`)
 
@@ -156,8 +163,13 @@ test("Foundation results render pure marks and blend Diptychs without inventing 
   await expect(blendMark.locator('[data-foundation-mark-name="R-"]')).toHaveText(
     "Concert",
   )
+  await expect(page.getByRole("heading", {
+    level: 1,
+    name: "Constructivism and Institutionalism remain close",
+  })).toBeVisible()
   await expect(
-    page.getByRole("heading", { level: 1, name: "Concert–Musyawarah" }),
+    page.getByRole("complementary", { name: "Registered reading" })
+      .getByText("Concert–Musyawarah", { exact: true }),
   ).toBeVisible()
 
   const panelSizes = await blendMark
@@ -203,21 +215,21 @@ test("System A blend artwork holds currentColor, 200% containment, and print", a
     const visual = element.querySelector<HTMLElement>(
       "[data-foundation-mark-visual]",
     )
-    const copy = element.closest<HTMLElement>(".foundation-result-lede__copy")
-    if (!visual || !copy) return null
+    const identity = element.closest<HTMLElement>('[aria-label="Registered reading"]')
+    if (!visual || !identity) return null
     const visualRect = visual.getBoundingClientRect()
-    const copyRect = copy.getBoundingClientRect()
+    const identityRect = identity.getBoundingClientRect()
     return {
       contained:
-        visualRect.left >= copyRect.left - 1 &&
-        visualRect.right <= copyRect.right + 1,
+        visualRect.left >= identityRect.left - 1 &&
+        visualRect.right <= identityRect.right + 1,
       visibleWidth: visualRect.width,
-      copyWidth: copyRect.width,
+      identityWidth: identityRect.width,
     }
   })
   expect(zoomed).not.toBeNull()
   expect(zoomed?.contained).toBe(true)
-  expect(zoomed?.visibleWidth).toBeLessThanOrEqual((zoomed?.copyWidth ?? 0) + 1)
+  expect(zoomed?.visibleWidth).toBeLessThanOrEqual((zoomed?.identityWidth ?? 0) + 1)
 
   await page.evaluate(() => {
     document.documentElement.style.zoom = "100%"

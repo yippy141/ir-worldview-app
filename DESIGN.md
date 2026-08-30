@@ -1,8 +1,8 @@
 # IR Worldview Astrolabe Design Authority
 
-Status: binding for V23.5 presentation work
+Status: binding for V23.6 presentation work
 Applies to: IR Worldview Inventory only
-Last reviewed: 2026-08-24
+Last reviewed: 2026-08-30
 
 ## 1. Scope and override
 
@@ -26,28 +26,36 @@ Atmosphere is strongest at the homepage and map. Questionnaires, results, Profil
 
 ## 3. Typography
 
-The bundled fonts in `app/layout.tsx` are authoritative.
+V23.6 supersedes the V23.5 Newsreader, Archivo, and Space Mono decision. The
+bundled fonts in `app/layout.tsx` are authoritative.
 
 | Role | Typeface | Use |
 | --- | --- | --- |
-| Editorial voice | Newsreader | Display headings, result headlines, long-form reading, important questions |
-| Interface | Archivo | Navigation, controls, labels, short explanatory text |
-| Evidence | Space Mono | Sources, dates, version data, codes after definition, small instrument labels |
+| Editorial voice | Spectral | Wordmark, active root destination, display headings, result headlines, long-form reading, important questions |
+| Interface | Libre Franklin | Navigation, controls, body copy, labels, and short explanatory text |
+| Evidence | System mono | Genuine sources, dates, version data, and codes after definition |
 
 Simplified Chinese uses the declared system stacks in `app/globals.css`: Songti-style serif for editorial voice, PingFang or equivalent sans for interface text, and a compatible mono stack for evidence.
 
 Rules:
 
-- Do not introduce Inter, Geist, IBM Plex, or another family in V23.5.
+- Spectral and Libre Franklin are bundled from the official Google Fonts
+  releases under the SIL Open Font License 1.1. Their licence files remain
+  beside the assets in `public/fonts/`.
+- Do not introduce a typography package or an additional display family.
 - Use no more than the three existing roles on one surface.
 - A first-contact reader should not need an internal code to understand a heading.
 - Body copy should stay readable at browser zoom and 400 percent reflow.
 - Use balanced wrapping for short headings and natural wrapping for paragraphs.
-- Do not use all caps for sentences. Reserve spaced uppercase or small mono labels for short metadata.
+- Do not use all caps for sentences. Reserve tracked uppercase for rare, short
+  orientation labels. Reserve mono for evidence and version metadata, not
+  ordinary navigation or editorial framing.
+- Prefer hierarchy from scale, weight, and whitespace over repeated uniform
+  hairlines.
 
 ## 4. Color
 
-The current root tokens are the source of truth for V23.5.
+The current root tokens are the source of truth for V23.6.
 
 ```css
 :root {
@@ -80,7 +88,7 @@ Rules:
 - Normal explanatory text must meet WCAG AA contrast of at least 4.5:1 against its actual surface.
 - `--faint` is authorized for normal secondary prose on `--bg`, `--bg-2`, and `--panel`. Its measured contrast is 5.38:1, 5.04:1, and 4.67:1 respectively. Recheck it against any color-mixed or new surface before use.
 - Color cannot be the only signal for status, selection, confidence, or category.
-- Do not add a light theme in V23.5.
+- Do not add a light theme in V23.6.
 - Do not adopt an alternate navy and gold palette from a mockup.
 - Raw colors already used by maps, share cards, or print are technical debt to inventory. Do not replace them mechanically without a visual comparison.
 
@@ -102,7 +110,9 @@ Rules:
 
 - Maintain one dominant reading column on text-heavy pages.
 - Use asymmetry when it clarifies priority. Do not fill space with matching cards.
-- The homepage first choice group has no more than three peers.
+- The V23.6 homepage is the approved exception: its single editorial menu has
+  exactly five peer destinations, with one selected explanation and visual
+  state at a time.
 - Result pages show payoff before caveat.
 - The Method page may use an anchored contents rail or index, but the reading order must remain coherent without it.
 - Evidence ledgers follow the introduction and primary task in the document order.
@@ -119,7 +129,7 @@ Rules:
 - Avoid stacked bordered panels when headings and spacing can show the hierarchy.
 - Shadows remain rare and low contrast. No elevated SaaS-card stacks or oversized glow.
 
-Existing radius variation is debt, not precedent for new values. V23.5 may normalize a touched component when screenshots prove that the change preserves identity and meaning.
+Existing radius variation is debt, not precedent for new values. V23.6 may normalize a touched component when screenshots prove that the change preserves identity and meaning.
 
 ## 7. Controls and interaction
 

@@ -5,23 +5,25 @@ Role: concise memory aid, never sole authority
 
 ## Current repository head
 
-- Branch under review: `main`
-- Main SHA: `e1728b30478cb666cb26082a1cf07f0da8290462`
-- Commit subject: `Merge pull request #45 from yippy141/integration/v23-5-1`
-- Merge parents: `adf2181ea09413591b3b16a6fc44f908005f7021` and `a52fd862437f9b392ea9e0cd35b92f804981bf1a`
-- Tree: `1c69f9f48b74ce021c9514521ddeccb6d6b90e14`
-- Commits ahead of the last accepted V23.4 SHA: 54
-- `origin/main` matched local `main` at this verification.
+- Candidate branch: `v23-6-production-conversion`
+- Verified base and `origin/main`: `68806043ea83fad425f0db8f3507704a4aad3f7d`
+- Base subject: `Merge pull request #47 from yippy141/v23-6-evidence-baseline`
+- Base parents: `e1728b30478cb666cb26082a1cf07f0da8290462` and `f9e1eab1186f7747215c0ab8ac0e4fffd883f88a`
+- Base tree: `682e0257e713a3d1e65c0241e1ec8ccb8013855f`
+- Base commits ahead of the last accepted V23.4 SHA: 58
+- The candidate was branched directly from that verified base. Recheck
+  `origin/main` before opening the pull request; this record is not permission
+  to overwrite newer work.
 
-## PR #45 integration
+## PR #47 evidence baseline
 
-PR #45 merged the `integration/v23-5-1` branch into `main` on 2026-08-29. That
-branch carried the seven partitioned V23.5 commits plus the reconciled
-integration merge of `codex/v23-5-trust-legibility-prs`. The V23.5 candidate is
-therefore no longer a side branch. It is the content of `main`.
+PR #47 merged `v23-6-evidence-baseline` into `main`. It preserves the accepted
+Foundation robustness diagnostic and protected-file digests without changing
+public runtime behavior. That merge is the exact base of the V23.6 production
+candidate.
 
-Merging to `main` records integration, not acceptance. The human and evidence
-gates listed under release status remain open.
+Merging the evidence baseline records integration, not product acceptance. The
+V23.6 production candidate remains unmerged, unaccepted, and undeployed.
 
 ## Last accepted release lineage
 
@@ -45,14 +47,16 @@ gates listed under release status remain open.
 
 ## Release status
 
-- V23.5 Trust and Legibility is integrated into `main` and not accepted.
-- The pending gates are runtime-copy editorial approval, deterministic evidence
-  reproduction, manual visual review, and human research sessions.
+- V23.5 Trust and Legibility and the V23.6 evidence baseline are integrated into
+  `main`; neither is promoted to an accepted release by this file.
+- `v23-6-production-conversion` is a review candidate only.
+- Pending gates include owner review of bilingual copy and visual evidence,
+  deterministic evidence reproduction, full CI, and human research sessions.
 - No deployment is authorized by this file.
 
 ## Current evidence work
 
-- PR #47, `v23-6-evidence-baseline`, is the current robustness-evidence work. It
+- PR #47, `v23-6-evidence-baseline`, is merged into the verified base. It
   preserves a deterministic structural-sensitivity diagnostic and its accepted
   artifacts without changing public runtime behavior.
 - The evidence makes no reliability, validity, prevalence, or population claim.
@@ -63,7 +67,8 @@ gates listed under release status remain open.
 
 ## Separate PR #46
 
-- PR #46, `v23-6-visual-authorship-study`, remains open and unmerged at
+- PR #46, `v23-6-visual-authorship-study`, is not contained by the verified
+  `main` base. Its study ref is
   `e2a74c25c029bd5eda6d027d3679705586e54dd2`.
 - It is a bounded, non-shipping visual-authorship study with development-only
   prototype routes. It remains separate from the robustness-evidence work and
@@ -71,14 +76,14 @@ gates listed under release status remain open.
 
 ## Current owner outcome
 
-Ship **V23.5 Trust and Legibility** before any new scored module. Protect user
-work, correct Current Case availability, repair mobile and accessibility
-defects, simplify the information hierarchy, and review runtime-composed copy
-without changing scoring or payload contracts.
+Review **V23.6 Production Conversion** as one compatibility-preserving
+candidate. It moves the existing map experience to World Stage, establishes the
+five-destination root, improves Foundation explanation and local evidence, and
+keeps separate Profile records without changing scoring or payload contracts.
 
 ## Known divergence since the accepted SHA
 
-- The V23.5 implementation is now on `main` rather than on a candidate branch.
+- The V23.5 implementation and V23.6 evidence baseline are now on `main`.
   Current Case availability, destructive confirmations, keyed Focus Area drafts,
   one-question flow, accessibility and responsive repairs, homepage and module
   information architecture, Method and result hierarchy, and runtime-copy
@@ -100,7 +105,12 @@ without changing scoring or payload contracts.
 - Use one case at a time in Focus Area questionnaires.
 - Treat AI and Foundation comparison as unscored research reflection only.
 - Ban em dashes in authored English product prose, with the recorded exemptions.
-- Add no V23.5 dependency and change no scorer, bank, payload, or share format.
+- Add no V23.6 package dependency and change no scorer, bank, calibration,
+  payload codec, stable ID, legacy decoder, or share format.
+- Use Spectral for editorial roles and Libre Franklin for interface roles,
+  bundled locally under their open licences.
+- Keep the production root free of Mapbox and preserve the full map at
+  `/world-stage`.
 - Start AI v4 only after the V23.5 human-evidence gate.
 
 ## Hypotheses
@@ -116,7 +126,8 @@ without changing scoring or payload contracts.
 - Which AI v3 constructs belong to AI rather than Security or Technology?
 - Can the verified tokenless Mapbox no-initialization boundary be turned into a durable CI network assertion?
 - Which pending runtime-copy rows require revision after named human review in their complete surface context?
-- Which root direction does the owner choose after the V23.6 visual-authorship study?
+- Does the V23.6 production candidate pass owner review of the bilingual copy,
+  result explanation, print report, and evidence package?
 
 ## Reproduce machine facts first
 

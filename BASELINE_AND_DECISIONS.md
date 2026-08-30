@@ -1,12 +1,12 @@
-# V23.5 Baseline and Owner Decisions
+# V23.6 Baseline and Owner Decisions
 
 Status: binding release record
-Release: V23.5 Trust and Legibility
+Release: V23.6 Production Conversion candidate
 Last repository checkpoint: 2026-08-30
 
 ## Purpose
 
-This file records the code and deployment lineage that V23.5 may build on. It also records owner decisions that implementation agents must not reopen without a written reason. It is a checkpoint, not a substitute for fresh Git and deployment checks.
+This file records the code and deployment lineage that V23.6 may build on. It also records owner decisions that implementation agents must not reopen without a written reason. It is a checkpoint, not a substitute for fresh Git and deployment checks.
 
 ## Authority
 
@@ -26,19 +26,20 @@ If two authorities conflict outside the narrow override granted to `DESIGN.md`, 
 
 | Fact | Verified value |
 | --- | --- |
-| Current `main` SHA | `e1728b30478cb666cb26082a1cf07f0da8290462` |
-| Commit subject | `Merge pull request #45 from yippy141/integration/v23-5-1` |
-| Merge parent 1 | `adf2181ea09413591b3b16a6fc44f908005f7021` |
-| Merge parent 2 | `a52fd862437f9b392ea9e0cd35b92f804981bf1a` |
-| Current `main` tree | `1c69f9f48b74ce021c9514521ddeccb6d6b90e14` |
-| `origin/main` at verification | `e1728b30478cb666cb26082a1cf07f0da8290462` |
-| Commits ahead of the accepted V23.4 SHA | 54 |
+| Current `main` SHA | `68806043ea83fad425f0db8f3507704a4aad3f7d` |
+| Commit subject | `Merge pull request #47 from yippy141/v23-6-evidence-baseline` |
+| Merge parent 1 | `e1728b30478cb666cb26082a1cf07f0da8290462` |
+| Merge parent 2 | `f9e1eab1186f7747215c0ab8ac0e4fffd883f88a` |
+| Current `main` tree | `682e0257e713a3d1e65c0241e1ec8ccb8013855f` |
+| `origin/main` at verification | `68806043ea83fad425f0db8f3507704a4aad3f7d` |
+| Commits ahead of the accepted V23.4 SHA | 58 |
 | Last accepted release lineage | V23.4 |
 | Accepted code SHA | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
 | Accepted commit subject | `Merge pull request #36 from yippy141/v23-4-domain-authoring-contract` |
 | Accepted tree | `cd8f330bca536710a577092fbe91a2a591a45660` |
-| Current evidence work | PR #47, `v23-6-evidence-baseline` |
-| Separate study | PR #46, `v23-6-visual-authorship-study`, open and unmerged at `e2a74c25c029bd5eda6d027d3679705586e54dd2` |
+| Evidence baseline | PR #47, `v23-6-evidence-baseline`, merged into `main` |
+| Production candidate | `v23-6-production-conversion`, based directly on the verified `main` SHA |
+| Separate study | PR #46, `v23-6-visual-authorship-study`, not contained by the verified base; study ref `e2a74c25c029bd5eda6d027d3679705586e54dd2` |
 
 PR #45 merged `integration/v23-5-1` into `main` on 2026-08-29. That branch
 carried the seven partitioned V23.5 commits together with the reconciled
@@ -49,12 +50,11 @@ candidate SHA `77ce296619ab3287f8656667b77363488e617c97` is superseded.
 Merging to `main` records integration only. V23.4 remains the last lineage the
 owner accepted. Nothing here promotes PR #45 to an accepted release.
 
-PR #47, `v23-6-evidence-baseline`, is the current Foundation robustness
-evidence work. It preserves a deterministic structural-sensitivity diagnostic
-and accepted evidence only. It changes no public runtime behavior and does not
-accept or deploy V23.6. PR #46 remains a separate, open, unmerged, non-shipping
-visual-authorship study; none of its prototype implementation or screenshots
-belongs in the robustness evidence PR.
+PR #47, `v23-6-evidence-baseline`, is merged into the verified Foundation
+robustness baseline. It preserves a deterministic structural-sensitivity
+diagnostic and accepted evidence only. It changes no public runtime behavior
+and does not accept or deploy V23.6. PR #46 remains a separate non-shipping
+visual-authorship study and is evidence rather than production code.
 
 The V23.4 merge commit contains both the previous `main` lineage and the V23.4
 branch. Its tree is byte-identical to the V23.4 branch tree. The earlier report
@@ -112,7 +112,7 @@ Deployment environment values were not inferred from source code. Each deploymen
 
 ## Locked owner decisions
 
-- The next release is **V23.5 Trust and Legibility**.
+- The release candidate under review is **V23.6 Production Conversion**.
 - Keep the current Astrolabe navy and brass identity.
 - Preserve cohort infrastructure, tests, exact tuple matching, and minimum sample rules. Keep all cohort comparisons hidden.
 - When no reviewed Current Case is live, promote Foundation and relabel the case destination as **Recent Cases**.
@@ -122,8 +122,14 @@ Deployment environment values were not inferred from source code. Each deploymen
 - The portfolio operating system belongs in a private control repository, not the public portfolio repository.
 - Pilot DeepSeek through Cline only on public, non-sensitive work.
 - No light theme is in scope.
-- No new dependency is authorized for V23.5.
-- V23.5 changes no scorer, bank, result payload, or share-link format.
+- No new package dependency is authorized for V23.6. Official open-licensed
+  font assets may be bundled locally without a typography package.
+- V23.6 changes no scorer, bank, calibration, result payload, payload codec,
+  stable ID, legacy decoder, or share-link format.
+- The root contains no Mapbox import, request, canvas, token requirement, or
+  destination prefetch. The existing full map belongs at `/world-stage`.
+- Spectral serves editorial roles and Libre Franklin serves interface roles;
+  Simplified Chinese retains the declared Songti and PingFang-compatible stacks.
 - AI v4 is English-only until independently authored and tested.
 - The owner remains final product and methodology authority.
 
@@ -131,7 +137,10 @@ Deployment environment values were not inferred from source code. Each deploymen
 
 ### Facts
 
-- Local `main` and `origin/main` matched at `e1728b3` on 2026-08-30. The production SHA was not verified at that check, so the three are not known to be reconciled.
+- Local `main` and `origin/main` matched at `6880604` when the V23.6 candidate
+  branch was created on 2026-08-30. Recheck the remote before opening the pull
+  request; the production SHA was not verified, so the three are not known to
+  be reconciled.
 - AI Governance bank v3 already exists.
 - Result payloads and ProfileStore snapshots do not provide a contract for retrieving exact completed item answers.
 - Runtime-composed paragraphs exist and must be reviewed as rendered wholes.

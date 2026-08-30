@@ -7,13 +7,23 @@ function source(relativePath: string) {
   return readFileSync(new URL(`../${relativePath}`, import.meta.url), "utf8")
 }
 
-test("English and Chinese home routes derive Current Case availability on every request", () => {
-  for (const route of ["app/page.tsx", "app/[locale]/page.tsx"]) {
+test("English and Chinese World Stage routes derive Current Case availability on every request", () => {
+  for (const route of [
+    "app/world-stage/page.tsx",
+    "app/[locale]/world-stage/page.tsx",
+  ]) {
     const routeSource = source(route)
     assert.match(routeSource, /export const dynamic = "force-dynamic"/)
     assert.doesNotMatch(routeSource, /export const revalidate/)
     assert.match(routeSource, /getActivePublishedLaunchCurrentCase/)
     assert.match(routeSource, /hasActiveCurrentCase=/)
+  }
+
+  for (const route of ["app/page.tsx", "app/[locale]/page.tsx"]) {
+    const routeSource = source(route)
+    assert.doesNotMatch(routeSource, /force-dynamic/)
+    assert.doesNotMatch(routeSource, /getActivePublishedLaunchCurrentCase/)
+    assert.match(routeSource, /RootHome/)
   }
 
   const inactiveChinese = getZhHansWorldStageMenuItems(false)
@@ -44,7 +54,7 @@ test("English and Chinese home routes derive Current Case availability on every 
   )
 })
 
-test("homepage preview state follows stable menu IDs instead of array positions", () => {
+test("World Stage preview state follows stable menu IDs instead of array positions", () => {
   const component = source("components/home/world-stage/world-stage-home.tsx")
   assert.match(component, /useState<WorldStageMenuId>/)
   assert.match(component, /item\.id === previewItemId/)

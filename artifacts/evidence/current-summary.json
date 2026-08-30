@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 617,
-      "newCount": 125,
+      "currentCount": 619,
+      "newCount": 129,
       "newFindings": [
         {
           "audience": "public",
@@ -75,6 +75,16 @@
           "matched": "under security pressure",
           "rule": "repeated-adjacent-opening",
           "source": "Under security pressure, you become more bounded than your harder-edged Foundation baseline might imply."
+        },
+        {
+          "audience": "public",
+          "context": "route:/method#MethodPage.p",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "0fb573325e31f3c9849830c4353b77ba223a9e331429aec1c239d69c9f216aa9",
+          "matched": "The diagnostic supports no claim about reliability, validity, or population distributions / seeds, protected-file digests, and generated data are available in the project repository",
+          "rule": "repeated-three-part-list",
+          "source": "The diagnostic supports no claim about reliability, validity, or population distributions. The exact methods, seeds, protected-file digests, and generated data are available in the project repository."
         },
         {
           "audience": "frozen",
@@ -497,6 +507,16 @@
           "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
         },
         {
+          "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.16.paragraphs.4",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "5746f29955b786004807d01fe553af4e9f6b5e4b8972e7dc4eceed52e578c8ec",
+          "matched": "往往",
+          "rule": "general-prevalence-language-review",
+          "source": "原文:Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? (2005). 中文显示译名:《专家政治判断:有多准确?如何判断?》。这项研究与本工具相关,因为能够综合多种视角的判断者,往往优于把所有问题都套入单一框架的人。"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v3.json#items.2.options.2.label",
           "count": 1,
@@ -508,16 +528,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/method#MethodPage.h3",
-          "count": 1,
-          "file": "app/method/page.tsx",
-          "fingerprint": "60fc3b4806ff34c1ae425b55b3fd4ff06b714b3dd766518fb843156d111c186d",
-          "matched": "Maps, layers / Map",
-          "rule": "repeated-adjacent-abstract-language",
-          "source": "How the Worldview Map is built"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -525,6 +535,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score lies toward security and diplomacy over economic hierarchy as explanations."
+        },
+        {
+          "audience": "public",
+          "context": "route:/method#MethodPage.p",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "62765fed3dc2f1c16147e0e5a2dee00cf9eafc81603a5b00b4dbb89bb93d7788",
+          "matched": "often",
+          "rule": "general-prevalence-language-review",
+          "source": "Results changed more often near family boundaries and the boundary between a single-family and blended reading. The correlated synthetic and canonical ensembles changed less often when their starting results were farther from those boundaries."
         },
         {
           "audience": "frozen",
@@ -1128,6 +1148,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.11.paragraphs.0",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "d80cf6eb1428b00045f840271d900c4cadb95f3f0e4b9c2f7f5b505bc2201056",
+          "matched": "通常",
+          "rule": "general-prevalence-language-review",
+          "source": "宽泛的判断前提与具体议题中的直觉彼此相关,但并不相同。一个总体偏制度主义的读者,可能在安全专题中更重视威慑;另一个通常从权力竞争理解世界政治的读者,也可能在具体危机中反对升级。"
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
           "count": 1,
           "file": "lib/explore-content.ts",
@@ -1217,6 +1247,16 @@
           "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
         },
         {
+          "audience": "public",
+          "context": "content-key:components/results/foundation-result-story.tsx#chapters.p",
+          "count": 1,
+          "file": "components/results/foundation-result-story.tsx",
+          "fingerprint": "f988e3b4b2d91547b119a3166a717677a46ef2169b9615a70ca24eb6d46006b9",
+          "matched": "pressure test",
+          "rule": "pressure-test-repetition",
+          "source": "This is a pressure test for the reading. The case does not prove that the registered name is a lasting identity."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/technology.v3.json#items.14.whyHard",
           "count": 1,
@@ -1258,7 +1298,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 66,
+      "resolvedCount": 68,
       "resolvedFindings": [
         {
           "count": 1,
@@ -1506,6 +1546,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "dd5f55b5a6441a0b03546ac3050597085b47a92b155d5963fceacc4eff95a56a"
+        },
+        {
+          "count": 1,
           "fingerprint": "e1a92a2eaa88dd89bdfb4ff3f0390d6e8e2925b69d8873e394170add96f8ed47"
         },
         {
@@ -1518,6 +1562,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "ec5d03c329cab439dd801542b9b7be2efde3e7c3b0aad0d3a69b14bbd760489a"
+        },
+        {
+          "count": 1,
           "fingerprint": "f4275fc95e801a786b8647f037a826fca00ca217a7073fc45b7b8246136e42bd"
         },
         {
@@ -1525,7 +1573,7 @@
           "fingerprint": "f62687a82fa5e6296a259b49c09dabe71fe764b60268ec364181bc3f2823daf4"
         }
       ],
-      "unchangedCount": 492
+      "unchangedCount": 490
     },
     "higherPriorityFindings": [
       {
@@ -2550,7 +2598,7 @@
         "jsonPath": null,
         "key": "evidence.question",
         "kind": "punctuation",
-        "line": 1143,
+        "line": 1152,
         "match": "—",
         "matched": "—",
         "priority": "P1",
@@ -2573,7 +2621,7 @@
         "priority": "P1"
       },
       {
-        "count": 617,
+        "count": 619,
         "priority": "P2"
       }
     ]

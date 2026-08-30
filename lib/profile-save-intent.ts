@@ -8,6 +8,7 @@ export type ProfileSaveIntentKind = "foundation" | "module" | "ai-governance"
 export type ProfileSaveIntent = {
   identity: string
   mode?: QuizMode
+  localEvidenceId?: string
 }
 
 type ProfileSaveIntents = Partial<Record<ProfileSaveIntentKind, ProfileSaveIntent>>
@@ -49,7 +50,7 @@ function writeProfileSaveIntents(intents: ProfileSaveIntents): void {
 export function markProfileSaveIntent(
   kind: ProfileSaveIntentKind,
   identity: string,
-  metadata: { mode?: QuizMode } = {},
+  metadata: { mode?: QuizMode; localEvidenceId?: string } = {},
 ): void {
   if (!identity) return
   writeProfileSaveIntents({
@@ -57,6 +58,9 @@ export function markProfileSaveIntent(
     [kind]: {
       identity,
       ...(metadata.mode ? { mode: metadata.mode } : {}),
+      ...(metadata.localEvidenceId
+        ? { localEvidenceId: metadata.localEvidenceId }
+        : {}),
     },
   })
 }
@@ -88,5 +92,13 @@ function normalizeIntent(value: unknown): ProfileSaveIntent | null {
   const record = value as Record<string, unknown>
   if (typeof record.identity !== "string" || record.identity.length === 0) return null
   const mode = record.mode === "standard" || record.mode === "analyst" ? record.mode : undefined
-  return { identity: record.identity, ...(mode ? { mode } : {}) }
+  const localEvidenceId =
+    typeof record.localEvidenceId === "string" && record.localEvidenceId.length > 0
+      ? record.localEvidenceId
+      : undefined
+  return {
+    identity: record.identity,
+    ...(mode ? { mode } : {}),
+    ...(localEvidenceId ? { localEvidenceId } : {}),
+  }
 }

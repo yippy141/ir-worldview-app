@@ -1,0 +1,132 @@
+{
+  "reducedMotionMedia": true,
+  "resultReadOrder": {
+    "lang": "en",
+    "headings": [
+      {
+        "level": "h1",
+        "text": "Realism leads this Foundation read"
+      },
+      {
+        "level": "h2",
+        "text": "Why Realism rather than Critical political economy"
+      },
+      {
+        "level": "h2",
+        "text": "The exact terms in the family comparison"
+      },
+      {
+        "level": "h2",
+        "text": "Where this reading sits in the registered matrix"
+      },
+      {
+        "level": "h2",
+        "text": "The submitted choices that can be shown here"
+      },
+      {
+        "level": "h2",
+        "text": "Exact local evidence is unavailable"
+      },
+      {
+        "level": "h2",
+        "text": "Domain inventories remain separate records"
+      },
+      {
+        "level": "h3",
+        "text": "Security"
+      },
+      {
+        "level": "h3",
+        "text": "Technology"
+      },
+      {
+        "level": "h3",
+        "text": "AI Governance"
+      },
+      {
+        "level": "h2",
+        "text": "Test the reading against a reviewed case"
+      },
+      {
+        "level": "h3",
+        "text": "INF Treaty Verification Regime"
+      },
+      {
+        "level": "h2",
+        "text": "The limits stay attached to the result"
+      },
+      {
+        "level": "h2",
+        "text": "Open the next record or read the comparison more closely."
+      },
+      {
+        "level": "h2",
+        "text": "Research responses are not collected"
+      }
+    ],
+    "chapterOrder": [
+      "nearest",
+      "contribution",
+      "matrix",
+      "evidence",
+      "domains",
+      "case",
+      "limits"
+    ],
+    "stickyRegionCount": 1,
+    "chapterVisualCount": 7,
+    "stickyChapterVisualCount": 7,
+    "transitionDurations": [
+      "1e-05s",
+      "1e-05s",
+      "1e-05s",
+      "1e-05s",
+      "1e-05s",
+      "1e-05s",
+      "1e-05s"
+    ],
+    "horizontalOverflow": 0
+  },
+  "rootReadOrder": {
+    "lang": "en",
+    "primaryLinks": [
+      {
+        "id": "inventory",
+        "label": "Inventory",
+        "href": "/quiz"
+      },
+      {
+        "id": "world-stage",
+        "label": "World Stage",
+        "href": "/world-stage"
+      },
+      {
+        "id": "atlas",
+        "label": "Atlas",
+        "href": "/explore"
+      },
+      {
+        "id": "perspective-runs",
+        "label": "Perspective Runs",
+        "href": "/perspectives"
+      },
+      {
+        "id": "profile",
+        "label": "Profile",
+        "href": "/profile"
+      }
+    ],
+    "tabRoles": 0,
+    "detailInteractiveCount": 0
+  },
+  "assertions": {
+    "sevenOrderedChapters": true,
+    "oneStickyRegion": true,
+    "sevenChapterLocalVisuals": true,
+    "sevenStickyChapterVisuals": true,
+    "noHorizontalOverflow": true,
+    "fiveOrdinaryRootLinks": true,
+    "noTabSemantics": true,
+    "nonInteractiveDetail": true
+  }
+}
