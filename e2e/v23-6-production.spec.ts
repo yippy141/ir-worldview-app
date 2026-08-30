@@ -414,6 +414,37 @@ for (const width of [320, 390, 768, 1440] as const) {
   })
 }
 
+for (const resultCase of [
+  {
+    name: "English",
+    path: `/results/${fixtures.lowDifferentiationCore}`,
+  },
+  {
+    name: "Simplified Chinese",
+    path: `/zh/results/${fixtures.chineseCore}`,
+  },
+] as const) {
+  test(`${resultCase.name} low-differentiation diptych fits 768px`, async ({ page }) => {
+    await page.setViewportSize({ width: 768, height: 1000 })
+    await page.goto(resultCase.path)
+    await page.evaluate(() => document.fonts.ready)
+
+    const diptych = page.locator('[data-foundation-mark="blend"]:visible')
+    await expect(diptych).toHaveAttribute("data-foundation-mark-layout", "diptych")
+    await expect(diptych.locator("[data-foundation-mark-primary]")).toBeVisible()
+    await expect(diptych.locator("[data-foundation-mark-runner-up]")).toBeVisible()
+
+    await expect.poll(() => page.evaluate(() => document.body.scrollWidth))
+      .toBeLessThanOrEqual(768)
+    await expect.poll(() => page.evaluate(
+      () => document.documentElement.scrollWidth,
+    )).toBeLessThanOrEqual(768)
+    await expect.poll(() => diptych.evaluate(
+      (element) => element.getBoundingClientRect().right,
+    )).toBeLessThanOrEqual(768)
+  })
+}
+
 test("reduced motion keeps every chapter and its visible state available", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto(`/results/${fixtures.clearerPureCore}`)

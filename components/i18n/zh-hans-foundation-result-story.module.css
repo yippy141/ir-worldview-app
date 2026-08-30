@@ -569,6 +569,12 @@
     gap: 38px;
   }
 
+  .identity :global(.foundation-mark--hero .archetype-mark),
+  .identity :global(.foundation-mark--diptych .foundation-mark__panel) {
+    width: 88px;
+    height: 88px;
+  }
+
   .chapter {
     grid-template-columns: minmax(230px, 0.66fr) minmax(380px, 1.34fr);
     gap: 36px;
