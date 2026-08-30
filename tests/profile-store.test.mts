@@ -108,6 +108,9 @@ test("all frozen ProfileStore generations migrate or hydrate as V5", () => {
 
 test("new V5 persistence strips render-time display copy", () => {
   const canonicalV5 = parseProfileStore(readFixture(5), "en")
+  if (canonicalV5.foundation) {
+    canonicalV5.foundation.localEvidenceId = "local-evidence-1"
+  }
   const persisted = JSON.parse(serializeProfileStore(canonicalV5))
 
   assert.equal(persisted.v, 5)
@@ -118,6 +121,11 @@ test("new V5 persistence strips render-time display copy", () => {
   assert.equal(persisted.foundation.locale, "zh-Hans")
   assert.equal(persisted.foundation.instrumentStructuralVersion, 3)
   assert.equal(persisted.foundation.scoringVersion, 1)
+  assert.equal(persisted.foundation.localEvidenceId, "local-evidence-1")
+  assert.equal(
+    parseProfileStore(JSON.stringify(persisted)).foundation?.localEvidenceId,
+    "local-evidence-1",
+  )
 })
 
 test("Foundation hydration trusts the versioned payload over conflicting cached result fields", () => {

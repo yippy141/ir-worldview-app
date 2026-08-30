@@ -176,22 +176,25 @@ test("Profile metadata and sharing use the Foundation archetype rather than an i
   }
 })
 
-test("current Foundation results present the Foundation archetype, not a Decision Pattern assignment", () => {
-  const source = readFileSync(
+test("current Foundation results keep the registered archetype secondary to the live reading headline", () => {
+  const routeSource = readFileSync(
     path.join(repositoryRoot, "app/results/[payload]/page.tsx"),
     "utf8",
   )
-
-  assert.match(
-    source,
-    /<h1\b[^>]*id="foundation-result-heading"[^>]*>[\s\S]*?\{archetype\.name\}[\s\S]*?<\/h1>/,
+  const storySource = readFileSync(
+    path.join(repositoryRoot, "components/results/foundation-result-story.tsx"),
+    "utf8",
   )
+
+  assert.match(routeSource, /archetype=\{archetype\}/)
+  assert.match(storySource, /id="foundation-result-heading"[\s\S]*?\{heading\.title\}/)
+  assert.match(storySource, /Registered reading[\s\S]*?\{props\.archetype\.name\}/)
   assert.doesNotMatch(
-    source,
+    `${routeSource}\n${storySource}`,
     /\b(?:atlasMatch|matchAtlasLiteFoundation|matchAtlasLiteProfile)\b/,
   )
   assert.doesNotMatch(
-    source,
+    `${routeSource}\n${storySource}`,
     /\.(?:nearest|neighbors|publicName|technicalDescriptor|fingerprint)\b/,
   )
 })

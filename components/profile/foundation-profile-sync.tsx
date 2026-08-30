@@ -34,6 +34,9 @@ export function FoundationProfileSync({
     saveFoundationSnapshot({
       ...snapshot,
       ...(intent.mode ? { mode: intent.mode } : {}),
+      ...(intent.localEvidenceId
+        ? { localEvidenceId: intent.localEvidenceId }
+        : {}),
       timestamp: Date.now(),
       instrumentStructuralVersion:
         payloadProvenance?.instrumentStructuralVersion ?? 0,

@@ -1,60 +1,37 @@
 import Link from "next/link"
-import { ScaleBar } from "@/components/visual-primitives"
-import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
-import { getAtlasPatternHref } from "@/lib/atlas-lite"
-import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
-import { PAYLOAD_DIMENSION_ORDER, resolveFoundationPayload } from "@/lib/share"
-import {
-  getClosestTraditions,
-  getComparisonDimensions,
-  getKeyDrivers,
-  getActiveTensions,
-  neighborOverlapTexts,
-  dimensionOneLiners,
-  suggestedReadings,
-  getStrongLenses,
-  getIssueAreaTilts,
-  getRunnerUpSeparation,
-  getFlipAnalysis,
-  getWhatWouldChangeThis,
-  getWhyThisResult,
-  getPressureTestQuestions,
-} from "@/lib/result-helpers"
-import {
-  DIMENSION_POLES,
-  getDimensionPush,
-} from "@/lib/results/dimension-bands"
-import { PushChart } from "@/components/results/push-chart"
-import { NearestAlternative } from "@/components/results/nearest-alternative"
-import { dimensionLabels } from "@/lib/quiz-schema"
-import { getV2ScoringCalibration } from "@/lib/scoring"
-import { buildFoundationNarrative } from "@/lib/narrative/foundation"
-import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
-import { normativeModifierGloss, strategyModifierGloss } from "@/lib/copy/glosses"
-import { familySlug, traditionNounLabel } from "@/lib/worldview-config"
-import { DimensionFieldMap } from "@/components/results/dimension-field-map"
-import { PlacementFirmnessBar } from "@/components/results/placement-firmness-bar"
-import { PostureStrip } from "@/components/results/posture-strip"
-import { ShareActions } from "@/components/results/share-actions"
-import { HistoryCompare } from "@/components/results/history-compare"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
-import { ReadingPathSection } from "@/components/results/reading-path-section"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
+import {
+  FoundationResultStory,
+} from "@/components/results/foundation-result-story"
+import { HistoryCompare } from "@/components/results/history-compare"
+import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
+import { ShareActions } from "@/components/results/share-actions"
 import { localizedAlternates, publicPath } from "@/i18n/paths"
-import { buildFoundationShareCardUrl } from "@/lib/share-card"
+import { getAtlasPatternHref } from "@/lib/atlas-lite"
+import {
+  explainArchetypeReadingCode,
+  formatArchetypeReadingCode,
+  formatArchetypeReadingCodeForSpeech,
+} from "@/lib/archetype-display"
 import {
   normFromNormativeModifier,
   resolveArchetype,
 } from "@/lib/archetypes"
-import {
-  formatArchetypeReadingCode,
-  formatArchetypeReadingCodeForSpeech,
-  explainArchetypeReadingCode,
-} from "@/lib/archetype-display"
+import { verifiedCaseLibrary } from "@/lib/content/verified-case-library"
 import { buildEnglishFoundationResultSocialCopy } from "@/lib/foundation-social-copy"
-import { FoundationMark } from "@/components/archetypes/archetype-mark"
-import { archetypeEvidencePath } from "@/lib/archetype-evidence"
-import type { DimensionKey } from "@/lib/types"
+import { buildFoundationNarrative } from "@/lib/narrative/foundation"
+import {
+  getComparisonDimensions,
+  getKeyDrivers,
+  getStrongLenses,
+} from "@/lib/result-helpers"
+import { decomposeFoundationFamilyDifference } from "@/lib/results/foundation-contributions"
+import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
+import { getV2ScoringCalibration } from "@/lib/scoring"
+import { resolveFoundationPayload } from "@/lib/share"
+import { buildFoundationShareCardUrl } from "@/lib/share-card"
+import { traditionNounLabel } from "@/lib/worldview-config"
 import type { Metadata } from "next"
 
 export async function generateMetadata(
@@ -144,7 +121,8 @@ export default async function ResultPage(
           <p className="eyebrow">Invalid result</p>
           <h1>This link could not be decoded.</h1>
           <p className="muted history-line">
-            The result URL may be incomplete, corrupted, or from an older version of the inventory.
+            The result URL may be incomplete, corrupted, or from an older
+            version of the inventory.
           </p>
           <div className="row gap-sm wrap">
             <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
@@ -157,87 +135,60 @@ export default async function ResultPage(
   }
 
   const { dimensionScores, result, resultTier } = resolved
-  const {
-    lowDifferentiationThreshold,
-    sharplyDifferentiatedThreshold,
-  } = getV2ScoringCalibration(resolved.scoringCalibration)
-  const familyScores = result.familyScores
-  const closestTraditions = getClosestTraditions(familyScores, {
+  const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
+  const lowDifferentiation =
+    result.nearestFitGap < calibration.lowDifferentiationThreshold
+  const currentPayload = resolved.payload.v === 5
+  const primaryLabel = traditionNounLabel(result.familyKey)
+  const runnerUpLabel = traditionNounLabel(result.runnerUpKey)
+  const comparisonRows = getComparisonDimensions(
+    result.familyKey,
+    result.runnerUpKey,
+    dimensionScores,
+  ).map((row) => ({
+    key: row.dim,
+    label: row.label,
+    userScore: row.userScore,
+    primaryExpected: row.primaryExpected,
+    runnerUpExpected: row.runnerUpExpected,
+  }))
+  const contribution = currentPayload
+    ? decomposeFoundationFamilyDifference({
+        dimensionScores,
+        calibration: resolved.scoringCalibration,
+        primaryFamily: result.familyKey,
+        runnerUpFamily: result.runnerUpKey,
+      })
+    : null
+  const payoff = buildFoundationPayoff({
+    dimensionScores,
+    familyKey: result.familyKey,
+    familyLabel: primaryLabel,
+    runnerUpKey: result.runnerUpKey,
+    runnerUpLabel,
+    strategyModifier: result.strategyModifier,
+    normativeModifier: result.normativeModifier,
+  })
+  const narrative = buildFoundationNarrative({
     familyKey: result.familyKey,
     runnerUpKey: result.runnerUpKey,
-    nearestFitGap: result.nearestFitGap,
-    lowDifferentiationThreshold,
-  })
-  const familyLabel = traditionNounLabel(result.familyKey)
-  const neighborKey = result.runnerUpKey
-  const neighborLabel = traditionNounLabel(neighborKey)
-
-  const explanation = result.explanation
-  const keyDrivers = getKeyDrivers(dimensionScores)
-  const topDimensions = getTopDimensionScores(dimensionScores)
-  const strongLenses = getStrongLenses(dimensionScores)
-  const tensions = getActiveTensions(dimensionScores)
-  const neighborText = neighborOverlapTexts[result.familyKey]?.[neighborKey] ?? ""
-  const readings = suggestedReadings[result.familyKey]
-  const neighborReadings = suggestedReadings[neighborKey]
-  const issueAreaTilts = getIssueAreaTilts(result.familyKey, dimensionScores)
-  const runnerUpSeparation = getRunnerUpSeparation(result.familyKey, neighborKey, dimensionScores)
-  const flipAnalysis = getFlipAnalysis(result.familyKey, neighborKey, dimensionScores)
-  const whatWouldChangeThis = getWhatWouldChangeThis(
-    result.familyKey,
-    neighborKey,
-    dimensionScores,
-  )
-  const whyThisResult = getWhyThisResult(result.familyKey, neighborKey, dimensionScores)
-  const comparisonDimensions = getComparisonDimensions(
-    result.familyKey,
-    neighborKey,
-    dimensionScores,
-  )
-  const foundationNarrative = buildFoundationNarrative({
-    familyKey: result.familyKey,
-    runnerUpKey: neighborKey,
     strategyModifier: result.strategyModifier,
     normativeModifier: result.normativeModifier,
     dimensionScores,
     scoringCalibration: resolved.scoringCalibration,
   })
-  const summary = foundationNarrative.summary
-  const lowDifferentiation = foundationNarrative.state === "lowDifferentiation"
-  const nearestFitGap = result.nearestFitGap
-  const familiesStayClose =
-    nearestFitGap < lowDifferentiationThreshold
-  const targetedExtensionHref =
-    `/quiz?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
-  const fullExtensionHref = "/quiz?extension=full"
-
-  const foundationPayoff = buildFoundationPayoff({
-    dimensionScores,
-    familyKey: result.familyKey,
-    familyLabel,
-    runnerUpKey: neighborKey,
-    runnerUpLabel: neighborLabel,
-    strategyModifier: result.strategyModifier,
-    normativeModifier: result.normativeModifier,
-  })
-  const pressureQuestions = getPressureTestQuestions(result.familyKey)
-  const mixedNote = tensions[0]?.text ?? getFallbackMixedNote(foundationNarrative.state, closestTraditions.note)
+  const keyDrivers = getKeyDrivers(dimensionScores)
+  const strongLenses = getStrongLenses(dimensionScores)
   const pressureCase = verifiedCaseLibrary.cases.find(
-    (caseStudy) => caseStudy.caseId === foundationPayoff.caseTest.caseId,
+    (caseStudy) => caseStudy.caseId === payoff.caseTest.caseId,
   ) ?? null
   const pressureCaseHref = pressureCase
     ? `${getAtlasPatternHref(pressureCase.verifiedProfileReading.bestFitProfileId)}#case-${pressureCase.caseId}`
     : null
-  const nextStepHref = withFoundationPayload(foundationPayoff.nextStep.href, payload)
   const archetype = resolveArchetype(
     result,
-    lowDifferentiationThreshold,
+    calibration.lowDifferentiationThreshold,
   )
-  const primaryArchetypeComponent = "archetypes" in archetype
-    ? archetype.archetypes.find(
-        ({ familyKey }) => familyKey === result.familyKey,
-      ) ?? null
-    : null
   const normativeSuffix = normFromNormativeModifier(result.normativeModifier)
   const archetypeCode = formatArchetypeReadingCode(
     archetype.code,
@@ -248,533 +199,117 @@ export default async function ResultPage(
     normativeSuffix,
   )
   const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
-  const analoguePath = archetype.analogue
-    ? archetypeEvidencePath(archetype.code)
-    : null
-  const analogueHref = analoguePath
-    ? `${analoguePath}?from=${encodeURIComponent(`/results/${payload}`)}`
-    : null
-
-  // A core-set result is provisional, so the single next action is to extend it.
-  // Once the extended set is in, the action becomes the issue module that puts
-  // the profile under the most pressure.
+  const targetedExtensionHref =
+    `/quiz?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
   const nextAction = resultTier === "core"
     ? {
-        href: familiesStayClose ? targetedExtensionHref : fullExtensionHref,
-        label: familiesStayClose ? "Answer 5 targeted items" : "Take the full extended set",
-        reason: familiesStayClose
-          ? `${familyLabel} and ${neighborLabel} are still close. Five follow-up items target the distinctions that separate them.`
-          : "The core set gives a provisional reading. The extended set widens the evidence behind it.",
+        href: currentPayload && lowDifferentiation
+          ? targetedExtensionHref
+          : "/quiz?extension=full",
+        label: currentPayload && lowDifferentiation
+          ? "Answer 5 targeted items"
+          : "Take the full extended set",
+        reason: currentPayload && lowDifferentiation
+          ? `${primaryLabel} and ${runnerUpLabel} remain close. Five follow-up items target the distinctions between them.`
+          : "The extended set adds more item evidence to the provisional core reading.",
       }
     : {
-        href: nextStepHref,
-        label: foundationPayoff.nextStep.label,
-        reason: foundationPayoff.nextStep.reason,
+        href: withFoundationPayload(payoff.nextStep.href, payload),
+        label: payoff.nextStep.label,
+        reason: payoff.nextStep.reason,
       }
-
-  const readingPaths = [
-    {
-      key: "start-here",
-      heading: "Read the closest tradition",
-      subheading:
-        "Read the modeled tradition page first, then begin with one anchor text before you widen the frame.",
-      entries: readings.slice(0, 1).map((item) => ({
-        id: `${result.familyKey}-${item.title}`,
-        title: item.title,
-        author: item.author,
-        note: item.note,
-      })),
-      links: [
-        {
-          href: `/explore/${familySlug(result.familyKey)}`,
-          label: `Read ${familyLabel}`,
-          text: "See the tradition guide, issue readings, and critique shelf in one place.",
-        },
-      ],
-    },
-    {
-      key: "go-deeper",
-      heading: "Go deeper",
-      subheading:
-        "Stay with the nearest fit long enough to see its internal variation, methods, and adjacent debates.",
-      entries: readings.slice(1).map((item) => ({
-        id: `${result.familyKey}-${item.title}`,
-        title: item.title,
-        author: item.author,
-        note: item.note,
-      })),
-      links: [
-        {
-          href: "/references",
-          label: "Browse references",
-          text: "Use the wider bibliography when you want more than the result-page shelf.",
-        },
-        {
-          href: "/method",
-          label: "Read methods",
-          text: "See the model limits, terminology choices, and why the labels stay interpretive.",
-        },
-      ],
-    },
-    {
-      key: "challenge-your-view",
-      heading: "Challenge your view",
-      subheading:
-        `Read the nearest runner-up and test the profile in harder issue settings rather than treating the top label as closed.`,
-      entries: neighborReadings.slice(0, 2).map((item) => ({
-        id: `${neighborKey}-${item.title}`,
-        title: item.title,
-        author: item.author,
-        note: item.note,
-      })),
-      links: [
-        {
-          href: `/explore/${familySlug(neighborKey)}`,
-          label: `Read ${neighborLabel}`,
-          text: "Read the closest alternative tradition and compare its issue logic directly.",
-        },
-        {
-          href: `/modules?foundation=${encodeURIComponent(payload)}`,
-          label: "Add a focus-area record",
-          text: "Read Security or Technology on its own domain scale beside this Foundation.",
-        },
-      ],
-    },
-  ]
 
   return (
     <div className="wide-container">
-      <article className="result-article">
-        <FoundationProfileSync
-          snapshot={{
-            payload,
-            resultPath: `/results/${payload}`,
-            familyKey: result.familyKey,
-            familyLabel: result.familyLabel,
-            runnerUpKey: neighborKey,
-            runnerUpLabel: result.runnerUpLabel,
-            summary,
-            dimensionScores,
-            strategyModifier: result.strategyModifier,
-            normativeModifier: result.normativeModifier,
-            keyDrivers: keyDrivers.map((driver) => ({
-              type: driver.type,
-              label: driver.label,
-              description: driver.description,
-            })),
-            strongLenses: strongLenses.map((lens) => ({
-              label: lens.label,
-              description: lens.description,
-            })),
-          }}
-        />
+      <FoundationProfileSync
+        snapshot={{
+          payload,
+          resultPath: `/results/${payload}`,
+          familyKey: result.familyKey,
+          familyLabel: result.familyLabel,
+          runnerUpKey: result.runnerUpKey,
+          runnerUpLabel: result.runnerUpLabel,
+          summary: narrative.summary,
+          dimensionScores,
+          strategyModifier: result.strategyModifier,
+          normativeModifier: result.normativeModifier,
+          keyDrivers: keyDrivers.map((driver) => ({
+            type: driver.type,
+            label: driver.label,
+            description: driver.description,
+          })),
+          strongLenses: strongLenses.map((lens) => ({
+            label: lens.label,
+            description: lens.description,
+          })),
+        }}
+      />
 
-        <header
-          className="result-section foundation-result-lede"
-          aria-labelledby="foundation-result-heading"
-        >
-          <div className="foundation-result-lede__copy stack-lg">
-            <div className="stack-sm">
-              <p className="eyebrow">
-                {resultTier === "core" ? "Provisional Foundation result" : "Foundation result"}
-              </p>
-              {"archetypes" in archetype && primaryArchetypeComponent ? (
-                <FoundationMark
-                  code={archetype.code}
-                  primaryCode={primaryArchetypeComponent.code}
-                  presentation="hero"
-                  className="foundation-result-mark"
-                />
-              ) : "archetypes" in archetype ? null : (
-                <FoundationMark
-                  code={archetype.code}
-                  presentation="hero"
-                  className="foundation-result-mark"
-                />
-              )}
-              <h1 id="foundation-result-heading" className="result-hero-title">
-                {archetype.name}
-              </h1>
-              <p
-                className="foundation-result-code"
-                aria-label={archetypeCodeSpeech}
-              >
-                {archetypeCode}
-              </p>
-              <p className="foundation-result-code-key">
-                {explainArchetypeReadingCode(archetype.code, normativeSuffix)}
-              </p>
-              <p className="foundation-result-tradition">
-                Closest modeled tradition: {traditionNounLabel(result.familyKey)}
-              </p>
-              <p className="result-lead">{archetype.gloss}</p>
-              {archetype.analogue && analogueHref ? (
-                <p className="foundation-result-analogue">
-                  Historical analogue:{" "}
-                  <Link href={analogueHref}>
-                    {archetype.analogue.label} · {archetype.analogue.year}
-                  </Link>
-                </p>
-              ) : null}
-            </div>
-
-            <div className="foundation-result-bands stack-sm">
-              <h2 className="foundation-result-subhead">Strongest three dimensions</h2>
-              {topDimensions.map(([dimension, score]) => (
-                <div key={dimension} className="foundation-result-band">
-                  <ScaleBar
-                    label={dimensionLabels[dimension]}
-                    value={score}
-                    valueLabel={formatDimensionScore(score)}
-                    lowLabel={DIMENSION_POLES[dimension].low}
-                    highLabel={DIMENSION_POLES[dimension].high}
-                    tone="baseline"
-                  />
-                </div>
-              ))}
-            </div>
-
-            <p className="foundation-result-change">{whatWouldChangeThis}</p>
-
-            <div className="foundation-result-action print-hidden">
-              <Link href={nextAction.href} className="cta-primary">
-                {nextAction.label}
-              </Link>
-              <p>{nextAction.reason}</p>
-            </div>
-          </div>
-
-          <div className="foundation-result-lede__map">
-            <DimensionFieldMap
+      <FoundationResultStory
+        payload={payload}
+        resultTier={resultTier}
+        questionSet={resolved.questionSet}
+        legacy={!currentPayload}
+        lowDifferentiation={lowDifferentiation}
+        primaryFamily={result.familyKey}
+        primaryLabel={primaryLabel}
+        runnerUpFamily={result.runnerUpKey}
+        runnerUpLabel={runnerUpLabel}
+        archetype={archetype}
+        archetypeCode={archetypeCode}
+        archetypeCodeSpeech={archetypeCodeSpeech}
+        archetypeCodeKey={explainArchetypeReadingCode(archetype.code, normativeSuffix)}
+        comparisonRows={comparisonRows}
+        contributionRows={contribution?.rows ?? []}
+        payoff={payoff}
+        pressureCase={pressureCase ? {
+          title: pressureCase.title,
+          theme: pressureCase.theme,
+          question: payoff.caseTest.question,
+          reason: payoff.caseTest.reason,
+          href: pressureCaseHref,
+        } : null}
+        nextAction={nextAction}
+        utility={
+          <>
+            <p>
+              <Link href="/feedback">Report a factual problem</Link>
+            </p>
+            <ResearchStatusNotice instrumentLabel="Foundation" />
+            <ShareActions
+              payload={payload}
+              familyLabel={primaryLabel}
+              strategyModifier={result.strategyModifier}
+              normativeModifier={result.normativeModifier}
+              displayLabel={archetypeShareLabel}
+            />
+            <HistoryCompare
+              familyKey={result.familyKey}
+              neighborKey={result.runnerUpKey}
+              strategyModifier={result.strategyModifier}
+              normativeModifier={result.normativeModifier}
               dimensionScores={dimensionScores}
-              lowDifferentiation={lowDifferentiation}
+              provenance={{
+                locale: resolved.provenance.completionLocale,
+                localeCopyVersion: resolved.provenance.localeCopyVersion,
+              }}
             />
-            <PlacementFirmnessBar
-              nearestFitGap={nearestFitGap}
-              state={foundationNarrative.state}
-              runnerUpLabel={neighborLabel}
-              lowDifferentiationThreshold={lowDifferentiationThreshold}
-              sharplyDifferentiatedThreshold={sharplyDifferentiatedThreshold}
-            />
-            <PostureStrip
-              result={result}
-              lowDifferentiationThreshold={lowDifferentiationThreshold}
-            />
-          </div>
-        </header>
-
-        <section className="result-section result-appendix-section stack-lg">
-          <p className="foundation-result-methods-line muted">
-            Scores are positions within this model, and the family name is a nearby label for the pattern.{" "}
-            <Link href="/method">How this is built, and where it stops →</Link>
-          </p>
-
-          <details className="profile-details">
-            <summary>Full analysis</summary>
-            <div className="stack-lg result-details-body">
-              {resultTier === "core" ? (
-                <section className="stack-md" aria-labelledby="foundation-extension-heading">
-                  <h2 id="foundation-extension-heading">
-                    {familiesStayClose
-                      ? `Test the boundary between ${familyLabel} and ${neighborLabel}`
-                      : "Add the extended set"}
-                  </h2>
-                  <p className="muted result-note">
-                    This reading comes from the 14-item core set. The extended set holds the
-                    remaining items.
-                  </p>
-                  <div className="row gap-sm wrap print-hidden">
-                    {familiesStayClose ? (
-                      <Link href={targetedExtensionHref} className="cta-secondary">
-                        Answer 5 targeted items
-                      </Link>
-                    ) : null}
-                    <Link href={fullExtensionHref} className="cta-secondary">
-                      Take the full extended set
-                    </Link>
-                  </div>
-                </section>
-              ) : null}
-
-              <section className="stack-lg" aria-labelledby="foundation-payoff-heading">
-                <h2 id="foundation-payoff-heading">How your logic hangs together</h2>
-                <div className="foundation-result-reading-grid">
-                  <article className="foundation-result-reading stack-xs">
-                    <p className="foundation-result-reading__label">Starts with</p>
-                    <h3>Your first question</h3>
-                    <p>{foundationPayoff.corePattern.noticeFirst}</p>
-                  </article>
-                  <article className="foundation-result-reading stack-xs">
-                    <p className="foundation-result-reading__label">Leaves open</p>
-                    <h3>{foundationPayoff.mainTension.title}</h3>
-                    <p>{foundationPayoff.mainTension.body}</p>
-                  </article>
-                  <article className="foundation-result-reading stack-xs">
-                    <p className="foundation-result-reading__label">Nearest challenge</p>
-                    <h3>Why {neighborLabel} remains nearby</h3>
-                    <p>{foundationPayoff.mainTension.rivalArgument}</p>
-                  </article>
-                </div>
-              </section>
-
-              <section className="stack-md" aria-labelledby="foundation-modifiers-heading">
-                <h2 id="foundation-modifiers-heading">What the modifiers mean</h2>
-                <dl className="modifier-glosses">
-                  <div className="modifier-gloss">
-                    <dt>{result.strategyModifier}</dt>
-                    <dd>{strategyModifierGloss(result.strategyModifier)}</dd>
-                  </div>
-                  <div className="modifier-gloss">
-                    <dt>{result.normativeModifier}</dt>
-                    <dd>{normativeModifierGloss(result.normativeModifier)}</dd>
-                  </div>
-                </dl>
-              </section>
-
-              {pressureCase ? (
-                <section className="stack-md" aria-labelledby="foundation-case-heading">
-                  <h2 id="foundation-case-heading">Put the profile against a real case</h2>
-                  <div className="foundation-case-test">
-                    <div className="foundation-case-test__identity stack-xs">
-                      <p>Reviewed historical case</p>
-                      <h3>{pressureCase.title}</h3>
-                      <span>{pressureCase.theme}</span>
-                    </div>
-                    <div className="foundation-case-test__question stack-sm">
-                      <p>{foundationPayoff.caseTest.question}</p>
-                      <p className="muted">{foundationPayoff.caseTest.reason}</p>
-                      {pressureCaseHref ? (
-                        <Link href={pressureCaseHref} className="result-strong">
-                          Read the case, sources, and rival interpretation →
-                        </Link>
-                      ) : null}
-                    </div>
-                  </div>
-                </section>
-              ) : null}
-
-              <section className="stack-md" aria-labelledby="foundation-domain-heading">
-                <h2 id="foundation-domain-heading">How to apply this Foundation by issue</h2>
-                <div className="foundation-domain-grid">
-                  <article className="foundation-domain-note stack-xs">
-                    <h3>Security</h3>
-                    <p>
-                      {foundationPayoff.liveDebates.find(
-                        (debate) => debate.title === "Great-power rivalry",
-                      )?.text}
-                    </p>
-                  </article>
-                  <article className="foundation-domain-note stack-xs">
-                    <h3>Technology</h3>
-                    <p>
-                      {foundationPayoff.liveDebates.find(
-                        (debate) => debate.title === "Technology competition",
-                      )?.text}
-                    </p>
-                  </article>
-                  <article className="foundation-domain-note stack-xs">
-                    <h3>{issueAreaTilts[0]?.issue ?? "What may change the reading"}</h3>
-                    {issueAreaTilts[0] ? (
-                      <>
-                        <p className="foundation-domain-note__tilt">{issueAreaTilts[0].tilt}</p>
-                        <p>{issueAreaTilts[0].note}</p>
-                      </>
-                    ) : (
-                      <p>{foundationPayoff.corePattern.underweight}</p>
-                    )}
-                  </article>
-                </div>
-              </section>
-
-              <section className="stack-md" aria-labelledby="foundation-signals-heading">
-                <h2 id="foundation-signals-heading">What is doing the work</h2>
-                <PushChart
-                  rows={getDimensionPush(dimensionScores).map((row) => ({
-                    key: row.dimension,
-                    label: dimensionLabels[row.dimension],
-                    deviation: row.deviation,
-                    score: row.score,
-                    pole: row.pole,
-                  }))}
-                  lowCaption="Toward the low pole"
-                  centreCaption="Midpoint of the 1–7 scale"
-                  highCaption="Toward the high pole"
-                />
-                <p className="muted result-note">
-                  Each bar shows the raw 1–7 position for one dimension, with 4 as the
-                      midpoint. Bar length does not show standing among other people or prove how
-                      much that dimension caused the family result.
-                </p>
-                <ul className="foundation-signal-legend">
-                  {keyDrivers.map((driver) => (
-                    <li key={driver.dimension} className="foundation-signal-legend__row">
-                      <p>
-                        <strong>{driver.label}.</strong> {driver.description}
-                      </p>
-                      <DimensionScoreValue score={dimensionScores[driver.dimension]} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
-
-              <section className="stack-md" aria-labelledby="foundation-alt-heading">
-                <h2 id="foundation-alt-heading">Nearest alternative: {neighborLabel}</h2>
-                <NearestAlternative
-                  primaryLabel={familyLabel}
-                  runnerUpLabel={neighborLabel}
-                  rows={comparisonDimensions.map((row) => ({
-                    key: row.dim,
-                    label: row.label,
-                    userScore: row.userScore,
-                    primaryExpected: row.primaryExpected,
-                    runnerUpExpected: row.runnerUpExpected,
-                  }))}
-                />
-                {runnerUpSeparation ? (
-                  <p className="muted result-note">{runnerUpSeparation}</p>
-                ) : null}
-              </section>
-
-              <section className="stack-md" aria-labelledby="foundation-dimensions-heading">
-                <h2 id="foundation-dimensions-heading">Dimension profile</h2>
-                <div>
-                  {PAYLOAD_DIMENSION_ORDER.map((dim) => (
-                    <div key={dim} className="dim-row">
-                      <ScaleBar
-                        label={dimensionLabels[dim]}
-                        value={dimensionScores[dim]}
-                        valueLabel={formatDimensionScore(dimensionScores[dim])}
-                        lowLabel={DIMENSION_POLES[dim].low}
-                        highLabel={DIMENSION_POLES[dim].high}
-                        tone="baseline"
-                      />
-                      <p className="muted result-note-xs">
-                        {dimensionOneLiners[dim](dimensionScores[dim])}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <div className="result-prose stack-md">
-                <p>{explanation}</p>
-                {neighborText ? <p className="muted">{neighborText}</p> : null}
-                <p className="muted">{mixedNote}</p>
-                <ul className="content-list">
-                  {whyThisResult.map((bullet, index) => <li key={index}>{bullet}</li>)}
-                </ul>
-                {flipAnalysis ? <p className="muted">{flipAnalysis}</p> : null}
-              </div>
-
-              <section className="stack-md" aria-labelledby="foundation-questions-heading">
-                <h2 id="foundation-questions-heading">Questions that could change this reading</h2>
-                <ol className="pressure-list result-prose">
-                  {pressureQuestions.map((question, index) => (
-                    <li key={index} className="pressure-q"><p>{question}</p></li>
-                  ))}
-                </ol>
-              </section>
-
-              <section className="stack-md" aria-labelledby="foundation-coverage-heading">
-                <h2 id="foundation-coverage-heading">Closest fit among four scored families</h2>
-                <p className="muted result-note">
-                  Feminist, postcolonial or decolonial, green, and English School approaches are
-                  under-modeled here. The inventory may place those instincts near one of its four
-                  scored families without naming them directly.
-                </p>
-                <p>
-                  <Link href="/method" className="result-strong">
-                    Read methods and coverage limits →
-                  </Link>
-                </p>
-              </section>
-
-              <ReadingPathSection
-                title="Read the result from another angle"
-                paths={readingPaths}
+            <div className="row gap-sm wrap print-hidden">
+              <ResultCardHeroShare
+                shareUrl={`/results/${payload}`}
+                title={`IR Worldview: ${archetype.name}`}
+                text={`My IR worldview result: ${archetypeShareLabel}`}
               />
-
-              <div className="stack-md">
-                <p>
-                  <Link href="/feedback">
-                    Report a factual problem →
-                  </Link>
-                </p>
-                <ResearchStatusNotice instrumentLabel="Foundation" />
-                <ShareActions
-                  payload={payload}
-                  familyLabel={familyLabel}
-                  strategyModifier={result.strategyModifier}
-                  normativeModifier={result.normativeModifier}
-                  displayLabel={archetypeShareLabel}
-                />
-                <HistoryCompare
-                  familyKey={result.familyKey}
-                  neighborKey={neighborKey}
-                  strategyModifier={result.strategyModifier}
-                  normativeModifier={result.normativeModifier}
-                  dimensionScores={dimensionScores}
-                  provenance={{
-                    locale: resolved.provenance.completionLocale,
-                    localeCopyVersion: resolved.provenance.localeCopyVersion,
-                  }}
-                />
-              </div>
             </div>
-          </details>
-
-          <div className="row gap-sm wrap print-hidden">
-            <Link href="/perspectives" className="cta-secondary">Advise from another vantage point</Link>
-            <Link href="/profile" className="cta-secondary">View Profile</Link>
-            <ResultCardHeroShare
-              shareUrl={`/results/${payload}`}
-              title={`IR Worldview: ${archetype.name}`}
-              text={`My IR worldview result: ${archetypeShareLabel}`}
-            />
-          </div>
-        </section>
-      </article>
+          </>
+        }
+      />
     </div>
   )
-}
-
-function DimensionScoreValue({ score }: { score: number }) {
-  return (
-    <span className="foundation-signal-row__score">
-      <strong>{score.toFixed(2)}</strong>
-    </span>
-  )
-}
-
-// The scorer cannot reach the ends of the response scale, so no score is
-// printed with a nominal-scale denominator.
-function formatDimensionScore(score: number) {
-  return score.toFixed(2)
-}
-
-function getFallbackMixedNote(
-  state: "lowDifferentiation" | "stableModeration" | "sharplyDifferentiated",
-  closestTraditionsNote: string,
-) {
-  if (state === "lowDifferentiation") {
-    return closestTraditionsNote
-  }
-
-  if (state === "sharplyDifferentiated") {
-    return "Cross-dimension consistency makes this baseline comparatively clear. The main test now is whether it still holds under issue-specific pressure."
-  }
-
-  return "A nearby runner-up remains relevant in harder cases even though the baseline is clear. That overlap is part of the result."
 }
 
 function withFoundationPayload(href: string, payload: string) {
   if (!href.startsWith("/modules/")) return href
 
   return `${href}?foundation=${encodeURIComponent(payload)}`
-}
-
-function getTopDimensionScores(dimensionScores: Record<DimensionKey, number>) {
-  return (Object.entries(dimensionScores) as [DimensionKey, number][])
-    .sort(([, a], [, b]) => Math.abs(b - 4) - Math.abs(a - 4))
-    .slice(0, 3)
 }

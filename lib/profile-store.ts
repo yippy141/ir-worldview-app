@@ -83,6 +83,8 @@ export type FoundationLegacyEnglishCopy = {
 export type FoundationSnapshot = {
   timestamp: number
   mode?: QuizMode
+  /** Opaque local-only binding. It is never included in a share payload. */
+  localEvidenceId?: string
   payload: string
   instrumentStructuralVersion: number
   scoringVersion: number
@@ -651,6 +653,10 @@ function normalizeFoundationSnapshot(
   return {
     timestamp: candidate.timestamp,
     ...(candidate.mode ? { mode: candidate.mode } : {}),
+    ...(typeof candidate.localEvidenceId === "string" &&
+    candidate.localEvidenceId.length > 0
+      ? { localEvidenceId: candidate.localEvidenceId }
+      : {}),
     payload: candidate.payload,
     instrumentStructuralVersion:
       isNonNegativeVersion(candidate.instrumentStructuralVersion)
@@ -828,6 +834,9 @@ function persistFoundationSnapshot(snapshot: FoundationSnapshot) {
   return {
     timestamp: snapshot.timestamp,
     ...(snapshot.mode ? { mode: snapshot.mode } : {}),
+    ...(snapshot.localEvidenceId
+      ? { localEvidenceId: snapshot.localEvidenceId }
+      : {}),
     payload: snapshot.payload,
     instrumentStructuralVersion: snapshot.instrumentStructuralVersion,
     scoringVersion: snapshot.scoringVersion,
