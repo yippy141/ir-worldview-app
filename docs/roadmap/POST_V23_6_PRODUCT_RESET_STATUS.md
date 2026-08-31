@@ -95,12 +95,38 @@ release boundaries. It is no longer the executable sequence for new work.
 
 ## 6. Current product concerns supplied by the owner
 
-- The old execution roadmap is paused ahead of a product re-foundation.
-- The open questions are the product's name, its public information
-  architecture, and its first-use experience.
+The old execution roadmap is paused ahead of a product re-foundation. The
+concerns below are separated into the one decision to take now and the concerns
+recorded for later sequencing.
 
-No further product concern is recorded here. Do not infer additional owner
-concerns from code, prior roadmaps, or archived reviews.
+### A. The single immediate product-re-foundation decision
+
+1. **Product name.**
+2. **Public information architecture.**
+3. **First-use experience.**
+
+### B. Active concerns recorded for later sequencing
+
+These do not authorize implementation yet.
+
+- World Stage currently behaves like a redundant second homepage rather than a
+  clearly purposeful map or case surface.
+- Futures is substantive editorial work but is too difficult to discover.
+- The Foundation result and Profile remain over-explained, visually repetitive,
+  and insufficiently authored.
+- AI Governance has not received equivalent construct, scoring, naming, result,
+  and content scrutiny.
+- U.S.-specific external-validation items remain inside the ordinary extended
+  Foundation journey.
+- Typography and page grammar remain inconsistent across older and newer
+  surfaces.
+- Production deployment, Neon configuration, aggregate collection, analytics,
+  and raw research-intake status need an operational verification after the
+  product architecture is settled.
+
+These concerns are recorded so they are not lost. They are not implementation
+authorization. The immediate decision remains the product name, public
+information architecture, and first-use experience.
 
 ## 7. Frozen assets worth preserving
 
