@@ -1,8 +1,11 @@
 # V23.6 Baseline and Owner Decisions
 
 Status: binding release record
-Release: V23.6 Production Conversion candidate
-Last repository checkpoint: 2026-08-30
+Release: V23.6 Production Conversion, merged into `main`
+Last repository checkpoint: 2026-08-31
+
+The V23.5-to-V26 execution sequence is paused pending a product-re-foundation
+decision. Read `docs/roadmap/POST_V23_6_PRODUCT_RESET_STATUS.md` first.
 
 ## Purpose
 
@@ -26,20 +29,20 @@ If two authorities conflict outside the narrow override granted to `DESIGN.md`, 
 
 | Fact | Verified value |
 | --- | --- |
-| Current `main` SHA | `68806043ea83fad425f0db8f3507704a4aad3f7d` |
-| Commit subject | `Merge pull request #47 from yippy141/v23-6-evidence-baseline` |
-| Merge parent 1 | `e1728b30478cb666cb26082a1cf07f0da8290462` |
-| Merge parent 2 | `f9e1eab1186f7747215c0ab8ac0e4fffd883f88a` |
-| Current `main` tree | `682e0257e713a3d1e65c0241e1ec8ccb8013855f` |
-| `origin/main` at verification | `68806043ea83fad425f0db8f3507704a4aad3f7d` |
-| Commits ahead of the accepted V23.4 SHA | 58 |
+| Current `main` SHA | `6ae4ddbfb9dc6bd40b617f05cd03efa6a51ef80c` |
+| Commit subject | `Merge pull request #48 from yippy141/v23-6-production-conversion` |
+| Merge parent 1 | `68806043ea83fad425f0db8f3507704a4aad3f7d` |
+| Merge parent 2 | `f873a0a46e3f44dfff94b0071cffe4bb9ce6c0bc` |
+| Current `main` tree | `3ce17323b17886af682276dcba02db47bdc7ac02` |
+| `origin/main` at verification | `6ae4ddbfb9dc6bd40b617f05cd03efa6a51ef80c` |
+| Commits ahead of the accepted V23.4 SHA | 63 |
 | Last accepted release lineage | V23.4 |
 | Accepted code SHA | `a80fe4d02d818ae546672d15f64aa596a25b1ceb` |
 | Accepted commit subject | `Merge pull request #36 from yippy141/v23-4-domain-authoring-contract` |
 | Accepted tree | `cd8f330bca536710a577092fbe91a2a591a45660` |
 | Evidence baseline | PR #47, `v23-6-evidence-baseline`, merged into `main` |
-| Production candidate | `v23-6-production-conversion`, based directly on the verified `main` SHA |
-| Separate study | PR #46, `v23-6-visual-authorship-study`, not contained by the verified base; study ref `e2a74c25c029bd5eda6d027d3679705586e54dd2` |
+| Production conversion | PR #48, `v23-6-production-conversion`, **merged** into `main` 2026-08-30T16:36:13Z as `6ae4ddb` |
+| Separate study | PR #46, `v23-6-visual-authorship-study`, **closed without merging**; study ref `e2a74c25c029bd5eda6d027d3679705586e54dd2` |
 
 PR #45 merged `integration/v23-5-1` into `main` on 2026-08-29. That branch
 carried the seven partitioned V23.5 commits together with the reconciled
@@ -56,6 +59,13 @@ diagnostic and accepted evidence only. It changes no public runtime behavior
 and does not accept or deploy V23.6. PR #46 remains a separate non-shipping
 visual-authorship study and is evidence rather than production code.
 
+PR #48 merged `v23-6-production-conversion` into `main` on 2026-08-30. V23.6 is
+on `main`. Merged, deployed, owner-accepted, and validated are four separate
+states and must not be collapsed. V23.6 is merged; deployment is unverified; the
+owner has not accepted it as a release; no human evidence has validated it. The
+PR body records head `142c371`, but the actual merged second parent is
+`f873a0a`, one later commit.
+
 The V23.4 merge commit contains both the previous `main` lineage and the V23.4
 branch. Its tree is byte-identical to the V23.4 branch tree. The earlier report
 that V23.4 was unmerged resulted from a stale local clone.
@@ -69,16 +79,16 @@ that V23.4 was unmerged resulted from a stale local clone.
 | Current production SHA | **not verified** |
 | Last recorded deployment | `dpl_GQDHf5DJKEgcXWwfHsyovHnZKvBa` at commit `a80fe4d`, recorded 2026-08-24 |
 
-The current production SHA could not be verified at this checkpoint. The
-working environment used for the 2026-08-30 verification has no Vercel CLI, no
-Vercel API credential, and no build log for the live deployment. The production
-alias answers 200 and exposes no commit identifier in its response headers or
-markup.
+The current production SHA could not be verified at this checkpoint. The working
+environment used for the 2026-08-31 verification has no Vercel CLI installed, no
+`.vercel` project metadata or `vercel.json` in the repository, and no Vercel API
+credential or build log. No checked-in release artifact binds a current
+production deployment ID to a commit.
 
-The last recorded deployment predates PR #45. Do not treat it as the current
-production deployment, and do not infer production from `main` or from visible
-copy. Retrieve the SHA from the Vercel deployment record or build log before any
-release claim.
+The last recorded deployment predates PR #45, PR #47, and PR #48. Do not treat
+it as the current production deployment, and do not infer production from
+`main`, from visible copy, or from the site resembling PR #48. Retrieve the SHA
+from the Vercel deployment record or build log before any release claim.
 
 ## Baseline gate evidence
 
@@ -112,7 +122,10 @@ Deployment environment values were not inferred from source code. Each deploymen
 
 ## Locked owner decisions
 
-- The release candidate under review is **V23.6 Production Conversion**.
+- **V23.6 Production Conversion** is merged into `main`. Owner acceptance and
+  deployment verification remain open.
+- No new product implementation is authorized until a product-re-foundation
+  decision is approved. See `docs/roadmap/POST_V23_6_PRODUCT_RESET_STATUS.md`.
 - Keep the current Astrolabe navy and brass identity.
 - Preserve cohort infrastructure, tests, exact tuple matching, and minimum sample rules. Keep all cohort comparisons hidden.
 - When no reviewed Current Case is live, promote Foundation and relabel the case destination as **Recent Cases**.
@@ -137,10 +150,9 @@ Deployment environment values were not inferred from source code. Each deploymen
 
 ### Facts
 
-- Local `main` and `origin/main` matched at `6880604` when the V23.6 candidate
-  branch was created on 2026-08-30. Recheck the remote before opening the pull
-  request; the production SHA was not verified, so the three are not known to
-  be reconciled.
+- `origin/main` is `6ae4ddb` as of the 2026-08-31 verification. The production
+  SHA was not verified, so repository and production are not known to be
+  reconciled. Recheck the remote before every dispatch.
 - AI Governance bank v3 already exists.
 - Result payloads and ProfileStore snapshots do not provide a contract for retrieving exact completed item answers.
 - Runtime-composed paragraphs exist and must be reviewed as rendered wholes.
