@@ -1,0 +1,649 @@
+/* Development-only prototype. Scoped tokens mirror the Astrolabe root values
+   so the composition can be judged in the product's own palette without
+   coupling this file to the production root module. */
+.page {
+  --p-bg: #07111f;
+  --p-panel: #0d1a2d;
+  --p-line: #2b3f59;
+  --p-text: #f0f3f7;
+  --p-soft: #c6d0dc;
+  --p-muted: #93a4b7;
+  --p-brass: #d7b465;
+  --p-serif: var(--font-serif), Georgia, serif;
+  --p-sans: var(--font-sans), system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding:
+    max(22px, env(safe-area-inset-top))
+    max(26px, calc(env(safe-area-inset-right) + 20px))
+    max(20px, env(safe-area-inset-bottom))
+    max(26px, calc(env(safe-area-inset-left) + 20px));
+  overflow: clip;
+  color: var(--p-text);
+  font-family: var(--p-sans);
+  background: var(--p-bg);
+}
+
+/* ── Masthead ─────────────────────────────────────────────────────────────── */
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: clamp(10px, 1.3vh, 14px);
+  border-bottom: 1px solid color-mix(in srgb, var(--p-line) 74%, transparent);
+}
+
+.brandBlock {
+  display: grid;
+  gap: 3px;
+}
+
+.brand {
+  margin: 0;
+  color: var(--p-text);
+  font-family: var(--p-serif);
+  font-size: clamp(1.02rem, 1.2vw, 1.18rem);
+  font-weight: 500;
+  letter-spacing: -0.018em;
+}
+
+.descriptor {
+  margin: 0;
+  color: var(--p-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.mastheadNav {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 1.9vw, 28px);
+}
+
+.mastheadNav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--p-muted);
+  font-size: 0.83rem;
+  text-decoration: none;
+}
+
+.mastheadNav a:hover {
+  color: var(--p-text);
+  text-decoration: underline;
+  text-underline-offset: 0.34em;
+}
+
+/* ── Stage: headline, actions, globe ──────────────────────────────────────── */
+
+.stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(300px, 0.98fr);
+  gap: clamp(28px, 3.4vw, 64px);
+  align-items: center;
+  padding-top: clamp(18px, 2.4vh, 28px);
+}
+
+.hero {
+  min-width: 0;
+  max-width: 36rem;
+}
+
+.headline {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--p-text);
+  font-family: var(--p-serif);
+  font-size: clamp(2.25rem, 3.4vw, 3.4rem);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  text-wrap: balance;
+}
+
+.intro {
+  max-width: 57ch;
+  margin: clamp(16px, 2.1vh, 23px) 0 0;
+  color: var(--p-soft);
+  font-size: clamp(0.93rem, 1.02vw, 1rem);
+  line-height: 1.62;
+  text-wrap: pretty;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 20px;
+  margin-top: clamp(18px, 2.4vh, 26px);
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid var(--p-brass);
+  border-radius: 3px;
+  color: #16110a;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  background: var(--p-brass);
+  transition: background-color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.primaryAction:hover {
+  background: #e3c47c;
+}
+
+.support {
+  flex-basis: 100%;
+  order: 3;
+  margin: 0;
+  color: var(--p-muted);
+  font-size: 0.78rem;
+}
+
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  color: var(--p-text);
+  font-size: 0.92rem;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--p-brass) 62%, transparent);
+  text-underline-offset: 0.34em;
+}
+
+.secondaryAction:hover {
+  text-decoration-color: var(--p-brass);
+}
+
+/* One reserved line. Returning state fills it without moving the index. */
+.continuation {
+  display: flex;
+  align-items: center;
+  min-height: 1.5rem;
+  margin: clamp(8px, 1.1vh, 12px) 0 0;
+  color: var(--p-soft);
+  font-size: 0.83rem;
+}
+
+.continuation a {
+  color: var(--p-soft);
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.continuation a:hover {
+  color: var(--p-text);
+}
+
+.separator {
+  padding: 0 0.5em;
+  color: var(--p-muted);
+  text-decoration: none;
+}
+
+.tertiaryAction {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  color: var(--p-muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+  background: none;
+  cursor: pointer;
+}
+
+.tertiaryAction:hover {
+  color: var(--p-text);
+}
+
+/* ── Globe ────────────────────────────────────────────────────────────────── */
+
+.globeFigure {
+  position: relative;
+  z-index: 1;
+  width: min(122%, 588px);
+  margin: 0 clamp(-74px, -3.8vw, -12px) clamp(-92px, -8vh, -40px) auto;
+  pointer-events: none;
+}
+
+.globe {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ocean {
+  fill: var(--p-panel);
+}
+
+.graticule {
+  fill: none;
+  stroke: #263c56;
+  stroke-width: 1.1;
+  vector-effect: non-scaling-stroke;
+}
+
+.land {
+  fill: #253d55;
+  stroke: #49627b;
+  stroke-width: 0.72;
+  vector-effect: non-scaling-stroke;
+}
+
+.limb {
+  fill: none;
+  stroke: #597088;
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.ringBack,
+.ringFront {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.ringBack {
+  stroke: #705f3f;
+  stroke-width: 0.9;
+  stroke-dasharray: 3 5;
+  opacity: 0.5;
+}
+
+.ringFront {
+  stroke: var(--p-brass);
+  stroke-width: 1.6;
+  opacity: 0.92;
+}
+
+/* ── Band: four-area index and the one stable detail region ───────────────── */
+
+.band {
+  display: grid;
+  grid-template-columns: minmax(190px, 0.42fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 72px);
+  align-items: start;
+  padding-top: clamp(18px, 2.2vh, 24px);
+  margin-top: auto;
+  border-top: 1px solid color-mix(in srgb, var(--p-line) 74%, transparent);
+}
+
+.index {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.indexItem {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 0;
+  border: 0;
+  color: var(--p-muted);
+  font-family: var(--p-serif);
+  font-size: clamp(1.24rem, 1.5vw, 1.52rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.024em;
+  text-align: left;
+  background: none;
+  cursor: pointer;
+  transition: color 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.indexRule {
+  width: 100%;
+  height: 1px;
+  background: transparent;
+}
+
+.indexItem[data-selected="true"] {
+  color: var(--p-text);
+}
+
+.indexItem[data-selected="true"] .indexRule {
+  background: var(--p-brass);
+}
+
+.indexItem:hover {
+  color: var(--p-text);
+}
+
+.panel {
+  min-width: 0;
+  max-width: 48rem;
+  min-height: 21.3rem;
+}
+
+.panelHeading {
+  margin: 0;
+  color: var(--p-text);
+  font-family: var(--p-serif);
+  font-size: clamp(1.3rem, 1.6vw, 1.6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.026em;
+}
+
+.panelLead {
+  max-width: 56ch;
+  margin: 8px 0 0;
+  color: var(--p-soft);
+  font-size: 0.87rem;
+  line-height: 1.6;
+}
+
+.panelItems {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 36px;
+  padding: 0;
+  margin: clamp(14px, 1.8vh, 19px) 0 0;
+  list-style: none;
+}
+
+.panelItems li {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.panelItems a {
+  justify-self: start;
+  color: var(--p-text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.panelItems a:hover {
+  color: var(--p-brass);
+}
+
+.panelItems span {
+  max-width: 42ch;
+  color: var(--p-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.panelEntry {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: clamp(8px, 1.2vh, 13px);
+  color: var(--p-brass);
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 0.32em;
+}
+
+.panelEntry:hover {
+  color: #e3c47c;
+}
+
+/* ── My Record ────────────────────────────────────────────────────────────── */
+
+.recordEmpty {
+  margin-top: 10px;
+}
+
+.recordEmpty p {
+  margin: 0;
+  color: var(--p-soft);
+  font-size: 0.9rem;
+}
+
+.recordList {
+  display: grid;
+  gap: 9px;
+  max-width: 30rem;
+  margin: clamp(16px, 2vh, 22px) 0 0;
+}
+
+.recordRow {
+  display: grid;
+  grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+  gap: 16px;
+  align-items: baseline;
+}
+
+.recordRow dt {
+  color: var(--p-muted);
+  font-size: 0.83rem;
+}
+
+.recordRow dd {
+  margin: 0;
+  color: var(--p-text);
+  font-size: 0.9rem;
+}
+
+/* ── How the project works ────────────────────────────────────────────────── */
+
+.works {
+  padding-top: clamp(30px, 4.5vh, 52px);
+  margin-top: clamp(34px, 5vh, 60px);
+  border-top: 1px solid color-mix(in srgb, var(--p-line) 74%, transparent);
+}
+
+.worksHeading {
+  margin: 0;
+  color: var(--p-text);
+  font-family: var(--p-serif);
+  font-size: clamp(1.3rem, 1.6vw, 1.6rem);
+  font-weight: 500;
+  letter-spacing: -0.026em;
+}
+
+.worksFrame {
+  max-width: 60ch;
+  margin: 8px 0 0;
+  color: var(--p-soft);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.worksList {
+  display: grid;
+  gap: 12px;
+  max-width: 54rem;
+  margin: clamp(18px, 2.4vh, 26px) 0 0;
+}
+
+.worksList > div {
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  gap: 8px 22px;
+  align-items: baseline;
+}
+
+.worksList dt {
+  color: var(--p-text);
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.worksList dd {
+  max-width: 60ch;
+  margin: 0;
+  color: var(--p-soft);
+  font-size: 0.87rem;
+  line-height: 1.55;
+}
+
+.worksRecord {
+  margin: clamp(18px, 2.2vh, 24px) 0 0;
+  color: var(--p-soft);
+  font-size: 0.87rem;
+}
+
+.worksNote {
+  max-width: 62ch;
+  margin: 14px 0 0;
+  color: var(--p-muted);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+/* ── Focus ────────────────────────────────────────────────────────────────── */
+
+.mastheadNav a:focus-visible,
+.primaryAction:focus-visible,
+.secondaryAction:focus-visible,
+.tertiaryAction:focus-visible,
+.continuation a:focus-visible,
+.indexItem:focus-visible,
+.panelItems a:focus-visible,
+.panelEntry:focus-visible,
+.worksHeading:focus-visible {
+  outline: 2px solid var(--p-brass);
+  outline-offset: 4px;
+}
+
+/* ── Tablet ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .stage {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 0.72fr);
+    gap: 28px;
+  }
+
+  .globeFigure {
+    width: min(120%, 380px);
+    margin-bottom: -20px;
+  }
+
+  .band {
+    grid-template-columns: minmax(170px, 0.4fr) minmax(0, 1fr);
+    gap: 32px;
+    margin-top: clamp(26px, 3.4vh, 40px);
+  }
+
+  /* Below the wide breakpoint the panel column is too narrow for two
+     columns, and reserving a fixed height would only add dead space. */
+  .panel {
+    min-height: 0;
+  }
+
+  .panelItems {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .panelItems span {
+    max-width: none;
+  }
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .page {
+    overflow: visible;
+    padding-inline: max(20px, calc(env(safe-area-inset-left) + 16px));
+  }
+
+  .masthead {
+    align-items: flex-start;
+  }
+
+  .mastheadNav {
+    display: none;
+  }
+
+  .stage {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-top: 26px;
+  }
+
+  .hero {
+    max-width: none;
+  }
+
+  .headline {
+    max-width: none;
+    font-size: clamp(1.9rem, 8.6vw, 2.4rem);
+  }
+
+  .actions {
+    gap: 8px 18px;
+  }
+
+  /* A cropped sphere reads better at this width than a shrunken full globe. */
+  .globeFigure {
+    width: auto;
+    height: clamp(206px, 32vh, 272px);
+    margin: 22px calc(-1 * max(20px, calc(env(safe-area-inset-left) + 16px))) 0;
+    overflow: hidden;
+  }
+
+  /* The sphere is drawn larger than the window and pinned to its top edge,
+     so the crop reads as a piece of a globe instead of a shrunken one. */
+  .globe {
+    width: 160%;
+    margin-inline-start: -30%;
+    margin-top: -20.5%;
+  }
+
+  .band {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding-top: 26px;
+    margin-top: 26px;
+  }
+
+  .indexItem {
+    min-height: 48px;
+    font-size: clamp(1.3rem, 7.4vw, 1.6rem);
+  }
+
+  .panel {
+    min-height: 0;
+  }
+
+  .panelItems {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 13px;
+  }
+
+  .panelItems span {
+    max-width: none;
+  }
+
+  .recordRow {
+    grid-template-columns: minmax(0, 9rem) minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .worksList > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indexItem,
+  .primaryAction {
+    transition: none;
+  }
+}

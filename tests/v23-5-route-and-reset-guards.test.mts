@@ -63,7 +63,11 @@ test("World Stage preview state follows stable menu IDs instead of array positio
 })
 
 test("development-only routes fail closed and remain out of search results", () => {
-  for (const route of ["app/learn/page.tsx", "app/world-stage-prototype/page.tsx"]) {
+  for (const route of [
+    "app/learn/page.tsx",
+    "app/world-stage-prototype/page.tsx",
+    "app/dev/product-refoundation/page.tsx",
+  ]) {
     const routeSource = source(route)
     assert.match(routeSource, /process\.env\.NODE_ENV === "production"/)
     assert.match(routeSource, /notFound\(\)/)
