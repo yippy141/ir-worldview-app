@@ -40,10 +40,12 @@ function binding(record: Omit<SyntheticRecord, "binding">): string {
   // Sorted answer entries bind item evidence, including different answers with identical scores.
   return digest({ provenance: record.provenance, answers: Object.entries(record.answers ?? {}).sort(([a], [b]) => a.localeCompare(b)), result: record.result })
 }
-export function makeSyntheticRecord(instrument: "foundation" | "ai-governance"): SyntheticRecord {
+export function makeSyntheticRecord(instrument: "foundation" | "ai-governance", suppliedAnswers?: Answers | AiAnswers): SyntheticRecord {
+  const foundation = { ...(suppliedAnswers ?? foundationAnswers) } as Answers
+  const ai = { ...(suppliedAnswers ?? aiAnswers) } as AiAnswers
   const record = instrument === "foundation"
-    ? { provenance: foundationProvenance, answers: { ...foundationAnswers }, result: generateResult(foundationAnswers, "analyst", calibration) }
-    : { provenance: aiProvenance, answers: { ...aiAnswers }, result: currentAi.scoring.generateAiGovernanceResult(aiAnswers, "standard") }
+    ? { provenance: foundationProvenance, answers: foundation, result: generateResult(foundation, "analyst", calibration) }
+    : { provenance: aiProvenance, answers: ai, result: currentAi.scoring.generateAiGovernanceResult(ai, "standard") }
   return { ...record, binding: binding(record) }
 }
 /** Exact synthetic binding plus complete issued-form validation; never reverse-engineer answers. */
@@ -66,10 +68,21 @@ export function qualifyRecord(record: SyntheticRecord): boolean {
   if (!sequence.every(q => v.schema.getScenarioOptions(q, "standard").some(o => o.id === answers[q.id]))) return false
   return JSON.stringify(v.scoring.generateAiGovernanceResult(answers as AiAnswers, "standard")) === JSON.stringify(record.result)
 }
+/** Applicability is separate from integrity. These predicates license only the named
+ * authored observations below; they do not synthesize a reading for arbitrary results. */
+export const authoredClaimApplies = {
+  foundationPreparation: (a: Answers | AiAnswers) => ["sc2", "in2", "rs2"].every(id => typeof a[id] === "number" && Number(a[id]) >= 6),
+  aiCautionAndScrutiny: (a: Answers | AiAnswers) => Number(a.rh1) >= 6 && a.capabilityThreshold === "A" && a.openWeights === "B",
+  aiRivalryAndCoordination: (a: Answers | AiAnswers) => Number(a.gp1) >= 6 && Number(a.gp2) >= 6,
+}
+export const authoredReadingUnavailable = "These complete answers do not support this authored reading. A valid binding verifies which answers belong to the result; it does not make this example's interpretation applicable. Try the specific follow-up below."
 export function foundationExample(record = makeSyntheticRecord("foundation")) {
   if (!qualifyRecord(record) || record.provenance.instrument !== "foundation") return null
+  if (!authoredClaimApplies.foundationPreparation(record.answers!)) return null
   const result = generateResult(record.answers as Answers, "analyst", calibration)
   const archetype = resolveArchetype(result, getV2ScoringCalibration(calibration).lowDifferentiationThreshold)
+  // The surrounding rival argument is authored for these two nearby families only.
+  if (archetype.code !== "P/R-" || result.familyKey !== "institutionalist" || result.runnerUpKey !== "realist" || result.nearestFitGap > 0.5) return null
   const decomposition = decomposeTopFoundationFamilyDifference(result.dimensionScores, calibration)
   const { tied } = rankExact(result.familyScores)
   const evidence = ["sc2", "in2", "rs2"].map(id => {
@@ -79,7 +92,7 @@ export function foundationExample(record = makeSyntheticRecord("foundation")) {
   const claim: Claim = {
     id: "foundation-cooperation-with-preparation", provenance: record.provenance,
     kind: "editorial interpretation", refs: evidence.map(e => ({ id: e.id, text: `${e.text} Answer: ${e.answer}/7.` })),
-    text: "Cooperation does not require confidence in peaceful intentions.",
+    text: "In these responses, military preparation sits alongside support for agreements that use monitoring when trust is thin. Giving priority to avoiding overextension adds a limit on how far this example would press an advantage. Together, the three answers leave room for both an institutional and a realist reading.",
     supports: "This example accepts military preparation and monitoring-based agreements together, while giving avoiding overextension priority over taking every opening.",
     doesNotSupport: "These answers do not establish which institution the reader would accept, or how they would act in a crisis.",
   }
@@ -91,7 +104,11 @@ export function foundationExample(record = makeSyntheticRecord("foundation")) {
 }
 export function aiExample(record = makeSyntheticRecord("ai-governance")) {
   if (!qualifyRecord(record) || record.provenance.instrument !== "ai-governance") return null
+  if (!authoredClaimApplies.aiCautionAndScrutiny(record.answers!)) return null
   const result = currentAi.scoring.generateAiGovernanceResult(record.answers as AiAnswers, "standard")
+  // Stewardship and the accountability rival are one display hypothesis, not a title mapper.
+  const comparison = compareAi(result.axisScores, Number(record.provenance.bank), Number(record.provenance.scorer))!
+  if (result.archetypeKey !== "precautionarySteward" || comparison.alternative !== currentAi.scoring.archetypeLabels.democraticGuardrailist || comparison.tied.length > 1) return null
   const core = currentAi.schema.getAiCoreQuestions("standard")
   const evidence = ["rh1", "capabilityThreshold", "openWeights"].map(id => {
     const question = core.find(q => q.id === id)
@@ -104,16 +121,18 @@ export function aiExample(record = makeSyntheticRecord("ai-governance")) {
   const claim: Claim = {
     id: "ai-contain-capability-preserve-scrutiny", provenance: record.provenance, kind: "editorial interpretation",
     refs: evidence.map(e => ({ id: e.id, text: `${e.text} Answer: ${e.answer}` })),
-    text: "Delay a dangerous release. Keep outside testing possible.",
+    text: "These responses give severe frontier risks substantial weight. In the cyber-capability scenario, this example pauses broader release while the evidence is tested; in the access scenario, it retains monitored outside evaluation. That combination supports caution about release alongside scrutiny, without establishing that the model is certainly dangerous or that the controls would work.",
     supports: "The example gives severe frontier risks weight, pauses broader release after a cyber threshold, and still chooses monitored access for outside testing.",
     doesNotSupport: "It does not endorse unrestricted weight release or establish that the proposed controls would work.",
   }
-  const pairClaim: Claim = {
+  const pairClaim: Claim | null = authoredClaimApplies.aiRivalryAndCoordination(record.answers!) ? {
     id: "ai-rivalry-and-coordination", provenance: record.provenance, kind: "direct observation",
     refs: pair.map(e => ({ id: e.id, text: `${e.text} Answer: ${e.answer}/7.` })),
     text: "This example expects rivalry and gives coordination priority.",
-    supports: "The two recorded endorsements remain visible separately. Their core geopolitics average is 4 after reverse coding gp2.",
+    supports: "Both recorded responses endorse their respective statements. They remain visible separately; neither substitutes for the other.",
     doesNotSupport: "The average is not evidence of moderation or indecision. Agreement with both statements is not a better or more mature answer.",
-  }
-  return { result, evidence, pair, claim, pairClaim, comparison: compareAi(result.axisScores, Number(record.provenance.bank), Number(record.provenance.scorer))! }
+  } : null
+  const controlledPairs = [7, 1, 4].map(value => currentAi.scoring.generateAiGovernanceResult({ ...record.answers as AiAnswers, gp1: value, gp2: value }, "standard"))
+  const pairDiagnostic = { identical: controlledPairs.every(r => JSON.stringify(r) === JSON.stringify(controlledPairs[0])), finalGeopolitics: controlledPairs[0].axisScores.geopolitics }
+  return { result, evidence, pair, claim, pairClaim, comparison, pairDiagnostic }
 }

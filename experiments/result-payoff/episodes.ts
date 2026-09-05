@@ -1,21 +1,22 @@
 import type { CurrentCaseOption, CurrentCasePublicationStatus, CurrentCaseSource } from "@/lib/current-cases/types"
 import type { Claim, Provenance } from "./evidence"
+import { readEpisode, type ReadbackRelation } from "@/experiments/result-payoff/episode-readbacks"
 
 export type EpisodeId = "verify" | "access"
-export type EpisodeSource = CurrentCaseSource & { locator: string; scope: string }
+export type EpisodeSource = Omit<CurrentCaseSource, "kind"> & { kind: CurrentCaseSource["kind"] | "internal-editorial"; locator: string; scope: string }
 export type Episode = {
   id: EpisodeId; version: number; status: CurrentCasePublicationStatus; title: string; invitation: string
   actor: string; assumptions: string[]; scope: string; unknown: string; question: string
   options: (CurrentCaseOption & { diagram: [string, string, string] })[]
   reasons: { id: string; text: string }[]
   condition: { label: string; before: string; after: string; unchanged: string }
-  outcome: { changed: string; unchanged: string; caveat: string; nextQuestion: string }
+  outcome: { caveat: string; nextQuestion: string }
   sources: EpisodeSource[]
   related: { href: string; title: string; why: string }
 }
 export const episodes: Record<EpisodeId, Episode> = {
   verify: {
-    id: "verify", version: 1, status: "draft", title: "Who gets to verify?",
+    id: "verify", version: 2, status: "draft", title: "Who gets to verify?",
     invitation: "An inspection can reveal a breach. Who gets the right to look?",
     actor: "You advise Arden's cabinet on a six-month agreement with Belvar, a strategic competitor.",
     assumptions: [
@@ -36,6 +37,7 @@ export const episodes: Record<EpisodeId, Episode> = {
       { id: "equal", text: "Make the right to inspect reciprocal." },
       { id: "secrets", text: "Keep sensitive records away from foreign governments." },
       { id: "reach", text: "Limit concessions for a check that cannot rule out hidden sites." },
+      { id: "none", text: "None of these quite describes my reason." },
     ],
     condition: {
       label: "National access rights",
@@ -44,19 +46,17 @@ export const episodes: Record<EpisodeId, Episode> = {
       unchanged: "Only national access rights change. The neutral custodian is still admitted by both sides. The restriction, costs, inspection reach, notice period and refusal rule are unchanged. An excluded national visit is no longer an authorized visit under this draft.",
     },
     outcome: {
-      changed: "Your arrangement changed with the national access rights. That makes reciprocity a useful condition to discuss, alongside your stated reasons.",
-      unchanged: "Your arrangement stayed the same despite the loss of Arden's national access right. The principal reasons below say what you prioritized in this exercise.",
       caveat: "A single replay cannot isolate why you changed or stayed. You might be reacting to what the revised draft signals about future compliance, even though the supplied technical facts stayed fixed.",
-      nextQuestion: "Would the same access rule be acceptable if you advised Belvar with exactly the same information? That is a discussion question, not a diagnosis of national bias.",
+      nextQuestion: "Would the same access rule be acceptable if you advised Belvar with exactly the same information?",
     },
     sources: [
-      { id: "inf_src_01", title: "Intermediate-Range Nuclear Forces Treaty", publisher: "U.S. Department of State", publishedAt: null, accessedAt: "2026-07-14", url: "https://2009-2017.state.gov/t/avc/trty/102360.htm", kind: "primary", claimIds: ["inf_c1", "inf_c2"], locator: "research/worldview-cases/verified-case-library.json: security-arms-control-verification / inf_src_01", scope: "Repository-reviewed precedent for declared obligations, data exchanges and on-site inspection. The archive returned a technical-difficulties page on this experiment's recheck; rely on the existing reviewed record, not a claim of fresh treaty verification. It does not establish AI inspection feasibility." },
-      { id: "ai-verification-bank", title: "AI Governance: multilateralVerification", publisher: "IR Worldview Inventory", publishedAt: null, accessedAt: "2026-09-06", url: "/ai/field-guide", kind: "authoritative-research", claimIds: ["verify-mechanism"], locator: "content/instrument/ai-governance.v3.json: multilateralVerification; lib/ai-governance-atlas-content.ts: live disagreements", scope: "Existing editorial contrast between verifiable commitments, participation and domestic enforcement. All actors, timing, sanctions and technical reach above are fictional assumptions." },
+      { id: "inf_src_01", title: "Intermediate-Range Nuclear Forces Treaty", publisher: "U.S. Department of State", publishedAt: null, accessedAt: "2026-07-14", url: "https://2009-2017.state.gov/t/avc/trty/102360.htm", kind: "primary", claimIds: ["inf_c1", "inf_c2"], locator: "research/worldview-cases/verified-case-library.json: security-arms-control-verification / inf_src_01", scope: "Repository-reviewed precedent for declared obligations, data exchanges and on-site inspection. The archive and official 1997–2001 mirror both returned technical-difficulties pages on the amendment recheck; search excerpts are not fresh verification of the full treaty. The reviewed repository source is preserved. Official mirror: https://1997-2001.state.gov/global/arms/treaties/inf2.html, Article XI. It does not establish AI inspection feasibility." },
+      { id: "ai-verification-bank", title: "AI Governance: multilateralVerification", publisher: "IR Worldview Inventory", publishedAt: null, accessedAt: "2026-09-06", url: "/ai/field-guide", kind: "internal-editorial", claimIds: ["verify-mechanism"], locator: "content/instrument/ai-governance.v3.json: multilateralVerification; lib/ai-governance-atlas-content.ts: live disagreements", scope: "Existing editorial contrast between verifiable commitments, participation and domestic enforcement. All actors, timing, sanctions and technical reach above are fictional assumptions." },
     ],
     related: { href: "/futures#trajectory-gatekeeper", title: "Futures: Gatekeeper", why: "Continue with the larger question: who could enforce limits on advanced capability, and what authority would that require?" },
   },
   access: {
-    id: "access", version: 1, status: "draft", title: "Who gets access?",
+    id: "access", version: 2, status: "draft", title: "Who gets access?",
     invitation: "Outside scrutiny needs access. Does it also need freedom from the developer's veto?",
     actor: "You chair the release committee at the fictional Larch Research Institute.",
     assumptions: [
@@ -77,6 +77,7 @@ export const episodes: Record<EpisodeId, Episode> = {
       { id: "scrutiny", text: "Enable criticism the developer cannot veto." },
       { id: "contain", text: "Keep the ability to limit access if a new hazard appears." },
       { id: "capacity", text: "Keep the evaluation workload within the institute's capacity." },
+      { id: "none", text: "None of these quite describes my reason." },
     ],
     condition: {
       label: "Who admits qualified evaluators",
@@ -85,37 +86,37 @@ export const episodes: Record<EpisodeId, Episode> = {
       unchanged: "Only final admission authority changes. Capability, misuse evidence, screening criteria, staff, cost, wait times, research permissions and publication rights stay fixed. The public-weights and hosted-service options are unchanged.",
     },
     outcome: {
-      changed: "Your release arrangement changed when the developer gained a veto over evaluator admission. The principal reasons below help distinguish concern about scrutiny from concern about containment or workload.",
-      unchanged: "Your release arrangement stayed the same after the developer gained an admission veto. Your stated reasons describe the priority you kept or reconsidered here.",
       caveat: "The change may also have altered your expectations about how the institute would use its discretion. Two answers do not estimate a general preference for openness, and qualified scrutiny is not unrestricted release.",
       nextQuestion: "Would a binding appeal against an admission veto change your decision if it added a month to access?",
     },
     sources: [
       { id: "seger-2023-open-sourcing", title: "Open-Sourcing Highly Capable Foundation Models", publisher: "Centre for the Governance of AI", publishedAt: "2023-10-09", accessedAt: "2026-09-06", url: "https://arxiv.org/abs/2311.09227", kind: "authoritative-research", claimIds: ["access-mechanism"], locator: "lib/ai-governance-reading-lists.ts: openEcosystemBuilder / seger-2023-open-sourcing; paper §§4.1.3 and 4.2.3, pp. 19 and 25–26", scope: "Distinguishes publicly available weights from structured access for research and auditing; §4.2.3 discusses independent mediation of researcher admission to reduce favoritism. The admission-veto contrast, institute, model evidence and costs are this episode's fictional assumptions, not findings from the paper." },
-      { id: "ai-access-bank", title: "AI Governance: openWeights", publisher: "IR Worldview Inventory", publishedAt: null, accessedAt: "2026-09-06", url: "/ai/field-guide", kind: "authoritative-research", claimIds: ["access-mechanism"], locator: "content/instrument/ai-governance.v3.json: openWeights; content/instrument/technology.v3.json: open_weight_models", scope: "Existing alternatives include containment, instrumented outside access and diffusion. No bank answer or score is assigned here." },
+      { id: "ai-access-bank", title: "AI Governance: openWeights", publisher: "IR Worldview Inventory", publishedAt: null, accessedAt: "2026-09-06", url: "/ai/field-guide", kind: "internal-editorial", claimIds: ["access-mechanism"], locator: "content/instrument/ai-governance.v3.json: openWeights; content/instrument/technology.v3.json: open_weight_models", scope: "Existing alternatives include containment, instrumented outside access and diffusion. No bank answer or score is assigned here." },
     ],
     related: { href: "/futures#trajectory-libertarian-market", title: "Futures: Open Frontier", why: "Explore what changes when capable systems can be run without a central controller. It is an outcome scenario, not a forecast." },
   },
 }
 export type Decision = { option: string; reason: string }
-export type EpisodeCompletion = { observation: Claim; interpretation: Claim; question: Claim; first: Decision; second: Decision }
+export const deferredDecision = { id: "defer", label: "I need more information or revised terms", logic: "Withhold a decision within this bounded choice set. This is not an additional policy arrangement." }
+export type EpisodeCompletion = { observation: Claim; interpretation: Claim; question: Claim; first: Decision; second: Decision; ruleId: string; relation: ReadbackRelation; affected: { original: boolean; revised: boolean } }
 export function episodeProvenance(episode: Episode): Provenance {
   return { instrument: "episode", bank: "unscored", scorer: "none", form: `${episode.id}/two-decisions-v${episode.version}`, copy: episode.version, source: "experiments/result-payoff/episodes.ts (draft)" }
 }
 export function completeEpisode(episode: Episode, first: Decision, second: Decision): EpisodeCompletion | null {
-  const option = (id: string) => episode.options.find(o => o.id === id)
+  const option = (id: string) => id === "defer" ? deferredDecision : episode.options.find(o => o.id === id)
   const reason = (id: string) => episode.reasons.find(r => r.id === id)
   if (!option(first.option) || !option(second.option) || !reason(first.reason) || !reason(second.reason)) return null
+  const reading = readEpisode(episode, first, second)
   const refs = [
-    { id: `${episode.id}/original`, text: `${episode.condition.before} Selected: ${option(first.option)!.label}. Principal reason: ${reason(first.reason)!.text}` },
-    { id: `${episode.id}/replay`, text: `${episode.condition.after} Selected: ${option(second.option)!.label}. Principal reason: ${reason(second.reason)!.text}` },
+    { id: `${episode.id}/original`, text: `Proposed provision: ${episode.condition.before} Selected: ${option(first.option)!.label}. Principal reason: ${reason(first.reason)!.text}` },
+    { id: `${episode.id}/replay`, text: `Proposed provision: ${episode.condition.after} Selected: ${option(second.option)!.label}. Principal reason: ${reason(second.reason)!.text}` },
   ]
   const base = { provenance: episodeProvenance(episode), refs, supports: "Only the two submitted choices and their principal reasons in this fictional exercise.", doesNotSupport: episode.outcome.caveat }
   return {
-    first, second,
-    observation: { ...base, id: `${episode.id}/actual-choices`, kind: "direct observation", text: `You selected ${option(first.option)!.label} under the original condition: ${episode.condition.before} You selected ${option(second.option)!.label} when the condition changed: ${episode.condition.after}` },
-    interpretation: { ...base, id: `${episode.id}/bounded-reading`, kind: "editorial interpretation", text: first.option === second.option ? episode.outcome.unchanged : episode.outcome.changed },
-    question: { ...base, id: `${episode.id}/next-question`, kind: "proposed question", text: episode.outcome.nextQuestion },
+    first, second, ruleId: reading.ruleId, relation: reading.relation, affected: reading.affected,
+    observation: { ...base, id: `${episode.id}/actual-choices`, kind: "direct observation", text: `You selected ${option(first.option)!.label} under the original draft provision: ${episode.condition.before} You selected ${option(second.option)!.label} when the proposed provision changed: ${episode.condition.after}` },
+    interpretation: { ...base, id: `${episode.id}/bounded-reading`, kind: "editorial interpretation", text: reading.text, doesNotSupport: reading.caveat, refs: [...refs, { id: reading.ruleId, text: `Authored rule. The changed provision governs the original arrangement: ${reading.affected.original}; revised arrangement: ${reading.affected.revised}.` }] },
+    question: { ...base, id: `${episode.id}/next-question`, kind: "proposed question", text: first.option === "defer" || second.option === "defer" ? "Which supplied fact needs clarification, or which term needs revision, before you could choose an arrangement?" : first.reason === "none" || second.reason === "none" ? "What consideration is missing from the offered reasons, and would it apply under both provisions?" : episode.outcome.nextQuestion },
   }
 }
 export const syntheticPrior = { episode: "verify" as const, completedOn: "2026-09-01", first: { option: "national", reason: "timely" }, second: { option: "custodian", reason: "equal" } }

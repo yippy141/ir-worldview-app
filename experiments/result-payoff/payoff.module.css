@@ -27,13 +27,6 @@
 .devControls button { background: var(--panel); color: var(--text); border: 1px solid var(--line-2); }
 .resultGrid, .episodeGrid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 64px; align-items: start; }
 .sticky { position: sticky; top: 28px; min-width: 0; }
-.resultIdentity { display: flex; align-items: center; gap: 24px; margin: 24px 0; }
-.resultIdentity :global(.foundation-mark__panel) { width: 66px; height: 66px; }
-.resultIdentity :global(.foundation-mark--hero) { color: var(--accent); flex-shrink: 0; }
-.resultIdentity :global(.foundation-mark__visual) { gap: 8px; }
-.resultIdentity :global(svg) { width: 66px; height: 66px; }
-.resultIdentity :global(.foundation-mark__label) { display: none; }
-.resultIdentity h2 { font-size: 22px; margin: 5px 0 0; }
 .exampleLabel, .small { font-size: 14px; color: var(--text-2); line-height: 1.6; }
 .lead { font-size: 20px; line-height: 1.65; margin-bottom: 18px !important; color: var(--text-2); }
 .primary { display: inline-block; background: var(--accent); color: var(--bg) !important; border: 1px solid var(--accent); padding: 11px 16px; font-size: 15px !important; font-weight: 600; text-decoration: none !important; min-height: 44px; border-radius: 3px; line-height: 1.5; margin: 18px 0 0; }
@@ -105,8 +98,6 @@
   .page { padding: 20px 28px 60px; }
   .resultGrid, .episodeGrid { grid-template-columns: 1fr; gap: 32px; }
   .sticky { position: static; }
-  .resultGrid > div { display: contents; }
-  .resultGrid > aside { grid-row: 2; }
   .page h1 { max-width: 24ch; }
   .act { margin-top: 44px; }
 }
@@ -118,10 +109,7 @@
   .devControls select { width: 100%; min-width: 0; font-size: 12px; }
   .page h1 { font-size: 35px; }
   .page h2 { font-size: 22px; }
-  .resultIdentity { gap: 16px; }
-  .resultIdentity :global(svg), .resultIdentity :global(.foundation-mark__panel) { width: 44px; height: 44px; }
   .hero h1 { margin-top: 0; }
-  .resultIdentity h2 { font-size: 20px; }
   .lead { font-size: 18px; }
   .readingDiagram, .arrangement { padding: 22px; }
   .primary { width: 100%; text-align: center; }
@@ -129,3 +117,61 @@
   .changed { padding: 16px; }
 }
 @media (prefers-reduced-motion: reduce) { .page *, .page *::before, .page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+/* Experiment frontispieces: equal-weight canonical diptych, no global mark changes. */
+.hero { text-align: center; max-width: 820px; margin: 0 auto 64px; }
+.hero h1 { font-size: clamp(38px, 4vw, 58px); font-weight: 400; max-width: none; margin: 20px auto 10px; }
+.hero .lead { font-size: 19px; max-width: 66ch; margin: 22px auto 0 !important; text-wrap: pretty; }
+.qualification { font-size: 15px; color: var(--text-2); margin: 0 auto; }
+.hero .primary { margin-top: 26px; }
+.resultGrid .act:first-child { margin-top: 0; }
+.markComposition { display: grid; width: fit-content; margin: 0 auto; color: var(--accent); }
+.markBase, .markOverlay { grid-area: 1 / 1; line-height: 0; }
+.markOverlay { visibility: hidden; pointer-events: none; }
+.markComposition[data-motion=drawing] .markOverlay { visibility: visible; }
+.markComposition svg, .markComposition :global(.foundation-mark__panel) { width: 176px; height: 176px; }
+.markComposition :global(.foundation-mark__visual), .drawnPair { display: flex; align-items: center; gap: 20px; }
+.markComposition :global(.foundation-mark__connector), .drawnPair > span { font-size: 24px; width: 20px; text-align: center; line-height: 1; color: var(--accent); }
+.markComposition :global(.foundation-mark__label) { display: none; }
+.markComposition :global(.foundation-mark) { display: block; color: inherit; }
+.accessLines > div { grid-template-columns: 1fr 40px 1fr; }
+.accessLines svg { fill: none; stroke: var(--accent); stroke-width: 2; }
+.accessLines [data-inspection-edge=blocked] { stroke: var(--text-2); }
+.admissionGate { display: grid; gap: 8px; padding: 18px 12px; text-align: center; border: 1px solid var(--steel); }
+.admissionGate[data-admissions=developer] { border: 3px double var(--accent); }
+.admissionGate span { font-size: 14px; }
+.admissionGate + .nodes { margin-top: 0; }
+.fixedRights { margin-top: 18px !important; }
+.deferNote { display: block; font-size: 13px; color: var(--text-2); margin-top: 5px; }
+@media (max-width: 900px) {
+  .resultGrid > aside { grid-row: auto; }
+  .resultGrid > div { display: block; }
+  .resultGrid { display: flex; flex-direction: column; }
+  .resultGrid > aside { order: -1; width: 100%; }
+}
+@media (max-width: 480px) {
+  .devControls { gap: 6px 12px; margin-bottom: 24px; }
+  .devControls button { padding: 7px 10px; min-height: 44px; }
+  .hero { margin-bottom: 44px; }
+  .hero h1 { font-size: 38px; margin: 16px auto 10px; }
+  .hero .lead { font-size: 17px; line-height: 1.65; margin-top: 18px !important; }
+  .hero .primary { margin-top: 20px; }
+  .qualification { font-size: 14px; }
+  .markComposition svg, .markComposition :global(.foundation-mark__panel) { width: 116px; height: 116px; }
+  .markComposition :global(.foundation-mark__visual), .drawnPair { gap: 12px; }
+  .markComposition :global(.foundation-mark__connector), .drawnPair > span { width: 16px; font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .markBase { opacity: 1 !important; }
+  .markOverlay { visibility: hidden !important; }
+}
+@media print {
+  .page { color: #1e1a16; background: white; max-width: none; padding: 0; }
+  .page p, .qualification, .page a, .page strong { color: inherit; }
+  .devControls, .primary, .textButton, .footer, .page button, .page input { display: none !important; }
+  .markBase { opacity: 1 !important; }
+  .markOverlay { display: none !important; }
+  .markComposition { color: #1e1a16; }
+  .sticky { position: static; }
+  .readingDiagram, .arrangement, .changed, .readback { background: transparent; }
+  .hero { break-inside: avoid; }
+}

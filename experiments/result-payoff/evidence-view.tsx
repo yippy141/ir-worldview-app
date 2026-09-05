@@ -9,7 +9,7 @@ export function Evidence({ claim, label }: { claim: Claim; label?: string }) {
     <p><strong>Limit.</strong> {claim.doesNotSupport}</p>
     <p className={styles.metadata}><code>{claim.id}</code> · {claim.kind}<br />
       {claim.provenance.instrument} · bank {claim.provenance.bank} · scorer {claim.provenance.scorer} · {claim.provenance.form} · English copy {claim.provenance.copy}<br />
-      <code>{claim.provenance.source}</code><br />Experiment interpretation copy: result-payoff/1.</p>
+      <code>{claim.provenance.source}</code><br />Experiment interpretation copy: result-payoff/2.</p>
   </details>
 }
 export function ExactComparison({ comparison, claim }: { comparison: Comparison; claim: Claim }) {
