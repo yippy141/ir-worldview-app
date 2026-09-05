@@ -1,0 +1,56 @@
+{
+  "scope": "isolated non-shipping synthetic experiment",
+  "base": "c3e74edbe32e921b7a346d00e12afe45073cd956",
+  "branch": "experiment/result-payoff",
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "fullUnitSuite": {
+      "passed": 652,
+      "failed": 0,
+      "oldReplayFixtures": "included"
+    },
+    "focusedCharacterizationTests": 8,
+    "productionBuild": "passed; Next 16.2.11 Turbopack",
+    "chromiumChecks": {
+      "passed": 9,
+      "failed": 0,
+      "viewports": [
+        [
+          1440,
+          900
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "additionalReflowWidths": [
+        320,
+        768
+      ],
+      "reducedMotion": true,
+      "javascriptDisabled": true,
+      "productionRouteStatus": 404
+    },
+    "independentReview": {
+      "disposition": "ship",
+      "scope": "dev-only demonstration; no merge or deployment",
+      "materialFixesResolved": 5
+    },
+    "staticDesignDetector": []
+  },
+  "initialFailuresAndResolution": [
+    "Lint rejected intentional full-document navigation and two JSX apostrophes. Locally documented reset-boundary exception; escaped JSX; final lint passed.",
+    "Initial full suite: 648/652 passed. Public-copy evidence inventory included dev implementation; one input-integrity assertion also caught this agent editing during the test. Implementation moved to experiments/result-payoff, leaving the guarded route thin. Audit script and frozen artifacts remain unchanged. Final full suite ran with inputs stationary: 652/652 passed.",
+    "Sandboxed production build stalled at compile with no output; stopped only that process and reran outside sandbox. Final standard build passed.",
+    "Initial browser checks: 8/9 passed. Next development debug-channel sessionStorage write detected. Source inspected; test now asserts unchanged bytes through each exercise, zero application writes, and explicitly records the framework exception. Final 9/9 passed."
+  ],
+  "limits": [
+    "Chromium on this host; no real-device Safari or human usability/retention validation.",
+    "Synthetic response paths characterize behavior, not defect rates or individual causal estimates.",
+    "No deployment, collection activation or Vercel-plan verification."
+  ],
+  "protectedPathDiff": [],
+  "onlySharedChange": "lib/site-shell.ts: exact development-route registration"
+}
