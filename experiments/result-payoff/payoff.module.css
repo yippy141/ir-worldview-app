@@ -1,0 +1,177 @@
+/* Read / decide, within the existing Astrolabe system. The evidence carries the interpretation.
+   One reading column and one institutional/comparison visual; mobile keeps a complete linear sequence. */
+.page { max-width: 1240px; margin: 0 auto; padding: 24px 48px 72px; color: var(--text); font-family: var(--font-sans), sans-serif; font-size: 17px; line-height: 1.65; }
+.page h1, .page h2, .page h3, .page p, .page figure { margin: 0; }
+.page h1 { font-family: var(--font-serif), serif; font-size: clamp(34px, 3.3vw, 49px); font-weight: 500; line-height: 1.14; text-wrap: balance; max-width: 22ch; margin: 16px 0 22px; }
+.page h2 { font-family: var(--font-sans), sans-serif; font-size: 24px; font-weight: 600; line-height: 1.3; text-wrap: balance; margin-bottom: 18px; }
+.page h3 { font-family: var(--font-sans), sans-serif; font-size: 18px; font-weight: 600; line-height: 1.4; margin: 22px 0 10px; }
+.page p + p { margin-top: 16px; }
+.page p { max-width: 70ch; }
+.page a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.page a:hover { text-decoration-thickness: 2px; }
+.page button, .page select, .page input { font: inherit; }
+.page button, .page select { border-radius: 3px; min-height: 44px; }
+.page button, .page summary, .page select, .page label { cursor: pointer; }
+.page button { padding: 9px 14px; }
+.page :focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }
+.page h1:focus { outline: none; }
+.page [id] { scroll-margin-top: 24px; }
+.page fieldset { border: 0; padding: 0; margin: 28px 0; min-width: 0; }
+.page legend { font-size: 20px; font-weight: 600; padding: 0; margin-bottom: 12px; line-height: 1.4; }
+.page input[type=radio] { flex: 0 0 auto; width: 18px; height: 18px; margin: 5px 0 0; accent-color: var(--accent); }
+.page pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; }
+.page code { overflow-wrap: anywhere; font-size: .82em; }
+.devControls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding: 0 0 16px; margin-bottom: 38px; border-bottom: 1px dashed var(--line-2); font-size: 12px; color: var(--text-2); }
+.devControls form { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.devControls select { background: var(--bg-2); color: var(--text); max-width: 100%; padding: 6px 8px; border: 1px solid var(--line-2); }
+.devControls button { background: var(--panel); color: var(--text); border: 1px solid var(--line-2); }
+.resultGrid, .episodeGrid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 64px; align-items: start; }
+.sticky { position: sticky; top: 28px; min-width: 0; }
+.exampleLabel, .small { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+.lead { font-size: 20px; line-height: 1.65; margin-bottom: 18px !important; color: var(--text-2); }
+.primary { display: inline-block; background: var(--accent); color: var(--bg) !important; border: 1px solid var(--accent); padding: 11px 16px; font-size: 15px !important; font-weight: 600; text-decoration: none !important; min-height: 44px; border-radius: 3px; line-height: 1.5; margin: 18px 0 0; }
+.primary:disabled { background: var(--panel); color: var(--text-2) !important; border-color: var(--line-2); cursor: not-allowed; }
+.textButton { display: inline-block; border: 0; background: transparent; color: var(--accent); text-decoration: underline; text-underline-offset: 4px; font-size: 14px !important; }
+.act { margin-top: 64px; }
+.answerList { margin: 22px 0 24px; }
+.answerList > div { padding: 20px 0; border-bottom: 1px solid var(--line); }
+.answerList > div:first-child { padding-top: 0; }
+.answerList strong { display: block; color: var(--accent); font-size: 15px; margin-top: 10px; }
+.readingDiagram { background: var(--bg-2); padding: 28px; border-top: 1px solid var(--accent); }
+.readingDiagram h2 { font-size: 22px; }
+.readingDiagram p { font-size: 15px; }
+.hinge { margin: 20px 0; padding: 14px 0; border-block: 1px solid var(--line-2); font-size: 14px; color: var(--accent); text-align: center; }
+.pairItem { margin-top: 24px; }
+.pairItem h3 { color: var(--steel); }
+.pairItem strong { display: block; font-size: 14px; margin-top: 10px; color: var(--accent); }
+.evidence { font-size: 14px; margin-top: 18px; color: var(--text-2); }
+.evidence summary, .sources summary { color: var(--accent); padding: 8px 0; min-height: 44px; }
+.evidence p, .evidence ul { margin: 12px 0; }
+.evidence li { margin: 10px 0; }
+.evidence ul { padding-left: 20px; }
+.metadata { font-size: 12px !important; overflow-wrap: anywhere; }
+.terms { margin: 20px 0; }
+.terms > div { position: relative; font-size: 13px; margin: 18px 0; }
+.terms strong { float: right; font-size: 13px; }
+.termTrack { height: 7px; position: relative; margin-top: 10px; background: var(--line); }
+.termTrack::after { content: ''; position: absolute; left: 50%; top: -3px; bottom: -3px; border-left: 1px solid var(--text-2); }
+.termTrack i { display: block; position: absolute; height: 7px; background: var(--accent); }
+.followup { margin-top: 36px; }
+.radio { display: flex; align-items: flex-start; gap: 12px; padding: 10px 8px; min-height: 44px; font-size: 15px; }
+.radio:has(input:checked) { background: var(--panel); }
+.option { display: flex; gap: 14px; padding: 18px 12px; border-top: 1px solid var(--line-2); font-size: 15px; }
+.option:has(input:checked) { background: var(--panel); box-shadow: inset 2px 0 var(--accent); }
+.option > span { display: grid; gap: 8px; }
+.option strong { font-size: 18px; }
+.cost { color: var(--text-2); font-size: 14px; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.actions .primary { margin-top: 0; }
+.assumptions { font-size: 15px; margin-top: 22px; color: var(--text-2); }
+.assumptions summary { min-height: 44px; color: var(--text); }
+.assumptions p { margin: 12px 0; }
+.changed { margin: 28px 0; padding: 18px 22px; background: var(--bg-2); border-left: 1px solid var(--accent); }
+.changed h3 { margin-top: 0; font-size: 16px; color: var(--accent); }
+.arrangement { padding: 24px; background: var(--bg-2); margin-bottom: 22px !important; }
+.arrangement figcaption { font-size: 19px; font-weight: 600; margin-bottom: 24px; }
+.arrangement p { font-size: 14px; }
+.nodes { display: grid; text-align: center; margin: 28px 0; }
+.nodes > strong { border: 1px solid var(--line-2); padding: 18px 12px; font-size: 16px; }
+.connector { display: block; font-size: 13px; color: var(--accent); padding: 24px 8px; }
+.connector::after { content: '↓'; display: block; font-size: 25px; line-height: 1.3; }
+.accessLines { display: grid; gap: 22px; margin: 28px 0; }
+.accessLines > div { display: grid; grid-template-columns: 1fr 32px 1fr; text-align: center; align-items: center; }
+.accessLines span { color: var(--accent); }
+.accessLines small { grid-column: 1 / -1; border-top: 1px solid var(--line-2); padding-top: 8px; margin-top: 8px; color: var(--text-2); font-size: 13px; }
+.finding { font-size: 21px; }
+.reasonSummary { padding-left: 20px; font-size: 15px; }
+.reasonSummary li { margin: 12px 0; }
+.choiceStatus { font-size: 18px; color: var(--accent); margin-bottom: 20px !important; }
+.next { margin: 38px 0 22px; }
+.readback { margin: 24px 0; padding: 18px; background: var(--panel); }
+.returning { max-width: 800px; border-bottom: 1px solid var(--line-2); margin: 0 0 36px; padding-bottom: 24px; }
+.returning details { font-size: 14px; margin-top: 12px; }
+.sources { max-width: 760px; margin: 44px 0 24px; font-size: 14px; }
+.sources > div { margin: 24px 0; }
+.missing { max-width: 700px; }
+.footer { margin-top: 64px; font-size: 13px; color: var(--text-2); }
+@media (max-width: 900px) {
+  .page { padding: 20px 28px 60px; }
+  .resultGrid, .episodeGrid { grid-template-columns: 1fr; gap: 32px; }
+  .sticky { position: static; }
+  .page h1 { max-width: 24ch; }
+  .act { margin-top: 44px; }
+}
+@media (max-width: 480px) {
+  .page { padding: 16px 20px 48px; font-size: 16px; }
+  .devControls { margin-bottom: 26px; }
+  .devControls form { display: grid; grid-template-columns: minmax(0, 1fr) auto; width: 100%; }
+  .devControls label { grid-column: 1 / -1; }
+  .devControls select { width: 100%; min-width: 0; font-size: 12px; }
+  .page h1 { font-size: 35px; }
+  .page h2 { font-size: 22px; }
+  .hero h1 { margin-top: 0; }
+  .lead { font-size: 18px; }
+  .readingDiagram, .arrangement { padding: 22px; }
+  .primary { width: 100%; text-align: center; }
+  .page legend { font-size: 18px; }
+  .changed { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .page *, .page *::before, .page *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+/* Experiment frontispieces: equal-weight canonical diptych, no global mark changes. */
+.hero { text-align: center; max-width: 820px; margin: 0 auto 64px; }
+.hero h1 { font-size: clamp(38px, 4vw, 58px); font-weight: 400; max-width: none; margin: 20px auto 10px; }
+.hero .lead { font-size: 19px; max-width: 66ch; margin: 22px auto 0 !important; text-wrap: pretty; }
+.qualification { font-size: 15px; color: var(--text-2); margin: 0 auto; }
+.hero .primary { margin-top: 26px; }
+.resultGrid .act:first-child { margin-top: 0; }
+.markComposition { display: grid; width: fit-content; margin: 0 auto; color: var(--accent); }
+.markBase, .markOverlay { grid-area: 1 / 1; line-height: 0; }
+.markOverlay { visibility: hidden; pointer-events: none; }
+.markComposition[data-motion=drawing] .markOverlay { visibility: visible; }
+.markComposition svg, .markComposition :global(.foundation-mark__panel) { width: 176px; height: 176px; }
+.markComposition :global(.foundation-mark__visual), .drawnPair { display: flex; align-items: center; gap: 20px; }
+.markComposition :global(.foundation-mark__connector), .drawnPair > span { font-size: 24px; width: 20px; text-align: center; line-height: 1; color: var(--accent); }
+.markComposition :global(.foundation-mark__label) { display: none; }
+.markComposition :global(.foundation-mark) { display: block; color: inherit; }
+.accessLines > div { grid-template-columns: 1fr 40px 1fr; }
+.accessLines svg { fill: none; stroke: var(--accent); stroke-width: 2; }
+.accessLines [data-inspection-edge=blocked] { stroke: var(--text-2); }
+.admissionGate { display: grid; gap: 8px; padding: 18px 12px; text-align: center; border: 1px solid var(--steel); }
+.admissionGate[data-admissions=developer] { border: 3px double var(--accent); }
+.admissionGate span { font-size: 14px; }
+.admissionGate + .nodes { margin-top: 0; }
+.fixedRights { margin-top: 18px !important; }
+.deferNote { display: block; font-size: 13px; color: var(--text-2); margin-top: 5px; }
+@media (max-width: 900px) {
+  .resultGrid > aside { grid-row: auto; }
+  .resultGrid > div { display: block; }
+  .resultGrid { display: flex; flex-direction: column; }
+  .resultGrid > aside { order: -1; width: 100%; }
+}
+@media (max-width: 480px) {
+  .devControls { gap: 6px 12px; margin-bottom: 24px; }
+  .devControls button { padding: 7px 10px; min-height: 44px; }
+  .hero { margin-bottom: 44px; }
+  .hero h1 { font-size: 38px; margin: 16px auto 10px; }
+  .hero .lead { font-size: 17px; line-height: 1.65; margin-top: 18px !important; }
+  .hero .primary { margin-top: 20px; }
+  .qualification { font-size: 14px; }
+  .markComposition svg, .markComposition :global(.foundation-mark__panel) { width: 116px; height: 116px; }
+  .markComposition :global(.foundation-mark__visual), .drawnPair { gap: 12px; }
+  .markComposition :global(.foundation-mark__connector), .drawnPair > span { width: 16px; font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .markBase { opacity: 1 !important; }
+  .markOverlay { visibility: hidden !important; }
+}
+@media print {
+  .page { color: #1e1a16; background: white; max-width: none; padding: 0; }
+  .page p, .qualification, .page a, .page strong { color: inherit; }
+  .devControls, .primary, .textButton, .footer, .page button, .page input { display: none !important; }
+  .markBase { opacity: 1 !important; }
+  .markOverlay { display: none !important; }
+  .markComposition { color: #1e1a16; }
+  .sticky { position: static; }
+  .readingDiagram, .arrangement, .changed, .readback { background: transparent; }
+  .hero { break-inside: avoid; }
+}
