@@ -1,0 +1,280 @@
+{
+  "syntheticOnly": true,
+  "requests": [
+    {
+      "url": "http://127.0.0.1:3227/dev/result-payoff?episode=verify",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_12d3lx3._.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/experiments_result-payoff_payoff_module_1zy5fvv.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/_1anvha4._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/turbopack-_01_ro95._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_08hlpiq._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/_1s-5sfm._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_layout_tsx_007e4b2._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_05l3m1v.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/_10w2n68._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_dev_result-payoff_page_tsx_05l3m1v._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_not-found_tsx_05l3m1v._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/dev/result-payoff?episode=access",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_12d3lx3._.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/experiments_result-payoff_payoff_module_1zy5fvv.css",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/_1anvha4._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/turbopack-_01_ro95._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_08hlpiq._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/_1s-5sfm._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_layout_tsx_007e4b2._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_05l3m1v.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/_10w2n68._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_dev_result-payoff_page_tsx_05l3m1v._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/app_not-found_tsx_05l3m1v._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+      "method": "GET",
+      "body": null
+    },
+    {
+      "url": "http://127.0.0.1:3227/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js",
+      "method": "GET",
+      "body": null
+    }
+  ],
+  "audit": {
+    "reads": [],
+    "writes": [
+      {
+        "kind": "session",
+        "key": "__next_debug_channel:<development-request>",
+        "frameworkOnly": true
+      }
+    ],
+    "noChangesDuringEitherExercise": true
+  },
+  "storage": {
+    "cookies": [],
+    "origins": []
+  }
+}

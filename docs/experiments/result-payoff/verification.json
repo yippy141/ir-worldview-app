@@ -1,0 +1,134 @@
+{
+  "scope": "isolated non-shipping synthetic experiment",
+  "base": "c3e74edbe32e921b7a346d00e12afe45073cd956",
+  "branch": "experiment/result-payoff",
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "fullUnitSuite": {
+      "passed": 655,
+      "failed": 0,
+      "oldReplayFixtures": "included"
+    },
+    "productionBuild": "passed; Next 16.2.11 Turbopack",
+    "chromiumChecks": {
+      "passed": 16,
+      "failed": 0,
+      "viewports": [
+        [
+          1440,
+          900
+        ],
+        [
+          390,
+          844
+        ]
+      ],
+      "additionalReflowWidths": [
+        320,
+        768
+      ],
+      "reducedMotion": true,
+      "javascriptDisabled": true,
+      "productionRouteStatus": 404,
+      "motion": [
+        "SSR unstarted composition",
+        "paused 400ms partial reveal",
+        "completed silhouette",
+        "external animation cancellation",
+        "print during active animation",
+        "reduced-motion replay",
+        "JavaScript-disabled Foundation and AI"
+      ],
+      "additionalConfirmation": "One focused motion recapture after allowing a paused SVG frame to paint; passed."
+    },
+    "independentReview": {
+      "disposition": "ready for owner production-conversion decision",
+      "scope": "read-only experiment source and named screenshot inspection; no production authorization",
+      "resolvedFindings": [
+        "AI alternate-runner applicability",
+        "uneven endorsed-pair arithmetic",
+        "exact-tie singular header",
+        "per-record counterexample arithmetic",
+        "proposed versus selected wording",
+        "partial-motion capture confirmation"
+      ]
+    },
+    "focusedExperimentTests": 11,
+    "unchangedCharacterizationWitnesses": 4,
+    "episodeCombinationCoverage": 800
+  },
+  "limits": [
+    "Chromium on this host; no real-device Safari or human usability/retention validation.",
+    "Synthetic response paths characterize behavior, not defect rates or individual causal estimates.",
+    "No deployment, collection activation or Vercel-plan verification.",
+    "Authored applicability rules cover this deliberately small set, not arbitrary personalized synthesis. Editorial time and construct effects remain unmeasured."
+  ],
+  "protectedPathDiff": [],
+  "onlySharedChange": "lib/site-shell.ts: exact development-route registration",
+  "amendmentOf": "95c70ce44d83269b9db8b38eaf4631b2c52a5383",
+  "previousCheckpoint": {
+    "unitPassed": 652,
+    "browserPassed": 9,
+    "initialFailuresAndResolution": [
+      "Lint rejected intentional full-document navigation and two JSX apostrophes. Locally documented reset-boundary exception; escaped JSX; final lint passed.",
+      "Initial full suite: 648/652 passed. Public-copy evidence inventory included dev implementation; one input-integrity assertion also caught this agent editing during the test. Implementation moved to experiments/result-payoff, leaving the guarded route thin. Audit script and frozen artifacts remain unchanged. Final full suite ran with inputs stationary: 652/652 passed.",
+      "Sandboxed production build stalled at compile with no output; stopped only that process and reran outside sandbox. Final standard build passed.",
+      "Initial browser checks: 8/9 passed. Next development debug-channel sessionStorage write detected. Source inspected; test now asserts unchanged bytes through each exercise, zero application writes, and explicitly records the framework exception. Final 9/9 passed."
+    ]
+  },
+  "amendmentFindingsAndResolution": [
+    "Initial typecheck caught local SVG node narrowing and a test-data union type. Corrected within experiment/tests; final typecheck and lint passed.",
+    "First focused test invocation could not resolve a relative runtime import through the existing Node alias loader. Used the established @/ alias; focused and complete suites passed.",
+    "Initial browser run passed state assertions but the partial screenshot appeared completed. Tightened base-opacity/mask assertions, isolated cancellation callbacks from subsequent replays, awaited paused-animation readiness and allowed compositor paint. The final 400ms screenshot was directly inspected as partial; cancellation and final-state checks passed.",
+    "Independent review supplied valid rebound records with a changed AI runner, an exact tied lead and uneven endorsed pairs. Added scope gates and record-specific arithmetic; negative tests cover the witnesses."
+  ],
+  "applicableClaimNegativeTests": [
+    "independently lowered sc2, in2, rs2 with regenerated Foundation results/bindings",
+    "rh1=1, capabilityThreshold=C, openWeights=A with regenerated complete AI results/bindings",
+    "score-identical valid AI gp pairs 7/7, 1/1, 4/4 with distinct bindings",
+    "Precautionary Steward with Strategic Competitor runner",
+    "Precautionary Steward and Democratic Guardrailist exact 4.44 tie",
+    "uneven endorsed pair 6/7 with core3.5",
+    "different scenario with controlled-pair final geopolitics3.2"
+  ],
+  "screenshots": {
+    "directory": "docs/experiments/result-payoff/screenshots/amendment",
+    "historicalOriginalScreenshots": "unchanged from 95c70ce",
+    "capturedCount": 40,
+    "directlyInspectedByBuilder": [
+      "1440-foundation.png",
+      "390-foundation.png",
+      "1440-ai.png",
+      "390-ai.png",
+      "1440-strokes-partial-400ms.png",
+      "1440-strokes-final.png",
+      "1440-unaffected.png",
+      "390-enclave-to-hosted.png",
+      "390-same-choice-new-reason.png",
+      "1440-access-c-finding.png",
+      "1440-verify-b-replay.png",
+      "1440-foundation-print.png",
+      "390-foundation-static.png"
+    ],
+    "additionalDirectlyInspectedByReviewer": [
+      "1440-same-choice-new-reason.png",
+      "1440-enclave-to-hosted.png",
+      "390-verify-b-replay.png"
+    ],
+    "remainingImages": "captured by scoped browser checks; no claim of individual manual inspection"
+  },
+  "sourceRecheck": {
+    "treaty": "Original State Department archive and official 1997\u20132001 mirror both returned technical-difficulties pages. Search snippets were not accepted as fresh full-source verification. Existing reviewed source retained.",
+    "internalQuestionBanks": "Experiment-local internal-editorial kind; not independent authoritative research."
+  },
+  "artifactSearch": {
+    "result": "Exact original HTML and related motion assets not found",
+    "scope": [
+      "experiment repository",
+      "original project checkout",
+      "known project visualization directory"
+    ],
+    "fallback": "Current canonical SVG registry and System A manifest; archive used only for frontispiece/draw-on idea"
+  }
+}
