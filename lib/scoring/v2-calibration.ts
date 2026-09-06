@@ -238,7 +238,7 @@ export function foundationScoringCalibrationForForm(
   targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
 ): FoundationScoringCalibration | null {
   if (questionSet === "core") return "core"
-  if (questionSet === "fullExtended") return "extended"
+  if (questionSet === "fullExtended" || questionSet === "baselineExtended") return "extended"
   if (!targetedFamilyPair || targetedFamilyPair[0] === targetedFamilyPair[1]) {
     return null
   }

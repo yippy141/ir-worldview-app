@@ -8,7 +8,7 @@ import test from "node:test"
 const projectRoot = resolve(import.meta.dirname, "..")
 const evidenceDirectory = resolve(
   projectRoot,
-  "docs/research/v23-6-foundation-robustness",
+  "docs/evidence/decision-exercises-release/legacy-form-robustness",
 )
 const manifestPath = resolve(evidenceDirectory, "current-run.json")
 const diagnosticScript = resolve(
@@ -129,3 +129,18 @@ test(
     assert.deepEqual(evidenceSnapshot(), before)
   },
 )
+
+// The administration change is additive. The diagnostic still exercises the legacy
+// forms; new baselineExtended equivalence is covered in decision-exercises.test.mts.
+test("legacy numeric diagnostic outputs remain byte-identical to historical evidence", () => {
+  const historical = resolve(projectRoot, "docs/research/v23-6-foundation-robustness")
+  for (const file of ["per-item-influence.csv", "transition-matrix.csv", "ensemble-summary.csv", "boundary-analysis.csv", "worst-case-fixtures.json"]) {
+    assert.deepEqual(readFileSync(resolve(evidenceDirectory,file)), readFileSync(resolve(historical,file)),file)
+  }
+  const original = JSON.parse(readFileSync(resolve(historical,"current-run.json"),"utf8")) as EvidenceManifest
+  for (const [file,digest] of Object.entries(original.protectedFileDigests)) {
+    const result = spawnSync("git", ["show", `${original.sourceSha}:${file}`], {cwd:projectRoot,maxBuffer:8*1024*1024})
+    assert.equal(result.status,0)
+    assert.equal(sha256(result.stdout),digest,file)
+  }
+})

@@ -1,5 +1,23 @@
 # STATE
 
+## Active owner-authorized candidate — 7 September 2026
+
+Batch A starts at `da96b7e9b51426ad2bfb0ab0cc9d0ad4bf248a79`, the merged
+PR #51 experiment (reviewed head `38ff7c796bd93dd0312fdf2c2ee32d76061bec0c`;
+integrated content matches). The owner authorized a candidate on
+`release/decision-exercises`: two public unscored exercises, actual-result
+frontispieces, and an additive Foundation form excluding the twelve research
+comparison items from new ordinary extensions. Old forms and issued scores
+remain supported. This is a narrow freeze exception, not a revival of the
+V24–V26 sequence. No merge, deployment or data collection is authorized.
+
+[Candidate evidence](docs/evidence/decision-exercises-release/README.md) records compatibility, full-product coverage and
+remaining semantic findings. Batch B's shared reading templates and deeper
+journey follow only after Batch A is accepted and merged. Production deployment
+SHA and audience return remain unverified. The older checkpoints below are
+historical, not current branch instructions.
+
+
 Updated: 2026-08-31
 Role: concise memory aid, never sole authority
 

@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 
-const evidenceDir = "docs/experiments/result-payoff/screenshots/amendment"
+const evidenceDir = "docs/evidence/decision-exercises-release/screenshots/experiment-regression"
 const route = "/dev/result-payoff"
 const sizes = [{ width: 1440, height: 900 }, { width: 390, height: 844 }]
 async function capture(page: Page, name: string, fullPage = false, motion = false) {
@@ -76,6 +76,7 @@ for (const size of sizes) {
       await capture(page, `${size.width}-${episode}-b-replay`, true)
       await finish(page)
       await expect(page.getByText("Arrangement changed", { exact: false }).first()).toBeVisible()
+      await page.getByText("Complete transcript and interpretation evidence", { exact: true }).click()
       await expect(page.getByText(episode === "verify" ? /You selected National inspection teams under/ : /You selected Qualified external evaluation under/)).toBeVisible()
       await capture(page, `${size.width}-${episode}-c-finding`, true)
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -98,6 +99,7 @@ test("returning reader opens access directly, no retake and inspectable syntheti
   await choose(page, "Qualified external evaluation", "Enable criticism the developer cannot veto.")
   await finish(page)
   await expect(page.getByText("Arrangement unchanged", { exact: false }).first()).toBeVisible()
+  await page.getByText("Complete transcript and interpretation evidence", { exact: true }).click()
   await expect(page.getByText(/Original principal reason:/)).toContainText("Keep the ability to limit access")
   await expect(page.getByText(/Replay principal reason:/)).toContainText("Enable criticism")
 })
@@ -159,12 +161,12 @@ test("keyboard, reduced motion, 320/390/768 reflow and no-JS fixture evidence", 
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
   const noJs = await context.newPage()
   for (const fixture of ["foundation", "ai", "missing", "episode-first"]) {
-    await noJs.goto(`http://127.0.0.1:3227${route}?fixture=${fixture}`)
+    await noJs.goto(`http://127.0.0.1:3231${route}?fixture=${fixture}`)
     await expect(noJs.locator("h1")).toBeVisible()
     await expect(noJs.locator("noscript").first()).toBeVisible()
     expect(await noJs.locator('input[type="radio"]:visible').count()).toBe(0)
   }
-  await noJs.goto(`http://127.0.0.1:3227${route}?fixture=foundation`)
+  await noJs.goto(`http://127.0.0.1:3231${route}?fixture=foundation`)
   await noJs.getByText("Basis for this interpretation", { exact: true }).first().click()
   await expect(noJs.getByText("foundation-cooperation-with-preparation", { exact: true })).toBeVisible()
   await capture(noJs, "390-foundation-no-js", true)
@@ -184,7 +186,7 @@ test("no answer-bearing requests, URL changes, persistent writes or personal pro
   })
   const requests: { url: string; method: string; body: string | null }[] = []
   page.on("request", request => requests.push({ url: request.url(), method: request.method(), body: request.postData() }))
-  await page.goto(`http://127.0.0.1:3227${route}?episode=verify`)
+  await page.goto(`http://127.0.0.1:3231${route}?episode=verify`)
   await page.waitForFunction(() => (window as unknown as { payoffAudit: { writes: unknown[] } }).payoffAudit.writes.length > 0)
   const beforeVerify = await page.evaluate(() => JSON.stringify((window as unknown as { payoffAudit: unknown }).payoffAudit))
   const originalUrl = page.url()
@@ -201,7 +203,7 @@ test("no answer-bearing requests, URL changes, persistent writes or personal pro
   await continueDecision(page)
   await choose(page, "Publish the model weights", "Enable independent reproduction and modification.")
   await finish(page)
-  expect(page.url()).toBe(`http://127.0.0.1:3227${route}?episode=access`)
+  expect(page.url()).toBe(`http://127.0.0.1:3231${route}?episode=access`)
   const audit = await page.evaluate(() => (window as unknown as { payoffAudit: { reads: string[]; writes: { kind: string; key: string; value: string }[] } }).payoffAudit)
   expect(audit.reads).toEqual([])
   expect(JSON.stringify(audit)).toBe(beforeAccess)
@@ -221,16 +223,16 @@ test("no answer-bearing requests, URL changes, persistent writes or personal pro
 
 test("production 404 and representative public routes unaffected", async ({ request }) => {
   for (const query of ["", "?fixture=ai", "?episode=verify", "?episode=access", "?fixture=returning"]) {
-    const response = await request.get(`http://127.0.0.1:3228${route}${query}`)
+    const response = await request.get(`http://127.0.0.1:3232${route}${query}`)
     expect(response.status()).toBe(404)
     expect(await response.text()).not.toContain("data-hero-marks")
   }
   for (const path of ["/", "/quiz", "/ai", "/profile", "/futures", "/method", "/explore/atlas"]) {
-    const response = await request.get(`http://127.0.0.1:3228${path}`)
+    const response = await request.get(`http://127.0.0.1:3232${path}`)
     expect(response.status(), path).toBe(200)
     expect(await response.text()).not.toContain("/dev/result-payoff")
   }
-  const futures = await request.get("http://127.0.0.1:3228/futures")
+  const futures = await request.get("http://127.0.0.1:3232/futures")
   const html = await futures.text()
   expect(html).toContain("trajectory-gatekeeper")
   expect(html).toContain("trajectory-libertarian-market")
@@ -269,6 +271,7 @@ test("editing an earlier submitted answer invalidates the downstream comparison"
   await choose(page, "Qualified external evaluation", "Keep the ability to limit access if a new hazard appears.")
   await finish(page)
   await expect(page.locator("[data-conditional-readback]")).toContainText("added qualified access to the model's internals")
+  await page.getByText("Complete transcript and interpretation evidence", { exact: true }).click()
   await expect(page.getByText(/Original principal reason:/)).toContainText("workload")
   await expect(page.getByText(/Replay principal reason:/)).toContainText("limit access")
 })
@@ -383,7 +386,7 @@ test("marks: initial, partial, completed, interrupted, print and reduced-motion 
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
   const noJs = await context.newPage()
   for (const fixture of ["foundation", "ai"]) {
-    await noJs.goto(`http://127.0.0.1:3227${route}?fixture=${fixture}`)
+    await noJs.goto(`http://127.0.0.1:3231${route}?fixture=${fixture}`)
     await expect(noJs.locator("[data-hero-marks]")).toHaveAttribute("data-motion", "unstarted")
     expect(await noJs.locator("[data-mark-base]").evaluate(e => getComputedStyle(e).opacity)).toBe("1")
     await expect(noJs.getByRole("heading", { name: fixture === "foundation" ? "Shi (勢)–Concert" : "Stewardship", exact: true })).toBeVisible()

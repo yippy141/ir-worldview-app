@@ -98,6 +98,18 @@ export const foundationExtendedQuestions: Question[] = foundationDataItems
   .filter((item) => item.tier === "extended")
   .map(stripModes)
 
+/** New administration: same scored wording, signals and relative order; no comparison battery. */
+export const foundationBaselineExtendedQuestions = foundationExtendedQuestions.filter(
+  question => question.scoringBlock === "core",
+)
+export const foundationBaselineForm = {
+  id: "baselineExtended", bank: 2, scorer: 2, structuralVersion: 4,
+  administrationVersion: 1, calibration: "extended",
+  comparisonStatus: "common-item-only",
+  extensionItemIds: foundationBaselineExtendedQuestions.map(question => question.id),
+  note: "Identical scored items and calculation to fullExtended; human response equivalence has not been established.",
+} as const
+
 export function getFoundationQuestionsByTier(tier: FoundationTier): Question[] {
   return tier === "core"
     ? foundationCoreQuestions
@@ -119,6 +131,8 @@ export function getFoundationQuestionsForSet(
   if (questionSet === "core") {
     return foundationCoreQuestions
   }
+
+  if (questionSet === "baselineExtended") return foundationBaselineExtendedQuestions
 
   if (questionSet === "fullExtended") {
     return foundationExtendedQuestions
@@ -198,6 +212,7 @@ export const questionCountsBySet = {
     ...Object.values(discriminatorTable).map((ids) => ids.length),
   ),
   fullExtended: foundationExtendedQuestions.length,
+  baselineExtended: foundationBaselineExtendedQuestions.length,
 } as const
 
 export const likertScale = [1, 2, 3, 4, 5, 6, 7] as const

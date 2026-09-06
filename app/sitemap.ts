@@ -1,3 +1,4 @@
+import { decisionPublications, decisionHref } from "@/lib/decision-exercises/catalog"
 import type { MetadataRoute } from "next"
 import {
   absoluteUrl,
@@ -15,6 +16,7 @@ import { familySlug, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     ...englishSitemapPaths,
+    ...decisionPublications.map(record => decisionHref(record.id)),
     "/archetypes",
     ...archetypes.map(({ code }) => getArchetypePath(code)),
     ...MODELED_FAMILY_KEYS.map((familyKey) => `/explore/${familySlug(familyKey)}`),

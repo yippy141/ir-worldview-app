@@ -39,7 +39,7 @@ export function buildFoundationResultHeading({
       eyebrow: `Initial Foundation read from the ${formLabel}`,
       title: `An initial Foundation read: ${primaryLabel} and ${runnerUpLabel}`,
       lead:
-        `Both readings remain live in the current item set. The registered reading below summarizes the model output while targeted follow-up items test the boundary between them.`,
+        `Both readings remain live in the current item set. The registered reading summarizes the model output while targeted follow-up items test the boundary between them.`,
     }
   }
 
@@ -48,7 +48,7 @@ export function buildFoundationResultHeading({
       eyebrow: `Foundation result from the ${formLabel}`,
       title: `${primaryLabel} and ${runnerUpLabel} remain close`,
       lead:
-        `The current item set does not give either reading a clear modeled lead. The registered reading below is an interpretive name for this nearby pair.`,
+        `The current item set does not give either reading a clear modeled lead. The registered reading is an interpretive name for this nearby pair.`,
     }
   }
 
@@ -66,6 +66,7 @@ function foundationFormLabel(
 ) {
   if (questionSet === "core" || resultTier === "core") return "14-item core form"
   if (questionSet === "targetedExtended") return "targeted refinement form"
+  if (questionSet === "baselineExtended") return "baseline extension form"
   if (questionSet === "fullExtended") return "full extended form"
   return "legacy Foundation form"
 }

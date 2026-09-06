@@ -117,6 +117,7 @@ const V2_REPLAY_FORMS = [
     buildV2ReplayForm("targetedExtended", pair),
   ),
   buildV2ReplayForm("fullExtended"),
+  buildV2ReplayForm("baselineExtended"),
 ]
 
 export async function replayScoring(
@@ -494,7 +495,7 @@ function resolveReplayForm(
     throw new Error(
       `Research session ${sessionId} does not match exactly one supported ` +
         `Foundation v2 form/mode combination (core/standard, ` +
-        `targetedExtended/analyst, or fullExtended/analyst); received ` +
+        `targetedExtended/analyst, fullExtended/analyst, or baselineExtended/analyst); received ` +
         `${answerIds.length} items with mode ${mode}.`,
     )
   }

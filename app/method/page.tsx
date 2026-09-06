@@ -281,6 +281,11 @@ export default function MethodPage() {
           <BackToContents />
         </section>
 
+        <section id="foundation-forms" className={styles.chapter}>
+          <h2>Foundation forms and the research-comparison block</h2>
+          <p>New Foundation runs start with the core. The optional baseline extension keeps the scored questions in their existing order and omits the separate research-comparison battery. That battery includes U.S.-specific statements drawn from a published foreign-policy scale; it does not contribute to the worldview result.</p>
+          <p>Saved full-extension drafts keep their original questions and totals. You can continue that form or explicitly restart. Results retain their exact form, so the old and new administrations remain distinguishable. Identical scored answers produce identical scores; that does not show that people would answer identically after a change in context or burden.</p>
+        </section>
         <section id="how-answers-become-a-profile" className={styles.chapter}>
           <header className={styles.chapterHeader}>
             <p className={styles.chapterNumber}>Chapter 2</p>

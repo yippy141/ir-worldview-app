@@ -26,6 +26,7 @@ const approvedChineseDynamicPatterns = [
 
 export const englishSitemapPaths = [
   ...approvedChinesePaths.filter((pathname) => pathname !== "/beta"),
+  "/decisions",
   "/ai",
   "/ai/atlas",
   "/ai/field-guide",

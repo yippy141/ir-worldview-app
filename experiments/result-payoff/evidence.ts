@@ -1,24 +1,7 @@
 import type { AiAxisKey, AiAxisScores, AiArchetypeKey } from "@/lib/ai-governance-types"
 import { getAiGovernanceVersion } from "@/lib/ai-governance-versions"
 
-/** Small, experiment-local claim contract. No storage, inference service or issued result. */
-export type Provenance = {
-  instrument: "foundation" | "ai-governance" | "episode"
-  bank: number | "unscored"
-  scorer: number | "none"
-  form: string
-  copy: number
-  source: string
-}
-export type Claim = {
-  id: string
-  provenance: Provenance
-  refs: { id: string; text: string }[]
-  kind: "direct observation" | "exact model comparison" | "editorial interpretation" | "proposed question"
-  supports: string
-  doesNotSupport: string
-  text: string
-}
+export type { Claim, Provenance } from "@/lib/decision-exercises/evidence"
 export type ComparisonTerm = { axis: string; term: number }
 export type Comparison = {
   primary: string; alternative: string; primaryScore: number; alternativeScore: number

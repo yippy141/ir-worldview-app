@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { markFreshFoundationResult } from "@/lib/results/fresh-foundation-result"
 import { useRouter } from "next/navigation"
 import { getZhHansFoundationQuestionsForSet } from "@/content/locales/zh-Hans/foundation-instrument"
 import {
@@ -71,7 +72,8 @@ const englishFoundationReviewUi = {
   setLabels: {
     core: "Core set",
     targetedExtended: "Targeted extension",
-    fullExtended: "Full extension",
+    fullExtended: "Saved full extension",
+    baselineExtended: "Baseline extension",
   },
   edit: "Edit",
   likertLabels: {
@@ -143,7 +145,10 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
   const answeredCount = session
     ? questions.filter((question) => session.answers[question.id] !== undefined).length
     : 0
-  const foundationComplete = session ? answeredCount >= questions.length : false
+  const foundationComplete = Boolean(session && questions.length > 0 &&
+    getFoundationResultQuestions(session.questionSet, session.targetedFamilyPair).every(
+      question => session.answers[question.id] !== undefined,
+    ))
 
   function handleEdit(index: number) {
     router.push(`${publicPath(locale, "/quiz")}?q=${index}&from=review`)
@@ -228,6 +233,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         itemLatencyBuckets,
       )
       trackProductEvent("foundation_completed")
+      markFreshFoundationResult(payload)
       router.push(publicPath(locale, `/results/${payload}`))
     } catch {
       setGenerating(false)

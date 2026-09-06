@@ -76,6 +76,7 @@ const ALLOWED_COMPLETION_TIERS = new Set<FoundationQuestionSet>([
   "core",
   "targetedExtended",
   "fullExtended",
+  "baselineExtended",
 ])
 
 export const TIER1_RESULT_BODY_LIMIT_BYTES = 4 * 1024

@@ -405,7 +405,8 @@ function isFoundationQuestionSet(
   return (
     value === "core" ||
     value === "targetedExtended" ||
-    value === "fullExtended"
+    value === "fullExtended" ||
+    value === "baselineExtended"
   )
 }
 

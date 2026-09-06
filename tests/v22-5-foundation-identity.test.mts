@@ -176,7 +176,7 @@ test("Profile metadata and sharing use the Foundation archetype rather than an i
   }
 })
 
-test("current Foundation results keep the registered archetype secondary to the live reading headline", () => {
+test("current Foundation results lead with the actual registered name and retain the live reading qualification", () => {
   const routeSource = readFileSync(
     path.join(repositoryRoot, "app/results/[payload]/page.tsx"),
     "utf8",
@@ -187,8 +187,8 @@ test("current Foundation results keep the registered archetype secondary to the 
   )
 
   assert.match(routeSource, /archetype=\{archetype\}/)
-  assert.match(storySource, /id="foundation-result-heading"[\s\S]*?\{heading\.title\}/)
-  assert.match(storySource, /Registered reading[\s\S]*?\{props\.archetype\.name\}/)
+  assert.match(storySource, /<h1 id="foundation-result-heading">\{props\.archetype\.name\}<\/h1>/)
+  assert.match(storySource, /className=\{styles\.qualification\}>\{heading\.title\}/)
   assert.doesNotMatch(
     `${routeSource}\n${storySource}`,
     /\b(?:atlasMatch|matchAtlasLiteFoundation|matchAtlasLiteProfile)\b/,
