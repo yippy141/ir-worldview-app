@@ -82,6 +82,9 @@ jobs:
       - name: Run Playwright smoke tests
         run: npm run test:e2e
 
+      - name: Run public decision exercise and result checks
+        run: npx playwright test -c playwright.decision-exercises.config.ts
+
       - name: Upload Playwright failure artifacts
         if: failure()
         uses: actions/upload-artifact@v4
@@ -90,5 +93,7 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            docs/evidence/decision-exercises-release/screenshots/
+            docs/evidence/decision-exercises-release/privacy-check.json
           if-no-files-found: warn
           retention-days: 14

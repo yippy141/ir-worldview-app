@@ -41,7 +41,13 @@
         "head": "4128e462b8a2fed526e2aa1b654ff7a741aa729c",
         "validationUnitTypecheckBuild": "passed",
         "browser": "18 obsolete presentation/snapshot checks failed; amended",
-        "amendedRun": "pending at this record commit"
+        "amendedRun": "34085125180 passed"
+      },
+      "verifiedGithubRun": {
+        "id": 34085125180,
+        "head": "7b5c75a61c5d152cb89342e124957f31bbe69833",
+        "passed": 124,
+        "validationUnitTypecheckBuild": "passed"
       }
     },
     "compatibilityAmendment": {
@@ -50,7 +56,8 @@
       "strictCopy": "passed",
       "evidenceAuditCheck": "passed",
       "productionBuild": "passed"
-    }
+    },
+    "publicSuiteInCI": "Existing workflow now runs playwright.decision-exercises.config.ts (17 checks); final workflow run pending at this record commit."
   },
   "coverage": {
     "finiteUrls": 162,
@@ -4315,6 +4322,7 @@
     "Existing desktop decorative overflow and mobile Cases menu overflow are finite Batch B defects, not fixed here."
   ],
   "modifiedPaths": [
+    ".github/workflows/ci.yml",
     "BASELINE_AND_DECISIONS.md",
     "STATE.md",
     "app/ai/page.tsx",
