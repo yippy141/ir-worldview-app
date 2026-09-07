@@ -168,9 +168,7 @@ test("Chinese Foundation review records canonical version and completion-locale 
   await expect(page.getByText(questions[0].prompt, { exact: true })).toHaveCount(0)
   await page.getByRole("button", { name: "生成我的结果 →" }).click()
   await expect(page).toHaveURL(/\/zh\/results\/[A-Za-z0-9_-]+$/)
-  await expect(page.locator("[data-zh-foundation-result-story] h1")).toContainText(
-    "基础读法",
-  )
+  await expect(page.locator("[data-zh-foundation-result-story] h1")).toHaveText("Kairos–Grotian")
 
   const payload = decodeURIComponent(new URL(page.url()).pathname.split("/").at(-1) ?? "")
   const resolved = resolveFoundationPayload(payload)
@@ -214,7 +212,7 @@ test("one canonical Foundation result payload renders in English and Chinese", a
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
   await expect(page.getByRole("heading", {
     level: 1,
-    name: "Registered legacy Foundation read: Institutionalism",
+    name: "Concert",
   })).toBeVisible()
   await expect(page.locator('link[rel="alternate"][hreflang="zh-Hans"]')).toHaveAttribute(
     "href",
@@ -225,9 +223,10 @@ test("one canonical Foundation result payload renders in English and Chinese", a
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   await expect(page.getByRole("heading", {
     level: 1,
-    name: "较早版本的基础读法：自由制度主义",
+    name: "Concert",
   })).toBeVisible()
   await expect(page.getByText("Concert", { exact: true })).toBeVisible()
+  await page.getByText("名称、编码与题组", { exact: true }).click()
   await expect(
     page.getByText("当前参照：自由制度主义", { exact: true }),
   ).toBeVisible()
@@ -488,7 +487,7 @@ test("Chinese Current Case and profile routes expose localized Open Graph metada
   const imageUrl = await page.locator('meta[property="og:image"]').getAttribute("content")
   expect(imageUrl).toBeTruthy()
   if (imageUrl) {
-    const imageResponse = await request.get(imageUrl)
+    const imageResponse = await request.get(new URL(imageUrl).pathname)
     expect(imageResponse.status()).toBe(200)
     expect(imageResponse.headers()["content-type"]).toContain("image/png")
     expect((await imageResponse.body()).byteLength).toBeGreaterThan(10_000)
@@ -569,7 +568,7 @@ test.describe("390px Simplified Chinese shell", () => {
     await page.goto("/zh/method")
     await expect(page.getByRole("heading", { name: "这项清单如何工作" })).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect.soft(page).toHaveScreenshot("zh-method-390.png")
+    await expect.soft(page).toHaveScreenshot("decision-release-zh-method-390.png")
 
     await page.goto("/zh/quiz")
     await expect(page.getByRole("heading", {
@@ -581,7 +580,7 @@ test.describe("390px Simplified Chinese shell", () => {
     await page.goto(`/zh/results/${FOUNDATION_SHARE_V3_TOKEN}`)
     await expect(page.locator("main h1")).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect.soft(page).toHaveScreenshot("zh-foundation-result-390.png")
+    await expect.soft(page).toHaveScreenshot("decision-release-zh-foundation-result-390.png")
 
     if (current) {
       await page.goto(`/zh/cases/${current.slug}/sources`)
@@ -603,7 +602,7 @@ test.describe("390px Simplified Chinese shell", () => {
     })
     await expect(page.locator("main h1")).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect(page).toHaveScreenshot("zh-foundation-result-windows-font-390.png")
+    await expect(page).toHaveScreenshot("decision-release-zh-foundation-result-windows-font-390.png")
   })
 })
 

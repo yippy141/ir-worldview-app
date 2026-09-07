@@ -254,7 +254,15 @@ export function ZhHansFoundationResultStory(
       <section className={frontispiece.openingPayoff} aria-label="结果要点">
         <p><strong>你会先注意什么。 </strong>{props.immediateHeadline} {props.familyMeaning}</p>
         <p><strong>战略与规范取舍。 </strong>{props.strategicMeaning}</p>
-        <details><summary>名称、编码与题组</summary><p>{props.archetypeCode}</p><p>{heading.eyebrow}</p><p>原型专名沿用基础模型的规范英文名称；中文专名与原型释义尚未完成编辑审校。</p><p>{props.strategyLabel} · {props.normativeLabel}</p></details>
+        <details>
+          <summary>名称、编码与题组</summary>
+          <p>{props.archetypeCode}</p>
+          <p>{heading.eyebrow}</p>
+          <p>当前参照：{props.primaryLabel}</p>
+          <p>最近替代：{props.runnerUpLabel}</p>
+          <p>原型专名沿用基础模型的规范英文名称；中文专名与原型释义尚未完成编辑审校。</p>
+          <p>{props.strategyLabel} · {props.normativeLabel}</p>
+        </details>
       </section>
 
       <div className={styles.storyBody}>

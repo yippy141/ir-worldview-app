@@ -99,10 +99,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
     const labels = labelsFor(LOW_DIFFERENTIATION_CORE)
     await page.goto(`/zh/results/${LOW_DIFFERENTIATION_CORE}`)
 
-    await expect(page.getByRole("heading", {
-      level: 1,
-      name: `初步基础读法：${labels.primary}与${labels.runnerUp}`,
-    })).toBeVisible()
+    await expect(page.getByText(`初步基础读法：${labels.primary}与${labels.runnerUp}`,{exact:true})).toBeVisible()
     await expect(page.getByText("在当前题组中，这两种读法都仍然成立。", {
       exact: false,
     })).toBeVisible()
@@ -140,10 +137,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
   test("clear pure and close blend results keep their distinct model status", async ({ page }) => {
     const pureLabels = labelsFor(CLEAR_PURE_FULL)
     await page.goto(`/zh/results/${CLEAR_PURE_FULL}`)
-    await expect(page.getByRole("heading", {
-      level: 1,
-      name: `${pureLabels.primary}在这次基础读法中领先`,
-    })).toBeVisible()
+    await expect(page.getByText(`${pureLabels.primary}在这次基础读法中领先`,{exact:true})).toBeVisible()
     await expect(page.getByText(
       `${pureLabels.runnerUp}仍是最近的替代读法`,
       { exact: false },
@@ -156,10 +150,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
 
     const blendLabels = labelsFor(CLOSE_BLEND_FULL)
     await page.goto(`/zh/results/${CLOSE_BLEND_FULL}`)
-    await expect(page.getByRole("heading", {
-      level: 1,
-      name: `${blendLabels.primary}与${blendLabels.runnerUp}仍然接近`,
-    })).toBeVisible()
+    await expect(page.getByText(`${blendLabels.primary}与${blendLabels.runnerUp}仍然接近`,{exact:true})).toBeVisible()
     await expect(page.locator('[data-foundation-mark="blend"]')).toHaveCount(1)
     await expect(page.locator(
       '[data-zh-foundation-story-chapter="contribution"] [data-contribution-status="current-v5"] ol > li',
@@ -170,10 +161,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
   test("legacy and invalid links fail closed in Chinese", async ({ page }) => {
     const legacyLabels = labelsFor(LEGACY_RESULT)
     await page.goto(`/zh/results/${LEGACY_RESULT}`)
-    await expect(page.getByRole("heading", {
-      level: 1,
-      name: `较早版本的基础读法：${legacyLabels.primary}`,
-    })).toBeVisible()
+    await expect(page.getByText(`较早版本的基础读法：${legacyLabels.primary}`,{exact:true})).toBeVisible()
     await expect(page.locator(
       '[data-zh-foundation-story-chapter="contribution"] [data-contribution-status="legacy-unavailable"]',
     ))

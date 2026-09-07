@@ -127,11 +127,10 @@ test("Foundation results render pure marks and blend Diptychs without inventing 
   await expect(pureMark.locator("svg")).toHaveAttribute("aria-hidden", "true")
   await expect(page.getByRole("heading", {
     level: 1,
-    name: "Realism leads this Foundation read",
+    name: "Kairos",
   })).toBeVisible()
   await expect(
-    page.getByRole("complementary", { name: "Registered reading" })
-      .getByText("Kairos", { exact: true }),
+    page.getByText("Realism leads this Foundation read", { exact: true }),
   ).toBeVisible()
 
   await page.goto(`/results/${BLEND_RESULT_PAYLOAD}`)
@@ -165,11 +164,10 @@ test("Foundation results render pure marks and blend Diptychs without inventing 
   )
   await expect(page.getByRole("heading", {
     level: 1,
-    name: "Constructivism and Institutionalism remain close",
+    name: "Concert–Musyawarah",
   })).toBeVisible()
   await expect(
-    page.getByRole("complementary", { name: "Registered reading" })
-      .getByText("Concert–Musyawarah", { exact: true }),
+    page.getByText("Constructivism and Institutionalism remain close", { exact: true }),
   ).toBeVisible()
 
   const panelSizes = await blendMark
@@ -181,8 +179,8 @@ test("Foundation results render pure marks and blend Diptychs without inventing 
       }),
     )
   expect(panelSizes).toEqual([
-    { width: 112, height: 112 },
-    { width: 112, height: 112 },
+    { width: 176, height: 176 },
+    { width: 176, height: 176 },
   ])
 })
 
@@ -215,7 +213,7 @@ test("System A blend artwork holds currentColor, 200% containment, and print", a
     const visual = element.querySelector<HTMLElement>(
       "[data-foundation-mark-visual]",
     )
-    const identity = element.closest<HTMLElement>('[aria-label="Registered reading"]')
+    const identity = element.closest<HTMLElement>('header')
     if (!visual || !identity) return null
     const visualRect = visual.getBoundingClientRect()
     const identityRect = identity.getBoundingClientRect()
@@ -251,7 +249,7 @@ test("System A blend artwork holds currentColor, 200% containment, and print", a
         rect.right > document.documentElement.clientWidth + 1,
     }
   })
-  expect(printedBlend.color).toBe("rgb(17, 17, 17)")
+  expect(printedBlend.color).toBe("rgb(30, 26, 22)")
   expect(printedBlend.clipped).toBe(false)
 
   await page.goto("/archetypes")

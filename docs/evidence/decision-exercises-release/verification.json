@@ -29,7 +29,28 @@
     "WebKit": "missing existing webkit-2311 binary; not executed",
     "realDeviceSafari": "not executed",
     "impeccableDetector": "one run; empty findings",
-    "independentFinalReview": "ACCEPT for bounded code; final evidence completion retained by builder"
+    "independentFinalReview": "ACCEPT for bounded code; final evidence completion retained by builder",
+    "existingBrowserSuite": {
+      "total": 124,
+      "fullLocalRunPassed": 116,
+      "targetedRerunPassed": 8,
+      "failedAfterRerun": 0,
+      "initialLocalIssues": "Old presentation assertions, custom-port assumptions, and new snapshots; historical images preserved.",
+      "initialGithubRun": {
+        "id": 34082697313,
+        "head": "4128e462b8a2fed526e2aa1b654ff7a741aa729c",
+        "validationUnitTypecheckBuild": "passed",
+        "browser": "18 obsolete presentation/snapshot checks failed; amended",
+        "amendedRun": "pending at this record commit"
+      }
+    },
+    "compatibilityAmendment": {
+      "typecheck": "passed",
+      "lint": "passed",
+      "strictCopy": "passed",
+      "evidenceAuditCheck": "passed",
+      "productionBuild": "passed"
+    }
   },
   "coverage": {
     "finiteUrls": 162,
@@ -4470,6 +4491,18 @@
     "docs/evidence/decision-exercises-release/verification.json",
     "docs/evidence/decision-exercises-release/walkthrough.html",
     "docs/roadmap/POST_V23_6_PRODUCT_RESET_STATUS.md",
+    "e2e/critical-smoke.spec.ts",
+    "e2e/i18n.spec.ts",
+    "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-390-chromium-darwin.png",
+    "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-390-chromium-linux.png",
+    "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-windows-font-390-chromium-darwin.png",
+    "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-windows-font-390-chromium-linux.png",
+    "e2e/i18n.spec.ts-snapshots/decision-release-zh-method-390-chromium-darwin.png",
+    "e2e/i18n.spec.ts-snapshots/decision-release-zh-method-390-chromium-linux.png",
+    "e2e/v22-visual-accessibility.spec.ts",
+    "e2e/v23-6-production.spec.ts",
+    "e2e/v23-6-zh-result.spec.ts",
+    "e2e/v23-public-display.spec.ts",
     "experiments/result-payoff/episode-player.tsx",
     "experiments/result-payoff/episode-readbacks.ts",
     "experiments/result-payoff/episodes.ts",
@@ -4522,5 +4555,19 @@
       "historical experiment/research evidence"
     ],
     "scope": "Existing form validators, cohort allowlists and replay recognize baselineExtended; no new event, endpoint or storage key."
+  },
+  "compatibilitySnapshots": {
+    "inspectedByBuilder": true,
+    "darwin": "Captured locally against the amended production build",
+    "linux": "Actual screenshots from run34082697313 retry2 at4128e46; newly restored Chinese labels are below the captured viewport in a closed disclosure",
+    "historicalSnapshots": "unchanged",
+    "paths": [
+      "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-390-chromium-darwin.png",
+      "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-390-chromium-linux.png",
+      "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-windows-font-390-chromium-darwin.png",
+      "e2e/i18n.spec.ts-snapshots/decision-release-zh-foundation-result-windows-font-390-chromium-linux.png",
+      "e2e/i18n.spec.ts-snapshots/decision-release-zh-method-390-chromium-darwin.png",
+      "e2e/i18n.spec.ts-snapshots/decision-release-zh-method-390-chromium-linux.png"
+    ]
   }
 }

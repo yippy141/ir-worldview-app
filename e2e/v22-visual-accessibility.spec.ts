@@ -230,43 +230,14 @@ async function renderedContrastSamples(locator: Locator): Promise<ContrastSample
   })
 }
 
-test("Foundation result keeps the payoff H1 before registered-reading metadata", async ({
-  page,
-}) => {
+test("Foundation result leads with its canonical name before payoff and disclosed metadata", async ({ page }) => {
   await page.goto(`/results/${FOUNDATION_PAYLOAD}`)
-
-  await expect(
-    page.getByRole("heading", {
-      level: 1,
-      name: "Registered legacy Foundation read: Institutionalism",
-      exact: true,
-    }),
-  ).toBeVisible()
-  const registeredReading = page.locator(
-    '[data-foundation-result-story] aside[aria-label="Registered reading"]',
-  )
-  await expect(registeredReading.getByText("Concert", { exact: true })).toBeVisible()
-  await expect(registeredReading.locator("h1")).toHaveCount(0)
+  await expect(page.getByRole("heading", {level:1,name:"Concert",exact:true})).toBeVisible()
+  await expect(page.getByText("Registered legacy Foundation read: Institutionalism",{exact:true})).toBeVisible()
   await expect(page.locator("[data-foundation-result-story] h1")).toHaveCount(1)
-
-  const hierarchy = await page
-    .locator(
-      [
-        "#foundation-result-heading",
-        '[aria-label="Immediate result payoff"]',
-        'aside[aria-label="Registered reading"]',
-      ].join(", "),
-    )
-    .evaluateAll((elements) =>
-      elements.map((element) =>
-        element.id || element.getAttribute("aria-label"),
-      ),
-    )
-  expect(hierarchy).toEqual([
-    "foundation-result-heading",
-    "Immediate result payoff",
-    "Registered reading",
-  ])
+  const hierarchy = await page.locator('#foundation-result-heading, [aria-label="Immediate result payoff"]').evaluateAll(elements=>elements.map(element=>element.id||element.getAttribute('aria-label')))
+  expect(hierarchy).toEqual(['foundation-result-heading','Immediate result payoff'])
+  await expect(page.getByText('Reading code and form',{exact:true})).toBeVisible()
 })
 
 test("dark-theme result-label chips meet WCAG AA across result and Profile surfaces", async ({
@@ -275,9 +246,9 @@ test("dark-theme result-label chips meet WCAG AA across result and Profile surfa
   await seedLayeredProfile(page)
   const surfaces = [
     {
-      label: "Chinese Foundation result",
+      label: "Chinese Foundation result name",
       path: `/zh/results/${FOUNDATION_PAYLOAD}`,
-      selector: ".atlas-tag",
+      selector: "#zh-foundation-result-heading",
     },
     {
       label: "local Profile",
@@ -486,7 +457,7 @@ test("domain-result hero actions stay in the first viewport at 390px and 1440px"
     {
       label: "AI Governance",
       path: `/ai/results/${AI_PAYLOAD}`,
-      action: "Take the IR Foundation",
+      action: "Explore these positions",
     },
   ] as const
 
@@ -738,7 +709,7 @@ test("AI hero renders the archetype once and retains exactly three scoped modifi
   page,
 }) => {
   await page.goto(`/ai/results/${AI_PAYLOAD}`)
-  const hero = page.locator(".result-verdict")
+  const hero = page.locator("article > header")
   await expect(
     hero.getByText("Coordination Architect", { exact: true }),
   ).toHaveCount(1)
