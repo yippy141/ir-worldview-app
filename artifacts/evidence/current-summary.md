@@ -46,10 +46,10 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | scoring-runtime | lib/option-order.ts | 2fcfdb95d91d358db30a7d42bb86da1b754517b581fb5326c64f87841e29d83c |
 | calibration | lib/scoring-calibration.ts | 6f3da32f4d4c5e3c9ca434a90856969fdc8f84db5ce50e60755be584ee2b1f4b |
 | scoring-runtime | lib/scoring/v1.ts | 64ba868f9abdb4b2a3f6cb037a0b5b4301fd17132597b4180fa676a75e7443cb |
-| calibration | lib/scoring/v2-calibration.ts | 9e4161036ae17b47c1367fcf8caf0db1d5d2cb80cb56e63a997369a5da132c9b |
+| calibration | lib/scoring/v2-calibration.ts | 0f4d08855f3c17c6657b8b8c05d6e32b01aa199691875c9a4e97d422d84a5aed |
 | scoring-runtime | lib/scoring/v2.ts | 295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c |
 | scoring-runtime | lib/scoring/versions.ts | 87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c |
-| copy-audit | scripts/audit-public-copy.mjs | f257459e472e660ce8ad069630a940284a6b87e7b78d97744ba3095803b4b3c0 |
+| copy-audit | scripts/audit-public-copy.mjs | afa1418daded373ff58448ed6ab673512ecb7355172b7f759390a259d1bd4710 |
 | calibration | scripts/calibrate-modules-bootstrap.mjs | d7094911334cdf2c65584b93f6a397b3c584b596f5b86058e124854a030d09da |
 | calibration | scripts/calibrate-modules.mts | b34af8e105f72017c7a35310c3b0b45781b8a1e261f679e9c41d276a815aa640 |
 | calibration | scripts/calibrate-targeted-forms.mts | 632442daa133683d99c87f8b5c3fc8ed6c595979970f07bd384b5d3f5ea13794 |
@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 619. Unchanged and suppressed: 490. New: 129. Resolved: 68.
+P2 advisory baseline: 558. Current: 620. Unchanged and suppressed: 487. New: 133. Resolved: 71.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 619 |
+| P2 | 620 |
 
 ### P0 and P1 findings
 
@@ -1015,9 +1015,9 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | public-release-language | operational | lib/modules/authoring-validation.ts:229 (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | beta |
 | P0 | public-release-language | operational | lib/modules/authoring-validation.ts:751 (content-key:lib/modules/authoring-validation.ts#validateModuleAuthoringRecord) | beta |
 | P0 | public-release-language | operational | lib/reference-profiles/validation.ts:842 (content-key:lib/reference-profiles/validation.ts#validateEditorialState) | Version history |
-| P0 | public-release-language | operational | lib/research/scoring-replay.ts:472 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
-| P0 | public-release-language | operational | lib/research/scoring-replay.ts:496 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
-| P0 | public-release-language | operational | lib/research/scoring-replay.ts:577 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
+| P0 | public-release-language | operational | lib/research/scoring-replay.ts:473 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
+| P0 | public-release-language | operational | lib/research/scoring-replay.ts:497 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
+| P0 | public-release-language | operational | lib/research/scoring-replay.ts:578 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v2.json:282 (frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItAsks) | — |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v2.json:661 (frozen-compatibility:content/instrument/ai-governance.v2.json#items.31.helpText) | — |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v3.json:778 (frozen-compatibility:content/instrument/ai-governance.v3.json#items.31.helpText) | — |
@@ -1065,6 +1065,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-abstract-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map / map, map |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | layer, layers |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.2.paragraphs.0) | 通常 |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Universalist) | on normative items |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
@@ -1072,6 +1073,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.4.options.1.label) | often |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.30.analystOptions.2.label) | Instrumented API access with staged evaluations, monitoring, and revocation triggers / Qualified wider release so more actors can inspect, build, and avoid dependence on a few labs |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.17.paragraphs.4) | 往往 |
 | 1 | stronger-path-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label) | The stronger path |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#STRATEGY_FRAMES.Maximizer) | on strategy items |
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
@@ -1096,6 +1098,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.2.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.6.whyHard) | normally |
 | 1 | repeated-abstract-map-language | public | app/futures/page.tsx (route:/futures#FuturesPage.p) | map, map |
+| 1 | repeated-adjacent-opening | public | lib/decision-exercises/readbacks.ts (content-key:lib/decision-exercises/readbacks.ts#arrangementReadings.access.weights>hosted) | you moved from |
 | 1 | repeated-adjacent-opening | editorial-source | content/archetype-evidence.json (content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason) | the article is |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.low) | the aggregate score |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.summary) | often |
@@ -1103,7 +1106,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | lens-metaphor-review | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | lens cards |
 | 1 | repeated-adjacent-three-part-list | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.midRange) | the aggregate score |
-| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.16.paragraphs.4) | 往往 |
 | 1 | deeper-danger-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.2.label) | The deeper danger |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low) | the aggregate score |
 | 1 | general-prevalence-language-review | public | app/method/page.tsx (route:/method#MethodPage.p) | often |
@@ -1163,13 +1165,14 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | operational | lib/modules/authoring-validation.ts (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | decision id is |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getStrongLenses.lens.description) | the aggregate score |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.5.prompt) | usually |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0) | 通常 |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.constructivist) | across the foundation |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.midRange) | the aggregate score |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
-| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.11.paragraphs.0) | 通常 |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | often |
 | 1 | general-prevalence-language-review | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | often |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.5.paragraphs.1) | 往往 |
 | 1 | repeated-abstract-map-language | public | app/method/page.tsx (route:/method#MethodPage.p) | Maps, layers |
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.coverageScope) | layer, layer |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.24.clarification.whatItDoesNotAsk) | widening access can improve independent scrutiny, competition, and the distribution of technical capability / tighter controls when a release creates specific, severe, and hard-to-reverse risks |
@@ -1181,6 +1184,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.14.whyHard) | broad participation, development costs, or national discretion should guide the standards / settle whether other states will see them as legitimate, fair to developing economies, or compatible with national authority |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
 | 1 | field-metaphor-review | public | components/results/dimension-field-map.tsx (content-key:components/results/dimension-field-map.tsx#DimensionFieldMap.svg.aria-label) | Field map |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.6.items.6.body) | 通常 |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
 
 ### Resolved P2 findings
@@ -1201,6 +1205,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 326cb4f7863b5ef1a0ab5dbcb0b862dfe9ce3576e0af3e3e9ec36ac623209e63 |
 | 1 | 32b072524907d84a69ba0ded4786820bb9650a739a78c72c36a25ee7ca4ba729 |
 | 1 | 398d061c452a59de956e9382c6cc71b579cc6d6e54502741a2d2055017378ab2 |
+| 1 | 3b32392131e313b8827125b4f7d9a114c2e36aa6595f67d2bc4cc7c0e4d8f36b |
 | 1 | 44d147a4740d15d2a264803f352e34fae81aa47af0438616672d6418740aa929 |
 | 1 | 4e68440727e6dd436e7ba4721f77799e9462d9a41f235945591633a1c69f9eb3 |
 | 1 | 513db19820bb8477ecc56f1877f8d1a26e1e69047454a6ae311b8ee9cd635d36 |
@@ -1227,6 +1232,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 890b3b7b2fd91e981ea8d7b7ab546f6ce680c8cb4a632960909a3b0f23cd4e67 |
 | 1 | 8ebca57ee07ded7e2011155c1e4667ff27af6518e38804e9136f7401c842e47b |
 | 1 | 90a94cbe06ba7779dfe6792adeb2751bdf8cb31cbdc803bc13deff7928ecc1bb |
+| 1 | 942e854492fe456bb7191193f791292b95608489d1636568ba8ccb6bf92a657b |
 | 1 | 966173b93e2c527c0c10be68cad776ad163007ceb562c8d098e67e1079bd448c |
 | 1 | 9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8 |
 | 1 | 9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb |
@@ -1255,6 +1261,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | ec5d03c329cab439dd801542b9b7be2efde3e7c3b0aad0d3a69b14bbd760489a |
 | 1 | f4275fc95e801a786b8647f037a826fca00ca217a7073fc45b7b8246136e42bd |
 | 1 | f62687a82fa5e6296a259b49c09dabe71fe764b60268ec364181bc3f2823daf4 |
+| 1 | f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a |
 
 ## Method notes
 

@@ -39,6 +39,10 @@ export default function AiPage() {
           </p>
         </section>
 
+        <section className="stack-sm" aria-labelledby="access-decision-entry">
+          <h2 id="access-decision-entry"><Link href="/decisions/who-gets-access">Who gets access? →</Link></h2>
+          <p>Make a release decision for a fictional research institute, then reconsider who controls evaluator admissions. An unscored exercise you can open without taking the Compass.</p>
+        </section>
         <AiProjectBridge mode="landing" />
 
         <section className="lobby-signals lobby-signals--plain">

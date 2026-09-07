@@ -54,12 +54,14 @@ const englishFoundationQuizUi = {
     core: `${questionCountsBySet.core} questions · about 6 to 8 minutes · followed by a provisional result.`,
     targetedExtended:
       "5 follow-up questions examine the distinction between your two nearest modeled traditions.",
-    fullExtended: `${questionCountsBySet.fullExtended} additional questions · the full extended set.`,
+    fullExtended: `${questionCountsBySet.fullExtended} additional questions · saved form, including its research-comparison items.`,
+    baselineExtended: `${questionCountsBySet.baselineExtended} additional questions · the scored extension without the research-comparison block.`,
   },
   setLabels: {
     core: "Core set",
     targetedExtended: "Targeted extension",
-    fullExtended: "Full extension",
+    fullExtended: "Saved full extension",
+    baselineExtended: "Baseline extension",
   },
   answered: (answered, total) => `${answered} of ${total} answered`,
   progressAria: "Quiz progress",
@@ -124,6 +126,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const fromReview = searchParams.get("from") === "review"
   const hasIndexedQuestion = searchParams.get("q") !== null
   const initialQ = parseInt(searchParams.get("q") ?? "0", 10)
+  const requestedCoreRepair = searchParams.get("repair") === "core"
   const requestedExtension = searchParams.get("extension")
   const requestedFirstFamily = searchParams.get("first")
   const requestedSecondFamily = searchParams.get("second")
@@ -134,6 +137,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   )
   const [supportOpen, setSupportOpen] = useState(false)
   const [ready, setReady] = useState(false)
+  const [legacyAcknowledged, setLegacyAcknowledged] = useState(false)
   const [renderEpoch, setRenderEpoch] = useState(0)
   const foundationStartTracked = useRef(false)
   const itemVisibleAtRef = useRef<{
@@ -162,7 +166,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         requestedSecondFamily,
       )
 
-      if (
+      if (baseSession.questionSet === "fullExtended") {
+        setSession({ ...baseSession, activeMode: baseSession.activeMode ?? "analyst" })
+      } else if (
         requestedExtension === "targeted" &&
         requestedPair &&
         hasCompleteCore
@@ -177,7 +183,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         setSession({
           ...baseSession,
           activeMode: "analyst",
-          questionSet: "fullExtended",
+          questionSet: "baselineExtended",
           targetedFamilyPair: undefined,
         })
       } else if (
@@ -207,17 +213,20 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     notifyQuizSessionUpdated()
   }, [ready, session])
 
+  const repairingCore = requestedCoreRepair && session.questionSet !== "core"
+  const displayedSet = repairingCore ? "core" : session.questionSet
+
   const questions = useMemo(
     () => locale === "zh-Hans"
       ? getZhHansFoundationQuestionsForSet(
-          session.questionSet,
+          displayedSet,
           session.targetedFamilyPair,
         )
       : getFoundationQuestionsForSet(
-          session.questionSet,
+          displayedSet,
           session.targetedFamilyPair,
         ),
-    [locale, session.questionSet, session.targetedFamilyPair],
+    [locale, displayedSet, session.targetedFamilyPair],
   )
   const resultAnswers = useMemo(
     () =>
@@ -257,6 +266,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   useEffect(() => {
     if (
       !ready ||
+      repairingCore ||
       !currentQuestionId ||
       currentQuestionHasAnswer
     ) {
@@ -269,6 +279,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     completionStepsSent.current.add(stepKey)
     void submitTier1CompletionStep(tier1Cohort, effectiveIndex)
   }, [
+    repairingCore,
     currentQuestionHasAnswer,
     currentQuestionId,
     effectiveIndex,
@@ -436,13 +447,13 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
               <div className="stack-xs">
                 <h1>{copy.title}</h1>
                 <p className="muted" style={{ lineHeight: "1.65" }}>
-                  {copy.setSummary[session.questionSet]}
+                  {copy.setSummary[displayedSet]}
                 </p>
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}
               </div>
-              <span className="mode-pill">{copy.setLabels[session.questionSet]}</span>
+              <span className="mode-pill">{copy.setLabels[displayedSet]}</span>
             </div>
           </div>
 
@@ -491,7 +502,12 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         ) : null}
       </section>
 
-      {currentQuestion ? (
+      {session.questionSet === "fullExtended" && !legacyAcknowledged && <section className="panel stack-md" aria-label={locale === "zh-Hans" ? "已保存的问卷" : "Saved questionnaire"}>
+        <h2>{locale === "zh-Hans" ? "保留你已开始的题组" : "Keep the form you started"}</h2>
+        <p>{locale === "zh-Hans" ? "这份草稿包含原有的研究比较题。你的答案和题目总数保持不变。你可以继续此题组，或使用上方的“重新开始”清除草稿并从当前核心题组开始。" : "This saved form includes the original research-comparison questions. Your answers and question total are unchanged. Continue this form, or use Start over above to clear the draft and begin the current core form."}</p>
+        <button type="button" className="primary-button" onClick={() => setLegacyAcknowledged(true)}>{locale === "zh-Hans" ? "继续已保存的题组" : "Continue this saved form"}</button>
+      </section>}
+      {currentQuestion && (session.questionSet !== "fullExtended" || legacyAcknowledged) ? (
         <section className="panel stack-md">
           {fromReview ? (
             <div>

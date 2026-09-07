@@ -1,0 +1,80 @@
+[
+  {
+    "tag": "SUMMARY",
+    "text": "More",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 1278.75,
+    "right": 1329.515625,
+    "top": 22.5,
+    "bottom": 53.5,
+    "width": 1440,
+    "height": 900
+  },
+  {
+    "tag": "A",
+    "text": "Perspective Runs",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 1118.515625,
+    "right": 1320.515625,
+    "top": 74.5,
+    "bottom": 112.65625,
+    "width": 1440,
+    "height": 900
+  },
+  {
+    "tag": "INPUT",
+    "text": "",
+    "value": "national",
+    "visible": true,
+    "outline": 2,
+    "left": 160,
+    "right": 178,
+    "top": 441.390625,
+    "bottom": 459.390625,
+    "width": 1440,
+    "height": 900
+  },
+  {
+    "tag": "INPUT",
+    "text": "",
+    "value": "timely",
+    "visible": true,
+    "outline": 2,
+    "left": 156,
+    "right": 174,
+    "top": 441.265625,
+    "bottom": 459.265625,
+    "width": 1440,
+    "height": 900
+  },
+  {
+    "tag": "H2",
+    "text": "Replay: one condition changes",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 148,
+    "right": 787.171875,
+    "top": 109.546875,
+    "bottom": 140.734375,
+    "width": 1440,
+    "height": 900
+  },
+  {
+    "tag": "H2",
+    "text": "Your decision under each condition",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 148,
+    "right": 787.171875,
+    "top": 109.546875,
+    "bottom": 140.734375,
+    "width": 1440,
+    "height": 900
+  }
+]

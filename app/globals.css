@@ -3376,7 +3376,7 @@ html:lang(zh-Hans) .quiz-shell-label {
   content: "";
   position: absolute;
   top: 0;
-  right: -4%;
+  right: 0;
   width: min(420px, 44vw);
   height: 240px;
   border-radius: 999px;
@@ -6417,9 +6417,29 @@ html:lang(zh-Hans) .quiz-shell-label {
     display: none;
   }
 
+  /* Keep the disclosure panel out of the header's intrinsic flex sizing. */
+  .header-inner { position: relative; }
+
   .mobile-nav {
     display: block;
     flex: 0 0 auto;
+    min-width: 0;
+  }
+
+  .mobile-nav-sheet {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: min(28rem, 100%);
+    min-width: 0;
+    max-width: 100%;
+    margin-top: 0;
+    max-height: calc(100vh - 120px);
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-padding: 8px;
+    overflow-wrap: anywhere;
   }
 
   .mobile-nav-summary {

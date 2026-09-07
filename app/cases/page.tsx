@@ -1,3 +1,4 @@
+import Link from "next/link"
 import type { Metadata } from "next"
 import { CurrentCaseArchive } from "@/components/current-case/current-case-archive"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
@@ -41,6 +42,10 @@ export default function CurrentCasesPage() {
         </p>
       </header>
 
+      <section className={styles.archiveIntro} aria-labelledby="decision-exercises-entry">
+        <h2 id="decision-exercises-entry"><Link href="/decisions">Decision exercises →</Link></h2>
+        <p>Choose who gets inspection rights or access to a capable model, then reconsider one changed provision. These fictional exercises work without a questionnaire and are available in English.</p>
+      </section>
       {cases.length === 0 ? (
         <section className={styles.correctionStatus} aria-labelledby="case-status-heading">
           <h2 id="case-status-heading">No case is published yet</h2>

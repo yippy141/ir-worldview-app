@@ -91,12 +91,14 @@ export const zhHansFoundationQuizUi = {
   setSummary: {
     core: "14 道核心题 · 约需 6 至 8 分钟 · 完成后先生成暂定结果",
     targetedExtended: "5 道跟进题 · 检验最相邻的两个模型传统之间的区别",
-    fullExtended: "54 道附加题 · 完整扩展题组",
+    fullExtended: "54 道附加题 · 已保存的题组，包含研究比较题",
+    baselineExtended: "42 道附加题 · 基础扩展题组，不含研究比较题",
   },
   setLabels: {
     core: "核心题组",
     targetedExtended: "定向扩展",
-    fullExtended: "完整扩展",
+    fullExtended: "已保存的完整扩展",
+    baselineExtended: "基础扩展",
   },
   answered: (answered, total) => `已回答 ${answered} / ${total}`,
   progressAria: "问卷进度",

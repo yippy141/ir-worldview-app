@@ -71,6 +71,7 @@ function zhHansFoundationFormLabel(
 ) {
   if (questionSet === "core" || resultTier === "core") return "十四道核心题"
   if (questionSet === "targetedExtended") return "定向扩展题组"
+  if (questionSet === "baselineExtended") return "基础扩展题组"
   if (questionSet === "fullExtended") return "完整扩展题组"
   return "较早版本基础题组"
 }

@@ -1,3 +1,5 @@
+import frontispiece from "@/components/results/ai-frontispiece.module.css"
+import type { AiArchetypeKey } from "@/lib/ai-governance-types"
 import Link from "next/link"
 import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { AiProfileSync } from "@/components/profile/ai-profile-sync"
@@ -123,6 +125,10 @@ export default async function AiResultPage(
   const runnerUpKey = deepDive.comparison.runnerUpKey
   const runnerUpLabel = deepDive.comparison.runnerUpLabel
   const identityCode = [decoded.rl, decoded.pm, decoded.gm]
+  const maximum = Math.max(...Object.values(profileResult.archetypeScores))
+  const tiedLabels = Object.entries(profileResult.archetypeScores).filter(([, value]) => value === maximum).map(([key]) => resolved.scoring.archetypeLabels[key as AiArchetypeKey])
+  const hasTiedLead = tiedLabels.length > 1
+
 
   return (
     <div className="wide-container">
@@ -143,9 +149,10 @@ export default async function AiResultPage(
         />
 
         {/* ── 1. Verdict ── */}
-        <header className="result-verdict">
+        <header className={frontispiece.hero}>
           <p className="eyebrow">AI Governance Compass</p>
-          <h1 className="result-verdict__name">{archetypeLabel}</h1>
+          <h1>{archetypeLabel}</h1>
+          {hasTiedLead && <p>{tiedLabels.join(" and ")} share the exact leading model score. The saved label above does not break that tie.</p>}
           <p className="result-verdict__code">
             {identityCode.map((part, index) => (
               <span key={part}>
@@ -154,11 +161,10 @@ export default async function AiResultPage(
               </span>
             ))}
           </p>
-          <p className="result-verdict__gloss">{deepDive.governingInstinct}</p>
+          <p className={frontispiece.lead}>{hasTiedLead ? "The recorded axis positions support co-leading interpretations. Read the positions and comparison before treating one name as the answer." : deepDive.governingInstinct}</p>
           <div className="result-verdict__actions print-hidden">
-            <Link href="/quiz" className="cta-primary">
-              Take the IR Foundation
-            </Link>
+            <a href="#ai-positions" className="cta-primary">Explore these positions</a>
+            <Link href="/decisions/who-gets-access" className="cta-secondary">Try a release decision</Link>
             <Link href="/profile" className="cta-secondary">
               View Profile
             </Link>
@@ -167,7 +173,7 @@ export default async function AiResultPage(
 
         {/* ── 2. Strongest signals ── */}
         <section className="result-section result-figure">
-          <h2>Your three strongest axes</h2>
+          <h2 id="ai-positions">Positions furthest from the midpoint</h2>
           <div className="result-figure__bars">
             {heroAxisSignals.map((signal) => (
               <ScaleBar
@@ -184,7 +190,7 @@ export default async function AiResultPage(
 
         {/* ── 3. What is doing the work ── */}
         <section className="result-section result-figure">
-          <h2>What is doing the work</h2>
+          <h2>Your positions on the AI questions</h2>
           <PushChart
             rows={axisPush}
             lowCaption="Toward the low pole"
@@ -201,7 +207,7 @@ export default async function AiResultPage(
 
         {/* ── 4. Nearest alternative ── */}
         <section className="result-section result-figure">
-          <h2>Nearest alternative: {runnerUpLabel}</h2>
+          <h2>{hasTiedLead ? "Comparison of the saved readings" : `Nearest alternative: ${runnerUpLabel}`}</h2>
           <NearestAlternative
             primaryLabel={archetypeLabel}
             runnerUpLabel={runnerUpLabel}
@@ -218,7 +224,7 @@ export default async function AiResultPage(
               runnerUpExpected: row.runnerUpExpected,
             }))}
           />
-          <p className="result-figure__note">{deepDive.comparison.contrastText}</p>
+          <p className="result-figure__note">{hasTiedLead ? `This compares the saved ${archetypeLabel} label with ${runnerUpLabel}; an equal score does not establish a winner.` : deepDive.comparison.contrastText}</p>
         </section>
 
         {/* ── 5. Policy payoff ── */}

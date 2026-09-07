@@ -2,7 +2,8 @@
 
 import NextLink from "next/link"
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react"
-import { FoundationMark } from "@/components/archetypes/archetype-mark"
+import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
+import frontispiece from "@/components/results/foundation-result-story.module.css"
 import { FoundationLocalEvidence } from "@/components/results/foundation-local-evidence"
 import { zhHansFoundationQuizUi } from "@/content/locales/zh-Hans/foundation-ui"
 import { chineseShellContent } from "@/content/locales/index"
@@ -241,72 +242,28 @@ export function ZhHansFoundationResultStory(
       className={styles.story}
       data-zh-foundation-result-story
     >
-      <header
-        className={styles.hero}
-        aria-labelledby="zh-foundation-result-heading"
-      >
-        <div className={styles.heroCopy}>
-          <p className={styles.sectionLabel}>{heading.eyebrow}</p>
-          <h1 id="zh-foundation-result-heading" className={styles.headline}>
-            {heading.title}
-          </h1>
-          <p className={styles.lead}>{heading.lead}</p>
-
-          <div className={styles.payoff} aria-label="结果要点">
-            <p className={styles.payoffItem}>
-              <strong>你会先注意什么</strong>
-              <span>{props.immediateHeadline}</span>
-              <span>{props.familyMeaning}</span>
-            </p>
-            <p className={styles.payoffItem}>
-              <strong>战略与规范取舍</strong>
-              <span>{props.strategicMeaning}</span>
-            </p>
-          </div>
-
-          {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? (
-            <div className={`${styles.targetedAction} print-hidden`}>
-              <NextLink href={props.nextAction.href} className="cta-primary">
-                {props.nextAction.label}
-              </NextLink>
-              <p>{props.nextAction.reason}</p>
-            </div>
-          ) : null}
-        </div>
-
-        <aside className={styles.identity} aria-label="注册读法">
-          {primaryMarkCode ? (
-            <FoundationMark
-              code={props.archetype.code as BlendArchetype["code"]}
-              primaryCode={primaryMarkCode}
-              presentation="hero"
-              className={styles.mark}
-            />
-          ) : (
-            <FoundationMark
-              code={props.archetype.code as PureArchetypeCode}
-              presentation="hero"
-              className={styles.mark}
-            />
-          )}
-          <div className={styles.registered}>
-            <p className={styles.registeredLabel}>模型注册名称</p>
-            <p className={styles.registeredName} lang="en">
-              {props.archetype.name}
-            </p>
-            <p className={styles.registeredCode}>{props.archetypeCode}</p>
-            <p className={styles.registeredNote}>
-              原型专名沿用基础模型的规范英文名称；中文专名与原型释义尚未完成编辑审校。
-            </p>
-            <div className={styles.tags} aria-label="结果标签">
-              <span className="atlas-tag">当前参照：{props.primaryLabel}</span>
-              <span className="atlas-tag">最近替代：{props.runnerUpLabel}</span>
-              <span className="atlas-tag">{props.strategyLabel}</span>
-              <span className="atlas-tag">{props.normativeLabel}</span>
-            </div>
-          </div>
-        </aside>
+      <header className={frontispiece.frontispiece} aria-labelledby="zh-foundation-result-heading">
+        {primaryMarkCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={primaryMarkCode} />
+          : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
+        <h1 id="zh-foundation-result-heading" lang="en">{props.archetype.name}</h1>
+        <p className={frontispiece.qualification}>{heading.title}</p>
+        <p className={frontispiece.frontispieceLead}>{heading.lead}</p>
+        <a href="#nearest" className="cta-primary print-hidden">查看这份读法</a>
+        {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><NextLink href={props.nextAction.href}>{props.nextAction.label}</NextLink></p> : null}
       </header>
+      <section className={frontispiece.openingPayoff} aria-label="结果要点">
+        <p><strong>你会先注意什么。 </strong>{props.immediateHeadline} {props.familyMeaning}</p>
+        <p><strong>战略与规范取舍。 </strong>{props.strategicMeaning}</p>
+        <details>
+          <summary>名称、编码与题组</summary>
+          <p>{props.archetypeCode}</p>
+          <p>{heading.eyebrow}</p>
+          <p>当前参照：{props.primaryLabel}</p>
+          <p>最近替代：{props.runnerUpLabel}</p>
+          <p>原型专名沿用基础模型的规范英文名称；中文专名与原型释义尚未完成编辑审校。</p>
+          <p>{props.strategyLabel} · {props.normativeLabel}</p>
+        </details>
+      </section>
 
       <div className={styles.storyBody}>
         <div

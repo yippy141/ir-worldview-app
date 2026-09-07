@@ -120,7 +120,8 @@ function isFoundationQuestionSet(value: unknown): value is FoundationQuestionSet
   return (
     value === "core" ||
     value === "targetedExtended" ||
-    value === "fullExtended"
+    value === "fullExtended" ||
+    value === "baselineExtended"
   )
 }
 

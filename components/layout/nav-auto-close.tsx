@@ -56,7 +56,12 @@ export function NavAutoClose() {
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
+        const activeDisclosure = getDisclosures().find(
+          (el) => el.open && el.contains(document.activeElement),
+        )
         closeAll()
+        // This is a disclosure, not a modal: Tab can leave it normally.
+        activeDisclosure?.querySelector<HTMLElement>(":scope > summary")?.focus()
       }
     }
 

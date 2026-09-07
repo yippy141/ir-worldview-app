@@ -15,6 +15,7 @@ export type FoundationQuestionSet =
   | "core"
   | "targetedExtended"
   | "fullExtended"
+  | "baselineExtended"
 export type FamiliarityLevel = "new" | "some" | "very"
 
 export type QuestionKind = "likert" | "tradeoff" | "miniCase"

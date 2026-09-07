@@ -1,0 +1,58 @@
+{
+  "base": "da96b7e9b51426ad2bfb0ab0cc9d0ad4bf248a79",
+  "reviewedHead": "7d43f093651c8753df9e694ba891de6a7ff031d7",
+  "implementationHead": "2c39896424d6e714fbfd4c7ff8a21691ba690c73",
+  "repairCodePaths": [
+    ".github/workflows/ci.yml",
+    "app/globals.css",
+    "components/decision-exercises/episode-player.tsx",
+    "components/decision-exercises/exercise.module.css",
+    "components/layout/nav-auto-close.tsx",
+    "components/quiz-app.tsx",
+    "components/quiz/review-screen.tsx",
+    "e2e/pr52-navigation.spec.ts",
+    "lib/quiz-completion.ts",
+    "tests/decision-exercises.test.mts",
+    "tests/decision-exercises/public.spec.ts",
+    "tests/decision-exercises/repair.spec.ts",
+    "tests/decision-exercises/states.spec.ts",
+    "tests/result-payoff/experience.spec.ts"
+  ],
+  "protectedSelectors": [
+    "content",
+    "lib/scoring",
+    "lib/share.ts",
+    "lib/types.ts",
+    "lib/quiz-schema.ts",
+    "lib/quiz-session.ts",
+    "lib/storage-keys.ts",
+    "lib/archetype-marks.ts",
+    "lib/archetype-slugs.ts",
+    "lib/research",
+    "app/api",
+    "app/page.tsx",
+    "app/layout.tsx",
+    "package.json",
+    "package-lock.json",
+    "public"
+  ],
+  "repairProtectedDiff": [],
+  "candidateProtectedDiffFromBase": [
+    "content/locales/zh-Hans/editorial-pages.ts",
+    "content/locales/zh-Hans/foundation-ui.ts",
+    "lib/quiz-schema.ts",
+    "lib/quiz-session.ts",
+    "lib/research/aggregate-stats.ts",
+    "lib/research/scoring-replay.ts",
+    "lib/research/tier1-aggregate.ts",
+    "lib/scoring/v2-calibration.ts",
+    "lib/share.ts",
+    "lib/types.ts"
+  ],
+  "meaning": "The candidate-level files are accepted Batch A additive form/compatibility/chrome work already present at the reviewed head; this repair changes none of them. Global CSS is the explicit R1 exception, listed separately.",
+  "cssScope": [
+    "app/globals.css: decorative ::before right:-4% to 0 on article-header/lobby-hero/result-hero",
+    "app/globals.css: existing max-width:720px header-inner/mobile-nav/mobile-nav-sheet only",
+    "components/decision-exercises/exercise.module.css: stage-heading scroll margin only"
+  ]
+}

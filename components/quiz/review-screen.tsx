@@ -1,6 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { hasCompleteFoundationAnswers } from "@/lib/quiz-completion"
+import { markFreshFoundationResult } from "@/lib/results/fresh-foundation-result"
 import { useRouter } from "next/navigation"
 import { getZhHansFoundationQuestionsForSet } from "@/content/locales/zh-Hans/foundation-instrument"
 import {
@@ -71,7 +73,8 @@ const englishFoundationReviewUi = {
   setLabels: {
     core: "Core set",
     targetedExtended: "Targeted extension",
-    fullExtended: "Full extension",
+    fullExtended: "Saved full extension",
+    baselineExtended: "Baseline extension",
   },
   edit: "Edit",
   likertLabels: {
@@ -132,6 +135,14 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         )
     : []
 
+  const missingCoreRows: AnswerRow[] = session && session.questionSet !== "core"
+    ? (locale === "zh-Hans"
+        ? getZhHansFoundationQuestionsForSet("core")
+        : getFoundationQuestionsForSet("core"))
+      .map((question, index) => ({ question, index, answerDisplay: "—" }))
+      .filter(({ question }) => session.answers[question.id] === undefined)
+    : []
+
   const answerRows: AnswerRow[] = session
     ? questions.map((question, index) => ({
         question,
@@ -143,10 +154,10 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
   const answeredCount = session
     ? questions.filter((question) => session.answers[question.id] !== undefined).length
     : 0
-  const foundationComplete = session ? answeredCount >= questions.length : false
+  const foundationComplete = Boolean(session && hasCompleteFoundationAnswers(session))
 
-  function handleEdit(index: number) {
-    router.push(`${publicPath(locale, "/quiz")}?q=${index}&from=review`)
+  function handleEdit(index: number, repairCore = false) {
+    router.push(`${publicPath(locale, "/quiz")}?q=${index}&from=review${repairCore ? "&repair=core" : ""}`)
   }
 
   async function handleGenerate() {
@@ -228,6 +239,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         itemLatencyBuckets,
       )
       trackProductEvent("foundation_completed")
+      markFreshFoundationResult(payload)
       router.push(publicPath(locale, `/results/${payload}`))
     } catch {
       setGenerating(false)
@@ -269,6 +281,9 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         <section className="panel stack-md">
           <h2>{copy.questionsHeading}</h2>
           <div className="review-table">
+            {missingCoreRows.map((row) => (
+              <ReviewRow key={row.question.id} row={row} onEdit={() => handleEdit(row.index, true)} copy={copy} />
+            ))}
             {answerRows.map((row) => (
               <ReviewRow
                 key={row.question.id}
@@ -338,7 +353,7 @@ function ReviewRow({
   const answered = row.answerDisplay !== "—"
 
   return (
-    <div className="review-row">
+    <div className="review-row" data-question-id={row.question.id}>
       <div className="review-row-content">
         <p
           className="muted"

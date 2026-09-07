@@ -9,6 +9,8 @@ import { isContractedArchetypeBetaReference } from "./public-copy-contracts.mjs"
 const projectRoot = resolve(import.meta.dirname, "..")
 const scanTargets = [
   "app",
+  "app/decisions/page.tsx",
+  "app/decisions/[slug]/page.tsx",
   "components",
   "lib",
   "content/instrument",

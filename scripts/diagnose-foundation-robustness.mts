@@ -54,7 +54,7 @@ import type {
   Question,
 } from "@/lib/types"
 
-const DEFAULT_OUTPUT = "docs/research/v23-6-foundation-robustness"
+const DEFAULT_OUTPUT = "docs/evidence/decision-exercises-release/legacy-form-robustness"
 const GENERATED_FILES = [
   "per-item-influence.csv",
   "transition-matrix.csv",

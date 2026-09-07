@@ -135,17 +135,14 @@ test("World Stage retains scene selection, filters, sources, fallback, controls,
 
 test("current core result headlines both readings while a clearer result stays pure", async ({ page }) => {
   await page.goto(`/results/${fixtures.lowDifferentiationCore}`)
-  await expect(page.getByRole("heading", {
-    level: 1,
-    name: /^An initial Foundation read:/,
-  })).toBeVisible()
+  await expect(page.getByText(/^An initial Foundation read:/)).toBeVisible()
   await expect(page.getByText(/Both readings remain live in the current item set/iu))
     .toBeVisible()
   await expect(page.locator('[data-foundation-mark="blend"]:visible')).toHaveCount(1)
 
   await page.goto(`/results/${fixtures.clearerPureCore}`)
-  await expect(page.getByRole("heading", { level: 1 }))
-    .toContainText("leads this Foundation read")
+  await expect(page.getByText(/leads this Foundation read/))
+    .toBeVisible()
   await expect(page.getByText(/clearer within the current item set/iu)).toBeVisible()
   await expect(page.getByText(/does not establish a durable trait/iu)).toBeVisible()
   await expect(page.locator('[data-foundation-mark="pure"]:visible')).toHaveCount(1)
@@ -180,6 +177,7 @@ for (const resultCase of [
 ] as const) {
   test(`current ${resultCase.name} tuple uses its exact form contribution view`, async ({ page }) => {
     await page.goto(`/results/${resultCase.payload}`)
+    await page.getByText("Reading code and form",{exact:true}).click()
     await expect(page.getByText(new RegExp(resultCase.formText, "iu")).first())
       .toBeVisible()
     await expect(page.locator('[data-contribution-status="legacy-unavailable"]:visible'))
@@ -192,8 +190,8 @@ for (const resultCase of [
 test("legacy and invalid result URLs fail closed without reconstructed contribution claims", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto(`/results/${fixtures.legacy}`)
-  await expect(page.getByRole("heading", { level: 1 }))
-    .toContainText("Registered legacy Foundation read")
+  await expect(page.getByText(/Registered legacy Foundation read/))
+    .toBeVisible()
   await expect(page.locator('[data-contribution-status="legacy-unavailable"]:visible'))
     .toHaveCount(1)
   await expect(page.locator('[data-local-evidence-status="legacy"]:visible'))
@@ -340,9 +338,9 @@ test("current and history Profile links restore their exact one-shot local evide
     .toBeVisible()
 })
 
-test("a shared result has no local evidence binding", async ({ browser }) => {
+test("a shared result has no local evidence binding", async ({ browser, baseURL }) => {
   const context = await browser.newContext({
-    baseURL: "http://127.0.0.1:3000",
+    baseURL,
     viewport: { width: 390, height: 844 },
   })
   const page = await context.newPage()
@@ -359,7 +357,7 @@ test("a shared result has no local evidence binding", async ({ browser }) => {
   }
 })
 
-test("desktop has one sticky visual region and mobile remains a complete linear document", async ({ browser, page }) => {
+test("desktop has one sticky visual region and mobile remains a complete linear document", async ({ browser, page, baseURL }) => {
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto(`/results/${fixtures.clearerPureCore}`)
   const sticky = page.locator("[data-foundation-sticky-region]")
@@ -375,7 +373,7 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
   ).length)).toBe(7)
 
   const noJs = await browser.newContext({
-    baseURL: "http://127.0.0.1:3000",
+    baseURL,
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 },
   })

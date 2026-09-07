@@ -229,9 +229,10 @@ test("legacy answer-bearing challenge links recover to the ordinary case", async
 test("Foundation review generates a result, share link, and saved Profile", async ({
   context,
   page,
+  baseURL,
 }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"], {
-    origin: "http://127.0.0.1:3000",
+    origin: baseURL,
   })
 
   await completeFoundation(page)
