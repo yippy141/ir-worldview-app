@@ -1,0 +1,80 @@
+[
+  {
+    "tag": "SUMMARY",
+    "text": "Menu",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 274,
+    "right": 370,
+    "top": 18,
+    "bottom": 62,
+    "width": 390,
+    "height": 900
+  },
+  {
+    "tag": "A",
+    "text": "Cases",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 39,
+    "right": 351,
+    "top": 194.03125,
+    "bottom": 235.03125,
+    "width": 390,
+    "height": 900
+  },
+  {
+    "tag": "INPUT",
+    "text": "",
+    "value": "national",
+    "visible": true,
+    "outline": 2,
+    "left": 32,
+    "right": 50,
+    "top": 441.34375,
+    "bottom": 459.34375,
+    "width": 390,
+    "height": 900
+  },
+  {
+    "tag": "INPUT",
+    "text": "",
+    "value": "timely",
+    "visible": true,
+    "outline": 2,
+    "left": 28,
+    "right": 46,
+    "top": 440.5,
+    "bottom": 458.5,
+    "width": 390,
+    "height": 900
+  },
+  {
+    "tag": "H2",
+    "text": "Replay: one condition changes",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 20,
+    "right": 370,
+    "top": 109.65625,
+    "bottom": 138.25,
+    "width": 390,
+    "height": 900
+  },
+  {
+    "tag": "H2",
+    "text": "Your decision under each condition",
+    "value": null,
+    "visible": true,
+    "outline": 2,
+    "left": 20,
+    "right": 370,
+    "top": 109.65625,
+    "bottom": 166.84375,
+    "width": 390,
+    "height": 900
+  }
+]

@@ -1,0 +1,2619 @@
+{
+  "head": "7d43f093651c8753df9e694ba891de6a7ff031d7",
+  "menus": [
+    {
+      "width": 320,
+      "route": "/cases",
+      "closed": {
+        "document": 320,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "280px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "168px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 188,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 204,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 204,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 770,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "280px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 20,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 320,
+      "route": "/decisions",
+      "closed": {
+        "document": 320,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "280px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "168px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 188,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 204,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 204,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 770,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "280px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 20,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 320,
+      "route": "/about",
+      "closed": {
+        "document": 320,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "280px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "168px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 188,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 204,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 204,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 770,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "280px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 300,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 20,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 320,
+      "route": "/zh/cases",
+      "closed": {
+        "document": 320,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "292px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 14,
+            "right": 306,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "180px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 14,
+            "right": 194,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 210,
+            "right": 306,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 210,
+            "right": 306,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 517,
+        "viewport": 320,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "320px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 320,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "292px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 14,
+            "right": 306,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 14,
+            "right": 14,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "487.062px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 30,
+            "right": 517.0625,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "487.062px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 30,
+            "right": 517.0625,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 320
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "route": "/cases",
+      "closed": {
+        "document": 390,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "350px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "238px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 258,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 274,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 274,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 770,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "350px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 20,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "route": "/decisions",
+      "closed": {
+        "document": 390,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "350px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "238px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 258,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 274,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 274,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 770,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "350px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 20,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "route": "/about",
+      "closed": {
+        "document": 390,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "350px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "238px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 258,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 274,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 274,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 770,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "350px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 370,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 20,
+            "right": 20,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "734.219px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 36,
+            "right": 770.21875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 390,
+      "route": "/zh/cases",
+      "closed": {
+        "document": 390,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "362px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 14,
+            "right": 376,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "250px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 14,
+            "right": 264,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 280,
+            "right": 376,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "96px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 280,
+            "right": 376,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      },
+      "open": {
+        "document": 517,
+        "viewport": 390,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "390px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 390,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "362px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 14,
+            "right": 376,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "0px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 auto",
+            "left": 14,
+            "right": 14,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "block",
+            "width": "487.062px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 0 auto",
+            "left": 30,
+            "right": 517.0625,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "487.062px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 30,
+            "right": 517.0625,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 390
+            }
+          },
+          {
+            "selector": ".header-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "route": "/cases",
+      "closed": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "203.422px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 223.421875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "488.578px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 259.421875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      },
+      "open": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "203.422px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 223.421875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "488.578px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 259.421875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "route": "/decisions",
+      "closed": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "203.422px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 223.421875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "488.578px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 259.421875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      },
+      "open": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "203.422px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 223.421875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "488.578px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 259.421875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "route": "/about",
+      "closed": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "203.422px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 223.421875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "488.578px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 259.421875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      },
+      "open": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "203.422px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 223.421875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "488.578px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 259.421875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      }
+    },
+    {
+      "width": 768,
+      "route": "/zh/cases",
+      "closed": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "172.172px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 192.171875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "519.828px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 228.171875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      },
+      "open": {
+        "document": 768,
+        "viewport": 768,
+        "elements": [
+          {
+            "selector": ".site-header",
+            "display": "block",
+            "width": "768px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "sticky",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 768,
+            "containingBlock": {
+              "tag": "BODY",
+              "class": "",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".header-inner",
+            "display": "flex",
+            "width": "728px",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".site-brand-link",
+            "display": "block",
+            "width": "172.172px",
+            "minWidth": "fit-content",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 20,
+            "right": 192.171875,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          },
+          {
+            "selector": ".mobile-nav",
+            "display": "none",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".mobile-nav-sheet",
+            "display": "block",
+            "width": "auto",
+            "minWidth": "0px",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "0 1 auto",
+            "left": 0,
+            "right": 0,
+            "containingBlock": null
+          },
+          {
+            "selector": ".header-nav",
+            "display": "block",
+            "width": "519.828px",
+            "minWidth": "auto",
+            "maxWidth": "none",
+            "position": "static",
+            "flex": "1 1 0%",
+            "left": 228.171875,
+            "right": 748,
+            "containingBlock": {
+              "tag": "HEADER",
+              "class": "site-header",
+              "width": 768
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "desktop": [
+    {
+      "route": "/compare",
+      "closed": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-sm",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      },
+      "expanded": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-sm",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "route": "/explore/reference",
+      "closed": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-md",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      },
+      "expanded": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-md",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "route": "/futures",
+      "closed": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-sm",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      },
+      "expanded": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-sm",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "route": "/perspectives",
+      "closed": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-md",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      },
+      "expanded": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-md",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "route": "/references",
+      "closed": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-sm",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      },
+      "expanded": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-sm",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "route": "/zh/explore/reference",
+      "closed": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-md",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      },
+      "expanded": {
+        "document": 1476,
+        "viewport": 1440,
+        "owners": [
+          {
+            "class": "article-header stack-md",
+            "position": "relative",
+            "left": 20,
+            "right": 1420,
+            "pseudo": {
+              "right": "-56px",
+              "width": "420px",
+              "position": "absolute",
+              "content": "\"\""
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "source": {
+    "url": "https://www.reaganlibrary.gov/archives/speech/treaty-between-united-states-america-and-union-soviet-socialist-republics",
+    "target": null,
+    "before": [
+      "national",
+      "timely"
+    ],
+    "after": [],
+    "sameTabDeparture": true
+  }
+}
