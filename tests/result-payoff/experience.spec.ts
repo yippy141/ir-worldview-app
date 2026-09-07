@@ -215,7 +215,7 @@ test("no answer-bearing requests, URL changes, persistent writes or personal pro
   expect(requests.some(r => /api\/analytics|api\/research|api\/aggregate/.test(r.url))).toBe(false)
   expect(requests.every(r => new URL(r.url).hostname === "127.0.0.1")).toBe(true)
   expect(requests.some(r => /timely|scrutiny|custodian|weights|gp1|gp2/.test(r.url))).toBe(false)
-  writeFileSync("docs/experiments/result-payoff/privacy-check.json", JSON.stringify({ syntheticOnly: true, requests, audit: { reads: audit.reads, writes: audit.writes.map(w => ({ kind: w.kind, key: "__next_debug_channel:<development-request>", frameworkOnly: true })), noChangesDuringEitherExercise: true }, storage: await context.storageState() }, null, 2))
+  writeFileSync("docs/evidence/decision-exercises-release/experiment-privacy-check.json", JSON.stringify({ syntheticOnly: true, requests, audit: { reads: audit.reads, writes: audit.writes.map(w => ({ kind: w.kind, key: "__next_debug_channel:<development-request>", frameworkOnly: true })), noChangesDuringEitherExercise: true }, storage: await context.storageState() }, null, 2))
   await page.reload()
   await expect(page.locator("input:checked")).toHaveCount(0)
   await context.close()

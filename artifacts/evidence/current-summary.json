@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 619,
-      "newCount": 129,
+      "currentCount": 620,
+      "newCount": 133,
       "newFindings": [
         {
           "audience": "public",
@@ -128,6 +128,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.2.paragraphs.0",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "153f96748698d63af1a326267e1a571008b0f19b38649a05bd4341923bc56cbd",
+          "matched": "通常",
+          "rule": "general-prevalence-language-review",
+          "source": "国际关系世界观清单最适合被理解为一项经过编辑设计的解释工具。它询问你通常觉得哪些论证更有说服力、这些判断在哪里聚集,又在哪里朝不同方向拉扯。"
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -195,6 +205,16 @@
           "matched": "Instrumented API access with staged evaluations, monitoring, and revocation triggers / Qualified wider release so more actors can inspect, build, and avoid dependence on a few labs",
           "rule": "repeated-adjacent-three-part-list",
           "source": "Qualified wider release so more actors can inspect, build, and avoid dependence on a few labs."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.17.paragraphs.4",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "1cd9bb43399aa60c79ff5f9cb7440ecebecfdb1891073dd63bd3ba4916208bef",
+          "matched": "往往",
+          "rule": "general-prevalence-language-review",
+          "source": "原文:Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? (2005). 中文显示译名:《专家政治判断:有多准确?如何判断?》。这项研究与本工具相关,因为能够综合多种视角的判断者,往往优于把所有问题都套入单一框架的人。"
         },
         {
           "audience": "frozen",
@@ -437,6 +457,16 @@
           "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/decision-exercises/readbacks.ts#arrangementReadings.access.weights>hosted",
+          "count": 1,
+          "file": "lib/decision-exercises/readbacks.ts",
+          "fingerprint": "4bafbcb5ef983724412a7d12bf6268d0fde15e5eb00bd2a78a8c78b0bddb3d13",
+          "matched": "you moved from",
+          "rule": "repeated-adjacent-opening",
+          "source": "You moved from proposed public weights to queries through Larch's service, retaining the model and deeper evaluation inside the institute. Neither arrangement is directly governed by enclave admissions; this is not a recall of released copies."
+        },
+        {
           "audience": "editorial-source",
           "context": "content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason",
           "count": 1,
@@ -505,16 +535,6 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.16.paragraphs.4",
-          "count": 1,
-          "file": "content/locales/zh-Hans/editorial-pages.ts",
-          "fingerprint": "5746f29955b786004807d01fe553af4e9f6b5e4b8972e7dc4eceed52e578c8ec",
-          "matched": "往往",
-          "rule": "general-prevalence-language-review",
-          "source": "原文:Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? (2005). 中文显示译名:《专家政治判断:有多准确?如何判断?》。这项研究与本工具相关,因为能够综合多种视角的判断者,往往优于把所有问题都套入单一框架的人。"
         },
         {
           "audience": "frozen",
@@ -1108,6 +1128,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "cd93db2e52b83f25fda6b92e76df0437b6483c917611ed49769bb4a6be468cec",
+          "matched": "通常",
+          "rule": "general-prevalence-language-review",
+          "source": "宽泛的判断前提与具体议题中的直觉彼此相关,但并不相同。一个总体偏制度主义的读者,可能在安全专题中更重视威慑;另一个通常从权力竞争理解世界政治的读者,也可能在具体危机中反对升级。"
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.constructivist",
           "count": 1,
           "file": "lib/narrative/foundation.ts",
@@ -1148,16 +1178,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.11.paragraphs.0",
-          "count": 1,
-          "file": "content/locales/zh-Hans/editorial-pages.ts",
-          "fingerprint": "d80cf6eb1428b00045f840271d900c4cadb95f3f0e4b9c2f7f5b505bc2201056",
-          "matched": "通常",
-          "rule": "general-prevalence-language-review",
-          "source": "宽泛的判断前提与具体议题中的直觉彼此相关,但并不相同。一个总体偏制度主义的读者,可能在安全专题中更重视威慑;另一个通常从权力竞争理解世界政治的读者,也可能在具体危机中反对升级。"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
           "count": 1,
           "file": "lib/explore-content.ts",
@@ -1175,6 +1195,16 @@
           "matched": "often",
           "rule": "general-prevalence-language-review",
           "source": "Compared with the authored realist reference, your restraint score is notably high. Defensive realists argue that the structure of anarchy often rewards restraint because overextension and offensive moves provoke balancing coalitions more than they produce durable security. This is consistent with your answers."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.5.paragraphs.1",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "e08edf6bf931116ee4b45e04086a98f9b891db8ab65ee4825081ed3aaeef763d",
+          "matched": "往往",
+          "rule": "general-prevalence-language-review",
+          "source": "它也可以作为课堂或讨论工具。价值往往不在得到一个预期中的传统名称,而在发现七维画像比单一标签更为混合。"
         },
         {
           "audience": "public",
@@ -1287,6 +1317,16 @@
           "source": "Field map showing this profile against four authored tradition reference anchors: ..."
         },
         {
+          "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.6.items.6.body",
+          "count": 1,
+          "file": "content/locales/zh-Hans/editorial-pages.ts",
+          "fingerprint": "fe7f2e01cb786f5e9f8ec3fe24726a1b71eed77b790655fb739e6b70b7539a50",
+          "matched": "通常",
+          "rule": "general-prevalence-language-review",
+          "source": "主权与更广泛的道义责任冲突时,你通常把哪一项放在更前面?这是规范风格维度,不判断谁更有道德。"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label",
           "count": 1,
@@ -1298,7 +1338,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 68,
+      "resolvedCount": 71,
       "resolvedFindings": [
         {
           "count": 1,
@@ -1355,6 +1395,10 @@
         {
           "count": 1,
           "fingerprint": "398d061c452a59de956e9382c6cc71b579cc6d6e54502741a2d2055017378ab2"
+        },
+        {
+          "count": 1,
+          "fingerprint": "3b32392131e313b8827125b4f7d9a114c2e36aa6595f67d2bc4cc7c0e4d8f36b"
         },
         {
           "count": 1,
@@ -1459,6 +1503,10 @@
         {
           "count": 1,
           "fingerprint": "90a94cbe06ba7779dfe6792adeb2751bdf8cb31cbdc803bc13deff7928ecc1bb"
+        },
+        {
+          "count": 1,
+          "fingerprint": "942e854492fe456bb7191193f791292b95608489d1636568ba8ccb6bf92a657b"
         },
         {
           "count": 1,
@@ -1571,9 +1619,13 @@
         {
           "count": 1,
           "fingerprint": "f62687a82fa5e6296a259b49c09dabe71fe764b60268ec364181bc3f2823daf4"
+        },
+        {
+          "count": 1,
+          "fingerprint": "f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a"
         }
       ],
-      "unchangedCount": 490
+      "unchangedCount": 487
     },
     "higherPriorityFindings": [
       {
@@ -1894,7 +1946,7 @@
         "jsonPath": null,
         "key": "resolveReplayForm",
         "kind": "release",
-        "line": 472,
+        "line": 473,
         "match": "v1",
         "matched": "v1",
         "priority": "P0",
@@ -1916,7 +1968,7 @@
         "jsonPath": null,
         "key": "resolveReplayForm",
         "kind": "release",
-        "line": 496,
+        "line": 497,
         "match": "v2",
         "matched": "v2",
         "priority": "P0",
@@ -1938,7 +1990,7 @@
         "jsonPath": null,
         "key": "generateReplayResult",
         "kind": "release",
-        "line": 577,
+        "line": 578,
         "match": "v2",
         "matched": "v2",
         "priority": "P0",
@@ -2621,7 +2673,7 @@
         "priority": "P1"
       },
       {
-        "count": 619,
+        "count": 620,
         "priority": "P2"
       }
     ]
@@ -76448,7 +76500,7 @@
     {
       "category": "calibration",
       "path": "lib/scoring/v2-calibration.ts",
-      "sha256": "9e4161036ae17b47c1367fcf8caf0db1d5d2cb80cb56e63a997369a5da132c9b"
+      "sha256": "0f4d08855f3c17c6657b8b8c05d6e32b01aa199691875c9a4e97d422d84a5aed"
     },
     {
       "category": "scoring-runtime",
@@ -76463,7 +76515,7 @@
     {
       "category": "copy-audit",
       "path": "scripts/audit-public-copy.mjs",
-      "sha256": "f257459e472e660ce8ad069630a940284a6b87e7b78d97744ba3095803b4b3c0"
+      "sha256": "afa1418daded373ff58448ed6ab673512ecb7355172b7f759390a259d1bd4710"
     },
     {
       "category": "calibration",
