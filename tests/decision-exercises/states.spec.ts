@@ -13,7 +13,7 @@ import { buildFoundationFixtureSet } from '@/scripts/v23-6/foundation-fixtures'
 import { PROFILE_STORAGE_KEY, QUIZ_STORAGE_KEY, MODULE_DRAFT_STORAGE_KEY, AI_GOVERNANCE_STORAGE_KEY } from '@/lib/storage-keys'
 import type { FamilyKey } from '@/lib/types'
 import type { AiAnswers } from '@/lib/ai-governance-types'
-const output='docs/evidence/decision-exercises-release/screenshots'
+const output=process.env.DECISION_EVIDENCE_DIR ?? 'docs/evidence/decision-exercises-release/screenshots'
 const historical=buildFoundationFixtureSet()
 test.beforeEach(async({context})=>{
  await context.route(/\/api\/|\/_vercel\//,r=>r.abort())

@@ -84,6 +84,8 @@ jobs:
 
       - name: Run public decision exercise and result checks
         run: npx playwright test -c playwright.decision-exercises.config.ts
+        env:
+          DECISION_EVIDENCE_DIR: docs/evidence/decision-exercises-release/repair/regression
 
       - name: Upload Playwright failure artifacts
         if: failure()
@@ -95,5 +97,6 @@ jobs:
             test-results/
             docs/evidence/decision-exercises-release/screenshots/
             docs/evidence/decision-exercises-release/privacy-check.json
+            docs/evidence/decision-exercises-release/repair/
           if-no-files-found: warn
           retention-days: 14

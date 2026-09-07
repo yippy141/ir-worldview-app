@@ -1,8 +1,14 @@
 import { test, expect, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 import { resultFixtures, syntheticAnswers } from "./fixtures"
+import { getFoundationQuestionsForSet, selectFoundationAnswersForSet } from "@/lib/quiz-schema"
+import { foundationScoringCalibrationForForm, generateResult } from "@/lib/scoring"
+import { buildFoundationSharePayload } from "@/lib/share"
+import { FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY, FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY, PROFILE_SAVE_INTENT_KEY, RESULT_HISTORY_STORAGE_KEY, PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
+import type { FamilyKey } from "@/lib/types"
 const fixtures = resultFixtures()
-const evidenceDir = "docs/evidence/decision-exercises-release/screenshots"
+const evidenceDir = process.env.DECISION_EVIDENCE_DIR ?? "docs/evidence/decision-exercises-release/screenshots"
+const repairDir = "docs/evidence/decision-exercises-release/repair"
 const verify="/decisions/who-gets-to-verify", access="/decisions/who-gets-access"
 const sizes=[{width:1440,height:900},{width:390,height:844}]
 const storageKey="ir-worldview-session-v3"
@@ -107,13 +113,13 @@ test("public episodes do not read profiles, persist inputs, change URLs or send 
  expect(report.local).toEqual({});expect(report.cookies).toBe('')
  expect(requests.filter(r=>!/^(GET|HEAD) /.test(r))).toEqual([])
  expect(requests.join('\n')).not.toMatch(/reason=|option=|timely|custodian|\/api\/|\/_vercel\//)
- writeFileSync('docs/evidence/decision-exercises-release/privacy-check.json',JSON.stringify({report,requests,scope:'Synthetic episode browser context; hosting network metadata is outside this application check.'},null,2))
+ writeFileSync(process.env.DECISION_EVIDENCE_DIR ? `${evidenceDir}/privacy-check.json` : 'docs/evidence/decision-exercises-release/privacy-check.json',JSON.stringify({report,requests,scope:'Synthetic episode browser context; hosting network metadata is outside this application check.'},null,2))
  await page.getByRole('link',{name:/Next decision:/}).click();await page.goBack()
  await expect(page.locator('input:checked')).toHaveCount(0)
  await expect(page.locator('[data-conditional-readback]')).toHaveCount(0)
 })
 
-test("keyboard, no-JavaScript, reduced motion and print preserve explanations",async({browser,page})=>{
+test("keyboard activation, no-JavaScript, reduced motion and print preserve explanations",async({browser,page})=>{
  await page.goto(access)
  await page.locator('input[value="weights"]').focus();await page.keyboard.press('Space')
  await page.locator('input[value="reproduce"]').focus();await page.keyboard.press('Space')
@@ -189,7 +195,7 @@ async function seedDraft(page: Page, questionSet: string, answers: Record<string
  await page.goto('/privacy')
  await page.evaluate(({key,questionSet,answers})=>localStorage.setItem(key,JSON.stringify({v:7,questionSet,activeMode:'analyst',orderSeed:'synthetic-current',answers,contextAssist:false,itemLatencyBuckets:{}})),{key:storageKey,questionSet,answers})
 }
-test("new form completion and missing-core protection use the truthful form",async({page})=>{
+test("new form completion and missing-extension protection use the truthful form",async({page})=>{
  const answers=syntheticAnswers(12)
  await seedDraft(page,'core',answers)
  await page.goto('/quiz?extension=full');await expect(page.getByText(/42 additional questions/)).toBeVisible()
@@ -201,13 +207,84 @@ test("new form completion and missing-core protection use the truthful form",asy
  const decoded=JSON.parse(Buffer.from(page.url().split('/').pop()!, 'base64url').toString())
  expect(decoded.qs).toBe('baselineExtended')
  await screenshot(page,'1440-new-form-result')
- const incomplete={...answers};delete incomplete.sc1
+ const extensionItem = getFoundationQuestionsForSet('baselineExtended').find(q => q.id === 'sc1')!
+ expect(extensionItem.tier).toBe('extended')
+ expect(extensionItem.scoringBlock).toBe('core')
+ const incomplete={...answers};delete incomplete[extensionItem.id]
  await seedDraft(page,'baselineExtended',incomplete)
  await page.goto('/quiz/review')
  await expect(page.getByRole('button',{name:'Generate my result →'})).toBeDisabled()
  await expect(page.getByText('Finish every foundation question before generating the result.')).toBeVisible()
- await screenshot(page,'1440-missing-core',true)
+ await screenshot(page,'1440-missing-extension',true)
  await page.goto('/zh/quiz?extension=full');await expect(page.getByText(/42/).first()).toBeVisible()
+})
+
+test("genuine missing tier-core answers recover without losing baseline or targeted form identity", async ({ page }) => {
+ const core = getFoundationQuestionsForSet("core")
+ const missing = core.find(q => q.id === "sc2")!
+ expect(core).toHaveLength(14)
+ expect(missing.tier).toBe("core")
+ const families: FamilyKey[] = ["realist", "institutionalist", "constructivist", "criticalPoliticalEconomy"]
+ const pairs: [FamilyKey, FamilyKey][] = []
+ for (let i=0;i<families.length;i++) for (let j=i+1;j<families.length;j++) pairs.push([families[i],families[j]])
+ const forms = [{ questionSet: "baselineExtended" as const, pair: undefined as [FamilyKey, FamilyKey] | undefined }, ...pairs.map(pair => ({ questionSet: "targetedExtended" as const, pair }))]
+ const records = []
+ for (const { questionSet, pair } of forms) {
+  const complete = selectFoundationAnswersForSet(syntheticAnswers(12), questionSet, pair)
+  const incomplete = { ...complete }; delete incomplete[missing.id]
+  const extension = getFoundationQuestionsForSet(questionSet, pair)
+  expect(extension.every(q => incomplete[q.id] !== undefined)).toBe(true)
+  expect(core.filter(q => incomplete[q.id] === undefined).map(q => q.id)).toEqual([missing.id])
+  await page.goto("/privacy")
+  await page.evaluate(({ key, questionSet, pair, answers }) => {
+   localStorage.clear(); sessionStorage.clear()
+   localStorage.setItem(key, JSON.stringify({ v:7, questionSet, targetedFamilyPair:pair, activeMode:"analyst", orderSeed:"synthetic-core-repair", answers, contextAssist:false, itemLatencyBuckets:{} }))
+  }, { key:storageKey, questionSet, pair, answers:incomplete })
+  await page.goto("/quiz/review")
+  const generate = page.getByRole("button", { name:"Generate my result →" })
+  await expect(generate).toBeDisabled()
+  expect(new URL(page.url()).pathname).toBe("/quiz/review")
+  for (const key of [FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY, FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY, PROFILE_SAVE_INTENT_KEY, RESULT_HISTORY_STORAGE_KEY, PROFILE_STORAGE_KEY]) {
+   expect(await page.evaluate(k => localStorage.getItem(k), key)).toBeNull()
+   expect(await page.evaluate(k => sessionStorage.getItem(k), key)).toBeNull()
+  }
+  await expect(page.locator('a[href*="/results/"]')).toHaveCount(0)
+  const row = page.locator(`[data-question-id="${missing.id}"]`)
+  await expect(row.getByText(missing.prompt, { exact:true })).toBeVisible()
+  if (!pair) {
+   mkdirSync(`${repairDir}`, { recursive:true })
+   await row.scrollIntoViewIfNeeded()
+   await page.screenshot({ path:`${repairDir}/missing-tier-core-baseline.png` })
+  }
+  await row.getByRole("button", { name:"Edit", exact:true }).click()
+  await expect(page.getByRole("heading", { name:missing.prompt, exact:true })).toBeVisible()
+  await page.reload() // repair view and original form both survive resume
+  await expect(page.getByRole("heading", { name:missing.prompt, exact:true })).toBeVisible()
+  const resumed = JSON.parse(await page.evaluate(key => localStorage.getItem(key)!, storageKey))
+  expect(resumed.questionSet).toBe(questionSet)
+  expect(resumed.targetedFamilyPair).toEqual(pair)
+  expect(resumed.answers[missing.id]).toBeUndefined()
+  await page.getByRole("button", { name:new RegExp(`^${complete[missing.id]} `) }).click()
+  await page.getByRole("button", { name:/Return to review/ }).first().click()
+  await expect(generate).toBeEnabled()
+  // An ordinary extension Edit, reload and review must still retain the form.
+  await page.locator(`[data-question-id="${extension[0].id}"]`).getByRole("button", { name:"Edit", exact:true }).click()
+  await expect(page.getByRole("heading", { name:extension[0].prompt, exact:true })).toBeVisible()
+  await page.reload()
+  await expect(page.getByRole("heading", { name:extension[0].prompt, exact:true })).toBeVisible()
+  expect(JSON.parse(await page.evaluate(key => localStorage.getItem(key)!, storageKey)).questionSet).toBe(questionSet)
+  await page.getByRole("button", { name:/Return to review/ }).first().click()
+  await expect(generate).toBeEnabled()
+  await generate.click()
+  await expect(page).toHaveURL(/\/results\//)
+  const payload = JSON.parse(Buffer.from(page.url().split("/").pop()!, "base64url").toString())
+  const calibration = foundationScoringCalibrationForForm(questionSet,pair)!
+  expect(payload).toEqual(buildFoundationSharePayload(generateResult(complete,"analyst",calibration),"en",questionSet,pair))
+  await expect.poll(() => page.evaluate(key => localStorage.getItem(key), FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY)).not.toBeNull()
+  records.push({ questionSet, pair, missingId:missing.id, allExtensionAnswersPresent:true, blockedUntilRestored:true, restoredPayload:payload })
+  if (!pair) await page.screenshot({ path:`${repairDir}/restored-core-result.png` })
+ }
+ writeFileSync(`${repairDir}/core-recovery.json`,JSON.stringify(records,null,2))
 })
 
 test("fresh supported marks draw once with final, interrupted, reduced, print and no-JS silhouettes",async({browser,page})=>{

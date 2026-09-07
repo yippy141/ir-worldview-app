@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 
-const evidenceDir = "docs/evidence/decision-exercises-release/screenshots/experiment-regression"
+const evidenceDir = process.env.RESULT_PAYOFF_EVIDENCE_DIR ?? "docs/evidence/decision-exercises-release/screenshots/experiment-regression"
 const route = "/dev/result-payoff"
 const sizes = [{ width: 1440, height: 900 }, { width: 390, height: 844 }]
 async function capture(page: Page, name: string, fullPage = false, motion = false) {
@@ -152,7 +152,7 @@ test("keyboard, reduced motion, 320/390/768 reflow and no-JS fixture evidence", 
   await next.focus()
   expect(await next.evaluate(el => getComputedStyle(el).outlineStyle)).toBe("solid")
   await page.keyboard.press("Enter")
-  await expect(page.locator("h1")).toBeFocused()
+  await expect(page.getByRole("heading", { name: "Replay: one condition changes" })).toBeFocused()
   for (const width of [320, 390, 768]) {
     await page.setViewportSize({ width, height: 844 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -215,7 +215,7 @@ test("no answer-bearing requests, URL changes, persistent writes or personal pro
   expect(requests.some(r => /api\/analytics|api\/research|api\/aggregate/.test(r.url))).toBe(false)
   expect(requests.every(r => new URL(r.url).hostname === "127.0.0.1")).toBe(true)
   expect(requests.some(r => /timely|scrutiny|custodian|weights|gp1|gp2/.test(r.url))).toBe(false)
-  writeFileSync("docs/evidence/decision-exercises-release/experiment-privacy-check.json", JSON.stringify({ syntheticOnly: true, requests, audit: { reads: audit.reads, writes: audit.writes.map(w => ({ kind: w.kind, key: "__next_debug_channel:<development-request>", frameworkOnly: true })), noChangesDuringEitherExercise: true }, storage: await context.storageState() }, null, 2))
+  writeFileSync(process.env.RESULT_PAYOFF_EVIDENCE_DIR ? `${evidenceDir}/experiment-privacy-check.json` : "docs/evidence/decision-exercises-release/experiment-privacy-check.json", JSON.stringify({ syntheticOnly: true, requests, audit: { reads: audit.reads, writes: audit.writes.map(w => ({ kind: w.kind, key: "__next_debug_channel:<development-request>", frameworkOnly: true })), noChangesDuringEitherExercise: true }, storage: await context.storageState() }, null, 2))
   await page.reload()
   await expect(page.locator("input:checked")).toHaveCount(0)
   await context.close()

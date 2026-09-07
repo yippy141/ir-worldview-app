@@ -13,6 +13,34 @@ import { draftEpisodes, completeEpisode } from "@/lib/decision-exercises/content
 import { getPublishedDecision, decisionHref, decisionPublications } from "@/lib/decision-exercises/catalog"
 import { comparisonStatus } from "@/lib/decision-exercises/status"
 import { consumeFreshFoundationResult, markFreshFoundationResult } from "@/lib/results/fresh-foundation-result"
+import { hasCompleteFoundationAnswers } from "@/lib/quiz-completion"
+import type { FamilyKey, FoundationQuestionSet } from "@/lib/types"
+
+test("all fourteen tier-core omissions block every baseline, saved-full and targeted completion", () => {
+  const core = getFoundationQuestionsForSet("core")
+  assert.equal(core.length, 14)
+  assert.equal(core.find(q => q.id === "sc2")?.tier, "core")
+  assert.equal(getFoundationQuestionsForSet("baselineExtended").find(q => q.id === "sc1")?.tier, "extended")
+  const families: FamilyKey[] = ["realist", "institutionalist", "constructivist", "criticalPoliticalEconomy"]
+  const forms: { questionSet: FoundationQuestionSet; targetedFamilyPair?: [FamilyKey, FamilyKey] }[] = [
+    { questionSet:"baselineExtended" }, { questionSet:"fullExtended" },
+  ]
+  for (let i=0;i<families.length;i++) for (let j=i+1;j<families.length;j++) forms.push({ questionSet:"targetedExtended", targetedFamilyPair:[families[i],families[j]] })
+  for (const form of forms) {
+    const extension = getFoundationQuestionsForSet(form.questionSet,form.targetedFamilyPair)
+    const answers = Object.fromEntries(getFoundationResultQuestions(form.questionSet,form.targetedFamilyPair).map(q => [q.id, q.kind === "likert" ? 4 : { primary:q.options[0].id }]))
+    assert.equal(hasCompleteFoundationAnswers({ ...form, answers }), true)
+    for (const question of core) {
+      assert.equal(question.tier,"core")
+      const incomplete = { ...answers }; delete incomplete[question.id]
+      assert.ok(extension.every(q => incomplete[q.id] !== undefined))
+      assert.equal(hasCompleteFoundationAnswers({ ...form, answers:incomplete }),false, `${form.questionSet}: ${question.id}`)
+    }
+    const incompleteExtension = { ...answers }; delete incompleteExtension[extension[0].id]
+    assert.equal(hasCompleteFoundationAnswers({ ...form, answers:incompleteExtension }),false)
+  }
+  assert.equal(hasCompleteFoundationAnswers({ questionSet:"targetedExtended", answers:syntheticAnswers(12) }),false)
+})
 
 test("new baseline form preserves every scored item and order without the comparison battery", () => {
   const current = getFoundationQuestionsForSet("baselineExtended")

@@ -149,4 +149,4 @@
 
 .embedded { padding: 0 !important; max-width: none; }
 
-.page > h1 { scroll-margin-top: 110px; }
+.page > h1, .page h2[tabindex="-1"] { scroll-margin-top: 110px; }

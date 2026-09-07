@@ -126,6 +126,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const fromReview = searchParams.get("from") === "review"
   const hasIndexedQuestion = searchParams.get("q") !== null
   const initialQ = parseInt(searchParams.get("q") ?? "0", 10)
+  const requestedCoreRepair = searchParams.get("repair") === "core"
   const requestedExtension = searchParams.get("extension")
   const requestedFirstFamily = searchParams.get("first")
   const requestedSecondFamily = searchParams.get("second")
@@ -212,17 +213,20 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     notifyQuizSessionUpdated()
   }, [ready, session])
 
+  const repairingCore = requestedCoreRepair && session.questionSet !== "core"
+  const displayedSet = repairingCore ? "core" : session.questionSet
+
   const questions = useMemo(
     () => locale === "zh-Hans"
       ? getZhHansFoundationQuestionsForSet(
-          session.questionSet,
+          displayedSet,
           session.targetedFamilyPair,
         )
       : getFoundationQuestionsForSet(
-          session.questionSet,
+          displayedSet,
           session.targetedFamilyPair,
         ),
-    [locale, session.questionSet, session.targetedFamilyPair],
+    [locale, displayedSet, session.targetedFamilyPair],
   )
   const resultAnswers = useMemo(
     () =>
@@ -262,6 +266,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   useEffect(() => {
     if (
       !ready ||
+      repairingCore ||
       !currentQuestionId ||
       currentQuestionHasAnswer
     ) {
@@ -274,6 +279,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     completionStepsSent.current.add(stepKey)
     void submitTier1CompletionStep(tier1Cohort, effectiveIndex)
   }, [
+    repairingCore,
     currentQuestionHasAnswer,
     currentQuestionId,
     effectiveIndex,
@@ -441,13 +447,13 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
               <div className="stack-xs">
                 <h1>{copy.title}</h1>
                 <p className="muted" style={{ lineHeight: "1.65" }}>
-                  {copy.setSummary[session.questionSet]}
+                  {copy.setSummary[displayedSet]}
                 </p>
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}
               </div>
-              <span className="mode-pill">{copy.setLabels[session.questionSet]}</span>
+              <span className="mode-pill">{copy.setLabels[displayedSet]}</span>
             </div>
           </div>
 
