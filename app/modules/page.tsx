@@ -80,12 +80,12 @@ export default async function ModulesPage(
     : undefined
 
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       <article className="lobby-page stack-xl">
         <section className="lobby-hero lobby-hero--plain">
           <div className="lobby-hero-grid">
             <div className="stack-lg">
-              <p className="section-kicker">Step 2 · Focus Areas</p>
+              <p className="section-kicker">Focus Areas</p>
               <h1>Add a focused issue read beside the Foundation</h1>
               <p className="lobby-lead">
                 Use Security and Technology to examine concrete policy judgments. Each result

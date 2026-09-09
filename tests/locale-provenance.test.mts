@@ -13,7 +13,7 @@ test("completion provenance is instrument- and locale-versioned", () => {
   })
   assert.deepEqual(completionProvenance("foundation", "zh-Hans"), {
     locale: "zh-Hans",
-    localeCopyVersion: 1,
+    localeCopyVersion: 2,
   })
   assert.deepEqual(LEGACY_ENGLISH_PROVENANCE, {
     locale: "en",

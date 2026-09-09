@@ -52,8 +52,8 @@ export default async function ChineseReferenceDetailPage({ params }: { params: P
   }).sort((left, right) => left.tier - right.tier)
 
   return (
-    <div className="wide-container">
-      <article className="result-article reference-detail">
+    <div className="wide-container reading-page">
+      <article className="result-article reference-detail reading-page">
         <header className="article-header stack-sm">
           <p className="eyebrow">{copy.detail.eyebrow(copy.entityTypes[profile.entityType])}</p>
           <h1 lang="en">{profile.name}</h1>

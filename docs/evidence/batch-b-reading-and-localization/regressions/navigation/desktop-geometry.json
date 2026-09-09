@@ -1,0 +1,152 @@
+[
+  {
+    "route": "/compare",
+    "closed": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-sm",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    },
+    "expanded": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-sm",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    }
+  },
+  {
+    "route": "/explore/reference",
+    "closed": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-md",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    },
+    "expanded": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-md",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    }
+  },
+  {
+    "route": "/futures",
+    "closed": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-sm",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    },
+    "expanded": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-sm",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    }
+  },
+  {
+    "route": "/perspectives",
+    "closed": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-md",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    },
+    "expanded": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-md",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    }
+  },
+  {
+    "route": "/references",
+    "closed": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-sm",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    },
+    "expanded": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-sm",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    }
+  },
+  {
+    "route": "/zh/explore/reference",
+    "closed": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-md",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    },
+    "expanded": {
+      "document": 1440,
+      "owners": [
+        {
+          "class": "article-header stack-md",
+          "right": "0px",
+          "width": "420px",
+          "pointerEvents": "none"
+        }
+      ]
+    }
+  }
+]

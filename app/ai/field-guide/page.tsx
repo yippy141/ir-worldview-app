@@ -17,12 +17,12 @@ const labelByKey = Object.fromEntries(atlasEntries.map((entry) => [entry.key, en
 
 const sections = [
   { id: "scope", label: "Scope and limits" },
-  { id: "axes", label: "The eight axes" },
+  { id: "axes", label: "Governance dimensions" },
   { id: "splits", label: "Where archetypes part ways" },
   { id: "cross-read", label: "IR ↔ AI cross-read" },
   { id: "under-modeled", label: "Under-modeled perspectives" },
   { id: "start", label: "Where to start reading" },
-  { id: "futures", label: "Futures appendix", optional: true },
+  { id: "futures", label: "Futures", optional: true },
 ]
 
 const partWaysPairs = [
@@ -139,21 +139,13 @@ export const metadata: Metadata = {
 export default function AiFieldGuidePage() {
   return (
     <div className="wide-container">
-      <article className="result-article">
+      <article className="result-article reading-page">
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
-          <p className="ai-hero-eyebrow">AI Field Guide · Explainer · Companion to the Atlas</p>
-          <p className="ai-fg-banner">
-            <span className="ai-fg-banner__lbl">Explainer</span>
-            <span className="ai-fg-banner__body">
-              Reading surface only. This page has no scoring, second assessment, or quiz.
-            </span>
-          </p>
-          <h1 className="ai-hero-h1">A reader&rsquo;s companion to the AI Atlas.</h1>
+          <p className="ai-hero-eyebrow">AI Governance</p>
+          <h1 className="ai-hero-h1">AI Field Guide</h1>
           <p className="ai-hero-summary">
-            Scope notes, eight axes, nearby splits, cross-read notes, and perspectives the current
-            Compass only partly covers. Use the rail to skip. To get an archetype, take the AI
-            Governance Compass; this page does not produce one.
+Compare the institutions behind rival proposals: who can inspect, who can restrict access, and who has authority to set the rules. These are editorial comparisons, not inferred relationships between your Foundation and AI results.
           </p>
           <div className="row gap-sm wrap">
             <AiResultReturnLink />
@@ -236,16 +228,15 @@ export default function AiFieldGuidePage() {
             <section id="axes" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
                 <p className="ai-fg-section__num">§2</p>
-                <h2 className="ai-fg-section__title">The eight axes</h2>
+                <h2 className="ai-fg-section__title">Governance dimensions</h2>
                 <p className="ai-fg-section__deck">
                   The vocabulary the AI module uses. Names, one-line description, and opposing
                   poles only. It assigns no positions or scores.
                 </p>
               </header>
               <ol className="ai-fg-axes">
-                {aiAtlasAxisGuide.map((axis, index) => (
+                {aiAtlasAxisGuide.map((axis) => (
                   <li key={axis.key} className="ai-fg-axis">
-                    <span className="ai-fg-axis__n">A{index + 1}</span>
                     <div className="ai-fg-axis__body">
                       <p className="ai-fg-axis__nm">{axis.label}</p>
                       <p className="ai-fg-axis__desc">{axis.explainer}</p>

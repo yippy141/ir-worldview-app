@@ -15,7 +15,7 @@ export const metadata: Metadata = createDynamicLocalizedMetadata(
 export default function ChineseReferenceBrowsePage() {
   const entities = getVisibleReferenceEntities()
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       <div className="article-header stack-md">
         <div className="stack-xs">
           <p className="eyebrow">{copy.browse.eyebrow}</p>

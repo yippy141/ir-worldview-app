@@ -1,0 +1,1639 @@
+{
+  "base": "20780d0381bed82958d6a5dff2b809100b6142af",
+  "date": "2026-09-09",
+  "ledgerRows": 605,
+  "uniqueFindings": 10,
+  "counts": {
+    "faithfulCorrection": 9,
+    "noMaterialDifference": 0,
+    "intentionalAdaptationAwaitingDecision": 0,
+    "ambiguousSourceOrConstruct": 1
+  },
+  "method": "CSV parsed with Python csv.DictReader; English and effective v1/v2 runtime records resolved by current registry. Historical draft alternatives are recorded separately, not mistaken for served copy. No evidence establishes an intentional owner choice for the two changed case scenarios; they are treated as faithful restorations of the issued English task under explicit Batch B authority.",
+  "records": [
+    {
+      "id": "df1",
+      "disposition": "ambiguous-source-or-construct",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-standard-a.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts"
+      ],
+      "english": {
+        "prompt": "A new governing coalition often redirects foreign policy even when the external threat remains unchanged.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Can elections, leadership changes, and domestic coalitions shift foreign policy as much as events abroad?"
+        },
+        "options": []
+      },
+      "servedChineseV1": {
+        "prompt": "执政者及其问责对象的变化，对外交政策的影响往往不亚于外部威胁。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "选举、领导层更替和国内政治联盟，能否像外部事态一样推动外交政策转向？"
+        },
+        "options": []
+      },
+      "draftAlternatives": {
+        "questionId": "df1",
+        "chineseDraftA": {
+          "prompt": "谁执政、执政者向谁负责的变化，往往和外部威胁一样能改变外交政策。",
+          "clarification": {
+            "whatItAsks": "选举、领导层更替和国内联盟，能否像外部事件一样显著改变外交政策？"
+          }
+        },
+        "chineseDraftB": {
+          "prompt": "执政者及其问责对象的变化，对外交政策的影响往往不亚于外部威胁。",
+          "clarification": {
+            "whatItAsks": "选举、领导人更替和国内政治联盟，能否像国外事态一样推动外交政策转向？"
+          }
+        },
+        "reconciledChinese": {
+          "prompt": "执政者及其问责对象的变化，对外交政策的影响往往不亚于外部威胁。",
+          "clarification": {
+            "whatItAsks": "选举、领导层更替和国内政治联盟，能否像外部事态一样推动外交政策转向？"
+          }
+        }
+      },
+      "difference": "Prompt holds outside threat fixed and changes governing coalition; English clarification instead compares the magnitude of domestic and external effects. Chinese follows the latter. Selecting one task only in Chinese would conceal a source conflict.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "即使外部威胁保持不变，新的执政联盟也常会使外交政策转向。",
+        "clarification": "Pending decision: preserve the constant-threat proposition or the comparative-magnitude task; no new runtime clarification selected."
+      },
+      "literalBackTranslation": {
+        "prompt": "Even if the outside threat stays unchanged, a new governing coalition often redirects foreign policy.",
+        "limitation": "Candidate prompt only; clarification awaits the same task decision."
+      },
+      "versionDecision": "Keep all runtime fields unchanged in both copy revisions. Recommend a future English-authorized alignment of the clarification with the constant-threat prompt, then the same Chinese task.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:df1:legacy-mode-standard:standard:zh-Hans",
+          "form": "legacy-mode-standard",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "4"
+        },
+        {
+          "row_id": "foundation:df1:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "4"
+        },
+        {
+          "row_id": "foundation:df1:core:standard:zh-Hans",
+          "form": "core",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "5"
+        }
+      ],
+      "registryExposure": [
+        "core"
+      ],
+      "coreCarryForward": true,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated.",
+      "carriedForwardExposure": [
+        "baselineExtended (56 total)",
+        "fullExtended (historical 68 total)",
+        "targetedExtended: Realist–Liberal",
+        "targetedExtended: Realist–Constructivist",
+        "targetedExtended: Realist–Critical",
+        "targetedExtended: Liberal–Constructivist",
+        "targetedExtended: Liberal–Critical",
+        "targetedExtended: Constructivist–Critical"
+      ]
+    },
+    {
+      "id": "sc2",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-standard-a.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "Uncertainty about another state's long-term intentions makes continued military preparation necessary even during sustained cooperation.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Does uncertainty about another state's future behavior push states to prepare for conflict?"
+        },
+        "options": []
+      },
+      "servedChineseV1": {
+        "prompt": "由于无法确信他国今后仍无敌意，各国往往会预先防范风险。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "无法判断他国未来是否仍无敌意，是否会促使国家准备应对冲突？"
+        },
+        "options": []
+      },
+      "draftAlternatives": {
+        "questionId": "sc2",
+        "chineseDraftA": {
+          "prompt": "国家常常会为危险作准备，因为无法确定其他国家会一直保持善意。",
+          "clarification": {
+            "whatItAsks": "对他国未来行为的不确定，是否会推动国家为冲突作准备？"
+          }
+        },
+        "chineseDraftB": {
+          "prompt": "由于无法确信他国今后仍无敌意，各国往往会预先防范风险。",
+          "clarification": {
+            "whatItAsks": "无法判断他国未来是否仍无敌意，是否会促使国家准备应对冲突？"
+          }
+        },
+        "reconciledChinese": {
+          "prompt": "由于无法确信他国今后仍无敌意，各国往往会预先防范风险。",
+          "clarification": {
+            "whatItAsks": "无法判断他国未来是否仍无敌意，是否会促使国家准备应对冲突？"
+          }
+        }
+      },
+      "difference": "Old Chinese describes customary advance risk prevention, omitting military preparation, necessity and sustained cooperation. Agreement with general precaution need not endorse continued military preparation during cooperation.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "由于无法确定他国的长期意图，即使双方持续合作，继续做好军事准备仍有必要。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "对他国未来行为的不确定，是否会促使国家准备应对冲突？"
+        },
+        "options": []
+      },
+      "literalBackTranslation": {
+        "prompt": "Because another state’s long-term intentions cannot be determined, continuing military preparation remains necessary even if both sides cooperate continuously.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Does uncertainty about another state's future behavior push states to prepare for conflict?"
+        },
+        "options": []
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:sc2:legacy-mode-standard:standard:zh-Hans",
+          "form": "legacy-mode-standard",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "13"
+        },
+        {
+          "row_id": "foundation:sc2:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "13"
+        },
+        {
+          "row_id": "foundation:sc2:core:standard:zh-Hans",
+          "form": "core",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "1"
+        }
+      ],
+      "registryExposure": [
+        "core"
+      ],
+      "coreCarryForward": true,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated.",
+      "carriedForwardExposure": [
+        "baselineExtended (56 total)",
+        "fullExtended (historical 68 total)",
+        "targetedExtended: Realist–Liberal",
+        "targetedExtended: Realist–Constructivist",
+        "targetedExtended: Realist–Critical",
+        "targetedExtended: Liberal–Constructivist",
+        "targetedExtended: Liberal–Critical",
+        "targetedExtended: Constructivist–Critical"
+      ]
+    },
+    {
+      "id": "ni2",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-standard-b.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "A state's demand for recognition often changes which foreign-policy goals its leaders consider important.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Are a state's interests shaped partly by status, identity, and recognition?"
+        },
+        "options": []
+      },
+      "servedChineseV1": {
+        "prompt": "国际地位、他国承认与政治正当性，不仅影响国家追求利益的方式，也会改变国家如何界定自身利益。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "国家如何理解自身利益，是否部分取决于地位、身份认同和他国承认？"
+        },
+        "options": []
+      },
+      "draftAlternatives": {
+        "questionId": "ni2",
+        "chineseDraftA": {
+          "prompt": "地位、承认和正当性会塑造国家想要什么，而不只是影响它如何追求既定利益。",
+          "clarification": {
+            "whatItAsks": "国家利益是否也会受到地位、身份与外界承认的塑造？"
+          }
+        },
+        "chineseDraftB": {
+          "prompt": "国际地位、他国承认与政治正当性，不仅影响国家实现利益的方式，也会改变国家如何界定自身利益。",
+          "clarification": {
+            "whatItAsks": "国家如何理解自身利益，是否部分取决于地位、身份认同和他国承认？"
+          }
+        },
+        "reconciledChinese": {
+          "prompt": "国际地位、他国承认与政治正当性，不仅影响国家追求利益的方式，也会改变国家如何界定自身利益。",
+          "clarification": {
+            "whatItAsks": "国家如何理解自身利益，是否部分取决于地位、身份认同和他国承认？"
+          }
+        }
+      },
+      "difference": "Old Chinese adds political legitimacy and a means-versus-definition contrast. Those additional cues can express a broader claim than recognition changing the goals leaders prioritize.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "一个国家寻求他国承认的诉求，往往会改变其领导人认为重要的外交政策目标。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "国家利益是否部分由地位、身份认同和他国承认塑造？"
+        },
+        "options": []
+      },
+      "literalBackTranslation": {
+        "prompt": "A state’s demand to obtain recognition from other states often changes the foreign-policy goals its leaders consider important.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Are a state's interests shaped partly by status, identity, and recognition?"
+        },
+        "options": []
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:ni2:legacy-mode-standard:standard:zh-Hans",
+          "form": "legacy-mode-standard",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "20"
+        },
+        {
+          "row_id": "foundation:ni2:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "20"
+        },
+        {
+          "row_id": "foundation:ni2:core:standard:zh-Hans",
+          "form": "core",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "7"
+        }
+      ],
+      "registryExposure": [
+        "core"
+      ],
+      "coreCarryForward": true,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated.",
+      "carriedForwardExposure": [
+        "baselineExtended (56 total)",
+        "fullExtended (historical 68 total)",
+        "targetedExtended: Realist–Liberal",
+        "targetedExtended: Realist–Constructivist",
+        "targetedExtended: Realist–Critical",
+        "targetedExtended: Liberal–Constructivist",
+        "targetedExtended: Liberal–Critical",
+        "targetedExtended: Constructivist–Critical"
+      ]
+    },
+    {
+      "id": "v21_in_rev_03",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-v21-additions.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "International agreements endure when participating states retain enough power to enforce the bargain.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Do agreements last because participating states retain the power to uphold and enforce them?"
+        },
+        "options": []
+      },
+      "servedChineseV1": {
+        "prompt": "当参与国保有足够力量来维持和执行协议时，国际协议才能长久。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "协议能够延续，是否因为参与国仍有力量维护并执行协议？"
+        },
+        "options": []
+      },
+      "draftAlternatives": {
+        "questionId": "v21_in_rev_03",
+        "chineseDraftA": {
+          "prompt": "当参与国保有足够力量来维持和执行协议时，国际协议才能长久。",
+          "clarification": {
+            "whatItAsks": "协议能够延续，是否因为参与国仍有力量维护并执行协议？"
+          }
+        },
+        "chineseDraftB": {
+          "prompt": "总体而言，当参与国保有足够力量来维持和执行协议时，国际协议才能长久。",
+          "clarification": {
+            "whatItAsks": "协议能够延续，是否因为参与国仍有力量维护并执行协议？"
+          }
+        },
+        "reconciledChinese": {
+          "prompt": "当参与国保有足够力量来维持和执行协议时，国际协议才能长久。",
+          "clarification": {
+            "whatItAsks": "协议能够延续，是否因为参与国仍有力量维护并执行协议？"
+          }
+        }
+      },
+      "difference": "才能 adds a necessary condition: only then can agreements last. English when supplies a conditional relationship without explicitly excluding other routes to endurance.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "当参与国保有足够力量执行约定时，国际协议就能延续。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "协议能够延续，是否因为参与国仍有力量维护并执行协议？"
+        },
+        "options": []
+      },
+      "literalBackTranslation": {
+        "prompt": "When participating states retain enough power to carry out the agreement, international agreements can continue.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Do agreements last because participating states retain the power to uphold and enforce them?"
+        },
+        "options": []
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:v21_in_rev_03:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "36"
+        },
+        {
+          "row_id": "foundation:v21_in_rev_03:core:standard:zh-Hans",
+          "form": "core",
+          "mode": "standard",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "4"
+        }
+      ],
+      "registryExposure": [
+        "core"
+      ],
+      "coreCarryForward": true,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated.",
+      "carriedForwardExposure": [
+        "baselineExtended (56 total)",
+        "fullExtended (historical 68 total)",
+        "targetedExtended: Realist–Liberal",
+        "targetedExtended: Realist–Constructivist",
+        "targetedExtended: Realist–Critical",
+        "targetedExtended: Liberal–Constructivist",
+        "targetedExtended: Liberal–Critical",
+        "targetedExtended: Constructivist–Critical"
+      ]
+    },
+    {
+      "id": "an_ni3",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-analyst-a.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "How a rival responds to being excluded from talks, denied diplomatic recognition, or treated as a lesser power can help predict what it will do next.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Can a rival's response to a perceived status slight help predict its next move?",
+          "terms": [
+            {
+              "term": "Status",
+              "definition": "The standing and recognition a state believes it deserves from other states."
+            }
+          ]
+        },
+        "options": []
+      },
+      "servedChineseV1": {
+        "prompt": "国家之间对地位与承认的争执，不只是话语包装，也可能真实预示对手今后的行为。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "地位与承认之争，是否包含可用于判断对手未来行动的信息？"
+        },
+        "options": []
+      },
+      "draftAlternatives": {
+        "questionId": "an_ni3",
+        "chineseDraftA": {
+          "prompt": "地位主张和承认争议，能够揭示对手未来行为的真实信息，而不只是修饰其言辞。",
+          "clarification": {
+            "whatItAsks": "围绕地位与承认的争议，能否帮助预测对手将如何行动？"
+          }
+        },
+        "chineseDraftB": {
+          "prompt": "国家之间对地位与承认的争执，不只是话语包装，也可能真实预示对手今后的行为。",
+          "clarification": {
+            "whatItAsks": "地位与承认之争，是否包含可用于判断对手未来行动的信息？"
+          }
+        },
+        "reconciledChinese": {
+          "prompt": "国家之间对地位与承认的争执，不只是话语包装，也可能真实预示对手今后的行为。",
+          "clarification": {
+            "whatItAsks": "地位与承认之争，是否包含可用于判断对手未来行动的信息？"
+          }
+        }
+      },
+      "difference": "Old Chinese removes exclusion from talks, denial of diplomatic recognition and lesser-power treatment, adding a rhetoric-versus-real-information contrast. It no longer asks about responses to the same supplied cues.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "对手被排除在谈判之外、被拒绝给予外交承认，或被当作次等强国对待时的反应，有助于预测它接下来会怎么做。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "对手面对其所感受到的地位轻视时的反应，能否帮助预测它的下一步行动？",
+          "terms": [
+            {
+              "term": "地位",
+              "definition": "一个国家认为自己应当从其他国家获得的地位与承认。"
+            }
+          ]
+        },
+        "options": []
+      },
+      "literalBackTranslation": {
+        "prompt": "A rival’s reaction when excluded from talks, denied diplomatic recognition, or treated as a lesser power helps predict what it will do next.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "Can a rival's response to a perceived status slight help predict its next move?",
+          "terms": [
+            {
+              "term": "Status",
+              "definition": "The standing and recognition a state believes it deserves from other states."
+            }
+          ]
+        },
+        "options": []
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:an_ni3:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "50"
+        },
+        {
+          "row_id": "foundation:an_ni3:fullExtended:analyst:zh-Hans",
+          "form": "fullExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "saved legacy full extension only; explicit continue or restart; excluded from new starts",
+          "order": "36"
+        },
+        {
+          "row_id": "foundation:an_ni3:baselineExtended:analyst:zh-Hans",
+          "form": "baselineExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "current ordinary new extension; core carried forward separately",
+          "order": "24"
+        }
+      ],
+      "registryExposure": [
+        "baselineExtended",
+        "fullExtended"
+      ],
+      "coreCarryForward": false,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated."
+    },
+    {
+      "id": "an_pe4",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-analyst-a.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "Control over technology rules and critical infrastructure will rival military strength as a source of international power in the coming decade.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "This compares military and territorial power with control over key technologies, networks, and the rules that make them work together."
+        },
+        "options": []
+      },
+      "servedChineseV1": {
+        "prompt": "未来地缘政治力量的形成，将更深层地取决于谁控制技术标准、数字平台和数据，而不只是军事与领土竞争。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "技术标准、平台与数据控制权，是否会比军事力量和领土更深地影响国际权力？"
+        },
+        "options": []
+      },
+      "draftAlternatives": {
+        "questionId": "an_pe4",
+        "chineseDraftA": {
+          "prompt": "对技术标准、平台和数据的控制，将比单纯的军事或领土争夺更深刻地塑造地缘政治权力。",
+          "clarification": {
+            "whatItAsks": "掌握标准、平台和数据，是否会比领土与军力更深刻地塑造权力？"
+          }
+        },
+        "chineseDraftB": {
+          "prompt": "未来地缘政治力量的形成，更深层地取决于谁控制技术标准、数字平台和数据，而不只是军事与领土竞争。",
+          "clarification": {
+            "whatItAsks": "技术规则、平台与数据控制权，是否会比军事力量和领土更深地影响国际权力？"
+          }
+        },
+        "reconciledChinese": {
+          "prompt": "未来地缘政治力量的形成，将更深层地取决于谁控制技术标准、数字平台和数据，而不只是军事与领土竞争。",
+          "clarification": {
+            "whatItAsks": "技术标准、平台与数据控制权，是否会比军事力量和领土更深地影响国际权力？"
+          }
+        }
+      },
+      "difference": "Old Chinese changes critical infrastructure to platforms/data, rival to a deeper role, and the coming decade to an unbounded future. The forecast comparison and time horizon differ.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "未来十年，对技术规则和关键基础设施的控制，将成为足以与军事实力相匹敌的国际权力来源。",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "这里比较的是军事与领土力量，以及对关键技术、网络和使其协同运作的规则的控制。"
+        },
+        "options": []
+      },
+      "literalBackTranslation": {
+        "prompt": "In the next ten years, control over technology rules and critical infrastructure will become a source of international power able to rival military strength.",
+        "helpText": null,
+        "clarification": {
+          "whatItAsks": "This compares military and territorial power with control over key technologies, networks, and the rules that make them work together."
+        },
+        "options": []
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:an_pe4:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "51"
+        },
+        {
+          "row_id": "foundation:an_pe4:fullExtended:analyst:zh-Hans",
+          "form": "fullExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "saved legacy full extension only; explicit continue or restart; excluded from new starts",
+          "order": "37"
+        },
+        {
+          "row_id": "foundation:an_pe4:baselineExtended:analyst:zh-Hans",
+          "form": "baselineExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "current ordinary new extension; core carried forward separately",
+          "order": "25"
+        }
+      ],
+      "registryExposure": [
+        "baselineExtended",
+        "fullExtended"
+      ],
+      "coreCarryForward": false,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated."
+    },
+    {
+      "id": "an_case_finance",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-analyst-b.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "A middle-income country pegs its currency to the dollar while banks and firms borrow heavily in dollars. Global interest rates rise, foreign lenders pull out, and emergency loans require spending cuts during a recession. Which factor best explains why the crisis is so hard to stop?",
+        "helpText": "Choose the explanation that should guide the first response.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "credibility",
+            "title": "Domestic credibility failure",
+            "label": "The currency peg and foreign-currency borrowing made an outside shock much worse. Rebuilding trust in domestic policy is the first condition for recovery."
+          },
+          {
+            "id": "pragmatic",
+            "title": "Mixed crisis, mixed repair",
+            "label": "Domestic policy choices and creditor leverage are both doing real work. Use temporary controls and renegotiate terms without abandoning the wider financial system."
+          },
+          {
+            "id": "dependence",
+            "title": "Structural dependence exposed",
+            "label": "The crisis exposes dependence on foreign-currency finance and creditor conditions. It will recur unless that dependence changes."
+          },
+          {
+            "id": "coalitions",
+            "title": "Domestic distributional conflict",
+            "label": "External finance sets the constraint, but domestic politics determines which workers, firms, and regions absorb the cuts."
+          }
+        ]
+      },
+      "servedChineseV1": {
+        "prompt": "某个中等收入国家遭遇资本外流，债权人又施压要求财政紧缩，经济濒临崩溃。哪种解读最有说服力？",
+        "helpText": "请选择对这场危机最有解释力的判断。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "credibility",
+            "title": "国内政策失去可信度",
+            "label": "外部压力暴露了内部脆弱性；重建政策可信度，是走出危机的首要条件。"
+          },
+          {
+            "id": "pragmatic",
+            "title": "国内与结构问题交织",
+            "label": "危机既有国内原因，也有结构原因。可暂时实施管制并重谈条件，同时留在现有体系内寻求修复。"
+          },
+          {
+            "id": "dependence",
+            "title": "结构性依赖暴露",
+            "label": "危机源于对外部资本和债权人杠杆的依赖；除非改变这种结构，否则同类危机仍会发生。"
+          },
+          {
+            "id": "coalitions",
+            "title": "调整成本由国内政治分配",
+            "label": "外部金融压力限定了空间，国内政治则决定哪些群体承担调整代价。"
+          }
+        ]
+      },
+      "draftAlternatives": {
+        "questionId": "an_case_finance",
+        "chineseDraftA": {
+          "prompt": "一个中等收入国家在资本外逃、债权人施压要求紧缩后面临崩溃。哪种解读最有说服力？",
+          "helpText": "选择对这场危机最好的解释。",
+          "options": [
+            {
+              "id": "credibility",
+              "title": "国内信誉失灵",
+              "label": "外部压力暴露了内部弱点。恢复政策信誉是复苏的首要条件。"
+            },
+            {
+              "id": "pragmatic",
+              "title": "危机成因混合，应对也应混合",
+              "label": "危机既有国内原因，也有结构原因。可暂时实施管制并重新谈判，但仍留在整体体系内。"
+            },
+            {
+              "id": "dependence",
+              "title": "结构性依赖暴露",
+              "label": "危机源于对外部资本和债权人杠杆的依赖。不改变这一结构，危机还会重演。"
+            },
+            {
+              "id": "coalitions",
+              "title": "国内分配冲突",
+              "label": "金融压力设定了约束，但由国内政治决定谁来承担调整成本。"
+            }
+          ]
+        },
+        "chineseDraftB": {
+          "prompt": "某中等收入国家遭遇资本外流，债权人又要求财政紧缩，经济濒临崩溃。应如何理解这场危机？",
+          "helpText": "请选择最有解释力的判断。",
+          "options": [
+            {
+              "id": "credibility",
+              "title": "国内政策失去可信度",
+              "label": "外部冲击只是揭开了内部脆弱性；重建政策可信度，是走出危机的前提。"
+            },
+            {
+              "id": "pragmatic",
+              "title": "国内与结构问题交织",
+              "label": "应短期管制资本并重谈条件，同时继续在现有国际体系内寻求修复。"
+            },
+            {
+              "id": "dependence",
+              "title": "外部资本依赖的结果",
+              "label": "债权人能够利用资本依赖施压；除非改变这种结构，否则同类危机仍会发生。"
+            },
+            {
+              "id": "coalitions",
+              "title": "调整成本由国内政治分配",
+              "label": "外部金融压力规定了空间，国内力量关系则决定哪些群体承受代价。"
+            }
+          ]
+        },
+        "reconciledChinese": {
+          "prompt": "某个中等收入国家遭遇资本外流，债权人又施压要求财政紧缩，经济濒临崩溃。哪种解读最有说服力？",
+          "helpText": "请选择对这场危机最有解释力的判断。",
+          "options": [
+            {
+              "id": "credibility",
+              "title": "国内政策失去可信度",
+              "label": "外部压力暴露了内部脆弱性；重建政策可信度，是走出危机的首要条件。"
+            },
+            {
+              "id": "pragmatic",
+              "title": "国内与结构问题交织",
+              "label": "危机既有国内原因，也有结构原因。可暂时实施管制并重谈条件，同时留在现有体系内寻求修复。"
+            },
+            {
+              "id": "dependence",
+              "title": "结构性依赖暴露",
+              "label": "危机源于对外部资本和债权人杠杆的依赖；除非改变这种结构，否则同类危机仍会发生。"
+            },
+            {
+              "id": "coalitions",
+              "title": "调整成本由国内政治分配",
+              "label": "外部金融压力限定了空间，国内政治则决定哪些群体承担调整代价。"
+            }
+          ]
+        }
+      },
+      "difference": "Old Chinese omits dollar peg, foreign-currency borrowing, rising global rates and recession-linked loan cuts. Options replace those mechanisms with generalized fragility and creditor pressure. The available evidence for the credibility explanation differs.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "一个中等收入国家将本币汇率盯住美元，银行和企业同时大量借入美元债务。全球利率上升，外国贷款方撤资，紧急贷款又要求该国在经济衰退期间削减支出。哪项因素最能解释这场危机为何如此难以遏止？",
+        "helpText": "请选择应当指导最初应对措施的解释。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "credibility",
+            "title": "国内政策可信度失灵",
+            "label": "固定汇率和外币借款放大了外部冲击。重建对国内政策的信任，是复苏的首要条件。"
+          },
+          {
+            "id": "pragmatic",
+            "title": "复合危机需要多方面修复",
+            "label": "国内政策选择和债权人的制约都在起作用。应采取临时管制并重谈条件，同时不放弃更广泛的金融体系。"
+          },
+          {
+            "id": "dependence",
+            "title": "结构性依赖暴露",
+            "label": "危机暴露了对外币融资和债权人条件的依赖。除非这种依赖发生变化，否则危机还会重演。"
+          },
+          {
+            "id": "coalitions",
+            "title": "国内分配冲突",
+            "label": "外部融资设定了约束，但国内政治决定哪些劳动者、企业和地区承担削减支出的代价。"
+          }
+        ]
+      },
+      "literalBackTranslation": {
+        "prompt": "A middle-income state fixes its currency to the dollar while banks and firms borrow large dollar debts. Global rates rise, foreign lenders withdraw, and emergency loans demand spending cuts during recession. Which factor best explains why this crisis is so hard to contain?",
+        "helpText": "Choose the explanation that should guide the first response.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "credibility",
+            "titleAndLabel": "Domestic policy credibility fails. The fixed exchange rate and foreign-currency borrowing magnified the outside shock. Rebuilding trust in domestic policy is the first condition for recovery."
+          },
+          {
+            "id": "pragmatic",
+            "titleAndLabel": "A compound crisis needs repair on several fronts. Domestic policy choices and creditor constraints both operate. Use temporary controls and renegotiate conditions without abandoning the broader financial system."
+          },
+          {
+            "id": "dependence",
+            "titleAndLabel": "Structural dependence exposed. The crisis exposes dependence on foreign-currency finance and creditors’ terms. Unless this dependence changes, the crisis will recur."
+          },
+          {
+            "id": "coalitions",
+            "titleAndLabel": "Domestic distribution conflict. External finance sets constraints, but domestic politics decides which workers, businesses and regions bear the cost of spending cuts."
+          }
+        ]
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:an_case_finance:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "55"
+        },
+        {
+          "row_id": "foundation:an_case_finance:fullExtended:analyst:zh-Hans",
+          "form": "fullExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "saved legacy full extension only; explicit continue or restart; excluded from new starts",
+          "order": "41"
+        },
+        {
+          "row_id": "foundation:an_case_finance:baselineExtended:analyst:zh-Hans",
+          "form": "baselineExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "current ordinary new extension; core carried forward separately",
+          "order": "29"
+        }
+      ],
+      "registryExposure": [
+        "baselineExtended",
+        "fullExtended"
+      ],
+      "coreCarryForward": false,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated."
+    },
+    {
+      "id": "an_tradeoff_evidence",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-analyst-b.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "After a border clash, a rival withdraws some troops and accepts a military hotline, but keeps new missiles in place and faces nationalist pressure at home. Which evidence should anchor your judgment of whether de-escalation will last?",
+        "helpText": "Choose the evidence you would trust first when the signals point in different directions.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "capabilities",
+            "title": "Capabilities and posture",
+            "label": "The missiles and remaining force posture matter most because they can be used regardless of promises or political language."
+          },
+          {
+            "id": "commitments",
+            "title": "Institutions and commitments",
+            "label": "Compliance with the pullback and use of the hotline matter most because observable commitments are harder to fake than public messages."
+          },
+          {
+            "id": "coalitions",
+            "title": "Domestic staying power",
+            "label": "The best clue is whether leaders can contain nationalist pressure and keep domestic support for the quieter course."
+          },
+          {
+            "id": "status",
+            "title": "Status and relationship signals",
+            "label": "Watch whether leaders stop describing the dispute as a test of national standing; that shift can change what the remaining weapons mean."
+          }
+        ]
+      },
+      "servedChineseV1": {
+        "prompt": "危机信息彼此冲突时，应优先相信哪一类证据？",
+        "helpText": "请选择你最先采用的判断依据。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "capabilities",
+            "title": "实际能力与军事态势",
+            "label": "若部队部署、战备态势和硬实力变化同其他信号相反，应把更大权重放在前者。"
+          },
+          {
+            "id": "commitments",
+            "title": "制度约束与既有承诺",
+            "label": "条约履行、核查机制和危机规则会改变激励并提高虚张声势的成本，因此更有说明力。"
+          },
+          {
+            "id": "coalitions",
+            "title": "国内政治能否长期支撑",
+            "label": "应看领导层是否有足够的政治联盟、财政与公众空间，把当前政策坚持下去。"
+          },
+          {
+            "id": "status",
+            "title": "地位诉求与关系信号",
+            "label": "地位主张、承认争议和政治语言的变化，可能先于能力变化而改变一项行动的含义。"
+          }
+        ]
+      },
+      "draftAlternatives": {
+        "questionId": "an_tradeoff_evidence",
+        "chineseDraftA": {
+          "prompt": "危机中信号相互矛盾时，哪类证据应获得最大权重？",
+          "helpText": "选择你会首先信任的信号。",
+          "options": [
+            {
+              "id": "capabilities",
+              "title": "能力与部署态势",
+              "label": "当军力部署、战备姿态和硬实力变化与较软信号冲突时，应以前者为重。"
+            },
+            {
+              "id": "commitments",
+              "title": "制度与承诺",
+              "label": "条约履行、核查与危机规则会改变激励并提高虚张声势的成本，因此更有说明力。"
+            },
+            {
+              "id": "coalitions",
+              "title": "国内持续力",
+              "label": "最好的线索是领导人是否拥有足够的政治联盟、预算和公众空间来维持当前路线。"
+            },
+            {
+              "id": "status",
+              "title": "地位与关系信号",
+              "label": "地位主张、承认争议和政治语言的变化，可能先于能力变化而改变行为的含义。"
+            }
+          ]
+        },
+        "chineseDraftB": {
+          "prompt": "危机信息彼此冲突时，应优先相信哪一类证据？",
+          "helpText": "请选择你最先采用的判断依据。",
+          "options": [
+            {
+              "id": "capabilities",
+              "title": "实际能力与军事态势",
+              "label": "若部队部署和硬实力变化同其他信号相反，应把更大权重放在可观察的能力上。"
+            },
+            {
+              "id": "commitments",
+              "title": "制度约束与既有承诺",
+              "label": "条约行为、检查机制和危机规程会实质改变成本，因此比表态更难伪装。"
+            },
+            {
+              "id": "coalitions",
+              "title": "国内政治能否长期支撑",
+              "label": "应看领导层是否有联盟、财政和舆论条件，把当前政策坚持下去。"
+            },
+            {
+              "id": "status",
+              "title": "地位诉求与关系语言",
+              "label": "地位和承认争议可能先改变双方如何理解行动，早于物质能力出现明显变化。"
+            }
+          ]
+        },
+        "reconciledChinese": {
+          "prompt": "危机信息彼此冲突时，应优先相信哪一类证据？",
+          "helpText": "请选择你最先采用的判断依据。",
+          "options": [
+            {
+              "id": "capabilities",
+              "title": "实际能力与军事态势",
+              "label": "若部队部署、战备态势和硬实力变化同其他信号相反，应把更大权重放在前者。"
+            },
+            {
+              "id": "commitments",
+              "title": "制度约束与既有承诺",
+              "label": "条约履行、核查机制和危机规则会改变激励并提高虚张声势的成本，因此更有说明力。"
+            },
+            {
+              "id": "coalitions",
+              "title": "国内政治能否长期支撑",
+              "label": "应看领导层是否有足够的政治联盟、财政与公众空间，把当前政策坚持下去。"
+            },
+            {
+              "id": "status",
+              "title": "地位诉求与关系信号",
+              "label": "地位主张、承认争议和政治语言的变化，可能先于能力变化而改变一项行动的含义。"
+            }
+          ]
+        }
+      },
+      "difference": "Old Chinese replaces a particular de-escalation judgment with a general evidence preference. Missile, pullback, hotline and domestic-nationalist evidence is replaced by generic treaties/fiscal capacity/status templates.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "边境冲突后，对手撤回部分部队并同意设立军事热线，但仍保留新部署的导弹，国内也面临民族主义压力。判断局势缓和能否持续时，应以哪项证据为主要依据？",
+        "helpText": "当信号指向不同方向时，请选择你会首先信任的证据。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "capabilities",
+            "title": "能力与军事态势",
+            "label": "导弹和剩余兵力的部署最重要，因为无论作出什么承诺或使用什么政治语言，这些力量都可以投入使用。"
+          },
+          {
+            "id": "commitments",
+            "title": "制度与承诺",
+            "label": "是否遵守撤军安排、是否使用热线最重要，因为可观察的履约行为比公开表态更难伪装。"
+          },
+          {
+            "id": "coalitions",
+            "title": "国内政治能否持续支撑",
+            "label": "最有用的线索是领导人能否遏制民族主义压力，并保持国内对缓和路线的支持。"
+          },
+          {
+            "id": "status",
+            "title": "地位与关系信号",
+            "label": "要看领导人是否不再把争端描述为对国家地位的考验；这种变化会改变剩余武器所传达的含义。"
+          }
+        ]
+      },
+      "literalBackTranslation": {
+        "prompt": "After a border clash, a rival withdraws some troops and agrees to a military hotline, but retains newly deployed missiles and faces nationalist pressure at home. Which evidence should be the main basis for judging whether easing tensions can last?",
+        "helpText": "Choose the evidence you would trust first when the signals point in different directions.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "capabilities",
+            "titleAndLabel": "Capabilities and military posture. Missiles and remaining deployments matter most, because these forces can be used whatever promises or political language are used."
+          },
+          {
+            "id": "commitments",
+            "titleAndLabel": "Institutions and commitments. Whether the pullback is honored and hotline used matters most, because observable compliance is harder to fake than public statements."
+          },
+          {
+            "id": "coalitions",
+            "titleAndLabel": "Can domestic politics sustain support? The most useful clue is whether leaders can restrain nationalist pressure and preserve domestic support for easing tensions."
+          },
+          {
+            "id": "status",
+            "titleAndLabel": "Status and relationship signals. Watch whether leaders stop describing the dispute as a test of national standing; that change alters what the remaining weapons convey."
+          }
+        ]
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:an_tradeoff_evidence:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "57"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_evidence:fullExtended:analyst:zh-Hans",
+          "form": "fullExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "saved legacy full extension only; explicit continue or restart; excluded from new starts",
+          "order": "43"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_evidence:targetedExtended:realist|institutionalist:analyst:zh-Hans",
+          "form": "targetedExtended:realist|institutionalist",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "1"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_evidence:baselineExtended:analyst:zh-Hans",
+          "form": "baselineExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "current ordinary new extension; core carried forward separately",
+          "order": "31"
+        }
+      ],
+      "registryExposure": [
+        "baselineExtended",
+        "fullExtended",
+        "targeted:realist|institutionalist"
+      ],
+      "coreCarryForward": false,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated."
+    },
+    {
+      "id": "an_case_intervention_memory",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-analyst-c.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "After a major insurgent attack, a Sahelian government is offered troops by its former colonial power. The force could help quickly, but earlier missions left resentment and weak local capacity. What should weigh most?",
+        "helpText": "Answer from the Sahelian government's position.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "shield",
+            "title": "Protect sovereignty and local control",
+            "label": "Decline any arrangement that gives the outside force open-ended authority; short-term help is not worth renewed dependence."
+          },
+          {
+            "id": "threshold",
+            "title": "Urgent danger can justify help",
+            "label": "If civilians and state survival face extreme danger, tightly limited outside force can be justified despite the history."
+          },
+          {
+            "id": "regional",
+            "title": "Put regional actors in the lead",
+            "label": "Accept help only through a mission whose aims, command, and exit terms are set mainly by neighboring states."
+          },
+          {
+            "id": "aftermath",
+            "title": "Judge the exit, not just the arrival",
+            "label": "The decisive test is whether the mission leaves local forces and institutions stronger rather than creating another indefinite security dependency."
+          }
+        ]
+      },
+      "servedChineseV1": {
+        "prompt": "邻国发生严重镇压，国际上出现动武干预的要求。一个有殖民经历的国家会怎样看这件事？",
+        "helpText": "请选择从该国政府角度最有说服力的判断。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "shield",
+            "title": "不能轻易降低干预门槛",
+            "label": "干预从来不是一视同仁地适用，弱国无法把它视为不偏不倚的规则。"
+          },
+          {
+            "id": "threshold",
+            "title": "大规模杀戮可能构成真正例外",
+            "label": "高度重视主权，并不意味着面对极端暴行时永远拒绝外部行动。"
+          },
+          {
+            "id": "regional",
+            "title": "地区支持是关键检验",
+            "label": "如果例外由邻近国家共同界定目标与限制，而不是由远方大国单独包装，理由会更充分。"
+          },
+          {
+            "id": "aftermath",
+            "title": "评估干预之后会怎样",
+            "label": "要看外部武力究竟能保护民众，还是会加深崩溃与外部控制。"
+          }
+        ]
+      },
+      "draftAlternatives": {
+        "questionId": "an_case_intervention_memory",
+        "chineseDraftA": {
+          "prompt": "严重镇压发生后，一个后殖民国家看到邻国出现军事干预呼声。从该国立场看，哪种论点最有力？",
+          "helpText": "请从该国政府的处境作答。",
+          "options": [
+            {
+              "id": "shield",
+              "title": "维持较高的干预门槛",
+              "label": "由于干预总是选择性适用，弱国不能把它当作中立规则。"
+            },
+            {
+              "id": "threshold",
+              "title": "极端伤害仍可成为行动理由",
+              "label": "即使高度重视主权，面对压倒性的大规模杀戮，也可能接受真正的例外。"
+            },
+            {
+              "id": "regional",
+              "title": "地区支持是关键检验",
+              "label": "由邻近国家界定目标与边界，比由远方大国单独设定框架更能为例外提供理由。"
+            },
+            {
+              "id": "aftermath",
+              "title": "先问干预之后会怎样",
+              "label": "核心是外部武力会真正保护民众，还是会加深崩溃与外部控制。"
+            }
+          ]
+        },
+        "chineseDraftB": {
+          "prompt": "邻国发生严重镇压，国际上出现动武干预的要求。一个有殖民经历的国家会怎样看这件事？",
+          "helpText": "请选择从该国政府角度最有说服力的判断。",
+          "options": [
+            {
+              "id": "shield",
+              "title": "不能轻易降低动武门槛",
+              "label": "干预从来不是一视同仁地适用，弱国无法把它视为不偏不倚的规则。"
+            },
+            {
+              "id": "threshold",
+              "title": "大规模杀戮可能构成真正例外",
+              "label": "保护主权并不意味着面对极端暴行时永远拒绝外部行动。"
+            },
+            {
+              "id": "regional",
+              "title": "由本地区国家确认目标与限制",
+              "label": "如果例外由邻近国家共同界定，而非远方力量单方面包装，理由会更充分。"
+            },
+            {
+              "id": "aftermath",
+              "title": "评估保护效果与外部控制风险",
+              "label": "要看干预究竟能救人，还是会让国家进一步崩解并受外部支配。"
+            }
+          ]
+        },
+        "reconciledChinese": {
+          "prompt": "邻国发生严重镇压，国际上出现动武干预的要求。一个有殖民经历的国家会怎样看这件事？",
+          "helpText": "请选择从该国政府角度最有说服力的判断。",
+          "options": [
+            {
+              "id": "shield",
+              "title": "不能轻易降低干预门槛",
+              "label": "干预从来不是一视同仁地适用，弱国无法把它视为不偏不倚的规则。"
+            },
+            {
+              "id": "threshold",
+              "title": "大规模杀戮可能构成真正例外",
+              "label": "高度重视主权，并不意味着面对极端暴行时永远拒绝外部行动。"
+            },
+            {
+              "id": "regional",
+              "title": "地区支持是关键检验",
+              "label": "如果例外由邻近国家共同界定目标与限制，而不是由远方大国单独包装，理由会更充分。"
+            },
+            {
+              "id": "aftermath",
+              "title": "评估干预之后会怎样",
+              "label": "要看外部武力究竟能保护民众，还是会加深崩溃与外部控制。"
+            }
+          ]
+        }
+      },
+      "difference": "Old Chinese asks an observer of intervention into a neighboring state after repression. English asks the recipient government whether to accept former-colonial troops after an insurgent attack. Authority, direction, harmed population, benefits and dependency costs differ; option rationales must be restored together.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "一次重大叛乱袭击后，萨赫勒地区某国政府收到来自其前殖民宗主国的派兵援助提议。这支部队可能迅速提供帮助，但以往的行动留下了怨恨，当地能力也依然薄弱。最应看重什么？",
+        "helpText": "请站在这个萨赫勒国家政府的立场作答。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "shield",
+            "title": "保护主权和当地控制权",
+            "label": "拒绝任何给予外来部队无期限权限的安排；短期援助不值得以重新陷入依赖为代价。"
+          },
+          {
+            "id": "threshold",
+            "title": "紧迫危险可以成为接受援助的理由",
+            "label": "如果平民和国家存续面临极端危险，即使存在这段历史，受到严格限制的外来武力也可以有正当理由。"
+          },
+          {
+            "id": "regional",
+            "title": "由地区国家主导",
+            "label": "只有当行动目标、指挥和退出条件主要由邻国决定时，才接受这一行动提供的援助。"
+          },
+          {
+            "id": "aftermath",
+            "title": "不仅看如何进入，也看如何退出",
+            "label": "决定性的检验是行动结束后，当地部队和机构是否更强，而不是再次形成没有明确期限的安全依赖。"
+          }
+        ]
+      },
+      "literalBackTranslation": {
+        "prompt": "After a major insurgent attack, a government in the Sahel receives an offer of troop assistance from its former colonial ruler. The force may help quickly, but earlier operations left resentment and local capacity remains weak. What should matter most?",
+        "helpText": "Answer from the Sahelian government's position.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "shield",
+            "titleAndLabel": "Protect sovereignty and local control. Reject any arrangement granting outside troops authority without a time limit; short-term help is not worth renewed dependence."
+          },
+          {
+            "id": "threshold",
+            "titleAndLabel": "Urgent danger can justify accepting assistance. If civilians and the state’s survival face extreme danger, strictly limited outside force can be justified even with that history."
+          },
+          {
+            "id": "regional",
+            "titleAndLabel": "Let regional states lead. Accept the mission’s assistance only when neighboring states mainly determine its aims, command and exit conditions."
+          },
+          {
+            "id": "aftermath",
+            "titleAndLabel": "Look not only at entry but at exit. The decisive test is whether local forces and institutions are stronger after the mission, rather than another security dependence without a defined end."
+          }
+        ]
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:an_case_intervention_memory:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "65"
+        },
+        {
+          "row_id": "foundation:an_case_intervention_memory:fullExtended:analyst:zh-Hans",
+          "form": "fullExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "saved legacy full extension only; explicit continue or restart; excluded from new starts",
+          "order": "51"
+        },
+        {
+          "row_id": "foundation:an_case_intervention_memory:targetedExtended:institutionalist|constructivist:analyst:zh-Hans",
+          "form": "targetedExtended:institutionalist|constructivist",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "4"
+        },
+        {
+          "row_id": "foundation:an_case_intervention_memory:baselineExtended:analyst:zh-Hans",
+          "form": "baselineExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "current ordinary new extension; core carried forward separately",
+          "order": "39"
+        }
+      ],
+      "registryExposure": [
+        "baselineExtended",
+        "fullExtended",
+        "targeted:institutionalist|constructivist"
+      ],
+      "coreCarryForward": false,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated."
+    },
+    {
+      "id": "an_tradeoff_energy_alignment",
+      "disposition": "faithful-correction",
+      "runtimeSources": [
+        "content/instrument/foundation.v2.json",
+        "content/locales/zh-Hans/foundation-copy-analyst-c.ts",
+        "content/locales/zh-Hans/foundation-instrument.ts",
+        "content/locales/zh-Hans/foundation-copy-v2.ts"
+      ],
+      "english": {
+        "prompt": "A treaty ally finds that its main security partner has used force in clear breach of an agreement both signed. Suspending basing access would uphold the rule, but would also expose the ally to a nearby rival and threaten thousands of local jobs. What should govern its response?",
+        "helpText": "Choose the priority that should govern the decision, not the easiest public message.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "defend_rule",
+            "title": "Suspend access now",
+            "label": "A treaty ally cannot make the agreement credible while continuing to enable a clear breach, even at real security and economic cost."
+          },
+          {
+            "id": "protect_home",
+            "title": "Protect immediate security",
+            "label": "Do not trade away the country's deterrent position or domestic coalition for a response it cannot safely sustain."
+          },
+          {
+            "id": "phase_reduction",
+            "title": "Reduce dependence in stages",
+            "label": "Set a timetable to diversify security support and the local economy before using basing access as leverage."
+          },
+          {
+            "id": "hedge_diplomatically",
+            "title": "Separate condemnation from access",
+            "label": "Condemn the breach and press for a settlement, but keep the base arrangement in place unless the violation widens."
+          }
+        ]
+      },
+      "servedChineseV1": {
+        "prompt": "政府反对一场对外侵略，但若迅速切断经济联系，国内物价将受到严重冲击。政策路线应由什么主导？",
+        "helpText": "请选择真正的政策优先项，不要按哪种公开表态最容易辩护来作答。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "defend_rule",
+            "title": "尽快以实际行动捍卫规则",
+            "label": "承担真实代价，是防止侵略与夺取领土逐渐被正常化的一部分。"
+          },
+          {
+            "id": "protect_home",
+            "title": "先稳住国内社会与政治支持",
+            "label": "一项迅速破坏国内政治联盟的外交政策无法长期执行，也就难以保持可信。"
+          },
+          {
+            "id": "phase_reduction",
+            "title": "分阶段降低依赖",
+            "label": "逐步调整可以减少外部依赖，也能避免一次性冲击强化国内强硬派。"
+          },
+          {
+            "id": "hedge_diplomatically",
+            "title": "反对侵略，同时保持外交回旋",
+            "label": "不应让本国承受的经济代价，自动把国家锁入他国的更广泛战略。"
+          }
+        ]
+      },
+      "draftAlternatives": {
+        "questionId": "an_tradeoff_energy_alignment",
+        "chineseDraftA": {
+          "prompt": "一个政府谴责国外侵略，但迅速切断经济联系会在国内造成严重价格冲击。什么应主导其路线？",
+          "helpText": "选择优先事项，而不是最站得住脚的公开说法。",
+          "options": [
+            {
+              "id": "defend_rule",
+              "title": "迅速捍卫规则",
+              "label": "承担真实代价，是防止侵略与夺取领土被逐渐正常化的一部分。"
+            },
+            {
+              "id": "protect_home",
+              "title": "保护国内稳定",
+              "label": "一项迅速摧毁国内政治联盟的外交政策，不会长期保持可信。"
+            },
+            {
+              "id": "phase_reduction",
+              "title": "分阶段减少敞口",
+              "label": "更有力的路线是逐步削减依赖，同时避免价格冲击强化国内强硬派。"
+            },
+            {
+              "id": "hedge_diplomatically",
+              "title": "保留外交空间",
+              "label": "谴责破坏规则，但不要让经济痛苦自动转化为追随他国更广泛的战略。"
+            }
+          ]
+        },
+        "chineseDraftB": {
+          "prompt": "政府反对一场对外侵略，但若立即脱钩，国内物价将剧烈上涨。政策底线应由什么决定？",
+          "helpText": "请选择真正的政策优先项，不要按哪种表态最好听来作答。",
+          "options": [
+            {
+              "id": "defend_rule",
+              "title": "尽快以实际行动维护反侵略原则",
+              "label": "若不愿承担成本，侵略和领土兼并就更容易被视为可接受。"
+            },
+            {
+              "id": "protect_home",
+              "title": "先稳住国内社会与政治支持",
+              "label": "破坏国内联盟的外交政策无法长期执行，也就谈不上可信。"
+            },
+            {
+              "id": "phase_reduction",
+              "title": "有步骤地降低依赖",
+              "label": "逐步调整可以减少外部暴露，也能避免一次性冲击助长国内激进力量。"
+            },
+            {
+              "id": "hedge_diplomatically",
+              "title": "反对侵略，同时保持外交回旋",
+              "label": "不应让本国承受的经济代价，自动把国家锁入他国的整体战略。"
+            }
+          ]
+        },
+        "reconciledChinese": {
+          "prompt": "政府反对一场对外侵略，但若迅速切断经济联系，国内物价将受到严重冲击。政策路线应由什么主导？",
+          "helpText": "请选择真正的政策优先项，不要按哪种公开表态最容易辩护来作答。",
+          "options": [
+            {
+              "id": "defend_rule",
+              "title": "尽快以实际行动捍卫规则",
+              "label": "承担真实代价，是防止侵略与夺取领土逐渐被正常化的一部分。"
+            },
+            {
+              "id": "protect_home",
+              "title": "先稳住国内社会与政治支持",
+              "label": "一项迅速破坏国内政治联盟的外交政策无法长期执行，也就难以保持可信。"
+            },
+            {
+              "id": "phase_reduction",
+              "title": "分阶段降低依赖",
+              "label": "逐步调整可以减少外部依赖，也能避免一次性冲击强化国内强硬派。"
+            },
+            {
+              "id": "hedge_diplomatically",
+              "title": "反对侵略，同时保持外交回旋",
+              "label": "不应让本国承受的经济代价，自动把国家锁入他国的更广泛战略。"
+            }
+          ]
+        }
+      },
+      "difference": "Old Chinese substitutes economic severance and a price shock for basing rights, treaty breach, deterrence exposure and jobs. Generic opposition to aggression is not the same choice as suspending an ally’s base access.",
+      "effectLimit": "This could change what endorsement or option selection expresses; no measured response effect or independent human bilingual review is claimed.",
+      "proposedChinese": {
+        "prompt": "一个条约盟国发现，其主要安全伙伴使用武力，明显违反了双方签署的协议。暂停基地使用权可以维护规则，却也会使该盟国更易受到邻近对手的威胁，并危及当地数千个就业岗位。应以什么原则指导回应？",
+        "helpText": "请选择应当主导决策的优先事项，而不是最容易作出的公开表态。",
+        "clarification": null,
+        "options": [
+          {
+            "id": "defend_rule",
+            "title": "立即暂停使用权",
+            "label": "如果条约盟国继续为明显的违约行为提供条件，就无法使协议可信；即使要承担真实的安全和经济代价，也应暂停使用权。"
+          },
+          {
+            "id": "protect_home",
+            "title": "保障眼前的安全",
+            "label": "不要为了无法安全维持的回应，牺牲本国的威慑地位或国内政治联盟。"
+          },
+          {
+            "id": "phase_reduction",
+            "title": "分阶段降低依赖",
+            "label": "制定时间表，先使安全支持和当地经济更加多元，再将基地使用权作为施压手段。"
+          },
+          {
+            "id": "hedge_diplomatically",
+            "title": "将谴责与使用权分开处理",
+            "label": "谴责违约并推动解决争端，但只要违规行为没有扩大，就维持基地安排。"
+          }
+        ]
+      },
+      "literalBackTranslation": {
+        "prompt": "A treaty ally discovers that its principal security partner used force in clear violation of an agreement both signed. Suspending base-use rights can uphold the rule, but exposes the ally to a nearby rival and endangers thousands of local jobs. What principle should guide the response?",
+        "helpText": "Choose the priority that should govern the decision, not the easiest public message.",
+        "clarification": null,
+        "options": [
+          {
+            "id": "defend_rule",
+            "titleAndLabel": "Suspend use rights immediately. A treaty ally cannot make the agreement credible if it continues enabling a clear breach; suspend rights even at real security and economic cost."
+          },
+          {
+            "id": "protect_home",
+            "titleAndLabel": "Protect immediate security. Do not sacrifice the country’s deterrent position or domestic coalition for a response it cannot safely sustain."
+          },
+          {
+            "id": "phase_reduction",
+            "titleAndLabel": "Reduce dependence in stages. Set a timetable first to diversify security support and the local economy, then use base rights as a means of pressure."
+          },
+          {
+            "id": "hedge_diplomatically",
+            "titleAndLabel": "Handle condemnation separately from use rights. Condemn the breach and press to settle the dispute, but maintain the base arrangement so long as the violation does not widen."
+          }
+        ]
+      },
+      "versionDecision": "Preserve v1 bytes; serve v2 only to new bound Chinese drafts or a confirmed full restart. The existing (locale, copy version, question set, bank, scorer) tuple distinguishes the restored Chinese stimuli. No separate form ID is introduced: item selection/order, response controls and intended English task are unchanged; the locale-copy version resolves all wording.",
+      "affectedLedgerExposures": [
+        {
+          "row_id": "foundation:an_tradeoff_energy_alignment:legacy-mode-analyst:analyst:zh-Hans",
+          "form": "legacy-mode-analyst",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "legacy declared mode order/replay; ordinary new UI uses questionSet",
+          "order": "67"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_energy_alignment:fullExtended:analyst:zh-Hans",
+          "form": "fullExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "saved legacy full extension only; explicit continue or restart; excluded from new starts",
+          "order": "53"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_energy_alignment:targetedExtended:realist|criticalPoliticalEconomy:analyst:zh-Hans",
+          "form": "targetedExtended:realist|criticalPoliticalEconomy",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "5"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_energy_alignment:targetedExtended:institutionalist|criticalPoliticalEconomy:analyst:zh-Hans",
+          "form": "targetedExtended:institutionalist|criticalPoliticalEconomy",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "4"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_energy_alignment:targetedExtended:constructivist|criticalPoliticalEconomy:analyst:zh-Hans",
+          "form": "targetedExtended:constructivist|criticalPoliticalEconomy",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "active at inspected base; full extension includes prior core in result; surgical release will separate12 validation",
+          "order": "2"
+        },
+        {
+          "row_id": "foundation:an_tradeoff_energy_alignment:baselineExtended:analyst:zh-Hans",
+          "form": "baselineExtended",
+          "mode": "analyst",
+          "bank": "2",
+          "copy": "1",
+          "status": "current ordinary new extension; core carried forward separately",
+          "order": "41"
+        }
+      ],
+      "registryExposure": [
+        "baselineExtended",
+        "fullExtended",
+        "targeted:realist|criticalPoliticalEconomy",
+        "targeted:institutionalist|criticalPoliticalEconomy",
+        "targeted:constructivist|criticalPoliticalEconomy"
+      ],
+      "coreCarryForward": false,
+      "downstream": "No existing result/evidence is recomputed or relabeled. Known v1 drafts retain v1. Unknown/mixed legacy drafts retain old wording, finish with copy0 and cannot create answer-wording evidence. New bound drafts stay in one locale/copy through core/extension/edit/reload; switching language requires returning to that language or confirmed restart. Copy cohorts remain separate and not empirically equated."
+    }
+  ]
+}

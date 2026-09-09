@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { archetypes } from "../lib/archetypes"
+import { archetypes, getArchetypePath } from "../lib/archetypes"
 import {
   formatArchetypeCodeSpeech,
   formatArchetypeDisplayCode,
@@ -87,8 +87,11 @@ test("Explore keeps one canonical archetype directory and explains adjacent reco
   await expect(archetypeSection.locator("h3")).toHaveText(
     Object.values(PUBLIC_LENS_LABELS),
   )
-  await expect(archetypeSection.locator("a")).toHaveCount(1)
-  await expect(archetypeSection.locator("a")).toHaveAttribute("href", "/archetypes")
+  await expect(archetypeSection.locator("a")).toHaveCount(9)
+  await expect(archetypeSection.locator('a[href="/archetypes"]')).toHaveCount(1)
+  for (const archetype of archetypes) {
+    await expect(archetypeSection.getByRole("link", { name:archetype.name, exact:true })).toHaveAttribute("href", getArchetypePath(archetype.code))
+  }
   for (const archetype of archetypes) {
     await expect(
       archetypeSection.getByText(archetype.gloss, { exact: true }),

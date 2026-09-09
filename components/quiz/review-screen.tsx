@@ -1,5 +1,9 @@
 "use client"
 
+import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
+
+import { FoundationCopyNotice } from "@/components/quiz/foundation-copy-notice"
+import { foundationDraftCopyVersion, foundationDraftMatchesLocale, foundationDraftCompletion } from "@/lib/foundation-draft-copy"
 import { useEffect, useState } from "react"
 import { hasCompleteFoundationAnswers } from "@/lib/quiz-completion"
 import { markFreshFoundationResult } from "@/lib/results/fresh-foundation-result"
@@ -22,7 +26,8 @@ import {
   foundationScoringCalibrationForForm,
   generateResult,
 } from "@/lib/scoring"
-import { buildFoundationSharePayload, encodePayload } from "@/lib/share"
+import { encodePayload } from "@/lib/share"
+import { buildFoundationCopySharePayload } from "@/lib/foundation-copy-share"
 import { markProfileSaveIntent } from "@/lib/profile-save-intent"
 import { persistFoundationLocalEvidence } from "@/lib/results/local-evidence"
 import {
@@ -38,7 +43,6 @@ import type {
   AnswerValue,
   ItemLatencyBuckets,
   Question,
-  QuizSession,
   RankedChoiceAnswer,
 } from "@/lib/types"
 
@@ -128,6 +132,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
       ? getZhHansFoundationQuestionsForSet(
           session.questionSet,
           session.targetedFamilyPair,
+          foundationDraftCopyVersion(session),
         )
       : getFoundationQuestionsForSet(
           session.questionSet,
@@ -137,7 +142,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
 
   const missingCoreRows: AnswerRow[] = session && session.questionSet !== "core"
     ? (locale === "zh-Hans"
-        ? getZhHansFoundationQuestionsForSet("core")
+        ? getZhHansFoundationQuestionsForSet("core", undefined, foundationDraftCopyVersion(session))
         : getFoundationQuestionsForSet("core"))
       .map((question, index) => ({ question, index, answerDisplay: "—" }))
       .filter(({ question }) => session.answers[question.id] === undefined)
@@ -154,7 +159,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
   const answeredCount = session
     ? questions.filter((question) => session.answers[question.id] !== undefined).length
     : 0
-  const foundationComplete = Boolean(session && hasCompleteFoundationAnswers(session))
+  const foundationComplete = Boolean(session && hasCompleteFoundationAnswers(session) && foundationDraftMatchesLocale(session, locale))
 
   function handleEdit(index: number, repairCore = false) {
     router.push(`${publicPath(locale, "/quiz")}?q=${index}&from=review${repairCore ? "&repair=core" : ""}`)
@@ -184,22 +189,26 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         scoringCalibration,
       )
       const payload = encodePayload(
-        buildFoundationSharePayload(
+        buildFoundationCopySharePayload(
           result,
           locale,
           session.questionSet,
           session.targetedFamilyPair,
+          foundationDraftCompletion(session, locale).localeCopyVersion,
         ),
       )
 
       let localEvidenceId: string | undefined
       try {
+        const copyVersion = foundationDraftCompletion(session, locale).localeCopyVersion
+        if (copyVersion === 0) throw new Error("Unknown draft exposure cannot support answer wording evidence.")
         const evidence = await persistFoundationLocalEvidence({
           storage: window.localStorage,
           sessionStorage: window.sessionStorage,
           payload,
           answers: resultAnswers,
           completionLocale: locale,
+          copyVersion,
           questionSet: session.questionSet,
           targetedFamilyPair: session.targetedFamilyPair,
           mode: session.activeMode,
@@ -231,11 +240,8 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
       )
       void submitTier1AggregateResult(
         result,
-        buildTier1Cohort(
-          session.questionSet,
-          locale,
-          session.targetedFamilyPair,
-        ),
+        { ...buildTier1Cohort(session.questionSet, locale, session.targetedFamilyPair),
+          localeCopyVersion: foundationDraftCompletion(session, locale).localeCopyVersion },
         itemLatencyBuckets,
       )
       trackProductEvent("foundation_completed")
@@ -260,8 +266,11 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
     return <div className="panel" style={{ padding: "40px" }}>{copy.loading}</div>
   }
 
+  if (!foundationDraftMatchesLocale(session, locale)) return <FoundationCopyNotice session={session} locale={locale} onRestart={handleReset} />
+
   return (
     <div className="stack-lg">
+      <FoundationCopyNotice session={session} locale={locale} onRestart={handleReset} />
       <section className="panel stack-sm">
         <p className="eyebrow">{copy.eyebrow}</p>
         <h1>{copy.title}</h1>

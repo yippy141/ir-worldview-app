@@ -20,15 +20,13 @@ export const metadata: Metadata = {
 export default function AiAtlasPage() {
   return (
     <div className="wide-container">
-      <article className="result-article">
+      <article className="result-article reading-page">
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
-          <p className="ai-hero-eyebrow">AI Governance Atlas · Browse map · Not a typology</p>
-          <h1 className="ai-hero-h1">Six archetypes that recur in AI governance answers</h1>
+          <p className="ai-hero-eyebrow">AI Governance</p>
+          <h1 className="ai-hero-h1">AI governance archetypes</h1>
           <p className="ai-hero-summary">
-            Each card shows the archetype&rsquo;s relative emphasis across four core axes &mdash;
-            a small fingerprint, not a score. The shape lets you scan the page; the prose
-            keeps it honest. Definitions, critiques, neighbors, and readings live on the detail pages.
+            Who should govern capable AI, what risks matter most, and which institutions could act? Compare the arguments and their objections. The diagrams describe editorial categories, not your answers.
           </p>
           <div className="row gap-sm wrap">
             <Link href="/ai" className="cta-secondary">Back to AI home</Link>
@@ -40,10 +38,8 @@ export default function AiAtlasPage() {
 
         <section className="result-section stack-lg">
           <div className="ai-atlas-fingerprint-grid">
-            {atlasEntries.map((entry, index) => {
+            {atlasEntries.map((entry) => {
               const nearestKey = entry.closestNeighbors[0]
-              const number = (index + 1).toString().padStart(2, "0")
-              const total = atlasEntries.length.toString().padStart(2, "0")
 
               return (
                 <Link
@@ -55,7 +51,7 @@ export default function AiAtlasPage() {
                 >
                   <div className="ai-atlas-fingerprint-card__left">
                     <p className="ai-atlas-fingerprint-card__num">
-                      {number} / {total} · {aiAtlasArchetypeLeaningTag[entry.key]}
+                      {aiAtlasArchetypeLeaningTag[entry.key]}
                     </p>
                     <h3 className="ai-atlas-fingerprint-card__name">{entry.label}</h3>
                     <p className="ai-atlas-fingerprint-card__def">{entry.shortSummary}</p>

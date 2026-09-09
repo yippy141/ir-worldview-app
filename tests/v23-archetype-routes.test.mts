@@ -172,7 +172,8 @@ test("tradition routes publish the two posture links and no unsourced thinker ca
   }
 
   const traditionSource = source("app/explore/[slug]/page.tsx")
-  assert.match(traditionSource, /Supporting tradition, not a Foundation result/)
+  assert.match(traditionSource, /Related Foundation archetypes/)
+  assert.match(traditionSource, /does not replace the archetype resolved from a full score/)
   assert.match(traditionSource, /data-tradition-archetype=\{archetype\.code\}/)
   assert.match(traditionSource, /data-archetype-code-label/)
   assert.match(traditionSource, /href="\/explore\/reference"/)

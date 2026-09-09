@@ -45,7 +45,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
   const neighbors = getAtlasLiteNeighbors(pattern)
 
   return (
-    <div className={`wide-container ${styles.page}`}>
+    <div className={`wide-container reading-page ${styles.page}`}>
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
           <p className="eyebrow">Decision Pattern</p>
@@ -77,7 +77,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
 
         <aside className={styles.casePreview} aria-label="Reviewed case coverage">
           <p className={styles.casePreviewStatus}>
-            {primaryCase ? "One concrete case" : "Reviewed case coverage"}
+            {primaryCase ? "A case to examine" : "Reviewed case coverage"}
           </p>
           {primaryCase ? (
             <>
@@ -379,6 +379,7 @@ function CaseRecord({
         </ul>
       </div>
 
+      {sourceCoveredClaims[0] ? <p className={styles.supportingBody}><strong>Supporting evidence:</strong> {sourceCoveredClaims[0].text}</p> : null}
       <details className={styles.evidence}>
         <summary>
           Claims and direct sources ({sourceCoveredClaims.length} source-covered claims, {caseStudy.sourceRecords.length} sources)

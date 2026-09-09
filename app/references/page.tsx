@@ -289,7 +289,7 @@ function RefSection({ id, title, entries }: { id: string; title: string; entries
 
 export default function ReferencesPage() {
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       <div className="article-header stack-sm">
         <p className="eyebrow">Selected bibliography</p>
         <h1>References</h1>

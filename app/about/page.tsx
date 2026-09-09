@@ -11,7 +11,7 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/about", {
 
 export default function AboutPage() {
   return (
-    <div className="container stack-lg">
+    <div className="container stack-lg reading-page info-page">
       <section className="panel stack-md">
         <p className="eyebrow">About the project</p>
         <h1>See which foreign-policy arguments you rely on and where they conflict.</h1>

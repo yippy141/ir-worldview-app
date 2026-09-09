@@ -110,7 +110,7 @@ test("internal zh-Hans paths redirect to the canonical public Chinese surface", 
   await expect(page.locator("[data-archetype-mark]")).toHaveCount(0)
 })
 
-test("remaining unapproved Chinese instrument routes preserve opaque segments and show the questionnaire notice", async ({ page }) => {
+test("unapproved Chinese result reading routes preserve opaque segments and show the page notice", async ({ page }) => {
   const paths = [
     "/zh/ai/results/ai_A-b.9_payload",
     "/zh/modules/security/results/module_A-b.9_payload?foundation=f_123",
@@ -121,9 +121,9 @@ test("remaining unapproved Chinese instrument routes preserve opaque segments an
     await page.goto(pathname)
     expect(page.url()).toContain(pathname)
     await expect(page.getByRole("heading", {
-      name: "中文版问卷正在校对。",
+      name: "此页面的简体中文内容尚未通过编辑审校。",
     })).toBeVisible()
-    await expect(page.getByText("You may continue to the English questionnaire.")).toBeVisible()
+    await expect(page.getByText("You may continue to the English questionnaire.")).toHaveCount(0)
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   }
 
@@ -144,7 +144,7 @@ test("Chinese Foundation route uses localized item copy with the shared structur
   await expect(page.getByText("简体中文改编测试版", { exact: true })).toBeVisible()
 })
 
-test("Chinese Foundation review records canonical version and completion-locale provenance", async ({ page }) => {
+test("legacy Chinese Foundation review preserves unknown exposure provenance", async ({ page }) => {
   const questions = getFoundationQuestionsForSet("core")
   const answers = Object.fromEntries(questions.map((question) => [
     question.id,
@@ -176,16 +176,16 @@ test("Chinese Foundation review records canonical version and completion-locale 
     instrumentStructuralVersion: 4,
     instrumentVersion: 2,
     scoringVersion: 2,
-    localeCopyVersion: 1,
+    localeCopyVersion: 0,
     completionLocale: "zh-Hans",
     resultTier: "core",
     questionSet: "core",
   })
   await expect(
-    page.getByText("此结果由简体中文改编测试版生成。", { exact: false }),
+    page.getByText("这份草稿没有可核实的作答语言或文案版本记录", { exact: false }),
   ).toBeVisible()
   await expect(
-    page.getByText("结构版本 4 · 评分版本 2 · 中文文案版本 1", { exact: true }),
+    page.getByText("结构版本 4 · 评分版本 2 · 中文文案版本 未知", { exact: true }),
   ).toBeVisible()
 })
 
@@ -570,9 +570,11 @@ test.describe("390px Simplified Chinese shell", () => {
     await settleVisualSnapshot(page)
     await expect.soft(page).toHaveScreenshot("decision-release-zh-method-390.png")
 
+    // Preserve the issued copy-1 visual baseline. Copy 2 has its own Batch B capture and exact-copy checks.
+    await page.evaluate((key) => localStorage.setItem(key, JSON.stringify({v:7,activeMode:"standard",questionSet:"core",orderSeed:"synthetic-copy1-snapshot",answers:{},contextAssist:false,itemLatencyBuckets:{},foundationCopy:{status:"single-copy",locale:"zh-Hans",version:1}})), QUIZ_STORAGE_KEY)
     await page.goto("/zh/quiz")
     await expect(page.getByRole("heading", {
-      name: getZhHansFoundationQuestionsForSet("core")[0].prompt,
+      name: getZhHansFoundationQuestionsForSet("core",undefined,1)[0].prompt,
     })).toBeVisible()
     await settleVisualSnapshot(page)
     await expect.soft(page).toHaveScreenshot("zh-foundation-quiz-390.png")

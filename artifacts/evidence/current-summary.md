@@ -49,7 +49,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | calibration | lib/scoring/v2-calibration.ts | 0f4d08855f3c17c6657b8b8c05d6e32b01aa199691875c9a4e97d422d84a5aed |
 | scoring-runtime | lib/scoring/v2.ts | 295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c |
 | scoring-runtime | lib/scoring/versions.ts | 87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c |
-| copy-audit | scripts/audit-public-copy.mjs | afa1418daded373ff58448ed6ab673512ecb7355172b7f759390a259d1bd4710 |
+| copy-audit | scripts/audit-public-copy.mjs | b294c9b368a09218284ed10323864fe166ee91df1238c37c90eb72757003687c |
 | calibration | scripts/calibrate-modules-bootstrap.mjs | d7094911334cdf2c65584b93f6a397b3c584b596f5b86058e124854a030d09da |
 | calibration | scripts/calibrate-modules.mts | b34af8e105f72017c7a35310c3b0b45781b8a1e261f679e9c41d276a815aa640 |
 | calibration | scripts/calibrate-targeted-forms.mts | 632442daa133683d99c87f8b5c3fc8ed6c595979970f07bd384b5d3f5ea13794 |
@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 620. Unchanged and suppressed: 487. New: 133. Resolved: 71.
+P2 advisory baseline: 558. Current: 616. Unchanged and suppressed: 482. New: 134. Resolved: 76.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 620 |
+| P2 | 616 |
 
 ### P0 and P1 findings
 
@@ -1086,7 +1086,8 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.9.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.7.prompt) | usually |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
-| 1 | weak-generic-heading | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.0.label) | Start here |
+| 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#AiFieldGuidePage.h1) | Field Guide |
+| 1 | weak-generic-heading | public | app/explore/reference/[id]/page.tsx (route:/explore/reference/[id]#ProfileDetail.h3) | How it works |
 | 1 | repeated-adjacent-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.summary) | and interests is partly constituted by identity, norms, and shared social expectations / states want security, growth, and survival |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
 | 1 | pressure-test-repetition | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.0.coverageScope) | pressure-test |
@@ -1118,13 +1119,11 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | pressure-test-repetition | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.8.contextBullets.0.text) | pressure test |
 | 1 | repeated-adjacent-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Limits, privacy, and corrections / and gives factual, privacy, and security problems a narrow correction route |
-| 1 | repeated-adjacent-opening | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#WorldStageHome.p) | answer the foundation |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low) | the aggregate score |
 | 1 | consequential-filler | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.2.summary) | most consequential long-run threats |
 | 1 | repeated-adjacent-opening | public | app/method/page.tsx (route:/method#authoredChoices.2.body) | focus area results |
 | 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | map, map |
 | 1 | what-matters-most-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.9.options.3.label) | What matters most |
-| 1 | weak-generic-heading | public | components/home/world-stage/world-stage-home.tsx (content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.1.label) | Continue exploring |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Use the project contact route for a factual correction, privacy question, or security report / Do not include quiz answers, a result or Profile link, or another person&apos |
@@ -1153,6 +1152,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | pressure-test-repetition | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.5.contextBullets.0.text) | pressure test |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.1.label) | a hotline, rescue arrangements, and third-party incident investigation / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.20.prompt) | usually |
+| 1 | repeated-adjacent-three-part-list | public | content/explore/hub.en.json (content-key:content/explore/hub.en.json#hero.payoff.1) | Explore what different traditions notice, what they explain, and where their arguments come apart / Start with a name, a thinker, or a decision |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.4.scene) | a national investment plan for computing capacity, cloud services, and data centers in 30 days / cooperation with partners, private investment, or protected domestic capacity should lead the plan |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.midRange) | the aggregate score |
@@ -1165,6 +1165,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | operational | lib/modules/authoring-validation.ts (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | decision id is |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getStrongLenses.lens.description) | the aggregate score |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.5.prompt) | usually |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/foundation-copy-v2.ts (content-key:content/locales/zh-Hans/foundation-copy-v2.ts#zhHansFoundationCopyV2.ni2.prompt) | 往往 |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0) | 通常 |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.constructivist) | across the foundation |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.low) | the aggregate score |
@@ -1191,11 +1192,13 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 
 | Count | Baseline fingerprint |
 | --- | --- |
+| 1 | 0089c530821602ea2af5921eb00c5f9f460c074575d5329a6170c2989283e9b7 |
 | 1 | 025281f8d13e22b7195c81f06c4d53502a04bdd552a4a34804c8b6a22a054e2e |
 | 1 | 0285c8894fb80acea387d9808311d6a82ba08f6434013da69041157151c6f371 |
 | 1 | 103de392efc3d21dc75dfc9d8860216af7c39bc8fc871391a7b0a4ec259e5780 |
 | 1 | 1207472e8099e95d6a4d2a87cb240e8ff38bbe189dfba5decff83a75e1343108 |
 | 1 | 1395e77e1fd69d1ed174286fcd6163e875fc41e45a2e3ee5a761dc401881f9d5 |
+| 1 | 13b5a1d489e7e9c84b9bdf16fb5ca6ceaea6b4e8e41ed01e47688517ac87f884 |
 | 1 | 18e51be8b048c75d32c84e486391d333076d3ae4ce0f12a48f1a2f8358f7f045 |
 | 1 | 1ca87213df4ed7545ae4d8fffc3fc0125454e871a1cae46f2f1c3a97068f1c26 |
 | 1 | 1dc1d3d26c29482ea1d2b173497aaf9aa7cd91ecf4afe9bd61de01033948140a |
@@ -1204,6 +1207,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe |
 | 1 | 326cb4f7863b5ef1a0ab5dbcb0b862dfe9ce3576e0af3e3e9ec36ac623209e63 |
 | 1 | 32b072524907d84a69ba0ded4786820bb9650a739a78c72c36a25ee7ca4ba729 |
+| 1 | 3794bf547df44df59c33b84fe35dde88cb102dc328464a83d986dd3a810e2134 |
 | 1 | 398d061c452a59de956e9382c6cc71b579cc6d6e54502741a2d2055017378ab2 |
 | 1 | 3b32392131e313b8827125b4f7d9a114c2e36aa6595f67d2bc4cc7c0e4d8f36b |
 | 1 | 44d147a4740d15d2a264803f352e34fae81aa47af0438616672d6418740aa929 |
@@ -1239,6 +1243,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 9f98840b71e190b6630bb15422ac28f5011cafdcdd7a1f2c4094f3bb20af6355 |
 | 1 | a3e5f059089ad1f9681b209d34895636eab692e3d4306df23fbeaadca000832d |
 | 1 | aaa4bd953e6a02c970765beaaf2f6988e490d689c0e1298f9caa630e0e9c1de3 |
+| 1 | ac14be9cf15d69df7e40ecf8300fd7b01be92e728cc9a62e2258bba5900f657f |
 | 1 | af3ede19fc879cdde3f8f35b1e02844753b4fa67ccad6170816b0e5b311b5acb |
 | 1 | b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f |
 | 1 | b3a88ec8cc2fdc2e9bcdfe81541e174ad72e49604718799bf4f4d00af90b19f5 |
@@ -1250,6 +1255,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | c8fbfc73683418b690194e9f389a1e78b8e2f4ed7e0851404da71500a8cea24e |
 | 1 | c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d |
 | 1 | ce5a321ba6a8f6db173a005edfb856e5616b36fec788c163646e95b42daf6bc5 |
+| 1 | d28bdb2447d200d436aaac2a251cb537af171c379bf32c8da56dcb568739a1c2 |
 | 1 | d513984fe792771557ec1894a2da0fc427ee77dbab69f7f3869e9029ad0bb20f |
 | 1 | d982f0746dfde0d41eb4a0bdb43450f70072a6570ed4a49f2aaf57cfd9fc4b16 |
 | 1 | d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98 |

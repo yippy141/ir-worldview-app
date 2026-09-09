@@ -147,7 +147,9 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
     : null
   const primaryMatrixCode = `${lensFromFamily(result.familyKey)}${archetype.posture}` as PureArchetypeCode
   const runnerMatrixCode = `${lensFromFamily(result.runnerUpKey)}${archetype.posture}` as PureArchetypeCode
-  const completionLabel = provenance.completionLocale === "zh-Hans"
+  const completionLabel = provenance.localeCopyVersion === 0
+    ? "这份草稿没有可核实的作答语言或文案版本记录；完成时所用语言不能证明每道题的原始语言"
+    : provenance.completionLocale === "zh-Hans"
     ? "此结果由简体中文改编测试版生成"
     : "此共享结果以英文完成，当前页面仅提供经审校的中文结果说明"
   const targetedExtensionHref = `${publicPath("zh-Hans", "/quiz")}?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`

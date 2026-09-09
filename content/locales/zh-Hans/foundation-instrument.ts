@@ -1,3 +1,4 @@
+import { zhHansFoundationCopyV2 } from "@/content/locales/zh-Hans/foundation-copy-v2"
 import { zhHansFoundationDraftByQuestionId } from "@/content/locales/zh-Hans/foundation-copy"
 import {
   toMutableClarification,
@@ -62,20 +63,21 @@ export const zhHansFoundationStandardSections = foundationStandardSections.map(
   }),
 )
 
-export function getZhHansFoundationQuestions(mode: QuizMode): Question[] {
+export function getZhHansFoundationQuestions(mode: QuizMode, copyVersion: 1 | 2 = 2): Question[] {
   return getFoundationQuestions(mode).map((question) => {
     const record = zhHansFoundationDraftByQuestionId.get(question.id)
     if (!record) {
       throw new Error(`Missing zh-Hans Foundation copy: ${question.id}`)
     }
 
-    return localizeQuestion(question, record.reconciledChinese)
+    return localizeQuestion(question, copyVersion === 2 ? (zhHansFoundationCopyV2[question.id] ?? record.reconciledChinese) : record.reconciledChinese)
   })
 }
 
 export function getZhHansFoundationQuestionsForSet(
   questionSet: FoundationQuestionSet,
   targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
+  copyVersion: 1 | 2 = 2,
 ): Question[] {
   return getFoundationQuestionsForSet(questionSet, targetedFamilyPair).map(
     (question) => {
@@ -84,7 +86,7 @@ export function getZhHansFoundationQuestionsForSet(
         throw new Error(`Missing zh-Hans Foundation copy: ${question.id}`)
       }
 
-      return localizeQuestion(question, record.reconciledChinese)
+      return localizeQuestion(question, copyVersion === 2 ? (zhHansFoundationCopyV2[question.id] ?? record.reconciledChinese) : record.reconciledChinese)
     },
   )
 }

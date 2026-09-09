@@ -8,7 +8,7 @@ import { FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY, FOUNDATION_LOCAL_EVIDENCE_HANDOF
 import type { FamilyKey } from "@/lib/types"
 const fixtures = resultFixtures()
 const evidenceDir = process.env.DECISION_EVIDENCE_DIR ?? "docs/evidence/decision-exercises-release/screenshots"
-const repairDir = "docs/evidence/decision-exercises-release/repair"
+const repairDir = process.env.DECISION_REPAIR_DIR ?? "docs/evidence/decision-exercises-release/repair"
 const verify="/decisions/who-gets-to-verify", access="/decisions/who-gets-access"
 const sizes=[{width:1440,height:900},{width:390,height:844}]
 const storageKey="ir-worldview-session-v3"
@@ -238,7 +238,7 @@ test("genuine missing tier-core answers recover without losing baseline or targe
   await page.goto("/privacy")
   await page.evaluate(({ key, questionSet, pair, answers }) => {
    localStorage.clear(); sessionStorage.clear()
-   localStorage.setItem(key, JSON.stringify({ v:7, questionSet, targetedFamilyPair:pair, activeMode:"analyst", orderSeed:"synthetic-core-repair", answers, contextAssist:false, itemLatencyBuckets:{} }))
+   localStorage.setItem(key, JSON.stringify({ v:7, questionSet, targetedFamilyPair:pair, activeMode:"analyst", orderSeed:"synthetic-core-repair", foundationCopy:{status:"single-copy",locale:"en",version:1}, answers, contextAssist:false, itemLatencyBuckets:{} }))
   }, { key:storageKey, questionSet, pair, answers:incomplete })
   await page.goto("/quiz/review")
   const generate = page.getByRole("button", { name:"Generate my result →" })

@@ -1,0 +1,175 @@
+{
+  "recorded": "2026-09-09",
+  "base": "20780d0381bed82958d6a5dff2b809100b6142af",
+  "branch": "release/batch-b-reading-and-localization",
+  "executionRevision": {
+    "kind": "uncommitted candidate based on base",
+    "runtimeAndTestDigestSha256": "84d9899f64e1c2c45eb9a81618fe655c41012c0210a2b140f6f397c556cd2ba4",
+    "note": "Tests executed before documentation commit. CI run/head will be recorded separately; this document does not claim to test its own future hash."
+  },
+  "checks": [
+    {
+      "check": "typecheck/lint/strict copy/evidence/diff whitespace",
+      "status": "passed",
+      "copyAudit": "663 signals; strict 0 blockers. Existing nonblocking signals remain visible.",
+      "evidenceAudit": "Checked-in UTF-8 artifacts match fresh generation."
+    },
+    {
+      "check": "full unit suite",
+      "status": "passed",
+      "passed": 668,
+      "failed": 0,
+      "includes": [
+        "512 synthetic records / 3072 equality comparisons",
+        "historical replay",
+        "four unchanged characterization witnesses",
+        "copy/draft/evidence counterexamples"
+      ]
+    },
+    {
+      "check": "production build",
+      "status": "passed",
+      "note": "Current runtime including copy wrapper, cv0 display and beforeprint enhancement."
+    },
+    {
+      "check": "complete existing Chromium suite plus Batch B",
+      "status": "passed",
+      "passed": 139,
+      "failed": 0,
+      "duration": "1.5m"
+    },
+    {
+      "check": "public decision exercise suite",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0
+    },
+    {
+      "check": "experiment regressions",
+      "status": "passed",
+      "passed": 16,
+      "failed": 0
+    },
+    {
+      "check": "bounded WebKit",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "note": "Available Playwright WebKit installed once and executed. Not Safari or physical-device evidence."
+    },
+    {
+      "check": "fresh-context final diff review",
+      "status": "completed",
+      "finding": "No consequential blocker identified; existing current-copy-only Tier 1 validator limitation documented."
+    }
+  ],
+  "journeysExecuted": [
+    "Explore -> reference directory -> Robert Keohane -> supporting evidence -> reviewed INF case -> Power with Limits rival -> Back",
+    "AI atlas -> Precautionary Steward -> full reading shelves -> Who gets access",
+    "World Stage mobile filters -> map node -> source -> close -> root Inventory -> Foundation",
+    "New and old Chinese core review -> result -> reload -> exact stored evidence",
+    "Known interrupted draft -> language mismatch -> dismissed and confirmed restart",
+    "Core -> baseline56 and all six targeted forms for both copy versions -> edit/reload; preserved partial historical68 draft"
+  ],
+  "routeCoverage": {
+    "baseline": "../decision-exercises-release/surface-coverage.csv",
+    "selectedFiniteRoutes": 140,
+    "observed": "screenshots/finite-routes.json",
+    "limit": "140 render checks are not 140 fully traversed content journeys."
+  },
+  "accessibility": {
+    "widths": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "states": [
+      "default and expanded evidence",
+      "menu closed and open through existing PR52 suite",
+      "native keyboard navigation and stage focus through existing/public suites",
+      "no-JS default explanation",
+      "reduced motion",
+      "print beforeprint/afterprint lifecycle"
+    ],
+    "zoom": "720 CSS pixels at 2x DPR is explicitly equivalent reflow, not native browser zoom.",
+    "map": "Meaningful static/token fallback, list parity and source controls tested; not every map state visited."
+  },
+  "screenshots": {
+    "directory": "screenshots",
+    "contactSheet": "screenshots/contact-sheet.png",
+    "fullPageLinks": "contact-sheet.html",
+    "visuallyInspected": [
+      "reference-1440-default.png",
+      "ai-1440-expanded.png",
+      "world-stage-1440.png",
+      "reference-390-expanded.png",
+      "review-mobile-evidence.png",
+      "review-mobile-introduction.png",
+      "review-ai-1440.png",
+      "contact-sheet.png"
+    ],
+    "capturedButNotIndividuallyInspected": [
+      "ai-390-expanded.png",
+      "reference-768-expanded.png",
+      "reference-print.png",
+      "zh-copy-1-result.png",
+      "world-stage-390.png",
+      "ai-768-expanded.png",
+      "review-reference-1440.png",
+      "before-ai.png",
+      "before-reference.png",
+      "reference-1440-expanded.png",
+      "intermediate-world-stage.png",
+      "review-reference-mobile-complete.png",
+      "ai-320-expanded.png",
+      "reference-390-default.png",
+      "reference-768-default.png",
+      "review-ai-complete.png",
+      "reference-320-default.png",
+      "review-reference-complete.png",
+      "review-world-stage-1440.png",
+      "reference-320-expanded.png",
+      "zh-copy-2-result.png",
+      "review-world-stage-complete.png",
+      "reference-720-css-2x-dpr.png"
+    ],
+    "qualification": "Full-page views inspected at overview scale; mobile introduction/evidence and AI first viewport inspected separately at readable size. Historical before captures are retained; intermediate World Stage is not labeled a before image."
+  },
+  "sources": {
+    "openedForNewPassages": [
+      "S2 Belfer 2019 summary",
+      "S7 Keohane 1998 PDF pp 2-3",
+      "S11 Wendt 1994 abstract",
+      "S13 Strange 1996 preface PDF pp 11-14"
+    ],
+    "limits": [
+      "Full Wendt article not consulted",
+      "S12 inaccessible",
+      "S1 no extracted text, unused for new passages",
+      "Official INF recheck technical difficulty/forbidden; existing reviewed case consulted",
+      "Other retained citations linked, not freshly opened"
+    ],
+    "fullDetails": "README.md"
+  },
+  "privacy": "Only synthetic isolated test states. No research/feedback submission, server writes, live answers, new analytics, identifiers or private browser state. Existing episode ephemeral clearing remains covered.",
+  "priorFailuresResolved": [
+    "Frozen types/share hashes initially changed: restored original files and moved additions to local compatibility modules; full units pass.",
+    "Three stale navigation/zoom test expectations corrected to actual accessible links and explicitly equivalent reflow; final complete suite passes.",
+    "Lint traversed locally generated Playwright report assets: move this task-owned generated report outside checkout before final lint. No lint rule weakened."
+  ],
+  "ownerDecision": {
+    "id": "df1",
+    "recommendation": "Leave runtime unchanged in this candidate. Later align the English clarification with its constant-threat prompt before matching Chinese.",
+    "reason": "Chinese-only change would choose between conflicting English tasks."
+  },
+  "ci": {
+    "status": "not yet pushed"
+  },
+  "deployment": {
+    "mergeCommit": "20780d0381bed82958d6a5dff2b809100b6142af",
+    "githubVercelStatus": "success observed",
+    "customDomainServingCommit": "not independently established",
+    "manualDeployment": false
+  }
+}

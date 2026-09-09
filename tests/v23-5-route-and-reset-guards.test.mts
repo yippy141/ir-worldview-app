@@ -54,12 +54,12 @@ test("English and Chinese World Stage routes derive Current Case availability on
   )
 })
 
-test("World Stage preview state follows stable menu IDs instead of array positions", () => {
+test("World Stage opens its geographic scene without duplicating the root project menu", () => {
   const component = source("components/home/world-stage/world-stage-home.tsx")
-  assert.match(component, /useState<WorldStageMenuId>/)
-  assert.match(component, /item\.id === previewItemId/)
-  assert.match(component, /hasActiveCurrentCase[\s\S]*review recent cases/)
-  assert.doesNotMatch(component, /setPreviewIndex/)
+  assert.match(component, /<WorldStageMap/)
+  assert.match(component, /getWorldStageScene/)
+  assert.match(component, /world-stage-map-view/)
+  assert.doesNotMatch(component, /previewItemId|setPreviewIndex|choiceGroups/)
 })
 
 test("development-only routes fail closed and remain out of search results", () => {

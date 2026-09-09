@@ -1,3 +1,4 @@
+import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
@@ -63,10 +64,10 @@ export default async function AiAtlasDetailPage(
 
   return (
     <div className="wide-container">
-      <article className="result-article">
+      <article className="result-article reading-page">
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
-          <p className="ai-hero-eyebrow">AI Atlas · Archetype detail · Not a second score</p>
+          <p className="ai-hero-eyebrow">AI Governance</p>
           <h1 className="ai-hero-h1">{entry.label}</h1>
           <p className="ai-hero-summary">{entry.shortSummary}</p>
           <div className="row gap-sm wrap">
@@ -81,7 +82,7 @@ export default async function AiAtlasDetailPage(
           <div className="stack-md">
             <div className="stack-xs">
               <p className="eyebrow">Definition</p>
-              <h2 style={{ margin: 0 }}>What this archetype means</h2>
+              <h2 style={{ margin: 0 }}>The argument</h2>
               <p className="result-prose" style={{ lineHeight: "1.78" }}>
                 {entry.coreBelief}
               </p>
@@ -89,7 +90,7 @@ export default async function AiAtlasDetailPage(
 
             <div className="ai-atlas-detail-columns">
               <article className="ai-atlas-detail-note stack-xs">
-                <p className="eyebrow">Usually wants</p>
+                <p className="eyebrow">Institutional priorities</p>
                 <ul className="content-list">
                   {entry.wantsMost.map((item) => (
                     <li key={item}>{item}</li>
@@ -97,7 +98,7 @@ export default async function AiAtlasDetailPage(
                 </ul>
               </article>
               <article className="ai-atlas-detail-note stack-xs">
-                <p className="eyebrow">Usually worries</p>
+                <p className="eyebrow">Risks it foregrounds</p>
                 <ul className="content-list">
                   {entry.worriesMost.map((item) => (
                     <li key={item}>{item}</li>
@@ -110,7 +111,7 @@ export default async function AiAtlasDetailPage(
           <aside className="ai-atlas-detail-side stack-sm">
             <div className="callout stack-sm atlas-detail-fingerprint-card" style={{ margin: 0 }}>
               <div className="stack-xs">
-                <p className="eyebrow">Compact fingerprint</p>
+                <p className="eyebrow">Modeled emphasis</p>
                 <p className="ai-atlas-detail-lean">
                   {aiAtlasArchetypeLeaningTag[entry.key]}
                 </p>
@@ -127,80 +128,11 @@ export default async function AiAtlasDetailPage(
           </aside>
         </section>
 
-        <section className="result-section stack-md">
-          <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Core disagreement</p>
-            <h2>Where this archetype parts ways from nearby views</h2>
-            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              The closest neighbors share most of the vocabulary. The split usually comes down
-              to a small number of axes where this archetype makes a different call.
-            </p>
-          </div>
-          <p className="result-prose" style={{ lineHeight: "1.78", maxWidth: "760px" }}>
-            {entry.comparisonNote}
-          </p>
-
-          <div className="ai-atlas-detail-neighbor-grid">
-            {neighbors.map((neighbor) => (
-              <article key={neighbor.key} className="ai-atlas-detail-neighbor stack-xs">
-                <p className="eyebrow">Nearby</p>
-                <h3>{neighbor.label}</h3>
-                <p className="muted" style={{ lineHeight: "1.62" }}>
-                  {neighbor.shortSummary}
-                </p>
-                <Link href={getAiAtlasHref(neighbor.key)} className="atlas-pattern-cta">
-                  Open {getAiAtlasLabel(neighbor.key)} →
-                </Link>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="result-section stack-md">
-          <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Result implications</p>
-            <h2>What this archetype tends to support in practice</h2>
-            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              If your result reads close to this archetype, these are the kinds of policy and
-              institutional moves it tends to pull toward. These are tendencies, not predictions or endorsements.
-            </p>
-          </div>
-          <ul className="ai-atlas-detail-implications">
-            {entry.resultImplications.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="result-section stack-md">
-          <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Current debates to watch</p>
-            <h2>Where this archetype is actively contested</h2>
-            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              A short, manually curated rail of live arguments where this archetype is doing real
-              work right now. This is where to pay attention, not a news feed or forecast.
-            </p>
-          </div>
-          <div className="ai-atlas-detail-debates">
-            {entry.currentDebates.map((debate) => (
-              <article key={debate.title} className="ai-atlas-detail-debate stack-xs">
-                <h3>{debate.title}</h3>
-                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
-                  {debate.prompt}
-                </p>
-              </article>
-            ))}
-          </div>
-          <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>
-            Curated by the editors. No automated news pull, no scraped feed.
-          </p>
-        </section>
-
         <section className="result-section ai-atlas-detail-columns">
           <article className="stack-md">
             <div className="stack-xs">
               <p className="eyebrow">Strongest critique</p>
-              <h2 style={{ margin: 0 }}>Where this read is vulnerable</h2>
+              <h2 style={{ margin: 0 }}>The strongest objection</h2>
               <p className="result-prose" style={{ lineHeight: "1.75" }}>
                 {profile.strongestCritique}
               </p>
@@ -232,11 +164,74 @@ export default async function AiAtlasDetailPage(
 
         <section className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
+            <p className="eyebrow">Core disagreement</p>
+            <h2>The disagreement</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              The closest neighbors share most of the vocabulary. The split usually comes down
+              to a small number of axes where this archetype makes a different call.
+            </p>
+          </div>
+          <p className="result-prose" style={{ lineHeight: "1.78", maxWidth: "760px" }}>
+            {entry.comparisonNote}
+          </p>
+
+          <div className="ai-atlas-detail-neighbor-grid">
+            {neighbors.map((neighbor) => (
+              <article key={neighbor.key} className="ai-atlas-detail-neighbor stack-xs">
+                <p className="eyebrow">Nearby</p>
+                <h3>{neighbor.label}</h3>
+                <p className="muted" style={{ lineHeight: "1.62" }}>
+                  {neighbor.shortSummary}
+                </p>
+                <Link href={getAiAtlasHref(neighbor.key)} className="atlas-pattern-cta">
+                  Open {getAiAtlasLabel(neighbor.key)} →
+                </Link>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
+            <p className="eyebrow">Policy applications</p>
+            <h2>What follows in practice</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              These proposals belong to this editorial category. A similar result does not establish that you support each one.
+            </p>
+          </div>
+          <ul className="ai-atlas-detail-implications">
+            {entry.resultImplications.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
+            <p className="eyebrow">Questions to examine</p>
+            <h2>Where the argument is tested</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              These editorial questions explore the assumptions behind the proposals. They are not a report of current events.
+            </p>
+          </div>
+          <div className="ai-atlas-detail-debates">
+            {entry.currentDebates.map((debate) => (
+              <article key={debate.title} className="ai-atlas-detail-debate stack-xs">
+                <h3>{debate.title}</h3>
+                <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
+                  {debate.prompt}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
             <p className="eyebrow">Starting readings</p>
             <h2>Where to begin</h2>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              A short shelf for this archetype. The full result page keeps the larger reading
-              path; this detail page keeps the entry point compact.
+              Start with the central argument, then read its strongest challenge. The full shelves are available here without completing an assessment.
             </p>
           </div>
           <div className="ai-atlas-detail-reading-grid">
@@ -244,18 +239,24 @@ export default async function AiAtlasDetailPage(
               <ReadingMiniCard key={reading.id} reading={reading} />
             ))}
           </div>
+          <details className="reading-record">
+            <summary>Full reading shelves</summary>
+            <AiGovernanceReadingListSection archetypeKey={entry.key} />
+          </details>
         </section>
 
         <section className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
             <p className="eyebrow">Routes</p>
-            <h2>Keep moving through the AI layer</h2>
+            <h2>Explore the consequences</h2>
           </div>
           <div className="row gap-sm wrap">
             <AiResultReturnLink className="cta-primary" />
             <Link href="/ai/atlas" className="cta-secondary">Browse all archetypes</Link>
             <Link href="/ai/field-guide" className="cta-secondary">Read the Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Open Profile</Link>
+            <Link href="/decisions/who-gets-access" className="cta-secondary">Decide who gets access</Link>
+            <Link href="/futures" className="cta-secondary">Explore AI trajectories</Link>
           </div>
         </section>
       </article>

@@ -20,7 +20,7 @@ const commitments = [
 
 export default function PrivacyPage() {
   return (
-    <div className="container stack-lg">
+    <div className="container stack-lg reading-page info-page">
       <section className="panel stack-md">
         <p className="eyebrow">Privacy and data use</p>
         <h1>Your drafts and saved history stay in this browser.</h1>

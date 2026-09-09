@@ -14,7 +14,7 @@ export default function FeedbackPage() {
   )
 
   return (
-    <div className="container stack-lg" style={{ paddingTop: "48px" }}>
+    <div className="container stack-lg reading-page info-page" style={{ paddingTop: "48px" }}>
       <section className="panel stack-md">
         <p className="eyebrow">Corrections and contact</p>
         <h1>Report a factual, privacy, or security problem.</h1>

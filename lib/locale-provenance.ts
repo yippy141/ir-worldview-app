@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/routing"
 export const LEGACY_LOCALE_COPY_VERSION = 0 as const
 
 export const INSTRUMENT_COPY_VERSIONS = {
-  foundation: { en: 1, "zh-Hans": 1 },
+  foundation: { en: 1, "zh-Hans": 2 },
   module: { en: 1, "zh-Hans": 1 },
   aiGovernance: { en: 1, "zh-Hans": 1 },
   perspective: { en: 1, "zh-Hans": 1 },

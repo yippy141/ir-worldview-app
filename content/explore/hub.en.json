@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "contentVersion": "23.1.1",
+  "contentVersion": "23.1.2",
   "locale": "en",
   "hero": {
-    "title": "One Foundation result, several supporting views",
+    "title": "Ways of reading world politics",
     "payoff": [
-      "Your completed Foundation can resolve to one archetype or a same-posture two-lens blend.",
-      "Strategic posture, normative orientation, and the closest modeled tradition help explain that result; Focus Areas and contextual records remain separate."
+      "Explore what different traditions notice, what they explain, and where their arguments come apart.",
+      "Start with a name, a thinker, or a decision."
     ],
     "boundary": "Decision Patterns and evidence-coded public positions are reading aids. They never become your Foundation result."
   },
@@ -18,7 +18,7 @@
     },
     {
       "id": "foundation-archetypes",
-      "heading": "Eight Foundation archetypes",
+      "heading": "Foundation archetypes",
       "intro": "Four explanatory lenses combine with two strategic postures. The rows summarize a continuous profile; they are not population types."
     },
     {
@@ -28,12 +28,12 @@
     },
     {
       "id": "modeled-traditions",
-      "heading": "Four modeled traditions",
+      "heading": "Modeled traditions",
       "intro": "The closest modeled tradition supports a Foundation reading; it is not a second Foundation result. Each tradition remains broader than the instrument can represent."
     },
     {
       "id": "foundation-dimensions",
-      "heading": "Seven Foundation dimensions",
+      "heading": "Foundation dimensions",
       "intro": "These dimensions preserve the tradeoffs beneath the headline label. A score describes a position within this model, not a percentile."
     },
     {

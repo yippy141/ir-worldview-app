@@ -68,6 +68,10 @@ export function ProfileDashboard() {
           </div>
 
           <div className="profile-state-actions" aria-label="Profile starting points">
+            <Link href="/decisions" className="profile-state-action">
+              <span className="profile-state-action__label">Make a short decision</span>
+              <span className="profile-state-action__meta">Try an unscored exercise without creating a baseline.</span>
+            </Link>
             <Link href="/quiz" className="profile-state-action profile-state-action--primary">
               <span className="profile-state-action__label">Start the Foundation</span>
               <span className="profile-state-action__meta">Answer fourteen broad questions.</span>

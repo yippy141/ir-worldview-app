@@ -645,7 +645,7 @@ function ZhHansLimitsPanel({
         <dd>
           {completionLabel}。中文版保留共享题目结构与评分规则，但它是经过编辑改编的测试版，尚未被证明与英文版等价。不同完成语言不会据此作直接比较。
           <span className={styles.versionLine}>
-            结构版本 {provenance.instrumentStructuralVersion} · 评分版本 {provenance.scoringVersion} · 中文文案版本 {provenance.localeCopyVersion}
+            结构版本 {provenance.instrumentStructuralVersion} · 评分版本 {provenance.scoringVersion} · 中文文案版本 {provenance.localeCopyVersion === 0 ? "未知" : provenance.localeCopyVersion}
           </span>
         </dd>
       </div>
