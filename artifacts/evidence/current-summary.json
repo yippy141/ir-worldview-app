@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 620,
-      "newCount": 133,
+      "currentCount": 616,
+      "newCount": 134,
       "newFindings": [
         {
           "audience": "public",
@@ -338,13 +338,23 @@
         },
         {
           "audience": "public",
-          "context": "content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.0.label",
+          "context": "route:/ai/field-guide#AiFieldGuidePage.h1",
           "count": 1,
-          "file": "components/home/world-stage/world-stage-home.tsx",
-          "fingerprint": "39192907b063907279a357234a3fadaf562cb8f394e648ca51cf58210e326d17",
-          "matched": "Start here",
+          "file": "app/ai/field-guide/page.tsx",
+          "fingerprint": "34cb8ce1a4755a1ceece024d8001855468de13fc00a97d1acbbabd824bd4b842",
+          "matched": "Field Guide",
+          "rule": "field-metaphor-review",
+          "source": "AI Field Guide"
+        },
+        {
+          "audience": "public",
+          "context": "route:/explore/reference/[id]#ProfileDetail.h3",
+          "count": 1,
+          "file": "app/explore/reference/[id]/page.tsx",
+          "fingerprint": "35de6fe20ab084a6cbe24d013be9c3f9ed9e3052d1bae7c83b29c07018572b3f",
+          "matched": "How it works",
           "rule": "weak-generic-heading",
-          "source": "Start here"
+          "source": "How it works"
         },
         {
           "audience": "public",
@@ -658,16 +668,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:components/home/world-stage/world-stage-home.tsx#WorldStageHome.p",
-          "count": 1,
-          "file": "components/home/world-stage/world-stage-home.tsx",
-          "fingerprint": "6cd35a876766a7af79e49e31c730cd6ac88f6a20e5e3af2efbb9065e311abb49",
-          "matched": "answer the foundation",
-          "rule": "repeated-adjacent-opening",
-          "source": "Answer the Foundation, review recent cases, or compare the arguments behind the traditions and Decision Patterns."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -715,16 +715,6 @@
           "matched": "What matters most",
           "rule": "what-matters-most-template",
           "source": "What matters most is whether any harder move can still be defended as bounded and politically sustainable."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:components/home/world-stage/world-stage-home.tsx#choiceGroups.1.label",
-          "count": 1,
-          "file": "components/home/world-stage/world-stage-home.tsx",
-          "fingerprint": "7c09b8f3c46c63731c6169d5f510a7891a0c1d7c921666fb5835f2e48f16414f",
-          "matched": "Continue exploring",
-          "rule": "weak-generic-heading",
-          "source": "Continue exploring"
         },
         {
           "audience": "public",
@@ -1008,6 +998,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:content/explore/hub.en.json#hero.payoff.1",
+          "count": 1,
+          "file": "content/explore/hub.en.json",
+          "fingerprint": "b913188864c05f073fb14cfa180fe407a80299df7198bd11eecc7bd3792ef945",
+          "matched": "Explore what different traditions notice, what they explain, and where their arguments come apart / Start with a name, a thinker, or a decision",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Start with a name, a thinker, or a decision."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
           "count": 1,
           "file": "lib/archetypes.ts",
@@ -1125,6 +1125,16 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "Governments usually lack the speed and technical competence needed to supervise frontier AI well enough to justify deep intervention."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/foundation-copy-v2.ts#zhHansFoundationCopyV2.ni2.prompt",
+          "count": 1,
+          "file": "content/locales/zh-Hans/foundation-copy-v2.ts",
+          "fingerprint": "cb42284843446e06f94a567ecf278bad2e79aee609945a5e6af1e726138b82bc",
+          "matched": "往往",
+          "rule": "general-prevalence-language-review",
+          "source": "一个国家寻求他国承认的诉求,往往会改变其领导人认为重要的外交政策目标。"
         },
         {
           "audience": "public",
@@ -1338,8 +1348,12 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 71,
+      "resolvedCount": 76,
       "resolvedFindings": [
+        {
+          "count": 1,
+          "fingerprint": "0089c530821602ea2af5921eb00c5f9f460c074575d5329a6170c2989283e9b7"
+        },
         {
           "count": 1,
           "fingerprint": "025281f8d13e22b7195c81f06c4d53502a04bdd552a4a34804c8b6a22a054e2e"
@@ -1359,6 +1373,10 @@
         {
           "count": 1,
           "fingerprint": "1395e77e1fd69d1ed174286fcd6163e875fc41e45a2e3ee5a761dc401881f9d5"
+        },
+        {
+          "count": 1,
+          "fingerprint": "13b5a1d489e7e9c84b9bdf16fb5ca6ceaea6b4e8e41ed01e47688517ac87f884"
         },
         {
           "count": 1,
@@ -1391,6 +1409,10 @@
         {
           "count": 1,
           "fingerprint": "32b072524907d84a69ba0ded4786820bb9650a739a78c72c36a25ee7ca4ba729"
+        },
+        {
+          "count": 1,
+          "fingerprint": "3794bf547df44df59c33b84fe35dde88cb102dc328464a83d986dd3a810e2134"
         },
         {
           "count": 1,
@@ -1534,6 +1556,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "ac14be9cf15d69df7e40ecf8300fd7b01be92e728cc9a62e2258bba5900f657f"
+        },
+        {
+          "count": 1,
           "fingerprint": "af3ede19fc879cdde3f8f35b1e02844753b4fa67ccad6170816b0e5b311b5acb"
         },
         {
@@ -1575,6 +1601,10 @@
         {
           "count": 1,
           "fingerprint": "ce5a321ba6a8f6db173a005edfb856e5616b36fec788c163646e95b42daf6bc5"
+        },
+        {
+          "count": 1,
+          "fingerprint": "d28bdb2447d200d436aaac2a251cb537af171c379bf32c8da56dcb568739a1c2"
         },
         {
           "count": 1,
@@ -1625,7 +1655,7 @@
           "fingerprint": "f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a"
         }
       ],
-      "unchangedCount": 487
+      "unchangedCount": 482
     },
     "higherPriorityFindings": [
       {
@@ -2673,7 +2703,7 @@
         "priority": "P1"
       },
       {
-        "count": 620,
+        "count": 616,
         "priority": "P2"
       }
     ]
@@ -76515,7 +76545,7 @@
     {
       "category": "copy-audit",
       "path": "scripts/audit-public-copy.mjs",
-      "sha256": "afa1418daded373ff58448ed6ab673512ecb7355172b7f759390a259d1bd4710"
+      "sha256": "b294c9b368a09218284ed10323864fe166ee91df1238c37c90eb72757003687c"
     },
     {
       "category": "calibration",

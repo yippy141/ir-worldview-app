@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/routing"
 export const LEGACY_LOCALE_COPY_VERSION = 0 as const
 
 export const INSTRUMENT_COPY_VERSIONS = {
-  foundation: { en: 1, "zh-Hans": 1 },
+  foundation: { en: 1, "zh-Hans": 2 },
   module: { en: 1, "zh-Hans": 1 },
   aiGovernance: { en: 1, "zh-Hans": 1 },
   perspective: { en: 1, "zh-Hans": 1 },
@@ -46,14 +46,16 @@ export function isLocaleCopyVersion(value: unknown): value is number {
 }
 
 /**
- * Locale variants may coexist in a personal profile, but they are not treated
- * as equivalent observations for longitudinal or research-style comparisons.
+ * Known matching locale/copy metadata permits the existing comparison; it is
+ * not empirical validation. Equal unknown markers do not establish exposure.
  */
 export function sameResearchEquivalenceCohort(
   left: CompletionProvenance,
   right: CompletionProvenance,
 ): boolean {
   return (
+    left.localeCopyVersion > LEGACY_LOCALE_COPY_VERSION &&
+    right.localeCopyVersion > LEGACY_LOCALE_COPY_VERSION &&
     left.locale === right.locale &&
     left.localeCopyVersion === right.localeCopyVersion
   )

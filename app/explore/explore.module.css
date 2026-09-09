@@ -113,7 +113,7 @@
 
 .jumpNav a {
   display: grid;
-  grid-template-columns: 2rem minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   min-height: 44px;
   align-items: center;
   color: var(--muted);
@@ -143,7 +143,7 @@
 
 .sectionHeader {
   display: grid;
-  grid-template-columns: 44px minmax(0, 720px);
+  grid-template-columns: minmax(0, 720px);
   gap: 20px;
   margin-bottom: 34px;
 }
@@ -167,7 +167,7 @@
 }
 
 .sectionBody {
-  margin-left: 64px;
+  margin-left: 0;
 }
 
 .hierarchy {
@@ -895,3 +895,8 @@
     color: #333333;
   }
 }
+
+.archetypePair a { color: var(--text); text-decoration: none; }
+.archetypePair a:hover { color: var(--accent-light); }
+.code { display: grid; justify-items: center; gap: 4px; }
+@media (max-width: 720px) { .jumpNav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 18px; } }

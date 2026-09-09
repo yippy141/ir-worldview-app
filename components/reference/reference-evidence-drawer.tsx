@@ -71,13 +71,16 @@ export function ReferenceEvidenceByDimension({ profile, sources }: Props) {
         )
 
         return (
-          <details key={dimension} className="reference-dimension-row" id={`evidence-${dimension}`}>
-            <summary className="reference-dimension-row__head">
+          <section key={dimension} className="reference-dimension-row" id={`evidence-${dimension}`}>
+            <div className="reference-dimension-row__head">
               <span className="reference-dimension-row__label">{dimensionLabels[dimension]}</span>
               <SupportBadge support={estimate.support} />
-            </summary>
+            </div>
             <div className="reference-dimension-row__body stack-sm">
               <p className="reference-dimension-row__note">{estimate.note}</p>
+              {evidenceItems[0] ? <p className="reference-evidence-preview">{evidenceItems[0].note}</p> : null}
+              <details className="reading-evidence-source">
+                <summary>Sources and full evidence</summary>
               {evidenceItems.length > 0 ? (
                 <ul className="reference-evidence-list">
                   {evidenceItems.map((item) => {
@@ -104,8 +107,9 @@ export function ReferenceEvidenceByDimension({ profile, sources }: Props) {
                   Evidence for this dimension is cited in the source ledger below.
                 </p>
               )}
+              </details>
             </div>
-          </details>
+          </section>
         )
       })}
     </div>

@@ -50,7 +50,7 @@ export default async function ExploreDetailPage({ params }: Props) {
     .sort((left, right) => left.posture === right.posture ? 0 : left.posture === "+" ? -1 : 1)
 
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       {/* Back link */}
       <div style={{ marginBottom: "28px" }}>
         <Link
@@ -72,13 +72,38 @@ export default async function ExploreDetailPage({ params }: Props) {
         </p>
       </div>
 
+      {/* Atlas two-column layout */}
+      <div className="atlas-layout">
+        {/* Sticky TOC */}
+        <nav className="atlas-toc">
+          {tocItems.map((item) => (
+            <a key={item.id} href={`#${item.id}`} className="atlas-toc-link">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        {/* Main body */}
+        <div className="atlas-body">
+          {/* Overview */}
+          <section id="overview" className="article-section">
+            <h2 style={{ marginBottom: "20px" }}>Overview</h2>
+            {family.summary.split("\n\n").map((para, i) => (
+              <p key={i} style={{ lineHeight: "1.75", marginBottom: "16px" }}>
+                {para}
+              </p>
+            ))}
+          </section>
+
+          <hr className="divider" />
+
       <section
         className={styles.traditionBoundary}
         aria-labelledby="tradition-boundary-heading"
         data-tradition-boundary
       >
         <div>
-          <h2 id="tradition-boundary-heading">Supporting tradition, not a Foundation result</h2>
+          <h2 id="tradition-boundary-heading">Related Foundation archetypes</h2>
           <p>
             The Foundation uses this tradition as evidence for one explanatory
             lens. It does not classify everyone who draws on the tradition, and
@@ -110,31 +135,6 @@ export default async function ExploreDetailPage({ params }: Props) {
           ))}
         </div>
       </section>
-
-      {/* Atlas two-column layout */}
-      <div className="atlas-layout">
-        {/* Sticky TOC */}
-        <nav className="atlas-toc">
-          {tocItems.map((item) => (
-            <a key={item.id} href={`#${item.id}`} className="atlas-toc-link">
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        {/* Main body */}
-        <div className="atlas-body">
-          {/* Overview */}
-          <section id="overview" className="article-section">
-            <h2 style={{ marginBottom: "20px" }}>Overview</h2>
-            {family.summary.split("\n\n").map((para, i) => (
-              <p key={i} style={{ lineHeight: "1.75", marginBottom: "16px" }}>
-                {para}
-              </p>
-            ))}
-          </section>
-
-          <hr className="divider" />
 
           {/* Core claims */}
           <section id="core-claims" className="article-section stack-md">

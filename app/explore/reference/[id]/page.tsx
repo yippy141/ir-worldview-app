@@ -1,3 +1,5 @@
+import { EvidenceControls } from "@/components/reading/evidence-controls"
+import { referenceIntroductions } from "@/content/reading/reference-introductions"
 import Link from "next/link"
 import { FieldMap } from "@/components/field/field-map"
 import {
@@ -103,6 +105,8 @@ function CorrectionsLine() {
 }
 
 function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
+  const reading = referenceIntroductions[profile.id]
+  const readingSource = REFERENCE_PROFILE_CATALOG.sources.find((source) => source.id === reading?.sourceId)
   const draft = isReferenceEntityDraft(profile)
   const position = getReferenceProfilePosition(profile)
   const sources = profile.sourceIds
@@ -114,7 +118,7 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
 
   return (
     <div className="wide-container">
-      <article className="result-article reference-detail">
+      <article className="result-article reference-detail reading-page">
         <header className="article-header stack-sm">
           <p className="eyebrow">
             Reference profile · {referenceEntityTypeLabel(profile.entityType)}
@@ -131,17 +135,38 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
           <p className="muted reference-detail__scope-note">{profile.scopeNote}</p>
         </section>
 
-        <div className="reference-record-strip" aria-label="Coding record">
-          <span>Scope: {referenceScopeLabel(profile.scope)}</span>
-          <span>
-            Evidence window: {profile.evidenceWindow.start?.slice(0, 4) ?? "…"}–
-            {profile.evidenceWindow.end.slice(0, 4)}
-          </span>
-          <span>
-            {draft ? "Research dated" : "Reviewed"} {formatFieldDateString(profile.reviewedAt)}
-          </span>
-          <span>Version {profile.version}</span>
-        </div>
+        <p className="reference-window">This reading covers {profile.evidenceWindow.start?.slice(0, 4) ?? "…"}–{profile.evidenceWindow.end.slice(0, 4)}. It does not attribute a present-day position from older works.</p>
+        {reading && readingSource ? (
+          <section className="reading-argument" aria-labelledby="argument-heading">
+            <div className="stack-md">
+              <h2 id="argument-heading">The argument</h2>
+              <p>{reading.argument}</p>
+              <h3>How it works</h3>
+              <p>{reading.mechanism}</p>
+            </div>
+            <aside className="reading-counterpoint stack-sm">
+              <h3>Where the claim stops</h3>
+              <p>{reading.limitation}</p>
+              <p className="muted">{reading.locator}. <a href={readingSource.url} target="_blank" rel="noopener noreferrer">Read the source<span className="sr-only"> (opens in another tab)</span> ↗</a></p>
+              <a href="#reference-support-heading">Inspect supporting evidence ↓</a>
+            </aside>
+          </section>
+        ) : null}
+        {["robert-keohane", "john-mearsheimer"].includes(profile.id) ? (
+          <section className="result-section stack-sm" aria-labelledby="application-heading">
+            <h2 id="application-heading">An agreement can support rival explanations</h2>
+            <p className="result-prose">In this project&rsquo;s reviewed INF verification case, one reading emphasizes agreed inspections reducing uncertainty; its rival emphasizes both sides&rsquo; fear of unconstrained missile competition. The dispute is whether the procedures themselves change the relationship or depend on a prior strategic incentive. This is the project&rsquo;s illustration, not an attributed position by {profile.shortName} on that case.</p>
+            <Link href="/explore/atlas/institution-builder#case-security-arms-control-verification">Read the case, its rival and source record →</Link>
+          </section>
+        ) : null}
+        <details className="reading-record">
+          <summary>Coding record</summary>
+          <div className="reference-record-strip">
+            <span>Scope: {referenceScopeLabel(profile.scope)}</span>
+            <span>{draft ? "Research dated" : "Reviewed"} {formatFieldDateString(profile.reviewedAt)}</span>
+            <span>Version {profile.version}</span>
+          </div>
+        </details>
 
         <section className="result-section stack-md" aria-labelledby="reference-position-heading">
           <div className="stack-xs">
@@ -182,10 +207,11 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
             <p className="eyebrow" id="reference-support-heading">Evidence</p>
             <h2>Support by dimension</h2>
             <p className="muted reference-detail__section-note">
-              Open a dimension to read the coding note and the cited evidence. Raw coding
+              Each dimension shows its interpretation and a supporting note. Open the source detail for the full evidence. Raw coding
               coefficients stay in the <Link href="/method">Methods</Link> record.
             </p>
           </div>
+          <EvidenceControls />
           {profile.scope === "ai-governance" ? (
             <div className="reference-dimensions">
               {REFERENCE_AI_AXIS_KEYS.map((axis) => {
@@ -222,7 +248,7 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
         <section className="result-section stack-md" aria-labelledby="reference-sources-heading">
           <div className="stack-xs">
             <p className="eyebrow" id="reference-sources-heading">Sources</p>
-            <h2>Source ledger</h2>
+            <h2>Works behind this reading</h2>
           </div>
           <ol className="reference-source-ledger">
             {sources.map((source) => (
@@ -308,7 +334,7 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
 
   return (
     <div className="wide-container">
-      <article className="result-article reference-detail">
+      <article className="result-article reference-detail reading-page">
         <header className="article-header stack-sm">
           <p className="eyebrow">Reference profile · Movement</p>
           <h1>{movement.name}</h1>

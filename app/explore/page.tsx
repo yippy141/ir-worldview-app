@@ -1,3 +1,4 @@
+import { ArchetypeMark } from "@/components/archetypes/archetype-mark"
 import Link from "next/link"
 import type { Metadata } from "next"
 import {
@@ -9,6 +10,7 @@ import {
 } from "@/lib/explore-content"
 import {
   archetypes,
+  getArchetypePath,
 } from "@/lib/archetypes"
 import {
   formatArchetypeCodeSpeech,
@@ -49,6 +51,7 @@ export default function ExplorePage() {
 
   const patterns = getAtlasLitePatterns()
   const references = getVisibleReferenceEntities()
+  const sections = [...hub.sections.filter((section) => section.id !== "how-labels-fit"), ...hub.sections.filter((section) => section.id === "how-labels-fit")]
 
   return (
     <div className={`wide-container ${styles.page}`}>
@@ -71,16 +74,15 @@ export default function ExplorePage() {
       </header>
 
       <nav className={styles.jumpNav} aria-label="On this page">
-        {hub.sections.map((section, index) => (
+        {sections.map((section) => (
           <a key={section.id} href={`#${section.id}`}>
-            <span aria-hidden="true">{index + 1}</span>
             {section.heading}
           </a>
         ))}
       </nav>
 
       <div className={styles.sections}>
-        {hub.sections.map((section, index) => (
+        {sections.map((section) => (
           <section
             key={section.id}
             id={section.id}
@@ -89,9 +91,6 @@ export default function ExplorePage() {
             aria-labelledby={`${section.id}-heading`}
           >
             <header className={styles.sectionHeader}>
-              <p className={styles.sectionNumber} aria-hidden="true">
-                {String(index + 1).padStart(2, "0")}
-              </p>
               <div>
                 <h2 id={`${section.id}-heading`}>{section.heading}</h2>
                 <p>{section.intro}</p>
@@ -169,6 +168,7 @@ function renderSection(
                         data-explore-archetype-pair
                       >
                         <span className={styles.code} data-archetype-code-label>
+                          <ArchetypeMark code={archetype.code} size={48} />
                           <span aria-hidden="true">
                             {formatArchetypeDisplayCode(archetype.code)}
                           </span>
@@ -176,7 +176,7 @@ function renderSection(
                             {formatArchetypeCodeSpeech(archetype.code)}
                           </span>
                         </span>
-                        <strong>{archetype.name}</strong>
+                        <Link href={getArchetypePath(archetype.code)}><strong>{archetype.name}</strong></Link>
                       </li>
                     ))}
                   </ul>

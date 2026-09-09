@@ -1,0 +1,296 @@
+{
+  "recorded": "2026-09-09",
+  "base": "20780d0381bed82958d6a5dff2b809100b6142af",
+  "branch": "release/batch-b-reading-and-localization",
+  "executionRevision": {
+    "kind": "uncommitted candidate based on base",
+    "runtimeAndTestDigestSha256": "84d9899f64e1c2c45eb9a81618fe655c41012c0210a2b140f6f397c556cd2ba4",
+    "note": "Local suites ran against the runtime/test digest committed as 4393687. This follow-up evidence-only commit records that known revision; it makes no self-referential claim about its own future hash.",
+    "implementationCommit": "439368763da64c2d1ed8bb68cc1202753585bc7d"
+  },
+  "checks": [
+    {
+      "check": "typecheck/lint/strict copy/evidence/diff whitespace",
+      "status": "passed",
+      "copyAudit": "663 signals; strict 0 blockers. Existing nonblocking signals remain visible.",
+      "evidenceAudit": "Checked-in UTF-8 artifacts match fresh generation."
+    },
+    {
+      "check": "full unit suite",
+      "status": "passed",
+      "passed": 668,
+      "failed": 0,
+      "includes": [
+        "512 synthetic records / 3072 equality comparisons",
+        "historical replay",
+        "four unchanged characterization witnesses",
+        "copy/draft/evidence counterexamples"
+      ]
+    },
+    {
+      "check": "production build",
+      "status": "passed",
+      "note": "Current runtime including copy wrapper, cv0 display and beforeprint enhancement."
+    },
+    {
+      "check": "complete existing Chromium suite plus Batch B",
+      "status": "passed",
+      "passed": 139,
+      "failed": 0,
+      "duration": "1.5m"
+    },
+    {
+      "check": "public decision exercise suite",
+      "status": "passed",
+      "passed": 21,
+      "failed": 0
+    },
+    {
+      "check": "experiment regressions",
+      "status": "passed",
+      "passed": 16,
+      "failed": 0
+    },
+    {
+      "check": "bounded WebKit",
+      "status": "passed",
+      "passed": 8,
+      "failed": 0,
+      "note": "Available Playwright WebKit installed once and executed. Not Safari or physical-device evidence."
+    },
+    {
+      "check": "fresh-context final diff review",
+      "status": "completed",
+      "finding": "No consequential blocker identified; existing current-copy-only Tier 1 validator limitation documented."
+    }
+  ],
+  "journeysExecuted": [
+    "Explore -> reference directory -> Robert Keohane -> supporting evidence -> reviewed INF case -> Power with Limits rival -> Back",
+    "AI atlas -> Precautionary Steward -> full reading shelves -> Who gets access",
+    "World Stage mobile filters -> map node -> source -> close -> root Inventory -> Foundation",
+    "New and old Chinese core review -> result -> reload -> exact stored evidence",
+    "Known interrupted draft -> language mismatch -> dismissed and confirmed restart",
+    "Core -> baseline56 and all six targeted forms for both copy versions -> edit/reload; preserved partial historical68 draft"
+  ],
+  "routeCoverage": {
+    "baseline": "../decision-exercises-release/surface-coverage.csv",
+    "selectedFiniteRoutes": 140,
+    "observed": "screenshots/finite-routes.json",
+    "limit": "140 render checks are not 140 fully traversed content journeys."
+  },
+  "accessibility": {
+    "widths": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "states": [
+      "default and expanded evidence",
+      "menu closed and open through existing PR52 suite",
+      "native keyboard navigation and stage focus through existing/public suites",
+      "no-JS default explanation",
+      "reduced motion",
+      "print beforeprint/afterprint lifecycle"
+    ],
+    "zoom": "720 CSS pixels at 2x DPR is explicitly equivalent reflow, not native browser zoom.",
+    "map": "Meaningful static/token fallback, list parity and source controls tested; not every map state visited."
+  },
+  "screenshots": {
+    "directory": "screenshots",
+    "contactSheet": "screenshots/contact-sheet.png",
+    "fullPageLinks": "contact-sheet.html",
+    "visuallyInspected": [
+      "reference-1440-default.png",
+      "ai-1440-expanded.png",
+      "world-stage-1440.png",
+      "reference-390-expanded.png",
+      "review-mobile-evidence.png",
+      "review-mobile-introduction.png",
+      "review-ai-1440.png",
+      "contact-sheet.png"
+    ],
+    "capturedButNotIndividuallyInspected": [
+      "ai-390-expanded.png",
+      "reference-768-expanded.png",
+      "reference-print.png",
+      "zh-copy-1-result.png",
+      "world-stage-390.png",
+      "ai-768-expanded.png",
+      "review-reference-1440.png",
+      "before-ai.png",
+      "before-reference.png",
+      "reference-1440-expanded.png",
+      "intermediate-world-stage.png",
+      "review-reference-mobile-complete.png",
+      "ai-320-expanded.png",
+      "reference-390-default.png",
+      "reference-768-default.png",
+      "review-ai-complete.png",
+      "reference-320-default.png",
+      "review-reference-complete.png",
+      "review-world-stage-1440.png",
+      "reference-320-expanded.png",
+      "zh-copy-2-result.png",
+      "review-world-stage-complete.png",
+      "reference-720-css-2x-dpr.png"
+    ],
+    "qualification": "Full-page views inspected at overview scale; mobile introduction/evidence and AI first viewport inspected separately at readable size. Historical before captures are retained; intermediate World Stage is not labeled a before image."
+  },
+  "sources": {
+    "openedForNewPassages": [
+      "S2 Belfer 2019 summary",
+      "S7 Keohane 1998 PDF pp 2-3",
+      "S11 Wendt 1994 abstract",
+      "S13 Strange 1996 preface PDF pp 11-14"
+    ],
+    "limits": [
+      "Full Wendt article not consulted",
+      "S12 inaccessible",
+      "S1 no extracted text, unused for new passages",
+      "Official INF recheck technical difficulty/forbidden; existing reviewed case consulted",
+      "Other retained citations linked, not freshly opened"
+    ],
+    "fullDetails": "README.md"
+  },
+  "privacy": "Only synthetic isolated test states. No research/feedback submission, server writes, live answers, new analytics, identifiers or private browser state. Existing episode ephemeral clearing remains covered.",
+  "priorFailuresResolved": [
+    "Frozen types/share hashes initially changed: restored original files and moved additions to local compatibility modules; full units pass.",
+    "Three stale navigation/zoom test expectations corrected to actual accessible links and explicitly equivalent reflow; final complete suite passes.",
+    "Lint traversed locally generated Playwright report assets: move this task-owned generated report outside checkout before final lint. No lint rule weakened."
+  ],
+  "ownerDecision": {
+    "id": "df1",
+    "recommendation": "Leave runtime unchanged in this candidate. Later align the English clarification with its constant-threat prompt before matching Chinese.",
+    "reason": "Chinese-only change would choose between conflicting English tasks."
+  },
+  "ci": {
+    "observedAt": "2026-09-09T05:28:00Z",
+    "runId": 34314963477,
+    "url": "https://github.com/yippy141/ir-worldview-app/actions/runs/34314963477",
+    "head": "439368763da64c2d1ed8bb68cc1202753585bc7d",
+    "statusAtObservation": "in_progress",
+    "note": "Historical observation at evidence recording. Final current-head status and preview are reported in the PR handoff."
+  },
+  "deployment": {
+    "mergeCommit": "20780d0381bed82958d6a5dff2b809100b6142af",
+    "githubVercelStatus": "success observed",
+    "customDomainServingCommit": "not independently established",
+    "manualDeployment": false
+  },
+  "pullRequest": "https://github.com/yippy141/ir-worldview-app/pull/53",
+  "historyCorrectnessAmendment": {
+    "reviewedStartingHead": "eed9fd8c7c54114a6063fb76d42e596c2791ed45",
+    "recorded": "2026-09-09",
+    "implementationCommit": "44db2e4da82449b688b9a7f28bee77384e012809",
+    "runtimeSha256": {
+      "lib/locale-provenance.ts": "7e72e7d8f8d0db21a0ea2c074df250a9d26ba1e5826cee0ac646e44dd5e7fe53",
+      "lib/result-history.ts": "e3da6a4c5f3160ffce8ae6b965e29f146cfd847d1b46c03e7275b32d598dcd83",
+      "components/results/history-compare.tsx": "63706e87315a162bcd0ee8c5c680eb6614767f72b59453810b3b1740e2c9cc3b"
+    },
+    "before": {
+      "unit": "3 failed: both locales permit 0/0 and history returns an unknown prior.",
+      "browser": "2 failed: actual result route rendered a comparison for distinct complete synthetic copy-0 records in each locale. Two controls passed: repeated reopening and same-document known-to-unknown navigation.",
+      "evidence": [
+        "history-amendment/before-unit.txt",
+        "history-amendment/before-browser.txt"
+      ],
+      "limit": "The PM supplied a source trace; these local runs establish the reachable comparison defect. No independently reproduced stale panel is claimed on the tested Next route transition."
+    },
+    "repair": "Comparison excludes copy 0. Separate exact recorded-metadata lookup preserves existing duplicate-save suppression including 0/0. Consumer clears derived prior and gates rendering against current provenance; stored records are retained.",
+    "targeted": {
+      "unit": {
+        "passed": 9,
+        "failed": 0,
+        "coverage": "Unknown/known and cross-locale/revision predicates; stored history retained; existing old/new copy and evidence-binding/rejection tests."
+      },
+      "chromium": {
+        "passed": 4,
+        "failed": 0,
+        "coverage": "Real-route unknown records in both provenance locales; six reopen/reload cycles at the five-record cap preserve unrelated records; known control and same-document Next navigation via synthetic redirect."
+      }
+    },
+    "full": {
+      "unit": {
+        "passed": 671,
+        "failed": 0,
+        "preserved": "Historical replay, 512-record/3072 equality checks, characterization witnesses and existing known/unknown evidence tests."
+      },
+      "chromium": {
+        "passed": 135,
+        "failed": 0,
+        "scope": "All 128 pre-Batch-B cases, three existing Batch B copy journeys and four new history checks. Previous Batch B visual crawl/reading audit omitted locally; default CI command remains unchanged."
+      },
+      "publicDecisionExercises": {
+        "passed": 21,
+        "failed": 0
+      },
+      "experiment": {
+        "passed": 16,
+        "failed": 0
+      },
+      "webkit": {
+        "passed": 11,
+        "failed": 0,
+        "scope": "Eight existing bounded cases plus three unknown-history/dedup cases.",
+        "limitation": "Attempted known-to-unknown test cannot run with Playwright WebKit synthetic redirect interception: route.fulfill: Cannot fulfill with redirect status: 307. That case remains covered by Chromium; no Safari/device claim."
+      },
+      "typecheck": "passed",
+      "lint": "passed",
+      "strictCopy": "passed",
+      "evidenceAudit": "passed",
+      "productionBuild": "passed",
+      "diffCheck": "passed"
+    },
+    "environment": "Initial restricted Next build stalled; only that task-owned process was terminated and the same build passed with process permissions. Experiment webServer startup timed out once; directly starting the isolated dev server and rerunning the unchanged suite passed.",
+    "screenshots": {
+      "captured": [
+        "history-amendment/unknown-en.png",
+        "history-amendment/unknown-zh-Hans.png",
+        "history-amendment/known-control.png"
+      ],
+      "visuallyInspected": [
+        "history-amendment/unknown-en.png",
+        "history-amendment/known-control.png"
+      ],
+      "syntheticOnly": true
+    },
+    "protection": {
+      "comparisonBase": "eed9fd8c7c54114a6063fb76d42e596c2791ed45",
+      "runtimeExceptions": [
+        "lib/locale-provenance.ts",
+        "lib/result-history.ts",
+        "components/results/history-compare.tsx"
+      ],
+      "unchangedPathsChecked": [
+        "content",
+        "lib/scoring.ts",
+        "lib/scoring",
+        "lib/scoring-calibration.ts",
+        "lib/share.ts",
+        "lib/types.ts",
+        "lib/storage-keys.ts",
+        "lib/research",
+        "lib/modules",
+        "lib/perspectives",
+        "lib/foundation-draft-copy.ts",
+        "lib/foundation-copy-share.ts",
+        "lib/results/local-evidence.ts",
+        "app",
+        "components/decision-exercises",
+        "components/quiz-app.tsx",
+        "components/quiz",
+        "components/home",
+        "components/reference",
+        "components/i18n",
+        "public",
+        "package.json",
+        "package-lock.json",
+        "docs/evidence/decision-exercises-release"
+      ],
+      "storage": "No new key/schema/identifier; old records, provenance, scores, identities, timestamps and bounded cap unchanged.",
+      "sourceResearch": "Not repeated. Nine corrections, df1, defaults, reference/AI/World Stage, root and PR52 repairs untouched."
+    },
+    "ci": "Final-head run/link is appended to the same PR description after successful execution; this record does not assign an unknown future hash to its own commit."
+  }
+}

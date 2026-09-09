@@ -1,0 +1,13 @@
+[WebServer] (node:61025) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:61026) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 e2e/history-copy-provenance.spec.ts:22:52 › en: unknown saved observations stay individually readable without a comparison (559ms)
+  ✓  2 e2e/history-copy-provenance.spec.ts:22:52 › zh-Hans: unknown saved observations stay individually readable without a comparison (341ms)
+  ✓  3 e2e/history-copy-provenance.spec.ts:31:5 › reopening an unknown result does not churn bounded history or evict unrelated records (804ms)
+  ✓  4 e2e/history-copy-provenance.spec.ts:40:5 › known comparison clears on a same-document Next navigation to an unknown result (425ms)
+
+  4 passed (3.3s)

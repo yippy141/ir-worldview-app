@@ -97,13 +97,9 @@ test("public entry points match reviewed Current Case availability", async ({ pa
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
 
   await page.goto("/world-stage")
-  if (activeCase) {
-    await expect(page.getByRole("link", { name: /^Current Case\b/ })).toBeVisible()
-  } else {
-    await expect(page.getByRole("link", { name: /^Foundation\b/ }).first()).toBeVisible()
-    await expect(page.getByRole("link", { name: /^Recent Cases\b/ })).toBeVisible()
-    await expect(page.getByRole("link", { name: /^Current Case\b/ })).toHaveCount(0)
-  }
+  await expect(page.getByRole("heading", { name: "World Stage", exact: true })).toBeVisible()
+  await expect(page.getByRole("link", { name: activeCase ? "Current cases →" : "Case archive →", exact: true })).toBeVisible()
+  await expect(page.getByRole("navigation", { name: "Primary destinations" })).toHaveCount(0)
   const svgFallback = page.locator('svg:has(path[data-iso3])')
   await expect(svgFallback).toBeVisible()
   expect(await svgFallback.locator('path[data-iso3]').count()).toBeGreaterThan(0)
@@ -124,11 +120,11 @@ test("public entry points match reviewed Current Case availability", async ({ pa
   await expect(page.getByRole("heading", { name: "Read the case briefing" })).toBeVisible()
 })
 
-test("World Stage opens the Foundation and a draft resumes after reload", async ({ page }) => {
-  await page.goto("/world-stage")
+test("the root project index opens Foundation and a draft resumes after reload", async ({ page }) => {
+  await page.goto("/")
 
-  const stageNav = page.getByRole("navigation", { name: "World Stage sections" })
-  await stageNav.getByRole("link", { name: /Foundation/ }).click()
+  const stageNav = page.getByRole("navigation", { name: "Primary destinations" })
+  await stageNav.getByRole("link", { name: "Inventory", exact:true }).click()
   await expect(page).toHaveURL(/\/quiz$/)
 
   await answerCurrentFoundationQuestion(page)
@@ -446,13 +442,13 @@ test("the archetype directory exposes exactly the eight canonical pure routes", 
   await expect(page.getByText(/8 types|eight types/i)).toHaveCount(0)
 })
 
-test("Explore renders the contracted nine sections in order", async ({ page }) => {
+test("Explore retains every contracted section with direct archetypes before the model explanation", async ({ page }) => {
   await page.goto("/explore")
   const sections = page.locator("[data-explore-section]")
   await expect(sections).toHaveCount(9)
   expect(await sections.evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("data-explore-section")),
-  )).toEqual(EXPLORE_HUB_SECTION_ORDER)
+  )).toEqual([...EXPLORE_HUB_SECTION_ORDER.filter(id => id !== "how-labels-fit"), "how-labels-fit"])
 })
 
 test("all eight archetype details publish the qualified partial core and legacy comparison", async ({
@@ -566,7 +562,7 @@ test("tradition pages remain supporting evidence and publish no thinker assignme
   for (const familyKey of MODELED_FAMILY_KEYS) {
     await page.goto(`/explore/${familySlug(familyKey)}`)
     await expect(
-      page.getByRole("heading", { name: "Supporting tradition, not a Foundation result" }),
+      page.getByRole("heading", { name: "Related Foundation archetypes" }),
     ).toBeVisible()
     await expect(page.locator("[data-tradition-archetype]")).toHaveCount(2)
     await expect(
@@ -1054,10 +1050,8 @@ test.describe("390px viewport", () => {
     await sourceDialog.getByRole("button", { name: "Close source details" }).click()
     await layerFilters.locator("summary").click()
 
-    await page
-      .getByRole("navigation", { name: "World Stage sections" })
-      .getByRole("link", { name: /Foundation/ })
-      .click()
+    await page.getByRole("link", { name: "IR Worldview Inventory home", exact: true }).click()
+    await page.getByRole("navigation", { name: "Primary destinations" }).getByRole("link", { name: "Inventory", exact:true }).click()
     await expect(page.getByRole("heading", { name: "Foundation", exact: true })).toBeVisible()
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),

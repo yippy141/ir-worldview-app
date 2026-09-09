@@ -62,7 +62,7 @@ test("the owner-approved Foundation adaptation is an explicit, non-equivalent be
   assert.equal(zhHansFoundationInstrumentManifest.runtimeEnabled, true)
   assert.equal(zhHansFoundationInstrumentManifest.canonicalSchemaVersion, 4)
   assert.equal(zhHansFoundationInstrumentManifest.scoringVersion, 2)
-  assert.equal(zhHansFoundationInstrumentManifest.localeCopyVersion, 1)
+  assert.equal(zhHansFoundationInstrumentManifest.localeCopyVersion, 2)
   assert.ok(zhHansCopyDeckManifest.includes.includes("foundation-instrument"))
   assert.ok(!(zhHansCopyDeckManifest.excludes as readonly string[]).includes("foundation-instrument"))
 })

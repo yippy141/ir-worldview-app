@@ -1,0 +1,80 @@
+[
+  {
+    "route": "/explore/reference/robert-keohane",
+    "before": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    },
+    "after": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    }
+  },
+  {
+    "route": "/ai/atlas/precautionarySteward",
+    "before": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    },
+    "after": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    }
+  },
+  {
+    "route": "/explore/atlas/institution-builder",
+    "before": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    },
+    "after": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    }
+  },
+  {
+    "route": "/world-stage",
+    "before": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    },
+    "after": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    }
+  },
+  {
+    "route": "/zh/world-stage",
+    "before": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    },
+    "after": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    }
+  },
+  {
+    "route": "/zh/explore/reference/robert-keohane",
+    "before": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    },
+    "after": {
+      "viewport": 320,
+      "document": 320,
+      "wide": []
+    }
+  }
+]

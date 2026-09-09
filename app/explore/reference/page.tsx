@@ -16,16 +16,14 @@ export default function ReferenceBrowsePage() {
   const hasDrafts = entities.length > 0 && REFERENCE_PROFILE_CATALOG.dataStatus !== "public"
 
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       <div className="article-header stack-md">
         <div className="stack-xs">
-          <p className="eyebrow">Thinkers &amp; public positions</p>
-          <h1>Evidence-coded public postures</h1>
+
+          <h1>Thinkers &amp; public positions</h1>
         </div>
         <p className="muted atlas-page-lead">
-          Each profile codes a public posture from cited sources: enacted policy, official
-          statements, and canonical work. Every entry shows its scope, record date, evidence
-          support, and open disputes.
+          Read the argument behind a public position, how it explains cooperation or conflict, and where it can fall short. Each profile stays within a dated body of work and links its supporting sources.
         </p>
       </div>
 

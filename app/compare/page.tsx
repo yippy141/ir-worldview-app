@@ -36,7 +36,7 @@ export default async function ComparePage(
   const invalidInput = attemptedCompare && (!leftResolved || !rightResolved)
 
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       <div className="article-header stack-sm">
         <p className="eyebrow">Compare</p>
         <h1>Compare two shared profiles</h1>

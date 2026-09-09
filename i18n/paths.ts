@@ -80,9 +80,7 @@ export function isApprovedChinesePath(pathname: string): boolean {
 
 export function isUnapprovedInstrumentPath(pathname: string): boolean {
   const normalized = internalPath(pathname)
-  return ["/ai", "/modules", "/perspectives"].some(
-    (prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`),
-  )
+  return normalized === "/ai/quiz" || /^\/modules\/[^/]+$/.test(normalized) || /^\/perspectives\/[^/]+$/.test(normalized)
 }
 
 export function localizedAlternates(pathname: string) {

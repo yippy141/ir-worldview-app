@@ -144,6 +144,7 @@ export type FoundationEvidenceProfileSnapshot = Readonly<{
 type ReadWriteStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">
 
 export type PersistFoundationLocalEvidenceInput = Readonly<{
+  copyVersion?: number
   storage: ReadWriteStorage
   sessionStorage: ReadWriteStorage
   payload: string
@@ -213,6 +214,9 @@ export async function persistFoundationLocalEvidence(
     throw new Error("Exact local evidence requires a current Foundation payload.")
   }
 
+  const copyVersion = input.copyVersion ?? completionProvenance("foundation", input.completionLocale).localeCopyVersion
+  if (!(copyVersion === 1 || (input.completionLocale === "zh-Hans" && copyVersion === 2))) throw new Error("Unsupported evidence copy revision.")
+
   const payloadDigest = await foundationPayloadDigest(input.payload)
   if (!payloadDigest) {
     throw new Error("Unable to digest the Foundation payload.")
@@ -237,6 +241,7 @@ export async function persistFoundationLocalEvidence(
     input.targetedFamilyPair,
     input.scoringCalibration,
     input.completionLocale,
+    copyVersion,
   )
 
   const calibration = getV2ScoringCalibration(input.scoringCalibration)
@@ -245,7 +250,7 @@ export async function persistFoundationLocalEvidence(
     calibration.lowDifferentiationThreshold,
   ).code
   const localCompletionId = input.localCompletionId ?? createLocalCompletionId()
-  const localizedQuestions = localizedQuestionMap(input.completionLocale)
+  const localizedQuestions = localizedQuestionMap(input.completionLocale, copyVersion)
 
   const evidence: FoundationLocalEvidenceSet = {
     v: STORE_VERSION,
@@ -257,7 +262,7 @@ export async function persistFoundationLocalEvidence(
       bankVersion: FOUNDATION_INSTRUMENT_VERSION,
       scorerVersion: FOUNDATION_SCORING_VERSION,
       calibrationId: input.scoringCalibration,
-      copyVersion: completionProvenance("foundation", input.completionLocale).localeCopyVersion,
+      copyVersion,
       completionLocale: input.completionLocale,
       questionSet: input.questionSet,
       formId: foundationFormId(input.questionSet, resolvedPayload.targetedFamilyPair),
@@ -678,9 +683,9 @@ function evidenceExplanation(locale: Locale, dimension: DimensionKey): string {
     : `With every other submitted answer held fixed, this substitution changes the difference between the two current readings most through ${label}.`
 }
 
-function localizedQuestionMap(locale: Locale): Map<string, Question> {
+function localizedQuestionMap(locale: Locale, copyVersion: 1 | 2): Map<string, Question> {
   const questions = locale === "zh-Hans"
-    ? getZhHansFoundationQuestions("analyst")
+    ? getZhHansFoundationQuestions("analyst", copyVersion)
     : getFoundationQuestions("analyst")
   return new Map(questions.map((question) => [question.id, question]))
 }
@@ -737,8 +742,8 @@ function assertPayloadMatchesGeneration(
   targetedFamilyPair: readonly [FamilyKey, FamilyKey] | undefined,
   calibrationId: FoundationScoringCalibration,
   locale: Locale,
+  copyVersion: number,
 ) {
-  const provenance = completionProvenance("foundation", locale)
   const payload = resolved.payload
   const expectedFormId = foundationFormId(questionSet, targetedFamilyPair)
   if (
@@ -749,7 +754,7 @@ function assertPayloadMatchesGeneration(
     payload.bv !== FOUNDATION_INSTRUMENT_VERSION ||
     payload.sv !== FOUNDATION_SCORING_VERSION ||
     payload.iv !== FOUNDATION_STRUCTURAL_VERSION ||
-    payload.cv !== provenance.localeCopyVersion ||
+    payload.cv !== copyVersion ||
     payload.cl !== locale ||
     result.familyKey !== resolved.result.familyKey ||
     result.runnerUpKey !== resolved.result.runnerUpKey ||

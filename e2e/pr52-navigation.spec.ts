@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 
-const evidence = "docs/evidence/decision-exercises-release/repair"
+const evidence = process.env.DECISION_REPAIR_DIR ?? "docs/evidence/decision-exercises-release/repair"
 const mobileDestinations = ["/cases", "/quiz", "/modules", "/ai", "/perspectives", "/profile", "/explore/atlas", "/explore/reference", "/explore", "/futures", "/method", "/privacy", "/references", "/feedback"]
 
 // macOS WebKit uses Option+Tab to include links with its default keyboard setting.

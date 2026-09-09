@@ -56,7 +56,7 @@ export function ReadingPathSection({
 
               {path.links && path.links.length > 0 ? (
                 <div className="reading-path-related">
-                  <p className="reading-path-related-label">Use the product</p>
+                  <p className="reading-path-related-label">Explore this question</p>
                   {path.links.map((link) => (
                     <p key={`${path.key}-${link.href}`} className="reading-path-related-item">
                       <Link href={link.href}>{link.label}</Link>

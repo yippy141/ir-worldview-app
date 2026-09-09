@@ -256,7 +256,7 @@ test("the homepage menu demotes Current Case when no reviewed case is live", () 
   )
 })
 
-test("the homepage separates starting paths from continued exploration", () => {
+test("the preserved project-menu registry separates starting paths from continued exploration", () => {
   const activeGroups = groupWorldStageMenuItems(getWorldStageMenuItems(true))
   assert.deepEqual(
     activeGroups.startHere.map((item) => item.id),
@@ -293,8 +293,8 @@ test("the homepage separates starting paths from continued exploration", () => {
     ),
     "utf8",
   )
-  assert.match(componentSource, /"Start here"/)
-  assert.match(componentSource, /"Continue exploring"/)
+  assert.match(componentSource, /<WorldStageMap/)
+  assert.doesNotMatch(componentSource, /choiceGroups\.map/)
 })
 
 test("map controls expose the five independent public map views", () => {

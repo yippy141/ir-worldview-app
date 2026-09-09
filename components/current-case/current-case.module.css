@@ -1576,3 +1576,12 @@
     background: Highlight;
   }
 }
+
+/* Source/correction reading pages: prose and its citations share the available measure. */
+.documentPage { margin-inline: auto; }
+@media (min-width: 980px) {
+  .claimRow { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 8px 40px; }
+  .claimRow h2 { grid-column: 1 / -1; }
+  .claimSources { margin-top: 8px; }
+}
+@media print { .claimRow { display: block; break-inside: avoid; } }

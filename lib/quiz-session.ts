@@ -1,3 +1,5 @@
+import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
+import { parseFoundationDraftCopy } from "@/lib/foundation-draft-copy"
 import type {
   AnswerValue,
   Answers,
@@ -7,7 +9,6 @@ import type {
   ItemLatencyBucketMs,
   ItemLatencyBuckets,
   QuizMode,
-  QuizSession,
 } from "@/lib/types"
 import { createOptionOrderSeed } from "@/lib/option-order"
 
@@ -66,6 +67,7 @@ export function parseQuizSession(raw: string | null): QuizSession | null {
 
     return {
       v: 7,
+      foundationCopy: parseFoundationDraftCopy((parsed as { foundationCopy?: unknown }).foundationCopy),
       orderSeed:
         typeof parsed.orderSeed === "string" && parsed.orderSeed.length > 0
           ? parsed.orderSeed

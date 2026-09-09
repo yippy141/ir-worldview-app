@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function ProfilePage() {
   return (
-    <div className="wide-container">
+    <div className="wide-container reading-page">
       <ProfileDashboard />
     </div>
   )

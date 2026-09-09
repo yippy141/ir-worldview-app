@@ -1,6 +1,10 @@
 "use client"
 
+import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
+
 import { useEffect, useMemo, useRef, useState } from "react"
+import { FoundationCopyNotice } from "@/components/quiz/foundation-copy-notice"
+import { initializeFoundationDraftCopy, foundationDraftCopyVersion, foundationDraftMatchesLocale } from "@/lib/foundation-draft-copy"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
   getZhHansFoundationQuestionsForSet,
@@ -41,7 +45,6 @@ import type {
   ChoiceCardType,
   FamilyKey,
   Question,
-  QuizSession,
   RankedChoiceAnswer,
 } from "@/lib/types"
 
@@ -154,10 +157,10 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         window.localStorage.removeItem(QUIZ_STORAGE_KEY)
       }
 
-      const baseSession = parsed ?? {
+      const baseSession = initializeFoundationDraftCopy(parsed ?? {
         ...createEmptySession(),
         activeMode: "standard" as const,
-      }
+      }, locale)
       const hasCompleteCore = foundationCoreQuestions.every(
         (question) => baseSession.answers[question.id] !== undefined,
       )
@@ -205,7 +208,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     }, 0)
 
     return () => window.clearTimeout(timeout)
-  }, [requestedExtension, requestedFirstFamily, requestedSecondFamily])
+  }, [locale, requestedExtension, requestedFirstFamily, requestedSecondFamily])
 
   useEffect(() => {
     if (!ready) return
@@ -216,17 +219,21 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const repairingCore = requestedCoreRepair && session.questionSet !== "core"
   const displayedSet = repairingCore ? "core" : session.questionSet
 
+  const draftCopyVersion = foundationDraftCopyVersion(session)
+  const copyMatchesLocale = foundationDraftMatchesLocale(session, locale)
+
   const questions = useMemo(
     () => locale === "zh-Hans"
       ? getZhHansFoundationQuestionsForSet(
           displayedSet,
           session.targetedFamilyPair,
+          draftCopyVersion,
         )
       : getFoundationQuestionsForSet(
           displayedSet,
           session.targetedFamilyPair,
         ),
-    [locale, displayedSet, session.targetedFamilyPair],
+    [locale, displayedSet, session.targetedFamilyPair, draftCopyVersion],
   )
   const resultAnswers = useMemo(
     () =>
@@ -239,12 +246,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   )
   const tier1Cohort = useMemo(
     () =>
-      buildTier1Cohort(
-        session.questionSet,
-        locale,
-        session.targetedFamilyPair,
-      ),
-    [locale, session.questionSet, session.targetedFamilyPair],
+      ({ ...buildTier1Cohort(session.questionSet, locale, session.targetedFamilyPair),
+        localeCopyVersion: session.foundationCopy?.status === "single-copy" ? session.foundationCopy.version : 0 }),
+    [locale, session.questionSet, session.targetedFamilyPair, session.foundationCopy],
   )
   const effectiveIndex = Math.min(currentIndex, Math.max(0, questions.length - 1))
   const currentQuestion = questions[effectiveIndex]
@@ -267,6 +271,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     if (
       !ready ||
       repairingCore ||
+      !copyMatchesLocale ||
       !currentQuestionId ||
       currentQuestionHasAnswer
     ) {
@@ -280,6 +285,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     void submitTier1CompletionStep(tier1Cohort, effectiveIndex)
   }, [
     repairingCore,
+    copyMatchesLocale,
     currentQuestionHasAnswer,
     currentQuestionId,
     effectiveIndex,
@@ -388,7 +394,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   }
 
   function resetQuiz() {
-    setSession({ ...createEmptySession(), activeMode: "standard" })
+    setSession(initializeFoundationDraftCopy({ ...createEmptySession(), activeMode: "standard" }, locale))
     setCurrentIndex(0)
     setSupportOpen(false)
     foundationStartTracked.current = false
@@ -402,6 +408,8 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   if (!ready || !session.activeMode) {
     return <div className="panel" style={{ padding: "40px" }}>{copy.loading}</div>
   }
+
+  if (!copyMatchesLocale) return <FoundationCopyNotice session={session} locale={locale} onRestart={resetQuiz} />
 
   const completedCount = questions.filter((question) => session.answers[question.id] !== undefined).length
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
@@ -435,6 +443,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <div className="stack-lg">
+      <FoundationCopyNotice session={session} locale={locale} onRestart={resetQuiz} />
       <section
         className={
           copy.positionMap ? "panel quiz-header quiz-header--with-map" : "panel quiz-header"

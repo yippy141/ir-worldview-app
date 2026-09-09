@@ -1,6 +1,11 @@
 # V23.6 Baseline and Owner Decisions
 
-## Active owner-authorized candidate — 7 September 2026
+## Active Batch B — 9 September 2026
+
+PR #52 merged as `20780d0381bed82958d6a5dff2b809100b6142af`. Its repair and owner merge step are complete. Batch B starts directly from that verified mainline on `release/batch-b-reading-and-localization`: finite Chinese semantic dispositions, compatible copy dispatch, shared reading templates and deeper navigation. [Batch B evidence](docs/evidence/batch-b-reading-and-localization/README.md) records the candidate. No merge, manual deployment or collection is authorized. The previous candidate record below is historical; its awaiting-merge language is superseded here.
+
+
+## Historical Batch A candidate — 7 September 2026
 
 Batch A starts at `da96b7e9b51426ad2bfb0ab0cc9d0ad4bf248a79`, the merged
 PR #51 experiment (reviewed head `38ff7c796bd93dd0312fdf2c2ee32d76061bec0c`;

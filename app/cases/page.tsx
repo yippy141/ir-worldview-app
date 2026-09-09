@@ -46,6 +46,10 @@ export default function CurrentCasesPage() {
         <h2 id="decision-exercises-entry"><Link href="/decisions">Decision exercises →</Link></h2>
         <p>Choose who gets inspection rights or access to a capable model, then reconsider one changed provision. These fictional exercises work without a questionnaire and are available in English.</p>
       </section>
+      <section className={styles.archiveIntro}>
+        <h2><Link href="/futures">From present choices to future trajectories →</Link></h2>
+        <p>Follow how access, verification and institutional capacity could shape AI governance. Futures offers conditional scenarios, not forecasts or outcomes inferred from your answers.</p>
+      </section>
       {cases.length === 0 ? (
         <section className={styles.correctionStatus} aria-labelledby="case-status-heading">
           <h2 id="case-status-heading">No case is published yet</h2>

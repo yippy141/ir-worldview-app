@@ -1,0 +1,702 @@
+[
+  {
+    "route": "/about",
+    "status": 200,
+    "heading": "See which foreign-policy arguments you rely on and where they conflict."
+  },
+  {
+    "route": "/ai/atlas",
+    "status": 200,
+    "heading": "AI governance archetypes"
+  },
+  {
+    "route": "/ai/field-guide",
+    "status": 200,
+    "heading": "AI Field Guide"
+  },
+  {
+    "route": "/archetypes",
+    "status": 200,
+    "heading": "Foundation archetypes"
+  },
+  {
+    "route": "/cases",
+    "status": 200,
+    "heading": "Recent cases"
+  },
+  {
+    "route": "/compare",
+    "status": 200,
+    "heading": "Compare two shared profiles"
+  },
+  {
+    "route": "/explore/atlas",
+    "status": 200,
+    "heading": "Worldview Map"
+  },
+  {
+    "route": "/explore",
+    "status": 200,
+    "heading": "Ways of reading world politics"
+  },
+  {
+    "route": "/explore/reference",
+    "status": 200,
+    "heading": "Thinkers & public positions"
+  },
+  {
+    "route": "/feedback",
+    "status": 200,
+    "heading": "Report a factual, privacy, or security problem."
+  },
+  {
+    "route": "/futures",
+    "status": 200,
+    "heading": "Twelve Trajectories"
+  },
+  {
+    "route": "/method",
+    "status": 200,
+    "heading": "How this inventory works"
+  },
+  {
+    "route": "/modules",
+    "status": 200,
+    "heading": "Add a focused issue read beside the Foundation"
+  },
+  {
+    "route": "/perspectives",
+    "status": 200,
+    "heading": "Advise from a different seat."
+  },
+  {
+    "route": "/privacy",
+    "status": 200,
+    "heading": "Your drafts and saved history stay in this browser."
+  },
+  {
+    "route": "/profile",
+    "status": 200,
+    "heading": "No Profile records are saved yet."
+  },
+  {
+    "route": "/references",
+    "status": 200,
+    "heading": "References"
+  },
+  {
+    "route": "/world-stage",
+    "status": 200,
+    "heading": "World Stage"
+  },
+  {
+    "route": "/archetypes/p-plus",
+    "status": 200,
+    "heading": "Kairos"
+  },
+  {
+    "route": "/archetypes/p-minus",
+    "status": 200,
+    "heading": "Shi (勢)"
+  },
+  {
+    "route": "/archetypes/r-plus",
+    "status": 200,
+    "heading": "Grotian"
+  },
+  {
+    "route": "/archetypes/r-minus",
+    "status": 200,
+    "heading": "Concert"
+  },
+  {
+    "route": "/archetypes/m-plus",
+    "status": 200,
+    "heading": "Satyagraha"
+  },
+  {
+    "route": "/archetypes/m-minus",
+    "status": 200,
+    "heading": "Musyawarah"
+  },
+  {
+    "route": "/archetypes/s-plus",
+    "status": 200,
+    "heading": "Dirigisme"
+  },
+  {
+    "route": "/archetypes/s-minus",
+    "status": 200,
+    "heading": "Dependencia"
+  },
+  {
+    "route": "/explore/realism",
+    "status": 200,
+    "heading": "Realism"
+  },
+  {
+    "route": "/explore/institutionalism",
+    "status": 200,
+    "heading": "Institutionalism"
+  },
+  {
+    "route": "/explore/constructivism",
+    "status": 200,
+    "heading": "Constructivism"
+  },
+  {
+    "route": "/explore/critical-political-economy",
+    "status": 200,
+    "heading": "Critical political economy"
+  },
+  {
+    "route": "/explore/atlas/broad-spectrum-bridge-builder",
+    "status": 200,
+    "heading": "Several Lenses"
+  },
+  {
+    "route": "/explore/atlas/constraint-first-realist",
+    "status": 200,
+    "heading": "Power with Limits"
+  },
+  {
+    "route": "/explore/atlas/competitive-balancer",
+    "status": 200,
+    "heading": "Power and Leverage"
+  },
+  {
+    "route": "/explore/atlas/coalition-pragmatist",
+    "status": 200,
+    "heading": "Coalitions First"
+  },
+  {
+    "route": "/explore/atlas/institution-builder",
+    "status": 200,
+    "heading": "Rules and Cooperation"
+  },
+  {
+    "route": "/explore/atlas/legitimacy-attuned-reader",
+    "status": 200,
+    "heading": "Meaning and Legitimacy"
+  },
+  {
+    "route": "/explore/atlas/justice-forward-solidarist",
+    "status": 200,
+    "heading": "Justice and Protection"
+  },
+  {
+    "route": "/explore/atlas/structural-inequality-critic",
+    "status": 200,
+    "heading": "Power Behind the Rules"
+  },
+  {
+    "route": "/explore/atlas/development-sovereignty-builder",
+    "status": 200,
+    "heading": "Capacity and Autonomy"
+  },
+  {
+    "route": "/explore/atlas/cross-pressured-synthesizer",
+    "status": 200,
+    "heading": "Different by Domain"
+  },
+  {
+    "route": "/explore/reference/john-mearsheimer",
+    "status": 200,
+    "heading": "John Mearsheimer"
+  },
+  {
+    "route": "/explore/reference/robert-keohane",
+    "status": 200,
+    "heading": "Robert Keohane"
+  },
+  {
+    "route": "/explore/reference/alexander-wendt",
+    "status": 200,
+    "heading": "Alexander Wendt"
+  },
+  {
+    "route": "/explore/reference/susan-strange",
+    "status": 200,
+    "heading": "Susan Strange"
+  },
+  {
+    "route": "/ai/atlas/precautionarySteward",
+    "status": 200,
+    "heading": "Precautionary Steward"
+  },
+  {
+    "route": "/ai/atlas/strategicCompetitor",
+    "status": 200,
+    "heading": "Strategic Competitor"
+  },
+  {
+    "route": "/ai/atlas/coordinationArchitect",
+    "status": 200,
+    "heading": "Coordination Architect"
+  },
+  {
+    "route": "/ai/atlas/democraticGuardrailist",
+    "status": 200,
+    "heading": "Democratic Guardrailist"
+  },
+  {
+    "route": "/ai/atlas/stateCapacityBuilder",
+    "status": 200,
+    "heading": "State Capacity Builder"
+  },
+  {
+    "route": "/ai/atlas/openEcosystemBuilder",
+    "status": 200,
+    "heading": "Open Ecosystem Builder"
+  },
+  {
+    "route": "/perspectives/incumbent-great-power",
+    "status": 200,
+    "heading": "Incumbent great power"
+  },
+  {
+    "route": "/perspectives/rising-peer-competitor",
+    "status": 200,
+    "heading": "Rising peer competitor"
+  },
+  {
+    "route": "/perspectives/exposed-ally",
+    "status": 200,
+    "heading": "Exposed ally or vulnerable small state"
+  },
+  {
+    "route": "/perspectives/middle-power-hedger",
+    "status": 200,
+    "heading": "Middle power or nonaligned hedger"
+  },
+  {
+    "route": "/perspectives/capacity-constrained-state",
+    "status": 200,
+    "heading": "Developmental or capacity-constrained state"
+  },
+  {
+    "route": "/perspectives/protection-authority",
+    "status": 200,
+    "heading": "International institution or protection authority"
+  },
+  {
+    "route": "/modules/security",
+    "status": 200,
+    "heading": "Security, Strategy, and Statecraft"
+  },
+  {
+    "route": "/modules/technology",
+    "status": 200,
+    "heading": "Technology, AI, and Geoeconomics"
+  },
+  {
+    "route": "/cases/europe-missile-defence-coalition-ukraine",
+    "status": 200,
+    "heading": "Europe’s integrated anti-ballistic-missile coalition for Ukraine"
+  },
+  {
+    "route": "/cases/europe-missile-defence-coalition-ukraine/sources",
+    "status": 200,
+    "heading": "Europe’s integrated anti-ballistic-missile coalition for Ukraine"
+  },
+  {
+    "route": "/cases/europe-missile-defence-coalition-ukraine/corrections",
+    "status": 200,
+    "heading": "Europe’s integrated anti-ballistic-missile coalition for Ukraine"
+  },
+  {
+    "route": "/cases/europe-missile-defence-coalition-ukraine/challenge",
+    "status": 200,
+    "heading": "Europe’s integrated anti-ballistic-missile coalition for Ukraine"
+  },
+  {
+    "route": "/cases/us-brazil-section-301-tariffs",
+    "status": 200,
+    "heading": "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate"
+  },
+  {
+    "route": "/cases/us-brazil-section-301-tariffs/sources",
+    "status": 200,
+    "heading": "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate"
+  },
+  {
+    "route": "/cases/us-brazil-section-301-tariffs/corrections",
+    "status": 200,
+    "heading": "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate"
+  },
+  {
+    "route": "/cases/us-brazil-section-301-tariffs/challenge",
+    "status": 200,
+    "heading": "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate"
+  },
+  {
+    "route": "/cases/south-china-sea-award-at-ten",
+    "status": 200,
+    "heading": "The South China Sea arbitral award at ten: legal reaffirmation versus Chinese rejection"
+  },
+  {
+    "route": "/cases/south-china-sea-award-at-ten/sources",
+    "status": 200,
+    "heading": "The South China Sea arbitral award at ten: legal reaffirmation versus Chinese rejection"
+  },
+  {
+    "route": "/cases/south-china-sea-award-at-ten/corrections",
+    "status": 200,
+    "heading": "The South China Sea arbitral award at ten: legal reaffirmation versus Chinese rejection"
+  },
+  {
+    "route": "/cases/south-china-sea-award-at-ten/challenge",
+    "status": 200,
+    "heading": "The South China Sea arbitral award at ten: legal reaffirmation versus Chinese rejection"
+  },
+  {
+    "route": "/zh/about",
+    "status": 200,
+    "heading": "看清你在外交政策问题上依赖哪些论证，以及这些论证彼此冲突的地方。"
+  },
+  {
+    "route": "/zh/ai/atlas",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/ai/field-guide",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/cases",
+    "status": 200,
+    "heading": "近期案例"
+  },
+  {
+    "route": "/zh/compare",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/atlas",
+    "status": 200,
+    "heading": "世界观地图"
+  },
+  {
+    "route": "/zh/explore",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/reference",
+    "status": 200,
+    "heading": "按来源编码的公开立场"
+  },
+  {
+    "route": "/zh/feedback",
+    "status": 200,
+    "heading": "报告事实、隐私或安全问题。"
+  },
+  {
+    "route": "/zh/futures",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/method",
+    "status": 200,
+    "heading": "这项清单如何工作"
+  },
+  {
+    "route": "/zh/modules",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/perspectives",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/privacy",
+    "status": 200,
+    "heading": "原始答案与已保存的历史记录只保存在当前浏览器。"
+  },
+  {
+    "route": "/zh/profile",
+    "status": 200,
+    "heading": "这台设备尚未保存画像记录。"
+  },
+  {
+    "route": "/zh/references",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/world-stage",
+    "status": 200,
+    "heading": "世界舞台"
+  },
+  {
+    "route": "/zh/archetypes/p-plus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/p-minus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/r-plus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/r-minus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/m-plus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/m-minus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/s-plus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/archetypes/s-minus",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/realism",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/institutionalism",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/constructivism",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/critical-political-economy",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/explore/atlas/broad-spectrum-bridge-builder",
+    "status": 200,
+    "heading": "多重视角"
+  },
+  {
+    "route": "/zh/explore/atlas/constraint-first-realist",
+    "status": 200,
+    "heading": "权力与边界"
+  },
+  {
+    "route": "/zh/explore/atlas/competitive-balancer",
+    "status": 200,
+    "heading": "权力与杠杆"
+  },
+  {
+    "route": "/zh/explore/atlas/coalition-pragmatist",
+    "status": 200,
+    "heading": "伙伴协调优先"
+  },
+  {
+    "route": "/zh/explore/atlas/institution-builder",
+    "status": 200,
+    "heading": "规则与合作"
+  },
+  {
+    "route": "/zh/explore/atlas/legitimacy-attuned-reader",
+    "status": 200,
+    "heading": "意义与正当性"
+  },
+  {
+    "route": "/zh/explore/atlas/justice-forward-solidarist",
+    "status": 200,
+    "heading": "正义与保护"
+  },
+  {
+    "route": "/zh/explore/atlas/structural-inequality-critic",
+    "status": 200,
+    "heading": "规则背后的权力"
+  },
+  {
+    "route": "/zh/explore/atlas/development-sovereignty-builder",
+    "status": 200,
+    "heading": "能力与自主"
+  },
+  {
+    "route": "/zh/explore/atlas/cross-pressured-synthesizer",
+    "status": 200,
+    "heading": "因议题而异"
+  },
+  {
+    "route": "/zh/explore/reference/john-mearsheimer",
+    "status": 200,
+    "heading": "John Mearsheimer"
+  },
+  {
+    "route": "/zh/explore/reference/robert-keohane",
+    "status": 200,
+    "heading": "Robert Keohane"
+  },
+  {
+    "route": "/zh/explore/reference/alexander-wendt",
+    "status": 200,
+    "heading": "Alexander Wendt"
+  },
+  {
+    "route": "/zh/explore/reference/susan-strange",
+    "status": 200,
+    "heading": "Susan Strange"
+  },
+  {
+    "route": "/zh/ai/atlas/precautionarySteward",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/ai/atlas/strategicCompetitor",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/ai/atlas/coordinationArchitect",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/ai/atlas/democraticGuardrailist",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/ai/atlas/stateCapacityBuilder",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/ai/atlas/openEcosystemBuilder",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/perspectives/incumbent-great-power",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/perspectives/rising-peer-competitor",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/perspectives/exposed-ally",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/perspectives/middle-power-hedger",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/perspectives/capacity-constrained-state",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/perspectives/protection-authority",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/modules/security",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/modules/technology",
+    "status": 200,
+    "heading": "中文版问卷正在校对。"
+  },
+  {
+    "route": "/zh/cases/europe-missile-defence-coalition-ukraine",
+    "status": 200,
+    "heading": "欧洲为乌克兰组建一体化反弹道导弹联盟"
+  },
+  {
+    "route": "/zh/cases/europe-missile-defence-coalition-ukraine/sources",
+    "status": 200,
+    "heading": "欧洲为乌克兰组建一体化反弹道导弹联盟"
+  },
+  {
+    "route": "/zh/cases/europe-missile-defence-coalition-ukraine/corrections",
+    "status": 200,
+    "heading": "欧洲为乌克兰组建一体化反弹道导弹联盟"
+  },
+  {
+    "route": "/zh/cases/europe-missile-defence-coalition-ukraine/challenge",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/cases/us-brazil-section-301-tariffs",
+    "status": 200,
+    "heading": "美国对巴西加征 301 条款关税：巴西如何权衡有限反制"
+  },
+  {
+    "route": "/zh/cases/us-brazil-section-301-tariffs/sources",
+    "status": 200,
+    "heading": "美国对巴西加征 301 条款关税：巴西如何权衡有限反制"
+  },
+  {
+    "route": "/zh/cases/us-brazil-section-301-tariffs/corrections",
+    "status": 200,
+    "heading": "美国对巴西加征 301 条款关税：巴西如何权衡有限反制"
+  },
+  {
+    "route": "/zh/cases/us-brazil-section-301-tariffs/challenge",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  },
+  {
+    "route": "/zh/cases/south-china-sea-award-at-ten",
+    "status": 200,
+    "heading": "南海仲裁案裁决十周年：重申法律效力与中方拒绝接受"
+  },
+  {
+    "route": "/zh/cases/south-china-sea-award-at-ten/sources",
+    "status": 200,
+    "heading": "南海仲裁案裁决十周年：重申法律效力与中方拒绝接受"
+  },
+  {
+    "route": "/zh/cases/south-china-sea-award-at-ten/corrections",
+    "status": 200,
+    "heading": "南海仲裁案裁决十周年：重申法律效力与中方拒绝接受"
+  },
+  {
+    "route": "/zh/cases/south-china-sea-award-at-ten/challenge",
+    "status": 200,
+    "heading": "此页面的简体中文内容尚未通过编辑审校。"
+  }
+]

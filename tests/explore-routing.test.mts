@@ -173,12 +173,13 @@ test("Explore hub derives identities, dimensions, patterns, and reference rows f
     resolve(process.cwd(), "app/explore/page.tsx"),
     "utf8",
   )
-  assert.match(routeSource, /hub\.sections\.map/)
+  assert.match(routeSource, /hub\.sections\.filter/)
+  assert.match(routeSource, /sections\.map/)
   assert.match(routeSource, /data-explore-section=\{section\.id\}/)
   assert.match(routeSource, /getVisibleReferenceEntities\(\)/)
   assert.match(routeSource, /data-explore-archetype-pair/)
   assert.match(routeSource, /hub\.contextBoundary/)
-  assert.doesNotMatch(routeSource, /getArchetypePath/)
+  assert.match(routeSource, /getArchetypePath/)
   assert.doesNotMatch(routeSource, /archetype\.gloss/)
   assert.doesNotMatch(routeSource, /associatedThinkers/)
 })

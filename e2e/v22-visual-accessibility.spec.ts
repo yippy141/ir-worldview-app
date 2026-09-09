@@ -618,7 +618,10 @@ test("V23.1B editorial measure, targets, focus, and contrast remain legible", as
 
   await page.goto("/explore")
   const mobileJumpNav = page.getByRole("navigation", { name: "On this page" })
-  await expect(mobileJumpNav).toBeHidden()
+  await expect(mobileJumpNav).toBeVisible()
+  const bounds = await mobileJumpNav.boundingBox()
+  expect(bounds!.x).toBeGreaterThanOrEqual(0)
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(391)
 })
 
 test("V23.1B code labels, marks, and sources remain legible in print", async ({

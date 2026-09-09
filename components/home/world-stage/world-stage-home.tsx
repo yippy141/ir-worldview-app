@@ -11,7 +11,6 @@ import {
   type CSSProperties,
 } from "react"
 import {
-  getZhHansWorldStageMenuItems,
   zhHansWorldStageUi,
 } from "@/content/locales/zh-Hans/world-stage"
 import { zhHansSiteMetadata } from "@/content/locales/zh-Hans/metadata"
@@ -27,8 +26,6 @@ import {
 } from "@/lib/world-stage/map-config"
 import {
   getWorldStageScene,
-  getWorldStageMenuItems,
-  groupWorldStageMenuItems,
   worldStageSceneOptions,
   worldStageUtilityDestinations,
 } from "@/lib/world-stage/scenes"
@@ -37,7 +34,6 @@ import {
   WORLD_STAGE_FLOW_RELATIONS,
   WORLD_STAGE_SEMICONDUCTOR_ROLES,
   type WorldStageFlowRelation,
-  type WorldStageMenuId,
   type WorldStageSemiconductorRole,
 } from "@/lib/world-stage/types"
 import { WorldStageMap, type WorldStageMapHandle } from "./world-stage-map"
@@ -92,35 +88,12 @@ export function WorldStageHome({
 }) {
   const locale = useLocale() as Locale
   const chinese = locale === "zh-Hans"
-  const menuItems = chinese
-    ? getZhHansWorldStageMenuItems(hasActiveCurrentCase)
-    : getWorldStageMenuItems(hasActiveCurrentCase)
-  const menuGroups = groupWorldStageMenuItems(menuItems)
-  const choiceGroups = [
-    {
-      id: "start-here",
-      label: chinese ? zhHansWorldStageUi.choiceGroups.startHere : "Start here",
-      items: menuGroups.startHere,
-      listClassName: styles.startHereList,
-    },
-    {
-      id: "continue-exploring",
-      label: chinese
-        ? zhHansWorldStageUi.choiceGroups.continueExploring
-        : "Continue exploring",
-      items: menuGroups.continueExploring,
-      listClassName: styles.continueExploringList,
-    },
-  ] as const
   const sceneOptions = chinese ? zhHansWorldStageUi.sceneOptions : worldStageSceneOptions
   const utilityDestinations = chinese
     ? zhHansWorldStageUi.utility
     : worldStageUtilityDestinations
   const footerLinks = chinese ? zhHansWorldStageUi.secondaryLinks : secondaryLinks
   const controls = zhHansWorldStageUi.controls
-  const [previewItemId, setPreviewItemId] = useState<WorldStageMenuId>(
-    menuItems[0]?.id ?? "foundation",
-  )
   const [activeSceneIndex, setActiveSceneIndex] = useState(0)
   const [motionOverride, setMotionOverride] = useState<boolean | null>(null)
   const [sceneHeld, setSceneHeld] = useState(false)
@@ -136,7 +109,6 @@ export function WorldStageHome({
     getReducedMotionSnapshot,
     getReducedMotionServerSnapshot,
   )
-  const activeItem = menuItems.find((item) => item.id === previewItemId) ?? menuItems[0]
   const activeSceneOption = sceneOptions[activeSceneIndex]
   const activeScene = chinese
     ? getZhHansWorldStageScene(activeSceneOption.sceneId)
@@ -276,78 +248,13 @@ export function WorldStageHome({
         </div>
       </header>
 
-      <div className={styles.primaryLayout}>
-        <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
-          <div className={styles.introduction}>
-            <h1 id="world-stage-heading">
-              {chinese ? zhHansWorldStageUi.heading : "Choose a starting point."}
-            </h1>
-            <p>{chinese
-              ? hasActiveCurrentCase
-                ? zhHansWorldStageUi.introduction
-                : zhHansWorldStageUi.archiveIntroduction
-              : hasActiveCurrentCase
-                ? "Answer the Foundation, work through a current decision, or compare the arguments behind the traditions and Decision Patterns."
-                : "Answer the Foundation, review recent cases, or compare the arguments behind the traditions and Decision Patterns."}
-            </p>
-          </div>
-
-          <nav aria-label={chinese ? controls.worldStageSections : "World Stage sections"}>
-            <div className={styles.choiceGroups}>
-              {choiceGroups.map((group) => (
-                <div className={styles.choiceGroup} key={group.id}>
-                  <h2 className={styles.choiceGroupHeading} id={`world-stage-${group.id}`}>
-                    {group.label}
-                  </h2>
-                  <ul
-                    className={`${styles.menuList} ${group.listClassName}`}
-                    aria-labelledby={`world-stage-${group.id}`}
-                  >
-                    {group.items.map((item) => (
-                      <li key={item.id}>
-                        <Link
-                          href={item.href}
-                          className={styles.menuItem}
-                          aria-describedby={`world-stage-description-${item.id}`}
-                          onFocus={() => setPreviewItemId(item.id)}
-                          onPointerEnter={() => setPreviewItemId(item.id)}
-                        >
-                          <span className={styles.menuIndex} aria-hidden="true">
-                            {item.index}
-                          </span>
-                          <span className={styles.menuLabel}>{item.label}</span>
-                          <span className={styles.menuLens}>{item.lens}</span>
-                          <span className={styles.menuIndicator} aria-hidden="true">
-                            →
-                          </span>
-                          <span
-                            className={styles.visuallyHidden}
-                            id={`world-stage-description-${item.id}`}
-                          >
-                            {item.description} {item.action}.
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </nav>
-        </section>
-
-        <aside
-          className={styles.detail}
-          aria-label={chinese ? controls.details(activeItem.label) : `${activeItem.label} details`}
-          key={`detail-${activeItem.id}`}
-        >
-          <p className={styles.detailDescription}>{activeItem.description}</p>
-          <Link className={styles.routeLink} href={activeItem.href}>
-            {activeItem.action}
-            <span aria-hidden="true">→</span>
-          </Link>
-        </aside>
-      </div>
+      <section className={styles.sceneIntroduction} aria-labelledby="world-stage-heading">
+        <h1 id="world-stage-heading">{chinese ? "世界舞台" : "World Stage"}</h1>
+        <nav aria-label={chinese ? controls.worldStageSections : "Related reading"}>
+          <Link href="/cases">{chinese ? "案例" : hasActiveCurrentCase ? "Current cases" : "Case archive"} →</Link>
+          <Link href="/futures">{chinese ? "未来情景" : "Futures"} →</Link>
+        </nav>
+      </section>
 
       <div className={styles.mapMeta} key={`map-${activeSceneOption.sceneId}`}>
         <p className={styles.lensLabel}>
