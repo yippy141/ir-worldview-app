@@ -110,7 +110,18 @@
         "targetedExtended: Liberal–Constructivist",
         "targetedExtended: Liberal–Critical",
         "targetedExtended: Constructivist–Critical"
-      ]
+      ],
+      "subsequentResolution": {
+        "date": "2026-09-10",
+        "authority": "Owner explicitly chose the constant-threat, frequent coalition-redirection proposition.",
+        "revision": "../df1-constant-threat-copy/README.md",
+        "newCopyVersions": {
+          "en": 2,
+          "zh-Hans": 3
+        },
+        "status": "Implemented as separate copy dispatch; original finding and its 2026-09-09 disposition retained as history.",
+        "limit": "Textual alignment, not construct validation or empirical response equivalence."
+      }
     },
     {
       "id": "sc2",

@@ -1,10 +1,11 @@
+import { isSupportedFoundationCopyVersion, type FoundationCopyVersion } from "@/lib/foundation-copy-versions"
+import { getEnglishFoundationQuestions } from "@/lib/foundation-english-copy"
 import { resolveArchetype } from "@/lib/archetypes"
 import { completionProvenance } from "@/lib/locale-provenance"
 import {
   FOUNDATION_INSTRUMENT_VERSION,
   FOUNDATION_STRUCTURAL_VERSION,
   dimensionLabels,
-  getFoundationQuestions,
   getFoundationResultQuestions,
   selectFoundationAnswersForSet,
 } from "@/lib/quiz-schema"
@@ -215,7 +216,7 @@ export async function persistFoundationLocalEvidence(
   }
 
   const copyVersion = input.copyVersion ?? completionProvenance("foundation", input.completionLocale).localeCopyVersion
-  if (!(copyVersion === 1 || (input.completionLocale === "zh-Hans" && copyVersion === 2))) throw new Error("Unsupported evidence copy revision.")
+  if (!isSupportedFoundationCopyVersion(input.completionLocale, copyVersion)) throw new Error("Unsupported evidence copy revision.")
 
   const payloadDigest = await foundationPayloadDigest(input.payload)
   if (!payloadDigest) {
@@ -683,10 +684,10 @@ function evidenceExplanation(locale: Locale, dimension: DimensionKey): string {
     : `With every other submitted answer held fixed, this substitution changes the difference between the two current readings most through ${label}.`
 }
 
-function localizedQuestionMap(locale: Locale, copyVersion: 1 | 2): Map<string, Question> {
+function localizedQuestionMap(locale: Locale, copyVersion: FoundationCopyVersion): Map<string, Question> {
   const questions = locale === "zh-Hans"
     ? getZhHansFoundationQuestions("analyst", copyVersion)
-    : getFoundationQuestions("analyst")
+    : getEnglishFoundationQuestions("analyst", copyVersion)
   return new Map(questions.map((question) => [question.id, question]))
 }
 
@@ -778,6 +779,7 @@ function evidenceBindingMatches(
   const payload = resolved.payload
   const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
   return (
+    isSupportedFoundationCopyVersion(binding.completionLocale, binding.copyVersion) &&
     binding.payloadDigest === payloadDigest &&
     binding.instrumentStructuralVersion === payload.iv &&
     binding.bankVersion === payload.bv &&

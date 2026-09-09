@@ -1,0 +1,47 @@
+{
+  "base": "bb3f93b20c772f55774ecb0699a1def7feecf02e",
+  "bank": "content/instrument/foundation.v2.json",
+  "bankSha256": "1d47666272d54557313d89ccd437497bda685bac63f814044afff833f114e0e6",
+  "fixtures": [
+    {
+      "locale": "en",
+      "version": 1,
+      "prompt": "A new governing coalition often redirects foreign policy even when the external threat remains unchanged.",
+      "clarification": {
+        "whatItAsks": "Can elections, leadership changes, and domestic coalitions shift foreign policy as much as events abroad?"
+      }
+    },
+    {
+      "locale": "en",
+      "version": 2,
+      "prompt": "A new governing coalition often redirects foreign policy even when the external threat remains unchanged.",
+      "clarification": {
+        "whatItAsks": "Does a new governing coalition often change foreign policy even without a change in the external threat?"
+      }
+    },
+    {
+      "locale": "zh-Hans",
+      "version": 1,
+      "prompt": "执政者及其问责对象的变化，对外交政策的影响往往不亚于外部威胁。",
+      "clarification": {
+        "whatItAsks": "选举、领导层更替和国内政治联盟，能否像外部事态一样推动外交政策转向？"
+      }
+    },
+    {
+      "locale": "zh-Hans",
+      "version": 2,
+      "prompt": "执政者及其问责对象的变化，对外交政策的影响往往不亚于外部威胁。",
+      "clarification": {
+        "whatItAsks": "选举、领导层更替和国内政治联盟，能否像外部事态一样推动外交政策转向？"
+      }
+    },
+    {
+      "locale": "zh-Hans",
+      "version": 3,
+      "prompt": "即使外部威胁保持不变，新的执政联盟也常会使外交政策转向。",
+      "clarification": {
+        "whatItAsks": "外部威胁没有变化时，执政联盟的更替是否仍经常促使外交政策转向？"
+      }
+    }
+  ]
+}

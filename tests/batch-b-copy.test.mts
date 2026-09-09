@@ -59,7 +59,7 @@ test("copy revisions preserve every item, option and signal; 14/56/68 administra
 
 test("draft binding survives reload and extension; absent/mixed/future provenance is never upgraded", () => {
  const fresh=initializeFoundationDraftCopy(createEmptySession(),"zh-Hans")
- assert.deepEqual(fresh.foundationCopy,{status:"single-copy",locale:"zh-Hans",version:2})
+ assert.deepEqual(fresh.foundationCopy,{status:"single-copy",locale:"zh-Hans",version:3})
  const started={...fresh,answers:{sc2:7},questionSet:"baselineExtended" as const}
  const reloaded=parseQuizSession(JSON.stringify(started))!
  assert.deepEqual(reloaded.foundationCopy,fresh.foundationCopy)

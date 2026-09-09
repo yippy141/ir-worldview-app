@@ -1,3 +1,4 @@
+import { isSupportedFoundationCopyVersion } from "@/lib/foundation-copy-versions"
 import { buildFoundationSharePayload } from "@/lib/share"
 
 /** Bind an already resolved result to the wording actually supported by this draft.
@@ -10,7 +11,7 @@ export function buildFoundationCopySharePayload(
   targetedPair: Parameters<typeof buildFoundationSharePayload>[3],
   copyVersion: number,
 ) {
-  if (!(copyVersion === 0 || copyVersion === 1 || (locale === "zh-Hans" && copyVersion === 2))) {
+  if (!(copyVersion === 0 || isSupportedFoundationCopyVersion(locale, copyVersion))) {
     throw new Error("Unsupported Foundation copy revision")
   }
   return { ...buildFoundationSharePayload(result, locale, questionSet, targetedPair), cv: copyVersion }

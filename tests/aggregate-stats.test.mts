@@ -220,7 +220,7 @@ test("stats route accepts only one current Foundation payload and caches success
     scoringVersion: FOUNDATION_SCORING_VERSION,
     questionSet: "fullExtended",
     completionLocale: "en",
-    localeCopyVersion: 1,
+    localeCopyVersion: 2,
     buckets: [],
     labels: [],
   })

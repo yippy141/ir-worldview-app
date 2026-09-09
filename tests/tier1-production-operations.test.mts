@@ -85,7 +85,7 @@ test("smoke verification requires the exact Core deltas and zero replay rows", (
     scoringVersion: 2,
     formKey: "core",
     completionLocale: "en",
-    localeCopyVersion: 1,
+    localeCopyVersion: 2,
     dimensionCount: 7,
     labelCount: 1,
     completionCount: 14,

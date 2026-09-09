@@ -9,11 +9,11 @@ import {
 test("completion provenance is instrument- and locale-versioned", () => {
   assert.deepEqual(completionProvenance("foundation", "en"), {
     locale: "en",
-    localeCopyVersion: 1,
+    localeCopyVersion: 2,
   })
   assert.deepEqual(completionProvenance("foundation", "zh-Hans"), {
     locale: "zh-Hans",
-    localeCopyVersion: 2,
+    localeCopyVersion: 3,
   })
   assert.deepEqual(LEGACY_ENGLISH_PROVENANCE, {
     locale: "en",

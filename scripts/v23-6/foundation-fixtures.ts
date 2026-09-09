@@ -1,3 +1,4 @@
+import { buildFoundationCopySharePayload } from "@/lib/foundation-copy-share"
 import {
   FOUNDATION_INSTRUMENT_VERSION,
   FOUNDATION_STRUCTURAL_VERSION,
@@ -10,7 +11,6 @@ import {
   generateResult,
 } from "@/lib/scoring"
 import {
-  buildFoundationSharePayload,
   encodePayload,
 } from "@/lib/share"
 import {
@@ -131,7 +131,7 @@ export async function buildLocalEvidenceBrowserFixture(
   ) satisfies Answers
   const result = generateResult(answers, "analyst", calibration)
   const payload = encodePayload(
-    buildFoundationSharePayload(result, "en", questionSet),
+    buildFoundationCopySharePayload(result, "en", questionSet, undefined, 1),
   )
   const localStorage = new MemoryStorage()
   const sessionStorage = new MemoryStorage()
@@ -142,6 +142,7 @@ export async function buildLocalEvidenceBrowserFixture(
     payload,
     answers,
     completionLocale: "en",
+    copyVersion: 1,
     questionSet,
     mode: "analyst",
     scoringCalibration: calibration,
@@ -193,11 +194,12 @@ function buildCurrentPayload({
   }
   const result = buildCanonicalFoundationResult(scores, calibration)
   return encodePayload(
-    buildFoundationSharePayload(
+    buildFoundationCopySharePayload(
       result,
       locale,
       questionSet,
       targetedFamilyPair,
+      locale === "en" ? 1 : 2, // Preserve the fixtures as served at the PR53 merge.
     ),
   )
 }
