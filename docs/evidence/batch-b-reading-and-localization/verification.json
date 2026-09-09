@@ -178,5 +178,119 @@
     "customDomainServingCommit": "not independently established",
     "manualDeployment": false
   },
-  "pullRequest": "https://github.com/yippy141/ir-worldview-app/pull/53"
+  "pullRequest": "https://github.com/yippy141/ir-worldview-app/pull/53",
+  "historyCorrectnessAmendment": {
+    "reviewedStartingHead": "eed9fd8c7c54114a6063fb76d42e596c2791ed45",
+    "recorded": "2026-09-09",
+    "implementationCommit": "recorded in following evidence-only commit before push",
+    "runtimeSha256": {
+      "lib/locale-provenance.ts": "7e72e7d8f8d0db21a0ea2c074df250a9d26ba1e5826cee0ac646e44dd5e7fe53",
+      "lib/result-history.ts": "e3da6a4c5f3160ffce8ae6b965e29f146cfd847d1b46c03e7275b32d598dcd83",
+      "components/results/history-compare.tsx": "63706e87315a162bcd0ee8c5c680eb6614767f72b59453810b3b1740e2c9cc3b"
+    },
+    "before": {
+      "unit": "3 failed: both locales permit 0/0 and history returns an unknown prior.",
+      "browser": "2 failed: actual result route rendered a comparison for distinct complete synthetic copy-0 records in each locale. Two controls passed: repeated reopening and same-document known-to-unknown navigation.",
+      "evidence": [
+        "history-amendment/before-unit.txt",
+        "history-amendment/before-browser.txt"
+      ],
+      "limit": "The PM supplied a source trace; these local runs establish the reachable comparison defect. No independently reproduced stale panel is claimed on the tested Next route transition."
+    },
+    "repair": "Comparison excludes copy 0. Separate exact recorded-metadata lookup preserves existing duplicate-save suppression including 0/0. Consumer clears derived prior and gates rendering against current provenance; stored records are retained.",
+    "targeted": {
+      "unit": {
+        "passed": 9,
+        "failed": 0,
+        "coverage": "Unknown/known and cross-locale/revision predicates; stored history retained; existing old/new copy and evidence-binding/rejection tests."
+      },
+      "chromium": {
+        "passed": 4,
+        "failed": 0,
+        "coverage": "Real-route unknown records in both provenance locales; six reopen/reload cycles at the five-record cap preserve unrelated records; known control and same-document Next navigation via synthetic redirect."
+      }
+    },
+    "full": {
+      "unit": {
+        "passed": 671,
+        "failed": 0,
+        "preserved": "Historical replay, 512-record/3072 equality checks, characterization witnesses and existing known/unknown evidence tests."
+      },
+      "chromium": {
+        "passed": 135,
+        "failed": 0,
+        "scope": "All 128 pre-Batch-B cases, three existing Batch B copy journeys and four new history checks. Previous Batch B visual crawl/reading audit omitted locally; default CI command remains unchanged."
+      },
+      "publicDecisionExercises": {
+        "passed": 21,
+        "failed": 0
+      },
+      "experiment": {
+        "passed": 16,
+        "failed": 0
+      },
+      "webkit": {
+        "passed": 11,
+        "failed": 0,
+        "scope": "Eight existing bounded cases plus three unknown-history/dedup cases.",
+        "limitation": "Attempted known-to-unknown test cannot run with Playwright WebKit synthetic redirect interception: route.fulfill: Cannot fulfill with redirect status: 307. That case remains covered by Chromium; no Safari/device claim."
+      },
+      "typecheck": "passed",
+      "lint": "passed",
+      "strictCopy": "passed",
+      "evidenceAudit": "passed",
+      "productionBuild": "passed",
+      "diffCheck": "passed"
+    },
+    "environment": "Initial restricted Next build stalled; only that task-owned process was terminated and the same build passed with process permissions. Experiment webServer startup timed out once; directly starting the isolated dev server and rerunning the unchanged suite passed.",
+    "screenshots": {
+      "captured": [
+        "history-amendment/unknown-en.png",
+        "history-amendment/unknown-zh-Hans.png",
+        "history-amendment/known-control.png"
+      ],
+      "visuallyInspected": [
+        "history-amendment/unknown-en.png",
+        "history-amendment/known-control.png"
+      ],
+      "syntheticOnly": true
+    },
+    "protection": {
+      "comparisonBase": "eed9fd8c7c54114a6063fb76d42e596c2791ed45",
+      "runtimeExceptions": [
+        "lib/locale-provenance.ts",
+        "lib/result-history.ts",
+        "components/results/history-compare.tsx"
+      ],
+      "unchangedPathsChecked": [
+        "content",
+        "lib/scoring.ts",
+        "lib/scoring",
+        "lib/scoring-calibration.ts",
+        "lib/share.ts",
+        "lib/types.ts",
+        "lib/storage-keys.ts",
+        "lib/research",
+        "lib/modules",
+        "lib/perspectives",
+        "lib/foundation-draft-copy.ts",
+        "lib/foundation-copy-share.ts",
+        "lib/results/local-evidence.ts",
+        "app",
+        "components/decision-exercises",
+        "components/quiz-app.tsx",
+        "components/quiz",
+        "components/home",
+        "components/reference",
+        "components/i18n",
+        "public",
+        "package.json",
+        "package-lock.json",
+        "docs/evidence/decision-exercises-release"
+      ],
+      "storage": "No new key/schema/identifier; old records, provenance, scores, identities, timestamps and bounded cap unchanged.",
+      "sourceResearch": "Not repeated. Nine corrections, df1, defaults, reference/AI/World Stage, root and PR52 repairs untouched."
+    },
+    "ci": "Final-head run/link is appended to the same PR description after successful execution; this record does not assign an unknown future hash to its own commit."
+  }
 }

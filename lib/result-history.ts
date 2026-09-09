@@ -82,3 +82,14 @@ export function getLastComparableSnapshot(
   return loadHistory().find((snapshot) =>
     sameResearchEquivalenceCohort(snapshot, provenance)) ?? null
 }
+
+/** Storage deduplication only: equal recorded markers include unknown/unknown.
+ * This lookup does not establish eligibility for a comparison narrative.
+ */
+export function getLastSnapshotWithProvenance(
+  provenance: CompletionProvenance,
+): ResultSnapshot | null {
+  return loadHistory().find((snapshot) =>
+    snapshot.locale === provenance.locale &&
+    snapshot.localeCopyVersion === provenance.localeCopyVersion) ?? null
+}

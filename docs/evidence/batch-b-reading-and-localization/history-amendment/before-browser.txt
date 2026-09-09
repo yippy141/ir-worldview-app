@@ -1,0 +1,75 @@
+[WebServer] (node:59463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:59464) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 e2e/history-copy-provenance.spec.ts:22:52 › en: unknown saved observations stay individually readable without a comparison (5.7s)
+(node:59470) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 e2e/history-copy-provenance.spec.ts:22:52 › zh-Hans: unknown saved observations stay individually readable without a comparison (5.4s)
+(node:59482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 e2e/history-copy-provenance.spec.ts:31:5 › reopening an unknown result does not churn bounded history or evict unrelated records (855ms)
+  ✓  4 e2e/history-copy-provenance.spec.ts:40:5 › known comparison clears on a same-document Next navigation to an unknown result (449ms)
+
+
+  1) e2e/history-copy-provenance.spec.ts:22:52 › en: unknown saved observations stay individually readable without a comparison 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.history-compare')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.history-compare')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      24 |  await seed(page,[prior.snapshot]);await page.goto(`/results/${current.payload}`)
+      25 |  await expect(page.locator('.history-saved-note')).toBeVisible()
+    > 26 |  await expect(page.locator('.history-compare')).toHaveCount(0)
+         |                                                 ^
+      27 |  await expect(page.locator('h1')).toContainText(current.name)
+      28 |  expect((await history(page)).find((s:{timestamp:number})=>s.timestamp===prior.snapshot.timestamp)).toEqual(prior.snapshot)
+      29 |  await capture(page,`unknown-${locale}`)
+        at /private/tmp/ir-batch-b-reading-20260909/e2e/history-copy-provenance.spec.ts:26:49
+
+    Error Context: ../batch-b-targeted-results/history-copy-provenance-en-a0bbd-adable-without-a-comparison/error-context.md
+
+  2) e2e/history-copy-provenance.spec.ts:22:52 › zh-Hans: unknown saved observations stay individually readable without a comparison 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  locator('.history-compare')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" with timeout 5000ms
+      - waiting for locator('.history-compare')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      24 |  await seed(page,[prior.snapshot]);await page.goto(`/results/${current.payload}`)
+      25 |  await expect(page.locator('.history-saved-note')).toBeVisible()
+    > 26 |  await expect(page.locator('.history-compare')).toHaveCount(0)
+         |                                                 ^
+      27 |  await expect(page.locator('h1')).toContainText(current.name)
+      28 |  expect((await history(page)).find((s:{timestamp:number})=>s.timestamp===prior.snapshot.timestamp)).toEqual(prior.snapshot)
+      29 |  await capture(page,`unknown-${locale}`)
+        at /private/tmp/ir-batch-b-reading-20260909/e2e/history-copy-provenance.spec.ts:26:49
+
+    Error Context: ../batch-b-targeted-results/history-copy-provenance-zh-28c8e-adable-without-a-comparison/error-context.md
+
+  2 failed
+    e2e/history-copy-provenance.spec.ts:22:52 › en: unknown saved observations stay individually readable without a comparison 
+    e2e/history-copy-provenance.spec.ts:22:52 › zh-Hans: unknown saved observations stay individually readable without a comparison 
+  2 passed (15.0s)

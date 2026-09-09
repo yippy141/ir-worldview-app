@@ -407,5 +407,11 @@
     "content/locales/zh-Hans/world-stage.ts",
     "content/locales/zh-Hans/worldview-map.ts",
     "content/locales/zh-Hans/worldview-profiles.ts"
-  ]
+  ],
+  "historyAmendmentExceptions": {
+    "reviewedStartingHead": "eed9fd8c7c54114a6063fb76d42e596c2791ed45",
+    "lib/locale-provenance.ts": "Only comparison eligibility changes: copy 0 is ineligible even against 0. Current copy defaults and locale/revision separation remain unchanged.",
+    "lib/result-history.ts": "Adds metadata-equality lookup exclusively for existing duplicate-save suppression. Storage shape, key, cap, timestamps and load/save behavior unchanged.",
+    "components/results/history-compare.tsx": "Deduplication uses the storage lookup; comparison uses eligibility. Clears prior state and gates rendered comparison against current provenance."
+  }
 }

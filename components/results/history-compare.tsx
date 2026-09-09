@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 import {
   saveSnapshot,
   getLastComparableSnapshot,
+  getLastSnapshotWithProvenance,
   type ResultSnapshot,
 } from "@/lib/result-history"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import type { DimensionKey, FamilyKey, StrategyModifier, NormativeModifier, DimensionScores } from "@/lib/types"
 import { SCHEMA_VERSION } from "@/lib/quiz-schema"
-import type { CompletionProvenance } from "@/lib/locale-provenance"
+import { sameResearchEquivalenceCohort, type CompletionProvenance } from "@/lib/locale-provenance"
 import { traditionNounLabel } from "@/lib/worldview-config"
 
 type DimensionShift = {
@@ -43,16 +44,17 @@ export function HistoryCompare(props: HistoryCompareProps) {
 
   useEffect(() => {
     const provenance = props.provenance
-    const last = getLastComparableSnapshot(provenance)
+    setPrior(null)
+    const lastStored = getLastSnapshotWithProvenance(provenance)
 
-    if (last && isEssentiallySame(last, props)) {
+    if (lastStored && isEssentiallySame(lastStored, props)) {
       // Same result as last time — don't save again, no comparison to show
       setSaved(true)
       return
     }
 
-    // Different result — save it and surface the prior for comparison
-    if (last) setPrior(last)
+    // Saving a distinct record does not establish like-for-like exposure.
+    setPrior(getLastComparableSnapshot(provenance))
 
     const snapshot: ResultSnapshot = {
       timestamp: Date.now(),
@@ -76,7 +78,9 @@ export function HistoryCompare(props: HistoryCompareProps) {
       <p className="history-saved-note">
         Saved to this device
       </p>
-      {prior && <CompareSection current={props} prior={prior} />}
+      {prior && sameResearchEquivalenceCohort(prior, props.provenance) && (
+        <CompareSection current={props} prior={prior} />
+      )}
     </>
   )
 }

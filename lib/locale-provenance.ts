@@ -46,14 +46,16 @@ export function isLocaleCopyVersion(value: unknown): value is number {
 }
 
 /**
- * Locale variants may coexist in a personal profile, but they are not treated
- * as equivalent observations for longitudinal or research-style comparisons.
+ * Known matching locale/copy metadata permits the existing comparison; it is
+ * not empirical validation. Equal unknown markers do not establish exposure.
  */
 export function sameResearchEquivalenceCohort(
   left: CompletionProvenance,
   right: CompletionProvenance,
 ): boolean {
   return (
+    left.localeCopyVersion > LEGACY_LOCALE_COPY_VERSION &&
+    right.localeCopyVersion > LEGACY_LOCALE_COPY_VERSION &&
     left.locale === right.locale &&
     left.localeCopyVersion === right.localeCopyVersion
   )
