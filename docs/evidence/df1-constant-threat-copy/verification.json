@@ -3,7 +3,7 @@
   "base": "bb3f93b20c772f55774ecb0699a1def7feecf02e",
   "pr53Merge": "bb3f93b20c772f55774ecb0699a1def7feecf02e",
   "branch": "release/df1-constant-threat-copy",
-  "testedImplementationCommit": "Recorded in the subsequent evidence-only commit before push.",
+  "testedImplementationCommit": "b4c5eed679f1f2113583c7895b4e5d392e520279",
   "versions": {
     "en": [
       1,
@@ -42,7 +42,6 @@
     "lib/quiz-schema.ts",
     "lib/scoring",
     "lib/scoring.ts",
-    "lib/calibration",
     "lib/share.ts",
     "lib/types.ts",
     "lib/storage-keys.ts",
@@ -54,12 +53,17 @@
     "app",
     "components/decision-exercises",
     "lib/analytics",
-    "lib/db",
     "package.json",
     "package-lock.json",
     "tests/result-payoff.test.mts",
     "tests/scoring-replay.test.mts",
-    "tests/decision-exercises.test.mts"
+    "tests/decision-exercises.test.mts",
+    "lib/archetypes.ts",
+    "lib/quiz-session.ts",
+    "lib/scoring-calibration.ts",
+    "lib/modules",
+    "content/archetypes.json",
+    "content/archetype-evidence.json"
   ],
   "protectedDiff": [],
   "bankSha256": "1d47666272d54557313d89ccd437497bda685bac63f814044afff833f114e0e6",
