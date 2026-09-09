@@ -182,7 +182,7 @@
   "historyCorrectnessAmendment": {
     "reviewedStartingHead": "eed9fd8c7c54114a6063fb76d42e596c2791ed45",
     "recorded": "2026-09-09",
-    "implementationCommit": "recorded in following evidence-only commit before push",
+    "implementationCommit": "44db2e4da82449b688b9a7f28bee77384e012809",
     "runtimeSha256": {
       "lib/locale-provenance.ts": "7e72e7d8f8d0db21a0ea2c074df250a9d26ba1e5826cee0ac646e44dd5e7fe53",
       "lib/result-history.ts": "e3da6a4c5f3160ffce8ae6b965e29f146cfd847d1b46c03e7275b32d598dcd83",
