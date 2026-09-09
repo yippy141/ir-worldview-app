@@ -5,7 +5,8 @@
   "executionRevision": {
     "kind": "uncommitted candidate based on base",
     "runtimeAndTestDigestSha256": "84d9899f64e1c2c45eb9a81618fe655c41012c0210a2b140f6f397c556cd2ba4",
-    "note": "Tests executed before documentation commit. CI run/head will be recorded separately; this document does not claim to test its own future hash."
+    "note": "Local suites ran against the runtime/test digest committed as 4393687. This follow-up evidence-only commit records that known revision; it makes no self-referential claim about its own future hash.",
+    "implementationCommit": "439368763da64c2d1ed8bb68cc1202753585bc7d"
   },
   "checks": [
     {
@@ -164,12 +165,18 @@
     "reason": "Chinese-only change would choose between conflicting English tasks."
   },
   "ci": {
-    "status": "not yet pushed"
+    "observedAt": "2026-09-09T05:28:00Z",
+    "runId": 34314963477,
+    "url": "https://github.com/yippy141/ir-worldview-app/actions/runs/34314963477",
+    "head": "439368763da64c2d1ed8bb68cc1202753585bc7d",
+    "statusAtObservation": "in_progress",
+    "note": "Historical observation at evidence recording. Final current-head status and preview are reported in the PR handoff."
   },
   "deployment": {
     "mergeCommit": "20780d0381bed82958d6a5dff2b809100b6142af",
     "githubVercelStatus": "success observed",
     "customDomainServingCommit": "not independently established",
     "manualDeployment": false
-  }
+  },
+  "pullRequest": "https://github.com/yippy141/ir-worldview-app/pull/53"
 }
