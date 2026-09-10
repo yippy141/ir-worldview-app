@@ -5,6 +5,9 @@ import { useRef, useState } from "react"
 import { completeEpisode, episodeProvenance, type Episode, type Decision, deferredDecision } from "@/lib/decision-exercises/content"
 import { Evidence } from "./evidence"
 import styles from "./exercise.module.css"
+import accessStyles from "./access-experience.module.css"
+import { AccessDiagram, AccessSubmittedDiagram } from "./access-diagram"
+import { AccessReading } from "./access-reading"
 import { comparisonStatus } from "@/lib/decision-exercises/status"
 import { decisionHref } from "@/lib/decision-exercises/catalog"
 import { useClearOnExit } from "./use-clear-on-exit"
@@ -16,24 +19,17 @@ function InspectionEdge({ from, to, allowed }: { from: string; to: string; allow
   </svg><strong>{to}</strong><small>{from} {allowed ? "may" : "may not"} inspect {to}.</small></div>
 }
 export function Arrangement({ episode, optionId, replay, submitted = false }: { episode: Episode; optionId: string; replay: boolean; submitted?: boolean }) {
+  if (episode.id === "access") return <AccessDiagram episode={episode} optionId={optionId} replay={replay} submitted={submitted} />
   const option = episode.options.find(o => o.id === optionId)
   if (optionId === "defer") return <figure className={styles.arrangement}><figcaption>Decision withheld</figcaption><p>More information or revised terms are needed. No inspection or release arrangement has been selected.</p></figure>
   const nodes = option?.diagram
   const national = episode.id === "verify" && (!option || option.id === "national")
-  const enclave = episode.id === "access" && (!option || option.id === "enclave")
   return <figure className={styles.arrangement} data-arrangement={option?.id ?? "proposed"}>
     <figcaption>{option ? `${submitted ? "Selected" : "Considering"}: ${option.label}` : episode.id === "verify" ? "Proposed national inspection rights" : "Proposed evaluator admissions"}</figcaption>
     {national ? <><div className={styles.accessLines}>
       <InspectionEdge from="Arden" to="Belvar" allowed={!replay} />
       <InspectionEdge from="Belvar" to="Arden" allowed />
-    </div><p className={styles.small}>Arrow: authorized inspection. Cross: no inspection right.</p></> : enclave ? <>
-      <div className={styles.admissionGate} data-admissions={replay ? "developer" : "independent"}>
-        <strong>{replay ? "Larch controls admission" : "Independent panel controls admission"}</strong>
-        <span>{replay ? "Developer may veto a qualified applicant" : "No developer veto"}</span>
-      </div>
-      <div className={styles.nodes}><span className={styles.connector}>Admits qualified teams</span><strong>Secure research enclave</strong></div>
-      <p>Fixed rights for admitted teams: examine and modify inside the enclave; publish criticism. Weights stay inside.</p>
-    </> : <div className={styles.nodes}>
+    </div><p className={styles.small}>Arrow: authorized inspection. Cross: no inspection right.</p></> : <div className={styles.nodes}>
       <strong>{nodes![0]}</strong><span className={styles.connector}>{nodes![1]}</span><strong>{nodes![2]}</strong>
       {option?.id === "custodian" && <p className={styles.fixedRights}>Custodian access to both sides remains reciprocal.</p>}
     </div>}
@@ -41,6 +37,7 @@ export function Arrangement({ episode, optionId, replay, submitted = false }: { 
   </figure>
 }
 export function EpisodePlayer({ episode, links, preview = false }: { episode: Episode; links?: { next: string; exit: string }; preview?: boolean }) {
+  const access = episode.id === "access"
   const [stage, setStage] = useState<0 | 1 | 2>(0)
   const [first, setFirst] = useState<Decision>(empty)
   const [submittedOriginal, setSubmittedOriginal] = useState(false)
@@ -48,6 +45,8 @@ export function EpisodePlayer({ episode, links, preview = false }: { episode: Ep
   const [second, setSecond] = useState<Decision>(empty)
   useClearOnExit(() => { setFirst(empty()); setSecond(empty()); setStage(0); setSubmittedOriginal(false); setInvalidated(false) })
   const heading = useRef<HTMLHeadingElement>(null)
+  const choices = useRef<HTMLFieldSetElement>(null)
+  const reading = useRef<HTMLDetailsElement>(null)
   const answer = stage === 0 ? first : second
   function setAnswer(next: Decision) {
     if (stage === 0) {
@@ -67,17 +66,22 @@ export function EpisodePlayer({ episode, links, preview = false }: { episode: Ep
   const nextEpisode = episode.id === "verify" ? "access" : "verify"
   const status = comparisonStatus(first, second)
   const label = (id: string) => id === "defer" ? "Decision withheld" : episode.options.find(option => option.id === id)!.label
-  return <article className={`${styles.page} ${preview ? styles.embedded : ""}`}>
+  return <article className={`${styles.page} ${access ? accessStyles.accessPage : ""} ${preview ? styles.embedded : ""}`}>
     <h1>{episode.title}</h1>
     <p className={styles.lead}>{episode.invitation}</p>
     <p className={styles.small}>Fictional decision exercise · Unscored{preview ? " · Draft for local review" : ""}</p>
     <noscript><p>The assumptions and arrangements below can be read without JavaScript. Submission and comparison require JavaScript; no choice has been submitted.</p><style>{".payoff-dynamic { display: none !important; }"}</style></noscript>
+    {access && <nav className={`${accessStyles.stageNav} payoff-dynamic`} aria-label="Exercise progress">
+      {(["Original decision", "Changed condition", "Interpretation"] as const).map((title, index) => stage > index ? <button key={title} onClick={() => move(index as 0 | 1)}>{title}</button> : <span key={title} aria-current={stage === index ? "step" : undefined}>{title}</span>)}
+      {!result && <button className={accessStyles.jump} onClick={() => { choices.current?.focus(); choices.current?.scrollIntoView({ block: "start" }) }}>Go to choices</button>}
+    </nav>}
     {result ? <div className={styles.episodeGrid}>
       <div>
         <h2 ref={heading} tabIndex={-1}>Your decision under each condition</h2>
-        <dl className={styles.comparison} aria-label="Submitted decisions"><div><dt>Original provision</dt><dd>{label(first.option)}</dd></div><div><dt>Changed provision</dt><dd>{label(second.option)}</dd></div></dl>
+        <dl className={styles.comparison} aria-label="Submitted decisions"><div><dt>Original provision</dt><dd>{label(first.option)}{access && <span className={accessStyles.submittedReason}><strong>Principal reason</strong>{episode.reasons.find(reason => reason.id === first.reason)!.text}</span>}</dd></div><div><dt>Changed provision</dt><dd>{label(second.option)}{access && <span className={accessStyles.submittedReason}><strong>Principal reason</strong>{episode.reasons.find(reason => reason.id === second.reason)!.text}</span>}</dd></div></dl>
         <p data-conditional-readback data-rule={result.ruleId}>{result.interpretation.text}</p>
         <p className={styles.small}>{result.interpretation.doesNotSupport}</p>
+        {access && <button className={styles.textButton} onClick={() => { if (reading.current) { reading.current.open = true; reading.current.focus(); reading.current.scrollIntoView({ block: "start" }) } }}>Read why admission matters</button>}
         <details className={styles.evidence}><summary>Complete transcript and interpretation evidence</summary>
           <p>{result.observation.text}</p>
           <p>Original principal reason: {episode.reasons.find(reason => reason.id === first.reason)!.text}</p>
@@ -92,15 +96,18 @@ export function EpisodePlayer({ episode, links, preview = false }: { episode: Ep
         <button className={styles.textButton} onClick={() => move(1)}>Back to replay</button><button className={styles.textButton} onClick={reset}>Reset and clear choices</button>
       </div>
       <aside className={styles.sticky} aria-label="Choice comparison"><p className={styles.choiceStatus} data-comparison-status>{status.decisions}<br /><span className={styles.small}>{status.reasons}</span></p>
-        <p>{episode.condition.after}</p><Arrangement episode={episode} optionId={second.option} replay submitted />
+        {access ? <AccessSubmittedDiagram episode={episode} first={first} second={second} /> : <><p>{episode.condition.after}</p><Arrangement episode={episode} optionId={second.option} replay submitted /></>}
       </aside>
-    </div> : <div className={styles.episodeGrid}>
-      <div>
+    </div> : <div className={access ? accessStyles.decisionGrid : styles.episodeGrid}>
+      <div className={access ? accessStyles.introduction : styles.verifyIntroduction}>
         <h2 ref={heading} tabIndex={-1}>{stage === 0 ? "The original decision" : "Replay: one condition changes"}</h2>
         {stage === 0 ? <><p>{episode.actor}</p><div aria-label="Scenario assumptions">{episode.assumptions.map(a => <p key={a}>{a}</p>)}</div><p className={styles.small}><strong>Unknown.</strong> {episode.unknown}</p></> : <p>{episode.condition.unchanged}</p>}
         <div className={styles.changed}><h3>{episode.condition.label}</h3>{stage === 1 && <p className={styles.small}>Before: {episode.condition.before}</p>}<p><strong>{stage === 1 ? "Now: " : ""}{stage === 0 ? episode.condition.before : episode.condition.after}</strong></p></div>
         {invalidated && <p role="status">The replay was cleared after editing the original decision. Submit both decisions again.</p>}
-        <fieldset><legend>{episode.question}</legend><p className={styles.small}>Choose among these three arrangements, or withhold a decision if you need different terms or information.</p>{episode.options.map(option => <label className={styles.option} key={option.id}>
+      </div>
+      {access && <aside className={accessStyles.visual} aria-label="Institutional arrangement"><Arrangement episode={episode} optionId={answer.option} replay={stage === 1} /></aside>}
+      <div className={access ? accessStyles.decisionForm : styles.verifyForm}>
+        <fieldset ref={choices} tabIndex={-1}><legend>{episode.question}</legend><p className={styles.small}>Choose among these three arrangements, or withhold a decision if you need different terms or information.</p>{episode.options.map(option => <label className={styles.option} key={option.id}>
           <input className="payoff-dynamic" type="radio" autoComplete="off" name={`${episode.id}-arrangement`} value={option.id} checked={answer.option === option.id} onChange={() => setAnswer({ ...answer, option: option.id })} />
           <span><strong>{option.label}</strong><span>{option.logic}</span><span className={styles.cost}>Accepted cost: {option.acceptedTradeoff}</span></span>
         </label>)}<label className={`${styles.radio} payoff-dynamic`}><input type="radio" autoComplete="off" name={`${episode.id}-arrangement`} value="defer" checked={answer.option === "defer"} onChange={() => setAnswer({ ...answer, option: "defer" })} /><span>{deferredDecision.label}<span className={styles.deferNote}>{deferredDecision.logic}</span></span></label></fieldset>
@@ -113,8 +120,9 @@ export function EpisodePlayer({ episode, links, preview = false }: { episode: Ep
             <button className={styles.textButton} onClick={reset}>Reset and clear choices</button></div>
         </div>
       </div>
-      <aside className={styles.sticky}><Arrangement episode={episode} optionId={answer.option} replay={stage === 1} /></aside>
+      {!access && <aside className={`${styles.sticky} ${styles.verifyVisual}`}><Arrangement episode={episode} optionId={answer.option} replay={stage === 1} /></aside>}
     </div>}
+    {access && result && <AccessReading episode={episode} detailsRef={reading} />}
     <details className={styles.sources}><summary>Sources and fictional assumptions</summary><p>All scenario facts are supplied assumptions, not contemporary intelligence or forecasts. These sources support mechanisms, not a correct policy choice or a verified hypothetical outcome. Fiction does not remove wording effects or bias.</p><p>Two responses and self-reported reasons do not isolate causal effects. A later research design would be needed for that. No interpretation uses nationality, citizenship, inferred location or language.</p><p>{episode.outcome.caveat}</p>
       {episode.sources.map(source => <div key={source.id}><h3><a href={source.url} target={/^https?:\/\//.test(source.url) ? "_blank" : undefined} rel={/^https?:\/\//.test(source.url) ? "noopener noreferrer" : undefined}>{source.title}<span className={styles.small}>{/^https?:\/\//.test(source.url) ? " (opens in a new tab)" : " (leaves this exercise and clears choices)"}</span></a></h3><p>{source.scope}</p><p className={styles.metadata}>{source.kind === "internal-editorial" ? "Internal editorial material, not independent research" : source.kind === "primary" ? "Primary source record" : "Research source"}<br />{source.publisher} · {source.publishedAt ?? "Undated"} · accessed {source.accessedAt}<br /><code>{source.locator}</code></p></div>)}
       <p className={styles.metadata}>{episode.id} v{episode.version} · {episode.status} · {episodeProvenance(episode).form}</p>
