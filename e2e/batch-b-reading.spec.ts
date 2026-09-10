@@ -94,7 +94,7 @@ test('unknown and interrupted drafts preserve older copy, decline invented evide
  expect(JSON.parse((await page.evaluate(k=>localStorage.getItem(k),key))!).answers.sc2).toBe(7)
  page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Clear draft and restart'}).click()
  await expect(page.getByRole('heading',{name:'Keep the language of this draft'})).toHaveCount(0)
- const draft=JSON.parse((await page.evaluate(k=>localStorage.getItem(k),key))!);expect(draft.foundationCopy).toEqual({status:'single-copy',locale:'en',version:1});expect(draft.answers).toEqual({})
+ const draft=JSON.parse((await page.evaluate(k=>localStorage.getItem(k),key))!);expect(draft.foundationCopy).toEqual({status:'single-copy',locale:'en',version:2});expect(draft.answers).toEqual({})
 })
 
 test('no-JS, print, keyboard and reduced-motion reading retain the argument and source route',async({browser,page})=>{

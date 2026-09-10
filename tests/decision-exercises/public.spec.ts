@@ -1,9 +1,9 @@
+import { buildFoundationCopySharePayload } from "@/lib/foundation-copy-share"
 import { test, expect, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 import { resultFixtures, syntheticAnswers } from "./fixtures"
 import { getFoundationQuestionsForSet, selectFoundationAnswersForSet } from "@/lib/quiz-schema"
 import { foundationScoringCalibrationForForm, generateResult } from "@/lib/scoring"
-import { buildFoundationSharePayload } from "@/lib/share"
 import { FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY, FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY, PROFILE_SAVE_INTENT_KEY, RESULT_HISTORY_STORAGE_KEY, PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
 import type { FamilyKey } from "@/lib/types"
 const fixtures = resultFixtures()
@@ -279,7 +279,7 @@ test("genuine missing tier-core answers recover without losing baseline or targe
   await expect(page).toHaveURL(/\/results\//)
   const payload = JSON.parse(Buffer.from(page.url().split("/").pop()!, "base64url").toString())
   const calibration = foundationScoringCalibrationForForm(questionSet,pair)!
-  expect(payload).toEqual(buildFoundationSharePayload(generateResult(complete,"analyst",calibration),"en",questionSet,pair))
+  expect(payload).toEqual(buildFoundationCopySharePayload(generateResult(complete,"analyst",calibration),"en",questionSet,pair,1))
   await expect.poll(() => page.evaluate(key => localStorage.getItem(key), FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY)).not.toBeNull()
   records.push({ questionSet, pair, missingId:missing.id, allExtensionAnswersPresent:true, blockedUntilRestored:true, restoredPayload:payload })
   if (!pair) await page.screenshot({ path:`${repairDir}/restored-core-result.png` })

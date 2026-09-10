@@ -1,3 +1,5 @@
+import { CURRENT_FOUNDATION_COPY_VERSIONS, isSupportedFoundationCopyVersion } from "@/lib/foundation-copy-versions"
+import { zhHansFoundationCopyV3 } from "@/content/locales/zh-Hans/foundation-copy-v3"
 import { zhHansFoundationCopyV2 } from "@/content/locales/zh-Hans/foundation-copy-v2"
 import { zhHansFoundationDraftByQuestionId } from "@/content/locales/zh-Hans/foundation-copy"
 import {
@@ -63,22 +65,24 @@ export const zhHansFoundationStandardSections = foundationStandardSections.map(
   }),
 )
 
-export function getZhHansFoundationQuestions(mode: QuizMode, copyVersion: 1 | 2 = 2): Question[] {
+export function getZhHansFoundationQuestions(mode: QuizMode, copyVersion: number = CURRENT_FOUNDATION_COPY_VERSIONS["zh-Hans"]): Question[] {
+  assertCopyVersion(copyVersion)
   return getFoundationQuestions(mode).map((question) => {
     const record = zhHansFoundationDraftByQuestionId.get(question.id)
     if (!record) {
       throw new Error(`Missing zh-Hans Foundation copy: ${question.id}`)
     }
 
-    return localizeQuestion(question, copyVersion === 2 ? (zhHansFoundationCopyV2[question.id] ?? record.reconciledChinese) : record.reconciledChinese)
+    return localizeQuestion(question, (copyVersion === 3 ? zhHansFoundationCopyV3[question.id] : undefined) ?? (copyVersion >= 2 ? zhHansFoundationCopyV2[question.id] : undefined) ?? record.reconciledChinese)
   })
 }
 
 export function getZhHansFoundationQuestionsForSet(
   questionSet: FoundationQuestionSet,
   targetedFamilyPair?: readonly [FamilyKey, FamilyKey],
-  copyVersion: 1 | 2 = 2,
+  copyVersion: number = CURRENT_FOUNDATION_COPY_VERSIONS["zh-Hans"],
 ): Question[] {
+  assertCopyVersion(copyVersion)
   return getFoundationQuestionsForSet(questionSet, targetedFamilyPair).map(
     (question) => {
       const record = zhHansFoundationDraftByQuestionId.get(question.id)
@@ -86,7 +90,7 @@ export function getZhHansFoundationQuestionsForSet(
         throw new Error(`Missing zh-Hans Foundation copy: ${question.id}`)
       }
 
-      return localizeQuestion(question, copyVersion === 2 ? (zhHansFoundationCopyV2[question.id] ?? record.reconciledChinese) : record.reconciledChinese)
+      return localizeQuestion(question, (copyVersion === 3 ? zhHansFoundationCopyV3[question.id] : undefined) ?? (copyVersion >= 2 ? zhHansFoundationCopyV2[question.id] : undefined) ?? record.reconciledChinese)
     },
   )
 }
@@ -130,4 +134,8 @@ function localizeQuestion(
       }
     }),
   } satisfies ChoiceQuestion
+}
+
+function assertCopyVersion(version: number) {
+  if (!isSupportedFoundationCopyVersion("zh-Hans", version)) throw new Error("Unsupported Chinese Foundation copy revision")
 }

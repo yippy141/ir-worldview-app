@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-10",
+  "base": "bb3f93b20c772f55774ecb0699a1def7feecf02e",
+  "pr53Merge": "bb3f93b20c772f55774ecb0699a1def7feecf02e",
+  "branch": "release/df1-constant-threat-copy",
+  "testedImplementationCommit": "b4c5eed679f1f2113583c7895b4e5d392e520279",
+  "versions": {
+    "en": [
+      1,
+      2
+    ],
+    "zh-Hans": [
+      1,
+      2,
+      3
+    ]
+  },
+  "newDefaults": {
+    "en": 2,
+    "zh-Hans": 3
+  },
+  "runtimeExceptions": [
+    "content/locales/en/foundation-copy-v2.ts",
+    "content/locales/zh-Hans/foundation-copy-v3.ts",
+    "lib/foundation-copy-versions.ts",
+    "lib/foundation-english-copy.ts",
+    "content/locales/zh-Hans/foundation-instrument.ts",
+    "lib/foundation-draft-copy.ts",
+    "lib/foundation-copy-share.ts",
+    "lib/locale-provenance.ts",
+    "components/quiz-app.tsx",
+    "components/quiz/review-screen.tsx",
+    "lib/results/local-evidence.ts"
+  ],
+  "fixtureOnlyExceptions": [
+    "experiments/result-payoff/fixtures.ts",
+    "scripts/v23-6/foundation-fixtures.ts",
+    "tests/decision-exercises/public.spec.ts"
+  ],
+  "protectedPathsChecked": [
+    "content/instrument",
+    "lib/quiz-schema.ts",
+    "lib/scoring",
+    "lib/scoring.ts",
+    "lib/share.ts",
+    "lib/types.ts",
+    "lib/storage-keys.ts",
+    "lib/result-history.ts",
+    "components/results/history-compare.tsx",
+    "lib/archetype-marks.ts",
+    "content/locales/zh-Hans/foundation-copy-standard-a.ts",
+    "content/locales/zh-Hans/foundation-copy-v2.ts",
+    "app",
+    "components/decision-exercises",
+    "lib/analytics",
+    "package.json",
+    "package-lock.json",
+    "tests/result-payoff.test.mts",
+    "tests/scoring-replay.test.mts",
+    "tests/decision-exercises.test.mts",
+    "lib/archetypes.ts",
+    "lib/quiz-session.ts",
+    "lib/scoring-calibration.ts",
+    "lib/modules",
+    "content/archetypes.json",
+    "content/archetype-evidence.json"
+  ],
+  "protectedDiff": [],
+  "bankSha256": "1d47666272d54557313d89ccd437497bda685bac63f814044afff833f114e0e6",
+  "execution": {
+    "focusedUnit": {
+      "passed": 20
+    },
+    "fullUnit": {
+      "passed": 674,
+      "failed": 0,
+      "includes": "Historical replay, 512-record/3072 equality, four characterization witnesses, copy0/history safeguard and new exact copy/evidence tests."
+    },
+    "typecheck": "passed",
+    "lint": "passed",
+    "copyAuditStrict": "passed; zero blocking findings",
+    "evidenceAuditCheck": "passed; exact regenerated active artifacts",
+    "validate": "passed; existing non-blocking editorial findings retained",
+    "productionBuild": "passed",
+    "scopedChromium": {
+      "passed": 6,
+      "forms": "All five copy revisions; Core14, baseline56, all six targeted pairs; historical68 for preserved en1/zh1/zh2; unknown/future/language restart checks."
+    },
+    "existingAndNewChromium": {
+      "passed": 141,
+      "omitted": 8,
+      "limit": "Unchanged Batch B broad reading crawl/geometry/second-through-fourth-click/reading no-JS/zoom cases not repeated locally. Established CI still runs its complete e2e command."
+    },
+    "publicChromium": {
+      "passed": 21
+    },
+    "experimentChromium": {
+      "passed": 16,
+      "server": "Fresh task dev server at3251, candidate production at3232; prior task3231 untouched."
+    },
+    "boundedWebKit": {
+      "passed": 6,
+      "limit": "Playwright WebKit, not native Safari or a physical device."
+    },
+    "diffCheck": "passed"
+  },
+  "resolvedTestFailures": [
+    "Initial scoped browser helper reloaded before client navigation and checked legacy continuation before hydration. Explicit navigation/hydration waits fixed the test. Synthetic storage setup moved off the active quiz to avoid autosave races.",
+    "Initial full unit run: current-version expectations in two operational tests were still English1; three assertions detected the active evidence report needing regeneration. Updated expectations and regenerated with existing audit, without activation or audit-rule changes.",
+    "Existing public core-repair fixture expected the current default despite binding English1. It now explicitly expects preserved copy1; all result/scoring assertions retained."
+  ],
+  "visualEvidence": {
+    "synthetic": true,
+    "capturedAndInspected": [
+      "screenshots/en-copy-2-clarification.png",
+      "screenshots/zh-Hans-copy-3-clarification.png"
+    ],
+    "otherRegressionCaptures": "Executed test output outside tracked historical evidence; no site-wide visual review claimed."
+  },
+  "limitations": [
+    "Textual alignment is not empirical equivalence, reliability or validity.",
+    "No human bilingual review, source re-verification or retention observation claimed.",
+    "No API, telemetry, database, participant contact, merge or manual deployment."
+  ],
+  "ci": "Final pushed head and CI are recorded in the PR description and handoff, independently of this document commit."
+}

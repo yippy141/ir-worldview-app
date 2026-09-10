@@ -2,6 +2,7 @@
 
 import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
 
+import { getEnglishFoundationQuestionsForSet as getFoundationQuestionsForSet } from "@/lib/foundation-english-copy"
 import { FoundationCopyNotice } from "@/components/quiz/foundation-copy-notice"
 import { foundationDraftCopyVersion, foundationDraftMatchesLocale, foundationDraftCompletion } from "@/lib/foundation-draft-copy"
 import { useEffect, useState } from "react"
@@ -18,7 +19,6 @@ import { publicPath } from "@/i18n/paths"
 import type { Locale } from "@/i18n/routing"
 import { trackProductEvent } from "@/lib/analytics/adapter"
 import {
-  getFoundationQuestionsForSet,
   getFoundationResultQuestions,
   selectFoundationAnswersForSet,
 } from "@/lib/quiz-schema"
@@ -127,7 +127,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
     }
   }, [locale, ready, router, session])
 
-  const questions = session?.activeMode
+  const questions = session?.activeMode && foundationDraftMatchesLocale(session, locale)
     ? locale === "zh-Hans"
       ? getZhHansFoundationQuestionsForSet(
           session.questionSet,
@@ -137,13 +137,14 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
       : getFoundationQuestionsForSet(
           session.questionSet,
           session.targetedFamilyPair,
+          foundationDraftCopyVersion(session),
         )
     : []
 
-  const missingCoreRows: AnswerRow[] = session && session.questionSet !== "core"
+  const missingCoreRows: AnswerRow[] = session && foundationDraftMatchesLocale(session, locale) && session.questionSet !== "core"
     ? (locale === "zh-Hans"
         ? getZhHansFoundationQuestionsForSet("core", undefined, foundationDraftCopyVersion(session))
-        : getFoundationQuestionsForSet("core"))
+        : getFoundationQuestionsForSet("core", undefined, foundationDraftCopyVersion(session)))
       .map((question, index) => ({ question, index, answerDisplay: "—" }))
       .filter(({ question }) => session.answers[question.id] === undefined)
     : []

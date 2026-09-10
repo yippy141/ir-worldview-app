@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 616. Unchanged and suppressed: 482. New: 134. Resolved: 76.
+P2 advisory baseline: 558. Current: 618. Unchanged and suppressed: 482. New: 136. Resolved: 76.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 616 |
+| P2 | 618 |
 
 ### P0 and P1 findings
 
@@ -1072,6 +1072,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.8.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.4.options.1.label) | often |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
+| 1 | general-prevalence-language-review | public | content/locales/zh-Hans/foundation-copy-v3.ts (content-key:content/locales/zh-Hans/foundation-copy-v3.ts#zhHansFoundationCopyV3.df1.clarification.whatItAsks) | 经常 |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.30.analystOptions.2.label) | Instrumented API access with staged evaluations, monitoring, and revocation triggers / Qualified wider release so more actors can inspect, build, and avoid dependence on a few labs |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.17.paragraphs.4) | 往往 |
 | 1 | stronger-path-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label) | The stronger path |
@@ -1164,6 +1165,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#metadata.title) | Field Guide |
 | 1 | repeated-adjacent-opening | operational | lib/modules/authoring-validation.ts (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | decision id is |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getStrongLenses.lens.description) | the aggregate score |
+| 1 | general-prevalence-language-review | public | content/locales/en/foundation-copy-v2.ts (content-key:content/locales/en/foundation-copy-v2.ts#englishFoundationCopyV2.df1.clarification.whatItAsks) | often |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.5.prompt) | usually |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/foundation-copy-v2.ts (content-key:content/locales/zh-Hans/foundation-copy-v2.ts#zhHansFoundationCopyV2.ni2.prompt) | 往往 |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0) | 通常 |

@@ -2,6 +2,7 @@
 
 import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
 
+import { getEnglishFoundationQuestionsForSet as getFoundationQuestionsForSet } from "@/lib/foundation-english-copy"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { FoundationCopyNotice } from "@/components/quiz/foundation-copy-notice"
 import { initializeFoundationDraftCopy, foundationDraftCopyVersion, foundationDraftMatchesLocale } from "@/lib/foundation-draft-copy"
@@ -21,7 +22,6 @@ import { trackProductEvent } from "@/lib/analytics/adapter"
 import {
   dimensionLabels,
   foundationCoreQuestions,
-  getFoundationQuestionsForSet,
   isFoundationFamilyKey,
   likertScale,
   questionCountsBySet,
@@ -223,7 +223,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const copyMatchesLocale = foundationDraftMatchesLocale(session, locale)
 
   const questions = useMemo(
-    () => locale === "zh-Hans"
+    () => !copyMatchesLocale ? [] : locale === "zh-Hans"
       ? getZhHansFoundationQuestionsForSet(
           displayedSet,
           session.targetedFamilyPair,
@@ -232,8 +232,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
       : getFoundationQuestionsForSet(
           displayedSet,
           session.targetedFamilyPair,
+          draftCopyVersion,
         ),
-    [locale, displayedSet, session.targetedFamilyPair, draftCopyVersion],
+    [locale, displayedSet, session.targetedFamilyPair, draftCopyVersion, copyMatchesLocale],
   )
   const resultAnswers = useMemo(
     () =>

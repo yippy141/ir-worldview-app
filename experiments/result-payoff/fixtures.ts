@@ -23,7 +23,7 @@ export const aiAnswers: AiAnswers = {
 const calibration = foundationScoringCalibrationForForm("core")!
 export const foundationProvenance: Provenance = {
   instrument: "foundation", bank: FOUNDATION_INSTRUMENT_VERSION, scorer: FOUNDATION_SCORING_VERSION,
-  form: `core / analyst scoring / ${calibration}`, copy: completionProvenance("foundation", "en").localeCopyVersion,
+  form: `core / analyst scoring / ${calibration}`, copy: 1 /* Historical authored example: canonical bank wording, not the current display copy. */,
   source: "content/instrument/foundation.v2.json; lib/scoring/v2.ts; lib/locale-provenance.ts",
 }
 const currentAi = getCurrentAiGovernanceVersion()

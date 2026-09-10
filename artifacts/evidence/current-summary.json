@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 616,
-      "newCount": 134,
+      "currentCount": 618,
+      "newCount": 136,
       "newFindings": [
         {
           "audience": "public",
@@ -195,6 +195,16 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: slugs must be unique."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/locales/zh-Hans/foundation-copy-v3.ts#zhHansFoundationCopyV3.df1.clarification.whatItAsks",
+          "count": 1,
+          "file": "content/locales/zh-Hans/foundation-copy-v3.ts",
+          "fingerprint": "1c4a8274ce464c0b08f2e7693f0558cc6e6e00f1cfad266e9c27f2fd0d6e00d5",
+          "matched": "经常",
+          "rule": "general-prevalence-language-review",
+          "source": "外部威胁没有变化时,执政联盟的更替是否仍经常促使外交政策转向?"
         },
         {
           "audience": "frozen",
@@ -1115,6 +1125,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score lies toward giving order, precedent, and the costs of intervention substantial weight."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/locales/en/foundation-copy-v2.ts#englishFoundationCopyV2.df1.clarification.whatItAsks",
+          "count": 1,
+          "file": "content/locales/en/foundation-copy-v2.ts",
+          "fingerprint": "c9e69cc8a5107feea48bd90d0fd95c718ba7f2f97daa67218043d944f9f958e8",
+          "matched": "often",
+          "rule": "general-prevalence-language-review",
+          "source": "Does a new governing coalition often change foreign policy even without a change in the external threat?"
         },
         {
           "audience": "frozen",
@@ -2703,7 +2723,7 @@
         "priority": "P1"
       },
       {
-        "count": 616,
+        "count": 618,
         "priority": "P2"
       }
     ]
