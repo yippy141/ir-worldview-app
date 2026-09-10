@@ -1,0 +1,9 @@
+
+> ir-worldview-app@0.1.0 evidence:audit:check
+> node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts --check
+
+(node:94284) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/instrument/measurement-gates.ts is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Evidence artifacts match freshly generated UTF-8 bytes.

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { ModuleApp } from "@/components/modules/module-app"
+import styles from "@/components/modules/module-app.module.css"
 import { getModuleDefinition } from "@/lib/modules/framework"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { Metadata } from "next"
@@ -35,7 +36,7 @@ export default async function ModulePage({ params, searchParams }: Props) {
     : undefined
 
   return (
-    <div className="wide-container">
+    <div className={styles.container}>
       <ModuleApp slug={moduleDefinition.slug} foundationPayload={verifiedFoundation} />
     </div>
   )

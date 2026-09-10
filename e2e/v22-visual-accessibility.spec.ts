@@ -426,7 +426,7 @@ test.describe("390px result tables", () => {
   })
 })
 
-test("domain-result hero actions stay in the first viewport at 390px and 1440px", async ({
+test("module results retain an optional Profile route after evidence; AI retains its hero action", async ({
   page,
 }) => {
   const surfaces = [
@@ -440,7 +440,7 @@ test("domain-result hero actions stay in the first viewport at 390px and 1440px"
     {
       label: "Security without Foundation",
       path: `/modules/security/results/${SECURITY_PAYLOAD}`,
-      action: "Take the IR Foundation",
+      action: "View Profile",
     },
     {
       label: "Technology with Foundation",
@@ -452,7 +452,7 @@ test("domain-result hero actions stay in the first viewport at 390px and 1440px"
     {
       label: "Technology without Foundation",
       path: `/modules/technology/results/${TECHNOLOGY_PAYLOAD}`,
-      action: "Take the IR Foundation",
+      action: "View Profile",
     },
     {
       label: "AI Governance",
@@ -468,6 +468,23 @@ test("domain-result hero actions stay in the first viewport at 390px and 1440px"
     await page.setViewportSize(viewport)
     for (const surface of surfaces) {
       await page.goto(surface.path)
+      if (surface.path.startsWith("/modules/")) {
+        const action = page.getByRole("link", { name: surface.action, exact: true })
+        await expect(action).toHaveCount(1)
+        await expect(action).toHaveAttribute("href", "/profile")
+        await expect(page.getByRole("link", { name: "Take the IR Foundation", exact: true })).toHaveCount(0)
+        // These historical fixtures encode no answers. Preserve that boundary
+        // before offering Profile, with or without an attached Foundation.
+        const missing = page.getByText(/This link contains no scored answer selections/)
+        await expect(missing).toBeVisible()
+        expect(await missing.evaluate((node) => {
+          const profile = document.querySelector('.result-next a[href="/profile"]')!
+          return Boolean(node.compareDocumentPosition(profile) & Node.DOCUMENT_POSITION_FOLLOWING)
+        })).toBe(true)
+        await action.scrollIntoViewIfNeeded()
+        await expect(action).toBeInViewport()
+        continue
+      }
       const action = page
         .locator(".result-verdict__actions")
         .getByRole("link", { name: surface.action, exact: true })

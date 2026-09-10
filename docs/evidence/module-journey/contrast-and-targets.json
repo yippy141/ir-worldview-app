@@ -1,0 +1,436 @@
+{
+  "scope": "Changed module text and controls only, default screen state; computed solid/alpha background composition, not an entire-site accessibility audit. The final subsequent change affects print CSS only.",
+  "browser": "149.0.7827.55",
+  "records": [
+    {
+      "state": "question",
+      "width": 390,
+      "measures": [
+        {
+          "selector": "header select",
+          "text": "StandardAdvanced",
+          "foreground": [
+            238,
+            242,
+            247
+          ],
+          "background": [
+            14,
+            26,
+            46
+          ],
+          "contrast": 15.49,
+          "fontSize": "14px",
+          "lineHeight": "normal",
+          "width": 112,
+          "height": 44
+        },
+        {
+          "selector": "header button",
+          "text": "Introduction and scope",
+          "foreground": [
+            206,
+            168,
+            87
+          ],
+          "background": [
+            22,
+            31,
+            45
+          ],
+          "contrast": 7.38,
+          "fontSize": "14px",
+          "lineHeight": "normal",
+          "width": 149.984375,
+          "height": 44
+        },
+        {
+          "selector": "header button",
+          "text": "Review answers",
+          "foreground": [
+            206,
+            168,
+            87
+          ],
+          "background": [
+            22,
+            31,
+            45
+          ],
+          "contrast": 7.38,
+          "fontSize": "14px",
+          "lineHeight": "normal",
+          "width": 104.46875,
+          "height": 44
+        },
+        {
+          "selector": ".quiz-question-frame h2",
+          "text": "Eastern-flank reassurance",
+          "foreground": [
+            238,
+            242,
+            247
+          ],
+          "background": [
+            22,
+            31,
+            45
+          ],
+          "contrast": 14.73,
+          "fontSize": "17.6px",
+          "lineHeight": "22.88px",
+          "width": 350,
+          "height": 22.859375
+        },
+        {
+          "selector": ".quiz-question-frame .muted",
+          "text": "A signal that reassures exposed allies may also look like routine escalation if it becomes",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            22,
+            31,
+            45
+          ],
+          "contrast": 10.82,
+          "fontSize": "14.4px",
+          "lineHeight": "23.76px",
+          "width": 350,
+          "height": 71.296875
+        },
+        {
+          "selector": ".quiz-question-frame .muted",
+          "text": "Choose the consideration that should guide the response.",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            22,
+            31,
+            45
+          ],
+          "contrast": 10.82,
+          "fontSize": "14.4px",
+          "lineHeight": "23.76px",
+          "width": 350,
+          "height": 47.53125
+        },
+        {
+          "selector": ".quiz-question-frame .muted",
+          "text": "Mark another option only when it captures part of your judgment. It receives less weight t",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            22,
+            31,
+            45
+          ],
+          "contrast": 10.82,
+          "fontSize": "14.4px",
+          "lineHeight": "23.04px",
+          "width": 350,
+          "height": 69.140625
+        },
+        {
+          "selector": ".option-card-text",
+          "text": "Pre-position stocks, secure rail and air access, and rehearse reinforcement without perman",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            47,
+            50,
+            50
+          ],
+          "contrast": 8.45,
+          "fontSize": "14.72px",
+          "lineHeight": "24.288px",
+          "width": 262,
+          "height": 169.96875
+        },
+        {
+          "selector": ".option-card-text",
+          "text": "Fund local air defense, mobilization, civil defense, and hardened infrastructure under the",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            18,
+            33,
+            57
+          ],
+          "contrast": 10.54,
+          "fontSize": "14.72px",
+          "lineHeight": "24.288px",
+          "width": 262,
+          "height": 169.96875
+        },
+        {
+          "selector": ".option-card-text",
+          "text": "Station a standing multinational unit under a joint command so an attack immediately impli",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            18,
+            33,
+            57
+          ],
+          "contrast": 10.54,
+          "fontSize": "14.72px",
+          "lineHeight": "24.288px",
+          "width": 262,
+          "height": 169.96875
+        },
+        {
+          "selector": ".option-card-text",
+          "text": "Use rotational deployments with a public force ceiling, incident hotline, and review date.",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            18,
+            33,
+            57
+          ],
+          "contrast": 10.54,
+          "fontSize": "14.72px",
+          "lineHeight": "24.288px",
+          "width": 262,
+          "height": 121.40625
+        }
+      ]
+    },
+    {
+      "state": "result",
+      "width": 390,
+      "measures": [
+        {
+          "selector": ".result-verdict__gloss",
+          "text": "You look first for ceilings, off-ramps, and ways to keep coercion from widening into a har",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 12.15,
+          "fontSize": "16.8px",
+          "lineHeight": "26.88px",
+          "width": 350,
+          "height": 107.5
+        },
+        {
+          "selector": "#module-choices-heading",
+          "text": "Choices behind this reading",
+          "foreground": [
+            238,
+            242,
+            247
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 16.54,
+          "fontSize": "20.8px",
+          "lineHeight": "26px",
+          "width": 350,
+          "height": 25.984375
+        },
+        {
+          "selector": "#module-choices-heading + div article p",
+          "text": "Alliances and autonomy · Decision",
+          "foreground": [
+            130,
+            149,
+            171
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 6.05,
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "width": 350,
+          "height": 22.390625
+        },
+        {
+          "selector": "#module-choices-heading + div article p",
+          "text": "Bind the patron through assets and agreements. Seek a treaty commitment, shared basing inv",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 12.15,
+          "fontSize": "16px",
+          "lineHeight": "26.4px",
+          "width": 350,
+          "height": 184.734375
+        },
+        {
+          "selector": "#module-choices-heading + div article p",
+          "text": "Order, legitimacy, and protection · Explanation",
+          "foreground": [
+            130,
+            149,
+            171
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 6.05,
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "width": 350,
+          "height": 22.390625
+        },
+        {
+          "selector": "#module-choices-heading + div article p",
+          "text": "Preserve optional participation. They expect mandatory enforcement to push reluctant gover",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 12.15,
+          "fontSize": "16px",
+          "lineHeight": "26.4px",
+          "width": 350,
+          "height": 184.734375
+        },
+        {
+          "selector": ".result-next a",
+          "text": "View Profile",
+          "foreground": [
+            10,
+            19,
+            34
+          ],
+          "background": [
+            206,
+            168,
+            87
+          ],
+          "contrast": 8.29,
+          "fontSize": "14.4px",
+          "lineHeight": "normal",
+          "width": 128.953125,
+          "height": 44
+        },
+        {
+          "selector": ".result-next a",
+          "text": "Who gets to verify? →",
+          "foreground": [
+            206,
+            168,
+            87
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 8.29,
+          "fontSize": "16px",
+          "lineHeight": "normal",
+          "width": 164.640625,
+          "height": 44
+        },
+        {
+          "selector": ".result-next p",
+          "text": "This style can understate how much cumulative advantage a rival can gain when caution keep",
+          "foreground": [
+            238,
+            242,
+            247
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 16.54,
+          "fontSize": "18.4px",
+          "lineHeight": "28.52px",
+          "width": 350,
+          "height": 114.0625
+        },
+        {
+          "selector": ".result-next p",
+          "text": "Open the results saved in this browser. A Foundation is optional.",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 12.15,
+          "fontSize": "16px",
+          "lineHeight": "26.4px",
+          "width": 350,
+          "height": 52.78125
+        },
+        {
+          "selector": ".result-next p",
+          "text": "Explore who gets inspection rights under a reciprocal agreement. The technical reach of th",
+          "foreground": [
+            199,
+            210,
+            224
+          ],
+          "background": [
+            10,
+            19,
+            34
+          ],
+          "contrast": 12.15,
+          "fontSize": "16px",
+          "lineHeight": "26.4px",
+          "width": 350,
+          "height": 105.5625
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,7 @@
 import Link from "next/link"
+import styles from "@/components/modules/module-result.module.css"
+import { getModuleContinuation } from "@/lib/modules/continuation"
+import { EvidenceControls } from "@/components/reading/evidence-controls"
 import { ScaleBar } from "@/components/visual-primitives"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { ModuleProfileSync } from "@/components/profile/module-profile-sync"
@@ -79,16 +82,21 @@ export function ModuleResultView({
     selected: resultEvidenceSelections,
     laneLabelMap,
   })
+  // Every registered runtime excludes actor-lens answers from the main score.
+  // Keep their historical directional analysis below, separate from the opening evidence.
+  const readingCalls = buildModuleDecisiveCalls({ moduleDefinition, selected: scoredSelections, laneLabelMap })
+  const availableEvidence = resultEvidenceSelections.filter(({ primary }) => primary)
+  const continuation = getModuleContinuation(slug)
   const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
   const identityCode = [
     moduleDefinition.shorthand,
     mode === "standard" ? "Standard" : "Advanced",
-    `${questionCount} questions`,
+    `${selected.filter(({ primary }) => primary).length} of ${questionCount} answered`,
   ]
 
   return (
     <div className="stack-lg">
-      <article className="result-article">
+      <article className={`result-article ${styles.result}`}>
         <ModuleProfileSync
           snapshot={{
             slug,
@@ -136,8 +144,7 @@ export function ModuleResultView({
         />
 
         {/* ── 1. Verdict ── */}
-        <header className="result-verdict">
-          <p className="eyebrow">{moduleDefinition.shortTitle} result</p>
+        <header className={`result-verdict ${styles.verdict}`}>
           <h1 className="result-verdict__name">{result.headline}</h1>
           <p className="result-verdict__code">
             {identityCode.map((part, index) => (
@@ -148,17 +155,62 @@ export function ModuleResultView({
             ))}
           </p>
           <p className="result-verdict__gloss">{result.summary}</p>
-          <div className="result-verdict__actions print-hidden">
-            <Link
-              href={foundationPayload ? "/profile" : "/quiz"}
-              className="cta-primary"
-            >
-              {foundationPayload ? "View Profile" : "Take the IR Foundation"}
-            </Link>
-          </div>
         </header>
 
-        {/* ── 2. Lane meters ── */}
+
+        {readingCalls.length > 0 ? (
+          <section className={`result-section result-figure ${styles.evidence}`} aria-labelledby="module-choices-heading">
+            <h2 id="module-choices-heading">Choices behind this reading</h2>
+            <div className={styles.choices}>
+              {readingCalls.slice(0, 2).map((call) => {
+                const selection = availableEvidence.find(({ question }) => question.id === call.id)
+                if (!selection?.primary) return null
+                return (
+                  <article key={call.id} className={styles.choice}>
+                    <h3>{call.caseTitle}</h3>
+                    <p className={styles.meta}>{call.laneLabel} · {call.cardType}</p>
+                    <p><strong>{selection.primary.title}.</strong> {selection.primary.label}</p>
+                    {selection.secondary ? (
+                      <p><strong>Second choice: {selection.secondary.title}.</strong> {selection.secondary.label}</p>
+                    ) : null}
+                  </article>
+                )
+              })}
+            </div>
+            <p className={styles.selectionNote}>
+              These examples illustrate selected primary answers. They are not a calculation of
+              which answers contributed most to the final scores. Full analysis includes the
+              recorded choices and their encoded directions.
+            </p>
+          </section>
+        ) : (
+          <p className={styles.selectionNote}>
+            This link contains no scored answer selections. The reading above preserves the
+            existing calculation for this record; it cannot establish a view from absent answers.
+            {selected.some(({ question, primary }) => question.cardType === "actorLens" && primary)
+              ? " Its perspective-modeling choices are available in Full analysis."
+              : ""}
+          </p>
+        )}
+
+        <section className="result-section result-next">
+          <h2>What would change this</h2>
+          <p className="result-next__question">{result.challenge}</p>
+          <div className={`${styles.continuation} print-hidden`}>
+            <div>
+              <Link href="/profile" className="cta-primary">View Profile</Link>
+              <p>Open the results saved in this browser. A Foundation is optional.</p>
+            </div>
+            {continuation ? (
+              <div>
+                <Link href={continuation.href}>{continuation.title} →</Link>
+                <p>{continuation.reason} This is an optional, unscored exercise.</p>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
+        {/* Lane and axis scores retain their distinct scales. */}
         <section className="result-section result-figure">
           <h2>Your lane results</h2>
           <div className="profile-module-grid">
@@ -234,56 +286,32 @@ export function ModuleResultView({
           </p>
         </section>
 
-        {/* ── 5. Decisive calls ── */}
-        <section className="result-section result-figure">
-          <h2>Answers that most shaped this result</h2>
-          <div className="module-decisive-list">
-            {decisiveCalls.map((call, index) => (
-              <article key={call.id} className="module-decisive-call">
-                <div className="module-decisive-meta">
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <span>{call.laneLabel}</span>
-                  <span>{call.cardType}</span>
-                </div>
-                <div className="stack-xs">
-                  <h3>{call.caseTitle}</h3>
-                  <p className="module-decisive-framing">{call.framing}</p>
-                  <p className="muted module-lane-delta">{call.implication}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* ── 6. What would change this ── */}
-        <section className="result-section result-next">
-          <h2>What would change this</h2>
-          <p className="result-next__question">{result.challenge}</p>
-          <div className="row gap-sm wrap">
-            <Link
-              href={foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules"}
-              className="cta-primary"
-            >
-              Try another Focus Area
-            </Link>
-            <Link href={`/modules/${slug}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`} className="cta-secondary">
-              Retake this Focus Area
-            </Link>
-            {foundationPayload ? (
-              <Link href={`/results/${foundationPayload}`} className="cta-secondary">
-                Back to Foundation result
-              </Link>
-            ) : null}
-            <Link href="/profile" className="cta-secondary">
-              View your Profile
-            </Link>
-          </div>
-        </section>
-
         <section className="result-section result-appendix-section stack-md">
+          <div className="print-hidden"><EvidenceControls /></div>
           <details className="profile-details">
             <summary>Full analysis</summary>
             <div className="stack-lg result-details-body">
+              {decisiveCalls.length > 0 ? (
+                <section className="stack-md">
+                  <h2>Directions in the selected choices</h2>
+                  <div className="module-decisive-list">
+                    {decisiveCalls.map((call) => (
+                      <article key={call.id} className="module-decisive-call">
+                        <div className="module-decisive-meta">
+                          <span>{call.laneLabel}</span>
+                          <span>{call.cardType}</span>
+                        </div>
+                        <div className="stack-xs">
+                          <h3>{call.caseTitle}</h3>
+                          <p className="module-decisive-framing">{call.framing}</p>
+                          <p className="muted module-lane-delta">{call.implication}</p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+              ) : null}
               {!usesPerspectiveBankPresentation && result.cardTypeRead ? (
                 <div className="stack-md">
                   <h2>{result.cardTypeRead.headline}</h2>
@@ -327,44 +355,47 @@ export function ModuleResultView({
                 </div>
               </div>
 
-              <div className="stack-md">
-                <h2>
-                  {usesPerspectiveBankPresentation
-                    ? "Scored evidence log"
-                    : "Evidence log"}
-                </h2>
-                <div className="driver-grid">
-                  {resultEvidenceSelections.map(({ question, primary, secondary }) => (
-                    <div key={question.id} className="driver-card stack-sm">
-                      <div className="stack-xs">
-                        <p className="eyebrow">{question.title}</p>
-                        <p className="muted module-evidence-meta">
-                          {laneLabelMap[question.lane] ?? question.lane} · {formatModuleCardType(question.cardType)}
-                        </p>
-                        <p className="module-lane-copy">{question.prompt}</p>
-                      </div>
-                      <div className="stack-xs">
-                        <span className="option-card-meta">Most persuasive</span>
-                        <p className="driver-card__value">
-                          {primary?.title ?? "No selection"}
-                        </p>
-                        <p className="muted module-lane-delta">
-                          {primary?.label ?? "This question was not answered."}
-                        </p>
-                      </div>
-                      {secondary ? (
+              {availableEvidence.length > 0 ? (
+                <div className="stack-md">
+                  <h2>
+                    {usesPerspectiveBankPresentation
+                      ? "Scored evidence log"
+                      : "Evidence log"}
+                  </h2>
+                  <div className="driver-grid">
+                    {availableEvidence.map(({ question, primary, secondary }) => (
+                      <div key={question.id} className="driver-card stack-sm">
                         <div className="stack-xs">
-                          <span className="option-card-meta option-card-meta--secondary">Second-most persuasive</span>
-                          <p className="driver-card__value">{secondary.title}</p>
-                          <p className="muted module-lane-delta">{secondary.label}</p>
+                          <p className="eyebrow">{question.title}</p>
+                          <p className="muted module-evidence-meta">
+                            {laneLabelMap[question.lane] ?? question.lane} · {formatModuleCardType(question.cardType)}
+                          </p>
+                          <p className="module-lane-copy">{question.prompt}</p>
                         </div>
-                      ) : null}
-                    </div>
-                  ))}
+                        <div className="stack-xs">
+                          <span className="option-card-meta">Most persuasive</span>
+                          <p className="driver-card__value">
+                            {primary?.title ?? "No selection"}
+                          </p>
+                          <p className="muted module-lane-delta">
+                            {primary?.label ?? "This question was not answered."}
+                          </p>
+                        </div>
+                        {secondary ? (
+                          <div className="stack-xs">
+                            <span className="option-card-meta option-card-meta--secondary">Second-most persuasive</span>
+                            <p className="driver-card__value">{secondary.title}</p>
+                            <p className="muted module-lane-delta">{secondary.label}</p>
+                          </div>
+                        ) : null}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
 
-              {actorLensSelections.length > 0 ? (
+              ) : null}
+
+              {actorLensSelections.some(({ primary }) => primary) ? (
                 <div className="stack-md">
                   <div className="stack-xs">
                     <h2>Perspective-modeling choices</h2>
@@ -374,7 +405,7 @@ export function ModuleResultView({
                     </p>
                   </div>
                   <div className="driver-grid">
-                    {actorLensSelections.map(({ question, primary, secondary }) => (
+                    {actorLensSelections.filter(({ primary }) => primary).map(({ question, primary, secondary }) => (
                       <div key={question.id} className="driver-card stack-sm">
                         <div className="stack-xs">
                           <p className="eyebrow">{question.title}</p>
@@ -406,6 +437,16 @@ export function ModuleResultView({
                   </div>
                 </div>
               ) : null}
+
+              <div className="row gap-sm wrap print-hidden">
+                <Link href={`/modules/${slug}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`} className="cta-secondary">
+                  Retake this Focus Area
+                </Link>
+                <Link href={foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules"} className="cta-secondary">
+                  Browse Focus Areas
+                </Link>
+                {foundationPayload ? <Link href={`/results/${foundationPayload}`}>Back to Foundation result</Link> : null}
+              </div>
 
               <ResearchStatusNotice instrumentLabel={`${moduleDefinition.shortTitle} module`} />
             </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import styles from "@/components/modules/module-app.module.css"
 import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
 import { markProfileSaveIntent } from "@/lib/profile-save-intent"
@@ -60,8 +61,10 @@ export function ModuleApp({
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(null)
   const [stage, setStage] = useState<ModuleDraftStage>("questions")
   const [draftReady, setDraftReady] = useState(false)
+  const [introOpen, setIntroOpen] = useState(true)
   const [deviceFoundation, setDeviceFoundation] = useState<FoundationSnapshot | null>(null)
-  const pendingFocusTarget = useRef<"question" | "review" | null>(null)
+  const pendingFocusTarget = useRef<"question" | "review" | "introduction" | null>(null)
+  const moduleHeadingRef = useRef<HTMLHeadingElement>(null)
   const questionHeadingRef = useRef<HTMLHeadingElement>(null)
   const reviewHeadingRef = useRef<HTMLHeadingElement>(null)
 
@@ -92,6 +95,7 @@ export function ModuleApp({
       setOrderSeed(draft.orderSeed)
       setCurrentQuestionId(draft.currentQuestionId)
       setStage(draft.stage)
+      setIntroOpen(draft.stage !== "review" && Object.keys(draft.answers).length === 0)
       setDraftReady(true)
     }, 0)
 
@@ -110,9 +114,11 @@ export function ModuleApp({
     const targetName = pendingFocusTarget.current
     if (!targetName) return
 
-    const target = targetName === "question"
-      ? questionHeadingRef.current
-      : reviewHeadingRef.current
+    const target = targetName === "introduction"
+      ? moduleHeadingRef.current
+      : targetName === "question"
+        ? questionHeadingRef.current
+        : reviewHeadingRef.current
     if (!target) return
 
     pendingFocusTarget.current = null
@@ -127,7 +133,7 @@ export function ModuleApp({
       behavior: reduceMotion ? "auto" : "smooth",
       block: "start",
     })
-  }, [currentQuestionId, stage])
+  }, [currentQuestionId, stage, mode, introOpen])
 
   const questions = useMemo(
     () => (moduleDefinition ? getModuleQuestions(moduleDefinition, mode) : []),
@@ -219,7 +225,14 @@ export function ModuleApp({
   const activeModuleDefinition = moduleDefinition
 
   if (!draftReady || !orderSeed) {
-    return <div className="panel" style={{ padding: "40px" }}>Loading your draft…</div>
+    return (
+      <div className={styles.journey}>
+        <h1>{moduleDefinition.title}</h1>
+        <p>{moduleDefinition.description}</p>
+        <p>Enable JavaScript to answer questions or resume a draft on this device.</p>
+        <Link href="/modules">Back to Focus Areas</Link>
+      </div>
+    )
   }
 
   const standardQuestionCount = moduleDefinition.questionsByMode.standard.length
@@ -269,6 +282,7 @@ export function ModuleApp({
     const draft = loadModuleDraft(window.localStorage, context)
       ?? createModuleDraft(context, createOptionOrderSeed())
 
+    if (!introOpen) pendingFocusTarget.current = draft.stage === "review" ? "review" : "question"
     setMode(nextMode)
     setAnswers(draft.answers)
     setOrderSeed(draft.orderSeed)
@@ -375,9 +389,7 @@ export function ModuleApp({
       return
     }
     if (ready) {
-      pendingFocusTarget.current = "review"
-      setCurrentQuestionId(null)
-      setStage("review")
+      openReview()
       return
     }
     const firstUnansweredIndex = questions.findIndex(
@@ -386,12 +398,53 @@ export function ModuleApp({
     if (firstUnansweredIndex >= 0) moveToQuestion(firstUnansweredIndex)
   }
 
+  function openReview() {
+    pendingFocusTarget.current = "review"
+    setCurrentQuestionId(null)
+    setStage("review")
+    setIntroOpen(false)
+  }
+
+  function closeIntroduction() {
+    pendingFocusTarget.current = stage === "review" ? "review" : "question"
+    setIntroOpen(false)
+  }
+
   return (
-    <div className="stack-xl">
-      <section className="panel stack-md">
+    <div className={styles.journey}>
+      <header className={styles.taskHeader}>
+        <h1 ref={moduleHeadingRef} tabIndex={-1} className={introOpen ? styles.introTitle : styles.taskTitle}>{moduleDefinition.title}</h1>
+        {!introOpen ? (
+          <>
+            <div className={styles.taskControls}>
+              <label className={styles.modeControl}>
+                <span>Mode</span>
+                <select value={mode} onChange={(event) => handleModeChange(event.target.value as QuizMode)} aria-describedby="module-mode-note">
+                  <option value="standard">Standard</option>
+                  <option value="analyst">Advanced</option>
+                </select>
+              </label>
+              <button type="button" className="secondary-button" onClick={() => {
+                pendingFocusTarget.current = "introduction"
+                setIntroOpen(true)
+              }}>
+                Introduction and scope
+              </button>
+              {stage === "questions" ? (
+                <button type="button" className="secondary-button" onClick={openReview}>Review answers</button>
+              ) : null}
+            </div>
+            <div className={styles.taskProgress}>
+              <p aria-live="polite">{completedCount} of {questions.length} answered</p>
+              <p id="module-mode-note">Each mode resumes its own draft on this device.</p>
+            </div>
+          </>
+        ) : null}
+      </header>
+
+      {introOpen ? (
+      <section id="module-introduction" className={`stack-md ${styles.introduction}`} aria-label="Introduction and scope">
         <div className="stack-sm">
-          <p className="eyebrow">Focus-area module</p>
-          <h1>{moduleDefinition.title}</h1>
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "760px" }}>
             <strong>{moduleDefinition.subtitle}.</strong> {moduleDefinition.description}
           </p>
@@ -523,10 +576,16 @@ export function ModuleApp({
             <div className="progress-fill" style={{ width: `${progress}%` }} />
           </div>
         </div>
+        <div>
+          <button type="button" className="primary-button" onClick={closeIntroduction}>
+            {stage === "review" ? "Return to review" : completedCount > 0 ? "Continue questions" : "Start questions"}
+          </button>
+        </div>
       </section>
+      ) : null}
 
-      {stage === "questions" && currentQuestion && currentLane ? (
-        <section className="panel stack-md quiz-question-frame" key={currentQuestion.id}>
+      {!introOpen && stage === "questions" && currentQuestion && currentLane ? (
+        <section className={`stack-md quiz-question-frame ${styles.question}`} key={currentQuestion.id}>
           <div className={styles.questionHeader}>
             <div className="stack-xs">
               <p className="eyebrow">
@@ -547,7 +606,6 @@ export function ModuleApp({
 
           <div className="module-case-frame stack-sm">
             <div className="stack-xs">
-              <p className="eyebrow">Scene</p>
               <p style={{ lineHeight: "1.7", maxWidth: "880px" }}>{currentQuestion.scene}</p>
             </div>
             <div className="callout stack-xs">
@@ -557,7 +615,6 @@ export function ModuleApp({
               </p>
             </div>
             <div className="stack-xs">
-              <p className="eyebrow">Question</p>
               <p style={{ lineHeight: "1.7", maxWidth: "880px" }}>{currentQuestion.prompt}</p>
             </div>
             {currentQuestion.contextBullets && currentQuestion.contextBullets.length > 0 ? (
@@ -645,6 +702,7 @@ export function ModuleApp({
             </div>
           ) : null}
 
+          {!primarySelection ? <p id="module-answer-required" className={styles.helpText}>Choose a main answer to continue.</p> : null}
           <nav className={styles.questionNavigation} aria-label="Question navigation">
             <button
               type="button"
@@ -664,6 +722,7 @@ export function ModuleApp({
               className="primary-button"
               onClick={handleNext}
               disabled={!primarySelection}
+              aria-describedby={!primarySelection ? "module-answer-required" : undefined}
             >
               {currentQuestionIndex === questions.length - 1 ? "Review answers" : "Next"}
             </button>
@@ -671,10 +730,9 @@ export function ModuleApp({
         </section>
       ) : null}
 
-      {stage === "review" ? (
-        <section className="panel stack-md" aria-labelledby="module-review-heading">
+      {!introOpen && stage === "review" ? (
+        <section className={`stack-md ${styles.review}`} aria-labelledby="module-review-heading">
           <div className="stack-xs">
-            <p className="eyebrow">Review</p>
             <h2
               id="module-review-heading"
               ref={reviewHeadingRef}
@@ -686,6 +744,7 @@ export function ModuleApp({
             <p className="muted">
               Nothing is final yet. Change any answer before generating your result.
             </p>
+            {!ready ? <p id="module-incomplete" role="status">{questions.length - completedCount} unanswered. Answer every question to see your result.</p> : null}
           </div>
           <ol className={styles.reviewList}>
             {questions.map((question, index) => {
@@ -697,14 +756,16 @@ export function ModuleApp({
                   <div className="stack-xs">
                     <p className="eyebrow">{index + 1} · {question.title}</p>
                     <p className={styles.reviewAnswer}>{primary?.title ?? "Not answered"}</p>
+                    {primary ? <p className={styles.helpText}>{primary.label}</p> : null}
                     {secondary ? (
-                      <p className="muted">Second choice: {secondary.title}</p>
+                      <p className={styles.helpText}>Second choice: {secondary.title}. {secondary.label}</p>
                     ) : null}
                   </div>
                   <button
                     type="button"
                     className="secondary-button"
                     onClick={() => moveToQuestion(index)}
+                    aria-label={`Change answer ${index + 1}: ${question.title}`}
                   >
                     Change
                   </button>
@@ -713,21 +774,21 @@ export function ModuleApp({
             })}
           </ol>
           <div className="row gap-sm wrap">
-            <button type="button" className="primary-button" onClick={handleGenerate}>
+            <button type="button" className="primary-button" onClick={handleGenerate} disabled={!ready} aria-describedby={!ready ? "module-incomplete" : undefined}>
               See {moduleDefinition.shortTitle} result →
             </button>
             <button
               type="button"
               className="secondary-button"
-              onClick={() => moveToQuestion(questions.length - 1)}
+              onClick={() => moveToQuestion(ready ? questions.length - 1 : questions.findIndex((question) => !answers[question.id]?.primary))}
             >
-              Back to questions
+              {ready ? "Back to questions" : "Answer missing questions"}
             </button>
           </div>
         </section>
       ) : null}
 
-      <section className="panel stack-md">
+      <footer className={`stack-md ${styles.footer}`}>
         <div className="row gap-sm wrap">
           <DestructiveActionConfirmation
             hasData={completedCount > 0}
@@ -749,7 +810,7 @@ export function ModuleApp({
           Standard and Advanced drafts are kept separately on this device. Generating a result
           does not change your Foundation record.
         </p>
-      </section>
+      </footer>
     </div>
   )
 }

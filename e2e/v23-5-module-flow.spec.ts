@@ -28,6 +28,7 @@ test("Focus Area keeps one reversible question on screen and restores position",
   await page.setViewportSize({ width: 320, height: 900 })
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto("/modules/security")
+  await page.getByRole("button", { name: "Start questions", exact: true }).click()
   await expect(page.getByRole("heading", { level: 1, name: /Security/ })).toBeVisible()
   expect(
     await page.evaluate(() => document.documentElement.scrollWidth),
@@ -55,6 +56,7 @@ test("Focus Area keeps one reversible question on screen and restores position",
 
 test("Focus Area Back from the first question returns to the mode choice", async ({ page }) => {
   await page.goto("/modules/security")
+  await page.getByRole("button", { name: "Start questions", exact: true }).click()
   await expect(questionFrame(page).getByText(/^1 of \d+$/)).toBeVisible()
 
   await questionFrame(page).getByRole("button", { name: "Back", exact: true }).click()
@@ -67,18 +69,19 @@ test("Standard and Advanced Focus Area drafts survive mode switches independentl
   page,
 }) => {
   await page.goto("/modules/technology")
+  await page.getByRole("button", { name: "Start questions", exact: true }).click()
   await chooseFirstAnswer(page)
   await questionFrame(page).getByRole("button", { name: "Next", exact: true }).click()
   await expect(questionFrame(page).getByText(/^2 of \d+$/)).toBeVisible()
 
-  await page.getByRole("button", { name: /\bAdvanced\b/ }).click()
+  await page.getByRole("combobox", { name: "Mode", exact: true }).selectOption("analyst")
   await expect(questionFrame(page).getByText(/^1 of \d+$/)).toBeVisible()
   await chooseFirstAnswer(page)
 
-  await page.getByRole("button", { name: /\bStandard\b/ }).click()
+  await page.getByRole("combobox", { name: "Mode", exact: true }).selectOption("standard")
   await expect(questionFrame(page).getByText(/^2 of \d+$/)).toBeVisible()
 
-  await page.getByRole("button", { name: /\bAdvanced\b/ }).click()
+  await page.getByRole("combobox", { name: "Mode", exact: true }).selectOption("analyst")
   await expect(questionFrame(page).getByText(/^1 of \d+$/)).toBeVisible()
   await expect(questionFrame(page).locator('button.option-card[aria-pressed="true"]')).toHaveCount(1)
 
@@ -92,7 +95,7 @@ test("Standard and Advanced Focus Area drafts survive mode switches independentl
   await expect(questionFrame(page).locator('button.option-card[aria-pressed="true"]')).toHaveCount(0)
   await expect(page.getByRole("button", { name: "Start over", exact: true })).toBeFocused()
 
-  await page.getByRole("button", { name: /\bStandard\b/ }).click()
+  await page.getByRole("combobox", { name: "Mode", exact: true }).selectOption("standard")
   await expect(questionFrame(page).getByText(/^2 of \d+$/)).toBeVisible()
 })
 
@@ -100,6 +103,7 @@ test("Focus Area requires a complete review before preserving the existing resul
   page,
 }) => {
   await page.goto("/modules/security")
+  await page.getByRole("button", { name: "Start questions", exact: true }).click()
 
   for (let step = 0; step < 80; step += 1) {
     if (await page.getByRole("heading", { name: "Check your answers" }).isVisible()) break

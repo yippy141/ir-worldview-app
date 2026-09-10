@@ -1,0 +1,4453 @@
+
+> ir-worldview-app@0.1.0 test
+> node --experimental-strip-types --import ./tests/register-alias-loader.mjs --test tests/*.test.mts
+
+TAP version 13
+# (node:94440) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/decision-exercises/catalog.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: only proposed or selected enclave access is governed by the changed admission authority
+ok 1 - only proposed or selected enclave access is governed by the changed admission authority
+  ---
+  duration_ms: 0.822042
+  type: 'test'
+  ...
+# Subtest: the exhibit covers each registered arrangement and does not invent enclave revocation terms
+ok 2 - the exhibit covers each registered arrangement and does not invent enclave revocation terms
+  ---
+  duration_ms: 0.178375
+  type: 'test'
+  ...
+# (node:94441) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/app/api/aggregate/stats/route.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: stats read path suppresses every aggregate row when cohort n is below 100
+ok 3 - stats read path suppresses every aggregate row when cohort n is below 100
+  ---
+  duration_ms: 0.989167
+  type: 'test'
+  ...
+# Subtest: stats read path suppresses each axis whose own n is below 100
+ok 4 - stats read path suppresses each axis whose own n is below 100
+  ---
+  duration_ms: 0.278958
+  type: 'test'
+  ...
+# Subtest: Foundation payload stats reader fails closed for legacy or mismatched cohorts
+ok 5 - Foundation payload stats reader fails closed for legacy or mismatched cohorts
+  ---
+  duration_ms: 0.946625
+  type: 'test'
+  ...
+# Subtest: stats route accepts only one current Foundation payload and caches success for five minutes
+ok 6 - stats route accepts only one current Foundation payload and caches success for five minutes
+  ---
+  duration_ms: 15.18825
+  type: 'test'
+  ...
+# Subtest: stats route rejects missing, extra, duplicate, invalid, and legacy payload queries
+ok 7 - stats route rejects missing, extra, duplicate, invalid, and legacy payload queries
+  ---
+  duration_ms: 1.522917
+  type: 'test'
+  ...
+# (node:94442) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/ai-foundation-baseline.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: saved Foundation archetype is the AI baseline and tradition is subordinate
+ok 8 - saved Foundation archetype is the AI baseline and tradition is subordinate
+  ---
+  duration_ms: 1.235875
+  type: 'test'
+  ...
+# Subtest: a payload-resolved Foundation blend remains a legitimate baseline
+ok 9 - a payload-resolved Foundation blend remains a legitimate baseline
+  ---
+  duration_ms: 0.508958
+  type: 'test'
+  ...
+# Subtest: an archived or unresolvable Foundation record degrades honestly
+ok 10 - an archived or unresolvable Foundation record degrades honestly
+  ---
+  duration_ms: 0.090833
+  type: 'test'
+  ...
+# Subtest: AI landing and result copy make no relationship inference
+ok 11 - AI landing and result copy make no relationship inference
+  ---
+  duration_ms: 0.834917
+  type: 'test'
+  ...
+# (node:94443) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/ai-governance-share.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: AI governance share payloads roundtrip through the shared URL codec
+ok 12 - AI governance share payloads roundtrip through the shared URL codec
+  ---
+  duration_ms: 1.021584
+  type: 'test'
+  ...
+# Subtest: AI governance malformed payloads fail safely
+ok 13 - AI governance malformed payloads fail safely
+  ---
+  duration_ms: 0.1465
+  type: 'test'
+  ...
+# Subtest: AI governance encoder rejects unsupported tuples
+ok 14 - AI governance encoder rejects unsupported tuples
+  ---
+  duration_ms: 0.191916
+  type: 'test'
+  ...
+# Subtest: AI results always expose the nearest modeled alternative
+ok 15 - AI results always expose the nearest modeled alternative
+  ---
+  duration_ms: 0.183417
+  type: 'test'
+  ...
+# (node:94444) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/app/api/analytics/event/route.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the analytics property allowlist is exact
+ok 16 - the analytics property allowlist is exact
+  ---
+  duration_ms: 0.743959
+  type: 'test'
+  ...
+# Subtest: valid coarse events pass runtime validation
+ok 17 - valid coarse events pass runtime validation
+  ---
+  duration_ms: 0.176083
+  type: 'test'
+  ...
+# Subtest: forbidden properties are rejected before the provider is called
+ok 18 - forbidden properties are rejected before the provider is called
+  ---
+  duration_ms: 0.159375
+  type: 'test'
+  ...
+# Subtest: full URLs cannot be smuggled through caseId
+ok 19 - full URLs cannot be smuggled through caseId
+  ---
+  duration_ms: 0.149084
+  type: 'test'
+  ...
+# Subtest: the server rejects formatted but unpublished Current Case IDs
+ok 20 - the server rejects formatted but unpublished Current Case IDs
+  ---
+  duration_ms: 25.659542
+  type: 'test'
+  ...
+# Subtest: caseId is required only for Current Case events
+ok 21 - caseId is required only for Current Case events
+  ---
+  duration_ms: 0.082334
+  type: 'test'
+  ...
+# Subtest: missing providers degrade to an accepted no-op
+ok 22 - missing providers degrade to an accepted no-op
+  ---
+  duration_ms: 0.13175
+  type: 'test'
+  ...
+# Subtest: route, device, and referrer inputs are reduced to coarse categories
+ok 23 - route, device, and referrer inputs are reduced to coarse categories
+  ---
+  duration_ms: 0.167917
+  type: 'test'
+  ...
+# (node:94445) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetype-display.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: public lens and tradition nouns have one exact canonical mapping
+ok 24 - public lens and tradition nouns have one exact canonical mapping
+  ---
+  duration_ms: 0.788875
+  type: 'test'
+  ...
+# Subtest: public code formatters preserve ASCII internals and speak every sign
+ok 25 - public code formatters preserve ASCII internals and speak every sign
+  ---
+  duration_ms: 0.106958
+  type: 'test'
+  ...
+# Subtest: public reading codes expand normative suffixes instead of exposing them
+ok 26 - public reading codes expand normative suffixes instead of exposing them
+  ---
+  duration_ms: 0.140083
+  type: 'test'
+  ...
+# Subtest: first-contact code explanations define lenses, posture signs, and normative labels
+ok 27 - first-contact code explanations define lenses, posture signs, and normative labels
+  ---
+  duration_ms: 0.076042
+  type: 'test'
+  ...
+# Subtest: owned public routes use display helpers and contain no raw normative suffix
+ok 28 - owned public routes use display helpers and contain no raw normative suffix
+  ---
+  duration_ms: 1.034583
+  type: 'test'
+  ...
+# Subtest: result, profile, share-card, posture, and locale surfaces use the shared formatter
+ok 29 - result, profile, share-card, posture, and locale surfaces use the shared formatter
+  ---
+  duration_ms: 2.4845
+  type: 'test'
+  ...
+# (node:94446) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetype-evidence.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: owner-authored pure archetypes and analogue evidence are complete
+ok 30 - owner-authored pure archetypes and analogue evidence are complete
+  ---
+  duration_ms: 4.881416
+  type: 'test'
+  ...
+# Subtest: historical paths delegate slug ownership to the canonical identity catalog
+ok 31 - historical paths delegate slug ownership to the canonical identity catalog
+  ---
+  duration_ms: 0.39275
+  type: 'test'
+  ...
+# Subtest: names that collide with an established usage carry an evidence-page note
+ok 32 - names that collide with an established usage carry an evidence-page note
+  ---
+  duration_ms: 1.039291
+  type: 'test'
+  ...
+# Subtest: legacy comparison pages label provisional evidence without claiming review
+ok 33 - legacy comparison pages label provisional evidence without claiming review
+  ---
+  duration_ms: 0.181916
+  type: 'test'
+  ...
+# Subtest: blend names compose the two pure names and claim no analogue
+ok 34 - blend names compose the two pure names and claim no analogue
+  ---
+  duration_ms: 0.356167
+  type: 'test'
+  ...
+# Subtest: analogue return links accept only local Foundation result paths
+ok 35 - analogue return links accept only local Foundation result paths
+  ---
+  duration_ms: 0.11775
+  type: 'test'
+  ...
+# (node:94447) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetype-display.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: System A owns exactly eight manifest-bound pure marks and no blend mark
+ok 36 - System A owns exactly eight manifest-bound pure marks and no blend mark
+  ---
+  duration_ms: 0.871125
+  type: 'test'
+  ...
+# Subtest: the rendered JSX geometry is byte-equivalent to every manifest body
+ok 37 - the rendered JSX geometry is byte-equivalent to every manifest body
+  ---
+  duration_ms: 7.521041
+  type: 'test'
+  ...
+# Subtest: mark geometry is monochrome currentColor, static, inline, and bounded
+ok 38 - mark geometry is monochrome currentColor, static, inline, and bounded
+  ---
+  duration_ms: 18.093708
+  type: 'test'
+  ...
+# Subtest: ArchetypeMark uses visible U+2212 code below 32px and pictorial SVG at 32px
+ok 39 - ArchetypeMark uses visible U+2212 code below 32px and pictorial SVG at 32px
+  ---
+  duration_ms: 19.47775
+  type: 'test'
+  ...
+# Subtest: pure marks support decorative and concise meaningful accessibility modes
+ok 40 - pure marks support decorative and concise meaningful accessibility modes
+  ---
+  duration_ms: 0.519625
+  type: 'test'
+  ...
+# Subtest: FoundationMark renders pure hero and compact contracts without a client boundary
+ok 41 - FoundationMark renders pure hero and compact contracts without a client boundary
+  ---
+  duration_ms: 4.766417
+  type: 'test'
+  ...
+# Subtest: blend hero uses a canonical equal-size Diptych with two pure marks and no blend mark
+ok 42 - blend hero uses a canonical equal-size Diptych with two pure marks and no blend mark
+  ---
+  duration_ms: 17.295166
+  type: 'test'
+  ...
+# Subtest: compact blend uses a 48/32 Hallmark with bordered runner-up and both names
+ok 43 - compact blend uses a 48/32 Hallmark with bordered runner-up and both names
+  ---
+  duration_ms: 1.048792
+  type: 'test'
+  ...
+# Subtest: invalid blend-primary pairings fail closed
+ok 44 - invalid blend-primary pairings fail closed
+  ---
+  duration_ms: 0.275166
+  type: 'test'
+  ...
+# (node:94448) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetypes.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all twelve same-posture blend outputs preserve their compatibility contract
+ok 45 - all twelve same-posture blend outputs preserve their compatibility contract
+  ---
+  duration_ms: 1.228833
+  type: 'test'
+  ...
+# Subtest: seeded respondents always resolve to a valid, distributed archetype
+ok 46 - seeded respondents always resolve to a valid, distributed archetype
+  ---
+  duration_ms: 210.653
+  type: 'test'
+  ...
+# pure={"P+":52,"P-":56,"R+":12,"R-":76,"M+":7,"M-":57,"S+":7,"S-":38} blends={"M/S-":32,"R/M+":8,"P/S-":32,"P/R-":14,"R/M-":46,"R/S-":22,"M/S+":6,"P/M+":5,"P/M-":6,"P/S+":18,"R/S+":3,"P/R+":3}
+# (node:94449) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/atlas-lite.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: contrastive-antithesis guardrails catch every target template
+ok 47 - contrastive-antithesis guardrails catch every target template
+  ---
+  duration_ms: 27.3205
+  type: 'test'
+  ...
+# Subtest: the copy allowlist is exact and limited to precise domain comparisons
+ok 48 - the copy allowlist is exact and limited to precise domain comparisons
+  ---
+  duration_ms: 0.185459
+  type: 'test'
+  ...
+# Subtest: atlas and visible summary surfaces avoid flagged copy patterns
+ok 49 - atlas and visible summary surfaces avoid flagged copy patterns
+  ---
+  duration_ms: 32.305333
+  type: 'test'
+  ...
+# Subtest: Current Case records enforce hard copy rules and report advisory signals
+ok 50 - Current Case records enforce hard copy rules and report advisory signals
+  ---
+  duration_ms: 3.772875
+  type: 'test'
+  ...
+# Advisory copy signal in Current Case europe-missile-defence-coalition-ukraine reading 3 interpretation: "matters"
+# Advisory copy signal in Current Case us-brazil-section-301-tariffs briefing: "matters"
+# Advisory copy signal in Current Case south-china-sea-award-at-ten reading 3 interpretation: "matters"
+# Subtest: World Stage public labels enforce hard copy rules and report advisory signals
+ok 51 - World Stage public labels enforce hard copy rules and report advisory signals
+  ---
+  duration_ms: 4.856417
+  type: 'test'
+  ...
+# Subtest: Privacy, Corrections, and AI entry copy block releases and implementation details
+ok 52 - Privacy, Corrections, and AI entry copy block releases and implementation details
+  ---
+  duration_ms: 2.369667
+  type: 'test'
+  ...
+# Advisory copy signal in app/privacy/page.tsx copy 38: lens/layer/field/map metaphor
+# Advisory copy signal in app/ai/results/[payload]/page.tsx copy 2: lens/layer/field/map metaphor
+# Subtest: result and Profile helpers enforce hard copy rules and report advisory signals
+ok 53 - result and Profile helpers enforce hard copy rules and report advisory signals
+  ---
+  duration_ms: 2.490875
+  type: 'test'
+  ...
+# Advisory copy signal in Profile helper Foundation only copy.synthesis.stableAcross: lens/layer/field/map metaphor
+# Advisory copy signal in Profile helper Foundation only copy.triad.steady: lens/layer/field/map metaphor
+# Advisory copy signal in Profile helper Foundation only copy.assessment.points.2: "pressure-test"
+# Advisory copy signal in Profile helper saved Focus Areas copy.synthesis.stableAcross: lens/layer/field/map metaphor
+# Advisory copy signal in Profile helper saved Focus Areas copy.triad.steady: lens/layer/field/map metaphor
+# Subtest: atlas preserves legacy identities, ordering, and detail URLs
+ok 54 - atlas preserves legacy identities, ordering, and detail URLs
+  ---
+  duration_ms: 0.854791
+  type: 'test'
+  ...
+# Subtest: atlas provides complete and unique public display contracts
+ok 55 - atlas provides complete and unique public display contracts
+  ---
+  duration_ms: 0.196375
+  type: 'test'
+  ...
+# Subtest: atlas exposes a bounded curated pattern set, valid neighbors, and detail-ready content
+ok 56 - atlas exposes a bounded curated pattern set, valid neighbors, and detail-ready content
+  ---
+  duration_ms: 2.296833
+  type: 'test'
+  ...
+# Subtest: atlas records are static editorial content without assignment rules
+ok 57 - atlas records are static editorial content without assignment rules
+  ---
+  duration_ms: 0.255125
+  type: 'test'
+  ...
+# (node:94450) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/atlas-lite.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:94451) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/foundation-copy-share.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: ten ledger findings retain exact bilingual runtime evidence and finite dispositions
+ok 58 - ten ledger findings retain exact bilingual runtime evidence and finite dispositions
+  ---
+  duration_ms: 1.372625
+  type: 'test'
+  ...
+# Subtest: copy revisions preserve every item, option and signal; 14/56/68 administration stays intact
+ok 59 - copy revisions preserve every item, option and signal; 14/56/68 administration stays intact
+  ---
+  duration_ms: 0.685333
+  type: 'test'
+  ...
+# Subtest: draft binding survives reload and extension; absent/mixed/future provenance is never upgraded
+ok 60 - draft binding survives reload and extension; absent/mixed/future provenance is never upgraded
+  ---
+  duration_ms: 1.303458
+  type: 'test'
+  ...
+# Subtest: old shares and answer evidence resolve the recorded copy; unknown exposure cannot mint evidence
+ok 61 - old shares and answer evidence resolve the recorded copy; unknown exposure cannot mint evidence
+  ---
+  duration_ms: 82.896584
+  type: 'test'
+  ...
+# (node:94452) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/content/locales/en/beta.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: controlled-beta participation accepts only credential-free HTTPS URLs
+ok 62 - controlled-beta participation accepts only credential-free HTTPS URLs
+  ---
+  duration_ms: 1.925083
+  type: 'test'
+  ...
+# Subtest: controlled-beta navigation is hidden unless the exact flag is enabled
+ok 63 - controlled-beta navigation is hidden unless the exact flag is enabled
+  ---
+  duration_ms: 7.680875
+  type: 'test'
+  ...
+# Subtest: English and Simplified Chinese beta copy share the safety contract
+ok 64 - English and Simplified Chinese beta copy share the safety contract
+  ---
+  duration_ms: 2.237875
+  type: 'test'
+  ...
+# Subtest: beta routes render an accessible outbound link but no in-app collection surface
+ok 65 - beta routes render an accessible outbound link but no in-app collection surface
+  ---
+  duration_ms: 1.548625
+  type: 'test'
+  ...
+# Subtest: controlled-beta routes stay out of the public sitemap
+ok 66 - controlled-beta routes stay out of the public sitemap
+  ---
+  duration_ms: 323.667375
+  type: 'test'
+  ...
+# Subtest: the factual-correction route remains separate from beta recruitment
+ok 67 - the factual-correction route remains separate from beta recruitment
+  ---
+  duration_ms: 0.354625
+  type: 'test'
+  ...
+# Subtest: Foundation results and share images cannot present cohort comparisons
+ok 68 - Foundation results and share images cannot present cohort comparisons
+  ---
+  duration_ms: 1.646542
+  type: 'test'
+  ...
+# Subtest: public Foundation scales use raw positions and named poles, not synthetic bands
+ok 69 - public Foundation scales use raw positions and named poles, not synthetic bands
+  ---
+  duration_ms: 0.683167
+  type: 'test'
+  ...
+# (node:94454) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the live core audit scores every displayed reverse item
+ok 70 - the live core audit scores every displayed reverse item
+  ---
+  duration_ms: 3.413959
+  type: 'test'
+  ...
+# Subtest: core result filtering excludes stale answers from legacy and other extension forms
+ok 71 - core result filtering excludes stale answers from legacy and other extension forms
+  ---
+  duration_ms: 0.932583
+  type: 'test'
+  ...
+# Subtest: all three core strategy and normative modifiers are reachable
+ok 72 - all three core strategy and normative modifiers are reachable
+  ---
+  duration_ms: 0.1615
+  type: 'test'
+  ...
+# Subtest: seeded independent core responses remain distributed and make targeted follow-up live
+ok 73 - seeded independent core responses remain distributed and make targeted follow-up live
+  ---
+  duration_ms: 36.217666
+  type: 'test'
+  ...
+# Subtest: every targeted pair uses its exact calibration and keeps all modifier bands live
+ok 74 - every targeted pair uses its exact calibration and keeps all modifier bands live
+  ---
+  duration_ms: 611.347083
+  type: 'test'
+  ...
+# (node:94455) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/current-cases/catalog.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: schema-v1 Current Case relation catalog is empty, withheld, and valid
+ok 75 - schema-v1 Current Case relation catalog is empty, withheld, and valid
+  ---
+  duration_ms: 0.872166
+  type: 'test'
+  ...
+# Subtest: subject identities are stable and scoped by exact case ID and version
+ok 76 - subject identities are stable and scoped by exact case ID and version
+  ---
+  duration_ms: 0.524708
+  type: 'test'
+  ...
+# Subtest: validator rejects invalid targets, statuses, and unresolved evidence
+ok 77 - validator rejects invalid targets, statuses, and unresolved evidence
+  ---
+  duration_ms: 3.832875
+  type: 'test'
+  ...
+# Subtest: Foundation, legacy-pattern, score, and transitive relation paths fail closed
+ok 78 - Foundation, legacy-pattern, score, and transitive relation paths fail closed
+  ---
+  duration_ms: 1.199417
+  type: 'test'
+  ...
+# (node:94456) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/profile-store.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the response store is versioned and separate from ProfileStore v5
+ok 79 - the response store is versioned and separate from ProfileStore v5
+  ---
+  duration_ms: 7.313959
+  type: 'test'
+  ...
+# Subtest: unknown, future, unversioned, and malformed stores fail closed
+ok 80 - unknown, future, unversioned, and malformed stores fail closed
+  ---
+  duration_ms: 4.330708
+  type: 'test'
+  ...
+# Subtest: drafts save resumable progress separately and can be cleared on completion
+ok 81 - drafts save resumable progress separately and can be cleared on completion
+  ---
+  duration_ms: 7.030333
+  type: 'test'
+  ...
+# Subtest: parsing keeps valid histories, drops cross-key records, and normalizes repeated tags
+ok 82 - parsing keeps valid histories, drops cross-key records, and normalizes repeated tags
+  ---
+  duration_ms: 0.353541
+  type: 'test'
+  ...
+# Subtest: unknown legacy reasoning labels retain both a stable fallback id and their copy
+ok 83 - unknown legacy reasoning labels retain both a stable fallback id and their copy
+  ---
+  duration_ms: 0.189833
+  type: 'test'
+  ...
+# Subtest: adding responses preserves content versions and replaces only the same version
+ok 84 - adding responses preserves content versions and replaces only the same version
+  ---
+  duration_ms: 0.194209
+  type: 'test'
+  ...
+# Subtest: a response must match the exact published case version and its option/readings
+ok 85 - a response must match the exact published case version and its option/readings
+  ---
+  duration_ms: 0.108
+  type: 'test'
+  ...
+# (node:94457) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/current-cases/catalog.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: /current resolves to Recent Cases when no published launch case is active
+ok 86 - /current resolves to Recent Cases when no published launch case is active
+  ---
+  duration_ms: 9.963125
+  type: 'test'
+  ...
+# Subtest: /zh/current keeps the locale when no published launch case is active
+ok 87 - /zh/current keeps the locale when no published launch case is active
+  ---
+  duration_ms: 0.875667
+  type: 'test'
+  ...
+# Subtest: /current resolves an active launch through its deadline day, then returns to Recent Cases
+ok 88 - /current resolves an active launch through its deadline day, then returns to Recent Cases
+  ---
+  duration_ms: 0.692458
+  type: 'test'
+  ...
+# (node:94458) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/app/api/current-cases/challenge/route.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: legacy challenge create is retired without reading answer-bearing input
+ok 89 - legacy challenge create is retired without reading answer-bearing input
+  ---
+  duration_ms: 19.484417
+  type: 'test'
+  ...
+# Subtest: legacy challenge validate is retired without reading answer-bearing input
+ok 90 - legacy challenge validate is retired without reading answer-bearing input
+  ---
+  duration_ms: 0.303292
+  type: 'test'
+  ...
+# Subtest: legacy challenge reveal is retired without reading answer-bearing input
+ok 91 - legacy challenge reveal is retired without reading answer-bearing input
+  ---
+  duration_ms: 0.378125
+  type: 'test'
+  ...
+# (node:94459) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/current-cases/catalog.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the production catalog preserves the three approved records without a stale launch
+ok 92 - the production catalog preserves the three approved records without a stale launch
+  ---
+  duration_ms: 4.194
+  type: 'test'
+  ...
+# Subtest: a complete reviewed case satisfies the publication contract
+ok 93 - a complete reviewed case satisfies the publication contract
+  ---
+  duration_ms: 0.435125
+  type: 'test'
+  ...
+# Subtest: launch freshness is valid through the review deadline and fails the next day
+ok 94 - launch freshness is valid through the review deadline and fails the next day
+  ---
+  duration_ms: 1.65325
+  type: 'test'
+  ...
+# Subtest: effective freshness uses an injected date and keeps the deadline inclusive
+ok 95 - effective freshness uses an injected date and keeps the deadline inclusive
+  ---
+  duration_ms: 0.165792
+  type: 'test'
+  ...
+# Subtest: English and Chinese publication sets both fail closed for an invalid catalog
+ok 96 - English and Chinese publication sets both fail closed for an invalid catalog
+  ---
+  duration_ms: 1.586958
+  type: 'test'
+  ...
+# Subtest: English and Chinese case indexes and details regenerate freshness hourly
+ok 97 - English and Chinese case indexes and details regenerate freshness hourly
+  ---
+  duration_ms: 1.176042
+  type: 'test'
+  ...
+# Subtest: published catalogs allow no launch and reject multiple launches
+ok 98 - published catalogs allow no launch and reject multiple launches
+  ---
+  duration_ms: 0.689
+  type: 'test'
+  ...
+# Subtest: active freshness and launch role must agree
+ok 99 - active freshness and launch role must agree
+  ---
+  duration_ms: 0.288917
+  type: 'test'
+  ...
+# Subtest: publication fails closed on uncovered claims and preserves recorded URLs
+ok 100 - publication fails closed on uncovered claims and preserves recorded URLs
+  ---
+  duration_ms: 0.429209
+  type: 'test'
+  ...
+# Subtest: readings require objections, update conditions, and stable Atlas IDs
+ok 101 - readings require objections, update conditions, and stable Atlas IDs
+  ---
+  duration_ms: 0.804917
+  type: 'test'
+  ...
+# Subtest: answer-option validation rejects duplicated logics and tradeoffs
+ok 102 - answer-option validation rejects duplicated logics and tradeoffs
+  ---
+  duration_ms: 0.11775
+  type: 'test'
+  ...
+# Subtest: Foundation connection stays unavailable until a versioned authored mapping exists
+ok 103 - Foundation connection stays unavailable until a versioned authored mapping exists
+  ---
+  duration_ms: 0.405042
+  type: 'test'
+  ...
+# Subtest: Foundation connection unavailability is explicit in both public locales
+ok 104 - Foundation connection unavailability is explicit in both public locales
+  ---
+  duration_ms: 0.06775
+  type: 'test'
+  ...
+# Subtest: Foundation connection never infers from missing or incompatible saved baselines
+ok 105 - Foundation connection never infers from missing or incompatible saved baselines
+  ---
+  duration_ms: 0.140333
+  type: 'test'
+  ...
+# Subtest: Current Case leads the live numbered menu and My Profile remains a visible utility
+ok 106 - Current Case leads the live numbered menu and My Profile remains a visible utility
+  ---
+  duration_ms: 0.795416
+  type: 'test'
+  ...
+# (node:94460) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: all fourteen tier-core omissions block every baseline, saved-full and targeted completion
+ok 107 - all fourteen tier-core omissions block every baseline, saved-full and targeted completion
+  ---
+  duration_ms: 13.3105
+  type: 'test'
+  ...
+# Subtest: new baseline form preserves every scored item and order without the comparison battery
+ok 108 - new baseline form preserves every scored item and order without the comparison battery
+  ---
+  duration_ms: 0.876
+  type: 'test'
+  ...
+# Subtest: 512 scored synthetic records, ranked choices and both modes ignore low/high/mixed/omitted validation answers
+ok 109 - 512 scored synthetic records, ranked choices and both modes ignore low/high/mixed/omitted validation answers
+  ---
+  duration_ms: 574.264125
+  type: 'test'
+  ...
+# Subtest: additive form roundtrips without changing legacy payloads, sessions, aggregate separation or evidence bindings
+ok 110 - additive form roundtrips without changing legacy payloads, sessions, aggregate separation or evidence bindings
+  ---
+  duration_ms: 95.881125
+  type: 'test'
+  ...
+# Subtest: only the two listed English episode records publish; other drafts and unknown slugs fail closed
+ok 111 - only the two listed English episode records publish; other drafts and unknown slugs fail closed
+  ---
+  duration_ms: 0.304209
+  type: 'test'
+  ...
+# Subtest: compact status does not turn withheld decisions and unexpressed reasons into policy or rationale equality
+ok 112 - compact status does not turn withheld decisions and unexpressed reasons into policy or rationale equality
+  ---
+  duration_ms: 0.116916
+  type: 'test'
+  ...
+# Subtest: published episodes retain all 800 authored response combinations and required specific meanings
+ok 113 - published episodes retain all 800 authored response combinations and required specific meanings
+  ---
+  duration_ms: 11.536292
+  type: 'test'
+  ...
+# Subtest: fresh mark hint is consumed once in page memory, and production imports no experiment fixtures
+ok 114 - fresh mark hint is consumed once in page memory, and production imports no experiment fixtures
+  ---
+  duration_ms: 1.075333
+  type: 'test'
+  ...
+# (node:94461) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: issued English bank hash and every non-authorized field remain exact across five copy revisions
+ok 115 - issued English bank hash and every non-authorized field remain exact across five copy revisions
+  ---
+  duration_ms: 3.999125
+  type: 'test'
+  ...
+# Subtest: one supported-copy rule governs drafts, sharing and explicit historical form dispatch
+ok 116 - one supported-copy rule governs drafts, sharing and explicit historical form dispatch
+  ---
+  duration_ms: 4.85
+  type: 'test'
+  ...
+# Subtest: saved wording and result identity remain bound to each supported copy; unknown and future evidence stay unavailable
+ok 117 - saved wording and result identity remain bound to each supported copy; unknown and future evidence stay unavailable
+  ---
+  duration_ms: 241.675333
+  type: 'test'
+  ...
+# (node:94462) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a score at the middle of the observed distribution never reads as conviction
+ok 118 - a score at the middle of the observed distribution never reads as conviction
+  ---
+  duration_ms: 0.600916
+  type: 'test'
+  ...
+# Subtest: band cutoffs clear the nominal 1-7 lean as well as the observed range
+ok 119 - band cutoffs clear the nominal 1-7 lean as well as the observed range
+  ---
+  duration_ms: 0.109958
+  type: 'test'
+  ...
+# Subtest: domestic politics and markets stop reading as conviction at a score of 5
+ok 120 - domestic politics and markets stop reading as conviction at a score of 5
+  ---
+  duration_ms: 0.113292
+  type: 'test'
+  ...
+# Subtest: every dimension has distinct copy at the low pole, midpoint, and high pole
+ok 121 - every dimension has distinct copy at the low pole, midpoint, and high pole
+  ---
+  duration_ms: 0.319
+  type: 'test'
+  ...
+# Subtest: key drivers describe the raw midpoint without claiming a directional lean
+ok 122 - key drivers describe the raw midpoint without claiming a directional lean
+  ---
+  duration_ms: 0.192792
+  type: 'test'
+  ...
+# Subtest: strong lenses stay empty at the raw midpoint
+ok 123 - strong lenses stay empty at the raw midpoint
+  ---
+  duration_ms: 0.353375
+  type: 'test'
+  ...
+# Subtest: each strong lens becomes reachable at its declared raw-scale threshold
+ok 124 - each strong lens becomes reachable at its declared raw-scale threshold
+  ---
+  duration_ms: 0.2115
+  type: 'test'
+  ...
+# Subtest: the raw 1-7 midpoint puts every position bar on the spine
+ok 125 - the raw 1-7 midpoint puts every position bar on the spine
+  ---
+  duration_ms: 0.099
+  type: 'test'
+  ...
+# Subtest: push deviations stay bounded, signed, and sorted by strength
+ok 126 - push deviations stay bounded, signed, and sorted by strength
+  ---
+  duration_ms: 0.321292
+  type: 'test'
+  ...
+# Subtest: political-economy salience does not create an unmodeled CPE identity lens
+ok 127 - political-economy salience does not create an unmodeled CPE identity lens
+  ---
+  duration_ms: 0.324959
+  type: 'test'
+  ...
+# (node:94463) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/authoring-contract.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: schema-v1 relation vocabulary preserves semantics but forbids publication
+ok 128 - schema-v1 relation vocabulary preserves semantics but forbids publication
+  ---
+  duration_ms: 0.820375
+  type: 'test'
+  ...
+# Subtest: all current manifests keep an empty bridge catalog and separate reads
+ok 129 - all current manifests keep an empty bridge catalog and separate reads
+  ---
+  duration_ms: 0.151708
+  type: 'test'
+  ...
+# Subtest: an expert-reviewed bridge citing existing Security HOLD files is still non-public
+ok 130 - an expert-reviewed bridge citing existing Security HOLD files is still non-public
+  ---
+  duration_ms: 3.312667
+  type: 'test'
+  ...
+# Subtest: runtime-cast public bridges remain invalid and non-public
+ok 131 - runtime-cast public bridges remain invalid and non-public
+  ---
+  duration_ms: 0.502208
+  type: 'test'
+  ...
+# Subtest: bridge review context is invalidated by any exact module tuple drift
+ok 132 - bridge review context is invalidated by any exact module tuple drift
+  ---
+  duration_ms: 2.654583
+  type: 'test'
+  ...
+# Subtest: bridge dimensions reject numeric comparison fields and conflated statuses
+ok 133 - bridge dimensions reject numeric comparison fields and conflated statuses
+  ---
+  duration_ms: 0.307708
+  type: 'test'
+  ...
+# Subtest: AI results do not publish automatic Foundation synthesis
+ok 134 - AI results do not publish automatic Foundation synthesis
+  ---
+  duration_ms: 0.268208
+  type: 'test'
+  ...
+# (node:94464) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/option-order.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: evidence audit exposes separate writer and read-only check commands
+ok 135 - evidence audit exposes separate writer and read-only check commands
+  ---
+  duration_ms: 0.7915
+  type: 'test'
+  ...
+# Subtest: committed evidence artifacts exactly equal two consecutive in-memory generations
+ok 136 - committed evidence artifacts exactly equal two consecutive in-memory generations
+  ---
+  duration_ms: 54779.192166
+  type: 'test'
+  ...
+# Subtest: public evidence schemas are pinned to version 2
+ok 137 - public evidence schemas are pinned to version 2
+  ---
+  duration_ms: 14.345584
+  type: 'test'
+  ...
+# Subtest: check mode writes neither evidence artifacts nor the evidence baseline
+ok 138 - check mode writes neither evidence artifacts nor the evidence baseline
+  ---
+  duration_ms: 25546.034459
+  type: 'test'
+  ...
+# Subtest: an intentionally altered scratch evidence artifact is detected as stale
+ok 139 - an intentionally altered scratch evidence artifact is detected as stale
+  ---
+  duration_ms: 43.64575
+  type: 'test'
+  ...
+# Subtest: CI check command is read-only and rejects stale or missing scratch artifacts
+ok 140 - CI check command is read-only and rejects stale or missing scratch artifacts
+  ---
+  duration_ms: 80936.56075
+  type: 'test'
+  ...
+# Subtest: evidence report declares its bounded deterministic method
+ok 141 - evidence report declares its bounded deterministic method
+  ---
+  duration_ms: 0.339208
+  type: 'test'
+  ...
+# Subtest: every core evidence-generator module appears in the source manifest exactly once
+ok 142 - every core evidence-generator module appears in the source manifest exactly once
+  ---
+  duration_ms: 0.122666
+  type: 'test'
+  ...
+# Subtest: digest equality rendering is truthful for equal and unequal inputs
+ok 143 - digest equality rendering is truthful for equal and unequal inputs
+  ---
+  duration_ms: 0.060375
+  type: 'test'
+  ...
+# Subtest: Markdown uses precise gate, generation, invariance, and synthetic-fixture language
+ok 144 - Markdown uses precise gate, generation, invariance, and synthetic-fixture language
+  ---
+  duration_ms: 9.1895
+  type: 'test'
+  ...
+# Subtest: Markdown restores the invariance denominator and analyst secondary-choice evidence
+ok 145 - Markdown restores the invariance denominator and analyst secondary-choice evidence
+  ---
+  duration_ms: 2.621917
+  type: 'test'
+  ...
+# Subtest: Markdown states why Foundation is outside the declared-axis gate
+ok 146 - Markdown states why Foundation is outside the declared-axis gate
+  ---
+  duration_ms: 2.218583
+  type: 'test'
+  ...
+# Subtest: response fixture output is deterministic and matches its checked-in baseline
+ok 147 - response fixture output is deterministic and matches its checked-in baseline
+  ---
+  duration_ms: 82.967333
+  type: 'test'
+  ...
+# Subtest: unsupported instrument item fields fail closed before analysis
+ok 148 - unsupported instrument item fields fail closed before analysis
+  ---
+  duration_ms: 0.682167
+  type: 'test'
+  ...
+# Subtest: presentation order cannot change scores for any current or legacy runtime
+ok 149 - presentation order cannot change scores for any current or legacy runtime
+  ---
+  duration_ms: 35.216875
+  type: 'test'
+  ...
+# Subtest: every eligible analyst tuple has primary-only, reinforcing, and competing secondary-choice fixtures
+ok 150 - every eligible analyst tuple has primary-only, reinforcing, and competing secondary-choice fixtures
+  ---
+  duration_ms: 33.99525
+  type: 'test'
+  ...
+# Subtest: a known eligible runtime scores the secondary field and changes its result digest
+ok 151 - a known eligible runtime scores the secondary field and changes its result digest
+  ---
+  duration_ms: 30.29975
+  type: 'test'
+  ...
+# Subtest: legacy banks remain separate from current-bank evidence
+ok 152 - legacy banks remain separate from current-bank evidence
+  ---
+  duration_ms: 11.65975
+  type: 'test'
+  ...
+# (node:94465) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/instrument/measurement-gates.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: synthetic negative control: midpoint/range gate catches identical declared-axis signals
+ok 153 - synthetic negative control: midpoint/range gate catches identical declared-axis signals
+  ---
+  duration_ms: 0.599875
+  type: 'test'
+  ...
+# Subtest: synthetic negative control: midpoint/range gate catches a declared axis missing from every option
+ok 154 - synthetic negative control: midpoint/range gate catches a declared axis missing from every option
+  ---
+  duration_ms: 0.369375
+  type: 'test'
+  ...
+# Subtest: synthetic negative control: midpoint/range gate deliberately does not reject duplicate complete option vectors
+ok 155 - synthetic negative control: midpoint/range gate deliberately does not reject duplicate complete option vectors
+  ---
+  duration_ms: 0.226125
+  type: 'test'
+  ...
+# Subtest: synthetic negative control: midpoint/range gate deliberately does not impose a near-duplicate tolerance
+ok 156 - synthetic negative control: midpoint/range gate deliberately does not impose a near-duplicate tolerance
+  ---
+  duration_ms: 0.091458
+  type: 'test'
+  ...
+# Subtest: synthetic negative control: midpoint/range gate deliberately ignores substantial signals on an undeclared axis
+ok 157 - synthetic negative control: midpoint/range gate deliberately ignores substantial signals on an undeclared axis
+  ---
+  duration_ms: 0.14925
+  type: 'test'
+  ...
+# Subtest: synthetic negative control: midpoint/range gate deliberately permits discrimination carried primarily by one option
+ok 158 - synthetic negative control: midpoint/range gate deliberately permits discrimination carried primarily by one option
+  ---
+  duration_ms: 0.061042
+  type: 'test'
+  ...
+# Subtest: synthetic aggregation control: one failed declared axis places a multi-axis item in the item failure list
+ok 159 - synthetic aggregation control: one failed declared axis places a multi-axis item in the item failure list
+  ---
+  duration_ms: 32.5685
+  type: 'test'
+  ...
+# (node:94466) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/explore-content.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: modeled explore families use canonical slugs
+ok 160 - modeled explore families use canonical slugs
+  ---
+  duration_ms: 0.980458
+  type: 'test'
+  ...
+# Subtest: Explore hub locks the nine-section ontology and bounded content schema
+ok 161 - Explore hub locks the nine-section ontology and bounded content schema
+  ---
+  duration_ms: 0.433417
+  type: 'test'
+  ...
+# Subtest: Explore hub validation fails closed on reordered sections, unsafe routes, or extra fields
+ok 162 - Explore hub validation fails closed on reordered sections, unsafe routes, or extra fields
+  ---
+  duration_ms: 3.833916
+  type: 'test'
+  ...
+# Subtest: Explore hub derives identities, dimensions, patterns, and reference rows from canonical APIs
+ok 163 - Explore hub derives identities, dimensions, patterns, and reference rows from canonical APIs
+  ---
+  duration_ms: 1.009125
+  type: 'test'
+  ...
+# Subtest: Explore tradition titles use the canonical public noun forms
+ok 164 - Explore tradition titles use the canonical public noun forms
+  ---
+  duration_ms: 0.073333
+  type: 'test'
+  ...
+# Subtest: explore cards and result neighbor links resolve to canonical slugs
+ok 165 - explore cards and result neighbor links resolve to canonical slugs
+  ---
+  duration_ms: 0.082584
+  type: 'test'
+  ...
+# (node:94467) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/atlas-lite.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: baseline field item projects through the shared projection
+ok 166 - baseline field item projects through the shared projection
+  ---
+  duration_ms: 1.603625
+  type: 'test'
+  ...
+# Subtest: baseline field item fails closed when its exact Foundation payload is invalid
+ok 167 - baseline field item fails closed when its exact Foundation payload is invalid
+  ---
+  duration_ms: 5.037666
+  type: 'test'
+  ...
+# Subtest: legacy baseline position and summary follow decoded payload data, not cached fields
+ok 168 - legacy baseline position and summary follow decoded payload data, not cached fields
+  ---
+  duration_ms: 4.383166
+  type: 'test'
+  ...
+# Subtest: localized saved-result paths stay locale-neutral inside Field items
+ok 169 - localized saved-result paths stay locale-neutral inside Field items
+  ---
+  duration_ms: 0.89575
+  type: 'test'
+  ...
+# Subtest: perspective run items keep run positions on the shared projection
+ok 170 - perspective run items keep run positions on the shared projection
+  ---
+  duration_ms: 0.108291
+  type: 'test'
+  ...
+# Subtest: an unapproved Chinese Perspective Run never exposes its English label
+ok 171 - an unapproved Chinese Perspective Run never exposes its English label
+  ---
+  duration_ms: 0.230542
+  type: 'test'
+  ...
+# Subtest: latestRunPerPerspective keeps one newest run per pack
+ok 172 - latestRunPerPerspective keeps one newest run per pack
+  ---
+  duration_ms: 0.091708
+  type: 'test'
+  ...
+# Subtest: atlas pattern positions come from the fingerprint mapping and shared projection
+ok 173 - atlas pattern positions come from the fingerprint mapping and shared projection
+  ---
+  duration_ms: 0.410041
+  type: 'test'
+  ...
+# Subtest: atlas fingerprint mapping leaves unmapped dimensions at the midpoint
+ok 174 - atlas fingerprint mapping leaves unmapped dimensions at the midpoint
+  ---
+  duration_ms: 0.202917
+  type: 'test'
+  ...
+# Subtest: Chinese catalog rendering fails closed before any English Pattern fallback
+ok 175 - Chinese catalog rendering fails closed before any English Pattern fallback
+  ---
+  duration_ms: 0.57
+  type: 'test'
+  ...
+# Subtest: reference field items reuse the canonical reference projection
+ok 176 - reference field items reuse the canonical reference projection
+  ---
+  duration_ms: 1.618834
+  type: 'test'
+  ...
+# Subtest: non-public-demo catalogs are excluded from catalog views
+ok 177 - non-public-demo catalogs are excluded from catalog views
+  ---
+  duration_ms: 1.554291
+  type: 'test'
+  ...
+# Subtest: internal-review entries stay visible and are marked as drafts
+ok 178 - internal-review entries stay visible and are marked as drafts
+  ---
+  duration_ms: 0.464125
+  type: 'test'
+  ...
+# Subtest: internal-review entries require an explicit preview outside catalog editing
+ok 179 - internal-review entries require an explicit preview outside catalog editing
+  ---
+  duration_ms: 0.517625
+  type: 'test'
+  ...
+# Subtest: invalid catalogs fail closed before entries reach the Field
+ok 180 - invalid catalogs fail closed before entries reach the Field
+  ---
+  duration_ms: 1.088625
+  type: 'test'
+  ...
+# Subtest: public catalogs surface only publishable entries
+ok 181 - public catalogs surface only publishable entries
+  ---
+  duration_ms: 0.334417
+  type: 'test'
+  ...
+# Subtest: extended facets narrow contextual items and never hide the baseline
+ok 182 - extended facets narrow contextual items and never hide the baseline
+  ---
+  duration_ms: 0.581209
+  type: 'test'
+  ...
+# (node:94468) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/field/position.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Worldview Map keeps legacy layer IDs with the current public labels
+ok 183 - Worldview Map keeps legacy layer IDs with the current public labels
+  ---
+  duration_ms: 2.378834
+  type: 'test'
+  ...
+# Subtest: active layers keep one or two explicit layers without forcing a baseline
+ok 184 - active layers keep one or two explicit layers without forcing a baseline
+  ---
+  duration_ms: 0.36275
+  type: 'test'
+  ...
+# Subtest: two contextual layers remain possible when My profile is unavailable
+ok 185 - two contextual layers remain possible when My profile is unavailable
+  ---
+  duration_ms: 0.091375
+  type: 'test'
+  ...
+# Subtest: Worldview Map contextual overlays are opt-in and may all be off
+ok 186 - Worldview Map contextual overlays are opt-in and may all be off
+  ---
+  duration_ms: 0.187041
+  type: 'test'
+  ...
+# Subtest: layer state has a stable URL value and applies availability on parse
+ok 187 - layer state has a stable URL value and applies availability on parse
+  ---
+  duration_ms: 0.07225
+  type: 'test'
+  ...
+# Subtest: the shared Worldview Map query codec preserves legacy keys and canonical selection
+ok 188 - the shared Worldview Map query codec preserves legacy keys and canonical selection
+  ---
+  duration_ms: 1.221834
+  type: 'test'
+  ...
+# Subtest: Worldview Map projection parsing distinguishes current and legacy links
+ok 189 - Worldview Map projection parsing distinguishes current and legacy links
+  ---
+  duration_ms: 0.3385
+  type: 'test'
+  ...
+# Subtest: Worldview Map serialization can keep a default matrix route bare
+ok 190 - Worldview Map serialization can keep a default matrix route bare
+  ---
+  duration_ms: 0.258292
+  type: 'test'
+  ...
+# Subtest: Field filters round-trip through a canonical URL query string
+ok 191 - Field filters round-trip through a canonical URL query string
+  ---
+  duration_ms: 0.486042
+  type: 'test'
+  ...
+# Subtest: filtering uses OR within facets, AND across facets, and active layers
+ok 192 - filtering uses OR within facets, AND across facets, and active layers
+  ---
+  duration_ms: 0.411334
+  type: 'test'
+  ...
+# Subtest: selection keys round-trip and stable order ignores source order
+ok 193 - selection keys round-trip and stable order ignores source order
+  ---
+  duration_ms: 0.525042
+  type: 'test'
+  ...
+# Subtest: selection and semantic-list groups remain layer-scoped and complete
+ok 194 - selection and semantic-list groups remain layer-scoped and complete
+  ---
+  duration_ms: 0.154666
+  type: 'test'
+  ...
+# Subtest: next-selection helpers wrap in both directions
+ok 195 - next-selection helpers wrap in both directions
+  ---
+  duration_ms: 0.157625
+  type: 'test'
+  ...
+# Subtest: Field projection is the canonical Foundation projection
+ok 196 - Field projection is the canonical Foundation projection
+  ---
+  duration_ms: 0.496417
+  type: 'test'
+  ...
+# Subtest: overlap grouping is deterministic, lossless, and leaves coordinates untouched
+ok 197 - overlap grouping is deterministic, lossless, and leaves coordinates untouched
+  ---
+  duration_ms: 2.98325
+  type: 'test'
+  ...
+# Subtest: overlap fan offsets are finite and distinct
+ok 198 - overlap fan offsets are finite and distinct
+  ---
+  duration_ms: 0.222791
+  type: 'test'
+  ...
+# Subtest: movement hull handles zero, one, two, duplicate, and collinear points
+ok 199 - movement hull handles zero, one, two, duplicate, and collinear points
+  ---
+  duration_ms: 0.233834
+  type: 'test'
+  ...
+# Subtest: movement hull is deterministic and contains every member position
+ok 200 - movement hull is deterministic and contains every member position
+  ---
+  duration_ms: 0.235167
+  type: 'test'
+  ...
+# (node:94469) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetypes.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: exact V2 contribution rows reconcile core, full, and every targeted calibration
+ok 201 - exact V2 contribution rows reconcile core, full, and every targeted calibration
+  ---
+  duration_ms: 8.121791
+  type: 'test'
+  ...
+# Subtest: signed rows reproduce the registered calibration and family-weight difference
+ok 202 - signed rows reproduce the registered calibration and family-weight difference
+  ---
+  duration_ms: 0.208584
+  type: 'test'
+  ...
+# Subtest: pure and blend comparisons use the same decomposition contract
+ok 203 - pure and blend comparisons use the same decomposition contract
+  ---
+  duration_ms: 0.577042
+  type: 'test'
+  ...
+# Subtest: stable live-score ties resolve in registered family order
+ok 204 - stable live-score ties resolve in registered family order
+  ---
+  duration_ms: 0.530709
+  type: 'test'
+  ...
+# Subtest: rounding residual explicitly bridges raw terms to displayed scores
+ok 205 - rounding residual explicitly bridges raw terms to displayed scores
+  ---
+  duration_ms: 0.187334
+  type: 'test'
+  ...
+# Subtest: classification contribution is not raw-midpoint extremity
+ok 206 - classification contribution is not raw-midpoint extremity
+  ---
+  duration_ms: 3.470417
+  type: 'test'
+  ...
+# Subtest: a family cannot be compared with itself
+ok 207 - a family cannot be compared with itself
+  ---
+  duration_ms: 0.2615
+  type: 'test'
+  ...
+# (node:94470) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/scoring.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Foundation answer fixture generates stable result contract: realist-like
+ok 208 - Foundation answer fixture generates stable result contract: realist-like
+  ---
+  duration_ms: 6.0035
+  type: 'test'
+  ...
+# Subtest: Foundation answer fixture generates stable result contract: institutionalist-like
+ok 209 - Foundation answer fixture generates stable result contract: institutionalist-like
+  ---
+  duration_ms: 0.275458
+  type: 'test'
+  ...
+# Subtest: Foundation answer fixture generates stable result contract: constructivist-like
+ok 210 - Foundation answer fixture generates stable result contract: constructivist-like
+  ---
+  duration_ms: 0.207333
+  type: 'test'
+  ...
+# Subtest: Foundation answer fixture generates stable result contract: critical-political-economy-like
+ok 211 - Foundation answer fixture generates stable result contract: critical-political-economy-like
+  ---
+  duration_ms: 0.140917
+  type: 'test'
+  ...
+# Subtest: Foundation answer fixture generates stable result contract: mixed cross-pressured
+ok 212 - Foundation answer fixture generates stable result contract: mixed cross-pressured
+  ---
+  duration_ms: 9.573625
+  type: 'test'
+  ...
+# (node:94471) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/results/local-evidence.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: generation stores only a full binding and at most three derived records
+ok 213 - generation stores only a full binding and at most three derived records
+  ---
+  duration_ms: 13.649709
+  type: 'test'
+  ...
+# Subtest: exact handoff matches while a shared result and a tuple mismatch fail closed
+ok 214 - exact handoff matches while a shared result and a tuple mismatch fail closed
+  ---
+  duration_ms: 17.492083
+  type: 'test'
+  ...
+# Subtest: an exact local Profile snapshot can restore its consumed one-shot handoff
+ok 215 - an exact local Profile snapshot can restore its consumed one-shot handoff
+  ---
+  duration_ms: 27.372417
+  type: 'test'
+  ...
+# Subtest: Profile handoff restoration fails closed without an exact current local binding
+ok 216 - Profile handoff restoration fails closed without an exact current local binding
+  ---
+  duration_ms: 1.774708
+  type: 'test'
+  ...
+# Subtest: legacy results report unavailable without consulting local records
+ok 217 - legacy results report unavailable without consulting local records
+  ---
+  duration_ms: 2.7495
+  type: 'test'
+  ...
+# Subtest: deletion can target one completion or every record bound to a payload
+ok 218 - deletion can target one completion or every record bound to a payload
+  ---
+  duration_ms: 6.675292
+  type: 'test'
+  ...
+# Subtest: a payload or exact-form mismatch is rejected before anything is persisted
+ok 219 - a payload or exact-form mismatch is rejected before anything is persisted
+  ---
+  duration_ms: 1.103333
+  type: 'test'
+  ...
+# Subtest: targeted and full forms bind to their exact calibration and question set
+ok 220 - targeted and full forms bind to their exact calibration and question set
+  ---
+  duration_ms: 81.4005
+  type: 'test'
+  ...
+# Subtest: Simplified Chinese evidence stores approved localized prompts and labels
+ok 221 - Simplified Chinese evidence stores approved localized prompts and labels
+  ---
+  duration_ms: 5.424792
+  type: 'test'
+  ...
+# Subtest: local evidence fails closed when the page and completion locales differ
+ok 222 - local evidence fails closed when the page and completion locales differ
+  ---
+  duration_ms: 10.039667
+  type: 'test'
+  ...
+# (node:94473) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: distinct foundation fixtures stay distinct through payload reconstruction
+ok 223 - distinct foundation fixtures stay distinct through payload reconstruction
+  ---
+  duration_ms: 5.018875
+  type: 'test'
+  ...
+# Subtest: current payload reconstruction ignores tampered labels and uses the encoded scores
+ok 224 - current payload reconstruction ignores tampered labels and uses the encoded scores
+  ---
+  duration_ms: 0.252084
+  type: 'test'
+  ...
+# Subtest: foundation payoff derives from decoded share-link result data
+ok 225 - foundation payoff derives from decoded share-link result data
+  ---
+  duration_ms: 0.784667
+  type: 'test'
+  ...
+# Subtest: package scripts expose writer and read-only Foundation robustness checks
+ok 226 - package scripts expose writer and read-only Foundation robustness checks
+  ---
+  duration_ms: 1.210667
+  type: 'test'
+  ...
+# Subtest: accepted manifest pins sample sizes and interpretation boundaries
+ok 227 - accepted manifest pins sample sizes and interpretation boundaries
+  ---
+  duration_ms: 1.096625
+  type: 'test'
+  ...
+# Subtest: protected files match both their recorded digests and the evidence source commit
+ok 228 - protected files match both their recorded digests and the evidence source commit
+  ---
+  duration_ms: 60.489916
+  type: 'test'
+  ...
+# Subtest: check mode regenerates accepted CSV and JSON bytes without rewriting evidence
+ok 229 - check mode regenerates accepted CSV and JSON bytes without rewriting evidence
+  ---
+  duration_ms: 27966.317709
+  type: 'test'
+  ...
+# Subtest: legacy numeric diagnostic outputs remain byte-identical to historical evidence
+ok 230 - legacy numeric diagnostic outputs remain byte-identical to historical evidence
+  ---
+  duration_ms: 231.123667
+  type: 'test'
+  ...
+# (node:94475) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every Foundation item has a tier and the core contains one item per direction per dimension
+ok 231 - every Foundation item has a tier and the core contains one item per direction per dimension
+  ---
+  duration_ms: 0.841833
+  type: 'test'
+  ...
+# Subtest: the selected 14-item core is stable and loads before either extension path
+ok 232 - the selected 14-item core is stable and loads before either extension path
+  ---
+  duration_ms: 0.098
+  type: 'test'
+  ...
+# Subtest: every unordered family pair maps symmetrically to five scored extended items
+ok 233 - every unordered family pair maps symmetrically to five scored extended items
+  ---
+  duration_ms: 0.435791
+  type: 'test'
+  ...
+# Subtest: each discriminator list contains the five largest projected family separations
+ok 234 - each discriminator list contains the five largest projected family separations
+  ---
+  duration_ms: 28.163166
+  type: 'test'
+  ...
+# (node:94476) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/locale-provenance.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: en: equal unknown copy markers cannot establish comparison eligibility
+ok 235 - en: equal unknown copy markers cannot establish comparison eligibility
+  ---
+  duration_ms: 0.441542
+  type: 'test'
+  ...
+# Subtest: zh-Hans: equal unknown copy markers cannot establish comparison eligibility
+ok 236 - zh-Hans: equal unknown copy markers cannot establish comparison eligibility
+  ---
+  duration_ms: 0.104084
+  type: 'test'
+  ...
+# Subtest: history selection rejects unknown priors without rewriting saved records
+ok 237 - history selection rejects unknown priors without rewriting saved records
+  ---
+  duration_ms: 1.240084
+  type: 'test'
+  ...
+# (node:94486) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/app/sitemap.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: routing keeps English unprefixed and maps zh-Hans to the public /zh prefix
+ok 238 - routing keeps English unprefixed and maps zh-Hans to the public /zh prefix
+  ---
+  duration_ms: 8.009708
+  type: 'test'
+  ...
+# Subtest: locale path helpers preserve slugs and opaque encoded payload segments
+ok 239 - locale path helpers preserve slugs and opaque encoded payload segments
+  ---
+  duration_ms: 0.098125
+  type: 'test'
+  ...
+# Subtest: language switching preserves pathname, query string, and hash fragment
+ok 240 - language switching preserves pathname, query string, and hash fragment
+  ---
+  duration_ms: 0.073541
+  type: 'test'
+  ...
+# Subtest: the approved Chinese Foundation route receives reciprocal language alternates
+ok 241 - the approved Chinese Foundation route receives reciprocal language alternates
+  ---
+  duration_ms: 3.04525
+  type: 'test'
+  ...
+# Subtest: V23.1B archetype and tradition routes enter the sitemap in English only
+ok 242 - V23.1B archetype and tradition routes enter the sitemap in English only
+  ---
+  duration_ms: 12.745666
+  type: 'test'
+  ...
+# Subtest: private share routing covers matching English and Chinese payload paths
+ok 243 - private share routing covers matching English and Chinese payload paths
+  ---
+  duration_ms: 0.331959
+  type: 'test'
+  ...
+# (node:94488) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/narrative/foundation.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: seeded random respondents match the V21 independent-null characterization
+ok 244 - seeded random respondents match the V21 independent-null characterization
+  ---
+  duration_ms: 107.773208
+  type: 'test'
+  ...
+# Subtest: narrative differentiation states stay aligned with the seeded gap calibration
+ok 245 - narrative differentiation states stay aligned with the seeded gap calibration
+  ---
+  duration_ms: 83.143541
+  type: 'test'
+  ...
+# Subtest: flat response-style respondents remain characterized separately
+ok 246 - flat response-style respondents remain characterized separately
+  ---
+  duration_ms: 0.275417
+  type: 'test'
+  ...
+# Subtest: V22 measurement gates are blocking after Prompt 2C
+ok 247 - V22 measurement gates are blocking after Prompt 2C
+  ---
+  duration_ms: 0.602458
+  type: 'test'
+  ...
+# Subtest: item checks inspect declared axes only
+ok 248 - item checks inspect declared axes only
+  ---
+  duration_ms: 0.521833
+  type: 'test'
+  ...
+# Subtest: axis qualification includes top-half ties within epsilon
+ok 249 - axis qualification includes top-half ties within epsilon
+  ---
+  duration_ms: 0.166334
+  type: 'test'
+  ...
+# Subtest: axis qualification applies the minimum spread with epsilon
+ok 250 - axis qualification applies the minimum spread with epsilon
+  ---
+  duration_ms: 0.072084
+  type: 'test'
+  ...
+# Subtest: simple signal and declared-axis evaluators expose reusable stats
+ok 251 - simple signal and declared-axis evaluators expose reusable stats
+  ---
+  duration_ms: 0.160208
+  type: 'test'
+  ...
+# Subtest: zero qualifying axes produce a gate finding controlled by activation
+ok 252 - zero qualifying axes produce a gate finding controlled by activation
+  ---
+  duration_ms: 0.065208
+  type: 'test'
+  ...
+# Subtest: the seven Advanced valence repairs are opposed propositions without negation
+ok 253 - the seven Advanced valence repairs are opposed propositions without negation
+  ---
+  duration_ms: 0.292542
+  type: 'test'
+  ...
+# Subtest: an empty declaration cannot bypass item gates
+ok 254 - an empty declaration cannot bypass item gates
+  ---
+  duration_ms: 0.058583
+  type: 'test'
+  ...
+# Subtest: range and pole gates preserve their exact boundary semantics
+ok 255 - range and pole gates preserve their exact boundary semantics
+  ---
+  duration_ms: 0.223375
+  type: 'test'
+  ...
+# Subtest: coverage and calibrated thresholds preserve their boundaries
+ok 256 - coverage and calibrated thresholds preserve their boundaries
+  ---
+  duration_ms: 0.393291
+  type: 'test'
+  ...
+# Subtest: uniform mean may sit exactly at the maximum centre distance
+ok 257 - uniform mean may sit exactly at the maximum centre distance
+  ---
+  duration_ms: 0.080375
+  type: 'test'
+  ...
+# Subtest: concentration and saturation must stay strictly below their limits
+ok 258 - concentration and saturation must stay strictly below their limits
+  ---
+  duration_ms: 0.102834
+  type: 'test'
+  ...
+# Subtest: reverse coding may sit exactly at its minimum ratio
+ok 259 - reverse coding may sit exactly at its minimum ratio
+  ---
+  duration_ms: 0.046959
+  type: 'test'
+  ...
+# Subtest: bank summary uses the same inclusive and strict boundary rules
+ok 260 - bank summary uses the same inclusive and strict boundary rules
+  ---
+  duration_ms: 0.07675
+  type: 'test'
+  ...
+# Subtest: compromise findings are review-only even when gates are blocking
+ok 261 - compromise findings are review-only even when gates are blocking
+  ---
+  duration_ms: 0.180084
+  type: 'test'
+  ...
+# (node:94489) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/instrument/measurement-gates.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:94490) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: no family exceeds 35% of seeded random respondents
+ok 262 - no family exceeds 35% of seeded random respondents
+  ---
+  duration_ms: 0.411292
+  type: 'test'
+  ...
+# Subtest: no three-part label exceeds 20% of seeded random respondents
+ok 263 - no three-part label exceeds 20% of seeded random respondents
+  ---
+  duration_ms: 0.0645
+  type: 'test'
+  ...
+# Subtest: all four families each exceed 5% of seeded random respondents
+ok 264 - all four families each exceed 5% of seeded random respondents
+  ---
+  duration_ms: 0.072917
+  type: 'test'
+  ...
+# Subtest: all modifier bands remain live in the seeded distribution
+ok 265 - all modifier bands remain live in the seeded distribution
+  ---
+  duration_ms: 0.115292
+  type: 'test'
+  ...
+# (node:94491) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/framework.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: V21 module and AI banks are immutable snapshots
+ok 266 - V21 module and AI banks are immutable snapshots
+  ---
+  duration_ms: 1.039708
+  type: 'test'
+  ...
+# Subtest: supported registries expose only the approved module tuples
+ok 267 - supported registries expose only the approved module tuples
+  ---
+  duration_ms: 0.536375
+  type: 'test'
+  ...
+# Subtest: checked-in V21 and V22 module and AI answers replay to golden results
+ok 268 - checked-in V21 and V22 module and AI answers replay to golden results
+  ---
+  duration_ms: 3.077375
+  type: 'test'
+  ...
+# Subtest: literal V21 module links replay through the frozen definitions and scorer
+ok 269 - literal V21 module links replay through the frozen definitions and scorer
+  ---
+  duration_ms: 0.422792
+  type: 'test'
+  ...
+# Subtest: legacy module V1 string answers dispatch to the frozen V21 tuple
+ok 270 - legacy module V1 string answers dispatch to the frozen V21 tuple
+  ---
+  duration_ms: 0.193
+  type: 'test'
+  ...
+# Subtest: module payload tuple dispatch rejects every unsupported pairing
+ok 271 - module payload tuple dispatch rejects every unsupported pairing
+  ---
+  duration_ms: 2.695667
+  type: 'test'
+  ...
+# Subtest: literal AI V1 links dispatch to V21 and preserve encoded identities
+ok 272 - literal AI V1 links dispatch to V21 and preserve encoded identities
+  ---
+  duration_ms: 0.752125
+  type: 'test'
+  ...
+# Subtest: the frozen V21 AI answer replay stays pinned to its golden result
+ok 273 - the frozen V21 AI answer replay stays pinned to its golden result
+  ---
+  duration_ms: 0.156625
+  type: 'test'
+  ...
+# Subtest: AI V2 accepts only the active V22 tuple
+ok 274 - AI V2 accepts only the active V22 tuple
+  ---
+  duration_ms: 0.329083
+  type: 'test'
+  ...
+# (node:94492) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/local-data.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: local history deletion covers every registered result and draft key
+ok 275 - local history deletion covers every registered result and draft key
+  ---
+  duration_ms: 0.742833
+  type: 'test'
+  ...
+# Subtest: local history deletion reports blocked storage without hiding partial failure
+ok 276 - local history deletion reports blocked storage without hiding partial failure
+  ---
+  duration_ms: 0.149458
+  type: 'test'
+  ...
+# (node:94493) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/locale-provenance.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: completion provenance is instrument- and locale-versioned
+ok 277 - completion provenance is instrument- and locale-versioned
+  ---
+  duration_ms: 0.746125
+  type: 'test'
+  ...
+# Subtest: research-equivalence cohorts never cross locale or copy-version boundaries
+ok 278 - research-equivalence cohorts never cross locale or copy-version boundaries
+  ---
+  duration_ms: 0.092791
+  type: 'test'
+  ...
+# Subtest: the plot square takes at least 70 percent of the container width
+ok 279 - the plot square takes at least 70 percent of the container width
+  ---
+  duration_ms: 0.620041
+  type: 'test'
+  ...
+# Subtest: the respondent dot is clearly larger than a tradition anchor
+ok 280 - the respondent dot is clearly larger than a tradition anchor
+  ---
+  duration_ms: 0.059084
+  type: 'test'
+  ...
+# Subtest: projection corners map to the plot corners and the centre to the middle
+ok 281 - projection corners map to the plot corners and the centre to the middle
+  ---
+  duration_ms: 0.380209
+  type: 'test'
+  ...
+# Subtest: wide CJK glyphs are measured wider than Latin ones
+ok 282 - wide CJK glyphs are measured wider than Latin ones
+  ---
+  duration_ms: 0.281875
+  type: 'test'
+  ...
+# Subtest: long labels wrap to the requested width and grow the box height
+ok 283 - long labels wrap to the requested width and grow the box height
+  ---
+  duration_ms: 0.140875
+  type: 'test'
+  ...
+# Subtest: a run without spaces still wraps to the requested width
+ok 284 - a run without spaces still wraps to the requested width
+  ---
+  duration_ms: 0.077041
+  type: 'test'
+  ...
+# Subtest: tradition labels avoid each other, the axis labels, and the respondent mark
+ok 285 - tradition labels avoid each other, the axis labels, and the respondent mark
+  ---
+  duration_ms: 0.611292
+  type: 'test'
+  ...
+# Subtest: a crowded point still resolves to a single deterministic placement
+ok 286 - a crowded point still resolves to a single deterministic placement
+  ---
+  duration_ms: 5.519291
+  type: 'test'
+  ...
+# Subtest: a label clears the mark it belongs to before anything else
+ok 287 - a label clears the mark it belongs to before anything else
+  ---
+  duration_ms: 0.455209
+  type: 'test'
+  ...
+# Subtest: labels are pulled back inside the viewBox near the rim
+ok 288 - labels are pulled back inside the viewBox near the rim
+  ---
+  duration_ms: 0.345
+  type: 'test'
+  ...
+# Subtest: axis labels hug the plot edges instead of floating in the margin
+ok 289 - axis labels hug the plot edges instead of floating in the margin
+  ---
+  duration_ms: 4.036917
+  type: 'test'
+  ...
+# (node:94494) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/results/map-layout.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:94495) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/current-cases/relations.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Security and Technology are public-beta legacy adapters with exact decisions
+ok 290 - Security and Technology are public-beta legacy adapters with exact decisions
+  ---
+  duration_ms: 2.7925
+  type: 'test'
+  ...
+# Subtest: legacy-adapter equality proves compatibility but keeps detached metadata
+ok 291 - legacy-adapter equality proves compatibility but keeps detached metadata
+  ---
+  duration_ms: 0.238083
+  type: 'test'
+  ...
+# Subtest: registered manifest files, scripts, calibration, and decisions are real contained files
+ok 292 - registered manifest files, scripts, calibration, and decisions are real contained files
+  ---
+  duration_ms: 4.5145
+  type: 'test'
+  ...
+# Subtest: public release validation requires a recognized, exact, unexpired decision
+ok 293 - public release validation requires a recognized, exact, unexpired decision
+  ---
+  duration_ms: 1.2045
+  type: 'test'
+  ...
+# Subtest: public-beta and shipping states reject placeholders and incomplete gates
+ok 294 - public-beta and shipping states reject placeholders and incomplete gates
+  ---
+  duration_ms: 1.562709
+  type: 'test'
+  ...
+# Subtest: manifest claim drift fails its digest and cannot silently update the fixture
+ok 295 - manifest claim drift fails its digest and cannot silently update the fixture
+  ---
+  duration_ms: 0.487083
+  type: 'test'
+  ...
+# Subtest: hook symlinks and paths outside the repository fail filesystem validation
+ok 296 - hook symlinks and paths outside the repository fail filesystem validation
+  ---
+  duration_ms: 11.692333
+  type: 'test'
+  ...
+# Subtest: registration rejects template/candidate manifests and runtime divergence
+ok 297 - registration rejects template/candidate manifests and runtime divergence
+  ---
+  duration_ms: 0.9895
+  type: 'test'
+  ...
+# Subtest: registered gate preserves the exact empty Current Case catalog
+ok 298 - registered gate preserves the exact empty Current Case catalog
+  ---
+  duration_ms: 3.459417
+  type: 'test'
+  ...
+# (node:94496) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/instrument/measurement-gates.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: every calibrated cut is finite, ordered, and inside the live attainable range
+ok 299 - every calibrated cut is finite, ordered, and inside the live attainable range
+  ---
+  duration_ms: 8.1985
+  type: 'test'
+  ...
+# Subtest: the calibrated 500-response headline distribution meets the concentration gate
+ok 300 - the calibrated 500-response headline distribution meets the concentration gate
+  ---
+  duration_ms: 194.487083
+  type: 'test'
+  ...
+# Subtest: classification calibration leaves displayed module and lane scores raw
+ok 301 - classification calibration leaves displayed module and lane scores raw
+  ---
+  duration_ms: 0.850917
+  type: 'test'
+  ...
+# Subtest: current module banks meet the non-negotiable coverage, centering, and saturation gates
+ok 302 - current module banks meet the non-negotiable coverage, centering, and saturation gates
+  ---
+  duration_ms: 34.489542
+  type: 'test'
+  ...
+# Subtest: all classification contexts have generated calibration axes
+ok 303 - all classification contexts have generated calibration axes
+  ---
+  duration_ms: 0.133834
+  type: 'test'
+  ...
+# (node:94497) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/drafts.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: module drafts fail closed on malformed or mismatched tuples
+ok 304 - module drafts fail closed on malformed or mismatched tuples
+  ---
+  duration_ms: 0.550958
+  type: 'test'
+  ...
+# Subtest: normalization filters unknown questions, invalid options, and unsupported second choices
+ok 305 - normalization filters unknown questions, invalid options, and unsupported second choices
+  ---
+  duration_ms: 0.449208
+  type: 'test'
+  ...
+# Subtest: review stage requires a complete draft
+ok 306 - review stage requires a complete draft
+  ---
+  duration_ms: 0.269083
+  type: 'test'
+  ...
+# Subtest: standard and Advanced drafts persist independently and clearing is mode-scoped
+ok 307 - standard and Advanced drafts persist independently and clearing is mode-scoped
+  ---
+  duration_ms: 0.3675
+  type: 'test'
+  ...
+# (node:94498) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/framework.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: module payloads roundtrip through URL-safe base64 encoding
+ok 308 - module payloads roundtrip through URL-safe base64 encoding
+  ---
+  duration_ms: 1.649875
+  type: 'test'
+  ...
+# Subtest: each flagship module produces a stable result shape
+ok 309 - each flagship module produces a stable result shape
+  ---
+  duration_ms: 1.094792
+  type: 'test'
+  ...
+# Subtest: active module comparison status forbids a numeric bridge and master score
+ok 310 - active module comparison status forbids a numeric bridge and master score
+  ---
+  duration_ms: 0.062875
+  type: 'test'
+  ...
+# Subtest: active module results neither render nor save frozen comparison fields
+ok 311 - active module results neither render nor save frozen comparison fields
+  ---
+  duration_ms: 0.736333
+  type: 'test'
+  ...
+# Subtest: standard module second choice contributes at reduced weight
+ok 312 - standard module second choice contributes at reduced weight
+  ---
+  duration_ms: 1.411041
+  type: 'test'
+  ...
+# Subtest: analyst second choice contributes at reduced weight
+ok 313 - analyst second choice contributes at reduced weight
+  ---
+  duration_ms: 0.446791
+  type: 'test'
+  ...
+# Subtest: actor lens cards are scored separately from the main module read
+ok 314 - actor lens cards are scored separately from the main module read
+  ---
+  duration_ms: 1.442041
+  type: 'test'
+  ...
+# Subtest: full modules satisfy the perspective coverage audit
+ok 315 - full modules satisfy the perspective coverage audit
+  ---
+  duration_ms: 0.644667
+  type: 'test'
+  ...
+# (node:94499) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/authoring-validation.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: outside-repository root creates deterministic exclusive templates
+ok 316 - outside-repository root creates deterministic exclusive templates
+  ---
+  duration_ms: 19.17
+  type: 'test'
+  ...
+# Subtest: approved existing in-repository authoring root is allowed
+ok 317 - approved existing in-repository authoring root is allowed
+  ---
+  duration_ms: 13.518625
+  type: 'test'
+  ...
+# Subtest: protected repository roots and unapproved in-repo roots fail closed
+ok 318 - protected repository roots and unapproved in-repo roots fail closed
+  ---
+  duration_ms: 3.386208
+  type: 'test'
+  ...
+# Subtest: output root symlink to lib and a symlinked intermediate component fail
+ok 319 - output root symlink to lib and a symlinked intermediate component fail
+  ---
+  duration_ms: 8.146083
+  type: 'test'
+  ...
+# Subtest: output root must exist and target creation is atomic
+ok 320 - output root must exist and target creation is atomic
+  ---
+  duration_ms: 15.566
+  type: 'test'
+  ...
+# Subtest: partial writes report exact created files and never overwrite
+ok 321 - partial writes report exact created files and never overwrite
+  ---
+  duration_ms: 4.647708
+  type: 'test'
+  ...
+# Subtest: CLI parsing requires one explicit output root
+ok 322 - CLI parsing requires one explicit output root
+  ---
+  duration_ms: 0.399875
+  type: 'test'
+  ...
+# (node:94500) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/option-order.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a given set of answer IDs scores identically under different presentation seeds
+ok 323 - a given set of answer IDs scores identically under different presentation seeds
+  ---
+  duration_ms: 2.914333
+  type: 'test'
+  ...
+# Subtest: seeded option order is stable and keeps explicitly pinned options last
+ok 324 - seeded option order is stable and keeps explicitly pinned options last
+  ---
+  duration_ms: 0.122125
+  type: 'test'
+  ...
+# Subtest: Foundation draft parsing preserves an existing order seed and migrates older drafts
+ok 325 - Foundation draft parsing preserves an existing order seed and migrates older drafts
+  ---
+  duration_ms: 1.15825
+  type: 'test'
+  ...
+# Subtest: Foundation drafts retain only latency buckets, never raw timing values
+ok 326 - Foundation drafts retain only latency buckets, never raw timing values
+  ---
+  duration_ms: 0.102708
+  type: 'test'
+  ...
+# (node:94501) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/percentiles.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: exact aggregate cohorts remain unpublished below 100 results
+ok 327 - exact aggregate cohorts remain unpublished below 100 results
+  ---
+  duration_ms: 0.651334
+  type: 'test'
+  ...
+# Subtest: percentiles stay unavailable below 100 observations per dimension
+ok 328 - percentiles stay unavailable below 100 observations per dimension
+  ---
+  duration_ms: 0.124708
+  type: 'test'
+  ...
+# Subtest: percentiles use the midrank of the score's one-decimal bucket
+ok 329 - percentiles use the midrank of the score's one-decimal bucket
+  ---
+  duration_ms: 0.370416
+  type: 'test'
+  ...
+# Subtest: percentile n and rank use only valid buckets for the requested dimension
+ok 330 - percentile n and rank use only valid buckets for the requested dimension
+  ---
+  duration_ms: 0.071209
+  type: 'test'
+  ...
+# Subtest: invalid scores do not produce percentile language
+ok 331 - invalid scores do not produce percentile language
+  ---
+  duration_ms: 0.063458
+  type: 'test'
+  ...
+# Subtest: percentiles reject instrument and mode tuple mismatches
+ok 332 - percentiles reject instrument and mode tuple mismatches
+  ---
+  duration_ms: 0.048542
+  type: 'test'
+  ...
+# Subtest: missing ties and all-tied distributions have defined midranks
+ok 333 - missing ties and all-tied distributions have defined midranks
+  ---
+  duration_ms: 0.062875
+  type: 'test'
+  ...
+# Subtest: percentile boundaries may resolve to zero or one hundred
+ok 334 - percentile boundaries may resolve to zero or one hundred
+  ---
+  duration_ms: 0.728083
+  type: 'test'
+  ...
+# Subtest: unsafe aggregate totals do not produce percentile language
+ok 335 - unsafe aggregate totals do not produce percentile language
+  ---
+  duration_ms: 0.259125
+  type: 'test'
+  ...
+# Subtest: archetype rarity combines normative variants and reports cohort n
+ok 336 - archetype rarity combines normative variants and reports cohort n
+  ---
+  duration_ms: 0.548
+  type: 'test'
+  ...
+# Subtest: archetype rarity remains suppressed below 100 and on malformed totals
+ok 337 - archetype rarity remains suppressed below 100 and on malformed totals
+  ---
+  duration_ms: 0.251791
+  type: 'test'
+  ...
+# (node:94502) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/perspectives/scoring.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: catalog contains the six V16 generic role packs with complete scenario context
+ok 338 - catalog contains the six V16 generic role packs with complete scenario context
+  ---
+  duration_ms: 1.330667
+  type: 'test'
+  ...
+# Subtest: mirrored cases use identical dimension keys and compatible weights
+ok 339 - mirrored cases use identical dimension keys and compatible weights
+  ---
+  duration_ms: 14.320042
+  type: 'test'
+  ...
+# Subtest: Perspective scoring is pure and reports baseline-relative movement
+ok 340 - Perspective scoring is pure and reports baseline-relative movement
+  ---
+  duration_ms: 0.640875
+  type: 'test'
+  ...
+# Subtest: flat directional signals preserve any valid Foundation baseline
+ok 341 - flat directional signals preserve any valid Foundation baseline
+  ---
+  duration_ms: 0.283792
+  type: 'test'
+  ...
+# Subtest: invalid or incomplete Perspective answers are rejected
+ok 342 - invalid or incomplete Perspective answers are rejected
+  ---
+  duration_ms: 0.153459
+  type: 'test'
+  ...
+# Subtest: Perspective v1 payloads roundtrip and resolve through the current scenario version
+ok 343 - Perspective v1 payloads roundtrip and resolve through the current scenario version
+  ---
+  duration_ms: 1.235208
+  type: 'test'
+  ...
+# Subtest: malformed Perspective payloads fail safely
+ok 344 - malformed Perspective payloads fail safely
+  ---
+  duration_ms: 0.422291
+  type: 'test'
+  ...
+# Subtest: result helpers expose comparison rows, editorial copy, and a detached snapshot
+ok 345 - result helpers expose comparison rows, editorial copy, and a detached snapshot
+  ---
+  duration_ms: 0.315625
+  type: 'test'
+  ...
+# Subtest: saved Perspective runs retain and match only their original Foundation baseline
+ok 346 - saved Perspective runs retain and match only their original Foundation baseline
+  ---
+  duration_ms: 0.358875
+  type: 'test'
+  ...
+# (node:94503) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/results/placement-firmness.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: more fill means more firmly fixed, which is the reverse of the old ring
+ok 347 - more fill means more firmly fixed, which is the reverse of the old ring
+  ---
+  duration_ms: 1.752375
+  type: 'test'
+  ...
+# Subtest: the bar stays inside its track for any gap
+ok 348 - the bar stays inside its track for any gap
+  ---
+  duration_ms: 0.212042
+  type: 'test'
+  ...
+# Subtest: the loose cut sits below the firm end of the bar
+ok 349 - the loose cut sits below the firm end of the bar
+  ---
+  duration_ms: 0.08325
+  type: 'test'
+  ...
+# Subtest: the band follows the narrative state, so page and bar never disagree
+ok 350 - the band follows the narrative state, so page and bar never disagree
+  ---
+  duration_ms: 0.059583
+  type: 'test'
+  ...
+# Subtest: each band names the runner-up and says what to do with the reading
+ok 351 - each band names the runner-up and says what to do with the reading
+  ---
+  duration_ms: 0.098375
+  type: 'test'
+  ...
+# Subtest: a zero full scale cannot produce a non-finite fill
+ok 352 - a zero full scale cannot produce a non-finite fill
+  ---
+  duration_ms: 0.052167
+  type: 'test'
+  ...
+# (node:94504) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/playwright.config.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Playwright uses one worker and never reuses a branch-stale server
+ok 353 - Playwright uses one worker and never reuses a branch-stale server
+  ---
+  duration_ms: 0.450125
+  type: 'test'
+  ...
+# Subtest: the field projection has a stable compatibility version
+ok 354 - the field projection has a stable compatibility version
+  ---
+  duration_ms: 0.433542
+  type: 'test'
+  ...
+# Subtest: a flat profile lands exactly at the center of the map
+ok 355 - a flat profile lands exactly at the center of the map
+  ---
+  duration_ms: 0.150416
+  type: 'test'
+  ...
+# Subtest: map coordinates stay within the [-1, 1] field
+ok 356 - map coordinates stay within the [-1, 1] field
+  ---
+  duration_ms: 0.373292
+  type: 'test'
+  ...
+# Subtest: each synthetic tradition profile lands in its own quadrant
+ok 357 - each synthetic tradition profile lands in its own quadrant
+  ---
+  duration_ms: 1.202209
+  type: 'test'
+  ...
+# Subtest: each synthetic profile shares its tradition anchor's quadrant
+ok 358 - each synthetic profile shares its tradition anchor's quadrant
+  ---
+  duration_ms: 0.458625
+  type: 'test'
+  ...
+# Subtest: distinct payloads produce visibly different positions
+ok 359 - distinct payloads produce visibly different positions
+  ---
+  duration_ms: 0.091958
+  type: 'test'
+  ...
+# Subtest: low differentiation damps the position toward center
+ok 360 - low differentiation damps the position toward center
+  ---
+  duration_ms: 0.229042
+  type: 'test'
+  ...
+# (node:94505) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/results/position.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:94506) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetypes.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: restraint maps onto the track without inventing headroom
+ok 361 - restraint maps onto the track without inventing headroom
+  ---
+  duration_ms: 0.802459
+  type: 'test'
+  ...
+# Subtest: every modeled lens names both ends from the archetype catalog
+ok 362 - every modeled lens names both ends from the archetype catalog
+  ---
+  duration_ms: 0.1685
+  type: 'test'
+  ...
+# Subtest: the realist pair is Kairos and Shi, both linked to their evidence pages
+ok 363 - the realist pair is Kairos and Shi, both linked to their evidence pages
+  ---
+  duration_ms: 0.176291
+  type: 'test'
+  ...
+# Subtest: the posture sign and the current end agree with the archetype layer
+ok 364 - the posture sign and the current end agree with the archetype layer
+  ---
+  duration_ms: 0.258417
+  type: 'test'
+  ...
+# Subtest: a blended reading pairs two blend archetypes and drops the evidence link
+ok 365 - a blended reading pairs two blend archetypes and drops the evidence link
+  ---
+  duration_ms: 0.155333
+  type: 'test'
+  ...
+# Subtest: every archetype in the catalog is reachable as a posture endpoint
+ok 366 - every archetype in the catalog is reachable as a posture endpoint
+  ---
+  duration_ms: 0.08375
+  type: 'test'
+  ...
+# (node:94507) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/profile-compare.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: profile comparison derives stable overlap and the clearest divergences without a composite score
+ok 367 - profile comparison derives stable overlap and the clearest divergences without a composite score
+  ---
+  duration_ms: 0.841
+  type: 'test'
+  ...
+# (node:94508) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/narrative/foundation.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: integrated headline reflects the new profile-state logic without inventing a total score
+ok 368 - integrated headline reflects the new profile-state logic without inventing a total score
+  ---
+  duration_ms: 0.969084
+  type: 'test'
+  ...
+# Subtest: profile assessment can classify true tension and name the strongest shift
+ok 369 - profile assessment can classify true tension and name the strongest shift
+  ---
+  duration_ms: 0.190542
+  type: 'test'
+  ...
+# Subtest: cross-domain tensions surface both domain conflict and card-type splits
+ok 370 - cross-domain tensions surface both domain conflict and card-type splits
+  ---
+  duration_ms: 0.116708
+  type: 'test'
+  ...
+# Subtest: calibrated score gaps flow through the existing profile-state thresholds
+ok 371 - calibrated score gaps flow through the existing profile-state thresholds
+  ---
+  duration_ms: 0.480292
+  type: 'test'
+  ...
+# Subtest: sharply differentiated foundations can surface before modules are added
+ok 372 - sharply differentiated foundations can surface before modules are added
+  ---
+  duration_ms: 0.121792
+  type: 'test'
+  ...
+# Subtest: profile narrative builds the expected editorial blocks for true tension states
+ok 373 - profile narrative builds the expected editorial blocks for true tension states
+  ---
+  duration_ms: 0.814458
+  type: 'test'
+  ...
+# Subtest: profile synthesis lite names the stable thread, pressure shifts, and reasoning style without a master score
+ok 374 - profile synthesis lite names the stable thread, pressure shifts, and reasoning style without a master score
+  ---
+  duration_ms: 0.814125
+  type: 'test'
+  ...
+# (node:94509) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/profile-save-intent.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: result save intents are identity-bound and consumed once
+ok 375 - result save intents are identity-bound and consumed once
+  ---
+  duration_ms: 0.830833
+  type: 'test'
+  ...
+# (node:94510) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/profile-share.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: shared profile payloads roundtrip and reconstruct separate saved records
+ok 376 - shared profile payloads roundtrip and reconstruct separate saved records
+  ---
+  duration_ms: 4.39
+  type: 'test'
+  ...
+# Subtest: Profile Share V3 contains canonical data only and renders one payload in either locale
+ok 377 - Profile Share V3 contains canonical data only and renders one payload in either locale
+  ---
+  duration_ms: 6.571125
+  type: 'test'
+  ...
+# Subtest: mixed locale-copy cohorts are visible but never described as research-equivalent
+ok 378 - mixed locale-copy cohorts are visible but never described as research-equivalent
+  ---
+  duration_ms: 3.450584
+  type: 'test'
+  ...
+# Subtest: Profile Share V2 roundtrips optional AI and Perspective Run data with dates
+ok 379 - Profile Share V2 roundtrips optional AI and Perspective Run data with dates
+  ---
+  duration_ms: 1.67725
+  type: 'test'
+  ...
+# Subtest: the compatible writer preserves a legacy module, AI Governance, and a Perspective Run through shared rendering
+ok 380 - the compatible writer preserves a legacy module, AI Governance, and a Perspective Run through shared rendering
+  ---
+  duration_ms: 0.734042
+  type: 'test'
+  ...
+# Subtest: an unresolvable legacy Foundation remains a shareable Profile record
+ok 381 - an unresolvable legacy Foundation remains a shareable Profile record
+  ---
+  duration_ms: 8.697916
+  type: 'test'
+  ...
+# Subtest: an unresolvable Foundation without modules still uses the compatibility envelope
+ok 382 - an unresolvable Foundation without modules still uses the compatibility envelope
+  ---
+  duration_ms: 0.4175
+  type: 'test'
+  ...
+# Subtest: Profile Share V2 keeps the latest fifty valid Perspective Runs
+ok 383 - Profile Share V2 keeps the latest fifty valid Perspective Runs
+  ---
+  duration_ms: 2.586834
+  type: 'test'
+  ...
+# Subtest: Profile Share V1 still decodes and reconstructs a migrated v5 read-only profile
+ok 384 - Profile Share V1 still decodes and reconstructs a migrated v5 read-only profile
+  ---
+  duration_ms: 0.63275
+  type: 'test'
+  ...
+# Subtest: a frozen pre-V16 Profile Share V1 link remains readable
+ok 385 - a frozen pre-V16 Profile Share V1 link remains readable
+  ---
+  duration_ms: 0.405209
+  type: 'test'
+  ...
+# Subtest: frozen Profile Share V1, V2, and V3 payload objects remain readable
+ok 386 - frozen Profile Share V1, V2, and V3 payload objects remain readable
+  ---
+  duration_ms: 1.228041
+  type: 'test'
+  ...
+# Subtest: invalid local optional overlays do not block sharing a valid Foundation
+ok 387 - invalid local optional overlays do not block sharing a valid Foundation
+  ---
+  duration_ms: 3.193292
+  type: 'test'
+  ...
+# Subtest: shared profile inputs can be normalized from raw payloads, paths, and full URLs
+ok 388 - shared profile inputs can be normalized from raw payloads, paths, and full URLs
+  ---
+  duration_ms: 0.498334
+  type: 'test'
+  ...
+# Subtest: malformed shared profile payloads fail safely
+ok 389 - malformed shared profile payloads fail safely
+  ---
+  duration_ms: 0.098625
+  type: 'test'
+  ...
+# Subtest: malformed Profile Share V2 optional fields and projection metadata fail safely
+ok 390 - malformed Profile Share V2 optional fields and projection metadata fail safely
+  ---
+  duration_ms: 1.625666
+  type: 'test'
+  ...
+# Subtest: malformed Profile Share V3 provenance and canonical records fail safely
+ok 391 - malformed Profile Share V3 provenance and canonical records fail safely
+  ---
+  duration_ms: 3.603833
+  type: 'test'
+  ...
+# (node:94511) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/framework.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: an empty profile uses the v5 canonical history shape
+ok 392 - an empty profile uses the v5 canonical history shape
+  ---
+  duration_ms: 0.895875
+  type: 'test'
+  ...
+# Subtest: real v1 fixture migrates its current Foundation and legacy module safely
+ok 393 - real v1 fixture migrates its current Foundation and legacy module safely
+  ---
+  duration_ms: 2.739209
+  type: 'test'
+  ...
+# Subtest: real v2 fixture preserves current module overlay fields
+ok 394 - real v2 fixture preserves current module overlay fields
+  ---
+  duration_ms: 0.735084
+  type: 'test'
+  ...
+# Subtest: real v3 fixture preserves the current AI snapshot without inventing history
+ok 395 - real v3 fixture preserves the current AI snapshot without inventing history
+  ---
+  duration_ms: 0.540334
+  type: 'test'
+  ...
+# Subtest: all frozen ProfileStore generations migrate or hydrate as V5
+ok 396 - all frozen ProfileStore generations migrate or hydrate as V5
+  ---
+  duration_ms: 2.040875
+  type: 'test'
+  ...
+# Subtest: new V5 persistence strips render-time display copy
+ok 397 - new V5 persistence strips render-time display copy
+  ---
+  duration_ms: 0.584541
+  type: 'test'
+  ...
+# Subtest: Foundation hydration trusts the versioned payload over conflicting cached result fields
+ok 398 - Foundation hydration trusts the versioned payload over conflicting cached result fields
+  ---
+  duration_ms: 0.167541
+  type: 'test'
+  ...
+# Subtest: V22 module rehydration preserves mode-specific classification cuts
+ok 399 - V22 module rehydration preserves mode-specific classification cuts
+  ---
+  duration_ms: 1.172333
+  type: 'test'
+  ...
+# Subtest: migrated non-regenerable English copy survives only in the legacy fallback
+ok 400 - migrated non-regenerable English copy survives only in the legacy fallback
+  ---
+  duration_ms: 0.552
+  type: 'test'
+  ...
+# Subtest: invalid optional v4 histories never erase valid current snapshots
+ok 401 - invalid optional v4 histories never erase valid current snapshots
+  ---
+  duration_ms: 0.595084
+  type: 'test'
+  ...
+# Subtest: v4 histories filter malformed entries independently
+ok 402 - v4 histories filter malformed entries independently
+  ---
+  duration_ms: 0.446208
+  type: 'test'
+  ...
+# Subtest: snapshot updates keep current views and append deduplicated histories
+ok 403 - snapshot updates keep current views and append deduplicated histories
+  ---
+  duration_ms: 0.821542
+  type: 'test'
+  ...
+# Subtest: Perspective Runs append by stable id and can be removed
+ok 404 - Perspective Runs append by stable id and can be removed
+  ---
+  duration_ms: 0.098125
+  type: 'test'
+  ...
+# Subtest: unknown versions, malformed JSON, and invalid current snapshots fail safely
+ok 405 - unknown versions, malformed JSON, and invalid current snapshots fail safely
+  ---
+  duration_ms: 0.3295
+  type: 'test'
+  ...
+# Subtest: blocked browser storage fails safely
+ok 406 - blocked browser storage fails safely
+  ---
+  duration_ms: 0.122917
+  type: 'test'
+  ...
+# Subtest: public-copy audit covers active content roots and emits editorial context
+ok 407 - public-copy audit covers active content roots and emits editorial context
+  ---
+  duration_ms: 3966.981125
+  type: 'test'
+  ...
+# Subtest: operational and frozen compatibility findings cannot fail strict mode
+ok 408 - operational and frozen compatibility findings cannot fail strict mode
+  ---
+  duration_ms: 1838.562167
+  type: 'test'
+  ...
+# Subtest: every immutable versioned module bank is classified as frozen compatibility
+ok 409 - every immutable versioned module bank is classified as frozen compatibility
+  ---
+  duration_ms: 0.280083
+  type: 'test'
+  ...
+# Subtest: active controlled-beta language is not mistaken for stale release history
+ok 410 - active controlled-beta language is not mistaken for stale release history
+  ---
+  duration_ms: 1863.996125
+  type: 'test'
+  ...
+# Subtest: the archetype beta exception admits only the exact contracted record
+ok 411 - the archetype beta exception admits only the exact contracted record
+  ---
+  duration_ms: 0.263833
+  type: 'test'
+  ...
+# Subtest: reader-facing copy makes no unsupported population-frequency claims
+ok 412 - reader-facing copy makes no unsupported population-frequency claims
+  ---
+  duration_ms: 1838.855667
+  type: 'test'
+  ...
+# Subtest: public-copy audit is read-only and keeps every required advisory detector
+ok 413 - public-copy audit is read-only and keeps every required advisory detector
+  ---
+  duration_ms: 0.508917
+  type: 'test'
+  ...
+# Subtest: strict copy audit enforces the authored-English em-dash rule with narrow exemptions
+ok 414 - strict copy audit enforces the authored-English em-dash rule with narrow exemptions
+  ---
+  duration_ms: 0.168792
+  type: 'test'
+  ...
+# Subtest: public-copy ordering matches the evidence code-unit comparator
+ok 415 - public-copy ordering matches the evidence code-unit comparator
+  ---
+  duration_ms: 0.381583
+  type: 'test'
+  ...
+# Subtest: public-copy audit output is byte-stable and code-unit sorted
+ok 416 - public-copy audit output is byte-stable and code-unit sorted
+  ---
+  duration_ms: 3949.8975
+  type: 'test'
+  ...
+# Subtest: Foundation focused chrome has equivalent English and Chinese route states
+ok 417 - Foundation focused chrome has equivalent English and Chinese route states
+  ---
+  duration_ms: 0.735208
+  type: 'test'
+  ...
+# Subtest: unapproved Chinese instruments do not receive misleading focused chrome
+ok 418 - unapproved Chinese instruments do not receive misleading focused chrome
+  ---
+  duration_ms: 0.136291
+  type: 'test'
+  ...
+# (node:94513) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-chrome.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:94515) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the live map withholds a point until enough answers exist to place one
+ok 419 - the live map withholds a point until enough answers exist to place one
+  ---
+  duration_ms: 0.975333
+  type: 'test'
+  ...
+# Subtest: the live map places a point once both axes carry evidence
+ok 420 - the live map places a point once both axes carry evidence
+  ---
+  duration_ms: 0.191084
+  type: 'test'
+  ...
+# Subtest: answer volume alone does not place a point when one axis has no evidence
+ok 421 - answer volume alone does not place a point when one axis has no evidence
+  ---
+  duration_ms: 0.131458
+  type: 'test'
+  ...
+# Subtest: a partial profile projects through the same function as the result page
+ok 422 - a partial profile projects through the same function as the result page
+  ---
+  duration_ms: 0.558
+  type: 'test'
+  ...
+# Subtest: the position readout names axes and poles, never a worldview family
+ok 423 - the position readout names axes and poles, never a worldview family
+  ---
+  duration_ms: 1.375458
+  type: 'test'
+  ...
+# Subtest: a centered profile reads as centered instead of leaning
+ok 424 - a centered profile reads as centered instead of leaning
+  ---
+  duration_ms: 0.07625
+  type: 'test'
+  ...
+# Subtest: readout wording firms up as the position moves away from the centre
+ok 425 - readout wording firms up as the position moves away from the centre
+  ---
+  duration_ms: 0.199291
+  type: 'test'
+  ...
+# (node:94516) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/reference-profiles/catalog.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the four reviewed thinker profiles pass publication validation
+ok 426 - the four reviewed thinker profiles pass publication validation
+  ---
+  duration_ms: 4.419083
+  type: 'test'
+  ...
+# Subtest: published thinker coding matches the approved source pack exactly
+ok 427 - published thinker coding matches the approved source pack exactly
+  ---
+  duration_ms: 0.830625
+  type: 'test'
+  ...
+# Subtest: complete published thinker profiles use the canonical Foundation projection
+ok 428 - complete published thinker profiles use the canonical Foundation projection
+  ---
+  duration_ms: 0.570292
+  type: 'test'
+  ...
+# Subtest: map eligibility requires complete linked evidence and second-person review
+ok 429 - map eligibility requires complete linked evidence and second-person review
+  ---
+  duration_ms: 0.228917
+  type: 'test'
+  ...
+# Subtest: published Wendt remains a reading card with political economy uncoded
+ok 430 - published Wendt remains a reading card with political economy uncoded
+  ---
+  duration_ms: 0.089625
+  type: 'test'
+  ...
+# Subtest: AI-governance estimates are never projected as Foundation dimensions
+ok 431 - AI-governance estimates are never projected as Foundation dimensions
+  ---
+  duration_ms: 1.962417
+  type: 'test'
+  ...
+# Subtest: validation rejects weak strong-support coverage and broken evidence links
+ok 432 - validation rejects weak strong-support coverage and broken evidence links
+  ---
+  duration_ms: 0.4335
+  type: 'test'
+  ...
+# Subtest: validation rejects duplicate, missing, and uncovered source IDs
+ok 433 - validation rejects duplicate, missing, and uncovered source IDs
+  ---
+  duration_ms: 0.345917
+  type: 'test'
+  ...
+# Subtest: validation rejects impossible and reversed dates
+ok 434 - validation rejects impossible and reversed dates
+  ---
+  duration_ms: 0.52375
+  type: 'test'
+  ...
+# Subtest: validation rejects estimates outside the shared 1 through 7 scale
+ok 435 - validation rejects estimates outside the shared 1 through 7 scale
+  ---
+  duration_ms: 1.438084
+  type: 'test'
+  ...
+# Subtest: the thinker source ledger uses original-work dates for catalog windows
+ok 436 - the thinker source ledger uses original-work dates for catalog windows
+  ---
+  duration_ms: 0.095541
+  type: 'test'
+  ...
+# Subtest: review, publication, and version records are structurally enforced
+ok 437 - review, publication, and version records are structurally enforced
+  ---
+  duration_ms: 0.581791
+  type: 'test'
+  ...
+# Subtest: publication requires a second reader on the current reviewed version
+ok 438 - publication requires a second reader on the current reviewed version
+  ---
+  duration_ms: 0.945791
+  type: 'test'
+  ...
+# Subtest: synthetic movements require existing same-scope members and a bounded scope
+ok 439 - synthetic movements require existing same-scope members and a bounded scope
+  ---
+  duration_ms: 1.724459
+  type: 'test'
+  ...
+# (node:94517) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/app/api/research/delete/route.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: research submit is a body-blind V19 tombstone
+ok 440 - research submit is a body-blind V19 tombstone
+  ---
+  duration_ms: 19.485625
+  type: 'test'
+  ...
+# Subtest: research event is a body-blind V19 tombstone
+ok 441 - research event is a body-blind V19 tombstone
+  ---
+  duration_ms: 0.343667
+  type: 'test'
+  ...
+# Subtest: research delete is a body-blind V19 tombstone
+ok 442 - research delete is a body-blind V19 tombstone
+  ---
+  duration_ms: 0.331542
+  type: 'test'
+  ...
+# Subtest: research collection cannot be activated with legacy environment flags
+ok 443 - research collection cannot be activated with legacy environment flags
+  ---
+  duration_ms: 0.296
+  type: 'test'
+  ...
+# (node:94518) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/experiments/result-payoff/fixtures.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: payoff characterization: three complete Standard gp pairs lose different information into identical results
+ok 444 - payoff characterization: three complete Standard gp pairs lose different information into identical results
+  ---
+  duration_ms: 1.853834
+  type: 'test'
+  ...
+# Subtest: payoff characterization: complete reachable Standard path has order-sensitive final axis, same archetype
+ok 445 - payoff characterization: complete reachable Standard path has order-sensitive final axis, same archetype
+  ---
+  duration_ms: 1.584625
+  type: 'test'
+  ...
+# Subtest: payoff characterization: midpoint extremity differs from exact version-specific comparison
+ok 446 - payoff characterization: midpoint extremity differs from exact version-specific comparison
+  ---
+  duration_ms: 13.720958
+  type: 'test'
+  ...
+# Subtest: payoff characterization: Security explanation prompt still contains policy-action options
+ok 447 - payoff characterization: Security explanation prompt still contains policy-action options
+  ---
+  duration_ms: 0.385458
+  type: 'test'
+  ...
+# Subtest: payoff evidence: complete synthetic bindings qualify; missing, stale and mismatched evidence fails closed
+ok 448 - payoff evidence: complete synthetic bindings qualify; missing, stale and mismatched evidence fails closed
+  ---
+  duration_ms: 10.359458
+  type: 'test'
+  ...
+# Subtest: payoff evidence: low separation retains two readings and all exact ties stay ties
+ok 449 - payoff evidence: low separation retains two readings and all exact ties stay ties
+  ---
+  duration_ms: 0.660083
+  type: 'test'
+  ...
+# Subtest: payoff applicability: valid complete rebound counterexamples do not inherit authored claims
+ok 450 - payoff applicability: valid complete rebound counterexamples do not inherit authored claims
+  ---
+  duration_ms: 4.237
+  type: 'test'
+  ...
+# Subtest: payoff authored AI scope excludes a different rival and exact ties; pair text does not invent an average
+ok 451 - payoff authored AI scope excludes a different rival and exact ties; pair text does not invent an average
+  ---
+  duration_ms: 1.365209
+  type: 'test'
+  ...
+# Subtest: payoff episodes: full option × option × independent reason × reason coverage
+ok 452 - payoff episodes: full option × option × independent reason × reason coverage
+  ---
+  duration_ms: 26.743709
+  type: 'test'
+  ...
+# Subtest: payoff authored transitions: independently specified institutional and reason expectations
+ok 453 - payoff authored transitions: independently specified institutional and reason expectations
+  ---
+  duration_ms: 0.483416
+  type: 'test'
+  ...
+# Subtest: payoff isolation: one episode player, no telemetry, storage, payload URL or production navigation registration
+ok 454 - payoff isolation: one episode player, no telemetry, storage, payload URL or production navigation registration
+  ---
+  duration_ms: 2.256416
+  type: 'test'
+  ...
+# Subtest: result score surfaces never print a nominal seven-point denominator
+ok 455 - result score surfaces never print a nominal seven-point denominator
+  ---
+  duration_ms: 2.707
+  type: 'test'
+  ...
+# (node:94520) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/narrative/runtime-fixtures.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: runtime copy fixture deduplicates visible text and retains every provenance
+ok 456 - runtime copy fixture deduplicates visible text and retains every provenance
+  ---
+  duration_ms: 238.856583
+  type: 'test'
+  ...
+# Subtest: surface manifest is explicit, unique, and exactly matches emitted blocks
+ok 457 - surface manifest is explicit, unique, and exactly matches emitted blocks
+  ---
+  duration_ms: 266.291834
+  type: 'test'
+  ...
+# Subtest: Foundation fixtures cover declared live helper blocks and known branch factors
+ok 458 - Foundation fixtures cover declared live helper blocks and known branch factors
+  ---
+  duration_ms: 198.215083
+  type: 'test'
+  ...
+# Subtest: English Foundation inventory excludes dormant narrative sections
+ok 459 - English Foundation inventory excludes dormant narrative sections
+  ---
+  duration_ms: 121.760916
+  type: 'test'
+  ...
+# Subtest: active module results cover every branch exposed by the bounded public oracle
+ok 460 - active module results cover every branch exposed by the bounded public oracle
+  ---
+  duration_ms: 86.837584
+  type: 'test'
+  ...
+# Subtest: AI v3 inventory covers declared result, metadata, and share blocks
+ok 461 - AI v3 inventory covers declared result, metadata, and share blocks
+  ---
+  duration_ms: 111.368917
+  type: 'test'
+  ...
+# Subtest: social fixtures use canonical Foundation composers
+ok 462 - social fixtures use canonical Foundation composers
+  ---
+  duration_ms: 63.653125
+  type: 'test'
+  ...
+# Subtest: Profile records reused saved-layer copy without faking combinations
+ok 463 - Profile records reused saved-layer copy without faking combinations
+  ---
+  duration_ms: 99.120041
+  type: 'test'
+  ...
+# (node:94521) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/scoring-calibration.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the neutral calibration baseline gives every family a zero score
+ok 464 - the neutral calibration baseline gives every family a zero score
+  ---
+  duration_ms: 0.521584
+  type: 'test'
+  ...
+# (node:94522) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: version modules preserve v2 as the current scoring surface
+ok 465 - version modules preserve v2 as the current scoring surface
+  ---
+  duration_ms: 2.010042
+  type: 'test'
+  ...
+# Subtest: v1 replay uses an immutable scoring-item snapshot
+ok 466 - v1 replay uses an immutable scoring-item snapshot
+  ---
+  duration_ms: 0.407375
+  type: 'test'
+  ...
+# Subtest: v1 scoring stays pinned to the legacy golden fixture
+ok 467 - v1 scoring stays pinned to the legacy golden fixture
+  ---
+  duration_ms: 0.547708
+  type: 'test'
+  ...
+# Subtest: v1 replay accepts only a complete historical form
+ok 468 - v1 replay accepts only a complete historical form
+  ---
+  duration_ms: 1.2855
+  type: 'test'
+  ...
+# Subtest: three stored sessions replay idempotently without mutating raw answers
+ok 469 - three stored sessions replay idempotently without mutating raw answers
+  ---
+  duration_ms: 14.315291
+  type: 'test'
+  ...
+# Subtest: replay quarantines a malformed session without aborting valid sessions
+ok 470 - replay quarantines a malformed session without aborting valid sessions
+  ---
+  duration_ms: 0.545459
+  type: 'test'
+  ...
+# Subtest: v2 replay recognizes exact core and targeted forms with their form calibration
+ok 471 - v2 replay recognizes exact core and targeted forms with their form calibration
+  ---
+  duration_ms: 0.824208
+  type: 'test'
+  ...
+# Subtest: replay rejects unknown mode, source version, instrument mismatch, and cross-bank scoring
+ok 472 - replay rejects unknown mode, source version, instrument mismatch, and cross-bank scoring
+  ---
+  duration_ms: 0.478375
+  type: 'test'
+  ...
+# Subtest: v2 replay enforces form-mode provenance instead of changing scoring mode silently
+ok 473 - v2 replay enforces form-mode provenance instead of changing scoring mode silently
+  ---
+  duration_ms: 1.341209
+  type: 'test'
+  ...
+# Subtest: replay rejects incomplete forms and ambiguous or invalid answer representations
+ok 474 - replay rejects incomplete forms and ambiguous or invalid answer representations
+  ---
+  duration_ms: 3.387709
+  type: 'test'
+  ...
+# Subtest: database replay query requires a matching explicit respondent consent receipt
+ok 475 - database replay query requires a matching explicit respondent consent receipt
+  ---
+  duration_ms: 0.155792
+  type: 'test'
+  ...
+# Subtest: CLI quarantine handling fails closed unless the explicit override is supplied
+ok 476 - CLI quarantine handling fails closed unless the explicit override is supplied
+  ---
+  duration_ms: 0.750292
+  type: 'test'
+  ...
+# (node:94524) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/quiz-schema.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: family profile weights sum to zero
+ok 477 - family profile weights sum to zero
+  ---
+  duration_ms: 0.611208
+  type: 'test'
+  ...
+# Subtest: analyst mode includes additional foundation questions
+ok 478 - analyst mode includes additional foundation questions
+  ---
+  duration_ms: 0.095625
+  type: 'test'
+  ...
+# Subtest: standard scoring ignores analyst-only answers
+ok 479 - standard scoring ignores analyst-only answers
+  ---
+  duration_ms: 1.139791
+  type: 'test'
+  ...
+# Subtest: foundation scores stay on the 1 to 7 scale in both modes
+ok 480 - foundation scores stay on the 1 to 7 scale in both modes
+  ---
+  duration_ms: 0.746459
+  type: 'test'
+  ...
+# Subtest: deep-dive foundation cards accept a softer second choice
+ok 481 - deep-dive foundation cards accept a softer second choice
+  ---
+  duration_ms: 0.134458
+  type: 'test'
+  ...
+# Subtest: dimension audit preserves raw averages before display rounding
+ok 482 - dimension audit preserves raw averages before display rounding
+  ---
+  duration_ms: 0.112709
+  type: 'test'
+  ...
+# Subtest: standard foundation scoring ignores second-choice structure
+ok 483 - standard foundation scoring ignores second-choice structure
+  ---
+  duration_ms: 0.11775
+  type: 'test'
+  ...
+# Subtest: likert answers contribute to dimension scores instead of collapsing to the midpoint
+ok 484 - likert answers contribute to dimension scores instead of collapsing to the midpoint
+  ---
+  duration_ms: 0.072292
+  type: 'test'
+  ...
+# Subtest: a leading CPE score is not suppressed after matrix scoring
+ok 485 - a leading CPE score is not suppressed after matrix scoring
+  ---
+  duration_ms: 0.274
+  type: 'test'
+  ...
+# Subtest: CPE remains available for a clearly critical-systemic profile
+ok 486 - CPE remains available for a clearly critical-systemic profile
+  ---
+  duration_ms: 0.3095
+  type: 'test'
+  ...
+# Subtest: flat natural-midpoint profiles retain zero dimension-distance metrics
+ok 487 - flat natural-midpoint profiles retain zero dimension-distance metrics
+  ---
+  duration_ms: 0.112917
+  type: 'test'
+  ...
+# Subtest: clearly differentiated synthetic profiles do not collapse into the same midpoint-like shape
+ok 488 - clearly differentiated synthetic profiles do not collapse into the same midpoint-like shape
+  ---
+  duration_ms: 0.1095
+  type: 'test'
+  ...
+# (node:94525) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/framework.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Security v4 bank and reviewed balance ledger are exact CI-gated records
+ok 489 - Security v4 bank and reviewed balance ledger are exact CI-gated records
+  ---
+  duration_ms: 11.571833
+  type: 'test'
+  ...
+# Subtest: Security v4 validator fails closed on weight, theater-cap, and row-mapping drift
+ok 490 - Security v4 validator fails closed on weight, theater-cap, and row-mapping drift
+  ---
+  duration_ms: 10.628667
+  type: 'test'
+  ...
+# Subtest: all actor-lens choices leave Security v4 main, lane, and headline reads invariant
+ok 491 - all actor-lens choices leave Security v4 main, lane, and headline reads invariant
+  ---
+  duration_ms: 2.005125
+  type: 'test'
+  ...
+# Subtest: Security v4 tuple dispatch and authored-order results stay golden
+ok 492 - Security v4 tuple dispatch and authored-order results stay golden
+  ---
+  duration_ms: 1.390791
+  type: 'test'
+  ...
+# Subtest: Security v3 raw bank and payload replay remain frozen and readable
+ok 493 - Security v3 raw bank and payload replay remain frozen and readable
+  ---
+  duration_ms: 0.693667
+  type: 'test'
+  ...
+# Subtest: Security v4 payloads enforce Analyst-only, distinct, allowed secondary choices
+ok 494 - Security v4 payloads enforce Analyst-only, distinct, allowed secondary choices
+  ---
+  duration_ms: 0.395125
+  type: 'test'
+  ...
+# Subtest: Security v4 option order is seeded, non-mutating, and score-invariant
+ok 495 - Security v4 option order is seeded, non-mutating, and score-invariant
+  ---
+  duration_ms: 0.84825
+  type: 'test'
+  ...
+# Subtest: Security v4 copy separates perspective from endorsement and stays domain-scoped
+ok 496 - Security v4 copy separates perspective from endorsement and stays domain-scoped
+  ---
+  duration_ms: 3.0355
+  type: 'test'
+  ...
+# Subtest: Security v4 deterministic diagnostics stay reproducible and golden
+ok 497 - Security v4 deterministic diagnostics stay reproducible and golden
+  ---
+  duration_ms: 751.161625
+  type: 'test'
+  ...
+# (node:94526) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/framework.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Security v5 is the current exact tuple with separately gated hashes
+ok 498 - Security v5 is the current exact tuple with separately gated hashes
+  ---
+  duration_ms: 32.688208
+  type: 'test'
+  ...
+# Subtest: Security v5 authored-order results are golden in both modes
+ok 499 - Security v5 authored-order results are golden in both modes
+  ---
+  duration_ms: 2.872458
+  type: 'test'
+  ...
+# Subtest: Security perspective capability is one predicate for v4 and v5 only
+ok 500 - Security perspective capability is one predicate for v4 and v5 only
+  ---
+  duration_ms: 0.214833
+  type: 'test'
+  ...
+# Subtest: every v4 and v5 actor lens receives the same endorsement boundary
+ok 501 - every v4 and v5 actor lens receives the same endorsement boundary
+  ---
+  duration_ms: 0.154209
+  type: 'test'
+  ...
+# Subtest: v5 actor-lens changes cannot alter headline, main axes, lanes, or overlays
+ok 502 - v5 actor-lens changes cannot alter headline, main axes, lanes, or overlays
+  ---
+  duration_ms: 0.841875
+  type: 'test'
+  ...
+# Subtest: active v5 copy makes no pooled cross-actor inference
+ok 503 - active v5 copy makes no pooled cross-actor inference
+  ---
+  duration_ms: 0.641584
+  type: 'test'
+  ...
+# Subtest: Ukraine v5 costs describe analytic mechanism limits without score drift
+ok 504 - Ukraine v5 costs describe analytic mechanism limits without score drift
+  ---
+  duration_ms: 0.868208
+  type: 'test'
+  ...
+# Subtest: Security v5 diagnostics remain deterministic and retain v4 replay context
+ok 505 - Security v5 diagnostics remain deterministic and retain v4 replay context
+  ---
+  duration_ms: 516.273792
+  type: 'test'
+  ...
+# (node:94527) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/share-card.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Foundation card inputs derive archetype, norm, and bounded coordinates
+ok 506 - Foundation card inputs derive archetype, norm, and bounded coordinates
+  ---
+  duration_ms: 2.848875
+  type: 'test'
+  ...
+# Subtest: Foundation card URLs carry only the encoded result payload
+ok 507 - Foundation card URLs carry only the encoded result payload
+  ---
+  duration_ms: 0.228166
+  type: 'test'
+  ...
+# Subtest: the image route contract rejects caller-supplied profile and population claims
+ok 508 - the image route contract rejects caller-supplied profile and population claims
+  ---
+  duration_ms: 1.037167
+  type: 'test'
+  ...
+# (node:94528) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/share.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: a frozen pre-V16 Foundation share still decodes
+ok 509 - a frozen pre-V16 Foundation share still decodes
+  ---
+  duration_ms: 8.220084
+  type: 'test'
+  ...
+# Subtest: legacy Foundation clarity and unknown fields are ignored during decoding
+ok 510 - legacy Foundation clarity and unknown fields are ignored during decoding
+  ---
+  duration_ms: 0.314541
+  type: 'test'
+  ...
+# Subtest: share payloads roundtrip through URL-safe base64 encoding
+ok 511 - share payloads roundtrip through URL-safe base64 encoding
+  ---
+  duration_ms: 0.760042
+  type: 'test'
+  ...
+# Subtest: canonical Foundation V3 records structural, scoring, copy, and completion-locale provenance
+ok 512 - canonical Foundation V3 records structural, scoring, copy, and completion-locale provenance
+  ---
+  duration_ms: 0.531959
+  type: 'test'
+  ...
+# Subtest: Foundation payload generation changes provenance by locale without changing canonical results
+ok 513 - Foundation payload generation changes provenance by locale without changing canonical results
+  ---
+  duration_ms: 0.536666
+  type: 'test'
+  ...
+# Subtest: V5 records the exact targeted item form
+ok 514 - V5 records the exact targeted item form
+  ---
+  duration_ms: 0.696042
+  type: 'test'
+  ...
+# Subtest: legacy links preserve their encoded identity while keeping decoded scores
+ok 515 - legacy links preserve their encoded identity while keeping decoded scores
+  ---
+  duration_ms: 0.392917
+  type: 'test'
+  ...
+# Subtest: malformed payloads fail safely instead of decoding to a fabricated result
+ok 516 - malformed payloads fail safely instead of decoding to a fabricated result
+  ---
+  duration_ms: 0.455417
+  type: 'test'
+  ...
+# (node:94529) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/app/api/aggregate/result/route.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Tier 1 result payload contains only current derived scores and labels
+ok 517 - Tier 1 result payload contains only current derived scores and labels
+  ---
+  duration_ms: 1.461417
+  type: 'test'
+  ...
+# Subtest: Tier 1 validation rejects raw answers and identifiers
+ok 518 - Tier 1 validation rejects raw answers and identifiers
+  ---
+  duration_ms: 0.113042
+  type: 'test'
+  ...
+# Subtest: Tier 1 validation rejects labels that do not match the scores
+ok 519 - Tier 1 validation rejects labels that do not match the scores
+  ---
+  duration_ms: 0.188333
+  type: 'test'
+  ...
+# Subtest: item response milliseconds map to the six aggregate latency buckets
+ok 520 - item response milliseconds map to the six aggregate latency buckets
+  ---
+  duration_ms: 0.060375
+  type: 'test'
+  ...
+# Subtest: aggregate item latencies are canonicalized without response ordering
+ok 521 - aggregate item latencies are canonicalized without response ordering
+  ---
+  duration_ms: 10.656416
+  type: 'test'
+  ...
+# Subtest: aggregate validation rejects raw latency values and duplicate items
+ok 522 - aggregate validation rejects raw latency values and duplicate items
+  ---
+  duration_ms: 0.215416
+  type: 'test'
+  ...
+# Subtest: completion validation accepts bounded steps and rejects identifiers
+ok 523 - completion validation accepts bounded steps and rejects identifiers
+  ---
+  duration_ms: 0.208833
+  type: 'test'
+  ...
+# Subtest: dimension scores are rounded into one-decimal buckets
+ok 524 - dimension scores are rounded into one-decimal buckets
+  ---
+  duration_ms: 0.088583
+  type: 'test'
+  ...
+# Subtest: aggregate result route no-ops successfully without DATABASE_URL
+ok 525 - aggregate result route no-ops successfully without DATABASE_URL
+  ---
+  duration_ms: 26.154292
+  type: 'test'
+  ...
+# Subtest: result route writes only the exact aggregate counter columns
+ok 526 - result route writes only the exact aggregate counter columns
+  ---
+  duration_ms: 2.7915
+  type: 'test'
+  ...
+# Subtest: completion route writes only the exact aggregate counter columns
+ok 527 - completion route writes only the exact aggregate counter columns
+  ---
+  duration_ms: 0.883291
+  type: 'test'
+  ...
+# Subtest: result rate limiting silently drops excess writes from one IP
+ok 528 - result rate limiting silently drops excess writes from one IP
+  ---
+  duration_ms: 8.512375
+  type: 'test'
+  ...
+# Subtest: result storage failure is silent when database unavailable
+ok 529 - result storage failure is silent when database unavailable
+  ---
+  duration_ms: 7.792875
+  type: 'test'
+  ...
+# Subtest: result storage failure is silent when malformed connection string
+ok 530 - result storage failure is silent when malformed connection string
+  ---
+  duration_ms: 15.28775
+  type: 'test'
+  ...
+# Subtest: result storage failure is silent when write timeout
+ok 531 - result storage failure is silent when write timeout
+  ---
+  duration_ms: 3.931333
+  type: 'test'
+  ...
+# Subtest: completion storage failure is silent when database unavailable
+ok 532 - completion storage failure is silent when database unavailable
+  ---
+  duration_ms: 19.721459
+  type: 'test'
+  ...
+# Subtest: aggregate result route accepts a completion step without an identifier
+ok 533 - aggregate result route accepts a completion step without an identifier
+  ---
+  duration_ms: 4.295791
+  type: 'test'
+  ...
+# Subtest: aggregate result route rejects forbidden fields
+ok 534 - aggregate result route rejects forbidden fields
+  ---
+  duration_ms: 0.270209
+  type: 'test'
+  ...
+# Subtest: aggregate route rejects cross-site and text/plain submissions
+ok 535 - aggregate route rejects cross-site and text/plain submissions
+  ---
+  duration_ms: 0.15575
+  type: 'test'
+  ...
+# Subtest: the browser opt-out suppresses result and completion submissions
+ok 536 - the browser opt-out suppresses result and completion submissions
+  ---
+  duration_ms: 0.2225
+  type: 'test'
+  ...
+# Subtest: browser submission contains rejected fetches without an unhandled rejection
+ok 537 - browser submission contains rejected fetches without an unhandled rejection
+  ---
+  duration_ms: 2.482
+  type: 'test'
+  ...
+# Subtest: fresh and upgraded Tier 1 schemas converge on the cohort contract
+ok 538 - fresh and upgraded Tier 1 schemas converge on the cohort contract
+  ---
+  duration_ms: 1.178541
+  type: 'test'
+  ...
+# (node:94531) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/scripts/tier1-production-operations.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Tier 1 Production operations use only read-only catalog and counter SQL
+ok 539 - Tier 1 Production operations use only read-only catalog and counter SQL
+  ---
+  duration_ms: 1.263792
+  type: 'test'
+  ...
+# Subtest: preflight validates the exact eight-table catalog and empty baseline
+ok 540 - preflight validates the exact eight-table catalog and empty baseline
+  ---
+  duration_ms: 9.011792
+  type: 'test'
+  ...
+# Subtest: smoke verification requires the exact Core deltas and zero replay rows
+ok 541 - smoke verification requires the exact Core deltas and zero replay rows
+  ---
+  duration_ms: 0.609958
+  type: 'test'
+  ...
+# Subtest: reset verification fails unless every aggregate and replay table is empty
+ok 542 - reset verification fails unless every aggregate and replay table is empty
+  ---
+  duration_ms: 0.225833
+  type: 'test'
+  ...
+# Subtest: suppression verification derives a same-origin GET without printing the payload
+ok 543 - suppression verification derives a same-origin GET without printing the payload
+  ---
+  duration_ms: 10.243667
+  type: 'test'
+  ...
+# Subtest: operations configuration keeps connection strings out of argv and errors
+ok 544 - operations configuration keeps connection strings out of argv and errors
+  ---
+  duration_ms: 0.476083
+  type: 'test'
+  ...
+# Subtest: target identity rejects a matching database name with the wrong host fingerprint
+ok 545 - target identity rejects a matching database name with the wrong host fingerprint
+  ---
+  duration_ms: 0.261125
+  type: 'test'
+  ...
+# Subtest: verification phases are explicit and fail closed
+ok 546 - verification phases are explicit and fail closed
+  ---
+  duration_ms: 0.198333
+  type: 'test'
+  ...
+# Subtest: pinned migration checksums remain current
+ok 547 - pinned migration checksums remain current
+  ---
+  duration_ms: 14.621792
+  type: 'test'
+  ...
+# Subtest: Production runbook retains every owner-operated activation gate
+ok 548 - Production runbook retains every owner-operated activation gate
+  ---
+  duration_ms: 2.136417
+  type: 'test'
+  ...
+# (node:94532) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/research/tier1-rate-limit.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Tier 1 result buckets enforce burst and refill limits per IP
+ok 549 - Tier 1 result buckets enforce burst and refill limits per IP
+  ---
+  duration_ms: 31.755167
+  type: 'test'
+  ...
+# Subtest: completion and result traffic use independent token buckets
+ok 550 - completion and result traffic use independent token buckets
+  ---
+  duration_ms: 4.557375
+  type: 'test'
+  ...
+# Subtest: trusted forwarding headers take priority and malformed IPs fail closed
+ok 551 - trusted forwarding headers take priority and malformed IPs fail closed
+  ---
+  duration_ms: 2.110417
+  type: 'test'
+  ...
+# Subtest: Vercel production uses its spoof-resistant client IP header
+ok 552 - Vercel production uses its spoof-resistant client IP header
+  ---
+  duration_ms: 0.316333
+  type: 'test'
+  ...
+# Subtest: non-Vercel production ignores caller-supplied forwarding headers
+ok 553 - non-Vercel production ignores caller-supplied forwarding headers
+  ---
+  duration_ms: 0.128167
+  type: 'test'
+  ...
+# Subtest: bucket storage is bounded and fully refilled entries are pruned
+ok 554 - bucket storage is bounded and fully refilled entries are pruned
+  ---
+  duration_ms: 0.143625
+  type: 'test'
+  ...
+# (node:94533) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/modules/security-v21.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: frozen V21 module descriptions and fallback summaries match the golden copy
+ok 555 - frozen V21 module descriptions and fallback summaries match the golden copy
+  ---
+  duration_ms: 0.86525
+  type: 'test'
+  ...
+# Subtest: the V21 copy fixture and erratum stay coupled
+ok 556 - the V21 copy fixture and erratum stay coupled
+  ---
+  duration_ms: 0.65375
+  type: 'test'
+  ...
+# Subtest: the V21 copy erratum records its corrective commit without placeholders
+ok 557 - the V21 copy erratum records its corrective commit without placeholders
+  ---
+  duration_ms: 0.495166
+  type: 'test'
+  ...
+# Subtest: active Profile renders independent domain records without frozen movement arithmetic
+ok 558 - active Profile renders independent domain records without frozen movement arithmetic
+  ---
+  duration_ms: 0.800375
+  type: 'test'
+  ...
+# Subtest: Profile hydration no longer reconstructs a module-to-Foundation comparison
+ok 559 - Profile hydration no longer reconstructs a module-to-Foundation comparison
+  ---
+  duration_ms: 0.289208
+  type: 'test'
+  ...
+# Subtest: active Profile sharing prefers the canonical separate-domain payload
+ok 560 - active Profile sharing prefers the canonical separate-domain payload
+  ---
+  duration_ms: 0.861708
+  type: 'test'
+  ...
+# (node:94535) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/atlas-lite.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Profile Foundation identity uses the exact payload and its form calibration
+ok 561 - Profile Foundation identity uses the exact payload and its form calibration
+  ---
+  duration_ms: 1.410459
+  type: 'test'
+  ...
+# Subtest: Profile Foundation identity preserves legacy encoded identity and never infers from cached fields
+ok 562 - Profile Foundation identity preserves legacy encoded identity and never infers from cached fields
+  ---
+  duration_ms: 0.209083
+  type: 'test'
+  ...
+# Subtest: Profile hero identity is the payload-resolved Foundation archetype
+ok 563 - Profile hero identity is the payload-resolved Foundation archetype
+  ---
+  duration_ms: 0.3165
+  type: 'test'
+  ...
+# Subtest: Profile metadata and sharing use the Foundation archetype rather than an integrated identity
+ok 564 - Profile metadata and sharing use the Foundation archetype rather than an integrated identity
+  ---
+  duration_ms: 0.231625
+  type: 'test'
+  ...
+# Subtest: current Foundation results lead with the actual registered name and retain the live reading qualification
+ok 565 - current Foundation results lead with the actual registered name and retain the live reading qualification
+  ---
+  duration_ms: 0.25975
+  type: 'test'
+  ...
+# Subtest: production code has no Atlas assignment matcher references
+ok 566 - production code has no Atlas assignment matcher references
+  ---
+  duration_ms: 655.060334
+  type: 'test'
+  ...
+# Subtest: all legacy Decision Pattern IDs and routes remain resolvable as static editorial content
+ok 567 - all legacy Decision Pattern IDs and routes remain resolvable as static editorial content
+  ---
+  duration_ms: 1.729583
+  type: 'test'
+  ...
+# (node:94536) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/profile-share.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: saving separate domain records leaves the layered Profile Foundation identity unchanged
+ok 568 - saving separate domain records leaves the layered Profile Foundation identity unchanged
+  ---
+  duration_ms: 4.623875
+  type: 'test'
+  ...
+# Subtest: frozen module snapshots retain legacy fields through V5 migration and hydration
+ok 569 - frozen module snapshots retain legacy fields through V5 migration and hydration
+  ---
+  duration_ms: 1.811959
+  type: 'test'
+  ...
+# Subtest: frozen Profile Share V1, V2, and V3 links still decode and resolve
+ok 570 - frozen Profile Share V1, V2, and V3 links still decode and resolve
+  ---
+  duration_ms: 1.70375
+  type: 'test'
+  ...
+# (node:94537) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/profile-result-routes.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Chinese Profile result routes distinguish translated and English-only destinations
+ok 571 - Chinese Profile result routes distinguish translated and English-only destinations
+  ---
+  duration_ms: 0.793292
+  type: 'test'
+  ...
+# Subtest: Chinese Profile hydration keeps only translated Foundation paths locale-prefixed
+ok 572 - Chinese Profile hydration keeps only translated Foundation paths locale-prefixed
+  ---
+  duration_ms: 2.436291
+  type: 'test'
+  ...
+# Subtest: an unresolvable Foundation keeps the localized Profile view and its other records
+ok 573 - an unresolvable Foundation keeps the localized Profile view and its other records
+  ---
+  duration_ms: 0.69
+  type: 'test'
+  ...
+# (node:94538) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/content/locales/zh-Hans/world-stage.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: English and Chinese World Stage routes derive Current Case availability on every request
+ok 574 - English and Chinese World Stage routes derive Current Case availability on every request
+  ---
+  duration_ms: 1.668292
+  type: 'test'
+  ...
+# Subtest: World Stage opens its geographic scene without duplicating the root project menu
+ok 575 - World Stage opens its geographic scene without duplicating the root project menu
+  ---
+  duration_ms: 1.599791
+  type: 'test'
+  ...
+# Subtest: development-only routes fail closed and remain out of search results
+ok 576 - development-only routes fail closed and remain out of search results
+  ---
+  duration_ms: 0.278958
+  type: 'test'
+  ...
+# Subtest: result-page feedback invitations match the corrections route boundary
+ok 577 - result-page feedback invitations match the corrections route boundary
+  ---
+  duration_ms: 0.353208
+  type: 'test'
+  ...
+# Subtest: destructive Foundation, AI, and Perspective resets use an inline confirmation
+ok 578 - destructive Foundation, AI, and Perspective resets use an inline confirmation
+  ---
+  duration_ms: 0.524041
+  type: 'test'
+  ...
+# Subtest: low-differentiation core headlines both live readings and keeps the register secondary
+ok 579 - low-differentiation core headlines both live readings and keeps the register secondary
+  ---
+  duration_ms: 0.567042
+  type: 'test'
+  ...
+# Subtest: clearer core, targeted, and full forms retain the runner-up and model limit
+ok 580 - clearer core, targeted, and full forms retain the runner-up and model limit
+  ---
+  duration_ms: 0.110542
+  type: 'test'
+  ...
+# Subtest: legacy heading fails closed on exact-form contribution claims
+ok 581 - legacy heading fails closed on exact-form contribution claims
+  ---
+  duration_ms: 0.06975
+  type: 'test'
+  ...
+# Subtest: result story has one sticky rail with chapter-local visuals in DOM order
+ok 582 - result story has one sticky rail with chapter-local visuals in DOM order
+  ---
+  duration_ms: 0.649125
+  type: 'test'
+  ...
+# Subtest: result route uses exact contribution math and local-only evidence without midpoint causality
+ok 583 - result route uses exact contribution math and local-only evidence without midpoint causality
+  ---
+  duration_ms: 1.52775
+  type: 'test'
+  ...
+# (node:94539) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/results/foundation-result-heading.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# (node:94540) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/scoring/v2-calibration.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: public Method copy states the bounded Foundation robustness diagnostic
+ok 584 - public Method copy states the bounded Foundation robustness diagnostic
+  ---
+  duration_ms: 0.79425
+  type: 'test'
+  ...
+# Subtest: Simplified Chinese Method copy carries the same diagnostic boundary
+ok 585 - Simplified Chinese Method copy carries the same diagnostic boundary
+  ---
+  duration_ms: 0.580375
+  type: 'test'
+  ...
+# Subtest: posture presentation calls 4 a registered boundary rather than a form center
+ok 586 - posture presentation calls 4 a registered boundary rather than a form center
+  ---
+  duration_ms: 0.168917
+  type: 'test'
+  ...
+# Subtest: posture audit derives its signal balance from the protected full bank
+ok 587 - posture audit derives its signal balance from the protected full bank
+  ---
+  duration_ms: 1.1205
+  type: 'test'
+  ...
+# (node:94541) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/components/profile/profile-record-presence.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: domain-only and Perspective-only profiles bypass the Foundation empty state
+ok 588 - domain-only and Perspective-only profiles bypass the Foundation empty state
+  ---
+  duration_ms: 0.463291
+  type: 'test'
+  ...
+# Subtest: Profile answers the five production questions in the required order
+ok 589 - Profile answers the five production questions in the required order
+  ---
+  duration_ms: 0.513958
+  type: 'test'
+  ...
+# Subtest: English and Simplified Chinese Profile dashboards share the non-Foundation record gate
+ok 590 - English and Simplified Chinese Profile dashboards share the non-Foundation record gate
+  ---
+  duration_ms: 0.340542
+  type: 'test'
+  ...
+# (node:94542) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/content/root.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the production root has five literal destinations and exhaustive bilingual copy
+ok 591 - the production root has five literal destinations and exhaustive bilingual copy
+  ---
+  duration_ms: 0.872416
+  type: 'test'
+  ...
+# Subtest: one root selection drives menu, explanation, and geographic visual state
+ok 592 - one root selection drives menu, explanation, and geographic visual state
+  ---
+  duration_ms: 0.387458
+  type: 'test'
+  ...
+# Subtest: the root route graph has no Mapbox import and uses checked-in geography
+ok 593 - the root route graph has no Mapbox import and uses checked-in geography
+  ---
+  duration_ms: 0.684125
+  type: 'test'
+  ...
+# Subtest: the checked-in geographic globe has a distinct restrained ring for every destination
+ok 594 - the checked-in geographic globe has a distinct restrained ring for every destination
+  ---
+  duration_ms: 0.185333
+  type: 'test'
+  ...
+# Subtest: returning-state parsing reads counts without returning answer content
+ok 595 - returning-state parsing reads counts without returning answer content
+  ---
+  duration_ms: 0.158083
+  type: 'test'
+  ...
+# Subtest: World Stage reuses the production map, controls, sources, fallback, and attribution
+ok 596 - World Stage reuses the production map, controls, sources, fallback, and attribution
+  ---
+  duration_ms: 0.274708
+  type: 'test'
+  ...
+# Subtest: Chinese low-differentiation core heading names both live readings
+ok 597 - Chinese low-differentiation core heading names both live readings
+  ---
+  duration_ms: 0.550666
+  type: 'test'
+  ...
+# Subtest: Chinese clearer core, targeted, and full headings retain the runner-up and model limit
+ok 598 - Chinese clearer core, targeted, and full headings retain the runner-up and model limit
+  ---
+  duration_ms: 0.154125
+  type: 'test'
+  ...
+# Subtest: Chinese blend and legacy headings remain distinct
+ok 599 - Chinese blend and legacy headings remain distinct
+  ---
+  duration_ms: 0.332958
+  type: 'test'
+  ...
+# Subtest: Chinese route uses current V5 contribution math and exact local evidence
+ok 600 - Chinese route uses current V5 contribution math and exact local evidence
+  ---
+  duration_ms: 1.57675
+  type: 'test'
+  ...
+# Subtest: Chinese story uses localized domain chrome and fails closed on English detail text
+ok 601 - Chinese story uses localized domain chrome and fails closed on English detail text
+  ---
+  duration_ms: 0.425875
+  type: 'test'
+  ...
+# Subtest: Chinese story keeps chapter visuals in DOM order across sticky and linear layouts
+ok 602 - Chinese story keeps chapter visuals in DOM order across sticky and linear layouts
+  ---
+  duration_ms: 0.623542
+  type: 'test'
+  ...
+# Subtest: Chinese invalid result and editorial ledger remain explicit
+ok 603 - Chinese invalid result and editorial ledger remain explicit
+  ---
+  duration_ms: 0.4945
+  type: 'test'
+  ...
+# (node:94543) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/results/zh-hans-foundation-result.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Chinese shared Profile answers the five locked questions in order
+ok 604 - Chinese shared Profile answers the five locked questions in order
+  ---
+  duration_ms: 0.629542
+  type: 'test'
+  ...
+# Subtest: Chinese shared Profile always renders three separate domain slots
+ok 605 - Chinese shared Profile always renders three separate domain slots
+  ---
+  duration_ms: 0.204334
+  type: 'test'
+  ...
+# Subtest: Chinese shared Profile exposes reviewed-relations and next-action states without bridge framing
+ok 606 - Chinese shared Profile exposes reviewed-relations and next-action states without bridge framing
+  ---
+  duration_ms: 1.343333
+  type: 'test'
+  ...
+# Subtest: Chinese shared Profile keeps untranslated detail copy fail closed
+ok 607 - Chinese shared Profile keeps untranslated detail copy fail closed
+  ---
+  duration_ms: 0.284292
+  type: 'test'
+  ...
+# (node:94545) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/i18n/paths.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: V23.1 freezes exactly eight identity projections independently of rich content
+ok 608 - V23.1 freezes exactly eight identity projections independently of rich content
+  ---
+  duration_ms: 0.966292
+  type: 'test'
+  ...
+# Subtest: the eight owner-authorized beta cores remain partial pending human editorial review
+ok 609 - the eight owner-authorized beta cores remain partial pending human editorial review
+  ---
+  duration_ms: 8.777542
+  type: 'test'
+  ...
+# Subtest: all 104 owner-authorized beta sentences appear verbatim once in the ledger
+ok 610 - all 104 owner-authorized beta sentences appear verbatim once in the ledger
+  ---
+  duration_ms: 10.042
+  type: 'test'
+  ...
+# Subtest: beta publication authorization fails closed without fabricating a dated review
+ok 611 - beta publication authorization fails closed without fabricating a dated review
+  ---
+  duration_ms: 2.015375
+  type: 'test'
+  ...
+# Subtest: semantic rich-content failures fail closed without changing identity, blends, or legacy paths
+ok 612 - semantic rich-content failures fail closed without changing identity, blends, or legacy paths
+  ---
+  duration_ms: 4.610292
+  type: 'test'
+  ...
+# Subtest: publication and claim-class rules reject unqualified or under-sourced claims
+ok 613 - publication and claim-class rules reject unqualified or under-sourced claims
+  ---
+  duration_ms: 5.32275
+  type: 'test'
+  ...
+# Subtest: authored copy rejects templated openings, duplicate sentences, and repeated six-word prefixes
+ok 614 - authored copy rejects templated openings, duplicate sentences, and repeated six-word prefixes
+  ---
+  duration_ms: 4.829583
+  type: 'test'
+  ...
+# Subtest: source IDs, review subjects, and legacy metadata remain honest and resolvable
+ok 615 - source IDs, review subjects, and legacy metadata remain honest and resolvable
+  ---
+  duration_ms: 1.115209
+  type: 'test'
+  ...
+# Subtest: catalog prose makes no assignment, psychometric, prevalence, or Chinese fallback claim
+ok 616 - catalog prose makes no assignment, psychometric, prevalence, or Chinese fallback claim
+  ---
+  duration_ms: 3.524167
+  type: 'test'
+  ...
+# (node:94546) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetype-content.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the English archetype directory derives exactly eight links from the canonical catalog
+ok 617 - the English archetype directory derives exactly eight links from the canonical catalog
+  ---
+  duration_ms: 0.986833
+  type: 'test'
+  ...
+# Subtest: all eight detail routes retain legacy paths and expose qualified partial content
+ok 618 - all eight detail routes retain legacy paths and expose qualified partial content
+  ---
+  duration_ms: 6.044292
+  type: 'test'
+  ...
+# Subtest: unsafe archetype return paths fail closed
+ok 619 - unsafe archetype return paths fail closed
+  ---
+  duration_ms: 0.222125
+  type: 'test'
+  ...
+# Subtest: tradition routes publish the two posture links and no unsourced thinker cards
+ok 620 - tradition routes publish the two posture links and no unsourced thinker cards
+  ---
+  duration_ms: 0.256708
+  type: 'test'
+  ...
+# Subtest: unapproved Chinese status routing never imports English archetype content or sigils
+ok 621 - unapproved Chinese status routing never imports English archetype content or sigils
+  ---
+  duration_ms: 0.134166
+  type: 'test'
+  ...
+# Subtest: geometry v1 stays retired while the System A production core is isolated
+ok 622 - geometry v1 stays retired while the System A production core is isolated
+  ---
+  duration_ms: 22.537959
+  type: 'test'
+  ...
+# Subtest: geometry v1 remains byte-bound only as rejected design history
+ok 623 - geometry v1 remains byte-bound only as rejected design history
+  ---
+  duration_ms: 2.26575
+  type: 'test'
+  ...
+# Subtest: the active collision record separates blocked v1 from owner-selected System A
+ok 624 - the active collision record separates blocked v1 from owner-selected System A
+  ---
+  duration_ms: 1.021458
+  type: 'test'
+  ...
+# (node:94548) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/research/foundation-response.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the Foundation contains twelve cited validation items interleaved with core items
+ok 625 - the Foundation contains twelve cited validation items interleaved with core items
+  ---
+  duration_ms: 0.967292
+  type: 'test'
+  ...
+# Subtest: computeValidationScales returns reverse-keyed means on the published 1–7 scale
+ok 626 - computeValidationScales returns reverse-keyed means on the published 1–7 scale
+  ---
+  duration_ms: 0.136208
+  type: 'test'
+  ...
+# Subtest: validation answers cannot move Foundation dimensions or family scores
+ok 627 - validation answers cannot move Foundation dimensions or family scores
+  ---
+  duration_ms: 12.672125
+  type: 'test'
+  ...
+# Subtest: the research response record stores validation means with raw answers
+ok 628 - the research response record stores validation means with raw answers
+  ---
+  duration_ms: 0.231125
+  type: 'test'
+  ...
+# Subtest: validation means reject incomplete research responses
+ok 629 - validation means reject incomplete research responses
+  ---
+  duration_ms: 0.232375
+  type: 'test'
+  ...
+# (node:94549) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/atlas-lite.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the page adapter uses all six source-verified case records
+ok 630 - the page adapter uses all six source-verified case records
+  ---
+  duration_ms: 0.568875
+  type: 'test'
+  ...
+# Subtest: source records link directly and declare valid claim coverage
+ok 631 - source records link directly and declare valid claim coverage
+  ---
+  duration_ms: 0.627417
+  type: 'test'
+  ...
+# Subtest: claim-ledger entries without explicit source coverage stay out of rendered evidence
+ok 632 - claim-ledger entries without explicit source coverage stay out of rendered evidence
+  ---
+  duration_ms: 0.0945
+  type: 'test'
+  ...
+# Subtest: profile readings resolve only through stable Atlas IDs
+ok 633 - profile readings resolve only through stable Atlas IDs
+  ---
+  duration_ms: 0.167583
+  type: 'test'
+  ...
+# Subtest: coverage states support several, one, and no reviewed case
+ok 634 - coverage states support several, one, and no reviewed case
+  ---
+  duration_ms: 0.187875
+  type: 'test'
+  ...
+# Subtest: every Atlas profile has one labeled editorial analogy with a limit
+ok 635 - every Atlas profile has one labeled editorial analogy with a limit
+  ---
+  duration_ms: 0.071166
+  type: 'test'
+  ...
+# Subtest: public Atlas field labels preserve stable IDs and URLs
+ok 636 - public Atlas field labels preserve stable IDs and URLs
+  ---
+  duration_ms: 0.345333
+  type: 'test'
+  ...
+# Subtest: the profile page exposes the required learning and navigation contracts
+ok 637 - the profile page exposes the required learning and navigation contracts
+  ---
+  duration_ms: 0.293959
+  type: 'test'
+  ...
+# (node:94550) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/world-stage/fallback-geometry.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the reviewed World Stage catalog and complete six-menu mapping are valid
+ok 638 - the reviewed World Stage catalog and complete six-menu mapping are valid
+  ---
+  duration_ms: 1.545959
+  type: 'test'
+  ...
+# Subtest: homepage secondary text token clears AA contrast on the stage background
+ok 639 - homepage secondary text token clears AA contrast on the stage background
+  ---
+  duration_ms: 0.865709
+  type: 'test'
+  ...
+# Subtest: the six menu contracts keep five reviewed map routes plus the Current Case destination
+ok 640 - the six menu contracts keep five reviewed map routes plus the Current Case destination
+  ---
+  duration_ms: 0.260417
+  type: 'test'
+  ...
+# Subtest: the homepage menu demotes Current Case when no reviewed case is live
+ok 641 - the homepage menu demotes Current Case when no reviewed case is live
+  ---
+  duration_ms: 1.333083
+  type: 'test'
+  ...
+# Subtest: the preserved project-menu registry separates starting paths from continued exploration
+ok 642 - the preserved project-menu registry separates starting paths from continued exploration
+  ---
+  duration_ms: 0.763208
+  type: 'test'
+  ...
+# Subtest: map controls expose the five independent public map views
+ok 643 - map controls expose the five independent public map views
+  ---
+  duration_ms: 0.276459
+  type: 'test'
+  ...
+# Subtest: every scene has a valid, scene-specific camera
+ok 644 - every scene has a valid, scene-specific camera
+  ---
+  duration_ms: 0.31325
+  type: 'test'
+  ...
+# Subtest: all source references resolve and scene references cover visible children
+ok 645 - all source references resolve and scene references cover visible children
+  ---
+  duration_ms: 1.009167
+  type: 'test'
+  ...
+# Subtest: country roles use the closed vocabulary and valid geometry-backed ISO-3 keys
+ok 646 - country roles use the closed vocabulary and valid geometry-backed ISO-3 keys
+  ---
+  duration_ms: 0.395333
+  type: 'test'
+  ...
+# Subtest: node and flow IDs are unique, coordinates are valid, and vocabularies are closed
+ok 647 - node and flow IDs are unique, coordinates are valid, and vocabularies are closed
+  ---
+  duration_ms: 0.472791
+  type: 'test'
+  ...
+# Subtest: chip-network roles and infrastructure relations are explicit, filterable, and sourced
+ok 648 - chip-network roles and infrastructure relations are explicit, filterable, and sourced
+  ---
+  duration_ms: 0.640583
+  type: 'test'
+  ...
+# Subtest: no visible flow lacks meaning, date, direction, confidence, or evidence
+ok 649 - no visible flow lacks meaning, date, direction, confidence, or evidence
+  ---
+  duration_ms: 0.217084
+  type: 'test'
+  ...
+# Subtest: compiled scene records preserve research-ledger parity
+ok 650 - compiled scene records preserve research-ledger parity
+  ---
+  duration_ms: 0.602375
+  type: 'test'
+  ...
+# Subtest: Mapbox data and the bounded SVG fallback remain in parity
+ok 651 - Mapbox data and the bounded SVG fallback remain in parity
+  ---
+  duration_ms: 0.629083
+  type: 'test'
+  ...
+# Subtest: validation fails closed when required scene, role, node, flow, or camera fields are missing
+ok 652 - validation fails closed when required scene, role, node, flow, or camera fields are missing
+  ---
+  duration_ms: 6.421292
+  type: 'test'
+  ...
+# Subtest: scene and entity uniqueness validation rejects duplicate records
+ok 653 - scene and entity uniqueness validation rejects duplicate records
+  ---
+  duration_ms: 1.361666
+  type: 'test'
+  ...
+# Subtest: menu validation requires every known item and keeps every public scene reachable
+ok 654 - menu validation requires every known item and keeps every public scene reachable
+  ---
+  duration_ms: 0.537167
+  type: 'test'
+  ...
+# Subtest: the Mapbox style supports an environment override with the required dark fallback
+ok 655 - the Mapbox style supports an environment override with the required dark fallback
+  ---
+  duration_ms: 0.056417
+  type: 'test'
+  ...
+# Subtest: auto-spin advances by one second at the configured revolution speed
+ok 656 - auto-spin advances by one second at the configured revolution speed
+  ---
+  duration_ms: 0.353542
+  type: 'test'
+  ...
+# Subtest: auto-spin stops at the maximum zoom and under reduced motion or pause
+ok 657 - auto-spin stops at the maximum zoom and under reduced motion or pause
+  ---
+  duration_ms: 0.156709
+  type: 'test'
+  ...
+# Subtest: idle resume becomes eligible four seconds after the final interaction
+ok 658 - idle resume becomes eligible four seconds after the final interaction
+  ---
+  duration_ms: 0.121458
+  type: 'test'
+  ...
+# (node:94552) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/lib/archetype-marks.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the matrix is the exact canonical lens-major 4 by 2 reference structure
+ok 659 - the matrix is the exact canonical lens-major 4 by 2 reference structure
+  ---
+  duration_ms: 0.997875
+  type: 'test'
+  ...
+# Subtest: a pure legacy result resolves one cell and ignores conflicting snapshot fields
+ok 660 - a pure legacy result resolves one cell and ignores conflicting snapshot fields
+  ---
+  duration_ms: 0.736917
+  type: 'test'
+  ...
+# Subtest: a blend activates two canonical same-row cells and exposes only a presentation lead
+ok 661 - a blend activates two canonical same-row cells and exposes only a presentation lead
+  ---
+  duration_ms: 1.090458
+  type: 'test'
+  ...
+# Subtest: an invalid payload fails closed instead of selecting from cached fields
+ok 662 - an invalid payload fails closed instead of selecting from cached fields
+  ---
+  duration_ms: 0.095458
+  type: 'test'
+  ...
+# Subtest: continuous projection v1 is posture-blind while the matrix changes row
+ok 663 - continuous projection v1 is posture-blind while the matrix changes row
+  ---
+  duration_ms: 0.800875
+  type: 'test'
+  ...
+# (node:94553) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/content/locales/zh-Hans/index.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the zh-Hans deck includes only the owner-approved Foundation instrument
+ok 664 - the zh-Hans deck includes only the owner-approved Foundation instrument
+  ---
+  duration_ms: 0.704375
+  type: 'test'
+  ...
+# Subtest: Current Case translations preserve canonical records and source identity
+ok 665 - Current Case translations preserve canonical records and source identity
+  ---
+  duration_ms: 1.495292
+  type: 'test'
+  ...
+# Subtest: World Stage translations retain reviewed scene, entity, and source references
+ok 666 - World Stage translations retain reviewed scene, entity, and source references
+  ---
+  duration_ms: 0.557584
+  type: 'test'
+  ...
+# Subtest: the ten public profile translations keep canonical IDs and public names
+ok 667 - the ten public profile translations keep canonical IDs and public names
+  ---
+  duration_ms: 0.502708
+  type: 'test'
+  ...
+# Subtest: the glossary records ambiguous terms and bans the tooling mistranslation
+ok 668 - the glossary records ambiguous terms and bans the tooling mistranslation
+  ---
+  duration_ms: 0.074833
+  type: 'test'
+  ...
+# (node:94554) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///private/tmp/ir-module-journey-20260910/content/locales/zh-Hans/foundation-back-translations.ts is not specified and it doesn't parse as CommonJS.
+# Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+# To eliminate this warning, add "type": "module" to /private/tmp/ir-module-journey-20260910/package.json.
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: the owner-approved Foundation adaptation is an explicit, non-equivalent beta
+ok 669 - the owner-approved Foundation adaptation is an explicit, non-equivalent beta
+  ---
+  duration_ms: 0.521875
+  type: 'test'
+  ...
+# Subtest: all 68 canonical items have complete bilingual editorial records in canonical order
+ok 670 - all 68 canonical items have complete bilingual editorial records in canonical order
+  ---
+  duration_ms: 1.481417
+  type: 'test'
+  ...
+# Subtest: localized questions inherit every scoring and structural field from the canonical schema
+ok 671 - localized questions inherit every scoring and structural field from the canonical schema
+  ---
+  duration_ms: 0.766542
+  type: 'test'
+  ...
+# Subtest: every choice item preserves canonical option IDs in canonical order
+ok 672 - every choice item preserves canonical option IDs in canonical order
+  ---
+  duration_ms: 0.238041
+  type: 'test'
+  ...
+# Subtest: English and Chinese selections produce identical dimension and family results
+ok 673 - English and Chinese selections produce identical dimension and family results
+  ---
+  duration_ms: 2.027458
+  type: 'test'
+  ...
+# Subtest: localized display fields are exhaustive instead of falling back to English
+ok 674 - localized display fields are exhaustive instead of falling back to English
+  ---
+  duration_ms: 0.367459
+  type: 'test'
+  ...
+# Subtest: Standard section and review edit order remain canonical
+ok 675 - Standard section and review edit order remain canonical
+  ---
+  duration_ms: 0.19325
+  type: 'test'
+  ...
+# Subtest: the Foundation glossary records contextual decisions for the eight protected terms
+ok 676 - the Foundation glossary records contextual decisions for the eight protected terms
+  ---
+  duration_ms: 0.076083
+  type: 'test'
+  ...
+1..676
+# tests 676
+# suites 0
+# pass 676
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 163487.793833

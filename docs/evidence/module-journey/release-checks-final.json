@@ -1,0 +1,44 @@
+[
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "seconds": 2.38,
+    "log": "docs/evidence/module-journey/typecheck-final.txt"
+  },
+  {
+    "command": "npm run validate",
+    "exitCode": 0,
+    "seconds": 2.16,
+    "log": "docs/evidence/module-journey/validate-final.txt"
+  },
+  {
+    "command": "npm run copy:audit:strict",
+    "exitCode": 0,
+    "seconds": 1.97,
+    "log": "docs/evidence/module-journey/copy-audit-strict-final.txt"
+  },
+  {
+    "command": "npm run evidence:audit:check",
+    "exitCode": 0,
+    "seconds": 26.9,
+    "log": "docs/evidence/module-journey/evidence-audit-check-final.txt"
+  },
+  {
+    "command": "npm run lint",
+    "exitCode": 0,
+    "seconds": 1.12,
+    "log": "docs/evidence/module-journey/lint-final.txt"
+  },
+  {
+    "command": "npm run test",
+    "exitCode": 0,
+    "seconds": 163.66,
+    "log": "docs/evidence/module-journey/test-final.txt"
+  },
+  {
+    "command": "npm run build",
+    "exitCode": 0,
+    "seconds": 19.95,
+    "log": "docs/evidence/module-journey/build-final.txt"
+  }
+]
