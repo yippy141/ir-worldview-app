@@ -150,3 +150,13 @@
 .embedded { padding: 0 !important; max-width: none; }
 
 .page > h1, .page h2[tabindex="-1"] { scroll-margin-top: 110px; }
+
+/* Preserve the verification episode's existing reading/visual placement. */
+.verifyIntroduction { grid-column: 1; grid-row: 1; }
+.verifyForm { grid-column: 1; grid-row: 2; }
+.verifyVisual { grid-column: 2; grid-row: 1 / span 2; }
+.episodeGrid:has(> .verifyIntroduction) { row-gap: 0; }
+@media (max-width: 900px) {
+ .verifyIntroduction, .verifyForm, .verifyVisual { grid-column: auto; grid-row: auto; }
+ .episodeGrid:has(> .verifyIntroduction) > .verifyVisual { margin-top: 32px; }
+}
