@@ -1,0 +1,155 @@
+{
+  "viewportHeight": 900,
+  "dom": [
+    {
+      "width": 320,
+      "state": "question",
+      "beforeDocumentTop": 1727.0625,
+      "afterDocumentTop": 444.484375
+    },
+    {
+      "width": 320,
+      "state": "review",
+      "beforeDocumentTop": 1713.0625,
+      "afterDocumentTop": 422.484375
+    },
+    {
+      "width": 320,
+      "state": "result",
+      "beforeDocumentTop": 3090.859375,
+      "afterDocumentTop": 523.21875
+    },
+    {
+      "width": 390,
+      "state": "question",
+      "beforeDocumentTop": 1415.515625,
+      "afterDocumentTop": 376.6875
+    },
+    {
+      "width": 390,
+      "state": "review",
+      "beforeDocumentTop": 1415.515625,
+      "afterDocumentTop": 302.6875
+    },
+    {
+      "width": 390,
+      "state": "result",
+      "beforeDocumentTop": 2838.375,
+      "afterDocumentTop": 473.625
+    },
+    {
+      "width": 768,
+      "state": "question",
+      "beforeDocumentTop": 1034.1875,
+      "afterDocumentTop": 372.296875
+    },
+    {
+      "width": 768,
+      "state": "review",
+      "beforeDocumentTop": 1034.1875,
+      "afterDocumentTop": 314.390625
+    },
+    {
+      "width": 768,
+      "state": "result",
+      "beforeDocumentTop": 2609.78125,
+      "afterDocumentTop": 462.5
+    },
+    {
+      "width": 1440,
+      "state": "question",
+      "beforeDocumentTop": 962.5625,
+      "afterDocumentTop": 300.390625
+    },
+    {
+      "width": 1440,
+      "state": "review",
+      "beforeDocumentTop": 962.5625,
+      "afterDocumentTop": 278.390625
+    },
+    {
+      "width": 1440,
+      "state": "result",
+      "beforeDocumentTop": 2429,
+      "afterDocumentTop": 465.5
+    }
+  ],
+  "resources": [
+    {
+      "state": "question",
+      "types": [
+        {
+          "type": "document",
+          "beforeDecodedBytes": 13292,
+          "afterDecodedBytes": 13637
+        },
+        {
+          "type": "script",
+          "beforeDecodedBytes": 1190219,
+          "afterDecodedBytes": 1193148
+        },
+        {
+          "type": "stylesheet",
+          "beforeDecodedBytes": 181599,
+          "afterDecodedBytes": 184065
+        },
+        {
+          "type": "font",
+          "beforeDecodedBytes": 73612,
+          "afterDecodedBytes": 73612
+        }
+      ]
+    },
+    {
+      "state": "review",
+      "types": [
+        {
+          "type": "document",
+          "beforeDecodedBytes": 13292,
+          "afterDecodedBytes": 13637
+        },
+        {
+          "type": "script",
+          "beforeDecodedBytes": 1190219,
+          "afterDecodedBytes": 1193148
+        },
+        {
+          "type": "stylesheet",
+          "beforeDecodedBytes": 181599,
+          "afterDecodedBytes": 184065
+        },
+        {
+          "type": "font",
+          "beforeDecodedBytes": 73612,
+          "afterDecodedBytes": 73612
+        }
+      ]
+    },
+    {
+      "state": "result",
+      "types": [
+        {
+          "type": "document",
+          "beforeDecodedBytes": 117201,
+          "afterDecodedBytes": 122198
+        },
+        {
+          "type": "script",
+          "beforeDecodedBytes": 1168229,
+          "afterDecodedBytes": 1169229
+        },
+        {
+          "type": "stylesheet",
+          "beforeDecodedBytes": 179058,
+          "afterDecodedBytes": 181279
+        },
+        {
+          "type": "font",
+          "beforeDecodedBytes": 73612,
+          "afterDecodedBytes": 73612
+        }
+      ]
+    }
+  ],
+  "resourceLimits": "One local production load per state, decoded response bodies including prefetch activity. Not encoded transfer sizes, repeat-run timing, or performance claims."
+}

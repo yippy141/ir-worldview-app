@@ -1,0 +1,6 @@
+
+> ir-worldview-app@0.1.0 copy:audit:strict
+> node scripts/audit-public-copy.mjs --strict
+
+Public-copy audit: 665 signals (P0 17, P1 30, P2 618; strict 0)
+Strict audit: no blocking public-copy findings.

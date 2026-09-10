@@ -1,0 +1,18 @@
+{
+  "base": "e520d1cf58a375893897bfa614ff3e2a9dea3187",
+  "checkedTrackedFiles": 322,
+  "roots": [
+    "lib",
+    "data",
+    "tests",
+    "public",
+    "package.json",
+    "package-lock.json",
+    "next.config.ts",
+    "app/api"
+  ],
+  "changedProtectedFiles": [],
+  "baseManifestSHA256": "f5ff909cd8c89c21b4eedc36b9fac45c3f279d73311dde40cebaa9fcf49be962",
+  "newContinuationFile": "lib/modules/continuation.ts is a new editorial route helper, not part of the protected base manifest.",
+  "host": "macOS-26.5.1-arm64-arm-64bit"
+}

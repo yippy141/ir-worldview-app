@@ -1,0 +1,114 @@
+{
+  "verifiedAtUTC": "2026-09-10T09:47:54.636795+00:00",
+  "base": "e520d1cf58a375893897bfa614ff3e2a9dea3187",
+  "host": "macOS-26.5.1-arm64-arm-64bit",
+  "sourceFilesSHA256": {
+    "app/modules/[slug]/page.tsx": "64bb2064c1552a1506d9b6eda8bd29ce48b3624af3ae2141380e4d4240eb853d",
+    "components/modules/module-app.tsx": "7ac560417ff5f8f709f9f19fdcc51c8a3711077bf0c66bacd9ed489c1436b2f5",
+    "components/modules/module-app.module.css": "a3575b94496d11a533d4751e768aa0c66cf20bd303d8af38893e045715bf7225",
+    "components/modules/module-result.tsx": "47fbdff9ee9caea7a65aa5fb1e6ebb5d50be9232f732c79126ba40304dd5f0ac",
+    "components/modules/module-result.module.css": "c1e6a5806b52a2b07788d086369361c1350b6967f4738a1c86418b7c91de78f7",
+    "lib/modules/continuation.ts": "06a6c0968b16e27603842c25a191390ef1726488eec9b48c279eb4aa7403a5fe",
+    "e2e/module-journey.spec.ts": "8fe5d9297e3992d8b530afd5e685b58040e054d305a69b32691366b4cdaded58",
+    "e2e/fixtures/module-journey.ts": "af0646340a9b3e8f7aef2379002f3ba7e2aa1540d54412fe228a8abd6fdacae0",
+    "e2e/v23-5-module-flow.spec.ts": "7ad41d5d3c5fd926801850b1a4a637921306c675a4c39e10f3e08fa9792b4334",
+    "e2e/v22-visual-accessibility.spec.ts": "efae2b876f45bfea07bf46173500d8a89697d03577eb705767084a45c9eb1810",
+    "playwright.module-journey.config.ts": "be266f9f6aa20735286c826f4e6e769611d176d131e7c20e593f91680f74540e",
+    "scripts/capture-module-journey.mts": "cc7e34f5145af7de33cf05cb287f3bb99ee1fef7b6f3e5be8280693041f450bd"
+  },
+  "gates": "release-checks-final.json",
+  "unitTests": {
+    "passed": 676,
+    "log": "test-final.txt"
+  },
+  "browserSuites": [
+    {
+      "command": "CI=1 npm run test:e2e",
+      "passed": 161,
+      "failed": 0,
+      "retriesNeeded": 0,
+      "duration": "2.5m",
+      "log": "release-browser-final.txt"
+    },
+    {
+      "command": "JOURNEY_BASE_URL=http://127.0.0.1:3240 npx playwright test -c playwright.module-journey.config.ts",
+      "passed": 36,
+      "failed": 0,
+      "duration": "1.5m",
+      "engines": [
+        "Chromium",
+        "WebKit"
+      ],
+      "log": "journey-final.txt"
+    },
+    {
+      "command": "DECISION_BASE_URL=http://127.0.0.1:3240 npx playwright test -c playwright.decision-exercises.config.ts",
+      "passed": 29,
+      "failed": 0,
+      "duration": "35.8s",
+      "log": "decision-browser-final.txt"
+    }
+  ],
+  "inspectedScreenCapturesSHA256": {
+    "before/390-question.png": "6a0542a15aa03675c02bc84db11506d06ffe854e9d07a73dcc79b0b3376b42e3",
+    "before/390-review.png": "6a0542a15aa03675c02bc84db11506d06ffe854e9d07a73dcc79b0b3376b42e3",
+    "before/390-result.png": "8b23a904e3b3d901b61de0cd9b1eadb410b75d409b0700a799783e4c6076f351",
+    "before/1440-question.png": "d9bf038e15657cf9f87adcb82a52a07c66bfc91b8b89786b2299a172bb1e23e0",
+    "before/1440-review.png": "d9bf038e15657cf9f87adcb82a52a07c66bfc91b8b89786b2299a172bb1e23e0",
+    "before/1440-result.png": "8dcfaead7fd285e42c81cefce526ddb0b3d5dfe953bd784bd59ec17f3854ac84",
+    "after/320-question.png": "6cf83b9d8bc8138c287a14e012c14bf4c4087d247ace8eb95176b4d389bafbb6",
+    "after/320-review.png": "77e228b351fd5ec430109f364b2070da2481debb91bd3fd47a67563599bf131b",
+    "after/320-result.png": "c0644d73a52117b8ada55c13dc428db846704f2978f65ae48a75e9adcd0c89dc",
+    "after/390-question.png": "389403e5da245923f38cbe58881157bc5c4f6b884558f9d68eb31581e701d89b",
+    "after/390-review.png": "cfd51af9b74f39bd8be7ae6e1709986eff1dd950b00cdde16f369be4130bea9d",
+    "after/390-result.png": "aa2851bd22995e51095834a24dc145f7820c9c3744d7592a38474a13de8b7490",
+    "after/768-question.png": "99c6fa56a05c9b76049d857fcd98a6fad752098442ccecd8ecdb81fd6f69b2f8",
+    "after/768-review.png": "530fee784a1070fd2c0bd2751366f8d0b6ac46d6a83d17e80547bfbce747daf7",
+    "after/768-result.png": "cd56d2243d21d9b900d8315e39adf4e3986fed7a99a74c4683ad93cbf5a68a37",
+    "after/1440-question.png": "0f5ee4db1173979ecb6e13cb2ad8986f0acda51444884bdfdde1527023e278c2",
+    "after/1440-review.png": "23d351ea07bccaf19a7a6cdcc74e7fba380905d4486ad8963241dd23b5f215bd",
+    "after/1440-result.png": "c90a11aec3d37ba66b60100c4f128925e52dc41a72a9b0409060cf40104b0f30"
+  },
+  "finalPrint": {
+    "pdf": "after/result-print.pdf",
+    "sha256": "2f8686642dd52c6f04e447307fecbe88644d50d56eb8d9271d45993a6e29393a",
+    "inspectedA4Pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "renderCommand": "pdftoppm -scale-to 1200 -png after/result-print.pdf /private/tmp/module-journey-final-print",
+    "finding": "Nine readable pages; no clipped text, split answer blocks or isolated headings in the inspected fixture. Whitespace preserves lane/axis groups and the existing appendix page break."
+  },
+  "generatedNotIndividuallyInspected": [
+    "before/1440-result-full.png",
+    "before/1440-result-print.png",
+    "before/320-question.png",
+    "before/768-question.png",
+    "before/320-review.png",
+    "before/320-result.png",
+    "before/768-result.png",
+    "before/768-review.png",
+    "after/1440-result-full.png",
+    "after/1440-result-print.png"
+  ],
+  "statesAssertedOnly": "Other synthetic module/mode/version and Profile combinations described in coverage-delta.csv; these are not visual or human-comprehension observations. WebKit is macOS engine automation, not native Safari/iOS testing.",
+  "sourceCritique": "Bounded agent source critique found no consequential regression in focus, exact-version evidence, Profile continuation, no-JS fallback or reused print controls.",
+  "resolvedDevelopmentIssues": [
+    "Capture-helper TypeScript imports corrected to the existing alias loader.",
+    "Draft fixture seeding moved off the player route to avoid racing the initial save effect.",
+    "Development CSS worker connection reset persisted across restart; production build and rendering passed.",
+    "Browser fixtures corrected to preserve module-only Profile share unavailability and the existing macOS WebKit Option+Tab adapter.",
+    "Ordinary SSR player fallback and existing EvidenceControls resolved the no-JS and print-boundary failures.",
+    "The first full browser run had 160 pass and one obsolete hero/Foundation action assertion fail; it now tests the approved module ordering while preserving AI coverage.",
+    "Actual A4 inspection found split blocks and headings; scoped module print rules corrected them, followed by all final gates.",
+    "ESLint scanned generated Playwright report JavaScript; the generated report was moved outside the source worktree before successful lint. No lint configuration changed."
+  ],
+  "artifacts": "Final logs and before/after fixtures are committed here. Intermediate generated logs and release screenshots are retained separately under /private/tmp/ir-module-journey-release, avoiding edits to prior release evidence."
+}

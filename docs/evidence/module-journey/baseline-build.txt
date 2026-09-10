@@ -1,0 +1,108 @@
+
+> ir-worldview-app@0.1.0 build
+> next build
+
+▲ Next.js 16.2.11 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 4.9s
+  Running TypeScript ...
+  Finished TypeScript in 8.2s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/155) ...
+  Generating static pages using 7 workers (38/155)
+  Generating static pages using 7 workers (77/155)
+  Generating static pages using 7 workers (116/155)
+✓ Generating static pages using 7 workers (155/155) in 246ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /[locale]
+├ ƒ /[locale]/[...slug]
+├ ƒ /[locale]/about
+├ ƒ /[locale]/beta
+├ ƒ /[locale]/cases
+├ ƒ /[locale]/cases/[slug]
+├ ƒ /[locale]/cases/[slug]/corrections
+├ ƒ /-/cases/-/opengraph-image
+├ ƒ /[locale]/cases/[slug]/sources
+├ ƒ /[locale]/current
+├ ƒ /[locale]/explore/atlas
+├ ƒ /[locale]/explore/atlas/[id]
+├ ƒ /[locale]/explore/reference
+├ ƒ /[locale]/explore/reference/[id]
+├ ƒ /[locale]/feedback
+├ ƒ /[locale]/method
+├ ƒ /[locale]/privacy
+├ ƒ /[locale]/profile
+├ ƒ /[locale]/profile/share/[payload]
+├ ƒ /[locale]/quiz
+├ ƒ /[locale]/quiz/review
+├ ƒ /[locale]/results/[payload]
+├ ƒ /[locale]/world-stage
+├ ƒ /about
+├ ƒ /ai
+├ ƒ /ai/atlas
+├ ƒ /ai/atlas/[id]
+├ ƒ /ai/field-guide
+├ ƒ /ai/quiz
+├ ƒ /ai/results/[payload]
+├ ƒ /ai/review
+├ ƒ /api/aggregate/result
+├ ƒ /api/aggregate/stats
+├ ƒ /api/analytics/event
+├ ƒ /api/card
+├ ƒ /api/current-cases/challenge
+├ ƒ /api/current-cases/challenge/reveal
+├ ƒ /api/current-cases/challenge/validate
+├ ƒ /api/research/delete
+├ ƒ /api/research/event
+├ ƒ /api/research/submit
+├ ƒ /archetypes
+├ ƒ /archetypes/[slug]
+├ ƒ /beta
+├ ƒ /cases
+├ ƒ /cases/[slug]
+├ ƒ /cases/[slug]/challenge
+├ ƒ /cases/[slug]/corrections
+├ ƒ /cases/-/opengraph-image
+├ ƒ /cases/[slug]/sources
+├ ƒ /compare
+├ ƒ /current
+├ ƒ /decisions
+├ ƒ /decisions/[slug]
+├ ƒ /dev/result-payoff
+├ ƒ /explore
+├ ƒ /explore/[slug]
+├ ƒ /explore/atlas
+├ ƒ /explore/atlas/[id]
+├ ƒ /explore/reference
+├ ƒ /explore/reference/[id]
+├ ƒ /feedback
+├ ƒ /futures
+├ ƒ /learn
+├ ƒ /method
+├ ƒ /modules
+├ ƒ /modules/[slug]
+├ ƒ /modules/[slug]/results/[payload]
+├ ƒ /perspectives
+├ ƒ /perspectives/[perspectiveId]
+├ ƒ /perspectives/[perspectiveId]/result/[payload]
+├ ƒ /privacy
+├ ƒ /profile
+├ ƒ /profile/share/[payload]
+├ ƒ /quiz
+├ ƒ /quiz/review
+├ ƒ /references
+├ ƒ /results/[payload]
+├ ○ /sitemap.xml
+├ ƒ /world-stage
+└ ƒ /world-stage-prototype
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
