@@ -3,7 +3,8 @@ import { isAllowedFooterPrefetch, type ObservedRequest } from "../tests/fixtures
 import { mkdirSync, writeFileSync } from "node:fs"
 import { featureIds } from "../lib/futures/catalogue/features"
 import { futureCatalogue } from "../lib/futures/catalogue/index"
-import { preferenceQuestions, type PreferenceAnswers } from "../lib/futures/preferences"
+import { preferenceQuestions, requirementLabels, type PreferenceAnswers } from "../lib/futures/preferences"
+import { interpretPreferences } from "../lib/futures/interpretation"
 import { humanPlural, centralizedCare, lowTechnology, allConflict, preferenceFixture } from "../tests/fixtures/futures-preferences"
 
 const artifactDir = process.env.FUTURES_EVIDENCE_DIR ?? "test-results/futures-catalogue"
@@ -30,6 +31,10 @@ async function noOverflow(page: Page) {
 }
 async function capture(page: Page, name: string, fullPage = false) {
   mkdirSync(artifactDir, { recursive: true })
+  await page.evaluate(async () => {
+    await document.fonts.ready
+    await new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve())))
+  })
   await page.screenshot({ path: `${artifactDir}/${name}.png`, fullPage, animations: "disabled" })
 }
 
@@ -38,7 +43,7 @@ test("every catalogue entry, original anchor and source status; comparison accep
   await expect(page.locator('article[data-origin="inherited"]')).toHaveCount(12)
   await expect(page.locator('article[data-origin="project"]')).toHaveCount(7)
   await expect(page.getByRole("navigation", { name: "Every published future" }).getByRole("link")).toHaveCount(19)
-  await expect(page.getByRole("link", { name: "Consider your preferred conditions", exact: true })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Answer the questions", exact: true })).toBeVisible()
   for (const s of futureCatalogue) {
     await page.goto(`/futures#trajectory-${s.id}`)
     await expect(page.locator(`#trajectory-${s.id}`)).toBeInViewport()
@@ -146,7 +151,7 @@ test("keyboard selection, mandatory review, reduced motion and returning routes"
   await expect(page.getByRole("button", { name: "Compare my preferred conditions", exact: true })).toBeDisabled()
   expect(await page.locator('article[lang="en"]').evaluate(el => el.getAnimations({ subtree: true }).filter(a => a.playState === "running").length)).toBe(0)
   await page.getByRole("link", { name: "All futures", exact: true }).click()
-  await page.getByRole("link", { name: "Consider your preferred conditions", exact: true }).click()
+  await page.getByRole("link", { name: "Answer the questions", exact: true }).click()
   await expect(page.getByRole("button", { name: "Begin the twelve questions" })).toBeVisible()
   await page.goto("/ai")
   await expect(page.getByRole("link", { name: /Futures catalogue/ })).toHaveAttribute("href", "/futures")
@@ -160,6 +165,7 @@ test("catalogue, questions, varied results and any-two comparison reflow and syn
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 1000 })
     await page.goto("/futures")
+    await page.evaluate(() => window.scrollTo(0, 0))
     await noOverflow(page)
     await capture(page, `collection-${width}`)
     if (width === 1440 || width === 390) {
@@ -173,7 +179,11 @@ test("catalogue, questions, varied results and any-two comparison reflow and syn
     }
     await begin(page)
     await noOverflow(page)
-    await capture(page, `question-${width}`)
+    await page.locator('input[name="humanAuthority"][value="present"]').check()
+    await expect(page.getByRole("checkbox", { name: requirementLabels.humanAuthority.present, exact: true })).toBeVisible()
+    await page.getByRole("checkbox").check()
+    await capture(page, `question-requirement-${width}`)
+    await page.getByRole("checkbox").uncheck()
     await finish(page, humanPlural)
     await noOverflow(page)
     await capture(page, `result-human-${width}`)
@@ -182,13 +192,17 @@ test("catalogue, questions, varied results and any-two comparison reflow and syn
     await capture(page, `compare-${width}`)
     measurements.push({ width, state: "collection/question/result/comparison", overflow: false })
   }
-  for (const [name, answers] of [["centralized", centralizedCare], ["low-tech", lowTechnology], ["uncertain", preferenceFixture()], ["conflicts", allConflict]] as const) {
+  for (const [name, answers] of [["unresolved", { ...humanPlural, personalExit: { choice: "present", nonNegotiable: true } }], ["centralized", centralizedCare], ["low-tech", lowTechnology], ["uncertain", preferenceFixture()], ["conflicts", allConflict]] as const) {
     await begin(page); await finish(page, answers)
-    if (name === "uncertain" || name === "conflicts") await expect(page.getByRole("heading", { level: 1 })).toHaveText("There is no supported shortlist yet")
+    if (name === "uncertain" || name === "conflicts") await expect(page.getByRole("heading", { level: 1 })).toHaveText(interpretPreferences(answers).title)
     for (const width of [1440, 390]) {
       await page.setViewportSize({ width, height: 1000 })
       await noOverflow(page)
       await capture(page, `result-${name}-${width}`)
+      if (name === "unresolved") {
+        await page.getByTestId("unconfirmed-requirements").evaluate(el => el.scrollIntoView({ block: "center" }))
+        await capture(page, `unresolved-condition-${width}`)
+      }
     }
   }
   await begin(page); await finish(page, humanPlural)
@@ -213,4 +227,61 @@ test("catalogue, questions, varied results and any-two comparison reflow and syn
     await capture(page, `embedded-consultation-${width}`)
   }
   writeFileSync(`${artifactDir}/measurements.json`, JSON.stringify({ evidence: "Synthetic browser fixtures only; capture is not visual inspection or human validation.", measurements }, null, 2) + "\n")
+})
+
+
+test("rendered interpretation changes with same-candidate counterexamples and shows requirement qualifications", async ({ page }) => {
+  const nonhuman = { ...humanPlural, humanAuthority: { choice: "absent" as const, nonNegotiable: false } }
+  const durable = { ...humanPlural, revisablePower: { choice: "absent" as const, nonNegotiable: false } }
+  for (const answers of [humanPlural, nonhuman, durable]) {
+    await begin(page); await finish(page, answers)
+    await expect(page.getByTestId("shortlist").locator('[data-scenario="constitutional-delegation"]')).toHaveCount(1)
+    for (const paragraph of interpretPreferences(answers).paragraphs) await expect(page.getByTestId("futures-interpretation").getByText(paragraph, { exact: true })).toBeVisible()
+  }
+  const required = { ...humanPlural, personalExit: { choice: "present" as const, nonNegotiable: true } }
+  await begin(page); await finish(page, required)
+  await expect(page.getByTestId("unconfirmed-requirements")).toContainText("Constitutional Delegation: a usable right to leave")
+  await expect(page.getByTestId("descriptor-equivalence")).toContainText("does not ask whether ecosystems should have representation")
+  await page.getByTestId("requirement-conflicts").getByText(/Confirmed requirements exclude/).click()
+  await expect(page.getByTestId("requirement-conflicts")).toContainText("Zookeeper")
+})
+
+
+test("read revised capability requirement and uninstantiated Reversion institutions", async ({ page }) => {
+  await begin(page)
+  await page.getByRole("button", { name: /^Review answers/ }).click()
+  await page.getByRole("button", { name: /^Edit question 10:/ }).click()
+  await page.locator('input[name="capabilityLimits"][value="present"]').check()
+  await page.getByRole("checkbox", { name: requirementLabels.capabilityLimits.present, exact: true }).check()
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.getByRole("heading", { level: 1 }).evaluate(el => el.scrollIntoView({ block: "start" }))
+    await noOverflow(page)
+    await capture(page, `ceiling-requirement-${width}`)
+  }
+  await page.goto("/futures/scenarios/reversion")
+  await page.getByText("All authored features used in comparison", { exact: true }).click()
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    const feature = page.locator("dl > div").filter({ has: page.getByText("Standing for artificial persons", { exact: true }) })
+    await feature.evaluate(el => el.scrollIntoView({ block: "center" }))
+    await expect(feature).toContainText("not a policy of excluding persons")
+    await noOverflow(page)
+    await capture(page, `reversion-institutions-${width}`)
+  }
+})
+
+
+test("human-only standing remains distinct from nonhuman governing authority in the rendered reading", async ({ page }) => {
+  const answers = preferenceFixture({ humanAuthority: "absent", biologicalContinuity: "present", digitalStanding: "absent", transparentPower: "absent" })
+  await begin(page); await finish(page, answers)
+  await expect(page.getByTestId("futures-interpretation")).toContainText("does not by itself determine who has final governing authority")
+  await expect(page.getByTestId("futures-interpretation")).not.toContainText("preserve human institutional control")
+  await expect(page.getByTestId("shortlist").locator('[data-scenario="protector"]')).toContainText("nonhuman final authority")
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.getByRole("heading", { level: 1 }).evaluate(el => el.scrollIntoView({ block: "start" }))
+    await noOverflow(page)
+    await capture(page, `standing-without-control-${width}`)
+  }
 })

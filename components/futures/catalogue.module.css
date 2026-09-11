@@ -120,3 +120,16 @@
   .actions > :global(.cta-primary), .actions > :global(.cta-secondary) { width: 100%; }
 }
 @media (prefers-reduced-motion: reduce) { .page *, .page *::before, .page *::after { animation: none; transition: none; scroll-behavior: auto; } }
+
+.resultOpening { max-width: 75ch; margin-bottom: 2rem; }
+.resultEntry[data-scenario] { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 2rem; }
+.resultEntry[data-scenario] h2 { font-size: clamp(1.4rem, 2.5vw, 1.85rem); }
+.resultEntry[data-scenario] a { font-size: .88rem; }
+.resultEntry[data-scenario] .disclosure { margin: 0; padding: .2rem 0; border: 0; }
+.resultEntry[data-scenario] .reasons { grid-template-columns: 1fr; }
+.reasonExplanation { display: block; font-size: .88rem; color: var(--text-2); margin-top: .35rem; }
+.requirementNote, .equivalenceNote, .tieNote { max-width: 78ch; }
+.requirementNote { padding: 1rem 0; border-block: 1px solid var(--line); }
+.equivalenceNote { font-size: .93rem; color: var(--text-2); }
+.tieNote { padding-top: 1.5rem; font-size: .9rem; }
+@media (max-width: 760px) { .resultEntry[data-scenario] { grid-template-columns: 1fr; gap: 1rem; } }

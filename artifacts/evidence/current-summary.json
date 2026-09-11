@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 642,
-      "newCount": 162,
+      "currentCount": 645,
+      "newCount": 165,
       "newFindings": [
         {
           "audience": "public",
@@ -998,6 +998,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/interpretation.ts#preferenceThemes.text",
+          "count": 1,
+          "file": "lib/futures/interpretation.ts",
+          "fingerprint": "94a67d22cb01915278de55e6eb24f6dad6aff3abd02bd9a37af8c276e16cb988",
+          "matched": "you favor nonhuman",
+          "rule": "repeated-adjacent-opening",
+          "source": "You favor nonhuman final authority under a mandate that later generations cannot revise. That arrangement could sustain long-term commitments, but the ability to choose a different ruler would not be one of the conditions you are seeking."
+        },
+        {
+          "audience": "public",
           "context": "content-key:components/modules/module-result.tsx#ModuleResultView.p",
           "count": 1,
           "file": "components/modules/module-result.tsx",
@@ -1428,6 +1438,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/interpretation.ts#preferenceThemes.text",
+          "count": 1,
+          "file": "lib/futures/interpretation.ts",
+          "fingerprint": "de3f8908ff0f345909aea831ce57b15bebcd29c4a6082a695042b761a11156be",
+          "matched": "you favor a",
+          "rule": "repeated-adjacent-opening",
+          "source": "You favor a successor world replacing biological humanity while reserving shared institutional standing for biological humans. Those choices leave a substantive tension about who could participate once biological humanity had gone; extinction cannot supply the desired institutions."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.rival",
           "count": 1,
           "file": "lib/results/ai-interpretation.ts",
@@ -1615,6 +1635,16 @@
           "matched": "通常",
           "rule": "general-prevalence-language-review",
           "source": "主权与更广泛的道义责任冲突时,你通常把哪一项放在更前面?这是规范风格维度,不判断谁更有道德。"
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/interpretation.ts#singles.digitalStanding.absent",
+          "count": 1,
+          "file": "lib/futures/interpretation.ts",
+          "fingerprint": "fea44fd6d8b2118566134b93ad56b5d0114242910ea28bde1c74d051d97c8143",
+          "matched": "under the explicit",
+          "rule": "repeated-adjacent-opening",
+          "source": "Under the explicit hypothesis that artificial beings are persons, you prefer institutions to reserve standing for biological humans. A world without artificial persons does not demonstrate that institutional exclusion."
         },
         {
           "audience": "frozen",
@@ -2991,7 +3021,7 @@
         "priority": "P1"
       },
       {
-        "count": 642,
+        "count": 645,
         "priority": "P2"
       }
     ]

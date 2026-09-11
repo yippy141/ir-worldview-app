@@ -151,7 +151,7 @@ test("expectations stay separate, preserve unassessed entries, and never affect 
 })
 
 test("new preference surfaces have no storage, telemetry, result-codec or network integration", () => {
-  for (const path of ["components/futures/preference-player.tsx", "components/futures/comparison-explorer.tsx", "lib/futures/preferences.ts", "lib/futures/preference-state.ts", "lib/futures/matching.ts"]) {
+  for (const path of ["components/futures/preference-player.tsx", "components/futures/comparison-explorer.tsx", "lib/futures/preferences.ts", "lib/futures/preference-state.ts", "lib/futures/matching.ts", "lib/futures/interpretation.ts"]) {
     assert.doesNotMatch(readFileSync(path, "utf8"), /localStorage|sessionStorage|indexedDB|document\.cookie|fetch\(|sendBeacon|XMLHttpRequest|useSearchParams|result-codec|saveProfile/)
   }
 })

@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 642. Unchanged and suppressed: 480. New: 162. Resolved: 78.
+P2 advisory baseline: 558. Current: 645. Unchanged and suppressed: 480. New: 165. Resolved: 78.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 642 |
+| P2 | 645 |
 
 ### P0 and P1 findings
 
@@ -1152,6 +1152,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.whyHard) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / bargaining power, development, or politics |
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#startReading.2.text) | Field Guide |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.institutionalist) | across the foundation |
+| 1 | repeated-adjacent-opening | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#preferenceThemes.text) | you favor nonhuman |
 | 1 | lens-metaphor-review | public | components/modules/module-result.tsx (content-key:components/modules/module-result.tsx#ModuleResultView.p) | lens cards |
 | 1 | layer-metaphor-review | public | app/privacy/page.tsx (route:/privacy#PrivacyPage.p) | saved layers |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
@@ -1195,6 +1196,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | often |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
+| 1 | repeated-adjacent-opening | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#preferenceThemes.text) | you favor a |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.rival) | the strongest objection |
 | 1 | general-prevalence-language-review | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | often |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.5.paragraphs.1) | 往往 |
@@ -1214,6 +1216,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
 | 1 | field-metaphor-review | public | components/results/dimension-field-map.tsx (content-key:components/results/dimension-field-map.tsx#DimensionFieldMap.svg.aria-label) | Field map |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.6.items.6.body) | 通常 |
+| 1 | repeated-adjacent-opening | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#singles.digitalStanding.absent) | under the explicit |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
 
 ### Resolved P2 findings
