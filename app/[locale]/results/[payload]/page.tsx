@@ -205,6 +205,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
       />
 
       <ZhHansFoundationResultStory
+        dimensionScores={dimensionScores}
         payload={payload}
         resultTier={resultTier}
         questionSet={resolved.questionSet}

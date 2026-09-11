@@ -1,3 +1,4 @@
+import type { ResultInterpretation } from "@/lib/results/interpretation"
 import {
   getAiReadingList,
 } from "@/lib/ai-governance-reading-lists-v2"
@@ -6,8 +7,10 @@ import { ReadingPathSection } from "@/components/results/reading-path-section"
 
 export function AiGovernanceReadingListSection({
   archetypeKey,
+  interpretation,
 }: {
   archetypeKey: AiArchetypeKey
+  interpretation?: ResultInterpretation
 }) {
   const buckets = getAiReadingList(archetypeKey)
   const paths = [
@@ -67,7 +70,7 @@ export function AiGovernanceReadingListSection({
       key: "challenge-your-view",
       heading: "Challenge your view",
       subheading:
-        "Read the strongest objections to the instincts your result is likely to reward.",
+        "Which assumptions in this reading deserve the hardest challenge? These sources supply competing arguments, not predictions of your views.",
       entries: buckets.bestCritique.map((entry) => ({
         id: entry.id,
         title: entry.title,
@@ -108,6 +111,6 @@ export function AiGovernanceReadingListSection({
   ]
 
   return (
-    <ReadingPathSection title="Read the result from another angle" paths={paths} />
+    <ReadingPathSection title="Read the result from another angle" intro={interpretation ? `${interpretation.followUp.question} ${interpretation.example.rival} These sources offer ways to examine that question; their authors do not endorse this result or the scenario.` : "Use each note to identify the question a source helps investigate. The shelves follow an editorial model category; authors do not endorse a reader result or an illustrative scenario."} paths={[paths[2], paths[0], paths[1], paths[3]]} />
   )
 }

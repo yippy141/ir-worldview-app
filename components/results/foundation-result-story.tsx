@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { WorkedApplication } from "@/components/results/worked-application"
 import type { CSSProperties, ReactNode } from "react"
 import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
 import { FoundationDomainRecords } from "@/components/results/foundation-domain-records"
@@ -84,9 +85,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       copy: (
         <>
           <p>
-            {props.payoff.mainTension.rivalArgument} The comparison shows the
-            authored expectations on the dimensions where these readings
-            disagree most and your raw scale position on each dimension.
+            {`${props.payoff.mainTension.rivalArgument} The rows below locate your recorded positions alongside the two readings' authored emphases.`}
           </p>
         </>
       ),
@@ -106,6 +105,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       copy: (
         <>
           <p>
+            {props.legacy ? "The exact terms cannot be recovered from this legacy link. " : `The largest positive term comes from ${dimensionLabels[props.contributionRows.reduce((best, row) => row.signedContribution > best.signedContribution ? row : best).dimension]}. This is where the recorded pattern most supports ${props.primaryLabel} relative to ${props.runnerUpLabel}. `}
             Each row is one term in the live scorer&apos;s {props.primaryLabel}
             minus {props.runnerUpLabel} comparison. A positive term adds to
             the first reading&apos;s score relative to the second. A negative
@@ -135,10 +135,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       copy: (
         <>
           <p>
-            The Foundation registers eight reference readings across four
-            modeled traditions and two restraint postures. The highlighted
-            cells show the leading family and its nearest alternative at the
-            posture resolved from this result.
+            {props.payoff.interpretation.summary} The highlighted readings combine that strategic posture with {props.primaryLabel} and {props.runnerUpLabel} as nearby explanations. Their proximity is a reason to examine the rival argument, not to treat the name as a fixed identity.
           </p>
           <p>
             The matrix is a reference system. It does not rank people or
@@ -148,7 +145,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       ),
       visualLabel: "Eight registered Foundation readings",
       renderVisual: () => (
-        <ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} />
+        <details className="profile-details"><summary>Open the orientation matrix</summary><ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} /></details>
       ),
     },
     {
@@ -256,13 +253,14 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
           : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
         <h1 id="foundation-result-heading">{props.archetype.name}</h1>
         <p className={styles.qualification}>{heading.title}</p>
-        <p className={styles.frontispieceLead}>{heading.lead}</p>
+        <p className={styles.frontispieceLead}>{props.payoff.interpretation.summary}</p>
         <a href="#nearest" className="cta-primary print-hidden">Explore this reading</a>
         {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
       </header>
       <section className={styles.openingPayoff} aria-label="Immediate result payoff">
-        <p><strong>Your first read of a case. </strong>{props.payoff.corePattern.noticeFirst}</p>
-        <p><strong>The unresolved question. </strong>{props.payoff.mainTension.body}</p>
+        <p className="result-scope">{heading.lead}</p>
+        <WorkedApplication example={props.payoff.interpretation.example} />
+        <p><strong>The next question. </strong>{props.payoff.interpretation.followUp.question}</p>
         <details><summary>Reading code and form</summary><p aria-label={props.archetypeCodeSpeech}>{props.archetypeCode}</p><p>{props.archetypeCodeKey}</p><p>{heading.eyebrow}</p></details>
       </section>
 
@@ -318,6 +316,7 @@ function StoryChapter({
 
   return (
     <section
+      id={id}
       className={styles.chapter}
       aria-labelledby={headingId}
       data-foundation-story-chapter={id}

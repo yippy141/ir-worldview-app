@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 import { AiArchetypeFingerprint } from "@/components/atlas/ai-archetype-fingerprint"
+import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
 import {
   aiAtlasArchetypeLeaningTag,
   getAiAtlasEntries,
@@ -49,6 +50,7 @@ export default function AiAtlasPage() {
                   className="ai-atlas-fingerprint-card ai-atlas-fingerprint-card--link"
                   aria-label={`Open ${entry.label} detail`}
                 >
+                  <AiArchetypeMark archetype={entry.key} size="compact" />
                   <div className="ai-atlas-fingerprint-card__left">
                     <p className="ai-atlas-fingerprint-card__num">
                       {aiAtlasArchetypeLeaningTag[entry.key]}

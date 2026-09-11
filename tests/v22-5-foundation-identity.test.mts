@@ -153,7 +153,7 @@ test("Profile hero identity is the payload-resolved Foundation archetype", () =>
     /resolveFoundationIdentityFromSnapshot\s*\(\s*foundation\s*\)/,
   )
   assert.match(source, /label=\{foundationArchetype\.name\}/)
-  assert.match(source, /summary=\{foundationArchetype\.gloss\}/)
+  assert.match(source, /summary=\{buildFoundationInterpretation\(foundationIdentity\.result\.dimensionScores\)\.summary\}/)
   assert.match(
     source,
     /accent=\{FAMILY_ACCENT\[foundationIdentity\.result\.familyKey\]\}/,

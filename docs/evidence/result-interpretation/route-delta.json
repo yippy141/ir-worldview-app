@@ -1,0 +1,1140 @@
+{
+  "baseline": "docs/evidence/decision-exercises-release/surface-coverage.csv",
+  "baselineRows": 601,
+  "routes": [
+    {
+      "route": "/about",
+      "content_id": "/about",
+      "template": "app/about/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/atlas",
+      "content_id": "/ai/atlas",
+      "template": "app/ai/atlas/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/field-guide",
+      "content_id": "/ai/field-guide",
+      "template": "app/ai/field-guide/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai",
+      "content_id": "/ai",
+      "template": "app/ai/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/quiz",
+      "content_id": "/ai/quiz",
+      "template": "app/ai/quiz/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/review",
+      "content_id": "/ai/review",
+      "template": "app/ai/review/page.tsx",
+      "locale": "en",
+      "condition": "matching local synthetic draft required for populated review; empty state is public"
+    },
+    {
+      "route": "/archetypes",
+      "content_id": "/archetypes",
+      "template": "app/archetypes/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/beta",
+      "content_id": "/beta",
+      "template": "app/beta/page.tsx",
+      "locale": "en",
+      "condition": "direct-entry-only by default; navigation requires V22_5_BETA_NAV_ENABLED=true; do not submit external forms"
+    },
+    {
+      "route": "/cases",
+      "content_id": "/cases",
+      "template": "app/cases/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/compare",
+      "content_id": "/compare",
+      "template": "app/compare/page.tsx",
+      "locale": "en",
+      "condition": "comparison input/query or synthetic local records; empty state public"
+    },
+    {
+      "route": "/explore/atlas",
+      "content_id": "/explore/atlas",
+      "template": "app/explore/atlas/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore",
+      "content_id": "/explore",
+      "template": "app/explore/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore/reference",
+      "content_id": "/explore/reference",
+      "template": "app/explore/reference/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/feedback",
+      "content_id": "/feedback",
+      "template": "app/feedback/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/futures",
+      "content_id": "/futures",
+      "template": "app/futures/page.tsx",
+      "locale": "en",
+      "condition": "each trajectory reasoning is a native disclosure"
+    },
+    {
+      "route": "/method",
+      "content_id": "/method",
+      "template": "app/method/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/modules",
+      "content_id": "/modules",
+      "template": "app/modules/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/",
+      "content_id": "/",
+      "template": "app/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/perspectives",
+      "content_id": "/perspectives",
+      "template": "app/perspectives/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/privacy",
+      "content_id": "/privacy",
+      "template": "app/privacy/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/profile",
+      "content_id": "/profile",
+      "template": "app/profile/page.tsx",
+      "locale": "en",
+      "condition": "empty, one record and multiple record states depend on local storage"
+    },
+    {
+      "route": "/quiz",
+      "content_id": "/quiz",
+      "template": "app/quiz/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/quiz/review",
+      "content_id": "/quiz/review",
+      "template": "app/quiz/review/page.tsx",
+      "locale": "en",
+      "condition": "matching local synthetic draft required for populated review; empty state is public"
+    },
+    {
+      "route": "/references",
+      "content_id": "/references",
+      "template": "app/references/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/world-stage",
+      "content_id": "/world-stage",
+      "template": "app/world-stage/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/p-plus",
+      "content_id": "P+",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/p-minus",
+      "content_id": "P-",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/r-plus",
+      "content_id": "R+",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/r-minus",
+      "content_id": "R-",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/m-plus",
+      "content_id": "M+",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/m-minus",
+      "content_id": "M-",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/s-plus",
+      "content_id": "S+",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/archetypes/s-minus",
+      "content_id": "S-",
+      "template": "app/archetypes/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore/realism",
+      "content_id": "realist",
+      "template": "app/explore/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore/institutionalism",
+      "content_id": "institutionalist",
+      "template": "app/explore/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore/constructivism",
+      "content_id": "constructivist",
+      "template": "app/explore/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore/critical-political-economy",
+      "content_id": "criticalPoliticalEconomy",
+      "template": "app/explore/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/explore/atlas/broad-spectrum-bridge-builder",
+      "content_id": "broad-spectrum-bridge-builder",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/constraint-first-realist",
+      "content_id": "constraint-first-realist",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/competitive-balancer",
+      "content_id": "competitive-balancer",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/coalition-pragmatist",
+      "content_id": "coalition-pragmatist",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/institution-builder",
+      "content_id": "institution-builder",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/legitimacy-attuned-reader",
+      "content_id": "legitimacy-attuned-reader",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/justice-forward-solidarist",
+      "content_id": "justice-forward-solidarist",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/structural-inequality-critic",
+      "content_id": "structural-inequality-critic",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/development-sovereignty-builder",
+      "content_id": "development-sovereignty-builder",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/atlas/cross-pressured-synthesizer",
+      "content_id": "cross-pressured-synthesizer",
+      "template": "components/worldview-profile/worldview-profile-page.tsx",
+      "locale": "en",
+      "condition": "reviewed case claims/sources disclosed within page; some patterns have no attached case"
+    },
+    {
+      "route": "/explore/reference/john-mearsheimer",
+      "content_id": "john-mearsheimer",
+      "template": "app/explore/reference/[id]/page.tsx",
+      "locale": "en",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/explore/reference/robert-keohane",
+      "content_id": "robert-keohane",
+      "template": "app/explore/reference/[id]/page.tsx",
+      "locale": "en",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/explore/reference/alexander-wendt",
+      "content_id": "alexander-wendt",
+      "template": "app/explore/reference/[id]/page.tsx",
+      "locale": "en",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/explore/reference/susan-strange",
+      "content_id": "susan-strange",
+      "template": "app/explore/reference/[id]/page.tsx",
+      "locale": "en",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/ai/atlas/precautionarySteward",
+      "content_id": "precautionarySteward",
+      "template": "app/ai/atlas/[id]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/atlas/strategicCompetitor",
+      "content_id": "strategicCompetitor",
+      "template": "app/ai/atlas/[id]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/atlas/coordinationArchitect",
+      "content_id": "coordinationArchitect",
+      "template": "app/ai/atlas/[id]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/atlas/democraticGuardrailist",
+      "content_id": "democraticGuardrailist",
+      "template": "app/ai/atlas/[id]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/atlas/stateCapacityBuilder",
+      "content_id": "stateCapacityBuilder",
+      "template": "app/ai/atlas/[id]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/ai/atlas/openEcosystemBuilder",
+      "content_id": "openEcosystemBuilder",
+      "template": "app/ai/atlas/[id]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/perspectives/incumbent-great-power",
+      "content_id": "incumbent-great-power",
+      "template": "components/perspectives/perspective-quiz.tsx",
+      "locale": "en",
+      "condition": "baseline required for run; start/scenario/review state on same route"
+    },
+    {
+      "route": "/perspectives/rising-peer-competitor",
+      "content_id": "rising-peer-competitor",
+      "template": "components/perspectives/perspective-quiz.tsx",
+      "locale": "en",
+      "condition": "baseline required for run; start/scenario/review state on same route"
+    },
+    {
+      "route": "/perspectives/exposed-ally",
+      "content_id": "exposed-ally",
+      "template": "components/perspectives/perspective-quiz.tsx",
+      "locale": "en",
+      "condition": "baseline required for run; start/scenario/review state on same route"
+    },
+    {
+      "route": "/perspectives/middle-power-hedger",
+      "content_id": "middle-power-hedger",
+      "template": "components/perspectives/perspective-quiz.tsx",
+      "locale": "en",
+      "condition": "baseline required for run; start/scenario/review state on same route"
+    },
+    {
+      "route": "/perspectives/capacity-constrained-state",
+      "content_id": "capacity-constrained-state",
+      "template": "components/perspectives/perspective-quiz.tsx",
+      "locale": "en",
+      "condition": "baseline required for run; start/scenario/review state on same route"
+    },
+    {
+      "route": "/perspectives/protection-authority",
+      "content_id": "protection-authority",
+      "template": "components/perspectives/perspective-quiz.tsx",
+      "locale": "en",
+      "condition": "baseline required for run; start/scenario/review state on same route"
+    },
+    {
+      "route": "/modules/security",
+      "content_id": "security",
+      "template": "app/modules/[slug]/page.tsx",
+      "locale": "en",
+      "condition": "Standard/Analyst, question and review states share route; optional Foundation query must be synthetic only"
+    },
+    {
+      "route": "/modules/technology",
+      "content_id": "technology",
+      "template": "app/modules/[slug]/page.tsx",
+      "locale": "en",
+      "condition": "Standard/Analyst, question and review states share route; optional Foundation query must be synthetic only"
+    },
+    {
+      "route": "/cases/europe-missile-defence-coalition-ukraine",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07",
+      "template": "app/cases/[slug]/page.tsx",
+      "locale": "en",
+      "condition": "decision/reason/readback local state"
+    },
+    {
+      "route": "/cases/europe-missile-defence-coalition-ukraine/sources",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07/sources",
+      "template": "app/cases/[slug]/sources/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/cases/europe-missile-defence-coalition-ukraine/corrections",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07/corrections",
+      "template": "app/cases/[slug]/corrections/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/cases/europe-missile-defence-coalition-ukraine/challenge",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07/challenge",
+      "template": "app/cases/[slug]/challenge/page.tsx",
+      "locale": "en",
+      "condition": "direct-entry compatibility invitation; no active challenge intake"
+    },
+    {
+      "route": "/cases/us-brazil-section-301-tariffs",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07",
+      "template": "app/cases/[slug]/page.tsx",
+      "locale": "en",
+      "condition": "decision/reason/readback local state"
+    },
+    {
+      "route": "/cases/us-brazil-section-301-tariffs/sources",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07/sources",
+      "template": "app/cases/[slug]/sources/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/cases/us-brazil-section-301-tariffs/corrections",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07/corrections",
+      "template": "app/cases/[slug]/corrections/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/cases/us-brazil-section-301-tariffs/challenge",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07/challenge",
+      "template": "app/cases/[slug]/challenge/page.tsx",
+      "locale": "en",
+      "condition": "direct-entry compatibility invitation; no active challenge intake"
+    },
+    {
+      "route": "/cases/south-china-sea-award-at-ten",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07",
+      "template": "app/cases/[slug]/page.tsx",
+      "locale": "en",
+      "condition": "decision/reason/readback local state"
+    },
+    {
+      "route": "/cases/south-china-sea-award-at-ten/sources",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07/sources",
+      "template": "app/cases/[slug]/sources/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/cases/south-china-sea-award-at-ten/corrections",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07/corrections",
+      "template": "app/cases/[slug]/corrections/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/cases/south-china-sea-award-at-ten/challenge",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07/challenge",
+      "template": "app/cases/[slug]/challenge/page.tsx",
+      "locale": "en",
+      "condition": "direct-entry compatibility invitation; no active challenge intake"
+    },
+    {
+      "route": "/current",
+      "content_id": "/current",
+      "template": "app/current/route.ts",
+      "locale": "en",
+      "condition": "direct-entry alias; active launch state can change destination"
+    },
+    {
+      "route": "/zh/about",
+      "content_id": "/about:zh-Hans",
+      "template": "app/[locale]/about/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/ai/atlas",
+      "content_id": "/ai/atlas:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/field-guide",
+      "content_id": "/ai/field-guide:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai",
+      "content_id": "/ai:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/quiz",
+      "content_id": "/ai/quiz:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/review",
+      "content_id": "/ai/review:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes",
+      "content_id": "/archetypes:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/beta",
+      "content_id": "/beta:zh-Hans",
+      "template": "app/[locale]/beta/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry-only by default; navigation requires V22_5_BETA_NAV_ENABLED=true; do not submit external forms"
+    },
+    {
+      "route": "/zh/cases",
+      "content_id": "/cases:zh-Hans",
+      "template": "app/[locale]/cases/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/compare",
+      "content_id": "/compare:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/atlas",
+      "content_id": "/explore/atlas:zh-Hans",
+      "template": "app/[locale]/explore/atlas/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/explore",
+      "content_id": "/explore:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/reference",
+      "content_id": "/explore/reference:zh-Hans",
+      "template": "app/[locale]/explore/reference/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/feedback",
+      "content_id": "/feedback:zh-Hans",
+      "template": "app/[locale]/feedback/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/futures",
+      "content_id": "/futures:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/method",
+      "content_id": "/method:zh-Hans",
+      "template": "app/[locale]/method/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/modules",
+      "content_id": "/modules:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh",
+      "content_id": "/:zh-Hans",
+      "template": "app/[locale]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/perspectives",
+      "content_id": "/perspectives:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/privacy",
+      "content_id": "/privacy:zh-Hans",
+      "template": "app/[locale]/privacy/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/profile",
+      "content_id": "/profile:zh-Hans",
+      "template": "app/[locale]/profile/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "empty, one record and multiple record states depend on local storage"
+    },
+    {
+      "route": "/zh/quiz",
+      "content_id": "/quiz:zh-Hans",
+      "template": "app/[locale]/quiz/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/quiz/review",
+      "content_id": "/quiz/review:zh-Hans",
+      "template": "app/[locale]/quiz/review/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "matching local synthetic draft required for populated review; empty state is public"
+    },
+    {
+      "route": "/zh/references",
+      "content_id": "/references:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/world-stage",
+      "content_id": "/world-stage:zh-Hans",
+      "template": "app/[locale]/world-stage/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/archetypes/p-plus",
+      "content_id": "P+:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/p-minus",
+      "content_id": "P-:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/r-plus",
+      "content_id": "R+:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/r-minus",
+      "content_id": "R-:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/m-plus",
+      "content_id": "M+:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/m-minus",
+      "content_id": "M-:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/s-plus",
+      "content_id": "S+:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/archetypes/s-minus",
+      "content_id": "S-:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/realism",
+      "content_id": "realist:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/institutionalism",
+      "content_id": "institutionalist:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/constructivism",
+      "content_id": "constructivist:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/critical-political-economy",
+      "content_id": "criticalPoliticalEconomy:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/explore/atlas/broad-spectrum-bridge-builder",
+      "content_id": "broad-spectrum-bridge-builder:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/constraint-first-realist",
+      "content_id": "constraint-first-realist:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/competitive-balancer",
+      "content_id": "competitive-balancer:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/coalition-pragmatist",
+      "content_id": "coalition-pragmatist:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/institution-builder",
+      "content_id": "institution-builder:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/legitimacy-attuned-reader",
+      "content_id": "legitimacy-attuned-reader:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/justice-forward-solidarist",
+      "content_id": "justice-forward-solidarist:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/structural-inequality-critic",
+      "content_id": "structural-inequality-critic:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/development-sovereignty-builder",
+      "content_id": "development-sovereignty-builder:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/atlas/cross-pressured-synthesizer",
+      "content_id": "cross-pressured-synthesizer:zh-Hans",
+      "template": "components/worldview-profile/zh-hans-worldview-profile-page.tsx",
+      "locale": "zh-Hans",
+      "condition": "Chinese decision reading, neighboring patterns and method status only; expanded English case template does not apply"
+    },
+    {
+      "route": "/zh/explore/reference/john-mearsheimer",
+      "content_id": "john-mearsheimer:zh-Hans",
+      "template": "app/[locale]/explore/reference/[id]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/zh/explore/reference/robert-keohane",
+      "content_id": "robert-keohane:zh-Hans",
+      "template": "app/[locale]/explore/reference/[id]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/zh/explore/reference/alexander-wendt",
+      "content_id": "alexander-wendt:zh-Hans",
+      "template": "app/[locale]/explore/reference/[id]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/zh/explore/reference/susan-strange",
+      "content_id": "susan-strange:zh-Hans",
+      "template": "app/[locale]/explore/reference/[id]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "dimension evidence details closed by default; sources and revision records below"
+    },
+    {
+      "route": "/zh/ai/atlas/precautionarySteward",
+      "content_id": "precautionarySteward:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/atlas/strategicCompetitor",
+      "content_id": "strategicCompetitor:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/atlas/coordinationArchitect",
+      "content_id": "coordinationArchitect:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/atlas/democraticGuardrailist",
+      "content_id": "democraticGuardrailist:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/atlas/stateCapacityBuilder",
+      "content_id": "stateCapacityBuilder:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/ai/atlas/openEcosystemBuilder",
+      "content_id": "openEcosystemBuilder:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/perspectives/incumbent-great-power",
+      "content_id": "incumbent-great-power:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/perspectives/rising-peer-competitor",
+      "content_id": "rising-peer-competitor:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/perspectives/exposed-ally",
+      "content_id": "exposed-ally:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/perspectives/middle-power-hedger",
+      "content_id": "middle-power-hedger:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/perspectives/capacity-constrained-state",
+      "content_id": "capacity-constrained-state:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/perspectives/protection-authority",
+      "content_id": "protection-authority:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/modules/security",
+      "content_id": "security:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/modules/technology",
+      "content_id": "technology:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/cases/europe-missile-defence-coalition-ukraine",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "decision/reason/readback local state"
+    },
+    {
+      "route": "/zh/cases/europe-missile-defence-coalition-ukraine/sources",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07/sources:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/sources/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/cases/europe-missile-defence-coalition-ukraine/corrections",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07/corrections:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/corrections/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/cases/europe-missile-defence-coalition-ukraine/challenge",
+      "content_id": "security-europe-anti-ballistic-coalition-ukraine-2026-07/challenge:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/cases/us-brazil-section-301-tariffs",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "decision/reason/readback local state"
+    },
+    {
+      "route": "/zh/cases/us-brazil-section-301-tariffs/sources",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07/sources:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/sources/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/cases/us-brazil-section-301-tariffs/corrections",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07/corrections:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/corrections/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/cases/us-brazil-section-301-tariffs/challenge",
+      "content_id": "economic-statecraft-us-brazil-section301-2026-07/challenge:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/cases/south-china-sea-award-at-ten",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "decision/reason/readback local state"
+    },
+    {
+      "route": "/zh/cases/south-china-sea-award-at-ten/sources",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07/sources:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/sources/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/cases/south-china-sea-award-at-ten/corrections",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07/corrections:zh-Hans",
+      "template": "app/[locale]/cases/[slug]/corrections/page.tsx",
+      "locale": "zh-Hans",
+      "condition": ""
+    },
+    {
+      "route": "/zh/cases/south-china-sea-award-at-ten/challenge",
+      "content_id": "institutional-legitimacy-south-china-sea-award-anniversary-2026-07/challenge:zh-Hans",
+      "template": "app/[locale]/[...slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "direct-entry or language switch boundary; no translated content expected"
+    },
+    {
+      "route": "/zh/current",
+      "content_id": "/current:zh-Hans",
+      "template": "app/[locale]/current/route.ts",
+      "locale": "zh-Hans",
+      "condition": "direct-entry alias; active launch state can change destination"
+    },
+    {
+      "route": "/decisions",
+      "content_id": "/decisions",
+      "template": "app/decisions/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/decisions/who-gets-to-verify",
+      "content_id": "/decisions/who-gets-to-verify",
+      "template": "app/decisions/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/decisions/who-gets-access",
+      "content_id": "/decisions/who-gets-access",
+      "template": "app/decisions/[slug]/page.tsx",
+      "locale": "en",
+      "condition": ""
+    },
+    {
+      "route": "/zh/decisions",
+      "content_id": "/zh/decisions",
+      "template": "app/decisions/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "English-only availability"
+    },
+    {
+      "route": "/zh/decisions/who-gets-to-verify",
+      "content_id": "/zh/decisions/who-gets-to-verify",
+      "template": "app/decisions/[slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "English-only availability"
+    },
+    {
+      "route": "/zh/decisions/who-gets-access",
+      "content_id": "/zh/decisions/who-gets-access",
+      "template": "app/decisions/[slug]/page.tsx",
+      "locale": "zh-Hans",
+      "condition": "English-only availability"
+    }
+  ]
+}

@@ -1,9 +1,7 @@
+import type { ResolvedAiPayload } from "@/lib/ai-governance-share"
 import type { AiResult } from "@/lib/ai-governance-types"
-import {
-  buildAiGovernanceDeepDive,
-  getPrimaryAxisSummary,
-  type PolicySignal,
-} from "@/lib/ai-governance-results-v2"
+import { aiAxisReading, interpretAiPositions, buildAiInterpretation } from "@/lib/results/ai-interpretation"
+import type { AiAxisKey } from "@/lib/ai-governance-types"
 
 export type AiGovernancePayoff = {
   governingInstinct: string
@@ -39,31 +37,20 @@ const debateQuestions: Record<string, string> = {
     "How much institutional control is needed before transformative capability becomes politically legitimate?",
 }
 
-export function buildAiGovernancePayoff(result: AiResult): AiGovernancePayoff {
-  const deepDive = buildAiGovernanceDeepDive(result)
-  const mainTension = deepDive.tensions[0] ?? {
-    title: "Tradeoffs you resolve case by case",
-    text:
-      "Your answers do not collapse into a single doctrine. The useful test is where your default changes when the stakes become concrete.",
-  }
-
+export function buildAiGovernancePayoff(result: AiResult, version?: ResolvedAiPayload): AiGovernancePayoff {
+  const interpretation = version ? buildAiInterpretation(version) : interpretAiPositions(result.axisScores)
+  const axes: Array<{ title: string; axes: AiAxisKey[] }> = [
+    { title: "Frontier release thresholds", axes: ["deploymentPace", "riskHorizon"] },
+    { title: "Oversight and enforcement", axes: ["oversight", "legitimacy"] },
+    { title: "International order", axes: ["geopolitics"] },
+    { title: "Openness and diffusion", axes: ["openness"] },
+  ]
   return {
-    governingInstinct: deepDive.governingInstinct,
-    shortRead: deepDive.shareBlurb,
-    mainSignal: getPrimaryAxisSummary(result.axisScores),
-    mainTension,
-    policyDebates: deepDive.policySignals.slice(0, 4).map(toPolicyDebate),
-    pressureTest: {
-      title: "Question to pressure-test next",
-      text: deepDive.questionToSitWith,
-    },
-  }
-}
-
-function toPolicyDebate(signal: PolicySignal): AiGovernancePayoff["policyDebates"][number] {
-  return {
-    title: signal.title,
-    question: debateQuestions[signal.title] ?? "What tradeoff should decide the policy line here?",
-    text: `${signal.stance}. ${signal.explanation}`,
+    governingInstinct: interpretation.summary,
+    shortRead: interpretation.summary,
+    mainSignal: interpretation.summary,
+    mainTension: { title: "A rival argument to examine", text: interpretation.example.rival },
+    policyDebates: axes.map(({ title, axes }) => ({ title, question: debateQuestions[title], text: axes.map(axis => aiAxisReading(axis, result.axisScores[axis])).join(" ") })),
+    pressureTest: { title: "Question to examine next", text: interpretation.followUp.question },
   }
 }

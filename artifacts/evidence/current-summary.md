@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 618. Unchanged and suppressed: 482. New: 136. Resolved: 76.
+P2 advisory baseline: 558. Current: 633. Unchanged and suppressed: 481. New: 152. Resolved: 77.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 618 |
+| P2 | 633 |
 
 ### P0 and P1 findings
 
@@ -1054,6 +1054,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | Count | Rule | Audience | Location | Matched |
 | --- | --- | --- | --- | --- |
 | 1 | repeated-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.3.subtraditions.0.note) | analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest / Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill |
+| 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.2) | the normative position |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Conditional Solidarist) | on normative items |
 | 1 | repeated-three-part-list | public | app/archetypes/[slug]/page.tsx (route:/archetypes/[slug]#ArchetypeDetailPage.p) | change the underlying Foundation score or assign people, organizations, or traditions to a fixed type / not editorial, expert, or methodological validation |
 | 1 | repeated-adjacent-opening | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | both ends read |
@@ -1063,12 +1064,14 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | The diagnostic supports no claim about reliability, validity, or population distributions / seeds, protected-file digests, and generated data are available in the project repository |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.1.label) | often |
 | 1 | repeated-adjacent-abstract-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map / map, map |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.application) | applied here the |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | layer, layers |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.2.paragraphs.0) | 通常 |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Universalist) | on normative items |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.restraint.2) | the strategic position |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.8.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.4.options.1.label) | often |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
@@ -1092,6 +1095,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.summary) | and interests is partly constituted by identity, norms, and shared social expectations / states want security, growth, and survival |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
 | 1 | pressure-test-repetition | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.0.coverageScope) | pressure-test |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.rival) | the strongest objection |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.midRange) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.criticalPoliticalEconomy) | across the foundation |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.midRange) | the aggregate score |
@@ -1109,6 +1113,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-three-part-list | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.midRange) | the aggregate score |
 | 1 | deeper-danger-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.2.label) | The deeper danger |
+| 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low) | the aggregate score |
 | 1 | general-prevalence-language-review | public | app/method/page.tsx (route:/method#MethodPage.p) | often |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
@@ -1116,6 +1121,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-abstract-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.stateLimit) | layer, layers / layer |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#STRATEGY_FRAMES.Hedger) | on strategy items |
 | 1 | repeated-adjacent-opening | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.1.summary) | postcolonial and decolonial |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.application) | applied here the |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.midRange) | the aggregate score |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | pressure-test-repetition | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.8.contextBullets.0.text) | pressure test |
@@ -1123,6 +1129,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low) | the aggregate score |
 | 1 | consequential-filler | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.2.summary) | most consequential long-run threats |
 | 1 | repeated-adjacent-opening | public | app/method/page.tsx (route:/method#authoredChoices.2.body) | focus area results |
+| 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.restraint.1) | the strategic position |
 | 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | map, map |
 | 1 | what-matters-most-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.9.options.3.label) | What matters most |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.low) | the aggregate score |
@@ -1132,6 +1139,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.whyHard) | normally |
 | 1 | repeated-adjacent-opening | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | answer from your |
 | 1 | general-prevalence-language-review | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | usually |
+| 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.1) | the normative position |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.whyHard) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / bargaining power, development, or politics |
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#startReading.2.text) | Field Guide |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.institutionalist) | across the foundation |
@@ -1144,8 +1152,10 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.1.label) | a hotline, rescue arrangements, and incident investigation by outsiders to the dispute / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
 | 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#summary) | the recorded technology |
 | 1 | field-metaphor-review | public | app/futures/page.tsx (route:/futures#FuturesPage.p) | field map |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
@@ -1155,6 +1165,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.20.prompt) | usually |
 | 1 | repeated-adjacent-three-part-list | public | content/explore/hub.en.json (content-key:content/explore/hub.en.json#hero.payoff.1) | Explore what different traditions notice, what they explain, and where their arguments come apart / Start with a name, a thinker, or a decision |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#summary) | the recorded security |
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.4.scene) | a national investment plan for computing capacity, cloud services, and data centers in 30 days / cooperation with partners, private investment, or protected domestic capacity should lead the plan |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.midRange) | the aggregate score |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.13.prompt) | often |
@@ -1162,6 +1173,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | pressure-test-repetition | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.9.contextBullets.0.text) | pressure test |
 | 1 | repeated-adjacent-abstract-language | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#startReading.2.text) | map / maps |
 | 1 | lens-metaphor-review | public | app/method/page.tsx (route:/method#MethodPage.p) | lens cards |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.rival) | the strongest objection |
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#metadata.title) | Field Guide |
 | 1 | repeated-adjacent-opening | operational | lib/modules/authoring-validation.ts (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | decision id is |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getStrongLenses.lens.description) | the aggregate score |
@@ -1174,10 +1186,14 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.midRange) | the aggregate score |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | often |
+| 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
+| 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.rival) | the strongest objection |
 | 1 | general-prevalence-language-review | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | often |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.5.paragraphs.1) | 往往 |
 | 1 | repeated-abstract-map-language | public | app/method/page.tsx (route:/method#MethodPage.p) | Maps, layers |
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.coverageScope) | layer, layer |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.rival) | the strongest objection |
+| 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.application) | applied here the |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.24.clarification.whatItDoesNotAsk) | widening access can improve independent scrutiny, competition, and the distribution of technical capability / tighter controls when a release creates specific, severe, and hard-to-reverse risks |
 | 1 | repeated-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | Associated with Glaser, Van Evera, and Snyder / often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts |
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.scene) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system |
@@ -1256,6 +1272,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | c7a830318d139fcc98035a9984ba7720d0f2141a7f1bb79d001d6a256e757b8a |
 | 1 | c8fbfc73683418b690194e9f389a1e78b8e2f4ed7e0851404da71500a8cea24e |
 | 1 | c9942d64f22b15ad56834eaa8653f93c8687c8f6362893e34ff28a1ace7d2b8d |
+| 1 | ccfe09d136f9dd381a2464a20479c38b46cac6efea5a3fdbf4a7ea4f80c0bb65 |
 | 1 | ce5a321ba6a8f6db173a005edfb856e5616b36fec788c163646e95b42daf6bc5 |
 | 1 | d28bdb2447d200d436aaac2a251cb537af171c379bf32c8da56dcb568739a1c2 |
 | 1 | d513984fe792771557ec1894a2da0fc427ee77dbab69f7f3869e9029ad0bb20f |

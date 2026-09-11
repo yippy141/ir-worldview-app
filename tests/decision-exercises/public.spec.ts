@@ -165,6 +165,8 @@ test("actual Foundation identities, pure/blended/close and Chinese shared result
 test("all actual AI labels, alternative outputs and exact ties remain distinct from the display experiment",async({page})=>{
  for(const f of Object.values(fixtures.governance)) {
   await page.goto(`/ai/results/${f.payload}`);await expect(page.locator('h1')).toHaveText(f.name)
+  await expect(page.getByRole('heading',{name:'Positions furthest from the midpoint'})).toBeVisible()
+  await page.getByText('Positions and exact comparison calculations',{exact:true}).click()
   await expect(page.getByRole('heading',{name:'Your positions on the AI questions'})).toBeVisible()
   await expect(page.getByRole('heading',{name:'What is doing the work'})).toHaveCount(0)
   await expect(page.locator('[data-drawn-mark]')).toHaveCount(0)

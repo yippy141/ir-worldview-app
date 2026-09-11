@@ -1,5 +1,6 @@
 "use client"
 
+import { handoffAiCompletion } from "@/lib/results/ai-completion-evidence"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { DestructiveActionConfirmation } from "@/components/ui/destructive-action-confirmation"
@@ -115,6 +116,7 @@ export function AiGovernanceReviewScreen() {
         pm: result.paceModifier,
         gm: result.geopoliticsModifier,
       })
+      handoffAiCompletion(payload, answers, mode)
       markProfileSaveIntent("ai-governance", payload)
       router.push(`/ai/results/${payload}`)
     } catch {

@@ -1,5 +1,8 @@
 "use client"
 
+import { buildFoundationInterpretationZh } from "@/lib/results/foundation-interpretation-zh"
+import { WorkedApplication } from "@/components/results/worked-application"
+import type { DimensionScores } from "@/lib/types"
 import NextLink from "next/link"
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react"
 import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
@@ -46,6 +49,7 @@ type NextAction = {
 
 export type ZhHansFoundationResultStoryProps = {
   payload: string
+  dimensionScores?: DimensionScores
   resultTier: FoundationTier
   questionSet: FoundationQuestionSet | null
   legacy: boolean
@@ -81,6 +85,7 @@ export type ZhHansFoundationResultStoryProps = {
 export function ZhHansFoundationResultStory(
   props: ZhHansFoundationResultStoryProps,
 ) {
+  const interpretation = props.dimensionScores ? buildFoundationInterpretationZh(props.dimensionScores) : null
   const heading = buildZhHansFoundationResultHeading(props)
   const primaryMarkCode = "archetypes" in props.archetype
     ? props.archetype.archetypes.find(
@@ -247,13 +252,12 @@ export function ZhHansFoundationResultStory(
           : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
         <h1 id="zh-foundation-result-heading" lang="en">{props.archetype.name}</h1>
         <p className={frontispiece.qualification}>{heading.title}</p>
-        <p className={frontispiece.frontispieceLead}>{heading.lead}</p>
+        <p className={frontispiece.frontispieceLead}>{interpretation?.summary ?? heading.lead}</p>
         <a href="#nearest" className="cta-primary print-hidden">查看这份读法</a>
         {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><NextLink href={props.nextAction.href}>{props.nextAction.label}</NextLink></p> : null}
       </header>
       <section className={frontispiece.openingPayoff} aria-label="结果要点">
-        <p><strong>你会先注意什么。 </strong>{props.immediateHeadline} {props.familyMeaning}</p>
-        <p><strong>战略与规范取舍。 </strong>{props.strategicMeaning}</p>
+        {interpretation ? <><p className="result-scope">{heading.lead}</p><WorkedApplication example={interpretation.example} locale="zh-Hans" /><p>{interpretation.followUp.question}</p></> : <><p>{props.immediateHeadline} {props.familyMeaning}</p><p>{props.strategicMeaning}</p></>}
         <details>
           <summary>名称、编码与题组</summary>
           <p>{props.archetypeCode}</p>

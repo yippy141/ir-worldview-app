@@ -582,7 +582,7 @@ test.describe("390px Simplified Chinese shell", () => {
     await page.goto(`/zh/results/${FOUNDATION_SHARE_V3_TOKEN}`)
     await expect(page.locator("main h1")).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect.soft(page).toHaveScreenshot("decision-release-zh-foundation-result-390.png")
+    await expect.soft(page).toHaveScreenshot("result-interpretation-zh-foundation-result-390.png")
 
     if (current) {
       await page.goto(`/zh/cases/${current.slug}/sources`)
@@ -604,7 +604,7 @@ test.describe("390px Simplified Chinese shell", () => {
     })
     await expect(page.locator("main h1")).toBeVisible()
     await settleVisualSnapshot(page)
-    await expect(page).toHaveScreenshot("decision-release-zh-foundation-result-windows-font-390.png")
+    await expect(page).toHaveScreenshot("result-interpretation-zh-foundation-result-windows-font-390.png")
   })
 })
 

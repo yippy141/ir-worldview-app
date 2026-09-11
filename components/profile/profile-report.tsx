@@ -1,5 +1,10 @@
 "use client"
 
+import { resolveModulePayload } from "@/lib/modules/framework"
+import { buildModuleInterpretation } from "@/lib/results/module-interpretation"
+import { buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
+import { buildAiInterpretation } from "@/lib/results/ai-interpretation"
+import { resolveAiPayload } from "@/lib/ai-governance-share"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { FoundationProfileResultLink } from "@/components/profile/foundation-profile-result-link"
@@ -58,7 +63,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
   })
 
   return (
-    <article className="result-article">
+    <article className="result-article result-canvas">
       {foundationArchetype && foundationIdentity && displayFoundation ? (
         <ResultCardHero
           eyebrow={mode === "local" ? "Saved Foundation read" : "Shared Foundation read"}
@@ -68,7 +73,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
             foundationIdentity.result,
             foundationArchetype.code,
           )}
-          summary={foundationArchetype.gloss}
+          summary={buildFoundationInterpretation(foundationIdentity.result.dimensionScores).summary}
           actions={
             <>
               {mode === "local" && foundation ? (
@@ -181,6 +186,8 @@ function DomainRecordsSection({
   aiSnapshot: ProfileStore["aiGovernance"]
   mode: "local" | "shared"
 }) {
+  const aiResolved = aiSnapshot ? resolveAiPayload(aiSnapshot.payload) : null
+  const aiInterpretation = aiResolved ? buildAiInterpretation(aiResolved) : null
   const modulesBySlug = Object.fromEntries(
     moduleSnapshots.map((snapshot) => [snapshot.slug, snapshot]),
   ) as Partial<Record<ModuleSnapshot["slug"], ModuleSnapshot>>
@@ -201,6 +208,8 @@ function DomainRecordsSection({
       <div className="profile-domain-records">
         {(["security", "technology"] as const).map((slug) => {
           const snapshot = modulesBySlug[slug]
+          const resolved = snapshot?.payload ? resolveModulePayload(snapshot.payload) : null
+          const moduleReading = resolved ? buildModuleInterpretation(resolved.definition, resolved.runtime.buildModuleResult(resolved.definition, resolved.payload.mode, resolved.payload.answers), resolved.runtime.getSelectedModuleOptions(resolved.definition, resolved.payload.mode, resolved.payload.answers).filter(({ question, primary }) => primary && question.cardType !== "actorLens").length, { bankVersion: resolved.bankVersion, scoringVersion: resolved.scoringVersion, mode: resolved.payload.mode }) : null
           const title = slug === "security" ? "Security" : "Technology"
           const startPath = foundationPayload
             ? `/modules/${slug}?foundation=${encodeURIComponent(foundationPayload)}`
@@ -223,7 +232,7 @@ function DomainRecordsSection({
                 </p>
                 <p className="muted profile-domain-record__summary">
                   {snapshot
-                    ? snapshot.summary
+                    ? moduleReading?.summary ?? snapshot.summary
                     : mode === "local"
                       ? `Complete the ${title} inventory to add a separate result here.`
                       : `This shared Profile does not include a ${title} result.`}
@@ -257,7 +266,7 @@ function DomainRecordsSection({
             </p>
             <p className="muted profile-domain-record__summary">
               {aiSnapshot
-                ? aiSnapshot.summary
+                ? aiInterpretation?.summary ?? aiSnapshot.summary
                 : mode === "local"
                   ? "Complete the AI Governance inventory to add a separate governance result here."
                   : "This shared Profile does not include an AI Governance result."}

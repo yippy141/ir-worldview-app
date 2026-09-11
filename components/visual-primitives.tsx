@@ -56,7 +56,7 @@ export function ScaleBar({
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={boundedValue}
-        aria-valuetext={readableValue}
+        aria-valuetext={lowLabel && highLabel ? `${readableValue}; ${min}: ${lowLabel}; ${max}: ${highLabel}` : readableValue}
       >
         <span
           className="v10-scale-bar__fill"

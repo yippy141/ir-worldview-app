@@ -3,6 +3,7 @@ import { moduleJourneyFixture } from "./fixtures/module-journey"
 import { MODULE_DRAFT_STORAGE_KEY, PROFILE_STORAGE_KEY } from "../lib/storage-keys"
 import { encodeModulePayload, resolveModulePayload } from "../lib/modules/framework"
 import { buildModuleDecisiveCalls } from "../lib/modules/result-copy"
+import { buildModuleInterpretation } from "../lib/results/module-interpretation"
 import { SUPPORTED_MODULE_VERSIONS } from "../lib/modules/versions"
 import { encodeUrlPayload } from "../lib/url-payload"
 import { buildCompatibleProfileSharePayload, encodeProfileSharePayload } from "../lib/profile-share"
@@ -130,7 +131,9 @@ for (const slug of ["security", "technology"] as const) {
       expect([resolved.bankVersion, resolved.scoringVersion]).toEqual([fixture.version.bankVersion, fixture.version.scoringVersion])
       const result = fixture.version.runtime.buildModuleResult(fixture.version.definition, mode, fixture.answers)
       await expect(page.locator(".result-verdict__name")).toHaveText(result.headline)
-      await expect(page.locator(".result-verdict__gloss")).toHaveText(result.summary)
+      const interpretation = buildModuleInterpretation(fixture.version.definition, result, fixture.questions.filter(q => q.cardType !== "actorLens").length, { ...fixture.version, mode })
+      await expect(page.locator(".result-verdict__gloss")).toHaveText(interpretation.summary)
+      await expect(page.locator(".result-application")).toContainText(interpretation.example.rival)
       const selected = fixture.version.runtime.getSelectedModuleOptions(fixture.version.definition, mode, fixture.answers)
         .filter(({ question }) => question.cardType !== "actorLens")
       const calls = buildModuleDecisiveCalls({ moduleDefinition: fixture.version.definition, selected, laneLabelMap: Object.fromEntries(fixture.version.definition.lanes.map(lane => [lane.key, lane.label])) })
@@ -199,8 +202,8 @@ test("actor-only records keep their existing result without posing as scored-ans
     await expect(page.locator(".result-verdict__name")).toHaveText(fixture.version.runtime.buildModuleResult(fixture.version.definition, "analyst", answers).headline)
     await expect(page.getByText(/This link contains no scored answer selections/)).toBeVisible()
     await expect(page.getByRole("region", { name: "Choices behind this reading" })).toHaveCount(0)
-    await page.locator("summary").filter({ hasText: "Full analysis" }).click()
-    await expect(page.locator(".result-details-body")).toContainText(actor.options[0].label)
+    await page.locator("summary").filter({ hasText: "Recorded answers and perspective choices" }).click()
+    await expect(page.locator("details[open] .result-details-body")).toContainText(actor.options[0].label)
     expect(await page.evaluate(key => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
   }
 })
@@ -265,7 +268,7 @@ test("320/390/768/1440 reflow, reduced motion, print and no-JS boundaries", asyn
   await expect(page.getByRole("heading", { name: "Technology axes", exact: true })).toBeVisible()
   await page.evaluate(() => window.dispatchEvent(new Event("afterprint")))
   await page.emulateMedia({ media: "screen" })
-  await expect(page.locator("details").filter({ has: page.locator("summary", { hasText: "Full analysis" }) })).not.toHaveAttribute("open")
+  await expect(page.locator("details").filter({ has: page.locator("summary", { hasText: "Recorded answers and perspective choices" }) })).not.toHaveAttribute("open")
   const context = await browser.newContext({ javaScriptEnabled: false })
   const noJS = await context.newPage()
   await noJS.goto(new URL("/modules/security", page.url()).href, { waitUntil: "networkidle" })
@@ -273,7 +276,7 @@ test("320/390/768/1440 reflow, reduced motion, print and no-JS boundaries", asyn
   await expect(noJS.getByText("Loading your draft…")).not.toBeVisible()
   await noJS.goto(new URL(moduleJourneyFixture("security", "standard").resultPath, page.url()).href)
   await expect(noJS.getByRole("region", { name: "Choices behind this reading" })).toBeVisible()
-  await noJS.locator("summary").filter({ hasText: "Full analysis" }).click()
+  await noJS.locator("summary").filter({ hasText: "Recorded answers and perspective choices" }).click()
   await expect(noJS.getByRole("heading", { name: "Scored evidence log" })).toBeVisible()
   await context.close()
 })

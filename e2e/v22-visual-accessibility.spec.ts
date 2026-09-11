@@ -489,6 +489,14 @@ test("module results retain an optional Profile route after evidence; AI retains
         .locator(".result-verdict__actions")
         .getByRole("link", { name: surface.action, exact: true })
       await expect(action, `${surface.label} at ${viewport.width}px`).toBeVisible()
+      if (await page.locator('[data-ai-lead="saved-nonleading"]').count()) {
+        // Preserved legacy names need a nearby qualification. Its extra text
+        // may move this action below the first viewport; it remains reachable.
+        await expect(page.getByText(/These rounded coordinates do not reproduce it/)).toBeVisible()
+        await action.scrollIntoViewIfNeeded()
+        await expect(action).toBeInViewport()
+        continue
+      }
       const placement = await action.evaluate((element) => {
         const rect = element.getBoundingClientRect()
         return {
