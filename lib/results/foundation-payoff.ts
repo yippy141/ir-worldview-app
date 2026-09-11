@@ -1,3 +1,5 @@
+import { buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
+import type { ResultInterpretation } from "@/lib/results/interpretation"
 import type {
   DimensionKey,
   DimensionScores,
@@ -17,6 +19,7 @@ export type FoundationPayoffInput = {
 }
 
 export type FoundationPayoff = {
+  interpretation: ResultInterpretation
   corePattern: {
     noticeFirst: string
     distrust: string
@@ -126,13 +129,15 @@ export function buildFoundationPayoff(input: FoundationPayoffInput): FoundationP
   const primaryDimension = getStrongestDimension(input.dimensionScores)
   const tensionKey = selectTension(input, primaryDimension)
 
+  const interpretation = buildFoundationInterpretation(input.dimensionScores)
   return {
+    interpretation,
     corePattern: {
-      noticeFirst: familyFrame.noticeFirst,
+      noticeFirst: interpretation.summary,
       distrust: familyFrame.distrust,
       underweight: familyFrame.underweight,
     },
-    mainTension: buildMainTension(tensionKey, input),
+    mainTension: { ...buildMainTension(tensionKey, input), body: interpretation.followUp.question },
     liveDebates: Object.entries(familyFrame.debateLens).map(([title, text]) => ({
       title,
       text,

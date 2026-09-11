@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 618,
-      "newCount": 136,
+      "currentCount": 633,
+      "newCount": 152,
       "newFindings": [
         {
           "audience": "public",
@@ -15,6 +15,16 @@
           "matched": "analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest / Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill",
           "rule": "repeated-three-part-list",
           "source": "Grounds analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest. Imperialism, the extension of capitalist accumulation abroad, is a structural tendency rather than a mere policy choice. Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.2",
+          "count": 1,
+          "file": "lib/results/foundation-interpretation.ts",
+          "fingerprint": "024a76ec2a68894eea7589e90824bd96bb7564b24d2a029e36029f14a2f39fd8",
+          "matched": "the normative position",
+          "rule": "repeated-adjacent-opening",
+          "source": "The normative position gives order and sovereignty priority over attempts to impose justice from outside."
         },
         {
           "audience": "public",
@@ -108,6 +118,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#example.application",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "12e6da802a56b6af736d218ee2ed5745df058ad7d92369a406ce811f2bf1c07d",
+          "matched": "applied here the",
+          "rule": "repeated-adjacent-opening",
+          "source": "Applied here, the innovation-oriented argument asks whether a reversible trial can reduce the backlog without committing the agency to a system it cannot correct. Useful deployment and unconditional deployment are different proposals."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/modules/security.ts#createSecurityModule.summary",
           "count": 1,
           "file": "lib/modules/security.ts",
@@ -165,6 +185,16 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .gloss is required."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.2",
+          "count": 1,
+          "file": "lib/results/foundation-interpretation.ts",
+          "fingerprint": "193c7c51f3dcbcebc269f647d54ab362b6583cc764def48797354158114900e7",
+          "matched": "the strategic position",
+          "rule": "repeated-adjacent-opening",
+          "source": "The strategic position leans toward setting limits on pressure and avoiding overextension."
         },
         {
           "audience": "frozen",
@@ -398,6 +428,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#example.rival",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "3e4b1737a98a9470d57daa5ffdc43b1553bde4064bad0ef2e7cd3071a3159367",
+          "matched": "the strongest objection",
+          "rule": "repeated-adjacent-opening",
+          "source": "The strongest objection is that diffuse commercial access may also transfer the capability that creates the security problem. An end-use promise may be difficult to enforce."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.midRange",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -568,6 +608,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application",
+          "count": 1,
+          "file": "lib/results/ai-interpretation.ts",
+          "fingerprint": "5f52d68f0b7cf588de72a561708882f9255029c45636149fd865f928dadc47ca",
+          "matched": "applied here the",
+          "rule": "repeated-adjacent-opening",
+          "source": "Applied here, the oversight score cannot allocate final authority. A narrow temporary stop, independent review and a time limit are one possible arrangement to examine, not a recorded preference."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -638,6 +688,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#example.application",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "689578fe99aba13428fdf62c53a0ca53f473c39c3b162baa0d04d64d8cb94868",
+          "matched": "applied here the",
+          "rule": "repeated-adjacent-opening",
+          "source": "Applied here, the control score does not establish the right restriction. Its reach, partners' incentives and the domestic capacity cost determine what is gained by acting."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.midRange",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -705,6 +765,16 @@
           "matched": "focus area results",
           "rule": "repeated-adjacent-opening",
           "source": "Focus Area results come from issue-specific questions and are reported on their own domain scales. They sit beside the Foundation and do not rescore its seven dimensions or archetype. There is no numeric bridge and no master score combining the records."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.1",
+          "count": 1,
+          "file": "lib/results/foundation-interpretation.ts",
+          "fingerprint": "789cce64a8e85514ebb23072bd70370add0b25a53c151f4278d0faa091dc6031",
+          "matched": "the strategic position",
+          "rule": "repeated-adjacent-opening",
+          "source": "The strategic position leaves the boundary between applying pressure and setting limits unresolved."
         },
         {
           "audience": "public",
@@ -795,6 +865,16 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense of building your own position rather than forcing the outcome. It does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.1",
+          "count": 1,
+          "file": "lib/results/foundation-interpretation.ts",
+          "fingerprint": "877707dde10a27ea87a2b96be01ef87e7cfca94b206c05935071bdc2fefdb932",
+          "matched": "the normative position",
+          "rule": "repeated-adjacent-opening",
+          "source": "The normative position leaves the threshold for overriding established order unresolved."
         },
         {
           "audience": "frozen",
@@ -918,6 +998,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#summary",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "9c9c5b09a8d56baee2f0bf4176edfc45352b16fc055f03d24286d88390bc341f",
+          "matched": "the recorded technology",
+          "rule": "repeated-adjacent-opening",
+          "source": "The recorded technology positions leave the scope of capability controls open"
+        },
+        {
+          "audience": "public",
           "context": "route:/futures#FuturesPage.p",
           "count": 1,
           "file": "app/futures/page.tsx",
@@ -935,6 +1025,16 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .name is required."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application",
+          "count": 1,
+          "file": "lib/results/ai-interpretation.ts",
+          "fingerprint": "a148d67e56b42bd1ff20a4b9fb464838cd9aec80e47c671424e33f0125831798",
+          "matched": "applied here the",
+          "rule": "repeated-adjacent-opening",
+          "source": "Applied here, the scores leave two live routes: expand independent research access, or retain restrictions until the hazard is better understood. Reversibility and who can veto investigation would help distinguish them."
         },
         {
           "audience": "frozen",
@@ -1027,6 +1127,16 @@
           "source": "Invalid archetype identity catalog: ... .analogue is invalid."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#summary",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "b9821ed96ebaffce442d5a19c55fd0fe471b96518ffbae271005a142860ae094",
+          "matched": "the recorded security",
+          "rule": "repeated-adjacent-opening",
+          "source": "The recorded security positions leave the extent of coercive involvement open"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/technology.v3.json#items.4.scene",
           "count": 1,
@@ -1095,6 +1205,16 @@
           "matched": "lens cards",
           "rule": "lens-metaphor-review",
           "source": "Focus Area questions do three different jobs. Explanation cards ask what best explains a case. Decision cards ask what should carry the most weight in response. Actor-lens cards ask what logic would look strongest from that actor&apos;s own position, and are tracked separately so perspective-modeling does not overwrite your own judgment."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#example.rival",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "c0157cad3db7b69856f84dee043f8e7a683c4b90cbb3ea1bc5da245f1d3e19de",
+          "matched": "the strongest objection",
+          "rule": "repeated-adjacent-opening",
+          "source": "The strongest objection is that a small affected group can bear a concentrated cost while the majority receives the benefit. Reversibility at the agency level may not repair an individual's loss."
         },
         {
           "audience": "public",
@@ -1218,6 +1338,26 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application",
+          "count": 1,
+          "file": "lib/results/ai-interpretation.ts",
+          "fingerprint": "dba6d2f668459549620c4bc6b0b92a9a268f47e813bad48ea7449816abc35245",
+          "matched": "applied here the",
+          "rule": "repeated-adjacent-opening",
+          "source": "Applied here, the geopolitical score does not decide whether partial verification is enough. Comparing the safety gained from delay with the advantage obtainable through evasion would expose the unresolved choice."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.rival",
+          "count": 1,
+          "file": "lib/results/ai-interpretation.ts",
+          "fingerprint": "de83ba7af100584747e240059eca75397bec9b3b01e6eeaf74b0c4953842afab",
+          "matched": "the strongest objection",
+          "rule": "repeated-adjacent-opening",
+          "source": "The strongest objection is that the gatekeeper can suppress inconvenient findings or protect incumbents. Restriction can make the evidence needed to justify release harder to obtain."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#getSubtraditionAffinity.note",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -1255,6 +1395,26 @@
           "matched": "layer, layer",
           "rule": "repeated-abstract-map-language",
           "source": "Canonical saved-layer strings that ProfileReport renders again without synthesizing cross-layer prose."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#example.rival",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "e98d0b13017581cdacd3d2c74924239c964c2618cffe5da14423c0b264b18456",
+          "matched": "the strongest objection",
+          "rule": "repeated-adjacent-opening",
+          "source": "The strongest objection is that withholding a consequential response can leave the partner exposed and make further attacks less costly for the rival."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/module-interpretation.ts#example.application",
+          "count": 1,
+          "file": "lib/results/module-interpretation.ts",
+          "fingerprint": "eada83f06f1a4c09f8cd7e399f198080e3668dc3b391964e176378bcfc6fb0ac",
+          "matched": "applied here the",
+          "rule": "repeated-adjacent-opening",
+          "source": "Applied here, the involvement score does not select a response. Attribution quality, reversibility and the partner's exposure would distinguish a limited pressure campaign from an initially protective response."
         },
         {
           "audience": "frozen",
@@ -1368,7 +1528,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 76,
+      "resolvedCount": 77,
       "resolvedFindings": [
         {
           "count": 1,
@@ -1620,6 +1780,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "ccfe09d136f9dd381a2464a20479c38b46cac6efea5a3fdbf4a7ea4f80c0bb65"
+        },
+        {
+          "count": 1,
           "fingerprint": "ce5a321ba6a8f6db173a005edfb856e5616b36fec788c163646e95b42daf6bc5"
         },
         {
@@ -1675,7 +1839,7 @@
           "fingerprint": "f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a"
         }
       ],
-      "unchangedCount": 482
+      "unchangedCount": 481
     },
     "higherPriorityFindings": [
       {
@@ -2723,7 +2887,7 @@
         "priority": "P1"
       },
       {
-        "count": 618,
+        "count": 633,
         "priority": "P2"
       }
     ]

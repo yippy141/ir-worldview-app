@@ -59,6 +59,7 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
         moduleDefinition={resolved.definition}
         runtime={resolved.runtime}
         bankVersion={resolved.bankVersion}
+        scoringVersion={resolved.scoringVersion}
         payload={payload}
         mode={resolved.payload.mode}
         answers={resolved.payload.answers}

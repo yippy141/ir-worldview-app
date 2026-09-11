@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
 import { AiArchetypeFingerprint } from "@/components/atlas/ai-archetype-fingerprint"
+import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
 import {
   aiAtlasArchetypeLeaningTag,
   getAiAtlasEntries,
@@ -65,7 +66,8 @@ export default async function AiAtlasDetailPage(
   return (
     <div className="wide-container">
       <article className="result-article reading-page">
-        <section className="result-hero stack-md">
+        <section className="result-hero stack-md ai-atlas-mark-hero">
+          <AiArchetypeMark archetype={entry.key} />
           <div className="ai-hero-rule" />
           <p className="ai-hero-eyebrow">AI Governance</p>
           <h1 className="ai-hero-h1">{entry.label}</h1>

@@ -8,6 +8,7 @@ export type ComparisonRow = {
   userScore: number
   primaryExpected: ComparisonExpectation
   runnerUpExpected: ComparisonExpectation
+  note?: string
 }
 
 type Props = {
@@ -17,9 +18,9 @@ type Props = {
 }
 
 const EXPECTED_COPY: Record<ComparisonExpectation, string> = {
-  high: "Expects high",
-  neutral: "No strong expectation",
-  low: "Expects low",
+  high: "Higher-axis emphasis",
+  neutral: "No strong model emphasis",
+  low: "Lower-axis emphasis",
 }
 
 /**
@@ -36,8 +37,8 @@ export function NearestAlternative({ primaryLabel, runnerUpLabel, rows }: Props)
       tabIndex={0}
     >
       <table className="alt-compare">
-        <caption className="sr-only">
-          {primaryLabel} and {runnerUpLabel} compared where they diverge most
+        <caption>
+          These are authored model emphases, not measured expectations about people.
         </caption>
         <thead>
           <tr>
@@ -58,9 +59,9 @@ export function NearestAlternative({ primaryLabel, runnerUpLabel, rows }: Props)
                   </span>
                 ) : null}
               </th>
-              <td data-expected={row.primaryExpected}>{EXPECTED_COPY[row.primaryExpected]}</td>
-              <td data-expected={row.runnerUpExpected}>{EXPECTED_COPY[row.runnerUpExpected]}</td>
-              <td className="alt-compare__score">{row.userScore.toFixed(1)}</td>
+              <td data-expected={row.primaryExpected}>{row.primaryExpected === "high" && row.highLabel ? row.highLabel : row.primaryExpected === "low" && row.lowLabel ? row.lowLabel : EXPECTED_COPY[row.primaryExpected]}</td>
+              <td data-expected={row.runnerUpExpected}>{row.runnerUpExpected === "high" && row.highLabel ? row.highLabel : row.runnerUpExpected === "low" && row.lowLabel ? row.lowLabel : EXPECTED_COPY[row.runnerUpExpected]}</td>
+              <td className="alt-compare__score">{row.userScore.toFixed(1)}{row.note ? <span className="alt-compare__poles">{row.note}</span> : null}</td>
             </tr>
           ))}
         </tbody>

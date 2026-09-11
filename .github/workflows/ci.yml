@@ -68,8 +68,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright Chromium and WebKit
+        run: npx playwright install --with-deps chromium webkit
 
       - name: Print build commit SHA
         run: npm run diagnostics:build-sha
@@ -86,6 +86,9 @@ jobs:
         run: npx playwright test -c playwright.decision-exercises.config.ts
         env:
           DECISION_EVIDENCE_DIR: docs/evidence/decision-exercises-release/repair/regression
+
+      - name: Run result interpretation and geometry checks
+        run: npx playwright test -c playwright.result-interpretation.config.ts
 
       - name: Upload Playwright failure artifacts
         if: failure()

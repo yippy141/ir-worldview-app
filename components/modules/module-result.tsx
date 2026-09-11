@@ -1,3 +1,5 @@
+import { buildModuleInterpretation } from "@/lib/results/module-interpretation"
+import { WorkedApplication } from "@/components/results/worked-application"
 import Link from "next/link"
 import styles from "@/components/modules/module-result.module.css"
 import { getModuleContinuation } from "@/lib/modules/continuation"
@@ -27,6 +29,7 @@ export function ModuleResultView({
   moduleDefinition,
   runtime,
   bankVersion,
+  scoringVersion,
   payload,
   mode,
   answers,
@@ -35,6 +38,7 @@ export function ModuleResultView({
   moduleDefinition: ModuleDefinition
   runtime: ModuleVersion["runtime"]
   bankVersion: number
+  scoringVersion: number
   payload: string
   mode: QuizMode
   answers: ModuleAnswers
@@ -86,6 +90,7 @@ export function ModuleResultView({
   // Keep their historical directional analysis below, separate from the opening evidence.
   const readingCalls = buildModuleDecisiveCalls({ moduleDefinition, selected: scoredSelections, laneLabelMap })
   const availableEvidence = resultEvidenceSelections.filter(({ primary }) => primary)
+  const interpretation = buildModuleInterpretation(moduleDefinition, result, scoredSelections.filter(({ primary }) => primary).length, { bankVersion, scoringVersion, mode })
   const continuation = getModuleContinuation(slug)
   const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
   const identityCode = [
@@ -154,9 +159,12 @@ export function ModuleResultView({
               </span>
             ))}
           </p>
-          <p className="result-verdict__gloss">{result.summary}</p>
+          <p className="result-verdict__gloss">{interpretation.summary}</p>
         </header>
 
+
+        <p className="result-scope">{interpretation.scope}</p>
+        <WorkedApplication example={interpretation.example} />
 
         {readingCalls.length > 0 ? (
           <section className={`result-section result-figure ${styles.evidence}`} aria-labelledby="module-choices-heading">
@@ -195,7 +203,7 @@ export function ModuleResultView({
 
         <section className="result-section result-next">
           <h2>What would change this</h2>
-          <p className="result-next__question">{result.challenge}</p>
+          <p className="result-next__question">{interpretation.followUp.question}</p>
           <div className={`${styles.continuation} print-hidden`}>
             <div>
               <Link href="/profile" className="cta-primary">View Profile</Link>
@@ -246,12 +254,14 @@ export function ModuleResultView({
                   lowLabel={axis.lowLabel}
                   highLabel={axis.highLabel}
                   tone={slug}
+                  className="position-scale"
                 />
+                <p className="result-axis-note">{interpretation.axisReadings[axis.key]}</p>
               </div>
             ))}
           </div>
           <p className="result-figure__note">
-            Each score reports a response direction within this module. Its endpoint labels name
+            Each score reports a response direction within this module. The prose uses this registered form’s model; the scale midpoint is not a population average. Its endpoint labels name
             the two directions; they are not empirical bounds
             {hasActorLens
               ? usesPerspectiveBankPresentation
@@ -288,8 +298,9 @@ export function ModuleResultView({
 
         <section className="result-section result-appendix-section stack-md">
           <div className="print-hidden"><EvidenceControls /></div>
+          <h2>Full analysis</h2>
           <details className="profile-details">
-            <summary>Full analysis</summary>
+            <summary>Reasoning, scope and model reading</summary>
             <div className="stack-lg result-details-body">
               {decisiveCalls.length > 0 ? (
                 <section className="stack-md">
@@ -320,12 +331,14 @@ export function ModuleResultView({
               ) : null}
 
               <div className="stack-md">
-                <h2>Judgments reflected in your answers</h2>
+                <h2>Registered model reading</h2>
+                <p className="result-scope">The model supplies these reference statements for its calculated reading. They cannot fill gaps in the available answers; use the recorded choices and positions to assess where they apply.</p>
                 <ul className="content-list result-prose">
                   {result.instincts.map((instinct) => (
                     <li key={instinct}>{instinct}</li>
                   ))}
                 </ul>
+                <p>{result.challenge}</p>
               </div>
 
               <div className="stack-md">
@@ -355,6 +368,11 @@ export function ModuleResultView({
                 </div>
               </div>
 
+            </div>
+          </details>
+          <details className="profile-details">
+            <summary>Recorded answers and perspective choices</summary>
+            <div className="stack-lg result-details-body">
               {availableEvidence.length > 0 ? (
                 <div className="stack-md">
                   <h2>

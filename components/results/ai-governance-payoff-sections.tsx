@@ -10,7 +10,7 @@ export function AiGovernancePayoffSections({ payoff }: Props) {
       className="ai-governance-payoff result-section stack-lg"
       aria-labelledby="ai-governance-payoff-heading"
     >
-      <h2 id="ai-governance-payoff-heading">Debates you will read differently</h2>
+      <h2 id="ai-governance-payoff-heading">Questions raised by these positions</h2>
 
       <div className="ai-governance-payoff__debate-grid">
         {payoff.policyDebates.map((debate) => (
@@ -20,11 +20,6 @@ export function AiGovernancePayoffSections({ payoff }: Props) {
             <p>{debate.text}</p>
           </article>
         ))}
-      </div>
-
-      <div className="ai-governance-payoff__block ai-governance-payoff__pressure stack-sm">
-        <h3>{payoff.mainTension.title}</h3>
-        <p>{payoff.mainTension.text}</p>
       </div>
     </section>
   )

@@ -1,5 +1,6 @@
 "use client"
 
+import { buildFoundationInterpretationZh } from "@/lib/results/foundation-interpretation-zh"
 import NextLink from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { Link as LocaleLink } from "@/i18n/navigation"
@@ -88,6 +89,7 @@ export function ZhHansProfileDashboard() {
     const payload = buildCompatibleProfileSharePayload(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
+  const foundationIdentity = foundationSnapshot ? resolveFoundationIdentityFromSnapshot(foundationSnapshot) : null
   const foundationRoute = foundationSnapshot
     ? getProfileResultRoute("foundation", foundationSnapshot.resultPath)
     : null
@@ -99,7 +101,7 @@ export function ZhHansProfileDashboard() {
   })
 
   return (
-    <article className="result-article locale-profile-share">
+    <article className="result-article result-canvas locale-profile-share">
       <header className="result-section stack-md">
         <p className="eyebrow">{copy.eyebrow}</p>
         <h1>{copy.title}</h1>
@@ -126,7 +128,7 @@ export function ZhHansProfileDashboard() {
                 view.foundation.runnerUpLabel,
               )}
             </p>
-            <p>{view.foundation.summary}</p>
+            <p>{foundationIdentity ? buildFoundationInterpretationZh(foundationIdentity.result.dimensionScores).summary : view.foundation.summary}</p>
             <p className="muted">
               {copy.nearest}：{view.foundation.familyLabel}；{copy.runnerUp}：
               {view.foundation.runnerUpLabel}。

@@ -1,0 +1,498 @@
+{
+  "base": "b2c0dc0d1f197f4b39d49572136331fb7a3f228a",
+  "scope": "Issued content and matched scoring/calibration/share/storage/version contracts plus module runtime/framework and dependencies; see exact path list. Other delivery exceptions are documented in README.",
+  "checkedPaths": 98,
+  "changedProtectedPaths": [],
+  "files": [
+    {
+      "path": "content/archetype-evidence.json",
+      "unchanged": true,
+      "sha256": "5093483c738279a9b887b4128c7c90c1674ab17186d81214eef6bdf04ccad91d"
+    },
+    {
+      "path": "content/archetypes.json",
+      "unchanged": true,
+      "sha256": "f1f527700821649c6f0f08c081e438650456ee665e62b0a295621675f19a7170"
+    },
+    {
+      "path": "content/current-cases/README.md",
+      "unchanged": true,
+      "sha256": "63887212faf6d9a7b396ded15fc5b0e0080f2ae66eb038b244c0666a898e7ea5"
+    },
+    {
+      "path": "content/current-cases/europe-missile-defence-coalition-ukraine.json",
+      "unchanged": true,
+      "sha256": "e76ee8a7d28e03ca5afa30e2b500f2a0dec45e65649a4425ed913248e3d2a3ed"
+    },
+    {
+      "path": "content/current-cases/south-china-sea-award-at-ten.json",
+      "unchanged": true,
+      "sha256": "279e812c78fd1710c1328470665f711400f3e24be0950600c3e3502385f7d813"
+    },
+    {
+      "path": "content/current-cases/us-brazil-section-301-tariffs.json",
+      "unchanged": true,
+      "sha256": "35eb2707c6d1b794a094cc7857a273b4bac018c55efbc3e9890de4b37f0be3e8"
+    },
+    {
+      "path": "content/explore/hub.en.json",
+      "unchanged": true,
+      "sha256": "7936d6b688dab75fd454184367a20e390474f6ab07dd39ca45e946fe3ac07167"
+    },
+    {
+      "path": "content/instrument/ai-governance.v2.json",
+      "unchanged": true,
+      "sha256": "7a6fc3af779f29c04a249e92c887bc9168af9f49eeb7b436e29f8c3116c0810c"
+    },
+    {
+      "path": "content/instrument/ai-governance.v3.json",
+      "unchanged": true,
+      "sha256": "c61fc704a2121696effc2323f78ba0133ec8c7ae13b60133ef7928fb6f65bfd6"
+    },
+    {
+      "path": "content/instrument/foundation.scoring.v1.json",
+      "unchanged": true,
+      "sha256": "e760f6f5b3037babcb5f64bcdcf54c54b4e8c1471a6d3c17a6bed33626712a00"
+    },
+    {
+      "path": "content/instrument/foundation.v2.json",
+      "unchanged": true,
+      "sha256": "1d47666272d54557313d89ccd437497bda685bac63f814044afff833f114e0e6"
+    },
+    {
+      "path": "content/instrument/schema.json",
+      "unchanged": true,
+      "sha256": "3931a03c04f285413572d511e8aa8a3515aa77688e5500c28f5b2371d60928b6"
+    },
+    {
+      "path": "content/instrument/security.v2.json",
+      "unchanged": true,
+      "sha256": "5eaf9093195b00f9fc2c77211c9018a023b325cff76f96cfd6901dd73536e6bd"
+    },
+    {
+      "path": "content/instrument/security.v3.json",
+      "unchanged": true,
+      "sha256": "4ada4a5625952dcdce6113414e5796295625939d2ad18341d8451898a6b923ea"
+    },
+    {
+      "path": "content/instrument/security.v4.json",
+      "unchanged": true,
+      "sha256": "685317aa2ad0d9f4eea883e6bae9c800364a3865aeb6a49cb2f7f44f600eea4d"
+    },
+    {
+      "path": "content/instrument/security.v5.json",
+      "unchanged": true,
+      "sha256": "2fe8fadc4ab0189b4a5a57d36e0351e7f7cdc0dc1845114b6a12988b85fe383b"
+    },
+    {
+      "path": "content/instrument/technology.v2.json",
+      "unchanged": true,
+      "sha256": "f32ac951c4bf019966c674f6649db468b4eb80c3da28b893659a0747ad964011"
+    },
+    {
+      "path": "content/instrument/technology.v3.json",
+      "unchanged": true,
+      "sha256": "babfdcd7cf84130adb0736ee5abe49c661836ba1cee9ad1fde8799840042a968"
+    },
+    {
+      "path": "content/locales/beta-types.ts",
+      "unchanged": true,
+      "sha256": "ade839b08017676b30879a370787e6bee182b281933eab374222e5a5c79d33d7"
+    },
+    {
+      "path": "content/locales/current-cases.ts",
+      "unchanged": true,
+      "sha256": "ba1ad702b0bcf2d759bcacbf48577cfddabc9233e0e5e366bdb0b3bba1067756"
+    },
+    {
+      "path": "content/locales/en/beta.ts",
+      "unchanged": true,
+      "sha256": "923545cb9c7c846f6d6a4743f7c04e953fc575c36c71daaf4a41c867c5bfe468"
+    },
+    {
+      "path": "content/locales/en/current-cases.ts",
+      "unchanged": true,
+      "sha256": "cb5f17a9b884a7e068fa5f8cdd7de5506d2b514cc662f55c7d3ae54ad7bb783a"
+    },
+    {
+      "path": "content/locales/en/foundation-copy-v2.ts",
+      "unchanged": true,
+      "sha256": "227ceee0f3d95c23b26d48d44da654a81c6503e8ba64e0c728f3ccd42749b02a"
+    },
+    {
+      "path": "content/locales/index.ts",
+      "unchanged": true,
+      "sha256": "0043be0694c6e868bb510b8fd8fb2d7ab2158d18c3a989e613440af35c98ea91"
+    },
+    {
+      "path": "content/locales/types.ts",
+      "unchanged": true,
+      "sha256": "349927711b064ecbca288a3d3cc84ac25ee89e8c5f0636559867b9f2727df72c"
+    },
+    {
+      "path": "content/locales/zh-Hans.ts",
+      "unchanged": true,
+      "sha256": "e462e7359231eabda5e5eedb953bc3c8b9a6377ca5e71e35bc87b0a0102958f8"
+    },
+    {
+      "path": "content/locales/zh-Hans/beta.ts",
+      "unchanged": true,
+      "sha256": "184594133e0f819ff31988ad8537f6ac15ee60b41a5e55f5213bbb2ec6c8221a"
+    },
+    {
+      "path": "content/locales/zh-Hans/current-cases/archive.ts",
+      "unchanged": true,
+      "sha256": "8cefb8ba5c053b5f693d33fed75213224e1b66aeb0a606fbff77a5f0872d8bf6"
+    },
+    {
+      "path": "content/locales/zh-Hans/current-cases/europe-missile-defence-coalition-ukraine.ts",
+      "unchanged": true,
+      "sha256": "9b00c6aea4caa2b82f8e9828de33faf2eb3c0d81c8360637ab7838d3c94698fe"
+    },
+    {
+      "path": "content/locales/zh-Hans/current-cases/index.ts",
+      "unchanged": true,
+      "sha256": "bbc9fa0b02492438404bde1642f58004dfb045caf19d2ae7f1158401b83d28d8"
+    },
+    {
+      "path": "content/locales/zh-Hans/current-cases/south-china-sea-award-at-ten.ts",
+      "unchanged": true,
+      "sha256": "e74b93b0122e6a4d034bbaa7c752813dc9d2d4e0c2f5ca0e17bdfb9a0b9db7a5"
+    },
+    {
+      "path": "content/locales/zh-Hans/current-cases/us-brazil-section-301-tariffs.ts",
+      "unchanged": true,
+      "sha256": "560a4af21718ced4bdd206a7f39d9326eb0bd70962deeca4436b6d407eca1436"
+    },
+    {
+      "path": "content/locales/zh-Hans/editorial-pages.ts",
+      "unchanged": true,
+      "sha256": "987d0f1da231ac0845cd836e39b1c56a4a226f6c47a69e630b982e8ee402e83f"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-back-translations-analyst-a.ts",
+      "unchanged": true,
+      "sha256": "91a9a87baf8ef88d5dc33d560b2e200160ece3672e584a9b55d3ebd56ced2948"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-back-translations-analyst-b.ts",
+      "unchanged": true,
+      "sha256": "f11943a9b8209f2e4943371867baf0692c997902b2b5292cb6d8c54281e2fecb"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-back-translations-standard.ts",
+      "unchanged": true,
+      "sha256": "142f859a2150ad034f4fbd47d654b6998ddf75831b813ca07ec652f75552942e"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-back-translations.ts",
+      "unchanged": true,
+      "sha256": "6c973b4b9ef1b8b0b4595cb006b8f0057f57f9fc107404092ce37a1a6a82a50e"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-analyst-a.ts",
+      "unchanged": true,
+      "sha256": "fbf013cd6c9d5fee700e8689a233109afcf92edb569f26fa9f87f826408a464c"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-analyst-b.ts",
+      "unchanged": true,
+      "sha256": "47368262e08472d6f50c7c415fe9d7aadfdd4acaceeafd2b76e7f0d5f26423c9"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-analyst-c.ts",
+      "unchanged": true,
+      "sha256": "35791ff6466a5cfc6173ab0b53e9fea68f0d05c1d591bd73d5c64ed442bf87b8"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-standard-a.ts",
+      "unchanged": true,
+      "sha256": "b08d2c9fa61ca929b907d57cd68342ae25171048da80f4bb8ff016b1260defa1"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-standard-b.ts",
+      "unchanged": true,
+      "sha256": "3181f05a4fe4fd4ec3ee4e9ee808533e2d551ab58211e5f2a5ad23235237cbb1"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-v2.ts",
+      "unchanged": true,
+      "sha256": "356b82511ac7534464a9e36f6cb4d56373109f6e0847fb9f3ab259dbf1d52c2d"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy-v3.ts",
+      "unchanged": true,
+      "sha256": "b86f01dc4c135639382314e4023792c9767cb9639a5b0d50f39f9c3b25aeb886"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-copy.ts",
+      "unchanged": true,
+      "sha256": "c7ac100ae0f5fa8d698963b2e7ca294388a8b7e9de587f25dba61580f541d6df"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-glossary.ts",
+      "unchanged": true,
+      "sha256": "b9e9978367d5ca65dcd37d52112a784de9a3441a9582204df2c7d3290d9031c6"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-instrument.ts",
+      "unchanged": true,
+      "sha256": "a7a6c02e567cbbb1b4eea5ae3dd177ffddb71d120f431ce8b978269558eb230e"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-item-analysis-analyst-a.ts",
+      "unchanged": true,
+      "sha256": "6913760c14a89126df5da922c5e393b16bbbcdf96d6cf3b6429aca722437f7b8"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-item-analysis-analyst-b.ts",
+      "unchanged": true,
+      "sha256": "f3a81f314ed469be25e42f9ecde75bccbcf5c33f144b7f26e4b22fd200de95e5"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-item-analysis-helpers.ts",
+      "unchanged": true,
+      "sha256": "8c2afe6d8c8212e8c62d9ef21895261c6ba5e912e3e95a6fd4eaafad3f1f24d0"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-item-analysis-standard.ts",
+      "unchanged": true,
+      "sha256": "98c1b27d7ef7ad6ec302fcf683b676c69f1204d5dc81c4f345948b6dfe50b78e"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-item-intent.ts",
+      "unchanged": true,
+      "sha256": "d175f1e8d9f76ad49057eb6a6c835c99515c7029094e42bead576830f6b4298a"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-types.ts",
+      "unchanged": true,
+      "sha256": "e90b017c2ef139ae40786417459064482b4665d769c558ed5c348d845e042ef1"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-ui.ts",
+      "unchanged": true,
+      "sha256": "4468fdfba69f7b112ae70f38029443079dcc5e3bf3d2cd8a78a46f58b6cdd41e"
+    },
+    {
+      "path": "content/locales/zh-Hans/foundation-v21-additions.ts",
+      "unchanged": true,
+      "sha256": "3dfb45a6ea43e09767daaee0b2bf11421fb67e00be5051737bdcd28446df8e1c"
+    },
+    {
+      "path": "content/locales/zh-Hans/index.ts",
+      "unchanged": true,
+      "sha256": "48b29cb08802b093d28c50495a88849e75e6277670d46c83763ca663cdf1e04f"
+    },
+    {
+      "path": "content/locales/zh-Hans/manifest.ts",
+      "unchanged": true,
+      "sha256": "c90f0d7152257241cf035e9ff74d6de2a1d47a9aa60316b299a14a23f48cf3b6"
+    },
+    {
+      "path": "content/locales/zh-Hans/metadata.ts",
+      "unchanged": true,
+      "sha256": "f5b0727e2db026f1e714582803568141b79bac9d3fcc77e9df33484223abc2fd"
+    },
+    {
+      "path": "content/locales/zh-Hans/navigation-controls.ts",
+      "unchanged": true,
+      "sha256": "2bf2cf489c6e67146aa99eb48d12d3db2fa2116cade27b633fad7fa17e752526"
+    },
+    {
+      "path": "content/locales/zh-Hans/product-glossary.ts",
+      "unchanged": true,
+      "sha256": "67e1a750fd4c2af9c0f5e3776949849b92f5b27673dce4d178e1aa31bd7c013a"
+    },
+    {
+      "path": "content/locales/zh-Hans/profile-records.ts",
+      "unchanged": true,
+      "sha256": "af67aea12c81ae434ef74de616d6453020401d1a22342312017a36eee4ee2b70"
+    },
+    {
+      "path": "content/locales/zh-Hans/reference-profiles-ui.ts",
+      "unchanged": true,
+      "sha256": "9d123b657347c680bc9a89fe267b8aa49e86b03e8572e3636b834227858ec471"
+    },
+    {
+      "path": "content/locales/zh-Hans/types.ts",
+      "unchanged": true,
+      "sha256": "9d58541e874d203b339b9a9389be3d6140be11bd3a4e46838d9cb6c7d87d3a92"
+    },
+    {
+      "path": "content/locales/zh-Hans/world-stage.ts",
+      "unchanged": true,
+      "sha256": "ceb68ffc1e8d1a94f7e10d2e40d450f39ec1f85f38b12fceb427368d29ad3234"
+    },
+    {
+      "path": "content/locales/zh-Hans/worldview-map.ts",
+      "unchanged": true,
+      "sha256": "dcb44642298f05575fc88e6d0c8cad3c194052dfdecf6d282c6869d407506274"
+    },
+    {
+      "path": "content/locales/zh-Hans/worldview-profiles.ts",
+      "unchanged": true,
+      "sha256": "db38e4808bdc16d6e5836e2817d54fce8ba214620865964c62b538c9d6290c9b"
+    },
+    {
+      "path": "content/reading/reference-introductions.ts",
+      "unchanged": true,
+      "sha256": "bdfd0ab49d6ffdf6a58bc5234eb122cb619f53a84fc04a2f3d475d9c11b09a74"
+    },
+    {
+      "path": "content/root.ts",
+      "unchanged": true,
+      "sha256": "d16be7a63a21eec882c16f3977caa77856fd6555f25c03ee45bb80e4abce178f"
+    },
+    {
+      "path": "lib/ai-governance-scoring-v21.ts",
+      "unchanged": true,
+      "sha256": "096ff3f59130e63b1be12498ce8bd2eb0b80e21c355bbf0870819e5c17a51d8d"
+    },
+    {
+      "path": "lib/ai-governance-scoring.ts",
+      "unchanged": true,
+      "sha256": "31497f9710c5c75fa0b1778fa212ac063d18fdff1c47b2fc81d1a73331ccb91a"
+    },
+    {
+      "path": "lib/ai-governance-share.ts",
+      "unchanged": true,
+      "sha256": "5e454d71cd1123d2dca53c859fb67c0f32395e652aee93f93e8409281c57f300"
+    },
+    {
+      "path": "lib/ai-governance-versions.ts",
+      "unchanged": true,
+      "sha256": "09c351c88175671448fed98649a54c4a804976803eb5ba7cea8b3af371d43831"
+    },
+    {
+      "path": "lib/foundation-copy-share.ts",
+      "unchanged": true,
+      "sha256": "9981c12382f8d2816be9ba31a84e732c1f2a19667639a347cd6e71a73ba0c2b4"
+    },
+    {
+      "path": "lib/foundation-copy-versions.ts",
+      "unchanged": true,
+      "sha256": "0eb0910c87ed30cdbe8ebb6c663bb3062abd1dd10a9ce80b2b551c4fb43f8dc2"
+    },
+    {
+      "path": "lib/modules/calibration-data-v22.ts",
+      "unchanged": true,
+      "sha256": "eba33d471192a1a5efff0309461bf64056c52b922ea10fdb29d75c6c92e83754"
+    },
+    {
+      "path": "lib/modules/calibration-data-v4.ts",
+      "unchanged": true,
+      "sha256": "3e54b23319e9ee0f213be07510ffd19e8655c8ddcb15759be3f4787374686e8b"
+    },
+    {
+      "path": "lib/modules/calibration-data.ts",
+      "unchanged": true,
+      "sha256": "6a1d1a5ada8f2383a660d77db7b579deff69797d8a15d5f825220331143573ac"
+    },
+    {
+      "path": "lib/modules/calibration.ts",
+      "unchanged": true,
+      "sha256": "d3bd820f56f7fc1462f47fedb2ac836e0ee0b234fc9e2cc484566ba50f21c46f"
+    },
+    {
+      "path": "lib/modules/framework.ts",
+      "unchanged": true,
+      "sha256": "fd282619087405f2acb22cea2987b9374fb403e44bb426539551991e6297b57f"
+    },
+    {
+      "path": "lib/modules/versions.ts",
+      "unchanged": true,
+      "sha256": "056ac23d6dfc3777298847cd601d2acf97661dee5a40c94e1e4095c033bbda34"
+    },
+    {
+      "path": "lib/perspectives/scoring.ts",
+      "unchanged": true,
+      "sha256": "8f586c2c91056b71fee3b5e68ccc829ac9a53411a2b180543374fc8b262893fb"
+    },
+    {
+      "path": "lib/perspectives/share.ts",
+      "unchanged": true,
+      "sha256": "44d5393b5ec7ae49ab88ded45487ce348931abf7be44a92b820a391cd2db9971"
+    },
+    {
+      "path": "lib/perspectives/storage.ts",
+      "unchanged": true,
+      "sha256": "88c539f0ee0904aa11e2177cd0a3fbec9ec37f6b6ea1dc30f77c5b1bb43b4706"
+    },
+    {
+      "path": "lib/profile-share-locale.ts",
+      "unchanged": true,
+      "sha256": "9a8a7c2f8937321b12b40cc4ad5bdd9996efb81025fd82a6c4f9bfa92f45a0be"
+    },
+    {
+      "path": "lib/profile-share.ts",
+      "unchanged": true,
+      "sha256": "ef06563e4d35a8f3cbf339b1b989db30f83b7e17e5516a044fd9985db5eede96"
+    },
+    {
+      "path": "lib/profile-store.ts",
+      "unchanged": true,
+      "sha256": "8a4377068126cf56c220ce6e410b9ff12e06e6b7cb5c3ec381a8209c7727aff4"
+    },
+    {
+      "path": "lib/research/scoring-replay.ts",
+      "unchanged": true,
+      "sha256": "15f3b61cf3e41b907ff389103db34a906baa605911ac957d046fd4487eb40ac4"
+    },
+    {
+      "path": "lib/scoring-calibration.ts",
+      "unchanged": true,
+      "sha256": "6f3da32f4d4c5e3c9ca434a90856969fdc8f84db5ce50e60755be584ee2b1f4b"
+    },
+    {
+      "path": "lib/scoring.ts",
+      "unchanged": true,
+      "sha256": "494f41da19956ddba21a54eb0d4caef7654267dbf5c77664885712387ebdcfac"
+    },
+    {
+      "path": "lib/scoring/v1.ts",
+      "unchanged": true,
+      "sha256": "64ba868f9abdb4b2a3f6cb037a0b5b4301fd17132597b4180fa676a75e7443cb"
+    },
+    {
+      "path": "lib/scoring/v2-calibration.ts",
+      "unchanged": true,
+      "sha256": "0f4d08855f3c17c6657b8b8c05d6e32b01aa199691875c9a4e97d422d84a5aed"
+    },
+    {
+      "path": "lib/scoring/v2.ts",
+      "unchanged": true,
+      "sha256": "295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c"
+    },
+    {
+      "path": "lib/scoring/versions.ts",
+      "unchanged": true,
+      "sha256": "87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c"
+    },
+    {
+      "path": "lib/share-card.ts",
+      "unchanged": true,
+      "sha256": "7540e5e52f235d01bb5fa6a97f2d2a79b71cfcf01b947d107f1609153146dfd1"
+    },
+    {
+      "path": "lib/share.ts",
+      "unchanged": true,
+      "sha256": "26d8cf662000bb8dc84c4f38a1e304617aa0a4f72ab19c56f232fafbdbf60f12"
+    },
+    {
+      "path": "lib/storage-keys.ts",
+      "unchanged": true,
+      "sha256": "9b888b7701fd42e757b86fe504bf248098712d4ea0c204d8d634b8e53bc74ca5"
+    },
+    {
+      "path": "package-lock.json",
+      "unchanged": true,
+      "sha256": "a1d2f9529395a853edbf78259424f30ad999b0f26a155e90690466bd6585923f"
+    },
+    {
+      "path": "package.json",
+      "unchanged": true,
+      "sha256": "64d6f3f0b7deacb2662fb2e8d67418af64458a0e71f406fb39e4d7fb50fce6fd"
+    }
+  ]
+}

@@ -54,17 +54,6 @@ export function ReadingPathSection({
                 <p className="reading-path-subheading">{path.subheading}</p>
               </div>
 
-              {path.links && path.links.length > 0 ? (
-                <div className="reading-path-related">
-                  <p className="reading-path-related-label">Explore this question</p>
-                  {path.links.map((link) => (
-                    <p key={`${path.key}-${link.href}`} className="reading-path-related-item">
-                      <Link href={link.href}>{link.label}</Link>
-                      <span className="muted"> — {link.text}</span>
-                    </p>
-                  ))}
-                </div>
-              ) : null}
             </div>
 
             <div className="reading-entry-list">
@@ -95,6 +84,17 @@ export function ReadingPathSection({
                 </article>
               ))}
             </div>
+              {path.links && path.links.length > 0 ? (
+                <div className="reading-path-related">
+                  <p className="reading-path-related-label">Explore this question</p>
+                  {path.links.map((link) => (
+                    <p key={`${path.key}-${link.href}`} className="reading-path-related-item">
+                      <Link href={link.href}>{link.label}</Link>
+                      <span className="muted"> — {link.text}</span>
+                    </p>
+                  ))}
+                </div>
+              ) : null}
           </section>
         ))}
       </div>

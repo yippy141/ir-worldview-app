@@ -383,6 +383,7 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
     await expect(noJsPage.locator("[data-foundation-story-chapter]")).toHaveCount(7)
     await expect(noJsPage.locator("[data-foundation-sticky-region]")).toBeVisible()
     await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(7)
+    await noJsPage.getByText("Open the orientation matrix", { exact: true }).click()
     await expect(noJsPage.locator(
       '[role="region"][aria-label="Registered Foundation reading matrix"]:visible',
     ))
@@ -512,7 +513,7 @@ test("Simplified Chinese root and result remain Chinese-only at 390px", async ({
     .toBeLessThanOrEqual(390)
 })
 
-test("print mode is static, complete, and produces a compact three- or four-page report", async ({ context, page }) => {
+test("print mode is static, complete, and includes the worked application in at most five pages", async ({ context, page }) => {
   await page.goto(`/results/${fixtures.clearerPureCore}`)
   await page.emulateMedia({ media: "print", reducedMotion: "reduce" })
 
@@ -539,7 +540,7 @@ test("print mode is static, complete, and produces a compact three- or four-page
   const pdfText = Buffer.from(data, "base64").toString("latin1")
   const pageCount = pdfText.match(/\/Type\s*\/Page\b/gu)?.length ?? 0
   expect(pageCount).toBeGreaterThanOrEqual(3)
-  expect(pageCount).toBeLessThanOrEqual(4)
+  expect(pageCount).toBeLessThanOrEqual(5)
 })
 
 async function focusRootDestination(

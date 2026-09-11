@@ -1,0 +1,88 @@
+kind,artifact_or_target,screenshot_captured,screenshot_actually_inspected,geometry_asserted,task_executed,inspection_extent_or_limit
+capture,after/ai-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-1440.png,yes,yes,see geometry JSON and browser suite,capture,Opening in contact sheet; calculations and sources inspected separately
+capture,after/ai-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-calculations-region.png,yes,yes,see geometry JSON and browser suite,capture,Full exact-comparison region
+capture,after/ai-print.pdf,PDF,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-print.png,yes,yes,see geometry JSON and browser suite,capture,Long-page print hierarchy; not each PDF page
+capture,after/ai-reference-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-reference-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-sources-region.png,yes,yes,see geometry JSON and browser suite,capture,Full expanded source region
+capture,after/ai-tie-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-tie-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/ai-tied-marks.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-1024.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-1920.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-320.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-768.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/atlas-marks.png,yes,yes,see geometry JSON and browser suite,capture,Full six-mark region after capture-only sticky-header masking
+capture,after/chinese-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/chinese-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/chinese-opening.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/foundation-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/foundation-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/foundation-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/foundation-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/foundation-768-text-200.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/foundation-enlarged-records.png,yes,yes,see geometry JSON and browser suite,capture,Record region with text enlargement; screenshot-only header masking
+capture,after/foundation-nearest.png,yes,yes,see geometry JSON and browser suite,capture,Full final comparison region; runner-up challenge now correctly refers to political economy
+capture,after/foundation-print.pdf,PDF,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/profile-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/profile-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/profile-fresh-390.png,yes,yes,see geometry JSON and browser suite,capture,Full fresh Profile mobile capture
+capture,after/profile-zh-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/profile-zh-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/security-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/security-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/security-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/security-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/security-application.png,yes,yes,see geometry JSON and browser suite,capture,Worked application in contact sheet
+capture,after/technology-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/technology-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/technology-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/technology-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,after/technology-application.png,yes,yes,see geometry JSON and browser suite,capture,Full worked application
+capture,before/ai-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/ai-1440.png,yes,yes,see geometry JSON and browser suite,capture,Full baseline; also opening in contact sheet
+capture,before/ai-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/ai-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-1024.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-1920.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-320.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/atlas-768.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/foundation-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/foundation-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/foundation-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/foundation-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/security-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/security-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/security-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/security-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/technology-1440-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/technology-1440.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/technology-390-expanded.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,before/technology-390.png,yes,no,see geometry JSON and browser suite,capture,Captured for review; no claim of final pixel inspection
+capture,contact-sheet.png,yes,yes,see geometry JSON and browser suite,capture,Six representative panels; opening views deliberately cropped
+snapshot,../../../e2e/i18n.spec.ts-snapshots/result-interpretation-zh-foundation-result-390-chromium-darwin.png,yes,yes,mobile overflow assertions,snapshot comparison,Full new Chinese mobile snapshot inspected; original snapshot names retained
+snapshot,../../../e2e/i18n.spec.ts-snapshots/result-interpretation-zh-foundation-result-windows-font-390-chromium-darwin.png,yes,yes,mobile overflow assertions,snapshot comparison,Full new Chinese mobile snapshot inspected; original snapshot names retained
+task,AI and Atlas at 320/390/719/720/721/768/1024/1440/1920,suite-dependent,no blanket claim,yes,Chromium and WebKit,Canvas centers; six equal marks; shared tracks; label/cell boundaries
+task,AI / Atlas / Foundation / Chinese / Technology at 768 with doubled text,suite-dependent,no blanket claim,yes,Chromium and WebKit,"All disclosures opened; doubled computed text sizes, not browser zoom; no physical device claim"
+task,Six real AI identities and exact six-way tie,suite-dependent,no blanket claim,yes,Chromium and WebKit,Correct canonical identity and equal tied marks; expanded readings
+task,"AI completed geopolitics 7/7, 1/1, 4/4",suite-dependent,no blanket claim,yes,Chromium and WebKit,"Explicit Generate action; exact selections present, absent on reload"
+task,Keyboard / print / no-JS / Foundation anchor,suite-dependent,no blanket claim,yes,Chromium and WebKit,Enter toggle; prior disclosure state restored after print; default case and marks render without JS
+task,162 finite routes from inherited 601-row ledger,suite-dependent,no blanket claim,heading and HTTP only,Chromium crawl,Fresh storage between routes; rendered headings and internal links; does not establish every linked destination or embedded instance was visually read
+task,Existing Chromium e2e suites,suite-dependent,no blanket claim,suite-specific,161 cases across full and focused confirmations,"Entries, answering, review, result, Profile, reading, maps, Futures, legacy and unknown-copy paths; screenshots are not all visually inspected"
+task,Module journeys,suite-dependent,no blanket claim,suite-specific,18 WebKit cases,Complete and resumed Standard/Analyst flows; exact payload and profile contracts
+task,Decision public / states / access experience,suite-dependent,no blanket claim,suite-specific,26 cases across full and focused confirmation,New deep-heading assertion adjusted; full repair file not part of this local selection
+inspection-history,Initial candidate AI1440/AI390/Atlas1440/Foundation1440/Security390/Profile1440/Chinese390,yes,yes,followed by fixes,initial design inspection,Final capture files supersede these earlier images; do not count them as final full-image inspection
+snapshot,../../../e2e/i18n.spec.ts-snapshots/result-interpretation-zh-foundation-result-390-chromium-linux.png,yes,yes,mobile suite assertions,Linux CI snapshot capture,Full 390x844 viewport snapshot; not the entire document; exact source artifact in linux-snapshots.json
+snapshot,../../../e2e/i18n.spec.ts-snapshots/result-interpretation-zh-foundation-result-windows-font-390-chromium-linux.png,yes,yes,mobile suite assertions,Linux CI snapshot capture,Full 390x844 viewport snapshot; not the entire document; exact source artifact in linux-snapshots.json
