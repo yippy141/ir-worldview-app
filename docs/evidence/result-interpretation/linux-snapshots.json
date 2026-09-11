@@ -1,0 +1,22 @@
+{
+  "run": "https://github.com/yippy141/ir-worldview-app/actions/runs/34566156081",
+  "artifactId": 10186196729,
+  "head": "47e16dd720bd01016e1bc392cf95a0210d639fb8",
+  "disposition": "Two new expected Linux files were absent. All other 159 e2e cases passed. Actual Linux images inspected and added under new result-interpretation names; historical baselines unchanged.",
+  "records": [
+    {
+      "snapshot": "e2e/i18n.spec.ts-snapshots/result-interpretation-zh-foundation-result-390-chromium-linux.png",
+      "sourceArtifactEntryBasename": "result-interpretation-zh-foundation-result-390-actual.png",
+      "sha256": "9841282126140a1d18071bd0e1f9604a4e2d5a488e20f57352a0a1546d75df7a",
+      "visuallyInspected": true,
+      "extent": "Full 390x844 viewport snapshot; not the entire document"
+    },
+    {
+      "snapshot": "e2e/i18n.spec.ts-snapshots/result-interpretation-zh-foundation-result-windows-font-390-chromium-linux.png",
+      "sourceArtifactEntryBasename": "result-interpretation-zh-f-2308b-result-windows-font-390-actual.png",
+      "sha256": "9841282126140a1d18071bd0e1f9604a4e2d5a488e20f57352a0a1546d75df7a",
+      "visuallyInspected": true,
+      "extent": "Full 390x844 viewport snapshot; not the entire document"
+    }
+  ]
+}

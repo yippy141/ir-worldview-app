@@ -7,7 +7,7 @@ Baseline: `b2c0dc0d1f197f4b39d49572136331fb7a3f228a` (PR56 merge, reverified aga
 - `npm run lint` and `npm run typecheck`: pass.
 - `npm run test`: 681 pass. Coverage includes 1,600 complete, recomputed AI profiles across six labels; 500 Foundation profiles across four families; exact score-identical AI answer witnesses; all registered module tuples and forms; existing applicability, immutability, scoring, copy binding and compatibility protections.
 - `npm run validate`: zero failures. Two existing geometric-compromise findings remain for Security `regional_monitoring_compromise` and Technology `focus_on_deployer_controls`. This pass preserves those issued choices.
-- `npm run copy:audit:strict`: strict failure count zero. The existing report still contains 680 signals (P0 17 / P1 30 / P2 633); these are not a claim of zero editorial debt.
+- `npm run copy:audit:strict`: strict failure count zero. The audit report contains 680 signals (P0 17 / P1 30 / P2 633); these are not a claim of zero editorial debt.
 - `npm run evidence:audit` then `npm run evidence:audit:check`: current summary regenerated and read-only check passes. Historic baselines are unchanged.
 - `npm run build`: production build passes.
 - `git diff --check`: passes. [protection-audit.json](protection-audit.json) records byte-for-byte comparison of 98 protected paths against the base.
@@ -35,4 +35,6 @@ The one bounded design inspection exposed doubled-text domain-card overflow and 
 
 ## CI and preview
 
-The draft PR runs the required verification job, existing Chromium e2e tests, full decision suite and new Chromium/WebKit suite. Linux versions of the two newly named Chinese screenshots must be captured and visually verified on the Linux runner. The automatic preview URL and final check revision are recorded here once available. No manual deployment or merge is authorized by this delivery.
+[The first Linux run](https://github.com/yippy141/ir-worldview-app/actions/runs/34566156081) passed the complete verification job and 159 of 161 existing browser tests. Its only failures were the two absent new Chinese baselines. Both actual 390×844 images were inspected and added as Linux snapshots; [linux-snapshots.json](linux-snapshots.json) records their source artifact and hashes. Historical snapshots remain unchanged.
+
+The completed branch reruns both jobs, including the full decision suite and new Chromium/WebKit suite. The current check revision and status are attached to [draft PR57](https://github.com/yippy141/ir-worldview-app/pull/57/checks). [All nine direct preview URLs](preview-links.md) returned HTTP 200; [preview-smoke.json](preview-smoke.json) records the expected worked applications and six marks on the automatic Vercel preview. No manual deployment or merge was performed.

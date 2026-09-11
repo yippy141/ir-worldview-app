@@ -1,8 +1,8 @@
 # Result interpretation and visual completion
 
-Candidate based on `b2c0dc0d1f197f4b39d49572136331fb7a3f228a`, after PR56 merged. The original checkout, main and unrelated open PRs are untouched. One branch: `codex/result-interpretation-completion`. No merge or manual deployment.
+Candidate based on `b2c0dc0d1f197f4b39d49572136331fb7a3f228a`, after PR56 merged. The original checkout, main and unrelated open PRs are untouched. [Draft PR57](https://github.com/yippy141/ir-worldview-app/pull/57). One branch: `codex/result-interpretation-completion`. No merge or manual deployment.
 
-[Visual contact sheet](contact-sheet.png) · [Synthetic review links](walkthrough.html) · [Six substantive before/after examples](copy-examples.md) · [Recomputed example inputs](copy-examples.json)
+[Visual contact sheet](contact-sheet.png) · [Direct preview links](preview-links.md) · [Six substantive before/after examples](copy-examples.md) · [Recomputed example inputs](copy-examples.json)
 
 ## Review the assembled result
 
