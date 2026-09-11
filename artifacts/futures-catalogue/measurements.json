@@ -1,0 +1,25 @@
+{
+  "evidence": "Synthetic browser fixtures only; capture is not visual inspection or human validation.",
+  "measurements": [
+    {
+      "width": 320,
+      "state": "collection/question/result/comparison",
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "state": "collection/question/result/comparison",
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "state": "collection/question/result/comparison",
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "state": "collection/question/result/comparison",
+      "overflow": false
+    }
+  ]
+}

@@ -31,7 +31,7 @@ import { AiGovernanceReadingListSection } from "@/components/results/ai-governan
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
 import { buildAiGovernancePayoff } from "@/lib/results/ai-governance-payoff"
 import type { Metadata } from "next"
-import { departure } from "@/lib/futures/departure"
+import { futuresRoutes } from "@/lib/futures/catalogue/index"
 
 export async function generateMetadata(
   { params }: { params: Promise<{ payload: string }> },
@@ -254,10 +254,10 @@ export default async function AiResultPage(
         </section>
 
         <AiProjectBridge mode="result" />
-        <section className="article-section stack-sm" aria-labelledby="departure-invitation">
-          <h2 id="departure-invitation">Would you leave Earth?</h2>
-          <p className="muted">This result leaves that question open. Consider personal departure, other adults’ freedom to leave and authority over successor AI in a standalone fictional exercise.</p>
-          <p><Link href={departure.href} prefetch={false}>Try {departure.title} · English draft</Link></p>
+        <section className="article-section stack-sm" aria-labelledby="futures-invitation">
+          <h2 id="futures-invitation">Which futures would you want?</h2>
+          <p className="muted">Your governing priorities today leave that question open. Explore possible worlds, compare preferred conditions and consider expectations separately. This result supplies no answers to Futures.</p>
+          <p><Link href={futuresRoutes.collection} prefetch={false}>Explore the Futures catalogue</Link> · <Link href={futuresRoutes.preferences} prefetch={false}>Consider preferred conditions</Link></p>
         </section>
 
         <section className="result-section result-appendix-section stack-md">

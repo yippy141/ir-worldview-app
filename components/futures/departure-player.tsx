@@ -50,7 +50,7 @@ export function DeparturePlayer() {
 
   return <div className={styles.player}>
     <div className={styles.localNav}>
-      <Link href="/futures" prefetch={false}>All twelve trajectories</Link>
+      <Link href="/futures" prefetch={false}>All futures</Link>
       <a href="#nearby-scenarios">Browse the comparison shelf</a>
     </div>
     <div className={styles.statusLine}><span>{departure.status}</span><span>No score · Choices stay in this page</span></div>

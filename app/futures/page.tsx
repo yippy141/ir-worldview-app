@@ -1,99 +1,17 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { trajectories, trajectoriesUpdated } from "@/lib/futures/trajectories"
-import { TrajectoryMap } from "@/components/futures/trajectory-map"
-import { TrajectoryCard } from "@/components/futures/trajectory-card"
-import { departure } from "@/lib/futures/departure"
+import { futureCatalogue, catalogueVersion, futuresRoutes } from "@/lib/futures/catalogue/index"
 import { futuresSources } from "@/lib/futures/sources"
+import { CatalogueEntry } from "@/components/futures/catalogue-content"
+import { TrajectoryMap } from "@/components/futures/trajectory-map"
+import styles from "@/components/futures/catalogue.module.css"
 
-export const metadata: Metadata = {
-  title: "Twelve Trajectories | IR Worldview Inventory",
-  description:
-    "An editorial field map of twelve overlapping outcome scenarios adapted from Max Tegmark's Life 3.0. Source premises and project interpretations, never scored.",
-}
-
+export const metadata: Metadata = { title: "Futures | IR Worldview Inventory", description: "Browse possible human and AI futures, compare desired conditions, and consider expectations separately." }
 export default function FuturesPage() {
-  return (
-    <div className="wide-container">
-      <div className="article-header stack-sm">
-        <p className="eyebrow">Editorial field map</p>
-        <h1>Twelve Trajectories</h1>
-        <p className="muted" style={{ lineHeight: "1.7", fontSize: "1.05rem", maxWidth: "620px" }}>
-          A field map of where sustained progress in advanced AI could take us. The twelve
-          trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or
-          scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a
-          shared shape: the original premises, this project’s extensions, and the questions they raise.
-        </p>
-        <p className="muted" style={{ lineHeight: "1.7", maxWidth: "620px" }}>
-          Read the map for orientation, then open any card for the reasoning behind it.
-        </p>
-      </div>
-
-      <section className="article-section stack-sm" aria-labelledby="departure-link-title">
-        <h2 id="departure-link-title">An invitation to leave Earth</h2>
-        <p className="muted" style={{ maxWidth: "620px", lineHeight: "1.7" }}>An AI offers settlements beyond Earth. Those who stay keep the tools and govern themselves. Consider departure, return and the authority it leaves behind in a separate, unscored exercise.</p>
-        <p><Link href={departure.href} prefetch={false} className="cta-secondary">Try {departure.title} · English draft</Link></p>
-      </section>
-
-      <hr className="divider" />
-
-      {/* Map */}
-      <div className="article-section stack-sm">
-        <div className="stack-xs">
-          <h2>The field</h2>
-          <p className="muted" style={{ lineHeight: "1.65", maxWidth: "620px" }}>
-            Two questions organize the space. Left to right: is control over advanced AI broadly
-            distributed, or held by a single actor? Top to bottom: do humans still steer outcomes,
-            or are they sidelined? Placements are an authored reading for orientation, not a
-            measurement.
-          </p>
-        </div>
-        <TrajectoryMap />
-      </div>
-
-      <hr className="divider" />
-
-      {/* Card grid */}
-      <div className="article-section stack-md">
-        <div className="stack-xs">
-          <h2>The twelve trajectories</h2>
-          <p className="muted" style={{ lineHeight: "1.65", maxWidth: "620px" }}>
-            Each card distinguishes the original premise from our interpretation. Expand it for
-            source context, possible assumptions, criticism and unresolved questions.
-          </p>
-        </div>
-        <div className="trajectory-grid">
-          {trajectories.map((trajectory) => (
-            <TrajectoryCard key={trajectory.id} trajectory={trajectory} />
-          ))}
-        </div>
-      </div>
-
-      <hr className="divider" />
-
-      {/* Attribution + scope */}
-      <div className="article-section stack-sm">
-        <h2>Source and scope</h2>
-        <p style={{ lineHeight: "1.7", maxWidth: "620px" }}>
-          The twelve scenarios are adapted, with attribution, from the aftermath scenarios in Max
-          Tegmark&apos;s{" "}
-          <a
-            href={futuresSources.book.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "var(--accent)" }}
-          >
-            Life 3.0
-          </a>{" "}
-          (Knopf, 2017), chapter 5. Original names remain visible. <a href={futuresSources.aftermath.url}>FLI’s reference</a> anchors the short premise paraphrases. The descriptions, assumptions, criticism and extensions are this project’s editorial writing. Attribution does not imply permission or endorsement.
-        </p>
-        <p className="muted" style={{ lineHeight: "1.7", maxWidth: "620px" }}>
-          This is an editorial layer. It is never scored, never feeds the instrument, and does not
-          classify the reader. The trajectories are families of nearby outcomes, not a fixed menu;
-          earlier unsourced current-development and community claims are withheld from display.
-          The historical records from {trajectoriesUpdated} remain preserved. Source premises checked 11 September 2026. Map placements are editorial, can overlap and may concern different time horizons.
-        </p>
-      </div>
-    </div>
-  )
+  return <article className={styles.page} lang="en">
+    <header className={styles.header}><h1>Which futures could you live with?</h1><p className={styles.lead}>Different forms of power. Different ways of living. Open questions about what comes next.</p><p>Browse {futureCatalogue.length} possible futures, compare any two, or consider the conditions you would want through twelve questions. You can then record what seems plausible separately.</p><div className={styles.actions}><Link href={futuresRoutes.preferences} prefetch={false} className="cta-primary">Consider your preferred conditions</Link><a href="#catalogue" className="cta-secondary">Browse all futures</a><Link href={futuresRoutes.compare} prefetch={false}>Compare two scenarios</Link></div><p className={styles.small}>English editorial draft · {futureCatalogue.length} catalogue entries · {futureCatalogue.filter(s => s.exercise).length} optional exercise. These overlap; they are not a set of exclusive destinies.</p></header>
+    <section id="catalogue" className={styles.section} aria-labelledby="catalogue-title"><h2 id="catalogue-title">The catalogue</h2><p>The original twelve scenarios from Max Tegmark’s <em>Life 3.0</em> sit alongside project-authored possibilities. A feared future can belong here without being made attractive.</p><nav className={styles.index} aria-label="Every published future">{futureCatalogue.map(s => <a key={s.id} href={`#trajectory-${s.id}`}>{s.name}</a>)}</nav><div>{futureCatalogue.map(s => <CatalogueEntry key={s.id} scenario={s} />)}</div></section>
+    <details className={styles.disclosure}><summary>The historical map of the twelve inherited scenarios</summary><p>The existing positions and aliases are preserved as an editorial orientation. The seven project-authored additions are described in the catalogue rather than assigned invented coordinates. The list above is the complete collection; map positions never enter preference matching.</p><TrajectoryMap /></details>
+    <section id="source-and-scope" className={styles.sources}><h2>Source and scope</h2><p>The twelve inherited concepts are credited to Max Tegmark’s <a href={futuresSources.book.url}>Life 3.0</a>, chapter 5. <a href={futuresSources.aftermath.url}>FLI’s scenario reference</a> anchors short original-premise paraphrases. Original names and prior project aliases remain visible. Attribution does not imply permission or endorsement.</p><p>New scenarios, life-and-institution accounts, comparisons and feature descriptors are project-authored hypothetical or editorial material. Each entry identifies what is unspecified. Earlier unsupported current-development and community-attribution claims remain withheld; no current scientific headline is used to establish a future or its likelihood.</p><p className={styles.small}>{catalogueVersion} · Sources checked 11 September 2026. Catalogue matching is separate from Foundation and AI Governance scoring. General choices and expectations stay in page memory; The Departure is optional and contributes no answers to either.</p></section>
+  </article>
 }

@@ -117,14 +117,14 @@ test("keyboard, equal policy framing, reset confirmation and reduced motion", as
 })
 
 test("320/390/768/1440 reflow and an inspectable visual walkthrough", async ({ page }) => {
-  mkdirSync("artifacts/futures-departure", { recursive: true })
+  mkdirSync("test-results/futures-departure-regression", { recursive: true })
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     await page.goto(departure.href)
     await page.evaluate(() => document.fonts.ready)
     const capture = async (state: string) => {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-      await page.screenshot({ path: `artifacts/futures-departure/${state}-${width}.png`, fullPage: true })
+      await page.screenshot({ path: `test-results/futures-departure-regression/${state}-${width}.png`, fullPage: true })
     }
     await capture("opening")
     await page.getByRole("button", { name: "Consider the invitation", exact: true }).click()
@@ -141,7 +141,7 @@ test("320/390/768/1440 reflow and an inspectable visual walkthrough", async ({ p
     await page.getByRole("button", { name: "Submit and read my decisions" }).click()
     await capture("reading")
     await page.goto("/futures")
-    await expect(page.locator("article.trajectory-card")).toHaveCount(12)
+    await expect(page.locator('article[data-origin="inherited"]')).toHaveCount(12)
     await capture("collection")
   }
   await page.goto("/zh/futures/departure")

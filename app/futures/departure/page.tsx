@@ -28,9 +28,9 @@ export default function DeparturePage() {
           const scenario = trajectories.find(t => t.id === item.id)!
           return <article key={item.id}><div><h3><Link href={`/futures#trajectory-${scenario.id}`} prefetch={false}>{scenario.name}</Link></h3><p className={styles.small}>Original: {scenario.tegmarkName}<br />Max Tegmark, Life 3.0, chapter 5</p></div><p>{item.reason}</p></article>
         })}
-        <article><div><h3>Constitutional Delegation</h3><p className={styles.small}>Proposed project extension · outline only</p></div><p>AI administration under a public mandate people can genuinely revise. Compare it with an AI ruler or a narrowly empowered gatekeeper: competent administration, legitimate authority and practical reversibility can come apart. Its enforcement problem still needs an authored case.</p></article>
+        <article><div><h3><Link href="/futures/scenarios/constitutional-delegation" prefetch={false}>Constitutional Delegation</Link></h3><p className={styles.small}>Project-authored catalogue scenario</p></div><p>AI administration under a public mandate people can genuinely revise. Compare it with an AI ruler or a narrowly empowered gatekeeper: competent administration, legitimate authority and practical reversibility can come apart. Its published entry makes revision and enforcement explicit premises, with their costs and open questions.</p></article>
       </div>
-      <Link href="/futures" prefetch={false}>Browse all twelve inherited trajectories</Link>
+      <Link href="/futures" prefetch={false}>Browse the whole Futures catalogue</Link>
     </section>
     <section className={styles.sources} aria-labelledby="source-title">
       <h2 id="source-title">Where the framework ends and this story begins</h2>

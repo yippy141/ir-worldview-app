@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { futuresRoutes } from "@/lib/futures/catalogue/index"
 import { AiProjectBridge } from "@/components/ai/ai-project-bridge"
 import { aiQuestionCountsByMode, aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
 import type { Metadata } from "next"
@@ -131,6 +132,12 @@ export default function AiPage() {
             </p>
           </div>
           <div className="resource-list">
+            <Link href={futuresRoutes.collection} prefetch={false} className="resource-list-link">
+              <span className="resource-list-copy">
+                <span className="resource-list-title">Futures catalogue</span>
+                <span className="resource-list-text">Compare desired conditions and expectations across possible worlds.</span>
+              </span>
+            </Link>
             <Link href="/quiz" className="resource-list-link">
               <span className="resource-list-copy">
                 <span className="resource-list-title">Foundation Questionnaire</span>

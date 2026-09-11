@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 641,
-      "newCount": 160,
+      "currentCount": 639,
+      "newCount": 159,
       "newFindings": [
         {
           "audience": "public",
@@ -35,16 +35,6 @@
           "matched": "on normative items",
           "rule": "repeated-adjacent-opening",
           "source": "On normative items, your answers weighed the harm of intervention against the harm of leaving an abuse unanswered."
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "0a2f0f79fe4dc2dea8cc733fd1c397c14f1c4fc8167d3bd7919db02d09b82db2",
-          "matched": "map, map",
-          "rule": "repeated-abstract-map-language",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: the original premises, this project’s extensions, and the questions they raise."
         },
         {
           "audience": "public",
@@ -225,6 +215,16 @@
           "matched": "often",
           "rule": "general-prevalence-language-review",
           "source": "Smaller states often survive by diversifying ties and avoiding security arrangements that narrow their diplomatic options too early."
+        },
+        {
+          "audience": "public",
+          "context": "route:/futures#FuturesPage.p",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "1b1b8c01729fb4bf9640b9844779e1ddbfbb02e15734a6a370ef3fde47d03647",
+          "matched": "map / map",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "The existing positions and aliases are preserved as an editorial orientation. The seven project-authored additions are described in the catalogue rather than assigned invented coordinates. The list above is the complete collection; map positions never enter preference matching."
         },
         {
           "audience": "public",
@@ -458,16 +458,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "3d64505e74374f3431171e87246c0465411e2a8a2c048ba0d47915bd5f92cdd1",
-          "matched": "They are not forecasts, rankings, or scored results / the original premises, this project’s extensions, and the questions they raise",
-          "rule": "repeated-three-part-list",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: the original premises, this project’s extensions, and the questions they raise."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.0.coverageScope",
           "count": 1,
           "file": "lib/narrative/runtime-fixtures.ts",
@@ -498,16 +488,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "416c68de0fe4f8c931d7bc740d06423a54e8b8d66f534763ffd5b2b64cb5a97d",
-          "matched": "layer / Map",
-          "rule": "repeated-adjacent-abstract-language",
-          "source": "remain preserved. Source premises checked 11 September 2026. Map placements are editorial, can overlap and may concern different time horizons."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.criticalPoliticalEconomy",
           "count": 1,
           "file": "lib/narrative/foundation.ts",
@@ -535,6 +515,16 @@
           "matched": "saved layer",
           "rule": "layer-metaphor-review",
           "source": "Profile reuses each saved layer's canonical visible blocks and does not synthesize new prose across layers."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/catalogue/index.ts#futureCatalogue.1.life",
+          "count": 1,
+          "file": "lib/futures/catalogue/index.ts",
+          "fingerprint": "44d99ce20a6fa39f960f6ad9006872eefd2be4fa5ca4aa6e9dd1c7239ab80d2a",
+          "matched": "ultimately",
+          "rule": "flagged-rhetorical-opener",
+          "source": "Public disagreements take place beneath an authority people cannot ultimately overrule. Welfare may be extensive while the terms of good government remain the ruler’s to settle."
         },
         {
           "audience": "frozen",
@@ -738,16 +728,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/futures#metadata.description",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "67bb5a8bf903facc122ca8f617347518e5dbc52f2519d8a74062268d3018fb01",
-          "matched": "field map",
-          "rule": "field-metaphor-review",
-          "source": "An editorial field map of twelve overlapping outcome scenarios adapted from Max Tegmark's Life 3.0. Source premises and project interpretations, never scored."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/explore-content.ts#exploreGaps.1.summary",
           "count": 1,
           "file": "lib/explore-content.ts",
@@ -938,6 +918,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/catalogue/features.ts#featureDefinitions.digitalStanding.absent",
+          "count": 1,
+          "file": "lib/futures/catalogue/features.ts",
+          "fingerprint": "862513cd400329c67f7818be691a919c5f2be9a349c94a53c14d8fedbfa4f3b4",
+          "matched": "artificial persons have",
+          "rule": "repeated-adjacent-opening",
+          "source": "Artificial persons have no recognized standing"
+        },
+        {
+          "audience": "public",
           "context": "content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text",
           "count": 1,
           "file": "content/archetypes.json",
@@ -1078,6 +1068,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/catalogue/index.ts#futureCatalogue.7.authority",
+          "count": 1,
+          "file": "lib/futures/catalogue/index.ts",
+          "fingerprint": "9dd76ecba98114ed34d2530e46639a45bebbf76c0983d74379c55a7763cf0a50",
+          "matched": "ultimately",
+          "rule": "flagged-rhetorical-opener",
+          "source": "Artificial successors ultimately determine their own world."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/archetypes.ts#readIdentityDefinition",
           "count": 1,
           "file": "lib/archetypes.ts",
@@ -1215,16 +1215,6 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "bc1c063129a639981fc2008d54567992cb69004ad25d78c1ca0b47fd63f838c5",
-          "matched": "field map",
-          "rule": "field-metaphor-review",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: the original premises, this project’s extensions, and the questions they raise."
         },
         {
           "audience": "frozen",
@@ -1608,7 +1598,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 77,
+      "resolvedCount": 78,
       "resolvedFindings": [
         {
           "count": 1,
@@ -1900,6 +1890,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "e676b5ad5f54db25ab9c26806658512e1e678606c55f17ca565d94a485e3cf93"
+        },
+        {
+          "count": 1,
           "fingerprint": "e6f8e5717781d3936a8b4ed87da552bbeb07b0c026c64d3937bf093746b8ccef"
         },
         {
@@ -1919,7 +1913,7 @@
           "fingerprint": "f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a"
         }
       ],
-      "unchangedCount": 481
+      "unchangedCount": 480
     },
     "higherPriorityFindings": [
       {
@@ -2967,7 +2961,7 @@
         "priority": "P1"
       },
       {
-        "count": 641,
+        "count": 639,
         "priority": "P2"
       }
     ]

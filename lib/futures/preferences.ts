@@ -1,0 +1,38 @@
+import { featureDefinitions, type FeatureId } from "@/lib/futures/catalogue/features"
+
+export type Preference = "present" | "absent" | "uncertain" | "no-preference" | "other"
+export type PreferenceAnswer = { choice: Preference; nonNegotiable: boolean }
+export type PreferenceAnswers = Partial<Record<FeatureId, PreferenceAnswer>>
+export const preferenceQuestions: readonly { id: FeatureId; prompt: string; present: string; absent: string; scope: string }[] = [
+  { id: "humanAuthority", prompt: "Who should have the final say when technical advice exceeds ordinary human understanding?", present: "Keep practical final authority with humans, accepting slower or less capable decisions.", absent: "Allow a nonhuman authority to decide, accepting that humans may not be able to overrule it.", scope: "This concerns collective governing authority, not who performs a technical task. It does not assume every future contains superintelligence." },
+  { id: "revisablePower", prompt: "A governing mandate works well today. Should later generations be able to replace it?", present: "Preserve an effective power to revise it, accepting disruption and the possibility of worse choices.", absent: "Allow a lasting mandate that later generations cannot revise, accepting the loss of that safeguard.", scope: "Effective revision means practical power to change the arrangement, beyond a formal right written on paper." },
+  { id: "personalExit", prompt: "For a society you might personally join, how much does a practical exit right matter?", present: "Require a usable way to leave, even if maintaining it reduces what the society can provide.", absent: "Prefer a binding commitment without an exit right, accepting that I could not later leave.", scope: "This is your participation condition. It does not decide whether other adults should make the same choice or whether you would join any particular scenario." },
+  { id: "pluralPolities", prompt: "Should other communities be allowed to organize their own political arrangements?", present: "Permit several self-governing communities, accepting coordination problems and disagreement across borders.", absent: "Prefer one common governing authority, accepting less room for communities to choose different rules.", scope: "This concerns legitimate arrangements for other communities, not your personal preference about where to live." },
+  { id: "sharedBenefits", prompt: "How should a society balance a material floor against control over its resources?", present: "Guarantee broad material provision, accepting the collective claims on resources needed to fund it.", absent: "Use voluntary or local provision without a universal guarantee, accepting that some people may go without.", scope: "A material floor does not specify equal incomes, private ownership or a particular technology." },
+  { id: "privateOwnership", prompt: "What should organize control of productive resources?", present: "Private ownership and exchange, accepting unequal bargaining power and access.", absent: "Common or public control without private productive ownership, accepting collective allocation decisions.", scope: "Personal possessions are not the issue. This question is distinct from whether everyone receives a material floor." },
+  { id: "biologicalContinuity", prompt: "What would you want to preserve across a profound change in the kinds of beings that exist?", present: "Continuing biological humanity, even if this limits what its successors could do.", absent: "Favor a successor world that replaces biological humanity, accepting the loss of human continuity.", scope: "This states a desired condition, not a personal decision to transform yourself. Accepting succession does not establish that a specific catastrophic endpoint is welcome." },
+  { id: "voluntaryTransformation", prompt: "Should competent adults be free to choose substantial technological changes to themselves?", present: "Allow that choice, accepting new problems of inequality, identity and shared obligations.", absent: "Keep substantial transformation unavailable or prohibited, even when some adults want it.", scope: "This concerns options for others. It neither asks you to transform nor assumes uploading or any particular transformation is feasible." },
+  { id: "digitalStanding", prompt: "If artificial beings were morally relevant persons, what standing should they have?", present: "Recognize their standing in shared institutions, accepting difficult questions about copying and representation.", absent: "Keep those institutions for biological humans, accepting that artificial persons would be excluded.", scope: "Artificial personhood is hypothetical here. Recognizing standing does not specify identical votes or claim that present systems are persons." },
+  { id: "capabilityLimits", prompt: "How should a society approach capabilities judged capable of causing severe harm?", present: "Permit enforced capability limits, accepting inspections and some useful projects being unavailable.", absent: "Avoid institutional capability ceilings, accepting the additional risks of continued development.", scope: "This asks whether limits may exist. Whether they are legitimate, narrow or revisable remains a separate question." },
+  { id: "transparentPower", prompt: "Could protection justify keeping the exercise of governing power hidden?", present: "Keep governing power visible, accepting that secrecy may sometimes make protection easier.", absent: "Favor concealed governing intervention for protection, accepting that people cannot knowingly contest it.", scope: "This concerns hidden rule, not every operational secret or every kind of personal privacy." },
+  { id: "technicalIndependence", prompt: "How much should communities invest in operating without an indispensable technical provider?", present: "Maintain practical alternatives and repair capacity, accepting expense and lower efficiency.", absent: "Build around one indispensable provider for its capabilities, accepting the loss of practical alternatives.", scope: "This is practical capacity to continue operating, not merely the legal ability to select another vendor." },
+]
+export const nonPreferenceOptions = [
+  { value: "uncertain", label: "I am uncertain about this tradeoff." },
+  { value: "no-preference", label: "I have no stated preference here." },
+  { value: "other", label: "Neither supplied position captures my view." },
+] as const
+export function preferenceLabel(id: FeatureId, answer?: PreferenceAnswer) {
+  if (!answer) return "Not answered"
+  if (answer.choice === "present" || answer.choice === "absent") return featureDefinitions[id][answer.choice]
+  return nonPreferenceOptions.find(option => option.value === answer.choice)?.label ?? "Not answered"
+}
+export const hasDirection = (answer?: PreferenceAnswer): answer is PreferenceAnswer & { choice: "present" | "absent" } => answer?.choice === "present" || answer?.choice === "absent"
+export const preferencesComplete = (answers: PreferenceAnswers) => preferenceQuestions.every(q => answers[q.id] && ["present", "absent", ...nonPreferenceOptions.map(o => o.value)].includes(answers[q.id]!.choice))
+
+export type Expectation = "plausible" | "unlikely" | "unsure"
+export type Expectations = Partial<Record<string, Expectation>>
+export const expectationFrame = {
+  horizon: "By the end of this century (2100)",
+  assumptions: "Consider possible technical and political pathways from today. Superintelligence may or may not be achieved. These overlapping scenarios need not be final endpoints, and no capability outcome is assumed in advance.",
+} as const

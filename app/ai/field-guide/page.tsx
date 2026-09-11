@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { futuresRoutes } from "@/lib/futures/catalogue/index"
 import type { Metadata } from "next"
 import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
 import {
@@ -383,6 +384,7 @@ Compare the institutions behind rival proposals: who can inspect, who can restri
                   responds to a different shape of the next decade. They are not predictions and
                   they do not enter any score on any page in this product.
                 </p>
+                <p><Link href={futuresRoutes.collection} prefetch={false}>Browse the whole Futures catalogue</Link> or <Link href={futuresRoutes.preferences} prefetch={false}>consider your preferred conditions</Link>. This separate exercise leaves your AI Governance result unchanged.</p>
                 <div className="ai-fg-futures__grid">
                   {futureScenarios.map((scenario) => (
                     <article key={scenario.title} className="ai-fg-futures__scen">
