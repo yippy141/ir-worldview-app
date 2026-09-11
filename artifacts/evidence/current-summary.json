@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 633,
-      "newCount": 152,
+      "currentCount": 645,
+      "newCount": 165,
       "newFindings": [
         {
           "audience": "public",
@@ -168,6 +168,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/preferences.ts#requirementLabels.transparentPower.absent",
+          "count": 1,
+          "file": "lib/futures/preferences.ts",
+          "fingerprint": "17c2a9eb17e6b3ac8c68c636d8db229f694ba847f036d8815a1ac706630d5a5e",
+          "matched": "i require governing",
+          "rule": "repeated-adjacent-opening",
+          "source": "I require governing intervention to remain concealed."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Universalist",
           "count": 1,
           "file": "lib/narrative/foundation.ts",
@@ -218,6 +228,16 @@
         },
         {
           "audience": "public",
+          "context": "route:/futures#FuturesPage.p",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "1b1b8c01729fb4bf9640b9844779e1ddbfbb02e15734a6a370ef3fde47d03647",
+          "matched": "map / map",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "The existing positions and aliases are preserved as an editorial orientation. The seven project-authored additions are described in the catalogue rather than assigned invented coordinates. The list above is the complete collection; map positions never enter preference matching."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/archetypes.ts#readIdentityDefinitions",
           "count": 1,
           "file": "lib/archetypes.ts",
@@ -257,6 +277,16 @@
           "source": "原文:Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? (2005). 中文显示译名:《专家政治判断:有多准确?如何判断?》。这项研究与本工具相关,因为能够综合多种视角的判断者,往往优于把所有问题都套入单一框架的人。"
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.12.prompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "1d29d533afb21f368702b72506291639d02443ff1036b33b14e35e8e2d2918db",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to these policy judgments?"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label",
           "count": 1,
@@ -265,6 +295,16 @@
           "matched": "The stronger path",
           "rule": "stronger-path-template",
           "source": "The stronger path is to use partners, proxies, and indirect pressure where the balance is less exposed."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.7.policyPrompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "2299f7ce472b863418187b3737f0ec3371fcfea6045cab950f0195ce7e7928c9",
+          "matched": "with the revised",
+          "rule": "repeated-adjacent-opening",
+          "source": "With the revised offer on the table, but its protections unverified, what should the fictional adult do?"
         },
         {
           "audience": "public",
@@ -335,6 +375,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score lies toward using windows of opportunity and pursuing durable advantage."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.8.prompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "2aee576c6a4ae73fb1527be8221306e14e852dc27ff81fb61275870f884cc661",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to that revised decision?"
         },
         {
           "audience": "frozen",
@@ -477,6 +527,16 @@
           "source": "Profile reuses each saved layer's canonical visible blocks and does not synthesize new prose across layers."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/futures/catalogue/index.ts#futureCatalogue.1.life",
+          "count": 1,
+          "file": "lib/futures/catalogue/index.ts",
+          "fingerprint": "44d99ce20a6fa39f960f6ad9006872eefd2be4fa5ca4aa6e9dd1c7239ab80d2a",
+          "matched": "ultimately",
+          "rule": "flagged-rhetorical-opener",
+          "source": "Public disagreements take place beneath an authority people cannot ultimately overrule. Welfare may be extensive while the terms of good government remain the ruler’s to settle."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.20.scene",
           "count": 1,
@@ -485,6 +545,16 @@
           "matched": "foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action",
           "rule": "repeated-three-part-list",
           "source": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. The territorial dispute remains unresolved. For this scenario, assume a ceasefire is available, Ukraine remains outside the North Atlantic Treaty Organization (NATO), and Kyiv must choose one post-ceasefire arrangement to reduce the risk of renewed attack. The arrangement can combine Ukrainian forces, foreign support, monitoring, and limits; none guarantees protection without shifting cost, exposure, or freedom of action."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.descendants.humanAuthority.2",
+          "count": 1,
+          "file": "lib/futures/catalogue/rationales.ts",
+          "fingerprint": "455527fbca21b8546996e065fc98c61c0f2295aedabca9e3791007b7add7d82c",
+          "matched": "ultimately",
+          "rule": "flagged-rhetorical-opener",
+          "source": "The linked Descendants premise ultimately replaces human society with artificial successors."
         },
         {
           "audience": "frozen",
@@ -505,16 +575,6 @@
           "matched": "normally",
           "rule": "general-prevalence-language-review",
           "source": "The central tension is whether the gravity of the harm justifies acting without the level of legal and political grounding that would normally be required."
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "4b33da0d9236af85b508c1f9b789fc039280998808861bf3bb0c1c5976640edc",
-          "matched": "map, map",
-          "rule": "repeated-abstract-map-language",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
         },
         {
           "audience": "public",
@@ -605,6 +665,16 @@
           "matched": "The deeper danger",
           "rule": "deeper-danger-template",
           "source": "The deeper danger is being pulled into a broader war that Iran cannot bound on favorable terms."
+        },
+        {
+          "audience": "public",
+          "context": "route:/futures/departure#DeparturePage.p",
+          "count": 1,
+          "file": "app/futures/departure/page.tsx",
+          "fingerprint": "5e1cb8431d770d858c92a715f7e8a4fe2b5e1812e33efe91f866f1acb015e806",
+          "matched": "field map",
+          "rule": "field-metaphor-review",
+          "source": "Browse these comparisons at any time. They are overlapping scenarios to examine, not matches assigned to you. No personal preference is placed on the two-axis field map."
         },
         {
           "audience": "public",
@@ -738,6 +808,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.2.policyPrompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "6f4a2938cac0607d4f8731fb7ab15fedfb74e8a4cede94c7ccc6c0190bbde24b",
+          "matched": "with return terms",
+          "rule": "repeated-adjacent-opening",
+          "source": "With return terms unknown, what should the fictional adult considering this offer do?"
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -858,6 +938,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/catalogue/features.ts#featureDefinitions.digitalStanding.absent",
+          "count": 1,
+          "file": "lib/futures/catalogue/features.ts",
+          "fingerprint": "862513cd400329c67f7818be691a919c5f2be9a349c94a53c14d8fedbfa4f3b4",
+          "matched": "artificial persons have",
+          "rule": "repeated-adjacent-opening",
+          "source": "Artificial persons have no recognized standing"
+        },
+        {
+          "audience": "public",
           "context": "content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text",
           "count": 1,
           "file": "content/archetypes.json",
@@ -908,6 +998,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/interpretation.ts#preferenceThemes.text",
+          "count": 1,
+          "file": "lib/futures/interpretation.ts",
+          "fingerprint": "94a67d22cb01915278de55e6eb24f6dad6aff3abd02bd9a37af8c276e16cb988",
+          "matched": "you favor nonhuman",
+          "rule": "repeated-adjacent-opening",
+          "source": "You favor nonhuman final authority under a mandate that later generations cannot revise. That arrangement could sustain long-term commitments, but the ability to choose a different ruler would not be one of the conditions you are seeking."
+        },
+        {
+          "audience": "public",
           "context": "content-key:components/modules/module-result.tsx#ModuleResultView.p",
           "count": 1,
           "file": "components/modules/module-result.tsx",
@@ -915,16 +1015,6 @@
           "matched": "lens cards",
           "rule": "lens-metaphor-review",
           "source": ". Scored Explanation and Decision cards determine the main result. Actor lens cards are excluded from the headline, axes, and lane results."
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#metadata.description",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "97571fbf42605c9cc5c2c74b3e258706a032ecbfce76a96eedb7241f43c7c59b",
-          "matched": "field map",
-          "rule": "field-metaphor-review",
-          "source": "An editorial field map of where advanced AI could take us: twelve outcome scenarios adapted from Max Tegmark's Life 3.0 and updated with 2026 signals. Not predictions, not scored."
         },
         {
           "audience": "public",
@@ -1008,13 +1098,13 @@
         },
         {
           "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
+          "context": "content-key:lib/futures/catalogue/index.ts#futureCatalogue.7.authority",
           "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "9ec5eb6b0034529dc645de046de26a9a0fc9059130a0d9af2970cb00f522695f",
-          "matched": "field map",
-          "rule": "field-metaphor-review",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
+          "file": "lib/futures/catalogue/index.ts",
+          "fingerprint": "9dd76ecba98114ed34d2530e46639a45bebbf76c0983d74379c55a7763cf0a50",
+          "matched": "ultimately",
+          "rule": "flagged-rhetorical-opener",
+          "source": "Artificial successors ultimately determine their own world."
         },
         {
           "audience": "public",
@@ -1348,6 +1438,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/futures/interpretation.ts#preferenceThemes.text",
+          "count": 1,
+          "file": "lib/futures/interpretation.ts",
+          "fingerprint": "de3f8908ff0f345909aea831ce57b15bebcd29c4a6082a695042b761a11156be",
+          "matched": "you favor a",
+          "rule": "repeated-adjacent-opening",
+          "source": "You favor a successor world replacing biological humanity while reserving shared institutional standing for biological humans. Those choices leave a substantive tension about who could participate once biological humanity had gone; extinction cannot supply the desired institutions."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.rival",
           "count": 1,
           "file": "lib/results/ai-interpretation.ts",
@@ -1398,6 +1498,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:components/futures/departure-diagram.tsx#DepartureDiagram.figcaption",
+          "count": 1,
+          "file": "components/futures/departure-diagram.tsx",
+          "fingerprint": "e611b11f4c2a641f34b89c305b2589553b087bfe827629899a6d769ce122ed81",
+          "matched": "the dashed relation",
+          "rule": "repeated-adjacent-opening",
+          "source": "The dashed relation marks unresolved return and communication terms. Tools already shared remain available to those who stay."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/results/module-interpretation.ts#example.rival",
           "count": 1,
           "file": "lib/results/module-interpretation.ts",
@@ -1415,6 +1525,16 @@
           "matched": "applied here the",
           "rule": "repeated-adjacent-opening",
           "source": "Applied here, the involvement score does not select a response. Attribution quality, reversibility and the partner's exposure would distinguish a limited pressure campaign from an initially protective response."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.3.prompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "ebf9334f5696a819d2032ccb46f1f0737b491148e0e93db99d3882591d977c2e",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to that decision?"
         },
         {
           "audience": "frozen",
@@ -1458,13 +1578,13 @@
         },
         {
           "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
+          "context": "content-key:lib/futures/preferences.ts#requirementLabels.digitalStanding.absent",
           "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "f8fb5fff32e4aec8a1fcd331311d35b9b258e019255443906232348584b8956c",
-          "matched": "They are not forecasts, rankings, or scored results / what each outcome assumes, who takes it seriously, and which 2026 signals bear on it",
-          "rule": "repeated-three-part-list",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
+          "file": "lib/futures/preferences.ts",
+          "fingerprint": "f39bf2080562663704b9256df8ddac9285f65ec735a0de89d82f9af78ec8598a",
+          "matched": "i require shared",
+          "rule": "repeated-adjacent-opening",
+          "source": "I require shared institutions to reserve standing for biological humans."
         },
         {
           "audience": "public",
@@ -1517,6 +1637,16 @@
           "source": "主权与更广泛的道义责任冲突时,你通常把哪一项放在更前面?这是规范风格维度,不判断谁更有道德。"
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/futures/interpretation.ts#singles.digitalStanding.absent",
+          "count": 1,
+          "file": "lib/futures/interpretation.ts",
+          "fingerprint": "fea44fd6d8b2118566134b93ad56b5d0114242910ea28bde1c74d051d97c8143",
+          "matched": "under the explicit",
+          "rule": "repeated-adjacent-opening",
+          "source": "Under the explicit hypothesis that artificial beings are persons, you prefer institutions to reserve standing for biological humans. A world without artificial persons does not demonstrate that institutional exclusion."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label",
           "count": 1,
@@ -1528,7 +1658,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 77,
+      "resolvedCount": 78,
       "resolvedFindings": [
         {
           "count": 1,
@@ -1820,6 +1950,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "e676b5ad5f54db25ab9c26806658512e1e678606c55f17ca565d94a485e3cf93"
+        },
+        {
+          "count": 1,
           "fingerprint": "e6f8e5717781d3936a8b4ed87da552bbeb07b0c026c64d3937bf093746b8ccef"
         },
         {
@@ -1839,7 +1973,7 @@
           "fingerprint": "f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a"
         }
       ],
-      "unchangedCount": 481
+      "unchangedCount": 480
     },
     "higherPriorityFindings": [
       {
@@ -2887,7 +3021,7 @@
         "priority": "P1"
       },
       {
-        "count": 633,
+        "count": 645,
         "priority": "P2"
       }
     ]

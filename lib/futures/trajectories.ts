@@ -19,9 +19,9 @@ export type Trajectory = {
   tegmarkName: string // original scenario name in Life 3.0
   plainSummary: string // one or two sentences, no jargon
   assumptions: string[] // what has to be true for this to happen
-  advocates: string // who takes it seriously (schools/communities, not a call-out list)
+  advocates: string // Historical, unsourced attribution; retained for records, not displayed.
   objection: string // the strongest single objection
-  signals: string[] // 2026 developments that bear on it, editorial layer so currency is fine
+  signals: string[] // Historical unsourced claims; withheld from display pending claim-level review.
   disputes: string[] // live disagreements among serious people
   mapX: number
   mapY: number
@@ -141,7 +141,7 @@ export const trajectories: Trajectory[] = [
     name: "Guardian in the Background",
     tegmarkName: "Protector god",
     plainSummary:
-      "A superintelligence maximizes human agency in the foreground while preventing catastrophes without revealing its presence.",
+      "A concealed superintelligence intervenes to promote human happiness while preserving the feeling of control. Felt agency and actual authority can diverge.",
     assumptions: [
       "Alignment succeeds at the hardest version of the problem: helping without being seen to help.",
       "Hiding its existence is stable across decades of human science and curiosity.",
