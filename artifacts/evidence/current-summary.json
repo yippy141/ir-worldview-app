@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 633,
-      "newCount": 152,
+      "currentCount": 641,
+      "newCount": 160,
       "newFindings": [
         {
           "audience": "public",
@@ -35,6 +35,16 @@
           "matched": "on normative items",
           "rule": "repeated-adjacent-opening",
           "source": "On normative items, your answers weighed the harm of intervention against the harm of leaving an abuse unanswered."
+        },
+        {
+          "audience": "public",
+          "context": "route:/futures#FuturesPage.p",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "0a2f0f79fe4dc2dea8cc733fd1c397c14f1c4fc8167d3bd7919db02d09b82db2",
+          "matched": "map, map",
+          "rule": "repeated-abstract-map-language",
+          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: the original premises, this project’s extensions, and the questions they raise."
         },
         {
           "audience": "public",
@@ -257,6 +267,16 @@
           "source": "原文:Tetlock, Philip E. Expert Political Judgment: How Good Is It? How Can We Know? (2005). 中文显示译名:《专家政治判断:有多准确?如何判断?》。这项研究与本工具相关,因为能够综合多种视角的判断者,往往优于把所有问题都套入单一框架的人。"
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.12.prompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "1d29d533afb21f368702b72506291639d02443ff1036b33b14e35e8e2d2918db",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to these policy judgments?"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label",
           "count": 1,
@@ -265,6 +285,16 @@
           "matched": "The stronger path",
           "rule": "stronger-path-template",
           "source": "The stronger path is to use partners, proxies, and indirect pressure where the balance is less exposed."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.7.policyPrompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "2299f7ce472b863418187b3737f0ec3371fcfea6045cab950f0195ce7e7928c9",
+          "matched": "with the revised",
+          "rule": "repeated-adjacent-opening",
+          "source": "With the revised offer on the table, but its protections unverified, what should the fictional adult do?"
         },
         {
           "audience": "public",
@@ -335,6 +365,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score lies toward using windows of opportunity and pursuing durable advantage."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.8.prompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "2aee576c6a4ae73fb1527be8221306e14e852dc27ff81fb61275870f884cc661",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to that revised decision?"
         },
         {
           "audience": "frozen",
@@ -418,6 +458,16 @@
         },
         {
           "audience": "public",
+          "context": "route:/futures#FuturesPage.p",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "3d64505e74374f3431171e87246c0465411e2a8a2c048ba0d47915bd5f92cdd1",
+          "matched": "They are not forecasts, rankings, or scored results / the original premises, this project’s extensions, and the questions they raise",
+          "rule": "repeated-three-part-list",
+          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: the original premises, this project’s extensions, and the questions they raise."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.0.coverageScope",
           "count": 1,
           "file": "lib/narrative/runtime-fixtures.ts",
@@ -445,6 +495,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
+          "context": "route:/futures#FuturesPage.p",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "416c68de0fe4f8c931d7bc740d06423a54e8b8d66f534763ffd5b2b64cb5a97d",
+          "matched": "layer / Map",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "remain preserved. Source premises checked 11 September 2026. Map placements are editorial, can overlap and may concern different time horizons."
         },
         {
           "audience": "public",
@@ -505,16 +565,6 @@
           "matched": "normally",
           "rule": "general-prevalence-language-review",
           "source": "The central tension is whether the gravity of the harm justifies acting without the level of legal and political grounding that would normally be required."
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "4b33da0d9236af85b508c1f9b789fc039280998808861bf3bb0c1c5976640edc",
-          "matched": "map, map",
-          "rule": "repeated-abstract-map-language",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
         },
         {
           "audience": "public",
@@ -608,6 +658,16 @@
         },
         {
           "audience": "public",
+          "context": "route:/futures/departure#DeparturePage.p",
+          "count": 1,
+          "file": "app/futures/departure/page.tsx",
+          "fingerprint": "5e1cb8431d770d858c92a715f7e8a4fe2b5e1812e33efe91f866f1acb015e806",
+          "matched": "field map",
+          "rule": "field-metaphor-review",
+          "source": "Browse these comparisons at any time. They are overlapping scenarios to examine, not matches assigned to you. No personal preference is placed on the two-axis field map."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application",
           "count": 1,
           "file": "lib/results/ai-interpretation.ts",
@@ -678,6 +738,16 @@
         },
         {
           "audience": "public",
+          "context": "route:/futures#metadata.description",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "67bb5a8bf903facc122ca8f617347518e5dbc52f2519d8a74062268d3018fb01",
+          "matched": "field map",
+          "rule": "field-metaphor-review",
+          "source": "An editorial field map of twelve overlapping outcome scenarios adapted from Max Tegmark's Life 3.0. Source premises and project interpretations, never scored."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/explore-content.ts#exploreGaps.1.summary",
           "count": 1,
           "file": "lib/explore-content.ts",
@@ -735,6 +805,16 @@
           "matched": "Limits, privacy, and corrections / and gives factual, privacy, and security problems a narrow correction route",
           "rule": "repeated-adjacent-three-part-list",
           "source": "The inventory states where interpretation stops, explains what generated links contain, and gives factual, privacy, and security problems a narrow correction route."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.2.policyPrompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "6f4a2938cac0607d4f8731fb7ab15fedfb74e8a4cede94c7ccc6c0190bbde24b",
+          "matched": "with return terms",
+          "rule": "repeated-adjacent-opening",
+          "source": "With return terms unknown, what should the fictional adult considering this offer do?"
         },
         {
           "audience": "public",
@@ -918,16 +998,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/futures#metadata.description",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "97571fbf42605c9cc5c2c74b3e258706a032ecbfce76a96eedb7241f43c7c59b",
-          "matched": "field map",
-          "rule": "field-metaphor-review",
-          "source": "An editorial field map of where advanced AI could take us: twelve outcome scenarios adapted from Max Tegmark's Life 3.0 and updated with 2026 signals. Not predictions, not scored."
-        },
-        {
-          "audience": "public",
           "context": "route:/privacy#PrivacyPage.p",
           "count": 1,
           "file": "app/privacy/page.tsx",
@@ -1005,16 +1075,6 @@
           "matched": "the recorded technology",
           "rule": "repeated-adjacent-opening",
           "source": "The recorded technology positions leave the scope of capability controls open"
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "9ec5eb6b0034529dc645de046de26a9a0fc9059130a0d9af2970cb00f522695f",
-          "matched": "field map",
-          "rule": "field-metaphor-review",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
         },
         {
           "audience": "public",
@@ -1155,6 +1215,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
+          "context": "route:/futures#FuturesPage.p",
+          "count": 1,
+          "file": "app/futures/page.tsx",
+          "fingerprint": "bc1c063129a639981fc2008d54567992cb69004ad25d78c1ca0b47fd63f838c5",
+          "matched": "field map",
+          "rule": "field-metaphor-review",
+          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are overlapping outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: the original premises, this project’s extensions, and the questions they raise."
         },
         {
           "audience": "frozen",
@@ -1398,6 +1468,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:components/futures/departure-diagram.tsx#DepartureDiagram.figcaption",
+          "count": 1,
+          "file": "components/futures/departure-diagram.tsx",
+          "fingerprint": "e611b11f4c2a641f34b89c305b2589553b087bfe827629899a6d769ce122ed81",
+          "matched": "the dashed relation",
+          "rule": "repeated-adjacent-opening",
+          "source": "The dashed relation marks unresolved return and communication terms. Tools already shared remain available to those who stay."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/results/module-interpretation.ts#example.rival",
           "count": 1,
           "file": "lib/results/module-interpretation.ts",
@@ -1415,6 +1495,16 @@
           "matched": "applied here the",
           "rule": "repeated-adjacent-opening",
           "source": "Applied here, the involvement score does not select a response. Attribution quality, reversibility and the partner's exposure would distinguish a limited pressure campaign from an initially protective response."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/departure.ts#departureQuestions.3.prompt",
+          "count": 1,
+          "file": "lib/futures/departure.ts",
+          "fingerprint": "ebf9334f5696a819d2032ccb46f1f0737b491148e0e93db99d3882591d977c2e",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to that decision?"
         },
         {
           "audience": "frozen",
@@ -1455,16 +1545,6 @@
           "matched": "across layers",
           "rule": "layer-metaphor-review",
           "source": "Profile reuses each saved layer's canonical visible blocks and does not synthesize new prose across layers."
-        },
-        {
-          "audience": "public",
-          "context": "route:/futures#FuturesPage.p",
-          "count": 1,
-          "file": "app/futures/page.tsx",
-          "fingerprint": "f8fb5fff32e4aec8a1fcd331311d35b9b258e019255443906232348584b8956c",
-          "matched": "They are not forecasts, rankings, or scored results / what each outcome assumes, who takes it seriously, and which 2026 signals bear on it",
-          "rule": "repeated-three-part-list",
-          "source": "A field map of where sustained progress in advanced AI could take us. The twelve trajectories below are distinct outcome scenarios. They are not forecasts, rankings, or scored results. Nothing here feeds the inventory or your Profile. The map gives the debate a shared shape: what each outcome assumes, who takes it seriously, and which 2026 signals bear on it."
         },
         {
           "audience": "public",
@@ -2887,7 +2967,7 @@
         "priority": "P1"
       },
       {
-        "count": 633,
+        "count": 641,
         "priority": "P2"
       }
     ]
