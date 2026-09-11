@@ -1,10 +1,10 @@
 import { featureDefinitions, type FeatureId } from "@/lib/futures/catalogue/features"
-import { hasDirection, preferencesComplete, type Preference, type PreferenceAnswers, type Expectations, type Expectation } from "@/lib/futures/preferences"
+import { hasDirection, preferencesComplete, preferenceQuestionVersion, type Preference, type PreferenceAnswers, type Expectations, type Expectation } from "@/lib/futures/preferences"
 import { findFuture } from "@/lib/futures/catalogue/index"
 
 export type PreferenceStep = "intro" | "questions" | "review" | "result" | "expectations"
-export type PreferenceState = { step: PreferenceStep; question: number; answers: PreferenceAnswers; submitted: PreferenceAnswers | null; expectations: Expectations; expectationsSubmitted: boolean; notice: string }
-export const initialPreferenceState: PreferenceState = { step: "intro", question: 0, answers: {}, submitted: null, expectations: {}, expectationsSubmitted: false, notice: "" }
+export type PreferenceState = { questionVersion: string; step: PreferenceStep; question: number; answers: PreferenceAnswers; submitted: PreferenceAnswers | null; expectations: Expectations; expectationsSubmitted: boolean; notice: string }
+export const initialPreferenceState: PreferenceState = { questionVersion: preferenceQuestionVersion, step: "intro", question: 0, answers: {}, submitted: null, expectations: {}, expectationsSubmitted: false, notice: "" }
 export type PreferenceAction =
   | { type: "answer"; id: FeatureId; choice: Preference }
   | { type: "constraint"; id: FeatureId; confirmed: boolean }

@@ -1,11 +1,12 @@
 import { test, expect, type Page } from "@playwright/test"
+import { isAllowedFooterPrefetch, type ObservedRequest } from "../tests/fixtures/futures-network-contract"
 import { mkdirSync, writeFileSync } from "node:fs"
 import { featureIds } from "../lib/futures/catalogue/features"
 import { futureCatalogue } from "../lib/futures/catalogue/index"
 import { preferenceQuestions, type PreferenceAnswers } from "../lib/futures/preferences"
 import { humanPlural, centralizedCare, lowTechnology, allConflict, preferenceFixture } from "../tests/fixtures/futures-preferences"
 
-const artifactDir = "artifacts/futures-catalogue"
+const artifactDir = process.env.FUTURES_EVIDENCE_DIR ?? "test-results/futures-catalogue"
 async function begin(page: Page) {
   await page.goto("/futures/preferences")
   await page.getByRole("button", { name: "Begin the twelve questions" }).click()
@@ -78,8 +79,8 @@ test("complete journey without Departure; expectations, edits, reset and privacy
   })
   await begin(page)
   await page.waitForLoadState("networkidle")
-  const cookies = await context.cookies(), requests: string[] = []
-  page.on("request", request => requests.push(`${request.method()} ${request.url()} ${request.postData() ?? ""}`))
+  const cookies = await context.cookies(), requests: ObservedRequest[] = []
+  page.on("request", request => requests.push({ method: request.method(), url: request.url(), body: request.postData() }))
   await finish(page, humanPlural)
   const originalShortlist = await page.getByTestId("shortlist").locator("article").evaluateAll(els => els.map(el => el.getAttribute("data-scenario")))
   expect(originalShortlist).toContain("constitutional-delegation")
@@ -105,7 +106,7 @@ test("complete journey without Departure; expectations, edits, reset and privacy
   await page.getByLabel("Second scenario").selectOption("constitutional-delegation")
   await expect(page).toHaveURL(/\/futures\/preferences$/)
   // Only the unchanged shared footer may prefetch static documents; no body or answer parameter is allowed.
-  expect(requests.filter(request => !/^GET http:\/\/127\.0\.0\.1:3110\/(privacy|method|feedback)\?_rsc=[A-Za-z0-9_-]+ $/.test(request))).toEqual([])
+  expect(requests.filter(request => !isAllowedFooterPrefetch(request, new URL(page.url()).origin))).toEqual([])
   expect(await page.evaluate(() => (window as unknown as { __futuresWrites: string[] }).__futuresWrites)).toEqual([])
   expect(await page.evaluate(async () => (await indexedDB.databases()).length)).toBe(0)
   expect(await context.cookies()).toEqual(cookies)

@@ -6,7 +6,7 @@ export const featureDefinitions = {
   sharedBenefits: { label: "A guaranteed material floor", domain: "distribution", present: "Material provision is guaranteed broadly", absent: "There is no universal material guarantee" },
   privateOwnership: { label: "Private ownership of productive resources", domain: "distribution", present: "Private ownership organizes production", absent: "Production is organized without private ownership" },
   biologicalContinuity: { label: "Continuing biological humanity", domain: "status", present: "Biological humanity continues", absent: "Biological humanity does not continue" },
-  voluntaryTransformation: { label: "Others’ choice to transform themselves", domain: "status", present: "Adults may choose substantial transformation", absent: "Substantial transformation is unavailable or prohibited" },
+  voluntaryTransformation: { label: "Others’ choice to transform themselves", domain: "status", present: "Adults may choose feasible substantial transformation", absent: "Feasible substantial transformation is prohibited" },
   digitalStanding: { label: "Standing for artificial persons", domain: "status", present: "Artificial persons have recognized standing", absent: "Artificial persons have no recognized standing" },
   capabilityLimits: { label: "Enforced limits on selected capabilities", domain: "risk", present: "Selected capabilities face enforced limits", absent: "No institutional capability ceiling applies" },
   transparentPower: { label: "Visible exercise of governing power", domain: "knowledge", present: "People know who exercises governing power", absent: "Governing intervention is concealed" },
@@ -26,5 +26,5 @@ export function features(overrides: Partial<Features>): Features {
   return Object.fromEntries(featureIds.map(id => [id, overrides[id] ?? "unspecified"])) as Features
 }
 export function featureStatement(id: FeatureId, state: FeatureState) {
-  return state === "present" || state === "absent" ? featureDefinitions[id][state] : state === "inapplicable" ? "No continuing society instantiates this condition" : state === "variant-dependent" ? "Depends on the variant; no single answer" : "Not specified by this entry"
+  return state === "present" || state === "absent" ? featureDefinitions[id][state] : state === "inapplicable" ? "This institution or choice is not instantiated in this scenario" : state === "variant-dependent" ? "Depends on the variant; no single answer" : "The scenario leaves this condition unspecified"
 }

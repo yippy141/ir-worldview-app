@@ -2,6 +2,7 @@ import Link from "next/link"
 import { findFuture, scenarioHref, compareHref } from "@/lib/futures/catalogue/index"
 import { featureIds, featureDefinitions, featureStatement, type FeatureState, type FeatureId } from "@/lib/futures/catalogue/features"
 import type { FutureScenario } from "@/lib/futures/catalogue/types"
+import { scenarioRationales, rationaleBasisLabels } from "@/lib/futures/catalogue/rationales"
 import styles from "./catalogue.module.css"
 
 export function FeatureStateLabel({ state }: { state: FeatureState }) {
@@ -14,8 +15,12 @@ export function ScenarioSources({ scenario }: { scenario: FutureScenario }) {
     <p className={styles.small}>IR Worldview Inventory · AI-assisted editorial draft · {scenario.version}. Attribution does not imply endorsement. No current-development or community-attribution claim is inferred from this entry.</p>
   </div>
 }
+export function DescriptorRationale({ scenario, feature }: { scenario: FutureScenario; feature: FeatureId }) {
+  const [, basis, reason] = scenarioRationales(scenario.id)[feature]
+  return <p className={styles.small}><strong>{rationaleBasisLabels[basis]}.</strong> {reason}</p>
+}
 export function FeatureLedger({ scenario }: { scenario: FutureScenario }) {
-  return <details className={styles.disclosure}><summary>All authored features used in comparison</summary><p className={styles.small}>These are editorial descriptors, independent of the historical map. Unspecified and variant-dependent properties remain unresolved when matching preferences.</p><dl className={styles.featureLedger}>{featureIds.map(id => <div key={id}><dt>{featureDefinitions[id].label}</dt><dd><FeatureStateLabel state={scenario.features[id]} /><p>{featureStatement(id, scenario.features[id])}</p></dd></div>)}</dl></details>
+  return <details className={styles.disclosure}><summary>All authored features used in comparison</summary><p className={styles.small}>These are editorial descriptors, independent of the historical map. Unspecified and variant-dependent properties remain unresolved when matching preferences.</p><dl className={styles.featureLedger}>{featureIds.map(id => <div key={id}><dt>{featureDefinitions[id].label}</dt><dd><FeatureStateLabel state={scenario.features[id]} /><p>{featureStatement(id, scenario.features[id])}</p><DescriptorRationale scenario={scenario} feature={id} /></dd></div>)}</dl></details>
 }
 export function ScenarioDetail({ scenario }: { scenario: FutureScenario }) {
   return <>

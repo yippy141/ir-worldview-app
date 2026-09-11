@@ -4,9 +4,9 @@ import { readFileSync } from "node:fs"
 import { futureCatalogue, findFuture, catalogueVersion, scenarioHref, compareHref } from "@/lib/futures/catalogue/index"
 import { featureIds, featureDefinitions, features } from "@/lib/futures/catalogue/features"
 import { trajectories } from "@/lib/futures/trajectories"
-import { matchFutures, comparePreferences } from "@/lib/futures/matching"
+import { matchFutures, comparePreferences, descriptorEquivalenceGroups, descriptorSignature } from "@/lib/futures/matching"
 import { preferenceReducer, initialPreferenceState } from "@/lib/futures/preference-state"
-import { preferenceQuestions, preferencesComplete } from "@/lib/futures/preferences"
+import { preferenceQuestions, preferencesComplete, preferenceQuestionVersion, requirementLabels, nonPreferenceOptions } from "@/lib/futures/preferences"
 import { humanPlural, centralizedCare, lowTechnology, allConflict, preferenceFixture } from "@/tests/fixtures/futures-preferences"
 import { interpretDeparture, type Answers } from "@/lib/futures/departure"
 
@@ -171,4 +171,96 @@ test("catastrophic absence supplies no preferred institutions or valued-successi
   }
   const successors = comparePreferences(findFuture("descendants")!, absent)
   assert.ok(successors.supported.includes("biologicalContinuity"))
+})
+
+
+test("all 228 canonical descriptors disclose a rationale and distinguish evidence from additions", async () => {
+  const { descriptorRationales, scenarioRationales } = await import("@/lib/futures/catalogue/rationales")
+  assert.deepEqual(Object.keys(descriptorRationales), futureCatalogue.map(s => s.id))
+  let count = 0
+  for (const scenario of futureCatalogue) {
+    const record = scenarioRationales(scenario.id)
+    assert.deepEqual(Object.keys(record), featureIds)
+    for (const id of featureIds) {
+      const [state, basis, reason] = record[id]
+      count++
+      assert.equal(state, scenario.features[id])
+      assert.ok(reason.length > 35, `${scenario.id}/${id}`)
+      if (state === "present" || state === "absent") assert.ok(["linked-source", "added-hypothesis", "editorial-inference"].includes(basis))
+      else assert.equal(basis, state === "inapplicable" ? "inapplicable" : "unresolved")
+      if (basis === "linked-source") assert.equal(scenario.origin, "inherited")
+      if (basis === "added-hypothesis") assert.equal(scenario.origin, "project")
+    }
+  }
+  assert.equal(count, 228)
+})
+
+test("unknown income, uninstantiated digital persons and technical absence do not become a match or hard conflict", () => {
+  for (const choice of ["present", "absent"] as const) {
+    const floor = comparePreferences(findFuture("libertarian-market")!, { sharedBenefits: { choice, nonNegotiable: true } })
+    assert.deepEqual(floor.unresolved, ["sharedBenefits"])
+    assert.deepEqual(floor.unconfirmedConstraints, ["sharedBenefits"])
+    assert.deepEqual(floor.supported, [])
+    assert.deepEqual(floor.hardConflicts, [])
+    assert.equal(floor.orderingValue, 0)
+    const reversion = comparePreferences(findFuture("reversion")!, {
+      digitalStanding: { choice, nonNegotiable: true }, voluntaryTransformation: { choice, nonNegotiable: true }, capabilityLimits: { choice, nonNegotiable: true },
+    })
+    assert.deepEqual(reversion.inapplicable, ["digitalStanding", "voluntaryTransformation"])
+    assert.deepEqual(reversion.unresolved, ["capabilityLimits"])
+    assert.equal(reversion.unconfirmedConstraints.length, 3)
+    assert.deepEqual(reversion.supported, [])
+    assert.deepEqual(reversion.hardConflicts, [])
+    assert.equal(reversion.orderingValue, 0)
+  }
+  assert.deepEqual(comparePreferences(findFuture("enslaved-tool")!, { digitalStanding: { choice: "present", nonNegotiable: true } }).hardConflicts, ["digitalStanding"])
+  assert.deepEqual(comparePreferences(findFuture("gatekeeper")!, { capabilityLimits: { choice: "absent", nonNegotiable: true } }).hardConflicts, ["capabilityLimits"])
+})
+
+test("descriptor equivalence exhaustively predicts the actual matcher for all binary choices and requirement extremes", () => {
+  const groups = descriptorEquivalenceGroups()
+  assert.ok(groups.some(group => group.some(s => s.id === "negotiated-ceiling") && group.some(s => s.id === "planetary-restoration")))
+  // Generic diagnostic: any additional equivalent pair joins this same exhaustive witness.
+  const comparisonValue = (scenario: (typeof futureCatalogue)[number], answers: typeof humanPlural) => {
+    const { scenario: _metadata, ...value } = comparePreferences(scenario, answers)
+    return value
+  }
+  for (const group of groups) {
+    for (const other of group.slice(1)) {
+      assert.equal(descriptorSignature(group[0]), descriptorSignature(other))
+      for (const required of [false, true]) for (let vector = 0; vector < 2 ** featureIds.length; vector++) {
+        const answers = Object.fromEntries(featureIds.map((id, bit) => [id, { choice: vector & 2 ** bit ? "present" : "absent", nonNegotiable: required }])) as typeof humanPlural
+        assert.deepEqual(comparisonValue(group[0], answers), comparisonValue(other, answers), `${other.id}/${required}/${vector}`)
+      }
+    }
+  }
+  const clone = { ...futureCatalogue[0], id: "another-equivalent-world" }
+  assert.equal(descriptorEquivalenceGroups([futureCatalogue[0], clone]).length, 1)
+})
+
+test("revised question meanings are versioned and non-directional responses remain complete and non-scoring", () => {
+  assert.equal(preferenceQuestionVersion, "futures-questions-0.2")
+  assert.equal(initialPreferenceState.questionVersion, preferenceQuestionVersion)
+  assert.equal(matchFutures(humanPlural).questionVersion, preferenceQuestionVersion)
+  assert.deepEqual(nonPreferenceOptions.map(o => o.label), ["Not sure", "No preference", "Neither describes my view"])
+  for (const choice of ["uncertain", "no-preference", "other"] as const) {
+    const answers = preferenceFixture(Object.fromEntries(featureIds.map(id => [id, choice])))
+    assert.ok(preferencesComplete(answers))
+    assert.equal(matchFutures(answers).activeDomains, 0)
+  }
+  for (const id of featureIds) assert.notEqual(requirementLabels[id].present, requirementLabels[id].absent)
+  assert.match(requirementLabels.capabilityLimits.present, /require an enforced ceiling/)
+  assert.match(requirementLabels.voluntaryTransformation.absent, /feasible.*prohibited/)
+})
+
+test("poor agreement and missing scenario detail have distinct non-result states", () => {
+  const answers = preferenceFixture({ humanAuthority: "present", biologicalContinuity: "present", capabilityLimits: "present" })
+  const contrary = { ...findFuture("constitutional-delegation")!, features: features({ humanAuthority: "absent", biologicalContinuity: "absent", capabilityLimits: "absent" }) }
+  const comparison = comparePreferences(contrary, answers)
+  assert.equal(comparison.detailSufficient, true)
+  assert.equal(comparison.agreementSufficient, false)
+  assert.equal(matchFutures(answers, [contrary]).outcome, "poor-agreement")
+  assert.equal(matchFutures(answers, [{ ...contrary, features: features({}) }]).outcome, "insufficient-scenario-evidence")
+  assert.equal(matchFutures(preferenceFixture(), [contrary]).outcome, "insufficient-preferences")
+  assert.equal(matchFutures(allConflict).outcome, "all-conflict")
 })

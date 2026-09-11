@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 639,
-      "newCount": 159,
+      "currentCount": 642,
+      "newCount": 162,
       "newFindings": [
         {
           "audience": "public",
@@ -165,6 +165,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score lies toward external constraints over domestic-politics explanations."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/preferences.ts#requirementLabels.transparentPower.absent",
+          "count": 1,
+          "file": "lib/futures/preferences.ts",
+          "fingerprint": "17c2a9eb17e6b3ac8c68c636d8db229f694ba847f036d8815a1ac706630d5a5e",
+          "matched": "i require governing",
+          "rule": "repeated-adjacent-opening",
+          "source": "I require governing intervention to remain concealed."
         },
         {
           "audience": "public",
@@ -535,6 +545,16 @@
           "matched": "foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action",
           "rule": "repeated-three-part-list",
           "source": "United Nations General Assembly Resolution ES-11/1 characterized Russia's invasion as aggression and demanded withdrawal. The territorial dispute remains unresolved. For this scenario, assume a ceasefire is available, Ukraine remains outside the North Atlantic Treaty Organization (NATO), and Kyiv must choose one post-ceasefire arrangement to reduce the risk of renewed attack. The arrangement can combine Ukrainian forces, foreign support, monitoring, and limits; none guarantees protection without shifting cost, exposure, or freedom of action."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.descendants.humanAuthority.2",
+          "count": 1,
+          "file": "lib/futures/catalogue/rationales.ts",
+          "fingerprint": "455527fbca21b8546996e065fc98c61c0f2295aedabca9e3791007b7add7d82c",
+          "matched": "ultimately",
+          "rule": "flagged-rhetorical-opener",
+          "source": "The linked Descendants premise ultimately replaces human society with artificial successors."
         },
         {
           "audience": "frozen",
@@ -1535,6 +1555,16 @@
           "matched": "across layers",
           "rule": "layer-metaphor-review",
           "source": "Profile reuses each saved layer's canonical visible blocks and does not synthesize new prose across layers."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/futures/preferences.ts#requirementLabels.digitalStanding.absent",
+          "count": 1,
+          "file": "lib/futures/preferences.ts",
+          "fingerprint": "f39bf2080562663704b9256df8ddac9285f65ec735a0de89d82f9af78ec8598a",
+          "matched": "i require shared",
+          "rule": "repeated-adjacent-opening",
+          "source": "I require shared institutions to reserve standing for biological humans."
         },
         {
           "audience": "public",
@@ -2961,7 +2991,7 @@
         "priority": "P1"
       },
       {
-        "count": 639,
+        "count": 642,
         "priority": "P2"
       }
     ]

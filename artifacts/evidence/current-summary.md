@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 639. Unchanged and suppressed: 480. New: 159. Resolved: 78.
+P2 advisory baseline: 558. Current: 642. Unchanged and suppressed: 480. New: 162. Resolved: 78.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 30 |
-| P2 | 639 |
+| P2 | 642 |
 
 ### P0 and P1 findings
 
@@ -1069,6 +1069,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | layer, layers |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.2.paragraphs.0) | 通常 |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low) | the aggregate score |
+| 1 | repeated-adjacent-opening | public | lib/futures/preferences.ts (content-key:lib/futures/preferences.ts#requirementLabels.transparentPower.absent) | i require governing |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Universalist) | on normative items |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.restraint.2) | the strategic position |
@@ -1106,6 +1107,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | layer-metaphor-review | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | saved layer |
 | 1 | flagged-rhetorical-opener | public | lib/futures/catalogue/index.ts (content-key:lib/futures/catalogue/index.ts#futureCatalogue.1.life) | ultimately |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
+| 1 | flagged-rhetorical-opener | public | lib/futures/catalogue/rationales.ts (content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.descendants.humanAuthority.2) | ultimately |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.2.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.6.whyHard) | normally |
 | 1 | repeated-adjacent-opening | public | lib/decision-exercises/readbacks.ts (content-key:lib/decision-exercises/readbacks.ts#arrangementReadings.access.weights>hosted) | you moved from |
@@ -1206,6 +1208,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | Associated with Glaser, Van Evera, and Snyder / often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts |
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.scene) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system |
 | 1 | layer-metaphor-review | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | across layers |
+| 1 | repeated-adjacent-opening | public | lib/futures/preferences.ts (content-key:lib/futures/preferences.ts#requirementLabels.digitalStanding.absent) | i require shared |
 | 1 | pressure-test-repetition | public | components/results/foundation-result-story.tsx (content-key:components/results/foundation-result-story.tsx#chapters.p) | pressure test |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.14.whyHard) | broad participation, development costs, or national discretion should guide the standards / settle whether other states will see them as legitimate, fair to developing economies, or compatible with national authority |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |

@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 
-const evidence = process.env.DECISION_REPAIR_DIR ?? "docs/evidence/decision-exercises-release/repair"
+const evidence = process.env.DECISION_REPAIR_DIR ?? "test-results/navigation-witnesses"
 const mobileDestinations = ["/cases", "/quiz", "/modules", "/ai", "/perspectives", "/profile", "/explore/atlas", "/explore/reference", "/explore", "/futures", "/method", "/privacy", "/references", "/feedback"]
 
 // macOS WebKit uses Option+Tab to include links with its default keyboard setting.
@@ -106,7 +106,7 @@ for (const width of [320, 390, 768]) test(`shared navigation fits ${width}px clo
   writeFileSync(`${evidence}/menu-geometry-${width}.json`, JSON.stringify(observations, null, 2))
 })
 
-test("six decorative overflow witnesses fit 1440px before and after evidence expansion", async ({ page }) => {
+test("six route overflow witnesses fit 1440px before and after evidence expansion", async ({ page }) => {
   mkdirSync(evidence, { recursive: true })
   await page.setViewportSize({ width: 1440, height: 900 })
   const observations = []
@@ -119,11 +119,30 @@ test("six decorative overflow witnesses fit 1440px before and after evidence exp
       }) }))
     const closed = await read()
     expect(closed.document, `${route} default`).toBeLessThanOrEqual(1441)
-    expect(closed.owners.length).toBeGreaterThan(0)
-    expect(closed.owners.every(o => o.right === "0px" && o.pointerEvents === "none")).toBe(true)
-    for (const summary of await page.locator("main details > summary").all()) await summary.click()
+    if (route === "/futures") {
+      // The flat catalogue has no decorative pseudo-owner. Its geometry and
+      // native evidence disclosures remain part of this six-route regression.
+      expect(closed.owners).toHaveLength(0)
+      await expect(page.locator("#catalogue")).toBeVisible()
+      await expect(page.locator('#catalogue article[data-origin]')).toHaveCount(19)
+      await expect(page.getByRole("link", { name: "Browse all futures", exact: true })).toHaveAttribute("href", "#catalogue")
+    } else {
+      expect(closed.owners.length).toBeGreaterThan(0)
+      expect(closed.owners.every(o => o.right === "0px" && o.pointerEvents === "none")).toBe(true)
+    }
+    const summaries = page.locator("main details > summary")
+    for (const summary of await summaries.all()) {
+      await summary.click()
+      await expect(summary.locator("..")).toHaveAttribute("open", "")
+    }
     const expanded = await read()
     expect(expanded.document, `${route} expanded`).toBeLessThanOrEqual(1441)
+    if (route !== "/futures") {
+      expect(expanded.owners.length).toBeGreaterThan(0)
+      expect(expanded.owners.every(o => o.right === "0px" && o.pointerEvents === "none")).toBe(true)
+    } else {
+      await expect(page.getByText("The historical map of the twelve inherited scenarios", { exact: true }).locator("..")).toHaveAttribute("open", "")
+    }
     observations.push({ route, closed, expanded })
     await page.evaluate(() => scrollTo(0, 0))
     await page.screenshot({ path: `${evidence}/after-desktop-${route.slice(1).replaceAll("/", "-")}.png` })
