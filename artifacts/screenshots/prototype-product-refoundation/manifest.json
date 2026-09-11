@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 1,
+  "prototype": "product re-foundation",
+  "route": "/dev/product-refoundation",
+  "generatedAt": "2026-08-31T19:18:09.179Z",
+  "baseUrl": "http://127.0.0.1:3111",
+  "screenshots": [
+    {
+      "id": "1440-first-time",
+      "path": "artifacts/screenshots/prototype-product-refoundation/1440-first-time.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "first-time",
+      "reducedMotion": "no-preference",
+      "note": "Clean browser with no saved work."
+    },
+    {
+      "id": "1440-returning",
+      "path": "artifacts/screenshots/prototype-product-refoundation/1440-returning.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "returning",
+      "reducedMotion": "no-preference",
+      "note": "Locally saved First Principles result, a Security record, and an AI record."
+    },
+    {
+      "id": "390-first-time",
+      "path": "artifacts/screenshots/prototype-product-refoundation/390-first-time.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "first-time",
+      "reducedMotion": "no-preference",
+      "note": "Clean browser with no saved work."
+    },
+    {
+      "id": "390-first-time-full",
+      "path": "artifacts/screenshots/prototype-product-refoundation/390-first-time-full.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "first-time:full-page",
+      "reducedMotion": "no-preference",
+      "note": "Clean browser with no saved work. Full scroll length at 390px."
+    },
+    {
+      "id": "390-returning",
+      "path": "artifacts/screenshots/prototype-product-refoundation/390-returning.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "returning",
+      "reducedMotion": "no-preference",
+      "note": "Locally saved First Principles result, a Security record, and an AI record."
+    },
+    {
+      "id": "390-returning-full",
+      "path": "artifacts/screenshots/prototype-product-refoundation/390-returning-full.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "returning:full-page",
+      "reducedMotion": "no-preference",
+      "note": "Locally saved First Principles result, a Security record, and an AI record. Full scroll length at 390px."
+    },
+    {
+      "id": "1440-first-time-reduced-motion",
+      "path": "artifacts/screenshots/prototype-product-refoundation/1440-first-time-reduced-motion.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "first-time",
+      "reducedMotion": "reduce",
+      "note": "Reduced-motion still state. No information or control is lost."
+    },
+    {
+      "id": "390-first-time-reduced-motion",
+      "path": "artifacts/screenshots/prototype-product-refoundation/390-first-time-reduced-motion.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "first-time",
+      "reducedMotion": "reduce",
+      "note": "Reduced-motion still state. No information or control is lost."
+    },
+    {
+      "id": "390-first-time-reduced-motion-full",
+      "path": "artifacts/screenshots/prototype-product-refoundation/390-first-time-reduced-motion-full.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "state": "first-time:full-page",
+      "reducedMotion": "reduce",
+      "note": "Reduced-motion still state. No information or control is lost. Full scroll length at 390px."
+    },
+    {
+      "id": "sequence-area-start",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-area-start.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "area:start",
+      "reducedMotion": "no-preference",
+      "note": "Detail region showing start. The globe and the index do not move."
+    },
+    {
+      "id": "sequence-area-cases",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-area-cases.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "area:cases",
+      "reducedMotion": "no-preference",
+      "note": "Detail region showing cases. The globe and the index do not move."
+    },
+    {
+      "id": "sequence-area-field-guide",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-area-field-guide.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "area:field-guide",
+      "reducedMotion": "no-preference",
+      "note": "Detail region showing field-guide. The globe and the index do not move."
+    },
+    {
+      "id": "sequence-area-my-record",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-area-my-record.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "area:my-record",
+      "reducedMotion": "no-preference",
+      "note": "Detail region showing my-record. The globe and the index do not move."
+    },
+    {
+      "id": "sequence-how-it-works",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-how-it-works.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "works-open",
+      "reducedMotion": "no-preference",
+      "note": "Expanded detail state with the four public labels and the four statements."
+    },
+    {
+      "id": "sequence-returning-my-record",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-returning-my-record.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "returning:my-record",
+      "reducedMotion": "no-preference",
+      "note": "My Record with a saved result, one saved domain record, and one domain not started."
+    },
+    {
+      "id": "sequence-returning-draft",
+      "path": "artifacts/screenshots/prototype-product-refoundation/sequence-returning-draft.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "returning-draft",
+      "reducedMotion": "no-preference",
+      "note": "Unfinished draft continuation line beside the primary action, and the draft row in My Record."
+    },
+    {
+      "id": "keyboard-1-start",
+      "path": "artifacts/screenshots/prototype-product-refoundation/keyboard-1-start.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "keyboard:start",
+      "reducedMotion": "no-preference",
+      "note": "Keyboard path: tablist on start, then the panel entry link."
+    },
+    {
+      "id": "keyboard-2-cases",
+      "path": "artifacts/screenshots/prototype-product-refoundation/keyboard-2-cases.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "keyboard:cases",
+      "reducedMotion": "no-preference",
+      "note": "Keyboard path: tablist on cases, then the panel entry link."
+    },
+    {
+      "id": "keyboard-3-field-guide",
+      "path": "artifacts/screenshots/prototype-product-refoundation/keyboard-3-field-guide.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "keyboard:field-guide",
+      "reducedMotion": "no-preference",
+      "note": "Keyboard path: tablist on field-guide, then the panel entry link."
+    },
+    {
+      "id": "keyboard-4-my-record",
+      "path": "artifacts/screenshots/prototype-product-refoundation/keyboard-4-my-record.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "state": "keyboard:my-record",
+      "reducedMotion": "no-preference",
+      "note": "Keyboard path: tablist on my-record, then the panel entry link."
+    }
+  ],
+  "checks": {
+    "network": {
+      "totalRequests": 26,
+      "mapboxRequests": [],
+      "thirdPartyRequests": [],
+      "canvasCount": 0,
+      "consoleErrors": []
+    },
+    "geometry": {
+      "1440x1000": {
+        "viewportHeight": 1000,
+        "perArea": {
+          "start": {
+            "documentHeight": 1000,
+            "panelHeight": 341,
+            "scrollWidth": 1440,
+            "clientWidth": 1440
+          },
+          "cases": {
+            "documentHeight": 1000,
+            "panelHeight": 341,
+            "scrollWidth": 1440,
+            "clientWidth": 1440
+          },
+          "field-guide": {
+            "documentHeight": 1000,
+            "panelHeight": 341,
+            "scrollWidth": 1440,
+            "clientWidth": 1440
+          },
+          "my-record": {
+            "documentHeight": 1000,
+            "panelHeight": 341,
+            "scrollWidth": 1440,
+            "clientWidth": 1440
+          }
+        },
+        "menuGeometryStableAcrossAreas": true,
+        "horizontalOverflow": false
+      },
+      "390x844": {
+        "viewportHeight": 844,
+        "perArea": {
+          "start": {
+            "documentHeight": 1591,
+            "panelHeight": 406,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          "cases": {
+            "documentHeight": 1684,
+            "panelHeight": 499,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          "field-guide": {
+            "documentHeight": 1684,
+            "panelHeight": 499,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          },
+          "my-record": {
+            "documentHeight": 1684,
+            "panelHeight": 499,
+            "scrollWidth": 390,
+            "clientWidth": 390
+          }
+        },
+        "menuGeometryStableAcrossAreas": true,
+        "horizontalOverflow": false
+      },
+      "768x1024": {
+        "viewportHeight": 1024,
+        "perArea": {
+          "start": {
+            "documentHeight": 1024,
+            "panelHeight": 349,
+            "scrollWidth": 768,
+            "clientWidth": 768
+          },
+          "cases": {
+            "documentHeight": 1069,
+            "panelHeight": 399,
+            "scrollWidth": 768,
+            "clientWidth": 768
+          },
+          "field-guide": {
+            "documentHeight": 1069,
+            "panelHeight": 399,
+            "scrollWidth": 768,
+            "clientWidth": 768
+          },
+          "my-record": {
+            "documentHeight": 1024,
+            "panelHeight": 107,
+            "scrollWidth": 768,
+            "clientWidth": 768
+          }
+        },
+        "menuGeometryStableAcrossAreas": true,
+        "horizontalOverflow": false
+      },
+      "320x844": {
+        "viewportHeight": 844,
+        "perArea": {
+          "start": {
+            "documentHeight": 1753,
+            "panelHeight": 447,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          "cases": {
+            "documentHeight": 1804,
+            "panelHeight": 499,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          "field-guide": {
+            "documentHeight": 1824,
+            "panelHeight": 518,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          },
+          "my-record": {
+            "documentHeight": 1804,
+            "panelHeight": 499,
+            "scrollWidth": 320,
+            "clientWidth": 320
+          }
+        },
+        "menuGeometryStableAcrossAreas": true,
+        "horizontalOverflow": false
+      }
+    },
+    "keyboard": {
+      "path": [
+        {
+          "area": "start",
+          "entryLink": "First Principles"
+        },
+        {
+          "area": "cases",
+          "entryLink": "Recent Cases"
+        },
+        {
+          "area": "field-guide",
+          "entryLink": "Foundation readings"
+        },
+        {
+          "area": "my-record",
+          "entryLink": "Begin First Principles"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "Captured against a development server. The route returns 404 in production by design.",
+    "Returning states are constructed local fixtures, not participant data."
+  ]
+}
