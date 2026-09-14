@@ -1,0 +1,33 @@
+{
+  "requests": [
+    "http://127.0.0.1:3217/dev/product-refoundation",
+    "http://127.0.0.1:3217/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+    "http://127.0.0.1:3217/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+    "http://127.0.0.1:3217/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+    "http://127.0.0.1:3217/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+    "http://127.0.0.1:3217/_next/static/chunks/app_12d3lx3._.css",
+    "http://127.0.0.1:3217/_next/static/chunks/app_dev_product-refoundation_prototype_module_05vl8ma.css",
+    "http://127.0.0.1:3217/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xx01vv._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_compiled_next-devtools_index_090k2jm.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_compiled_react-dom_096_9a-._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_164kp-6._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_compiled_1amofcm._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_client_0r5nbpw._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_1ybzpk2._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_%40swc_helpers_cjs_1r9vbqw._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/_1anvha4._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/turbopack-_01_ro95._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_08hlpiq._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/_1s-5sfm._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/app_layout_tsx_007e4b2._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/node_modules_next_dist_client_components_builtin_global-error_05l3m1v.js",
+    "http://127.0.0.1:3217/_next/static/chunks/app_dev_product-refoundation_local-record_ts_0pymcm0._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/app_dev_product-refoundation_204o5tw._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/app_dev_product-refoundation_page_tsx_05l3m1v._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/app_not-found_tsx_05l3m1v._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1mojsay._.js",
+    "http://127.0.0.1:3217/_next/static/chunks/%5Bturbopack%5D_browser_dev_hmr-client_hmr-client_ts_1xch-cm._.js"
+  ],
+  "errors": [],
+  "mapboxRequests": 0
+}
