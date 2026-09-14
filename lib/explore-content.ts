@@ -293,162 +293,162 @@ export const exploreFamilies: ExploreFamily[] = [
     slug: familySlug("realist"),
     familyKey: "realist",
     name: traditionNounLabel("realist"),
-    tagline: "World politics is shaped by the distribution of power and the absence of any authority above states.",
-    summary: `Realism begins with a blunt structural premise: there is no government above governments. In a world where no authority can reliably punish defection or guarantee protection, states have to look after themselves. The argument rests on the structure of the international system, not a claim that human nature is evil. Even states that want peace cannot be certain others feel the same, so they prepare for the worst.
+    tagline: "No authority stands above states, so power and self-help decide more than rules or good intentions.",
+    summary: `Realism starts from a blunt fact: there is no government above governments. Nobody can reliably punish a state that cheats or protect a state that is attacked. So states look after themselves. Structural realists put the whole argument on that fact. Classical realists add a second one, a drive for power in human nature that statecraft has to manage. Both conclude that even a state that wants peace cannot be sure its neighbors do, and prepares for the worst.
 
-Realists argue that this structural logic, anarchy plus uncertainty, drives recurring patterns in world politics: arms races, balance-of-power dynamics, and the tendency for states to compete even when they would prefer not to. The security dilemma captures the tragic version of this: measures taken for defense often look offensive from outside, producing arms spirals that no one wanted.
+From that premise realists expect recurring patterns: arms races, balancing coalitions, and competition between states that would each prefer to cooperate. The security dilemma is the tragic version. Weapons bought for defense look like preparation for attack from across the border, and the reply looks the same from the other side. Nobody wanted the spiral, and nobody can safely step out of it.
 
-Realism is not a single view. Classical realists emphasize human nature and statecraft; structural realists emphasize the architecture of the system itself. Offensive realists argue that the structure pushes states toward maximizing power; defensive realists argue it often rewards restraint. What they share is the insistence that power and self-help are durable features of world politics, not temporary problems to be fixed by better institutions or warmer feelings.`,
+Realism is a family of arguments, and the family quarrels. Offensive realists hold that anarchy pushes great powers to seek as much power as they can, because there is no safe point to stop. Defensive realists reply that the system often rewards restraint and punishes expansion. What the family shares is the claim that power and self-help are permanent features of world politics, and that better institutions or warmer feelings will not remove them.`,
     coreClaims: [
-      "Anarchy, the absence of a central authority above states, is the defining structural condition of world politics.",
-      "Under anarchy, states cannot be certain of others' intentions, so they must provide for their own security through self-help.",
-      "The distribution of power (polarity) shapes patterns of conflict and cooperation more than any other variable.",
-      "Relative gains matter: a cooperative arrangement that advantages a rival more than oneself weakens one's long-run position.",
-      "The security dilemma: defensive measures often appear threatening from outside, generating arms spirals that no party intended.",
+      "Anarchy, the absence of a central authority above states, is the condition everything else follows from.",
+      "Because states cannot be sure of one another's intentions, each must provide for its own security.",
+      "The distribution of power among states, whether one leads or several compete, shapes conflict and cooperation more than any other factor.",
+      "Relative gains matter. A deal that strengthens a rival more than it strengthens you weakens your position over time.",
+      "Defensive measures look threatening from outside. The security dilemma produces arms spirals that no party intended.",
     ],
     subtraditions: [
       {
         name: "Classical realism",
         note:
-          "Associated with Morgenthau and Niebuhr. Grounds the realist argument in a psychological drive for power, rather than structure alone. Emphasizes statecraft, the role of leaders, and the tragic character of international politics.",
+          "Morgenthau and Niebuhr ground the argument in a human drive for power, with the structure of the system as a second factor. The tradition concerns itself with statecraft, the judgment of leaders, and the tragic character of politics among nations.",
       },
       {
         name: "Structural realism (neorealism)",
         note:
-          "Associated with Waltz. Shifts the explanation from human drives to the system's anarchic structure and the distribution of capabilities among states. Leaders matter less; the structure constrains and shapes behavior.",
+          "Waltz moves the explanation from human nature to the shape of the system: anarchy plus the distribution of capabilities. Leaders matter less. The structure rewards some behavior and punishes the rest, whoever is in office.",
       },
       {
         name: "Offensive realism",
         note:
-          "Associated with Mearsheimer. The structure of anarchy pushes states toward maximizing power because there is no safe stopping point. States can never know when they have enough security to stop competing.",
+          "Mearsheimer argues that anarchy pushes great powers to maximize their power, because a state can never know how much security is enough. The safest position is to be the strongest, so competition never settles.",
       },
       {
         name: "Defensive realism",
         note:
-          "Associated with Glaser, Van Evera, and Snyder. Argues that the structure often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts. Anarchy does not by itself require endless expansion.",
+          "Glaser, Van Evera, and Snyder argue that the system often rewards restraint. Most wars come from miscalculation, domestic pathologies, or spirals that both sides could have avoided. Anarchy by itself does not require endless expansion.",
       },
     ],
     emphasizes: [
-      "The permanence of uncertainty about others' intentions",
-      "Relative power: capabilities matter in relation to the position of other states",
-      "The security dilemma: defensive moves often look offensive from outside",
-      "The tendency of states to balance against, rather than bandwagon with, rising powers",
-      "Skepticism that rules, norms, or institutions can reliably constrain powerful states under pressure",
+      "Uncertainty about other states' intentions, which never goes away",
+      "Relative power: what a state can do compared with its rivals",
+      "The security dilemma: defensive moves read as offensive from across the border",
+      "Balancing: states tend to line up against a rising power, not behind it",
+      "Skepticism that rules, norms, or institutions can hold a powerful state when its interests are at stake",
     ],
     underweights: [
-      "How domestic politics, regime type, and bureaucratic capacity produce variation across states with similar external constraints",
-      "The role of institutions in making cooperation more durable across lower-stakes issue areas",
-      "How identity, legitimacy, and social expectations shape what counts as a threat",
-      "Structural economic factors: dependence, supply chain vulnerability, capital flows",
-      "The possibility that norms diffuse and genuinely change state behavior over time",
+      "Why states under similar external pressure behave differently: regime type, domestic coalitions, bureaucratic capacity",
+      "How institutions make cooperation last in lower-stakes areas such as trade and standards",
+      "How identity, legitimacy, and expectation decide what counts as a threat in the first place",
+      "Economic structure: dependence, supply-chain exposure, and who controls credit",
+      "The possibility that norms spread and change what states are willing to do",
     ],
     persuasiveArguments: [
-      "Overextension erodes the power base that makes a state secure; empires typically collapse from excessive commitments",
-      "Major-power peace depends on favorable power distributions, not transformations of political character",
-      "Attempts to build liberal order often serve the interests of the most powerful state that designed it",
-      "States with similar strategic positions tend to behave similarly, regardless of regime type or ideology",
+      "Overextension eats the power base that makes a state secure; empires tend to collapse under commitments they cannot carry",
+      "Peace among major powers rests on a favorable distribution of power, not on a change in their political character",
+      "A liberal order tends to serve the interests of the most powerful state that designed it",
+      "States in similar strategic positions behave in similar ways, whatever their ideology",
     ],
     issueReadings: [
       {
         issue: "Great-power rivalry",
         note:
-          "Reads rising-power competition as structurally driven. The same pattern recurs regardless of ideology, regime type, or declared intentions. The rising power expands its reach; the established power balances. Conflict risk is highest in the transitional period when power parity is closest.",
+          "The rivalry is built into the structure. A rising power extends its reach; the established power balances; declared intentions and regime type change little. Realists disagree about timing. Balance-of-power theorists expect rough parity to restrain both sides, while power-transition arguments, including Gilpin's account of hegemonic war, expect the danger to peak when a rising state finds the existing order no longer fits its interests.",
       },
       {
         issue: "Trade and technology decoupling",
         note:
-          "Reads economic interdependence primarily as a vulnerability. Reliance on adversary supply chains creates leverage. Technology leadership translates directly into military advantage, making restrictions rational even at significant economic cost.",
+          "Interdependence with an adversary is a vulnerability first and a benefit second. Reliance on a rival's supply chains hands it leverage, and a lead in technology becomes a lead in arms. Restricting trade is rational even at real economic cost, because relative gains count.",
       },
       {
         issue: "Humanitarian intervention",
         note:
-          "Deeply skeptical. States invoke humanitarian language to justify actions driven by strategic interests. The non-intervention norm protects weaker states as much as it shields bad actors. Realists prefer restraint unless core interests are directly engaged, and warn that intervention tends to create new instabilities.",
+          "Realists are deeply skeptical. Governments reach for humanitarian language to justify what strategic interest already recommends. The rule against intervention protects weak states as much as it shelters bad ones. Intervene only where core interests are engaged, and expect the intervention to create instabilities of its own.",
       },
     ],
     neighbors: [
       {
         familyKey: "institutionalist",
         contrast:
-          "Both work within a state-centric frame and accept anarchy as the baseline. Institutionalists argue that repeated interaction and shared rules can make cooperation durable even without enforcement. Realists are skeptical that this holds under real pressure.",
+          "Both start from states under anarchy. Institutionalists argue that repeated dealings and shared rules can make cooperation last even without an enforcer. Realists doubt that any of it holds once a powerful state is under real pressure.",
       },
       {
         familyKey: "criticalPoliticalEconomy",
         contrast:
-          "Both are skeptical of liberal optimism, but locate the driving logic differently. Realists focus on security competition and power distribution; critical PE focuses on economic structure, capital flows, and dependence as the real constraints on state autonomy.",
+          "Both distrust liberal optimism, and they locate the driving force in different places. Realists watch security competition and the distribution of military power. Critical political economy watches capital, production, and dependence as the limits on what a state can do.",
       },
     ],
     readings: [
       {
         title: "Theory of International Politics",
         author: "Kenneth Waltz",
-        note: "The foundational text of structural realism. It argues that the distribution of power, rather than human nature, explains recurring patterns of conflict.",
+        note: "The founding text of structural realism. The distribution of power among states, and neither human nature nor the character of governments, explains the recurring patterns of conflict.",
       },
       {
         title: "The Tragedy of Great Power Politics",
         author: "John Mearsheimer",
-        note: "The clearest statement of offensive realism: why major powers can never be satisfied with the status quo.",
+        note: "The clearest statement of offensive realism: why great powers cannot rest content with the status quo.",
       },
       {
         title: "Politics Among Nations",
         author: "Hans Morgenthau",
-        note: "Classical realism's core text, focused on the statecraft required to manage power competition in a world without common authority.",
+        note: "The core text of classical realism, on the statecraft needed to manage power in a world with no common authority.",
       },
     ],
     advancedReadings: [
       {
         title: "War and Change in World Politics",
         author: "Robert Gilpin",
-        note: "A structural account of how hegemonic transitions produce conflict. Argues that wars of redistribution become more likely when rising powers find the existing order no longer reflects their interests. Directly relevant to US-China competition.",
+        note: "A structural account of hegemonic transition. Wars of redistribution become likelier when a rising power finds that the existing order no longer reflects its interests. Bears directly on the United States and China.",
       },
       {
         title: "Perception and Misperception in International Politics",
         author: "Robert Jervis",
-        note: "The essential treatment of the security dilemma and cognitive bias in strategic decision-making. Shows how defensive intentions can be read as offensive, producing spirals that no party wanted.",
+        note: "The essential treatment of the security dilemma and of bias in strategic judgment. Shows how defensive intentions get read as offensive, and how the spiral follows.",
       },
       {
         title: "The Origins of Alliances",
         author: "Stephen Walt",
-        note: "Argues that states balance against threats, not just power, refining Waltz's structural realism to account for why states balance the way they do. A key text in defensive realist thinking.",
+        note: "States balance against threats, not against power alone. A refinement of Waltz that explains why alliances form the way they do, and a key text in defensive realism.",
       },
     ],
     counterReadings: [
       {
         title: "After Hegemony",
         author: "Robert Keohane",
-        note: "The strongest institutionalist challenge to realism. Shows that international cooperation can be sustained without a dominant enforcer, directly challenging the realist expectation that order depends on hegemony.",
+        note: "The strongest institutionalist challenge. Cooperation can be sustained without a dominant enforcer, against the realist expectation that order depends on hegemony.",
       },
       {
         title: "Anarchy Is What States Make of It",
         author: "Alexander Wendt",
-        note: "The constructivist challenge: anarchy does not have a fixed logic. The meaning of rivalry and self-help depends on identities and relationships that states construct through interaction, rather than structure alone.",
+        note: "The constructivist challenge. Anarchy has no fixed logic; what rivalry and self-help mean depends on the identities and relationships states build through interaction.",
       },
     ],
     associatedThinkers: [
       {
         name: "Hans Morgenthau (1904–1980)",
         role: "Political scientist, University of Chicago",
-        note: "The founding figure of classical realism. Grounded the realist argument in a concept of the national interest defined in terms of power, and insisted that statecraft is a discipline requiring tragic judgment, not rule-following.",
+        note: "The founding figure of classical realism. Defined the national interest in terms of power and treated statecraft as a discipline of tragic judgment that no set of rules can replace.",
       },
       {
         name: "Kenneth Waltz (1924–2013)",
         role: "Political scientist, Columbia University and UC Berkeley",
-        note: "Founded structural realism (neorealism). Shifted the causal argument from human nature to the architecture of the international system, defined by anarchy and the distribution of capabilities, and set the terms for theoretical debate across two generations of IR scholars.",
+        note: "Founded structural realism. Moved the cause of conflict from human nature to the architecture of the system, anarchy and the distribution of capabilities, and set the terms of debate for two generations.",
       },
       {
         name: "John Mearsheimer (b. 1947)",
         role: "Political scientist, University of Chicago",
-        note: "The leading proponent of offensive realism. Argues that the structure of anarchy compels great powers to maximize relative power because there is no safe stopping point, making conflict recurrent regardless of ideology.",
+        note: "The leading offensive realist. Great powers must maximize relative power because there is no safe stopping point, so conflict recurs whatever the ideology of the day.",
       },
       {
         name: "Robert Jervis (1940–2021)",
         role: "Political scientist, Columbia University",
-        note: "The essential scholar of the security dilemma and strategic misperception. Showed how cognitive biases and the offense-defense balance interact to produce arms spirals and wars that no party intended.",
+        note: "The essential scholar of the security dilemma. Showed how cognitive bias and the balance between offense and defense combine to produce arms races and wars nobody chose.",
       },
     ],
     quizCoverage: {
       level: "strong",
       note:
-        "Realism is the most directly modeled tradition in the current Foundation. The security competition dimension (uncertainty, rivalry, self-help) captures its core logic, and the restraint-vs-maximization dimension captures the debate within realism about grand strategy. The strategic technology and ally trade scenarios also probe realist instincts about relative gains. The model treats offensive realism, defensive realism, and classical realism as variations within a shared structural frame rather than distinguishing among them.",
+        "Two dimensions carry the realist reading: security competition (uncertainty, rivalry, self-help) and restraint (whether to press an advantage or hold back). The fourteen core questions ask two per dimension. Longer forms add cases such as a rival gaining ground and a supplier catching up in semiconductors. Offensive, defensive, and classical realism are not separated: a high realist score fits all three.",
     },
   },
 
@@ -456,321 +456,321 @@ Realism is not a single view. Classical realists emphasize human nature and stat
     slug: familySlug("institutionalist"),
     familyKey: "institutionalist",
     name: traditionNounLabel("institutionalist"),
-    tagline: "Shared rules, monitoring, and repeated interaction can make cooperation durable even without a world government.",
-    summary: `If realism treats anarchy as a trap, institutionalism treats it as a challenge that can be managed. The core argument is that states cooperate less than they could because they lack reliable information about each other's intentions and cannot verify compliance, rather than because they are inherently hostile. International institutions, including treaties, organizations, monitoring bodies, and dispute-resolution mechanisms, can solve those problems without requiring trust or a world government.
+    tagline: "Shared rules, monitoring, and repeated dealings can make cooperation last without a world government.",
+    summary: `Where realism sees anarchy as a trap, institutionalism sees a problem that can be managed. States cooperate less than they could, the argument runs, because they cannot see one another's intentions and cannot check whether the other side is keeping its word. Hostility is not the main obstacle; missing information is. Treaties, organizations, monitoring bodies, and dispute panels supply the information. They do not require trust, and they do not require a world government.
 
-The logic is about changing incentive structures over time. When violations are visible and reputations accumulate across many interactions, the short-term gains from defection become less attractive. States that invest in institutions gain access to cooperation they could not sustain through bilateral deal-making alone.
+The mechanism works on incentives over time. When violations are visible and reputations follow a state from one negotiation to the next, cheating today costs deals tomorrow. Governments that invest in institutions gain access to cooperation they could never sustain through one-off bargains.
 
-Liberal institutionalism also takes domestic politics seriously. The "two-level game" insight holds that governments negotiate simultaneously with foreign counterparts and their own domestic constituencies. It helps explain why states with similar external environments sometimes reach very different outcomes. Regime type, parliamentary constraints, and interest-group politics all shape what states bring to the table.`,
+Liberal institutionalism also takes domestic politics seriously. A government negotiates with foreign counterparts and with its own constituencies at the same time, the two-level game. That is why states under similar external pressure can reach very different outcomes: regime type, parliaments, and interest groups decide what a government can bring to the table and what it can deliver afterward.`,
     coreClaims: [
-      "Information problems limit cooperation because states cannot verify intentions or detect cheating, even when they are not inherently hostile.",
-      "International institutions reduce transaction costs: they make it easier to reach, implement, and enforce agreements.",
-      "Repeated interaction under rules lengthens time horizons and diminishes the attractiveness of short-term defection.",
-      "States pursue absolute gains: both parties benefit from cooperation even if the gains are asymmetric.",
-      "Domestic politics filters international bargaining: regime type, parliamentary constraints, and interest coalitions shape what governments can credibly commit to.",
+      "Cooperation fails for want of information. States cannot verify intentions or detect cheating, even when nobody is hostile.",
+      "Institutions lower the cost of reaching, carrying out, and enforcing agreements.",
+      "Repeated dealings under rules lengthen time horizons. The gain from cheating once shrinks beside the cost of being shut out later.",
+      "States can pursue absolute gains: both sides benefit from a deal even when one benefits more.",
+      "Domestic politics filters every bargain. Regime type, legislatures, and interest coalitions decide what a government can credibly promise.",
     ],
     subtraditions: [
       {
         name: "Liberal institutionalism (neoliberalism)",
         note:
-          "The mainstream strand, associated with Keohane and Nye. Focuses on how international organizations and regimes lower the cost of verifying compliance and make cooperation self-sustaining across issue areas, even as power distributions shift.",
+          "The mainstream strand, built by Keohane and Nye. International organizations and regimes lower the cost of checking compliance, so cooperation can outlast shifts in the distribution of power.",
       },
       {
         name: "Two-level game / domestic politics",
         note:
-          "Associated with Putnam. States simultaneously negotiate internationally and manage domestic ratification constituencies. 'Win-sets,' the range of agreements that can survive domestic approval, shape what is achievable abroad.",
+          "Putnam's model: a government bargains abroad and manages ratification at home at the same time. The set of agreements that can survive domestic approval, the win-set, decides what is achievable abroad.",
       },
       {
         name: "Democratic peace theory",
         note:
-          "The empirical claim that democracies rarely fight each other, explained institutionally by the constraints legislatures, publics, and transparency norms impose on executive discretion over the use of force.",
+          "The finding that established democracies rarely fight one another, explained through the checks that legislatures, publics, and open debate place on a leader's freedom to use force.",
       },
       {
         name: "Global governance / regime complexity",
         note:
-          "A more recent strand examining how overlapping institutional arrangements, including trade regimes, climate agreements, and human rights law, interact. They can produce layered governance without a single hierarchy, sometimes reinforcing one another and sometimes conflicting.",
+          "A newer strand studies how overlapping arrangements, trade regimes, climate agreements, human rights law, interact. They govern in layers without a single hierarchy, and the layers sometimes reinforce and sometimes obstruct one another.",
       },
     ],
     emphasizes: [
-      "Absolute gains: both parties can benefit from cooperation even if one gains relatively more",
-      "How institutions lower the transaction costs of reaching and verifying agreements",
-      "The role of monitoring and transparency in reducing cheating",
-      "Domestic politics and regime type as filters on what states can credibly commit to",
-      "Repeated interaction: longer time horizons reduce the pull of short-term defection",
+      "Absolute gains: both sides can win from a deal even when one wins more",
+      "How institutions cut the cost of reaching and checking agreements",
+      "Monitoring and transparency as the cure for cheating",
+      "Domestic politics and regime type as filters on what a state can credibly promise",
+      "Repeated dealings: longer time horizons weaken the pull of cheating now",
     ],
     underweights: [
-      "How the most powerful states shape which institutions get built, and in whose interest",
-      "Structural economic power: who sets the rules, who pays the costs of adjustment",
-      "The extent to which institutions can be bypassed or dismantled under acute security pressure",
-      "Identity and legitimacy: why some institutions are seen as credible by some actors but not others",
-      "The difficulty of building institutions for genuinely novel problems before the political will exists",
+      "How the most powerful states decide which institutions get built, and in whose interest",
+      "Structural economic power: who writes the rules and who pays the cost of adjusting to them",
+      "How easily institutions are bypassed or dismantled once a state feels its security is at stake",
+      "Identity and legitimacy: why the same institution looks credible to some actors and rigged to others",
+      "The difficulty of building institutions for a new problem before the political will exists",
     ],
     persuasiveArguments: [
-      "Trade regimes create export constituencies that make future protectionism politically costly",
-      "Transparency mechanisms in arms control reduce uncertainty without requiring prior trust",
-      "Alliance management benefits from institutional frameworks that prevent miscalculation",
-      "International courts and dispute-resolution bodies reduce the cost of peaceful conflict resolution",
+      "Trade regimes create export constituencies that make a later turn to protectionism politically costly",
+      "Transparency in arms control reduces uncertainty without requiring prior trust",
+      "Alliances run better inside institutions that prevent miscalculation",
+      "Courts and dispute panels make settling a quarrel peacefully cheaper than escalating it",
     ],
     issueReadings: [
       {
         issue: "Great-power rivalry",
         note:
-          "Argues rivalry can be managed through sustained institutional engagement. Trade and investment ties create domestic constituencies for stability. Military confidence-building measures and arms-control regimes reduce miscalculation risk. The framework points to economic interdependence as a structural brake on conflict escalation.",
+          "Rivalry can be managed through sustained engagement. Trade and investment create domestic constituencies for stability on both sides. Confidence-building measures and arms control cut the risk of miscalculation. Interdependence is read as a brake on escalation, though a brake that can fail.",
       },
       {
         issue: "Trade and technology decoupling",
         note:
-          "Warns that broad decoupling is costly to all parties and erodes the trading rules that have underpinned growth since 1945. Prefers targeted measures, such as export controls narrowly scoped to genuinely dual-use items, embedded in multilateral frameworks rather than unilateral broad-spectrum restrictions.",
+          "Broad decoupling costs every party and erodes the postwar trading rules that made growth possible. The better course is targeted: export controls scoped to items with real military use, embedded in multilateral arrangements, instead of unilateral restrictions across whole sectors.",
       },
       {
         issue: "Humanitarian intervention",
         note:
-          "More permissive than realism when institutional authorization exists. R2P and UN Security Council authorization make intervention more legitimate and sustainable. Skeptical of unilateral action, but supports multilateral intervention with clear objectives, exit criteria, and post-conflict institution-building.",
+          "More permissive than realism when an institution authorizes the action. The responsibility to protect and a Security Council mandate make intervention more legitimate and easier to sustain. Unilateral action is suspect. Collective action with clear objectives, an exit plan, and institution-building afterward is defensible.",
       },
     ],
     neighbors: [
       {
         familyKey: "realist",
         contrast:
-          "Both are state-centric and accept anarchy as the baseline. They disagree over whether institutions can shift behavior independently of the underlying power distribution. Institutionalists say yes; realists are skeptical.",
+          "Both start from states under anarchy. The dispute is whether institutions can change behavior independently of the distribution of power. Institutionalists say yes. Realists say only until it matters.",
       },
       {
         familyKey: "constructivist",
         contrast:
-          "Both look beyond raw power. The key difference is the causal variable: institutionalists emphasize rules and repeated interaction; constructivists emphasize shared identity and the social meaning of cooperation.",
+          "Both look past raw power. They differ on the cause. Institutionalists point to rules and repeated dealings; constructivists point to the shared identities that give the rules their meaning.",
       },
     ],
     readings: [
       {
         title: "After Hegemony",
         author: "Robert Keohane",
-        note: "The core argument for why international institutions can sustain cooperation even after the dominant power that created them declines.",
+        note: "The core argument for why institutions can sustain cooperation after the dominant power that built them has declined.",
       },
       {
         title: "Diplomacy and Domestic Politics",
         author: "Robert Putnam",
-        note: "The two-level game paper on how domestic politics constrains and shapes international bargaining.",
+        note: "The two-level game paper: how domestic politics constrains and shapes what can be agreed abroad.",
       },
       {
         title: "Power and Governance in a Partially Globalized World",
         author: "Robert Keohane",
-        note: "A more recent reflection on the limits and possibilities of global governance.",
+        note: "A later reflection on what global governance can and cannot do.",
       },
     ],
     advancedReadings: [
       {
         title: "After Victory: Institutions, Strategic Restraint, and the Rebuilding of Order After Major Wars",
         author: "G. John Ikenberry",
-        note: "Explains why post-war hegemons sometimes bind themselves through institutions rather than simply imposing order. Argues that constitutional settlements lower the costs of running a liberal order, which bears on whether US-led institutions are durable.",
+        note: "Why a victorious power sometimes binds itself through institutions instead of simply imposing order. A constitutional settlement lowers the cost of running a liberal order, which bears on whether the US-led institutions can outlast US primacy.",
       },
       {
         title: "The Evolution of Cooperation",
         author: "Robert Axelrod",
-        note: "Shows through iterated prisoner's dilemma experiments how cooperation can emerge among self-interested actors without central authority. The game-theoretic foundation for much institutionalist reasoning about what makes agreements self-sustaining.",
+        note: "Repeated prisoner's dilemma experiments show how cooperation can emerge among self-interested players with no central authority. The game-theoretic ground under much institutionalist reasoning.",
       },
       {
         title: "A New World Order",
         author: "Anne-Marie Slaughter",
-        note: "Argues that global governance operates primarily through transgovernmental networks of regulators, judges, and legislators building connections across borders, rather than through formal international organizations alone.",
+        note: "Global governance runs largely through networks of regulators, judges, and legislators working across borders, with formal international organizations as only part of the picture.",
       },
     ],
     counterReadings: [
       {
         title: "The False Promise of International Institutions",
         author: "John Mearsheimer",
-        note: "A sharp realist challenge. Argues that institutions reflect the preferences of powerful states and cannot independently constrain behavior when core interests are at stake. The most direct engagement with institutionalist claims.",
+        note: "The sharpest realist challenge. Institutions reflect what powerful states already want and cannot constrain them when core interests are at stake. The most direct engagement with institutionalist claims.",
       },
       {
         title: "War and Change in World Politics",
         author: "Robert Gilpin",
-        note: "Argues that international order is underwritten by hegemony, not institutions. When the hegemonic power declines, the order it created does not sustain itself through institutional momentum. It collapses or is renegotiated by force.",
+        note: "International order rests on hegemony. When the hegemon declines, the order it built does not carry on under its own momentum; it collapses or is renegotiated by force.",
       },
     ],
     associatedThinkers: [
       {
         name: "Robert Keohane (b. 1941)",
         role: "Political scientist, Princeton University",
-        note: "The central figure of liberal institutionalism. Developed the theoretical case that international institutions can sustain cooperation among self-interested states even after the dominant power that created them declines.",
+        note: "The central figure of liberal institutionalism. Made the theoretical case that institutions can sustain cooperation among self-interested states after the power that created them has declined.",
       },
       {
         name: "Joseph Nye (b. 1937)",
         role: "Political scientist, Harvard University",
-        note: "Co-developed complex interdependence with Keohane and introduced the concept of soft power, the ability to shape others' preferences through attraction rather than coercion. Influential across both academic and policy communities.",
+        note: "Developed complex interdependence with Keohane and introduced soft power, the ability to shape what others want through attraction instead of coercion. Read in both academic and policy circles.",
       },
       {
         name: "G. John Ikenberry (b. 1954)",
         role: "Political scientist, Princeton University",
-        note: "Argues that the post-war US-led liberal order succeeded partly because the United States bound itself through institutions, making the order legitimate to other states. Central to debates about whether liberal order can survive US retrenchment.",
+        note: "Argues that the postwar US-led order succeeded partly because the United States bound itself through institutions, which made the order acceptable to others. Central to the debate over whether that order survives US retrenchment.",
       },
       {
         name: "Robert Putnam (b. 1941)",
         role: "Political scientist, Harvard University",
-        note: "Developed the two-level game framework: international negotiations are simultaneously domestic political contests. Governments negotiate abroad while managing ratification constraints at home, and this domestic politics shapes what is achievable internationally.",
+        note: "Built the two-level game: an international negotiation is also a domestic political contest, and what a government can ratify at home sets what it can agree abroad.",
       },
     ],
     quizCoverage: {
       level: "strong",
       note:
-        "Institutionalism is one of the most directly modeled traditions. The institutions dimension captures the core question: do rules shape outcomes independently? The domestic filters dimension captures liberal arguments about how internal politics shape foreign policy. The scenarios on institutional capture and sanctions-monitoring probe institutionalist instincts about when rules fail. This tradition is modeled with reasonable depth.",
+        "Two dimensions carry the institutionalist reading: institutions (can rules change behavior on their own?) and domestic filters (how internal politics shapes what a government can promise). The fourteen core questions ask two per dimension. Longer forms add cases on what holds an alliance together and on an institution that rising powers reject.",
     },
     modelingNote:
-      "This page models liberal institutionalism, the tradition associated with Keohane, Nye, and the study of international regimes and cooperation under anarchy. It does not model the full liberal tradition in IR. Other liberal strands include commercial liberalism (trade reduces the incentive for conflict), republican liberalism (democratic institutions shape foreign policy), and sociological liberalism (transnational actors and networks matter). They share a general optimism about cooperation but differ substantially in their explanatory emphasis. The Foundation primarily tests institutionalist instincts.",
+      "This page covers liberal institutionalism, the tradition of Keohane, Nye, and the study of regimes and cooperation under anarchy. Liberalism in International Relations is wider. Commercial liberalism holds that trade reduces the incentive for war; republican liberalism that democratic institutions shape foreign policy; sociological liberalism that transnational actors and networks matter. They share an optimism about cooperation and differ on what explains it. The Foundation tests institutionalist instincts and does not score the other strands separately.",
   },
 
   {
     slug: familySlug("constructivist"),
     familyKey: "constructivist",
     name: traditionNounLabel("constructivist"),
-    tagline: "The meaning of threats, alliances, and interests is partly constituted by identity, norms, and shared social expectations.",
-    summary: `Constructivism asks a different kind of question: where do interests come from? Realists and institutionalists largely treat state interests as given: states want security, growth, and survival. Constructivists argue that what counts as a threat, what counts as a win, and what kinds of cooperation are imaginable all depend on shared identities, social expectations, and the historical context that shapes how states understand themselves and each other.
+    tagline: "What counts as a threat, an ally, or an interest depends on identity, norms, and shared expectation.",
+    summary: `Constructivism asks a prior question: where do interests come from? Realists and institutionalists mostly take them as given. States want security, growth, and survival, and the argument starts there. Constructivists reply that what counts as a threat, what counts as a win, and which kinds of cooperation are even imaginable depend on shared identities, social expectations, and the history through which states came to understand one another.
 
-The same military move can be threatening or reassuring, depending entirely on the relationship between the states involved. The United States and Canada do not experience each other's armed forces as threatening; the United States and China do, even when capabilities in a given situation are similar. Military math alone cannot explain that difference. It requires understanding how identities and historical relationships shape what actors mean by their actions.
+Wendt's example makes the point. Five hundred British nuclear weapons worry Washington less than five North Korean ones. The arithmetic of capability cannot explain that difference. Britain is a friend and North Korea an enemy, and those identities decide what a weapon means. The same military move reassures one neighbor and alarms another, depending on the relationship between them.
 
-Constructivism also takes norms seriously as causal factors, not just as rhetorical cover for power. The post-1945 spread of human rights norms, the rise of anti-colonial international law, and changing standards around the use of chemical weapons all represent genuine shifts in what states consider legitimate. Those shifts have had real policy consequences.`,
+Norms, on this view, do causal work of their own. The spread of human rights norms after 1945, the growth of anti-colonial international law, and the taboo on chemical weapons changed what states treat as legitimate. Governments that break those norms pay a price even when nobody can enforce them.`,
     coreClaims: [
-      "Interests emerge through processes of identity formation, norm diffusion, and shared expectations; they are not given.",
-      "Anarchy does not have a single fixed logic; its consequences depend on the identities and relationships states construct within it.",
-      "Norms are causal, not merely rhetorical. Internalized norms shape what actors consider legitimate even in the absence of coercive enforcement.",
-      "Recognition, status, and social belonging motivate state behavior in ways that material calculation alone cannot explain.",
-      "Change in world politics happens through socialization, persuasion, and the gradual redefinition of what is considered a legitimate interest.",
+      "Interests are made, through identity formation, the spread of norms, and shared expectation. They are not given by the structure alone.",
+      "Anarchy has no single logic. What it produces depends on the identities and relationships states build within it.",
+      "Norms cause behavior. Once internalized, they decide what actors consider legitimate, with or without enforcement.",
+      "Recognition, status, and belonging move states in ways that material calculation cannot explain on its own.",
+      "Change comes through socialization, persuasion, and the gradual redefinition of what a legitimate interest is.",
     ],
     subtraditions: [
       {
         name: "Conventional constructivism",
         note:
-          "The mainstream strand, associated with Wendt, Finnemore, Katzenstein, and Checkel. Takes a broadly scientific approach, arguing that norms and identities are empirically important variables that can be studied systematically alongside material factors.",
+          "The mainstream strand of Wendt, Finnemore, Katzenstein, and Checkel. Norms and identities are treated as variables that can be studied systematically alongside material factors, with the ordinary tools of social science.",
       },
       {
         name: "Critical constructivism",
         note:
-          "More skeptical of the mainstream's positivist leanings. Draws on Frankfurt School critical theory to examine how norms work, whose interests they serve, and how they can be contested and changed.",
+          "Distrusts the mainstream's scientific ambitions. Drawing on Frankfurt School critical theory, it asks how norms work, whose interests they serve, and how they can be contested and changed.",
       },
       {
         name: "Poststructuralism",
         note:
-          "Associated with Der Derian, Campbell, and Ashley. More radical in questioning the stable identities and fixed interests that even conventional constructivism tends to assume. Focuses on discourse, representation, and the politics of security as a speech act.",
+          "Der Derian, Campbell, and Ashley go further, questioning the stable identities and fixed interests that even conventional constructivism assumes. The focus is discourse, representation, and security as something that is spoken into being.",
       },
     ],
     emphasizes: [
-      "The social construction of threats: who is doing something matters as much as what they are doing",
-      "How identities and norms shape the menu of legitimate options for state behavior",
-      "Legitimacy as a real causal variable, not just rhetorical packaging for power",
-      "The possibility of norm diffusion: how standards spread and become internalized across the international system",
-      "The role of recognition, status, and social expectations in driving state behavior beyond narrow calculation",
+      "The making of threats: who is acting matters as much as what they are doing",
+      "How identities and norms set the menu of options a state can legitimately choose from",
+      "Legitimacy as a cause in its own right",
+      "The spread of norms: how a standard travels and becomes internalized across the system",
+      "Recognition, status, and expectation as motives that narrow calculation misses",
     ],
     underweights: [
-      "Material power and structural constraints: hard limits on what norms can achieve against determined resistance",
-      "The difficulty of changing norms against the resistance of powerful actors who benefit from the status quo",
-      "Economic structural power and its role in shaping which ideas gain traction internationally",
-      "Crisis behavior: norms tend to be most contested precisely when they are most needed",
+      "Material power and structural limits: what norms cannot achieve against determined resistance",
+      "How hard it is to change a norm when powerful actors profit from the old one",
+      "Economic structure and its part in deciding which ideas gain a hearing",
+      "Crisis behavior: norms are most contested at the moment they are most needed",
     ],
     persuasiveArguments: [
-      "Longstanding enemies can genuinely become friends through sustained interaction and identity change, with Franco-German relations after 1945 as the clearest example",
-      "International law works partly because states internalize its obligations, not just because they fear punishment",
-      "The spread of human rights norms since 1945 represents a genuine transformation, not just rhetorical window-dressing",
+      "Old enemies can become friends through sustained interaction and a change of identity; France and Germany after 1945 are the clearest case",
+      "International law works partly because states internalize its obligations; fear of punishment is only part of the story",
+      "The spread of human rights norms since 1945 is a real transformation, whatever its gaps",
       "Domestic audiences care about legitimacy in ways that constrain even powerful governments",
     ],
     issueReadings: [
       {
         issue: "Great-power rivalry",
         note:
-          "Examines how threat perceptions are constructed through historical relationships, identity narratives, and strategic culture. The same military capability can be read as defensive or offensive depending on shared understandings. Constructivists point to mutual misrecognition, or failures of acknowledgment, as a driver of conflict spirals beyond what material factors alone predict.",
+          "Threat perception is built from history, identity narratives, and strategic culture. The same capability reads as defensive or offensive depending on the shared understanding between the two states. Failures of recognition, each side denying the other's standing, can drive a spiral further than the material facts alone would predict.",
       },
       {
         issue: "Trade and technology decoupling",
         note:
-          "Focuses on the framing: 'decoupling' and 'supply-chain security' are not neutral technical descriptions but constructions that activate particular identities (economic nationalism, existential competition) and foreclose others (mutual dependence, shared governance). The narrative shapes the policy as much as the underlying material reality.",
+          "The framing is the policy. 'Decoupling' and 'supply-chain security' are not neutral descriptions. They summon certain identities, economic nationalism, existential competition, and push others out of view, mutual dependence, shared governance. Once the frame is set, the frame can fulfill itself.",
       },
       {
         issue: "Humanitarian intervention",
         note:
-          "The tradition that best explains why the post-1990s norm of humanitarian intervention emerged when it did. Norm entrepreneur networks, the evolving meaning of sovereignty as responsibility, and the diffusion of R2P are prime constructivist cases. The tradition also raises critical questions about whose suffering activates the norm and whose does not.",
+          "The tradition best placed to explain why the norm of humanitarian intervention appeared when it did. Networks of norm entrepreneurs, sovereignty redefined as responsibility, and the spread of the responsibility to protect are its prime cases. It also asks the uncomfortable question: whose suffering activates the norm, and whose does not.",
       },
     ],
     neighbors: [
       {
         familyKey: "institutionalist",
         contrast:
-          "Both look beyond raw power. The key difference is the causal variable: institutionalists emphasize rules and monitoring; constructivists emphasize the shared identities and social expectations that give rules meaning in the first place.",
+          "Both look past raw power. Institutionalists point to rules and monitoring. Constructivists point to the shared identities and expectations that give the rules their meaning in the first place.",
       },
       {
         familyKey: "criticalPoliticalEconomy",
         contrast:
-          "Both are critical of the positivist mainstream in IR. Constructivism focuses on ideas and norms; critical PE focuses on economic structures and class. The two traditions sometimes converge in asking whose interests a given set of norms actually serves.",
+          "Both criticize the positivist mainstream. Constructivism works on ideas and norms; critical political economy on economic structure and class. They meet when either asks whose interests a given set of norms serves.",
       },
     ],
     readings: [
       {
         title: "Anarchy Is What States Make of It",
         author: "Alexander Wendt",
-        note: "The seminal article arguing that anarchy does not have a fixed meaning; its consequences depend on the identities and relationships that states construct.",
+        note: "The article that made the argument: anarchy has no fixed meaning, and what it produces depends on the identities and relationships states construct.",
       },
       {
         title: "The Culture of National Security",
         author: "ed. Peter Katzenstein",
-        note: "A set of empirical applications showing how constructivist ideas about norms and identity shape concrete security-policy decisions.",
+        note: "Empirical studies of how norms and identity shaped concrete security decisions.",
       },
       {
         title: "Rules for the World",
-        author: "Martha Finnemore & Michael Barnett",
-        note: "An examination of how international organizations develop their own institutional logics and shape state behavior beyond what their member states originally intended.",
+        author: "Michael Barnett & Martha Finnemore",
+        note: "How international organizations develop logics of their own and shape state behavior beyond what their founders intended.",
       },
     ],
     advancedReadings: [
       {
         title: "Social Theory of International Politics",
         author: "Alexander Wendt",
-        note: "The full theoretical treatment of constructivism. Distinguishes three cultures of anarchy, Hobbesian, Lockean, and Kantian, and argues that state identities are both constructed and capable of change. More demanding than the 1992 article but the definitive statement.",
+        note: "The full statement. Distinguishes three cultures of anarchy, Hobbesian, Lockean, and Kantian, and argues that state identities are constructed and can change. Harder going than the 1992 article, and definitive.",
       },
       {
         title: "International Norm Dynamics and Political Change",
         author: "Martha Finnemore and Kathryn Sikkink",
-        note: "Introduces the norm life cycle of emergence, cascade, and internalization, then explains how norms spread and gain causal force without being enforced by a central authority. One of the most cited articles in constructivist IR.",
+        note: "The norm life cycle: emergence, cascade, internalization. Explains how a norm spreads and gains force without a central enforcer. Among the most cited articles in constructivist IR.",
       },
       {
         title: "The Chemical Weapons Taboo",
         author: "Richard Price",
-        note: "An empirical case study of how a norm became robust and nearly universal despite the strategic advantages chemical weapons can offer. Shows constructivist arguments at work on a hard case.",
+        note: "How a norm became nearly universal despite the battlefield advantages chemical weapons can offer. The constructivist argument tested on a hard case.",
       },
     ],
     counterReadings: [
       {
         title: "Rationalist Explanations for War",
         author: "James Fearon",
-        note: "A rationalist challenge to explanations that rely on misperception, identity, or social construction. Argues that bargaining failure is the fundamental puzzle in explaining why wars happen when they are costly to both sides, rather than cultural or ideational factors.",
+        note: "A rationalist challenge to explanations built on misperception, identity, or construction. The puzzle is why wars happen at all when they cost both sides, and the answer lies in bargaining failure.",
       },
       {
         title: "The Great Delusion: Liberal Dreams and International Realities",
         author: "John Mearsheimer",
-        note: "A realist attack on liberal internationalism that also challenges the constructivist claim that norms can transform international politics. Argues that nationalism and realist logic reliably defeat attempts to spread liberal order through socialization.",
+        note: "A realist attack on liberal internationalism that also disputes the claim that norms can transform world politics. Nationalism and realist logic, it argues, reliably defeat attempts to spread liberal order through socialization.",
       },
     ],
     associatedThinkers: [
       {
         name: "Alexander Wendt (b. 1958)",
         role: "Political scientist, Ohio State University",
-        note: "The central theorist of conventional constructivism. His 1992 article 'Anarchy Is What States Make of It' established constructivism as a mainstream approach, arguing that anarchy has no fixed logic. Its consequences depend on the identities and relationships states construct.",
+        note: "The central theorist of conventional constructivism. His 1992 article 'Anarchy Is What States Make of It' brought the approach into the mainstream: anarchy has no fixed logic, and its consequences depend on the identities states construct.",
       },
       {
         name: "Martha Finnemore (b. 1959)",
         role: "Political scientist, George Washington University",
-        note: "Demonstrated empirically that international organizations actively shape state interests rather than just serving them. With Kathryn Sikkink, developed the norm life cycle of emergence, cascade, and internalization as a framework for understanding how norms spread.",
+        note: "Showed that international organizations shape what states want, and do not merely serve it. With Kathryn Sikkink, set out the norm life cycle of emergence, cascade, and internalization.",
       },
       {
         name: "Peter Katzenstein (b. 1945)",
         role: "Political scientist, Cornell University",
-        note: "Helped establish constructivism's empirical footing in security studies through The Culture of National Security. Edited and contributed to foundational work showing how norms and identity shaped German, Japanese, and US security policy.",
+        note: "Gave constructivism its empirical footing in security studies through The Culture of National Security, showing how norms and identity shaped German, Japanese, and US policy.",
       },
       {
         name: "Nicholas Onuf (b. 1941)",
         role: "Political scientist, Florida International University",
-        note: "Coined the term 'constructivism' in an IR context. Developed a rules-based framework arguing that social reality, including the rules governing international life, is constructed through speech acts and shared practices.",
+        note: "Coined 'constructivism' for International Relations. Argued that social reality, including the rules of international life, is built through speech acts and shared practice.",
       },
     ],
     quizCoverage: {
       level: "moderate",
       note:
-        "Constructivism is modeled through the norms-and-identity dimension, which captures questions about whether identity shapes interests and whether legitimacy matters independently of power. The scenario on former rivals transforming also probes constructivist instincts about identity change. The current question bank does not fully capture the constructivist debate about norm diffusion, socialization, and the conditions under which identity change is possible. These are areas for future expansion.",
+        "One dimension carries the constructivist reading, norms and identity: whether recognition and legitimacy shape what states want. The fourteen core questions ask two on it. Longer forms add a case on a rival that democratizes and turns cooperative. Nothing asks how norms spread or when identities change, so the reading is broader than the questions behind it.",
     },
   },
 
@@ -779,163 +779,163 @@ Constructivism also takes norms seriously as causal factors, not just as rhetori
     familyKey: "criticalPoliticalEconomy",
     name: traditionNounLabel("criticalPoliticalEconomy"),
     tagline: "Who controls production, finance, and market access shapes world politics alongside military power.",
-    summary: `Critical political economy starts from a different set of puzzles. It is less interested in who won the last great-power competition than in asking who sets the rules of the international economy, who benefits from them, and why some states have far less room to maneuver than their formal sovereignty might imply. The tradition draws on Marxist economics, dependency theory, and economic sociology to argue that the structure of global capitalism shapes world politics in ways that conventional security analysis misses.
+    summary: `Critical political economy starts from a different puzzle. It cares less about who won the last great-power contest than about who writes the rules of the world economy, who profits from them, and why some states have far less room to move than their sovereignty on paper suggests. It draws on Marxist economics, dependency theory, and economic sociology to argue that the structure of global capitalism shapes world politics in ways that security analysis does not see.
 
-Formal sovereignty does not equal actual independence. A state that must roll over its external debt every six months, whose exports consist of a single commodity, and whose currency is pegged to that of a much larger economy faces real constraints that do not show up in its formal legal status. Critical PE scholars argue that these structural conditions explain patterns of alignment, crisis, and development outcomes alongside military power and institutional design.
+Formal sovereignty is one thing; independence is another. A state that must roll over its debt every six months, sells one commodity, and pegs its currency to a much larger economy faces limits that appear nowhere in its legal status. Those limits, the tradition argues, explain alignment, crisis, and development as much as armies and institutions do.
 
-The tradition also attends to who builds the rules. The institutions that govern international trade, investment, and finance were designed mostly by wealthy states in periods of their own dominance. Whether those institutions serve broad interests or narrow ones, and whether reform from within is possible, remain running debates within and around this tradition.`,
+The tradition also asks who built the rules. The institutions that govern trade, investment, and finance were designed mostly by wealthy states at the height of their dominance. Whether they serve broad interests or narrow ones, and whether they can be reformed from inside, are open arguments within the tradition and around it.`,
     coreClaims: [
-      "The structure of the world economy, including who controls production, finance, and access to markets, shapes state autonomy independent of military power.",
-      "Formal sovereignty does not equal actual autonomy: debt structures, currency dependence, and commodity specialization impose real constraints on developing states.",
-      "The international institutions governing trade and finance were designed in periods of Western dominance and structurally reflect those interests.",
-      "Class interests and the imperatives of capital accumulation drive foreign economic policy alongside state interests.",
-      "Economic crises are not random shocks but reflect structural contradictions in how global capitalism is organized and reproduced.",
+      "The structure of the world economy, who controls production, finance, and access to markets, limits what states can do, independently of military power.",
+      "Sovereignty on paper is not autonomy. Debt, currency dependence, and reliance on one export impose real limits on developing states.",
+      "The institutions that govern trade and finance were built during Western dominance and carry those interests in their design.",
+      "Class interests and the demands of capital accumulation drive foreign economic policy alongside the interests of the state.",
+      "Economic crises are not random shocks. They express contradictions in how global capitalism is organized.",
     ],
     subtraditions: [
       {
         name: "Marxist political economy",
         note:
-          "Grounds analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest. Imperialism, the extension of capitalist accumulation abroad, is a structural tendency rather than a mere policy choice. Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill.",
+          "Grounds the analysis in capital accumulation, class struggle, and the state as an instrument of class interest. Imperialism, the extension of accumulation abroad, is a structural tendency, whatever any one government intends. Lenin and Gramsci are the roots; in IR, Robert Cox and Stephen Gill.",
       },
       {
         name: "Dependency theory",
         note:
-          "Developed by Prebisch, Cardoso, and the ECLAC school in Latin America. Argues that core-periphery relations in the world economy systematically disadvantage developing states: terms of trade deteriorate over time, capital flows upward, and industrialization in the periphery is distorted by the requirements of the core.",
+          "Grew out of Prebisch and the ECLAC school in Latin America and was developed by Cardoso, Faletto, and Frank. Core-periphery relations work against developing states: terms of trade worsen over time, capital flows upward, and industry in the periphery grows in the shape the core requires.",
       },
       {
         name: "World-systems theory",
         note:
-          "Associated with Wallerstein. Extends dependency theory into a historical sociology of capitalism as a single world-system, with core, semi-periphery, and periphery zones whose relative positions are structurally reproduced across cycles of accumulation.",
+          "Wallerstein extends dependency into a historical sociology of capitalism as one world-system. Core, semi-periphery, and periphery are positions that the system reproduces across long cycles of accumulation.",
       },
       {
         name: "Structural power and IPE",
         note:
-          "Associated with Susan Strange. Focuses on structural power in international finance: who provides liquidity in a crisis, who sets interest rates, and who controls access to credit. This power provides political leverage independent of formal authority or military capability.",
+          "Susan Strange's contribution: power in international finance belongs to whoever supplies liquidity in a crisis, sets interest rates, and controls access to credit. That power works without formal authority or military force.",
       },
     ],
     emphasizes: [
-      "The international division of production: who makes what, and under whose terms",
-      "Structural power in finance: who sets interest rates, who provides liquidity, who imposes conditionality",
-      "Economic dependence as a form of political constraint: formal sovereignty does not equal actual independence",
-      "Capital flows and their relationship to crisis, vulnerability, and leverage",
-      "How economic hierarchies reproduce themselves through the design of international institutions",
+      "The international division of production: who makes what, and on whose terms",
+      "Structural power in finance: who sets interest rates, who provides liquidity, who attaches conditions",
+      "Economic dependence as a political limit: sovereignty on paper and independence in practice are different things",
+      "Capital flows and their link to crisis, vulnerability, and leverage",
+      "How economic hierarchy reproduces itself through the design of international institutions",
     ],
     underweights: [
-      "Security competition that is not straightforwardly reducible to economic interests",
+      "Security competition that does not reduce to economic interest",
       "Identity, legitimacy, and the social meaning of cooperation and conflict",
-      "Domestic politics variation: why do similarly positioned states respond differently to structural constraints?",
-      "Military and security crises driven primarily by strategic logic rather than economic position",
+      "Variation in domestic politics: why similarly placed states respond differently to the same structural pressure",
+      "Military crises driven by strategic logic more than by economic position",
     ],
     persuasiveArguments: [
-      "IMF conditionality historically reflects the interests of creditor states more than the development needs of debtor states",
-      "The dollar's reserve-currency status gives the United States structural leverage that is independent of military power",
-      "Financial crises in developing economies are partly produced by the structure of global finance, not just domestic mismanagement",
-      "Trade and investment agreements systematically tilt bargaining power toward capital over labor and governments",
+      "IMF conditionality has served creditor states' interests more than debtor states' development",
+      "The dollar's reserve-currency status gives the United States leverage that owes nothing to its military",
+      "Financial crises in developing economies are produced by the structure of global finance as well as by domestic mismanagement",
+      "Trade and investment agreements tilt bargaining power toward capital and away from labor and governments",
     ],
     issueReadings: [
       {
         issue: "Great-power rivalry",
         note:
-          "Interprets US-China rivalry partly as a struggle over who controls the rules of the global economy: currency dominance, technology standards, supply-chain geography, and the institutions that set the terms of international investment and trade. Military competition is real, but the deeper contest is over whose production and financial structures anchor the next phase of global capitalism.",
+          "US-China rivalry is partly a contest over the rules of the world economy: whose currency dominates, whose technical standards spread, where supply chains run, and who controls the institutions that set the terms of investment and trade. Military competition is real, and a second contest runs alongside it: whose production and financial structures anchor the next phase of global capitalism.",
       },
       {
         issue: "Trade and technology decoupling",
         note:
-          "Reads decoupling as both a symptom of structural rivalry and a restructuring of global production hierarchies. Asks who bears the adjustment costs, typically workers and consumers in both countries, and who benefits from the restructuring, including capital owners who relocate production, state contractors, and defense industries. Skeptical of framing that treats decoupling as a cost-free national security necessity.",
+          "Decoupling is a symptom of structural rivalry and a rearrangement of the global hierarchy of production. Ask who pays for the adjustment, usually workers and consumers in both countries, and who gains, capital that relocates, state contractors, defense industries. The claim that decoupling is a cost-free security necessity deserves suspicion.",
       },
       {
         issue: "Humanitarian intervention",
         note:
-          "Skeptical. Examines the material interests behind humanitarian rhetoric: strategic resources, access to markets, the interests of defense industries. Notes that intervention patterns correlate with economic stakes as much as with the severity of humanitarian crises, and that post-intervention economic arrangements tend to favor the intervening powers and their investors.",
+          "Skeptical. The tradition looks for the material interests behind humanitarian language: resources, market access, defense industries. It argues that where intervention happens tracks economic stakes as closely as the scale of suffering, and that the economic settlement afterward tends to favor the intervening powers and their investors.",
       },
     ],
     neighbors: [
       {
         familyKey: "realist",
         contrast:
-          "Both are skeptical of liberal optimism. The difference is the driving logic: realists focus on security competition and the distribution of military power; critical PE focuses on economic structure, class, and the politics of production and finance.",
+          "Both distrust liberal optimism. Realists watch security competition and the distribution of military power. Critical political economy watches economic structure, class, and the politics of production and finance.",
       },
       {
         familyKey: "constructivist",
         contrast:
-          "Both are critical of the positivist mainstream. Critical PE emphasizes material structures, including who controls capital and supply chains; constructivism emphasizes ideas and norms. The two traditions sometimes converge in asking whose interests prevailing arrangements serve.",
+          "Both criticize the positivist mainstream. Critical political economy works on material structure, who controls capital and supply chains; constructivism works on ideas and norms. They meet when either asks whose interests the prevailing arrangements serve.",
       },
     ],
     readings: [
       {
         title: "States and Markets",
         author: "Susan Strange",
-        note: "The argument that financial structures create power independent of formal authority. It remains the sharpest introduction to structural power in the international economy.",
+        note: "Financial structures create power independent of formal authority. Still the clearest introduction to structural power in the world economy.",
       },
       {
         title: "The Political Economy of International Relations",
         author: "Robert Gilpin",
-        note: "A more liberal framing that maps the three main approaches (realist, liberal, Marxist) to international economic order, useful as an orientation.",
+        note: "A realist's survey of the three main approaches to the international economy, liberal, nationalist, and Marxist. Useful for orientation.",
       },
       {
         title: "Social Forces, States and World Orders",
         author: "Robert Cox",
-        note: "The critical IR theory argument that theory always serves someone's interests. A key text in critical PE and IPE.",
+        note: "The critical-theory argument that theory always serves someone's interests. A key text in critical political economy.",
       },
     ],
     advancedReadings: [
       {
         title: "Dependency and Development in Latin America",
         author: "Fernando Henrique Cardoso and Enzo Faletto",
-        note: "The most rigorous dependency theory text. Avoids mechanical determinism by examining how domestic class alliances mediate dependency relations, showing why similarly positioned states respond differently to external structural constraints.",
+        note: "The most careful dependency text. Avoids mechanical determinism by showing how domestic class alliances mediate dependence, which explains why similarly placed states respond differently to the same external constraint.",
       },
       {
         title: "States and the Reemergence of Global Finance",
         author: "Eric Helleiner",
-        note: "Shows that financial globalization was a political choice, not an inevitable market outcome. States actively dismantled capital controls. Essential for understanding why structural financial power is a political variable, not a natural fact.",
+        note: "Financial globalization was a political choice. States dismantled capital controls; the market did not do it for them. Essential for seeing structural financial power as a political variable.",
       },
       {
         title: "Production, Power, and World Order: Social Forces in the Making of History",
         author: "Robert Cox",
-        note: "The book-length development of Cox's neo-Gramscian framework. Examines how hegemony is reproduced through a combination of material power, institutional forms, and prevailing ideas across different historical phases of world order.",
+        note: "The book-length development of Cox's neo-Gramscian framework. Hegemony is reproduced through material power, institutions, and prevailing ideas together, across successive phases of world order.",
       },
     ],
     counterReadings: [
       {
         title: "In Defense of Globalization",
         author: "Jagdish Bhagwati",
-        note: "A direct liberal-economic challenge to dependency and critical PE arguments. Argues that trade and investment liberalization, when well-managed, reduce poverty and expand opportunities in developing countries. A sharp counterpoint to the structural exploitation argument.",
+        note: "A liberal-economic challenge to dependency and critical political economy. Trade and investment liberalization, when managed well, reduce poverty and widen opportunity in developing countries.",
       },
       {
         title: "Defending the National Interest: Raw Materials Investments and U.S. Foreign Policy",
         author: "Stephen Krasner",
-        note: "A state-centric realist challenge to Marxist IPE. Argues that state interests drive foreign economic policy rather than class interests, and that states sometimes act against the preferences of their dominant economic actors.",
+        note: "A state-centric realist challenge to Marxist IPE. State interests drive foreign economic policy, and states sometimes act against the wishes of their own dominant economic actors.",
       },
     ],
     associatedThinkers: [
       {
         name: "Susan Strange (1923–1998)",
         role: "Political economist, LSE and University of Warwick",
-        note: "Developed the concept of structural power in international political economy, the ability to shape the rules and structures within which others must operate. Argued that the United States exercises power through control of global finance and knowledge structures, independent of formal authority.",
+        note: "Developed structural power: the ability to shape the rules and structures within which everyone else must operate. Argued that the United States rules through finance and knowledge as much as through formal authority.",
       },
       {
         name: "Robert Cox (1926–2018)",
         role: "Political economist, York University",
-        note: "The founding figure of neo-Gramscian IPE. Argued that theory is always 'theory for someone and for some purpose,' and that hegemony is reproduced through a combination of material power, institutions, and prevailing ideas. 'Problem-solving theory versus critical theory' is his central distinction.",
+        note: "The founder of neo-Gramscian IPE. 'Theory is always for someone and for some purpose.' Hegemony is reproduced through material power, institutions, and prevailing ideas together; problem-solving theory and critical theory are his central distinction.",
       },
       {
         name: "Immanuel Wallerstein (1930–2019)",
         role: "Sociologist, Binghamton University",
-        note: "Developed world-systems theory: a historical sociology of capitalism as a single world-system with structurally reproduced core, semi-periphery, and periphery zones. Argued that underdevelopment is produced by integration into the world economy, not by isolation from it.",
+        note: "Built world-systems theory: capitalism as one historical system with core, semi-periphery, and periphery. Underdevelopment, he argued, is produced by integration into the world economy, not by isolation from it.",
       },
       {
         name: "Raúl Prebisch (1901–1986)",
         role: "Economist, UN Economic Commission for Latin America (ECLAC)",
-        note: "Developed the Prebisch-Singer thesis on deteriorating terms of trade: commodity-exporting periphery countries face a long-run structural disadvantage relative to industrialized core countries. Foundational for dependency theory and structuralist development economics.",
+        note: "Author of the Prebisch-Singer thesis on deteriorating terms of trade: commodity exporters in the periphery face a lasting structural disadvantage against the industrial core. The foundation of dependency theory and structuralist development economics.",
       },
     ],
     quizCoverage: {
       level: "partial",
       note:
-        "Critical political economy is modeled through the political economy dimension, which captures instincts about whether global economics is necessary to explain international outcomes. The scenarios on financial crisis and capital controls also probe these instincts. The model is thinner here than for realism or institutionalism. It captures the core orientation but does not have dedicated dimensions for questions about class, production hierarchies, or the granular politics of global finance. This is the most underrepresented scored tradition and an area for future expansion.",
+        "One dimension carries this reading, political economy: whether control of credit, production, and market access explains outcomes. The fourteen core questions ask two on it. Longer forms add a currency-peg crisis and a green-finance offer with conditions attached. Class, production hierarchies, and the politics of finance have no questions of their own, so this is the thinnest of the four readings.",
     },
     modelingNote:
-      "Critical political economy is an umbrella for several distinct but related strands. Marxist political economy foregrounds class and capital accumulation as the drivers of foreign economic policy. Dependency theory (Prebisch, Cardoso, Frank) emphasizes how core-periphery relations structurally reproduce underdevelopment. World-systems theory (Wallerstein) extends this to a long-run analysis of capitalism as a single historical system. Neo-Gramscian IPE (Cox, Gill) examines how hegemony and ideology reproduce international economic order. Structural power analysis (Strange) focuses on how control over production, finance, security, and knowledge structures creates power independent of formal authority. The Foundation scores these strands together as a single orientation and does not yet disaggregate them.",
+      "Critical political economy is an umbrella. Marxist political economy puts class and capital accumulation first. Dependency theory (Prebisch, Cardoso, Frank) shows how core-periphery relations reproduce underdevelopment. World-systems theory (Wallerstein) extends that into a long history of capitalism as one system. Neo-Gramscian IPE (Cox, Gill) studies how hegemony and ideology hold an economic order together. Structural power analysis (Strange) follows control of production, finance, security, and knowledge. The Foundation scores them as one orientation and does not tell them apart.",
   },
 ]
 
@@ -946,27 +946,27 @@ export const issueCompares: IssueCompare[] = [
     slug: "great-power-rivalry",
     title: "Great-power rivalry",
     summary:
-      "How does each tradition explain the causes and dynamics of major-power competition, and what, if anything, can constrain it?",
+      "What causes competition between major powers, what drives it, and what, if anything, can hold it back?",
     readings: [
       {
         familyKey: "realist",
         note:
-          "Reads rising-power competition as structurally determined. When a state grows strong enough to challenge the dominant power, conflict risk rises regardless of the challenger's ideology or intentions. Self-help under anarchy supplies the mechanism: both sides must assume the worst. Balancing through alliances, arms investment, and forward positioning is the expected response.",
+          "The structure does the work. When a state grows strong enough to challenge the leading power, the risk of conflict rises whatever the challenger says it wants. Under anarchy both sides must assume the worst. The expected response is balancing: alliances, arms, and forward positions.",
       },
       {
         familyKey: "institutionalist",
         note:
-          "Argues that rivalry can be managed through sustained institutional engagement. Economic interdependence creates domestic stakeholders for stability on both sides. Military transparency and arms-control frameworks reduce the miscalculation risk that turns competition into crisis. The historical record of major-power peace among trading democracies is taken as evidence that structure alone does not determine outcomes.",
+          "Rivalry can be managed through sustained engagement. Interdependence creates domestic stakeholders for stability on both sides. Military transparency and arms control reduce the miscalculation that turns competition into crisis. Democratic-peace research, the finding that established democracies rarely fight one another, is read as evidence that structure alone does not decide the outcome.",
       },
       {
         familyKey: "constructivist",
         note:
-          "Emphasizes that historical memories, mutual recognition failures, and identity narratives socially construct the intensity and character of rivalry, making adversarial relationships feel inevitable. Points to cases of successful enmity transformation (Franco-German, US-Japanese) as evidence that structure is not destiny. Rival identity constructions can be disrupted through sustained diplomacy, socialization, and domestic political change.",
+          "Historical memory, failures of recognition, and identity narratives build the rivalry and make it feel inevitable. Enemies have become partners before, France and Germany, the United States and Japan, which shows that structure is not destiny. Sustained diplomacy, socialization, and domestic political change can loosen a rival identity.",
       },
       {
         familyKey: "criticalPoliticalEconomy",
         note:
-          "Interprets great-power competition partly as a contest over economic governance: currency dominance, technology standards, supply-chain geography, and control of the institutions that set the rules of international trade and investment. Military rivalry is real, but the deeper contest is over whose production and financial structures define the next phase of the world economy.",
+          "The rivalry is partly a contest over economic governance: currency dominance, technology standards, the geography of supply chains, and control of the institutions that set the rules of trade and investment. Military competition is real, and a second contest runs alongside it: whose production and financial structures define the next phase of the world economy.",
       },
     ],
   },
@@ -974,27 +974,27 @@ export const issueCompares: IssueCompare[] = [
     slug: "trade-technology-decoupling",
     title: "Trade and technology decoupling",
     summary:
-      "How does each tradition interpret the drive to restrict trade and technology flows in the name of national security, and at what cost?",
+      "How does each tradition read the push to cut trade and technology ties in the name of security, and who pays for it?",
     readings: [
       {
         familyKey: "realist",
         note:
-          "Treats economic interdependence primarily as a vulnerability when a partner is also an adversary. Technology leadership translates into military advantage, making controls on dual-use exports rational even at economic cost. Relative gains logic applies: a trade arrangement that develops the adversary's industrial base is strategically harmful even if it produces net economic growth.",
+          "Interdependence with an adversary is a vulnerability. A lead in technology becomes a lead in arms, so controls on dual-use exports are rational even at economic cost. Relative gains apply: a trade arrangement that builds the adversary's industrial base is harmful even if both economies grow.",
       },
       {
         familyKey: "institutionalist",
         note:
-          "Warns that broad decoupling is costly to both parties, undermines the multilateral trading rules that have underpinned global growth, and is likely to be self-defeating as third parties hedge rather than align. Prefers targeted, narrowly scoped controls embedded in multilateral frameworks, such as export controls on genuinely dual-use items and investment screening for critical sectors, over wholesale economic separation.",
+          "Broad decoupling costs both parties, undermines the multilateral trading rules that made growth possible, and is likely to fail as third countries hedge instead of choosing sides. The alternative is targeted controls inside multilateral arrangements: export limits on items with real military use, investment screening in critical sectors, and no wholesale separation.",
       },
       {
         familyKey: "constructivist",
         note:
-          "Focuses on the framing: 'decoupling' and 'supply-chain security' are not neutral technical descriptions but constructions that activate adversarial identities and foreclose alternative framings (mutual dependence, shared governance, managed competition). The political narrative shapes the policy as much as the underlying material reality, and the framing can become self-fulfilling.",
+          "The framing decides the policy. 'Decoupling' and 'supply-chain security' are not neutral descriptions. They summon adversarial identities and crowd out other framings, mutual dependence, shared governance, managed competition. Once adopted, the frame can fulfill itself.",
       },
       {
         familyKey: "criticalPoliticalEconomy",
         note:
-          "Reads decoupling as a restructuring of global production hierarchies, shaped by a contest over which state's firms control key nodes in the technology supply chain. Asks who bears the adjustment costs (workers, consumers, smaller trading partners) and who benefits (domestic contractors, capital that relocates). Skeptical of framing that treats decoupling as a cost-free national security necessity rather than a political choice with distributional consequences.",
+          "Decoupling rearranges the global hierarchy of production, shaped by a contest over which state's firms control the key nodes of the technology supply chain. Ask who pays, workers, consumers, smaller trading partners, and who gains, domestic contractors, capital that relocates. The claim that this is a cost-free security necessity conceals a political choice with winners and losers.",
       },
     ],
   },
@@ -1002,27 +1002,27 @@ export const issueCompares: IssueCompare[] = [
     slug: "humanitarian-intervention",
     title: "Humanitarian intervention",
     summary:
-      "When, if ever, does mass atrocity justify overriding sovereignty, and what explains the pattern of when interventions happen and when they do not?",
+      "When, if ever, does mass atrocity justify overriding sovereignty, and why do some crises bring intervention while others do not?",
     readings: [
       {
         familyKey: "realist",
         note:
-          "Deeply skeptical. States invoke humanitarian language to justify actions driven by strategic interests; the correlation between intervention and material stakes is too consistent to ignore. The non-intervention norm protects weaker states as much as it shields bad actors. Realists prefer restraint except where core interests are directly engaged, and warn that intervention tends to create new instabilities it cannot manage.",
+          "Deeply skeptical. Governments reach for humanitarian language to justify what strategic interest already recommends, and the match between intervention and material stakes is too regular to dismiss. The rule against intervention protects weak states as much as it shelters bad ones. Intervene only where core interests are engaged, and expect the intervention to breed instabilities it cannot manage.",
       },
       {
         familyKey: "institutionalist",
         note:
-          "More permissive when institutional authorization exists. R2P and UN Security Council authorization transform the legitimacy calculus. Multilateral intervention with clear objectives and exit criteria is preferable to both unilateral action and inaction. Skeptical of unauthorized intervention on precedent grounds, but supports the institutional framework for managed, collective response to mass atrocity.",
+          "More permissive when an institution authorizes the action. The responsibility to protect and a Security Council mandate change the legitimacy of the decision. Collective action with clear objectives and an exit plan beats both unilateral action and doing nothing. Unauthorized intervention sets a bad precedent, but the institutional route to a managed, collective response deserves support.",
       },
       {
         familyKey: "constructivist",
         note:
-          "The tradition that best explains why the humanitarian intervention norm emerged when it did. Norm entrepreneur networks, the evolution of sovereignty as responsibility, and the diffusion of R2P are prime constructivist cases. The tradition also raises critical questions: whose suffering activates the norm, whose does not, and whether the norm has been selectively applied in ways that reflect power rather than principle.",
+          "The tradition best placed to explain why the norm of humanitarian intervention appeared when it did. Norm entrepreneurs, sovereignty redefined as responsibility, and the spread of the responsibility to protect are its prime cases. It also asks whose suffering activates the norm and whose does not, and whether selective application reflects power more than principle.",
       },
       {
         familyKey: "criticalPoliticalEconomy",
         note:
-          "Skeptical and critical. Examines the material interests behind humanitarian rhetoric: strategic resources, market access, defense industry interests. Notes that intervention patterns correlate with economic stakes as much as with the severity of crises, and that post-intervention economic arrangements tend to favor the intervening powers and their investors. Humanitarian framing is analyzed as ideology that obscures material motivations.",
+          "Skeptical and critical. Look for the material interests behind humanitarian language: resources, market access, defense industries. The tradition argues that where intervention happens tracks economic stakes as closely as the scale of the crisis, and that the economic settlement afterward favors the intervening powers and their investors. Humanitarian framing is read as ideology that hides the motive.",
       },
     ],
   },
@@ -1035,33 +1035,33 @@ export const exploreGaps: ExploreGapEntry[] = [
     slug: "feminist-ir",
     name: "Feminist IR",
     summary:
-      "Feminist IR asks who is made invisible by mainstream IR's focus on states, power, and security. It argues that the discipline's core concepts, including security, sovereignty, and power, are shaped by assumptions about gender that are rarely examined. Feminist scholars have examined how war affects women differently from men, how militarism is connected to masculine norms, and what a security agenda centered on human vulnerability rather than state survival would look like. The tradition spans liberal feminism (getting more women into existing institutions) and more radical critiques of militarism and the gendered foundations of the state.",
+      "Feminist IR asks who disappears when the discipline looks only at states, power, and security. Its core concepts, security, sovereignty, power, rest on assumptions about gender that are rarely examined. Feminist scholars have studied how war falls differently on women and men, how militarism draws on ideas of masculinity, and what security would mean if it started from human vulnerability instead of state survival. The tradition runs from liberal feminism, which wants more women inside existing institutions, to critiques of militarism and of the gendered foundations of the state itself.",
     whyNotYetModeled:
-      "Adding feminist IR as a scored family would require new dimensions on human security, gender analysis, and the critique of militarism that the current item bank does not support. Doing it with the current questions would produce spurious classifications.",
+      "Scoring feminist IR would need questions on human security, gender, and the critique of militarism that the bank does not contain. Scoring it with the current questions would produce readings the answers cannot support.",
   },
   {
     slug: "postcolonial-ir",
     name: "Postcolonial and Decolonial IR",
     summary:
-      "Postcolonial and decolonial IR scholars argue that the mainstream discipline was built on and for a world organized by European colonial power, and that this origin shapes what questions get asked and which actors get treated as agents rather than objects. They emphasize the colonial legacies that structure contemporary international inequality, the silenced perspectives of the global South, and the need to decolonize both the canon and the practice of IR. They also challenge the universality of Western IR concepts by asking whether 'sovereignty,' 'anarchy,' and 'security' mean the same things to states whose borders were drawn by colonial powers.",
+      "Postcolonial and decolonial scholars argue that the discipline was built by and for a world organized by European colonial power, and that this origin decides which questions get asked and which actors count as agents. They trace how colonial legacies structure inequality today, recover perspectives from the global South that the canon left out, and ask whether 'sovereignty', 'anarchy', and 'security' mean the same thing to states whose borders were drawn by colonial powers.",
     whyNotYetModeled:
-      "Its inclusion would require dimensions on colonial legacies, Eurocentrism, and the politics of knowledge production in IR that would require substantial new question design and validation. The current instrument is likely to misclassify people whose primary orientation is postcolonial, which may place them in critical PE or constructivism as the closest available buckets.",
+      "Scoring it would need questions on colonial legacies, Eurocentrism, and the politics of knowledge that would have to be written and tested from scratch. Someone whose first orientation is postcolonial is likely to land in critical political economy or constructivism, the nearest readings the questions can reach.",
   },
   {
     slug: "green-ir",
     name: "Green IR and Ecological Security",
     summary:
-      "Green IR asks what the international system looks like when ecological limits are taken seriously. Climate change, resource scarcity, and biodiversity loss are environmental problems that also reshape security calculations, economic structures, and the legitimacy of governance in ways the traditional paradigms were not designed to address. Green IR scholars argue that the state-centric security frame systematically misses the most consequential long-run threats to human welfare, and that a meaningful international order must grapple with planetary boundaries rather than treating nature as a backdrop to great-power politics.",
+      "Green IR asks what the international system looks like once ecological limits are taken seriously. Climate change, resource scarcity, and biodiversity loss reshape security calculations, economic structures, and the legitimacy of governments in ways the older paradigms were not built to handle. The state-centered security frame, green scholars argue, misses the largest long-run threats to human welfare, and an international order worth the name has to reckon with planetary boundaries instead of treating nature as scenery behind great-power politics.",
     whyNotYetModeled:
-      "Adding green IR would require new dimensions on ecological security, the relationship between development and environmental constraint, and the governance of global commons. These are distinct theoretical commitments that cannot be captured by the current seven dimensions without stretching their meaning.",
+      "Scoring green IR would need questions on ecological security, the relation between development and environmental limits, and the governance of the global commons. Those are commitments of their own, and the seven dimensions cannot carry them without changing what the dimensions mean.",
   },
   {
     slug: "english-school",
     name: "English School / International Society",
     summary:
-      "The English School occupies a middle ground between realism and liberalism. It argues that states form something like an international society, a community with shared norms, rules, and institutions that constrain behavior even in the absence of world government. It is distinctive for taking international law and diplomacy seriously as social practices rather than mere instruments of power. The pluralism-solidarism debate within the English School asks whether international society is primarily organized around state sovereignty or broader humanitarian norms. This debate maps onto the Foundation's order-justice dimension, making the English School the tradition most partially captured by the current instrument.",
+      "The English School stands between realism and liberalism. States, it argues, form an international society: a community with shared norms, rules, and institutions that constrain behavior even without a world government. It takes international law and diplomacy seriously as social practices in their own right. Its pluralism-solidarism debate asks whether that society is organized around state sovereignty or around wider humanitarian norms. That debate maps onto the Foundation's order-justice dimension, which makes the English School the tradition the questions come closest to reaching without scoring.",
     whyNotYetModeled:
-      "The English School's full theoretical depth is not yet modeled, including its account of international society, the role of diplomacy as a social institution, and the historical sociology of international order. The order-justice dimension captures one important debate within the tradition, but the broader framework deserves dedicated dimensions and item coverage.",
+      "The order-justice dimension captures one debate inside the tradition. Its account of international society, of diplomacy as an institution, and of how international orders form historically has no questions of its own.",
   },
 ]
 

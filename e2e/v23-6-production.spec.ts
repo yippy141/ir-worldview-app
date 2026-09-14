@@ -99,7 +99,7 @@ test("returning-state hydration preserves root menu geometry", async ({ page }) 
     window.dispatchEvent(new StorageEvent("storage", { key }))
   }, { key: PROFILE_STORAGE_KEY })
 
-  await expect(page.getByText(/saved Foundation read/iu)).toBeVisible()
+  await expect(page.getByText(/saved Foundation result/iu)).toBeVisible()
   expect(await menu.boundingBox()).toEqual(before)
 })
 
@@ -400,7 +400,7 @@ for (const width of [320, 390, 768, 1440] as const) {
     await page.setViewportSize({ width, height: width < 768 ? 844 : 1000 })
     await page.goto(`/results/${fixtures.clearerPureCore}`)
     await expect(page.getByRole("heading", {
-      name: /^Why .+ rather than .+$/,
+      name: /^Why .+, and not .+$/,
     })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth))
       .toBeLessThanOrEqual(width)

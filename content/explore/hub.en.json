@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
-  "contentVersion": "23.2.0",
+  "contentVersion": "23.3.0",
   "locale": "en",
   "hero": {
     "title": "Library",
     "payoff": [
-      "Four traditions, eight Foundation readings, four thinkers, seven decision patterns.",
+      "What the Foundation scores against, and what to set your result beside.",
       "Start with a name you were given, a thinker you have heard of, or a decision you would have made differently."
     ],
     "boundary": "Nothing in the Library changes your result."
@@ -18,7 +18,7 @@
     },
     {
       "id": "foundation-archetypes",
-      "heading": "The eight Foundation readings",
+      "heading": "Foundation readings",
       "intro": "Four ways of explaining world politics, each with two strategic postures."
     },
     {
@@ -28,18 +28,18 @@
     },
     {
       "id": "modeled-traditions",
-      "heading": "The four traditions",
+      "heading": "Traditions",
       "intro": "The traditions the Foundation scores against. Each is broader than fourteen questions can capture."
     },
     {
       "id": "foundation-dimensions",
-      "heading": "The seven dimensions",
+      "heading": "Dimensions",
       "intro": "What sits behind every reading. A score is a position on this model's scale, not a percentile."
     },
     {
       "id": "decision-patterns",
       "heading": "Decision Patterns",
-      "intro": "Seven authored ways of approaching a hard choice. Compare them; none is assigned to you."
+      "intro": "Authored ways of approaching a hard choice. Compare them; none is assigned to you."
     },
     {
       "id": "reference-positions",
@@ -147,7 +147,7 @@
     }
   ],
   "decisionPatternDirectory": {
-    "summary": "All seven Decision Patterns",
+    "summary": "All Decision Patterns",
     "mapLinkLabel": "Open the Worldview Map",
     "mapHref": "/explore/atlas"
   },
@@ -190,7 +190,7 @@
     }
   ],
   "coverage": {
-    "detailsSummary": "What the four traditions leave out",
+    "detailsSummary": "What the traditions leave out",
     "canonNote": "The Foundation draws mainly on traditions developed in Anglo-American and Western European International Relations. It does not adjust a score for nationality or culture.",
     "methodLinkLabel": "Read the method and its limits",
     "methodHref": "/method"

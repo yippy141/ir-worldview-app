@@ -177,8 +177,8 @@ export default async function ArchetypeDetailPage({
             <div className={styles.sectionHeading}>
               <h2 id="case-heading">The case, the objection, and the test</h2>
               <p>
-                Read the interpretation alongside the conditions that would make
-                it less persuasive.
+                Read the argument for the reading beside the best argument
+                against it.
               </p>
             </div>
             <dl className={styles.argumentLedger}>
@@ -215,8 +215,8 @@ export default async function ArchetypeDetailPage({
             <div className={styles.sectionHeading}>
               <h2 id="variants-heading">Three equal-weight orientations</h2>
               <p>
-                These variants change the normative emphasis inside the same
-                archetype. Their order does not imply a moral ladder.
+                The same reading, weighing order against justice three ways. None
+                ranks above another.
               </p>
             </div>
             <div className={styles.variantRows}>
@@ -249,8 +249,8 @@ export default async function ArchetypeDetailPage({
           <div className={styles.sectionHeading}>
             <h2 id="historical-heading">Historical comparison</h2>
             <p>
-              This is a comparison, not an identity or endorsement. It anchors
-              one part of the reading in a documented argument or practice.
+              One documented argument or practice that shares part of this
+              reading&rsquo;s logic, and where the likeness stops.
             </p>
           </div>
           <div className={styles.analogueHeading}>
@@ -267,10 +267,6 @@ export default async function ArchetypeDetailPage({
               <p>{evidence.whereItBreaks}</p>
             </div>
           </div>
-          <p className={styles.qualification} role="note">
-            {evidence.qualification}
-          </p>
-
           {evidence.nameNote ? (
             <div className={styles.nameNote}>
               <h3>A note on the name</h3>
@@ -280,6 +276,9 @@ export default async function ArchetypeDetailPage({
 
           <div className={styles.sourceLedger} data-archetype-source-ledger>
             <h3>Sources and further reading</h3>
+            <p className={styles.qualification} role="note">
+              {evidence.qualification}
+            </p>
             <ul>
               <li>
                 <a href={resolved.analogue.href} target="_blank" rel="noreferrer">
@@ -340,10 +339,9 @@ export default async function ArchetypeDetailPage({
         <div>
           <h2>Method and status</h2>
           <p>
-            Archetypes summarize a continuous, multidimensional profile. They
-            do not change the underlying Foundation score or assign people,
-            organizations, or traditions to a fixed type. Automated checks are
-            pretesting, not editorial, expert, or methodological validation.
+            A reading names the part of a continuous profile that scored
+            highest. It changes no score, and it assigns nobody to a type.
+            Automated checks are pretesting, not editorial, expert, or methodological validation.
           </p>
         </div>
         <Link href="/method">Read the method →</Link>

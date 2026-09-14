@@ -3,29 +3,9 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1221,
-      "newCount": 751,
+      "currentCount": 1102,
+      "newCount": 700,
       "newFindings": [
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.3.subtraditions.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "01965e32176057a0b1336a53889f6569303cdacc351f7ccb83d92e98bd9245ef",
-          "matched": "analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest / Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill",
-          "rule": "repeated-three-part-list",
-          "source": "Grounds analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest. Imperialism, the extension of capitalist accumulation abroad, is a structural tendency rather than a mere policy choice. Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#issueCompares.1.readings.3.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "01c910c8f2fed3027bc2bc6f5db371cb09247a9d27fc4fe662b493b2fc7a3d5e",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Reads decoupling as a restructuring of global production hierarchies, shaped by a contest over which state's firms control key nodes in the technology supply chain. Asks who bears the adjustment costs (workers, consumers, smaller trading partners) and who benefits (domestic contractors, capital that relocates). Skeptical of framing that treats decoupling as a cost-free national security necessity rather than a political choice with distributional consequences."
-        },
         {
           "audience": "public",
           "context": "content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.policyBundle.1",
@@ -55,16 +35,6 @@
           "matched": "the normative position",
           "rule": "repeated-adjacent-opening",
           "source": "The normative position gives order and sovereignty priority over attempts to impose justice from outside."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.issueReadings.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "024e712e999ce0b2547cb884391f86d913a4f80211d39eba67cfbea2cea8b23b",
-          "matched": "genuinely",
-          "rule": "retired-house-words",
-          "source": "Warns that broad decoupling is costly to all parties and erodes the trading rules that have underpinned growth since 1945. Prefers targeted measures, such as export controls narrowly scoped to genuinely dual-use items, embedded in multilateral frameworks rather than unilateral broad-spectrum restrictions."
         },
         {
           "audience": "frozen",
@@ -258,16 +228,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.emphasizes.3",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "0ad670baa3217c7a687354173b0f9a5a41549d24569e4a6560875d8f00f82a7f",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The tendency of states to balance against, rather than bandwagon with, rising powers"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/reference-profiles/catalog.ts#REFERENCE_PROFILE_CATALOG.profiles.1.summary",
           "count": 1,
           "file": "lib/reference-profiles/catalog.ts",
@@ -285,16 +245,6 @@
           "matched": "This is not asking",
           "rule": "clarification-negation-template",
           "source": "This is not asking whether such a regime is currently achievable or that one side should disarm unilaterally."
-        },
-        {
-          "audience": "public",
-          "context": "route:/archetypes/[slug]#ArchetypeDetailPage.p",
-          "count": 1,
-          "file": "app/archetypes/[slug]/page.tsx",
-          "fingerprint": "0c06333afb09e4f9a2458217c38688ac718e12b524f99d055f2fa444afe69c3a",
-          "matched": "change the underlying Foundation score or assign people, organizations, or traditions to a fixed type / not editorial, expert, or methodological validation",
-          "rule": "repeated-three-part-list",
-          "source": "Archetypes summarize a continuous, multidimensional profile. They do not change the underlying Foundation score or assign people, organizations, or traditions to a fixed type. Automated checks are pretesting, not editorial, expert, or methodological validation."
         },
         {
           "audience": "public",
@@ -325,16 +275,6 @@
           "matched": "foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently",
           "rule": "repeated-adjacent-three-part-list",
           "source": "Each arrangement moves the burden, timing, and escalation risk differently; none provides both automatic outside protection and complete Ukrainian freedom of action at no cost."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreGaps.2.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "0d52255f02316c29548e5d53a88199106f9674fc36ee2d77479b5174909a2f7c",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Green IR asks what the international system looks like when ecological limits are taken seriously. Climate change, resource scarcity, and biodiversity loss are environmental problems that also reshape security calculations, economic structures, and the legitimacy of governance in ways the traditional paradigms were not designed to address. Green IR scholars argue that the state-centric security frame systematically misses the most consequential long-run threats to human welfare, and that a meaningful international order must grapple with planetary boundaries rather than treating nature as a backdrop to great-power politics."
         },
         {
           "audience": "public",
@@ -445,6 +385,16 @@
           "matched": "This is not dismissing",
           "rule": "clarification-negation-template",
           "source": "This is not dismissing expert input."
+        },
+        {
+          "audience": "public",
+          "context": "route:/ai/field-guide#AiFieldGuidePage.h1",
+          "count": 1,
+          "file": "app/ai/field-guide/page.tsx",
+          "fingerprint": "117fc046c1cbf386b347de91e60218ece4c51422e169198cb9193297529ac854",
+          "matched": "Field Guide",
+          "rule": "field-metaphor-review",
+          "source": "Field Guide"
         },
         {
           "audience": "frozen",
@@ -648,16 +598,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.7.cardPressureNote",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "15cac84b5e9193ccc4abb8f5e45c078624d7364f18e04f9d7f04864a9af48109",
-          "matched": "sharpens",
-          "rule": "retired-house-words",
-          "source": "Security often raises suspicion about who bears the burden, while Technology sharpens concern about chokepoints, exclusion, and industrial lockout."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/copy/glosses.ts#strategyModifierGlosses.Maximizer",
           "count": 1,
           "file": "lib/copy/glosses.ts",
@@ -698,26 +638,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/ai/field-guide#partWaysPairs.2.split",
-          "count": 1,
-          "file": "app/ai/field-guide/page.tsx",
-          "fingerprint": "176a3d9cd2357f18e85b9f5d65f8b500d2f163c5919a0ad5a6006d9e7b747ca6",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Open Ecosystem Builder treats wider access as the cure; Coordination Architect treats durable cross-border rules and standards as the cure."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.2.cardPressureNote",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "179b1ce91c628162c81b823d7800808cf9d6268b6feb1ccc89776cd2134f379e",
-          "matched": "sharpens",
-          "rule": "retired-house-words",
-          "source": "Security usually strengthens visible pressure, and Technology often sharpens support for control over key chokepoints and dependencies."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/futures/preferences.ts#requirementLabels.transparentPower.absent",
           "count": 1,
           "file": "lib/futures/preferences.ts",
@@ -725,16 +645,6 @@
           "matched": "i require governing",
           "rule": "repeated-adjacent-opening",
           "source": "I require governing intervention to remain concealed."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.quizCoverage.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "17e039bb858cc020f819e6234ed73468d8241e031ee8a2024eca5b2243f3ef56",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Realism is the most directly modeled tradition in the current Foundation. The security competition dimension (uncertainty, rivalry, self-help) captures its core logic, and the restraint-vs-maximization dimension captures the debate within realism about grand strategy. The strategic technology and ally trade scenarios also probe realist instincts about relative gains. The model treats offensive realism, defensive realism, and classical realism as variations within a shared structural frame rather than distinguishing among them."
         },
         {
           "audience": "public",
@@ -765,16 +675,6 @@
           "matched": "on normative items",
           "rule": "repeated-adjacent-opening",
           "source": "On normative items, your answers accepted some cost to sovereignty when threats to people became severe enough."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.3.subtraditions.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "188a88209675f2c90435243b8319ef7abe11f7f952ca0c6ef12469ac3e59adce",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Grounds analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest. Imperialism, the extension of capitalist accumulation abroad, is a structural tendency rather than a mere policy choice. Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill."
         },
         {
           "audience": "frozen",
@@ -987,16 +887,6 @@
           "source": "how explanation cards differ from decision cards when the case sharpens"
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.readings.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "1e906b8d7a465015a004453784f73ef7202137e65cdc1802c8a8fb677995c529",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The foundational text of structural realism. It argues that the distribution of power, rather than human nature, explains recurring patterns of conflict."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.7.options.1.label",
           "count": 1,
@@ -1025,16 +915,6 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "One regime, or a cartel of them, achieves durable technological lockdown."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.0.technologySummary",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "1f13465f5d0fe689de23662ef6bb64e5de04c5e7832b4687b36440960e14bbb5",
-          "matched": "sharpens",
-          "rule": "retired-house-words",
-          "source": "In Technology, this pattern often sharpens around dependence, industrial policy, and the line between open exchange and strategic control."
         },
         {
           "audience": "frozen",
@@ -1105,16 +985,6 @@
           "matched": "with the revised",
           "rule": "repeated-adjacent-opening",
           "source": "With the revised offer on the table, but its protections unverified, what should the fictional adult do?"
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.2.pressureTestQuestions.0",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "22d76c6af89197ba9bfe57a44bbaf242196e81871a682cd35674cf19074b9517",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "When does caution start to look like strategic drift rather than prudence?"
         },
         {
           "audience": "frozen",
@@ -1417,16 +1287,6 @@
           "source": "The stronger move is to wear down traffic, insurers, and political stamina over time rather than force one dramatic showdown."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.advancedReadings.2.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "2cd1ba2c83ce63ace133410f340cf3655de4ed96c23de2a2f59e34fc07b64312",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Argues that global governance operates primarily through transgovernmental networks of regulators, judges, and legislators building connections across borders, rather than through formal international organizations alone."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:lib/modules/technology-v21.ts#technologyLanes.1.description",
           "count": 1,
@@ -1608,6 +1468,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:components/results/foundation-result-story.tsx#lead",
+          "count": 1,
+          "file": "components/results/foundation-result-story.tsx",
+          "fingerprint": "3316a2881f71c8b522bda0a2475471dc9c172f67024d45b9eb04d8d64d10cb28",
+          "matched": "your answers on",
+          "rule": "repeated-adjacent-opening",
+          "source": "Your answers on ... did most of the work: there they counted for ... more than for ... . ..."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/narrative/profile.ts#buildModuleChangeText",
           "count": 1,
           "file": "lib/narrative/profile.ts",
@@ -1677,16 +1547,6 @@
           "source": "Temporary identification or safety arrangements let each side claim its legal position was preserved, allowing coercive procedures to continue under ambiguous language. Accepted cost: Prioritizing the claimed-authority frame can overstate symbolism relative to material traffic and escalation pressures."
         },
         {
-          "audience": "public",
-          "context": "route:/ai/field-guide#AiFieldGuidePage.h1",
-          "count": 1,
-          "file": "app/ai/field-guide/page.tsx",
-          "fingerprint": "34cb8ce1a4755a1ceece024d8001855468de13fc00a97d1acbbabd824bd4b842",
-          "matched": "Field Guide",
-          "rule": "field-metaphor-review",
-          "source": "AI Field Guide"
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.8.options.3.label",
           "count": 1,
@@ -1705,6 +1565,16 @@
           "matched": "robustness",
           "rule": "retired-house-words",
           "source": "A high-level intergovernmental baseline for trustworthy AI, rights, robustness, and accountability."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/ai-governance-field-guide-content.ts#aiFieldGuideWorkedReadings.4.reading",
+          "count": 1,
+          "file": "lib/ai-governance-field-guide-content.ts",
+          "fingerprint": "35643cddf66db745ab7e4c41ed17db00897fe9637804b40d2b6b066efa5a24e3",
+          "matched": "Screening staff, budget, and wait times are fixed / If the evaluation capacity is missing, the hosted service is the honest option, and building that capacity is the real decision",
+          "rule": "repeated-three-part-list",
+          "source": "Screening staff, budget, and wait times are fixed. A scheme the institute cannot staff will fail in practice whatever it promises on paper. If the evaluation capacity is missing, the hosted service is the honest option, and building that capacity is the real decision."
         },
         {
           "audience": "frozen",
@@ -1798,26 +1668,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.5.detailDrivers.0",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "393ce0136f5e5424b1ccb39b4cbd707e4d453ec3fc7fc04aac17b3d47edbacd6",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Norms and identity remain active explanatory signals rather than rhetorical decoration."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#issueCompares.2.readings.2.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "396b0b053bd918664256146fcc05c36a6c05dd1984da0af1131c9b2b3e4a57cb",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The tradition that best explains why the humanitarian intervention norm emerged when it did. Norm entrepreneur networks, the evolution of sovereignty as responsibility, and the diffusion of R2P are prime constructivist cases. The tradition also raises critical questions: whose suffering activates the norm, whose does not, and whether the norm has been selectively applied in ways that reflect power rather than principle."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.constitutional-delegation.revisablePower.2",
           "count": 1,
           "file": "lib/futures/catalogue/rationales.ts",
@@ -1855,16 +1705,6 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "You think rules-based trade architecture lowers friction and builds durable economic interdependence. Economic coercion is more legitimate and more effective when applied through coordinated multilateral mechanisms rather than unilateral pressure."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.2.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "3ad3f588405d6f830eaec711790eb528cae0b943caaf37a6ca6d7dd0c2d18c28",
-          "matched": "and interests is partly constituted by identity, norms, and shared social expectations / states want security, growth, and survival",
-          "rule": "repeated-adjacent-three-part-list",
-          "source": "Constructivism asks a different kind of question: where do interests come from? Realists and institutionalists largely treat state interests as given: states want security, growth, and survival. Constructivists argue that what counts as a threat, what counts as a win, and what kinds of cooperation are imaginable all depend on shared identities, social expectations, and the historical context that shapes how states understand themselves and each other. The same military move can be threatening or reassuring, depending entirely on the relationship between the states involved. The United States and Canada do not experience each other's armed forces as threatening; the United States and China do, even when capabilities in a given situation are similar. Military math alone cannot explain that difference. It requires understanding how identities and historical relationships shape what actors mean by their actions. Constructivism also takes norms seriously as causal factors, not just as rhetorical cover for power. The post-1945 spread of human rights norms, the rise of anti-colonial international law, and changing standards around the use of chemical weapons all represent genuine shifts in what states consider legitimate. Those shifts have had real policy consequences."
         },
         {
           "audience": "frozen",
@@ -2005,16 +1845,6 @@
           "matched": "This is not a claim",
           "rule": "clarification-negation-template",
           "source": "This is not a claim that democratic institutions should be irrelevant forever."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.4.pressureTestQuestions.0",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "3faa067ca1746776c57c3b995f1c56a23987fb374d514c3c7cbdf843e4b8e74e",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "When do broken rules mean institutions need repair rather than abandonment?"
         },
         {
           "audience": "frozen",
@@ -2417,16 +2247,6 @@
           "source": "You moved from proposed public weights to queries through Larch's service, retaining the model and deeper evaluation inside the institute. Neither arrangement is directly governed by enclave admissions; this is not a recall of released copies."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.2.associatedThinkers.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "4bbced6b10632d0832b84670571eb860ffefaec0c56575e15e95c11487d4ee69",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Demonstrated empirically that international organizations actively shape state interests rather than just serving them. With Kathryn Sikkink, developed the norm life cycle of emergence, cascade, and internalization as a framework for understanding how norms spread."
-        },
-        {
           "audience": "editorial-source",
           "context": "content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason",
           "count": 1,
@@ -2435,16 +2255,6 @@
           "matched": "the article is",
           "rule": "repeated-adjacent-opening",
           "source": "The article is identified, but a permanent publisher locator or DOI has not been verified."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.advancedReadings.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "4c8ad2923abe1ce3bac84c49bccee6846436228c74c1f5478e3ac8f3ca105b00",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Explains why post-war hegemons sometimes bind themselves through institutions rather than simply imposing order. Argues that constitutional settlements lower the costs of running a liberal order, which bears on whether US-led institutions are durable."
         },
         {
           "audience": "public",
@@ -2507,16 +2317,6 @@
           "source": "You give rules real weight. The unresolved question is whether they still bite when powerful actors have both the motive and the means to defect."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.2.advancedReadings.2.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "4e6300fbdc20609b884990c28ed987a83276b88ef5d6c175298c23bd98159e37",
-          "matched": "robust",
-          "rule": "retired-house-words",
-          "source": "An empirical case study of how a norm became robust and nearly universal despite the strategic advantages chemical weapons can offer. Shows constructivist arguments at work on a hard case."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.11.options.3.label",
           "count": 1,
@@ -2525,16 +2325,6 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Temporary identification or safety arrangements let each side claim its legal position was preserved, allowing coercive procedures to continue under ambiguous language. Accepted cost: Prioritizing the jurisdictional frame can overstate symbolism relative to material traffic and escalation pressures."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.3.cardSummary",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "4ed1ed328224cbe3c0f824e062ea3bdeabf4d3b06c0ba28e313ea8ab68eb5348",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "This pattern prefers workable coordination and durable partner alignment over either rigid bloc discipline or go-it-alone autonomy."
         },
         {
           "audience": "public",
@@ -2565,16 +2355,6 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Tie coalition response to behavior all members can observe, such as attacks on shipping or specified missile activity, while keeping broader objectives outside the trigger. Accepted cost: Deeper disagreement over Iran's long-term power remains unresolved."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "505a93cc809b157cd20cc762a713f14c0b8aa426edb9a4878712a411c5fd8dfa",
-          "matched": "often",
-          "rule": "general-prevalence-language-review",
-          "source": "Realism begins with a blunt structural premise: there is no government above governments. In a world where no authority can reliably punish defection or guarantee protection, states have to look after themselves. The argument rests on the structure of the international system, not a claim that human nature is evil. Even states that want peace cannot be certain others feel the same, so they prepare for the worst. Realists argue that this structural logic, anarchy plus uncertainty, drives recurring patterns in world politics: arms races, balance-of-power dynamics, and the tendency for states to compete even when they would prefer not to. The security dilemma captures the tragic version of this: measures taken for defense often look offensive from outside, producing arms spirals that no one wanted. Realism is not a single view. Classical realists emphasize human nature and statecraft; structural realists emphasize the architecture of the system itself. Offensive realists argue that the structure pushes states toward maximizing power; defensive realists argue it often rewards restraint. What they share is the insistence that power and self-help are durable features of world politics, not temporary problems to be fixed by better institutions or warmer feelings."
         },
         {
           "audience": "frozen",
@@ -3048,13 +2828,13 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.8.detailDrivers.2",
+          "context": "route:/ai/field-guide#metadata.title",
           "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "61080993d4b44e8d63b6852dc3481f07be3433fe4e657f5b1325396032681cd9",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The closest neighbor is often institutionalist or critical political economy rather than pure realism."
+          "file": "app/ai/field-guide/page.tsx",
+          "fingerprint": "60f3c0a38f04699feaed9af577ffec19e9cd5f39571d23290dca2affc095a6d9",
+          "matched": "Field Guide",
+          "rule": "field-metaphor-review",
+          "source": "Field Guide | AI Governance | IR Worldview Inventory"
         },
         {
           "audience": "frozen",
@@ -3095,26 +2875,6 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "Use relief, sanctions, evidence preservation, and negotiations while seeking a mandate or regional agreement before military action. Accepted cost: Civilians may remain exposed while durable authority is unavailable."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.2.detailDrivers.2",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "61c8e50220555166eda1d1733e011a8c596eeca4798e87b86ba230299877037a",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "The pattern is readier to accept friction when the strategic payoff appears durable."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.tagline",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "62238b5f48d54b206fbd0c9ce70eb3dd50fca7264f12304b89a929a99d49aa3d",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Shared rules, monitoring, and repeated interaction can make cooperation durable even without a world government."
         },
         {
           "audience": "public",
@@ -3277,16 +3037,6 @@
           "source": "On strategy items, your answers kept both escalation and restraint available until the harder-to-reverse risk became clearer."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreGaps.1.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "67eb3a13be259b09f49ee07e0c07ab83eaab680f145a29d09a31d0ae61fc4212",
-          "matched": "postcolonial and decolonial",
-          "rule": "repeated-adjacent-opening",
-          "source": "Postcolonial and decolonial IR scholars argue that the mainstream discipline was built on and for a world organized by European colonial power, and that this origin shapes what questions get asked and which actors get treated as agents rather than objects. They emphasize the colonial legacies that structure contemporary international inequality, the silenced perspectives of the global South, and the need to decolonize both the canon and the practice of IR. They also challenge the universality of Western IR concepts by asking whether 'sovereignty,' 'anarchy,' and 'security' mean the same things to states whose borders were drawn by colonial powers."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.13.options.1.label",
           "count": 1,
@@ -3348,16 +3098,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.2.decisionRule",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "6994b3c55feb8bb4bcd27f503c010a0fd12d1df2658d9a8da9917bd0a76546c4",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Use credible pressure when it can convert advantage into durable position."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.democraticGuardrailist.policyBundle.1",
           "count": 1,
           "file": "lib/ai-governance-profile-copy.ts",
@@ -3395,16 +3135,6 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .familyKey does not match its code."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.associatedThinkers.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "6b54707b5d859eafb2a8eed91dfa0d95a206346bc8397d919f9012d6ae9f6624",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Co-developed complex interdependence with Keohane and introduced the concept of soft power, the ability to shape others' preferences through attraction rather than coercion. Influential across both academic and policy communities."
         },
         {
           "audience": "frozen",
@@ -3477,16 +3207,6 @@
           "source": "This is not an endorsement of fully autonomous lethal systems."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.6.technologySummary",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "6d83eac91d7d585b1636ef300fde2ddb8170690caf1906f44ce1fe066bcb3ec9",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "In Technology, this pattern often focuses on access, safety, and the distribution of harms rather than capability alone."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.11.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -3527,16 +3247,6 @@
           "source": "With return terms unknown, what should the fictional adult considering this offer do?"
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#issueCompares.1.readings.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "700bab54b356ebbde7b2b7d57ab1de7505a7a5e97c60d130fceb74574f17efe8",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Warns that broad decoupling is costly to both parties, undermines the multilateral trading rules that have underpinned global growth, and is likely to be self-defeating as third parties hedge rather than align. Prefers targeted, narrowly scoped controls embedded in multilateral frameworks, such as export controls on genuinely dual-use items and investment screening for critical sectors, over wholesale economic separation."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.15.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -3545,6 +3255,26 @@
           "matched": "This is not asking",
           "rule": "clarification-negation-template",
           "source": "This is not asking you to endorse replacing human beings or abandoning accountability."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
+          "count": 1,
+          "file": "lib/explore-content.ts",
+          "fingerprint": "705352e029ca8d5f844e974d4199ed517f91cd05c4669962a800156a5c937e29",
+          "matched": "often",
+          "rule": "general-prevalence-language-review",
+          "source": "Glaser, Van Evera, and Snyder argue that the system often rewards restraint. Most wars come from miscalculation, domestic pathologies, or spirals that both sides could have avoided. Anarchy by itself does not require endless expansion."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.1.cardPressureNote",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "7074f3b0218ecc57442e59d86564ab78ae154119dfac64fab95ba3d339367ef7",
+          "matched": "ask it about",
+          "rule": "repeated-sentence-opening",
+          "source": "Ask it about deterrence and this pattern reinforces bounded deterrence. Ask it about an exposed chokepoint and it accepts tighter controls than its caution elsewhere would predict."
         },
         {
           "audience": "frozen",
@@ -3577,26 +3307,6 @@
           "source": "This module reinforces a more justice-sensitive baseline rather than pulling you back toward order-first caution."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.7.detailDrivers.1",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "71ee1b4cfe3c3b62666f48cd0f91d21bbc23ab72b9b1e6ede85ca3ee943092f1",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Institutions are often read as structured by hierarchy rather than as neutral problem-solvers."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#issueCompares.1.readings.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "71f93942200c891e8bf0188ca2369d328cad1d7bf2905a895780363dcfcbc2ca",
-          "matched": "genuinely",
-          "rule": "retired-house-words",
-          "source": "Warns that broad decoupling is costly to both parties, undermines the multilateral trading rules that have underpinned global growth, and is likely to be self-defeating as third parties hedge rather than align. Prefers targeted, narrowly scoped controls embedded in multilateral frameworks, such as export controls on genuinely dual-use items and investment screening for critical sectors, over wholesale economic separation."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.24.clarification.whatItAsks",
           "count": 1,
@@ -3625,16 +3335,6 @@
           "matched": "genuinely",
           "rule": "retired-house-words",
           "source": "The value here is not that the model has found a cleaner type. It is that it can name where your profile genuinely pulls in different directions."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreGaps.2.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "72fb33745e8722bb89fa2d54208d98ac7747c24c510e38e133728b0e7dd5addf",
-          "matched": "most consequential long-run threats",
-          "rule": "consequential-filler",
-          "source": "Green IR asks what the international system looks like when ecological limits are taken seriously. Climate change, resource scarcity, and biodiversity loss are environmental problems that also reshape security calculations, economic structures, and the legitimacy of governance in ways the traditional paradigms were not designed to address. Green IR scholars argue that the state-centric security frame systematically misses the most consequential long-run threats to human welfare, and that a meaningful international order must grapple with planetary boundaries rather than treating nature as a backdrop to great-power politics."
         },
         {
           "audience": "public",
@@ -3748,6 +3448,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/explore-content.ts#exploreFamilies.2.summary",
+          "count": 1,
+          "file": "lib/explore-content.ts",
+          "fingerprint": "76c344fe34c7b5284690a3c71d4c81148de157694eb1ca5b9abff973a2ae29de",
+          "matched": "or an interest depends on identity, norms, and shared expectation / growth, and survival, and the argument starts there",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Constructivism asks a prior question: where do interests come from? Realists and institutionalists mostly take them as given. States want security, growth, and survival, and the argument starts there. Constructivists reply that what counts as a threat, what counts as a win, and which kinds of cooperation are even imaginable depend on shared identities, social expectations, and the history through which states came to understand one another. Wendt's example makes the point. Five hundred British nuclear weapons worry Washington less than five North Korean ones. The arithmetic of capability cannot explain that difference. Britain is a friend and North Korea an enemy, and those identities decide what a weapon means. The same military move reassures one neighbor and alarms another, depending on the relationship between them. Norms, on this view, do causal work of their own. The spread of human rights norms after 1945, the growth of anti-colonial international law, and the taboo on chemical weapons changed what states treat as legitimate. Governments that break those norms pay a price even when nobody can enforce them."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.1",
           "count": 1,
           "file": "lib/results/foundation-interpretation.ts",
@@ -3808,26 +3518,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.9.pressureTestQuestions.2",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "79b479626d79d69fc0ee70b4d01ff7a0b0d7f69e1ee9b3f98bb3cf6c84036e0b",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Is the tension stable enough to treat as part of the pattern rather than as noise?"
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.5.detailDrivers.2",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "79d5dcff8c8445a6538913e3931d89672e70126d6a887ffca3864b5ee1bb93aa",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Order and justice stay open questions rather than a settled ranking."
-        },
-        {
-          "audience": "public",
           "context": "content-key:components/results/posture-strip.tsx#PostureStrip.p",
           "count": 1,
           "file": "components/results/posture-strip.tsx",
@@ -3835,6 +3525,16 @@
           "matched": "map, map",
           "rule": "repeated-abstract-map-language",
           "source": "Both ends read world politics through the same lens. They part company on restraint, which the map's two axes do not weigh. The map cannot separate them, but this scale can."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/explore-content.ts#exploreFamilies.3.issueReadings.1.note",
+          "count": 1,
+          "file": "lib/explore-content.ts",
+          "fingerprint": "7ab90a44d1b3d223f0bbfc36c22a67e828d1855f814134e23356cdc10a216e5d",
+          "matched": "usually",
+          "rule": "general-prevalence-language-review",
+          "source": "Decoupling is a symptom of structural rivalry and a rearrangement of the global hierarchy of production. Ask who pays for the adjustment, usually workers and consumers in both countries, and who gains, capital that relocates, state contractors, defense industries. The claim that decoupling is a cost-free security necessity deserves suspicion."
         },
         {
           "audience": "frozen",
@@ -3845,6 +3545,16 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Use rotational deployments, joint nuclear consultation, and a scheduled guarantee review to make support observable. Accepted cost: The guarantor accepts deeper exposure and greater entrapment risk in the ally's future crises."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
+          "count": 1,
+          "file": "lib/explore-content.ts",
+          "fingerprint": "7bbafe4da1255553d950e4fa459f08c2eb4b5e8479d5d3f74f7241cf6fd18d5b",
+          "matched": "Glaser, Van Evera, and Snyder argue that the system often rewards restraint / Most wars come from miscalculation, domestic pathologies, or spirals that both sides could have avoided",
+          "rule": "repeated-three-part-list",
+          "source": "Glaser, Van Evera, and Snyder argue that the system often rewards restraint. Most wars come from miscalculation, domestic pathologies, or spirals that both sides could have avoided. Anarchy by itself does not require endless expansion."
         },
         {
           "audience": "frozen",
@@ -3938,16 +3648,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.6.detailSummary",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "7f5a5a8415144707e8c1c106fae1dd31c3b032d16b86f79e2b285faee715fc85",
-          "matched": "real weight",
-          "rule": "retired-house-words",
-          "source": "This pattern gives real weight to humanitarian protection and wider moral claims. It still pays attention to authority and precedent, but it is more willing to say those guardrails should bend in extreme cases."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.realist:strategicCompetitor.likelyAlignment.2",
           "count": 1,
           "file": "lib/ai-governance-cross-module-synthesis.ts",
@@ -3985,16 +3685,6 @@
           "matched": "Use the project contact route for a factual correction, privacy question, or security report / Do not include quiz answers, a result or Profile link, or another person&apos",
           "rule": "repeated-three-part-list",
           "source": "Use the project contact route for a factual correction, privacy question, or security report. Do not include quiz answers, a result or Profile link, or another person&apos;s information."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.counterReadings.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "7fe28c32760108e65b669b2c7db7579cb68101ed8a545cde772c116878599293",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The constructivist challenge: anarchy does not have a fixed logic. The meaning of rivalry and self-help depends on identities and relationships that states construct through interaction, rather than structure alone."
         },
         {
           "audience": "public",
@@ -4138,16 +3828,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.2.persuasiveArguments.0",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "8611b55834d6ff535856ce26bc07994fd3b0cf4d85a713285f92ba8eb5de2ffa",
-          "matched": "genuinely",
-          "rule": "retired-house-words",
-          "source": "Longstanding enemies can genuinely become friends through sustained interaction and identity change, with Franco-German relations after 1945 as the clearest example"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/futures/catalogue/features.ts#featureDefinitions.digitalStanding.absent",
           "count": 1,
           "file": "lib/futures/catalogue/features.ts",
@@ -4248,26 +3928,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.5.cardPressureNote",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "88b21bdfe275bb162885e10d0e1f16dc7a690710d21dfcab1cee8085a27694e2",
-          "matched": "sharpens",
-          "rule": "retired-house-words",
-          "source": "Security often raises the legitimacy of force and the meaning of reassurance, while Technology sharpens who gets to set rules and safety baselines."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.underweights.4",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "89247bd0d0b3bad95b05e85dd507b43d0af4b523409e8f071bf8f41df8a84500",
-          "matched": "genuinely",
-          "rule": "retired-house-words",
-          "source": "The possibility that norms diffuse and genuinely change state behavior over time"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/futures/interpretation.ts#preferenceThemes.text",
           "count": 1,
           "file": "lib/futures/interpretation.ts",
@@ -4295,16 +3955,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "a measure of technical expertise rather than issue instincts"
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.advancedReadings.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "8aa1443d36a994a280c6c8a1f1f41c09678091ad8643f90e5888193333cc5807",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Explains why post-war hegemons sometimes bind themselves through institutions rather than simply imposing order. Argues that constitutional settlements lower the costs of running a liberal order, which bears on whether US-led institutions are durable."
         },
         {
           "audience": "public",
@@ -4428,16 +4078,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/ai/field-guide#startReading.2.text",
-          "count": 1,
-          "file": "app/ai/field-guide/page.tsx",
-          "fingerprint": "918046756b9747c42df4a86e3f0218ff32ef4c66f656f329eaf532362dc1bac1",
-          "matched": "Field Guide",
-          "rule": "field-metaphor-review",
-          "source": "The Atlas maps governance patterns. The Field Guide explains each one without adding another assessment."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.shareBlurb",
           "count": 1,
           "file": "lib/ai-governance-profile-copy.ts",
@@ -4468,16 +4108,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.5.pressureTestQuestions.0",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "9277b0f1af112833ea0b907aab202af135b0c3043a2af961f8201af10398d747",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "When does legitimacy change the outcome rather than simply color the story?"
-        },
-        {
-          "audience": "public",
           "context": "content-key:content/instrument/foundation.v2.json#items.63.options.2.label",
           "count": 1,
           "file": "content/instrument/foundation.v2.json",
@@ -4495,16 +4125,6 @@
           "matched": "sharpens",
           "rule": "retired-house-words",
           "source": "how explanation cards differ from decision cards when the technology case sharpens"
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.underweights.4",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "93c0b776c461964405e1ffdc94e381e78cfefe7a54da44e9f5625aafc7f2e50d",
-          "matched": "genuinely",
-          "rule": "retired-house-words",
-          "source": "The difficulty of building institutions for genuinely novel problems before the political will exists"
         },
         {
           "audience": "frozen",
@@ -4887,6 +4507,16 @@
           "source": "This is not asking whether any capability should be released without safeguards."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/ai-governance-field-guide-content.ts#aiUnderModeledPerspectives.5.readingQuestion",
+          "count": 1,
+          "file": "lib/ai-governance-field-guide-content.ts",
+          "fingerprint": "a00c4f4d6d84d06af69ecb543d34a6469982b871face835cfbbc5bc3fb496048",
+          "matched": "The questions do not separate its security, industrial, and anti-monopoly strands / sovereignty, competition, or all of them at once",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "When you defend openness, are you defending innovation, accountability, sovereignty, competition, or all of them at once?"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.14.options.2.label",
           "count": 1,
@@ -4947,16 +4577,6 @@
           "source": "Applied here, the scores leave two live routes: expand independent research access, or retain restrictions until the hazard is better understood. Reversibility and who can veto investigation would help distinguish them."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.1.detailSummary",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "a1d02fe1d6fb6b30a4ead6aa13bce8f9907a336d6cb36f761734a467d8135554",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "This realist pattern treats competition as durable, but it does not treat every contest as a reason to press harder. The first instinct is to preserve position without drifting into commitments that are expensive to hold or hard to reverse."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary",
           "count": 1,
@@ -4995,16 +4615,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "Your low political economy score ( ... ) marks the gap from the critical PE runner-up. You locate the main constraint in security competition rather than economic hierarchy."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "a47609cb35549e3e135119e15bb208f3a583bd06f13f3c08515519f25ef145be",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Associated with Morgenthau and Niebuhr. Grounds the realist argument in a psychological drive for power, rather than structure alone. Emphasizes statecraft, the role of leaders, and the tragic character of international politics."
         },
         {
           "audience": "operational",
@@ -5208,16 +4818,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreGaps.0.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "aeca3ffbcb0864580fd03407da049fdff97bfd6d3eb2a3ec615250efb6556387",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Feminist IR asks who is made invisible by mainstream IR's focus on states, power, and security. It argues that the discipline's core concepts, including security, sovereignty, and power, are shaped by assumptions about gender that are rarely examined. Feminist scholars have examined how war affects women differently from men, how militarism is connected to masculine norms, and what a security agenda centered on human vulnerability rather than state survival would look like. The tradition spans liberal feminism (getting more women into existing institutions) and more radical critiques of militarism and the gendered foundations of the state."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.zookeeper.personalExit.2",
           "count": 1,
           "file": "lib/futures/catalogue/rationales.ts",
@@ -5338,16 +4938,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.7.detailDrivers.0",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "b254ba5863be0b3df3721bd0152c91936dfbbd64f55a8c2130fe24041de20923",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Political economy is treated as a primary driver rather than a background condition."
-        },
-        {
-          "audience": "public",
           "context": "content-key:components/futures/preference-player.tsx#PreferencePlayer.p",
           "count": 1,
           "file": "components/futures/preference-player.tsx",
@@ -5375,6 +4965,16 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "You endorsed both propositions: durable strategic competition and a usual priority for coordination over competitive advantage. In this completion, treating rivalry as a constraint does not eliminate the case for cooperation."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/ai-governance-field-guide-content.ts#aiUnderModeledPerspectives.5.currentCoverage",
+          "count": 1,
+          "file": "lib/ai-governance-field-guide-content.ts",
+          "fingerprint": "b3e2f4f3d0f662b419e76c4c721a1c751a86da9c8e7c7344f15f8dc27103eeac",
+          "matched": "a market strategy, a civil-liberties claim, or a challenge to concentration in a few labs and states / The questions do not separate its security, industrial, and anti-monopoly strands",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Open Ecosystem Builder carries this concern as one position. The questions do not separate its security, industrial, and anti-monopoly strands."
         },
         {
           "audience": "public",
@@ -5708,16 +5308,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.3.pressureTestQuestions.2",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "bd6f6f135c411d23480728dea5a3346f64d406f2ebb4d2f7f54ab369f797c881",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "How much unilateral freedom are you willing to give up for a more durable common line?"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/narrative/profile.ts#buildProbeNextText",
           "count": 1,
           "file": "lib/narrative/profile.ts",
@@ -5735,16 +5325,6 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Take surveillance, training, and equipment from several partners while declining exclusive access or a defense commitment. Accepted cost: Immediate deterrence is weaker, and the larger power may exploit continued ambiguity."
-        },
-        {
-          "audience": "public",
-          "context": "route:/ai/field-guide#startReading.2.text",
-          "count": 1,
-          "file": "app/ai/field-guide/page.tsx",
-          "fingerprint": "bede124aa6b98ec7f7ac7599bbdb5ef4744caf6c4666efdd9790bd63a033385a",
-          "matched": "map / maps",
-          "rule": "repeated-adjacent-abstract-language",
-          "source": "The Atlas maps governance patterns. The Field Guide explains each one without adding another assessment."
         },
         {
           "audience": "public",
@@ -5798,16 +5378,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreGaps.1.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "c08bb3c8b412d1084a01fb1ebaad4c2bd72560be0466442dcc0221d3aeef5715",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Postcolonial and decolonial IR scholars argue that the mainstream discipline was built on and for a world organized by European colonial power, and that this origin shapes what questions get asked and which actors get treated as agents rather than objects. They emphasize the colonial legacies that structure contemporary international inequality, the silenced perspectives of the global South, and the need to decolonize both the canon and the practice of IR. They also challenge the universality of Western IR concepts by asking whether 'sovereignty,' 'anarchy,' and 'security' mean the same things to states whose borders were drawn by colonial powers."
-        },
-        {
-          "audience": "public",
           "context": "content-key:content/current-cases/us-brazil-section-301-tariffs.json#worldviewReadings.0.interpretation",
           "count": 1,
           "file": "content/current-cases/us-brazil-section-301-tariffs.json",
@@ -5828,23 +5398,13 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.neighbors.0.contrast",
+          "context": "content-key:lib/explore-content.ts#exploreGaps.1.summary",
           "count": 1,
           "file": "lib/explore-content.ts",
-          "fingerprint": "c187b9419581fe94de8210db5e74328944492825834bac92c9a8c3428785644f",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Both work within a state-centric frame and accept anarchy as the baseline. Institutionalists argue that repeated interaction and shared rules can make cooperation durable even without enforcement. Realists are skeptical that this holds under real pressure."
-        },
-        {
-          "audience": "public",
-          "context": "route:/ai/field-guide#metadata.title",
-          "count": 1,
-          "file": "app/ai/field-guide/page.tsx",
-          "fingerprint": "c275cf6cbe1302a2c81f5a9685ed213fc85ec828d0afbb22c93d23b85d28ba68",
-          "matched": "Field Guide",
-          "rule": "field-metaphor-review",
-          "source": "Field Guide | AI Governance Compass"
+          "fingerprint": "c1e9df69377cbc44a34a1c524deeeba5d7666787ed3cdb335e286563d1f29541",
+          "matched": "postcolonial and decolonial",
+          "rule": "repeated-adjacent-opening",
+          "source": "Postcolonial and decolonial scholars argue that the discipline was built by and for a world organized by European colonial power, and that this origin decides which questions get asked and which actors count as agents. They trace how colonial legacies structure inequality today, recover perspectives from the global South that the canon left out, and ask whether 'sovereignty', 'anarchy', and 'security' mean the same thing to states whose borders were drawn by colonial powers."
         },
         {
           "audience": "frozen",
@@ -5947,6 +5507,16 @@
           "source": "Foundation robustness diagnostic"
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.subtraditions.3.note",
+          "count": 1,
+          "file": "lib/explore-content.ts",
+          "fingerprint": "c5998b2882aae1c389f67c53afe00c9ddbdecf7d51605f84491824d6e66da89c",
+          "matched": "layers, layers",
+          "rule": "repeated-abstract-map-language",
+          "source": "A newer strand studies how overlapping arrangements, trade regimes, climate agreements, human rights law, interact. They govern in layers without a single hierarchy, and the layers sometimes reinforce and sometimes obstruct one another."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.6.options.2.label",
           "count": 1,
@@ -5988,26 +5558,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.2.counterReadings.0.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "c8a35f8bbc4469ff9b6f74c677a3a2214f602b9579bc8761235fb3fdd5389733",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "A rationalist challenge to explanations that rely on misperception, identity, or social construction. Argues that bargaining failure is the fundamental puzzle in explaining why wars happen when they are costly to both sides, rather than cultural or ideational factors."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.underweights.1",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "c976764e8de48215cd5a898f8efd2108701c5ef19b95545f153c23aaf9c5b38a",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "The role of institutions in making cooperation more durable across lower-stakes issue areas"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/result-helpers.ts#getStrongLenses.lens.description",
           "count": 1,
           "file": "lib/result-helpers.ts",
@@ -6025,16 +5575,6 @@
           "matched": "often",
           "rule": "general-prevalence-language-review",
           "source": "Does a new governing coalition often change foreign policy even without a change in the external threat?"
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreGaps.3.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "ca020ea2d7a7a327db19bbdbca91797548d9d0304b2df71d971e5f1480976496",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The English School occupies a middle ground between realism and liberalism. It argues that states form something like an international society, a community with shared norms, rules, and institutions that constrain behavior even in the absence of world government. It is distinctive for taking international law and diplomacy seriously as social practices rather than mere instruments of power. The pluralism-solidarism debate within the English School asks whether international society is primarily organized around state sovereignty or broader humanitarian norms. This debate maps onto the Foundation's order-justice dimension, making the English School the tradition most partially captured by the current instrument."
         },
         {
           "audience": "frozen",
@@ -6095,6 +5635,16 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "Governments usually lack the speed and technical competence needed to supervise frontier AI well enough to justify deep intervention."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.9.detailSummary",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "cb3abd799625d6462f8adb2fea4857f2c9cb2f3ee8616a32ee1c4607a3bdc957",
+          "matched": "it can show a different balance between control, governance, and access / Read it as a structured tension between domains, or between diagnosis and decision, and it makes sense",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "This pattern is no simple overlap. Its logic sorts one way under some conditions and changes emphasis under others. Read it as a structured tension between domains, or between diagnosis and decision, and it makes sense; read it as a fuzzy center and it does not."
         },
         {
           "audience": "public",
@@ -6277,6 +5827,16 @@
           "source": "Deepen intelligence and defense ties while writing explicit carve-outs for trade, finance, and unrelated diplomacy. Accepted cost: A major crisis may collapse those compartments and force linked choices."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.8.detailSummary",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "d4b607f81a3e7cac47091c5069f3f9aaa0ef2820b65e427e276c22a81af2b5c6",
+          "matched": "it backs public capacity, trusted suppliers, and diversified dependence / financing terms, and strategic dependence as parts of sovereignty itself, and judges an offer by what it leaves open",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "This pattern worries less about prestige today than about whether a state can still choose tomorrow. It treats industrial depth, financing terms, and strategic dependence as parts of sovereignty itself, and judges an offer by what it leaves open."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.19.options.0.label",
           "count": 1,
@@ -6347,16 +5907,6 @@
           "source": "The actor-lens cards track how security logic looks from inside another actor's position. Your decision cards stayed closer to your own line."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "d78d551f178485debc9c41cc8d853492b5cad50971d4245a8a1afe561a10e6e0",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Realism begins with a blunt structural premise: there is no government above governments. In a world where no authority can reliably punish defection or guarantee protection, states have to look after themselves. The argument rests on the structure of the international system, not a claim that human nature is evil. Even states that want peace cannot be certain others feel the same, so they prepare for the worst. Realists argue that this structural logic, anarchy plus uncertainty, drives recurring patterns in world politics: arms races, balance-of-power dynamics, and the tendency for states to compete even when they would prefer not to. The security dilemma captures the tragic version of this: measures taken for defense often look offensive from outside, producing arms spirals that no one wanted. Realism is not a single view. Classical realists emphasize human nature and statecraft; structural realists emphasize the architecture of the system itself. Offensive realists argue that the structure pushes states toward maximizing power; defensive realists argue it often rewards restraint. What they share is the insistence that power and self-help are durable features of world politics, not temporary problems to be fixed by better institutions or warmer feelings."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.6.prompt",
           "count": 1,
@@ -6408,13 +5958,13 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
+          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.summary",
           "count": 1,
           "file": "lib/explore-content.ts",
-          "fingerprint": "d9a5d1c2781deee096b1e12ed4294ecb828155bcaaab67cec1067e1fe407fdc7",
+          "fingerprint": "d9b4ce422758263a67817e3d4995aaef8a8e919aef276da9c8ba77df3d69f077",
           "matched": "often",
           "rule": "general-prevalence-language-review",
-          "source": "Associated with Glaser, Van Evera, and Snyder. Argues that the structure often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts. Anarchy does not by itself require endless expansion."
+          "source": "Realism starts from a blunt fact: there is no government above governments. Nobody can reliably punish a state that cheats or protect a state that is attacked. So states look after themselves. Structural realists put the whole argument on that fact. Classical realists add a second one, a drive for power in human nature that statecraft has to manage. Both conclude that even a state that wants peace cannot be sure its neighbors do, and prepares for the worst. From that premise realists expect recurring patterns: arms races, balancing coalitions, and competition between states that would each prefer to cooperate. The security dilemma is the tragic version. Weapons bought for defense look like preparation for attack from across the border, and the reply looks the same from the other side. Nobody wanted the spiral, and nobody can safely step out of it. Realism is a family of arguments, and the family quarrels. Offensive realists hold that anarchy pushes great powers to seek as much power as they can, because there is no safe point to stop. Defensive realists reply that the system often rewards restraint and punishes expansion. What the family shares is the claim that power and self-help are permanent features of world politics, and that better institutions or warmer feelings will not remove them."
         },
         {
           "audience": "public",
@@ -6457,6 +6007,16 @@
           "source": "Often attentive to whether safety regimes are genuinely risk-driven or mostly reallocating power upward."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.0.pressureTestQuestions.1",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "da8ffbb4089a168e8736eeaa24b2a09354dadd00d4bfc3a4c6e9988d58e703a4",
+          "matched": "usually",
+          "rule": "general-prevalence-language-review",
+          "source": "Do alliance strain and escalation risk usually outrank the chance of immediate advantage?"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.2.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -6485,16 +6045,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense of building your own position rather than forcing the outcome. It does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.issueReadings.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "db5ef93c1f1cc66944fbb989edd004b4e988ec618e836814ccb2439bf1565b76",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Warns that broad decoupling is costly to all parties and erodes the trading rules that have underpinned growth since 1945. Prefers targeted measures, such as export controls narrowly scoped to genuinely dual-use items, embedded in multilateral frameworks rather than unilateral broad-spectrum restrictions."
         },
         {
           "audience": "public",
@@ -6538,13 +6088,13 @@
         },
         {
           "audience": "public",
-          "context": "route:/archetypes#lensBands.1.question",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.3.pressureTestQuestions.1",
           "count": 1,
-          "file": "app/archetypes/page.tsx",
-          "fingerprint": "dc2fd1e1e2b01ea20138e58ed57d68e844e8b4a9d86012a9de9b5018412b9e4c",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "What turns an agreement into durable restraint?"
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "dd3cff3b71b718412d65c43bcfda19a2cc218dda3c3782d0743f051a6cde4612",
+          "matched": "usually",
+          "rule": "general-prevalence-language-review",
+          "source": "When coalition unity and strategic speed collide, which usually wins?"
         },
         {
           "audience": "public",
@@ -6977,16 +6527,6 @@
           "source": "durable cooperation is treated as possible and worth designing for"
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "ee5fd685671693bfad09739469fea593b54bde143153cb16a4ca65488bb766ab",
-          "matched": "Associated with Glaser, Van Evera, and Snyder / often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts",
-          "rule": "repeated-three-part-list",
-          "source": "Associated with Glaser, Van Evera, and Snyder. Argues that the structure often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts. Anarchy does not by itself require endless expansion."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.8.options.3.label",
           "count": 1,
@@ -7005,16 +6545,6 @@
           "matched": "The state relies on foreign cloud providers, imported data-center hardware, and outside software / must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system",
           "rule": "repeated-three-part-list",
           "source": "A lower-income country's cabinet has 60 days, before its government-cloud contracts renew, to choose a localization and procurement plan. The state relies on foreign cloud providers, imported data-center hardware, and outside software. Ministers must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.3.underweights.3",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "ef7719a43e91899894f41be43331ddbd3bcaf72320cffd3f75f15480df9d2290",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Military and security crises driven primarily by strategic logic rather than economic position"
         },
         {
           "audience": "frozen",
@@ -7065,16 +6595,6 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "Major powers can build durable peace when each side accepts limits on military advantage."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.3.counterReadings.1.note",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "f2e8b3c61c1f1eaee8e192e59226bc98adfdf5fee2eb73c4d227ae00a92d9eca",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "A state-centric realist challenge to Marxist IPE. Argues that state interests drive foreign economic policy rather than class interests, and that states sometimes act against the preferences of their dominant economic actors."
         },
         {
           "audience": "frozen",
@@ -7207,16 +6727,6 @@
           "source": "This is not a claim that democratic institutions should be irrelevant forever."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/explore-content.ts#exploreFamilies.1.summary",
-          "count": 1,
-          "file": "lib/explore-content.ts",
-          "fingerprint": "f6ec74225292051e2b3a8004877d3fd27d77406c337149ff36d5742a94f75b2c",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "If realism treats anarchy as a trap, institutionalism treats it as a challenge that can be managed. The core argument is that states cooperate less than they could because they lack reliable information about each other's intentions and cannot verify compliance, rather than because they are inherently hostile. International institutions, including treaties, organizations, monitoring bodies, and dispute-resolution mechanisms, can solve those problems without requiring trust or a world government. The logic is about changing incentive structures over time. When violations are visible and reputations accumulate across many interactions, the short-term gains from defection become less attractive. States that invest in institutions gain access to cooperation they could not sustain through bilateral deal-making alone. Liberal institutionalism also takes domestic politics seriously. The \"two-level game\" insight holds that governments negotiate simultaneously with foreign counterparts and their own domestic constituencies. It helps explain why states with similar external environments sometimes reach very different outcomes. Regime type, parliamentary constraints, and interest-group politics all shape what states bring to the table."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v2.json#items.5.options.0.label",
           "count": 1,
@@ -7255,16 +6765,6 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Join time-limited coalitions with defined missions and opt-outs rather than one comprehensive alignment. Accepted cost: Commitments are thinner and coordination is slower when a crisis crosses issue boundaries."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.0.detailDrivers.0",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "f9d5b306f9378a80a953f0822d4aebc603ac1d78ff850d16a16d8c3bfed120d3",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "The strongest signals sit close together rather than stacking into one firm worldview."
         },
         {
           "audience": "frozen",
@@ -7397,16 +6897,6 @@
           "source": "This is not asking whether all medical or assistive enhancement is suspect."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/ai-governance-field-guide-content.ts#aiUnderModeledPerspectives.3.whyItMatters",
-          "count": 1,
-          "file": "lib/ai-governance-field-guide-content.ts",
-          "fingerprint": "fd879be6d687ed47b01a0b826cf1f4508a4943b9dc88ed7c38cf3102e283f798",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Many states will meet AI through imported cloud, foreign model access, compliance costs, and infrastructure dependence rather than frontier-lab choice."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.20.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -7518,11 +7008,15 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 88,
+      "resolvedCount": 156,
       "resolvedFindings": [
         {
           "count": 1,
           "fingerprint": "0089c530821602ea2af5921eb00c5f9f460c074575d5329a6170c2989283e9b7"
+        },
+        {
+          "count": 1,
+          "fingerprint": "01f0f09c8dd279c91de8a5c3ceb586139630f6e484267e6d5d1d6a8cfd0a0f90"
         },
         {
           "count": 1,
@@ -7535,6 +7029,18 @@
         {
           "count": 1,
           "fingerprint": "069d6db5d5e8f589b66a19ae8859f897860bd7bdfc275ef65e182f10a5a3aec9"
+        },
+        {
+          "count": 1,
+          "fingerprint": "0a83f04ea2c343dc8830d17e6f65fbe3b3541d67b3e7b3fe17e9900d7438e35a"
+        },
+        {
+          "count": 1,
+          "fingerprint": "0c89c2cf3ef5d9c6e34ed2e624e75cc3d22974739dec6844edfaa627b04dd349"
+        },
+        {
+          "count": 1,
+          "fingerprint": "0e32f84a41465d705fee1bb5e0c2a4b8a81751cec04a3ec5b2fe2fd2b6ddbf26"
         },
         {
           "count": 1,
@@ -7554,6 +7060,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "14e8d6a674aff5f923e5c0f42816cf23505d8e50e4b2e573add156c11fa6c16b"
+        },
+        {
+          "count": 1,
           "fingerprint": "1783e84f0925470333897b51fe676ce76a286387466ddbb6575a214c5618426f"
         },
         {
@@ -7562,7 +7072,23 @@
         },
         {
           "count": 1,
+          "fingerprint": "1aebe3e401f4e3edaae86f750ee3f754c694dcfb53d796fd7e6b420c5b29c0ef"
+        },
+        {
+          "count": 1,
+          "fingerprint": "1b310b75f9ded64e824e0fd18e8bbb4612d3b105399d1f66c3e571af9b4d4193"
+        },
+        {
+          "count": 1,
+          "fingerprint": "1c88fbe91ea387130d41286d3af456b48093e16acaad338c2718774a62b49812"
+        },
+        {
+          "count": 1,
           "fingerprint": "1ca87213df4ed7545ae4d8fffc3fc0125454e871a1cae46f2f1c3a97068f1c26"
+        },
+        {
+          "count": 1,
+          "fingerprint": "1cbf8f11ab2e681b3dc48e9cb0c35b636aa79638d2eb279341d83fb9c94aa194"
         },
         {
           "count": 1,
@@ -7570,11 +7096,27 @@
         },
         {
           "count": 1,
+          "fingerprint": "1e06e569832f0de5d3f0247833432f2cb542f0b5eba2e66d6f7292a639617cd2"
+        },
+        {
+          "count": 1,
+          "fingerprint": "1f3d7301df0aae641a16f524de2b107e66af3c47c4f3d958fea4648bda31bee7"
+        },
+        {
+          "count": 1,
           "fingerprint": "26a605b47eec3117318a1ae7e3cb6a6c3d1c335c176af8c8f63f62b7dbee5728"
         },
         {
           "count": 1,
+          "fingerprint": "26aedcebdf04a1bcda109404706255c248bca94fd7b40aaef264c5b0419b7fbf"
+        },
+        {
+          "count": 1,
           "fingerprint": "26ce302b0a074f516f8ddb2f422c64edcdd354ca5dc6a532fe52620db1c2be7a"
+        },
+        {
+          "count": 1,
+          "fingerprint": "27674ff88d52851b8e9f1f6942210283e7758f4ae87446a0c809bc7918d787a6"
         },
         {
           "count": 1,
@@ -7594,6 +7136,26 @@
         },
         {
           "count": 1,
+          "fingerprint": "34a73637bcc4dd46223922b7e09320aa6c2a3df8e59ebd5fb873a53630b96541"
+        },
+        {
+          "count": 1,
+          "fingerprint": "3574c5c2e9fa281d41c3bd58af2e4ef665c6495ef0ade831a4c97a2a1affbf89"
+        },
+        {
+          "count": 1,
+          "fingerprint": "35a94b64eb386df79b74b0fa8a25683e7500d1ea3941364372d03645aa4d199f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "3638b799b7f363b4b3771b886f7f90bd5828a32d7c5e08836aee787c4f14534f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "3642b5223fb0807984fe9bac716d658f2ed7181d064f2ca4324f627f76f9f814"
+        },
+        {
+          "count": 1,
           "fingerprint": "3794bf547df44df59c33b84fe35dde88cb102dc328464a83d986dd3a810e2134"
         },
         {
@@ -7606,7 +7168,23 @@
         },
         {
           "count": 1,
+          "fingerprint": "3be1360958707b00f2f206985d48ef2d910ff3a17f53bd695245648a26006ac3"
+        },
+        {
+          "count": 1,
+          "fingerprint": "41e1b836003d675ce10afb815c5d5fb07e5b2d416708f565bbe1cca8b1579942"
+        },
+        {
+          "count": 1,
+          "fingerprint": "43f1064733485a73212a0913b9ea8acecdd6baf460fe36a199a1bf25d58ea989"
+        },
+        {
+          "count": 1,
           "fingerprint": "44d147a4740d15d2a264803f352e34fae81aa47af0438616672d6418740aa929"
+        },
+        {
+          "count": 1,
+          "fingerprint": "473d976a1c2934e5da45cee2011e810476147a6841347d8e7650ba867469e98f"
         },
         {
           "count": 1,
@@ -7614,7 +7192,15 @@
         },
         {
           "count": 1,
+          "fingerprint": "4f551a57a6739562c02276744dc698ab2d0f6e4543b1e085b2d95e2fa4727ceb"
+        },
+        {
+          "count": 1,
           "fingerprint": "513db19820bb8477ecc56f1877f8d1a26e1e69047454a6ae311b8ee9cd635d36"
+        },
+        {
+          "count": 1,
+          "fingerprint": "54625f3f2ce81dfdbfaa3b6ddd29d286fea243549a07681f55463321540cee66"
         },
         {
           "count": 1,
@@ -7623,6 +7209,14 @@
         {
           "count": 1,
           "fingerprint": "55de69080082e054ab7c02f737b33d800d2debf6fda1c905b78de8f94f7c4d6f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "567fb5779ba71b31645935f4e01e172114830d1d0e78e0e7bd3f535c6f4b5729"
+        },
+        {
+          "count": 1,
+          "fingerprint": "58df59922c3b2a4bcd8ef3c65a89cfb6d3b4e0e4cb8c29db6099446579d7c0aa"
         },
         {
           "count": 1,
@@ -7646,6 +7240,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "64faaa59ced980a6eb3c9dd98414404d29103d0e5f69a26041faab21d590fc29"
+        },
+        {
+          "count": 1,
           "fingerprint": "689de962962d10b8cf83810e1db73fefa16f96bfbba692236db8504f24abd1ad"
         },
         {
@@ -7662,7 +7260,15 @@
         },
         {
           "count": 1,
+          "fingerprint": "6d01376497c4507be5505364a04d39a461076aab084c91595b433dc5097a773a"
+        },
+        {
+          "count": 1,
           "fingerprint": "6e88fde52db2ed2178f126d9edf5c767d0e408ffe6f862e05118429fd312c6d2"
+        },
+        {
+          "count": 1,
+          "fingerprint": "70e9a0c0bd56116e780bd26359c7742b2473f27f116d241cd85757918ae35e69"
         },
         {
           "count": 1,
@@ -7670,11 +7276,39 @@
         },
         {
           "count": 1,
+          "fingerprint": "72f9d8f2a3431b9137fd255d4516d365b5bc45ede9c90110831b3f871d512ff3"
+        },
+        {
+          "count": 1,
+          "fingerprint": "7436e68cec1663a1cdaa80933cf8762646219f85bf6b6164c45d27a440876d7d"
+        },
+        {
+          "count": 1,
+          "fingerprint": "74f03b6c27b464fb8f80814cf54d926e183c22929a9493d6baa7ef2bebafb8c6"
+        },
+        {
+          "count": 1,
+          "fingerprint": "76b590968399b62fb3b9c29eee932651ac574e82e3c26c6f612664f518f7b15d"
+        },
+        {
+          "count": 1,
           "fingerprint": "77a788ff589c80447c43fce38c26f392d88ac8ba5836597a7f95f9430559518f"
         },
         {
           "count": 1,
+          "fingerprint": "780c882e8f7d834ed9ef8f0e39ab573458521f93f290ccfb1045c5b468b00639"
+        },
+        {
+          "count": 1,
           "fingerprint": "79d6a6439d0b099e69f9a03f6c789d68e0e70c65b1fe14fa26bf36903e2f91a7"
+        },
+        {
+          "count": 1,
+          "fingerprint": "7c17fa4df63b258aacfeceb22ed26f2e490f40d678192eae3ee0ecae4278bc78"
+        },
+        {
+          "count": 1,
+          "fingerprint": "7c328a2a95b4edef870faf782f4609c72f56dc53f0106ac273b9452d8cba3180"
         },
         {
           "count": 1,
@@ -7683,6 +7317,10 @@
         {
           "count": 1,
           "fingerprint": "7f6cab55966890910eb83ca9d1f2793e837e46106c8d77f779f759a85a856aaf"
+        },
+        {
+          "count": 1,
+          "fingerprint": "804888fb2066e3e0281cb62888a323f85d4a68874c9e2251f5fa6772c95796ea"
         },
         {
           "count": 1,
@@ -7714,7 +7352,15 @@
         },
         {
           "count": 1,
+          "fingerprint": "91c90e9cbce75686454b415f66f94c930de2dfc20bd2de84a834b252b5d21d2b"
+        },
+        {
+          "count": 1,
           "fingerprint": "92fcccc09775af231f920c2788a2ab888f19d807edc0cb89963de38840240a9f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "931b655ed74309ccca4b095057bd11cd89cd723937349d99863244310cfb4522"
         },
         {
           "count": 1,
@@ -7722,7 +7368,19 @@
         },
         {
           "count": 1,
+          "fingerprint": "96563f4d723752c383616a3e916eadb21bd5ff53d69a5c554d4f2444f7b360bb"
+        },
+        {
+          "count": 1,
           "fingerprint": "966173b93e2c527c0c10be68cad776ad163007ceb562c8d098e67e1079bd448c"
+        },
+        {
+          "count": 1,
+          "fingerprint": "97573b71e47e0a1582bc63cad9bdd8de3b900026af40d16894553f30743118d1"
+        },
+        {
+          "count": 1,
+          "fingerprint": "987437f864d441f8fbf9a853fb23200c6b14dc288a91af20e74370b753d97e43"
         },
         {
           "count": 1,
@@ -7738,11 +7396,27 @@
         },
         {
           "count": 1,
+          "fingerprint": "a261af5b5474537a4046a4b29cabd78bc72bddfc433b0d3fa13a714660917511"
+        },
+        {
+          "count": 1,
           "fingerprint": "a28d234c31d081ca1983abf137a0eeb01743ad3b9ed0be8be47d32d1dc50cd7d"
         },
         {
           "count": 1,
+          "fingerprint": "a3e2c26942dd0424e2d6516479e7f36382e82ae992dbe5f321726e45b08c0ad8"
+        },
+        {
+          "count": 1,
           "fingerprint": "a3e5f059089ad1f9681b209d34895636eab692e3d4306df23fbeaadca000832d"
+        },
+        {
+          "count": 1,
+          "fingerprint": "a412828125621e85f107f077930267d8be463e852bb63b9f82b4a50ec086e43e"
+        },
+        {
+          "count": 1,
+          "fingerprint": "a55fe66f7b7e9620ca2ef273f449cc785b4b79457aab02d5f2b502f2ca541d52"
         },
         {
           "count": 1,
@@ -7758,7 +7432,19 @@
         },
         {
           "count": 1,
+          "fingerprint": "ac99a3fcb97efdcfec12178c402e5f0a28077fb48a3d910c7c95cd61088c1744"
+        },
+        {
+          "count": 1,
+          "fingerprint": "aec62c0eceddd8c9fee390c84eb400d29a9efd07531afcaccf6031295b0f3e8f"
+        },
+        {
+          "count": 1,
           "fingerprint": "af3ede19fc879cdde3f8f35b1e02844753b4fa67ccad6170816b0e5b311b5acb"
+        },
+        {
+          "count": 1,
+          "fingerprint": "b11aefcef866f9409b8145372826c271b4b7d89bde9a06f4aac2a3da72a950f1"
         },
         {
           "count": 1,
@@ -7774,11 +7460,27 @@
         },
         {
           "count": 1,
+          "fingerprint": "b76e2e7802e11a7a08a36cdd88a93f0efb9c661ec87bdb1b5ebf694df5c909a4"
+        },
+        {
+          "count": 1,
+          "fingerprint": "bc5b0cd19d7181cf18049be4c15c2cabeff1e39df7595b30d5dc03653ab41660"
+        },
+        {
+          "count": 1,
+          "fingerprint": "bf7ab258c2e9e41ec348a704f5679ca2a21ef1ae5806b2a3653e1c537271f2c3"
+        },
+        {
+          "count": 1,
           "fingerprint": "c01cb2cc3a71dbf08911a0f62272296c755c324ec8c356e4e3f4c8c8db67e8e9"
         },
         {
           "count": 1,
           "fingerprint": "c0f9c33050d47645d40f4b548811d249a07405e51725f6016389f9e9ba9f6967"
+        },
+        {
+          "count": 1,
+          "fingerprint": "c13a89f4d4ab3c7c981eeda1c2f4fdb0c084b54a58879b947d7dc36b21ae8d85"
         },
         {
           "count": 1,
@@ -7790,7 +7492,15 @@
         },
         {
           "count": 1,
+          "fingerprint": "c50fcefb6f316ef18dfc02e18d753ec3e4a69c53481d16602600ee496dd46e50"
+        },
+        {
+          "count": 1,
           "fingerprint": "c7a830318d139fcc98035a9984ba7720d0f2141a7f1bb79d001d6a256e757b8a"
+        },
+        {
+          "count": 1,
+          "fingerprint": "c8d111a7b1485c8917a016a87927eb868a1ef8d145dccb719c1f40b4637daf1a"
         },
         {
           "count": 1,
@@ -7810,11 +7520,23 @@
         },
         {
           "count": 1,
+          "fingerprint": "d26935a08c4cb3ab01add191edf59dc7a3fa64ef986ea1553ed0e9ec535d949d"
+        },
+        {
+          "count": 1,
           "fingerprint": "d28bdb2447d200d436aaac2a251cb537af171c379bf32c8da56dcb568739a1c2"
         },
         {
           "count": 1,
+          "fingerprint": "d2b466fa523d0c5de3269516e4f3139f8eb3d34af558e2c622da4215eac35fc2"
+        },
+        {
+          "count": 1,
           "fingerprint": "d513984fe792771557ec1894a2da0fc427ee77dbab69f7f3869e9029ad0bb20f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "d8d013bef9c214ef83bcc4e2f9831a3265786ca3e90f54c5bcbc39f1419561a3"
         },
         {
           "count": 1,
@@ -7846,6 +7568,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "e4e64aae2fcf520ee2ad32ee8c6c75c754390199c3fc90d12d23e92546a528ae"
+        },
+        {
+          "count": 1,
           "fingerprint": "e676b5ad5f54db25ab9c26806658512e1e678606c55f17ca565d94a485e3cf93"
         },
         {
@@ -7862,7 +7588,23 @@
         },
         {
           "count": 1,
+          "fingerprint": "ef1864f1692c310535f3f8261cf177da281a5318a74bbca8b3f9c1afc2a135dc"
+        },
+        {
+          "count": 1,
+          "fingerprint": "ef1ba392ee559f29f321606145ab21ae31a8b7340ded042c2387c28526d129b6"
+        },
+        {
+          "count": 1,
+          "fingerprint": "f203a3c00b609f2986a77b5c68e0d7a778c075ad41ce486131a8d414f9438e40"
+        },
+        {
+          "count": 1,
           "fingerprint": "f4275fc95e801a786b8647f037a826fca00ca217a7073fc45b7b8246136e42bd"
+        },
+        {
+          "count": 1,
+          "fingerprint": "f5aa5115c4ebf2243b18d590dfb5047609411fc2de5afa7661475db6e9233e96"
         },
         {
           "count": 1,
@@ -7870,10 +7612,30 @@
         },
         {
           "count": 1,
+          "fingerprint": "f77091f4b3338445b955b86769378c386861db588aa1e51b2903aa9569f8cc9a"
+        },
+        {
+          "count": 1,
           "fingerprint": "f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a"
+        },
+        {
+          "count": 1,
+          "fingerprint": "faf25f29e01ba1ac143c7267899ee9169b26183e4c8eaa786ec3ae288b77d81b"
+        },
+        {
+          "count": 1,
+          "fingerprint": "fbf67735dc04e6e333bf25ba02696d115f8b3c25472139cab0d1d8ea82bfc4b5"
+        },
+        {
+          "count": 1,
+          "fingerprint": "fc2c8e9a7dad8754d3ec4a0676eb312786b673ecc8a1983a3b7736ab786264ac"
+        },
+        {
+          "count": 1,
+          "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 470
+      "unchangedCount": 402
     },
     "higherPriorityFindings": [
       {
@@ -8251,72 +8013,6 @@
         "suggestedAction": "Describe current behavior; keep release history in engineering or decision records."
       },
       {
-        "action": "Attach the necessary limit to the claim it qualifies in one sentence, or link Method.",
-        "audience": "public",
-        "contentKey": "AiFieldGuidePage.p",
-        "context": "route:/ai/field-guide#AiFieldGuidePage.p",
-        "copyKey": "AiFieldGuidePage.p",
-        "file": "app/ai/field-guide/page.tsx",
-        "jsonPath": null,
-        "key": "AiFieldGuidePage.p",
-        "kind": "self-narration",
-        "line": 189,
-        "match": "What this page is",
-        "matched": "What this page is",
-        "priority": "P1",
-        "reason": "A disclaimer positioned as a content section.",
-        "route": "/ai/field-guide",
-        "rule": "does-not-claim-heading",
-        "severity": "P1",
-        "source": "What this page is",
-        "strict": false,
-        "suggestedAction": "Attach the necessary limit to the claim it qualifies in one sentence, or link Method."
-      },
-      {
-        "action": "Attach the necessary limit to the claim it qualifies in one sentence, or link Method.",
-        "audience": "public",
-        "contentKey": "AiFieldGuidePage.h2",
-        "context": "route:/ai/field-guide#AiFieldGuidePage.h2",
-        "copyKey": "AiFieldGuidePage.h2",
-        "file": "app/ai/field-guide/page.tsx",
-        "jsonPath": null,
-        "key": "AiFieldGuidePage.h2",
-        "kind": "self-narration",
-        "line": 201,
-        "match": "What this module measures, and what it does not",
-        "matched": "What this module measures, and what it does not",
-        "priority": "P1",
-        "reason": "A disclaimer positioned as a content section.",
-        "route": "/ai/field-guide",
-        "rule": "does-not-claim-heading",
-        "severity": "P1",
-        "source": "What this module measures, and what it does not",
-        "strict": false,
-        "suggestedAction": "Attach the necessary limit to the claim it qualifies in one sentence, or link Method."
-      },
-      {
-        "action": "Attach the necessary limit to the claim it qualifies in one sentence, or link Method.",
-        "audience": "public",
-        "contentKey": "AiFieldGuidePage.p",
-        "context": "route:/ai/field-guide#AiFieldGuidePage.p",
-        "copyKey": "AiFieldGuidePage.p",
-        "file": "app/ai/field-guide/page.tsx",
-        "jsonPath": null,
-        "key": "AiFieldGuidePage.p",
-        "kind": "self-narration",
-        "line": 218,
-        "match": "What it does not fully cover",
-        "matched": "What it does not fully cover",
-        "priority": "P1",
-        "reason": "A disclaimer positioned as a content section.",
-        "route": "/ai/field-guide",
-        "rule": "does-not-claim-heading",
-        "severity": "P1",
-        "source": "What it does not fully cover",
-        "strict": false,
-        "suggestedAction": "Attach the necessary limit to the claim it qualifies in one sentence, or link Method."
-      },
-      {
         "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
         "audience": "public",
         "contentKey": "AiResultPage.p",
@@ -8665,28 +8361,6 @@
         "rule": "product-self-narration",
         "severity": "P1",
         "source": "The saved record does not match this result's full scoring and form tuple, so it is not shown.",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "ContributionView.p",
-        "context": "content-key:components/results/foundation-result-story.tsx#ContributionView.p",
-        "copyKey": "ContributionView.p",
-        "file": "components/results/foundation-result-story.tsx",
-        "jsonPath": null,
-        "key": "ContributionView.p",
-        "kind": "self-narration",
-        "line": 357,
-        "match": "tuple",
-        "matched": "tuple",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "Exact contribution terms are unavailable for this issued legacy payload. Reconstructing them would require an exact completed-form tuple that the link does not carry.",
         "strict": false,
         "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
       },
@@ -10385,50 +10059,6 @@
         "suggestedAction": "Delete the opener and state the claim. Administered wording changes through a copy version."
       },
       {
-        "action": "Name the consideration retained and when it affects a decision.",
-        "audience": "public",
-        "contentKey": "atlasLitePatterns.0.decisionRule",
-        "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.0.decisionRule",
-        "copyKey": "atlasLitePatterns.0.decisionRule",
-        "file": "lib/atlas-lite.ts",
-        "jsonPath": null,
-        "key": "atlasLitePatterns.0.decisionRule",
-        "kind": "template-review",
-        "line": 58,
-        "match": "Keep several explanations in play",
-        "matched": "Keep several explanations in play",
-        "priority": "P1",
-        "reason": "“Keeps … in play” is an abstract template that can conceal the actual judgment.",
-        "route": null,
-        "rule": "keeps-in-play-template",
-        "severity": "P1",
-        "source": "Keep several explanations in play until the case clearly favors one.",
-        "strict": false,
-        "suggestedAction": "Name the consideration retained and when it affects a decision."
-      },
-      {
-        "action": "Name the consideration retained and when it affects a decision.",
-        "audience": "public",
-        "contentKey": "atlasLitePatterns.0.cardSummary",
-        "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.0.cardSummary",
-        "copyKey": "atlasLitePatterns.0.cardSummary",
-        "file": "lib/atlas-lite.ts",
-        "jsonPath": null,
-        "key": "atlasLitePatterns.0.cardSummary",
-        "kind": "template-review",
-        "line": 62,
-        "match": "keeps several neighboring arguments in play",
-        "matched": "keeps several neighboring arguments in play",
-        "priority": "P1",
-        "reason": "“Keeps … in play” is an abstract template that can conceal the actual judgment.",
-        "route": null,
-        "rule": "keeps-in-play-template",
-        "severity": "P1",
-        "source": "This pattern keeps several neighboring arguments in play and looks for workable overlap before it reaches for a harder camp.",
-        "strict": false,
-        "suggestedAction": "Name the consideration retained and when it affects a decision."
-      },
-      {
         "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
         "audience": "public",
         "contentKey": "interpretDeparture.title",
@@ -11293,11 +10923,11 @@
         "priority": "P0"
       },
       {
-        "count": 138,
+        "count": 132,
         "priority": "P1"
       },
       {
-        "count": 1221,
+        "count": 1102,
         "priority": "P2"
       }
     ]

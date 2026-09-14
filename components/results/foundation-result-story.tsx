@@ -61,6 +61,14 @@ export type FoundationResultStoryProps = {
   utility: ReactNode
 }
 
+/** Contribution terms closer than this are reported as equal. */
+const CONTRIBUTION_TIE_EPSILON = 1e-6
+
+function joinLabels(labels: string[]): string {
+  if (labels.length <= 1) return labels[0] ?? ""
+  return `${labels.slice(0, -1).join(", ")} and ${labels[labels.length - 1]}`
+}
+
 export function FoundationResultStory(props: FoundationResultStoryProps) {
   const heading = buildFoundationResultHeading(props)
   const primaryCode = matrixCode(
@@ -104,8 +112,11 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       title: "What did the work",
       copy: (() => {
         // Personalized sentences depend on contributionRows (signedContribution
-        // per dimension) and on lowDifferentiation. Nothing is asserted that
-        // those fields do not contain.
+        // per dimension, primary minus runner-up) and on lowDifferentiation.
+        // Nothing is asserted that those fields do not contain. A positive
+        // term means the answers on that dimension counted for the primary
+        // reading more than for the runner-up; it does not mean the reader
+        // endorsed every belief of that tradition.
         const rows = props.contributionRows
         if (props.legacy || rows.length === 0) {
           return (
@@ -117,16 +128,28 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
             </>
           )
         }
-        const top = rows.reduce((best, row) => row.signedContribution > best.signedContribution ? row : best)
-        const low = rows.reduce((worst, row) => row.signedContribution < worst.signedContribution ? row : worst)
+        const maxContribution = Math.max(...rows.map((row) => row.signedContribution))
+        const minContribution = Math.min(...rows.map((row) => row.signedContribution))
+        const leading = rows.filter(
+          (row) => Math.abs(row.signedContribution - maxContribution) < CONTRIBUTION_TIE_EPSILON,
+        )
+        const low = rows.find((row) => row.signedContribution === minContribution) ?? rows[0]
         const opposing = low.signedContribution < 0
-          ? ` On ${dimensionLabels[low.dimension]} you leaned the other way; that is where ${props.runnerUpLabel} gets its support${props.lowDifferentiation ? ", and why it stayed close" : ""}.`
+          ? ` On ${dimensionLabels[low.dimension]} they counted the other way; that is where ${props.runnerUpLabel} gets its support${props.lowDifferentiation ? ", and why it stayed close" : ""}.`
           : ""
+        // No dimension counted for the primary reading. Since the primary
+        // reading still leads, the two rounded family scores are level and
+        // the order between them comes from the model's tie rule.
+        const lead = maxContribution <= 0
+          ? (minContribution < 0
+              ? `No dimension counted for ${props.primaryLabel} over ${props.runnerUpLabel}; after rounding, the two readings are level and the name is the tie-break.${opposing}`
+              : `Your positions sat at the midpoint on every dimension where ${props.primaryLabel} and ${props.runnerUpLabel} differ, so nothing pulled toward either. Read them as a tie.`)
+          : leading.length > 1
+            ? `Your answers on ${joinLabels(leading.map((row) => dimensionLabels[row.dimension]))} did most of the work, in equal measure: there they counted for ${props.primaryLabel} more than for ${props.runnerUpLabel}.${opposing}`
+            : `Your answers on ${dimensionLabels[leading[0].dimension]} did most of the work: there they counted for ${props.primaryLabel} more than for ${props.runnerUpLabel}.${opposing}`
         return (
           <>
-            <p>
-              {`Your answers on ${dimensionLabels[top.dimension]} did most of the work: there you sided with the ${props.primaryLabel} reading.${opposing}`}
-            </p>
+            <p>{lead}</p>
             <p>
               Each row shows how far one dimension pulled toward one reading or the other.
             </p>
@@ -152,15 +175,21 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "matrix",
       number: "03",
-      title: "Where this reading sits among the eight",
+      title: "Where this reading sits",
       copy: (
         <>
           <p>
-            {props.payoff.interpretation.summary} The highlighted readings pair that posture with {props.primaryLabel} and {props.runnerUpLabel}. Because they sit close, the rival argument is worth reading before the name settles.
+            {/* The closeness sentence depends on lowDifferentiation (the gap
+                between the two rounded family scores is under the calibrated
+                threshold). Matrix cells are a display grid, not a distance. */}
+            {`The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the readings that share it. `}
+            {props.lowDifferentiation
+              ? `In your result the two finished close, so the rival argument is worth reading before the name settles.`
+              : `Open it to compare the two, and to see which readings a different posture would have produced.`}
           </p>
         </>
       ),
-      visualLabel: "The eight Foundation readings",
+      visualLabel: "The Foundation readings",
       renderVisual: () => (
         <details className="profile-details"><summary>Open the orientation matrix</summary><ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} /></details>
       ),
@@ -203,8 +232,8 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       copy: (
         <>
           <p>
-            A reviewed case shows which consideration you put first when the
-            reading leaves two in tension. The case keeps its evidence window
+            One reviewed case where two of these considerations collide. Work
+            out which you would put first; the case keeps its evidence window
             and its rival interpretation.
           </p>
         </>
@@ -354,9 +383,8 @@ function ContributionView({
   if (unavailable) {
     return (
       <p className={styles.visualNote} data-contribution-status="legacy-unavailable">
-        Exact contribution terms are unavailable for this issued legacy
-        payload. Reconstructing them would require an exact completed-form
-        tuple that the link does not carry.
+        The dimension-by-dimension terms cannot be shown for this link. The
+        rows in chapter 01 still apply.
       </p>
     )
   }

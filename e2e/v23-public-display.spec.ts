@@ -101,13 +101,13 @@ test("Explore keeps one canonical archetype directory and explains adjacent reco
   const contextSection = page.locator('[data-explore-section="focus-context"]')
   await expect(
     contextSection.getByText(
-      "Security and Technology are Focus Area questionnaires; AI Governance is a separate domain result; Perspective Runs are role-conditioned comparisons; Current Cases are time-bounded judgment exercises.",
+      "Security, Technology, and AI Governance are their own questionnaires. Perspective Runs put you in another actor's seat. Cases ask for one judgment on a live question.",
       { exact: true },
     ),
   ).toBeVisible()
   await expect(
     contextSection.getByText(
-      "These records sit beside the Foundation. They do not rescore it.",
+      "None of these changes your Foundation result.",
       { exact: true },
     ),
   ).toBeVisible()

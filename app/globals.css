@@ -7845,6 +7845,14 @@ html:lang(zh-Hans) .quiz-shell-label {
   color: var(--muted);
 }
 
+/* Below 720px the parts grid stacks; each cell carries its own kicker, so
+   the column header row only repeats them. */
+@media (max-width: 719px) {
+  .ai-fg-parts__row--head {
+    display: none;
+  }
+}
+
 @media (min-width: 720px) {
   .ai-fg-axis {
     grid-template-columns: 36px minmax(0, 1fr) minmax(220px, 280px);

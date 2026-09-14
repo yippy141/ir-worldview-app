@@ -46,7 +46,7 @@ const englishRootCopy: RootCopy = {
     atlas: {
       label: "Atlas",
       explanation:
-        "Four traditions, eight Foundation readings, four thinkers, and dated public positions: reference points to compare your result against.",
+        "The traditions, readings, thinkers, and decision patterns to compare your result against.",
     },
     "perspective-runs": {
       label: "Perspective Runs",

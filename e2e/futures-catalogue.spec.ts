@@ -154,7 +154,7 @@ test("keyboard selection, mandatory review, reduced motion and returning routes"
   await page.getByRole("link", { name: "Answer the questions", exact: true }).click()
   await expect(page.getByRole("button", { name: "Begin the twelve questions" })).toBeVisible()
   await page.goto("/ai")
-  await expect(page.getByRole("link", { name: /Futures catalogue/ })).toHaveAttribute("href", "/futures")
+  await expect(page.getByRole("link", { name: /^Futures Nineteen possible worlds/ })).toHaveAttribute("href", "/futures")
   await page.goto("/ai/field-guide#futures")
   await expect(page.getByRole("link", { name: "Browse the whole Futures catalogue", exact: true })).toHaveAttribute("href", "/futures")
 })

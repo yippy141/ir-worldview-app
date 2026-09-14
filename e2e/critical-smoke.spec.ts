@@ -250,7 +250,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   )
   await expect(
     nearestComparison.getByRole("heading", {
-      name: /^Why .+ rather than .+$/,
+      name: /^Why .+, and not .+$/,
     }),
   ).toBeVisible()
   await expect(
@@ -390,7 +390,7 @@ test("historical analogue pages show both the comparison and its limit", async (
   await expect(
     page.getByRole("heading", { name: "Where the comparison breaks" }),
   ).toBeVisible()
-  await expect(page.getByText("This is a comparison, not an identity")).toBeVisible()
+  await expect(page.getByText("One documented argument or practice that shares part of this reading")).toBeVisible()
 
   // P+ has no name collision to footnote; R+ does.
   await expect(

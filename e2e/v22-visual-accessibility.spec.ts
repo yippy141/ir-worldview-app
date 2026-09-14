@@ -346,7 +346,7 @@ test("a Profile preserves its Foundation payoff and three domain records after a
       })
       await expect(record).toBeVisible()
       await expect(
-        record.getByText("Separate domain record", { exact: true }),
+        record.getByText("Saved result", { exact: true }),
       ).toBeVisible()
     }
   }
@@ -492,7 +492,7 @@ test("module results retain an optional Profile route after evidence; AI retains
       if (await page.locator('[data-ai-lead="saved-nonleading"]').count()) {
         // Preserved legacy names need a nearby qualification. Its extra text
         // may move this action below the first viewport; it remains reachable.
-        await expect(page.getByText(/These rounded coordinates do not reproduce it/)).toBeVisible()
+        await expect(page.getByText(/is no longer the top-scoring approach/)).toBeVisible()
         await action.scrollIntoViewIfNeeded()
         await expect(action).toBeInViewport()
         continue
