@@ -468,7 +468,7 @@ test("reduced motion keeps every chapter and its visible state available", async
 test("Profile distinguishes an unsaved domain set from a saved domain record", async ({ page }) => {
   await setProfile(page, profileStoreV5)
   await page.goto("/profile")
-  await expect(page.getByRole("heading", { name: "Separate domain records" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Your other results" })).toBeVisible()
   await expect(page.locator(".profile-domain-record__result")).toHaveText([
     "Not saved",
     "Not saved",

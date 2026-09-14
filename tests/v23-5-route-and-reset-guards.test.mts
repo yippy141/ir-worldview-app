@@ -63,7 +63,8 @@ test("World Stage opens its geographic scene without duplicating the root projec
 })
 
 test("development-only routes fail closed and remain out of search results", () => {
-  for (const route of ["app/learn/page.tsx", "app/world-stage-prototype/page.tsx"]) {
+  // app/learn was an unused starter route and was removed on 2026-09-13.
+  for (const route of ["app/world-stage-prototype/page.tsx"]) {
     const routeSource = source(route)
     assert.match(routeSource, /process\.env\.NODE_ENV === "production"/)
     assert.match(routeSource, /notFound\(\)/)

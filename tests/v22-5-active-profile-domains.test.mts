@@ -9,10 +9,10 @@ function readSource(relativePath: string) {
 test("active Profile renders independent domain records without frozen movement arithmetic", () => {
   const source = readSource("components/profile/profile-report.tsx")
 
-  assert.match(source, /Foundation and issue records/)
+  assert.match(source, /None of\s+them changes your Foundation result/)
   assert.match(
     source,
-    /Completed Focus Areas and AI results appear beside[\s\S]*none changes the Foundation result\./,
+    /Security, Technology, and AI Governance results appear here[\s\S]*changes your Foundation result\./,
   )
   assert.match(source, /\(\["security", "technology"\] as const\)\.map/)
   assert.match(

@@ -38,13 +38,13 @@ export function ModulesFoundationState({
       <div className="row gap-sm wrap">
         {hasFoundation ? (
           <>
-            <Link href="#available-modules" className="cta-primary">Choose a focus area</Link>
+            <Link href="#available-modules" className="cta-primary">Choose a questionnaire</Link>
             <Link href="/profile" className="cta-secondary">View Profile</Link>
           </>
         ) : (
           <>
-            <Link href="/quiz" className="cta-primary">Take the Foundation first</Link>
-            <Link href="#available-modules" className="cta-secondary">Browse Focus Areas</Link>
+            <Link href="/quiz" className="cta-primary">Start with the Foundation</Link>
+            <Link href="#available-modules" className="cta-secondary">See both questionnaires</Link>
           </>
         )}
       </div>
@@ -55,14 +55,14 @@ export function ModulesFoundationState({
     <div className="lobby-note-band stack-xs">
       <p className="lobby-note-title">Your Foundation is available</p>
       <p className="muted lobby-side-text">
-        A completed Focus Area will appear beside it in your Profile.
+        A completed Security or Technology result will appear beside it in your Profile.
       </p>
     </div>
   ) : (
     <div className="lobby-note-band stack-xs">
-      <p className="lobby-note-title">Foundation is the clearest starting point</p>
+      <p className="lobby-note-title">The Foundation is the usual starting point</p>
       <p className="muted lobby-side-text">
-        You can still browse or complete a Focus Area without one.
+        You can take Security or Technology without one.
       </p>
     </div>
   )

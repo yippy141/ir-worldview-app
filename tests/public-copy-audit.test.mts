@@ -34,7 +34,7 @@ function runAudit(): AuditReport {
   const result = spawnSync(
     process.execPath,
     [auditScript, "--format=json"],
-    { cwd: projectRoot, encoding: "utf8" },
+    { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
   )
 
   assert.equal(result.status, 0, result.stderr)
@@ -77,7 +77,7 @@ test("operational and frozen compatibility findings cannot fail strict mode", ()
   const result = spawnSync(
     process.execPath,
     [auditScript, "--strict", "--format=json"],
-    { cwd: projectRoot, encoding: "utf8" },
+    { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
   )
 
   assert.equal(result.status, 0, result.stderr)
@@ -271,7 +271,7 @@ test("public-copy audit output is byte-stable and code-unit sorted", () => {
   const run = () => spawnSync(
     process.execPath,
     [auditScript, "--format=json"],
-    { cwd: projectRoot, encoding: "utf8" },
+    { cwd: projectRoot, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
   )
   const first = run()
   const second = run()

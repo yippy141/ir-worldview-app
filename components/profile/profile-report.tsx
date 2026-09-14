@@ -66,7 +66,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
     <article className="result-article result-canvas">
       {foundationArchetype && foundationIdentity && displayFoundation ? (
         <ResultCardHero
-          eyebrow={mode === "local" ? "Saved Foundation read" : "Shared Foundation read"}
+          eyebrow={mode === "local" ? "Your Foundation result" : "Shared Foundation result"}
           label={foundationArchetype.name}
           accent={FAMILY_ACCENT[foundationIdentity.result.familyKey]}
           modifiers={buildProfileModifiers(
@@ -100,18 +100,18 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
         <section className="profile-hero profile-hero--anchored stack-md">
           <div className="profile-hero-head stack-sm">
             <p className="eyebrow">
-              {mode === "local" ? "Saved Foundation read" : "Shared Foundation read"}
+              {mode === "local" ? "Your Foundation result" : "Shared Foundation result"}
             </p>
             <h1>
               {displayFoundation
                 ? "Foundation result unavailable"
-                : "No Foundation read is saved"}
+                : "No Foundation result is saved"}
             </h1>
           </div>
           <p className="profile-hero-summary">
             {displayFoundation
               ? "The saved Foundation payload cannot be resolved, so this Profile does not infer a replacement reading. Other saved records remain available below."
-              : "This device has no saved Foundation result. Separate domain records and Perspective Runs remain available below when they exist."}
+              : "This device has no saved Foundation result. Your other results and Perspective Runs appear below when they exist."}
           </p>
           <div className="row gap-sm wrap">
             {mode === "local" ? (
@@ -195,13 +195,13 @@ function DomainRecordsSection({
   return (
     <section className="result-section stack-md" aria-labelledby="profile-domain-records">
       <div className="stack-xs">
-        <p className="eyebrow">Domain records</p>
+        <p className="eyebrow">Other results</p>
         <h2 id="profile-domain-records" className="profile-section-heading">
-          Separate domain records
+          Your other results
         </h2>
         <p className="muted profile-domain-intro">
-          Foundation and issue records stay separate. Completed Focus Areas and AI results appear beside
-          the saved Foundation read; none changes the Foundation result.
+          Security, Technology, and AI Governance results appear here once you complete them. None of
+          them changes your Foundation result.
         </p>
       </div>
 
@@ -219,7 +219,7 @@ function DomainRecordsSection({
             <article key={slug} className="profile-domain-record">
               <div className="profile-domain-record__meta">
                 <span>{title}</span>
-                <span>Separate domain record</span>
+                <span>Saved result</span>
               </div>
               <div className="stack-xs">
                 <h3>{title} record</h3>
@@ -234,7 +234,7 @@ function DomainRecordsSection({
                   {snapshot
                     ? moduleReading?.summary ?? snapshot.summary
                     : mode === "local"
-                      ? `Complete the ${title} inventory to add a separate result here.`
+                      ? `Complete ${title} to add its result here.`
                       : `This shared Profile does not include a ${title} result.`}
                 </p>
               </div>
@@ -253,7 +253,7 @@ function DomainRecordsSection({
         <article className="profile-domain-record">
           <div className="profile-domain-record__meta">
             <span>AI Governance</span>
-            <span>Separate domain record</span>
+            <span>Saved result</span>
           </div>
           <div className="stack-xs">
             <h3>AI Governance record</h3>
@@ -268,7 +268,7 @@ function DomainRecordsSection({
               {aiSnapshot
                 ? aiInterpretation?.summary ?? aiSnapshot.summary
                 : mode === "local"
-                  ? "Complete the AI Governance inventory to add a separate governance result here."
+                  ? "Complete AI Governance to add its result here."
                   : "This shared Profile does not include an AI Governance result."}
             </p>
           </div>
@@ -296,7 +296,7 @@ function ReviewedRelationsSection() {
       <div className="callout stack-xs" role="note">
         <p><strong>No reviewed cross-domain relation is available.</strong></p>
         <p>
-          The Profile keeps each saved record separate and does not infer a relationship from
+          Each result is shown on its own. The Profile does not infer a relationship from
           similar labels or numbers.
         </p>
       </div>
@@ -456,7 +456,7 @@ function buildProfileNextSteps({
   if (mode === "shared") {
     return [
       {
-        title: "Create your own Foundation read",
+        title: "Take the Foundation yourself",
         description: "Answer the fourteen-question Foundation inventory.",
         href: "/quiz",
       },
@@ -473,7 +473,7 @@ function buildProfileNextSteps({
   if (!foundationPayload) {
     steps.push({
       title: "Start the Foundation",
-      description: "Add the broad baseline while keeping existing records separate.",
+      description: "Add the fourteen-question Foundation result.",
       href: "/quiz",
     })
   } else {
@@ -487,14 +487,14 @@ function buildProfileNextSteps({
     if (!technologySnapshot) {
       steps.push({
         title: "Add Technology",
-        description: "Create a separate technology and power record.",
+        description: "Add a Technology result.",
         href: `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}`,
       })
     }
     if (!aiSnapshot) {
       steps.push({
         title: "Add AI Governance",
-        description: "Create a separate record for AI governance judgments.",
+        description: "Add an AI Governance result.",
         href: "/ai",
       })
     }

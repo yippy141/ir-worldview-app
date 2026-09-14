@@ -131,7 +131,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
     expect(body).not.toContain("Chapter 01")
     expect(body).not.toContain("Registered reading")
     expect(body).not.toContain("Exact local evidence is unavailable")
-    expect(body).not.toContain("Domain inventories remain separate records")
+    expect(body).not.toContain("Your other results on this device")
   })
 
   test("clear pure and close blend results keep their distinct model status", async ({ page }) => {

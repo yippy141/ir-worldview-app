@@ -81,11 +81,11 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "nearest",
       number: "01",
-      title: `Why ${props.primaryLabel} rather than ${props.runnerUpLabel}`,
+      title: `Why ${props.primaryLabel}, and not ${props.runnerUpLabel}`,
       copy: (
         <>
           <p>
-            {`${props.payoff.mainTension.rivalArgument} The rows below locate your recorded positions alongside the two readings' authored emphases.`}
+            {`${props.payoff.mainTension.rivalArgument} The rows below put your positions beside what each reading expects.`}
           </p>
         </>
       ),
@@ -101,23 +101,44 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "contribution",
       number: "02",
-      title: "The exact terms in the family comparison",
-      copy: (
-        <>
-          <p>
-            {props.legacy ? "The exact terms cannot be recovered from this legacy link. " : `The largest positive term comes from ${dimensionLabels[props.contributionRows.reduce((best, row) => row.signedContribution > best.signedContribution ? row : best).dimension]}. This is where the recorded pattern most supports ${props.primaryLabel} relative to ${props.runnerUpLabel}. `}
-            Each row is one term in the live scorer&apos;s {props.primaryLabel}
-            minus {props.runnerUpLabel} comparison. A positive term adds to
-            the first reading&apos;s score relative to the second. A negative
-            term subtracts from it.
-          </p>
-          <p>
-            This calculation uses the calibration registered for the exact
-            completed form. It does not treat distance from the raw scale
-            midpoint as classification evidence.
-          </p>
-        </>
-      ),
+      title: "What did the work",
+      copy: (() => {
+        // Personalized sentences depend on contributionRows (signedContribution
+        // per dimension) and on lowDifferentiation. Nothing is asserted that
+        // those fields do not contain.
+        const rows = props.contributionRows
+        if (props.legacy || rows.length === 0) {
+          return (
+            <>
+              <p>
+                This link predates the dimension-by-dimension comparison, so those
+                terms cannot be shown. The rows in chapter 01 still apply.
+              </p>
+            </>
+          )
+        }
+        const top = rows.reduce((best, row) => row.signedContribution > best.signedContribution ? row : best)
+        const low = rows.reduce((worst, row) => row.signedContribution < worst.signedContribution ? row : worst)
+        const opposing = low.signedContribution < 0
+          ? ` On ${dimensionLabels[low.dimension]} you leaned the other way; that is where ${props.runnerUpLabel} gets its support${props.lowDifferentiation ? ", and why it stayed close" : ""}.`
+          : ""
+        return (
+          <>
+            <p>
+              {`Your answers on ${dimensionLabels[top.dimension]} did most of the work: there you sided with the ${props.primaryLabel} reading.${opposing}`}
+            </p>
+            <p>
+              Each row shows how far one dimension pulled toward one reading or the other.
+            </p>
+            <details>
+              <summary>How this is calculated</summary>
+              <p>
+                Each row is one term in the comparison of {props.primaryLabel} with {props.runnerUpLabel}: your position on that dimension, weighted by how differently the two traditions treat it. <Link href="/method">Method</Link> has the full calculation.
+              </p>
+            </details>
+          </>
+        )
+      })(),
       visualLabel: `${props.primaryLabel} minus ${props.runnerUpLabel}`,
       renderVisual: () => (
         <ContributionView
@@ -131,19 +152,15 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "matrix",
       number: "03",
-      title: "Where this reading sits in the registered matrix",
+      title: "Where this reading sits among the eight",
       copy: (
         <>
           <p>
-            {props.payoff.interpretation.summary} The highlighted readings combine that strategic posture with {props.primaryLabel} and {props.runnerUpLabel} as nearby explanations. Their proximity is a reason to examine the rival argument, not to treat the name as a fixed identity.
-          </p>
-          <p>
-            The matrix is a reference system. It does not rank people or
-            assign a population category.
+            {props.payoff.interpretation.summary} The highlighted readings pair that posture with {props.primaryLabel} and {props.runnerUpLabel}. Because they sit close, the rival argument is worth reading before the name settles.
           </p>
         </>
       ),
-      visualLabel: "Eight registered Foundation readings",
+      visualLabel: "The eight Foundation readings",
       renderVisual: () => (
         <details className="profile-details"><summary>Open the orientation matrix</summary><ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} /></details>
       ),
@@ -151,43 +168,32 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "evidence",
       number: "04",
-      title: "The submitted choices that can be shown here",
+      title: "Choices behind your result",
       copy: (
         <>
           <p>
-            A result generated in this browser can keep up to three derived
-            evidence records from the exact submitted answer set. The result
-            URL does not contain those records or the underlying answers.
-          </p>
-          <p>
-            Shared, legacy, deleted, and tuple-mismatched records remain
-            unavailable. The page does not reconstruct evidence from the
-            dimension scores alone.
+            Up to three of your own answers, each beside the alternative that
+            would have moved the result. They come from the answers you
+            submitted in this browser; a shared link cannot show them.
           </p>
         </>
       ),
-      visualLabel: "Local decisive-choice evidence",
+      visualLabel: "Your answers and the alternatives",
       renderVisual: () => <FoundationLocalEvidence payload={props.payload} />,
     },
     {
       id: "domains",
       number: "05",
-      title: "Domain inventories remain separate records",
+      title: "Your other results on this device",
       copy: (
         <>
           <p>
-            Security, Technology, and AI Governance ask narrower questions
-            on their own scales. A similar label or number does not create a
-            reviewed relationship with this Foundation result.
-          </p>
-          <p>
-            The cards report only what is saved on this device. Profile keeps
-            completed domain inventories beside the Foundation without
-            averaging them into a master score.
+            Security, Technology, and AI Governance each give their own
+            result. None of them changes this one.
           </p>
         </>
       ),
-      visualLabel: "Records saved on this device",
+      visualLabel: "Saved on this device",
       renderVisual: () => <FoundationDomainRecords />,
     },
     {
@@ -197,13 +203,9 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       copy: (
         <>
           <p>
-            A case can reveal which consideration takes priority when the
-            baseline leaves a tension unresolved. The evidence window and
-            rival interpretation remain part of the case record.
-          </p>
-          <p>
-            This is a pressure test for the reading. The case does not prove
-            that the registered name is a lasting identity.
+            A reviewed case shows which consideration you put first when the
+            reading leaves two in tension. The case keeps its evidence window
+            and its rival interpretation.
           </p>
         </>
       ),
@@ -219,19 +221,14 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "limits",
       number: "07",
-      title: "The limits stay attached to the result",
+      title: "What this model can and cannot say",
       copy: (
         <>
           <p>
-            This inventory compares answers with four authored tradition
-            profiles. It makes no reliability, validity, or population claim,
-            and it does not establish a durable personal trait.
-          </p>
-          <p>
-            The public method describes the Foundation robustness diagnostic,
-            including its constructed inputs and greater sensitivity near
-            family and blend boundaries. The repository carries the exact
-            methods and diagnostic data.
+            Your answers were compared with four authored tradition profiles.
+            It is a reading of those answers, not a measurement of proven
+            accuracy, and not a personal trait. Readings near a boundary between traditions
+            move more easily than others.
           </p>
           <p>
             <Link href="/method">Read the Foundation method and limits</Link>
@@ -280,7 +277,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>Continue from this result</p>
-          <h2>Open the next record or read the comparison more closely.</h2>
+          <h2>Read the rival argument, or take a question to a harder case.</h2>
         </div>
         <div className={`${styles.actions} print-hidden`}>
           <Link href={props.nextAction.href} className="cta-primary">
@@ -294,7 +291,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
             Open Perspective Runs
           </Link>
           <Link href="/modules" className="cta-secondary">
-            Open domain inventories
+            Security and Technology
           </Link>
         </div>
         <p className={styles.visualNote}>{props.nextAction.reason}</p>

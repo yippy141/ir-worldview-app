@@ -255,7 +255,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   ).toBeVisible()
   await expect(
     resultStory.getByRole("heading", {
-      name: "The limits stay attached to the result",
+      name: "What this model can and cannot say",
     }),
   ).toBeVisible()
   const resultActions = resultStory.locator("footer")
@@ -278,14 +278,14 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await page.getByRole("link", { name: "View Profile" }).click()
   await expect(page).toHaveURL(/\/profile$/)
   const savedFoundation = page.getByRole("region", {
-    name: /^Saved Foundation read: /,
+    name: /^Your Foundation result: /,
   })
   await expect(savedFoundation).toBeVisible()
   await expect(
     savedFoundation.getByRole("heading", { level: 1 }),
   ).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "Separate domain records" }),
+    page.getByRole("heading", { name: "Your other results" }),
   ).toBeVisible()
   await expect(
     page.getByRole("heading", { name: "Try another vantage point" }),
@@ -340,7 +340,7 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await expect(page.getByText("Stable thread", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
     await expect(
-      page.getByRole("heading", { name: "Separate domain records" }),
+      page.getByRole("heading", { name: "Your other results" }),
     ).toBeVisible()
     await expect(
       page.getByRole("heading", { name: "Complete the current Foundation first" }),

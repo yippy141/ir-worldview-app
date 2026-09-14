@@ -95,7 +95,7 @@ test.describe("V23.6 Simplified Chinese shared Profile", () => {
     const body = await page.locator("main").innerText()
     expect(body).not.toContain("无数值桥接")
     expect(body).not.toContain("无总分")
-    expect(body).not.toContain("Separate domain records")
+    expect(body).not.toContain("Your other results")
     const width = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
       clientWidth: document.documentElement.clientWidth,

@@ -301,7 +301,7 @@ test("a Profile preserves its Foundation payoff and three domain records after a
     const foundationPayoff = page.locator("section.result-card-hero")
     await expect(foundationPayoff).toHaveAttribute(
       "aria-label",
-      "Saved Foundation read: Concert",
+      "Your Foundation result: Concert",
     )
     await expect(foundationPayoff.getByRole("heading", {
       level: 1,

@@ -238,3 +238,57 @@ Every visual PR attaches:
 - print output when a printable route changed.
 
 A screenshot is review evidence. It becomes regression coverage only when a deterministic assertion runs in CI.
+
+## Page compositions and motion
+
+Added 13 September 2026 from the whole-product review. Binding for Sprint A and B work. Each page type has its own shape; do not reuse the kicker, heading, muted lead, three-column list, resource-list pattern across pages.
+
+### Hub (front door of a questionnaire)
+
+1. The question the questionnaire asks, as the heading.
+2. One line: how many questions, how long.
+3. One paragraph: what the reader will do and what they get.
+4. One primary action ("Start"). A secondary mode in the same row, not a second block of cards.
+5. One labelled example result, quoted, with its rival named.
+6. Secondary destinations as a short list with a reason each. No "What it covers / How long / What it does not claim" block anywhere.
+
+### Result
+
+1. Mark, name, one paragraph that says something about this person's answers.
+2. Why this reading and not the nearest rival, with the comparison figure.
+3. What did the work: the dimension that carried the result, and the one that pulled against it when the data shows one.
+4. The reader's own choices beside the alternatives (kept from `FoundationLocalEvidence`; framed in one sentence).
+5. A case that tests the reading.
+6. Limits in one paragraph with a link to Method.
+Navigation and share controls sit in the same place on every result. Visual identity per family lives in the mark, the stroke order of the reveal, and one faint background motif in the hero only: Foundation the orientation matrix, AI a single axis ring, Security a chevron field, Technology a lattice.
+
+### Reveal on fresh completion
+
+- The page arrives complete. Name and first paragraph readable at t=0. Nothing waits at opacity 0.
+- 0.2 s to 1.6 s: the mark draws itself. Stroked paths use `stroke-dasharray`/`stroke-dashoffset` in an authored order with a 120 ms stagger; filled shapes reveal through a growing `clipPath` circle. Split compound paths into drawable segments in the mark definition.
+- 1.6 s to 2.0 s: the brass rule under the name extends from zero; the reading code's letter-spacing settles from wide to normal.
+- End state is pixel-identical to a direct load. Reduced motion, no JS, print, shared links, reloads, browser Back: final state immediately. A small "Replay" control in the hero, hidden in print.
+- Same duration and care for every result. Foundation blends draw both marks in the existing blend composition.
+- Trigger: the existing one-use handoffs (`lib/results/fresh-foundation-result.ts`, `lib/results/ai-completion-evidence.ts`). Extend them to Security and Technology; do not add a second completion system.
+
+### Home globe
+
+- Canvas rendering with `d3-geo` (approved; note it depends on `d3-array`) over the checked-in Natural Earth 1:110m geometry, with the existing static SVG as the no-JS fallback. Report the bundle delta.
+- One revolution in 120 to 150 s; scene dwell 10 s; 1 s crossfade; the scene clock aligned so the scene's region faces the viewer; the caption changes 400 ms before the fills.
+- Every scene is a question, printed as the caption, with an as-of date and a source control. Groups are literal ("Abstained", "Ratified", "Member"), never a mood ("wary", "hedging").
+- Palette reuses World Stage roles: focal gold, first group blue, second group amber, comparison red only where the scene names a comparison. Muted land means outside this scene's question.
+- No rings, orbits, or camera moves on hover or focus. Pause/Play beside the globe stops both rotation and scene changes. Reduced motion shows one static scene with next/previous. Offscreen stops the animation frame.
+- Small states absent from 1:110m geometry get a deliberate treatment (a marker at their centroid) so a scene about the Pacific or the Caribbean is not empty.
+
+### AI marks (visual version bump; keys and scoring unchanged)
+
+| Mark | Concept | Direction |
+| --- | --- | --- |
+| Precautionary Steward | A threshold | A gate or bar across a path, one line held back |
+| Strategic Competitor | Two opposed vectors | Keep the opposing arrows, simplify |
+| Coordination Architect | Reciprocal structure | Two interlocking brackets, or a lattice that stands only because both halves hold |
+| Democratic Guardrailist | Accountable boundary | A bounded field with an opening |
+| State Capacity Builder | Institution | Keep the columns |
+| Open Ecosystem Builder | Access | Radiating lines from an open centre, no square |
+
+Each silhouette must survive 24 px and monochrome. Security and Technology get two domain marks in the same family.

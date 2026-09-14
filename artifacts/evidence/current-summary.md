@@ -49,7 +49,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | calibration | lib/scoring/v2-calibration.ts | 0f4d08855f3c17c6657b8b8c05d6e32b01aa199691875c9a4e97d422d84a5aed |
 | scoring-runtime | lib/scoring/v2.ts | 295d8be4e87aeba4cb574fe273efbaea83aa70a735d138b1fb8a083fba1c3d0c |
 | scoring-runtime | lib/scoring/versions.ts | 87fc9bd229c254f66632939821bc63dc0acb53a02d094f970221d5ae0afa671c |
-| copy-audit | scripts/audit-public-copy.mjs | b294c9b368a09218284ed10323864fe166ee91df1238c37c90eb72757003687c |
+| copy-audit | scripts/audit-public-copy.mjs | c8d609eaa048ec177728010275be4f90a9e5c5cbf7c50812c9944ab0a3ffdef3 |
 | calibration | scripts/calibrate-modules-bootstrap.mjs | d7094911334cdf2c65584b93f6a397b3c584b596f5b86058e124854a030d09da |
 | calibration | scripts/calibrate-modules.mts | b34af8e105f72017c7a35310c3b0b45781b8a1e261f679e9c41d276a815aa640 |
 | calibration | scripts/calibrate-targeted-forms.mts | 632442daa133683d99c87f8b5c3fc8ed6c595979970f07bd384b5d3f5ea13794 |
@@ -73,7 +73,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | compatibility-test | tests/instrument-measurement-gates.test.mts | 1ff5804dfb26bf455a67c61a1866cd939a19ee59ab1334e52b2b57d63078035d |
 | compatibility-test | tests/instrument-version-compatibility.test.mts | a43809045e6cc188cc43f76417b87f96c9ef9c89b071053412dcc91dbc89603c |
 | compatibility-test | tests/option-order.test.mts | 456a3abb313f146c7b2e76e6ce88ba495263cbaf33eeca28e899b0c104d399db |
-| compatibility-test | tests/public-copy-audit.test.mts | ea6e3b1f912ec06d23ce19d2508283e9585b0d4f0d718ca292a4ec9137d0ff3e |
+| compatibility-test | tests/public-copy-audit.test.mts | d56e42a1e56e151e871f3dd8b51872233f6bb599e322b91ec3c18b5d06a723dc |
 | compatibility-test | tests/security-v4.test.mts | 4a7bfe02b9831a6153c89c0840dabe2a06c10724a3737b2d0e62544ff25ce50a |
 | compatibility-test | tests/v21-module-copy.test.mts | 378c1fffaa13b567f8ede3aab8044cc15e4e7f9e25cdc78a1523b8cbfdf746a4 |
 
@@ -987,15 +987,15 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 645. Unchanged and suppressed: 480. New: 165. Resolved: 78.
+P2 advisory baseline: 558. Current: 1221. Unchanged and suppressed: 470. New: 751. Resolved: 88.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
 | Priority | Count |
 | --- | --- |
 | P0 | 17 |
-| P1 | 30 |
-| P2 | 645 |
+| P1 | 138 |
+| P2 | 1221 |
 
 ### P0 and P1 findings
 
@@ -1018,14 +1018,109 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:473 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:497 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:578 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
+| P1 | does-not-claim-heading | public | app/ai/field-guide/page.tsx:189 (route:/ai/field-guide#AiFieldGuidePage.p) | What this page is |
+| P1 | does-not-claim-heading | public | app/ai/field-guide/page.tsx:201 (route:/ai/field-guide#AiFieldGuidePage.h2) | What this module measures, and what it does not |
+| P1 | does-not-claim-heading | public | app/ai/field-guide/page.tsx:218 (route:/ai/field-guide#AiFieldGuidePage.p) | What it does not fully cover |
+| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:299 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
+| P1 | product-self-narration | public | app/method/page.tsx:74 (route:/method#resultLayers.3.body) | separate records |
+| P1 | product-self-narration | public | app/method/page.tsx:88 (route:/method#authoredChoices.2.heading) | separate records |
+| P1 | product-self-narration | public | app/method/page.tsx:108 (route:/method#limitations.3.body) | kept separate |
+| P1 | product-self-narration | public | app/method/page.tsx:244 (route:/method#MethodPage.h3) | stay separate |
+| P1 | product-self-narration | public | app/method/page.tsx:416 (route:/method#MethodPage.p) | the live scorer |
+| P1 | product-self-narration | public | app/privacy/page.tsx:93 (route:/privacy#PrivacyPage.p) | saved layers |
+| P1 | product-self-narration | public | components/ai/ai-project-bridge.tsx:74 (content-key:components/ai/ai-project-bridge.tsx#AiProjectBridge.h2) | remain separate |
+| P1 | product-self-narration | public | components/ai/ai-project-bridge.tsx:120 (content-key:components/ai/ai-project-bridge.tsx#AiProjectBridge.p) | remain separate |
+| P1 | product-self-narration | public | components/field/field-explorer.tsx:856 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
+| P1 | product-self-narration | public | components/field/field-explorer.tsx:963 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
+| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:528 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
+| P1 | product-self-narration | public | components/modules/module-result.tsx:264 (content-key:components/modules/module-result.tsx#ModuleResultView.p) | registered form |
+| P1 | product-self-narration | public | components/profile/current-judgments-section.tsx:43 (content-key:components/profile/current-judgments-section.tsx#CurrentJudgmentsSection.p) | stay separate |
+| P1 | product-self-narration | public | components/profile/profile-dashboard.tsx:65 (content-key:components/profile/profile-dashboard.tsx#ProfileDashboard.p) | domain inventory |
+| P1 | product-self-narration | public | components/results/foundation-local-evidence.tsx:164 (content-key:components/results/foundation-local-evidence.tsx#enCopy.unavailable.tuple-mismatch) | tuple |
+| P1 | product-self-narration | public | components/results/foundation-result-story.tsx:357 (content-key:components/results/foundation-result-story.tsx#ContributionView.p) | tuple |
+| P1 | ranking-opener-in-option | public | content/current-cases/europe-missile-defence-coalition-ukraine.json:137 (content-key:content/current-cases/europe-missile-defence-coalition-ukraine.json#worldviewReadings.2.noticesFirst) | The decisive test is |
+| P1 | ranking-opener-in-option | public | content/current-cases/south-china-sea-award-at-ten.json:127 (content-key:content/current-cases/south-china-sea-award-at-ten.json#worldviewReadings.1.noticesFirst) | The central contest is |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v2.json:282 (frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItAsks) | — |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v2.json:661 (frozen-compatibility:content/instrument/ai-governance.v2.json#items.31.helpText) | — |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v3.json:778 (frozen-compatibility:content/instrument/ai-governance.v3.json#items.31.helpText) | — |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:375 (content-key:content/instrument/foundation.v2.json#items.16.options.2.label) | The real weakness is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:582 (content-key:content/instrument/foundation.v2.json#items.27.options.1.label) | The first danger is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:591 (content-key:content/instrument/foundation.v2.json#items.27.options.2.label) | The real question is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:669 (content-key:content/instrument/foundation.v2.json#items.29.options.2.label) | The decisive issue is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:679 (content-key:content/instrument/foundation.v2.json#items.29.options.3.label) | The first test is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:715 (content-key:content/instrument/foundation.v2.json#items.30.options.1.label) | The deeper contest is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:801 (content-key:content/instrument/foundation.v2.json#items.31.options.3.label) | The first question is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1157 (content-key:content/instrument/foundation.v2.json#items.52.options.2.label) | The real story is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1220 (content-key:content/instrument/foundation.v2.json#items.53.options.3.label) | The critical question is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1311 (content-key:content/instrument/foundation.v2.json#items.55.options.1.label) | The real question is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1331 (content-key:content/instrument/foundation.v2.json#items.55.options.3.label) | The first correction is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1375 (content-key:content/instrument/foundation.v2.json#items.56.options.2.label) | The best clue is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1437 (content-key:content/instrument/foundation.v2.json#items.57.options.1.label) | The deeper issue is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1447 (content-key:content/instrument/foundation.v2.json#items.57.options.2.label) | The better case is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1547 (content-key:content/instrument/foundation.v2.json#items.59.options.1.label) | The key issue is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1602 (content-key:content/instrument/foundation.v2.json#items.60.options.1.label) | The bigger danger is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1670 (content-key:content/instrument/foundation.v2.json#items.61.options.1.label) | The central issue is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1715 (content-key:content/instrument/foundation.v2.json#items.62.options.0.label) | The main problem is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1790 (content-key:content/instrument/foundation.v2.json#items.63.options.2.label) | The stronger answer is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1855 (content-key:content/instrument/foundation.v2.json#items.64.options.3.label) | The decisive test is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:1900 (content-key:content/instrument/foundation.v2.json#items.65.options.2.label) | The sharper problem is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:2010 (content-key:content/instrument/foundation.v2.json#items.67.options.2.label) | The strongest answer is |
+| P1 | ranking-opener-in-option | public | content/instrument/foundation.v2.json:2020 (content-key:content/instrument/foundation.v2.json#items.67.options.3.label) | The real issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:48 (frozen-compatibility:content/instrument/security.v2.json#items.0.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:230 (frozen-compatibility:content/instrument/security.v2.json#items.2.options.1.label) | The stronger path is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:241 (frozen-compatibility:content/instrument/security.v2.json#items.2.options.2.label) | The deeper danger is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:708 (frozen-compatibility:content/instrument/security.v2.json#items.8.options.2.label) | The better answer is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:770 (frozen-compatibility:content/instrument/security.v2.json#items.9.options.0.label) | The real issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:781 (frozen-compatibility:content/instrument/security.v2.json#items.9.options.1.label) | The key problem is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:792 (frozen-compatibility:content/instrument/security.v2.json#items.9.options.2.label) | The central question is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:922 (frozen-compatibility:content/instrument/security.v2.json#items.11.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:998 (frozen-compatibility:content/instrument/security.v2.json#items.12.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v2.json:1075 (frozen-compatibility:content/instrument/security.v2.json#items.13.options.0.label) | The central issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:53 (frozen-compatibility:content/instrument/security.v3.json#items.0.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:243 (frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label) | The stronger path is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:254 (frozen-compatibility:content/instrument/security.v3.json#items.2.options.2.label) | The deeper danger is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:810 (frozen-compatibility:content/instrument/security.v3.json#items.9.options.0.label) | The real issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:821 (frozen-compatibility:content/instrument/security.v3.json#items.9.options.1.label) | The key problem is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:832 (frozen-compatibility:content/instrument/security.v3.json#items.9.options.2.label) | The central question is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:970 (frozen-compatibility:content/instrument/security.v3.json#items.11.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:1049 (frozen-compatibility:content/instrument/security.v3.json#items.12.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/security.v3.json:1130 (frozen-compatibility:content/instrument/security.v3.json#items.13.options.0.label) | The central issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:47 (frozen-compatibility:content/instrument/technology.v2.json#items.0.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:69 (frozen-compatibility:content/instrument/technology.v2.json#items.0.options.2.label) | The real priority is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:301 (frozen-compatibility:content/instrument/technology.v2.json#items.3.options.2.label) | The practical answer is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:368 (frozen-compatibility:content/instrument/technology.v2.json#items.4.options.1.label) | The stronger model is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:522 (frozen-compatibility:content/instrument/technology.v2.json#items.6.options.1.label) | The strongest path is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:544 (frozen-compatibility:content/instrument/technology.v2.json#items.6.options.3.label) | The first priority is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:618 (frozen-compatibility:content/instrument/technology.v2.json#items.7.options.2.label) | The bigger danger is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:682 (frozen-compatibility:content/instrument/technology.v2.json#items.8.options.0.label) | The main issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:693 (frozen-compatibility:content/instrument/technology.v2.json#items.8.options.1.label) | The stronger answer is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:865 (frozen-compatibility:content/instrument/technology.v2.json#items.10.options.2.label) | The better answer is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:1148 (frozen-compatibility:content/instrument/technology.v2.json#items.14.options.0.label) | The first requirement is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v2.json:1170 (frozen-compatibility:content/instrument/technology.v2.json#items.14.options.2.label) | The sharper issue is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:51 (frozen-compatibility:content/instrument/technology.v3.json#items.0.options.0.label) | The first job is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:215 (frozen-compatibility:content/instrument/technology.v3.json#items.2.options.0.label) | The main goal is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:226 (frozen-compatibility:content/instrument/technology.v3.json#items.2.options.1.label) | The strongest reason is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:319 (frozen-compatibility:content/instrument/technology.v3.json#items.3.options.2.label) | The practical answer is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:391 (frozen-compatibility:content/instrument/technology.v3.json#items.4.options.1.label) | The stronger model is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:555 (frozen-compatibility:content/instrument/technology.v3.json#items.6.options.1.label) | The strongest path is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:577 (frozen-compatibility:content/instrument/technology.v3.json#items.6.options.3.label) | The first priority is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:914 (frozen-compatibility:content/instrument/technology.v3.json#items.10.options.2.label) | The better answer is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:1214 (frozen-compatibility:content/instrument/technology.v3.json#items.14.options.0.label) | The first requirement is |
+| P1 | ranking-opener-in-option | frozen | content/instrument/technology.v3.json:1236 (frozen-compatibility:content/instrument/technology.v3.json#items.14.options.2.label) | The sharper issue is |
+| P1 | product-self-narration | public | content/locales/en/current-cases.ts:75 (content-key:content/locales/en/current-cases.ts#englishCurrentCaseFlow.foundationConnectionUnavailable) | remains separate |
 | P1 | banned-contrastive-template | editorial-source | content/locales/zh-Hans/foundation-back-translations-analyst-b.ts:145 (content-key:content/locales/zh-Hans/foundation-back-translations-analyst-b.ts#zhHansFoundationAnalystBackTranslationsB.9.backTranslation.options.3.label) | not only voice but |
+| P1 | ranking-opener-in-option | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts:176 (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.16.backTranslation.options.2.label) | The first question is |
+| P1 | ranking-opener-in-option | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts:195 (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.17.backTranslation.options.2.label) | The decisive question is |
+| P1 | ranking-opener-in-option | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts:207 (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.18.backTranslation.options.1.label) | The central contest is |
 | P1 | sits-between-template | public | lib/ai-governance-atlas-content.ts:361 (content-key:lib/ai-governance-atlas-content.ts#aiAtlasCurrentDebates.strategicCompetitor.1.prompt) | sit between |
 | P1 | sits-between-template | public | lib/ai-governance-atlas-content.ts:424 (content-key:lib/ai-governance-atlas-content.ts#aiAtlasCurrentDebates.openEcosystemBuilder.0.prompt) | sit between |
+| P1 | ranking-opener-in-option | public | lib/ai-governance-results-v2.ts:137 (content-key:lib/ai-governance-results-v2.ts#additionalTensionRules.1.text) | The real test is |
 | P1 | keeps-in-play-template | public | lib/atlas-lite.ts:58 (content-key:lib/atlas-lite.ts#atlasLitePatterns.0.decisionRule) | Keep several explanations in play |
 | P1 | keeps-in-play-template | public | lib/atlas-lite.ts:62 (content-key:lib/atlas-lite.ts#atlasLitePatterns.0.cardSummary) | keeps several neighboring arguments in play |
+| P1 | product-self-narration | public | lib/futures/departure.ts:147 (content-key:lib/futures/departure.ts#interpretDeparture.title) | remain separate |
+| P1 | product-self-narration | operational | lib/modules/authoring-validation.ts:229 (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | tuple |
+| P1 | product-self-narration | operational | lib/modules/authoring-validation.ts:462 (content-key:lib/modules/authoring-validation.ts#validateBridge) | tuple |
+| P1 | product-self-narration | public | lib/modules/calibration.ts:302 (content-key:lib/modules/calibration.ts#getModuleModeCalibration) | tuple |
 | P1 | you-generally-believe-template | frozen | lib/modules/security-v21.ts:129 (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module.summary) | you generally believe |
 | P1 | you-generally-believe-template | frozen | lib/modules/security-v21.ts:159 (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module.summary) | You generally believe |
 | P1 | you-generally-believe-template | frozen | lib/modules/security-v21.ts:174 (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module.summary) | You generally believe |
@@ -1047,177 +1142,776 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | sits-between-template | frozen | lib/modules/technology-v21.ts:339 (frozen-compatibility:lib/modules/technology-v21.ts#summary) | sits between |
 | P1 | pulls-clear-template | frozen | lib/modules/technology-v21.ts:365 (frozen-compatibility:lib/modules/technology-v21.ts#summary) | pulled clear |
 | P1 | sits-between-template | frozen | lib/modules/technology-v21.ts:365 (frozen-compatibility:lib/modules/technology-v21.ts#summary) | sits between |
+| P1 | product-self-narration | public | lib/narrative/foundation.ts:261 (content-key:lib/narrative/foundation.ts#buildPressureTestText) | separate issue records |
+| P1 | product-self-narration | public | lib/narrative/runtime-fixtures.ts:2250 (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | saved layer |
+| P1 | product-self-narration | public | lib/profile-helpers.ts:142 (content-key:lib/profile-helpers.ts#MOSAIC_ANCHOR_LINES.realist) | saved layers |
+| P1 | product-self-narration | public | lib/profile-helpers.ts:144 (content-key:lib/profile-helpers.ts#MOSAIC_ANCHOR_LINES.institutionalist) | saved layers |
+| P1 | product-self-narration | public | lib/profile-helpers.ts:146 (content-key:lib/profile-helpers.ts#MOSAIC_ANCHOR_LINES.constructivist) | saved layers |
+| P1 | product-self-narration | public | lib/profile-helpers.ts:148 (content-key:lib/profile-helpers.ts#MOSAIC_ANCHOR_LINES.criticalPoliticalEconomy) | saved layers |
 | P1 | authored-english-em-dash | operational | lib/profile-store.ts:1152 (content-key:lib/profile-store.ts#evidence.question) | — |
+| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:31 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title) | Foundation read |
+| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:33 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead) | tuple |
+| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:39 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.eyebrow) | Foundation read |
+| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:40 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title) | Foundation read |
+| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:57 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title) | Foundation read |
+| P1 | product-self-narration | public | lib/results/local-evidence.ts:768 (content-key:lib/results/local-evidence.ts#assertPayloadMatchesGeneration) | tuple |
+| P1 | product-self-narration | public | lib/results/module-interpretation.ts:50 (content-key:lib/results/module-interpretation.ts#buildModuleInterpretation.scope) | registered form |
 
 ### New P2 findings
 
 | Count | Rule | Audience | Location | Matched |
 | --- | --- | --- | --- | --- |
 | 1 | repeated-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.3.subtraditions.0.note) | analysis in the dynamics of capital accumulation, class struggle, and the state as an instrument of class interest / Associated with Lenin, Gramsci, and in contemporary IR with Robert Cox and Stephen Gill |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#issueCompares.1.readings.3.note) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.policyBundle.1) | rather than |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.59.options.2.label) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.2) | the normative position |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.issueReadings.1.note) | genuinely |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.12.clarification.whatItDoesNotAsk) | This is not dismissing |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.1.options.3.label) | rather than |
+| 1 | rather-than-reflex | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.instincts.2) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Conditional Solidarist) | on normative items |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.16.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#summarizeTechnologyLane) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.2.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.27.prompt) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.5.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.1.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.exclusions.2) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.11.clarification.whatItDoesNotAsk) | This is not saying |
+| 1 | rather-than-reflex | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.instincts.2) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.0.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | app/method/page.tsx (route:/method#contents.2.label) | robustness |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.emphasizes.3) | rather than |
+| 1 | retired-house-words | public | lib/reference-profiles/catalog.ts (content-key:lib/reference-profiles/catalog.ts#REFERENCE_PROFILE_CATALOG.profiles.1.summary) | durable |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | repeated-three-part-list | public | app/archetypes/[slug]/page.tsx (route:/archetypes/[slug]#ArchetypeDetailPage.p) | change the underlying Foundation score or assign people, organizations, or traditions to a fixed type / not editorial, expert, or methodological validation |
 | 1 | repeated-adjacent-opening | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | both ends read |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.2.summary) | rather than |
+| 1 | retired-house-words | public | lib/futures/catalogue/index.ts (content-key:lib/futures/catalogue/index.ts#futureCatalogue.17.authority) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.3.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module) | under security pressure |
+| 1 | retired-house-words | public | app/method/page.tsx (route:/method#contents.2.href) | robustness |
 | 1 | repeated-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | The diagnostic supports no claim about reliability, validity, or population distributions / seeds, protected-file digests, and generated data are available in the project repository |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.32.helpText) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.9.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.13.options.3.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.1.label) | often |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.12.clarification.whatItDoesNotAsk) | This is not dismissing |
+| 1 | retired-house-words | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyV21Module.summary) | sharpen |
 | 1 | repeated-adjacent-abstract-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map / map, map |
+| 1 | rather-than-reflex | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyV21Module.instincts.2) | rather than |
+| 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.8.assumptions.0) | rather than |
+| 1 | retired-house-words | public | lib/profile-helpers.ts (content-key:lib/profile-helpers.ts#buildProfileAssessment.panelIntro) | sharpens |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.application) | applied here the |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/results/foundation-result-heading.ts (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead) | durable |
+| 1 | retired-house-words | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.3.options.2.label) | sharpens |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.31.options.3.label) | rather than |
+| 1 | rather-than-reflex | public | lib/profile-compare.ts (content-key:lib/profile-compare.ts#FOUNDATION_ARGUMENT_TEXT.institutions.highStart) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.10.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.10.options.3.label) | Accepted cost: |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.9.options.1.label) | rather than |
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | layer, layers |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.7.clarification.whatItDoesNotAsk) | This is not a claim |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#forYourTypeByArchetype.democraticGuardrailist.1.description) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.3.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.2.paragraphs.0) | 通常 |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.7.cardPressureNote) | sharpens |
+| 1 | retired-house-words | public | lib/copy/glosses.ts (content-key:lib/copy/glosses.ts#strategyModifierGlosses.Maximizer) | durable |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.1.worriesMost.2) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.low) | the aggregate score |
+| 1 | retired-house-words | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#partWaysPairs.2.split) | durable |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.2.cardPressureNote) | sharpens |
 | 1 | repeated-adjacent-opening | public | lib/futures/preferences.ts (content-key:lib/futures/preferences.ts#requirementLabels.transparentPower.absent) | i require governing |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.quizCoverage.note) | rather than |
+| 1 | rather-than-reflex | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#preferenceThemes.text) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.3.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#NORMATIVE_FRAMES.Universalist) | on normative items |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.3.subtraditions.0.note) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.22.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
 | 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.restraint.2) | the strategic position |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.8.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.4.options.1.label) | often |
+| 1 | retired-house-words | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.openEcosystemBuilder.evidenceShift.0) | genuinely |
 | 1 | repeated-adjacent-abstract-language | public | app/futures/page.tsx (route:/futures#FuturesPage.p) | map / map |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinitions) | invalid archetype identity |
+| 1 | rather-than-reflex | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.17.backTranslation.options.3.label) | rather than |
+| 1 | rather-than-reflex | public | lib/scoring/v2.ts (content-key:lib/scoring/v2.ts#familyDescriptions.constructivist) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.21.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/foundation-copy-v3.ts (content-key:content/locales/zh-Hans/foundation-copy-v3.ts#zhHansFoundationCopyV3.df1.clarification.whatItAsks) | 经常 |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.30.analystOptions.2.label) | Instrumented API access with staged evaluations, monitoring, and revocation triggers / Qualified wider release so more actors can inspect, build, and avoid dependence on a few labs |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.15.options.1.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.17.paragraphs.4) | 往往 |
 | 1 | what-matters-most-template | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.12.prompt) | What matters most |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.1.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#factualClaims.4.text) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.7.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.13.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | lib/modules/security-v21.ts (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module.measures.3) | sharpens |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.readings.0.note) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.7.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.9.assumptions.1) | durable |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.0.technologySummary) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.10.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | public | content/current-cases/europe-missile-defence-coalition-ukraine.json (content-key:content/current-cases/europe-missile-defence-coalition-ukraine.json#worldviewReadings.1.interpretation) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.0.options.3.label) | Accepted cost: |
 | 1 | stronger-path-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label) | The stronger path |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.13.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.15.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.7.policyPrompt) | with the revised |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.2.pressureTestQuestions.0) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.7.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | app/futures/page.tsx (route:/futures#FuturesPage.p) | rather than |
+| 1 | retired-house-words | public | lib/results/ai-governance-payoff.ts (content-key:lib/results/ai-governance-payoff.ts#debateQuestions.Defense and security use) | genuinely |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#STRATEGY_FRAMES.Maximizer) | on strategy items |
+| 1 | retired-house-words | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.1.backTranslation.prompt) | durable |
 | 1 | repeated-adjacent-three-part-list | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
+| 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.0.content.evidenceThatWouldWeakenFit.value.0.value.text) | Durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.22.options.3.label) | Accepted cost: |
 | 1 | layer-metaphor-review | public | app/method/page.tsx (route:/method#MethodPage.h3) | result layers |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.2.likelyTensions.1) | durable |
 | 1 | repeated-adjacent-three-part-list | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityLanes.2.description) | Order, legitimacy, and protection / legal authority, civilian protection, and bounded action |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.14.options.3.label) | often |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.19.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.1.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.democraticGuardrailist.internationalOrder.2) | durable |
+| 1 | retired-house-words | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#reasonOptions.3.label) | journey |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.3.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | lens-metaphor-review | public | lib/modules/calibration.ts (content-key:lib/modules/calibration.ts#MODULE_CALIBRATION_SOURCE.securityMethod) | lens cards |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.32.helpText) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.5.options.3.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.low) | the aggregate score |
 | 1 | what-matters-most-template | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.8.prompt) | What matters most |
+| 1 | rather-than-reflex | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.exclusions.1) | rather than |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.low) | durable |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#aiAtlasCurrentDebates.coordinationArchitect.0.prompt) | durable |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.24.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.11.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | editorial-source | content/locales/zh-Hans/foundation-back-translations-analyst-a.ts (content-key:content/locales/zh-Hans/foundation-back-translations-analyst-a.ts#zhHansFoundationAnalystBackTranslationsA.9.backTranslation.options.3.label) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.0.options.1.label) | rather than |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.advancedReadings.2.note) | rather than |
+| 1 | retired-house-words | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyLanes.1.description) | durable |
+| 1 | rather-than-reflex | public | lib/scoring/v1.ts (content-key:lib/scoring/v1.ts#familyDescriptions.constructivist) | rather than |
+| 1 | retired-house-words | public | lib/futures/catalogue/index.ts (content-key:lib/futures/catalogue/index.ts#futureCatalogue.13.premise) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.21.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.21.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.16.options.2.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.whyHard) | normally |
+| 1 | retired-house-words | frozen | content/instrument/security.v2.json (frozen-compatibility:content/instrument/security.v2.json#items.5.options.3.label) | durable |
+| 1 | retired-house-words | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.measures.3) | sharpens |
+| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#perspectives.global) | durable |
+| 1 | retired-house-words | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.realist:strategicCompetitor.likelyAlignment.0) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.15.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.13.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.22.options.3.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.9.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.7.prompt) | usually |
+| 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.9.advocates) | rather than |
+| 1 | retired-house-words | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildModuleChangeText) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.21.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.58.options.3.label) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.precautionarySteward.evidenceShift.0) | Robust |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.14.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.whyHard) | foreign support, monitoring, and limits / Each arrangement moves the burden, timing, and escalation risk differently |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.11.options.3.label) | Accepted cost: |
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#AiFieldGuidePage.h1) | Field Guide |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.3.label) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-reading-lists-v2.ts (content-key:lib/ai-governance-reading-lists-v2.ts#BASELINE.startHere.2.whyItMatters) | robustness |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.23.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | weak-generic-heading | public | app/explore/reference/[id]/page.tsx (route:/explore/reference/[id]#ProfileDetail.h3) | How it works |
+| 1 | retired-house-words | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.0.title) | durable |
+| 1 | retired-house-words | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.0.prompt) | genuinely |
+| 1 | retired-house-words | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#technologyModule.measures.3) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.16.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#forYourTypeByArchetype.stateCapacityBuilder.2.description) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.13.scene) | rather than |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.5.detailDrivers.0) | rather than |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#issueCompares.2.readings.2.note) | rather than |
+| 1 | retired-house-words | public | lib/futures/catalogue/rationales.ts (content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.constitutional-delegation.revisablePower.2) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#separationPhrases.criticalPoliticalEconomy.realist) | rather than |
+| 1 | retired-house-words | public | lib/result-content.ts (content-key:lib/result-content.ts#ISSUE_BLOCKS.1.byFamily.institutionalist) | durable |
 | 1 | repeated-adjacent-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.summary) | and interests is partly constituted by identity, norms, and shared social expectations / states want security, growth, and survival |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.1.label) | rather than |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateClaimListField) | value must contain |
+| 1 | rather-than-reflex | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.instincts.2) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.0.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.2.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/result-content.ts (content-key:lib/result-content.ts#ISSUE_BLOCKS.0.clauses.maximizer.criticalPoliticalEconomy) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.26.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | pressure-test-repetition | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.0.coverageScope) | pressure-test |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.3.options.2.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.19.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#readings.oversight.high) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.rival) | the strongest objection |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.15.options.0.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.13.clarification.whatItDoesNotAsk) | This is not a claim |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.4.pressureTestQuestions.0) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.17.options.1.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.19.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.midRange) | the aggregate score |
+| 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.evidenceShift.0) | rather than |
+| 1 | rather-than-reflex | public | content/reading/reference-introductions.ts (content-key:content/reading/reference-introductions.ts#referenceIntroductions.susan-strange.mechanism) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-scoring-v21.ts (content-key:lib/ai-governance-scoring-v21.ts#archetypeDescriptions.coordinationArchitect) | durable |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.criticalPoliticalEconomy) | across the foundation |
+| 1 | retired-house-words | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.11.disputes.0) | genuinely |
+| 1 | rather-than-reflex | frozen | lib/modules/security-v21.ts (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.restraint.midRange) | the aggregate score |
+| 1 | rather-than-reflex | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildProbeNextText) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.17.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v2.json (frozen-compatibility:content/instrument/security.v2.json#items.13.options.3.label) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#aiAtlasComparisonNotes.democraticGuardrailist.comparisonNote) | rather than |
 | 1 | layer-metaphor-review | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | saved layer |
 | 1 | flagged-rhetorical-opener | public | lib/futures/catalogue/index.ts (content-key:lib/futures/catalogue/index.ts#futureCatalogue.1.life) | ultimately |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
 | 1 | flagged-rhetorical-opener | public | lib/futures/catalogue/rationales.ts (content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.descendants.humanAuthority.2) | ultimately |
+| 1 | retired-house-words | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.4.prompt) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.2.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.2.prompt) | usually |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.0.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.3.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/futures/preferences.ts (content-key:lib/futures/preferences.ts#preferenceQuestions.3.scope) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.7.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.6.options.1.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#atlasAxisExplainers.3.explainer) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.3.content.strongestCaseForReading.value.text) | durable |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.6.whyHard) | normally |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | editorial-source | content/locales/zh-Hans/foundation-back-translations-analyst-a.ts (content-key:content/locales/zh-Hans/foundation-back-translations-analyst-a.ts#zhHansFoundationAnalystBackTranslationsA.5.backTranslation.prompt) | genuinely |
+| 1 | retired-house-words | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.internationalOrder.0) | durable |
+| 1 | rather-than-reflex | public | lib/ai-governance-results.ts (content-key:lib/ai-governance-results.ts#axisOneLiners.deploymentPace) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.3.label) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#forYourTypeByArchetype.openEcosystemBuilder.0.description) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/decision-exercises/readbacks.ts (content-key:lib/decision-exercises/readbacks.ts#arrangementReadings.access.weights>hosted) | you moved from |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.associatedThinkers.1.note) | rather than |
 | 1 | repeated-adjacent-opening | editorial-source | content/archetype-evidence.json (content-key:content/archetype-evidence.json#records.0.unresolvedFields.4.reason) | the article is |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.advancedReadings.0.note) | durable |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.low) | the aggregate score |
+| 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#references.4.note) | rather than |
+| 1 | retired-house-words | public | lib/result-content.ts (content-key:lib/result-content.ts#ISSUE_BLOCKS.3.clauses.universalist.criticalPoliticalEconomy) | nuance |
+| 1 | rather-than-reflex | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#readings.oversight.low) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.17.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | retired-house-words | public | lib/results/foundation-payoff.ts (content-key:lib/results/foundation-payoff.ts#buildMainTension.body) | real weight |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.advancedReadings.2.note) | robust |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.11.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.3.cardSummary) | durable |
+| 1 | rather-than-reflex | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#buildContrastText) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.0.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.17.options.1.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.summary) | often |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.6.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.3.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#bestCritiqueByArchetype.coordinationArchitect.1.description) | durable |
+| 1 | retired-house-words | public | lib/profile-compare.ts (content-key:lib/profile-compare.ts#FOUNDATION_SIDE_TEXT.orderJustice.sharedHigh) | real weight |
+| 1 | retired-house-words | public | app/method/page.tsx (route:/method#MethodPage.p) | robustness |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#getPolicySignals.2.explanation) | durable |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.3.prompt) | usually |
+| 1 | field-metaphor-review | public | app/ai/page.tsx (route:/ai#AiPage.span) | Field Guide |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.8.options.1.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.4.clarification.whatItDoesNotAsk) | This is not saying |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.22.options.1.label) | Accepted cost: |
 | 1 | lens-metaphor-review | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | lens cards |
 | 1 | repeated-adjacent-three-part-list | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.subtitle) | Security, Strategy, and Statecraft / alliances, escalation, and the legitimacy of force |
+| 1 | retired-house-words | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#PRACTICAL_FAMILY_FOCUSES.institutionalist) | durable |
+| 1 | rather-than-reflex | public | app/references/page.tsx (route:/references#institutionalistRefs.3.note) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.orderJustice.midRange) | the aggregate score |
+| 1 | retired-house-words | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.5.prompt) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.options.3.label) | Accepted cost: |
 | 1 | deeper-danger-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.2.label) | The deeper danger |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.16.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/copy/glosses.ts (content-key:lib/copy/glosses.ts#strategyModifierGlosses.Restrainer) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.5.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | retired-house-words | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.2.options.1.label) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.measures.3) | sharpens |
+| 1 | rather-than-reflex | public | lib/reference-profiles/catalog.ts (content-key:lib/reference-profiles/catalog.ts#REFERENCE_PROFILE_CATALOG.profiles.2.disputes.2) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.7.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.6.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.9.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-results.ts (content-key:lib/ai-governance-results.ts#axisOneLiners.geopolitics) | durable |
+| 1 | rather-than-reflex | frozen | lib/modules/security-v21.ts (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module.instincts.2) | rather than |
+| 1 | retired-house-words | public | app/futures/departure/page.tsx (route:/futures/departure#DeparturePage.p) | genuinely |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.13.options.3.label) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#FAMILY_TENSION_SIGNALS.realist) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.17.options.3.label) | Accepted cost: |
 | 1 | field-metaphor-review | public | app/futures/departure/page.tsx (route:/futures/departure#DeparturePage.p) | field map |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.27.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | retired-house-words | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.5.options.2.label) | genuinely |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.2.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.2.shortSummary) | rather than |
+| 1 | retired-house-words | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyV21Module.summary) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.2.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.6.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.8.detailDrivers.2) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low) | the aggregate score |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.0.label) | durable |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.2.detailDrivers.2) | durable |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.tagline) | durable |
 | 1 | general-prevalence-language-review | public | app/method/page.tsx (route:/method#MethodPage.p) | often |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
+| 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#MethodPage.p) | rather than |
 | 1 | what-matters-most-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.32.prompt) | what matters most |
+| 1 | retired-house-words | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#technologyModule.summary) | sharpen |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.22.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-abstract-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.stateLimit) | layer, layers / layer |
+| 1 | retired-house-words | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#buildPressureTestText) | on their own terms |
+| 1 | rather-than-reflex | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#getPolicySignals.0.explanation) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#aiAtlasCurrentDebates.democraticGuardrailist.0.prompt) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.7.clarification.whatItDoesNotAsk) | This is not a claim |
+| 1 | retired-house-words | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.32.clarification.whatItAsks) | durable |
+| 1 | retired-house-words | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#technologyLanes.1.description) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.15.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.8.options.3.label) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#STRATEGY_FRAMES.Hedger) | on strategy items |
 | 1 | repeated-adjacent-opening | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.1.summary) | postcolonial and decolonial |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.13.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.application) | applied here the |
+| 1 | rather-than-reflex | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.criticalPoliticalEconomy:stateCapacityBuilder.likelyTensions.0) | rather than |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.10.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.midRange) | the aggregate score |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.2.decisionRule) | durable |
+| 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.democraticGuardrailist.policyBundle.1) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.1.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.precautionarySteward.internationalOrder.0) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.associatedThinkers.1.note) | rather than |
 | 1 | pressure-test-repetition | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.8.contextBullets.0.text) | pressure test |
 | 1 | repeated-adjacent-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Limits, privacy, and corrections / and gives factual, privacy, and security problems a narrow correction route |
+| 1 | retired-house-words | public | components/futures/departure-diagram.tsx (content-key:components/futures/departure-diagram.tsx#DepartureDiagram.desc) | journey |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.5.options.3.label) | rather than |
+| 1 | rather-than-reflex | public | lib/reference-profiles/catalog.ts (content-key:lib/reference-profiles/catalog.ts#REFERENCE_PROFILE_CATALOG.profiles.3.dimensionEstimates.restraint) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#chinaAndGlobalLensEntries.1.description) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.10.clarification.whatItDoesNotAsk) | This is not an endorsement |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.6.technologySummary) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.11.clarification.whatItDoesNotAsk) | This is not saying |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.1.shortSummary) | durable |
+| 1 | rather-than-reflex | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#getPolicySignals.2.explanation) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.2.policyPrompt) | with return terms |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#issueCompares.1.readings.1.note) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.15.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.securityCompetition.low) | the aggregate score |
+| 1 | rather-than-reflex | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module) | rather than |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.7.detailDrivers.1) | rather than |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#issueCompares.1.readings.1.note) | genuinely |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.24.clarification.whatItAsks) | landscape |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/profile-helpers.ts (content-key:lib/profile-helpers.ts#buildProfileAssessment.panelIntro) | genuinely |
 | 1 | consequential-filler | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.2.summary) | most consequential long-run threats |
+| 1 | rather-than-reflex | public | lib/futures/catalogue/index.ts (content-key:lib/futures/catalogue/index.ts#futureCatalogue.18.attractions) | rather than |
 | 1 | repeated-adjacent-opening | public | app/method/page.tsx (route:/method#authoredChoices.2.body) | focus area results |
+| 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.9.options.0.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.8.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.10.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.21.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/profile-helpers.ts (content-key:lib/profile-helpers.ts#buildProfileAssessment.points.1) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.8.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.3.internationalLens) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.restraint.1) | the strategic position |
+| 1 | rather-than-reflex | public | lib/ai-governance-glossary.ts (content-key:lib/ai-governance-glossary.ts#aiGlossary.7.definition) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.3.options.2.label) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.10.clarification.whatItDoesNotAsk) | This is not an endorsement |
+| 1 | retired-house-words | public | lib/scoring/v2.ts (content-key:lib/scoring/v2.ts#familyDescriptions.realist) | durable |
+| 1 | rather-than-reflex | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.19.backTranslation.options.3.label) | rather than |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.9.pressureTestQuestions.2) | rather than |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.5.detailDrivers.2) | rather than |
 | 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | map, map |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.7.options.0.label) | Accepted cost: |
 | 1 | what-matters-most-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.9.options.3.label) | What matters most |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.9.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.22.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.low) | the aggregate score |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.27.prompt) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#worldviewReadings.3.strongestObjection) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.19.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#separationPhrases.constructivist.realist) | genuinely |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.6.detailSummary) | real weight |
+| 1 | rather-than-reflex | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.realist:strategicCompetitor.likelyAlignment.2) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.4.scene) | durable |
+| 1 | rather-than-reflex | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#summarizeTechnologyLane) | rather than |
 | 1 | repeated-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Use the project contact route for a factual correction, privacy question, or security report / Do not include quiz answers, a result or Profile link, or another person&apos |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.counterReadings.1.note) | rather than |
+| 1 | retired-house-words | public | app/method/page.tsx (route:/method#dimensions.0.description) | durable |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.13.options.1.label) | often |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.10.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.1.options.3.label) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.options.0.title) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.15.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#technologyModule.instincts.2) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.6.options.2.label) | rather than |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#neighborOverlapTexts.realist.institutionalist) | durable |
 | 1 | general-prevalence-language-review | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.whyHard) | normally |
 | 1 | repeated-adjacent-opening | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | answer from your |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.9.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.21.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.22.clarification.whatItAsks) | rather than |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.persuasiveArguments.0) | genuinely |
 | 1 | repeated-adjacent-opening | public | lib/futures/catalogue/features.ts (content-key:lib/futures/catalogue/features.ts#featureDefinitions.digitalStanding.absent) | artificial persons have |
+| 1 | rather-than-reflex | public | lib/futures/catalogue/rationales.ts (content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.descendants.biologicalContinuity.2) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.12.contextBullets.1.text) | durable |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.19.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.22.clarification.whatItAsks) | rather than |
 | 1 | general-prevalence-language-review | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | usually |
 | 1 | repeated-adjacent-opening | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.1) | the normative position |
+| 1 | retired-house-words | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#FAMILY_TENSION_SIGNALS.institutionalist) | durable |
+| 1 | retired-house-words | editorial-source | content/locales/zh-Hans/foundation-back-translations-standard.ts (content-key:content/locales/zh-Hans/foundation-back-translations-standard.ts#zhHansFoundationStandardBackTranslations.17.backTranslation.options.3.label) | genuinely |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.5.cardPressureNote) | sharpens |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.underweights.4) | genuinely |
+| 1 | rather-than-reflex | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#preferenceThemes.text) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.realist:strategicCompetitor.practicalImplication) | rather than |
+| 1 | rather-than-reflex | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#technologyModule.doesNotClaim.2) | rather than |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.advancedReadings.0.note) | rather than |
+| 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.3.identity.gloss) | Durable |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.1.clarification.whatItDoesNotAsk) | This is not a denial |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.17.options.0.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.4.clarification.whatItDoesNotAsk) | This is not saying |
+| 1 | retired-house-words | frozen | content/instrument/security.v2.json (frozen-compatibility:content/instrument/security.v2.json#items.6.options.0.label) | durable |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.whyHard) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / bargaining power, development, or politics |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.25.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.2.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.2.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.2.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.0.label) | Accepted cost: |
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#startReading.2.text) | Field Guide |
+| 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.shareBlurb) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.12.prompt) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#aiAtlasCurrentDebates.precautionarySteward.0.prompt) | rather than |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.5.pressureTestQuestions.0) | rather than |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.63.options.2.label) | rather than |
+| 1 | retired-house-words | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyV21Module.measures.3) | sharpens |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.underweights.4) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.institutionalist) | across the foundation |
+| 1 | retired-house-words | public | lib/perspectives/catalog.ts (content-key:lib/perspectives/catalog.ts#perspectiveCatalog.3.scenarios.1.objective) | durable |
 | 1 | repeated-adjacent-opening | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#preferenceThemes.text) | you favor nonhuman |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.5.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.2.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.options.1.label) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.15.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#bestCritiqueByArchetype.coordinationArchitect.1.description) | rather than |
 | 1 | lens-metaphor-review | public | components/modules/module-result.tsx (content-key:components/modules/module-result.tsx#ModuleResultView.p) | lens cards |
 | 1 | layer-metaphor-review | public | app/privacy/page.tsx (route:/privacy#PrivacyPage.p) | saved layers |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | rather-than-reflex | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#cardTypeSentence) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.1.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.11.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.midRange) | the aggregate score |
 | 1 | map-metaphor-review | public | app/layout.tsx (route:/#metadata.description) | Map how you |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.1.options.2.label) | Accepted cost: |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.1.label) | a hotline, rescue arrangements, and incident investigation by outsiders to the dispute / Nuclear, missile, and aligned-group disputes remain unresolved |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.3.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.3.options.2.label) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.0.options.0.label) | Accepted cost: |
 | 1 | repeated-abstract-map-language | public | components/results/posture-strip.tsx (content-key:components/results/posture-strip.tsx#PostureStrip.p) | lenses, map, map |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.7.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.13.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#summary) | the recorded technology |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.6.prompt) | durable |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.6.prompt) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.0.options.3.label) | Accepted cost: |
 | 1 | flagged-rhetorical-opener | public | lib/futures/catalogue/index.ts (content-key:lib/futures/catalogue/index.ts#futureCatalogue.7.authority) | ultimately |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.1.clarification.whatItDoesNotAsk) | This is not a denial |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#aiAtlasCurrentDebates.strategicCompetitor.0.prompt) | durable |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.3.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.21.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | app/references/page.tsx (route:/references#methodsRefs.4.note) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.3.options.1.title) | durable |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.1.detailSummary) | durable |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
+| 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.7.assumptions.1) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItAsks) | durable |
+| 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#separationPhrases.realist.criticalPoliticalEconomy) | rather than |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.0.note) | rather than |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.4.prompt) | rather than |
+| 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#separationPhrases.criticalPoliticalEconomy.institutionalist) | rather than |
+| 1 | retired-house-words | public | lib/scoring/v1.ts (content-key:lib/scoring/v1.ts#familyDescriptions.realist) | durable |
+| 1 | retired-house-words | public | content/current-cases/europe-missile-defence-coalition-ukraine.json (content-key:content/current-cases/europe-missile-defence-coalition-ukraine.json#perspectives.counterparties.1.perspective) | durable |
+| 1 | retired-house-words | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#additionalTensionRules.1.text) | durable |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.3.options.3.label) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#additionalTensionRules.1.text) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-scoring.ts (content-key:lib/ai-governance-scoring.ts#archetypeDescriptions.coordinationArchitect) | durable |
+| 1 | rather-than-reflex | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildProbeNextText) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.0.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | content/instrument/security.v2.json (frozen-compatibility:content/instrument/security.v2.json#items.4.options.2.label) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.7.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | content/locales/zh-Hans/foundation-v21-additions.ts (content-key:content/locales/zh-Hans/foundation-v21-additions.ts#zhHansFoundationV21ItemAnalysis.socialDesirabilityBias.note) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.13.options.1.label) | rather than |
 | 1 | lens-metaphor-review | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.summary) | lens cards |
 | 1 | repeated-adjacent-opening | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule) | under security pressure |
+| 1 | retired-house-words | public | components/futures/departure-player.tsx (content-key:components/futures/departure-player.tsx#DeparturePlayer.noscript) | journey |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.0.summary) | rather than |
+| 1 | rather-than-reflex | public | lib/futures/catalogue/rationales.ts (content-key:lib/futures/catalogue/rationales.ts#descriptorRationales.zookeeper.personalExit.2) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.14.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.5.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.21.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.8.scene) | landscape |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.9.options.0.label) | Accepted cost: |
 | 1 | pressure-test-repetition | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.5.contextBullets.0.text) | pressure test |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#forYourTypeByArchetype.openEcosystemBuilder.2.description) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.4.worriesMost.1) | rather than |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.11.prompt) | Rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.3.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.6.options.0.label) | durable |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.7.detailDrivers.0) | rather than |
+| 1 | rather-than-reflex | public | components/futures/preference-player.tsx (content-key:components/futures/preference-player.tsx#PreferencePlayer.p) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.12.contextBullets.1.text) | durable |
+| 1 | retired-house-words | public | components/results/ai-completion-evidence.tsx (content-key:components/results/ai-completion-evidence.tsx#pairRead) | durable |
+| 1 | retired-house-words | public | app/references/page.tsx (route:/references#institutionalistRefs.3.note) | durable |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.1.label) | a hotline, rescue arrangements, and third-party incident investigation / Nuclear, missile, and aligned-group disputes remain unresolved |
+| 1 | rather-than-reflex | public | lib/result-content.ts (content-key:lib/result-content.ts#ISSUE_BLOCKS.1.byFamily.institutionalist) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.4.prompt) | durable |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v2.json (frozen-compatibility:content/instrument/security.v2.json#items.0.options.1.label) | rather than |
+| 1 | rather-than-reflex | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyV21Module.doesNotClaim.2) | rather than |
+| 1 | rather-than-reflex | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#PROFILE_PRACTICE_FRAMES.institutionalist) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.13.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.0.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.11.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists-v2.ts (content-key:lib/ai-governance-reading-lists-v2.ts#BASELINE.startHere.1.whyItMatters) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.12.options.2.label) | rather than |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.20.prompt) | usually |
-| 1 | repeated-adjacent-three-part-list | public | content/explore/hub.en.json (content-key:content/explore/hub.en.json#hero.payoff.1) | Explore what different traditions notice, what they explain, and where their arguments come apart / Start with a name, a thinker, or a decision |
+| 1 | rather-than-reflex | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#forYourTypeByArchetype.coordinationArchitect.2.description) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.realist:strategicCompetitor.likelyAlignment.0) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.5.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/archetypes.ts (content-key:lib/archetypes.ts#readIdentityDefinition) | invalid archetype identity |
+| 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.4.content.commonFailureMode.value.text) | durable |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#summary) | the recorded security |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.22.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.4.scene) | a national investment plan for computing capacity, cloud services, and data centers in 30 days / cooperation with partners, private investment, or protected domestic capacity should lead the plan |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.1.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.9.options.1.label) | rather than |
+| 1 | rather-than-reflex | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.instincts.2) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.midRange) | the aggregate score |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.13.prompt) | often |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#aiAtlasComparisonNotes.stateCapacityBuilder.comparisonNote) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-three-part-list | public | app/method/page.tsx (route:/method#MethodPage.p) | Rules, Meaning, and Structure / Foundation value is centered on the neutral score of 4, multiplied by an authored weight, and added to its axis |
 | 1 | pressure-test-repetition | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.9.contextBullets.0.text) | pressure test |
+| 1 | retired-house-words | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.3.pressureTestQuestions.2) | durable |
+| 1 | retired-house-words | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildProbeNextText) | sharpens |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.2.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-abstract-language | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#startReading.2.text) | map / maps |
 | 1 | lens-metaphor-review | public | app/method/page.tsx (route:/method#MethodPage.p) | lens cards |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.20.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.rival) | the strongest objection |
+| 1 | repeated-three-part-list | public | app/about/page.tsx (route:/about#AboutPage.p) | The questions, cases, and readings are authored / the scoring is a set of authored weights, described in full in Method, and not a validated test |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.1.summary) | rather than |
+| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#worldviewReadings.0.interpretation) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.neighbors.0.contrast) | durable |
 | 1 | field-metaphor-review | public | app/ai/field-guide/page.tsx (route:/ai/field-guide#metadata.title) | Field Guide |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.6.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.15.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-scoring.ts (content-key:lib/ai-governance-scoring.ts#archetypeDescriptions.strategicCompetitor) | durable |
+| 1 | rather-than-reflex | public | lib/ai-governance-glossary.ts (content-key:lib/ai-governance-glossary.ts#aiGlossary.9.definition) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#additionalTensionRules.0.text) | real weight |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.2.likelyTensions.0) | rather than |
+| 1 | retired-house-words | public | lib/ai-governance-reading-lists.ts (content-key:lib/ai-governance-reading-lists.ts#bestCritiqueByArchetype.strategicCompetitor.1.description) | durable |
 | 1 | repeated-adjacent-opening | operational | lib/modules/authoring-validation.ts (content-key:lib/modules/authoring-validation.ts#validateReleaseDecision) | decision id is |
+| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#worldviewReadings.0.noticesFirst) | durable |
+| 1 | retired-house-words | public | app/method/page.tsx (route:/method#MethodPage.h3) | robustness |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.2.counterReadings.0.note) | rather than |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.underweights.1) | durable |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getStrongLenses.lens.description) | the aggregate score |
 | 1 | general-prevalence-language-review | public | content/locales/en/foundation-copy-v2.ts (content-key:content/locales/en/foundation-copy-v2.ts#englishFoundationCopyV2.df1.clarification.whatItAsks) | often |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreGaps.3.summary) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.13.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/result-content.ts (content-key:lib/result-content.ts#blindSpotsData.realist.tendsMiss) | durable |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.64.options.3.label) | rather than |
+| 1 | rather-than-reflex | editorial-source | content/locales/zh-Hans/foundation-back-translations-analyst-b.ts (content-key:content/locales/zh-Hans/foundation-back-translations-analyst-b.ts#zhHansFoundationAnalystBackTranslationsB.8.backTranslation.options.2.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.17.options.3.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.5.prompt) | usually |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/foundation-copy-v2.ts (content-key:content/locales/zh-Hans/foundation-copy-v2.ts#zhHansFoundationCopyV2.ni2.prompt) | 往往 |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.10.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.4.options.2.label) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.1.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.7.objection) | rather than |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0) | 通常 |
+| 1 | retired-house-words | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.5.options.3.label) | durable |
+| 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#MethodPage.p) | rather than |
+| 1 | retired-house-words | public | components/futures/departure-diagram.tsx (content-key:components/futures/departure-diagram.tsx#DepartureDiagram.title) | journey |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.3.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.constructivist) | across the foundation |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionOneLiners.restraint.low) | durable |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.institutions.low) | the aggregate score |
+| 1 | retired-house-words | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.scene) | durable |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.6.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.domesticFilters.midRange) | the aggregate score |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.3.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.19.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.11.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.openEcosystemBuilder.evidenceShift.0) | rather than |
+| 1 | retired-house-words | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#evidenceOptions.0.label) | journey |
+| 1 | rather-than-reflex | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#singles.pluralPolities.present) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.22.options.0.label) | Accepted cost: |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
+| 1 | retired-house-words | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.summary) | durable |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.6.prompt) | landscape |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.5.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.8.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.2.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.11.options.1.label) | Accepted cost: |
 | 1 | general-prevalence-language-review | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | often |
+| 1 | rather-than-reflex | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#singles.technicalIndependence.absent) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.18.clarification.whatItDoesNotAsk) | rather than |
+| 1 | retired-house-words | public | app/method/page.tsx (route:/method#dimensions.1.description) | durable |
+| 1 | retired-house-words | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.openEcosystemBuilder.internationalOrder.2) | genuinely |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.2.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.8.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | rather-than-reflex | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | rather than |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.issueReadings.1.note) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
+| 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.6.content.strongestCaseForReading.value.text) | sharpens |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.6.prompt) | landscape |
+| 1 | retired-house-words | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.18.clarification.whatItAsks) | durable |
+| 1 | retired-house-words | public | app/archetypes/page.tsx (route:/archetypes#lensBands.1.question) | durable |
+| 1 | rather-than-reflex | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.realist:stateCapacityBuilder.shortReadout) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#preferenceThemes.text) | you favor a |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.rival) | the strongest objection |
 | 1 | general-prevalence-language-review | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#getSubtraditionAffinity.note) | often |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.3.options.3.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.9.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.5.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.1.prompt) | rather than |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.5.paragraphs.1) | 往往 |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.22.options.1.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/ai-governance-scoring-v21.ts (content-key:lib/ai-governance-scoring-v21.ts#archetypeDescriptions.strategicCompetitor) | durable |
+| 1 | retired-house-words | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.2.coreBelief) | Durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.12.options.1.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.22.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.12.prompt) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.16.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.13.options.1.label) | rather than |
 | 1 | repeated-abstract-map-language | public | app/method/page.tsx (route:/method#MethodPage.p) | Maps, layers |
+| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#briefing) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.0.label) | Accepted cost: |
+| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#knownUncertainties.3) | durable |
+| 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.1.assumptions.0) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-atlas-content.ts (content-key:lib/ai-governance-atlas-content.ts#AI_ATLAS_ARCHETYPES.1.shortSummary) | rather than |
 | 1 | repeated-abstract-map-language | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.coverageScope) | layer, layer |
 | 1 | repeated-adjacent-opening | public | components/futures/departure-diagram.tsx (content-key:components/futures/departure-diagram.tsx#DepartureDiagram.figcaption) | the dashed relation |
+| 1 | retired-house-words | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.27.options.0.label) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.options.1.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.29.options.3.label) | rather than |
+| 1 | retired-house-words | public | lib/perspectives/catalog.ts (content-key:lib/perspectives/catalog.ts#perspectiveCatalog.1.scenarios.0.uncertainty) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.8.options.2.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/modules/technology.ts (content-key:lib/modules/technology.ts#technologyModule.instincts.0) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.rival) | the strongest objection |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.17.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/results/module-interpretation.ts (content-key:lib/results/module-interpretation.ts#example.application) | applied here the |
+| 1 | retired-house-words | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.4.options.0.label) | durable |
+| 1 | rather-than-reflex | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#nonResults.poor-agreement.text) | rather than |
+| 1 | rather-than-reflex | public | lib/ai-governance-glossary.ts (content-key:lib/ai-governance-glossary.ts#aiGlossary.6.definition) | rather than |
 | 1 | what-matters-most-template | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.3.prompt) | What matters most |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.24.clarification.whatItDoesNotAsk) | widening access can improve independent scrutiny, competition, and the distribution of technical capability / tighter controls when a release creates specific, severe, and hard-to-reverse risks |
+| 1 | retired-house-words | public | lib/ai-governance-cross-module-synthesis.ts (content-key:lib/ai-governance-cross-module-synthesis.ts#CURATED_MAP.institutionalist:coordinationArchitect.likelyAlignment.0) | durable |
 | 1 | repeated-three-part-list | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note) | Associated with Glaser, Van Evera, and Snyder / often rewards restraint and that miscalculation, domestic pathologies, or offensive spirals cause most conflicts |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.3.label) | Accepted cost: |
 | 1 | repeated-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.2.scene) | The state relies on foreign cloud providers, imported data-center hardware, and outside software / must decide how much to spend on local storage, domestic suppliers, and a modest government-controlled AI system |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.3.underweights.3) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.12.options.2.label) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.4.prompt) | rather than |
 | 1 | layer-metaphor-review | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#buildProfileOccurrences.coverage.compositionRule) | across layers |
+| 1 | accepted-cost-label | public | components/decision-exercises/episode-player.tsx (content-key:components/decision-exercises/episode-player.tsx#EpisodePlayer.span) | Accepted cost: |
+| 1 | retired-house-words | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.32.prompt) | durable |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.3.counterReadings.1.note) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.1.options.0.label) | rather than |
+| 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#neighborOverlapTexts.criticalPoliticalEconomy.institutionalist) | genuinely |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.11.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/futures/preferences.ts (content-key:lib/futures/preferences.ts#requirementLabels.digitalStanding.absent) | i require shared |
-| 1 | pressure-test-repetition | public | components/results/foundation-result-story.tsx (content-key:components/results/foundation-result-story.tsx#chapters.p) | pressure test |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.5.options.2.label) | Accepted cost: |
+| 1 | retired-house-words | public | lib/content/glossary.ts (content-key:lib/content/glossary.ts#glossaryTerms.1.definition) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.10.options.0.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.9.options.3.label) | Accepted cost: |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.1.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | lib/modules/security-v21.ts (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module.instincts.2) | rather than |
+| 1 | rather-than-reflex | frozen | lib/modules/technology-v21.ts (frozen-compatibility:lib/modules/technology-v21.ts#technologyV21Module.instincts.0) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.6.options.0.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.13.clarification.whatItDoesNotAsk) | This is not a claim |
+| 1 | rather-than-reflex | public | lib/explore-content.ts (content-key:lib/explore-content.ts#exploreFamilies.1.summary) | rather than |
+| 1 | retired-house-words | frozen | content/instrument/security.v2.json (frozen-compatibility:content/instrument/security.v2.json#items.5.options.0.label) | sharpening |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.17.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.0.options.2.label) | rather than |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.3.options.3.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.0.detailDrivers.0) | rather than |
 | 1 | repeated-adjacent-three-part-list | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.14.whyHard) | broad participation, development costs, or national discretion should guide the standards / settle whether other states will see them as legitimate, fair to developing economies, or compatible with national authority |
+| 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.7.content.historicalAnalogue.whyItFits.value.text) | durable |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.5.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.0.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.15.options.3.label) | Accepted cost: |
+| 1 | retired-house-words | public | components/modules/module-app.tsx (content-key:components/modules/module-app.tsx#ModuleApp.p) | genuinely |
+| 1 | retired-house-words | public | lib/results/foundation-payoff.ts (content-key:lib/results/foundation-payoff.ts#buildMainTension.body) | durable |
+| 1 | retired-house-words | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#STRATEGY_FRAMES.Maximizer) | durable |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.14.scene) | legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized |
+| 1 | rather-than-reflex | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#singles.personalExit.absent) | rather than |
+| 1 | retired-house-words | public | lib/results/foundation-interpretation.ts (content-key:lib/results/foundation-interpretation.ts#lenses.securityCompetition.rival) | durable |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.1.options.3.label) | Accepted cost: |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.27.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | rather-than-reflex | public | lib/ai-governance-field-guide-content.ts (content-key:lib/ai-governance-field-guide-content.ts#aiUnderModeledPerspectives.3.whyItMatters) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.20.clarification.whatItDoesNotAsk) | This is not asking |
+| 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.21.options.0.label) | Accepted cost: |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.23.clarification.whatItAsks) | rather than |
+| 1 | rather-than-reflex | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.1.prompt) | rather than |
+| 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.17.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | field-metaphor-review | public | components/results/dimension-field-map.tsx (content-key:components/results/dimension-field-map.tsx#DimensionFieldMap.svg.aria-label) | Field map |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.6.items.6.body) | 通常 |
 | 1 | repeated-adjacent-opening | public | lib/futures/interpretation.ts (content-key:lib/futures/interpretation.ts#singles.digitalStanding.absent) | under the explicit |
+| 1 | rather-than-reflex | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule) | rather than |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.3.label) | aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate |
+| 1 | rather-than-reflex | public | components/ai-governance-quiz-app.tsx (content-key:components/ai-governance-quiz-app.tsx#ModeGate.p) | rather than |
 
 ### Resolved P2 findings
 
@@ -1226,15 +1920,18 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 0089c530821602ea2af5921eb00c5f9f460c074575d5329a6170c2989283e9b7 |
 | 1 | 025281f8d13e22b7195c81f06c4d53502a04bdd552a4a34804c8b6a22a054e2e |
 | 1 | 0285c8894fb80acea387d9808311d6a82ba08f6434013da69041157151c6f371 |
+| 1 | 069d6db5d5e8f589b66a19ae8859f897860bd7bdfc275ef65e182f10a5a3aec9 |
 | 1 | 103de392efc3d21dc75dfc9d8860216af7c39bc8fc871391a7b0a4ec259e5780 |
 | 1 | 1207472e8099e95d6a4d2a87cb240e8ff38bbe189dfba5decff83a75e1343108 |
 | 1 | 1395e77e1fd69d1ed174286fcd6163e875fc41e45a2e3ee5a761dc401881f9d5 |
 | 1 | 13b5a1d489e7e9c84b9bdf16fb5ca6ceaea6b4e8e41ed01e47688517ac87f884 |
+| 1 | 1783e84f0925470333897b51fe676ce76a286387466ddbb6575a214c5618426f |
 | 1 | 18e51be8b048c75d32c84e486391d333076d3ae4ce0f12a48f1a2f8358f7f045 |
 | 1 | 1ca87213df4ed7545ae4d8fffc3fc0125454e871a1cae46f2f1c3a97068f1c26 |
 | 1 | 1dc1d3d26c29482ea1d2b173497aaf9aa7cd91ecf4afe9bd61de01033948140a |
 | 1 | 26a605b47eec3117318a1ae7e3cb6a6c3d1c335c176af8c8f63f62b7dbee5728 |
 | 1 | 26ce302b0a074f516f8ddb2f422c64edcdd354ca5dc6a532fe52620db1c2be7a |
+| 1 | 2a9b110780e68eae1a807b32b4e09410068d1906e7253888ddf447296e1f1891 |
 | 1 | 2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe |
 | 1 | 326cb4f7863b5ef1a0ab5dbcb0b862dfe9ce3576e0af3e3e9ec36ac623209e63 |
 | 1 | 32b072524907d84a69ba0ded4786820bb9650a739a78c72c36a25ee7ca4ba729 |
@@ -1262,22 +1959,27 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 7cb75e89ff109fc8cc0e541450e99d4bc9cafcd5cea257c610c23fb0bfe1d094 |
 | 1 | 7f6cab55966890910eb83ca9d1f2793e837e46106c8d77f779f759a85a856aaf |
 | 1 | 84ab5e8976bc976ec36bcbc2ed66525470a578b77843252ba5874232517fa1f5 |
+| 1 | 862194f70000295418cbd921cad7b33dacbc7244bbb674c7cca8bea69d7b535c |
 | 1 | 863d56b5a73c241f1be9faae45bb2a329dce039b0dc27706e0a37e54cbf8084e |
 | 1 | 884ca3f4d33c29ce173c02a291120ea02aa113269b2ccedf864941abe12ae018 |
 | 1 | 890b3b7b2fd91e981ea8d7b7ab546f6ce680c8cb4a632960909a3b0f23cd4e67 |
 | 1 | 8ebca57ee07ded7e2011155c1e4667ff27af6518e38804e9136f7401c842e47b |
 | 1 | 90a94cbe06ba7779dfe6792adeb2751bdf8cb31cbdc803bc13deff7928ecc1bb |
+| 1 | 92fcccc09775af231f920c2788a2ab888f19d807edc0cb89963de38840240a9f |
 | 1 | 942e854492fe456bb7191193f791292b95608489d1636568ba8ccb6bf92a657b |
 | 1 | 966173b93e2c527c0c10be68cad776ad163007ceb562c8d098e67e1079bd448c |
 | 1 | 9d3d0475ed56ca76c0735672124654647b78b9bf53fa68bf09693e9612b7e3b8 |
 | 1 | 9e8a617a5bb005dfd6439e3aed6dbdf6465858a0222aca7bde485506b534befb |
 | 1 | 9f98840b71e190b6630bb15422ac28f5011cafdcdd7a1f2c4094f3bb20af6355 |
+| 1 | a28d234c31d081ca1983abf137a0eeb01743ad3b9ed0be8be47d32d1dc50cd7d |
 | 1 | a3e5f059089ad1f9681b209d34895636eab692e3d4306df23fbeaadca000832d |
+| 1 | a6ad1b1ad48395abeba449876b99003e1a1902ec9ee6d7ac41f0e1a31e86b8e6 |
 | 1 | aaa4bd953e6a02c970765beaaf2f6988e490d689c0e1298f9caa630e0e9c1de3 |
 | 1 | ac14be9cf15d69df7e40ecf8300fd7b01be92e728cc9a62e2258bba5900f657f |
 | 1 | af3ede19fc879cdde3f8f35b1e02844753b4fa67ccad6170816b0e5b311b5acb |
 | 1 | b1d616924e9154d22c7864e05238d16641d351bdfe14daba06a6b3fb9b51e92f |
 | 1 | b3a88ec8cc2fdc2e9bcdfe81541e174ad72e49604718799bf4f4d00af90b19f5 |
+| 1 | b4135c81153027c25157e2176ab8d270ebd3e31714f5257a0eba265988271166 |
 | 1 | c01cb2cc3a71dbf08911a0f62272296c755c324ec8c356e4e3f4c8c8db67e8e9 |
 | 1 | c0f9c33050d47645d40f4b548811d249a07405e51725f6016389f9e9ba9f6967 |
 | 1 | c439826a46cb340bbd782476277c854e2a53242d860a0bb2f220eb30bf3c78b1 |
@@ -1293,11 +1995,13 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98 |
 | 1 | dcf48d26486cd031f7c754d8deff725495d0374f34a80ecb2ced3fb2630de29a |
 | 1 | dd5f55b5a6441a0b03546ac3050597085b47a92b155d5963fceacc4eff95a56a |
+| 1 | ddbfc61032ca3dc7eb8d8ba4de0b3732928af11b8a5367f948effacbf1bf1cd7 |
 | 1 | e1a92a2eaa88dd89bdfb4ff3f0390d6e8e2925b69d8873e394170add96f8ed47 |
 | 1 | e307e383b818b5c5280a8f6c11ee90578e38ff137a04b60e515e202e5d692d42 |
 | 1 | e676b5ad5f54db25ab9c26806658512e1e678606c55f17ca565d94a485e3cf93 |
 | 1 | e6f8e5717781d3936a8b4ed87da552bbeb07b0c026c64d3937bf093746b8ccef |
 | 1 | ec5d03c329cab439dd801542b9b7be2efde3e7c3b0aad0d3a69b14bbd760489a |
+| 1 | ee0dca47070f65c4a6c4bf5bc42796ef9232c8c6141405d48fdba4020c95b90e |
 | 1 | f4275fc95e801a786b8647f037a826fca00ca217a7073fc45b7b8246136e42bd |
 | 1 | f62687a82fa5e6296a259b49c09dabe71fe764b60268ec364181bc3f2823daf4 |
 | 1 | f80f1e477b4bcc50c3dcbb397de41f2a59f2da027dd19e2739d6749b0621e23a |

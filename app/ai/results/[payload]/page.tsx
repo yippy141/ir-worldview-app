@@ -161,11 +161,11 @@ export default async function AiResultPage(
 
         {/* ── 1. Verdict ── */}
         <header className={frontispiece.hero} data-ai-lead={hasTiedLead ? "tied" : savedLabelLeads ? "leading" : "saved-nonleading"}>
-          <p className="eyebrow">AI Governance Compass</p>
+          <p className="eyebrow">AI Governance</p>
           {hasTiedLead ? <div className="ai-tied-marks">{tiedKeys.map(key => <div key={key}><AiArchetypeMark archetype={key} /><p>{resolved.scoring.archetypeLabels[key]}</p></div>)}</div> : <AiArchetypeMark archetype={decoded.ak} />}
           <h1>{hasTiedLead ? "Co-leading AI readings" : archetypeLabel}</h1>
           {hasTiedLead && <p>{tiedLabels.join(" and ")} share the exact leading model score. The saved label, {archetypeLabel}, does not break that tie.</p>}
-          {!savedLabelLeads && <p>The saved name is preserved. These rounded coordinates do not reproduce it as a leading model score; use the positions below as the supported reading.</p>}
+          {!savedLabelLeads && <p>This link stores rounded positions. Recomputed from them, {archetypeLabel} is no longer the top-scoring approach, so the name you were given is kept and the positions below are what the link contains.</p>}
           <p className="result-verdict__code">
             {identityCode.map((part, index) => (
               <span key={part}>
@@ -204,7 +204,7 @@ export default async function AiResultPage(
               /><p>{aiAxisReading(signal.key, signal.score)}</p></div>
             ))}
           </div>
-          <p className="result-figure__note">The marker locates the recorded position on a 1–7 scale. Either endpoint can express a strong position; this is not a progress bar.</p>
+          <p className="result-figure__note">Each marker is your position on a 1 to 7 scale between two poles. Either end is a strong position.</p>
         </section>
 
         {/* ── 4. Nearest alternative ── */}
@@ -231,14 +231,14 @@ export default async function AiResultPage(
           />
           <p className="result-figure__note">{hasTiedLead ? `This compares the saved ${archetypeLabel} label with ${runnerUpLabel}; an equal score does not establish a winner.` : comparison.difference <= 0 ? `The rounded positions do not establish ${archetypeLabel} ahead of ${runnerUpLabel}. The saved names are preserved without asserting a winner.` : `The recorded positions favor ${archetypeLabel} over ${runnerUpLabel} most through ${resolved.schema.aiAxisLabels[comparison.rows.reduce((best, row) => row.term > best.term ? row : best).axis].toLowerCase()}.`}</p>
           <p className="result-axis-note"><strong>A case that distinguishes these emphases. </strong>{comparison.question}</p>
-          <p className="result-figure__note">Each term is the recorded axis position minus 4, multiplied by the difference between these two frozen model weights. Positive terms favor {archetypeLabel}; negative terms favor {runnerUpLabel}.</p>
+          <details className="result-figure__note"><summary>How the comparison terms are calculated</summary><p>Each term is your position on the axis, measured from the midpoint, multiplied by how differently the two approaches weight that axis. Positive terms favor {archetypeLabel}; negative terms favor {runnerUpLabel}.</p></details>
         </section>
 
         {/* ── 6. What would change this ── */}
         <section className="result-section result-next">
           <h2>What would change this</h2>
           <p className="result-next__question">{interpretation.followUp.question}</p>
-          <p className="result-scope">A new question to consider. No answer is recorded or rescored here.</p>
+          <p className="result-scope">Nothing you decide here is recorded or rescored.</p>
           <div className="row gap-sm wrap">
             <Link href={`/ai/atlas/${decoded.ak}`} className="cta-primary">
               Read the archetype page
@@ -256,7 +256,7 @@ export default async function AiResultPage(
         <AiProjectBridge mode="result" />
         <section className="article-section stack-sm" aria-labelledby="futures-invitation">
           <h2 id="futures-invitation">Which futures would you want?</h2>
-          <p className="muted">Your governing priorities today leave that question open. Explore possible worlds, compare preferred conditions and consider expectations separately. This result supplies no answers to Futures.</p>
+          <p className="muted">Browse nineteen possible worlds and say which conditions you would want in them. Futures is a separate exercise and starts empty.</p>
           <p><Link href={futuresRoutes.collection} prefetch={false}>Explore the Futures catalogue</Link> · <Link href={futuresRoutes.preferences} prefetch={false}>Consider preferred conditions</Link></p>
         </section>
 
