@@ -46,7 +46,7 @@ function localStatusText(copy: RootCopy, status: RootLocalStatus | null) {
   if (domains > 0) {
     parts.push(fillTemplate(copy.localState.domainRecords, {
       count: domains,
-      recordLabel: domains === 1 ? "record" : "records",
+      recordLabel: domains === 1 ? "result" : "results",
     }))
   }
   if (perspectives > 0) {

@@ -1,0 +1,100 @@
+[
+  {
+    "name": "field-guide",
+    "width": 390,
+    "path": "/ai/field-guide",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "theory-realism",
+    "width": 390,
+    "path": "/explore/realism",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "decision-pattern-institution-builder",
+    "width": 390,
+    "path": "/explore/atlas/institution-builder",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "result-ordinary-shared",
+    "width": 390,
+    "path": "/results/eyJ2Ijo1LCJkcyI6WzYuNDgsMi4xNiw",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "result-close-tied",
+    "width": 390,
+    "path": "/results/eyJ2Ijo1LCJkcyI6WzQsNCw0LDQsNCw",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "result-legacy",
+    "width": 390,
+    "path": "/results/eyJ2IjoyLCJkcyI6WzYuNDgsMi4xNiw",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "result-local-evidence",
+    "width": 390,
+    "path": "/results/eyJ2Ijo1LCJkcyI6WzIuNSw2LDYsNiw",
+    "scrollWidth": 390,
+    "overflow": false
+  },
+  {
+    "name": "field-guide",
+    "width": 1440,
+    "path": "/ai/field-guide",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "name": "theory-realism",
+    "width": 1440,
+    "path": "/explore/realism",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "name": "decision-pattern-institution-builder",
+    "width": 1440,
+    "path": "/explore/atlas/institution-builder",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "name": "result-ordinary-shared",
+    "width": 1440,
+    "path": "/results/eyJ2Ijo1LCJkcyI6WzYuNDgsMi4xNiw",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "name": "result-close-tied",
+    "width": 1440,
+    "path": "/results/eyJ2Ijo1LCJkcyI6WzQsNCw0LDQsNCw",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "name": "result-legacy",
+    "width": 1440,
+    "path": "/results/eyJ2IjoyLCJkcyI6WzYuNDgsMi4xNiw",
+    "scrollWidth": 1440,
+    "overflow": false
+  },
+  {
+    "name": "result-local-evidence",
+    "width": 1440,
+    "path": "/results/eyJ2Ijo1LCJkcyI6WzIuNSw2LDYsNiw",
+    "scrollWidth": 1440,
+    "overflow": false
+  }
+]

@@ -89,6 +89,6 @@ test("Chinese shared Profile keeps untranslated detail copy fail closed", () => 
   )
   assert.doesNotMatch(
     source,
-    /No Perspective Runs|Separate domain records|Open Foundation result/u,
+    /No Perspective Runs|Separate domain records|Your other results|Open Foundation result/u,
   )
 })

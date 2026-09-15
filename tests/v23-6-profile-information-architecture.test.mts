@@ -35,8 +35,8 @@ test("domain-only and Perspective-only profiles bypass the Foundation empty stat
 test("Profile answers the five production questions in the required order", () => {
   const report = source("components/profile/profile-report.tsx")
   const orderedMarkers = [
-    "Saved Foundation read",
-    "Separate domain records",
+    "Your Foundation result",
+    "Your other results",
     "<PerspectiveRunsSection",
     "Reviewed cross-domain relations",
     "What to open next",

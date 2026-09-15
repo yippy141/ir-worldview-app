@@ -1,140 +1,39 @@
 import Link from "next/link"
-import { futuresRoutes } from "@/lib/futures/catalogue/index"
 import type { Metadata } from "next"
+import { futuresRoutes } from "@/lib/futures/catalogue/index"
 import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
 import {
   aiAtlasAxisGuide,
   getAiAtlasEntries,
   getAiAtlasHref,
+  getAiAtlasSharedReadings,
 } from "@/lib/ai-governance-atlas-content"
 import {
-  aiFieldGuideLimits,
-  aiFieldGuideMeasures,
+  aiFieldGuideDisagreements,
+  aiFieldGuidePowerRows,
+  aiFieldGuideWorkedDecision,
+  aiFieldGuideWorkedReadings,
   aiUnderModeledPerspectives,
 } from "@/lib/ai-governance-field-guide-content"
 
 const atlasEntries = getAiAtlasEntries()
 const labelByKey = Object.fromEntries(atlasEntries.map((entry) => [entry.key, entry.label]))
+const sharedReadings = getAiAtlasSharedReadings()
 
 const sections = [
-  { id: "scope", label: "Scope and limits" },
-  { id: "axes", label: "Governance dimensions" },
-  { id: "splits", label: "Where archetypes part ways" },
-  { id: "cross-read", label: "IR ↔ AI cross-read" },
-  { id: "under-modeled", label: "Under-modeled perspectives" },
-  { id: "start", label: "Where to start reading" },
-  { id: "futures", label: "Futures", optional: true },
+  { id: "disagree", label: "Why they disagree" },
+  { id: "powers", label: "Who holds each power" },
+  { id: "splits", label: "Where neighbors part ways" },
+  { id: "axes", label: "The axes behind a result" },
+  { id: "under-modeled", label: "What is left out" },
+  { id: "start", label: "Where to read next" },
+  { id: "futures", label: "Futures" },
 ]
 
-const partWaysPairs = [
-  {
-    pair: "A",
-    a: "democraticGuardrailist",
-    b: "precautionarySteward",
-    shared:
-      "Both insist that frontier-only safety claims are not enough; both want stronger checks before broad deployment.",
-    split:
-      "Guardrailist binds the check to public oversight and procedural legitimacy; Precautionary Steward binds it to threshold-based caution about the capability itself.",
-  },
-  {
-    pair: "B",
-    a: "strategicCompetitor",
-    b: "stateCapacityBuilder",
-    shared:
-      "Both treat AI governance as a state-level problem and accept that real instruments matter more than rhetoric.",
-    split:
-      "Strategic Competitor reads the system through capability edge under rivalry; State Capacity Builder reads it through who can actually supervise, procure, and verify in practice.",
-  },
-  {
-    pair: "C",
-    a: "openEcosystemBuilder",
-    b: "coordinationArchitect",
-    shared:
-      "Both worry that frontier capability is concentrating in a few labs and a few states.",
-    split:
-      "Open Ecosystem Builder treats wider access as the cure; Coordination Architect treats durable cross-border rules and standards as the cure.",
-  },
-  {
-    pair: "D",
-    a: "coordinationArchitect",
-    b: "democraticGuardrailist",
-    shared:
-      "Both want enforceable rules and are skeptical of voluntary lab self-governance alone.",
-    split:
-      "Coordination Architect looks outward to multilateral standards and shared verification; Democratic Guardrailist looks inward to publicly answerable domestic institutions.",
-  },
-] as const
-
-const crossRead = [
-  {
-    irLabel: "Identity and legitimacy",
-    irBody:
-      "In IR, the live question is whether legitimacy is procedural (rule-following) or substantive (outcome-defending), and across whose institutions it has to hold.",
-    aiAxisLabel: "Legitimacy and rule-setting",
-    aiBody:
-      "On the AI side, the same question becomes: who has standing to audit, license, or pause a model, and what grants that authority.",
-  },
-  {
-    irLabel: "Security rivalry",
-    irBody:
-      "In IR, competition can be self-fulfilling. A security-dilemma reading turns defensive moves into offensive ones, and escalation follows.",
-    aiAxisLabel: "Competition vs coordination",
-    aiBody:
-      "On the AI side, that lens asks how much pace pressure is real strategic constraint and how much is invoked to dismiss safety arguments.",
-  },
-  {
-    irLabel: "Markets and dependence",
-    irBody:
-      "In IR, the political-economy lens reads supply-chain coercion, market dependence, and who sets the terms of access.",
-    aiAxisLabel: "Openness vs control",
-    aiBody:
-      "On the AI side, the same lens reads compute, weights, and data concentration as governance questions, not only market ones.",
-  },
-] as const
-
-const startReading = [
-  {
-    kicker: "From the Compass",
-    title: "Read your nearest neighbor",
-    text: "Your archetype card already names a neighbor. The useful comparison is where two archetypes share most of the fingerprint but split on one axis.",
-    href: "/ai/atlas",
-    linkLabel: "Open the AI Atlas",
-  },
-  {
-    kicker: "From IR",
-    title: "Start with the cross-read",
-    text: "Three meeting points where IR vocabulary and AI governance vocabulary line up. The translation is uneven on purpose.",
-    href: "#cross-read",
-    linkLabel: "Open the cross-read",
-  },
-  {
-    kicker: "Browsing",
-    title: "Use the compact map",
-    text: "The Atlas maps governance patterns. The Field Guide explains each one without adding another assessment.",
-    href: "/ai/atlas",
-    linkLabel: "Open the AI Atlas",
-  },
-] as const
-
-const futureScenarios = [
-  {
-    title: "Concentration tightens",
-    text: "Frontier capability narrows to fewer labs and fewer states; downstream access is rationed.",
-  },
-  {
-    title: "Open weights hold",
-    text: "Open releases keep setting the deployment baseline; frontier closure does not stick.",
-  },
-  {
-    title: "Multilateral baseline holds",
-    text: "Standards bodies and treaties retain real verification teeth across rival blocs.",
-  },
-] as const
-
 export const metadata: Metadata = {
-  title: "Field Guide | AI Governance Compass",
+  title: "Field Guide | AI Governance | IR Worldview Inventory",
   description:
-    "Reader's companion to the AI Atlas. Scope notes, eight axes, where archetypes part ways, IR ↔ AI cross-read, and under-modeled perspectives. Explainer only. No scoring or second assessment.",
+    "Why six approaches to governing powerful AI disagree, who each would let inspect, release, restrict, or stop a model, and what the questionnaire leaves out.",
 }
 
 export default function AiFieldGuidePage() {
@@ -144,15 +43,17 @@ export default function AiFieldGuidePage() {
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
           <p className="ai-hero-eyebrow">AI Governance</p>
-          <h1 className="ai-hero-h1">AI Field Guide</h1>
+          <h1 className="ai-hero-h1">Field Guide</h1>
           <p className="ai-hero-summary">
-Compare the institutions behind rival proposals: who can inspect, who can restrict access, and who has authority to set the rules. These are editorial comparisons, not inferred relationships between your Foundation and AI results.
+            Six approaches to governing powerful AI answer the same question differently:
+            who may inspect a model, release it, restrict it, or stop it. This guide works
+            one decision through all six and sets out where each would put those powers.
+            It ends with what the questionnaire leaves out.
           </p>
           <div className="row gap-sm wrap">
             <AiResultReturnLink />
-            <Link href="/ai/atlas" className="cta-secondary">Open the AI Atlas</Link>
-            <Link href="/profile" className="cta-secondary">Profile</Link>
-            <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
+            <Link href="/ai/atlas" className="cta-secondary">The six approaches</Link>
+            <Link href="/ai/quiz" className="cta-primary">Start AI Governance</Link>
           </div>
         </section>
 
@@ -160,9 +61,6 @@ Compare the institutions behind rival proposals: who can inspect, who can restri
           {sections.map((section) => (
             <a key={section.id} href={`#${section.id}`} className="ai-fg-anchorbar__link">
               {section.label}
-              {section.optional ? (
-                <span className="ai-fg-anchorbar__pill">optional</span>
-              ) : null}
             </a>
           ))}
         </nav>
@@ -172,67 +70,123 @@ Compare the institutions behind rival proposals: who can inspect, who can restri
             <p className="ai-fg-rail__lbl">On this page</p>
             <ol className="ai-fg-rail__list">
               {sections.map((section) => (
-                <li
-                  key={section.id}
-                  className={`ai-fg-rail__item${section.optional ? " ai-fg-rail__item--optional" : ""}`}
-                >
+                <li key={section.id} className="ai-fg-rail__item">
                   <a href={`#${section.id}`} className="ai-fg-rail__link">
                     {section.label}
                   </a>
-                  {section.optional ? (
-                    <span className="ai-fg-rail__pill">optional</span>
-                  ) : null}
                 </li>
               ))}
             </ol>
-            <div className="ai-fg-rail__legend">
-              <p className="ai-fg-rail__legend-k">What this page is</p>
-              <p className="ai-fg-rail__legend-v">
-                An explainer. No score, no archetype produced. To get an archetype, take the AI
-                Governance Compass.
-              </p>
-            </div>
           </aside>
 
           <div className="ai-fg-content">
-            <section id="scope" className="ai-fg-section stack-md">
+            <section id="disagree" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§1</p>
-                <h2 className="ai-fg-section__title">What this module measures, and what it does not</h2>
+                <h2 className="ai-fg-section__title">Why do the six approaches disagree?</h2>
                 <p className="ai-fg-section__deck">
-                  The Compass is a structured reader for AI governance instincts. It is not a
-                  technical exam, expertise credential, or full map of AI politics.
+                  Take the decision from the exercise{" "}
+                  <Link href={aiFieldGuideWorkedDecision.exerciseHref}>
+                    {aiFieldGuideWorkedDecision.exerciseTitle}
+                  </Link>
+                  . {aiFieldGuideWorkedDecision.situation} Each approach starts from a
+                  different question. More than one can end up backing the same option, for
+                  different reasons.
                 </p>
               </header>
-              <div className="ai-fg-scope-grid">
-                <article className="ai-fg-scope-card stack-sm">
-                  <p className="ai-fg-scope-card__kicker">What it measures</p>
-                  {aiFieldGuideMeasures.map((item) => (
-                    <div key={item.title} className="stack-xs">
-                      <h3>{item.title}</h3>
-                      <p>{item.body}</p>
+              <div className="ai-fg-perspective-grid">
+                {aiFieldGuideWorkedReadings.map((reading) => (
+                  <article key={reading.key} className="ai-fg-perspective stack-sm">
+                    <div className="stack-xs">
+                      <h3>
+                        <Link href={getAiAtlasHref(reading.key)} className="ai-fg-parts__pair-link">
+                          {labelByKey[reading.key]}
+                        </Link>
+                      </h3>
+                      <p className="ai-fg-perspective__question">{reading.firstQuestion}</p>
                     </div>
-                  ))}
-                </article>
-                <article className="ai-fg-scope-card ai-fg-scope-card--limits stack-sm">
-                  <p className="ai-fg-scope-card__kicker">What it does not fully cover</p>
-                  {aiFieldGuideLimits.map((item) => (
-                    <div key={item.title} className="stack-xs">
-                      <h3>{item.title}</h3>
-                      <p>{item.body}</p>
+                    <p>{reading.reading}</p>
+                  </article>
+                ))}
+              </div>
+              <p className="ai-fg-section__deck">
+                These readings are authored illustrations. Nothing on this page is scored,
+                and none of them is attached to you. To make the decision yourself,{" "}
+                <Link href={aiFieldGuideWorkedDecision.exerciseHref}>open the exercise</Link>.
+              </p>
+            </section>
+
+            <section id="powers" className="ai-fg-section stack-md">
+              <header className="ai-fg-section__head">
+                <h2 className="ai-fg-section__title">
+                  Who should be able to inspect, release, restrict, or stop a model?
+                </h2>
+                <p className="ai-fg-section__deck">
+                  The same four powers, and where each approach would put them.
+                </p>
+              </header>
+              <div className="ai-fg-parts">
+                <div className="ai-fg-parts__row ai-fg-parts__row--head">
+                  <div>Approach</div>
+                  <div>Inspect and release</div>
+                  <div>Restrict and stop</div>
+                </div>
+                {aiFieldGuidePowerRows.map((row) => (
+                  <div key={row.key} className="ai-fg-parts__row">
+                    <div className="ai-fg-parts__pair">
+                      <Link href={getAiAtlasHref(row.key)} className="ai-fg-parts__pair-link">
+                        {labelByKey[row.key]}
+                      </Link>
                     </div>
-                  ))}
-                </article>
+                    <div className="ai-fg-parts__col">
+                      <span className="ai-fg-parts__kicker">Inspect and release</span>
+                      {row.inspectAndRelease}
+                    </div>
+                    <div className="ai-fg-parts__col">
+                      <span className="ai-fg-parts__kicker">Restrict and stop</span>
+                      {row.restrictAndStop}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section id="splits" className="ai-fg-section stack-md">
+              <header className="ai-fg-section__head">
+                <h2 className="ai-fg-section__title">Where nearby approaches part ways</h2>
+                <p className="ai-fg-section__deck">
+                  The same proposal can appeal to two approaches for different reasons. These
+                  comparisons show where those reasons diverge.
+                </p>
+              </header>
+              <div className="ai-fg-perspective-grid">
+                {aiFieldGuideDisagreements.map((pair) => (
+                  <article key={pair.id} className="ai-fg-perspective stack-sm">
+                    <h3>
+                      <Link href={getAiAtlasHref(pair.a)} className="ai-fg-parts__pair-link">
+                        {labelByKey[pair.a]}
+                      </Link>
+                      {" and "}
+                      <Link href={getAiAtlasHref(pair.b)} className="ai-fg-parts__pair-link">
+                        {labelByKey[pair.b]}
+                      </Link>
+                    </h3>
+                    <p className="ai-fg-perspective__limit">
+                      <span>Shared ground:</span> {pair.sharedGround}
+                    </p>
+                    <p>{pair.argument}</p>
+                  </article>
+                ))}
               </div>
             </section>
 
             <section id="axes" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§2</p>
-                <h2 className="ai-fg-section__title">Governance dimensions</h2>
+                <h2 className="ai-fg-section__title">The axes behind a result</h2>
                 <p className="ai-fg-section__deck">
-                  The vocabulary the AI module uses. Names, one-line description, and opposing
-                  poles only. It assigns no positions or scores.
+                  Your answers give positions on these axes. Each runs between two poles, and
+                  either end is a position. Each approach weights those positions differently,
+                  and the comparison decides which result leads. It says nothing about technical
+                  expertise, or about whether the institutions you favor can be built in time.
                 </p>
               </header>
               <ol className="ai-fg-axes">
@@ -245,7 +199,7 @@ Compare the institutions behind rival proposals: who can inspect, who can restri
                     <div className="ai-fg-axis__poles">
                       <div className="ai-fg-axis__poles-row">
                         <span>{axis.lowLabel}</span>
-                        <span aria-hidden="true">—</span>
+                        <span aria-hidden="true">·</span>
                         <span>{axis.highLabel}</span>
                       </div>
                       <div className="ai-fg-axis__scale" aria-hidden="true" />
@@ -255,90 +209,24 @@ Compare the institutions behind rival proposals: who can inspect, who can restri
               </ol>
             </section>
 
-            <section id="splits" className="ai-fg-section stack-md">
-              <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§3</p>
-                <h2 className="ai-fg-section__title">Where nearby archetypes part ways</h2>
-                <p className="ai-fg-section__deck">
-                  Pairs whose fingerprints overlap on most axes. The split on one or two axes is
-                  what tells them apart.
-                </p>
-              </header>
-              <div className="ai-fg-parts">
-                <div className="ai-fg-parts__row ai-fg-parts__row--head">
-                  <div>Pair</div>
-                  <div>What they share</div>
-                  <div>Where they split</div>
-                </div>
-                {partWaysPairs.map((entry) => (
-                  <div key={entry.pair} className="ai-fg-parts__row">
-                    <div className="ai-fg-parts__pair">
-                      <Link href={getAiAtlasHref(entry.a)} className="ai-fg-parts__pair-link">
-                        {labelByKey[entry.a]}
-                      </Link>
-                      {" · "}
-                      <Link href={getAiAtlasHref(entry.b)} className="ai-fg-parts__pair-link">
-                        {labelByKey[entry.b]}
-                      </Link>
-                      <small>Pair {entry.pair}</small>
-                    </div>
-                    <div className="ai-fg-parts__col">
-                      <span className="ai-fg-parts__kicker">Shared</span>
-                      {entry.shared}
-                    </div>
-                    <div className="ai-fg-parts__col">
-                      <span className="ai-fg-parts__kicker">Split</span>
-                      {entry.split}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section id="cross-read" className="ai-fg-section stack-md">
-              <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§4</p>
-                <h2 className="ai-fg-section__title">How IR and AI cross-read</h2>
-                <p className="ai-fg-section__deck">
-                  Three meeting points between the IR Foundation and the AI Compass. They are
-                  related layers, not parallel scoring systems.
-                </p>
-              </header>
-              <div className="ai-fg-cross">
-                {crossRead.map((cell) => (
-                  <article key={cell.irLabel} className="ai-fg-cross__cell">
-                    <p className="ai-fg-cross__kicker">IR concept</p>
-                    <h3 className="ai-fg-cross__title">{cell.irLabel}</h3>
-                    <p className="ai-fg-cross__body">{cell.irBody}</p>
-                    <p className="ai-fg-cross__ai">
-                      <span className="ai-fg-cross__ai-k">AI · {cell.aiAxisLabel}:</span>{" "}
-                      {cell.aiBody}
-                    </p>
-                  </article>
-                ))}
-              </div>
-            </section>
-
             <section id="under-modeled" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§5</p>
-                <h2 className="ai-fg-section__title">Perspectives the current model only partly covers</h2>
+                <h2 className="ai-fg-section__title">What the questionnaire leaves out</h2>
                 <p className="ai-fg-section__deck">
-                  These are not hidden scored archetypes. They are adjacent shelves to keep in view
-                  when the six modeled families feel too narrow.
+                  Six ways of arguing about AI that the six approaches touch without scoring.
+                  Each ends with a question to put to your own result.
                 </p>
               </header>
               <div className="ai-fg-perspective-grid">
                 {aiUnderModeledPerspectives.map((perspective) => (
                   <article key={perspective.id} className="ai-fg-perspective stack-sm">
                     <div className="stack-xs">
-                      <p className="ai-fg-perspective__id">{perspective.id.replaceAll("-", " / ")}</p>
                       <h3>{perspective.title}</h3>
                       <p>{perspective.whyItMatters}</p>
                     </div>
-                    <div className="ai-fg-perspective__limit">
-                      <span>Current coverage:</span> {perspective.currentCoverage}
-                    </div>
+                    <p className="ai-fg-perspective__limit">
+                      <span>In the questionnaire:</span> {perspective.currentCoverage}
+                    </p>
                     <p className="ai-fg-perspective__question">{perspective.readingQuestion}</p>
                   </article>
                 ))}
@@ -347,53 +235,56 @@ Compare the institutions behind rival proposals: who can inspect, who can restri
 
             <section id="start" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <p className="ai-fg-section__num">§6</p>
-                <h2 className="ai-fg-section__title">Where to start reading</h2>
+                <h2 className="ai-fg-section__title">Where to read next</h2>
                 <p className="ai-fg-section__deck">
-                  Three small entry points. Pick the one that matches why you arrived.
+                  Four readings that every approach page starts from. Each approach page adds
+                  its own first reading and its strongest critique.
                 </p>
               </header>
               <div className="ai-fg-start">
-                {startReading.map((entry) => (
-                  <article key={entry.title} className="ai-fg-start__cell">
-                    <p className="ai-fg-start__lbl">{entry.kicker}</p>
-                    <h3 className="ai-fg-start__title">{entry.title}</h3>
-                    <p className="ai-fg-start__body">{entry.text}</p>
-                    {entry.href.startsWith("#") ? (
-                      <a href={entry.href} className="ai-fg-start__link">
-                        {entry.linkLabel} →
-                      </a>
-                    ) : (
-                      <Link href={entry.href} className="ai-fg-start__link">
-                        {entry.linkLabel} →
-                      </Link>
-                    )}
+                {sharedReadings.map((reading) => (
+                  <article key={reading.id} className="ai-fg-start__cell">
+                    <p className="ai-fg-start__lbl">
+                      {reading.author} · {reading.year}
+                    </p>
+                    <h3 className="ai-fg-start__title">
+                      {reading.url ? (
+                        <a href={reading.url} target="_blank" rel="noopener noreferrer">
+                          {reading.title}
+                        </a>
+                      ) : (
+                        reading.title
+                      )}
+                    </h3>
+                    <p className="ai-fg-start__body">{reading.whyItMatters}</p>
                   </article>
                 ))}
               </div>
+              <p>
+                {atlasEntries.map((entry, index) => (
+                  <span key={entry.key}>
+                    {index > 0 ? " · " : ""}
+                    <Link href={getAiAtlasHref(entry.key)}>{entry.label}</Link>
+                  </span>
+                ))}
+              </p>
             </section>
 
             <section id="futures" className="ai-fg-section stack-md">
-              <div className="ai-fg-futures">
-                <div className="ai-fg-futures__head">
-                  <span className="ai-fg-futures__lbl">§7 · Appendix · Futures</span>
-                  <span className="ai-fg-futures__pill">Optional · Non-scored</span>
-                </div>
-                <p className="ai-fg-futures__intro">
-                  Three reading prompts used inside Field Guide entries to test how each archetype
-                  responds to a different shape of the next decade. They are not predictions and
-                  they do not enter any score on any page in this product.
-                </p>
-                <p><Link href={futuresRoutes.collection} prefetch={false}>Browse the whole Futures catalogue</Link> or <Link href={futuresRoutes.preferences} prefetch={false}>consider your preferred conditions</Link>. This separate exercise leaves your AI Governance result unchanged.</p>
-                <div className="ai-fg-futures__grid">
-                  {futureScenarios.map((scenario) => (
-                    <article key={scenario.title} className="ai-fg-futures__scen">
-                      <p className="ai-fg-futures__scen-ttl">{scenario.title}</p>
-                      <p className="ai-fg-futures__scen-meta">{scenario.text}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
+              <header className="ai-fg-section__head">
+                <h2 className="ai-fg-section__title">Futures</h2>
+              </header>
+              <p>
+                The six approaches argue about the next release. Futures asks about the world
+                after many releases: nineteen possible futures, from continued human rule to
+                authority passing to artificial systems, and the conditions you would want in
+                each.{" "}
+                <Link href={futuresRoutes.collection} prefetch={false}>Browse the whole Futures catalogue</Link>
+                {" "}or{" "}
+                <Link href={futuresRoutes.preferences} prefetch={false}>say which conditions you would want</Link>.
+                Futures is a separate exercise and starts empty; it does not change an AI
+                Governance result.
+              </p>
             </section>
           </div>
         </div>

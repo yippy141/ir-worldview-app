@@ -1,70 +1,32 @@
 import Link from "next/link"
 import { ModulesFoundationState } from "@/components/modules/modules-foundation-state"
 import { modules } from "@/lib/modules/framework"
+import type { ModuleSlug } from "@/lib/modules/types"
 import { resolveFoundationPayload } from "@/lib/share"
 import type { Metadata } from "next"
 
-const plannedModuleTracks = {
-  functional: [
-    {
-      title: "International Economics and Finance",
-      summary:
-        "A geoeconomic issue read on trade, finance, sanctions, industrial policy, and economic statecraft.",
-    },
-    {
-      title: "Governance, Politics, and Society",
-      summary:
-        "A domestic-order issue read on institutions, legitimacy, polarization, and state capacity under stress.",
-    },
-    {
-      title: "Development, Climate, and Sustainability",
-      summary:
-        "A cross-border issue read on growth, resilience, climate pressure, and competing development priorities.",
-    },
-  ],
-  regional: [
-    {
-      title: "China",
-      summary:
-        "A regional lens on how your baseline travels when Chinese strategy, institutions, and historical memory move to the center.",
-    },
-    {
-      title: "Middle East",
-      summary:
-        "A regional lens on order, rivalry, deterrence, and state survival across a dense security environment.",
-    },
-    {
-      title: "Africa",
-      summary:
-        "A regional lens on development, sovereignty, external influence, and uneven institutional capacity.",
-    },
-    {
-      title: "Europe and Eurasia",
-      summary:
-        "A regional lens on alliance politics, continental security, border revision, and institutional constraint.",
-    },
-    {
-      title: "Asia",
-      summary:
-        "A regional lens on maritime order, balancing behavior, development strategy, and strategic interdependence.",
-    },
-    {
-      title: "Americas",
-      summary:
-        "A regional lens on hemispheric order, democratic stress, migration, and economic integration.",
-    },
-    {
-      title: "United States",
-      summary:
-        "A domestic-regional lens on how baseline assumptions hold up inside U.S. strategic debate and statecraft.",
-    },
-  ],
-} as const
+/**
+ * Reader-facing introductions. The scenes named here are cases in the
+ * current banks (eastern_flank, maritime_pressure, ceasefire_accountability;
+ * sovereign_stacks, open_weight_models, data_center_dependence).
+ */
+const introductions: Record<ModuleSlug, { covers: string; scenes: string }> = {
+  security: {
+    covers: "Deterrence, alliances, sanctions, and the use of force.",
+    scenes:
+      "Each case is set at a real table: a NATO ministerial choosing an eastern-flank posture, a coastal state deciding whose help to accept, a monitoring team watching a ceasefire fray.",
+  },
+  technology: {
+    covers: "Export controls, chips, open models, sovereign clouds, and who writes the rules for AI.",
+    scenes:
+      "Each case is a budget or an access decision: a cabinet deciding whether to build a sovereign cloud, a research board choosing how far to open a capable model, a ministry signing for data-centre capacity it cannot build itself.",
+  },
+}
 
 export const metadata: Metadata = {
-  title: "Focus Areas | IR Worldview Inventory",
+  title: "Security and Technology | IR Worldview Inventory",
   description:
-    "Take a Security or Technology Focus Area and save the result beside your Foundation.",
+    "Two shorter questionnaires built from cases. Each gives its own result and leaves your Foundation result alone.",
 }
 
 export default async function ModulesPage(
@@ -85,11 +47,12 @@ export default async function ModulesPage(
         <section className="lobby-hero lobby-hero--plain">
           <div className="lobby-hero-grid">
             <div className="stack-lg">
-              <p className="section-kicker">Focus Areas</p>
-              <h1>Add a focused issue read beside the Foundation</h1>
+              <p className="section-kicker">Security and Technology</p>
+              <h1>Two shorter questionnaires built from cases</h1>
               <p className="lobby-lead">
-                Use Security and Technology to examine concrete policy judgments. Each result
-                remains a separate domain record and leaves the Foundation unchanged.
+                An ally asks for troops on its border. A ministry decides whether to fund public
+                compute. You choose, and the result shows which logic you kept returning to. Each
+                questionnaire gives its own result and leaves your Foundation result alone.
               </p>
               <ModulesFoundationState
                 linkedFoundation={Boolean(verifiedFoundation)}
@@ -98,13 +61,6 @@ export default async function ModulesPage(
             </div>
 
             <aside className="lobby-side-note lobby-side-note--offset stack-sm">
-              <div className="stack-xs">
-                <p className="section-kicker">How to read this layer</p>
-                <p className="muted lobby-side-text">
-                  Broad priors and issue instincts are related, but not identical. The point here
-                  is to read the issue on its own terms when the case becomes specific.
-                </p>
-              </div>
               <ModulesFoundationState
                 linkedFoundation={Boolean(verifiedFoundation)}
                 variant="note"
@@ -113,184 +69,50 @@ export default async function ModulesPage(
           </div>
         </section>
 
-        <section className="lobby-signals lobby-signals--plain lobby-band">
-          <div className="signal-list signal-list--three">
-            <div className="signal-list-item">
-              <strong>What Focus Areas cover</strong>
-              Security and Technology begin from familiar policy debates, then record a focused
-              read across a smaller number of domain-specific lanes.
-            </div>
-            <div className="signal-list-item">
-              <strong>How long it takes</strong>
-              Standard is the shorter issue read. Advanced adds extra cases and a smaller number
-              of questions asked from a defined actor’s position.
-            </div>
-            <div className="signal-list-item">
-              <strong>What it does not claim</strong>
-              A Focus Area result is an issue read, not a better or truer Foundation result.
-            </div>
-          </div>
-        </section>
-
-        <section id="available-modules" className="stack-md lobby-band">
-          <div className="stack-xs">
-            <p className="section-kicker">Available Focus Areas</p>
-            <h2>Choose a policy area to examine first</h2>
-            <p className="muted lobby-section-copy">
-              Each Focus Area produces its own issue record. No Focus Area score is translated onto the
-              Foundation scale.
-            </p>
-          </div>
+        <section id="available-modules" className="stack-md lobby-band" aria-label="The two questionnaires">
           <div className="module-choice-grid">
-            {modules.map((moduleDefinition) => (
-              <article key={moduleDefinition.slug} className="module-choice-card stack-md">
-                <div className="stack-sm">
-                  <div className="stack-xs">
-                    <p className="section-kicker">{moduleDefinition.shortTitle}</p>
-                    <h3 className="lobby-entry-title">{moduleDefinition.title}</h3>
-                    <p className="lobby-entry-subtitle">{moduleDefinition.subtitle}</p>
-                  </div>
-                  <p className="muted lobby-entry-text">{moduleDefinition.description}</p>
-                  <div className="stack-xs">
-                    <Link
-                      href={`/modules/${moduleDefinition.slug}${verifiedFoundation ? `?foundation=${encodeURIComponent(verifiedFoundation)}` : ""}`}
-                      className="cta-primary"
-                    >
-                      Open {moduleDefinition.shortTitle} questionnaire
-                    </Link>
-                    <p className="module-choice-note">
-                      Use this when you want a more concrete read than the Foundation alone can give.
-                    </p>
-                  </div>
-                </div>
+            {modules.map((moduleDefinition) => {
+              const intro = introductions[moduleDefinition.slug]
+              const href = `/modules/${moduleDefinition.slug}${verifiedFoundation ? `?foundation=${encodeURIComponent(verifiedFoundation)}` : ""}`
 
-                <dl className="module-choice-meta">
-                  <div>
-                    <dt>What it covers</dt>
-                    <dd>{moduleDefinition.lanes.map((lane) => lane.label).join(" · ")}</dd>
+              return (
+                <article key={moduleDefinition.slug} className="module-choice-card stack-md">
+                  <div className="stack-sm">
+                    <div className="stack-xs">
+                      <p className="section-kicker">{moduleDefinition.shortTitle}</p>
+                      <h2 className="lobby-entry-title">{intro.covers}</h2>
+                      <p className="lobby-entry-subtitle">{intro.scenes}</p>
+                    </div>
+                    <div className="stack-xs">
+                      <Link href={href} className="cta-primary">
+                        Start {moduleDefinition.shortTitle}
+                      </Link>
+                      <p className="module-choice-note">
+                        Standard: {moduleDefinition.questionsByMode.standard.length} cases, {moduleDefinition.timeEstimate.standard}.
+                        Advanced: {moduleDefinition.questionsByMode.analyst.length} cases, {moduleDefinition.timeEstimate.analyst}.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <dt>How long it takes</dt>
-                    <dd>
-                      Standard: {moduleDefinition.timeEstimate.standard} · Advanced: {moduleDefinition.timeEstimate.analyst}
-                    </dd>
-                    <dd>
-                      {moduleDefinition.questionsByMode.standard.length} standard questions · {moduleDefinition.questionsByMode.analyst.length} advanced questions
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>What it does not claim</dt>
-                    <dd>{moduleDefinition.doesNotClaim[0]}.</dd>
-                  </div>
-                </dl>
-              </article>
-            ))}
+
+                  <dl className="module-choice-meta">
+                    <div>
+                      <dt>The result reads three things</dt>
+                      {moduleDefinition.lanes.map((lane) => (
+                        <dd key={lane.key}>{lane.description}</dd>
+                      ))}
+                    </div>
+                  </dl>
+                </article>
+              )
+            })}
           </div>
         </section>
 
-        <section className="stack-md lobby-band">
-          <div className="stack-sm">
-            <p className="section-kicker">Planned next</p>
-            <h2>Future modules stay visible, but they are not live in this round</h2>
-            <p className="muted lobby-section-copy">
-              The next additions are grouped by function and region. They are roadmap entries, not
-              live routes.
-            </p>
-          </div>
-
-          <div className="planned-track-grid">
-            <section className="planned-track stack-md" aria-labelledby="planned-functional-track">
-              <div className="stack-xs">
-                <p className="section-kicker">Functional track</p>
-                <h3 id="planned-functional-track" className="lobby-entry-title">
-                  Add more issue areas before broadening into regions
-                </h3>
-                <p className="muted lobby-entry-text">
-                  Functional modules extend the same separate-record structure without changing
-                  the frame of the project.
-                </p>
-              </div>
-              <div className="planned-module-grid">
-                {plannedModuleTracks.functional.map((moduleDefinition) => (
-                  <article key={moduleDefinition.title} className="planned-module-card stack-sm">
-                    <div className="planned-module-header">
-                      <h4 className="planned-module-title">{moduleDefinition.title}</h4>
-                      <span className="planned-module-chip" aria-label="Status: Planned">
-                        Planned
-                      </span>
-                    </div>
-                    <p className="planned-module-text">{moduleDefinition.summary}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
-
-            <section className="planned-track stack-md" aria-labelledby="planned-regional-track">
-              <div className="stack-xs">
-                <p className="section-kicker">Regional track</p>
-                <h3 id="planned-regional-track" className="lobby-entry-title">
-                  Regional lenses come after the underlying language is clearer
-                </h3>
-                <p className="muted lobby-entry-text">
-                  Regional modules introduce harder interpretation questions. They stay planned
-                  until the core product language is clearer.
-                </p>
-              </div>
-              <div className="planned-module-grid">
-                {plannedModuleTracks.regional.map((moduleDefinition) => (
-                  <article key={moduleDefinition.title} className="planned-module-card stack-sm">
-                    <div className="planned-module-header">
-                      <h4 className="planned-module-title">{moduleDefinition.title}</h4>
-                      <span className="planned-module-chip" aria-label="Status: Planned">
-                        Planned
-                      </span>
-                    </div>
-                    <p className="planned-module-text">{moduleDefinition.summary}</p>
-                  </article>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          <div className="planned-roadmap-note">
-            <p className="muted lobby-section-copy">
-              Best next additions after this round: <strong>International Economics and
-              Finance</strong> on the functional side, then <strong>China</strong> as the first
-              regional flagship.
-            </p>
-          </div>
-        </section>
-
-        <section className="stack-md lobby-band">
-          <div className="stack-sm">
-            <p className="section-kicker">Same product family</p>
-            <h2>The AI companion and browse surfaces stay adjacent to the IR records</h2>
-            <p className="muted lobby-section-copy">
-              The AI Governance Compass runs alongside the IR Foundation and issue records. The
-              field guide and Profile keep the whole product legible rather than scattering the
-              pieces across separate experiences.
-            </p>
-          </div>
-          <div className="resource-list resource-list--grid">
-            <Link href="/ai" className="resource-list-link">
-              <span className="resource-list-copy">
-                <span className="resource-list-title">AI Governance Compass</span>
-                <span className="resource-list-text">Open the AI layer and its atlas.</span>
-              </span>
-            </Link>
-            <Link href="/explore" className="resource-list-link">
-              <span className="resource-list-copy">
-                <span className="resource-list-title">Explore</span>
-                <span className="resource-list-text">Browse modeled traditions, nearby patterns, and coverage gaps.</span>
-              </span>
-            </Link>
-            <Link href="/profile" className="resource-list-link">
-              <span className="resource-list-copy">
-                <span className="resource-list-title">Profile</span>
-                <span className="resource-list-text">Keep the Foundation and separate issue records in one view.</span>
-              </span>
-            </Link>
-          </div>
+        <section className="stack-sm lobby-band">
+          <p className="muted lobby-section-copy">
+            Already have results? <Link href="/profile">Open Profile</Link>. For who should govern
+            powerful AI, <Link href="/ai">AI Governance</Link> is its own questionnaire.
+          </p>
         </section>
       </article>
     </div>

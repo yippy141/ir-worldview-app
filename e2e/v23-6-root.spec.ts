@@ -84,8 +84,8 @@ test("returning-state hydration changes detail text without moving menu geometry
     window.dispatchEvent(new StorageEvent("storage", { key }))
   }, { key: PROFILE_STORAGE_KEY })
 
-  await expect(page.getByText(/saved Foundation read/iu)).toBeVisible()
-  await expect(page.getByText(/1 saved domain record/iu)).toBeVisible()
+  await expect(page.getByText(/a saved Foundation result/iu)).toBeVisible()
+  await expect(page.getByText(/1 saved Security, Technology or AI result\b/iu)).toBeVisible()
   await expect(page.getByText(/1 saved Perspective Run/iu)).toBeVisible()
   const menuAfter = await page
     .getByRole("navigation", { name: "Primary destinations" })

@@ -268,6 +268,67 @@ const rules = [
     reason: "The heading does not identify the next decision, evidence, comparison, or route.",
     action: "Replace it with a heading specific to the following content or action.",
   },
+  // Rules added 2026-09-13 from the whole-product review. Advisory until the
+  // Sprint A rewrite lands; then promote the P1 rules to strict.
+  {
+    id: "product-self-narration",
+    priority: "P1",
+    kind: "self-narration",
+    pattern:
+      /\b(?:remains?|stays?|kept|keeps?) separate\b|\bseparate (?:domain |issue |local |governance )?records?\b|\bdomain (?:records?|inventor(?:y|ies))\b|\bissue reads?\b|\b(?:registered|frozen) (?:matrix|calibration|weights?|form)\b|\bthe live scorer\b|\btuple\b|\bsaved layers?\b|\bFoundation reads?\b/giu,
+    reason: "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
+    action: "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
+  },
+  {
+    id: "does-not-claim-heading",
+    priority: "P1",
+    kind: "self-narration",
+    pattern: /^(?:what it does not (?:claim|fully cover)|what this page is|what this module measures, and what it does not)$/giu,
+    reason: "A disclaimer positioned as a content section.",
+    action: "Attach the necessary limit to the claim it qualifies in one sentence, or link Method.",
+  },
+  {
+    id: "ranking-opener-in-option",
+    priority: "P1",
+    kind: "instrument-copy",
+    pattern:
+      /\bThe (?:real|deeper|sharper|first|decisive|critical|stronger|better|best|strongest|practical|central|bigger|main|key) (?:question|issue|problem|contest|weakness|test|answer|case|clue|model|path|danger|reason|job|goal|priority|requirement|correction|story) is\b/gu,
+    reason: "The opener ranks the option as the sophisticated one before the claim is made.",
+    action: "Delete the opener and state the claim. Administered wording changes through a copy version.",
+  },
+  {
+    id: "clarification-negation-template",
+    priority: "P2",
+    kind: "instrument-copy",
+    pattern: /\bThis is not (?:asking|saying|a claim|a denial|an endorsement|dismissing)\b/gu,
+    reason: "Reflexive “this is not…” clarification.",
+    action: "Keep it only where it narrows the question's scope. Otherwise delete it in the copy version.",
+  },
+  {
+    id: "accepted-cost-label",
+    priority: "P2",
+    kind: "instrument-copy",
+    pattern: /\bAccepted cost:/gu,
+    reason: "A fixed label on every option reads as a template.",
+    action: "Write the cost as the option's second sentence, or place it in a per-option disclosure. Versioned change.",
+  },
+  {
+    id: "retired-house-words",
+    priority: "P2",
+    kind: "vocabulary",
+    pattern:
+      /\bdurabl[ey]\b|\bsharpen(?:s|ed|ing)?\b|\bgenuinely\b|\bnuanced?\b|\brobust(?:ly|ness)?\b|\bnavigat(?:e|es|ing) the\b|\blandscape\b|\bjourney\b|\bon (?:its|their|your) own terms\b|\breal weight\b/giu,
+    reason: "Retired house word; it recurs across the product and reads as generated.",
+    action: "Say the specific thing: what lasts, what is clearer, what the cost is.",
+  },
+  {
+    id: "rather-than-reflex",
+    priority: "P2",
+    kind: "template-review",
+    pattern: /\brather than\b/giu,
+    reason: "“Rather than” is the most frequent contrastive reflex in the product.",
+    action: "Keep it only when both halves carry information. Otherwise state the claim alone.",
+  },
 ]
 
 const args = new Set(process.argv.slice(2))

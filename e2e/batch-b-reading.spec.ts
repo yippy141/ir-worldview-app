@@ -51,7 +51,7 @@ for (const width of [320,390,768,1440]) test(`reading geometry and meaningful de
 })
 
 test('second, third and fourth clicks reach arguments, evidence, rivals and a new decision',async({page})=>{
- await page.goto('/explore');await page.getByRole('link',{name:/Thinkers and public positions/}).first().click()
+ await page.goto('/explore');await page.getByRole('link',{name:/Open the thinkers/}).first().click()
  await page.locator('a[href="/explore/reference/robert-keohane"]').first().click()
  await page.getByRole('link',{name:'Inspect supporting evidence ↓'}).click()
  await page.locator('.reading-evidence-source').first().locator('summary').click()

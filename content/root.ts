@@ -36,38 +36,38 @@ const englishRootCopy: RootCopy = {
     inventory: {
       label: "Inventory",
       explanation:
-        "Start with the Foundation when the site is new to you. It asks fourteen broad questions about recurring disputes in international politics. Security, Technology and AI Governance then test whether the same habits hold once the policy problem becomes more specific.",
+        "Begin with the Foundation: fourteen questions about the arguments people reach for when world politics gets hard. Then, if you want, take Security, Technology, or AI Governance, which put the same kind of question to you inside one policy field.",
     },
     "world-stage": {
       label: "World Stage",
       explanation:
-        "The case library and full map sit here. Each case is tied to a defined evidence window and asks for one decision without pretending that the record is complete.",
+        "Cases and the full map. Each case gives you the record up to a stated date and asks for one decision.",
     },
     atlas: {
       label: "Atlas",
       explanation:
-        "Use the Atlas to compare the four traditions modeled by the Foundation with thinkers, Decision Patterns and dated public positions. These are reference points, not identities assigned to the reader.",
+        "The traditions, readings, thinkers, and decision patterns to compare your result against.",
     },
     "perspective-runs": {
       label: "Perspective Runs",
       explanation:
-        "Perspective Runs ask how the same baseline changes when the reader is placed inside another actor’s constraints. They remain separate from the Foundation.",
+        "The same questions, answered from another actor’s seat: an exposed ally, a rising power. Your own result stays as it was.",
     },
     profile: {
       label: "Profile",
       explanation:
-        "Saved results remain on this device. Profile keeps the Foundation, domain inventories and Perspective Runs as separate records and shows only relationships the project has reviewed.",
+        "Everything you have saved, on this device only. Each result is kept on its own.",
     },
   },
   localState: {
     heading: "On this device",
-    newDevice: "No saved Foundation, domain record or Perspective Run is present on this device.",
-    foundationOnly: "A Foundation read is saved on this device.",
+    newDevice: "Nothing is saved on this device yet.",
+    foundationOnly: "A Foundation result is saved on this device.",
     draftOnly: "An unfinished Foundation draft has {{count}} {{answerLabel}} on this device.",
     returningTemplate: "This device has {{items}}.",
     separator: ", ",
-    foundationRecord: "a saved Foundation read",
-    domainRecords: "{{count}} saved domain {{recordLabel}}",
+    foundationRecord: "a saved Foundation result",
+    domainRecords: "{{count}} saved Security, Technology or AI {{recordLabel}}",
     perspectiveRuns: "{{count}} saved Perspective {{runLabel}}",
     unfinishedDraft: "an unfinished draft with {{count}} answers",
   },

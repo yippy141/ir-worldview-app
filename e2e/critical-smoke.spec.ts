@@ -250,12 +250,12 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   )
   await expect(
     nearestComparison.getByRole("heading", {
-      name: /^Why .+ rather than .+$/,
+      name: /^Why .+, and not .+$/,
     }),
   ).toBeVisible()
   await expect(
     resultStory.getByRole("heading", {
-      name: "The limits stay attached to the result",
+      name: "What this model can and cannot say",
     }),
   ).toBeVisible()
   const resultActions = resultStory.locator("footer")
@@ -278,14 +278,14 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await page.getByRole("link", { name: "View Profile" }).click()
   await expect(page).toHaveURL(/\/profile$/)
   const savedFoundation = page.getByRole("region", {
-    name: /^Saved Foundation read: /,
+    name: /^Your Foundation result: /,
   })
   await expect(savedFoundation).toBeVisible()
   await expect(
     savedFoundation.getByRole("heading", { level: 1 }),
   ).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "Separate domain records" }),
+    page.getByRole("heading", { name: "Your other results" }),
   ).toBeVisible()
   await expect(
     page.getByRole("heading", { name: "Try another vantage point" }),
@@ -340,7 +340,7 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await expect(page.getByText("Stable thread", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
     await expect(
-      page.getByRole("heading", { name: "Separate domain records" }),
+      page.getByRole("heading", { name: "Your other results" }),
     ).toBeVisible()
     await expect(
       page.getByRole("heading", { name: "Complete the current Foundation first" }),
@@ -390,7 +390,7 @@ test("historical analogue pages show both the comparison and its limit", async (
   await expect(
     page.getByRole("heading", { name: "Where the comparison breaks" }),
   ).toBeVisible()
-  await expect(page.getByText("This is a comparison, not an identity")).toBeVisible()
+  await expect(page.getByText("One documented argument or practice that shares part of this reading")).toBeVisible()
 
   // P+ has no name collision to footnote; R+ does.
   await expect(

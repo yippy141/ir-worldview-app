@@ -30,7 +30,7 @@ const lensBands: ReadonlyArray<{
   },
   {
     lens: "R",
-    question: "What turns an agreement into durable restraint?",
+    question: "What turns an agreement into lasting restraint?",
   },
   {
     lens: "M",
@@ -51,9 +51,9 @@ export default function ArchetypesPage() {
       <header className={styles.directoryHeader}>
         <h1>Foundation archetypes</h1>
         <p>
-          A Foundation result combines an explanatory lens with a strategic
-          posture. The name is a reading of a continuous profile, not a
-          permanent type or a rank.
+          Each reading pairs a way of explaining world politics with a
+          strategic posture: apply an advantage, or hold back. Two readings
+          per lens, one for each posture.
         </p>
         <dl className={styles.postureKey} aria-label="Strategic posture key">
           <div>
@@ -66,9 +66,9 @@ export default function ArchetypesPage() {
           </div>
         </dl>
         <p className={styles.orientationNote}>
-          Normative orientation does not rank the result. <strong>Order-first</strong>,{" "}
-          <strong>Conditional</strong>, and <strong>Justice-first</strong> are equal-weight
-          readings within any archetype.
+          Inside any reading, <strong>Order-first</strong>, <strong>Conditional</strong>, and{" "}
+          <strong>Justice-first</strong> say how it weighs order against justice. None ranks
+          above another.
         </p>
       </header>
 
@@ -140,8 +140,8 @@ export default function ArchetypesPage() {
 
       <footer className={styles.directoryFooter}>
         <p>
-          Close Foundation results can resolve as a two-lens blend. Blends
-          keep the same posture sign and use a combined code label.
+          A result that sits close between two lenses is shown as a blend:
+          both codes, one posture.
         </p>
         <nav className={styles.directoryFooterLinks} aria-label="Archetype directory resources">
           <Link href="/explore">See how the model fits together →</Link>

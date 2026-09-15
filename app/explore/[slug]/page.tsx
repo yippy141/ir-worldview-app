@@ -37,7 +37,7 @@ const tocItems = [
   { id: "issue-readings", label: "How it reads major issues" },
   { id: "neighbors", label: "Neighboring traditions" },
   { id: "readings", label: "Reading list" },
-  { id: "references", label: "Evidence-coded references" },
+  { id: "references", label: "Thinkers" },
   { id: "quiz-coverage", label: "How the Foundation models it" },
 ]
 
@@ -57,7 +57,7 @@ export default async function ExploreDetailPage({ params }: Props) {
           href="/explore"
           style={{ fontSize: "0.85rem", color: "var(--muted)", textDecoration: "none" }}
         >
-          ← All perspectives
+          ← Library
         </Link>
       </div>
 
@@ -105,9 +105,8 @@ export default async function ExploreDetailPage({ params }: Props) {
         <div>
           <h2 id="tradition-boundary-heading">Related Foundation archetypes</h2>
           <p>
-            The Foundation uses this tradition as evidence for one explanatory
-            lens. It does not classify everyone who draws on the tradition, and
-            it does not replace the archetype resolved from a full score.
+            Two Foundation readings draw on this tradition, one for each
+            posture. Reading about the tradition does not replace the archetype resolved from a full score.
           </p>
         </div>
         <div className={styles.traditionArchetypes}>
@@ -152,7 +151,7 @@ export default async function ExploreDetailPage({ params }: Props) {
           <section id="subtraditions" className="article-section stack-md">
             <h2>Subtraditions</h2>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              This tradition is not monolithic. These are the main strands within it.
+              The main strands, and where they part.
             </p>
             <div>
               {family.subtraditions.map((sub) => (
@@ -198,8 +197,7 @@ export default async function ExploreDetailPage({ params }: Props) {
           <section id="issue-readings" className="article-section stack-md">
             <h2>How it reads major issues</h2>
             <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
-              Arguments this tradition tends to find persuasive, and how it interprets three
-              recurring debates in contemporary foreign policy.
+              Three running debates, then the arguments it finds persuasive.
             </p>
             <div>
               {family.issueReadings.map((ir) => (
@@ -326,12 +324,11 @@ export default async function ExploreDetailPage({ params }: Props) {
           <hr className="divider" />
 
           <section id="references" className="article-section stack-md">
-            <h2>Evidence-coded references</h2>
+            <h2>Thinkers</h2>
             <p className="muted" style={{ lineHeight: "1.7" }}>
-              The reference directory presents dated, scoped public positions
-              with source records. It is a comparison layer: a person or
-              organization is never assigned to this tradition or to a
-              Foundation archetype.
+              Thinkers read from cited work within a dated window, with the
+              sources shown. No thinker is assigned to this tradition or to a
+              Foundation reading.
             </p>
             <p>
               <Link href="/explore/reference" style={{ color: "var(--accent)" }}>
@@ -378,7 +375,7 @@ export default async function ExploreDetailPage({ params }: Props) {
                     marginBottom: "8px",
                   }}
                 >
-                  What this page models (and what it does not)
+                  Which strands the Foundation scores
                 </p>
                 <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
                   {family.modelingNote}
@@ -391,7 +388,7 @@ export default async function ExploreDetailPage({ params }: Props) {
 
           <div className="article-section row gap-sm" style={{ flexWrap: "wrap" }}>
             <Link href="/quiz" className="cta-primary">Take the Foundation →</Link>
-            <Link href="/explore" className="cta-secondary">← All perspectives</Link>
+            <Link href="/explore" className="cta-secondary">← Library</Link>
           </div>
         </div>
       </div>

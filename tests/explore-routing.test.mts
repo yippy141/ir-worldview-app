@@ -72,7 +72,7 @@ test("Explore hub locks the nine-section ontology and bounded content schema", (
   )
   assert.equal(
     hub.contextBoundary,
-    "These records sit beside the Foundation. They do not rescore it.",
+    "None of these changes your Foundation result.",
   )
   assert.ok(hub.contextRecords.every((record) => !("objectType" in record)))
   assert.deepEqual(

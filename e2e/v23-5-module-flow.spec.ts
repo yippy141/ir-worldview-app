@@ -62,7 +62,7 @@ test("Focus Area Back from the first question returns to the mode choice", async
   await questionFrame(page).getByRole("button", { name: "Back", exact: true }).click()
 
   await expect(page).toHaveURL(/\/modules$/)
-  await expect(page.getByRole("heading", { level: 1, name: /focused issue read/ })).toBeVisible()
+  await expect(page.getByRole("heading", { level: 1, name: "Two shorter questionnaires built from cases", exact: true })).toBeVisible()
 })
 
 test("Standard and Advanced Focus Area drafts survive mode switches independently", async ({

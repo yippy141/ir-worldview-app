@@ -94,9 +94,8 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             <>
               <h2>No reviewed case is attached yet</h2>
               <p>
-                The verified library does not currently use this pattern as a best-fit or strongest
-                rival reading. The page keeps the gap visible instead of filling it with an inferred
-                example.
+                Nothing in the reviewed library names this pattern as its best fit or its
+                strongest rival yet. The gap stays visible until something does.
               </p>
               <a href="#method-and-status">See the coverage rule ↓</a>
             </>
@@ -136,8 +135,8 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               <div className={styles.emptyCase}>
                 <h3>Case coverage remains open</h3>
                 <p>
-                  No reviewed case currently names {pattern.publicName} in one of the two
-                  reviewed reading positions. Cases attached to other patterns stay off this page.
+                  No reviewed case names {pattern.publicName} as its best fit or its strongest
+                  rival.
                 </p>
               </div>
             )}
@@ -146,7 +145,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
           <section id="analogy" className={styles.section} aria-labelledby="analogy-heading">
             <div className={styles.sectionHeading}>
               <h2 id="analogy-heading">One analogy, with its limit</h2>
-              <p>Editorial teaching device · explanatory, not evidence</p>
+              <p>A way to picture the pattern, and the point where the picture misleads.</p>
             </div>
             {mentalModel ? (
               <div className={styles.analogy}>
@@ -190,7 +189,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
           <section id="domain-shifts" className={styles.section} aria-labelledby="domains-heading">
             <div className={styles.sectionHeading}>
               <h2 id="domains-heading">How the pattern reads different domains</h2>
-              <p>Domain results are saved separately and do not change the Foundation.</p>
+              <p>The same logic, put to a case about force and to a case about technology.</p>
             </div>
             <div className={styles.domainList}>
               <DomainEntry
@@ -207,13 +206,13 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               />
               <DomainEntry
                 title="AI"
-                body="This pattern has no pattern-specific AI reading. The AI Governance Compass adds a separate AI result when you complete it."
+                body="AI Governance has no reading for this pattern. Its questionnaire gives a result of its own."
                 href="/ai"
-                linkLabel="Open the AI Governance Compass"
+                linkLabel="Open AI Governance"
               />
               <DomainEntry
                 title="Perspective"
-                body="Perspective Runs compare role-based answers with the Foundation without changing it."
+                body="Perspective Runs put the same questions to you from another actor's seat."
                 href="/perspectives"
                 linkLabel="Browse Perspective Runs"
               />
@@ -266,18 +265,14 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             </div>
             <div className={styles.methodCopy}>
               <p>
-                Decision Patterns are authored editorial reading aids. They are not calculated from,
-                matched to, or assigned to a user’s answers, and they are not population types or
-                fixed identities.
+                Decision Patterns are authored ways of reasoning, written for comparison. They are
+                not calculated from, matched to, or assigned to a user’s answers, and they describe
+                no population type.
               </p>
               <p>
-                Only cases that explicitly name this pattern as the best fit or strongest rival
-                appear here. Other reviewed cases remain off this page.
-              </p>
-              <p>
-                Historical case readings are teaching comparisons. They do not validate the scoring
-                model, assign governments or public figures to patterns, or settle which interpretation
-                of a case is correct.
+                A case appears here only when its reviewed reading names this pattern as the best
+                fit or the strongest rival. The reading is a comparison: it does not settle what the
+                case means, and it assigns no government or public figure to a pattern.
               </p>
             </div>
             <div className={styles.actions}>
@@ -470,10 +465,10 @@ function coverageCopy(level: "several" | "thin" | "none", count: number) {
   }
 
   if (level === "thin") {
-    return "Thin coverage: one reviewed case is available. Treat it as an example; it cannot provide comprehensive support for the pattern."
+    return "One reviewed case: an example of the logic, and no proof of it."
   }
 
-  return "No reviewed case currently names this pattern as a best fit or strongest rival."
+  return "No reviewed case names this pattern as its best fit or strongest rival."
 }
 
 function roleLabel(role: ReviewedPatternCase["currentReading"]["role"]) {
