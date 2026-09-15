@@ -70,7 +70,7 @@ test("keyboard activation reaches every primary link without diverging from the 
       .toHaveAttribute("data-root-selected", destination.id)
     await expect(page.locator("[data-root-detail-state]"))
       .toHaveAttribute("data-root-detail-state", destination.id)
-    await expect(page.locator("[data-root-globe]")).toHaveAttribute("data-scene", "equipment")
+    await expect(page.locator("[data-root-globe]")).toHaveAttribute("data-scene", "eu-nato")
     await expect(page.locator(`[data-root-destination="${destination.id}"]`))
       .toHaveAttribute("data-selected", "true")
 

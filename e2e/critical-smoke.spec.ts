@@ -94,7 +94,7 @@ test("public entry points match reviewed Current Case availability", async ({ pa
   await expect(page.getByRole("navigation", { name: "Primary destinations" })).toBeVisible()
   await expect(page.getByRole("link", { name: "Library", exact: true })).toBeVisible()
   await expect(page.locator("[data-root-globe]"))
-    .toHaveAttribute("data-scene", "equipment")
+    .toHaveAttribute("data-scene", "eu-nato")
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
 
   await page.goto("/world-stage")
