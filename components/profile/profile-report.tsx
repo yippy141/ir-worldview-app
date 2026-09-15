@@ -63,7 +63,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
   })
 
   return (
-    <article className="result-article result-canvas">
+    <article className="result-article result-canvas profile-report">
       {foundationArchetype && foundationIdentity && displayFoundation ? (
         <ResultCardHero
           eyebrow={mode === "local" ? "Your Foundation result" : "Shared Foundation result"}

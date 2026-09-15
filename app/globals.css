@@ -4203,6 +4203,12 @@ html:lang(zh-Hans) .quiz-shell-label {
   color: color-mix(in srgb, var(--text) 84%, var(--muted) 16%);
 }
 
+.profile-report .result-card-hero__chip {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
 .result-card-hero__summary {
   margin: 0;
   font-size: 1rem;

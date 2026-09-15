@@ -1,6 +1,6 @@
 # Navigation and reader copy: before / after
 
-Base: PR59 merge `445c5d6107c6c90402155654dad8e97bc82c54dc`. Its final head matches the accepted `b10da2ed8149aa8f1ffb907651b22f2405c3357e`. Scope: navigation, parent links and the AI Field Guide only.
+Base: PR59 merge `445c5d6107c6c90402155654dad8e97bc82c54dc`. Its final head matches the accepted `b10da2ed8149aa8f1ffb907651b22f2405c3357e`. Scope: navigation, parent links, the AI Field Guide and a narrow Profile-label wrapping fix exposed by the 320px acceptance check.
 
 ## Field Guide
 
@@ -128,6 +128,7 @@ All images are unscaled viewport captures at device-pixel ratio 1, 900px high. T
 | Powers table | [320px](../../artifacts/navigation-reader-copy/after/field-guide-powers-320.png) · [768px](../../artifacts/navigation-reader-copy/after/field-guide-powers-768.png) · [1440px](../../artifacts/navigation-reader-copy/after/field-guide-powers-1440.png) |
 | Decision Pattern parent | [390px](../../artifacts/navigation-reader-copy/after/parent-route-390.png) · [1440px](../../artifacts/navigation-reader-copy/after/parent-route-1440.png) |
 | Expanded mobile menu | [390px](../../artifacts/navigation-reader-copy/after/menu-390.png) |
+| Shared Profile label wrapping | [320px](../../artifacts/navigation-reader-copy/after/shared-profile-320.png) |
 
 **Visual inspection:** Each linked image above was opened and inspected, plus the introduction at 320/768px and the 1440px no-JS and print-media captures. The original/revised admission headings remain visible; prose is narrower than the desktop table; the six readings use unfilled paired columns; mobile powers rows stack their two labeled cells without horizontal overflow. The menu scrolls within the viewport. The print capture is a browser print-media view, not a paginated PDF review. Other retained captures are supporting records, not claimed visual inspections. The scoped layout scan returned no findings.
 
@@ -148,5 +149,7 @@ The complete CI browser sequence ran against production servers, with `CI=1`:
 **Keyboard and reflow:** Native Tab reached every menu link, scrolled focused links into view, and kept focus rings inside the panel. Escape returned focus to the trigger; Tab could leave the non-modal menu. Fresh pages checked 39 parent/recovery/shared routes at each of 320/390/768/1440px, with no horizontal overflow. Separate checks covered locale dispatch, preserved module drafts, clearing ephemeral decision answers on exit, semantic table header associations, anchors, print and no-JS content.
 
 Earlier browser runs caught obsolete label assertions and the new About link’s unintended prefetch; exact expectations and the prefetch behavior were corrected without relaxing privacy or content checks. Clean reruns also resolved local evidence-refresh/generated-report races. Historical evidence and screenshot baselines were not rewritten; generated exercise outputs went to scratch locations. Only the authorized current evidence summary and this change’s captures are retained.
+
+The first remote CI run found a 2px shared-Profile overflow at 320px. Its existing `nowrap` labels also exceeded their card’s text area locally. Profile labels now wrap within that area; wording, typography and scoring are unchanged. The acceptance test additionally checks each label against its container, retaining the viewport assertion. The 320px correction screenshot above was visually inspected.
 
 Text checks prevent known regressions; they do not prove semantic equivalence. The no-positive contribution fixture modifies signs to exercise a helper state; it does not demonstrate that a complete questionnaire produces that state.

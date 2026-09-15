@@ -73,6 +73,16 @@ for (const width of [320, 390, 768, 1440]) test(`section links work on fresh dee
     await expect(link, route).toHaveAttribute("href", parent)
     await expect(link, route).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth), route).toBeLessThanOrEqual(width + 1)
+    if (route === sharedPath) {
+      const labelsFit = await page.locator('.result-card-hero__modifiers').evaluate(element => {
+        const container = element.getBoundingClientRect()
+        return Array.from(element.children).every(label => {
+          const bounds = label.getBoundingClientRect()
+          return bounds.left >= container.left - 1 && bounds.right <= container.right + 1
+        })
+      })
+      expect(labelsFit, 'Shared Profile labels stay within the card text area').toBe(true)
+    }
     await page.close()
   }
   await context.close()
