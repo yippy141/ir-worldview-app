@@ -417,125 +417,179 @@ The mobile contents disclosure reads **On this page** and keeps all anchors. Lib
 
 #### Root scene captions, dated keys and sources
 
-The geographic scenes locate selected places; they do not encode allegiance. Relationship scenes reuse the reviewed dated World Stage source ledger. No new political grouping is asserted from a country’s location. Small-place points use pinned Natural Earth geometry, with provenance in the existing data-source note. The cycle covers Europe, Africa, Asia, Australasia, the Pacific, the Americas and the Caribbean. The sources are clickable in each scene.
+PR61 globe closeout, 16 September 2026. The question, key, sources and country paint now commit together in one browser frame. There is no caption lead or crossfade between differently labelled country groups. Opening or focusing Source pauses both clocks and keeps its links stable until explicit Play. Closing Source stays paused. Manual Previous/Next selects a complete scene and stays paused; Play closes Source and moves focus to its own button before resuming. Reduced motion, no-JS, print, hidden tabs, offscreen suspension and menu independence remain.
 
-**Where does this chip network depend on European equipment?**
+Twelve of fourteen scenes are retained. EU/NATO membership replaces the European equipment slot; RCEP signing replaces the Southeast Asian locator, with the existing treaty scene moved one slot west so RCEP faces East Asia. The rotation remains continuous, 140 seconds per revolution, with ten-second scenes. These are two relationship examples, not a global alliance database. Geographic selection and geometry retrieval dates live in Source.
 
-Dated relationship · 2 Aug 2026 · ASML and ZEISS locations.
+Membership sources were read on 16 September 2026: the NATO list contains 32 members (page publication/update date: 11 March 2024), the EU directory reports 27, and the Dutch government’s complete list supplies all 27 names. Derivation yields 23 members of both, four EU-only and nine NATO-only, without duplicates. All 15 RCEP signatories were checked in the Australian Border Force list and its account of the 15 November 2020 signing; DFAT distinguishes later entry-into-force dates. Membership snapshot, signing date, source publication date and this capture date are separate facts.
 
-Two supplier locations in the reviewed World Stage network; not a complete industry map.
+Geometry policy: literal ISO3 feature matching; no propagation to separately coded dependencies. Combined country polygons are country identifiers, not a map of territorial treaty application. The basemap’s France and Norway multipolygons are retained as supplied, and boundary/territorial cautions remain in the [existing provenance](../../lib/world-stage/data/world-countries-110m.provenance.md). All new members/signatories have a polygon or point; Malta and Singapore use the existing small-place supplement.
 
-[ASML 2025 Annual Report / Veldhoven HQ pages / Dutch export-control updates](https://www.asml.com/investors/annual-report/2025); [ZEISS Semiconductor Manufacturing Technology products and sites](https://www.zeiss.com/semiconductor-manufacturing-technology/products.html).
+**Where do EU and NATO memberships overlap?**
+
+Dated relationship · Membership snapshot: 16 Sep 2026. Key: Both EU and NATO (blue); EU only (amber); NATO only (gold).
+
+Official lists checked 16 September 2026: 27 EU members and 32 NATO members; 23 belong to both, four to the EU only and nine to NATO only. Fills identify countries by the basemap’s ISO3 features, including any combined polygons; they do not map the territorial application of either treaty. Separately coded dependencies do not inherit a member’s color. Malta uses a point. This is a membership snapshot, not a global alliance database.
+
+[NATO member countries · page updated 11 March 2024](https://www.nato.int/en/about-us/organization/nato-member-countries); [European Union · EU country directory](https://european-union.europa.eu/principles-countries-history/eu-countries_en); [Government of the Netherlands · complete EU membership list](https://www.rijksoverheid.nl/vraag-en-antwoord/europese-unie/welke-landen-horen-bij-de-europese-unie-eu).
 
 **Where do Ethiopia, Kenya and Tanzania sit along eastern Africa?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Selected geographic focus.
+Geographic focus. Key: Locations shown (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
-**Which partnership connects China and Pakistan in this record?**
+**What strategic partnership connects China and Pakistan?**
 
-Dated relationship · 14 Jul 2026 · Declared strategic partnership.
+Dated relationship · 14 Jul 2026. Key: Declared strategic partnership (blue).
 
 The joint statement calls this an all-weather strategic cooperative partnership.
 
 [中华人民共和国和巴基斯坦伊斯兰共和国关于建立全天候战略合作伙伴关系的联合声明](https://www.mfa.gov.cn/gjhdq_676201/gj_676203/yz_676205/1206_676308/1207_676320/201504/t20150421_9288487.shtml).
 
-**How do Indonesia, Malaysia and Singapore meet around these waters?**
+**Which of these Indo-Pacific partners have a U.S. defense treaty?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Selected geographic focus.
-
-[Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
-
-**Which Indo-Pacific partners in this record have a U.S. defense treaty?**
-
-Dated relationship · 14 Jul 2026 · Treaty partners in this record.
+Dated relationship · 14 Jul 2026. Key: U.S. treaty partners shown (blue).
 
 This is the reviewed Indo-Pacific selection, not a list of every U.S. treaty ally.
 
 [MOFA: Japan-U.S. Security Treaty](https://www.mofa.go.jp/region/n-america/us/q%26a/ref/1.html); [Mutual Defense Treaty Between the United States and the Republic of Korea](https://avalon.law.yale.edu/20th_century/kor001.asp); [Mutual Defense Treaty](https://lawphil.net/international/treaties/mutdef.html); [United States of America country brief](https://www.dfat.gov.au/geo/united-states-of-america/united-states-of-america-country-brief).
 
+**Which governments signed RCEP in 2020?**
+
+Dated relationship · Signed: 15 Nov 2020. Key: RCEP signatories (blue).
+
+All fifteen governments signed the Regional Comprehensive Economic Partnership on 15 November 2020. This records signing, not simultaneous entry into force or present ASEAN membership. Myanmar’s signing does not establish implementation in any particular trading relationship. Sources checked 16 September 2026. Singapore uses a point.
+
+[Australian Border Force · RCEP signing and entry into force](https://www.abf.gov.au/importing-exporting-and-manufacturing/fta/free-trade-agreements/regional-comprehensive-economic-partnership-agreement); [Australian Department of Foreign Affairs and Trade · RCEP](https://www.dfat.gov.au/trade/agreements/in-force/rcep).
+
 **Where are Australia and New Zealand relative to the Pacific islands?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Selected geographic focus.
+Geographic focus. Key: Locations shown (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
 **Which small Pacific states need a point at this scale?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Small-state locations.
+Geographic focus. Key: Small-state locations (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
 **Where are Samoa and Tonga across the date line?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Selected geographic focus.
+Geographic focus. Key: Locations shown (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
 **How much ocean lies between New Zealand and Chile?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Two geographic reference points.
+Geographic focus. Key: Two geographic reference points (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
-**Where does this record locate U.S. cloud and AI institutions?**
+**Where are the U.S. cloud and AI institutions shown here?**
 
-Dated relationship · 14 Jul 2026 · U.S. institutions in this record.
+Dated relationship · 14 Jul 2026. Key: U.S. institutions shown (blue).
 
-Country-level location only; the fill does not measure cloud capacity.
+Selected institutions in the reviewed World Stage network. Country-level location only; the fill does not measure cloud capacity.
 
 [Microsoft 2025 Annual Report and Azure global infrastructure pages](https://www.microsoft.com/investor/reports/ar25/index.html); [AWS Global Infrastructure](https://aws.amazon.com/about-aws/global-infrastructure/); [Center for AI Standards and Innovation and NIST AI Consortium](https://www.nist.gov/caisi).
 
 **Where do Barbados and Trinidad and Tobago sit in the Caribbean?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Small-state locations.
+Geographic focus. Key: Small-state locations (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
 **Which country held the 2025 BRICS presidency?**
 
-Dated relationship · 1 Jan 2025 · 2025 presidency.
+Dated relationship · 1 Jan 2025. Key: 2025 presidency (gold).
+
+
 
 [Brazil assumes the presidency of BRICS in 2025 / Rio chosen to host BRICS Summit](https://www.gov.br/planalto/en/latest-news/2025/01/brazil-assumes-the-presidency-of-brics-in-2025).
 
 **Where do Brazil and southern Africa face the South Atlantic?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Selected geographic focus.
+Geographic focus. Key: Locations shown (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
 **Where are Senegal, Ghana and Nigeria along western Africa?**
 
-Geographic focus · Geometry: 14 Jul 2026; points: 16 Sep 2026 · Selected geographic focus.
+Geographic focus. Key: Locations shown (gold).
+
+The named places are a geographic selection. Polygon geometry retrieved 14 July 2026; small-place points retrieved 16 September 2026, from the same pinned Natural Earth revision.
 
 [Natural Earth 1:110m · geometry and small-place points](https://www.naturalearthdata.com/downloads/110m-cultural-vectors/).
 
-**Shared source-control explanation:** Muted land is outside this question. Points locate small places; sizes do not encode influence. The 174-feature basemap omits some territories and islands.
-
-**Boundary link:** Geometry and boundary cautions.
-
 **Localized root captions and keys:**
 
-- 这条芯片网络在哪些环节依赖欧洲设备？ — ASML与蔡司所在地。世界舞台已审阅网络中的两个设备供应商所在地，并非完整的产业地图。
-- 埃塞俄比亚、肯尼亚和坦桑尼亚位于东非的什么位置？ — 选定的地理范围
-- 这份记录中的哪种伙伴关系连接中国和巴基斯坦？ — 声明中的战略伙伴关系。联合声明将其称为全天候战略合作伙伴关系。
-- 印度尼西亚、马来西亚和新加坡如何在这些海域相邻？ — 选定的地理范围
-- 记录中的哪些印太伙伴与美国签有防务条约？ — 记录中的条约伙伴。这是已审阅的印太范围，并非美国所有条约盟友的名单。
-- 澳大利亚和新西兰与太平洋岛屿的相对位置如何？ — 选定的地理范围
-- 哪些太平洋小国在这个比例尺下需要用点表示？ — 小国位置
-- 萨摩亚和汤加位于日期变更线附近的什么位置？ — 选定的地理范围
-- 新西兰与智利之间隔着多大的海域？ — 两个地理参照点
-- 这份记录将美国的云计算与人工智能机构定位在哪里？ — 记录中的美国机构。只标示国家层面的位置；填色不衡量云计算容量。
-- 巴巴多斯和特立尼达和多巴哥位于加勒比海的什么位置？ — 小国位置
-- 哪个国家担任了2025年金砖国家轮值主席国？ — 2025年轮值主席国
-- 巴西与非洲南部如何隔南大西洋相望？ — 选定的地理范围
-- 塞内加尔、加纳和尼日利亚位于西非的什么位置？ — 选定的地理范围
+- 哪些国家同时加入欧盟和北约？ — 欧盟和北约成员；仅欧盟成员；仅北约成员。成员资格快照：2026年9月16日。2026年9月16日核对官方名单：欧盟有27个成员国，北约有32个；23国同时加入两者，4国仅加入欧盟，9国仅加入北约。填色按底图的ISO3国家要素（含合并的多边形）标识成员国，不表示条约在各领土的适用范围。具有独立代码的属地不继承成员国的颜色。马耳他以点表示。这是成员资格的日期快照，并非全球联盟数据库。
+- 埃塞俄比亚、肯尼亚和坦桑尼亚位于东非的什么位置？ — 所示地点。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 中国和巴基斯坦建立了怎样的战略伙伴关系？ — 声明中的战略伙伴关系。14 Jul 2026。联合声明将其称为全天候战略合作伙伴关系。
+- 这里展示的哪些印太伙伴与美国签有防务条约？ — 所示的美国条约伙伴。14 Jul 2026。这是已审阅的印太范围，并非美国所有条约盟友的名单。
+- 哪些政府在2020年签署了RCEP？ — RCEP签署国。签署日期：2020年11月15日。15国政府于2020年11月15日签署《区域全面经济伙伴关系协定》。这里记录签署情况，不表示同时生效，也不是当前东盟成员名单。缅甸签署协定不代表协定已在某一具体双边贸易关系中实施。来源于2026年9月16日核对。新加坡以点表示。
+- 澳大利亚和新西兰与太平洋岛屿的相对位置如何？ — 所示地点。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 哪些太平洋小国在这个比例尺下需要用点表示？ — 小国位置。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 萨摩亚和汤加位于日期变更线附近的什么位置？ — 所示地点。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 新西兰与智利之间隔着多大的海域？ — 两个地理参照点。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 这里展示的美国云计算与人工智能机构位于哪里？ — 所示的美国机构。14 Jul 2026。选自世界舞台已审阅网络的机构。只标示国家层面的位置；填色不衡量云计算容量。
+- 巴巴多斯和特立尼达和多巴哥位于加勒比海的什么位置？ — 小国位置。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 哪个国家担任了2025年金砖国家轮值主席国？ — 2025年轮值主席国。1 Jan 2025。
+- 巴西与非洲南部如何隔南大西洋相望？ — 所示地点。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
+- 塞内加尔、加纳和尼日利亚位于西非的什么位置？ — 所示地点。所列地点为地理选取范围。多边形数据于2026年7月14日获取，小型地域点于2026年9月16日获取，均来自同一固定版本的Natural Earth数据。
 
-暗色陆地不在当前问题范围内。点表示小型地域的位置，大小不代表影响力。含174个地理要素的底图未包含某些领土和岛屿。
+**Shared source-control explanation:** Muted land is outside this question, not a statement of neutrality. Points locate small places; sizes do not encode influence. The 174-feature basemap omits some territories and islands.
 
-Controls: 来源 / 上一场景 / 下一场景 / 播放 / 暂停 / 地理数据与边界说明. Geographic/date labels: 地理范围 / 有日期的关系记录. Dates and proper source titles retain the source metadata.
+暗色陆地不在当前问题范围内，不表示中立。点表示小型地域的位置，大小不代表影响力。含174个地理要素的底图未包含某些领土和岛屿。
+
+Controls: Source / Previous globe scene / Next globe scene / Play / Pause / Geometry and boundary cautions; 来源 / 上一场景 / 下一场景 / 播放 / 暂停 / 地理数据与边界说明. Geographic/date labels: 地理范围 / 有日期的关系记录. Proper source titles retain source metadata.
+
+#### Focused globe evidence
+
+[Continuous pause, source consultation, real transition and both relationship scenes](../../artifacts/product-wide-experience/globe-closeout/pause-source-relationships.webm). This new recording holds the focused source URL for 11.5 seconds, beyond a complete scene interval; explicit Play resumes into the next complete scene, then manual navigation selects the RCEP signing scene. No accelerated video clock, test-only runtime controls or answer-bearing parameters. The earlier full-cycle and four completion recordings remain untouched historical evidence of the reviewed head.
+
+| Scene | English 390 | English 1440 | Chinese 390 | Chinese 1440 |
+| --- | --- | --- | --- | --- |
+| eu-nato | [View](../../artifacts/product-wide-experience/globe-closeout/eu-nato-en-390.png) | [View](../../artifacts/product-wide-experience/globe-closeout/eu-nato-en-1440.png) | [View](../../artifacts/product-wide-experience/globe-closeout/eu-nato-zh-390.png) | [View](../../artifacts/product-wide-experience/globe-closeout/eu-nato-zh-1440.png) |
+| rcep-signing | [View](../../artifacts/product-wide-experience/globe-closeout/rcep-signing-en-390.png) | [View](../../artifacts/product-wide-experience/globe-closeout/rcep-signing-en-1440.png) | [View](../../artifacts/product-wide-experience/globe-closeout/rcep-signing-zh-390.png) | [View](../../artifacts/product-wide-experience/globe-closeout/rcep-signing-zh-1440.png) |
+
+The 390×844 real-time phone check advanced 12.88° in five observed seconds, with readable keys and no horizontal overflow ([viewport](../../artifacts/product-wide-experience/globe-closeout/rotation-phone-390.png)). WebKit at 390×844 also held Source and resumed only on explicit Play. These are emulated viewport checks on a local computer, not physical-phone performance measurements.
+
+#### Root JavaScript before and after d3-geo
+
+The existing asset measurement script was extended to split actual browser requests into initial HTML-named scripts and scripts dynamically requested after hydration/bringing the globe into view. Both builds used Next 16.2.11, production servers, clean Chromium contexts at 390×844, blocked service workers and disabled cache. The root requested no Mapbox JavaScript.
+
+| Build / phase | Build assets, raw bytes | Offline gzip-9 estimate | Offline Brotli-11 estimate | Observed gzip response body bytes | Observed transfer bytes |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Before d3: PR60 merge `4f4f22b` / initial | 588,038 | 169,622 | 146,751 | 170,047 | 173,047 |
+| Before d3: PR60 merge `4f4f22b` / dynamic | 0 | 0 | 0 | 0 | 0 |
+| Reviewed PR61 `f7a733b` / initial | 593,116 | 171,855 | 148,616 | 172,279 | 175,279 |
+| Reviewed PR61 `f7a733b` / dynamic | 163,210 | 53,184 | 40,363 | 53,248 | 53,548 |
+| PR61 globe closeout / initial | 593,511 | 171,976 | 148,711 | 172,400 | 175,400 |
+| PR61 globe closeout / dynamic | 163,137 | 53,139 | 40,193 | 53,206 | 53,506 |
+
+Against the pre-d3 base, the closeout adds **2,353 observed gzip bytes initially**, plus **53,206 deferred gzip bytes** for the geographic renderer/geometry: **55,559 additional gzip body bytes** in total (transfer adds 55,859 bytes including the extra response’s overhead). The deferred chunk is 163,137 raw build bytes; it is not all d3 library code. The initial before/after also includes PR61’s shared navigation changes, so this is the root release cost, not an isolated library microbenchmark. Against the reviewed PR61 head, the closeout adds 121 initial gzip body bytes and removes 42 deferred bytes.
+
+Raw build size, offline compression estimates, observed compressed response bodies and observed transfer are separate columns. All observed JavaScript responses used gzip; Brotli is an offline estimate, not an observed network transfer. Resource Timing transfer bytes include response overhead. HTML, CSS, fonts and inline server payloads are outside this JavaScript comparison. No performance improvement is inferred from one local timing run.
+
+[Full before/reviewed measurement](../../artifacts/product-wide-experience/globe-closeout/root-bytes-reviewed.json) · [Full before/closeout measurement](../../artifacts/product-wide-experience/globe-closeout/root-bytes-closeout.json). Reproduce with the existing `scripts/v23-6/measure-route-assets.mts` using `--candidate-url`, `--candidate-build-dir`, `--baseline-url`, `--baseline-build-dir`, `--viewport-width 390 --viewport-height 844` and a new `--output` path.
 
 ### Review limits
 
-These checks establish rendering, interaction, payload/history compatibility and existing data-boundary behavior. They do not establish comprehension, retention or scientific validation. Authored readings remain editorial; historical comparisons retain provisional status. World Stage was exercised without Mapbox credentials through its intentional still fallback. The root uses local geometry and dated reviewed sources, not a current remote feed; coarse geography does not show every territory. The design detector reported 27 warning-level styling advisories, largely from retained shared CSS; the navy/brass editorial identity and reviewed reading rules were retained rather than optimizing that count. No historical capture, instrument version, scoring formula, storage/API/analytics contract or canonical identity was changed.
+These checks establish rendering, interaction, payload/history compatibility and existing data-boundary behavior. They do not establish comprehension, retention or scientific validation. Authored readings remain editorial; historical comparisons retain provisional status. World Stage was exercised without Mapbox credentials through its intentional still fallback. The root uses local geometry and dated reviewed sources, not a current remote feed; coarse geography does not show every territory. The two added membership/signing scenes are limited relationship examples. Source consultation is deliberately sticky-paused; Play closes it before resuming. Byte figures above are local production observations, not deployment measurements or a speed claim. The design detector reported 27 warning-level styling advisories, largely from retained shared CSS; the navy/brass editorial identity and reviewed reading rules were retained rather than optimizing that count. No historical capture, instrument version, scoring formula, storage/API/analytics contract or canonical identity was changed.

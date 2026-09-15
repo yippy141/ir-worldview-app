@@ -68,6 +68,65 @@ async function recordGlobeCycle() {
   renameSync(await video.path(), `${output}/recordings/root-complete-scene-cycle.webm`)
 }
 
+async function globeCloseout() {
+  // New evidence only: preserve the accepted full-product captures and videos.
+  const directory = `${output}/globe-closeout`
+  mkdirSync(directory, { recursive: true })
+  const context = await browser.newContext({ baseURL, viewport: { width: 1440, height: 1000 }, reducedMotion: "no-preference", recordVideo: { dir: directory, size: { width: 1440, height: 1000 } } })
+  const page = await context.newPage()
+  await page.goto("/")
+  const globe = page.locator("[data-root-globe]")
+  await expect(globe).toHaveAttribute("data-enhanced", "true")
+  await expect.poll(async () => Number(await globe.getAttribute("data-longitude")), { timeout: 14000 }).toBeGreaterThan(38)
+  await globe.locator("summary").click()
+  const source = globe.locator("details a").first()
+  await page.keyboard.press("Tab")
+  const href = await source.getAttribute("href"), longitude = await globe.getAttribute("data-longitude")
+  await page.waitForTimeout(11500)
+  await expect(source).toBeFocused()
+  await expect(source).toHaveAttribute("href", href!)
+  await expect(globe).toHaveAttribute("data-longitude", longitude!)
+  await expect(globe).toHaveAttribute("data-scene", "eu-nato")
+  await globe.locator("summary").click()
+  await page.waitForTimeout(700)
+  await globe.getByRole("button", { name: "Play", exact: true }).click()
+  await page.evaluate(() => scrollTo(0, 0))
+  await expect(globe).toHaveAttribute("data-scene", "east-africa", { timeout: 5000 })
+  await page.waitForTimeout(1800)
+  for (let i = 0; i < 3; i++) {
+    await globe.getByRole("button", { name: "Next globe scene" }).click()
+    await page.waitForTimeout(600)
+  }
+  await expect(globe).toHaveAttribute("data-scene", "rcep-signing")
+  await page.waitForTimeout(3000)
+  await globe.locator("summary").click()
+  await page.waitForTimeout(1800)
+  const video = page.video()!
+  await context.close()
+  renameSync(await video.path(), `${directory}/pause-source-relationships.webm`)
+
+  const stillContext = await browser.newContext({ baseURL, reducedMotion: "reduce" })
+  const still = await stillContext.newPage()
+  for (const width of [390, 1440]) for (const locale of ["en", "zh"]) {
+    await still.setViewportSize({ width, height: width === 390 ? 844 : 1000 })
+    await still.goto(locale === "en" ? "/" : "/zh")
+    const figure = still.locator("[data-root-globe]")
+    await figure.scrollIntoViewIfNeeded()
+    await expect(figure).toHaveAttribute("data-enhanced", "true")
+    const next = figure.getByRole("button", { name: locale === "en" ? "Next globe scene" : "下一场景" })
+    for (const id of ["eu-nato", "rcep-signing"]) {
+      if (id === "rcep-signing") for (let i = 0; i < 4; i++) await next.click()
+      await expect(figure).toHaveAttribute("data-scene", id)
+      await figure.scrollIntoViewIfNeeded()
+      await still.evaluate(async () => document.fonts.ready)
+      expect(await still.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true)
+      await still.screenshot({ path: `${directory}/${id}-${locale}-${width}.png` })
+    }
+  }
+  await stillContext.close()
+  console.log("Recorded continuous Source hold through >10 seconds, explicit Play/transition, and both relationship scenes; captured only the changed globe at 390/1440 in English/Chinese.")
+}
+
 async function stills() {
   const context = await browser.newContext({ baseURL, reducedMotion: "reduce" })
   const page = await context.newPage()
@@ -160,4 +219,5 @@ try {
   if (!only || only === "stills") await stills()
   if (!only || only === "completions") await recordCompletions()
   if (!only || only === "globe") await recordGlobeCycle()
+  if (only === "globe-closeout") await globeCloseout()
 } finally { await browser.close() }

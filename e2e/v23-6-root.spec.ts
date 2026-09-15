@@ -51,7 +51,7 @@ test("Tab reaches all five root destinations while the globe remains independent
     await expect(page.locator("[data-root-detail-state]"))
       .toHaveAttribute("data-root-detail-state", destination)
     await expect(page.locator("[data-root-globe]"))
-      .toHaveAttribute("data-scene", "equipment")
+      .toHaveAttribute("data-scene", "eu-nato")
     await expect(page.locator(`[data-root-destination="${destination}"]`))
       .toHaveAttribute("data-selected", "true")
 
@@ -148,7 +148,7 @@ test("reduced motion leaves a complete still root", async ({ page }) => {
   await page.goto("/")
 
   await expect(page.locator("[data-root-globe]"))
-    .toHaveAttribute("data-scene", "equipment")
+    .toHaveAttribute("data-scene", "eu-nato")
   const motion = await page.locator("[data-root-destination='inventory']").evaluate(
     (element) => ({
       animation: getComputedStyle(element).animationName,

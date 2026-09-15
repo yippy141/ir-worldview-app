@@ -27,6 +27,12 @@ type Measurement = {
     files: AssetMeasurement[]
     mapboxMatches: string[]
   }
+  javascriptPhases: Record<"initial" | "dynamic", AssetTotals & {
+    files: AssetMeasurement[]
+    encodedBodyBytes: number
+    transferBytes: number
+    contentEncodings: string[]
+  }>
   routeFonts: AssetTotals & {
     files: AssetMeasurement[]
   }
@@ -123,6 +129,8 @@ const report = {
     clientReferenceManifest: "clientReferenceManifestJavascript is the exact unique JavaScript chunk set named by the route's Next client-reference manifest. The pinned baseline 447,933 / 140,262 / 114,058 byte values use this set.",
     browserRequestedJavascript: "browserRequestedJavascript is the wider clean-browser JavaScript request set and can include Next bootstrap or runtime files outside the route client-reference manifest.",
     compression: "gzip and Brotli estimates are computed independently per local asset; browserNetwork uses clean-load CDP encodedDataLength.",
+    javascriptPhases: "Initial = requested scripts named in the original document HTML. Dynamic = other requested scripts after hydration and bringing the globe into view. Encoded body and transfer bytes are actual Resource Timing observations; gzip/Brotli asset sizes remain offline estimates. Transfer includes response headers. No timing improvement is inferred.",
+    viewport: options.viewport,
     cache: "Chromium disk cache is disabled and service workers are blocked for each measurement.",
     mapbox: "The candidate root must have no Mapbox request and no Mapbox signature in its loaded JavaScript assets.",
   },
@@ -148,6 +156,7 @@ async function measureTarget(
     baseURL: target.baseUrl,
     reducedMotion: "reduce",
     serviceWorkers: "block",
+    viewport: options.viewport,
   })
   const page = await context.newPage()
   const cdp = await context.newCDPSession(page)
@@ -156,6 +165,7 @@ async function measureTarget(
     type: string
     mimeType: string
     encodedBytes: number
+    contentEncoding: string
   }>()
 
   cdp.on("Network.responseReceived", (event) => {
@@ -164,6 +174,7 @@ async function measureTarget(
       type: event.type,
       mimeType: event.response.mimeType,
       encodedBytes: 0,
+      contentEncoding: String(Object.entries(event.response.headers).find(([key]) => key.toLowerCase() === "content-encoding")?.[1] ?? "identity"),
     })
   })
   cdp.on("Network.loadingFinished", (event) => {
@@ -177,6 +188,15 @@ async function measureTarget(
     const response = await page.goto(route, { waitUntil: "load" })
     if (!response?.ok()) {
       throw new Error(`${target.label} ${route} returned ${response?.status() ?? "no response"}.`)
+    }
+    const html = await response.text()
+    const initialScripts = new Set([...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/gu)]
+      .map(match => new URL(match[1].replaceAll("&amp;", "&"), target.baseUrl).href))
+    if (route === "/" && await page.locator("[data-root-globe]").count()) {
+      await page.locator("[data-root-globe]").scrollIntoViewIfNeeded()
+      if (await page.locator("[data-root-globe] canvas").count()) {
+        await page.locator('[data-root-globe][data-enhanced="true"]').waitFor()
+      }
     }
     await page.evaluate(async () => {
       await document.fonts.ready
@@ -207,6 +227,21 @@ async function measureTarget(
     )
     const browserRequestedJavascriptFiles = javascriptUrls.map((url) =>
       measureAsset(target.buildDir, url))
+    const resources = await page.evaluate(() => performance.getEntriesByType("resource").map(entry => {
+      const resource = entry as PerformanceResourceTiming
+      return { url: resource.name, encodedBodyBytes: resource.encodedBodySize, transferBytes: resource.transferSize }
+    }))
+    const phase = (initial: boolean) => {
+      const files = browserRequestedJavascriptFiles.filter(file => initialScripts.has(file.url) === initial)
+      const urls = new Set(files.map(file => file.url))
+      const observed = resources.filter(resource => urls.has(resource.url))
+      return {
+        ...sumAssets(files), files,
+        encodedBodyBytes: observed.reduce((total, row) => total + row.encodedBodyBytes, 0),
+        transferBytes: observed.reduce((total, row) => total + row.transferBytes, 0),
+        contentEncodings: unique(networkRows.filter(row => urls.has(row.url)).map(row => row.contentEncoding)),
+      }
+    }
     const fontFiles = fontUrls.map((url) => measureAsset(target.buildDir, url))
     const browserRequestedMapboxMatches = browserRequestedJavascriptFiles
       .filter((asset) => {
@@ -264,6 +299,7 @@ async function measureTarget(
         files: browserRequestedJavascriptFiles,
         mapboxMatches: browserRequestedMapboxMatches,
       },
+      javascriptPhases: { initial: phase(true), dynamic: phase(false) },
       routeFonts: {
         ...sumAssets(fontFiles),
         files: fontFiles,
@@ -441,6 +477,7 @@ function parseOptions(args: string[]) {
 
   return {
     route: values.get("--route") ?? "/",
+    viewport: { width: Number(values.get("--viewport-width") ?? 1280), height: Number(values.get("--viewport-height") ?? 720) },
     output: resolve(output),
     candidate: {
       label: "candidate" as const,

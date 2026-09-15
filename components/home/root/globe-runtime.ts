@@ -14,7 +14,7 @@ export function createGlobePainter(canvas: HTMLCanvasElement) {
     context.beginPath(); path(shape); context.fillStyle = fill; context.fill()
     if (stroke) { context.strokeStyle = stroke; context.lineWidth = .7; context.stroke() }
   }
-  return (longitude: number, scene: GlobeScene, previous: GlobeScene, blend: number) => {
+  return (longitude: number, scene: GlobeScene) => {
     const dpr = Math.min(devicePixelRatio || 1, 2)
     const width = Math.max(1, Math.round(canvas.clientWidth * dpr))
     if (canvas.width !== width) { canvas.width = width; canvas.height = width }
@@ -24,24 +24,18 @@ export function createGlobePainter(canvas: HTMLCanvasElement) {
     draw({ type: "Sphere" }, "#0e1a2e", "#304563")
     context.beginPath(); path(graticule); context.strokeStyle = "#22344f"; context.lineWidth = .65; context.stroke()
     for (const feature of countries.features) draw(feature as GeoPermissibleObjects, "#293b50", "#0e1a2e")
-    const layer = (record: GlobeScene, alpha: number) => {
-      context.globalAlpha = alpha
-      for (const group of record.groups) {
-        for (const feature of countries.features) if (group.countries.includes(feature.properties.iso3)) draw(feature as GeoPermissibleObjects, colors[group.color], "#0e1a2e")
-        for (const feature of points.features) {
-          if (!group.countries.includes(feature.properties.iso3)) continue
-          const coordinates = feature.geometry.coordinates as [number, number]
-          if (geoDistance(coordinates, [longitude, 8]) >= Math.PI / 2) continue
-          const position = projection(coordinates)
-          if (!position) continue
-          context.beginPath(); context.arc(position[0], position[1], 5, 0, 2 * Math.PI)
-          context.fillStyle = colors[group.color]; context.fill()
-          context.lineWidth = 1.5; context.strokeStyle = "#0a1322"; context.stroke()
-        }
+    for (const group of scene.groups) {
+      for (const feature of countries.features) if (group.countries.includes(feature.properties.iso3)) draw(feature as GeoPermissibleObjects, colors[group.color], "#0e1a2e")
+      for (const feature of points.features) {
+        if (!group.countries.includes(feature.properties.iso3)) continue
+        const coordinates = feature.geometry.coordinates as [number, number]
+        if (geoDistance(coordinates, [longitude, 8]) >= Math.PI / 2) continue
+        const position = projection(coordinates)
+        if (!position) continue
+        context.beginPath(); context.arc(position[0], position[1], 5, 0, 2 * Math.PI)
+        context.fillStyle = colors[group.color]; context.fill()
+        context.lineWidth = 1.5; context.strokeStyle = "#0a1322"; context.stroke()
       }
     }
-    if (blend < 1) layer(previous, 1 - blend)
-    layer(scene, blend)
-    context.globalAlpha = 1
   }
 }

@@ -6,9 +6,9 @@
 .figure[data-enhanced=true] .fallback { visibility: hidden; }
 .caption { max-width: 36rem; margin: -12px auto 0; padding: 0 20px; }
 .question { min-height: 3.4em; margin: 0 0 12px; font: 500 clamp(18px, 1.55vw, 23px)/1.4 var(--font-serif); color: var(--text); text-wrap: balance; }
-.key { display: flex; gap: 10px; min-height: 32px; font-size: 12px; color: var(--text-2); }
+.key { display: flex; flex-wrap: wrap; gap: 6px 16px; min-height: 32px; padding-bottom: 8px; font-size: 14px; color: var(--text-2); }
 .key span { display: flex; gap: 8px; align-items: baseline; }
-.key i { display: inline-block; width: 9px; height: 9px; background: var(--accent); }
+.key i { display: inline-block; flex: 0 0 9px; width: 9px; height: 9px; background: var(--accent); }
 .key i[data-color=blue] { background: var(--steel); }
 .key i[data-color=amber] { background: var(--t-realist); }
 .meta { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; font-size: 11px; color: var(--muted); }
@@ -20,6 +20,6 @@
 .controls button { min-height: 44px; min-width: 44px; background: none; border: 1px solid var(--line-2); color: var(--text-2); cursor: pointer; }
 .controls button:hover { color: var(--accent); border-color: var(--accent-dim); }
 @media (max-width: 700px) { .caption { padding: 0; } .question { font-size: 20px; } .art { max-width: 400px; margin: auto; } }
-@media print { .canvas, .controls { display: none !important; } .fallback { visibility: visible !important; } .figure { max-width: 360px; } }
+@media print { .controls { display: none !important; } .figure { max-width: 360px; } }
 
 @media (prefers-reduced-motion: reduce) { .controls button[aria-pressed] { display: none; } }

@@ -92,7 +92,8 @@ test("the root route graph has no Mapbox import and uses checked-in geography", 
 test("the geographic still uses reprojection and literal scene focus without decorative orbits", () => {
   assert.ok(ROOT_GLOBE_VISUAL.land.length > 10_000)
   assert.ok(ROOT_GLOBE_VISUAL.graticule.length > 1_000)
-  assert.ok(ROOT_GLOBE_VISUAL.focus.length > 100)
+  assert.equal(ROOT_GLOBE_VISUAL.groups.length, 3)
+  assert.ok(ROOT_GLOBE_VISUAL.groups.every(group => group.path.length > 100))
   assert.match(source("lib/root/orthographic.ts"), /geoOrthographic/)
   assert.doesNotMatch(source("components/home/root/root-globe.tsx"), /ringFront|ringBack|activeId/)
 })

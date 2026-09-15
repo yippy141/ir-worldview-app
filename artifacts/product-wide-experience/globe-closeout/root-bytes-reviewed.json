@@ -1,0 +1,670 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-15T20:11:28.443Z",
+  "route": "/",
+  "candidate": {
+    "label": "candidate",
+    "route": "/",
+    "baseUrl": "http://127.0.0.1:3106",
+    "buildDir": "/Users/jinhuayip/Developer/ir-worldview-product-finish/.next",
+    "clientReferenceManifestJavascript": {
+      "manifest": "server/app/page_client-reference-manifest.js",
+      "rawBytes": 136205,
+      "gzipBytes": 39467,
+      "brotliBytes": 34535,
+      "files": [
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/0014r85sm1eon.js",
+          "file": "static/chunks/0014r85sm1eon.js",
+          "rawBytes": 29640,
+          "gzipBytes": 10101,
+          "brotliBytes": 8799
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/0zmvyptk783y8.js",
+          "file": "static/chunks/0zmvyptk783y8.js",
+          "rawBytes": 39815,
+          "gzipBytes": 12029,
+          "brotliBytes": 10688
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/14mrh2-p_w84d.js",
+          "file": "static/chunks/14mrh2-p_w84d.js",
+          "rawBytes": 54646,
+          "gzipBytes": 12823,
+          "brotliBytes": 11240
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/383yh0-9qkytu.js",
+          "file": "static/chunks/383yh0-9qkytu.js",
+          "rawBytes": 12104,
+          "gzipBytes": 4514,
+          "brotliBytes": 3808
+        }
+      ],
+      "mapboxMatches": []
+    },
+    "browserRequestedJavascript": {
+      "rawBytes": 756326,
+      "gzipBytes": 225039,
+      "brotliBytes": 188979,
+      "files": [
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/0014r85sm1eon.js",
+          "file": "static/chunks/0014r85sm1eon.js",
+          "rawBytes": 29640,
+          "gzipBytes": 10101,
+          "brotliBytes": 8799
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/0zmvyptk783y8.js",
+          "file": "static/chunks/0zmvyptk783y8.js",
+          "rawBytes": 39815,
+          "gzipBytes": 12029,
+          "brotliBytes": 10688
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/14mrh2-p_w84d.js",
+          "file": "static/chunks/14mrh2-p_w84d.js",
+          "rawBytes": 54646,
+          "gzipBytes": 12823,
+          "brotliBytes": 11240
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/1hvq3l9nnn1mp.js",
+          "file": "static/chunks/1hvq3l9nnn1mp.js",
+          "rawBytes": 163210,
+          "gzipBytes": 53184,
+          "brotliBytes": 40363
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/23y5k9t0cb2fv.js",
+          "file": "static/chunks/23y5k9t0cb2fv.js",
+          "rawBytes": 138146,
+          "gzipBytes": 37477,
+          "brotliBytes": 32306
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/27jktro2p5rq9.js",
+          "file": "static/chunks/27jktro2p5rq9.js",
+          "rawBytes": 44414,
+          "gzipBytes": 9195,
+          "brotliBytes": 7975
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/2yuy-lm1p-ox7.js",
+          "file": "static/chunks/2yuy-lm1p-ox7.js",
+          "rawBytes": 30836,
+          "gzipBytes": 8723,
+          "brotliBytes": 7719
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/310vm2bl3xxpt.js",
+          "file": "static/chunks/310vm2bl3xxpt.js",
+          "rawBytes": 5364,
+          "gzipBytes": 1969,
+          "brotliBytes": 1665
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/383yh0-9qkytu.js",
+          "file": "static/chunks/383yh0-9qkytu.js",
+          "rawBytes": 12104,
+          "gzipBytes": 4514,
+          "brotliBytes": 3808
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/3hdj40qmts5sf.js",
+          "file": "static/chunks/3hdj40qmts5sf.js",
+          "rawBytes": 227538,
+          "gzipBytes": 70861,
+          "brotliBytes": 60658
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/chunks/turbopack-07ychntev3tlf.js",
+          "file": "static/chunks/turbopack-07ychntev3tlf.js",
+          "rawBytes": 10613,
+          "gzipBytes": 4163,
+          "brotliBytes": 3758
+        }
+      ],
+      "mapboxMatches": []
+    },
+    "javascriptPhases": {
+      "initial": {
+        "rawBytes": 593116,
+        "gzipBytes": 171855,
+        "brotliBytes": 148616,
+        "files": [
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/0014r85sm1eon.js",
+            "file": "static/chunks/0014r85sm1eon.js",
+            "rawBytes": 29640,
+            "gzipBytes": 10101,
+            "brotliBytes": 8799
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/0zmvyptk783y8.js",
+            "file": "static/chunks/0zmvyptk783y8.js",
+            "rawBytes": 39815,
+            "gzipBytes": 12029,
+            "brotliBytes": 10688
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/14mrh2-p_w84d.js",
+            "file": "static/chunks/14mrh2-p_w84d.js",
+            "rawBytes": 54646,
+            "gzipBytes": 12823,
+            "brotliBytes": 11240
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/23y5k9t0cb2fv.js",
+            "file": "static/chunks/23y5k9t0cb2fv.js",
+            "rawBytes": 138146,
+            "gzipBytes": 37477,
+            "brotliBytes": 32306
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/27jktro2p5rq9.js",
+            "file": "static/chunks/27jktro2p5rq9.js",
+            "rawBytes": 44414,
+            "gzipBytes": 9195,
+            "brotliBytes": 7975
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/2yuy-lm1p-ox7.js",
+            "file": "static/chunks/2yuy-lm1p-ox7.js",
+            "rawBytes": 30836,
+            "gzipBytes": 8723,
+            "brotliBytes": 7719
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/310vm2bl3xxpt.js",
+            "file": "static/chunks/310vm2bl3xxpt.js",
+            "rawBytes": 5364,
+            "gzipBytes": 1969,
+            "brotliBytes": 1665
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/383yh0-9qkytu.js",
+            "file": "static/chunks/383yh0-9qkytu.js",
+            "rawBytes": 12104,
+            "gzipBytes": 4514,
+            "brotliBytes": 3808
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/3hdj40qmts5sf.js",
+            "file": "static/chunks/3hdj40qmts5sf.js",
+            "rawBytes": 227538,
+            "gzipBytes": 70861,
+            "brotliBytes": 60658
+          },
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/turbopack-07ychntev3tlf.js",
+            "file": "static/chunks/turbopack-07ychntev3tlf.js",
+            "rawBytes": 10613,
+            "gzipBytes": 4163,
+            "brotliBytes": 3758
+          }
+        ],
+        "encodedBodyBytes": 172279,
+        "transferBytes": 175279,
+        "contentEncodings": [
+          "gzip"
+        ]
+      },
+      "dynamic": {
+        "rawBytes": 163210,
+        "gzipBytes": 53184,
+        "brotliBytes": 40363,
+        "files": [
+          {
+            "url": "http://127.0.0.1:3106/_next/static/chunks/1hvq3l9nnn1mp.js",
+            "file": "static/chunks/1hvq3l9nnn1mp.js",
+            "rawBytes": 163210,
+            "gzipBytes": 53184,
+            "brotliBytes": 40363
+          }
+        ],
+        "encodedBodyBytes": 53248,
+        "transferBytes": 53548,
+        "contentEncodings": [
+          "gzip"
+        ]
+      }
+    },
+    "routeFonts": {
+      "rawBytes": 73612,
+      "gzipBytes": 73709,
+      "brotliBytes": 73616,
+      "files": [
+        {
+          "url": "http://127.0.0.1:3106/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+          "file": "static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+          "rawBytes": 29336,
+          "gzipBytes": 29364,
+          "brotliBytes": 29339
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+          "file": "static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+          "rawBytes": 15084,
+          "gzipBytes": 15107,
+          "brotliBytes": 15085
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+          "file": "static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+          "rawBytes": 14028,
+          "gzipBytes": 14051,
+          "brotliBytes": 14032
+        },
+        {
+          "url": "http://127.0.0.1:3106/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+          "file": "static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+          "rawBytes": 15164,
+          "gzipBytes": 15187,
+          "brotliBytes": 15160
+        }
+      ]
+    },
+    "browserNetwork": {
+      "requests": 21,
+      "encodedBytes": 449519,
+      "javascriptBytes": 232299,
+      "fontBytes": 75648,
+      "cssBytes": 38151,
+      "otherBytes": 103421,
+      "mapboxRequests": []
+    },
+    "fontRender": {
+      "spectralLoaded": true,
+      "libreFranklinLoaded": true,
+      "body": {
+        "familyStack": "libreFranklin, \"libreFranklin Fallback\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primaryFamily": "libreFranklin",
+        "registeredFaceCount": 1,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": true,
+        "renderedWithRegisteredFace": true
+      },
+      "activeMenu": {
+        "familyStack": "spectral, \"spectral Fallback\", Georgia, serif",
+        "primaryFamily": "spectral",
+        "registeredFaceCount": 3,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": false,
+        "renderedWithRegisteredFace": true
+      }
+    }
+  },
+  "baseline": {
+    "label": "baseline",
+    "route": "/",
+    "baseUrl": "http://127.0.0.1:3107",
+    "buildDir": "/Users/jinhuayip/Developer/ir-worldview-globe-before/.next",
+    "clientReferenceManifestJavascript": {
+      "manifest": "server/app/page_client-reference-manifest.js",
+      "rawBytes": 131127,
+      "gzipBytes": 37234,
+      "brotliBytes": 32670,
+      "files": [
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/0zmvyptk783y8.js",
+          "file": "static/chunks/0zmvyptk783y8.js",
+          "rawBytes": 39815,
+          "gzipBytes": 12029,
+          "brotliBytes": 10688
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/14mrh2-p_w84d.js",
+          "file": "static/chunks/14mrh2-p_w84d.js",
+          "rawBytes": 54646,
+          "gzipBytes": 12823,
+          "brotliBytes": 11240
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/2d0gefta0_itg.js",
+          "file": "static/chunks/2d0gefta0_itg.js",
+          "rawBytes": 28850,
+          "gzipBytes": 9730,
+          "brotliBytes": 8467
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/2xx5y2dwyb5hu.js",
+          "file": "static/chunks/2xx5y2dwyb5hu.js",
+          "rawBytes": 7816,
+          "gzipBytes": 2652,
+          "brotliBytes": 2275
+        }
+      ],
+      "mapboxMatches": []
+    },
+    "browserRequestedJavascript": {
+      "rawBytes": 588038,
+      "gzipBytes": 169622,
+      "brotliBytes": 146751,
+      "files": [
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/0zmvyptk783y8.js",
+          "file": "static/chunks/0zmvyptk783y8.js",
+          "rawBytes": 39815,
+          "gzipBytes": 12029,
+          "brotliBytes": 10688
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/14mrh2-p_w84d.js",
+          "file": "static/chunks/14mrh2-p_w84d.js",
+          "rawBytes": 54646,
+          "gzipBytes": 12823,
+          "brotliBytes": 11240
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/23y5k9t0cb2fv.js",
+          "file": "static/chunks/23y5k9t0cb2fv.js",
+          "rawBytes": 138146,
+          "gzipBytes": 37477,
+          "brotliBytes": 32306
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/27jktro2p5rq9.js",
+          "file": "static/chunks/27jktro2p5rq9.js",
+          "rawBytes": 44414,
+          "gzipBytes": 9195,
+          "brotliBytes": 7975
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/2d0gefta0_itg.js",
+          "file": "static/chunks/2d0gefta0_itg.js",
+          "rawBytes": 28850,
+          "gzipBytes": 9730,
+          "brotliBytes": 8467
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/2xx5y2dwyb5hu.js",
+          "file": "static/chunks/2xx5y2dwyb5hu.js",
+          "rawBytes": 7816,
+          "gzipBytes": 2652,
+          "brotliBytes": 2275
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/2yuy-lm1p-ox7.js",
+          "file": "static/chunks/2yuy-lm1p-ox7.js",
+          "rawBytes": 30836,
+          "gzipBytes": 8723,
+          "brotliBytes": 7719
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/310vm2bl3xxpt.js",
+          "file": "static/chunks/310vm2bl3xxpt.js",
+          "rawBytes": 5364,
+          "gzipBytes": 1969,
+          "brotliBytes": 1665
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/3hdj40qmts5sf.js",
+          "file": "static/chunks/3hdj40qmts5sf.js",
+          "rawBytes": 227538,
+          "gzipBytes": 70861,
+          "brotliBytes": 60658
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/chunks/turbopack-07ychntev3tlf.js",
+          "file": "static/chunks/turbopack-07ychntev3tlf.js",
+          "rawBytes": 10613,
+          "gzipBytes": 4163,
+          "brotliBytes": 3758
+        }
+      ],
+      "mapboxMatches": []
+    },
+    "javascriptPhases": {
+      "initial": {
+        "rawBytes": 588038,
+        "gzipBytes": 169622,
+        "brotliBytes": 146751,
+        "files": [
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/0zmvyptk783y8.js",
+            "file": "static/chunks/0zmvyptk783y8.js",
+            "rawBytes": 39815,
+            "gzipBytes": 12029,
+            "brotliBytes": 10688
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/14mrh2-p_w84d.js",
+            "file": "static/chunks/14mrh2-p_w84d.js",
+            "rawBytes": 54646,
+            "gzipBytes": 12823,
+            "brotliBytes": 11240
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/23y5k9t0cb2fv.js",
+            "file": "static/chunks/23y5k9t0cb2fv.js",
+            "rawBytes": 138146,
+            "gzipBytes": 37477,
+            "brotliBytes": 32306
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/27jktro2p5rq9.js",
+            "file": "static/chunks/27jktro2p5rq9.js",
+            "rawBytes": 44414,
+            "gzipBytes": 9195,
+            "brotliBytes": 7975
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/2d0gefta0_itg.js",
+            "file": "static/chunks/2d0gefta0_itg.js",
+            "rawBytes": 28850,
+            "gzipBytes": 9730,
+            "brotliBytes": 8467
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/2xx5y2dwyb5hu.js",
+            "file": "static/chunks/2xx5y2dwyb5hu.js",
+            "rawBytes": 7816,
+            "gzipBytes": 2652,
+            "brotliBytes": 2275
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/2yuy-lm1p-ox7.js",
+            "file": "static/chunks/2yuy-lm1p-ox7.js",
+            "rawBytes": 30836,
+            "gzipBytes": 8723,
+            "brotliBytes": 7719
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/310vm2bl3xxpt.js",
+            "file": "static/chunks/310vm2bl3xxpt.js",
+            "rawBytes": 5364,
+            "gzipBytes": 1969,
+            "brotliBytes": 1665
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/3hdj40qmts5sf.js",
+            "file": "static/chunks/3hdj40qmts5sf.js",
+            "rawBytes": 227538,
+            "gzipBytes": 70861,
+            "brotliBytes": 60658
+          },
+          {
+            "url": "http://127.0.0.1:3107/_next/static/chunks/turbopack-07ychntev3tlf.js",
+            "file": "static/chunks/turbopack-07ychntev3tlf.js",
+            "rawBytes": 10613,
+            "gzipBytes": 4163,
+            "brotliBytes": 3758
+          }
+        ],
+        "encodedBodyBytes": 170047,
+        "transferBytes": 173047,
+        "contentEncodings": [
+          "gzip"
+        ]
+      },
+      "dynamic": {
+        "rawBytes": 0,
+        "gzipBytes": 0,
+        "brotliBytes": 0,
+        "files": [],
+        "encodedBodyBytes": 0,
+        "transferBytes": 0,
+        "contentEncodings": []
+      }
+    },
+    "routeFonts": {
+      "rawBytes": 73612,
+      "gzipBytes": 73709,
+      "brotliBytes": 73616,
+      "files": [
+        {
+          "url": "http://127.0.0.1:3107/_next/static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+          "file": "static/media/libre_franklin_latin_variable-s.p.2_7gz-nbwppeo.woff2",
+          "rawBytes": 29336,
+          "gzipBytes": 29364,
+          "brotliBytes": 29339
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+          "file": "static/media/spectral_latin_medium-s.p.08rc2-5ev0bam.woff2",
+          "rawBytes": 15084,
+          "gzipBytes": 15107,
+          "brotliBytes": 15085
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+          "file": "static/media/spectral_latin_regular-s.p.1oxabuqlrz9-_.woff2",
+          "rawBytes": 14028,
+          "gzipBytes": 14051,
+          "brotliBytes": 14032
+        },
+        {
+          "url": "http://127.0.0.1:3107/_next/static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+          "file": "static/media/spectral_latin_semibold-s.p.42kv-xe2onlt1.woff2",
+          "rawBytes": 15164,
+          "gzipBytes": 15187,
+          "brotliBytes": 15160
+        }
+      ]
+    },
+    "browserNetwork": {
+      "requests": 19,
+      "encodedBytes": 354456,
+      "javascriptBytes": 176173,
+      "fontBytes": 75648,
+      "cssBytes": 34160,
+      "otherBytes": 68475,
+      "mapboxRequests": []
+    },
+    "fontRender": {
+      "spectralLoaded": true,
+      "libreFranklinLoaded": true,
+      "body": {
+        "familyStack": "libreFranklin, \"libreFranklin Fallback\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+        "primaryFamily": "libreFranklin",
+        "registeredFaceCount": 1,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": true,
+        "renderedWithRegisteredFace": true
+      },
+      "activeMenu": {
+        "familyStack": "spectral, \"spectral Fallback\", Georgia, serif",
+        "primaryFamily": "spectral",
+        "registeredFaceCount": 3,
+        "loadedFaceCount": 1,
+        "fontFaceSetCheck": false,
+        "renderedWithRegisteredFace": true
+      }
+    }
+  },
+  "comparison": {
+    "clientReferenceManifestJavascript": {
+      "rawBytes": {
+        "candidate": 136205,
+        "baseline": 131127,
+        "delta": 5078,
+        "percent": 3.87
+      },
+      "gzipBytes": {
+        "candidate": 39467,
+        "baseline": 37234,
+        "delta": 2233,
+        "percent": 6
+      },
+      "brotliBytes": {
+        "candidate": 34535,
+        "baseline": 32670,
+        "delta": 1865,
+        "percent": 5.71
+      }
+    },
+    "browserRequestedJavascript": {
+      "rawBytes": {
+        "candidate": 756326,
+        "baseline": 588038,
+        "delta": 168288,
+        "percent": 28.62
+      },
+      "gzipBytes": {
+        "candidate": 225039,
+        "baseline": 169622,
+        "delta": 55417,
+        "percent": 32.67
+      },
+      "brotliBytes": {
+        "candidate": 188979,
+        "baseline": 146751,
+        "delta": 42228,
+        "percent": 28.78
+      }
+    },
+    "routeFonts": {
+      "rawBytes": {
+        "candidate": 73612,
+        "baseline": 73612,
+        "delta": 0,
+        "percent": 0
+      },
+      "gzipBytes": {
+        "candidate": 73709,
+        "baseline": 73709,
+        "delta": 0,
+        "percent": 0
+      },
+      "brotliBytes": {
+        "candidate": 73616,
+        "baseline": 73616,
+        "delta": 0,
+        "percent": 0
+      }
+    },
+    "browserNetwork": {
+      "candidate": 449519,
+      "baseline": 354456,
+      "delta": 95063,
+      "percent": 26.82
+    },
+    "browserJavascript": {
+      "candidate": 232299,
+      "baseline": 176173,
+      "delta": 56126,
+      "percent": 31.86
+    },
+    "browserFonts": {
+      "candidate": 75648,
+      "baseline": 75648,
+      "delta": 0,
+      "percent": 0
+    }
+  },
+  "interpretation": {
+    "clientReferenceManifest": "clientReferenceManifestJavascript is the exact unique JavaScript chunk set named by the route's Next client-reference manifest. The pinned baseline 447,933 / 140,262 / 114,058 byte values use this set.",
+    "browserRequestedJavascript": "browserRequestedJavascript is the wider clean-browser JavaScript request set and can include Next bootstrap or runtime files outside the route client-reference manifest.",
+    "compression": "gzip and Brotli estimates are computed independently per local asset; browserNetwork uses clean-load CDP encodedDataLength.",
+    "javascriptPhases": "Initial = requested scripts named in the original document HTML. Dynamic = other requested scripts after hydration and bringing the globe into view. Encoded body and transfer bytes are actual Resource Timing observations; gzip/Brotli asset sizes remain offline estimates. Transfer includes response headers. No timing improvement is inferred.",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "cache": "Chromium disk cache is disabled and service workers are blocked for each measurement.",
+    "mapbox": "The candidate root must have no Mapbox request and no Mapbox signature in its loaded JavaScript assets."
+  }
+}

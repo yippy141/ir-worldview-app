@@ -274,10 +274,10 @@ Navigation and share controls sit in the same place on every result. Visual iden
 ### Home globe
 
 - Canvas rendering with `d3-geo` (approved; note it depends on `d3-array`) over the checked-in Natural Earth 1:110m geometry, with the existing static SVG as the no-JS fallback. Report the bundle delta.
-- One revolution in 120 to 150 s; scene dwell 10 s; 1 s crossfade; the scene clock aligned so the scene's region faces the viewer; the caption changes 400 ms before the fills.
-- Every scene is a question, printed as the caption, with an as-of date and a source control. Groups are literal ("Abstained", "Ratified", "Member"), never a mood ("wary", "hedging").
+- One revolution in 120 to 150 s; scene dwell 10 s; the scene clock aligned so the scene's region faces the viewer. Commit the question, key, dated sources and country fills together. No premature caption or crossfade between differently labelled groups.
+- Every scene is a question, printed as the caption, with a source control. Relationship scenes show a dated event or membership snapshot; geometry retrieval dates belong in Source. Groups are literal ("Abstained", "Ratified", "Member"), never a mood ("wary", "hedging").
 - Palette reuses World Stage roles: focal gold, first group blue, second group amber, comparison red only where the scene names a comparison. Muted land means outside this scene's question.
-- No rings, orbits, or camera moves on hover or focus. Pause/Play beside the globe stops both rotation and scene changes. Reduced motion shows one static scene with next/previous. Offscreen stops the animation frame.
+- No rings, orbits, or camera moves on menu hover or focus. Pause/Play beside the globe stops both rotation and scene changes. Opening or focusing Source pauses consultation until explicit Play, which closes Source before resuming. Manual Previous/Next deliberately selects a complete scene and stays paused. Reduced motion shows one static scene with next/previous. Offscreen and hidden tabs stop the animation frame.
 - Small states absent from 1:110m geometry get a deliberate treatment (a marker at their centroid) so a scene about the Pacific or the Caribbean is not empty.
 
 ### AI marks (visual version bump; keys and scoring unchanged)
