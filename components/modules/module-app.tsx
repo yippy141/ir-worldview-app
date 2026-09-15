@@ -230,7 +230,7 @@ export function ModuleApp({
         <h1>{moduleDefinition.title}</h1>
         <p>{moduleDefinition.description}</p>
         <p>Enable JavaScript to answer questions or resume a draft on this device.</p>
-        <Link href="/modules">Back to Focus Areas</Link>
+        <Link href="/modules">Security and Technology</Link>
       </div>
     )
   }
@@ -803,7 +803,7 @@ export function ModuleApp({
             className="secondary-button"
             onClick={() => router.push(modulesLandingPath)}
           >
-            Back to Focus Areas
+            Security and Technology
           </button>
         </div>
         <p className="muted" style={{ fontSize: "0.82rem", lineHeight: "1.55" }}>

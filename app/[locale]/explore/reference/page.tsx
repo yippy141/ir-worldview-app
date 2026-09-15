@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import { ZhHansReferenceProfileCard } from "@/components/reference/zh-hans-reference-profile-card"
 import { zhHansReferenceProfilesUi as copy } from "@/content/locales/zh-Hans/reference-profiles-ui"
@@ -16,6 +17,7 @@ export default function ChineseReferenceBrowsePage() {
   const entities = getVisibleReferenceEntities()
   return (
     <div className="wide-container reading-page">
+      <DestinationLink destination="library" />
       <div className="article-header stack-md">
         <div className="stack-xs">
           <p className="eyebrow">{copy.browse.eyebrow}</p>

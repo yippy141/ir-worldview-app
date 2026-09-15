@@ -177,7 +177,7 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
           <h1>This vantage point is unavailable.</h1>
           <p className="muted">Choose one of the six role briefs to start a run.</p>
           <div className="row gap-sm wrap">
-            <Link href="/perspectives" className="cta-primary">Browse the briefs</Link>
+            <Link href="/perspectives" className="cta-primary">Perspective Runs</Link>
           </div>
         </div>
       </div>
@@ -330,7 +330,7 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
             >
               Begin scenario 1
             </button>
-            <Link href="/perspectives" className="cta-secondary">All briefs</Link>
+            <Link href="/perspectives" className="cta-secondary">Perspective Runs</Link>
           </div>
         </section>
       ) : null}
@@ -514,7 +514,7 @@ function BaselineGate({ definition }: { definition: PerspectiveDefinition }) {
 
         <div className="row gap-sm wrap">
           <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
-          <Link href="/perspectives" className="cta-secondary">All briefs</Link>
+          <Link href="/perspectives" className="cta-secondary">Perspective Runs</Link>
         </div>
       </section>
     </div>

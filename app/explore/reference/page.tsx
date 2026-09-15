@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { ReferenceProfileCard } from "@/components/reference/reference-profile-card"
 import { getVisibleReferenceEntities } from "@/lib/field/items"
@@ -6,7 +7,7 @@ import { REFERENCE_PROFILE_CATALOG } from "@/lib/reference-profiles/catalog"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Thinkers & public positions | IR Worldview Inventory",
+  title: "Thinkers | IR Worldview Inventory",
   description:
     "Evidence-coded public postures of thinkers, doctrines, and governance currents, placed in the same field as the Foundation.",
 }
@@ -17,10 +18,11 @@ export default function ReferenceBrowsePage() {
 
   return (
     <div className="wide-container reading-page">
+      <DestinationLink destination="library" />
       <div className="article-header stack-md">
         <div className="stack-xs">
 
-          <h1>Thinkers &amp; public positions</h1>
+          <h1>Thinkers</h1>
         </div>
         <p className="muted atlas-page-lead">
           Read the argument behind a public position, how it explains cooperation or conflict, and where it can fall short. Each profile stays within a dated body of work and links its supporting sources.

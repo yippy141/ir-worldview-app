@@ -67,6 +67,7 @@ export function EpisodePlayer({ episode, links, preview = false }: { episode: Ep
   const status = comparisonStatus(first, second)
   const label = (id: string) => id === "defer" ? "Decision withheld" : episode.options.find(option => option.id === id)!.label
   return <article className={`${styles.page} ${access ? accessStyles.accessPage : ""} ${preview ? styles.embedded : ""}`}>
+    {!preview && <a className="parent-link" href={links?.exit ?? "/decisions"}>All decisions</a>}
     <h1>{episode.title}</h1>
     <p className={styles.lead}>{episode.invitation}</p>
     <p className={styles.small}>Fictional decision exercise · Unscored{preview ? " · Draft for local review" : ""}</p>

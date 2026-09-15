@@ -63,7 +63,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
   })
 
   return (
-    <article className="result-article result-canvas">
+    <article className="result-article result-canvas profile-report">
       {foundationArchetype && foundationIdentity && displayFoundation ? (
         <ResultCardHero
           eyebrow={mode === "local" ? "Your Foundation result" : "Shared Foundation result"}
@@ -461,7 +461,7 @@ function buildProfileNextSteps({
         href: "/quiz",
       },
       {
-        title: "Open Atlas",
+        title: "Open Worldview Map",
         description: "Compare traditions, thinkers, and reviewed public positions.",
         href: "/explore/atlas",
       },
@@ -508,7 +508,7 @@ function buildProfileNextSteps({
   }
 
   steps.push({
-    title: "Open Atlas",
+    title: "Open Worldview Map",
     description: "Use the reference map without assigning a Decision Pattern to this Profile.",
     href: "/explore/atlas",
   })

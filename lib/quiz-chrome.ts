@@ -1,3 +1,5 @@
+import { destinationLabel } from "@/lib/navigation"
+
 export type QuizChromeMeta = {
   title: string
   sectionLabel: string
@@ -40,10 +42,10 @@ export function getQuizChromeMeta(
 
   if (pathname === "/ai/quiz" || pathname === "/ai/review") {
     return {
-      title: "AI Questionnaire",
-      sectionLabel: "AI Governance Compass",
+      title: "AI Governance",
+      sectionLabel: "AI Governance",
       exitHref: "/ai",
-      exitLabel: "Exit to AI home",
+      exitLabel: "AI Governance",
       progressLabel: "Route progress",
       steps: ["Quiz", "Review"],
       activeStep: pathname === "/ai/review" ? "Review" : "Quiz",
@@ -53,10 +55,10 @@ export function getQuizChromeMeta(
   const perspectiveMatch = pathname.match(/^\/perspectives\/([^/]+)$/)
   if (perspectiveMatch) {
     return {
-      title: "Perspective Brief",
-      sectionLabel: "Perspective Run",
+      title: "Perspective Run",
+      sectionLabel: "Perspective Runs",
       exitHref: "/perspectives",
-      exitLabel: "Exit to briefs",
+      exitLabel: "Perspective Runs",
       progressLabel: "Route progress",
       steps: [],
       activeStep: "",
@@ -69,9 +71,9 @@ export function getQuizChromeMeta(
 
     return {
       title: `${moduleTitles[slug] ?? "Focus Area"} Questionnaire`,
-      sectionLabel: "Focus Area",
+      sectionLabel: destinationLabel("modules"),
       exitHref: "/modules",
-      exitLabel: "Exit to Focus Areas",
+      exitLabel: destinationLabel("modules"),
       progressLabel: "Route progress",
       steps: ["Questions"],
       activeStep: "Questions",

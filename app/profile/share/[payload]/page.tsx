@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { ProfileReport } from "@/components/profile/profile-report"
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
@@ -94,6 +95,7 @@ export default async function SharedProfilePage(
 
   return (
     <div className="wide-container">
+      <DestinationLink destination="profile" />
       <ProfileReport
         profile={resolved.profile}
         mode="shared"

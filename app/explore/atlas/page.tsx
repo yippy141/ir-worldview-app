@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { Suspense } from "react"
 import { FieldExplorer } from "@/components/field/field-explorer"
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default function FieldExplorerPage() {
   return (
     <div className={`wide-container ${styles.page}`}>
+      <DestinationLink destination="library" />
       <header className={styles.header}>
         <div className={styles.headerCopy}>
           <h1 id="worldview-map-page-heading" tabIndex={-1}>{WORLDVIEW_MAP_LABEL}</h1>
@@ -50,8 +52,8 @@ export default function FieldExplorerPage() {
         <div className={styles.actionLinks}>
           <Link href="/quiz">Take the Foundation →</Link>
           <Link href="/perspectives">Try another vantage point →</Link>
-          <Link href="/explore/reference">Browse thinkers &amp; public positions →</Link>
-          <Link href="/profile">View profile →</Link>
+          <Link href="/explore/reference">Thinkers →</Link>
+          <Link href="/profile">Profile →</Link>
         </div>
       </section>
     </div>

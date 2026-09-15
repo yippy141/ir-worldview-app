@@ -332,7 +332,7 @@ export default async function ExploreDetailPage({ params }: Props) {
             </p>
             <p>
               <Link href="/explore/reference" style={{ color: "var(--accent)" }}>
-                Browse the reference directory →
+                Browse Thinkers →
               </Link>
             </p>
           </section>

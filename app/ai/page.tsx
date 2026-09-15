@@ -66,7 +66,7 @@ export default function AiPage() {
           <div className="resource-list">
             <Link href="/ai/atlas" className="resource-list-link">
               <span className="resource-list-copy">
-                <span className="resource-list-title">The six approaches</span>
+                <span className="resource-list-title">AI approaches</span>
                 <span className="resource-list-text">What each one wants, worries about, and would decide.</span>
               </span>
             </Link>

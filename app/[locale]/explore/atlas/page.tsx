@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import { FieldExplorer } from "@/components/field/field-explorer"
@@ -16,6 +17,7 @@ export const metadata: Metadata = createDynamicLocalizedMetadata(
 export default function ChineseFieldExplorerPage() {
   return (
     <div className={`wide-container ${styles.page}`}>
+      <DestinationLink destination="library" />
       <header className={styles.header}>
         <div className={styles.headerCopy}>
           <h1>{copy.page.title}</h1>
@@ -41,8 +43,8 @@ export default function ChineseFieldExplorerPage() {
         <div className={styles.actionLinks}>
           <Link href="/quiz">{copy.page.actions.foundation} →</Link>
           <Link href="/perspectives">{copy.page.actions.perspective} →</Link>
-          <Link href="/explore/reference">{copy.page.actions.publicPositions} →</Link>
-          <Link href="/profile">{copy.page.actions.profile} →</Link>
+          <DestinationLink destination="thinkers" className="" />
+          <DestinationLink destination="profile" className="" />
         </div>
       </section>
     </div>

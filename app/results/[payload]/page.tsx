@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
 import { ResearchStatusNotice } from "@/components/research/research-status-notice"
@@ -127,7 +128,7 @@ export default async function ResultPage(
           </p>
           <div className="row gap-sm wrap">
             <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
-            <Link href="/explore" className="cta-secondary">Explore the perspectives</Link>
+            <Link href="/explore" className="cta-secondary">Library</Link>
             <Link href="/method" className="cta-secondary">Methods</Link>
           </div>
         </div>
@@ -275,6 +276,7 @@ export default async function ResultPage(
         nextAction={nextAction}
         utility={
           <>
+            <DestinationLink destination="foundation" />
             <p>
               <Link href="/feedback">Report a factual problem</Link>
             </p>

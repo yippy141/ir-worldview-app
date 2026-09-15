@@ -6,10 +6,9 @@ import { LanguageSwitcher } from "@/components/language-switcher"
 import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import { Link } from "@/i18n/navigation"
 import { internalPath } from "@/i18n/paths"
-import { trackProductEvent } from "@/lib/analytics/adapter"
 import { getBetaNavigationItem } from "@/lib/beta-config"
 import { getQuizChromeMeta } from "@/lib/quiz-chrome"
-import { siteConfig } from "@/lib/site-config"
+import { navigationItem } from "@/lib/navigation"
 import {
   immersiveRouteOwnsLanguageControl,
   isImmersiveRoute,
@@ -29,43 +28,43 @@ type MobileNavGroup = {
 
 const publicNavItems: PublicNavItem[] = [
   {
-    href: "/cases",
-    labelKey: "nav.currentCase",
+    ...navigationItem("cases"),
     active: (pathname) => pathname === "/current" || pathname.startsWith("/cases"),
   },
   {
-    href: "/quiz",
-    labelKey: "nav.foundation",
+    ...navigationItem("foundation"),
     active: (pathname) =>
       pathname === "/quiz" || pathname === "/quiz/review" || pathname.startsWith("/results"),
   },
   {
-    href: "/modules",
-    labelKey: "nav.focusAreas",
+    ...navigationItem("modules"),
     active: (pathname) => pathname === "/modules" || pathname.startsWith("/modules/"),
   },
   {
-    href: "/ai",
-    labelKey: "nav.ai",
+    ...navigationItem("ai"),
     active: (pathname) => pathname === "/ai" || pathname.startsWith("/ai/"),
   },
   {
-    href: "/profile",
-    labelKey: "nav.profile",
+    ...navigationItem("profile"),
     active: (pathname) =>
       pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),
   },
 ]
 
 const moreNavItems = [
-  { href: "/perspectives", labelKey: "nav.perspectives" },
-  { href: "/explore/atlas", labelKey: "nav.worldviewMap" },
-  { href: "/explore", labelKey: "nav.explore" },
-  { href: "/futures", labelKey: "nav.futures" },
-  { href: "/method", labelKey: "nav.methods" },
-  { href: "/privacy", labelKey: "nav.privacy" },
-  { href: "/references", labelKey: "nav.references" },
-  { href: "/feedback", labelKey: "nav.feedback" },
+  navigationItem("worldStage"),
+  navigationItem("decisions"),
+  navigationItem("aiApproaches"),
+  navigationItem("thinkers"),
+  navigationItem("archetypes"),
+  navigationItem("perspectives"),
+  navigationItem("worldviewMap"),
+  navigationItem("library"),
+  navigationItem("futures"),
+  navigationItem("method"),
+  navigationItem("privacy"),
+  navigationItem("references"),
+  navigationItem("feedback"),
 ] as const
 
 const mobileNavGroups: MobileNavGroup[] = [
@@ -73,26 +72,30 @@ const mobileNavGroups: MobileNavGroup[] = [
     labelKey: "productPath",
     introKey: "productIntro",
     items: [
-      { href: "/cases", labelKey: "nav.currentCase" },
-      { href: "/quiz", labelKey: "nav.foundation" },
-      { href: "/modules", labelKey: "nav.focusAreas" },
-      { href: "/ai", labelKey: "nav.ai" },
-      { href: "/perspectives", labelKey: "nav.perspectives" },
-      { href: "/profile", labelKey: "nav.profile" },
+      navigationItem("worldStage"),
+      navigationItem("cases"),
+      navigationItem("decisions"),
+      navigationItem("foundation"),
+      navigationItem("modules"),
+      navigationItem("ai"),
+      navigationItem("perspectives"),
+      navigationItem("profile"),
     ],
   },
   {
     labelKey: "browseContext",
     introKey: "browseIntro",
     items: [
-      { href: "/explore/atlas", labelKey: "nav.worldviewMap" },
-      { href: "/explore/reference", labelKey: "nav.publicPositions" },
-      { href: "/explore", labelKey: "nav.explore" },
-      { href: "/futures", labelKey: "nav.futures" },
-      { href: "/method", labelKey: "nav.methods" },
-      { href: "/privacy", labelKey: "nav.privacy" },
-      { href: "/references", labelKey: "nav.references" },
-      { href: "/feedback", labelKey: "nav.feedback" },
+      navigationItem("worldviewMap"),
+      navigationItem("thinkers"),
+      navigationItem("archetypes"),
+      navigationItem("aiApproaches"),
+      navigationItem("library"),
+      navigationItem("futures"),
+      navigationItem("method"),
+      navigationItem("privacy"),
+      navigationItem("references"),
+      navigationItem("feedback"),
     ],
   },
 ]
@@ -121,7 +124,6 @@ export function SiteChrome({
   const t = useTranslations("chrome")
   const currentPath = internalPath(pathname ?? "/")
   const quizMeta = getQuizChromeMeta(currentPath, locale)
-  const contactLinks = siteConfig.links.filter((link) => link.kind === "contact")
   const betaNavigationItem = getBetaNavigationItem(betaNavigationEnabled)
   const visibleMoreNavItems = betaNavigationItem
     ? [...moreNavItems, betaNavigationItem]
@@ -289,20 +291,9 @@ export function SiteChrome({
               {t("byline")}
             </div>
             <div className="footer-links">
-              {contactLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="footer-link"
-                  target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                  onClick={() => {
-                    if (link.label === "Substack") trackProductEvent("newsletter_clicked")
-                  }}
-                >
-                  {link.label}
-                </a>
-              ))}
+              <Link href="/about" prefetch={false} className="footer-link">
+                {t("nav.about")}
+              </Link>
               <Link href="/feedback" className="footer-link">
                 {t("nav.feedback")}
               </Link>

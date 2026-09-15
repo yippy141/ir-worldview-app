@@ -63,7 +63,9 @@ test("one root selection drives menu, explanation, and geographic visual state",
   const detailStart = component.indexOf("className={styles.detailRegion}")
   const detailEnd = component.indexOf("<RootGlobe", detailStart)
   const detail = component.slice(detailStart, detailEnd)
-  assert.doesNotMatch(detail, /<Link|<button|<a\s/u)
+  assert.doesNotMatch(detail, /<button/u)
+  assert.match(detail, /selectedId === "inventory"/u)
+  assert.deepEqual([...detail.matchAll(/<DestinationLink destination="([^"]+)"/gu)].map(match => match[1]), ["security", "technology", "ai"])
 })
 
 test("the root route graph has no Mapbox import and uses checked-in geography", () => {

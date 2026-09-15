@@ -131,7 +131,7 @@ export function PerspectiveResultActions({ result, resultPath, payload }: Props)
           link.
         </p>
       )}
-      <Link href="/perspectives" className="cta-secondary">Try another brief</Link>
+      <Link href="/perspectives" className="cta-secondary">Perspective Runs</Link>
     </div>
   )
 }

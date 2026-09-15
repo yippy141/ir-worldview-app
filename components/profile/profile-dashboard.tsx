@@ -81,7 +81,7 @@ export function ProfileDashboard() {
               <span className="profile-state-action__meta">Create a separate AI-policy record.</span>
             </Link>
             <Link href="/explore" className="profile-state-action">
-              <span className="profile-state-action__label">Browse the field guide</span>
+              <span className="profile-state-action__label">Browse the Library</span>
               <span className="profile-state-action__meta">Read traditions and Decision Patterns as reference points.</span>
             </Link>
           </div>

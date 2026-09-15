@@ -4,7 +4,7 @@
     "advisory": {
       "baselineCount": 558,
       "currentCount": 1101,
-      "newCount": 699,
+      "newCount": 700,
       "newFindings": [
         {
           "audience": "public",
@@ -4577,6 +4577,16 @@
           "source": "The handoff is chosen rather than imposed, across generations."
         },
         {
+          "audience": "public",
+          "context": "content-key:components/profile/profile-report.tsx#buildProfileNextSteps.description",
+          "count": 1,
+          "file": "components/profile/profile-report.tsx",
+          "fingerprint": "a3a6cea526bc31b3bb9d15ef06b9f2bc85ec1945a04ff07b2cf0541994362432",
+          "matched": "Map / map",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "Use the reference map without assigning a Decision Pattern to this Profile."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItAsks",
           "count": 1,
@@ -6998,7 +7008,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 156,
+      "resolvedCount": 157,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7115,6 +7125,10 @@
         {
           "count": 1,
           "fingerprint": "2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe"
+        },
+        {
+          "count": 1,
+          "fingerprint": "308eb529ff383ee1ce7785270fdc7029b61b4ad4b50572bdecd67c5b76bc1197"
         },
         {
           "count": 1,
@@ -7625,7 +7639,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 402
+      "unchangedCount": 401
     },
     "higherPriorityFindings": [
       {
@@ -8012,7 +8026,7 @@
         "jsonPath": null,
         "key": "AiResultPage.p",
         "kind": "self-narration",
-        "line": 299,
+        "line": 302,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -8276,7 +8290,7 @@
         "jsonPath": null,
         "key": "ModuleResultView.p",
         "kind": "self-narration",
-        "line": 264,
+        "line": 266,
         "match": "registered form",
         "matched": "registered form",
         "priority": "P1",

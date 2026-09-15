@@ -93,7 +93,7 @@ export default async function CurrentCaseSourcesPage({ params }: CurrentCaseSour
       </section>
 
       <Link className={styles.documentBack} href={`/cases/${record.slug}`}>
-        ← Return to the case
+        {record.title}
       </Link>
     </div>
   )

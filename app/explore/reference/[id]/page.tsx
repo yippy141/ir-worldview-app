@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { EvidenceControls } from "@/components/reading/evidence-controls"
 import { referenceIntroductions } from "@/content/reading/reference-introductions"
 import Link from "next/link"
@@ -67,7 +68,7 @@ export default async function ReferenceDetailPage(
             The link may be outdated, or the profile may have been withdrawn for re-coding.
           </p>
           <div className="row gap-sm wrap">
-            <Link href="/explore/reference" className="cta-primary">Browse reference profiles</Link>
+            <DestinationLink destination="thinkers" className="cta-primary" />
             <Link href="/explore/atlas" className="cta-secondary">Open the {WORLDVIEW_MAP_LABEL}</Link>
           </div>
         </div>
@@ -119,6 +120,7 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
   return (
     <div className="wide-container">
       <article className="result-article reference-detail reading-page">
+        <DestinationLink destination="thinkers" />
         <header className="article-header stack-sm">
           <p className="eyebrow">
             Reference profile · {referenceEntityTypeLabel(profile.entityType)}
@@ -313,7 +315,6 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
             >
               See this profile in the field
             </Link>
-            <Link href="/explore/reference" className="cta-secondary">All reference profiles</Link>
             <Link href="/method" className="cta-secondary">Coding method</Link>
           </div>
         </section>
@@ -335,6 +336,7 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
   return (
     <div className="wide-container">
       <article className="result-article reference-detail reading-page">
+        <DestinationLink destination="thinkers" />
         <header className="article-header stack-sm">
           <p className="eyebrow">Reference profile · Movement</p>
           <h1>{movement.name}</h1>
@@ -421,7 +423,6 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
         <section className="result-section stack-sm">
           <p className="eyebrow">Continue</p>
           <div className="row gap-sm wrap">
-            <Link href="/explore/reference" className="cta-secondary">All reference profiles</Link>
             <Link href="/explore/atlas" className="cta-secondary">Open the {WORLDVIEW_MAP_LABEL}</Link>
           </div>
         </section>

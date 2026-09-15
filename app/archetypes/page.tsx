@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { ArchetypeMark } from "@/components/archetypes/archetype-mark"
@@ -48,6 +49,7 @@ export default function ArchetypesPage() {
       className={`wide-container ${styles.directory}`}
       data-archetype-directory
     >
+      <DestinationLink destination="library" />
       <header className={styles.directoryHeader}>
         <h1>Foundation archetypes</h1>
         <p>
@@ -144,7 +146,6 @@ export default function ArchetypesPage() {
           both codes, one posture.
         </p>
         <nav className={styles.directoryFooterLinks} aria-label="Archetype directory resources">
-          <Link href="/explore">See how the model fits together →</Link>
           <Link href="/method">Read the method and limits →</Link>
         </nav>
       </footer>

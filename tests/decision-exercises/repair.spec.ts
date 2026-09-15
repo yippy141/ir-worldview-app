@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 import { getPublishedDecision } from "@/lib/decision-exercises/catalog"
 
-const evidence = "docs/evidence/decision-exercises-release/repair"
+const evidence = process.env.DECISION_REPAIR_DIR ?? "docs/evidence/decision-exercises-release/repair"
 const verify = "/decisions/who-gets-to-verify"
 
 // macOS WebKit defaults to Option+Tab for links; Chromium uses Tab.

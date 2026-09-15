@@ -13,9 +13,9 @@
     "nav": {
       "currentCase": "案例",
       "foundation": "基础问卷",
-      "focusAreas": "议题专题",
+      "focusAreas": "安全与技术",
       "ai": "AI 治理",
-      "profile": "我的画像",
+      "profile": "档案",
       "perspectives": "情境推演",
       "worldviewMap": "世界观地图",
       "explore": "观点资料",
@@ -25,7 +25,14 @@
       "references": "参考文献",
       "feedback": "勘误与联系",
       "beta": "受控测试",
-      "publicPositions": "思想家与公共立场"
+      "publicPositions": "思想家",
+      "worldStage": "世界舞台",
+      "decisions": "决策练习",
+      "aiApproaches": "AI 治理取向",
+      "archetypes": "基础原型",
+      "security": "安全",
+      "technology": "技术",
+      "about": "关于"
     }
   },
   "language": {

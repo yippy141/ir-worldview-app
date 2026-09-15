@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -238,6 +239,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         }}
         utility={
           <>
+            <DestinationLink destination="foundation" />
             <ShareActions
               payload={payload}
               familyLabel={narrative.familyLabel}

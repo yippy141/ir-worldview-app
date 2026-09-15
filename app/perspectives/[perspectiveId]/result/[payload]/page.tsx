@@ -52,7 +52,7 @@ export default async function PerspectiveResultPage(
             The run URL may be incomplete, corrupted, or from an older scenario set.
           </p>
           <div className="row gap-sm wrap">
-            <Link href="/perspectives" className="cta-primary">Browse the briefs</Link>
+            <Link href="/perspectives" className="cta-primary">Perspective Runs</Link>
             <Link href="/quiz" className="cta-secondary">Take the Foundation</Link>
             <Link href="/method" className="cta-secondary">Methods</Link>
           </div>

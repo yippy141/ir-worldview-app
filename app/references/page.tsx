@@ -300,7 +300,7 @@ export default function ReferencesPage() {
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.65", maxWidth: "560px" }}>
           This is not an exhaustive literature review. The goal is to give readers a clear path into
           each tradition. For deeper coverage of each family, see the{" "}
-          <Link href="/explore" style={{ color: "var(--accent)" }}>Explore</Link> section.
+          <Link href="/explore" style={{ color: "var(--accent)" }}>Library</Link> section.
         </p>
       </div>
 
@@ -341,7 +341,7 @@ export default function ReferencesPage() {
       <hr className="divider" />
 
       <div className="article-section">
-        <Link href="/explore" className="cta-secondary">← Explore the traditions</Link>
+        <Link href="/explore" className="cta-secondary">Library</Link>
       </div>
     </div>
   )

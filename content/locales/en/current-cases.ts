@@ -86,7 +86,7 @@ export const englishCurrentCaseFlow = {
   sourcesAndClaims: "Sources and claim coverage",
   correctionsAndUpdates: "Corrections and updates",
   revisitJudgment: "Revisit this judgment",
-  viewCurrentJudgments: "View current judgments in My Profile",
+  viewCurrentJudgments: "View current judgments in Profile",
   saveFailed: "This browser could not save progress. You can continue in this tab.",
   saved: "Judgment saved on this device.",
   autosave: "Progress saves on this device as you move between steps.",

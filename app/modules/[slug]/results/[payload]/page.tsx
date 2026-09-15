@@ -1,4 +1,4 @@
-import Link from "next/link"
+import { DestinationLink } from "@/components/layout/destination-link"
 import { notFound } from "next/navigation"
 import { ModuleResultView } from "@/components/modules/module-result"
 import { getModuleDefinition, resolveModulePayload } from "@/lib/modules/framework"
@@ -45,8 +45,8 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
             The link may be incomplete, corrupted, or from an older version of the module.
           </p>
           <div className="row gap-sm" style={{ flexWrap: "wrap" }}>
-            <Link href="/modules" className="cta-primary">Go to Focus Areas</Link>
-            <Link href={`/modules/${slug}`} className="cta-secondary">Retake this module</Link>
+            <DestinationLink destination="modules" className="cta-primary" />
+            <DestinationLink destination={currentDefinition.slug} className="cta-secondary" />
           </div>
         </div>
       </div>

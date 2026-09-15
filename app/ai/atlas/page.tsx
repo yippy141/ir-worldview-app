@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import type { Metadata } from "next"
 import { AiArchetypeFingerprint } from "@/components/atlas/ai-archetype-fingerprint"
@@ -13,7 +14,7 @@ import {
 const atlasEntries = getAiAtlasEntries()
 
 export const metadata: Metadata = {
-  title: "Atlas | AI Governance Compass",
+  title: "AI approaches | AI Governance",
   description:
     "Browse the modeled AI-governance families as compact fingerprint cards: name, one-line definition, two differentiators, nearest neighbor.",
 }
@@ -25,12 +26,12 @@ export default function AiAtlasPage() {
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
           <p className="ai-hero-eyebrow">AI Governance</p>
-          <h1 className="ai-hero-h1">AI governance archetypes</h1>
+          <h1 className="ai-hero-h1">AI approaches</h1>
           <p className="ai-hero-summary">
             Who should govern capable AI, what risks matter most, and which institutions could act? Compare the arguments and their objections. The diagrams describe editorial categories, not your answers.
           </p>
           <div className="row gap-sm wrap">
-            <Link href="/ai" className="cta-secondary">Back to AI home</Link>
+            <DestinationLink destination="ai" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
             <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
@@ -177,7 +178,7 @@ export default function AiAtlasPage() {
             </p>
           </div>
           <div className="row gap-sm wrap">
-            <Link href="/ai" className="cta-secondary">Back to AI home</Link>
+            <DestinationLink destination="ai" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
             <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
