@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -62,6 +63,7 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
   if (!view || !resolved) {
     return (
       <div className="container stack-lg result-invalid">
+        <DestinationLink destination="profile" />
         <section className="panel stack-md">
           <p className="eyebrow">{copy.invalidEyebrow}</p>
           <h1>{copy.invalidTitle}</h1>
@@ -135,6 +137,7 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
 
   return (
     <div className="wide-container locale-profile-share">
+      <DestinationLink destination="profile" />
       <article className="result-article" data-zh-shared-profile>
         <header className="result-section stack-md">
           <p className="eyebrow">

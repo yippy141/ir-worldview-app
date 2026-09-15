@@ -118,7 +118,7 @@ function BaselineStatusStrip({ baseline }: { baseline: BaselineState }) {
         Baseline saved: {foundation.familyLabel} · {formatFieldDate(foundation.timestamp)}
       </p>
       <p className="muted perspective-baseline-strip__note">
-        Each run is measured against it. <Link href="/profile">View profile</Link>
+        Each run is measured against it. <Link href="/profile">View Profile</Link>
       </p>
     </section>
   )

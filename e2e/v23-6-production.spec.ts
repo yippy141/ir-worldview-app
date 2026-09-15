@@ -495,9 +495,9 @@ test("Simplified Chinese root and result remain Chinese-only at 390px", async ({
   await page.goto("/zh")
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   await expect(page.locator("[data-root-destination]")).toHaveText([
-    "问卷",
+    "基础问卷",
     "世界舞台",
-    "图谱",
+    "观点资料",
     "情境推演",
     "档案",
   ])

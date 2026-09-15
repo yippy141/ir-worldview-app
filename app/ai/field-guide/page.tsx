@@ -1,4 +1,6 @@
 import Link from "next/link"
+import { DestinationLink } from "@/components/layout/destination-link"
+import styles from "./field-guide.module.css"
 import type { Metadata } from "next"
 import { futuresRoutes } from "@/lib/futures/catalogue/index"
 import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
@@ -39,20 +41,19 @@ export const metadata: Metadata = {
 export default function AiFieldGuidePage() {
   return (
     <div className="wide-container">
-      <article className="result-article reading-page">
+      <article className={`result-article reading-page ${styles.guide}`}>
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
-          <p className="ai-hero-eyebrow">AI Governance</p>
+          <DestinationLink destination="ai" />
           <h1 className="ai-hero-h1">Field Guide</h1>
           <p className="ai-hero-summary">
-            Six approaches to governing powerful AI answer the same question differently:
-            who may inspect a model, release it, restrict it, or stop it. This guide works
-            one decision through all six and sets out where each would put those powers.
-            It ends with what the questionnaire leaves out.
+            A lab has built a powerful model. Releasing its weights would let others study
+            and use it independently; keeping the weights inside the lab would limit that
+            access. Who should decide, and what would justify their choice?
           </p>
-          <div className="row gap-sm wrap">
+          <div className="row gap-sm wrap print-hidden">
             <AiResultReturnLink />
-            <Link href="/ai/atlas" className="cta-secondary">The six approaches</Link>
+            <DestinationLink destination="aiApproaches" className="cta-secondary" />
             <Link href="/ai/quiz" className="cta-primary">Start AI Governance</Link>
           </div>
         </section>
@@ -68,7 +69,7 @@ export default function AiFieldGuidePage() {
         <div className="ai-fg-layout">
           <aside className="ai-fg-rail" aria-label="On this page">
             <p className="ai-fg-rail__lbl">On this page</p>
-            <ol className="ai-fg-rail__list">
+            <ul className="ai-fg-rail__list">
               {sections.map((section) => (
                 <li key={section.id} className="ai-fg-rail__item">
                   <a href={`#${section.id}`} className="ai-fg-rail__link">
@@ -76,7 +77,7 @@ export default function AiFieldGuidePage() {
                   </a>
                 </li>
               ))}
-            </ol>
+            </ul>
           </aside>
 
           <div className="ai-fg-content">
@@ -88,31 +89,45 @@ export default function AiFieldGuidePage() {
                   <Link href={aiFieldGuideWorkedDecision.exerciseHref}>
                     {aiFieldGuideWorkedDecision.exerciseTitle}
                   </Link>
-                  . {aiFieldGuideWorkedDecision.situation} Each approach starts from a
-                  different question. More than one can end up backing the same option, for
-                  different reasons.
+                  .
                 </p>
               </header>
-              <div className="ai-fg-perspective-grid">
+              <div className={styles.scenario}>
+                <p>{aiFieldGuideWorkedDecision.situation}</p>
+                <h3>The access options</h3>
+                <ul>{aiFieldGuideWorkedDecision.options.map(option => <li key={option}>{option}</li>)}</ul>
+                <div className={styles.admission}>
+                  <section><h3>Original admission</h3><p>{aiFieldGuideWorkedDecision.originalAdmission}</p></section>
+                  <section><h3>Revised admission</h3><p>{aiFieldGuideWorkedDecision.revisedAdmission}</p></section>
+                </div>
+                <section className={styles.unchanged}>
+                  <h3>Unchanged conditions</h3>
+                  <p>{aiFieldGuideWorkedDecision.unchanged}</p>
+                  <p>{aiFieldGuideWorkedDecision.researchPermissions}</p>
+                </section>
+                <p>{aiFieldGuideWorkedDecision.uncertainty}</p>
+              </div>
+              <p className="ai-fg-section__deck">
+                These illustrative arguments show how the six approaches could read this decision.
+                Several may support the same arrangement for different reasons. To make your own
+                decision, <Link href={aiFieldGuideWorkedDecision.exerciseHref}>open the exercise</Link>.
+              </p>
+              <div className={styles.readings}>
                 {aiFieldGuideWorkedReadings.map((reading) => (
-                  <article key={reading.key} className="ai-fg-perspective stack-sm">
+                  <article key={reading.key} className={styles.reading}>
                     <div className="stack-xs">
                       <h3>
                         <Link href={getAiAtlasHref(reading.key)} className="ai-fg-parts__pair-link">
                           {labelByKey[reading.key]}
                         </Link>
                       </h3>
-                      <p className="ai-fg-perspective__question">{reading.firstQuestion}</p>
+                      {reading.firstQuestion && <p className={styles.question}>{reading.firstQuestion}</p>}
                     </div>
                     <p>{reading.reading}</p>
                   </article>
                 ))}
               </div>
-              <p className="ai-fg-section__deck">
-                These readings are authored illustrations. Nothing on this page is scored,
-                and none of them is attached to you. To make the decision yourself,{" "}
-                <Link href={aiFieldGuideWorkedDecision.exerciseHref}>open the exercise</Link>.
-              </p>
+
             </section>
 
             <section id="powers" className="ai-fg-section stack-md">
@@ -124,30 +139,35 @@ export default function AiFieldGuidePage() {
                   The same four powers, and where each approach would put them.
                 </p>
               </header>
-              <div className="ai-fg-parts">
-                <div className="ai-fg-parts__row ai-fg-parts__row--head">
-                  <div>Approach</div>
-                  <div>Inspect and release</div>
-                  <div>Restrict and stop</div>
-                </div>
-                {aiFieldGuidePowerRows.map((row) => (
-                  <div key={row.key} className="ai-fg-parts__row">
-                    <div className="ai-fg-parts__pair">
-                      <Link href={getAiAtlasHref(row.key)} className="ai-fg-parts__pair-link">
-                        {labelByKey[row.key]}
-                      </Link>
-                    </div>
-                    <div className="ai-fg-parts__col">
-                      <span className="ai-fg-parts__kicker">Inspect and release</span>
-                      {row.inspectAndRelease}
-                    </div>
-                    <div className="ai-fg-parts__col">
-                      <span className="ai-fg-parts__kicker">Restrict and stop</span>
-                      {row.restrictAndStop}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <table className={styles.powers}>
+                <caption className="sr-only">Where each AI approach would put the four powers</caption>
+                <thead>
+                  <tr>
+                    <th id="power-approach" scope="col">Approach</th>
+                    <th id="power-inspect" scope="col">Inspect and release</th>
+                    <th id="power-restrict" scope="col">Restrict and stop</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {aiFieldGuidePowerRows.map((row) => (
+                    <tr key={row.key}>
+                      <th id={`power-${row.key}`} scope="row">
+                        <Link href={getAiAtlasHref(row.key)} className="ai-fg-parts__pair-link">
+                          {labelByKey[row.key]}
+                        </Link>
+                      </th>
+                      <td headers={`power-${row.key} power-inspect`}>
+                        <span className={styles.cellLabel} aria-hidden="true">Inspect and release</span>
+                        {row.inspectAndRelease}
+                      </td>
+                      <td headers={`power-${row.key} power-restrict`}>
+                        <span className={styles.cellLabel} aria-hidden="true">Restrict and stop</span>
+                        {row.restrictAndStop}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </section>
 
             <section id="splits" className="ai-fg-section stack-md">
@@ -158,9 +178,9 @@ export default function AiFieldGuidePage() {
                   comparisons show where those reasons diverge.
                 </p>
               </header>
-              <div className="ai-fg-perspective-grid">
+              <div className={styles.disagreements}>
                 {aiFieldGuideDisagreements.map((pair) => (
-                  <article key={pair.id} className="ai-fg-perspective stack-sm">
+                  <article key={pair.id} className={styles.disagreement}>
                     <h3>
                       <Link href={getAiAtlasHref(pair.a)} className="ai-fg-parts__pair-link">
                         {labelByKey[pair.a]}
@@ -170,7 +190,7 @@ export default function AiFieldGuidePage() {
                         {labelByKey[pair.b]}
                       </Link>
                     </h3>
-                    <p className="ai-fg-perspective__limit">
+                    <p className={styles.sharedGround}>
                       <span>Shared ground:</span> {pair.sharedGround}
                     </p>
                     <p>{pair.argument}</p>
@@ -183,10 +203,9 @@ export default function AiFieldGuidePage() {
               <header className="ai-fg-section__head">
                 <h2 className="ai-fg-section__title">The axes behind a result</h2>
                 <p className="ai-fg-section__deck">
-                  Your answers give positions on these axes. Each runs between two poles, and
-                  either end is a position. Each approach weights those positions differently,
-                  and the comparison decides which result leads. It says nothing about technical
-                  expertise, or about whether the institutions you favor can be built in time.
+                  Your answers give positions on the axes below. Each approach weights those
+                  positions differently; the comparison determines which result leads.{" "}
+                  <Link href="/method">Method</Link>
                 </p>
               </header>
               <ol className="ai-fg-axes">

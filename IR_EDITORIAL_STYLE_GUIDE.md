@@ -34,7 +34,7 @@ Do not reuse the kicker, serif heading, muted lead, three-column list, resource 
 | Case or exercise | The situation, the decision, the options, the cost of each. |
 | Method, Privacy, About | Plain prose. Say it once. |
 
-Numbered chapters, section symbols, and eyebrow labels are allowed only when the order carries meaning.
+Numbered chapters, section symbols, and eyebrow labels are allowed only when the order carries meaning. Repeated control labels and standard navigation are desirable: avoid repeated empty explanations, not useful interface consistency.
 
 ### 3. Retired words and reflexes
 
@@ -59,10 +59,12 @@ Allowed once per page, when it is the precise word: tradeoff, tension, signal (a
 | The fourteen-question questionnaire | Foundation | Inventory, Foundation read, the Foundation baseline |
 | The AI questionnaire | AI Governance | AI Governance Compass, the Compass, AI Questionnaire |
 | The two case questionnaires | Security, Technology | Focus Areas, issue reads, domain records, domain inventories, modules |
+| `/modules` | Security and Technology | Focus Areas |
+| `/profile` | Profile | My Profile |
 | A saved result | result | record, read, layer, snapshot |
 | `/explore` | Library | Explore, Atlas, field guide |
 | `/explore/atlas` | Worldview Map | Atlas |
-| `/ai/atlas` | The six approaches | AI Atlas |
+| `/ai/atlas` | AI approaches | AI Atlas, The six approaches (as navigation) |
 | `/explore/reference` | Thinkers | Thinkers & public positions (until there are positions) |
 | Perspective Runs | Perspective Runs | briefs, role runs |
 
@@ -75,7 +77,7 @@ Allowed once per page, when it is the precise word: tradeoff, tension, signal (a
 5. **No fake precision.** Not "this reveals your underlying worldview architecture". Say "your answers put power and timing first".
 6. **Contrast only when both halves carry information.** State the claim. Put a real limit in its own sentence.
 7. **A personalized sentence must follow the data.** "On X you leaned the other way" may appear only when a contribution row is negative. "The nearest rival stayed close" only when the differentiation flag says so. Never invent a preference, a tie, or a policy choice the data does not contain.
-8. **Limits go where the reader needs them.** A share warning sits next to the share button. A result that cannot be shown says so in one sentence where it would have appeared. Everything general lives in Method.
+8. **Limits go where the reader needs them.** A share warning sits next to the share button. A result that cannot be shown says so in one sentence where it would have appeared. Explanations needed to read a figure may stay beside it. Everything general lives in Method. Reviewers’ notes correcting an earlier draft belong in the before/after file, not the public explanation.
 
 ## Question rules
 
@@ -96,7 +98,7 @@ The first paragraph after the name says something true about this person's answe
 
 **Hub.** Before: "Add a focused issue read beside the Foundation. Use Security and Technology to examine concrete policy judgments." After: "Two shorter questionnaires built from cases. An ally asks for troops on its border. A ministry decides whether to fund public compute. You choose, and the result shows which logic you kept returning to."
 
-**Result chapter.** Before: "This calculation uses the calibration registered for the exact completed form. It does not treat distance from the raw scale midpoint as classification evidence." After: "Your answers on Institutions did most of the work: there you sided with the institutionalist reading." Then a disclosure: "How this is calculated."
+**Result chapter.** Before: "This calculation uses the calibration registered for the exact completed form. It does not treat distance from the raw scale midpoint as classification evidence." Conditional example: "The strongest contribution to Institutionalism's lead came from your answers about institutions." This requires an actual largest positive contribution to the lead over the compared rival. It is a relative scoring statement, never a belief inferred from a label. Then a disclosure: "How this is calculated."
 
 **Root menu.** Before: "Start with the Foundation when the site is new to you. It asks fourteen broad questions about recurring disputes in international politics." After: "Begin with the Foundation: fourteen questions about the arguments people reach for when world politics gets hard."
 

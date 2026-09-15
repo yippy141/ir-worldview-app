@@ -1,0 +1,69 @@
+/* Field Guide composition. Preserve the site's typefaces and color tokens. */
+.guide { max-width: none; }
+.guide :global(.ai-fg-section) { scroll-margin-top: 100px; }
+.guide :global(.ai-fg-rail) { top: 100px; }
+.guide :global(.ai-hero-rule) { margin-bottom: 0; }
+.guide :global(.parent-link) { margin-bottom: 0; }
+.guide :global(.ai-hero-summary),
+.guide :global(.ai-fg-section__deck),
+.guide :global(.ai-fg-content) > section > p { max-width: 70ch; }
+.guide :global(.ai-fg-section__head) { display: block; }
+.guide :global(.ai-fg-section__title) { max-width: 42ch; margin-bottom: 12px; }
+.guide :global(.ai-fg-section__deck) { color: var(--text-2); }
+.guide :global(.ai-fg-axis__poles) { grid-column: auto; text-align: left; }
+.guide :global(.ai-fg-rail__item) { padding-left: 0; counter-increment: none; }
+.guide :global(.ai-fg-rail__item)::before { content: none; }
+.guide :global(.ai-fg-rail__list) { counter-reset: none; }
+.guide :global(.ai-fg-anchorbar__link) { min-height: 44px; }
+.scenario { max-width: 74ch; }
+.scenario p, .scenario li, .reading p, .disagreement p { font-size: 1rem; line-height: 1.7; color: var(--text-2); }
+.scenario h3 { margin: 24px 0 8px; font-size: 1rem; color: var(--text); }
+.scenario ul { padding-left: 24px; }
+.scenario li + li { margin-top: 12px; }
+.admission { display: grid; gap: 24px; margin: 28px 0; }
+.admission section { border-top: 1px solid var(--line-2); padding-top: 16px; }
+.admission h3 { margin-top: 0; color: var(--accent); }
+.unchanged { margin-bottom: 24px; }
+.unchanged p + p { margin-top: 12px; }
+.readings { display: grid; gap: 36px 40px; padding-top: 16px; }
+.reading { min-width: 0; }
+.reading h3, .disagreement h3 { font-family: var(--font-serif), Georgia, serif; font-size: 1.3rem; line-height: 1.3; margin: 0 0 12px; }
+.reading p { margin: 0; }
+.reading .question { font-family: var(--font-serif), Georgia, serif; font-style: italic; margin: 0 0 12px; color: var(--text); }
+.powers { width: 100%; table-layout: fixed; border-collapse: collapse; text-align: left; font-size: 0.95rem; line-height: 1.65; }
+.powers th, .powers td { vertical-align: top; padding: 20px 16px; border-bottom: 1px solid var(--line); color: var(--text-2); overflow-wrap: anywhere; }
+.powers th:first-child { width: 24%; padding-left: 0; }
+.powers thead th { color: var(--text); font-weight: 600; }
+.powers tbody th { font-family: var(--font-serif), Georgia, serif; font-size: 1.1rem; font-weight: 600; }
+.cellLabel { display: none; }
+.disagreements { display: grid; gap: 36px; max-width: 74ch; }
+.disagreement h3 { max-width: 40ch; }
+.disagreement p { margin: 12px 0 0; }
+.disagreement .sharedGround { font-size: 0.92rem; }
+.sharedGround span { color: var(--text); font-weight: 600; }
+@media (min-width: 720px) {
+  .admission, .readings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 960px) {
+  .guide :global(.ai-fg-layout) { grid-template-columns: 180px minmax(0, 1fr); }
+}
+@media screen and (max-width: 719px) {
+  /* Keep real header associations while stacking each row for narrow screens. */
+  .powers, .powers tbody, .powers tr, .powers th, .powers td { display: block; width: 100%; }
+  .powers thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .powers th:first-child { width: 100%; padding: 20px 0 8px; border: 0; }
+  .powers td { padding: 8px 0 16px; border: 0; }
+  .powers tr { border-bottom: 1px solid var(--line); }
+  .cellLabel { display: block; color: var(--text); font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; }
+}
+@media print {
+  .guide :global(.ai-fg-rail), .guide :global(.ai-fg-anchorbar) { display: none; }
+  .guide :global(.ai-fg-layout) { display: block; }
+  .guide :global(.ai-fg-content) { display: block; }
+  .guide :global(.ai-fg-section) { margin-top: 24px; }
+  .readings { display: block; }
+  .reading, .disagreement, .powers tr { break-inside: avoid; }
+  .reading { margin-bottom: 20px; }
+  .powers thead { display: table-header-group; }
+  .powers th, .powers td, .scenario p, .scenario li, .reading p, .disagreement p { color: inherit; }
+}

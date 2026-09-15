@@ -20,9 +20,6 @@ export function CurrentCaseChallengeGate({
         <Link href={`/cases/${record.slug}`} className={styles.primaryLink}>
           Open the ordinary case
         </Link>
-        <Link href="/cases" className={styles.secondaryLink}>
-          Browse Current Cases
-        </Link>
       </div>
     </section>
   )

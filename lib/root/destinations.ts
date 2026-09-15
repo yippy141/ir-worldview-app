@@ -1,3 +1,5 @@
+import { destinations } from "@/lib/navigation"
+
 export const ROOT_DESTINATION_IDS = [
   "inventory",
   "world-stage",
@@ -20,27 +22,27 @@ export type RootDestination = Readonly<{
 export const ROOT_DESTINATIONS = [
   {
     id: "inventory",
-    href: "/quiz",
+    href: destinations.foundation.href,
     greatCircle: { tilt: 90, azimuth: 24 },
   },
   {
     id: "world-stage",
-    href: "/world-stage",
+    href: destinations.worldStage.href,
     greatCircle: { tilt: 0, azimuth: 0 },
   },
   {
     id: "atlas",
-    href: "/explore",
+    href: destinations.library.href,
     greatCircle: { tilt: 23.44, azimuth: -18 },
   },
   {
     id: "perspective-runs",
-    href: "/perspectives",
+    href: destinations.perspectives.href,
     greatCircle: { tilt: 66.56, azimuth: 42 },
   },
   {
     id: "profile",
-    href: "/profile",
+    href: destinations.profile.href,
     greatCircle: { tilt: -35, azimuth: -48 },
   },
 ] as const satisfies readonly RootDestination[]

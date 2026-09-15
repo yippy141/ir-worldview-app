@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1101. Unchanged and suppressed: 402. New: 699. Resolved: 156.
+P2 advisory baseline: 558. Current: 1101. Unchanged and suppressed: 401. New: 700. Resolved: 157.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -1018,7 +1018,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:473 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:497 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:578 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
-| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:299 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
+| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:302 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
 | P1 | product-self-narration | public | app/method/page.tsx:74 (route:/method#resultLayers.3.body) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:88 (route:/method#authoredChoices.2.heading) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:108 (route:/method#limitations.3.body) | kept separate |
@@ -1030,7 +1030,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:856 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:963 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | does-not-claim-heading | public | components/modules/module-app.tsx:528 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
-| P1 | product-self-narration | public | components/modules/module-result.tsx:264 (content-key:components/modules/module-result.tsx#ModuleResultView.p) | registered form |
+| P1 | product-self-narration | public | components/modules/module-result.tsx:266 (content-key:components/modules/module-result.tsx#ModuleResultView.p) | registered form |
 | P1 | product-self-narration | public | components/profile/current-judgments-section.tsx:43 (content-key:components/profile/current-judgments-section.tsx#CurrentJudgmentsSection.p) | stay separate |
 | P1 | product-self-narration | public | components/profile/profile-dashboard.tsx:65 (content-key:components/profile/profile-dashboard.tsx#ProfileDashboard.p) | domain inventory |
 | P1 | product-self-narration | public | components/results/foundation-local-evidence.tsx:164 (content-key:components/results/foundation-local-evidence.tsx#enCopy.unavailable.tuple-mismatch) | tuple |
@@ -1612,6 +1612,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
 | 1 | lens-metaphor-review | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.summary) | lens cards |
 | 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.7.assumptions.1) | rather than |
+| 1 | repeated-adjacent-abstract-language | public | components/profile/profile-report.tsx (content-key:components/profile/profile-report.tsx#buildProfileNextSteps.description) | Map / map |
 | 1 | retired-house-words | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItAsks) | durable |
 | 1 | rather-than-reflex | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#separationPhrases.realist.criticalPoliticalEconomy) | rather than |
 | 1 | repeated-adjacent-opening | operational | lib/archetype-content.ts (content-key:lib/archetype-content.ts#validateArchetypeContentCatalog) | catalog and evidence |
@@ -1888,6 +1889,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 27674ff88d52851b8e9f1f6942210283e7758f4ae87446a0c809bc7918d787a6 |
 | 1 | 2a9b110780e68eae1a807b32b4e09410068d1906e7253888ddf447296e1f1891 |
 | 1 | 2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe |
+| 1 | 308eb529ff383ee1ce7785270fdc7029b61b4ad4b50572bdecd67c5b76bc1197 |
 | 1 | 326cb4f7863b5ef1a0ab5dbcb0b862dfe9ce3576e0af3e3e9ec36ac623209e63 |
 | 1 | 32b072524907d84a69ba0ded4786820bb9650a739a78c72c36a25ee7ca4ba729 |
 | 1 | 34a73637bcc4dd46223922b7e09320aa6c2a3df8e59ebd5fb873a53630b96541 |

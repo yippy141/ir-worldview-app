@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { AtlasPatternFamily } from "@/components/atlas/atlas-pattern-family"
 import {
@@ -46,6 +47,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
 
   return (
     <div className={`wide-container reading-page ${styles.page}`}>
+      <DestinationLink destination="worldviewMap" />
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
           <p className="eyebrow">Decision Pattern</p>
@@ -278,7 +280,6 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
             <div className={styles.actions}>
               <Link href="/quiz" className="cta-primary">Take the Foundation</Link>
               <Link href="/profile" className="cta-secondary">View your Profile</Link>
-              <Link href="/explore/atlas" className="cta-secondary">Open the Worldview Map</Link>
               <Link href="/method" className="cta-secondary">Read methods</Link>
             </div>
           </section>

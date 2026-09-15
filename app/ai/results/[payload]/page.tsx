@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { AiCompletionEvidence } from "@/components/results/ai-completion-evidence"
 import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
 import { WorkedApplication } from "@/components/results/worked-application"
@@ -89,6 +90,7 @@ export default async function AiResultPage(
   if (!resolved) {
     return (
       <div className="container stack-lg result-invalid">
+        <DestinationLink destination="ai" />
         <div className="panel stack-md">
           <p className="eyebrow">Invalid result</p>
           <h1>This link could not be decoded.</h1>
@@ -143,6 +145,7 @@ export default async function AiResultPage(
 
   return (
     <div className="wide-container">
+      <DestinationLink destination="ai" />
       <article className="result-article result-canvas ai-result-canvas">
         <AiProfileSync
           snapshot={{
@@ -335,7 +338,7 @@ export default async function AiResultPage(
                   </Link>
                 </p>
                 <div className="row gap-sm wrap">
-                  <Link href="/ai/atlas" className="cta-secondary">Browse AI Atlas</Link>
+                  <DestinationLink destination="aiApproaches" className="cta-secondary" />
                   <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
                 </div>
                 <ResearchStatusNotice instrumentLabel="AI Governance Compass" />

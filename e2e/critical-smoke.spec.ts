@@ -91,7 +91,7 @@ test("public entry points match reviewed Current Case availability", async ({ pa
 
   await page.goto("/")
   await expect(page.getByRole("navigation", { name: "Primary destinations" })).toBeVisible()
-  await expect(page.getByRole("link", { name: "Atlas", exact: true })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Library", exact: true })).toBeVisible()
   await expect(page.locator("[data-root-visual-state]"))
     .toHaveAttribute("data-root-visual-state", "inventory")
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
@@ -124,7 +124,7 @@ test("the root project index opens Foundation and a draft resumes after reload",
   await page.goto("/")
 
   const stageNav = page.getByRole("navigation", { name: "Primary destinations" })
-  await stageNav.getByRole("link", { name: "Inventory", exact:true }).click()
+  await stageNav.getByRole("link", { name: "Foundation", exact:true }).click()
   await expect(page).toHaveURL(/\/quiz$/)
 
   await answerCurrentFoundationQuestion(page)
@@ -173,7 +173,7 @@ test("Current Case resumes, records movement, and appears in My Profile", async 
   ).toBeVisible()
   await expect(page.getByText("Judgment saved on this device.")).toBeVisible()
 
-  await page.getByRole("link", { name: "View current judgments in My Profile" }).click()
+  await page.getByRole("link", { name: "View current judgments in Profile" }).click()
   await expect(page).toHaveURL(/\/profile$/)
   await expect(page.getByRole("heading", { name: "How your calls moved in live cases" })).toBeVisible()
   await expect(page.getByText(/You moved from/)).toBeVisible()
@@ -543,16 +543,17 @@ test("archetype return paths accept only opaque local Foundation result links", 
 }) => {
   await page.goto("/archetypes/p-plus?from=%2Fresults%2Fabc_DEF-123")
   await expect(
-    page.getByRole("link", { name: "← Back to your result" }),
+    page.getByRole("link", { name: "Your Foundation result" }),
   ).toHaveAttribute("href", "/results/abc_DEF-123")
 
   await page.goto(
     "/archetypes/p-plus?from=https%3A%2F%2Fevil.example%2Fresults%2Ftoken",
   )
-  await expect(page.getByRole("link", { name: "← Take the Foundation" })).toHaveAttribute(
+  await expect(page.locator("main").getByRole("link", { name: "Foundation archetypes", exact: true })).toHaveAttribute(
     "href",
-    "/quiz",
+    "/archetypes",
   )
+  await expect(page.getByRole("link", { name: "Your Foundation result" })).toHaveCount(0)
   await expect(page.locator('a[href*="evil.example"]')).toHaveCount(0)
 })
 
@@ -572,7 +573,7 @@ test("tradition pages remain supporting evidence and publish no thinker assignme
     await expect(page.getByRole("heading", { name: "Associated thinkers" })).toHaveCount(0)
     await expect(page.locator(".thinker-entry")).toHaveCount(0)
     await expect(
-      page.getByRole("link", { name: "Browse the reference directory →" }),
+      page.getByRole("link", { name: "Browse Thinkers →", exact: true }),
     ).toHaveAttribute("href", "/explore/reference")
   }
 })
@@ -631,7 +632,7 @@ test("Worldview Map bare and legacy routes select the correct projection", async
   for (const overlay of [
     "Decision Patterns",
     "My perspective shifts",
-    "Thinkers & public positions",
+    "Thinkers",
   ]) {
     await expect(page.getByRole("button", { name: new RegExp(`^${overlay}`) }))
       .toHaveAttribute("aria-pressed", "false")
@@ -1051,7 +1052,7 @@ test.describe("390px viewport", () => {
     await layerFilters.locator("summary").click()
 
     await page.getByRole("link", { name: "IR Worldview Inventory home", exact: true }).click()
-    await page.getByRole("navigation", { name: "Primary destinations" }).getByRole("link", { name: "Inventory", exact:true }).click()
+    await page.getByRole("navigation", { name: "Primary destinations" }).getByRole("link", { name: "Foundation", exact:true }).click()
     await expect(page.getByRole("heading", { name: "Foundation", exact: true })).toBeVisible()
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),

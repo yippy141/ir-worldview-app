@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { ProfileCompare } from "@/components/profile/profile-compare"
 import {
@@ -37,6 +38,7 @@ export default async function ComparePage(
 
   return (
     <div className="wide-container reading-page">
+      <DestinationLink destination="profile" />
       <div className="article-header stack-sm">
         <p className="eyebrow">Compare</p>
         <h1>Compare two shared profiles</h1>
@@ -70,9 +72,6 @@ export default async function ComparePage(
         </div>
         <div className="row gap-sm wrap">
           <button type="submit" className="primary-button">Compare profiles</button>
-          <Link href="/profile" className="secondary-button">
-            Open your Profile
-          </Link>
         </div>
       </form>
 

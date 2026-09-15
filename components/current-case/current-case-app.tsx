@@ -1,6 +1,7 @@
 "use client"
 
 import { Link } from "@/i18n/navigation"
+import { destinationLabel } from "@/lib/navigation"
 import { useLocale } from "next-intl"
 import {
   useEffect,
@@ -553,7 +554,7 @@ export function CurrentCaseApp({ record }: { record: CurrentCasePublicRecord }) 
             <ul>
               {record.nextRoutes.map((route) => (
                 <li key={route.href}>
-                  <Link href={route.href}>{route.label}</Link>
+                  <Link href={route.href}>{route.href === "/profile" ? destinationLabel("profile", locale) : route.label}</Link>
                   <p>{route.reason}</p>
                 </li>
               ))}

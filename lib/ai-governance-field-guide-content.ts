@@ -2,7 +2,7 @@ import type { AiArchetypeKey } from "./ai-governance-types"
 
 export type AiFieldGuideWorkedReading = {
   key: AiArchetypeKey
-  firstQuestion: string
+  firstQuestion?: string
   reading: string
 }
 
@@ -40,45 +40,57 @@ export const aiFieldGuideWorkedDecision = {
   exerciseHref: "/decisions/who-gets-access",
   exerciseTitle: "Who gets access?",
   situation:
-    "The fictional Larch Research Institute must decide how to provide access to a capable model for the next three months. Its internal tests show useful software and cyber assistance but do not establish autonomous attacks, and no misuse has been observed outside testing. The options are downloadable weights, qualified external evaluation in a secure enclave, or a hosted service with deeper evaluation kept inside Larch. In the enclave, an independent panel admits qualified teams and Larch cannot veto a qualified applicant; a revised arrangement gives Larch the final veto. Staffing, screening criteria, wait times and publication rights stay the same under both.",
+    "The fictional Larch Research Institute must decide how to provide access to a capable model for the next three months. Its internal tests show useful software and cyber assistance but do not establish autonomous attacks, and no misuse has been observed outside testing.",
+  options: [
+    "Publish downloadable weights that anyone can run or modify. Released copies cannot be recalled.",
+    "Admit qualified external evaluators to a secure enclave, with general access through a monitored hosted service.",
+    "Offer a monitored, rate-limited hosted service, keeping weights and deeper evaluation inside Larch.",
+  ],
+  originalAdmission:
+    "An independent panel admits qualified teams and makes final admission decisions. Larch cannot veto a qualified applicant.",
+  revisedAdmission:
+    "The revised arrangement gives Larch final admission power and a veto over applicants who meet the same criteria.",
+  unchanged:
+    "Staffing, budget, screening criteria, wait times, research permissions and publication rights stay the same. Capability and misuse evidence, and the public-weights and hosted-service options, also stay fixed.",
+  researchPermissions:
+    "Qualified enclave participants may inspect and modify the model, export approved findings and publish criticism under the existing export terms. Weights remain inside the enclave.",
+  uncertainty:
+    "Larch does not know how much new benefit or misuse wider access would produce. No arrangement guarantees safety or useful criticism.",
 } as const
 
 export const aiFieldGuideWorkedReadings: AiFieldGuideWorkedReading[] = [
   {
     key: "precautionarySteward",
-    firstQuestion: "What would wider release enable?",
     reading:
-      "The model's cyber assistance raises the question of what wider release would enable. An enclave lets outside teams investigate while the downloadable weights stay inside Larch. The argument then asks what further evidence would justify giving up the ability to recall copies. Irreversibility alone does not answer every release question.",
+      "Publishing the weights would let anyone run or modify the model, and Larch could not retrieve the released copies. An enclave gives qualified outsiders access without distributing those weights. A precautionary argument favors keeping that control while further testing examines the cyber risks and what would justify wider release.",
   },
   {
     key: "strategicCompetitor",
     firstQuestion: "Who else gains access?",
     reading:
-      "Hosted access and enclave evaluation both keep the model's copies under Larch's control. Wider release could also help other actors develop the capability. So this argument weighs the value of outside scrutiny against access by teams whose strategic interests conflict with Larch's. The three-month period is a horizon for the decision, not evidence of when a rival will catch up.",
+      "Publishing weights would let competitors build on Larch's work. Hosted access or an enclave would keep the weights inside, while offering different opportunities for outsiders to investigate. A strategic argument asks which researchers should gain access, what they could learn, and how that knowledge might benefit a rival.",
   },
   {
     key: "coordinationArchitect",
-    firstQuestion: "Could other institutes adopt the same rule?",
     reading:
-      "Under the original arrangement an independent panel applies an admission rule that Larch cannot override. A coordination argument asks whether other institutes could adopt comparable criteria and recognize the evaluations that result. The developer veto moves final discretion to Larch. The arrangement still has rules; what changes is who decides the hard cases and whether an excluded applicant can contest the decision.",
+      "Other institutes could use comparable admission criteria and recognize one another's evaluations. The independent panel gives Larch less discretion to exclude qualified applicants. A coordination argument asks whether that arrangement could support cooperation between institutes, and how a developer veto would affect their willingness to rely on it.",
   },
   {
     key: "democraticGuardrailist",
     firstQuestion: "Who can be held to account?",
     reading:
-      "Evaluators keep the right to publish criticism under both enclave arrangements. Accountability also depends on who gains access and who can contest an exclusion. This argument asks who appoints and oversees the admission authority. Independence from Larch does not by itself make the panel publicly accountable.",
+      "Evaluators may publish criticism under both arrangements. The difference is who gets inside: an independent panel admits qualified teams in the first; Larch can veto them in the second. Public accountability raises another question: who appoints that decision-maker, oversees its choices and hears a complaint from an excluded researcher?",
   },
   {
     key: "stateCapacityBuilder",
-    firstQuestion: "Can the responsible bodies do the work?",
     reading:
-      "Screening applicants and supporting their investigations takes staff and money, and in this exercise both stay fixed. The argument asks whether the responsible bodies can perform the work they authorize, and who covers a shortfall if they cannot. It wants that answer before it treats hosted access as the only workable arrangement.",
+      "The enclave requires people to screen applicants and support their work. A state-capacity argument asks whether the responsible bodies have the staff, money and authority to do that job. Before choosing, it would need to know how much work each arrangement requires and who can deliver it.",
   },
   {
     key: "openEcosystemBuilder",
     firstQuestion: "Who is left outside the qualified group?",
     reading:
-      "Downloadable weights let researchers outside the qualified group reproduce and modify the model. The enclave limits who takes part even when an independent panel decides admission. This argument weighs broader investigation against copies Larch cannot revoke. Support for independent scrutiny does not by itself settle whether unrestricted release is justified.",
+      "Publishing the weights lets researchers outside the qualified group reproduce and modify the model. An independent admission panel still leaves some researchers out. Wider access would reduce that dependence on permission, but Larch would lose the ability to recall the copies. Is access for more researchers worth giving up that control?",
   },
 ]
 
@@ -157,7 +169,7 @@ export const aiFieldGuideDisagreements: AiFieldGuideDisagreement[] = [
     sharedGround:
       "Both worry that frontier capability is concentrating in a few labs and a few states.",
     argument:
-      "The Ecosystem Builder answers with access: put models and tools in more hands, so no gatekeeper decides what can be studied or built. The Architect answers with rules: cross-border standards and verification that outlast any one lab's advantage. Each sees a cost in the other's cure. Wider reproducibility comes with copies that nobody can restrict afterward, and shared rules can harden into a club of the already powerful.",
+      "The Ecosystem Builder answers with access: put models and tools in more hands, so no gatekeeper decides what can be studied or built. The Architect answers with rules: cross-border standards and verification that outlast any one lab's advantage. Each sees a cost in the other's cure. Wider access allows more researchers to reproduce the work, while Larch loses the ability to recall released copies. Shared rules raise a different concern: whether the participating firms and states would exclude others.",
   },
   {
     id: "legitimacy",
@@ -179,7 +191,7 @@ export const aiUnderModeledPerspectives: AiUnderModeledPerspective[] = [
     currentCoverage:
       "The questions touch present harms and human control. They do not ask about unions, labor law, or distributional conflict at work.",
     readingQuestion:
-      "Would your result change if worker voice, and neither frontier safety nor state capacity, were the starting point?",
+      "How would you judge workplace AI if workers' bargaining power were your main concern?",
   },
   {
     id: "surveillance-platform-power",

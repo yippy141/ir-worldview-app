@@ -57,7 +57,7 @@ export default async function CurrentCaseCorrectionsPage({
         only the public case title, disputed claim, and supporting source.
       </p>
       <Link className={styles.documentBack} href={`/cases/${record.slug}`}>
-        ← Return to the case
+        {record.title}
       </Link>
     </div>
   )

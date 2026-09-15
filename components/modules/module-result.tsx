@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { buildModuleInterpretation } from "@/lib/results/module-interpretation"
 import { WorkedApplication } from "@/components/results/worked-application"
 import Link from "next/link"
@@ -102,6 +103,7 @@ export function ModuleResultView({
   return (
     <div className="stack-lg">
       <article className={`result-article ${styles.result}`}>
+        <DestinationLink destination={slug} />
         <ModuleProfileSync
           snapshot={{
             slug,
@@ -458,10 +460,10 @@ export function ModuleResultView({
 
               <div className="row gap-sm wrap print-hidden">
                 <Link href={`/modules/${slug}${foundationPayload ? `?foundation=${encodeURIComponent(foundationPayload)}` : ""}`} className="cta-secondary">
-                  Retake this Focus Area
+                  {moduleDefinition.shortTitle}
                 </Link>
                 <Link href={foundationPayload ? `/modules?foundation=${encodeURIComponent(foundationPayload)}` : "/modules"} className="cta-secondary">
-                  Browse Focus Areas
+                  Security and Technology
                 </Link>
                 {foundationPayload ? <Link href={`/results/${foundationPayload}`}>Back to Foundation result</Link> : null}
               </div>

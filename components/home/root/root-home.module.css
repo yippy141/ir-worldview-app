@@ -415,3 +415,6 @@
     color: #374151;
   }
 }
+
+.secondaryLinks { display: flex; flex-wrap: wrap; gap: 0 20px; margin-top: 16px; }
+.secondaryLink { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent); text-underline-offset: 4px; }

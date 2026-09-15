@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -31,12 +32,12 @@ export async function generateMetadata(
 
   if (!entry) {
     return {
-      title: "AI Atlas | AI Governance Compass",
+      title: "AI approaches | AI Governance",
     }
   }
 
   return {
-    title: `${entry.label} | AI Atlas`,
+    title: `${entry.label} | AI approaches`,
     description: entry.shortSummary,
   }
 }
@@ -74,7 +75,7 @@ export default async function AiAtlasDetailPage(
           <p className="ai-hero-summary">{entry.shortSummary}</p>
           <div className="row gap-sm wrap">
             <AiResultReturnLink />
-            <Link href="/ai/atlas" className="cta-secondary">Back to AI Atlas</Link>
+            <DestinationLink destination="aiApproaches" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
           </div>
@@ -254,7 +255,7 @@ export default async function AiAtlasDetailPage(
           </div>
           <div className="row gap-sm wrap">
             <AiResultReturnLink className="cta-primary" />
-            <Link href="/ai/atlas" className="cta-secondary">Browse all archetypes</Link>
+            <DestinationLink destination="aiApproaches" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">Read the Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Open Profile</Link>
             <Link href="/decisions/who-gets-access" className="cta-secondary">Decide who gets access</Link>

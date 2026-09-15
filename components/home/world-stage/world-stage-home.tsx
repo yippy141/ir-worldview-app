@@ -2,6 +2,7 @@
 
 import { useLocale } from "next-intl"
 import { Link } from "@/i18n/navigation"
+import { destinationLabel } from "@/lib/navigation"
 import {
   useCallback,
   useEffect,
@@ -224,7 +225,7 @@ export function WorldStageHome({
         <div className={styles.headerActions}>
           {utilityDestinations.map((destination) => (
             <Link key={destination.id} href={destination.href} className={styles.profileUtility}>
-              {destination.label}
+              {destination.href === "/profile" ? destinationLabel("profile", locale) : destination.label}
             </Link>
           ))}
           <LanguageSwitcher className={styles.languageControl} />

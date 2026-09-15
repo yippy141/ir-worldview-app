@@ -18,8 +18,11 @@ test("root loads without Mapbox and keeps every destination as an ordinary link"
 
   await expect(page.locator("canvas")).toHaveCount(0)
   await expect(page.locator('[role="tab"], [aria-selected]')).toHaveCount(0)
-  await expect(page.locator("[data-root-detail-state] a, [data-root-detail-state] button"))
-    .toHaveCount(0)
+  const secondary = page.locator("[data-root-detail-state] a")
+  await expect(secondary).toHaveText(["Security", "Technology", "AI Governance"])
+  expect(await secondary.evaluateAll(links => links.map(link => link.getAttribute("href"))))
+    .toEqual(["/modules/security", "/modules/technology", "/ai"])
+  await expect(page.locator("[data-root-detail-state] button")).toHaveCount(0)
   await expect(page.locator("[data-root-destination]"))
     .toHaveCount(destinationIds.length)
   expect(
@@ -114,9 +117,9 @@ test("Simplified Chinese root is complete at 390px and does not substitute Engli
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   await expect(page.getByRole("navigation", { name: "主要入口" })).toBeVisible()
   await expect(page.locator("[data-root-destination]")).toHaveText([
-    "问卷",
+    "基础问卷",
     "世界舞台",
-    "图谱",
+    "观点资料",
     "情境推演",
     "档案",
   ])

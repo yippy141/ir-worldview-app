@@ -11379,3 +11379,6 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
     text-align: left;
   }
 }
+
+.parent-link { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 16px; color: var(--accent); font-size: 0.9rem; text-underline-offset: 4px; }
+@media print { .parent-link { display: none; } }

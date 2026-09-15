@@ -1,3 +1,4 @@
+import { destinationLabel } from "@/lib/navigation"
 import type { Locale } from "@/i18n/routing"
 import type { RootDestinationId } from "@/lib/root/destinations"
 
@@ -34,9 +35,9 @@ const englishRootCopy: RootCopy = {
   primaryNavigationLabel: "Primary destinations",
   destinationCopy: {
     inventory: {
-      label: "Inventory",
+      label: destinationLabel("foundation"),
       explanation:
-        "Begin with the Foundation: fourteen questions about the arguments people reach for when world politics gets hard. Then, if you want, take Security, Technology, or AI Governance, which put the same kind of question to you inside one policy field.",
+        "Foundation asks fourteen questions about the arguments people reach for when world politics gets hard. You can also start with Security, Technology, or AI Governance, which put the same kind of question to you inside one policy field.",
     },
     "world-stage": {
       label: "World Stage",
@@ -44,7 +45,7 @@ const englishRootCopy: RootCopy = {
         "Cases and the full map. Each case gives you the record up to a stated date and asks for one decision.",
     },
     atlas: {
-      label: "Atlas",
+      label: destinationLabel("library"),
       explanation:
         "The traditions, readings, thinkers, and decision patterns to compare your result against.",
     },
@@ -54,7 +55,7 @@ const englishRootCopy: RootCopy = {
         "The same questions, answered from another actor’s seat: an exposed ally, a rising power. Your own result stays as it was.",
     },
     profile: {
-      label: "Profile",
+      label: destinationLabel("profile"),
       explanation:
         "Everything you have saved, on this device only. Each result is kept on its own.",
     },
@@ -85,7 +86,7 @@ const chineseRootCopy: RootCopy = {
   primaryNavigationLabel: "主要入口",
   destinationCopy: {
     inventory: {
-      label: "问卷",
+      label: destinationLabel("foundation", "zh-Hans"),
       explanation:
         "如果你第一次来到这里，请先完成基础问卷。十四道问题涵盖国际政治中反复出现的广泛争议。安全、技术与人工智能治理问卷则进一步检验：当政策问题变得更具体时，你是否仍会采用相近的判断方式。",
     },
@@ -95,7 +96,7 @@ const chineseRootCopy: RootCopy = {
         "案例库与完整地图都在这里。每个案例都有明确的证据时间窗，并要求你就一个具体问题作出判断，同时承认证据记录并不完整。",
     },
     atlas: {
-      label: "图谱",
+      label: destinationLabel("library", "zh-Hans"),
       explanation:
         "图谱把基础问卷所建模的四种传统，与思想家、决策模式和带日期的公开立场放在一起比较。这些内容是参照点，不是系统替读者指定的身份。",
     },
@@ -105,7 +106,7 @@ const chineseRootCopy: RootCopy = {
         "情境推演把读者置于另一行动者的约束之中，观察同一条基线会如何变化。推演结果始终与基础画像分开保存。",
     },
     profile: {
-      label: "档案",
+      label: destinationLabel("profile", "zh-Hans"),
       explanation:
         "已保存的结果只留在这台设备上。档案会分别保留基础画像、各领域问卷和情境推演，并且只展示本项目已经审阅过的关系。",
     },

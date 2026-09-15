@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { Link } from "@/i18n/navigation"
 import { zhHansWorldviewProfileById, zhHansWorldviewProfilePageUi as ui } from "@/content/locales/zh-Hans/worldview-profiles"
 import { getAtlasLiteNeighbors, type AtlasLitePattern } from "@/lib/atlas-lite"
@@ -12,6 +13,7 @@ export function ZhHansWorldviewProfilePage({ pattern }: { pattern: AtlasLitePatt
 
   return (
     <div className={`wide-container ${styles.page}`}>
+      <DestinationLink destination="worldviewMap" />
       <header className={styles.hero}>
         <div className={styles.heroCopy}>
           <p className="eyebrow">{ui.eyebrow}</p>
@@ -62,7 +64,6 @@ export function ZhHansWorldviewProfilePage({ pattern }: { pattern: AtlasLitePatt
             {ui.methodBody.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           </div>
           <div className={styles.actions}>
-            <Link href="/explore/atlas" className="cta-primary">{ui.openMap}</Link>
             <Link href="/method" className="cta-secondary">{ui.readMethods}</Link>
           </div>
         </section>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
+import { DestinationLink } from "@/components/layout/destination-link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import type { RootCopy } from "@/content/root"
 import { Link } from "@/i18n/navigation"
@@ -198,6 +199,11 @@ export function RootHome({
         >
           <h2 id="root-selected-destination">{selectedCopy.label}</h2>
           <p className={styles.explanation}>{selectedCopy.explanation}</p>
+          {selectedId === "inventory" && <div className={styles.secondaryLinks}>
+            <DestinationLink destination="security" className={styles.secondaryLink} />
+            <DestinationLink destination="technology" className={styles.secondaryLink} />
+            <DestinationLink destination="ai" className={styles.secondaryLink} />
+          </div>}
           <div className={styles.localState} data-root-returning={localStatus ? "resolved" : "pending"}>
             <h3>{copy.localState.heading}</h3>
             <p>{statusText}</p>

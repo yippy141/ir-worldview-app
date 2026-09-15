@@ -18,5 +18,5 @@ test("all 162 inherited finite routes render with an internal link enumeration",
     const links = await page.locator('main a[href^="/"]').evaluateAll(elements => [...new Set(elements.map(el => el.getAttribute("href")!))])
     observations.push({ ...entry, status: response?.status(), heading: await heading.innerText(), internalLinks: links, linkedFiniteTargets: links.filter(link => routes.has(link.split(/[?#]/)[0])), screenshotCaptured: false, screenshotInspected: false, geometryAsserted: false, taskExecuted: "fresh-state render, heading and internal link enumeration" })
   }
-  writeFileSync("docs/evidence/result-interpretation/finite-route-results.json", JSON.stringify(observations, null, 2))
+  writeFileSync(process.env.RESULT_ROUTE_EVIDENCE_FILE ?? "docs/evidence/result-interpretation/finite-route-results.json", JSON.stringify(observations, null, 2))
 })

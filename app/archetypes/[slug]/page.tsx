@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -83,12 +84,10 @@ export default async function ArchetypeDetailPage({
       data-archetype-code={identity.code}
       data-archetype-detail
     >
-      <Link
-        href={returnPath ?? "/quiz"}
-        className={styles.backLink}
-      >
-        {returnPath ? "← Back to your result" : "← Take the Foundation"}
-      </Link>
+      <div className="row gap-sm wrap">
+        <DestinationLink destination="archetypes" />
+        {returnPath && <Link href={returnPath} className={styles.backLink}>Your Foundation result</Link>}
+      </div>
 
       <header className={styles.detailHero}>
         <div className={styles.heroIdentity}>

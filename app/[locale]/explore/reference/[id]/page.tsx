@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import { ZhHansFieldMap } from "@/components/field/zh-hans-field-map"
 import { zhHansReferenceProfilesUi as copy } from "@/content/locales/zh-Hans/reference-profiles-ui"
@@ -35,7 +36,7 @@ export default async function ChineseReferenceDetailPage({ params }: { params: P
           <h1>{copy.unavailable.title}</h1>
           <p className="muted">{copy.unavailable.body}</p>
           <div className="row gap-sm wrap">
-            <Link href="/explore/reference" className="cta-primary">{copy.unavailable.browse}</Link>
+            <DestinationLink destination="thinkers" className="cta-primary" />
             <Link href="/explore/atlas" className="cta-secondary">{copy.unavailable.openMap}</Link>
           </div>
         </div>
@@ -54,6 +55,7 @@ export default async function ChineseReferenceDetailPage({ params }: { params: P
   return (
     <div className="wide-container reading-page">
       <article className="result-article reference-detail reading-page">
+        <DestinationLink destination="thinkers" />
         <header className="article-header stack-sm">
           <p className="eyebrow">{copy.detail.eyebrow(copy.entityTypes[profile.entityType])}</p>
           <h1 lang="en">{profile.name}</h1>
@@ -134,7 +136,6 @@ export default async function ChineseReferenceDetailPage({ params }: { params: P
           <p className="eyebrow">{copy.detail.continue}</p>
           <div className="row gap-sm wrap">
             <Link href={`/explore/atlas?layers=my-profile,reference-profiles&sel=${encodeURIComponent(`reference-profiles::${profile.id}`)}`} className="cta-secondary">{copy.detail.seeInField}</Link>
-            <Link href="/explore/reference" className="cta-secondary">{copy.detail.allProfiles}</Link>
             <Link href="/method" className="cta-secondary">{copy.detail.codingMethod}</Link>
           </div>
         </section>

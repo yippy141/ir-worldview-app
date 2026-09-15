@@ -1,3 +1,4 @@
+import { DestinationLink } from "@/components/layout/destination-link"
 import { Link } from "@/i18n/navigation"
 import { CurrentCasePublicActions } from "@/components/current-case/current-case-public-actions"
 import { currentCaseContent } from "@/content/locales/current-cases"
@@ -33,6 +34,7 @@ export function CurrentCasePageHeader({
   return (
     <header className={styles.pageHeader}>
       <div>
+        <DestinationLink destination="cases" />
         <p className="eyebrow">
           {copy.eyebrow} · {copy.categories[record.category]}
         </p>

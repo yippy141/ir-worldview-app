@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 
 const evidence = process.env.DECISION_REPAIR_DIR ?? "test-results/navigation-witnesses"
-const mobileDestinations = ["/cases", "/quiz", "/modules", "/ai", "/perspectives", "/profile", "/explore/atlas", "/explore/reference", "/explore", "/futures", "/method", "/privacy", "/references", "/feedback"]
+const mobileDestinations = ["/world-stage", "/decisions", "/ai/atlas", "/archetypes", "/cases", "/quiz", "/modules", "/ai", "/perspectives", "/profile", "/explore/atlas", "/explore/reference", "/explore", "/futures", "/method", "/privacy", "/references", "/feedback"]
 
 // macOS WebKit uses Option+Tab to include links with its default keyboard setting.
 const tabKey = () => test.info().project.use.browserName === "webkit" ? "Alt+Tab" : "Tab"
@@ -62,7 +62,7 @@ for (const width of [320, 390, 768]) test(`shared navigation fits ${width}px clo
       for (const href of mobileDestinations) expect(hrefs).toContain(route.startsWith("/zh") ? `/zh${href}` : href)
       await expect(panel.getByRole("link", { name: route.startsWith("/zh") ? "切换至英文" : "Switch to Simplified Chinese" })).toBeVisible()
       if (!route.startsWith("/zh")) {
-        await expect(panel.getByText("Thinkers & public positions", { exact: true })).toBeVisible()
+        await expect(panel.getByText("Thinkers", { exact: true })).toBeVisible()
         await expect(panel.getByText("Corrections and contact", { exact: true })).toBeVisible()
       }
     }
