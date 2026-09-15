@@ -1,0 +1,15 @@
+.directory { width: 100%; padding: 20px; color: var(--text); background: var(--bg-2); text-align: left; }
+.sections { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 28px; }
+.section { min-width: 0; }
+.home, .sectionTitle { min-height: 44px; display: flex; align-items: center; font-family: var(--font-serif); font-size: 20px; color: var(--text); text-decoration: none; }
+.sectionTitle { display: list-item; padding: 8px 0; cursor: pointer; }
+.children { display: grid; padding: 0 0 16px 15px; border-left: 1px solid var(--line-2); }
+.children .home { font: inherit; font-weight: 600; color: var(--accent); }
+.child { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-2); text-decoration: none; font-size: 14px; }
+.directory a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.directory a[aria-current=page] { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.utilities { display: flex; flex-wrap: wrap; gap: 0 20px; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--line); }
+.directory a:focus-visible, .directory summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.directory a, .directory summary { scroll-margin-block: 12px; white-space: normal; overflow-wrap: anywhere; }
+.language { margin-top: 12px; }
+@media (max-width: 600px) { .directory { width: 100%; padding: 12px 20px 20px; } .sections { grid-template-columns: 1fr; gap: 0; } .home, .sectionTitle { font-size: 21px; } }

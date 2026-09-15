@@ -1,3 +1,4 @@
+import { ResultReveal } from "@/components/results/result-reveal"
 import { DestinationLink } from "@/components/layout/destination-link"
 import { AiCompletionEvidence } from "@/components/results/ai-completion-evidence"
 import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
@@ -163,7 +164,7 @@ export default async function AiResultPage(
         />
 
         {/* ── 1. Verdict ── */}
-        <header className={frontispiece.hero} data-ai-lead={hasTiedLead ? "tied" : savedLabelLeads ? "leading" : "saved-nonleading"}>
+        <ResultReveal domain="ai" payload={payload}><header className={frontispiece.hero} data-ai-lead={hasTiedLead ? "tied" : savedLabelLeads ? "leading" : "saved-nonleading"}>
           <p className="eyebrow">AI Governance</p>
           {hasTiedLead ? <div className="ai-tied-marks">{tiedKeys.map(key => <div key={key}><AiArchetypeMark archetype={key} /><p>{resolved.scoring.archetypeLabels[key]}</p></div>)}</div> : <AiArchetypeMark archetype={decoded.ak} />}
           <h1>{hasTiedLead ? "Co-leading AI readings" : archetypeLabel}</h1>
@@ -185,7 +186,7 @@ export default async function AiResultPage(
               View Profile
             </Link>
           </div>
-        </header>
+        </header></ResultReveal>
 
         <p className="result-scope">{interpretation.scope}</p>
         <AiCompletionEvidence payload={payload} />

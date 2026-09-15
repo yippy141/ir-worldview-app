@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 import { getPublishedDecision } from "@/lib/decision-exercises/catalog"
 
-const evidence = process.env.DECISION_REPAIR_DIR ?? "docs/evidence/decision-exercises-release/repair"
+const evidence = process.env.DECISION_REPAIR_DIR ?? "test-results/decision-exercises/repair"
 const verify = "/decisions/who-gets-to-verify"
 
 // macOS WebKit defaults to Option+Tab for links; Chromium uses Tab.
@@ -171,7 +171,7 @@ test("external consultation opens separately, preserves choices and leaves the e
   await expect(page.locator("input:checked")).toHaveCount(0)
   await expect(page.locator("[data-conditional-readback]")).toHaveCount(0)
   await choose()
-  await page.locator('.header-nav a[href="/cases"]').click()
+  await page.locator('.header-nav a[href="/cases"]:visible').click()
   await page.goBack()
   await expect(page.locator("input:checked")).toHaveCount(0)
   expect(await storage()).toEqual({ local: {}, session: {}, cookie: "", databases: [], writes: [] })

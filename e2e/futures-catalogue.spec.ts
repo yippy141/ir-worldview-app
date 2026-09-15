@@ -42,7 +42,7 @@ test("every catalogue entry, original anchor and source status; comparison accep
   await page.goto("/futures")
   await expect(page.locator('article[data-origin="inherited"]')).toHaveCount(12)
   await expect(page.locator('article[data-origin="project"]')).toHaveCount(7)
-  await expect(page.getByRole("navigation", { name: "Every published future" }).getByRole("link")).toHaveCount(19)
+  await expect(page.locator("#catalogue .page-contents-desktop a")).toHaveCount(19)
   await expect(page.getByRole("link", { name: "Answer the questions", exact: true })).toBeVisible()
   for (const s of futureCatalogue) {
     await page.goto(`/futures#trajectory-${s.id}`)

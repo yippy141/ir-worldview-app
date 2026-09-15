@@ -9,7 +9,7 @@ export function NavAutoClose() {
   useEffect(() => {
     const getDisclosures = () =>
       Array.from(
-        document.querySelectorAll<HTMLDetailsElement>(".header-nav .nav-disclosure, details.mobile-nav")
+        document.querySelectorAll<HTMLDetailsElement>(".header-nav .nav-disclosure, details.mobile-nav, .site-directory-disclosure")
       )
 
     const closeAll = (except?: HTMLDetailsElement) => {
@@ -79,7 +79,7 @@ export function NavAutoClose() {
 
   useEffect(() => {
     document
-      .querySelectorAll<HTMLDetailsElement>(".header-nav .nav-disclosure, details.mobile-nav")
+      .querySelectorAll<HTMLDetailsElement>(".header-nav .nav-disclosure, details.mobile-nav, .site-directory-disclosure")
       .forEach((el) => {
         el.open = false
       })

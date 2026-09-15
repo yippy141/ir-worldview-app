@@ -98,6 +98,7 @@ test("Explore keeps one canonical archetype directory and explains adjacent reco
     ).toHaveCount(0)
   }
 
+  await page.getByText("Reading a Foundation result: dimensions, blends and coverage", { exact: true }).click()
   const contextSection = page.locator('[data-explore-section="focus-context"]')
   await expect(
     contextSection.getByText(

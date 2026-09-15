@@ -1,3 +1,4 @@
+import { AiResultReturnLink } from "@/components/ai/ai-result-return-link"
 import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import type { Metadata } from "next"
@@ -16,13 +17,13 @@ const atlasEntries = getAiAtlasEntries()
 export const metadata: Metadata = {
   title: "AI approaches | AI Governance",
   description:
-    "Browse the modeled AI-governance families as compact fingerprint cards: name, one-line definition, two differentiators, nearest neighbor.",
+    "Compare six approaches to governing capable AI, their institutional priorities, objections and sources.",
 }
 
 export default function AiAtlasPage() {
   return (
     <div className="wide-container">
-      <article className="result-article reading-page">
+      <article className="result-article reading-page ai-approaches-index">
         <section className="result-hero stack-md">
           <div className="ai-hero-rule" />
           <p className="ai-hero-eyebrow">AI Governance</p>
@@ -34,7 +35,7 @@ export default function AiAtlasPage() {
             <DestinationLink destination="ai" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
-            <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
+            <AiResultReturnLink className="cta-primary" />
           </div>
         </section>
 
@@ -71,7 +72,7 @@ export default function AiAtlasPage() {
                         </span>
                       </span>
                       <span className="ai-atlas-fingerprint-card__cta" aria-hidden="true">
-                        Read this archetype <span>↗</span>
+                        Read the argument <span>↗</span>
                       </span>
                     </div>
                   </div>
@@ -98,7 +99,7 @@ export default function AiAtlasPage() {
             </p>
           </div>
 
-          <div className="atlas-pattern-grid">
+          <div className="ai-comparison-rows">
             {atlasEntries.map((entry) => (
               <article
                 id={`compare-${entry.key}`}
@@ -106,11 +107,10 @@ export default function AiAtlasPage() {
                 className="explore-card ai-atlas-card ai-atlas-compare-card stack-sm"
               >
                 <div className="stack-xs">
-                  <p className="eyebrow">Comparison point</p>
                   <p
                     style={{
                       fontWeight: 600,
-                      fontFamily: "Georgia, 'Times New Roman', serif",
+                      fontFamily: "var(--font-serif), serif",
                       fontSize: "1.04rem",
                       lineHeight: "1.3",
                       margin: 0,
@@ -173,15 +173,14 @@ export default function AiAtlasPage() {
               className="muted"
               style={{ fontSize: "0.9rem", lineHeight: "1.65", maxWidth: "760px" }}
             >
-              The Atlas is the browse map. Long-form definitions, the strongest critique of each
-              pattern, and the per-archetype reading shelf are kept off these cards on purpose.
+              Each approach has a longer argument, a policy application and a serious objection. Read the source alongside the summary, or use the Field Guide to compare all six within one decision.
             </p>
           </div>
           <div className="row gap-sm wrap">
             <DestinationLink destination="ai" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
-            <Link href="/ai/quiz" className="cta-primary">Take the AI questionnaire</Link>
+            <AiResultReturnLink className="cta-primary" />
             <Link href="/references" className="cta-secondary">References</Link>
           </div>
         </section>

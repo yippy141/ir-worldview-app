@@ -1,9 +1,13 @@
 # STATE
 
-## Active Batch B — 9 September 2026
+## Current release — product-wide presentation, 16 September 2026
 
-PR #52 merged as `20780d0381bed82958d6a5dff2b809100b6142af`. Its repair and owner merge step are complete. Batch B starts directly from that verified mainline on `release/batch-b-reading-and-localization`: finite Chinese semantic dispositions, compatible copy dispatch, shared reading templates and deeper navigation. [Batch B evidence](docs/evidence/batch-b-reading-and-localization/README.md) records the candidate. No merge, manual deployment or collection is authorized. The previous candidate record below is historical; its awaiting-merge language is superseded here.
-
+- One isolated worktree: `/Users/jinhuayip/Developer/ir-worldview-product-finish`, branch `codex/product-wide-experience-finish`.
+- PR60 verified merged at `4f4f22ba1b51760f2f0cd9f77ff47042c713e6b0` (reviewed head `e9dd21c739eb080fd30abdddcbb8106893afd074`); that refreshed main is the release base. Other checkouts preserved.
+- Implementation and visual review are complete: grouped native navigation; all four entrances/active/review/result compositions and real draw reveals; reading families, saved Profile, Futures and a 14-scene orthographic globe. Existing route/state tests drive coverage; applied/retained decisions and all changed passages are in `docs/review/after-passages-navigation-reader-copy.md`.
+- Evidence: `artifacts/product-wide-experience/contact-sheet.png`, full 390/1440 viewports (shared layouts also 320/768), all finite mark/reading galleries, four real synthetic submit recordings and one complete 145-second root recording. No historical evidence was changed.
+- Validation and review status belong to the single draft PR for `codex/product-wide-experience-finish`; it records the actual base/head and all final-head checks. Use that live PR record rather than treating this handoff as a check ledger. Stop after the completed draft PR; no automatic next sprint.
+- Scoring, administered copy, versions, payloads and data boundaries remain intact. Only d3-geo and its necessary type/transitive dependencies were added. No merge, deployment, collection or next sprint is authorized.
 
 ## Historical Batch A candidate — 7 September 2026
 

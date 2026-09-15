@@ -138,7 +138,7 @@ export function AiGovernanceReviewScreen() {
   }
 
   return (
-    <div className="stack-lg">
+    <div className="stack-lg ai-review">
       <section className="panel stack-sm">
         <p className="eyebrow">AI Governance Compass</p>
         <h1>Review your answers</h1>

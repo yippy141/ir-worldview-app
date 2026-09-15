@@ -52,29 +52,21 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
         <div className={styles.heroCopy}>
           <p className="eyebrow">Decision Pattern</p>
           <h1 className={styles.publicName}>{pattern.publicName}</h1>
-          <p className={styles.descriptor}>{pattern.technicalDescriptor}</p>
 
           <div className={styles.ruleLead}>
-            <p className={styles.ruleLabel}>Decision rule</p>
             <p className={styles.decisionRule}>{pattern.decisionRule}</p>
           </div>
 
           <AtlasPatternFamily pattern={pattern} compact />
 
-          <dl className={styles.signals}>
-            <div>
-              <dt>Notices first</dt>
-              <dd>{pattern.detailDrivers[0]}</dd>
-            </div>
-            <div>
-              <dt>Likely move</dt>
-              <dd>{pattern.soWhat}</dd>
-            </div>
-            <div>
-              <dt>Main risk</dt>
-              <dd>{pattern.underestimates[0]}</dd>
-            </div>
-          </dl>
+          <div className={styles.application}>
+            <h2>Put the rule to work</h2>
+            <p>{pattern.securitySummary}</p>
+            <small>Illustrative reasoning, not observed behavior.</small>
+            <h3>The objection</h3>
+            <p>{pattern.underestimates[0]}</p>
+          </div>
+
         </div>
 
         <aside className={styles.casePreview} aria-label="Reviewed case coverage">
@@ -194,17 +186,12 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
               <p>The same logic, put to a case about force and to a case about technology.</p>
             </div>
             <div className={styles.domainList}>
-              <DomainEntry
-                title="Security"
-                body={pattern.securitySummary}
-                href="/modules/security"
-                linkLabel="Open the Security module"
-              />
+              <p><Link href="/modules/security">Try Security</Link> to decide cases such as the one above.</p>
               <DomainEntry
                 title="Technology"
                 body={pattern.technologySummary}
                 href="/modules/technology"
-                linkLabel="Open the Technology module"
+                linkLabel="Open Technology"
               />
               <DomainEntry
                 title="AI"
@@ -260,6 +247,7 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
           >
             <div className={styles.sectionHeading}>
               <h2 id="method-heading">Method and editorial status</h2>
+              <p className={styles.descriptor}>{pattern.technicalDescriptor}</p>
               <p>
                 {verifiedCaseLibraryMeta.researchStatus} · {verifiedCaseLibraryMeta.editorialStatus}
                 {" · "}reviewed through {formatReviewDate(verifiedCaseLibraryMeta.asOfDate)}

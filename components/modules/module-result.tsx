@@ -1,3 +1,5 @@
+import { ResultReveal } from "@/components/results/result-reveal"
+import { DomainMark } from "@/components/results/domain-mark"
 import { DestinationLink } from "@/components/layout/destination-link"
 import { buildModuleInterpretation } from "@/lib/results/module-interpretation"
 import { WorkedApplication } from "@/components/results/worked-application"
@@ -151,7 +153,8 @@ export function ModuleResultView({
         />
 
         {/* ── 1. Verdict ── */}
-        <header className={`result-verdict ${styles.verdict}`}>
+        <ResultReveal domain={slug} payload={payload}><header className={`result-verdict ${styles.verdict}`} data-module-domain={slug}>
+          <DomainMark domain={slug} />
           <h1 className="result-verdict__name">{result.headline}</h1>
           <p className="result-verdict__code">
             {identityCode.map((part, index) => (
@@ -162,7 +165,7 @@ export function ModuleResultView({
             ))}
           </p>
           <p className="result-verdict__gloss">{interpretation.summary}</p>
-        </header>
+        </header></ResultReveal>
 
 
         <p className="result-scope">{interpretation.scope}</p>

@@ -792,3 +792,12 @@
     overflow-wrap: anywhere;
   }
 }
+
+.application { margin-top: 32px; max-width: 68ch; }
+.application h2 { font-size: 22px; margin: 0 0 12px; }
+.application h3 { font-size: 18px; margin: 24px 0 8px; }
+.application p { font-size: 17px; line-height: 1.7; color: var(--text-2); }
+.application small { display: block; margin-top: 12px; color: var(--muted); }
+.hero { grid-template-columns: minmax(0, 1.65fr) minmax(240px, .8fr); }
+.casePreview { margin-top: 12px; background: none; border: 0; border-left: 1px solid var(--line-2); padding: 0 0 0 28px; }
+@media (max-width: 800px) { .hero { grid-template-columns: 1fr; gap: 28px; } .casePreview { padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--line); } }

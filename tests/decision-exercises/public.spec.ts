@@ -7,8 +7,8 @@ import { foundationScoringCalibrationForForm, generateResult } from "@/lib/scori
 import { FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY, FOUNDATION_LOCAL_EVIDENCE_HANDOFF_KEY, PROFILE_SAVE_INTENT_KEY, RESULT_HISTORY_STORAGE_KEY, PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
 import type { FamilyKey } from "@/lib/types"
 const fixtures = resultFixtures()
-const evidenceDir = process.env.DECISION_EVIDENCE_DIR ?? "docs/evidence/decision-exercises-release/screenshots"
-const repairDir = process.env.DECISION_REPAIR_DIR ?? "docs/evidence/decision-exercises-release/repair"
+const evidenceDir = process.env.DECISION_EVIDENCE_DIR ?? "test-results/decision-exercises/screenshots"
+const repairDir = process.env.DECISION_REPAIR_DIR ?? "test-results/decision-exercises/repair"
 const verify="/decisions/who-gets-to-verify", access="/decisions/who-gets-access"
 const sizes=[{width:1440,height:900},{width:390,height:844}]
 const storageKey="ir-worldview-session-v3"
@@ -113,7 +113,7 @@ test("public episodes do not read profiles, persist inputs, change URLs or send 
  expect(report.local).toEqual({});expect(report.cookies).toBe('')
  expect(requests.filter(r=>!/^(GET|HEAD) /.test(r))).toEqual([])
  expect(requests.join('\n')).not.toMatch(/reason=|option=|timely|custodian|\/api\/|\/_vercel\//)
- writeFileSync(process.env.DECISION_EVIDENCE_DIR ? `${evidenceDir}/privacy-check.json` : 'docs/evidence/decision-exercises-release/privacy-check.json',JSON.stringify({report,requests,scope:'Synthetic episode browser context; hosting network metadata is outside this application check.'},null,2))
+ writeFileSync(process.env.DECISION_EVIDENCE_DIR ? `${evidenceDir}/privacy-check.json` : `${evidenceDir}/privacy-check.json`,JSON.stringify({report,requests,scope:'Synthetic episode browser context; hosting network metadata is outside this application check.'},null,2))
  await page.getByRole('link',{name:/Next decision:/}).click();await page.goBack()
  await expect(page.locator('input:checked')).toHaveCount(0)
  await expect(page.locator('[data-conditional-readback]')).toHaveCount(0)
@@ -142,7 +142,7 @@ test("actual Foundation identities, pure/blended/close and Chinese shared result
   await page.goto(`/results/${fixture.payload}`)
   await expect(page.locator('h1')).toHaveText(fixture.name)
   await expect(page.locator('[data-foundation-hero-marks]')).toHaveAttribute('data-foundation-hero-marks',fixture.code)
-  await expect(page.locator('[data-foundation-hero-marks]')).toHaveAttribute('data-motion','unstarted')
+  await expect(page.locator('[data-result-reveal=foundation]')).toHaveAttribute('data-motion','complete')
   const marks=await page.locator('[data-mark-base] [data-archetype-mark]').evaluateAll(ms=>ms.map(m=>m.getAttribute('data-archetype-mark')))
   expect(marks.length).toBe(fixture.code.includes('/')?2:1)
   await expect(page.getByText(/Preparation, agreements and limits|no authored reading/i)).toHaveCount(0)
@@ -298,21 +298,21 @@ test("fresh supported marks draw once with final, interrupted, reduced, print an
  await page.goto('/quiz/review')
  await page.getByRole('button',{name:'Generate my result →'}).click()
  await expect(page).toHaveURL(/\/results\//)
- const hero=page.locator('[data-foundation-hero-marks]')
+ const hero=page.locator('[data-result-reveal=foundation]')
  await page.clock.runFor(80)
  await expect(hero).toHaveAttribute('data-motion','drawing')
  await expect(page.locator('h1')).toHaveText(fixture.name)
  await expect(page.getByRole('link',{name:'Explore this reading'})).toBeVisible()
  await page.evaluate(()=>document.getAnimations().forEach(a=>{a.pause();a.currentTime=400}))
  await page.screenshot({path:`${evidenceDir}/1440-fresh-strokes-partial.png`,animations:'allow'})
- await page.clock.runFor(1500)
+ await page.clock.runFor(2100)
  await expect(hero).toHaveAttribute('data-motion','complete')
  await screenshot(page,'1440-fresh-strokes-final')
  expect(await hero.locator('[data-mark-base]').evaluate(el=>getComputedStyle(el).opacity)).toBe('1')
  const resultURL=page.url()
- await page.reload();await expect(hero).toHaveAttribute('data-motion','unstarted')
+ await page.reload();await expect(hero).toHaveAttribute('data-motion','complete')
  await page.clock.resume()
- // Re-enter a real completion for an interruption, never a public replay button.
+ // Re-enter a real completion for the interruption check. Replay is tested separately.
  await seedDraft(page,'core',fixture.answers);await page.goto('/quiz/review')
  await page.getByRole('button',{name:'Generate my result →'}).click();await expect(page).toHaveURL(/\/results\//)
  await expect(hero).toHaveAttribute('data-motion','drawing')

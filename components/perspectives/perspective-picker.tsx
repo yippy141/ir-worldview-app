@@ -34,9 +34,9 @@ export function PerspectivePicker() {
           <h1>Advise from a different seat.</h1>
         </div>
         <p className="muted perspective-page-lead">
-          The Foundation recorded your own judgment across seven dimensions. A Perspective Run asks
-          you to advise from a defined strategic position, such as an exposed ally or a rising
-          power. Your baseline stays unchanged.
+          Advise from a defined strategic position, such as an exposed ally or a rising power.
+          A Perspective Run compares those role-conditioned answers with your saved Foundation.
+          Your baseline stays unchanged.
         </p>
         <p className="muted perspective-page-note">
           Every brief covers the same three situations: a seventy-two-hour security shock, an

@@ -131,11 +131,7 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
 
         <DraftNotice draft={draft} />
 
-        <section className="result-section stack-sm" aria-labelledby="reference-posture-heading">
-          <p className="eyebrow" id="reference-posture-heading">Public posture</p>
-          <p className="reference-detail__summary">{profile.summary}</p>
-          <p className="muted reference-detail__scope-note">{profile.scopeNote}</p>
-        </section>
+
 
         <p className="reference-window">This reading covers {profile.evidenceWindow.start?.slice(0, 4) ?? "…"}–{profile.evidenceWindow.end.slice(0, 4)}. It does not attribute a present-day position from older works.</p>
         {reading && readingSource ? (
@@ -161,6 +157,18 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
             <Link href="/explore/atlas/institution-builder#case-security-arms-control-verification">Read the case, its rival and source record →</Link>
           </section>
         ) : null}
+        {["alexander-wendt", "susan-strange"].includes(profile.id) && <section className="result-section reading-application">
+          <h2>Put the argument to a decision</h2>
+          <p>{profile.id === "alexander-wendt" ? "Two governments exchange the same security guarantee. Ask whether they understand one another as partners or adversaries, then consider how that relationship changes the promise's meaning. A signature alone cannot establish a shared identity." : "A government receives a cheap offer for digital infrastructure. Ask who can change the financing terms, restrict access to knowledge or deny future upgrades. The initial price cannot settle whether the government will retain useful alternatives."}</p>
+          <p className="muted">An authored illustration of the argument above, not an attributed policy recommendation.</p>
+        </section>}
+        <details className="reading-record"><summary>Scope of this public position</summary>
+        <section className="result-section stack-sm" aria-labelledby="reference-posture-heading">
+          <p className="eyebrow" id="reference-posture-heading">Public posture</p>
+          <p className="reference-detail__summary">{profile.summary}</p>
+          <p className="muted reference-detail__scope-note">{profile.scopeNote}</p>
+        </section>
+        </details>
         <details className="reading-record">
           <summary>Coding record</summary>
           <div className="reference-record-strip">

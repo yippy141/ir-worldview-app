@@ -1,3 +1,4 @@
+import { PageContents } from "@/components/reading/page-contents"
 import { DestinationLink } from "@/components/layout/destination-link"
 import { AiGovernanceReadingListSection } from "@/components/results/ai-governance-reading-list-section"
 import Link from "next/link"
@@ -66,25 +67,25 @@ export default async function AiAtlasDetailPage(
 
   return (
     <div className="wide-container">
-      <article className="result-article reading-page">
+      <article className="result-article reading-page ai-approach-reading">
         <section className="result-hero stack-md ai-atlas-mark-hero">
           <AiArchetypeMark archetype={entry.key} />
           <div className="ai-hero-rule" />
-          <p className="ai-hero-eyebrow">AI Governance</p>
+          <DestinationLink destination="aiApproaches" />
           <h1 className="ai-hero-h1">{entry.label}</h1>
           <p className="ai-hero-summary">{entry.shortSummary}</p>
           <div className="row gap-sm wrap">
             <AiResultReturnLink />
-            <DestinationLink destination="aiApproaches" className="cta-secondary" />
             <Link href="/ai/field-guide" className="cta-secondary">AI Field Guide</Link>
             <Link href="/profile" className="cta-secondary">Profile</Link>
           </div>
         </section>
 
-        <section className="result-section ai-atlas-detail-hero-grid">
+        <PageContents links={[{href:"#argument",label:"The argument"},{href:"#practice",label:"In practice"},{href:"#objection",label:"The objection"},{href:"#readings",label:"Sources and readings"}]} />
+        <section id="argument" className="result-section ai-atlas-detail-hero-grid">
           <div className="stack-md">
             <div className="stack-xs">
-              <p className="eyebrow">Definition</p>
+
               <h2 style={{ margin: 0 }}>The argument</h2>
               <p className="result-prose" style={{ lineHeight: "1.78" }}>
                 {entry.coreBelief}
@@ -131,13 +132,28 @@ export default async function AiAtlasDetailPage(
           </aside>
         </section>
 
-        <section className="result-section ai-atlas-detail-columns">
+        <section id="practice" className="result-section stack-md">
+          <div className="ai-result-section-intro stack-xs">
+            <h2>What follows in practice</h2>
+            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
+              These proposals belong to this editorial category. A similar result does not establish that you support each one.
+            </p>
+          </div>
+          <ul className="ai-atlas-detail-implications">
+            {entry.resultImplications.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+
+
+        <section id="objection" className="result-section ai-atlas-detail-columns">
           <article className="stack-md">
             <div className="stack-xs">
-              <p className="eyebrow">Strongest critique</p>
+
               <h2 style={{ margin: 0 }}>The strongest objection</h2>
               <p className="result-prose" style={{ lineHeight: "1.75" }}>
-                {profile.strongestCritique}
+                {profile.strongestCritique.replace("Your critics will say that", "Critics argue that")}
               </p>
             </div>
             {critiqueReading ? (
@@ -167,7 +183,7 @@ export default async function AiAtlasDetailPage(
 
         <section className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Core disagreement</p>
+
             <h2>The disagreement</h2>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               The closest neighbors share most of the vocabulary. The split usually comes down
@@ -194,20 +210,6 @@ export default async function AiAtlasDetailPage(
           </div>
         </section>
 
-        <section className="result-section stack-md">
-          <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Policy applications</p>
-            <h2>What follows in practice</h2>
-            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              These proposals belong to this editorial category. A similar result does not establish that you support each one.
-            </p>
-          </div>
-          <ul className="ai-atlas-detail-implications">
-            {entry.resultImplications.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-        </section>
 
         <section className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
@@ -229,9 +231,8 @@ export default async function AiAtlasDetailPage(
           </div>
         </section>
 
-        <section className="result-section stack-md">
+        <section id="readings" className="result-section stack-md">
           <div className="ai-result-section-intro stack-xs">
-            <p className="eyebrow">Starting readings</p>
             <h2>Where to begin</h2>
             <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
               Start with the central argument, then read its strongest challenge. The full shelves are available here without completing an assessment.

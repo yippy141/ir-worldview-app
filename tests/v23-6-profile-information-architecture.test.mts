@@ -32,14 +32,15 @@ test("domain-only and Perspective-only profiles bypass the Foundation empty stat
   assert.equal(hasNonFoundationProfileRecords(perspectiveOnly), true)
 })
 
-test("Profile answers the five production questions in the required order", () => {
+test("Profile puts saved work before relations, continuation and history", () => {
   const report = source("components/profile/profile-report.tsx")
   const orderedMarkers = [
-    "Your Foundation result",
-    "Your other results",
+    'aria-label="Open saved results"',
+    "<ResultCardHero",
+    "<DomainRecordsSection",
     "<PerspectiveRunsSection",
-    "Reviewed cross-domain relations",
-    "What to open next",
+    "<ReviewedRelationsSection",
+    "<NextActionsSection",
   ]
 
   let previous = -1

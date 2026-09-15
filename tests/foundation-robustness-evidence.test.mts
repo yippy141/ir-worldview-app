@@ -24,7 +24,6 @@ const protectedPaths = [
   "lib/archetypes.ts",
   "lib/share.ts",
   "lib/url-payload.ts",
-  "package-lock.json",
 ] as const
 
 type EvidenceManifest = {
@@ -97,6 +96,25 @@ test("protected files match both their recorded digests and the evidence source 
     },
   )
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`)
+
+  // The product-wide brief explicitly authorizes d3-geo and its necessary
+  // types/transitives. Preserve the historical evidence and verify every older
+  // lock entry, allowing only these exact additions for root presentation.
+  const oldLockResult = spawnSync("git", ["show", `${manifest.sourceSha}:package-lock.json`], { cwd: projectRoot, encoding: "utf8" })
+  assert.equal(oldLockResult.status, 0)
+  const oldLock = JSON.parse(oldLockResult.stdout)
+  const currentLock = JSON.parse(readFileSync(resolve(projectRoot, "package-lock.json"), "utf8"))
+  const additions: Record<string, string> = { "d3-geo": "3.1.1", "d3-array": "3.2.4", internmap: "2.0.3", "@types/d3-geo": "3.1.1", "@types/geojson": "7946.0.16" }
+  for (const [name, version] of Object.entries(additions)) {
+    assert.equal(currentLock.packages[`node_modules/${name}`].version, version)
+    assert.equal(oldLock.packages[`node_modules/${name}`], undefined)
+    delete currentLock.packages[`node_modules/${name}`]
+  }
+  assert.equal(currentLock.packages[""].dependencies["d3-geo"], "^3.1.1")
+  assert.equal(currentLock.packages[""].devDependencies["@types/d3-geo"], "^3.1.1")
+  delete currentLock.packages[""].dependencies["d3-geo"]
+  delete currentLock.packages[""].devDependencies["@types/d3-geo"]
+  assert.deepEqual(currentLock, oldLock, "Every earlier dependency remains unchanged")
 })
 
 test(

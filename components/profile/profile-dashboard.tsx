@@ -60,18 +60,14 @@ export function ProfileDashboard() {
         <section className="profile-state-panel profile-state-panel--empty stack-lg">
           <div className="profile-state-panel__intro stack-sm">
             <p className="eyebrow">Profile</p>
-            <h1>No Profile records are saved yet.</h1>
+            <h1>Your results, ready to return to.</h1>
             <p className="profile-state-panel__body">
-              Start with the Foundation for a broad baseline, or open a separate domain inventory.
+              Choose a question to begin. Foundation, AI Governance, Security and Technology can each be taken on their own.
               Results stay on this device unless you choose to share them.
             </p>
           </div>
 
           <div className="profile-state-actions" aria-label="Profile starting points">
-            <Link href="/decisions" className="profile-state-action">
-              <span className="profile-state-action__label">Make a short decision</span>
-              <span className="profile-state-action__meta">Try an unscored exercise without creating a baseline.</span>
-            </Link>
             <Link href="/quiz" className="profile-state-action profile-state-action--primary">
               <span className="profile-state-action__label">Start the Foundation</span>
               <span className="profile-state-action__meta">Answer fourteen broad questions.</span>
@@ -80,14 +76,18 @@ export function ProfileDashboard() {
               <span className="profile-state-action__label">Try AI Governance</span>
               <span className="profile-state-action__meta">Create a separate AI-policy record.</span>
             </Link>
-            <Link href="/explore" className="profile-state-action">
-              <span className="profile-state-action__label">Browse the Library</span>
-              <span className="profile-state-action__meta">Read traditions and Decision Patterns as reference points.</span>
+            <Link href="/modules/security" className="profile-state-action">
+              <span className="profile-state-action__label">Start Security</span>
+              <span className="profile-state-action__meta">Examine commitments, threats and force.</span>
+            </Link>
+            <Link href="/modules/technology" className="profile-state-action">
+              <span className="profile-state-action__label">Start Technology</span>
+              <span className="profile-state-action__meta">Examine access, interdependence and industrial power.</span>
             </Link>
           </div>
 
           <p className="profile-state-panel__note">
-            No account is required. This page reads saved results from this browser.
+            No results are saved yet. No account is required. <Link href="/decisions">Try a short decision</Link> or <Link href="/explore">browse the Library</Link>.
           </p>
         </section>
         <CurrentJudgmentsSection store={currentCases} />

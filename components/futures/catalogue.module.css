@@ -133,3 +133,16 @@
 .equivalenceNote { font-size: .93rem; color: var(--text-2); }
 .tieNote { padding-top: 1.5rem; font-size: .9rem; }
 @media (max-width: 760px) { .resultEntry[data-scenario] { grid-template-columns: 1fr; gap: 1rem; } }
+
+.index { display: block; }
+.index :global(.page-contents-desktop) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 24px; }
+.scenarioReading { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.3fr); gap: 48px; }
+.life { max-width: 60ch; }
+.scenarioReading .facts { margin-top: 0; }
+.scenarioReading .facts > div { grid-template-columns: 1fr; gap: 6px; padding-block: 20px; }
+.player[data-futures-step="questions"], .player[data-futures-step="review"] { max-width: 820px; }
+.player[data-futures-step="review"] .review { counter-reset: review; }
+.player[data-futures-step="review"] .review li { counter-increment: review; }
+.player[data-futures-step="review"] .review li > div { position: relative; padding-left: 38px; }
+.player[data-futures-step="review"] .review li > div::before { content: counter(review, decimal-leading-zero); position: absolute; left: 0; top: 4px; color: var(--muted); font: 12px var(--font-mono), monospace; }
+@media (max-width: 760px) { .scenarioReading { grid-template-columns: 1fr; gap: 24px; } .index :global(.page-contents-desktop) { display: none; } }

@@ -105,7 +105,7 @@ export default async function ArchetypeDetailPage({
               {formatArchetypeDisplayCode(identity.code)}
             </p>
             <h1>{identity.name}</h1>
-            <p className={styles.detailGloss}>{identity.gloss}</p>
+            <p className={styles.detailGloss}>{contentRecord ? claimList(contentRecord.content.noticesFirst)[0] : identity.gloss}</p>
           </div>
         </div>
         <dl className={styles.identityRegister}>
@@ -123,23 +123,13 @@ export default async function ArchetypeDetailPage({
               <Link href={`/explore/${familySlug(identity.familyKey)}`}>
                 {tradition}
               </Link>
-              <span>
-                Supporting evidence for the Foundation result, not another
-                Foundation result.
-              </span>
+
             </dd>
           </div>
         </dl>
       </header>
 
-      <aside className={styles.markNote} aria-labelledby="about-mark-heading">
-        <h2 id="about-mark-heading">About the mark</h2>
-        <p>
-          This contemporary mark is editorial artwork created for the inventory.
-          It is not an authentic historical emblem, a cultural classification,
-          or an endorsement. The visible code and name carry the meaning.
-        </p>
-      </aside>
+
 
       {contentRecord ? (
         <div className={styles.detailBody}>
@@ -149,8 +139,7 @@ export default async function ArchetypeDetailPage({
             aria-labelledby="reading-heading"
           >
             <div className={styles.sectionHeading}>
-              <h2 id="reading-heading">What this reading notices first</h2>
-              <p>{claimList(contentRecord.content.noticesFirst)[0]}</p>
+              <h2 id="reading-heading">Policy choices and tradeoffs</h2>
             </div>
             <div className={styles.instinctGrid}>
               <div>
@@ -290,7 +279,7 @@ export default async function ArchetypeDetailPage({
                   <a href={source.href} target="_blank" rel="noreferrer">
                     {source.label}
                   </a>
-                  <span>Provisional source</span>
+
                 </li>
               ))}
             </ul>
@@ -305,6 +294,15 @@ export default async function ArchetypeDetailPage({
           </p>
         </section>
       )}
+
+      <aside className={styles.markNote} aria-labelledby="about-mark-heading">
+        <h2 id="about-mark-heading">About the mark</h2>
+        <p>
+          This contemporary mark is editorial artwork created for the inventory.
+          It is not an authentic historical emblem, a cultural classification,
+          or an endorsement. The visible code and name carry the meaning.
+        </p>
+      </aside>
 
       {contentRecord ? (
         <details

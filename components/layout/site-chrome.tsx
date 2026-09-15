@@ -9,6 +9,7 @@ import { internalPath } from "@/i18n/paths"
 import { getBetaNavigationItem } from "@/lib/beta-config"
 import { getQuizChromeMeta } from "@/lib/quiz-chrome"
 import { navigationItem } from "@/lib/navigation"
+import { NavigationDirectory } from "@/components/layout/navigation-directory"
 import {
   immersiveRouteOwnsLanguageControl,
   isImmersiveRoute,
@@ -18,12 +19,6 @@ type PublicNavItem = {
   href: string
   labelKey: string
   active: (pathname: string) => boolean
-}
-
-type MobileNavGroup = {
-  labelKey: string
-  introKey: string
-  items: Array<{ href: string; labelKey: string }>
 }
 
 const publicNavItems: PublicNavItem[] = [
@@ -51,67 +46,6 @@ const publicNavItems: PublicNavItem[] = [
   },
 ]
 
-const moreNavItems = [
-  navigationItem("worldStage"),
-  navigationItem("decisions"),
-  navigationItem("aiApproaches"),
-  navigationItem("thinkers"),
-  navigationItem("archetypes"),
-  navigationItem("perspectives"),
-  navigationItem("worldviewMap"),
-  navigationItem("library"),
-  navigationItem("futures"),
-  navigationItem("method"),
-  navigationItem("privacy"),
-  navigationItem("references"),
-  navigationItem("feedback"),
-] as const
-
-const mobileNavGroups: MobileNavGroup[] = [
-  {
-    labelKey: "productPath",
-    introKey: "productIntro",
-    items: [
-      navigationItem("worldStage"),
-      navigationItem("cases"),
-      navigationItem("decisions"),
-      navigationItem("foundation"),
-      navigationItem("modules"),
-      navigationItem("ai"),
-      navigationItem("perspectives"),
-      navigationItem("profile"),
-    ],
-  },
-  {
-    labelKey: "browseContext",
-    introKey: "browseIntro",
-    items: [
-      navigationItem("worldviewMap"),
-      navigationItem("thinkers"),
-      navigationItem("archetypes"),
-      navigationItem("aiApproaches"),
-      navigationItem("library"),
-      navigationItem("futures"),
-      navigationItem("method"),
-      navigationItem("privacy"),
-      navigationItem("references"),
-      navigationItem("feedback"),
-    ],
-  },
-]
-
-function matchesPath(pathname: string, href: string) {
-  if (href === "/explore") {
-    return pathname === "/explore" || (
-      pathname.startsWith("/explore/") &&
-      !pathname.startsWith("/explore/atlas") &&
-      !pathname.startsWith("/explore/reference")
-    )
-  }
-
-  return pathname === href || pathname.startsWith(`${href}/`)
-}
-
 export function SiteChrome({
   children,
   betaNavigationEnabled,
@@ -125,19 +59,7 @@ export function SiteChrome({
   const currentPath = internalPath(pathname ?? "/")
   const quizMeta = getQuizChromeMeta(currentPath, locale)
   const betaNavigationItem = getBetaNavigationItem(betaNavigationEnabled)
-  const visibleMoreNavItems = betaNavigationItem
-    ? [...moreNavItems, betaNavigationItem]
-    : moreNavItems
-  const visibleMobileNavGroups = betaNavigationItem
-    ? mobileNavGroups.map((group, index) => (
-        index === 1
-          ? { ...group, items: [...group.items, betaNavigationItem] }
-          : group
-      ))
-    : mobileNavGroups
-  const moreActive = visibleMoreNavItems.some((item) =>
-    matchesPath(currentPath, item.href),
-  )
+  const betaLink = betaNavigationItem ? { href: betaNavigationItem.href, label: t(betaNavigationItem.labelKey) } : null
 
   if (isImmersiveRoute(currentPath)) {
     return (
@@ -226,21 +148,11 @@ export function SiteChrome({
                 })}
                 <details className="nav-disclosure nav-disclosure--end">
                   <summary
-                    className={`nav-disclosure-summary${moreActive ? " nav-disclosure-summary--active" : ""}`}
+                    className="nav-disclosure-summary"
                   >
-                    {t("more")}
+                    {t("menu")}
                   </summary>
-                  <div className="nav-disclosure-menu nav-disclosure-menu--compact">
-                    {visibleMoreNavItems.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className="nav-disclosure-link nav-disclosure-link--compact"
-                      >
-                        <span className="nav-disclosure-link-title">{t(item.labelKey)}</span>
-                      </Link>
-                    ))}
-                  </div>
+                  <div className="nav-disclosure-menu nav-disclosure-menu--directory"><NavigationDirectory betaLink={betaLink} /></div>
                 </details>
                 <LanguageSwitcher />
               </div>
@@ -248,33 +160,7 @@ export function SiteChrome({
 
             <details className="mobile-nav">
               <summary className="mobile-nav-summary">{t("menu")}</summary>
-              <div className="mobile-nav-sheet mobile-nav-sheet--compact">
-                {visibleMobileNavGroups.map((group) => (
-                  <div key={group.labelKey} className="mobile-nav-group">
-                    <p className="mobile-nav-label">{t(group.labelKey)}</p>
-                    <p className="mobile-nav-group-text">{t(group.introKey)}</p>
-                    <div className="mobile-nav-list">
-                      {group.items.map((item) => {
-                        const active = matchesPath(currentPath, item.href)
-
-                        return (
-                          <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`mobile-nav-list-link${active ? " mobile-nav-list-link--active" : ""}`}
-                            aria-current={active ? "page" : undefined}
-                          >
-                            {t(item.labelKey)}
-                          </Link>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ))}
-                <div className="mobile-nav-language">
-                  <LanguageSwitcher />
-                </div>
-              </div>
+              <div className="mobile-nav-sheet mobile-nav-sheet--directory"><NavigationDirectory betaLink={betaLink} /></div>
             </details>
           </div>
         </div>

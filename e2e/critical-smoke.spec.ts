@@ -36,6 +36,7 @@ async function answerCurrentFoundationQuestion(page: Page) {
 
 async function completeFoundation(page: Page) {
   await page.goto("/quiz")
+  await page.getByRole("button", { name: "Start Foundation", exact: true }).click()
   await expect(page.getByRole("heading", { name: "Foundation", exact: true })).toBeVisible()
 
   for (let step = 0; step < 60; step += 1) {
@@ -92,8 +93,8 @@ test("public entry points match reviewed Current Case availability", async ({ pa
   await page.goto("/")
   await expect(page.getByRole("navigation", { name: "Primary destinations" })).toBeVisible()
   await expect(page.getByRole("link", { name: "Library", exact: true })).toBeVisible()
-  await expect(page.locator("[data-root-visual-state]"))
-    .toHaveAttribute("data-root-visual-state", "inventory")
+  await expect(page.locator("[data-root-globe]"))
+    .toHaveAttribute("data-scene", "equipment")
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
 
   await page.goto("/world-stage")
@@ -284,14 +285,13 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   await expect(
     savedFoundation.getByRole("heading", { level: 1 }),
   ).toBeVisible()
-  await expect(
-    page.getByRole("heading", { name: "Your other results" }),
-  ).toBeVisible()
+  await expect(page.locator(".profile-domain-record")).toHaveCount(0)
+  await expect(page.getByRole("link", { name: /Add Security/ })).toBeVisible()
   await expect(
     page.getByRole("heading", { name: "Try another vantage point" }),
   ).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "Reviewed cross-domain relations" }),
+    page.getByRole("heading", { name: "How these records relate" }),
   ).toBeVisible()
   await expect(
     page.getByText("No reviewed cross-domain relation is available.", {
@@ -340,13 +340,13 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     await expect(page.getByText("Stable thread", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Closest traditions:", { exact: false })).toHaveCount(0)
     await expect(
-      page.getByRole("heading", { name: "Your other results" }),
+      page.getByRole("heading", { name: "Saved domain results" }),
     ).toBeVisible()
     await expect(
       page.getByRole("heading", { name: "Complete the current Foundation first" }),
     ).toBeVisible()
     await expect(
-      page.getByRole("heading", { name: "Reviewed cross-domain relations" }),
+      page.getByRole("heading", { name: "How these records relate" }),
     ).toBeVisible()
     await expect(
       page.getByText("No reviewed cross-domain relation is available.", {
@@ -364,7 +364,7 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
     ).toHaveCount(0)
     await expect(page.getByText("Directional read:", { exact: false })).toHaveCount(0)
     await expect(
-      page.getByRole("heading", { name: `${fixture.domain} record` }),
+      page.locator(".profile-domain-record__meta").getByText(fixture.domain, { exact: true }),
     ).toBeVisible()
     await expect(
       page.getByText(fixture.result, { exact: true }),
@@ -448,7 +448,7 @@ test("Explore retains every contracted section with direct archetypes before the
   await expect(sections).toHaveCount(9)
   expect(await sections.evaluateAll((elements) =>
     elements.map((element) => element.getAttribute("data-explore-section")),
-  )).toEqual([...EXPLORE_HUB_SECTION_ORDER.filter(id => id !== "how-labels-fit"), "how-labels-fit"])
+  )).toEqual(["modeled-traditions", "reference-positions", "decision-patterns", "foundation-archetypes", ...EXPLORE_HUB_SECTION_ORDER.filter(id => !["modeled-traditions", "reference-positions", "decision-patterns", "foundation-archetypes"].includes(id))])
 })
 
 test("all eight archetype details publish the qualified partial core and legacy comparison", async ({
@@ -485,7 +485,7 @@ test("all eight archetype details publish the qualified partial core and legacy 
     ).toBeVisible()
     await expect(
       page.getByText(
-        "Supporting evidence for the Foundation result, not another Foundation result.",
+        "About the mark",
         { exact: true },
       ),
     ).toBeVisible()
@@ -512,7 +512,7 @@ test("all eight archetype details publish the qualified partial core and legacy 
     await expect(detail.getByRole("status")).toHaveCount(0)
     await expect(detail.locator("footer dl")).toHaveCount(0)
     await expect(
-      page.getByRole("heading", { name: "What this reading notices first" }),
+      page.getByRole("heading", { name: "Policy choices and tradeoffs" }),
     ).toBeVisible()
     await expect(
       page.getByRole("heading", { name: "Why this comparison fits" }),

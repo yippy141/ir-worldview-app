@@ -1,3 +1,4 @@
+import { PageContents } from "@/components/reading/page-contents"
 import { ArchetypeMark } from "@/components/archetypes/archetype-mark"
 import Link from "next/link"
 import type { Metadata } from "next"
@@ -30,7 +31,7 @@ import { familySlug } from "@/lib/worldview-config"
 import styles from "./explore.module.css"
 
 export const metadata: Metadata = {
-  title: "Explore | IR Worldview Inventory",
+  title: "Library | IR Worldview Inventory",
   description:
     "How Foundation archetypes, modifiers, traditions, Decision Patterns, public positions, and separate contextual records fit together.",
 }
@@ -51,7 +52,9 @@ export default function ExplorePage() {
 
   const patterns = getAtlasLitePatterns()
   const references = getVisibleReferenceEntities()
-  const sections = [...hub.sections.filter((section) => section.id !== "how-labels-fit"), ...hub.sections.filter((section) => section.id === "how-labels-fit")]
+  const mainSections: ExploreHubSectionId[] = ["modeled-traditions", "reference-positions", "decision-patterns", "foundation-archetypes"]
+  const sections = mainSections.flatMap(id => hub.sections.filter(section => section.id === id))
+  const supportingSections = hub.sections.filter(section => !mainSections.includes(section.id))
 
   return (
     <div className={`wide-container ${styles.page}`}>
@@ -73,13 +76,8 @@ export default function ExplorePage() {
         </div>
       </header>
 
-      <nav className={styles.jumpNav} aria-label="On this page">
-        {sections.map((section) => (
-          <a key={section.id} href={`#${section.id}`}>
-            {section.heading}
-          </a>
-        ))}
-      </nav>
+      <PageContents className={styles.jumpNav} links={[...sections, ...supportingSections].map(section => ({ href: `#${section.id}`, label: section.heading }))} />
+
 
       <div className={styles.sections}>
         {sections.map((section) => (
@@ -99,6 +97,13 @@ export default function ExplorePage() {
             {renderSection(section.id, hub, patterns, references)}
           </section>
         ))}
+        <details className={styles.disclosure}>
+          <summary>Reading a Foundation result: dimensions, blends and coverage</summary>
+          {supportingSections.map(section => <section key={section.id} id={section.id} data-explore-section={section.id} className={styles.section}>
+            <header className={styles.sectionHeader}><div><h2>{section.heading}</h2><p>{section.intro}</p></div></header>
+            {renderSection(section.id, hub, patterns, references)}
+          </section>)}
+        </details>
       </div>
     </div>
   )

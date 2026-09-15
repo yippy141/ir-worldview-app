@@ -1,5 +1,7 @@
 "use client"
 
+import { DomainMark } from "@/components/results/domain-mark"
+import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
 import { resolveModulePayload } from "@/lib/modules/framework"
 import { buildModuleInterpretation } from "@/lib/results/module-interpretation"
 import { buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
@@ -64,6 +66,12 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
 
   return (
     <article className="result-article result-canvas profile-report">
+      <nav className="profile-saved-index" aria-label="Open saved results">
+        <span>{mode === "local" ? "Saved on this device" : "Included in this share"}</span>
+        {foundation && foundationIdentity && <FoundationProfileResultLink href={foundation.resultPath} snapshot={foundation}>Foundation</FoundationProfileResultLink>}
+        {moduleSnapshots.map(snapshot => <Link key={snapshot.slug} href={snapshot.resultPath}>{snapshot.title}</Link>)}
+        {profile.aiGovernance && <Link href={profile.aiGovernance.resultPath}>AI Governance</Link>}
+      </nav>
       {foundationArchetype && foundationIdentity && displayFoundation ? (
         <ResultCardHero
           eyebrow={mode === "local" ? "Your Foundation result" : "Shared Foundation result"}
@@ -97,51 +105,20 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
           }
         />
       ) : (
-        <section className="profile-hero profile-hero--anchored stack-md">
-          <div className="profile-hero-head stack-sm">
-            <p className="eyebrow">
-              {mode === "local" ? "Your Foundation result" : "Shared Foundation result"}
-            </p>
-            <h1>
-              {displayFoundation
-                ? "Foundation result unavailable"
-                : "No Foundation result is saved"}
-            </h1>
-          </div>
-          <p className="profile-hero-summary">
-            {displayFoundation
-              ? "The saved Foundation payload cannot be resolved, so this Profile does not infer a replacement reading. Other saved records remain available below."
-              : "This device has no saved Foundation result. Your other results and Perspective Runs appear below when they exist."}
-          </p>
-          <div className="row gap-sm wrap">
-            {mode === "local" ? (
-              displayFoundation ? (
-                foundation ? (
-                  <FoundationProfileResultLink
-                    href={displayFoundation.resultPath}
-                    snapshot={foundation}
-                    className="cta-secondary"
-                  >
-                    Open saved result
-                  </FoundationProfileResultLink>
-                ) : (
-                  <Link href={displayFoundation.resultPath} className="cta-secondary">
-                    Open saved result
-                  </Link>
-                )
-              ) : (
-                <Link href="/quiz" className="cta-primary">
-                  Start the Foundation
-                </Link>
-              )
-            ) : null}
-            {actionSlot}
-          </div>
-        </section>
+        <header className="profile-hero profile-hero--saved stack-md">
+          <p className="eyebrow">{mode === "local" ? "Saved on this device" : "Shared Profile"}</p>
+          <h1>Your saved work</h1>
+          <p className="profile-hero-summary">Open a result to inspect its reasoning, or continue with another question.</p>
+          {displayFoundation && <div className="stack-sm">
+            <h2>Foundation result unavailable</h2>
+            <p>The saved Foundation payload cannot be resolved, so this Profile does not infer a replacement reading. Other saved records remain available below.</p>
+            <Link href={displayFoundation.resultPath}>Open saved Foundation result</Link>
+          </div>}
+          {actionSlot}
+        </header>
       )}
 
       <DomainRecordsSection
-        foundationPayload={foundationIdentity ? displayFoundation?.payload ?? null : null}
         moduleSnapshots={moduleSnapshots}
         aiSnapshot={profile.aiGovernance}
         mode={mode}
@@ -176,12 +153,10 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
 }
 
 function DomainRecordsSection({
-  foundationPayload,
   moduleSnapshots,
   aiSnapshot,
   mode,
 }: {
-  foundationPayload: string | null
   moduleSnapshots: ModuleSnapshot[]
   aiSnapshot: ProfileStore["aiGovernance"]
   mode: "local" | "shared"
@@ -192,28 +167,27 @@ function DomainRecordsSection({
     moduleSnapshots.map((snapshot) => [snapshot.slug, snapshot]),
   ) as Partial<Record<ModuleSnapshot["slug"], ModuleSnapshot>>
 
+  if (moduleSnapshots.length === 0 && !aiSnapshot) return null
+
   return (
     <section className="result-section stack-md" aria-labelledby="profile-domain-records">
       <div className="stack-xs">
-        <p className="eyebrow">Other results</p>
         <h2 id="profile-domain-records" className="profile-section-heading">
-          Your other results
+          Saved domain results
         </h2>
         <p className="muted profile-domain-intro">
-          Security, Technology, and AI Governance results appear here once you complete them. None of
-          them changes your Foundation result.
+          Each result answers its own set of questions. Open it for the full reading and evidence.
         </p>
       </div>
 
       <div className="profile-domain-records">
         {(["security", "technology"] as const).map((slug) => {
           const snapshot = modulesBySlug[slug]
+          if (!snapshot) return null
           const resolved = snapshot?.payload ? resolveModulePayload(snapshot.payload) : null
           const moduleReading = resolved ? buildModuleInterpretation(resolved.definition, resolved.runtime.buildModuleResult(resolved.definition, resolved.payload.mode, resolved.payload.answers), resolved.runtime.getSelectedModuleOptions(resolved.definition, resolved.payload.mode, resolved.payload.answers).filter(({ question, primary }) => primary && question.cardType !== "actorLens").length, { bankVersion: resolved.bankVersion, scoringVersion: resolved.scoringVersion, mode: resolved.payload.mode }) : null
           const title = slug === "security" ? "Security" : "Technology"
-          const startPath = foundationPayload
-            ? `/modules/${slug}?foundation=${encodeURIComponent(foundationPayload)}`
-            : `/modules/${slug}`
+
 
           return (
             <article key={slug} className="profile-domain-record">
@@ -222,14 +196,8 @@ function DomainRecordsSection({
                 <span>Saved result</span>
               </div>
               <div className="stack-xs">
-                <h3>{title} record</h3>
-                <p className="profile-domain-record__result">
-                  {snapshot
-                    ? snapshot.headline
-                    : mode === "local"
-                      ? "Not saved"
-                      : "Not included"}
-                </p>
+                <DomainMark domain={slug} />
+                <h3>{snapshot.headline}</h3>
                 <p className="muted profile-domain-record__summary">
                   {snapshot
                     ? moduleReading?.summary ?? snapshot.summary
@@ -238,32 +206,24 @@ function DomainRecordsSection({
                       : `This shared Profile does not include a ${title} result.`}
                 </p>
               </div>
-              {mode === "local" ? (
-                <Link
-                  href={snapshot?.resultPath ?? startPath}
+              <Link
+                  href={snapshot.resultPath}
                   className="profile-domain-record__link"
                 >
-                  {snapshot ? `Open ${title} result` : `Add ${title} result`}
+                  Open {title} result
                 </Link>
-              ) : null}
             </article>
           )
         })}
 
-        <article className="profile-domain-record">
+        {aiSnapshot && <article className="profile-domain-record">
           <div className="profile-domain-record__meta">
             <span>AI Governance</span>
             <span>Saved result</span>
           </div>
           <div className="stack-xs">
-            <h3>AI Governance record</h3>
-            <p className="profile-domain-record__result">
-              {aiSnapshot
-                ? aiSnapshot.archetypeLabel
-                : mode === "local"
-                  ? "Not saved"
-                  : "Not included"}
-            </p>
+            <AiArchetypeMark archetype={aiSnapshot.archetypeKey} size="compact" />
+            <h3>{aiSnapshot.archetypeLabel}</h3>
             <p className="muted profile-domain-record__summary">
               {aiSnapshot
                 ? aiInterpretation?.summary ?? aiSnapshot.summary
@@ -272,36 +232,24 @@ function DomainRecordsSection({
                   : "This shared Profile does not include an AI Governance result."}
             </p>
           </div>
-          {mode === "local" ? (
-            <Link
-              href={aiSnapshot?.resultPath ?? "/ai"}
+          <Link
+              href={aiSnapshot.resultPath}
               className="profile-domain-record__link"
             >
-              {aiSnapshot ? "Open AI Governance result" : "Add AI Governance result"}
+              Open AI Governance result
             </Link>
-          ) : null}
-        </article>
+        </article>}
       </div>
     </section>
   )
 }
 
 function ReviewedRelationsSection() {
-  return (
-    <section className="result-section stack-sm" aria-labelledby="profile-reviewed-relations">
-      <p className="eyebrow">Reviewed relations</p>
-      <h2 id="profile-reviewed-relations" className="profile-section-heading">
-        Reviewed cross-domain relations
-      </h2>
-      <div className="callout stack-xs" role="note">
-        <p><strong>No reviewed cross-domain relation is available.</strong></p>
-        <p>
-          Each result is shown on its own. The Profile does not infer a relationship from
-          similar labels or numbers.
-        </p>
-      </div>
-    </section>
-  )
+  return <section className="profile-relations stack-sm" aria-labelledby="profile-reviewed-relations">
+    <h2 id="profile-reviewed-relations">How these records relate</h2>
+    <p>No reviewed cross-domain relation is available.</p>
+    <p>Each result is shown on its own. The Profile does not infer a relationship from similar labels or numbers.</p>
+  </section>
 }
 
 function NextActionsSection({ steps }: { steps: ProfileNextStep[] }) {
@@ -470,42 +418,11 @@ function buildProfileNextSteps({
 
   const steps: ProfileNextStep[] = []
 
-  if (!foundationPayload) {
-    steps.push({
-      title: "Start the Foundation",
-      description: "Add the fourteen-question Foundation result.",
-      href: "/quiz",
-    })
-  } else {
-    if (!securitySnapshot) {
-      steps.push({
-        title: "Add Security",
-        description: "Test the baseline against security policy choices.",
-        href: `/modules/security?foundation=${encodeURIComponent(foundationPayload)}`,
-      })
-    }
-    if (!technologySnapshot) {
-      steps.push({
-        title: "Add Technology",
-        description: "Add a Technology result.",
-        href: `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}`,
-      })
-    }
-    if (!aiSnapshot) {
-      steps.push({
-        title: "Add AI Governance",
-        description: "Add an AI Governance result.",
-        href: "/ai",
-      })
-    }
-    if (steps.length === 0) {
-      steps.push({
-        title: "Open Perspective Runs",
-        description: "Test how the saved baseline changes inside another actor's constraints.",
-        href: "/perspectives",
-      })
-    }
-  }
+  if (!foundationPayload) steps.push({ title: "Add Foundation", description: "Fourteen questions about international politics.", href: "/quiz" })
+  if (!securitySnapshot) steps.push({ title: "Add Security", description: "Examine commitments, threats and the use of force.", href: foundationPayload ? `/modules/security?foundation=${encodeURIComponent(foundationPayload)}` : "/modules/security" })
+  if (!technologySnapshot) steps.push({ title: "Add Technology", description: "Examine access, interdependence and industrial power.", href: foundationPayload ? `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}` : "/modules/technology" })
+  if (!aiSnapshot) steps.push({ title: "Add AI Governance", description: "Examine who should govern capable AI.", href: "/ai" })
+  if (steps.length === 0) steps.push({ title: "Open Perspective Runs", description: "Consider another actor's constraints in a role-conditioned exercise.", href: "/perspectives" })
 
   steps.push({
     title: "Open Worldview Map",

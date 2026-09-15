@@ -67,7 +67,7 @@ for (const width of [320, 390, 768, 1440]) test(`section links work on fresh dee
   for (const [route, parent, label] of parents) {
     // Each route starts in a fresh page with no earlier site history.
     const page = await context.newPage()
-    const response = await page.goto(`http://127.0.0.1:3000${route}`)
+    const response = await page.goto(`${process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000"}${route}`)
     expect(response?.status(), route).toBe(200)
     const link = page.locator('main').getByRole("link", { name: label, exact: true }).first()
     await expect(link, route).toHaveAttribute("href", parent)
@@ -112,7 +112,7 @@ test("Field Guide keeps all powers and visible premises, with semantic header as
 test("Field Guide is readable without JavaScript and in print", async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } })
   const page = await context.newPage()
-  await page.goto("http://127.0.0.1:3000/ai/field-guide")
+  await page.goto(`${process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000"}/ai/field-guide`)
   await expect(page.locator('#disagree')).toContainText("Weights remain inside the enclave.")
   await expect(page.locator('#disagree h3')).toHaveCount(10)
   await expect(page.locator('#powers tbody tr')).toHaveCount(6)

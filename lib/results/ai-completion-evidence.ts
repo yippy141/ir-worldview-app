@@ -1,5 +1,6 @@
 import { aiAxisScoresToArray, encodeAiPayload, resolveAiPayload } from "@/lib/ai-governance-share"
 import type { AiAnswers, AiQuizMode } from "@/lib/ai-governance-types"
+import { markFreshResult } from "@/lib/results/fresh-foundation-result"
 
 export type AiObservation = { kind: "direct-observation"; id: string; prompt: string; selection: string; secondary?: string }
 export type AiCompletionEvidence = { payload: string; mode: AiQuizMode; bank: number; scorer: number; locale: "en"; observations: AiObservation[] }
@@ -39,6 +40,7 @@ export function qualifyAiCompletion(payload: string, answers: AiAnswers, mode: A
 let pending: AiCompletionEvidence | null = null
 export function handoffAiCompletion(payload: string, answers: AiAnswers, mode: AiQuizMode) {
   pending = qualifyAiCompletion(payload, answers, mode)
+  if (pending) markFreshResult("ai", payload)
 }
 export function takeAiCompletion(payload: string): AiCompletionEvidence | null {
   const value = pending

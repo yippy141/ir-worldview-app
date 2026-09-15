@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1101,
-      "newCount": 700,
+      "currentCount": 1102,
+      "newCount": 703,
       "newFindings": [
         {
           "audience": "public",
@@ -425,6 +425,16 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "You look for ways to preserve access selectively rather than abandon it wholesale."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:messages/en.json#chrome.nav.fieldGuide",
+          "count": 1,
+          "file": "messages/en.json",
+          "fingerprint": "12411357cea18db5ca6031ab4b0527c1426a54f9e0d4ff36847efbfc09b9abc6",
+          "matched": "Field Guide",
+          "rule": "field-metaphor-review",
+          "source": "Field Guide"
         },
         {
           "audience": "public",
@@ -2317,6 +2327,16 @@
           "source": "Compared with ... , your result separated most on ... and ... . That is why you landed in ... rather than next door."
         },
         {
+          "audience": "public",
+          "context": "route:/ai/atlas#AiAtlasPage.p",
+          "count": 1,
+          "file": "app/ai/atlas/page.tsx",
+          "fingerprint": "4f62a25d0ff5ff0ccf491d021b627b55573c66e65d11232a8ec229b29ccd25e6",
+          "matched": "Field Guide",
+          "rule": "field-metaphor-review",
+          "source": "Each approach has a longer argument, a policy application and a serious objection. Read the source alongside the summary, or use the Field Guide to compare all six within one decision."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.0.options.1.label",
           "count": 1,
@@ -3135,6 +3155,16 @@
           "matched": "Limits, privacy, and corrections / and gives factual, privacy, and security problems a narrow correction route",
           "rule": "repeated-adjacent-three-part-list",
           "source": "The inventory states where interpretation stops, explains what generated links contain, and gives factual, privacy, and security problems a narrow correction route."
+        },
+        {
+          "audience": "public",
+          "context": "route:/ai#AiPage.p",
+          "count": 1,
+          "file": "app/ai/page.tsx",
+          "fingerprint": "6c7b699cad0f08d345169394125c416d8accd473a0886d04e3af230327d7f9e7",
+          "matched": "Who should be allowed to build, release, and stop powerful AI / oversight, military use, and rivalry between states",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "You take positions on release, oversight, military use, and rivalry between states. The result shows which of six governing approaches your answers came nearest, and where the closest rival approach would have decided differently."
         },
         {
           "audience": "public",
@@ -4708,6 +4738,16 @@
         },
         {
           "audience": "public",
+          "context": "route:/ai#AiPage.h2",
+          "count": 1,
+          "file": "app/ai/page.tsx",
+          "fingerprint": "aa7fcc5de1e5ec3be549af7786e07371e5e5f6b519860a78fccb442e63432c8a",
+          "matched": "Your own result names the approach, the rival, and the question your answers left open / Read the approaches, make a decision, or look further ahead",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Read the approaches, make a decision, or look further ahead"
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/narrative/profile.ts#buildProbeNextText",
           "count": 1,
           "file": "lib/narrative/profile.ts",
@@ -5958,6 +5998,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:components/perspectives/perspective-picker.tsx#PerspectivePicker.p",
+          "count": 1,
+          "file": "components/perspectives/perspective-picker.tsx",
+          "fingerprint": "d9c41d722824a58ab1fc4158eb5e27468e9e5007b7ac8bd42a1320e07a519992",
+          "matched": "advise from a",
+          "rule": "repeated-adjacent-opening",
+          "source": "Advise from a defined strategic position, such as an exposed ally or a rising power. A Perspective Run compares those role-conditioned answers with your saved Foundation. Your baseline stays unchanged."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/futures/interpretation.ts#singles.technicalIndependence.absent",
           "count": 1,
           "file": "lib/futures/interpretation.ts",
@@ -6818,16 +6868,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:components/modules/module-app.tsx#ModuleApp.p",
-          "count": 1,
-          "file": "components/modules/module-app.tsx",
-          "fingerprint": "fb98c61dce74641320a7dcf5c1dc4ba52194c165402a00f98ee6dcfcff49aa78",
-          "matched": "genuinely",
-          "rule": "retired-house-words",
-          "source": "in total. In either mode, choose one main answer per case and add a backup only when another option genuinely fits."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/results/foundation-payoff.ts#buildMainTension.body",
           "count": 1,
           "file": "lib/results/foundation-payoff.ts",
@@ -6995,20 +7035,10 @@
           "matched": "aviation notices, cyber pressure, and information operations rather than ship seizures / Effects are slower, less visible, and easier for Taiwan and partners to mitigate",
           "rule": "repeated-three-part-list",
           "source": "Rely on licensing, aviation notices, cyber pressure, and information operations rather than ship seizures. Accepted cost: Effects are slower, less visible, and easier for Taiwan and partners to mitigate."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:components/ai-governance-quiz-app.tsx#ModeGate.p",
-          "count": 1,
-          "file": "components/ai-governance-quiz-app.tsx",
-          "fingerprint": "ffc79341e1e74b2d569dca883ba75afbf7d437fc9fe07736382d8f089a8a5807",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Standard is the cleaner first pass. If you are trying the module with a friend or seminar partner, compare the review screen and full result page rather than only the headline archetype."
         }
       ],
       "priority": "P2",
-      "resolvedCount": 157,
+      "resolvedCount": 159,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7456,6 +7486,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "b2a4e511be047d7cdecb396f4dbd0076669aa89dc6c0b8a98618c61f79ae6240"
+        },
+        {
+          "count": 1,
           "fingerprint": "b3a88ec8cc2fdc2e9bcdfe81541e174ad72e49604718799bf4f4d00af90b19f5"
         },
         {
@@ -7537,6 +7571,10 @@
         {
           "count": 1,
           "fingerprint": "d513984fe792771557ec1894a2da0fc427ee77dbab69f7f3869e9029ad0bb20f"
+        },
+        {
+          "count": 1,
+          "fingerprint": "d67b9cfe9b5721b0fc222918bb7ada70d6baca9a7f4b951ad641573f29c82bdc"
         },
         {
           "count": 1,
@@ -7639,7 +7677,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 401
+      "unchangedCount": 399
     },
     "higherPriorityFindings": [
       {
@@ -8026,7 +8064,7 @@
         "jsonPath": null,
         "key": "AiResultPage.p",
         "kind": "self-narration",
-        "line": 302,
+        "line": 303,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -8268,7 +8306,7 @@
         "jsonPath": null,
         "key": "ModuleApp.p",
         "kind": "self-narration",
-        "line": 528,
+        "line": 489,
         "match": "What it does not claim",
         "matched": "What it does not claim",
         "priority": "P1",
@@ -8290,7 +8328,7 @@
         "jsonPath": null,
         "key": "ModuleResultView.p",
         "kind": "self-narration",
-        "line": 266,
+        "line": 269,
         "match": "registered form",
         "matched": "registered form",
         "priority": "P1",
@@ -8321,28 +8359,6 @@
         "rule": "product-self-narration",
         "severity": "P1",
         "source": "These choices stay separate from Foundation scoring.",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "ProfileDashboard.p",
-        "context": "content-key:components/profile/profile-dashboard.tsx#ProfileDashboard.p",
-        "copyKey": "ProfileDashboard.p",
-        "file": "components/profile/profile-dashboard.tsx",
-        "jsonPath": null,
-        "key": "ProfileDashboard.p",
-        "kind": "self-narration",
-        "line": 65,
-        "match": "domain inventory",
-        "matched": "domain inventory",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "Start with the Foundation for a broad baseline, or open a separate domain inventory. Results stay on this device unless you choose to share them.",
         "strict": false,
         "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
       },
@@ -10927,11 +10943,11 @@
         "priority": "P0"
       },
       {
-        "count": 132,
+        "count": 131,
         "priority": "P1"
       },
       {
-        "count": 1101,
+        "count": 1102,
         "priority": "P2"
       }
     ]

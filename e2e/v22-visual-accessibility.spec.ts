@@ -342,7 +342,7 @@ test("a Profile preserves its Foundation payoff and three domain records after a
 
     for (const title of ["Security", "Technology", "AI Governance"] as const) {
       const record = records.filter({
-        has: page.getByRole("heading", { name: `${title} record`, exact: true }),
+        has: page.locator(".profile-domain-record__meta").getByText(title, { exact: true }),
       })
       await expect(record).toBeVisible()
       await expect(
@@ -642,7 +642,8 @@ test("V23.1B editorial measure, targets, focus, and contrast remain legible", as
   await expect(page.locator("[data-archetype-sigil-frame]")).toHaveCount(0)
 
   await page.goto("/explore")
-  const mobileJumpNav = page.getByRole("navigation", { name: "On this page" })
+  await page.locator(".page-contents-mobile > summary").click()
+  const mobileJumpNav = page.getByRole("navigation", { name: "Page sections" })
   await expect(mobileJumpNav).toBeVisible()
   const bounds = await mobileJumpNav.boundingBox()
   expect(bounds!.x).toBeGreaterThanOrEqual(0)
@@ -737,7 +738,7 @@ test("AI hero renders the archetype once and retains exactly three scoped modifi
   page,
 }) => {
   await page.goto(`/ai/results/${AI_PAYLOAD}`)
-  const hero = page.locator("article > header")
+  const hero = page.locator('[data-result-reveal="ai"] > header')
   await expect(
     hero.getByText("Coordination Architect", { exact: true }),
   ).toHaveCount(1)
@@ -944,7 +945,7 @@ test("production print keeps the complete Profile reading visible without empty 
       return {
         height: rect.height,
         hasHeading: Boolean(element.querySelector("h3")),
-        hasResult: Boolean(element.querySelector(".profile-domain-record__result")),
+        hasResult: Boolean(element.querySelector("h3")?.textContent?.trim()),
       }
     }),
   )

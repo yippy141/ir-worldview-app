@@ -1,3 +1,4 @@
+import { referenceIntroductions } from "@/content/reading/reference-introductions"
 import Link from "next/link"
 import {
   formatFieldDateString,
@@ -44,7 +45,7 @@ export function ReferenceProfileCard({ entity }: { entity: ReferenceEntity }) {
         <p className="muted reference-card__domain">{profile.domain}</p>
       ) : null}
       <p className="reference-card__summary">
-        {profile ? profile.summary : entity.scopeNote}
+        {referenceIntroductions[entity.id]?.argument ?? (profile ? profile.summary : entity.scopeNote)}
       </p>
       <div className="reference-card__foot">
         <span className="reference-card__coding">

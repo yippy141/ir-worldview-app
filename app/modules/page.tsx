@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ModulesFoundationState } from "@/components/modules/modules-foundation-state"
+import { DomainMark } from "@/components/results/domain-mark"
 import { modules } from "@/lib/modules/framework"
 import type { ModuleSlug } from "@/lib/modules/types"
 import { resolveFoundationPayload } from "@/lib/share"
@@ -47,25 +47,17 @@ export default async function ModulesPage(
         <section className="lobby-hero lobby-hero--plain">
           <div className="lobby-hero-grid">
             <div className="stack-lg">
-              <p className="section-kicker">Security and Technology</p>
-              <h1>Two shorter questionnaires built from cases</h1>
+
+              <h1>Security and Technology</h1>
               <p className="lobby-lead">
                 An ally asks for troops on its border. A ministry decides whether to fund public
                 compute. You choose, and the result shows which logic you kept returning to. Each
                 questionnaire gives its own result and leaves your Foundation result alone.
               </p>
-              <ModulesFoundationState
-                linkedFoundation={Boolean(verifiedFoundation)}
-                variant="actions"
-              />
+
             </div>
 
-            <aside className="lobby-side-note lobby-side-note--offset stack-sm">
-              <ModulesFoundationState
-                linkedFoundation={Boolean(verifiedFoundation)}
-                variant="note"
-              />
-            </aside>
+
           </div>
         </section>
 
@@ -76,11 +68,12 @@ export default async function ModulesPage(
               const href = `/modules/${moduleDefinition.slug}${verifiedFoundation ? `?foundation=${encodeURIComponent(verifiedFoundation)}` : ""}`
 
               return (
-                <article key={moduleDefinition.slug} className="module-choice-card stack-md">
+                <article key={moduleDefinition.slug} className="module-choice-card module-choice-card--editorial stack-md">
                   <div className="stack-sm">
                     <div className="stack-xs">
-                      <p className="section-kicker">{moduleDefinition.shortTitle}</p>
-                      <h2 className="lobby-entry-title">{intro.covers}</h2>
+                      <DomainMark domain={moduleDefinition.slug} compact />
+                      <h2>{moduleDefinition.shortTitle}</h2>
+                      <p className="module-choice-question">{intro.covers}</p>
                       <p className="lobby-entry-subtitle">{intro.scenes}</p>
                     </div>
                     <div className="stack-xs">

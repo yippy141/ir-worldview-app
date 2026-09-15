@@ -1,7 +1,8 @@
+import { PageContents } from "@/components/reading/page-contents"
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { coverageLevelLabels, getFamilyByKey, getFamilyBySlug } from "@/lib/explore-content"
-import { familySlug, familyTraditionClass, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
+import { familySlug, MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 import { archetypes, getArchetypePath } from "@/lib/archetypes"
 import {
   formatArchetypeCodeSpeech,
@@ -63,9 +64,6 @@ export default async function ExploreDetailPage({ params }: Props) {
 
       {/* Page header (full width, above atlas grid) */}
       <div className="article-header stack-sm" style={{ maxWidth: "680px", marginBottom: "48px" }}>
-        <span className={`tradition-chip ${familyTraditionClass(family.familyKey)}`}>
-          {family.name}
-        </span>
         <h1>{family.name}</h1>
         <p style={{ fontSize: "1.1rem", lineHeight: "1.65", color: "var(--muted)" }}>
           {family.tagline}
@@ -75,13 +73,8 @@ export default async function ExploreDetailPage({ params }: Props) {
       {/* Atlas two-column layout */}
       <div className="atlas-layout">
         {/* Sticky TOC */}
-        <nav className="atlas-toc">
-          {tocItems.map((item) => (
-            <a key={item.id} href={`#${item.id}`} className="atlas-toc-link">
-              {item.label}
-            </a>
-          ))}
-        </nav>
+        <PageContents className="atlas-toc" links={tocItems.map(item => ({ href: `#${item.id}`, label: item.label }))} />
+
 
         {/* Main body */}
         <div className="atlas-body">
@@ -97,43 +90,7 @@ export default async function ExploreDetailPage({ params }: Props) {
 
           <hr className="divider" />
 
-      <section
-        className={styles.traditionBoundary}
-        aria-labelledby="tradition-boundary-heading"
-        data-tradition-boundary
-      >
-        <div>
-          <h2 id="tradition-boundary-heading">Related Foundation archetypes</h2>
-          <p>
-            Two Foundation readings draw on this tradition, one for each
-            posture. Reading about the tradition does not replace the archetype resolved from a full score.
-          </p>
-        </div>
-        <div className={styles.traditionArchetypes}>
-          {postureArchetypes.map((archetype) => (
-            <Link
-              href={getArchetypePath(archetype.code)}
-              key={archetype.code}
-              data-tradition-archetype={archetype.code}
-            >
-              <span className={styles.traditionCode} data-archetype-code-label>
-                <span aria-hidden="true">
-                  {formatArchetypeDisplayCode(archetype.code)}
-                </span>
-                <span className="sr-only">
-                  {formatArchetypeCodeSpeech(archetype.code)}
-                </span>
-              </span>
-              <span className={styles.traditionArchetypeCopy}>
-                <strong>{archetype.name}</strong>
-                <small>
-                  {archetype.posture === "+" ? "Applying advantage" : "Restraint"}
-                </small>
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
+
 
           {/* Core claims */}
           <section id="core-claims" className="article-section stack-md">
@@ -156,7 +113,7 @@ export default async function ExploreDetailPage({ params }: Props) {
             <div>
               {family.subtraditions.map((sub) => (
                 <div key={sub.name} className="subtradition-entry">
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
+                  <p style={{ fontWeight: 600, fontFamily: "var(--font-serif), serif", marginBottom: "6px" }}>
                     {sub.name}
                   </p>
                   <p className="muted" style={{ lineHeight: "1.65", fontSize: "0.9rem" }}>
@@ -202,7 +159,7 @@ export default async function ExploreDetailPage({ params }: Props) {
             <div>
               {family.issueReadings.map((ir) => (
                 <div key={ir.issue} className="neighbor-entry">
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
+                  <p style={{ fontWeight: 600, fontFamily: "var(--font-serif), serif", marginBottom: "6px" }}>
                     {ir.issue}
                   </p>
                   <p className="muted" style={{ lineHeight: "1.65" }}>
@@ -240,7 +197,7 @@ export default async function ExploreDetailPage({ params }: Props) {
             <div>
               {family.neighbors.map((neighbor) => (
                 <div key={neighbor.familyKey} className="neighbor-entry">
-                  <p style={{ fontWeight: 600, fontFamily: "Georgia, serif", marginBottom: "6px" }}>
+                  <p style={{ fontWeight: 600, fontFamily: "var(--font-serif), serif", marginBottom: "6px" }}>
                     <Link href={`/explore/${familySlug(neighbor.familyKey)}`} style={{ color: "inherit" }}>
                       {getFamilyByKey(neighbor.familyKey)?.name ?? "Related perspective"}
                     </Link>
@@ -339,6 +296,43 @@ export default async function ExploreDetailPage({ params }: Props) {
 
           <hr className="divider" />
 
+      <section
+        className={styles.traditionBoundary}
+        aria-labelledby="tradition-boundary-heading"
+        data-tradition-boundary
+      >
+        <div>
+          <h2 id="tradition-boundary-heading">Related Foundation archetypes</h2>
+          <p>
+            Two Foundation readings draw on this tradition, one for each
+            posture. Reading about the tradition does not replace the archetype resolved from a full score.
+          </p>
+        </div>
+        <div className={styles.traditionArchetypes}>
+          {postureArchetypes.map((archetype) => (
+            <Link
+              href={getArchetypePath(archetype.code)}
+              key={archetype.code}
+              data-tradition-archetype={archetype.code}
+            >
+              <span className={styles.traditionCode} data-archetype-code-label>
+                <span aria-hidden="true">
+                  {formatArchetypeDisplayCode(archetype.code)}
+                </span>
+                <span className="sr-only">
+                  {formatArchetypeCodeSpeech(archetype.code)}
+                </span>
+              </span>
+              <span className={styles.traditionArchetypeCopy}>
+                <strong>{archetype.name}</strong>
+                <small>
+                  {archetype.posture === "+" ? "Applying advantage" : "Restraint"}
+                </small>
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
           {/* Quiz coverage */}
           <section id="quiz-coverage" className="article-section stack-sm">
             <h2>How the Foundation models it</h2>

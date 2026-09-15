@@ -1,5 +1,7 @@
 "use client"
 
+import { ResultReveal } from "@/components/results/result-reveal"
+
 import Link from "next/link"
 import { WorkedApplication } from "@/components/results/worked-application"
 import type { CSSProperties, ReactNode } from "react"
@@ -250,7 +252,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       className={styles.story}
       data-foundation-result-story
     >
-      <header className={styles.frontispiece} aria-labelledby="foundation-result-heading">
+      <ResultReveal domain="foundation" payload={props.payload}><header className={styles.frontispiece} aria-labelledby="foundation-result-heading">
         {markPrimaryCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={markPrimaryCode} />
           : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
         <h1 id="foundation-result-heading">{props.archetype.name}</h1>
@@ -258,7 +260,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
         <p className={styles.frontispieceLead}>{props.payoff.interpretation.summary}</p>
         <a href="#nearest" className="cta-primary print-hidden">Explore this reading</a>
         {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
-      </header>
+      </header></ResultReveal>
       <section className={styles.openingPayoff} aria-label="Immediate result payoff">
         <p className="result-scope">{heading.lead}</p>
         <WorkedApplication example={props.payoff.interpretation.example} />

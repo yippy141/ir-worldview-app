@@ -27,3 +27,17 @@ including its final newline.
 These generalized boundaries are used only as a low-zoom editorial basemap.
 Their inclusion, omission, or linework does not express a view on sovereignty
 or disputed status.
+
+## Root globe small-place supplement (16 September 2026)
+
+`world-small-places-110m.json` retains the point geometries, ISO alpha-3 codes
+and long names from Natural Earth's `ne_110m_admin_0_tiny_countries.geojson`
+at the same pinned upstream commit. Source:
+<https://raw.githubusercontent.com/nvkelso/natural-earth-vector/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_110m_admin_0_tiny_countries.geojson>.
+Only records with an ISO alpha-3 code are retained. The supplement includes
+both states and dependencies as identified by the source; inclusion is no
+sovereignty judgment. Its points are representative locations, not territorial
+boundaries or claims to exact centroids. Root scenes name the selected places;
+point area carries no statistical meaning. Neither file promises exhaustive
+territorial or island coverage. Geometry is reprojected and limb-clipped with
+d3-geo in both the still SVG and animated Canvas rendering.

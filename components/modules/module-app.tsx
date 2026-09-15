@@ -1,5 +1,8 @@
 "use client"
 
+import { DomainMark } from "@/components/results/domain-mark"
+import { markFreshResult } from "@/lib/results/fresh-foundation-result"
+
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -227,7 +230,7 @@ export function ModuleApp({
   if (!draftReady || !orderSeed) {
     return (
       <div className={styles.journey}>
-        <h1>{moduleDefinition.title}</h1>
+        <h1>{introOpen ? (slug === "security" ? "What should guide a security decision?" : "Who should control the technologies a country depends on?") : moduleDefinition.shortTitle}</h1>
         <p>{moduleDefinition.description}</p>
         <p>Enable JavaScript to answer questions or resume a draft on this device.</p>
         <Link href="/modules">Security and Technology</Link>
@@ -330,6 +333,7 @@ export function ModuleApp({
     const query = currentFoundationPayload ? `?foundation=${encodeURIComponent(currentFoundationPayload)}` : ""
     const resultPath = `/modules/${slug}/results/${payload}${query}`
     markProfileSaveIntent("module", resultPath)
+    markFreshResult(slug, payload)
     router.push(resultPath)
   }
 
@@ -413,7 +417,7 @@ export function ModuleApp({
   return (
     <div className={styles.journey}>
       <header className={styles.taskHeader}>
-        <h1 ref={moduleHeadingRef} tabIndex={-1} className={introOpen ? styles.introTitle : styles.taskTitle}>{moduleDefinition.title}</h1>
+        <h1 ref={moduleHeadingRef} tabIndex={-1} className={introOpen ? styles.introTitle : styles.taskTitle}>{introOpen ? (slug === "security" ? "What should guide a security decision?" : "Who should control the technologies a country depends on?") : moduleDefinition.shortTitle}</h1>
         {!introOpen ? (
           <>
             <div className={styles.taskControls}>
@@ -446,72 +450,29 @@ export function ModuleApp({
       <section id="module-introduction" className={`stack-md ${styles.introduction}`} aria-label="Introduction and scope">
         <div className="stack-sm">
           <p className="muted" style={{ lineHeight: "1.7", maxWidth: "760px" }}>
-            <strong>{moduleDefinition.subtitle}.</strong> {moduleDefinition.description}
+            {moduleDefinition.description}
           </p>
         </div>
 
-        <section className="module-linkage-strip" aria-label="Foundation linkage">
-          <div className="stack-xs">
-            <p className="module-linkage-kicker">Foundation linkage</p>
-            {currentFoundation ? (
-              <p className="module-linkage-title">
-                {currentFoundation.familyLabel}
-                {currentFoundation.source === "device" ? " on this device" : ""}
-              </p>
-            ) : (
-              <p className="module-linkage-title">No saved Foundation baseline yet</p>
-            )}
-            <p className="module-linkage-text">
-              {currentFoundation
-                ? `${currentFoundation.strategyModifier} · ${currentFoundation.normativeModifier}`
-                : "This module can be completed independently and saved beside a later Foundation."}
-            </p>
-          </div>
-          <p className="module-linkage-strip-text">
-            This module records a separate {moduleDefinition.shortTitle.toLowerCase()} read across
-            {" "}
-            {moduleDefinition.lanes.map((lane) => lane.label).join(", ")}. A linked Foundation is
-            kept for provenance and navigation; its dimensions and archetype remain unchanged.
-          </p>
-        </section>
-
-        <div className="stack-sm">
-          <div className="stack-xs">
-            <p className="eyebrow">Mode</p>
-            <p className="muted" style={{ lineHeight: "1.65", maxWidth: "760px" }}>
-              Standard uses {standardQuestionCount} questions. Advanced adds{" "}
-              {usesPerspectiveBankExperience ? (
-                <>
-                  {analystAdditionCount} additional cases, for {analystQuestionCount} in total.
-                  Choose one main answer in either mode; in Advanced, optionally mark one
-                  second-most persuasive choice.
-                </>
-              ) : (
-                <>
-                  {analystAdditionCount} cases and actor-position questions, for{" "}
-                  {analystQuestionCount} in total. In either mode, choose one main answer per case
-                  and add a backup only when another option genuinely fits.
-                </>
-              )}
-            </p>
-          </div>
-          <div className="module-mode-grid">
-            <ModeCard
-              selected={mode === "standard"}
-              badge="S"
-              title="Standard"
-              description={`${standardQuestionCount} questions · ${moduleDefinition.timeEstimate.standard}`}
-              onClick={() => handleModeChange("standard")}
-            />
-            <ModeCard
-              selected={mode === "analyst"}
-              badge="A"
-              title="Advanced"
-              description={`${analystQuestionCount} questions · ${moduleDefinition.timeEstimate.analyst}`}
-              onClick={() => handleModeChange("analyst")}
-            />
+        <div className="entrance-actions">
+          <button type="button" className="primary-button" onClick={closeIntroduction}>
+            {stage === "review" ? "Return to review" : completedCount > 0 ? "Continue questions" : "Start questions"}
+          </button>
+          <label className={styles.modeControl}>Mode <select value={mode} onChange={event => handleModeChange(event.target.value as QuizMode)}>
+            <option value="standard">Standard · {standardQuestionCount} cases</option>
+            <option value="analyst">Advanced · {analystQuestionCount} cases</option>
+          </select></label>
+        </div>
+        <p className="muted">{questions.length} cases · estimated {moduleDefinition.timeEstimate[mode]}. Advanced adds {analystAdditionCount} cases. Choose one main answer; where available, you can add a second choice.</p>
+        <div className="entrance-example">
+          <DomainMark domain={slug} compact />
+          <div><h2>An illustrated decision</h2>
+            <p>{slug === "security" ? "An ally asks for a standing deployment. One reading puts the credibility of a joint commitment first; another asks how the deployment affects the risk of escalation." : "A government considers a sovereign cloud. One reading puts national control first; another asks whether shared infrastructure would give researchers more usable capacity."}</p>
+            <p className="muted">Illustrative reasoning. Your result uses your choices across the cases.</p>
           </div>
         </div>
+        <p className="entrance-reading">Read <Link href="/explore/atlas">Decision Patterns</Link>, or try <Link href={slug === "security" ? "/decisions/who-gets-to-verify" : "/decisions/who-gets-access"}>{slug === "security" ? "Who gets to verify?" : "Who gets access?"}</Link>.</p>
+        {currentFoundation && <p className="muted">Linked Foundation: <Link href={`/results/${currentFoundationPayload}`}>{currentFoundation.familyLabel}</Link>. This questionnaire gives its own result.</p>}
 
         <details className="profile-details module-scope-details">
           <summary>Scope, lanes, and how to read the cases</summary>
@@ -567,20 +528,6 @@ export function ModuleApp({
           </p>
         </details>
 
-        <div className="stack-xs">
-          <div className="progress-meta">
-            <span>{completedCount} of {questions.length} answered</span>
-            <span>{progress}%</span>
-          </div>
-          <div className="progress-bar" aria-hidden="true">
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-        </div>
-        <div>
-          <button type="button" className="primary-button" onClick={closeIntroduction}>
-            {stage === "review" ? "Return to review" : completedCount > 0 ? "Continue questions" : "Start questions"}
-          </button>
-        </div>
       </section>
       ) : null}
 
@@ -812,35 +759,6 @@ export function ModuleApp({
         </p>
       </footer>
     </div>
-  )
-}
-
-function ModeCard({
-  selected,
-  badge,
-  title,
-  description,
-  onClick,
-}: {
-  selected: boolean
-  badge: string
-  title: string
-  description: string
-  onClick: () => void
-}) {
-  return (
-    <button
-      type="button"
-      className={selected ? "option-card selected" : "option-card"}
-      onClick={onClick}
-      aria-pressed={selected}
-    >
-      <span className="option-badge">{badge}</span>
-      <span className="option-card-content">
-        <span className="option-card-title">{title}</span>
-        <span className="option-card-text">{description}</span>
-      </span>
-    </button>
   )
 }
 

@@ -36,7 +36,7 @@ for(const f of fixtures)test(`${f.locale} copy ${f.version}: actual clarificatio
  await writeDraft(page,current?undefined:known,current?{}:{df1:5})
  await page.goto(url(f.locale,`/quiz?q=${index}&from=review`));await openHelp(page,f)
  expect(await binding(page)).toEqual(known)
- if(current){const dir=process.env.DF1_EVIDENCE_DIR??'docs/evidence/df1-constant-threat-copy/screenshots';mkdirSync(dir,{recursive:true});await page.locator('.quiz-question-frame').scrollIntoViewIfNeeded();await page.screenshot({path:`${dir}/${f.locale}-copy-${f.version}-clarification.png`})}
+ if(current){const dir=process.env.DF1_EVIDENCE_DIR??'test-results/df1-copy';mkdirSync(dir,{recursive:true});await page.locator('.quiz-question-frame').scrollIntoViewIfNeeded();await page.screenshot({path:`${dir}/${f.locale}-copy-${f.version}-clarification.png`})}
  await page.locator('.likert-grid button').nth(5).click()
  await expect.poll(()=>page.evaluate(key=>JSON.parse(localStorage.getItem(key)!).answers.df1,QUIZ_STORAGE_KEY)).toBe(6)
  await page.goto('/privacy')

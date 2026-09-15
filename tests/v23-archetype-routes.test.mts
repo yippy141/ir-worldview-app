@@ -78,7 +78,7 @@ test("all eight detail routes retain legacy paths and expose qualified partial c
   assert.match(detailSource, /Why this comparison fits/)
   assert.match(detailSource, /Where the comparison breaks/)
   assert.match(detailSource, /A note on the name/)
-  assert.match(detailSource, /Provisional source/)
+  assert.match(detailSource, /evidence\.qualification/)
   assert.match(
     detailSource,
     /Automated checks are[\s\S]*not editorial, expert, or methodological validation/,
@@ -108,7 +108,6 @@ test("all eight detail routes retain legacy paths and expose qualified partial c
   assert.match(detailSource, /cultural classification/)
   assert.match(detailSource, /endorsement/)
   assert.match(detailSource, /visible code and name carry the meaning/)
-  assert.match(detailSource, /not another[\s\S]*Foundation result/)
   assert.match(detailSource, /formatArchetypeDisplayCode\(identity\.code\)/)
   assert.match(detailSource, /formatArchetypeCodeSpeech\(identity\.code\)/)
   assert.match(detailSource, /traditionNounLabel\(identity\.familyKey\)/)
