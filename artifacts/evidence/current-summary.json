@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1102,
-      "newCount": 700,
+      "currentCount": 1101,
+      "newCount": 699,
       "newFindings": [
         {
           "audience": "public",
@@ -1468,16 +1468,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:components/results/foundation-result-story.tsx#lead",
-          "count": 1,
-          "file": "components/results/foundation-result-story.tsx",
-          "fingerprint": "3316a2881f71c8b522bda0a2475471dc9c172f67024d45b9eb04d8d64d10cb28",
-          "matched": "your answers on",
-          "rule": "repeated-adjacent-opening",
-          "source": "Your answers on ... did most of the work: there they counted for ... more than for ... . ..."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/narrative/profile.ts#buildModuleChangeText",
           "count": 1,
           "file": "lib/narrative/profile.ts",
@@ -1565,16 +1555,6 @@
           "matched": "robustness",
           "rule": "retired-house-words",
           "source": "A high-level intergovernmental baseline for trustworthy AI, rights, robustness, and accountability."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/ai-governance-field-guide-content.ts#aiFieldGuideWorkedReadings.4.reading",
-          "count": 1,
-          "file": "lib/ai-governance-field-guide-content.ts",
-          "fingerprint": "35643cddf66db745ab7e4c41ed17db00897fe9637804b40d2b6b066efa5a24e3",
-          "matched": "Screening staff, budget, and wait times are fixed / If the evaluation capacity is missing, the hosted service is the honest option, and building that capacity is the real decision",
-          "rule": "repeated-three-part-list",
-          "source": "Screening staff, budget, and wait times are fixed. A scheme the institute cannot staff will fail in practice whatever it promises on paper. If the evaluation capacity is missing, the hosted service is the honest option, and building that capacity is the real decision."
         },
         {
           "audience": "frozen",
@@ -6055,6 +6035,16 @@
           "matched": "applied here the",
           "rule": "repeated-adjacent-opening",
           "source": "Applied here, the geopolitical score does not decide whether partial verification is enough. Comparing the safety gained from delay with the advantage obtainable through evasion would expose the unresolved choice."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/results/foundation-contribution-copy.ts#buildFoundationContributionCopy.unavailableNote",
+          "count": 1,
+          "file": "lib/results/foundation-contribution-copy.ts",
+          "fingerprint": "dbc46d78d4a00d94be2cd1868f0ac2c5e6f9290de5fc6912da2e92fc05ce0703",
+          "matched": "the dimension-by-dimension terms",
+          "rule": "repeated-adjacent-opening",
+          "source": "The dimension-by-dimension terms are not available for this result."
         },
         {
           "audience": "public",
@@ -10927,7 +10917,7 @@
         "priority": "P1"
       },
       {
-        "count": 1102,
+        "count": 1101,
         "priority": "P2"
       }
     ]

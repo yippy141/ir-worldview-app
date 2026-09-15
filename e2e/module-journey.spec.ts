@@ -152,7 +152,7 @@ for (const slug of ["security", "technology"] as const) {
       await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? "{}").modules, PROFILE_STORAGE_KEY))
         .toMatchObject({ [slug]: { payload: encoded, scores: result.scores } })
       await page.getByRole("link", { name: "View Profile", exact: true }).click()
-      await expect(page.getByText("No Foundation read is saved", { exact: true })).toBeVisible()
+      await expect(page.getByText("No Foundation result is saved", { exact: true })).toBeVisible()
       const resultLink = page.getByRole("link", { name: `Open ${fixture.version.definition.shortTitle} result`, exact: true })
       await expect(resultLink).toHaveCount(1)
       await resultLink.click()

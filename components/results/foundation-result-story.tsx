@@ -14,6 +14,7 @@ import {
   type Archetype,
   type BlendArchetype,
 } from "@/lib/archetypes"
+import { buildFoundationContributionCopy } from "@/lib/results/foundation-contribution-copy"
 import type { FoundationContributionRow } from "@/lib/results/foundation-contributions"
 import type { FoundationPayoff } from "@/lib/results/foundation-payoff"
 import { buildFoundationResultHeading } from "@/lib/results/foundation-result-heading"
@@ -61,14 +62,6 @@ export type FoundationResultStoryProps = {
   utility: ReactNode
 }
 
-/** Contribution terms closer than this are reported as equal. */
-const CONTRIBUTION_TIE_EPSILON = 1e-6
-
-function joinLabels(labels: string[]): string {
-  if (labels.length <= 1) return labels[0] ?? ""
-  return `${labels.slice(0, -1).join(", ")} and ${labels[labels.length - 1]}`
-}
-
 export function FoundationResultStory(props: FoundationResultStoryProps) {
   const heading = buildFoundationResultHeading(props)
   const primaryCode = matrixCode(
@@ -112,44 +105,27 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       title: "What did the work",
       copy: (() => {
         // Personalized sentences depend on contributionRows (signedContribution
-        // per dimension, primary minus runner-up) and on lowDifferentiation.
-        // Nothing is asserted that those fields do not contain. A positive
-        // term means the answers on that dimension counted for the primary
-        // reading more than for the runner-up; it does not mean the reader
-        // endorsed every belief of that tradition.
-        const rows = props.contributionRows
-        if (props.legacy || rows.length === 0) {
+        // per dimension, primary minus runner-up), on legacy, and on
+        // lowDifferentiation. The builder asserts nothing those fields do not
+        // contain; see lib/results/foundation-contribution-copy.ts.
+        const copy = buildFoundationContributionCopy({
+          rows: props.contributionRows,
+          legacy: props.legacy,
+          lowDifferentiation: props.lowDifferentiation,
+          primaryLabel: props.primaryLabel,
+          runnerUpLabel: props.runnerUpLabel,
+          dimensionLabel: (dimension) => dimensionLabels[dimension],
+        })
+        if (copy.unavailableNote) {
           return (
             <>
-              <p>
-                This link predates the dimension-by-dimension comparison, so those
-                terms cannot be shown. The rows in chapter 01 still apply.
-              </p>
+              <p>{copy.lead}</p>
             </>
           )
         }
-        const maxContribution = Math.max(...rows.map((row) => row.signedContribution))
-        const minContribution = Math.min(...rows.map((row) => row.signedContribution))
-        const leading = rows.filter(
-          (row) => Math.abs(row.signedContribution - maxContribution) < CONTRIBUTION_TIE_EPSILON,
-        )
-        const low = rows.find((row) => row.signedContribution === minContribution) ?? rows[0]
-        const opposing = low.signedContribution < 0
-          ? ` On ${dimensionLabels[low.dimension]} they counted the other way; that is where ${props.runnerUpLabel} gets its support${props.lowDifferentiation ? ", and why it stayed close" : ""}.`
-          : ""
-        // No dimension counted for the primary reading. Since the primary
-        // reading still leads, the two rounded family scores are level and
-        // the order between them comes from the model's tie rule.
-        const lead = maxContribution <= 0
-          ? (minContribution < 0
-              ? `No dimension counted for ${props.primaryLabel} over ${props.runnerUpLabel}; after rounding, the two readings are level and the name is the tie-break.${opposing}`
-              : `Your positions sat at the midpoint on every dimension where ${props.primaryLabel} and ${props.runnerUpLabel} differ, so nothing pulled toward either. Read them as a tie.`)
-          : leading.length > 1
-            ? `Your answers on ${joinLabels(leading.map((row) => dimensionLabels[row.dimension]))} did most of the work, in equal measure: there they counted for ${props.primaryLabel} more than for ${props.runnerUpLabel}.${opposing}`
-            : `Your answers on ${dimensionLabels[leading[0].dimension]} did most of the work: there they counted for ${props.primaryLabel} more than for ${props.runnerUpLabel}.${opposing}`
         return (
           <>
-            <p>{lead}</p>
+            <p>{copy.lead}</p>
             <p>
               Each row shows how far one dimension pulled toward one reading or the other.
             </p>
@@ -168,7 +144,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
           rows={props.contributionRows}
           primaryLabel={props.primaryLabel}
           runnerUpLabel={props.runnerUpLabel}
-          unavailable={props.legacy}
+          unavailable={props.legacy ? "legacy" : props.contributionRows.length === 0 ? "unavailable" : null}
         />
       ),
     },
@@ -378,13 +354,20 @@ function ContributionView({
   rows: FoundationContributionRow[]
   primaryLabel: string
   runnerUpLabel: string
-  unavailable: boolean
+  unavailable: "legacy" | "unavailable" | null
 }) {
-  if (unavailable) {
+  if (unavailable === "legacy") {
     return (
       <p className={styles.visualNote} data-contribution-status="legacy-unavailable">
         The dimension-by-dimension terms cannot be shown for this link. The
         rows in chapter 01 still apply.
+      </p>
+    )
+  }
+  if (unavailable === "unavailable") {
+    return (
+      <p className={styles.visualNote} data-contribution-status="unavailable">
+        The dimension-by-dimension terms are not available for this result.
       </p>
     )
   }

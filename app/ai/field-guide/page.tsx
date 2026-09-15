@@ -48,7 +48,7 @@ export default function AiFieldGuidePage() {
             Six approaches to governing powerful AI answer the same question differently:
             who may inspect a model, release it, restrict it, or stop it. This guide works
             one decision through all six and sets out where each would put those powers.
-            It ends with what the questionnaire cannot see.
+            It ends with what the questionnaire leaves out.
           </p>
           <div className="row gap-sm wrap">
             <AiResultReturnLink />
@@ -88,8 +88,9 @@ export default function AiFieldGuidePage() {
                   <Link href={aiFieldGuideWorkedDecision.exerciseHref}>
                     {aiFieldGuideWorkedDecision.exerciseTitle}
                   </Link>
-                  . {aiFieldGuideWorkedDecision.situation} Each approach reaches for a
-                  different first question, and the first question does most of the deciding.
+                  . {aiFieldGuideWorkedDecision.situation} Each approach starts from a
+                  different question. More than one can end up backing the same option, for
+                  different reasons.
                 </p>
               </header>
               <div className="ai-fg-perspective-grid">
@@ -153,8 +154,8 @@ export default function AiFieldGuidePage() {
               <header className="ai-fg-section__head">
                 <h2 className="ai-fg-section__title">Where nearby approaches part ways</h2>
                 <p className="ai-fg-section__deck">
-                  Four pairs agree on most of the questionnaire and split on one point. The
-                  split is the argument worth having.
+                  The same proposal can appeal to two approaches for different reasons. These
+                  comparisons show where those reasons diverge.
                 </p>
               </header>
               <div className="ai-fg-perspective-grid">
@@ -182,10 +183,10 @@ export default function AiFieldGuidePage() {
               <header className="ai-fg-section__head">
                 <h2 className="ai-fg-section__title">The axes behind a result</h2>
                 <p className="ai-fg-section__deck">
-                  The questionnaire places you on these axes. Each runs between two poles, and
-                  either end is a position. Your result is the approach whose positions lie
-                  nearest yours. It says nothing about technical expertise, and nothing about
-                  whether the institutions you favor can be built in time.
+                  Your answers give positions on these axes. Each runs between two poles, and
+                  either end is a position. Each approach weights those positions differently,
+                  and the comparison decides which result leads. It says nothing about technical
+                  expertise, or about whether the institutions you favor can be built in time.
                 </p>
               </header>
               <ol className="ai-fg-axes">

@@ -30,55 +30,55 @@ export type AiUnderModeledPerspective = {
 
 /**
  * The worked decision is the published "Who gets access?" exercise
- * (lib/decision-exercises/catalog.ts): the fictional Larch Research Institute
- * chooses between publishing model weights, admitting qualified outside
- * evaluators to a secure enclave, and a monitored hosted service. Each reading
- * is an authored illustration of that approach's first question. Nothing here
- * is scored, and no reading is attached to the reader.
+ * (lib/decision-exercises/catalog.ts, access episode). The situation restates
+ * the episode's fixed assumptions, its three options and both admission
+ * arrangements. Each reading is an authored interpretation of how one approach
+ * would argue the decision; more than one may favor the same option. Nothing
+ * here is scored, and no reading is attached to the reader.
  */
 export const aiFieldGuideWorkedDecision = {
   exerciseHref: "/decisions/who-gets-access",
   exerciseTitle: "Who gets access?",
   situation:
-    "The fictional Larch Research Institute holds a model that improves software research and can assist offensive cyber work. Its own tests show useful assistance and no autonomous attacks. It must choose access for the next three months: publish the weights, admit qualified outside evaluators to a secure enclave with the weights kept inside, or run a monitored hosted service and keep evaluation in house.",
+    "The fictional Larch Research Institute must decide how to provide access to a capable model for the next three months. Its internal tests show useful software and cyber assistance but do not establish autonomous attacks, and no misuse has been observed outside testing. The options are downloadable weights, qualified external evaluation in a secure enclave, or a hosted service with deeper evaluation kept inside Larch. In the enclave, an independent panel admits qualified teams and Larch cannot veto a qualified applicant; a revised arrangement gives Larch the final veto. Staffing, screening criteria, wait times and publication rights stay the same under both.",
 } as const
 
 export const aiFieldGuideWorkedReadings: AiFieldGuideWorkedReading[] = [
   {
     key: "precautionarySteward",
-    firstQuestion: "What can the model do?",
+    firstQuestion: "What would wider release enable?",
     reading:
-      "The cyber-assistance finding puts the burden on release to prove itself. The enclave keeps outside testing possible and a pause available if the picture worsens. Published weights cannot be recalled, and for this approach that settles it.",
+      "The model's cyber assistance raises the question of what wider release would enable. An enclave lets outside teams investigate while the downloadable weights stay inside Larch. The argument then asks what further evidence would justify giving up the ability to recall copies. Irreversibility alone does not answer every release question.",
   },
   {
     key: "strategicCompetitor",
-    firstQuestion: "Who else gains?",
+    firstQuestion: "Who else gains access?",
     reading:
-      "Published weights hand the capability to rivals and to anyone building on it. The hosted service or the enclave keeps the edge and the chokepoint. The enclave is acceptable only if screening keeps adversarial teams out, and the three-month window is a reason to decide fast, before the capability is matched elsewhere.",
+      "Hosted access and enclave evaluation both keep the model's copies under Larch's control. Wider release could also help other actors develop the capability. So this argument weighs the value of outside scrutiny against access by teams whose strategic interests conflict with Larch's. The three-month period is a horizon for the decision, not evidence of when a rival will catch up.",
   },
   {
     key: "coordinationArchitect",
-    firstQuestion: "Which choice could other labs and states adopt as a rule?",
+    firstQuestion: "Could other institutes adopt the same rule?",
     reading:
-      "An enclave run under published criteria, with findings that travel, can be copied across borders. A lone decision to publish or withhold sets no standard. This approach wants the independent admission panel, because a rule the developer can veto is not a rule.",
+      "Under the original arrangement an independent panel applies an admission rule that Larch cannot override. A coordination argument asks whether other institutes could adopt comparable criteria and recognize the evaluations that result. The developer veto moves final discretion to Larch. The arrangement still has rules; what changes is who decides the hard cases and whether an excluded applicant can contest the decision.",
   },
   {
     key: "democraticGuardrailist",
-    firstQuestion: "Who can hold Larch to account?",
+    firstQuestion: "Who can be held to account?",
     reading:
-      "The enclave is worth having only if evaluators can publish criticism Larch cannot veto. The hosted service leaves the public dependent on the developer's word. The capability ceiling matters less here than whether an outside body has standing to say no.",
+      "Evaluators keep the right to publish criticism under both enclave arrangements. Accountability also depends on who gains access and who can contest an exclusion. This argument asks who appoints and oversees the admission authority. Independence from Larch does not by itself make the panel publicly accountable.",
   },
   {
     key: "stateCapacityBuilder",
-    firstQuestion: "Who could run the enclave?",
+    firstQuestion: "Can the responsible bodies do the work?",
     reading:
-      "Screening staff, budget, and wait times are fixed. A scheme the institute cannot staff will fail in practice whatever it promises on paper. If the evaluation capacity is missing, the hosted service is the honest option, and building that capacity is the real decision.",
+      "Screening applicants and supporting their investigations takes staff and money, and in this exercise both stay fixed. The argument asks whether the responsible bodies can perform the work they authorize, and who covers a shortfall if they cannot. It wants that answer before it treats hosted access as the only workable arrangement.",
   },
   {
     key: "openEcosystemBuilder",
-    firstQuestion: "Who is shut out?",
+    firstQuestion: "Who is left outside the qualified group?",
     reading:
-      "The enclave and the hosted service both make Larch the gatekeeper of what can be studied. Publishing the weights lets researchers outside the screened circle reproduce and contest the findings. The misuse evidence is a reason for wider scrutiny, and this approach doubts that scrutiny can be delegated to a gatekeeper.",
+      "Downloadable weights let researchers outside the qualified group reproduce and modify the model. The enclave limits who takes part even when an independent panel decides admission. This argument weighs broader investigation against copies Larch cannot revoke. Support for independent scrutiny does not by itself settle whether unrestricted release is justified.",
   },
 ]
 
@@ -99,14 +99,14 @@ export const aiFieldGuidePowerRows: AiFieldGuidePowerRow[] = [
     inspectAndRelease:
       "National security agencies and the state's own technical staff. Release follows what keeps a capability edge under rivalry.",
     restrictAndStop:
-      "Export controls and limits on diffusion to rivals. A stop counts only if it survives competitive pressure, so a unilateral pause is suspect.",
+      "Export controls and limits on diffusion to rivals. A pause by one lab or state does not show that rivals will pause too, so this approach asks what the edge costs while they do not.",
   },
   {
     key: "coordinationArchitect",
     inspectAndRelease:
       "Shared verification and evaluation frameworks that cross borders. Release under rules that travel between firms and states.",
     restrictAndStop:
-      "Common standards and incident mechanisms agreed across rival blocs. A stop by one state or one lab sets no rule.",
+      "Common standards and incident mechanisms agreed across rival blocs. A stop by one state or one lab does not by itself create a shared rule that others recognize.",
   },
   {
     key: "democraticGuardrailist",
@@ -120,7 +120,7 @@ export const aiFieldGuidePowerRows: AiFieldGuidePowerRow[] = [
     inspectAndRelease:
       "Staffed regulators with audit, reporting, and procurement powers. Release depends on whether the state can supervise what it approves.",
     restrictAndStop:
-      "The same bodies, where they exist. Where the state cannot enforce, a paper restriction restricts no one.",
+      "The same bodies, where they exist. A restriction the state cannot enforce has an uncertain effect, and this approach asks who would carry it out before counting on it.",
   },
   {
     key: "openEcosystemBuilder",
@@ -148,7 +148,7 @@ export const aiFieldGuideDisagreements: AiFieldGuideDisagreement[] = [
     sharedGround:
       "Both treat AI governance as a problem for states, and both distrust rules that exist only on paper.",
     argument:
-      "The Competitor asks what keeps a capability edge under rivalry and reads institutions as instruments of that contest. The Capacity Builder asks who can supervise, procure, and verify in practice, and reads the edge as worthless to a state that has become a customer of the firms it should govern.",
+      "The Competitor asks what keeps a capability edge under rivalry and reads institutions as instruments of that contest. The Capacity Builder asks who can supervise, procure, and verify in practice, and what an edge is worth to a state that depends on the firms it is supposed to govern.",
   },
   {
     id: "concentration",
@@ -157,7 +157,7 @@ export const aiFieldGuideDisagreements: AiFieldGuideDisagreement[] = [
     sharedGround:
       "Both worry that frontier capability is concentrating in a few labs and a few states.",
     argument:
-      "The Ecosystem Builder answers with access: put models and tools in more hands, so no gatekeeper decides what can be studied or built. The Architect answers with rules: cross-border standards and verification that outlast any one lab's advantage. Each sees the other's cure as the disease. Open weights defeat verification; shared rules can become a club of the already powerful.",
+      "The Ecosystem Builder answers with access: put models and tools in more hands, so no gatekeeper decides what can be studied or built. The Architect answers with rules: cross-border standards and verification that outlast any one lab's advantage. Each sees a cost in the other's cure. Wider reproducibility comes with copies that nobody can restrict afterward, and shared rules can harden into a club of the already powerful.",
   },
   {
     id: "legitimacy",
@@ -166,7 +166,7 @@ export const aiFieldGuideDisagreements: AiFieldGuideDisagreement[] = [
     sharedGround:
       "Both want enforceable rules and distrust voluntary self-governance by labs.",
     argument:
-      "The Architect looks outward: legitimacy comes from standards and verification that rival states accept. The Guardrailist looks inward: legitimacy comes from domestic institutions the public can hold to account. When a multilateral body and a national legislature disagree about a model, the two take opposite sides.",
+      "The Architect looks outward: legitimacy comes from standards and verification that rival states accept. The Guardrailist looks inward: legitimacy comes from domestic institutions the public can hold to account. They may back the same rule for a model. They part over what makes it legitimate, a standard agreed among states or a decision a domestic public can contest.",
   },
 ]
 
@@ -185,7 +185,7 @@ export const aiUnderModeledPerspectives: AiUnderModeledPerspective[] = [
     id: "surveillance-platform-power",
     title: "Surveillance and platform power",
     whyItMatters:
-      "AI systems deepen monitoring, prediction, and behavioral control by firms and states long before any frontier-risk question arises.",
+      "AI systems can deepen monitoring, prediction, and behavioral control by firms and states long before any frontier-risk question arises.",
     currentCoverage:
       "The questions cover oversight and legitimacy. They do not treat surveillance, policing, or platform governance as traditions with their own answers.",
     readingQuestion:

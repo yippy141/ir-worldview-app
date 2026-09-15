@@ -403,7 +403,7 @@ Realism is a family of arguments, and the family quarrels. Offensive realists ho
       {
         title: "Perception and Misperception in International Politics",
         author: "Robert Jervis",
-        note: "The essential treatment of the security dilemma and of bias in strategic judgment. Shows how defensive intentions get read as offensive, and how the spiral follows.",
+        note: "The essential treatment of the security dilemma and of bias in strategic judgment. Shows how defensive intentions can be read as offensive, and under what conditions a spiral follows.",
       },
       {
         title: "The Origins of Alliances",
@@ -457,13 +457,13 @@ Realism is a family of arguments, and the family quarrels. Offensive realists ho
     familyKey: "institutionalist",
     name: traditionNounLabel("institutionalist"),
     tagline: "Shared rules, monitoring, and repeated dealings can make cooperation last without a world government.",
-    summary: `Where realism sees anarchy as a trap, institutionalism sees a problem that can be managed. States cooperate less than they could, the argument runs, because they cannot see one another's intentions and cannot check whether the other side is keeping its word. Hostility is not the main obstacle; missing information is. Treaties, organizations, monitoring bodies, and dispute panels supply the information. They do not require trust, and they do not require a world government.
+    summary: `Where realism sees anarchy as a trap, institutionalism sees a problem that can be managed. States cooperate less than they could, the argument runs, because they cannot see one another's intentions and cannot check whether the other side is keeping its word. That problem can block cooperation even where neither side is hostile. Treaties, organizations, monitoring bodies, and dispute panels supply the missing information. They do not require trust, and they do not require a world government.
 
 The mechanism works on incentives over time. When violations are visible and reputations follow a state from one negotiation to the next, cheating today costs deals tomorrow. Governments that invest in institutions gain access to cooperation they could never sustain through one-off bargains.
 
 Liberal institutionalism also takes domestic politics seriously. A government negotiates with foreign counterparts and with its own constituencies at the same time, the two-level game. That is why states under similar external pressure can reach very different outcomes: regime type, parliaments, and interest groups decide what a government can bring to the table and what it can deliver afterward.`,
     coreClaims: [
-      "Cooperation fails for want of information. States cannot verify intentions or detect cheating, even when nobody is hostile.",
+      "Missing information can block cooperation on its own. States that cannot verify intentions or detect cheating may hold back even when nobody is hostile.",
       "Institutions lower the cost of reaching, carrying out, and enforcing agreements.",
       "Repeated dealings under rules lengthen time horizons. The gain from cheating once shrinks beside the cost of being shut out later.",
       "States can pursue absolute gains: both sides benefit from a deal even when one benefits more.",
@@ -643,7 +643,7 @@ Norms, on this view, do causal work of their own. The spread of human rights nor
       {
         name: "Critical constructivism",
         note:
-          "Distrusts the mainstream's scientific ambitions. Drawing on Frankfurt School critical theory, it asks how norms work, whose interests they serve, and how they can be contested and changed.",
+          "More skeptical of the mainstream's positivist leanings. Drawing on Frankfurt School critical theory, it asks how norms work, whose interests they serve, and how they can be contested and changed.",
       },
       {
         name: "Poststructuralism",

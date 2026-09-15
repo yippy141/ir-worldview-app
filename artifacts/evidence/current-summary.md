@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1102. Unchanged and suppressed: 402. New: 700. Resolved: 156.
+P2 advisory baseline: 558. Current: 1101. Unchanged and suppressed: 402. New: 699. Resolved: 156.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 132 |
-| P2 | 1102 |
+| P2 | 1101 |
 
 ### P0 and P1 findings
 
@@ -1301,7 +1301,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.9.prompt) | usually |
 | 1 | general-prevalence-language-review | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.7.prompt) | usually |
 | 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.9.advocates) | rather than |
-| 1 | repeated-adjacent-opening | public | components/results/foundation-result-story.tsx (content-key:components/results/foundation-result-story.tsx#lead) | your answers on |
 | 1 | retired-house-words | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildModuleChangeText) | sharpens |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.21.options.0.label) | Accepted cost: |
 | 1 | rather-than-reflex | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.58.options.3.label) | rather than |
@@ -1311,7 +1310,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.11.options.3.label) | Accepted cost: |
 | 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.3.label) | rather than |
 | 1 | retired-house-words | public | lib/ai-governance-reading-lists-v2.ts (content-key:lib/ai-governance-reading-lists-v2.ts#BASELINE.startHere.2.whyItMatters) | robustness |
-| 1 | repeated-three-part-list | public | lib/ai-governance-field-guide-content.ts (content-key:lib/ai-governance-field-guide-content.ts#aiFieldGuideWorkedReadings.4.reading) | Screening staff, budget, and wait times are fixed / If the evaluation capacity is missing, the hosted service is the honest option, and building that capacity is the real decision |
 | 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.23.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | weak-generic-heading | public | app/explore/reference/[id]/page.tsx (route:/explore/reference/[id]#ProfileDetail.h3) | How it works |
 | 1 | retired-house-words | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.0.title) | durable |
@@ -1760,6 +1758,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.8.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | rather-than-reflex | public | content/archetypes.json (content-key:content/archetypes.json#records.1.content.historicalAnalogue.nameNote.value.text) | rather than |
 | 1 | repeated-adjacent-opening | public | lib/results/ai-interpretation.ts (content-key:lib/results/ai-interpretation.ts#interpretAiPositions.example.application) | applied here the |
+| 1 | repeated-adjacent-opening | public | lib/results/foundation-contribution-copy.ts (content-key:lib/results/foundation-contribution-copy.ts#buildFoundationContributionCopy.unavailableNote) | the dimension-by-dimension terms |
 | 1 | retired-house-words | public | content/archetypes.json (content-key:content/archetypes.json#records.6.content.strongestCaseForReading.value.text) | sharpens |
 | 1 | retired-house-words | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.6.prompt) | landscape |
 | 1 | retired-house-words | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.18.clarification.whatItAsks) | durable |
