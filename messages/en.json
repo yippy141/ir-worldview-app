@@ -33,7 +33,13 @@
       "archetypes": "Foundation archetypes",
       "security": "Security",
       "technology": "Technology",
-      "about": "About"
+      "about": "About",
+      "menu": "Main menu",
+      "questionnaires": "Questionnaires",
+      "casesExercises": "Cases and exercises",
+      "yourWorldview": "Your worldview",
+      "futurePreferences": "Answer preferences",
+      "futureCompare": "Compare possible worlds"
     }
   },
   "language": {

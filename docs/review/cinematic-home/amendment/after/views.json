@@ -1,0 +1,59 @@
+{
+  "task": "views",
+  "manifest": [
+    {
+      "domain": "foundation",
+      "width": 390,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "ai",
+      "width": 390,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "security",
+      "width": 390,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "technology",
+      "width": 390,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "foundation",
+      "width": 1440,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "ai",
+      "width": 1440,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "security",
+      "width": 1440,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    },
+    {
+      "domain": "technology",
+      "width": 1440,
+      "evidenceVisibleWithoutOpening": true,
+      "overflow": false
+    }
+  ],
+  "blocked": [
+    "POST /api/aggregate/result",
+    "POST /api/analytics/event",
+    "POST /api/aggregate/result",
+    "POST /api/analytics/event"
+  ]
+}

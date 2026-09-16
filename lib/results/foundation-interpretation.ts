@@ -20,7 +20,9 @@ export function buildFoundationInterpretation(scores: DimensionScores): ResultIn
   const explanatory: DimensionKey[] = ["securityCompetition", "institutions", "domesticFilters", "normsIdentity", "politicalEconomy"]
   const first = [...explanatory].sort((a, b) => Math.abs(scores[b] - 4) - Math.abs(scores[a] - 4))[0]
   const posture = foundationAxisReading("restraint", scores.restraint)
-  const summary = `${foundationAxisReading(first, scores[first])} ${posture} ${foundationAxisReading("orderJustice", scores.orderJustice)}`
+  const summary = first === "domesticFilters" && positionBand(scores.domesticFilters) === "high" && positionBand(scores.restraint) === "middle" && positionBand(scores.orderJustice) === "middle"
+    ? "You give domestic politics an important role in foreign policy. Parties, interest groups and political institutions help explain why governments facing similar pressures can make different choices.\n\nThe summary scores do not settle how far you would press an advantage, or when justice should take priority over sovereignty and established rules. Those questions need a more specific case."
+    : `${foundationAxisReading(first, scores[first])} ${posture} ${foundationAxisReading("orderJustice", scores.orderJustice)}`
   const high = positionBand(scores[first]) === "high"
   const lenses: Record<string, { application: string; rival: string }> = {
     securityCompetition: high

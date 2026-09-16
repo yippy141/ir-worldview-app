@@ -90,11 +90,11 @@ test("public entry points match reviewed Current Case availability", async ({ pa
   expect(record).not.toBeNull()
   if (!record) return
 
-  await page.goto("/")
+  await page.goto("/#menu")
   await expect(page.getByRole("navigation", { name: "Primary destinations" })).toBeVisible()
   await expect(page.getByRole("link", { name: "Library", exact: true })).toBeVisible()
   await expect(page.locator("[data-root-globe]"))
-    .toHaveAttribute("data-scene", "eu-nato")
+    .toHaveAttribute("data-scene", "atlantic-pacific")
   await expect(page.locator("canvas.mapboxgl-canvas")).toHaveCount(0)
 
   await page.goto("/world-stage")
@@ -122,7 +122,7 @@ test("public entry points match reviewed Current Case availability", async ({ pa
 })
 
 test("the root project index opens Foundation and a draft resumes after reload", async ({ page }) => {
-  await page.goto("/")
+  await page.goto("/#menu")
 
   const stageNav = page.getByRole("navigation", { name: "Primary destinations" })
   await stageNav.getByRole("link", { name: "Foundation", exact:true }).click()
@@ -311,7 +311,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
 test("legacy Profiles preserve saved results without inventing a Foundation identity", async ({
   page,
 }) => {
-  await page.goto("/")
+  await page.goto("/#menu")
 
   for (const fixture of [
     {
@@ -1053,7 +1053,8 @@ test.describe("390px viewport", () => {
 
     await page.getByRole("link", { name: "IR Worldview Inventory home", exact: true }).click()
     await page.getByRole("navigation", { name: "Primary destinations" }).getByRole("link", { name: "Foundation", exact:true }).click()
-    await expect(page.getByRole("heading", { name: "Foundation", exact: true })).toBeVisible()
+    await expect(page).toHaveURL(/\/quiz$/)
+    await expect(page.locator(".quiz-question-frame")).toBeVisible()
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1),
     ).toBe(true)

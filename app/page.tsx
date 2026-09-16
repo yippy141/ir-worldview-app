@@ -9,7 +9,7 @@ import { siteConfig } from "@/lib/site-config"
 export const metadata: Metadata = createEnglishApprovedMetadata("/", {
   title: siteConfig.publicTitle,
   description:
-    "Map your foreign-policy judgments, test them in context, and explore the arguments behind the inventory.",
+    "Explore your views on international politics, technology and possible futures.",
 })
 
 export default function HomePage() {

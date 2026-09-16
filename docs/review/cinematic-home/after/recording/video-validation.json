@@ -1,0 +1,12 @@
+{
+  "duration": 127.88,
+  "width": 1440,
+  "height": 1000,
+  "decodedSampleSeconds": [
+    8,
+    65,
+    117,
+    126
+  ],
+  "frameExtraction": "Direct FFmpeg decoding to original-size PNGs; Playwright FFmpeg build 1011"
+}

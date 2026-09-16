@@ -27,9 +27,9 @@ export function AiCompletionEvidence({ payload }: { payload: string }) {
     <p>{pairRead}</p>
     <p>The competition axis combines separate propositions. Your submitted pair remains visible here; its average cannot substitute for either answer.</p>
     {geopolitical.map(row => <article className="result-axis-reading" key={row.id}><h3>{row.prompt}</h3><p>{row.selection}</p></article>)}
-    <details className="profile-details"><summary>All choices from this completion</summary><div className="result-details-body">
+    <h2>All choices from this completion</h2><div className="result-details-body">
       {evidence.observations.map(row => <article className="result-axis-reading" key={row.id}><h3>{row.prompt}</h3><p>{row.selection}</p>{row.secondary ? <p><strong>Recorded second choice. </strong>{row.secondary}</p> : null}</article>)}
       <p className="result-scope">Exact English wording from bank {evidence.bank}, scorer {evidence.scorer}, {evidence.mode} form. These details remain in page memory only and disappear on reload. Shared links contain scores, not these choices.</p>
-    </div></details>
+    </div>
   </section>
 }

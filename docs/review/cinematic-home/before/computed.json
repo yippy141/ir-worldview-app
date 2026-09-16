@@ -1,0 +1,70 @@
+[
+  {
+    "route": "/",
+    "styles": []
+  },
+  {
+    "route": "/explore/realism",
+    "styles": [
+      {
+        "class": "article-header stack-sm",
+        "x": 380,
+        "y": 174,
+        "width": 680,
+        "padding": "60px 0px 40px",
+        "margin": "0px 360px 48px",
+        "before": "radial-gradient(circle, color(srgb 0.807843 0.658824 0.341177 / 0.1) 0%, rgba(0, 0, 0, 0) 72%)"
+      },
+      {
+        "class": "atlas-body",
+        "x": 292,
+        "y": 436.1875,
+        "width": 902.546875,
+        "padding": "0px",
+        "margin": "0px",
+        "before": "none"
+      }
+    ]
+  },
+  {
+    "route": "/explore/institutionalism",
+    "styles": [
+      {
+        "class": "article-header stack-sm",
+        "x": 380,
+        "y": 174,
+        "width": 680,
+        "padding": "60px 0px 40px",
+        "margin": "0px 360px 48px",
+        "before": "radial-gradient(circle, color(srgb 0.807843 0.658824 0.341177 / 0.1) 0%, rgba(0, 0, 0, 0) 72%)"
+      },
+      {
+        "class": "atlas-body",
+        "x": 292,
+        "y": 436.1875,
+        "width": 902.546875,
+        "padding": "0px",
+        "margin": "0px",
+        "before": "none"
+      }
+    ]
+  },
+  {
+    "route": "/explore/reference/kenneth-waltz",
+    "styles": []
+  },
+  {
+    "route": "/ai/field-guide",
+    "styles": [
+      {
+        "class": "parent-link",
+        "x": 268.71875,
+        "y": 219,
+        "width": 98.765625,
+        "padding": "0px",
+        "margin": "20px 0px 0px",
+        "before": "none"
+      }
+    ]
+  }
+]

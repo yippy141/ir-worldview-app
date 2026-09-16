@@ -1,20 +1,17 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+// An established navy/brass editorial world. The globe is the opening artifact;
+// Enter reveals the grouped menu beside that same mounted, independently held view.
+import { useEffect, useMemo, useRef, useState } from "react"
+import { flushSync } from "react-dom"
 import { DestinationLink } from "@/components/layout/destination-link"
-import { NavigationDirectory } from "@/components/layout/navigation-directory"
-import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import type { RootCopy } from "@/content/root"
 import { Link } from "@/i18n/navigation"
 import type { Locale } from "@/i18n/routing"
-import {
-  DEFAULT_ROOT_DESTINATION_ID,
-  ROOT_DESTINATIONS,
-  type RootDestinationId,
-} from "@/lib/root/destinations"
+import { ROOT_DESTINATIONS } from "@/lib/root/destinations"
 import { readRootLocalStatus, type RootLocalStatus } from "@/lib/root/local-status"
-import type { GlobeScene } from "@/lib/root/globe-scenes"
+import type { AlignmentScene } from "@/lib/root/globe-types"
 import type { RootGlobeVisual } from "@/lib/root/orthographic"
 import styles from "./root-home.module.css"
 import { RootGlobe } from "./root-globe"
@@ -64,113 +61,119 @@ function localStatusText(copy: RootCopy, status: RootLocalStatus | null) {
   })
 }
 
-export function RootHome({
-  locale,
-  copy,
-  visual,
-  scenes,
-}: {
-  locale: Locale
-  copy: RootCopy
-  visual: RootGlobeVisual
-  scenes: GlobeScene[]
+const MENU_VISITED = "ir-worldview-menu-visited"
+export function RootHome({ locale, copy, visual, scenes }: {
+  locale: Locale; copy: RootCopy; visual: RootGlobeVisual; scenes: AlignmentScene[]
 }) {
-  const [selectedId, setSelectedId] = useState<RootDestinationId>(
-    DEFAULT_ROOT_DESTINATION_ID,
-  )
+  const [mode, setMode] = useState<"static" | "entrance" | "menu">("static")
   const [localStatus, setLocalStatus] = useState<RootLocalStatus | null>(null)
-  const selectedCopy = copy.destinationCopy[selectedId]
-  const statusText = useMemo(
-    () => localStatusText(copy, localStatus),
-    [copy, localStatus],
-  )
-
+  const menuHeading = useRef<HTMLHeadingElement>(null)
+  const globeRegion = useRef<HTMLDivElement>(null)
+  const menuLinks = useRef<HTMLElement>(null)
+  const enterLink = useRef<HTMLAnchorElement>(null)
+  const motion = useRef<Animation[]>([])
+  const finishMotion = () => { motion.current.forEach(animation => animation.cancel()); motion.current = [] }
+  const statusText = useMemo(() => localStatusText(copy, localStatus), [copy, localStatus])
   useEffect(() => {
-    const refresh = () => setLocalStatus(readRootLocalStatus(window.localStorage))
-    refresh()
-    window.addEventListener("storage", refresh)
-    window.addEventListener(QUIZ_SESSION_EVENT, refresh)
+    const refresh = () => {
+      try { setLocalStatus(readRootLocalStatus(window.localStorage)) } catch { /* Storage may be unavailable. */ }
+    }
+    const location = () => {
+      finishMotion()
+      let returning = false
+      try {
+        const status = readRootLocalStatus(window.localStorage)
+        returning = Boolean(sessionStorage.getItem(MENU_VISITED) || status.foundation || status.domains || status.perspectives || status.draft)
+      } catch { /* Hash navigation also works when storage is blocked. */ }
+      const hash = window.location.hash
+      setMode(hash === "#entrance" ? "entrance" : hash === "#menu" || hash === "#map-details" || returning ? "menu" : "entrance")
+    }
+    refresh(); location()
+    // The SSR menu has different geometry from the hydrated composition.
+    // Cancel its initial fragment scroll once; subsequent history scroll stays native.
+    const initialMenu = window.location.hash === "#menu"
+    const settleScroll = initialMenu ? requestAnimationFrame(() => window.scrollTo(0, 0)) : null
+    window.addEventListener("storage", refresh); window.addEventListener(QUIZ_SESSION_EVENT, refresh)
+    window.addEventListener("hashchange", location); window.addEventListener("popstate", location)
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)")
+    reduced.addEventListener("change", finishMotion)
+    window.addEventListener("resize", finishMotion); window.addEventListener("beforeprint", finishMotion); window.addEventListener("pagehide", finishMotion)
     return () => {
-      window.removeEventListener("storage", refresh)
-      window.removeEventListener(QUIZ_SESSION_EVENT, refresh)
+      finishMotion()
+      if (settleScroll !== null) cancelAnimationFrame(settleScroll)
+      window.removeEventListener("storage", refresh); window.removeEventListener(QUIZ_SESSION_EVENT, refresh)
+      window.removeEventListener("hashchange", location); window.removeEventListener("popstate", location)
+      reduced.removeEventListener("change", finishMotion)
+      window.removeEventListener("resize", finishMotion); window.removeEventListener("beforeprint", finishMotion); window.removeEventListener("pagehide", finishMotion)
     }
   }, [])
-
-  return (
-    <main className={styles.root} id="site-main" data-locale={locale}>
-      <NavAutoClose />
-      <header className={styles.header}>
-        <Link href="/" className={styles.brand} aria-label={copy.brandAriaLabel}>
-          {copy.brand}
-        </Link>
-        <div className={styles.utilityCluster}>
-          <nav className={styles.utilityNav} aria-label={locale === "zh-Hans" ? "网站信息" : "Site information"}>
-            {copy.utilityLinks.map((link) => (
-              <Link key={link.href} href={link.href} prefetch={false}>
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-          <details className="site-directory-disclosure">
-            <summary>{locale === "zh-Hans" ? "菜单" : "Menu"}</summary>
-            <div className="site-directory-panel"><NavigationDirectory language={false} /></div>
-          </details>
-          <LanguageSwitcher className={styles.languageControl} />
-        </div>
-      </header>
-
-      <div className={styles.composition} data-root-selected={selectedId}>
-        <section className={styles.menuRegion}>
-          <h1>{copy.heading}</h1>
-          <nav aria-label={copy.primaryNavigationLabel}>
-            <ol className={styles.menuList}>
-              {ROOT_DESTINATIONS.map((destination) => {
-                const destinationCopy = copy.destinationCopy[destination.id]
-                const selected = destination.id === selectedId
-                return (
-                  <li key={destination.id}>
-                    <Link
-                      href={destination.href}
-                      prefetch={false}
-                      className={styles.menuLink}
-                      data-root-destination={destination.id}
-                      data-selected={selected ? "true" : "false"}
-                      onFocus={() => setSelectedId(destination.id)}
-                      onPointerEnter={() => setSelectedId(destination.id)}
-                    >
-                      <span>{destinationCopy.label}</span>
-                      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                        <path d="M5 12h13M13 7l5 5-5 5" />
-                      </svg>
-                    </Link>
-                  </li>
-                )
-              })}
-            </ol>
-          </nav>
-        </section>
-
-        <section
-          className={styles.detailRegion}
-          data-root-detail-state={selectedId}
-          aria-labelledby="root-selected-destination"
-        >
-          <h2 id="root-selected-destination">{selectedCopy.label}</h2>
-          <p className={styles.explanation}>{selectedCopy.explanation}</p>
-          {selectedId === "inventory" && <div className={styles.secondaryLinks}>
-            <DestinationLink destination="security" className={styles.secondaryLink} />
-            <DestinationLink destination="technology" className={styles.secondaryLink} />
-            <DestinationLink destination="ai" className={styles.secondaryLink} />
-          </div>}
-          <div className={styles.secondaryLinks}><DestinationLink destination="futures" className={styles.secondaryLink} /></div>
-          <div className={styles.localState} data-root-returning={localStatus ? "resolved" : "pending"}>
-            <h3>{copy.localState.heading}</h3>
-            <p>{statusText}</p>
-          </div>
-        </section>
-
-        <RootGlobe visual={visual} scenes={scenes} chinese={locale === "zh-Hans"} />
+  const transition = (next: "menu" | "entrance") => {
+    const globe = globeRegion.current!
+    // Read the current visual position before cancelling an interrupted move.
+    const first = globe.getBoundingClientRect()
+    finishMotion()
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${next}`)
+    flushSync(() => setMode(next))
+    window.scrollTo(0, 0)
+    const last = globe.getBoundingClientRect()
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && globe.animate) {
+      if (matchMedia("(min-width: 901px)").matches) motion.current.push(globe.animate([
+        { transformOrigin: "top left", transform: `translate(${first.left - last.left}px, ${first.top - last.top}px) scale(${first.width / last.width})` },
+        { transformOrigin: "top left", transform: "none" },
+      ], { duration: 400, easing: "cubic-bezier(.22,1,.36,1)" }))
+      if (next === "menu" && menuLinks.current) motion.current.push(menuLinks.current.animate([{ opacity: .35 }, { opacity: 1 }], { duration: 180, easing: "ease-out" }))
+    }
+    ;(next === "menu" ? menuHeading.current : enterLink.current)?.focus({ preventScroll: true })
+  }
+  const enter = () => {
+    try { sessionStorage.setItem(MENU_VISITED, "true") } catch { /* Optional convenience only. */ }
+    // Replace the entrance entry so browser Back from a child returns to the menu.
+    transition("menu")
+  }
+  const explore = () => {
+    const details = document.getElementById("map-details") as HTMLDetailsElement | null
+    if (details) { details.open = true; details.querySelector("summary")?.focus(); details.scrollIntoView({ block: "nearest" }) }
+  }
+  return <main className={styles.root} id="site-main" data-locale={locale} data-root-mode={mode}>
+    <header className={styles.header}>
+      <h1><Link href="/#menu" className={styles.brand} aria-label={copy.brandAriaLabel}>{copy.brand}</Link></h1>
+      <div className={styles.utilityCluster}>
+        <nav className={styles.utilityNav} aria-label={locale === "zh-Hans" ? "网站信息" : "Site information"}>
+          {copy.utilityLinks.map(link => <Link key={link.href} href={link.href} prefetch={false}>{link.label}</Link>)}
+        </nav>
+        <LanguageSwitcher className={styles.languageControl} />
       </div>
-    </main>
-  )
+    </header>
+    <div className={styles.entrance}>
+      <p>{copy.introduction}</p>
+      <a ref={enterLink} href="#menu" className={styles.enter} onClick={event => {
+        if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+        event.preventDefault(); enter()
+      }}>{copy.enter}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
+    </div>
+    <div className={styles.composition}>
+      <div ref={globeRegion} className={styles.globeRegion}><RootGlobe visual={visual} scenes={scenes} chinese={locale === "zh-Hans"} /></div>
+      <section className={styles.menuRegion} id="menu" aria-labelledby="menu-heading">
+        <div className={styles.menuHeading}>
+          <h2 ref={menuHeading} tabIndex={-1} id="menu-heading">{copy.heading}</h2>
+          <a href="#map-details" onClick={explore}>{copy.map}</a>
+        </div>
+        <nav ref={menuLinks} aria-label={copy.primaryNavigationLabel} className={styles.groups} onFocusCapture={finishMotion}>
+          {ROOT_DESTINATIONS.map(group => <section key={group.id} className={styles.group} data-root-group={group.id}>
+            <h3>{copy.destinationCopy[group.id].label}</h3>
+            <p>{copy.destinationCopy[group.id].explanation}</p>
+            <ul>{group.children.map(id => <li key={id}><DestinationLink destination={id} className={styles.destination} /></li>)}</ul>
+            {group.id === "questionnaires" && <p className={styles.independent}>{copy.independent}</p>}
+          </section>)}
+        </nav>
+        <div className={styles.localState} data-root-returning={localStatus ? "resolved" : "pending"}>
+          <h3>{copy.localState.heading}</h3><p>{statusText}</p>
+        </div>
+        <a className={styles.returnOpening} href="#entrance" onClick={event => {
+          if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+          event.preventDefault(); transition("entrance")
+        }}>{locale === "zh-Hans" ? "回到开场" : "View the opening"}</a>
+      </section>
+    </div>
+  </main>
 }

@@ -65,7 +65,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | evidence-canonicalization | scripts/evidence-utils.mts | e80b75b95b56f68866077eb080c1347e75a128763c895802e2208cc4c80314b0 |
 | diagnostic | scripts/validate-instrument.mts | 7bf8bdfa3c8ddaedaf74064216208381e5ea8341ab083ab1f75f481ba8f5e1c8 |
 | diagnostic | scripts/validate-security-v4.mts | 47e00292fe4b1ab997a1a0de84ec8e4e9b33de2d421caa16a64ab83545ce2928 |
-| compatibility-test | tests/evidence-audit.test.mts | e4503c9722009deebc182d50a07ad964abc6b5502db50e48267a3c38318ecf61 |
+| compatibility-test | tests/evidence-audit.test.mts | d966f753e3cdeee3c85e8eebcda602f837f885fa71dfaf3fee61297d30ca60c4 |
 | compatibility-test | tests/evidence-instrument-analysis.test.mts | 4fb9f6c838346151da46795f344f83830f754519c97f54eecc3d299cc4175854 |
 | evidence-baseline | tests/fixtures/evidence-audit-baseline.json | 8b67333e76d53167c5e5708519a4efab4af1ac65816b01751f900baf463bb274 |
 | compatibility-test | tests/fixtures/instrument-version-golden.json | 444940da7418f398213ac7f8beb5e19ef802cf1f36488f2aac9ce35fc266c4f9 |
@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1102. Unchanged and suppressed: 399. New: 703. Resolved: 159.
+P2 advisory baseline: 558. Current: 1101. Unchanged and suppressed: 398. New: 703. Resolved: 160.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 131 |
-| P2 | 1102 |
+| P2 | 1101 |
 
 ### P0 and P1 findings
 
@@ -1018,7 +1018,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:473 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:497 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:578 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
-| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:303 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
+| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:302 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
 | P1 | product-self-narration | public | app/method/page.tsx:74 (route:/method#resultLayers.3.body) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:88 (route:/method#authoredChoices.2.heading) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:108 (route:/method#limitations.3.body) | kept separate |
@@ -1029,7 +1029,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | product-self-narration | public | components/ai/ai-project-bridge.tsx:120 (content-key:components/ai/ai-project-bridge.tsx#AiProjectBridge.p) | remain separate |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:856 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:963 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
-| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:489 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
+| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:481 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
 | P1 | product-self-narration | public | components/modules/module-result.tsx:269 (content-key:components/modules/module-result.tsx#ModuleResultView.p) | registered form |
 | P1 | product-self-narration | public | components/profile/current-judgments-section.tsx:43 (content-key:components/profile/current-judgments-section.tsx#CurrentJudgmentsSection.p) | stay separate |
 | P1 | product-self-narration | public | components/results/foundation-local-evidence.tsx:164 (content-key:components/results/foundation-local-evidence.tsx#enCopy.unavailable.tuple-mismatch) | tuple |
@@ -1627,7 +1627,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | retired-house-words | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#additionalTensionRules.1.text) | sharpens |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.1.label) | Accepted cost: |
 | 1 | retired-house-words | public | lib/ai-governance-scoring.ts (content-key:lib/ai-governance-scoring.ts#archetypeDescriptions.coordinationArchitect) | durable |
-| 1 | repeated-adjacent-three-part-list | public | app/ai/page.tsx (route:/ai#AiPage.h2) | Your own result names the approach, the rival, and the question your answers left open / Read the approaches, make a decision, or look further ahead |
 | 1 | rather-than-reflex | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildProbeNextText) | rather than |
 | 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.0.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.options.2.label) | Accepted cost: |
@@ -1728,6 +1727,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.7.objection) | rather than |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0) | 通常 |
 | 1 | retired-house-words | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.5.options.3.label) | durable |
+| 1 | repeated-adjacent-three-part-list | public | app/ai/page.tsx (route:/ai#AiPage.h2) | questions on compute, audits, and incident reporting / Read the approaches, make a decision, or look further ahead |
 | 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#MethodPage.p) | rather than |
 | 1 | retired-house-words | public | components/futures/departure-diagram.tsx (content-key:components/futures/departure-diagram.tsx#DepartureDiagram.title) | journey |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.3.label) | Accepted cost: |
@@ -1915,6 +1915,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 55de69080082e054ab7c02f737b33d800d2debf6fda1c905b78de8f94f7c4d6f |
 | 1 | 567fb5779ba71b31645935f4e01e172114830d1d0e78e0e7bd3f535c6f4b5729 |
 | 1 | 58df59922c3b2a4bcd8ef3c65a89cfb6d3b4e0e4cb8c29db6099446579d7c0aa |
+| 1 | 59cc3354e267201e4255db9f994f8c0cc98f458a64f79661290e1e2b9d294287 |
 | 1 | 5bdb5df09c4276679e2d47a75f139125e2e6a1339943f03bdadc26b0b709d3d2 |
 | 1 | 5e0fa201e81a72361f4d73c77e83ad1f6bb5316cf5c7238e07160dab59c985a3 |
 | 1 | 5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878 |

@@ -33,7 +33,13 @@
       "archetypes": "基础原型",
       "security": "安全",
       "technology": "技术",
-      "about": "关于"
+      "about": "关于",
+      "menu": "主菜单",
+      "questionnaires": "问卷",
+      "casesExercises": "案例与练习",
+      "yourWorldview": "你的世界观",
+      "futurePreferences": "回答偏好问题",
+      "futureCompare": "比较可能的世界"
     }
   },
   "language": {

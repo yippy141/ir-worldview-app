@@ -45,7 +45,15 @@ export function ResultReveal({ domain, payload, children }: { domain: ResultDoma
     if (completion.current?.payload !== payload) completion.current = { payload, fresh: consumeFreshResult(domain, payload) }
     if (completion.current.fresh) frame = requestAnimationFrame(start)
     element.dataset.ready = "true"
-    replay.current = start
+    replay.current = () => {
+      // Replay used to run above the viewport when a tall introduction scrolled
+      // its trailing button into view. Bring the existing mark into view first.
+      if (media.matches) return
+      const mark = element.querySelector("[data-foundation-hero-marks], [data-ai-mark], [data-domain-mark]")
+      const box = mark?.getBoundingClientRect()
+      if (box && (box.top < 0 || box.bottom > window.innerHeight)) mark?.scrollIntoView({ block: "center", behavior: "instant" })
+      start()
+    }
     const hidden = () => { if (document.hidden) finish() }
     window.addEventListener("pagehide", finish)
     window.addEventListener("beforeprint", finish)
@@ -61,8 +69,8 @@ export function ResultReveal({ domain, payload, children }: { domain: ResultDoma
     }
   }, [domain, payload])
   return <div ref={root} className={styles.reveal} data-result-reveal={domain} data-motion="complete">
+    <button className={styles.replay} type="button" onClick={() => replay.current()} aria-label={`Replay ${domain === "ai" ? "AI" : domain} reveal`}>Replay reveal</button>
     {children}
     <svg className={styles.rule} viewBox="0 0 1000 2" preserveAspectRatio="none" aria-hidden="true"><path d="M0 1H1000" data-draw data-start="1600" data-duration="350" stroke="currentColor" strokeWidth="1" /></svg>
-    <button className={styles.replay} type="button" onClick={() => replay.current()} aria-label={`Replay ${domain === "ai" ? "AI" : domain} mark drawing`}>Replay</button>
   </div>
 }

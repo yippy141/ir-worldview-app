@@ -100,7 +100,7 @@ The first paragraph after the name says something true about this person's answe
 
 **Result chapter.** Before: "This calculation uses the calibration registered for the exact completed form. It does not treat distance from the raw scale midpoint as classification evidence." Conditional example: "The strongest contribution to Institutionalism's lead came from your answers about institutions." This requires an actual largest positive contribution to the lead over the compared rival. It is a relative scoring statement, never a belief inferred from a label. Then a disclosure: "How this is calculated."
 
-**Root menu.** Before: "Start with the Foundation when the site is new to you. It asks fourteen broad questions about recurring disputes in international politics." After: "Begin with the Foundation: fourteen questions about the arguments people reach for when world politics gets hard."
+**Root menu.** Before: "Start with the Foundation when the site is new to you. It asks fourteen broad questions about recurring disputes in international politics." After: "Answer fourteen questions about international politics, then explore the arguments behind your result."
 
 **A warning that stays, made plain.** Before: "The saved name is preserved. These rounded coordinates do not reproduce it as a leading model score; use the positions below as the supported reading." After: "This link stores rounded positions. Recomputed from them, Coordination Architect is no longer the top-scoring approach, so the name you were given is kept and the positions below are what the link contains." (The condition is whether the saved label still leads after rounding, not the scoring version.)
 
@@ -156,3 +156,7 @@ The reviewer then reads only the after-passages file against "The owner's read".
 ## Machine checks
 
 `npm run copy:audit` reports every rule in this guide it can detect. `copy:audit:strict` runs in CI and fails on the P0 and P1 template rules. After the Sprint A rewrite lands, promote `product-self-narration`, `ranking-opener-in-option`, and `does-not-claim-heading` to strict so the patterns cannot return.
+
+## Owner-approved copy
+
+Preserve owner-approved paragraphs when adjusting layout or reviewing advisory audit counts. Do not regenerate them to satisfy a pattern quota. Explain any necessary semantic correction with the actual sentence and the evidence requiring it. Root/menu copy lives in `content/root.ts`; names and destinations live in `lib/navigation.ts` and `messages/{en,zh-Hans}.json`.

@@ -1,0 +1,12 @@
+
+Running 4 tests using 1 worker
+
+
+(node:8873) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/4] [chromium] › e2e/i18n.spec.ts:501:5 › English and Chinese share routes are private and no-store
+[2/4] [chromium] › e2e/v22-visual-accessibility.spec.ts:653:5 › V23.1B code labels, marks, and sources remain legible in print
+[3/4] [chromium] › e2e/v22-visual-accessibility.spec.ts:827:5 › production print lays out every Foundation chapter and restores sticky screen visuals
+[4/4] [chromium] › e2e/v22-visual-accessibility.spec.ts:881:5 › production print keeps the complete Profile reading visible without empty bars
+  4 passed (11.5s)

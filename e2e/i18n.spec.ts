@@ -69,7 +69,7 @@ test("approved English and Simplified Chinese route pairs remain distinct", asyn
   await expect(page.locator("html")).toHaveAttribute("lang", "en")
   await expect(page.getByRole("link", { name: "Switch to Simplified Chinese" })).toBeVisible()
 
-  await page.goto("/zh")
+  await page.goto("/zh#menu")
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   await expect(page.getByRole("heading", { name: "选择一个起点。" })).toBeVisible()
 

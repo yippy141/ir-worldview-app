@@ -257,7 +257,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
           : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
         <h1 id="foundation-result-heading">{props.archetype.name}</h1>
         <p className={styles.qualification}>{heading.title}</p>
-        <p className={styles.frontispieceLead}>{props.payoff.interpretation.summary}</p>
+        {props.payoff.interpretation.summary.split("\n\n").map(paragraph => <p key={paragraph} className={styles.frontispieceLead}>{paragraph}</p>)}
         <a href="#nearest" className="cta-primary print-hidden">Explore this reading</a>
         {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
       </header></ResultReveal>

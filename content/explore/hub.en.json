@@ -70,7 +70,7 @@
     },
     {
       "id": "context",
-      "label": "What sits beside it",
+      "label": "Other questionnaires",
       "description": "Security, Technology, AI Governance, Perspective Runs, and Cases each answer their own question."
     }
   ],

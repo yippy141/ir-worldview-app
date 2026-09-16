@@ -55,7 +55,8 @@ test("six real AI identities, truthful tied marks, expanded reading and 200 perc
     await page.goto(`/ai/results/${result.payload}`)
     await expect(page.locator("h1")).toHaveText(result.name)
     await expect(page.locator(`[data-ai-mark="${key}"]`)).toBeVisible()
-    for (const label of ["Reasoning and policy debates", "Positions and exact comparison calculations", "Reading, sources and scope"]) await page.getByText(label, { exact: true }).click()
+    for (const label of ["Positions and exact comparison calculations", "Reading, sources and scope"]) await page.getByText(label, { exact: true }).click()
+    await expect(page.getByRole("heading", { name: "Reasoning and policy debates" })).toBeVisible()
     await expect(page.locator("#ai-sources .reading-entry").first()).toBeVisible()
     await fitsPage(page)
   }

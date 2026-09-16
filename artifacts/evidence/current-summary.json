@@ -3,7 +3,7 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1102,
+      "currentCount": 1101,
       "newCount": 703,
       "newFindings": [
         {
@@ -4738,16 +4738,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/ai#AiPage.h2",
-          "count": 1,
-          "file": "app/ai/page.tsx",
-          "fingerprint": "aa7fcc5de1e5ec3be549af7786e07371e5e5f6b519860a78fccb442e63432c8a",
-          "matched": "Your own result names the approach, the rival, and the question your answers left open / Read the approaches, make a decision, or look further ahead",
-          "rule": "repeated-adjacent-three-part-list",
-          "source": "Read the approaches, make a decision, or look further ahead"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/narrative/profile.ts#buildProbeNextText",
           "count": 1,
           "file": "lib/narrative/profile.ts",
@@ -5745,6 +5735,16 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "The most durable strategy is to join coalitions on specific problems without accepting whole-of-state alignment."
+        },
+        {
+          "audience": "public",
+          "context": "route:/ai#AiPage.h2",
+          "count": 1,
+          "file": "app/ai/page.tsx",
+          "fingerprint": "cdd6e152d6db3e796ee299b3597df295a6e80d0f69972cf8ef9d80b377aa6ea0",
+          "matched": "questions on compute, audits, and incident reporting / Read the approaches, make a decision, or look further ahead",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Read the approaches, make a decision, or look further ahead"
         },
         {
           "audience": "public",
@@ -7038,7 +7038,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 159,
+      "resolvedCount": 160,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7251,6 +7251,10 @@
         {
           "count": 1,
           "fingerprint": "58df59922c3b2a4bcd8ef3c65a89cfb6d3b4e0e4cb8c29db6099446579d7c0aa"
+        },
+        {
+          "count": 1,
+          "fingerprint": "59cc3354e267201e4255db9f994f8c0cc98f458a64f79661290e1e2b9d294287"
         },
         {
           "count": 1,
@@ -7677,7 +7681,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 399
+      "unchangedCount": 398
     },
     "higherPriorityFindings": [
       {
@@ -8064,7 +8068,7 @@
         "jsonPath": null,
         "key": "AiResultPage.p",
         "kind": "self-narration",
-        "line": 303,
+        "line": 302,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -8306,7 +8310,7 @@
         "jsonPath": null,
         "key": "ModuleApp.p",
         "kind": "self-narration",
-        "line": 489,
+        "line": 481,
         "match": "What it does not claim",
         "matched": "What it does not claim",
         "priority": "P1",
@@ -10947,7 +10951,7 @@
         "priority": "P1"
       },
       {
-        "count": 1102,
+        "count": 1101,
         "priority": "P2"
       }
     ]
@@ -84869,7 +84873,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/evidence-audit.test.mts",
-      "sha256": "e4503c9722009deebc182d50a07ad964abc6b5502db50e48267a3c38318ecf61"
+      "sha256": "d966f753e3cdeee3c85e8eebcda602f837f885fa71dfaf3fee61297d30ca60c4"
     },
     {
       "category": "compatibility-test",

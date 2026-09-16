@@ -137,7 +137,7 @@ test("keyboard selection, mandatory review, reduced motion and returning routes"
   await page.emulateMedia({ reducedMotion: "reduce" })
   await begin(page)
   await expect(page.getByRole("heading", { level: 1 })).toBeFocused()
-  await expect(page.locator("details[open]")).toHaveCount(0)
+  await expect(page.locator("main details[open]")).toHaveCount(0)
   await expect(page.getByRole("button", { name: "Next question", exact: true })).toBeDisabled()
   const first = page.getByRole("radio").first()
   await first.focus(); await page.keyboard.press("Space"); await page.keyboard.press("ArrowDown")

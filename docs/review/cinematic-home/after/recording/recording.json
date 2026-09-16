@@ -1,0 +1,30 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "speed": "Real time; no clock emulation or montage",
+  "seen": [
+    "atlantic-pacific",
+    "european-autonomy",
+    "british-reassessment",
+    "continental-pivot",
+    "turkish-realignment",
+    "pacific-compact",
+    "middle-power-arrangements",
+    "fragmentation",
+    "renewed-commitments"
+  ],
+  "returnedToOpeningScene": true,
+  "interactions": [
+    "pause",
+    "pointer rotation",
+    "zoom in/out",
+    "reset view",
+    "Enter",
+    "Foundation",
+    "browser Back",
+    "fresh-storage reading deep link"
+  ],
+  "errors": []
+}

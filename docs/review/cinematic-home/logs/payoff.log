@@ -1,0 +1,25 @@
+[WebServer] (node:72477) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:72497) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/result-payoff/experience.spec.ts:23:5 › all result fixtures retain real evidence, responsive screenshots, and low separation (5.6s)
+  ✓   2 tests/result-payoff/experience.spec.ts:63:7 › 1440: two episode-first paths and ordered changed-choice evidence (2.7s)
+  ✓   3 tests/result-payoff/experience.spec.ts:63:7 › 390: two episode-first paths and ordered changed-choice evidence (2.1s)
+  ✓   4 tests/result-payoff/experience.spec.ts:87:5 › returning reader opens access directly, no retake and inspectable synthetic history (1.7s)
+  ✓   5 tests/result-payoff/experience.spec.ts:107:5 › unchanged verification, reversible navigation, reset clears both decisions (1.2s)
+  ✓   6 tests/result-payoff/experience.spec.ts:128:5 › optional reflections report submitted inputs separately and clear cleanly (1.5s)
+  ✓   7 tests/result-payoff/experience.spec.ts:143:5 › keyboard, reduced motion, 320/390/768 reflow and no-JS fixture evidence (1.5s)
+  ✓   8 tests/result-payoff/experience.spec.ts:176:5 › no answer-bearing requests, URL changes, persistent writes or personal profile reads (2.2s)
+  ✓   9 tests/result-payoff/experience.spec.ts:224:5 › production 404 and representative public routes unaffected (411ms)
+  ✓  10 tests/result-payoff/experience.spec.ts:242:5 › valid counterexamples and equal-score AI pairs get truthful alternative states (2.0s)
+  ✓  11 tests/result-payoff/experience.spec.ts:257:5 › editing an earlier submitted answer invalidates the downstream comparison (1.2s)
+  ✓  12 tests/result-payoff/experience.spec.ts:279:5 › unsupported reasons and withheld decisions continue without forced attribution (1.6s)
+  ✓  13 tests/result-payoff/experience.spec.ts:296:5 › inspection edges and admission control represent rights, not unchanged arrows (1.5s)
+  ✓  14 tests/result-payoff/experience.spec.ts:318:7 › 1440: specific conditional findings captured (2.6s)
+  ✓  15 tests/result-payoff/experience.spec.ts:318:7 › 390: specific conditional findings captured (2.6s)
+  ✓  16 tests/result-payoff/experience.spec.ts:335:5 › marks: initial, partial, completed, interrupted, print and reduced-motion composition (8.9s)
+
+  16 passed (41.3s)

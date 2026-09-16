@@ -310,7 +310,8 @@ test("inspection edges and admission control represent rights, not unchanged arr
   await choose(page, "Qualified external evaluation", "Enable criticism the developer cannot veto.")
   await continueDecision(page)
   await expect(page.locator("[data-admissions=developer]")).toBeVisible()
-  await expect(page.getByText(/Fixed rights for admitted teams:/)).toContainText("publish criticism")
+  await expect(page.getByText(/Fixed rights for admitted teams:/)).toContainText("research and publication stay the same in both decisions")
+  await expect(page.locator("[data-publication-route]")).toContainText("criticism may be published")
 })
 
 for (const size of sizes) {
