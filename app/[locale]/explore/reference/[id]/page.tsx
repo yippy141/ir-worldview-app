@@ -57,8 +57,8 @@ export default async function ChineseReferenceDetailPage({ params }: { params: P
       <article className="result-article reference-detail reading-page">
         <DestinationLink destination="thinkers" />
         <header className="article-header stack-sm">
-          <p className="eyebrow">{copy.detail.eyebrow(copy.entityTypes[profile.entityType])}</p>
           <h1 lang="en">{profile.name}</h1>
+          <p className="small muted">{copy.detail.eyebrow(copy.entityTypes[profile.entityType])}</p>
         </header>
 
         {draft ? <p className="reference-draft-tag">{copy.cards.draft}</p> : null}

@@ -283,6 +283,9 @@ test("CI check command is read-only and rejects stale or missing scratch artifac
     ]) {
       cpSync(resolve(projectRoot, directory), resolve(scratchRoot, directory), {
         recursive: true,
+        // The audit reads source/text evidence, never historical browser media.
+        // Keep those large captures out of the isolated CLI fixture.
+        filter: source => !/\.(?:png|jpe?g|webp|gif|webm|mp4|pdf|zip)$/i.test(source),
       })
     }
     cpSync(

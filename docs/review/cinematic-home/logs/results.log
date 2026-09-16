@@ -1,0 +1,36 @@
+
+Running 26 tests using 1 worker
+
+(node:70860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [chromium] › tests/result-interpretation/coverage.spec.ts:6:5 › all 162 inherited finite routes render with an internal link enumeration (34.4s)
+  ✓   2 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 320 (527ms)
+  ✓   3 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 390 (572ms)
+  ✓   4 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 719 (569ms)
+  ✓   5 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 720 (594ms)
+  ✓   6 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 721 (517ms)
+  ✓   7 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 768 (516ms)
+  ✓   8 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 1024 (504ms)
+  ✓   9 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 1440 (536ms)
+  ✓  10 [chromium] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 1920 (527ms)
+  ✓  11 [chromium] › tests/result-interpretation/geometry.spec.ts:52:5 › six real AI identities, truthful tied marks, expanded reading and 200 percent text (2.4s)
+  ✓  12 [chromium] › tests/result-interpretation/geometry.spec.ts:80:5 › fresh exact AI observations survive same-score alternatives, then disappear on reload (1.2s)
+  ✓  13 [chromium] › tests/result-interpretation/geometry.spec.ts:96:5 › no-JS payoff, keyboard disclosures, print expansion and return anchors (836ms)
+(node:71073) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  14 [webkit] › tests/result-interpretation/coverage.spec.ts:6:5 › all 162 inherited finite routes render with an internal link enumeration
+  ✓  15 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 320 (896ms)
+  ✓  16 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 390 (842ms)
+  ✓  17 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 719 (928ms)
+  ✓  18 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 720 (975ms)
+  ✓  19 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 721 (899ms)
+  ✓  20 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 768 (936ms)
+  ✓  21 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 1024 (940ms)
+  ✓  22 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 1440 (994ms)
+  ✓  23 [webkit] › tests/result-interpretation/geometry.spec.ts:18:7 › shared canvas, all six marks and fingerprint columns at 1920 (904ms)
+  ✓  24 [webkit] › tests/result-interpretation/geometry.spec.ts:52:5 › six real AI identities, truthful tied marks, expanded reading and 200 percent text (3.8s)
+  ✓  25 [webkit] › tests/result-interpretation/geometry.spec.ts:80:5 › fresh exact AI observations survive same-score alternatives, then disappear on reload (2.1s)
+  ✓  26 [webkit] › tests/result-interpretation/geometry.spec.ts:96:5 › no-JS payoff, keyboard disclosures, print expansion and return anchors (1.9s)
+
+  1 skipped
+  25 passed (1.1m)

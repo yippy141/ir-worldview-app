@@ -124,7 +124,7 @@ test("six route overflow witnesses fit 1440px before and after evidence expansio
     const read = () => page.evaluate(() => ({ document: document.documentElement.scrollWidth,
       owners: Array.from(document.querySelectorAll(".article-header,.lobby-hero,.result-hero"), e => {
         const s = getComputedStyle(e, "::before")
-        return { class: e.className, right: s.right, width: s.width, pointerEvents: s.pointerEvents }
+        return { class: e.className, right: s.right, width: s.width, content: s.content, background: s.backgroundImage }
       }) }))
     const closed = await read()
     expect(closed.document, `${route} default`).toBeLessThanOrEqual(1441)
@@ -137,7 +137,7 @@ test("six route overflow witnesses fit 1440px before and after evidence expansio
       await expect(page.getByRole("link", { name: "Browse all futures", exact: true })).toHaveAttribute("href", "#catalogue")
     } else {
       expect(closed.owners.length).toBeGreaterThan(0)
-      expect(closed.owners.every(o => o.right === "0px" && o.pointerEvents === "none")).toBe(true)
+      expect(closed.owners.every(o => o.content === "none" && o.background === "none")).toBe(true)
     }
     const summaries = page.locator("main details > summary:visible")
     for (const summary of await summaries.all()) {
@@ -148,7 +148,7 @@ test("six route overflow witnesses fit 1440px before and after evidence expansio
     expect(expanded.document, `${route} expanded`).toBeLessThanOrEqual(1441)
     if (route !== "/futures") {
       expect(expanded.owners.length).toBeGreaterThan(0)
-      expect(expanded.owners.every(o => o.right === "0px" && o.pointerEvents === "none")).toBe(true)
+      expect(expanded.owners.every(o => o.content === "none" && o.background === "none")).toBe(true)
     } else {
       await expect(page.getByText("The historical map of the twelve inherited scenarios", { exact: true }).locator("..")).toHaveAttribute("open", "")
     }

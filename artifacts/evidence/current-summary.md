@@ -65,7 +65,7 @@ The audit is local and deterministic: it omits time and absolute paths, uses no 
 | evidence-canonicalization | scripts/evidence-utils.mts | e80b75b95b56f68866077eb080c1347e75a128763c895802e2208cc4c80314b0 |
 | diagnostic | scripts/validate-instrument.mts | 7bf8bdfa3c8ddaedaf74064216208381e5ea8341ab083ab1f75f481ba8f5e1c8 |
 | diagnostic | scripts/validate-security-v4.mts | 47e00292fe4b1ab997a1a0de84ec8e4e9b33de2d421caa16a64ab83545ce2928 |
-| compatibility-test | tests/evidence-audit.test.mts | e4503c9722009deebc182d50a07ad964abc6b5502db50e48267a3c38318ecf61 |
+| compatibility-test | tests/evidence-audit.test.mts | d966f753e3cdeee3c85e8eebcda602f837f885fa71dfaf3fee61297d30ca60c4 |
 | compatibility-test | tests/evidence-instrument-analysis.test.mts | 4fb9f6c838346151da46795f344f83830f754519c97f54eecc3d299cc4175854 |
 | evidence-baseline | tests/fixtures/evidence-audit-baseline.json | 8b67333e76d53167c5e5708519a4efab4af1ac65816b01751f900baf463bb274 |
 | compatibility-test | tests/fixtures/instrument-version-golden.json | 444940da7418f398213ac7f8beb5e19ef802cf1f36488f2aac9ce35fc266c4f9 |
@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1102. Unchanged and suppressed: 399. New: 703. Resolved: 159.
+P2 advisory baseline: 558. Current: 1102. Unchanged and suppressed: 398. New: 704. Resolved: 160.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -1169,6 +1169,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.5.options.1.label) | Accepted cost: |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.options.0.label) | Accepted cost: |
 | 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.1.label) | rather than |
+| 1 | rather-than-reflex | public | lib/root/globe-scenes.ts (content-key:lib/root/globe-scenes.ts#AUTHORED_ALIGNMENTS.6) | rather than |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.1.label) | Accepted cost: |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.1.label) | Accepted cost: |
 | 1 | rather-than-reflex | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.exclusions.2) | rather than |
@@ -1915,6 +1916,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 55de69080082e054ab7c02f737b33d800d2debf6fda1c905b78de8f94f7c4d6f |
 | 1 | 567fb5779ba71b31645935f4e01e172114830d1d0e78e0e7bd3f535c6f4b5729 |
 | 1 | 58df59922c3b2a4bcd8ef3c65a89cfb6d3b4e0e4cb8c29db6099446579d7c0aa |
+| 1 | 59cc3354e267201e4255db9f994f8c0cc98f458a64f79661290e1e2b9d294287 |
 | 1 | 5bdb5df09c4276679e2d47a75f139125e2e6a1339943f03bdadc26b0b709d3d2 |
 | 1 | 5e0fa201e81a72361f4d73c77e83ad1f6bb5316cf5c7238e07160dab59c985a3 |
 | 1 | 5e32fa9dc0d89fa8cd0886b739b09d76533e8622d8ba253496f668963bf4c878 |

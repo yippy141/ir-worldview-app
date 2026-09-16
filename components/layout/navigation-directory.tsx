@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation"
 import { Link } from "@/i18n/navigation"
 import { internalPath } from "@/i18n/paths"
 import { LanguageSwitcher } from "@/components/language-switcher"
-import { destinations, destinationLabel, destinationIsCurrent, navigationSections, navigationUtilities, type DestinationId } from "@/lib/navigation"
+import { destinations, destinationLabel, destinationIsCurrent, navigationSections, navigationUtilities, sectionLabel, type DestinationId } from "@/lib/navigation"
 import styles from "./navigation-directory.module.css"
 
 export function NavigationDirectory({ betaLink, language = true }: { betaLink?: { href: string; label: string } | null; language?: boolean }) {
@@ -18,14 +18,14 @@ export function NavigationDirectory({ betaLink, language = true }: { betaLink?: 
   </Link>
   return <div className={styles.directory}>
     <nav className={styles.sections} aria-label={locale === "zh-Hans" ? "网站栏目" : "Site sections"}>
-      {navigationSections.map(section => <div className={styles.section} key={section.home}>
-        {section.children.length ? <details open={destinationIsCurrent(section.home, path) || section.children.some(id => destinationIsCurrent(id, path))}>
-          <summary className={styles.sectionTitle}>{destinationLabel(section.home, locale)}</summary>
+      {navigationSections.map(section => <div className={styles.section} key={section.id}>
+        <details open={section.children.some(id => destinationIsCurrent(id, path)) || ("overview" in section && destinationIsCurrent(section.overview, path))}>
+          <summary className={styles.sectionTitle}>{sectionLabel(section.id, locale)}</summary>
           <div className={styles.children}>
-            {item(section.home, true)}
             {section.children.map(id => <span key={id}>{item(id)}</span>)}
+            {"overview" in section && <span>{item(section.overview)}</span>}
           </div>
-        </details> : item(section.home, true)}
+        </details>
       </div>)}
     </nav>
     <nav className={styles.utilities} aria-label={locale === "zh-Hans" ? "网站信息" : "Site information"}>

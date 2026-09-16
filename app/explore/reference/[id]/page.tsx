@@ -122,10 +122,8 @@ function ProfileDetail({ profile }: { profile: ReferenceProfile }) {
       <article className="result-article reference-detail reading-page">
         <DestinationLink destination="thinkers" />
         <header className="article-header stack-sm">
-          <p className="eyebrow">
-            Reference profile · {referenceEntityTypeLabel(profile.entityType)}
-          </p>
           <h1>{profile.name}</h1>
+          <p className="small muted">Reference profile · {referenceEntityTypeLabel(profile.entityType)}</p>
           <p className="muted reference-detail__domain">{profile.domain}</p>
         </header>
 
@@ -346,8 +344,8 @@ function MovementDetail({ movement }: { movement: ReferenceMovement }) {
       <article className="result-article reference-detail reading-page">
         <DestinationLink destination="thinkers" />
         <header className="article-header stack-sm">
-          <p className="eyebrow">Reference profile · Movement</p>
           <h1>{movement.name}</h1>
+          <p className="small muted">Reference profile · Movement</p>
           <p className="muted reference-detail__scope-note">{movement.scopeNote}</p>
         </header>
 

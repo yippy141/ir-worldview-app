@@ -1,3 +1,4 @@
+import { DocumentedMaps } from "@/components/home/world-stage/documented-maps"
 import type { Metadata } from "next"
 import { WorldStageHome } from "@/components/home/world-stage/world-stage-home"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
@@ -20,5 +21,5 @@ export default function WorldStagePage() {
     getActivePublishedLaunchCurrentCase(undefined, { referenceDate }),
   )
 
-  return <WorldStageHome hasActiveCurrentCase={hasActiveCurrentCase} />
+  return <WorldStageHome hasActiveCurrentCase={hasActiveCurrentCase} documentedMaps={<DocumentedMaps locale="en" />} />
 }

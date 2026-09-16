@@ -1,4 +1,4 @@
-import { destinationLabel } from "@/lib/navigation"
+import { sectionLabel } from "@/lib/navigation"
 import type { Locale } from "@/i18n/routing"
 import type { RootDestinationId } from "@/lib/root/destinations"
 
@@ -11,6 +11,11 @@ export type RootCopy = Readonly<{
   brand: string
   brandAriaLabel: string
   heading: string
+  introduction: string
+  enter: string
+  menu: string
+  map: string
+  independent: string
   primaryNavigationLabel: string
   destinationCopy: Readonly<Record<RootDestinationId, DestinationCopy>>
   localState: Readonly<{
@@ -32,33 +37,15 @@ const englishRootCopy: RootCopy = {
   brand: "IR Worldview Inventory",
   brandAriaLabel: "IR Worldview Inventory home",
   heading: "Choose where to start.",
+  introduction: "Explore your views on international politics, technology and possible futures.",
+  enter: "Enter", menu: "Main menu", map: "Explore the map", independent: "Every questionnaire is independent.",
   primaryNavigationLabel: "Primary destinations",
   destinationCopy: {
-    inventory: {
-      label: destinationLabel("foundation"),
-      explanation:
-        "Foundation asks fourteen questions about the arguments people reach for when world politics gets hard. You can also start with Security, Technology, or AI Governance, which put the same kind of question to you inside one policy field.",
-    },
-    "world-stage": {
-      label: "World Stage",
-      explanation:
-        "Cases and the full map. Each case gives you the record up to a stated date and asks for one decision.",
-    },
-    atlas: {
-      label: destinationLabel("library"),
-      explanation:
-        "The traditions, readings, thinkers, and decision patterns to compare your result against.",
-    },
-    "perspective-runs": {
-      label: "Perspective Runs",
-      explanation:
-        "The same questions, answered from another actor’s seat: an exposed ally, a rising power. Your own result stays as it was.",
-    },
-    profile: {
-      label: destinationLabel("profile"),
-      explanation:
-        "Everything you have saved, on this device only. Each result is kept on its own.",
-    },
+    questionnaires: { label: sectionLabel("questionnaires"), explanation: "Answer fourteen questions about international politics, then explore the arguments behind your result." },
+    futures: { label: sectionLabel("futures"), explanation: "Browse scenarios, answer preferences and compare possible worlds." },
+    cases: { label: sectionLabel("cases"), explanation: "Examine a case, make a decision, or answer from another actor’s position." },
+    library: { label: sectionLabel("library"), explanation: "Explore traditions, thinkers and the arguments behind the results." },
+    profile: { label: sectionLabel("profile"), explanation: "Open your saved work. Each result is kept separately; a combined worldview is not yet available." },
   },
   localState: {
     heading: "On this device",
@@ -83,33 +70,15 @@ const chineseRootCopy: RootCopy = {
   brand: "国际关系世界观清单",
   brandAriaLabel: "返回国际关系世界观清单首页",
   heading: "选择一个起点。",
+  introduction: "探索你对国际政治、技术与可能未来的看法。",
+  enter: "进入", menu: "主菜单", map: "探索地图", independent: "每份问卷都可独立完成。",
   primaryNavigationLabel: "主要入口",
   destinationCopy: {
-    inventory: {
-      label: destinationLabel("foundation", "zh-Hans"),
-      explanation:
-        "如果你第一次来到这里，请先完成基础问卷。十四道问题涵盖国际政治中反复出现的广泛争议。安全、技术与人工智能治理问卷则进一步检验：当政策问题变得更具体时，你是否仍会采用相近的判断方式。",
-    },
-    "world-stage": {
-      label: "世界舞台",
-      explanation:
-        "案例库与完整地图都在这里。每个案例都有明确的证据时间窗，并要求你就一个具体问题作出判断，同时承认证据记录并不完整。",
-    },
-    atlas: {
-      label: destinationLabel("library", "zh-Hans"),
-      explanation:
-        "图谱把基础问卷所建模的四种传统，与思想家、决策模式和带日期的公开立场放在一起比较。这些内容是参照点，不是系统替读者指定的身份。",
-    },
-    "perspective-runs": {
-      label: "情境推演",
-      explanation:
-        "情境推演把读者置于另一行动者的约束之中，观察同一条基线会如何变化。推演结果始终与基础画像分开保存。",
-    },
-    profile: {
-      label: destinationLabel("profile", "zh-Hans"),
-      explanation:
-        "已保存的结果只留在这台设备上。档案会分别保留基础画像、各领域问卷和情境推演，并且只展示本项目已经审阅过的关系。",
-    },
+    questionnaires: { label: sectionLabel("questionnaires", "zh-Hans"), explanation: "回答十四道国际政治问题，再探索结果背后的论点。每份问卷都可独立完成。" },
+    futures: { label: sectionLabel("futures", "zh-Hans"), explanation: "浏览情景、回答偏好问题，并比较不同的可能世界。" },
+    cases: { label: sectionLabel("cases", "zh-Hans"), explanation: "研究案例、作出决定，或从另一行动者的立场回答问题。" },
+    library: { label: sectionLabel("library", "zh-Hans"), explanation: "探索不同传统、思想家和结果背后的论点。" },
+    profile: { label: sectionLabel("profile", "zh-Hans"), explanation: "查看已保存的内容。各份结果独立保留，综合世界观尚未推出。" },
   },
   localState: {
     heading: "此设备上的记录",
@@ -137,4 +106,26 @@ export const ROOT_COPY_BY_LOCALE = {
 
 export function getRootCopy(locale: Locale): RootCopy {
   return ROOT_COPY_BY_LOCALE[locale]
+}
+
+export function getGlobeCopy(locale: Locale) {
+  return locale === "zh-Hans" ? {
+    label: "想象中的阵营", drag: "拖动以旋转", pause: "暂停", play: "播放", reset: "重置视角", zoomIn: "放大地图", zoomOut: "缩小地图",
+    previous: "上一场景", next: "下一场景", globe: "可旋转的想象阵营地球仪", instructions: "方向键旋转，加减键缩放，Home重置。Tab离开地图。滚轮仅在地图获得焦点时缩放。",
+    about: "关于这张地图", inspect: "查看地点", choose: "选择地点", ocean: "此处未标示地点", mapLink: "有来源的地图与记录",
+    explanation: "这是创作的可能阵营。黄色地区在本场景中不属于任一阵营，彼此也不一定结盟。",
+    geometry: "Natural Earth底图包含174个多边形要素，并以点补充部分小型地域。仍有领土与岛屿缺失；点的大小不代表影响力。边界沿用底图，不表达主权立场。",
+    attribution: "地理数据与边界说明", reduced: "已启用减少动态效果；可使用手动控制。",
+    groups: { blue: "蓝色阵营", red: "红色阵营", gold: "不属于任一阵营", muted: "此场景未分配" },
+    west: "向西旋转", east: "向东旋转", north: "向北旋转", south: "向南旋转",
+  } : {
+    label: "Imagined alignments", drag: "Drag to rotate", pause: "Pause", play: "Play", reset: "Reset view", zoomIn: "Zoom globe in", zoomOut: "Zoom globe out",
+    previous: "Previous globe scene", next: "Next globe scene", globe: "Rotatable globe of imagined alignments", instructions: "Arrow keys rotate, plus and minus zoom, Home resets. Tab leaves the globe. Wheel zoom works only while the globe is focused.",
+    about: "About this map", inspect: "Inspect a place", choose: "Choose a place", ocean: "No place is marked here", mapLink: "Documented maps and sources",
+    explanation: "Authored possible alignments. Yellow places are outside either grouping in this scene; they are not necessarily allied with one another.",
+    geometry: "The Natural Earth basemap has 174 polygon features, with points for some small places. Some territories and islands are absent. Point size does not encode influence. Boundaries follow the basemap and express no position on sovereignty.",
+    attribution: "Geometry and boundary notes", reduced: "Reduced motion is on; manual controls are available.",
+    groups: { blue: "Blue grouping", red: "Red grouping", gold: "Outside either", muted: "Unassigned in this scene" },
+    west: "Rotate west", east: "Rotate east", north: "Rotate north", south: "Rotate south",
+  }
 }

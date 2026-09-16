@@ -8,7 +8,7 @@ import { Link } from "@/i18n/navigation"
 import { internalPath } from "@/i18n/paths"
 import { getBetaNavigationItem } from "@/lib/beta-config"
 import { getQuizChromeMeta } from "@/lib/quiz-chrome"
-import { navigationItem } from "@/lib/navigation"
+import { destinations, destinationLabel, navigationItem, navigationSections, type DestinationId } from "@/lib/navigation"
 import { NavigationDirectory } from "@/components/layout/navigation-directory"
 import {
   immersiveRouteOwnsLanguageControl,
@@ -57,6 +57,7 @@ export function SiteChrome({
   const locale = useLocale()
   const t = useTranslations("chrome")
   const currentPath = internalPath(pathname ?? "/")
+  const sectionHome = ([...navigationSections.flatMap(section => [...section.children]), "modules"] as DestinationId[]).find(id => destinations[id].href === currentPath)
   const quizMeta = getQuizChromeMeta(currentPath, locale)
   const betaNavigationItem = getBetaNavigationItem(betaNavigationEnabled)
   const betaLink = betaNavigationItem ? { href: betaNavigationItem.href, label: t(betaNavigationItem.labelKey) } : null
@@ -127,7 +128,7 @@ export function SiteChrome({
       <header className="site-header">
         <div className="wide-container">
           <div className="header-inner">
-            <Link href="/" className="site-brand-link">
+            <Link href="/#menu" className="site-brand-link">
               <p className="brand">{t("brand")}</p>
             </Link>
 
@@ -166,7 +167,12 @@ export function SiteChrome({
         </div>
       </header>
 
-      <main id="site-main" className="site-main page-space">{children}</main>
+      <main id="site-main" className="site-main page-space">
+        {sectionHome && <nav className="section-location wide-container" aria-label={locale === "zh-Hans" ? "当前位置" : "Current location"}>
+          <Link href={destinations.menu.href}>{destinationLabel("menu", locale)}</Link><span aria-hidden="true">/</span><span aria-current="page">{destinationLabel(sectionHome, locale)}</span>
+        </nav>}
+        {children}
+      </main>
 
       <footer className="site-footer">
         <div className="wide-container">

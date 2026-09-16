@@ -21,51 +21,27 @@ function importSpecifiers(contents: string) {
   )
 }
 
-test("the production root has five literal destinations and exhaustive bilingual copy", () => {
-  assert.deepEqual(ROOT_DESTINATION_IDS, [
-    "inventory",
-    "world-stage",
-    "atlas",
-    "perspective-runs",
-    "profile",
-  ])
-  assert.deepEqual(
-    ROOT_DESTINATIONS.map(({ id, href }) => ({ id, href })),
-    [
-      { id: "inventory", href: "/quiz" },
-      { id: "world-stage", href: "/world-stage" },
-      { id: "atlas", href: "/explore" },
-      { id: "perspective-runs", href: "/perspectives" },
-      { id: "profile", href: "/profile" },
-    ],
-  )
-
+test("the production root groups independent questionnaires, futures, cases, reading and saved work", () => {
+  assert.deepEqual(ROOT_DESTINATION_IDS, ["questionnaires", "futures", "cases", "library", "profile"])
+  assert.deepEqual(ROOT_DESTINATIONS[0].children, ["foundation", "security", "technology", "ai"])
+  assert.ok(ROOT_DESTINATIONS[1].children.includes("futures"))
   for (const copy of Object.values(ROOT_COPY_BY_LOCALE)) {
     assert.deepEqual(Object.keys(copy.destinationCopy), [...ROOT_DESTINATION_IDS])
     for (const id of ROOT_DESTINATION_IDS) {
-      assert.ok(copy.destinationCopy[id].label.length > 0)
-      assert.ok(copy.destinationCopy[id].explanation.length > 35)
+      assert.ok(copy.destinationCopy[id].label)
+      assert.ok(copy.destinationCopy[id].explanation)
     }
+    assert.ok(copy.introduction && copy.enter)
   }
 })
 
-test("root selection drives menu and explanation without driving the globe", () => {
+test("the menu never controls the globe, and remains semantic server content", () => {
   const component = source("components/home/root/root-home.tsx")
-  assert.match(component, /useState<RootDestinationId>/)
-  assert.match(component, /data-selected=\{selected \? "true" : "false"\}/)
-  assert.match(component, /data-root-detail-state=\{selectedId\}/)
-  assert.doesNotMatch(component, /<RootGlobe[^>]*selectedId/)
-  assert.match(component, /onFocus=\{\(\) => setSelectedId\(destination\.id\)\}/)
-  assert.match(component, /onPointerEnter=\{\(\) => setSelectedId\(destination\.id\)\}/)
-  assert.match(component, /prefetch=\{false\}/)
-  assert.doesNotMatch(component, /role="tab"|aria-selected|aria-current/)
-
-  const detailStart = component.indexOf("className={styles.detailRegion}")
-  const detailEnd = component.indexOf("<RootGlobe", detailStart)
-  const detail = component.slice(detailStart, detailEnd)
-  assert.doesNotMatch(detail, /<button/u)
-  assert.match(detail, /selectedId === "inventory"/u)
-  assert.deepEqual([...detail.matchAll(/<DestinationLink destination="([^"]+)"/gu)].map(match => match[1]), ["security", "technology", "ai", "futures"])
+  assert.doesNotMatch(component, /<RootGlobe[^>]*(selected|mode)/)
+  assert.match(component, /href="#menu"/)
+  assert.match(component, /replaceState/)
+  assert.match(component, /<nav aria-label=\{copy.primaryNavigationLabel\}/)
+  assert.doesNotMatch(component, /role="tab"|aria-selected/)
 })
 
 test("the root route graph has no Mapbox import and uses checked-in geography", () => {

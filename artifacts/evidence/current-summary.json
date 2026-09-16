@@ -4,7 +4,7 @@
     "advisory": {
       "baselineCount": 558,
       "currentCount": 1102,
-      "newCount": 703,
+      "newCount": 704,
       "newFindings": [
         {
           "audience": "public",
@@ -155,6 +155,16 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "Let each government opt into separately approved intelligence, commercial, diplomatic, or military blocks rather than require one package. Accepted cost: Beijing can exploit visible differences and gaps in participation."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/root/globe-scenes.ts#AUTHORED_ALIGNMENTS.6",
+          "count": 1,
+          "file": "lib/root/globe-scenes.ts",
+          "fingerprint": "0851788902a8f63a8cf194c8fdbbe6904101679dc396cbc6754ac972dcdf929a",
+          "matched": "rather than",
+          "rule": "rather-than-reflex",
+          "source": "One fictional arrangement links South Asian industrial access, East and Southern African transport, and Latin American food and minerals. A competing arrangement pursues different financing and procurement terms. It gives these regions choices with consequences rather than leaving them as scenery."
         },
         {
           "audience": "frozen",
@@ -7038,7 +7048,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 159,
+      "resolvedCount": 160,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7251,6 +7261,10 @@
         {
           "count": 1,
           "fingerprint": "58df59922c3b2a4bcd8ef3c65a89cfb6d3b4e0e4cb8c29db6099446579d7c0aa"
+        },
+        {
+          "count": 1,
+          "fingerprint": "59cc3354e267201e4255db9f994f8c0cc98f458a64f79661290e1e2b9d294287"
         },
         {
           "count": 1,
@@ -7677,7 +7691,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 399
+      "unchangedCount": 398
     },
     "higherPriorityFindings": [
       {
@@ -84869,7 +84883,7 @@
     {
       "category": "compatibility-test",
       "path": "tests/evidence-audit.test.mts",
-      "sha256": "e4503c9722009deebc182d50a07ad964abc6b5502db50e48267a3c38318ecf61"
+      "sha256": "d966f753e3cdeee3c85e8eebcda602f837f885fa71dfaf3fee61297d30ca60c4"
     },
     {
       "category": "compatibility-test",

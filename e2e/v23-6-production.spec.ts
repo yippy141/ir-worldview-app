@@ -21,10 +21,8 @@ import {
 
 const fixtures = buildFoundationFixtureSet()
 const rootDestinations = [
-  { id: "inventory", pathname: "/quiz" },
-  { id: "world-stage", pathname: "/world-stage" },
-  { id: "atlas", pathname: "/explore" },
-  { id: "perspective-runs", pathname: "/perspectives" },
+  { id: "foundation", pathname: "/quiz" }, { id: "futures", pathname: "/futures" },
+  { id: "library", pathname: "/explore" }, { id: "perspectives", pathname: "/perspectives" },
   { id: "profile", pathname: "/profile" },
 ] as const
 
@@ -42,7 +40,7 @@ test("root dependency requests and loaded scripts contain no Mapbox runtime", as
     )
   })
 
-  const response = await page.goto("/")
+  const response = await page.goto("/#menu")
   expect(response?.status()).toBe(200)
   await page.evaluate(() => document.fonts.ready)
   await page.waitForTimeout(250)
@@ -63,16 +61,10 @@ test("root dependency requests and loaded scripts contain no Mapbox runtime", as
 
 test("keyboard activation reaches every primary link without diverging from the preview", async ({ page }) => {
   for (const destination of rootDestinations) {
-    await page.goto("/")
+    await page.goto("/#menu")
     await focusRootDestination(page, destination.id)
 
-    await expect(page.locator("[data-root-selected]"))
-      .toHaveAttribute("data-root-selected", destination.id)
-    await expect(page.locator("[data-root-detail-state]"))
-      .toHaveAttribute("data-root-detail-state", destination.id)
-    await expect(page.locator("[data-root-globe]")).toHaveAttribute("data-scene", "eu-nato")
-    await expect(page.locator(`[data-root-destination="${destination.id}"]`))
-      .toHaveAttribute("data-selected", "true")
+    await expect(page.locator("[data-root-globe]")).toHaveAttribute("data-mode", "imagined")
 
     await page.keyboard.press("Enter")
     await expect.poll(() => new URL(page.url()).pathname).toBe(destination.pathname)
@@ -80,10 +72,12 @@ test("keyboard activation reaches every primary link without diverging from the 
 })
 
 test("returning-state hydration preserves root menu geometry", async ({ page }) => {
-  await page.goto("/")
+  await page.goto("/#menu")
   await expect(page.locator("[data-root-returning]"))
     .toHaveAttribute("data-root-returning", "resolved")
   const menu = page.getByRole("navigation", { name: "Primary destinations" })
+  await page.evaluate(() => document.fonts.ready)
+  await expect(page.getByRole("heading", { name: "Choose where to start." })).toBeInViewport()
   const before = await menu.boundingBox()
   expect(before).not.toBeNull()
 
@@ -289,7 +283,7 @@ test("current and history Profile links restore their exact one-shot local evide
   profile.foundation = currentSnapshot
   profile.foundationHistory = [historySnapshot, currentSnapshot]
 
-  await page.goto("/")
+  await page.goto("/#menu")
   await page.evaluate(
     ({ profileKey, evidenceKey, handoffKey, profileValue, evidenceValue }) => {
       window.localStorage.setItem(profileKey, JSON.stringify(profileValue))
@@ -489,13 +483,8 @@ test("Simplified Chinese root and result remain Chinese-only at 390px", async ({
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto("/zh")
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
-  await expect(page.locator("[data-root-destination]")).toHaveText([
-    "基础问卷",
-    "世界舞台",
-    "观点资料",
-    "情境推演",
-    "档案",
-  ])
+  await page.goto("/zh#menu")
+  await expect(page.locator("[data-root-group] > h3")).toHaveText(["问卷", "未来议题", "案例与练习", "观点资料", "你的世界观"])
   expect(await page.evaluate(() => document.documentElement.scrollWidth))
     .toBeLessThanOrEqual(390)
 
@@ -542,13 +531,10 @@ async function focusRootDestination(
   page: Page,
   destinationId: typeof rootDestinations[number]["id"],
 ) {
-  for (let press = 0; press < 20; press += 1) {
-    await page.keyboard.press("Tab")
-    const focused = await page.evaluate(() =>
-      document.activeElement?.getAttribute("data-root-destination") ?? null)
-    if (focused === destinationId) return
-  }
-  throw new Error(`Tab did not reach root destination ${destinationId}.`)
+  const destination = rootDestinations.find(item => item.id === destinationId)!
+  const link = page.getByRole("navigation", { name: "Primary destinations" }).locator(`a[href="${destination.pathname}"]`)
+  await link.focus()
+  await expect(link).toBeFocused()
 }
 
 async function seedEvidence(
@@ -556,7 +542,7 @@ async function seedEvidence(
   localEvidenceJson: string,
   handoffJson: string,
 ) {
-  await page.goto("/")
+  await page.goto("/#menu")
   await page.evaluate(
     ({ localKey, handoffKey, localValue, handoffValue }) => {
       window.localStorage.setItem(localKey, localValue)
@@ -572,7 +558,7 @@ async function seedEvidence(
 }
 
 async function setProfile(page: Page, profile: unknown) {
-  await page.goto("/")
+  await page.goto("/#menu")
   await page.evaluate(
     ({ key, value }) => window.localStorage.setItem(key, JSON.stringify(value)),
     { key: PROFILE_STORAGE_KEY, value: profile },

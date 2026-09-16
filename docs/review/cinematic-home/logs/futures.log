@@ -1,0 +1,22 @@
+
+[WebServer] (node:71804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+
+(node:71812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/11] [chromium] › e2e/futures-catalogue.spec.ts:41:5 › every catalogue entry, original anchor and source status; comparison accepts any two
+[2/11] [chromium] › e2e/futures-catalogue.spec.ts:76:5 › complete journey without Departure; expectations, edits, reset and privacy
+[3/11] [chromium] › e2e/futures-catalogue.spec.ts:136:5 › keyboard selection, mandatory review, reduced motion and returning routes
+[4/11] [chromium] › e2e/futures-catalogue.spec.ts:162:5 › catalogue, questions, varied results and any-two comparison reflow and synthetic captures
+[5/11] [chromium] › e2e/futures-catalogue.spec.ts:233:5 › rendered interpretation changes with same-candidate counterexamples and shows requirement qualifications
+[6/11] [chromium] › e2e/futures-catalogue.spec.ts:250:5 › read revised capability requirement and uninstantiated Reversion institutions
+[7/11] [chromium] › e2e/futures-catalogue.spec.ts:275:5 › human-only standing remains distinct from nonhuman governing authority in the rendered reading
+[8/11] [chromium] › e2e/futures-departure.spec.ts:27:5 › explicit submission, back/edit invalidation, scope disclosures and unknown reasons
+[9/11] [chromium] › e2e/futures-departure.spec.ts:63:5 › answer interactions produce no network requests or persistent writes
+[10/11] [chromium] › e2e/futures-departure.spec.ts:89:5 › keyboard, equal policy framing, reset confirmation and reduced motion
+[11/11] [chromium] › e2e/futures-departure.spec.ts:119:5 › 320/390/768/1440 reflow and an inspectable visual walkthrough
+  11 passed (30.7s)

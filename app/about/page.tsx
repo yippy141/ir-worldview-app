@@ -20,8 +20,7 @@ export default function AboutPage() {
         <p className="eyebrow">About</p>
         <h1>It asks how you read world politics, and shows you the logic you used.</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
-          The Foundation puts fourteen questions to you about the arguments people reach for when
-          world politics gets hard. Security, Technology, and AI Governance put the same kind of
+          Answer fourteen questions about international politics, then explore the arguments behind your result. Security, Technology, and AI Governance put the same kind of
           question to you inside one policy field. Cases and Perspective Runs ask you to decide
           from a named seat. Each result is a reading of your answers: which explanation you
           trusted, which cost you accepted, and which rival argument came closest.

@@ -1,0 +1,19 @@
+[WebServer] (node:71148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:71153) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [webkit] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 320 (2.1s)
+  ✓   2 [webkit] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 390 (1.7s)
+  ✓   3 [webkit] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 768 (1.7s)
+  ✓   4 [webkit] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 1440 (1.5s)
+  ✓   5 [webkit] › e2e/batch-b-reading.spec.ts:82:5 › unknown and interrupted drafts preserve older copy, decline invented evidence and require confirmed restart (1.0s)
+  ✓   6 [webkit] › e2e/batch-b-reading.spec.ts:100:5 › no-JS, print, keyboard and reduced-motion reading retain the argument and source route (1.4s)
+  ✓   7 [webkit] › e2e/history-copy-provenance.spec.ts:22:52 › en: unknown saved observations stay individually readable without a comparison (722ms)
+  ✓   8 [webkit] › e2e/history-copy-provenance.spec.ts:22:52 › zh-Hans: unknown saved observations stay individually readable without a comparison (765ms)
+  ✓   9 [webkit] › e2e/history-copy-provenance.spec.ts:31:5 › reopening an unknown result does not churn bounded history or evict unrelated records (1.5s)
+  ✓  10 [webkit] › e2e/pr52-navigation.spec.ts:34:42 › shared navigation fits 390px closed and expanded, with every destination reachable (4.4s)
+
+  10 passed (19.3s)

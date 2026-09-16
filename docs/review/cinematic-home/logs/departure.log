@@ -1,0 +1,15 @@
+
+[WebServer] (node:72046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+
+(node:72052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/4] [chromium] › e2e/futures-departure.spec.ts:27:5 › explicit submission, back/edit invalidation, scope disclosures and unknown reasons
+[2/4] [chromium] › e2e/futures-departure.spec.ts:63:5 › answer interactions produce no network requests or persistent writes
+[3/4] [chromium] › e2e/futures-departure.spec.ts:89:5 › keyboard, equal policy framing, reset confirmation and reduced motion
+[4/4] [chromium] › e2e/futures-departure.spec.ts:119:5 › 320/390/768/1440 reflow and an inspectable visual walkthrough
+  4 passed (11.4s)

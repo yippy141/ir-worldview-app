@@ -51,9 +51,17 @@ export default async function ExploreDetailPage({ params }: Props) {
     .sort((left, right) => left.posture === right.posture ? 0 : left.posture === "+" ? -1 : 1)
 
   return (
-    <div className="wide-container reading-page">
+    <div className="wide-container reading-page reading-tradition">
+      {/* Atlas two-column layout */}
+      <div className="atlas-layout">
+        {/* Sticky TOC */}
+        <PageContents className="atlas-toc" links={tocItems.map(item => ({ href: `#${item.id}`, label: item.label }))} />
+
+
+        {/* Main body */}
+        <div className="atlas-body">
       {/* Back link */}
-      <div style={{ marginBottom: "28px" }}>
+      <div className="reading-parent">
         <Link
           href="/explore"
           style={{ fontSize: "0.85rem", color: "var(--muted)", textDecoration: "none" }}
@@ -63,21 +71,14 @@ export default async function ExploreDetailPage({ params }: Props) {
       </div>
 
       {/* Page header (full width, above atlas grid) */}
-      <div className="article-header stack-sm" style={{ maxWidth: "680px", marginBottom: "48px" }}>
+      <div className="article-header stack-sm" >
         <h1>{family.name}</h1>
         <p style={{ fontSize: "1.1rem", lineHeight: "1.65", color: "var(--muted)" }}>
           {family.tagline}
         </p>
       </div>
 
-      {/* Atlas two-column layout */}
-      <div className="atlas-layout">
-        {/* Sticky TOC */}
-        <PageContents className="atlas-toc" links={tocItems.map(item => ({ href: `#${item.id}`, label: item.label }))} />
 
-
-        {/* Main body */}
-        <div className="atlas-body">
           {/* Overview */}
           <section id="overview" className="article-section">
             <h2 style={{ marginBottom: "20px" }}>Overview</h2>

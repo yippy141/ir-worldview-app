@@ -10,6 +10,7 @@ import {
   useState,
   useSyncExternalStore,
   type CSSProperties,
+  type ReactNode,
 } from "react"
 import {
   zhHansWorldStageUi,
@@ -84,8 +85,10 @@ function getReducedMotionServerSnapshot() {
 
 export function WorldStageHome({
   hasActiveCurrentCase,
+  documentedMaps,
 }: {
   hasActiveCurrentCase: boolean
+  documentedMaps: ReactNode
 }) {
   const locale = useLocale() as Locale
   const chinese = locale === "zh-Hans"
@@ -216,7 +219,7 @@ export function WorldStageHome({
     >
       <header className={styles.header}>
         <Link
-          href="/"
+          href="/#menu"
           className={styles.brand}
           aria-label={chinese ? zhHansWorldStageUi.brandAriaLabel : "IR Worldview Inventory home"}
         >
@@ -250,8 +253,11 @@ export function WorldStageHome({
       </header>
 
       <section className={styles.sceneIntroduction} aria-labelledby="world-stage-heading">
+        <Link href="/#menu">{chinese ? "主菜单" : "Main menu"}</Link>
         <h1 id="world-stage-heading">{chinese ? "世界舞台" : "World Stage"}</h1>
+        <p>{chinese ? "有来源的地图" : "Documented maps"}</p>
         <nav aria-label={chinese ? controls.worldStageSections : "Related reading"}>
+          <a href="#membership-maps">{chinese ? "成员资格地图" : "Membership maps"}</a>
           <Link href="/cases">{chinese ? "案例" : hasActiveCurrentCase ? "Current cases" : "Case archive"} →</Link>
           <Link href="/futures">{chinese ? "未来情景" : "Futures"} →</Link>
         </nav>
@@ -448,6 +454,7 @@ export function WorldStageHome({
           ))}
         </nav>
       </footer>
+      {documentedMaps}
     </main>
   )
 }

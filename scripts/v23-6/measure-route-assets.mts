@@ -277,7 +277,7 @@ async function measureTarget(
       }
       const body = inspectRenderedFont(document.body)
       const activeMenu = inspectRenderedFont(
-        document.querySelector<HTMLElement>('[data-root-destination][data-selected="true"]')
+        document.querySelector<HTMLElement>('[data-root-globe] h2, [data-root-destination][data-selected="true"]')
           ?? document.body,
       )
       return {

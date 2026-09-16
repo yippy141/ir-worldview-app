@@ -4,6 +4,9 @@ import chinese from "@/messages/zh-Hans.json" with { type: "json" }
 // Presentation destinations only. Result returns keep their existing allowlists;
 // questionnaire steps and deliberate exits remain owned by their flows.
 export const destinations = {
+  menu: { href: "/#menu", labelKey: "menu" },
+  futurePreferences: { href: "/futures/preferences", labelKey: "futurePreferences", parent: "futures" },
+  futureCompare: { href: "/futures/compare", labelKey: "futureCompare", parent: "futures" },
   foundation: { href: "/quiz", labelKey: "foundation" },
   worldStage: { href: "/world-stage", labelKey: "worldStage" },
   library: { href: "/explore", labelKey: "explore" },
@@ -18,7 +21,7 @@ export const destinations = {
   worldviewMap: { href: "/explore/atlas", labelKey: "worldviewMap", parent: "library" },
   thinkers: { href: "/explore/reference", labelKey: "publicPositions", parent: "library" },
   archetypes: { href: "/archetypes", labelKey: "archetypes", parent: "library" },
-  cases: { href: "/cases", labelKey: "currentCase", parent: "worldStage" },
+  cases: { href: "/cases", labelKey: "currentCase", parent: "menu" },
   decisions: { href: "/decisions", labelKey: "decisions" },
   futures: { href: "/futures", labelKey: "futures" },
   method: { href: "/method", labelKey: "methods" },
@@ -30,19 +33,20 @@ export const destinations = {
 
 export type DestinationId = keyof typeof destinations
 
-/** Section homes and their reading/exercise destinations, shared by every menu. */
-export const navigationSections: ReadonlyArray<{ home: DestinationId; children: readonly DestinationId[] }> = [
-  { home: "foundation", children: [] },
-  { home: "ai", children: ["aiApproaches", "aiFieldGuide"] },
-  { home: "modules", children: ["security", "technology"] },
-  { home: "library", children: ["worldviewMap", "thinkers", "archetypes", "references"] },
-  { home: "worldStage", children: ["cases", "decisions"] },
-  { home: "futures", children: [] },
-  { home: "perspectives", children: [] },
-  { home: "profile", children: [] },
-]
-
-export const navigationUtilities: readonly DestinationId[] = ["method", "about", "privacy", "feedback"]
+/** Parent groups shared by the root and every directory. Routes live above. */
+export const navigationSections = [
+  { id: "questionnaires", labelKey: "questionnaires", overview: "modules", children: ["foundation", "security", "technology", "ai"] },
+  { id: "futures", labelKey: "futures", children: ["futures", "futurePreferences", "futureCompare"] },
+  { id: "cases", labelKey: "casesExercises", children: ["cases", "decisions", "perspectives"] },
+  { id: "library", labelKey: "explore", children: ["library", "thinkers", "archetypes", "aiApproaches", "aiFieldGuide", "worldviewMap", "references"] },
+  { id: "profile", labelKey: "yourWorldview", children: ["profile"] },
+] as const satisfies readonly { id: string; labelKey: keyof typeof english.chrome.nav; children: readonly DestinationId[]; overview?: DestinationId }[]
+export type NavigationSectionId = (typeof navigationSections)[number]["id"]
+export function sectionLabel(id: NavigationSectionId, locale = "en") {
+  const labels = locale === "zh-Hans" ? chinese.chrome.nav : english.chrome.nav
+  return labels[navigationSections.find(section => section.id === id)!.labelKey]
+}
+export const navigationUtilities: readonly DestinationId[] = ["worldStage", "method", "about", "privacy", "feedback"]
 
 export function destinationIsCurrent(id: DestinationId, pathname: string) {
   const href = destinations[id].href

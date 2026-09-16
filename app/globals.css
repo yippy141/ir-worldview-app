@@ -3370,26 +3370,7 @@ html:lang(zh-Hans) .quiz-shell-label {
   padding-bottom: 42px;
 }
 
-.article-header::before,
-.lobby-hero::before,
-.result-hero::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(420px, 44vw);
-  height: 240px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at center, color-mix(in srgb, var(--accent) 10%, transparent 90%) 0%, transparent 72%);
-  pointer-events: none;
-  z-index: -1;
-}
-
-.explore-page .article-header::before {
-  right: 0;
-}
-
+/* Reading and hub heroes use the navy field without a decorative brass glow. */
 .profile-hero::before {
   content: none;
 }
