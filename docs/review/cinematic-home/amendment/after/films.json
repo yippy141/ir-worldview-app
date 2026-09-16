@@ -1,0 +1,57 @@
+{
+  "task": "films",
+  "manifest": [
+    {
+      "clip": "enter-and-return.webm",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "speed": "real time; continuous"
+    },
+    {
+      "clip": "foundation-completion.webm",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "synthetic draft → real review → real submit handler → client result navigation",
+      "onScreenDrawing": true,
+      "speed": "real time; continuous"
+    },
+    {
+      "clip": "ai-completion.webm",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "synthetic draft → real review → real submit handler → client result navigation",
+      "onScreenDrawing": true,
+      "speed": "real time; continuous"
+    },
+    {
+      "clip": "security-completion.webm",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "synthetic draft → real review → real submit handler → client result navigation",
+      "onScreenDrawing": true,
+      "speed": "real time; continuous"
+    },
+    {
+      "clip": "technology-completion.webm",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "route": "synthetic draft → real review → real submit handler → client result navigation",
+      "onScreenDrawing": true,
+      "speed": "real time; continuous"
+    }
+  ],
+  "blocked": [
+    "POST /api/aggregate/result",
+    "POST /api/analytics/event"
+  ]
+}

@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1102,
-      "newCount": 704,
+      "currentCount": 1101,
+      "newCount": 703,
       "newFindings": [
         {
           "audience": "public",
@@ -155,16 +155,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "Let each government opt into separately approved intelligence, commercial, diplomatic, or military blocks rather than require one package. Accepted cost: Beijing can exploit visible differences and gaps in participation."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/root/globe-scenes.ts#AUTHORED_ALIGNMENTS.6",
-          "count": 1,
-          "file": "lib/root/globe-scenes.ts",
-          "fingerprint": "0851788902a8f63a8cf194c8fdbbe6904101679dc396cbc6754ac972dcdf929a",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "One fictional arrangement links South Asian industrial access, East and Southern African transport, and Latin American food and minerals. A competing arrangement pursues different financing and procurement terms. It gives these regions choices with consequences rather than leaving them as scenery."
         },
         {
           "audience": "frozen",
@@ -4748,16 +4738,6 @@
         },
         {
           "audience": "public",
-          "context": "route:/ai#AiPage.h2",
-          "count": 1,
-          "file": "app/ai/page.tsx",
-          "fingerprint": "aa7fcc5de1e5ec3be549af7786e07371e5e5f6b519860a78fccb442e63432c8a",
-          "matched": "Your own result names the approach, the rival, and the question your answers left open / Read the approaches, make a decision, or look further ahead",
-          "rule": "repeated-adjacent-three-part-list",
-          "source": "Read the approaches, make a decision, or look further ahead"
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/narrative/profile.ts#buildProbeNextText",
           "count": 1,
           "file": "lib/narrative/profile.ts",
@@ -5755,6 +5735,16 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "The most durable strategy is to join coalitions on specific problems without accepting whole-of-state alignment."
+        },
+        {
+          "audience": "public",
+          "context": "route:/ai#AiPage.h2",
+          "count": 1,
+          "file": "app/ai/page.tsx",
+          "fingerprint": "cdd6e152d6db3e796ee299b3597df295a6e80d0f69972cf8ef9d80b377aa6ea0",
+          "matched": "questions on compute, audits, and incident reporting / Read the approaches, make a decision, or look further ahead",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Read the approaches, make a decision, or look further ahead"
         },
         {
           "audience": "public",
@@ -8078,7 +8068,7 @@
         "jsonPath": null,
         "key": "AiResultPage.p",
         "kind": "self-narration",
-        "line": 303,
+        "line": 302,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -8320,7 +8310,7 @@
         "jsonPath": null,
         "key": "ModuleApp.p",
         "kind": "self-narration",
-        "line": 489,
+        "line": 481,
         "match": "What it does not claim",
         "matched": "What it does not claim",
         "priority": "P1",
@@ -10961,7 +10951,7 @@
         "priority": "P1"
       },
       {
-        "count": 1102,
+        "count": 1101,
         "priority": "P2"
       }
     ]

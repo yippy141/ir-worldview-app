@@ -266,9 +266,8 @@ export default async function AiResultPage(
 
         <section className="result-section result-appendix-section stack-md">
           <EvidenceControls />
-          <h2>Full analysis</h2>
-          <details className="profile-details">
-            <summary>Reasoning and policy debates</summary>
+          <h2>Reasoning and policy debates</h2>
+          <div>
             <div className="stack-lg result-details-body">
               <AiGovernancePayoffSections payoff={payoff} />
               <AiGovernanceProfileSections resolved={resolved} />
@@ -278,7 +277,7 @@ export default async function AiResultPage(
                 <blockquote className="result-prose ai-result-body">{explanation}</blockquote>
               </details>
             </div>
-          </details>
+          </div>
           <details className="profile-details" id="ai-calculations">
             <summary>Positions and exact comparison calculations</summary>
             <div className="stack-lg result-details-body">

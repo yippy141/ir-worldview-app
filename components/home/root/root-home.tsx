@@ -3,6 +3,7 @@
 // An established navy/brass editorial world. The globe is the opening artifact;
 // Enter reveals the grouped menu beside that same mounted, independently held view.
 import { useEffect, useMemo, useRef, useState } from "react"
+import { flushSync } from "react-dom"
 import { DestinationLink } from "@/components/layout/destination-link"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import type { RootCopy } from "@/content/root"
@@ -67,12 +68,18 @@ export function RootHome({ locale, copy, visual, scenes }: {
   const [mode, setMode] = useState<"static" | "entrance" | "menu">("static")
   const [localStatus, setLocalStatus] = useState<RootLocalStatus | null>(null)
   const menuHeading = useRef<HTMLHeadingElement>(null)
+  const globeRegion = useRef<HTMLDivElement>(null)
+  const menuLinks = useRef<HTMLElement>(null)
+  const enterLink = useRef<HTMLAnchorElement>(null)
+  const motion = useRef<Animation[]>([])
+  const finishMotion = () => { motion.current.forEach(animation => animation.cancel()); motion.current = [] }
   const statusText = useMemo(() => localStatusText(copy, localStatus), [copy, localStatus])
   useEffect(() => {
     const refresh = () => {
       try { setLocalStatus(readRootLocalStatus(window.localStorage)) } catch { /* Storage may be unavailable. */ }
     }
     const location = () => {
+      finishMotion()
       let returning = false
       try {
         const status = readRootLocalStatus(window.localStorage)
@@ -88,18 +95,40 @@ export function RootHome({ locale, copy, visual, scenes }: {
     const settleScroll = initialMenu ? requestAnimationFrame(() => window.scrollTo(0, 0)) : null
     window.addEventListener("storage", refresh); window.addEventListener(QUIZ_SESSION_EVENT, refresh)
     window.addEventListener("hashchange", location); window.addEventListener("popstate", location)
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)")
+    reduced.addEventListener("change", finishMotion)
+    window.addEventListener("resize", finishMotion); window.addEventListener("beforeprint", finishMotion); window.addEventListener("pagehide", finishMotion)
     return () => {
+      finishMotion()
       if (settleScroll !== null) cancelAnimationFrame(settleScroll)
       window.removeEventListener("storage", refresh); window.removeEventListener(QUIZ_SESSION_EVENT, refresh)
       window.removeEventListener("hashchange", location); window.removeEventListener("popstate", location)
+      reduced.removeEventListener("change", finishMotion)
+      window.removeEventListener("resize", finishMotion); window.removeEventListener("beforeprint", finishMotion); window.removeEventListener("pagehide", finishMotion)
     }
   }, [])
+  const transition = (next: "menu" | "entrance") => {
+    const globe = globeRegion.current!
+    // Read the current visual position before cancelling an interrupted move.
+    const first = globe.getBoundingClientRect()
+    finishMotion()
+    window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#${next}`)
+    flushSync(() => setMode(next))
+    window.scrollTo(0, 0)
+    const last = globe.getBoundingClientRect()
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches && globe.animate) {
+      if (matchMedia("(min-width: 901px)").matches) motion.current.push(globe.animate([
+        { transformOrigin: "top left", transform: `translate(${first.left - last.left}px, ${first.top - last.top}px) scale(${first.width / last.width})` },
+        { transformOrigin: "top left", transform: "none" },
+      ], { duration: 400, easing: "cubic-bezier(.22,1,.36,1)" }))
+      if (next === "menu" && menuLinks.current) motion.current.push(menuLinks.current.animate([{ opacity: .35 }, { opacity: 1 }], { duration: 180, easing: "ease-out" }))
+    }
+    ;(next === "menu" ? menuHeading.current : enterLink.current)?.focus({ preventScroll: true })
+  }
   const enter = () => {
     try { sessionStorage.setItem(MENU_VISITED, "true") } catch { /* Optional convenience only. */ }
     // Replace the entrance entry so browser Back from a child returns to the menu.
-    window.history.replaceState(window.history.state, "", `${window.location.pathname}${window.location.search}#menu`)
-    setMode("menu")
-    requestAnimationFrame(() => menuHeading.current?.focus({ preventScroll: true }))
+    transition("menu")
   }
   const explore = () => {
     const details = document.getElementById("map-details") as HTMLDetailsElement | null
@@ -117,19 +146,19 @@ export function RootHome({ locale, copy, visual, scenes }: {
     </header>
     <div className={styles.entrance}>
       <p>{copy.introduction}</p>
-      <a href="#menu" className={styles.enter} onClick={event => {
+      <a ref={enterLink} href="#menu" className={styles.enter} onClick={event => {
         if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
         event.preventDefault(); enter()
       }}>{copy.enter}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
     </div>
     <div className={styles.composition}>
-      <div className={styles.globeRegion}><RootGlobe visual={visual} scenes={scenes} chinese={locale === "zh-Hans"} /></div>
+      <div ref={globeRegion} className={styles.globeRegion}><RootGlobe visual={visual} scenes={scenes} chinese={locale === "zh-Hans"} /></div>
       <section className={styles.menuRegion} id="menu" aria-labelledby="menu-heading">
         <div className={styles.menuHeading}>
           <h2 ref={menuHeading} tabIndex={-1} id="menu-heading">{copy.heading}</h2>
           <a href="#map-details" onClick={explore}>{copy.map}</a>
         </div>
-        <nav aria-label={copy.primaryNavigationLabel} className={styles.groups}>
+        <nav ref={menuLinks} aria-label={copy.primaryNavigationLabel} className={styles.groups} onFocusCapture={finishMotion}>
           {ROOT_DESTINATIONS.map(group => <section key={group.id} className={styles.group} data-root-group={group.id}>
             <h3>{copy.destinationCopy[group.id].label}</h3>
             <p>{copy.destinationCopy[group.id].explanation}</p>
@@ -140,7 +169,10 @@ export function RootHome({ locale, copy, visual, scenes }: {
         <div className={styles.localState} data-root-returning={localStatus ? "resolved" : "pending"}>
           <h3>{copy.localState.heading}</h3><p>{statusText}</p>
         </div>
-        <a className={styles.returnOpening} href="#entrance" onClick={() => { setMode("entrance"); requestAnimationFrame(() => window.scrollTo(0, 0)) }}>{locale === "zh-Hans" ? "回到开场" : "View the opening"}</a>
+        <a className={styles.returnOpening} href="#entrance" onClick={event => {
+          if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+          event.preventDefault(); transition("entrance")
+        }}>{locale === "zh-Hans" ? "回到开场" : "View the opening"}</a>
       </section>
     </div>
   </main>

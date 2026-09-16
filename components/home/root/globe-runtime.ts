@@ -18,7 +18,7 @@ export function createGlobePainter(canvas: HTMLCanvasElement) {
     if (stroke) { context.strokeStyle = stroke; context.lineWidth = .9; context.stroke() }
   }
   return {
-    paint(camera: GlobeCamera, scene: { groups: Array<{ color: string; countries: string[] }> }, colors: Record<string, string> = ALIGNMENT_COLORS) {
+    paint(camera: GlobeCamera, scene: { groups: Array<{ color: string; countries: string[] }>; internalBorders?: "faint" }, colors: Record<string, string> = ALIGNMENT_COLORS) {
       const dpr = Math.min(devicePixelRatio || 1, 2)
       const width = Math.max(1, Math.round(canvas.clientWidth * dpr))
       if (canvas.width !== width) { canvas.width = width; canvas.height = width }
@@ -28,7 +28,8 @@ export function createGlobePainter(canvas: HTMLCanvasElement) {
       const fills = new Map(scene.groups.flatMap(group => group.countries.map(code => [code, colors[group.color]] as const)))
       draw({ type: "Sphere" }, "#0e1a2e", "#304563")
       context.beginPath(); path(graticule); context.strokeStyle = "#22344f"; context.lineWidth = .65; context.stroke()
-      for (const feature of countries.features) draw(feature as GeoPermissibleObjects, fills.get(feature.properties.iso3) ?? ALIGNMENT_COLORS.muted, "#0e1a2e")
+      const border = scene.internalBorders === "faint" ? "rgba(14,26,46,.18)" : "#0e1a2e"
+      for (const feature of countries.features) draw(feature as GeoPermissibleObjects, fills.get(feature.properties.iso3) ?? ALIGNMENT_COLORS.muted, border)
       for (const feature of small) {
         const coordinates = feature.geometry.coordinates as [number, number]
         if (geoDistance(coordinates, [camera.longitude, camera.latitude]) >= Math.PI / 2) continue
@@ -36,7 +37,7 @@ export function createGlobePainter(canvas: HTMLCanvasElement) {
         if (!position) continue
         context.beginPath(); context.arc(position[0], position[1], 3.8, 0, 2 * Math.PI)
         context.fillStyle = fills.get(feature.properties.iso3) ?? ALIGNMENT_COLORS.muted; context.fill()
-        context.lineWidth = 1; context.strokeStyle = "#0a1322"; context.stroke()
+        context.lineWidth = 1; context.strokeStyle = scene.internalBorders === "faint" ? border : "#0a1322"; context.stroke()
       }
     },
     inspect(camera: GlobeCamera, x: number, y: number) {

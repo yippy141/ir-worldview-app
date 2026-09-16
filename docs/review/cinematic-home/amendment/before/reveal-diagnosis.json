@@ -1,0 +1,2142 @@
+[
+  {
+    "engine": "chromium",
+    "width": 390,
+    "domain": "foundation",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.9172039023454028,
+      "beforeScroll": 2320,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 536,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 548,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 549,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 555,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 555,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 2552,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2557,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": [
+      "POST /api/aggregate/result",
+      "POST /api/analytics/event"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "domain": "ai",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.40845003880897857,
+      "beforeScroll": 3793,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 472,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 476,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 476,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 484,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 484,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 2479,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2484,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "domain": "security",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.4258850596738375,
+      "beforeScroll": 4799,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 742,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 775,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 775,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 789,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 789,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 2777,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2781,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "chromium",
+    "width": 390,
+    "domain": "technology",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.8905257355177713,
+      "beforeScroll": 1744,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 721,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 750,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 750,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 755,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 755,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 2752,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2755,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "domain": "foundation",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.2967710568227594,
+      "beforeScroll": 1337,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 596,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 603,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 603,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 616,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 616,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 2605,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2614,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": [
+      "POST /api/aggregate/result",
+      "POST /api/analytics/event"
+    ]
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "domain": "ai",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.006585901949268447,
+      "beforeScroll": 2331,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 494,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 500,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 500,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loading",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 512,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 512,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 2504,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2511,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "domain": "security",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.7706229841018187,
+      "beforeScroll": 2142,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 751,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 783,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 783,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 786,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 786,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 2785,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2792,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "chromium",
+    "width": 1440,
+    "domain": "technology",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.4128183890158823,
+      "beforeScroll": 656,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 733,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 768,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 768,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 783,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 783,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 2771,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2776,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "domain": "foundation",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.7744733264779659,
+      "beforeScroll": 2319,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 554,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 570,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 571,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 587,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 587,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 2575,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2580,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 67,
+            "y": 155,
+            "width": 256,
+            "height": 110,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": [
+      "POST /api/aggregate/result",
+      "POST /api/analytics/event"
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "domain": "ai",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.8221950247372123,
+      "beforeScroll": 3791,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 507,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 517,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 517,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 543,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 543,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 2521,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2538,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 129,
+            "y": 261,
+            "width": 132,
+            "height": 132,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "domain": "security",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.9346207205484044,
+      "beforeScroll": 4799,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 720,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 727,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 727,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 756,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 756,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 2730,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2747,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 40,
+            "y": 215,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "webkit",
+    "width": 390,
+    "domain": "technology",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.26300139452743754,
+      "beforeScroll": 1743,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 716,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 723,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 723,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 744,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 744,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 2726,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2751,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 20,
+            "y": 216,
+            "width": 88,
+            "height": 88,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "domain": "foundation",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.8953457991863144,
+      "beforeScroll": 1336,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 534,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 547,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 547,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 570,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion+2frames",
+          "t": 570,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 8
+        },
+        {
+          "event": "motion",
+          "t": 2553,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2570,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 514,
+            "y": 171,
+            "width": 412,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": [
+      "POST /api/aggregate/result",
+      "POST /api/analytics/event"
+    ]
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "domain": "ai",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.006783909622713025,
+      "beforeScroll": 2330,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 511,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 523,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 523,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 546,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion+2frames",
+          "t": 546,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 4
+        },
+        {
+          "event": "motion",
+          "t": 2527,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2538,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 632,
+            "y": 277,
+            "width": 176,
+            "height": 176,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "domain": "security",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.3341036581897675,
+      "beforeScroll": 2142,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 714,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 722,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 722,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 755,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion+2frames",
+          "t": 755,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 3
+        },
+        {
+          "event": "motion",
+          "t": 2726,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2732,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 235,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  },
+  {
+    "engine": "webkit",
+    "width": 1440,
+    "domain": "technology",
+    "clientNavigation": true,
+    "trace": {
+      "token": 0.09778343928796085,
+      "beforeScroll": 656,
+      "mounts": 1,
+      "samples": [
+        {
+          "event": "mount",
+          "t": 706,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion",
+          "t": 722,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 722,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 751,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion+2frames",
+          "t": 751,
+          "motion": "drawing",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 7
+        },
+        {
+          "event": "motion",
+          "t": 2726,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        },
+        {
+          "event": "motion+2frames",
+          "t": 2733,
+          "motion": "complete",
+          "scroll": 0,
+          "fonts": "loaded",
+          "hidden": false,
+          "reduced": false,
+          "mark": {
+            "x": 1146,
+            "y": 236,
+            "width": 144,
+            "height": 144,
+            "onScreen": true
+          },
+          "animations": 0
+        }
+      ]
+    },
+    "blocked": []
+  }
+]

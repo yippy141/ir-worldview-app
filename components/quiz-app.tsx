@@ -453,7 +453,6 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         <p className="entrance-count">{questions.length} questions · estimated 6–8 minutes</p>
         <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
         <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
-        <blockquote className="entrance-example"><div><strong>Illustrative result: Concert, near Shi.</strong><p>Shared rules may make cooperation worth attempting, while concerns about power keep the bargain conditional.</p><p className="muted">An authored illustration. Your answers determine your reading and its nearest alternative.</p></div></blockquote>
         <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
       </section>}
       <FoundationCopyNotice session={session} locale={locale} onRestart={resetQuiz} />
@@ -514,7 +513,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         </div>
 
         {copy.positionMap ? (
-          <details className="task-map-disclosure"><summary>{copy.positionMap.label}</summary><QuizPositionMap
+          <details className="task-map-disclosure"><summary>{locale === "zh-Hans" ? "查看当前倾向（自愿查看）" : "View your position so far (optional)"}</summary><QuizPositionMap
             answers={resultAnswers}
             answeredCount={Object.keys(resultAnswers).length}
             copy={copy.positionMap}

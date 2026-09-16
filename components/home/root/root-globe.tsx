@@ -156,7 +156,7 @@ export function RootGlobe({ visual, scenes, chinese = false }: { visual: RootGlo
     <figcaption className={styles.caption}>
       <h2 className={styles.title}>{scene.title}</h2>
       <p className={styles.label}>{copy.label}</p>
-      <div className={styles.key}>{scene.groups.filter(group => group.color !== "muted").map(group => <span key={group.color}><i data-color={group.color} />{copy.groups[group.color]}</span>)}</div>
+      <div className={styles.key}>{scene.groups.filter(group => group.color !== "muted").map(group => <span key={group.id} data-group={group.id}><i data-color={group.color} />{group.label}</span>)}</div>
     </figcaption>
     <div className={styles.controls}>
       <button type="button" onClick={() => controls.current?.scene(-1)} aria-label={copy.previous}><GlobeControlIcon kind="previous" /></button>
@@ -167,7 +167,7 @@ export function RootGlobe({ visual, scenes, chinese = false }: { visual: RootGlo
       <button type="button" disabled={zoom >= 2.4} onClick={() => controls.current?.zoom(.2)} aria-label={copy.zoomIn}><GlobeControlIcon kind="in" /></button>
       <button type="button" onClick={() => controls.current?.reset()}>{copy.reset}</button>
     </div>
-    <p className={styles.inspected} role="status">{inspected ? inspectedPlace && inspectedGroup ? `${inspectedPlace.name} · ${copy.groups[inspectedGroup.color]}` : copy.ocean : ""}</p>
+    <p className={styles.inspected} role="status">{inspected ? inspectedPlace && inspectedGroup ? `${inspectedPlace.name} · ${inspectedGroup.label}` : copy.ocean : ""}</p>
     <details className={styles.about} id="map-details" onToggle={event => { if (event.currentTarget.open) controls.current?.pause() }} onFocus={() => controls.current?.pause()}>
       <summary>{copy.about}</summary>
       <p>{copy.explanation}</p>

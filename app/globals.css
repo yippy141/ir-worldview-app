@@ -11400,7 +11400,9 @@ details[open].reference-dimension-row > summary.reference-dimension-row__head {
 .quiz-header--focused .quiz-header__main { flex: 1 1 400px; }
 .task-orientation-title, .ai-task-orientation h1 { font-size: 22px; margin: 0; }
 .task-map-disclosure { flex: 0 1 260px; font-size: 13px; }
-.task-map-disclosure > summary { cursor: pointer; min-height: 44px; }
+.task-map-disclosure > summary { cursor: pointer; min-height: 44px; padding: 10px 12px; color: var(--text); border: 1px solid var(--line-2); }
+.task-map-disclosure > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.task-map-disclosure[open] { flex: 1 1 100%; max-width: 760px; }
 .ai-task-orientation { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; padding: 12px 0 20px; }
 .ai-task-orientation .eyebrow { display: none; }
 .module-choice-grid { grid-template-columns: 1fr; }

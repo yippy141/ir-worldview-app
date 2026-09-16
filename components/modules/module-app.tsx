@@ -1,6 +1,5 @@
 "use client"
 
-import { DomainMark } from "@/components/results/domain-mark"
 import { markFreshResult } from "@/lib/results/fresh-foundation-result"
 
 import { useEffect, useMemo, useRef, useState } from "react"
@@ -464,18 +463,11 @@ export function ModuleApp({
           </select></label>
         </div>
         <p className="muted">{questions.length} cases · estimated {moduleDefinition.timeEstimate[mode]}. Advanced adds {analystAdditionCount} cases. Choose one main answer; where available, you can add a second choice.</p>
-        <div className="entrance-example">
-          <DomainMark domain={slug} compact />
-          <div><h2>An illustrated decision</h2>
-            <p>{slug === "security" ? "An ally asks for a standing deployment. One reading puts the credibility of a joint commitment first; another asks how the deployment affects the risk of escalation." : "A government considers a sovereign cloud. One reading puts national control first; another asks whether shared infrastructure would give researchers more usable capacity."}</p>
-            <p className="muted">Illustrative reasoning. Your result uses your choices across the cases.</p>
-          </div>
-        </div>
         <p className="entrance-reading">Read <Link href="/explore/atlas">Decision Patterns</Link>, or try <Link href={slug === "security" ? "/decisions/who-gets-to-verify" : "/decisions/who-gets-access"}>{slug === "security" ? "Who gets to verify?" : "Who gets access?"}</Link>.</p>
         {currentFoundation && <p className="muted">Linked Foundation: <Link href={`/results/${currentFoundationPayload}`}>{currentFoundation.familyLabel}</Link>. This questionnaire gives its own result.</p>}
 
-        <details className="profile-details module-scope-details">
-          <summary>Scope, lanes, and how to read the cases</summary>
+        <section className="module-scope-details" aria-labelledby="module-scope-heading">
+          <h2 id="module-scope-heading">Scope, lanes, and how to read the cases</h2>
           <div className="module-scope-grid">
             <div className="stack-xs">
               <p className="eyebrow">What it tests</p>
@@ -526,7 +518,7 @@ export function ModuleApp({
           <p className="module-coverage-line">
             Perspective coverage in the full set: {perspectiveCoverage.map((role) => role.label).join(" · ")}
           </p>
-        </details>
+        </section>
 
       </section>
       ) : null}

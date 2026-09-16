@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1102. Unchanged and suppressed: 398. New: 704. Resolved: 160.
+P2 advisory baseline: 558. Current: 1101. Unchanged and suppressed: 398. New: 703. Resolved: 160.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 131 |
-| P2 | 1102 |
+| P2 | 1101 |
 
 ### P0 and P1 findings
 
@@ -1018,7 +1018,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:473 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v1 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:497 (content-key:lib/research/scoring-replay.ts#resolveReplayForm) | v2 |
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:578 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
-| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:303 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
+| P1 | product-self-narration | public | app/ai/results/[payload]/page.tsx:302 (route:/ai/results/[payload]#AiResultPage.p) | tuple |
 | P1 | product-self-narration | public | app/method/page.tsx:74 (route:/method#resultLayers.3.body) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:88 (route:/method#authoredChoices.2.heading) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:108 (route:/method#limitations.3.body) | kept separate |
@@ -1029,7 +1029,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | product-self-narration | public | components/ai/ai-project-bridge.tsx:120 (content-key:components/ai/ai-project-bridge.tsx#AiProjectBridge.p) | remain separate |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:856 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:963 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
-| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:489 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
+| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:481 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
 | P1 | product-self-narration | public | components/modules/module-result.tsx:269 (content-key:components/modules/module-result.tsx#ModuleResultView.p) | registered form |
 | P1 | product-self-narration | public | components/profile/current-judgments-section.tsx:43 (content-key:components/profile/current-judgments-section.tsx#CurrentJudgmentsSection.p) | stay separate |
 | P1 | product-self-narration | public | components/results/foundation-local-evidence.tsx:164 (content-key:components/results/foundation-local-evidence.tsx#enCopy.unavailable.tuple-mismatch) | tuple |
@@ -1169,7 +1169,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.5.options.1.label) | Accepted cost: |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.16.options.0.label) | Accepted cost: |
 | 1 | rather-than-reflex | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.1.label) | rather than |
-| 1 | rather-than-reflex | public | lib/root/globe-scenes.ts (content-key:lib/root/globe-scenes.ts#AUTHORED_ALIGNMENTS.6) | rather than |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.1.label) | Accepted cost: |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.1.label) | Accepted cost: |
 | 1 | rather-than-reflex | public | lib/narrative/runtime-fixtures.ts (content-key:lib/narrative/runtime-fixtures.ts#RUNTIME_COPY_SURFACE_MANIFEST.10.exclusions.2) | rather than |
@@ -1628,7 +1627,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | retired-house-words | public | lib/ai-governance-results-v2.ts (content-key:lib/ai-governance-results-v2.ts#additionalTensionRules.1.text) | sharpens |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.1.label) | Accepted cost: |
 | 1 | retired-house-words | public | lib/ai-governance-scoring.ts (content-key:lib/ai-governance-scoring.ts#archetypeDescriptions.coordinationArchitect) | durable |
-| 1 | repeated-adjacent-three-part-list | public | app/ai/page.tsx (route:/ai#AiPage.h2) | Your own result names the approach, the rival, and the question your answers left open / Read the approaches, make a decision, or look further ahead |
 | 1 | rather-than-reflex | public | lib/narrative/profile.ts (content-key:lib/narrative/profile.ts#buildProbeNextText) | rather than |
 | 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v3.json (frozen-compatibility:content/instrument/ai-governance.v3.json#items.0.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.20.options.2.label) | Accepted cost: |
@@ -1729,6 +1727,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.7.objection) | rather than |
 | 1 | general-prevalence-language-review | public | content/locales/zh-Hans/editorial-pages.ts (content-key:content/locales/zh-Hans/editorial-pages.ts#zhHansMethodsPage.sections.12.paragraphs.0) | 通常 |
 | 1 | retired-house-words | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.5.options.3.label) | durable |
+| 1 | repeated-adjacent-three-part-list | public | app/ai/page.tsx (route:/ai#AiPage.h2) | questions on compute, audits, and incident reporting / Read the approaches, make a decision, or look further ahead |
 | 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#MethodPage.p) | rather than |
 | 1 | retired-house-words | public | components/futures/departure-diagram.tsx (content-key:components/futures/departure-diagram.tsx#DepartureDiagram.title) | journey |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.18.options.3.label) | Accepted cost: |

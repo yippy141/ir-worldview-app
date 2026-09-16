@@ -1,0 +1,58 @@
+[
+  {
+    "engine": "chromium",
+    "domain": "foundation",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "chromium",
+    "domain": "ai",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "chromium",
+    "domain": "security",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "chromium",
+    "domain": "technology",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "webkit",
+    "domain": "foundation",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "webkit",
+    "domain": "ai",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "webkit",
+    "domain": "security",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  },
+  {
+    "engine": "webkit",
+    "domain": "technology",
+    "entry": "isolated shared URL, no local history",
+    "autoplay": false,
+    "replayOnScreen": true
+  }
+]

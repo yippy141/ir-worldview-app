@@ -1,0 +1,47 @@
+[
+  {
+    "clip": "ai-completion.webm",
+    "seconds": 4.72,
+    "bytes": 351528,
+    "decodedFrameSeconds": [
+      1.0,
+      2.7199999999999998
+    ]
+  },
+  {
+    "clip": "enter-and-return.webm",
+    "seconds": 5.16,
+    "bytes": 655887,
+    "decodedFrameSeconds": [
+      1.0,
+      3.16
+    ]
+  },
+  {
+    "clip": "foundation-completion.webm",
+    "seconds": 4.72,
+    "bytes": 384690,
+    "decodedFrameSeconds": [
+      1.0,
+      2.7199999999999998
+    ]
+  },
+  {
+    "clip": "security-completion.webm",
+    "seconds": 4.64,
+    "bytes": 547294,
+    "decodedFrameSeconds": [
+      1.0,
+      2.6399999999999997
+    ]
+  },
+  {
+    "clip": "technology-completion.webm",
+    "seconds": 4.88,
+    "bytes": 565667,
+    "decodedFrameSeconds": [
+      1.0,
+      2.88
+    ]
+  }
+]

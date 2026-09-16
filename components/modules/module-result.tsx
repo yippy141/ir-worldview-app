@@ -192,7 +192,7 @@ export function ModuleResultView({
             </div>
             <p className={styles.selectionNote}>
               These examples illustrate selected primary answers. They are not a calculation of
-              which answers contributed most to the final scores. Full analysis includes the
+              which answers contributed most to the final scores. Below, you can read the
               recorded choices and their encoded directions.
             </p>
           </section>
@@ -201,7 +201,7 @@ export function ModuleResultView({
             This link contains no scored answer selections. The reading above preserves the
             existing calculation for this record; it cannot establish a view from absent answers.
             {selected.some(({ question, primary }) => question.cardType === "actorLens" && primary)
-              ? " Its perspective-modeling choices are available in Full analysis."
+              ? " Its perspective-modeling choices are recorded below."
               : ""}
           </p>
         )}
@@ -303,9 +303,8 @@ export function ModuleResultView({
 
         <section className="result-section result-appendix-section stack-md">
           <div className="print-hidden"><EvidenceControls /></div>
-          <h2>Full analysis</h2>
-          <details className="profile-details">
-            <summary>Reasoning, scope and model reading</summary>
+          <h2>Reasoning, scope and model reading</h2>
+          <div>
             <div className="stack-lg result-details-body">
               {decisiveCalls.length > 0 ? (
                 <section className="stack-md">
@@ -374,9 +373,9 @@ export function ModuleResultView({
               </div>
 
             </div>
-          </details>
-          <details className="profile-details">
-            <summary>Recorded answers and perspective choices</summary>
+          </div>
+          <section aria-label="Recorded answers and perspective choices">
+            <h2>Recorded answers and perspective choices</h2>
             <div className="stack-lg result-details-body">
               {availableEvidence.length > 0 ? (
                 <div className="stack-md">
@@ -473,7 +472,7 @@ export function ModuleResultView({
 
               <ResearchStatusNotice instrumentLabel={`${moduleDefinition.shortTitle} module`} />
             </div>
-          </details>
+          </section>
         </section>
       </article>
     </div>

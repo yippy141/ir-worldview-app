@@ -1,0 +1,214 @@
+
+> ir-worldview-app@0.1.0 test:e2e
+> playwright test --output=test-results/pr62-amendment/default
+
+
+Running 201 tests using 1 worker
+
+
+(node:7523) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/201] [chromium] › e2e/batch-b-reading.spec.ts:25:5 › the finite baseline reading routes still render, including unavailable and deeper destinations
+[2/201] [chromium] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 320
+[3/201] [chromium] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 390
+[4/201] [chromium] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 768
+[5/201] [chromium] › e2e/batch-b-reading.spec.ts:32:45 › reading geometry and meaningful default/expanded content at 1440
+[6/201] [chromium] › e2e/batch-b-reading.spec.ts:53:5 › second, third and fourth clicks reach arguments, evidence, rivals and a new decision
+[7/201] [chromium] › e2e/batch-b-reading.spec.ts:70:5 › new and old Chinese copies retain exact review, result and answer-evidence provenance
+[8/201] [chromium] › e2e/batch-b-reading.spec.ts:82:5 › unknown and interrupted drafts preserve older copy, decline invented evidence and require confirmed restart
+[9/201] [chromium] › e2e/batch-b-reading.spec.ts:100:5 › no-JS, print, keyboard and reduced-motion reading retain the argument and source route
+[10/201] [chromium] › e2e/batch-b-reading.spec.ts:112:5 › two-times-equivalent reflow, unavailable records and separate source consultation preserve access
+[11/201] [chromium] › e2e/batch-b-reading.spec.ts:132:5 › Chinese copy binding survives baseline, all targeted extensions and a preserved historical draft
+[12/201] [chromium] › e2e/critical-smoke.spec.ts:87:5 › public entry points match reviewed Current Case availability
+[13/201] [chromium] › e2e/critical-smoke.spec.ts:124:5 › the root project index opens Foundation and a draft resumes after reload
+[14/201] [chromium] › e2e/critical-smoke.spec.ts:139:5 › Current Case resumes, records movement, and appears in My Profile
+[15/201] [chromium] › e2e/critical-smoke.spec.ts:183:5 › Current Case shares a case-only invitation without an answer-bearing API
+[16/201] [chromium] › e2e/critical-smoke.spec.ts:207:5 › legacy answer-bearing challenge links recover to the ordinary case
+[17/201] [chromium] › e2e/critical-smoke.spec.ts:226:5 › Foundation review generates a result, share link, and saved Profile
+[18/201] [chromium] › e2e/critical-smoke.spec.ts:311:5 › legacy Profiles preserve saved results without inventing a Foundation identity
+[19/201] [chromium] › e2e/critical-smoke.spec.ts:379:5 › historical analogue pages show both the comparison and its limit
+[20/201] [chromium] › e2e/critical-smoke.spec.ts:407:5 › the archetype directory exposes exactly the eight canonical pure routes
+[21/201] [chromium] › e2e/critical-smoke.spec.ts:445:5 › Explore retains every contracted section with direct archetypes before the model explanation
+[22/201] [chromium] › e2e/critical-smoke.spec.ts:454:5 › all eight archetype details publish the qualified partial core and legacy comparison
+[23/201] [chromium] › e2e/critical-smoke.spec.ts:541:5 › archetype return paths accept only opaque local Foundation result links
+[24/201] [chromium] › e2e/critical-smoke.spec.ts:560:5 › tradition pages remain supporting evidence and publish no thinker assignment cards
+[25/201] [chromium] › e2e/critical-smoke.spec.ts:581:5 › unapproved Chinese archetype and Explore routes remain explicit status surfaces
+[26/201] [chromium] › e2e/critical-smoke.spec.ts:596:5 › Worldview Map bare and legacy routes select the correct projection
+[27/201] [chromium] › e2e/critical-smoke.spec.ts:792:5 › mobile matrix stays inline while the continuous map keeps its focused modal flow
+[28/201] [chromium] › e2e/critical-smoke.spec.ts:846:5 › print forces the English matrix without removing the Chinese map
+[29/201] [chromium] › e2e/critical-smoke.spec.ts:859:5 › Worldview Map switches between list and map views
+[30/201] [chromium] › e2e/critical-smoke.spec.ts:892:5 › invalid Foundation result shows a plain recovery path
+[31/201] [chromium] › e2e/critical-smoke.spec.ts:902:5 › coarse measurement uses the allowlist and honors local opt-out
+[32/201] [chromium] › e2e/critical-smoke.spec.ts:969:5 › privacy control deletes app history while preserving analytics opt-out
+[33/201] [chromium] › e2e/critical-smoke.spec.ts:1010:7 › 390px viewport › World Stage and Foundation remain within the viewport
+[34/201] [chromium] › e2e/critical-smoke.spec.ts:1063:7 › 390px viewport › Current Case brief remains within the viewport
+[35/201] [chromium] › e2e/df1-copy-revision.spec.ts:31:29 › en copy 1: actual clarification, review, carried core and extension provenance
+[36/201] [chromium] › e2e/df1-copy-revision.spec.ts:31:29 › en copy 2: actual clarification, review, carried core and extension provenance
+[37/201] [chromium] › e2e/df1-copy-revision.spec.ts:31:29 › zh-Hans copy 1: actual clarification, review, carried core and extension provenance
+[38/201] [chromium] › e2e/df1-copy-revision.spec.ts:31:29 › zh-Hans copy 2: actual clarification, review, carried core and extension provenance
+[39/201] [chromium] › e2e/df1-copy-revision.spec.ts:31:29 › zh-Hans copy 3: actual clarification, review, carried core and extension provenance
+[40/201] [chromium] › e2e/df1-copy-revision.spec.ts:64:5 › unknown, unsupported and switched-language drafts never inherit new wording without restart
+[41/201] [chromium] › e2e/futures-catalogue.spec.ts:41:5 › every catalogue entry, original anchor and source status; comparison accepts any two
+[42/201] [chromium] › e2e/futures-catalogue.spec.ts:76:5 › complete journey without Departure; expectations, edits, reset and privacy
+[43/201] [chromium] › e2e/futures-catalogue.spec.ts:136:5 › keyboard selection, mandatory review, reduced motion and returning routes
+[44/201] [chromium] › e2e/futures-catalogue.spec.ts:162:5 › catalogue, questions, varied results and any-two comparison reflow and synthetic captures
+[45/201] [chromium] › e2e/futures-catalogue.spec.ts:233:5 › rendered interpretation changes with same-candidate counterexamples and shows requirement qualifications
+[46/201] [chromium] › e2e/futures-catalogue.spec.ts:250:5 › read revised capability requirement and uninstantiated Reversion institutions
+[47/201] [chromium] › e2e/futures-catalogue.spec.ts:275:5 › human-only standing remains distinct from nonhuman governing authority in the rendered reading
+[48/201] [chromium] › e2e/futures-departure.spec.ts:27:5 › explicit submission, back/edit invalidation, scope disclosures and unknown reasons
+[49/201] [chromium] › e2e/futures-departure.spec.ts:63:5 › answer interactions produce no network requests or persistent writes
+[50/201] [chromium] › e2e/futures-departure.spec.ts:89:5 › keyboard, equal policy framing, reset confirmation and reduced motion
+[51/201] [chromium] › e2e/futures-departure.spec.ts:119:5 › 320/390/768/1440 reflow and an inspectable visual walkthrough
+[52/201] [chromium] › e2e/history-copy-provenance.spec.ts:22:52 › en: unknown saved observations stay individually readable without a comparison
+[53/201] [chromium] › e2e/history-copy-provenance.spec.ts:22:52 › zh-Hans: unknown saved observations stay individually readable without a comparison
+[54/201] [chromium] › e2e/history-copy-provenance.spec.ts:31:5 › reopening an unknown result does not churn bounded history or evict unrelated records
+[55/201] [chromium] › e2e/history-copy-provenance.spec.ts:40:5 › known comparison clears on a same-document Next navigation to an unknown result
+[56/201] [chromium] › e2e/i18n.spec.ts:67:5 › approved English and Simplified Chinese route pairs remain distinct
+[57/201] [chromium] › e2e/i18n.spec.ts:91:5 › internal zh-Hans paths redirect to the canonical public Chinese surface
+[58/201] [chromium] › e2e/i18n.spec.ts:113:5 › unapproved Chinese result reading routes preserve opaque segments and show the page notice
+[59/201] [chromium] › e2e/i18n.spec.ts:135:5 › Chinese Foundation route uses localized item copy with the shared structure
+[60/201] [chromium] › e2e/i18n.spec.ts:147:5 › legacy Chinese Foundation review preserves unknown exposure provenance
+[61/201] [chromium] › e2e/i18n.spec.ts:192:5 › one canonical Foundation result payload renders in English and Chinese
+[62/201] [chromium] › e2e/i18n.spec.ts:252:5 › Foundation history follows payload provenance rather than the viewing locale
+[63/201] [chromium] › e2e/i18n.spec.ts:285:5 › one canonical Profile Share V3 payload renders in English and Chinese
+[64/201] [chromium] › e2e/i18n.spec.ts:316:5 › Chinese Profile derives display labels from canonical saved records
+[65/201] [chromium] › e2e/i18n.spec.ts:346:5 › approved Chinese long-form routes never silently render unapproved English prose
+[66/201] [chromium] › e2e/i18n.spec.ts:376:5 › English and Chinese /current routes preserve locale when no launch case is active
+[67/201] [chromium] › e2e/i18n.spec.ts:390:5 › Current Case keeps its locale-neutral draft IDs and step across language switching
+[68/201] [chromium] › e2e/i18n.spec.ts:415:5 › language switching preserves pathname, query, and hash without a locale cookie
+[69/201] [chromium] › e2e/i18n.spec.ts:431:5 › approved route metadata exposes canonical and reciprocal language alternates
+[70/201] [chromium] › e2e/i18n.spec.ts:450:5 › Chinese continuation links stay in locale and preserve review-status handoffs
+[71/201] [chromium] › e2e/i18n.spec.ts:468:5 › Chinese Worldview Map never double-prefixes a localized saved result
+[72/201] [chromium] › e2e/i18n.spec.ts:480:5 › Chinese Current Case and profile routes expose localized Open Graph metadata
+[73/201] [chromium] › e2e/i18n.spec.ts:501:5 › English and Chinese share routes are private and no-store
+[74/201] [chromium] › e2e/i18n.spec.ts:515:5 › World Stage sends only its origin to the restricted Mapbox token
+[75/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh stays within the viewport
+[76/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/world-stage stays within the viewport
+[77/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/method stays within the viewport
+[78/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/quiz stays within the viewport
+[79/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/results/mobile_payload stays within the viewport
+[80/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/results/eyJ2IjozLCJkcyI6WzQuMyw1LjgsNC45LDUuMSw0LjcsNS40LDUuM10sImZrIjoiaW5zdGl0dXRpb25hbGlzdCIsIm5rIjoiY29uc3RydWN0aXZpc3QiLCJzbSI6IlJlc3RyYWluZXIiLCJubSI6IlBsdXJhbGlzdCIsIml2IjozLCJzdiI6MSwiY3YiOjEsImNsIjoiemgtSGFucyJ9 stays within the viewport
+[81/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/profile/share/eyJ2IjozLCJmIjp7InQiOjE3NTAwMDAwMDAwMDAsInAiOiJleUoySWpveUxDSmtjeUk2V3pRdU15dzFMamdzTkM0NUxEVXVNU3cwTGpjc05TNDBMRFV1TTEwc0ltWnJJam9pYVc1emRHbDBkWFJwYjI1aGJHbHpkQ0lzSW01cklqb2lZMjl1YzNSeWRXTjBhWFpwYzNRaUxDSnpiU0k2SWxKbGMzUnlZV2x1WlhJaUxDSnViU0k2SWxCc2RYSmhiR2x6ZENKOSIsImwiOiJlbiIsImN2IjoxfSwibXMiOltdLCJwdiI6MX0 stays within the viewport
+[82/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/profile stays within the viewport
+[83/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/explore/atlas stays within the viewport
+[84/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/explore/atlas/institution-builder stays within the viewport
+[85/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/explore/reference stays within the viewport
+[86/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/explore/reference/john-mearsheimer stays within the viewport
+[87/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/cases/europe-missile-defence-coalition-ukraine stays within the viewport
+[88/201] [chromium] › e2e/i18n.spec.ts:556:9 › 390px Simplified Chinese shell › /zh/cases/europe-missile-defence-coalition-ukraine/sources stays within the viewport
+[89/201] [chromium] › e2e/i18n.spec.ts:567:7 › 390px Simplified Chinese shell › approved Chinese editorial and source-ledger snapshots
+[90/201] [chromium] › e2e/i18n.spec.ts:595:7 › 390px Simplified Chinese shell › Chinese Foundation result remains stable under the Windows CJK font stack
+[91/201] [chromium] › e2e/i18n.spec.ts:611:5 › Chinese Current Case print keeps the source ledger and CJK print stack
+[92/201] [chromium] › e2e/i18n.spec.ts:635:5 › approved Chinese routes have renderable CJK glyphs
+[93/201] [chromium] › e2e/module-journey.spec.ts:36:9 › security standard: start, keyboard, mode drafts, incomplete review and reload
+[94/201] [chromium] › e2e/module-journey.spec.ts:99:9 › security standard: review edit, exact result evidence, standalone Profile
+[95/201] [chromium] › e2e/module-journey.spec.ts:36:9 › security analyst: start, keyboard, mode drafts, incomplete review and reload
+[96/201] [chromium] › e2e/module-journey.spec.ts:99:9 › security analyst: review edit, exact result evidence, standalone Profile
+[97/201] [chromium] › e2e/module-journey.spec.ts:36:9 › technology standard: start, keyboard, mode drafts, incomplete review and reload
+[98/201] [chromium] › e2e/module-journey.spec.ts:99:9 › technology standard: review edit, exact result evidence, standalone Profile
+[99/201] [chromium] › e2e/module-journey.spec.ts:36:9 › technology analyst: start, keyboard, mode drafts, incomplete review and reload
+[100/201] [chromium] › e2e/module-journey.spec.ts:99:9 › technology analyst: review edit, exact result evidence, standalone Profile
+[101/201] [chromium] › e2e/module-journey.spec.ts:164:5 › legacy, partial and answer-absent shared results preserve their exact banks without saving
+[102/201] [chromium] › e2e/module-journey.spec.ts:195:5 › actor-only records keep their existing result without posing as scored-answer evidence
+[103/201] [chromium] › e2e/module-journey.spec.ts:210:5 › multiple standalone modules retain direct links; shared Profile does not import records
+[104/201] [chromium] › e2e/module-journey.spec.ts:239:5 › 320/390/768/1440 reflow, reduced motion, print and no-JS boundaries
+[105/201] [chromium] › e2e/navigation-reader-copy.spec.ts:64:48 › section links work on fresh deep links and recovery states at 320px
+[106/201] [chromium] › e2e/navigation-reader-copy.spec.ts:64:48 › section links work on fresh deep links and recovery states at 390px
+[107/201] [chromium] › e2e/navigation-reader-copy.spec.ts:64:48 › section links work on fresh deep links and recovery states at 768px
+[108/201] [chromium] › e2e/navigation-reader-copy.spec.ts:64:48 › section links work on fresh deep links and recovery states at 1440px
+[109/201] [chromium] › e2e/navigation-reader-copy.spec.ts:91:5 › Field Guide keeps all powers and visible premises, with semantic header associations
+[110/201] [chromium] › e2e/navigation-reader-copy.spec.ts:112:5 › Field Guide is readable without JavaScript and in print
+[111/201] [chromium] › e2e/navigation-reader-copy.spec.ts:131:5 › module parent navigation preserves the saved answers and resumes through root secondary links
+[112/201] [chromium] › e2e/navigation-reader-copy.spec.ts:145:5 › the new Decisions parent performs the existing deliberate clear on exit
+[113/201] [chromium] › e2e/navigation-reader-copy.spec.ts:155:5 › Chinese navigation keeps unsupported surfaces behind the existing translation notice
+[114/201] [chromium] › e2e/pr52-navigation.spec.ts:34:42 › shared navigation fits 320px closed and expanded, with every destination reachable
+[115/201] [chromium] › e2e/pr52-navigation.spec.ts:34:42 › shared navigation fits 390px closed and expanded, with every destination reachable
+[116/201] [chromium] › e2e/pr52-navigation.spec.ts:34:42 › shared navigation fits 768px closed and expanded, with every destination reachable
+[117/201] [chromium] › e2e/pr52-navigation.spec.ts:118:5 › six route overflow witnesses fit 1440px before and after evidence expansion
+[118/201] [chromium] › e2e/pr62-amendment.spec.ts:8:5 › questionnaire entrances keep their actions and visible scope without example showcases
+[119/201] [chromium] › e2e/pr62-amendment.spec.ts:21:5 › partial-position feedback stays opt-in and usable without disturbing the selected question
+[120/201] [chromium] › e2e/pr62-amendment.spec.ts:40:83 › foundation: worked reading and available answer evidence are in normal flow
+[121/201] [chromium] › e2e/pr62-amendment.spec.ts:40:83 › ai: worked reading and available answer evidence are in normal flow
+[122/201] [chromium] › e2e/pr62-amendment.spec.ts:40:83 › security: worked reading and available answer evidence are in normal flow
+[123/201] [chromium] › e2e/pr62-amendment.spec.ts:40:83 › technology: worked reading and available answer evidence are in normal flow
+[124/201] [chromium] › e2e/product-experience.spec.ts:5:7 › foundation: real completion draws; reload, Back, reduced motion and no-JS are complete
+[125/201] [chromium] › e2e/product-experience.spec.ts:5:7 › ai: real completion draws; reload, Back, reduced motion and no-JS are complete
+[126/201] [chromium] › e2e/product-experience.spec.ts:5:7 › security: real completion draws; reload, Back, reduced motion and no-JS are complete
+[127/201] [chromium] › e2e/product-experience.spec.ts:5:7 › technology: real completion draws; reload, Back, reduced motion and no-JS are complete
+[128/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:233:5 › Foundation result leads with its canonical name before payoff and disclosed metadata
+[129/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:243:5 › dark-theme result-label chips meet WCAG AA across result and Profile surfaces
+[130/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:290:5 › a Profile preserves its Foundation payoff and three domain records after a module save
+[131/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:402:7 › 390px result tables › AI and Foundation nearest alternatives preserve semantic tables without page overflow
+[132/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:429:5 › module results retain an optional Profile route after evidence; AI retains its hero action
+[133/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:518:5 › V23.1B routes reflow at 320, 390, 768, and 1440 CSS pixels
+[134/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:541:5 › V23.1B editorial measure, targets, focus, and contrast remain legible
+[135/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:653:5 › V23.1B code labels, marks, and sources remain legible in print
+[136/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:737:5 › AI hero renders the archetype once and retains exactly three scoped modifiers
+[137/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:754:7 › Foundation share actions render the copy-fallback capability state
+[138/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:754:7 › Foundation share actions render the native-share capability state
+[139/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:827:5 › production print lays out every Foundation chapter and restores sticky screen visuals
+[140/201] [chromium] › e2e/v22-visual-accessibility.spec.ts:881:5 › production print keeps the complete Profile reading visible without empty bars
+[141/201] [chromium] › e2e/v23-5-module-flow.spec.ts:25:5 › Focus Area keeps one reversible question on screen and restores position
+[142/201] [chromium] › e2e/v23-5-module-flow.spec.ts:57:5 › Focus Area Back from the first question returns to the mode choice
+[143/201] [chromium] › e2e/v23-5-module-flow.spec.ts:68:5 › Standard and Advanced Focus Area drafts survive mode switches independently
+[144/201] [chromium] › e2e/v23-5-module-flow.spec.ts:102:5 › Focus Area requires a complete review before preserving the existing result tuple
+[145/201] [chromium] › e2e/v23-5-module-flow.spec.ts:129:5 › Foundation reset is immediate when empty and reversible when answers exist
+[146/201] [chromium] › e2e/v23-5-module-flow.spec.ts:151:5 › AI reset preserves answers on cancel and clears them only on confirmation
+[147/201] [chromium] › e2e/v23-6-production.spec.ts:29:5 › root dependency requests and loaded scripts contain no Mapbox runtime
+[148/201] [chromium] › e2e/v23-6-production.spec.ts:62:5 › keyboard activation reaches every primary link without diverging from the preview
+[149/201] [chromium] › e2e/v23-6-production.spec.ts:74:5 › returning-state hydration preserves root menu geometry
+[150/201] [chromium] › e2e/v23-6-production.spec.ts:99:5 › World Stage retains scene selection, filters, sources, fallback, controls, and attribution
+[151/201] [chromium] › e2e/v23-6-production.spec.ts:129:5 › current core result headlines both readings while a clearer result stays pure
+[152/201] [chromium] › e2e/v23-6-production.spec.ts:144:5 › a near-boundary result renders the registered blend presentation
+[153/201] [chromium] › e2e/v23-6-production.spec.ts:171:7 › current core tuple uses its exact form contribution view
+[154/201] [chromium] › e2e/v23-6-production.spec.ts:171:7 › current targeted tuple uses its exact form contribution view
+[155/201] [chromium] › e2e/v23-6-production.spec.ts:171:7 › current full tuple uses its exact form contribution view
+[156/201] [chromium] › e2e/v23-6-production.spec.ts:183:5 › legacy and invalid result URLs fail closed without reconstructed contribution claims
+[157/201] [chromium] › e2e/v23-6-production.spec.ts:199:5 › local evidence is exact-bound, rejects tuple mismatch, and is deleted with local history
+[158/201] [chromium] › e2e/v23-6-production.spec.ts:242:5 › current and history Profile links restore their exact one-shot local evidence
+[159/201] [chromium] › e2e/v23-6-production.spec.ts:334:5 › a shared result has no local evidence binding
+[160/201] [chromium] › e2e/v23-6-production.spec.ts:353:5 › desktop has one sticky visual region and mobile remains a complete linear document
+[161/201] [chromium] › e2e/v23-6-production.spec.ts:392:7 › result story fits 320px and retains its first insight
+[162/201] [chromium] › e2e/v23-6-production.spec.ts:392:7 › result story fits 390px and retains its first insight
+[163/201] [chromium] › e2e/v23-6-production.spec.ts:392:7 › result story fits 768px and retains its first insight
+[164/201] [chromium] › e2e/v23-6-production.spec.ts:392:7 › result story fits 1440px and retains its first insight
+[165/201] [chromium] › e2e/v23-6-production.spec.ts:419:7 › English low-differentiation diptych fits 768px
+[166/201] [chromium] › e2e/v23-6-production.spec.ts:419:7 › Simplified Chinese low-differentiation diptych fits 768px
+[167/201] [chromium] › e2e/v23-6-production.spec.ts:440:5 › reduced motion keeps every chapter and its visible state available
+[168/201] [chromium] › e2e/v23-6-production.spec.ts:461:5 › Profile distinguishes an unsaved domain set from a saved domain record
+[169/201] [chromium] › e2e/v23-6-production.spec.ts:482:5 › Simplified Chinese root and result remain Chinese-only at 390px
+[170/201] [chromium] › e2e/v23-6-production.spec.ts:500:5 › print mode is static, complete, and includes the worked application in at most five pages
+[171/201] [chromium] › e2e/v23-6-root.spec.ts:15:5 › Enter is immediate, reveals the one menu without remounting the globe, and Back returns there
+[172/201] [chromium] › e2e/v23-6-root.spec.ts:46:5 › every scene's actual canvas colors agree with its semantic key and paused inspection
+[173/201] [chromium] › e2e/v23-6-root.spec.ts:71:5 › Enter and return preserve the canvas through native motion, interruption and reduced motion
+[174/201] [chromium] › e2e/v23-6-root.spec.ts:95:5 › pointer capture rotates the projection, cancels cleanly and retains its last camera until Play
+[175/201] [chromium] › e2e/v23-6-root.spec.ts:115:5 › keyboard wraps longitude, bounds poles and zoom, resets without changing story, and Tab exits
+[176/201] [chromium] › e2e/v23-6-root.spec.ts:139:5 › wheel zoom needs an intentionally focused globe and never captures Ctrl+wheel
+[177/201] [chromium] › e2e/v23-6-root.spec.ts:160:5 › the deterministic sequence commits titles and actual fills together, pauses, and wraps coherently
+[178/201] [chromium] › e2e/v23-6-root.spec.ts:192:48 › opening and menu reflow at 320px without hiding overflow
+[179/201] [chromium] › e2e/v23-6-root.spec.ts:192:48 › opening and menu reflow at 390px without hiding overflow
+[180/201] [chromium] › e2e/v23-6-root.spec.ts:192:48 › opening and menu reflow at 768px without hiding overflow
+[181/201] [chromium] › e2e/v23-6-root.spec.ts:192:48 › opening and menu reflow at 1440px without hiding overflow
+[182/201] [chromium] › e2e/v23-6-root.spec.ts:203:5 › reduced motion is a complete still with manual input; print retains the fiction label and menu
+[183/201] [chromium] › e2e/v23-6-root.spec.ts:219:5 › no-JS root has an Enter anchor, a complete semantic menu and the labelled still
+[184/201] [chromium] › e2e/v23-6-root.spec.ts:232:5 › deep links bypass the opening; local saved work and direct locale menu entries remain available
+[185/201] [chromium] › e2e/v23-6-root.spec.ts:248:5 › documented EU/NATO and RCEP records retain their sources and never enter the fictional interface
+[186/201] [chromium] › e2e/v23-6-root.spec.ts:270:5 › touch rotation yields vertical page scrolling and releases capture on browser cancellation
+[187/201] [chromium] › e2e/v23-6-root.spec.ts:292:5 › offscreen and hidden views suspend the camera and scene without consuming elapsed time
+[188/201] [chromium] › e2e/v23-6-root.spec.ts:309:5 › reading introductions align with their prose and preserve a comfortable measure without the hero glow
+[189/201] [chromium] › e2e/v23-6-root.spec.ts:328:49 › direct English and Chinese menu map inspection preserves the menu with fresh storage
+[190/201] [chromium] › e2e/v23-6-root.spec.ts:328:49 › direct English and Chinese menu map inspection preserves the menu with blocked storage
+[191/201] [chromium] › e2e/v23-6-zh-result.spec.ts:98:7 › V23.6 Simplified Chinese Foundation result at 390px › low-differentiation core names both readings before the register
+[192/201] [chromium] › e2e/v23-6-zh-result.spec.ts:137:7 › V23.6 Simplified Chinese Foundation result at 390px › clear pure and close blend results keep their distinct model status
+[193/201] [chromium] › e2e/v23-6-zh-result.spec.ts:161:7 › V23.6 Simplified Chinese Foundation result at 390px › legacy and invalid links fail closed in Chinese
+[194/201] [chromium] › e2e/v23-6-zh-shared-profile.spec.ts:73:7 › V23.6 Simplified Chinese shared Profile › foundation-only share keeps all five questions and empty slots visible
+[195/201] [chromium] › e2e/v23-6-zh-shared-profile.spec.ts:106:7 › V23.6 Simplified Chinese shared Profile › share with domain records reports each one without inferring a relation
+[196/201] [chromium] › e2e/v23-public-display.spec.ts:43:5 › archetype directory exposes concise link names and canonical public labels
+[197/201] [chromium] › e2e/v23-public-display.spec.ts:78:5 › Explore keeps one canonical archetype directory and explains adjacent records
+[198/201] [chromium] › e2e/v23-public-display.spec.ts:118:5 › Foundation results render pure marks and blend Diptychs without inventing a blend mark
+[199/201] [chromium] › e2e/v23-public-display.spec.ts:191:5 › System A blend artwork holds currentColor, 200% containment, and print
+[200/201] [chromium] › e2e/zh-profile-compatibility.spec.ts:98:5 › Chinese Profile links translated results once and English-only results canonically
+[201/201] [chromium] › e2e/zh-profile-compatibility.spec.ts:148:5 › legacy Chinese Profiles keep saved records without inventing a Foundation identity
+  4 skipped
+  197 passed (3.9m)

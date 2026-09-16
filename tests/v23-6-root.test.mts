@@ -40,7 +40,7 @@ test("the menu never controls the globe, and remains semantic server content", (
   assert.doesNotMatch(component, /<RootGlobe[^>]*(selected|mode)/)
   assert.match(component, /href="#menu"/)
   assert.match(component, /replaceState/)
-  assert.match(component, /<nav aria-label=\{copy.primaryNavigationLabel\}/)
+  assert.match(component, /<nav[^>]*aria-label=\{copy.primaryNavigationLabel\}/)
   assert.doesNotMatch(component, /role="tab"|aria-selected/)
 })
 

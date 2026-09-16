@@ -1,0 +1,296 @@
+{
+  "task": "cycle",
+  "manifest": [
+    {
+      "scene": "atlantic-pacific",
+      "elapsedMs": 631,
+      "camera": {
+        "longitude": "16.438200000000393",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "maritime",
+          "label": "Maritime accord",
+          "color": "blue"
+        },
+        {
+          "id": "continental",
+          "label": "Continental pact",
+          "color": "red"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "european-autonomy",
+      "elapsedMs": 8613,
+      "camera": {
+        "longitude": "37.009371428570375",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "maritime",
+          "label": "Maritime accord",
+          "color": "red"
+        },
+        {
+          "id": "continental",
+          "label": "Continental pact",
+          "color": "blue"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "one-earth",
+      "elapsedMs": 16597,
+      "camera": {
+        "longitude": "57.53785714285277",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "worldwide-authority",
+          "label": "Worldwide authority",
+          "color": "blue"
+        }
+      ]
+    },
+    {
+      "scene": "pacific-compact",
+      "elapsedMs": 24573,
+      "camera": {
+        "longitude": "78.06608571427375",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "pacific",
+          "label": "Pacific compact",
+          "color": "blue"
+        },
+        {
+          "id": "counterweight",
+          "label": "Counterweight pact",
+          "color": "red"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "british-reassessment",
+      "elapsedMs": 33090,
+      "camera": {
+        "longitude": "99.9000857142704",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "maritime",
+          "label": "Maritime accord",
+          "color": "red"
+        },
+        {
+          "id": "continental",
+          "label": "Continental pact",
+          "color": "blue"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "continental-pivot",
+      "elapsedMs": 40564,
+      "camera": {
+        "longitude": "119.18477142855795",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "maritime",
+          "label": "Maritime accord",
+          "color": "red"
+        },
+        {
+          "id": "continental",
+          "label": "Continental pact",
+          "color": "blue"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "turkish-realignment",
+      "elapsedMs": 48996,
+      "camera": {
+        "longitude": "140.89405714284408",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "maritime",
+          "label": "Maritime accord",
+          "color": "red"
+        },
+        {
+          "id": "continental",
+          "label": "Continental pact",
+          "color": "blue"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "middle-power-arrangements",
+      "elapsedMs": 56913,
+      "camera": {
+        "longitude": "161.2512857142658",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "access",
+          "label": "Trade-access accord",
+          "color": "blue"
+        },
+        {
+          "id": "procurement",
+          "label": "Procurement pact",
+          "color": "red"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "fragmentation",
+      "elapsedMs": 64837,
+      "camera": {
+        "longitude": "-178.37040000002446",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "localAccess",
+          "label": "Access agreements",
+          "color": "blue"
+        },
+        {
+          "id": "localSupply",
+          "label": "Supply agreements",
+          "color": "red"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "scene": "renewed-commitments",
+      "elapsedMs": 72753,
+      "camera": {
+        "longitude": "-158.01342857145744",
+        "latitude": "8"
+      },
+      "key": [
+        {
+          "id": "maritime",
+          "label": "Maritime accord",
+          "color": "blue"
+        },
+        {
+          "id": "continental",
+          "label": "Continental pact",
+          "color": "red"
+        },
+        {
+          "id": "outside",
+          "label": "Outside these arrangements",
+          "color": "gold"
+        },
+        {
+          "id": "unassigned",
+          "label": "Unassigned in this scene",
+          "color": "muted"
+        }
+      ]
+    },
+    {
+      "wrapped": true,
+      "elapsedMs": 80103,
+      "holdMs": 8000
+    }
+  ],
+  "blocked": []
+}

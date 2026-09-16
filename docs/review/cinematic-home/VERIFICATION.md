@@ -1,5 +1,7 @@
 # Candidate verification
 
+The current PR62 release amendment is recorded in [amendment/VERIFICATION.md](amendment/VERIFICATION.md), including the new captures and short recordings. The checks and nine-scene evidence below describe the original reviewed head `6ccc4f38fdc2bf0fdf22ddc84447561729f050b6`; they are retained as historical evidence.
+
 Base: fetched `origin/main` at `da470c1b5a0af4857eb1464ec09932a23ad4b45f` (PR61). Candidate: branch `codex/cinematic-home`; the draft PR records its exact head SHA. The original checkout stayed on its original local main and was not reset, switched, staged or cleaned. Preflight and follow-up found no separate post-PR61 trust patch in progress. No merge or production deployment was requested or performed.
 
 ## Checks

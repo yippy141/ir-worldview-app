@@ -1,5 +1,21 @@
 # Cinematic home: review record
 
+## PR62 release amendment — 17 September 2026
+
+Continued the existing `codex/cinematic-home` branch from reviewed head `6ccc4f38fdc2bf0fdf22ddc84447561729f050b6`. The accepted cinematic home, controls, grouped navigation, documented maps and removed glows remain in place.
+
+- Re-authored the fiction as ten eight-second scenes. Arrangement IDs and localized names are separate from paint. European autonomy reverses the opening palette at eight seconds; One Earth assigns every supported place to one worldwide authority at sixteen seconds; Pacific compact follows at twenty-four. The 140-second camera is unchanged.
+- Enter and return use a native 400ms transition of the same mounted globe. Narrow screens retain menu-first order. Direct hashes, history, reduced motion, print, interruption and no-JS retain usable final states. Root destination hover has no underline or geometry shift.
+- Removed pre-questionnaire example showcases. Module scope is visible; useful AI/module reasoning and available answer evidence are ordinary reading sections. Module evidence uses two columns on desktop and one on mobile. The existing Foundation payoff/evidence already met this requirement. Partial-position feedback remains opt-in with a clear control.
+- Diagnosed the real four-family review/submit paths before changing reveal behavior. Fresh autoplay worked in Chromium and installed WebKit; AI Replay was demonstrably offscreen at 390px in both. The same replay action now appears before the introduction and brings its mark into view. No fresh-result handoff replacement or storage change.
+- Corrected the root group descriptions in both supported interfaces. The saved-results invitation omits continuation because the Profile destination is a results link, not a direct draft continuation. Replaced only the specified Foundation domestic-high / strategic-middle / normative-middle prose branch, preserving selection order, bands and codecs.
+
+The obsolete hub-example rule and the narrow globe behavior rules in DESIGN.md are updated. The current evidence summary was regenerated for changed copy fingerprints; historical evidence, questions, scoring, labels, canonical marks, payload formats, storage keys, research/consent behavior, documented memberships and dependencies are unchanged.
+
+See [amendment verification](amendment/VERIFICATION.md), [color durations](amendment/COLOR_DURATION.md), and [short recordings](amendment/after/recordings/). No later methodology or connected-profile work was started. No merge or deployment command was run.
+
+## Original reviewed candidate (6ccc4f3)
+
 The root is one continuous opening/menu composition using the existing navy/brass identity, Spectral/Libre Franklin typography and geographic renderer. Enter works immediately; `/#menu` and `/zh#menu` are direct entries. Deep links bypass the root. The ordinary directory shares the same five parent groups and preserves the Security/Technology overview. Questionnaire navigation and four completion reveals remain owned by their existing flows.
 
 ## Copy changes

@@ -22,8 +22,9 @@
 .group p { margin: 0 0 10px; max-width: 60ch; font-size: 14px; line-height: 1.6; color: var(--text-2); }
 .group ul { display: flex; flex-wrap: wrap; column-gap: 22px; list-style: none; padding: 0; margin: 0; }
 .group:not(:first-child) ul { display: grid; gap: 0; }
-.destination { display: inline-flex; align-items: center; min-height: 44px; color: var(--accent); font-size: 14px; text-decoration: none; text-underline-offset: 4px; }
-.destination:hover { color: var(--text); text-decoration: underline; }
+.destination { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 8px; margin-left: -9px; border-left: 1px solid transparent; color: var(--accent); font-size: 14px; text-decoration: none; }
+.destination:hover { color: var(--text); background: var(--bg-2); border-left-color: var(--accent); text-decoration: none; }
+.destination:active, .destination[aria-current=page] { color: var(--text); background: var(--line-2); border-left-color: var(--text); text-decoration: none; }
 .group .independent { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
 .localState { padding-top: 20px; border-top: 1px solid var(--line); margin-top: 28px; }
 .localState h3 { margin: 0 0 6px; font: 500 13px var(--font-sans); }

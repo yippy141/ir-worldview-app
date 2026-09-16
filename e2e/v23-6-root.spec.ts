@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
 import { geoOrthographic } from "d3-geo"
 import { ROOT_GLOBE_SCENES } from "../lib/root/globe-scenes"
-import { ROOT_SCENE_MS } from "../lib/root/globe-types"
+import { ALIGNMENT_COLORS, ROOT_SCENE_MS } from "../lib/root/globe-types"
 import { PROFILE_STORAGE_KEY } from "../lib/storage-keys"
 
 const globeOf = (page: Page) => page.locator("[data-root-globe]")
@@ -20,16 +20,19 @@ test("Enter is immediate, reveals the one menu without remounting the globe, and
   await globe.getByRole("button", { name: "Pause", exact: true }).click()
   const before = await camera(page)
   await globe.evaluate(el => el.setAttribute("data-mount-witness", "original"))
+  await globe.locator("canvas").evaluate(el => el.setAttribute("data-canvas-witness", "original"))
   await page.getByRole("link", { name: "Enter", exact: true }).click()
   await expect(page).toHaveURL(/#menu$/)
   await expect(page.locator("#menu-heading")).toBeFocused()
   expect(await camera(page)).toEqual(before)
   await expect(globe).toHaveAttribute("data-mount-witness", "original")
+  await expect(globe.locator("canvas")).toHaveAttribute("data-canvas-witness", "original")
   const nav = page.getByRole("navigation", { name: "Primary destinations" })
   await expect(nav).toBeVisible()
   await expect(nav.locator("section > h3")).toHaveText(["Questionnaires", "Futures", "Cases and exercises", "Library", "Your worldview"])
   await expect(nav.getByRole("link", { name: "Foundation", exact: true })).toHaveAttribute("href", "/quiz")
   await nav.getByRole("link", { name: "Library", exact: true }).hover()
+  expect(await nav.getByRole("link", { name: "Library", exact: true }).evaluate(el => getComputedStyle(el).textDecorationLine)).toBe("none")
   expect(await camera(page)).toEqual(before)
   await nav.getByRole("link", { name: "Profile", exact: true }).click()
   await expect(page).toHaveURL(/\/profile$/)
@@ -38,6 +41,55 @@ test("Enter is immediate, reveals the one menu without remounting the globe, and
   await expect(nav).toBeVisible()
   await expect(page.getByRole("link", { name: "Enter", exact: true })).toBeHidden()
   expect(requests.filter(url => /(?:api|events|tiles)\.mapbox\.com|mapbox-gl|mapbox-runtime/i.test(url))).toEqual([])
+})
+
+test("every scene's actual canvas colors agree with its semantic key and paused inspection", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  const globe = await ready(page, "/#menu")
+  const art = globe.getByRole("group", { name: "Rotatable globe of imagined alignments", exact: true })
+  await art.focus(); await page.keyboard.press("Home")
+  await page.keyboard.press("Shift+ArrowRight"); await page.keyboard.press("Shift+ArrowRight")
+  await globe.locator("#map-details > summary").click()
+  for (const scene of ROOT_GLOBE_SCENES) {
+    await expect(globe).toHaveAttribute("data-scene", scene.id)
+    await expect(globe.locator("[data-group]")).toHaveCount(scene.groups.filter(group => group.color !== "muted").length)
+    for (const group of scene.groups.filter(group => group.color !== "muted")) {
+      const key = globe.locator(`[data-group="${group.id}"]`)
+      await expect(key).toHaveText(group.label)
+      await expect(key.locator("i")).toHaveAttribute("data-color", group.color)
+    }
+    for (const [code, lon, lat] of [["DEU", 10, 51], ["RUS", 50, 60], ["CHN", 105, 35], ["IND", 80, 23]] as const) {
+      const group = scene.groups.find(group => group.countries.includes(code))!
+      expect(await pixel(page, lon, lat), `${scene.id}/${code}`).toBe(ALIGNMENT_COLORS[group.color])
+      await globe.getByRole("combobox").selectOption(code)
+      await expect(globe.getByRole("status")).toContainText(group.label)
+    }
+    await globe.getByRole("button", { name: "Next globe scene" }).click()
+  }
+})
+
+test("Enter and return preserve the canvas through native motion, interruption and reduced motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  const globe = await ready(page)
+  await globe.getByRole("button", { name: "Zoom globe in" }).click()
+  await globe.getByRole("button", { name: "Next globe scene" }).click()
+  const before = await camera(page)
+  await globe.locator("canvas").evaluate(el => el.setAttribute("data-canvas-witness", "retained"))
+  await page.getByRole("link", { name: "Enter", exact: true }).click()
+  const move = await globe.evaluate(el => el.parentElement!.getAnimations().map(a => a.effect!.getTiming().duration))
+  expect(move).toContain(400)
+  await page.getByRole("link", { name: "View the opening", exact: true }).evaluate((el: HTMLAnchorElement) => el.click())
+  await expect(page.getByRole("link", { name: "Enter", exact: true })).toBeFocused()
+  await page.evaluate(() => dispatchEvent(new Event("beforeprint")))
+  expect(await globe.evaluate(el => el.parentElement!.getAnimations().length)).toBe(0)
+  expect(await camera(page)).toEqual(before)
+  await expect(globe).toHaveAttribute("data-scene", "european-autonomy")
+  await expect(globe.locator("canvas")).toHaveAttribute("data-canvas-witness", "retained")
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await page.getByRole("link", { name: "Enter", exact: true }).click()
+  expect(await globe.evaluate(el => el.parentElement!.getAnimations().length)).toBe(0)
+  await expect(page.locator("#menu-heading")).toBeFocused()
 })
 
 test("pointer capture rotates the projection, cancels cleanly and retains its last camera until Play", async ({ page }) => {
@@ -60,7 +112,7 @@ test("pointer capture rotates the projection, cancels cleanly and retains its la
   await expect.poll(async () => (await camera(page))[0]).not.toBe(moved[0])
 })
 
-test("keyboard wraps longitude, bounds poles and zoom, resets without changing story, and Tab exits", async ({ page }) => {
+test("keyboard wraps longitude, bounds poles and zoom, resets without changing story, and Tab exits", async ({ page, browserName }) => {
   const globe = await ready(page)
   const art = globe.getByRole("group", { name: "Rotatable globe of imagined alignments", exact: true })
   await art.focus(); await page.keyboard.press("Home")
@@ -72,7 +124,8 @@ test("keyboard wraps longitude, bounds poles and zoom, resets without changing s
   expect(Number((await camera(page))[1])).toBe(-89)
   for (let i = 0; i < 12; i++) await page.keyboard.press("+")
   expect(Number((await camera(page))[2])).toBe(2.4)
-  await page.keyboard.press("Tab")
+  // macOS WebKit uses Option+Tab to include native buttons in focus traversal.
+  await page.keyboard.press(browserName === "webkit" ? "Alt+Tab" : "Tab")
   await expect(globe.getByRole("button", { name: "Previous globe scene" })).toBeFocused()
   await globe.getByRole("button", { name: "Next globe scene" }).click()
   const scene = await globe.getAttribute("data-scene")
@@ -214,7 +267,8 @@ test("documented EU/NATO and RCEP records retain their sources and never enter t
   await expect(globeOf(page).getByText("Source", { exact: true })).toHaveCount(0)
 })
 
-test("touch rotation yields vertical page scrolling and releases capture on browser cancellation", async ({ browser, baseURL }) => {
+test("touch rotation yields vertical page scrolling and releases capture on browser cancellation", async ({ browser, baseURL, browserName }) => {
+  test.skip(browserName !== "chromium", "This touch-emulation witness requires Chromium CDP; WebKit pointer and keyboard paths run separately.")
   const context = await browser.newContext({ viewport: { width: 390, height: 600 }, hasTouch: true, isMobile: true })
   const page = await context.newPage(); const globe = await ready(page, `${baseURL}/`)
   const art = globe.getByRole("group", { name: "Rotatable globe of imagined alignments", exact: true }); const box = (await art.boundingBox())!
