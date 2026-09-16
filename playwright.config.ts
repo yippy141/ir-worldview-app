@@ -13,7 +13,7 @@ export default defineConfig({
       ]
     : "line",
   use: {
-    baseURL: "http://127.0.0.1:3000",
+    baseURL: process.env.E2E_BASE_URL ?? "http://127.0.0.1:3000",
     trace: "on-first-retry",
     screenshot: "only-on-failure",
     video: "retain-on-failure",
@@ -24,7 +24,7 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-  webServer: {
+  webServer: process.env.E2E_BASE_URL ? undefined : {
     command: process.env.CI
       ? "npm run start -- --hostname 127.0.0.1"
       : "npm run dev -- --hostname 127.0.0.1",

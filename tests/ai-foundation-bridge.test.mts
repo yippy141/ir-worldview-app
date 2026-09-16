@@ -99,5 +99,6 @@ test("AI landing and result copy make no relationship inference", () => {
   assert.doesNotMatch(component, /foundation\.familyLabel/u)
   assert.doesNotMatch(component, /asks how that view travels/u)
   assert.doesNotMatch(component, /governing instincts behave/u)
-  assert.match(landing, /<AiProjectBridge mode="landing" \/>/u)
+  assert.match(landing, /<AiEntranceActions>/u)
+  assert.doesNotMatch(landing, /buildProfileAssessment|buildAiFoundationBaseline/u)
 })

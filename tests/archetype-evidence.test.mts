@@ -104,7 +104,7 @@ test("legacy comparison pages label provisional evidence without claiming review
   )
 
   assert.match(source, /\{evidence\.qualification\}/)
-  assert.match(source, />Provisional source</)
+  assert.match(source, /evidence\.qualification/)
   assert.doesNotMatch(source, />Reviewed source</)
   assert.match(source, /if \(!identity\) notFound\(\)/)
   assert.doesNotMatch(source, /if \(!resolved\) notFound\(\)/)

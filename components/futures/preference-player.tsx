@@ -56,7 +56,7 @@ export function PreferencePlayer() {
   const answered = preferenceQuestions.filter(q => state.answers[q.id]).length
   const shortlistIds = new Set(result?.shortlist.map(c => c.scenario.id))
   const title = state.step === "intro" ? "What conditions would you want?" : state.step === "questions" ? question.prompt : state.step === "review" ? "Review your preferred conditions" : state.step === "expectations" ? "What seems plausible to you?" : interpretation?.title ?? "Futures to consider"
-  return <div>
+  return <div className={styles.player} data-futures-step={state.step}>
     <nav className={styles.localNav} aria-label="Futures navigation"><Link href={futuresRoutes.collection} prefetch={false}>All futures</Link>{state.step !== "intro" && <button type="button" onClick={() => dispatch({ type: "review" })}>Review answers ({answered}/{preferenceQuestions.length})</button>}<button type="button" ref={resetTrigger} onClick={() => setResetOpen(true)} disabled={!answered && !Object.keys(state.expectations).length}>Reset this exercise</button></nav>
     <header className={styles.playerHeader}>{state.step === "questions" && <p className={styles.origin}>Preferred conditions · Question {state.question + 1} of {preferenceQuestions.length}</p>}<h1 ref={heading} tabIndex={-1}>{title}</h1></header>
     <p role="status" className={styles.notice}>{state.notice}</p>

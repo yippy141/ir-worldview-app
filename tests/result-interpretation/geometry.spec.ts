@@ -20,7 +20,7 @@ for (const width of [320, 390, 719, 720, 721, 768, 1024, 1440, 1920]) {
     await page.goto(`/ai/results/${sampleAi.payload}`)
     await page.evaluate(() => document.fonts.ready)
     await fitsPage(page)
-    for (const selector of [".ai-result-canvas", ".ai-result-canvas > header"]) {
+    for (const selector of [".ai-result-canvas", '.ai-result-canvas [data-result-reveal="ai"] > header']) {
       const box = await page.locator(selector).boundingBox()
       expect(Math.abs(box!.x + box!.width / 2 - width / 2)).toBeLessThanOrEqual(1)
     }
@@ -108,7 +108,7 @@ test("no-JS payoff, keyboard disclosures, print expansion and return anchors", a
   await expect(page).toHaveURL(/#nearest$/)
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } })
   const staticPage = await context.newPage()
-  await staticPage.goto(`http://127.0.0.1:3241/ai/results/${sampleAi.payload}`)
+  await staticPage.goto(`${process.env.RESULT_BASE_URL ?? "http://127.0.0.1:3241"}/ai/results/${sampleAi.payload}`)
   await expect(staticPage.locator(".result-application")).toBeVisible()
   await expect(staticPage.locator("[data-ai-mark]")).toBeVisible()
   await staticPage.locator("#ai-sources > summary").click()

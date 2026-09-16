@@ -2,6 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { DestinationLink } from "@/components/layout/destination-link"
+import { NavigationDirectory } from "@/components/layout/navigation-directory"
+import { NavAutoClose } from "@/components/layout/nav-auto-close"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import type { RootCopy } from "@/content/root"
 import { Link } from "@/i18n/navigation"
@@ -12,14 +14,12 @@ import {
   type RootDestinationId,
 } from "@/lib/root/destinations"
 import { readRootLocalStatus, type RootLocalStatus } from "@/lib/root/local-status"
+import type { GlobeScene } from "@/lib/root/globe-scenes"
 import type { RootGlobeVisual } from "@/lib/root/orthographic"
 import styles from "./root-home.module.css"
+import { RootGlobe } from "./root-globe"
 
 const QUIZ_SESSION_EVENT = "ir-worldview-session-updated"
-const ROOT_GLOBE_VIEW_SIZE = 1000
-const ROOT_GLOBE_CENTER = ROOT_GLOBE_VIEW_SIZE / 2
-const ROOT_GLOBE_RADIUS = 370
-
 function fillTemplate(template: string, replacements: Record<string, string | number>) {
   return Object.entries(replacements).reduce(
     (value, [key, replacement]) => value.replaceAll(`{{${key}}}`, String(replacement)),
@@ -64,63 +64,16 @@ function localStatusText(copy: RootCopy, status: RootLocalStatus | null) {
   })
 }
 
-function RootGlobe({
-  activeId,
-  visual,
-}: {
-  activeId: RootDestinationId
-  visual: RootGlobeVisual
-}) {
-  const ring = visual.states[activeId]
-  const clipId = "root-geographic-globe"
-
-  return (
-    <figure
-      className={styles.globeFigure}
-      data-root-visual-state={activeId}
-      aria-hidden="true"
-    >
-      <svg
-        className={styles.globe}
-        viewBox={`0 0 ${ROOT_GLOBE_VIEW_SIZE} ${ROOT_GLOBE_VIEW_SIZE}`}
-        focusable="false"
-      >
-        <defs>
-          <clipPath id={clipId}>
-            <circle cx={ROOT_GLOBE_CENTER} cy={ROOT_GLOBE_CENTER} r={ROOT_GLOBE_RADIUS} />
-          </clipPath>
-        </defs>
-        <path className={styles.ringBack} d={ring.back} />
-        <g clipPath={`url(#${clipId})`}>
-          <circle
-            className={styles.ocean}
-            cx={ROOT_GLOBE_CENTER}
-            cy={ROOT_GLOBE_CENTER}
-            r={ROOT_GLOBE_RADIUS}
-          />
-          <path className={styles.graticule} d={visual.graticule} />
-          <path className={styles.land} d={visual.land} fillRule="evenodd" />
-        </g>
-        <circle
-          className={styles.limb}
-          cx={ROOT_GLOBE_CENTER}
-          cy={ROOT_GLOBE_CENTER}
-          r={ROOT_GLOBE_RADIUS}
-        />
-        <path className={styles.ringFront} d={ring.front} />
-      </svg>
-    </figure>
-  )
-}
-
 export function RootHome({
   locale,
   copy,
   visual,
+  scenes,
 }: {
   locale: Locale
   copy: RootCopy
   visual: RootGlobeVisual
+  scenes: GlobeScene[]
 }) {
   const [selectedId, setSelectedId] = useState<RootDestinationId>(
     DEFAULT_ROOT_DESTINATION_ID,
@@ -145,6 +98,7 @@ export function RootHome({
 
   return (
     <main className={styles.root} id="site-main" data-locale={locale}>
+      <NavAutoClose />
       <header className={styles.header}>
         <Link href="/" className={styles.brand} aria-label={copy.brandAriaLabel}>
           {copy.brand}
@@ -157,6 +111,10 @@ export function RootHome({
               </Link>
             ))}
           </nav>
+          <details className="site-directory-disclosure">
+            <summary>{locale === "zh-Hans" ? "菜单" : "Menu"}</summary>
+            <div className="site-directory-panel"><NavigationDirectory language={false} /></div>
+          </details>
           <LanguageSwitcher className={styles.languageControl} />
         </div>
       </header>
@@ -204,13 +162,14 @@ export function RootHome({
             <DestinationLink destination="technology" className={styles.secondaryLink} />
             <DestinationLink destination="ai" className={styles.secondaryLink} />
           </div>}
+          <div className={styles.secondaryLinks}><DestinationLink destination="futures" className={styles.secondaryLink} /></div>
           <div className={styles.localState} data-root-returning={localStatus ? "resolved" : "pending"}>
             <h3>{copy.localState.heading}</h3>
             <p>{statusText}</p>
           </div>
         </section>
 
-        <RootGlobe activeId={selectedId} visual={visual} />
+        <RootGlobe visual={visual} scenes={scenes} chinese={locale === "zh-Hans"} />
       </div>
     </main>
   )

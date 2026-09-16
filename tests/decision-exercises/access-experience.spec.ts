@@ -2,7 +2,7 @@ import { test, expect, type Page } from "@playwright/test"
 import { mkdirSync, writeFileSync } from "node:fs"
 
 const route = "/decisions/who-gets-access"
-const output = process.env.ACCESS_EVIDENCE_DIR ?? "docs/evidence/access-analytical-experience"
+const output = process.env.ACCESS_EVIDENCE_DIR ?? "test-results/access-analytical-experience"
 const submit = (page: Page) => page.getByRole("button", { name: "Submit and see the changed condition" }).click()
 const finish = (page: Page) => page.getByRole("button", { name: "Submit and read the interpretation" }).click()
 async function choose(page: Page, option: string, reason: string) {

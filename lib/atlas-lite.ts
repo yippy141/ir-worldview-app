@@ -255,7 +255,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     name: "Institution Builder",
     publicName: "Rules and Cooperation",
     technicalDescriptor: "Institution Builder",
-    decisionRule: "Try rules, monitoring, and repeated cooperation before abandoning the institutional route.",
+    decisionRule: "Before abandoning an agreement, ask whether clearer terms and better monitoring could make it work.",
     primaryFamily: "institutionalist",
     secondaryFamilies: ["constructivist"],
     cardSummary:
@@ -277,11 +277,11 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "The pattern can explain a case without reaching for a hard rivalry frame.",
     ],
     underestimates: [
-      "How fast hard rivalry hollows out rules and monitoring arrangements.",
+      "Monitoring may reveal a violation without giving anyone enough leverage to stop it.",
       "How often reassurance and authorization fail once strategic distrust has set in.",
     ],
     securitySummary:
-      "If a monitoring team watches a ceasefire fray, this pattern asks whether the monitoring can be repaired: more access, a clearer authorization, a credible reporting line. It accepts that only a harder line remains when those repairs have failed, and it wants that failure shown.",
+      "Two governments suspect the other is breaking an agreement. Shared inspections could clarify what each is doing and give them a basis for deciding whether cooperation can continue.",
     technologySummary:
       "If a research board must decide how far to open a capable model, this pattern favors standards-setting, narrow controls, and shared infrastructure over each state duplicating the work, because a shared rule can be verified and a national one can only be asserted.",
     confusionNote:

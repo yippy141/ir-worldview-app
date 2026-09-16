@@ -1,0 +1,8 @@
+.reveal { position: relative; }
+.rule { display: block; width: 100%; height: 2px; color: var(--accent-dim); }
+.replay { display: none; min-height: 44px; margin: 4px 0 16px auto; padding: 0 12px; color: var(--muted); font: inherit; font-size: 13px; border: 0; background: transparent; cursor: pointer; }
+.reveal[data-ready=true] .replay { display: block; }
+.replay:hover { color: var(--accent); }
+.reveal[data-motion=drawing] :global([data-mark-overlay]) { visibility: visible; }
+@media (prefers-reduced-motion: reduce) { .replay { display: none !important; } .reveal :global([data-mark-overlay]) { display: none !important; } .reveal :global([data-mark-base]) { opacity: 1 !important; } }
+@media print { .replay { display: none !important; } .reveal :global([data-mark-overlay]) { display: none !important; } .reveal :global([data-mark-base]) { opacity: 1 !important; } }

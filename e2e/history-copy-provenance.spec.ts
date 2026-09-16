@@ -7,7 +7,7 @@ import { encodePayload, resolveFoundationPayload } from '../lib/share'
 import { SCHEMA_VERSION } from '../lib/quiz-schema'
 import { RESULT_HISTORY_STORAGE_KEY } from '../lib/storage-keys'
 import { resolveArchetype } from '../lib/archetypes'
-const dir=process.env.HISTORY_EVIDENCE_DIR ?? 'docs/evidence/batch-b-reading-and-localization/history-amendment'
+const dir=process.env.HISTORY_EVIDENCE_DIR ?? 'test-results/history-copy'
 function fixture(seed:number,copy:number,locale:'en'|'zh-Hans'='en') {
  const raw=generateResult(syntheticAnswers(seed,'core'),'analyst','core')
  const payload=encodePayload(buildFoundationCopySharePayload(raw,locale,'core',undefined,copy))

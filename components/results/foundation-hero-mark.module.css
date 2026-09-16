@@ -1,7 +1,6 @@
 .markComposition { display: grid; width: fit-content; margin: 0 auto; color: var(--accent); }
 .markBase, .markOverlay { grid-area: 1 / 1; line-height: 0; }
 .markOverlay { visibility: hidden; pointer-events: none; }
-.markComposition[data-motion=drawing] .markOverlay { visibility: visible; }
 .markComposition svg, .markComposition :global(.foundation-mark__panel) { width: 176px; height: 176px; }
 .markComposition :global(.foundation-mark__visual), .drawnPair, .pairPart { display: flex; align-items: center; gap: 20px; }
 .markComposition :global(.foundation-mark__connector), .connector { width: 20px; font-size: 24px; text-align: center; line-height: 1; color: inherit; }

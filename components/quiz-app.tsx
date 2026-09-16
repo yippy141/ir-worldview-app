@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+
 import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
 
 import { getEnglishFoundationQuestionsForSet as getFoundationQuestionsForSet } from "@/lib/foundation-english-copy"
@@ -140,6 +142,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   )
   const [supportOpen, setSupportOpen] = useState(false)
   const [ready, setReady] = useState(false)
+  const [entranceOpen, setEntranceOpen] = useState(false)
   const [legacyAcknowledged, setLegacyAcknowledged] = useState(false)
   const [renderEpoch, setRenderEpoch] = useState(0)
   const foundationStartTracked = useRef(false)
@@ -161,6 +164,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         ...createEmptySession(),
         activeMode: "standard" as const,
       }, locale)
+      setEntranceOpen(locale === "en" && Object.keys(baseSession.answers).length === 0 && !requestedExtension && !requestedCoreRepair)
       const hasCompleteCore = foundationCoreQuestions.every(
         (question) => baseSession.answers[question.id] !== undefined,
       )
@@ -208,7 +212,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     }, 0)
 
     return () => window.clearTimeout(timeout)
-  }, [locale, requestedExtension, requestedFirstFamily, requestedSecondFamily])
+  }, [locale, requestedExtension, requestedFirstFamily, requestedSecondFamily, requestedCoreRepair])
 
   useEffect(() => {
     if (!ready) return
@@ -443,22 +447,28 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
       : []
 
   return (
-    <div className="stack-lg">
+    <div className={locale === "en" ? "stack-lg foundation-task" : "stack-lg"}>
+      {entranceOpen && <section className="foundation-entrance">
+        <h1>How do you judge the arguments behind world politics?</h1>
+        <p className="entrance-count">{questions.length} questions · estimated 6–8 minutes</p>
+        <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
+        <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
+        <blockquote className="entrance-example"><div><strong>Illustrative result: Concert, near Shi.</strong><p>Shared rules may make cooperation worth attempting, while concerns about power keep the bargain conditional.</p><p className="muted">An authored illustration. Your answers determine your reading and its nearest alternative.</p></div></blockquote>
+        <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
+      </section>}
       <FoundationCopyNotice session={session} locale={locale} onRestart={resetQuiz} />
       <section
         className={
-          copy.positionMap ? "panel quiz-header quiz-header--with-map" : "panel quiz-header"
+          locale === "en" ? "panel quiz-header quiz-header--focused" : (copy.positionMap ? "panel quiz-header quiz-header--with-map" : "panel quiz-header")
         }
       >
         <div className="quiz-header__main stack-md">
           <div className="stack-sm">
-            <p className="eyebrow">{copy.eyebrow}</p>
+            {locale !== "en" && <p className="eyebrow">{copy.eyebrow}</p>}
             <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
               <div className="stack-xs">
-                <h1>{copy.title}</h1>
-                <p className="muted" style={{ lineHeight: "1.65" }}>
-                  {copy.setSummary[displayedSet]}
-                </p>
+                {locale !== "en" ? <h1>{copy.title}</h1> : entranceOpen ? <p className="task-orientation-title">{copy.title}</p> : <h1 className="task-orientation-title">{copy.title}</h1>}
+                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet]}</p>}
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}
@@ -504,11 +514,11 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         </div>
 
         {copy.positionMap ? (
-          <QuizPositionMap
+          <details className="task-map-disclosure"><summary>{copy.positionMap.label}</summary><QuizPositionMap
             answers={resultAnswers}
             answeredCount={Object.keys(resultAnswers).length}
             copy={copy.positionMap}
-          />
+          /></details>
         ) : null}
       </section>
 
@@ -549,7 +559,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
                   questions.length,
                 )}
               </p>
-              <h2>{currentQuestion.prompt}</h2>
+              <h2 tabIndex={-1}>{currentQuestion.prompt}</h2>
             </div>
 
             {currentQuestion.kind !== "likert" ? (

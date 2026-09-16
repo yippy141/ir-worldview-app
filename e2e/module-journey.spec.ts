@@ -39,7 +39,7 @@ for (const slug of ["security", "technology"] as const) {
       await page.goto(`/modules/${slug}`)
       await expect(page.getByRole("region", { name: "Introduction and scope" })).toBeVisible()
       await expect(frame(page)).toHaveCount(0)
-      if (mode === "analyst") await page.getByRole("button", { name: /A Advanced/ }).click()
+      if (mode === "analyst") await page.getByRole("combobox", { name: "Mode", exact: true }).selectOption("analyst")
       const start = page.getByRole("button", { name: "Start questions", exact: true })
       await tabTo(page, start)
       await page.keyboard.press("Enter")
@@ -152,7 +152,7 @@ for (const slug of ["security", "technology"] as const) {
       await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? "{}").modules, PROFILE_STORAGE_KEY))
         .toMatchObject({ [slug]: { payload: encoded, scores: result.scores } })
       await page.getByRole("link", { name: "View Profile", exact: true }).click()
-      await expect(page.getByText("No Foundation result is saved", { exact: true })).toBeVisible()
+      await expect(page.getByRole("heading", { name: "Your saved work", exact: true })).toBeVisible()
       const resultLink = page.getByRole("link", { name: `Open ${fixture.version.definition.shortTitle} result`, exact: true })
       await expect(resultLink).toHaveCount(1)
       await resultLink.click()
@@ -189,7 +189,7 @@ test("legacy, partial and answer-absent shared results preserve their exact bank
     }
   }
   await page.getByRole("link", { name: "View Profile", exact: true }).click()
-  await expect(page.getByRole("heading", { name: "No Profile records are saved yet." })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Your results, ready to return to." })).toBeVisible()
 })
 
 test("actor-only records keep their existing result without posing as scored-answer evidence", async ({ page }) => {
@@ -231,8 +231,8 @@ test("multiple standalone modules retain direct links; shared Profile does not i
   const context = await browser.newContext()
   const shared = await context.newPage()
   await shared.goto(new URL(`/profile/share/${encodeProfileSharePayload(share)}`, page.url()).href)
-  await expect(shared.getByText("Security record", { exact: true })).toBeVisible()
-  await expect(shared.getByText("Technology record", { exact: true })).toBeVisible()
+  await expect(shared.getByRole("link", { name: "Open Security result", exact: true })).toBeVisible()
+  await expect(shared.getByRole("link", { name: "Open Technology result", exact: true })).toBeVisible()
   expect(await shared.evaluate(key => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
   await context.close()
 })

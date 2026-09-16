@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation"
 import {
   AI_GOVERNANCE_STORAGE_KEY,
   aiLikertScale,
-  aiQuestionCountsByMode,
   aiTotalQuestionCountsByMode,
   getAiCoreQuestions,
   getScenarioOptions,
@@ -232,16 +231,16 @@ export function AiGovernanceQuizApp() {
 
   return (
     <div className="stack-lg">
-      <section className="panel stack-md">
+      <section className="panel stack-md ai-task-orientation">
         <div className="stack-sm">
           <div className="row gap-sm" style={{ alignItems: "center" }}>
-            <p className="eyebrow">AI Governance Compass</p>
+            <p className="eyebrow">AI Governance</p>
             <span className="ai-mode-pill">
               {state.mode === "analyst" ? "Advanced" : "Standard"}
             </span>
           </div>
           <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
-            <h1>Map how you think about AI safety, governance, and the future</h1>
+            <h1>AI Governance</h1>
           </div>
         </div>
 
@@ -506,61 +505,18 @@ function ModeGate({
     <div className="stack-lg">
       <section className="panel stack-md">
         <div className="stack-sm">
-          <p className="eyebrow">AI Governance Compass</p>
-          <h1>Map how you think about AI safety, governance, and the future</h1>
-          <p className="muted" style={{ lineHeight: "1.7", maxWidth: "640px" }}>
-            Position statements and branching scenarios map where you stand across eight AI
-            governance dimensions. The result is a structured interpretation. It is neither a
-            personality profile nor a validated instrument.
-          </p>
-          <div className="callout stack-sm" style={{ maxWidth: "720px" }}>
-            <div className="stack-xs">
-              <p style={{ fontWeight: 600, margin: 0 }}>First time here?</p>
-              <p className="muted" style={{ lineHeight: "1.65", margin: 0 }}>
-                Standard is the cleaner first pass. If you are trying the module with a friend or
-                seminar partner, compare the review screen and full result page rather than only
-                the headline archetype.
-              </p>
-            </div>
-            <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem", margin: 0 }}>
-              The focused quiz shell keeps navigation light here. Browse pages and the corrections
-              and contact route remain available after you exit the questionnaire.
-            </p>
-          </div>
+          <p className="eyebrow">AI Governance</p>
+          <h1>Who should govern powerful AI?</h1>
+          <p className="muted">Take positions on release, oversight and rivalry, then compare your closest governing approach with its nearest rival.</p>
         </div>
 
         <div className="stack-sm">
           <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>Choose your depth</p>
-          <div className="module-mode-grid">
-            <button
-              type="button"
-              className={selectedMode === "standard" ? "option-card selected" : "option-card"}
-              onClick={() => setSelectedMode("standard")}
-              aria-pressed={selectedMode === "standard"}
-              style={{ textAlign: "left" }}
-            >
-              <span className="option-card-content">
-                <span className="option-card-text" style={{ fontWeight: 600 }}>Standard</span>
-                <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
-                  {aiQuestionCountsByMode.standard} statements · {aiTotalQuestionCountsByMode.standard} questions total. Plain-language prompts covering all eight governance dimensions.
-                </span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className={selectedMode === "analyst" ? "option-card selected" : "option-card"}
-              onClick={() => setSelectedMode("analyst")}
-              aria-pressed={selectedMode === "analyst"}
-              style={{ textAlign: "left" }}
-            >
-              <span className="option-card-content">
-                <span className="option-card-text" style={{ fontWeight: 600 }}>Advanced</span>
-                <span className="muted" style={{ display: "block", fontSize: "0.82rem", marginTop: "4px", lineHeight: "1.55" }}>
-                  {aiQuestionCountsByMode.analyst} statements · {aiTotalQuestionCountsByMode.analyst} questions total. Adds materially deeper questions on audits, compute governance, incident reporting, security competition, critical infrastructure, legitimacy under pressure, and moral-status overlays.
-                </span>
-              </span>
-            </button>
-          </div>
+          <label className="entrance-mode">Mode <select value={selectedMode} onChange={event => setSelectedMode(event.target.value as AiQuizMode)}>
+            <option value="standard">Standard · {aiTotalQuestionCountsByMode.standard} questions</option>
+            <option value="analyst">Advanced · {aiTotalQuestionCountsByMode.analyst} questions</option>
+          </select></label>
+          <p className="muted">Standard takes about eight minutes. Advanced adds questions on audits, compute and incident reporting.</p>
         </div>
 
         <div className="row gap-sm wrap">

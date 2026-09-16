@@ -24,15 +24,15 @@ export function AiResultReturnLink({
 
   if (snapshot) {
     return (
-      <Link href={snapshot.resultPath} className={className}>
+      <Link href={snapshot.resultPath} className={`${className} saved-result-action`}>
         Open saved AI result
       </Link>
     )
   }
 
   return (
-    <Link href="/ai/quiz" className={className}>
-      Get an AI result
+    <Link href="/ai/quiz" className={`${className} saved-result-action`}>
+      Start AI Governance
     </Link>
   )
 }

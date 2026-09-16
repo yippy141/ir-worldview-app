@@ -70,20 +70,12 @@ export function FoundationHeroActions() {
 
   return (
     <div className="landing-hero-ctas">
-      <Link href="/quiz" className="cta-primary landing-primary-cta">
-        Start the Foundation
-      </Link>
-      {hasDraft ? (
-        <div className="stack-xs">
-          <Link href="/quiz" className="cta-secondary">
-            Resume Foundation draft
-          </Link>
-          <p className="landing-draft-note">
-            {modeLabel} mode · {draftCount} {draftCount === 1 ? "question" : "questions"} answered
-            on this device.
-          </p>
-        </div>
-      ) : null}
+      <div className="stack-xs">
+        <Link href="/quiz" className="cta-primary landing-primary-cta">
+          {hasDraft ? "Resume Foundation draft" : "Start the Foundation"}
+        </Link>
+        {hasDraft && <p className="landing-draft-note">{modeLabel} mode · {draftCount} questions answered on this device.</p>}
+      </div>
     </div>
   )
 }

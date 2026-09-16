@@ -47,8 +47,8 @@ test("root dependency requests and loaded scripts contain no Mapbox runtime", as
   await page.evaluate(() => document.fonts.ready)
   await page.waitForTimeout(250)
 
-  await expect(page.locator("canvas")).toHaveCount(0)
-  await expect(page.locator("[data-root-visual-state] svg")).toBeVisible()
+  await expect(page.locator("[data-root-globe] canvas")).toHaveCount(1)
+  await expect(page.locator("[data-root-globe]")).toBeVisible()
   expect(
     requestUrls.filter((url) => isMapboxUrl(url)),
     "Mapbox must not be requested during a clean root load.",
@@ -70,8 +70,7 @@ test("keyboard activation reaches every primary link without diverging from the 
       .toHaveAttribute("data-root-selected", destination.id)
     await expect(page.locator("[data-root-detail-state]"))
       .toHaveAttribute("data-root-detail-state", destination.id)
-    await expect(page.locator("[data-root-visual-state]"))
-      .toHaveAttribute("data-root-visual-state", destination.id)
+    await expect(page.locator("[data-root-globe]")).toHaveAttribute("data-scene", "eu-nato")
     await expect(page.locator(`[data-root-destination="${destination.id}"]`))
       .toHaveAttribute("data-selected", "true")
 
@@ -468,12 +467,8 @@ test("reduced motion keeps every chapter and its visible state available", async
 test("Profile distinguishes an unsaved domain set from a saved domain record", async ({ page }) => {
   await setProfile(page, profileStoreV5)
   await page.goto("/profile")
-  await expect(page.getByRole("heading", { name: "Your other results" })).toBeVisible()
-  await expect(page.locator(".profile-domain-record__result")).toHaveText([
-    "Not saved",
-    "Not saved",
-    "Not saved",
-  ])
+  await expect(page.locator(".profile-domain-record")).toHaveCount(0)
+  for (const label of ["Add Security", "Add Technology", "Add AI Governance"]) await expect(page.getByRole("link", { name: new RegExp(label) })).toBeVisible()
   await expect(page.getByText("No reviewed cross-domain relation is available.", {
     exact: true,
   })).toBeVisible()

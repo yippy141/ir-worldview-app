@@ -69,3 +69,69 @@
 .reading-page .module-choice-meta { border-inline: 0; padding-inline: 0; }
 .reading-page .perspective-pack-card { padding: 24px 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; }
 .reading-page .perspective-pack-grid { gap: 32px 48px; }
+
+.page-contents-desktop { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.page-contents a { display: inline-flex; align-items: center; min-height: 44px; color: var(--text-2); text-decoration: none; font-size: 13px; }
+.page-contents a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+.atlas-toc .page-contents-desktop { display: grid; gap: 4px; }
+.page-contents-mobile { display: none; }
+.reference-card-grid { display: grid; grid-template-columns: 1fr; gap: 0; }
+.reference-card { display: grid; grid-template-columns: minmax(180px, .75fr) minmax(0, 1.4fr); gap: 10px 36px; padding: 28px 0; border: 0; border-top: 1px solid var(--line-2); background: none; border-radius: 0; }
+.reference-card__name { grid-column: 1; grid-row: 2; font-size: 28px; }
+.reference-card__meta-row { grid-column: 1 / -1; }
+.reference-card__summary { grid-column: 2; grid-row: 2 / 5; font-size: 16px; line-height: 1.7; }
+.reference-card__foot { grid-column: 1 / -1; border: 0; padding-top: 8px; }
+.reference-detail .article-header { max-width: 760px; padding-bottom: 24px; }
+.reference-detail .article-header h1 { font-size: clamp(36px, 4.5vw, 56px); }
+.reference-window { font-size: 13px; color: var(--muted); max-width: 78ch; }
+.reading-application { max-width: 72ch; }
+@media (max-width: 768px) {
+ .page-contents-desktop { display: none !important; }
+ .page-contents-mobile { display: block; width: 100%; }
+ .page-contents-mobile > summary { min-height: 44px; padding: 10px 0; cursor: pointer; }
+ .page-contents-mobile nav { display: grid; padding: 8px 0 16px; }
+ .atlas-toc:has(.page-contents-mobile) { display: block; position: static; }
+ .reference-card { grid-template-columns: 1fr; gap: 12px; }
+ .reference-card > * { grid-column: auto; grid-row: auto; }
+}
+@media print { .page-contents { display: none; } .reference-card { break-inside: avoid; } }
+
+/* Argument, application, objection and sources have different reading weights. */
+.ai-approaches-index .ai-atlas-fingerprint-grid { grid-template-columns: 1fr; }
+.ai-approaches-index .ai-atlas-fingerprint-card { grid-template-columns: 64px minmax(0, 1.25fr) minmax(0, 1fr); align-items: center; gap: 28px; padding: 30px 0; border: 0; border-top: 1px solid var(--line); background: none; }
+.ai-approaches-index .ai-atlas-fingerprint-card > svg { width: 64px; height: 64px; }
+.ai-approaches-index .ai-atlas-fingerprint-card__name { font-size: clamp(26px, 2.8vw, 36px); }
+.ai-comparison-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.ai-comparison-rows > article { padding: 26px 0; border: 0; border-top: 1px solid var(--line); background: none; }
+.ai-approach-reading .ai-atlas-detail-note, .ai-approach-reading .atlas-detail-fingerprint-card, .ai-approach-reading .ai-atlas-detail-neighbor, .ai-approach-reading .ai-atlas-detail-debate { border: 0; padding: 0; background: none; box-shadow: none; }
+.ai-approach-reading .ai-atlas-detail-debate { padding-top: 20px; border-top: 1px solid var(--line); }
+.ai-approach-reading #practice { max-width: 76ch; }
+.ai-approach-reading .ai-atlas-detail-implications { display: block; list-style: decimal; padding-left: 1.5rem; }
+.ai-approach-reading .ai-atlas-detail-implications li { padding: 12px 0; border: 0; background: none; font-size: 17px; line-height: 1.7; }
+.ai-approach-reading #objection { gap: 48px; }
+.info-page { max-width: 850px; }
+.info-page > .panel { padding-inline: 0; padding-block: 30px; border: 0; border-top: 1px solid var(--line); background: none; box-shadow: none; }
+.info-page > .panel:first-child { border-top: 0; }
+.info-page h1 { max-width: 23ch; font-size: clamp(34px, 4.4vw, 54px); }
+.info-page p, .info-page li { max-width: 72ch; line-height: 1.75; }
+.ai-fg-anchorbar { display: block; }
+.ai-fg-anchorbar summary { min-height: 44px; display: list-item; align-content: center; cursor: pointer; }
+.ai-fg-anchorbar nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.ai-fg-anchorbar a { display: inline-flex; min-height: 44px; align-items: center; border: 0; padding: 0; }
+@media (max-width: 760px) {
+  .ai-approaches-index .ai-atlas-fingerprint-card { grid-template-columns: 48px minmax(0, 1fr); gap: 18px; }
+  .ai-approaches-index .ai-atlas-fingerprint-card__right { grid-column: 1 / -1; }
+  .ai-comparison-rows { grid-template-columns: 1fr; }
+  .ai-approach-reading #objection { gap: 28px; }
+  .ai-fg-anchorbar nav { display: grid; gap: 0; }
+}
+@media print { .info-page > .panel { break-inside: auto; } }
+.ai-approach-reading .ai-atlas-mark-hero { position: relative; text-align: left; padding: 20px 160px 28px 0; }
+.ai-approach-reading .ai-atlas-mark-hero > .ai-archetype-mark { position: absolute; top: 40px; right: 0; width: 120px; height: 120px; }
+.ai-approach-reading .ai-atlas-mark-hero > p { margin-inline: 0; }
+.ai-approach-reading .ai-atlas-mark-hero > .row { justify-content: flex-start; }
+.ai-approach-reading .ai-atlas-mark-hero .ai-hero-rule { display: none; }
+@media (max-width: 760px) {
+  .ai-approach-reading .ai-atlas-mark-hero { padding: 0 0 28px; }
+  .ai-approach-reading .ai-atlas-mark-hero > .ai-archetype-mark { position: static; width: 76px; height: 76px; margin: 0 0 12px; }
+}

@@ -52,19 +52,18 @@ export default function AiFieldGuidePage() {
             access. Who should decide, and what would justify their choice?
           </p>
           <div className="row gap-sm wrap print-hidden">
-            <AiResultReturnLink />
+            <AiResultReturnLink className="cta-primary" />
             <DestinationLink destination="aiApproaches" className="cta-secondary" />
-            <Link href="/ai/quiz" className="cta-primary">Start AI Governance</Link>
           </div>
         </section>
 
-        <nav className="ai-fg-anchorbar" aria-label="Field Guide sections (mobile)">
+        <details className="ai-fg-anchorbar"><summary>On this page</summary><nav aria-label="Field Guide sections">
           {sections.map((section) => (
             <a key={section.id} href={`#${section.id}`} className="ai-fg-anchorbar__link">
               {section.label}
             </a>
           ))}
-        </nav>
+        </nav></details>
 
         <div className="ai-fg-layout">
           <aside className="ai-fg-rail" aria-label="On this page">

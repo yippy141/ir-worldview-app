@@ -48,6 +48,9 @@ const eslintConfig = defineConfig([
   },
   globalIgnores([
     ".next/**",
+    "playwright-report/**",
+    "test-results/**",
+    "blob-report/**",
     ".claude/worktrees/**",
     "out/**",
     "build/**",

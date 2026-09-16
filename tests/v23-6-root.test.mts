@@ -49,12 +49,12 @@ test("the production root has five literal destinations and exhaustive bilingual
   }
 })
 
-test("one root selection drives menu, explanation, and geographic visual state", () => {
+test("root selection drives menu and explanation without driving the globe", () => {
   const component = source("components/home/root/root-home.tsx")
   assert.match(component, /useState<RootDestinationId>/)
   assert.match(component, /data-selected=\{selected \? "true" : "false"\}/)
   assert.match(component, /data-root-detail-state=\{selectedId\}/)
-  assert.match(component, /<RootGlobe activeId=\{selectedId\}/)
+  assert.doesNotMatch(component, /<RootGlobe[^>]*selectedId/)
   assert.match(component, /onFocus=\{\(\) => setSelectedId\(destination\.id\)\}/)
   assert.match(component, /onPointerEnter=\{\(\) => setSelectedId\(destination\.id\)\}/)
   assert.match(component, /prefetch=\{false\}/)
@@ -65,7 +65,7 @@ test("one root selection drives menu, explanation, and geographic visual state",
   const detail = component.slice(detailStart, detailEnd)
   assert.doesNotMatch(detail, /<button/u)
   assert.match(detail, /selectedId === "inventory"/u)
-  assert.deepEqual([...detail.matchAll(/<DestinationLink destination="([^"]+)"/gu)].map(match => match[1]), ["security", "technology", "ai"])
+  assert.deepEqual([...detail.matchAll(/<DestinationLink destination="([^"]+)"/gu)].map(match => match[1]), ["security", "technology", "ai", "futures"])
 })
 
 test("the root route graph has no Mapbox import and uses checked-in geography", () => {
@@ -89,15 +89,13 @@ test("the root route graph has no Mapbox import and uses checked-in geography", 
   assert.equal(source("app/page.tsx").includes("map-config"), false)
 })
 
-test("the checked-in geographic globe has a distinct restrained ring for every destination", () => {
+test("the geographic still uses reprojection and literal scene focus without decorative orbits", () => {
   assert.ok(ROOT_GLOBE_VISUAL.land.length > 10_000)
   assert.ok(ROOT_GLOBE_VISUAL.graticule.length > 1_000)
-  const states = ROOT_DESTINATION_IDS.map((id) => ROOT_GLOBE_VISUAL.states[id])
-  assert.equal(new Set(states.map((state) => `${state.front}|${state.back}`)).size, 5)
-  for (const state of states) {
-    assert.ok(state.front.length > 100)
-    assert.ok(state.back.length > 100)
-  }
+  assert.equal(ROOT_GLOBE_VISUAL.groups.length, 3)
+  assert.ok(ROOT_GLOBE_VISUAL.groups.every(group => group.path.length > 100))
+  assert.match(source("lib/root/orthographic.ts"), /geoOrthographic/)
+  assert.doesNotMatch(source("components/home/root/root-globe.tsx"), /ringFront|ringBack|activeId/)
 })
 
 test("returning-state parsing reads counts without returning answer content", () => {

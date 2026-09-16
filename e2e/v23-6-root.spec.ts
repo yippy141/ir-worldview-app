@@ -16,12 +16,12 @@ test("root loads without Mapbox and keeps every destination as an ordinary link"
   await page.goto("/")
   await page.waitForTimeout(500)
 
-  await expect(page.locator("canvas")).toHaveCount(0)
+  await expect(page.locator("[data-root-globe] canvas")).toHaveCount(1)
   await expect(page.locator('[role="tab"], [aria-selected]')).toHaveCount(0)
   const secondary = page.locator("[data-root-detail-state] a")
-  await expect(secondary).toHaveText(["Security", "Technology", "AI Governance"])
+  await expect(secondary).toHaveText(["Security", "Technology", "AI Governance", "Futures"])
   expect(await secondary.evaluateAll(links => links.map(link => link.getAttribute("href"))))
-    .toEqual(["/modules/security", "/modules/technology", "/ai"])
+    .toEqual(["/modules/security", "/modules/technology", "/ai", "/futures"])
   await expect(page.locator("[data-root-detail-state] button")).toHaveCount(0)
   await expect(page.locator("[data-root-destination]"))
     .toHaveCount(destinationIds.length)
@@ -30,7 +30,7 @@ test("root loads without Mapbox and keeps every destination as an ordinary link"
   ).toEqual([])
 })
 
-test("Tab reaches all five root destinations and one state drives link, copy, and globe", async ({ page }) => {
+test("Tab reaches all five root destinations while the globe remains independent", async ({ page }) => {
   await page.goto("/")
   const menuBefore = await page
     .getByRole("navigation", { name: "Primary destinations" })
@@ -50,8 +50,8 @@ test("Tab reaches all five root destinations and one state drives link, copy, an
       .toHaveAttribute("data-root-selected", destination)
     await expect(page.locator("[data-root-detail-state]"))
       .toHaveAttribute("data-root-detail-state", destination)
-    await expect(page.locator("[data-root-visual-state]"))
-      .toHaveAttribute("data-root-visual-state", destination)
+    await expect(page.locator("[data-root-globe]"))
+      .toHaveAttribute("data-scene", "eu-nato")
     await expect(page.locator(`[data-root-destination="${destination}"]`))
       .toHaveAttribute("data-selected", "true")
 
@@ -107,6 +107,20 @@ for (const width of [320, 390, 768, 1440] as const) {
       clientWidth: document.documentElement.clientWidth,
     }))
     expect(sizes.scrollWidth).toBeLessThanOrEqual(sizes.clientWidth)
+    const directory = page.locator(".site-directory-disclosure")
+    const trigger = directory.locator(":scope > summary")
+    await trigger.focus(); await page.keyboard.press("Enter")
+    const panel = directory.locator(".site-directory-panel")
+    const box = (await panel.boundingBox())!
+    expect(box.x).toBeGreaterThanOrEqual(6)
+    expect(box.x + box.width).toBeLessThanOrEqual(width - 6)
+    expect(box.y + box.height).toBeLessThanOrEqual(width < 768 ? 844 : 1000)
+    await expect(panel.getByRole("link", { name: "Futures", exact: true })).toBeVisible()
+    await page.keyboard.press("Tab")
+    await expect(panel.getByRole("link", { name: "Foundation", exact: true })).toBeFocused()
+    await page.keyboard.press("Escape")
+    await expect(directory).not.toHaveAttribute("open")
+    await expect(trigger).toBeFocused()
   })
 }
 
@@ -133,8 +147,8 @@ test("reduced motion leaves a complete still root", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto("/")
 
-  await expect(page.locator("[data-root-visual-state]"))
-    .toHaveAttribute("data-root-visual-state", "inventory")
+  await expect(page.locator("[data-root-globe]"))
+    .toHaveAttribute("data-scene", "eu-nato")
   const motion = await page.locator("[data-root-destination='inventory']").evaluate(
     (element) => ({
       animation: getComputedStyle(element).animationName,

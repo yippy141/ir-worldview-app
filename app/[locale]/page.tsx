@@ -1,3 +1,4 @@
+import { getRootGlobeScenes } from "@/lib/root/globe-scenes"
 import type { Metadata } from "next"
 import { RootHome } from "@/components/home/root/root-home"
 import { getRootCopy } from "@/content/root"
@@ -15,6 +16,7 @@ export default function ChineseHomePage() {
       locale="zh-Hans"
       copy={getRootCopy("zh-Hans")}
       visual={ROOT_GLOBE_VISUAL}
+      scenes={getRootGlobeScenes("zh-Hans")}
     />
   )
 }

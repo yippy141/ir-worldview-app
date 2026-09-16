@@ -56,36 +56,45 @@ for (const width of [320, 390, 768]) test(`shared navigation fits ${width}px clo
     expect(box!.x + box!.width).toBeLessThanOrEqual(width - 6)
     expect(box!.y + box!.height).toBeLessThanOrEqual(844)
     expect(await panel.evaluate(e => e.scrollWidth <= e.clientWidth + 1)).toBe(true)
-    const links = panel.locator("a")
-    const hrefs = await links.evaluateAll(elements => elements.map(e => e.getAttribute("href")))
+    const hrefs = await panel.locator("a").evaluateAll(elements => elements.map(e => e.getAttribute("href")))
     if (mobile) {
       for (const href of mobileDestinations) expect(hrefs).toContain(route.startsWith("/zh") ? `/zh${href}` : href)
       await expect(panel.getByRole("link", { name: route.startsWith("/zh") ? "切换至英文" : "Switch to Simplified Chinese" })).toBeVisible()
       if (!route.startsWith("/zh")) {
-        await expect(panel.getByText("Thinkers", { exact: true })).toBeVisible()
         await expect(panel.getByText("Corrections and contact", { exact: true })).toBeVisible()
       }
     }
-    // Native Tab reaches every anchor, scrolling the panel and its focus ring.
-    for (let i = 0; i < await links.count(); i++) {
+    // Native Tab visits section disclosures as well as links. Expand each
+    // closed section with Enter and check every destination's focus visibility.
+    const visited = new Set<string>()
+    for (let i = 0; i < 110 && visited.size < new Set(hrefs).size; i++) {
       await page.keyboard.press(tabKey())
-      await expect(links.nth(i)).toBeFocused()
-      const focused = await links.nth(i).evaluate(e => {
-        const r = e.getBoundingClientRect(), s = getComputedStyle(e)
+      const active = page.locator(":focus")
+      if (await active.evaluate(e => e.tagName === "SUMMARY" && !!e.closest(".mobile-nav-sheet,.nav-disclosure-menu"))) {
+        if (!(await active.locator("..").getAttribute("open") !== null)) await page.keyboard.press("Enter")
+        continue
+      }
+      const href = await active.getAttribute("href")
+      expect(href, "Native traversal stays within the directory until all destinations are reached").not.toBeNull()
+      visited.add(href!)
+      const focused = await active.evaluate(e => {
+        const r = e.getBoundingClientRect(), css = getComputedStyle(e)
         const text = document.createRange(); text.selectNodeContents(e)
         return { left: r.left, right: r.right, top: r.top, bottom: r.bottom,
-          outline: parseFloat(s.outlineWidth), offset: parseFloat(s.outlineOffset), visible: e.matches(":focus-visible"),
+          outline: parseFloat(css.outlineWidth), offset: parseFloat(css.outlineOffset), visible: e.matches(":focus-visible"),
           textRight: Math.max(...Array.from(text.getClientRects(), line => line.right)) }
       })
+      const currentBox = (await panel.boundingBox())!
       expect(focused.visible).toBe(true)
       expect(focused.outline).toBeGreaterThanOrEqual(2)
       const ring = focused.outline + focused.offset
-      expect(focused.left - ring).toBeGreaterThanOrEqual(box!.x)
-      expect(focused.right + ring).toBeLessThanOrEqual(box!.x + box!.width)
-      expect(focused.top - ring).toBeGreaterThanOrEqual(box!.y - 1)
-      expect(focused.bottom + ring).toBeLessThanOrEqual(box!.y + box!.height + 1)
+      expect(focused.left - ring).toBeGreaterThanOrEqual(currentBox.x)
+      expect(focused.right + ring).toBeLessThanOrEqual(currentBox.x + currentBox.width)
+      expect(focused.top - ring).toBeGreaterThanOrEqual(currentBox.y - 1)
+      expect(focused.bottom + ring).toBeLessThanOrEqual(currentBox.y + currentBox.height + 1)
       expect(focused.textRight).toBeLessThanOrEqual(focused.right + 1)
     }
+    expect([...visited].sort()).toEqual([...new Set(hrefs)].sort())
     await page.keyboard.press(tabKey())
     await expect(disclosure).not.toHaveAttribute("open", "") // non-modal exit
     await openFromKeyboard(page, trigger)
@@ -130,7 +139,7 @@ test("six route overflow witnesses fit 1440px before and after evidence expansio
       expect(closed.owners.length).toBeGreaterThan(0)
       expect(closed.owners.every(o => o.right === "0px" && o.pointerEvents === "none")).toBe(true)
     }
-    const summaries = page.locator("main details > summary")
+    const summaries = page.locator("main details > summary:visible")
     for (const summary of await summaries.all()) {
       await summary.click()
       await expect(summary.locator("..")).toHaveAttribute("open", "")

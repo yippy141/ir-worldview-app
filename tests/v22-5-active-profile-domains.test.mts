@@ -9,18 +9,15 @@ function readSource(relativePath: string) {
 test("active Profile renders independent domain records without frozen movement arithmetic", () => {
   const source = readSource("components/profile/profile-report.tsx")
 
-  assert.match(source, /None of\s+them changes your Foundation result/)
-  assert.match(
-    source,
-    /Security, Technology, and AI Governance results appear here[\s\S]*changes your Foundation result\./,
-  )
+  assert.match(source, /Each result answers its own set of questions/)
+  assert.match(source, /No reviewed cross-domain relation is available/)
   assert.match(source, /\(\["security", "technology"\] as const\)\.map/)
   assert.match(
     source,
     /const title = slug === "security" \? "Security" : "Technology"/,
   )
-  assert.match(source, /<h3>\{title\} record<\/h3>/)
-  assert.match(source, /AI Governance record/)
+  assert.match(source, /<h3>\{snapshot.headline\}<\/h3>/)
+  assert.match(source, /<h3>\{aiSnapshot.archetypeLabel\}<\/h3>/)
 
   for (const forbidden of [
     "overlayDeltas",

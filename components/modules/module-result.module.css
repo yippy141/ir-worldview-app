@@ -71,3 +71,12 @@
   .result :global(.explore-card),
   .result :global(.module-decisive-call) { break-inside: avoid; }
 }
+
+.verdict { position: relative; padding-right: 190px; }
+.verdict > :global(.domain-mark) { position: absolute; right: 0; top: 48px; opacity: .8; }
+.verdict[data-module-domain="security"] { border-left: 2px solid var(--steel); padding-left: 28px; }
+.verdict[data-module-domain="technology"] { border-top: 1px solid var(--accent-dim); }
+.result :global(.module-axis-row) { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+.result :global(.result-details-body) { padding-inline: 0; }
+.result :global(.module-decisive-call) { border: 0; border-top: 1px solid var(--line); background: none; padding: 24px 0; }
+@media (max-width: 760px) { .verdict { padding-right: 0; } .verdict > :global(.domain-mark) { position: static; width: 88px; height: 88px; } .verdict[data-module-domain="security"] { padding-left: 18px; } .result :global(.module-axis-row) { grid-template-columns: 1fr; gap: 16px; } }
