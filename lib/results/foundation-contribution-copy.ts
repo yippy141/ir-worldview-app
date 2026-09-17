@@ -52,15 +52,15 @@ export function buildFoundationContributionCopy(
   if (input.legacy) {
     return {
       state: "legacy",
-      lead: "This link predates the dimension-by-dimension comparison, so those terms cannot be shown. The rows in chapter 01 still apply.",
-      unavailableNote: "The dimension-by-dimension terms cannot be shown for this link. The rows in chapter 01 still apply.",
+      lead: "This link predates the dimension-by-dimension comparison, so those terms cannot be shown. The positions above still apply.",
+      unavailableNote: "The dimension-by-dimension terms cannot be shown for this link. The positions above still apply.",
     }
   }
 
   if (rows.length === 0) {
     return {
       state: "unavailable",
-      lead: "The dimension-by-dimension terms are not available for this result. The rows in chapter 01 still apply.",
+      lead: "The dimension-by-dimension terms are not available for this result. The positions above still apply.",
       unavailableNote: "The dimension-by-dimension terms are not available for this result.",
     }
   }
@@ -68,12 +68,12 @@ export function buildFoundationContributionCopy(
   const contributions = rows.map((row) => row.signedContribution)
   const maxContribution = Math.max(...contributions)
   const minContribution = Math.min(...contributions)
-  const lowest = rows.find((row) => row.signedContribution === minContribution) ?? rows[0]
+  const lowest = rows.filter((row) => Math.abs(row.signedContribution - minContribution) < CONTRIBUTION_TIE_EPSILON)
 
   // Depends on a negative row; names where the runner-up gets its support.
   // The closeness clause depends on lowDifferentiation.
   const opposing = minContribution < 0
-    ? ` On ${dimensionLabel(lowest.dimension)} they counted the other way; that is where ${runnerUpLabel} gets its support${input.lowDifferentiation ? ", and why it stayed close" : ""}.`
+    ? ` On ${joinDimensionLabels(lowest.map(row => dimensionLabel(row.dimension)))} they made the largest opposing ${lowest.length > 1 ? "contributions" : "contribution"}; that is where ${runnerUpLabel} gets its support${input.lowDifferentiation ? ", and why it stayed close" : ""}.`
     : ""
 
   if (maxContribution <= 0 && minContribution >= 0) {
@@ -101,14 +101,14 @@ export function buildFoundationContributionCopy(
   if (leading.length > 1) {
     return {
       state: "tied-leading",
-      lead: `Your answers on ${joinDimensionLabels(leading.map((row) => dimensionLabel(row.dimension)))} did most of the work, in equal measure: there they counted for ${primaryLabel} more than for ${runnerUpLabel}.${opposing}`,
+      lead: `Your answers on ${joinDimensionLabels(leading.map((row) => dimensionLabel(row.dimension)))} made the largest positive contributions, in equal measure: there they counted for ${primaryLabel} more than for ${runnerUpLabel}.${opposing}`,
       unavailableNote: null,
     }
   }
 
   return {
     state: "leading",
-    lead: `Your answers on ${dimensionLabel(leading[0].dimension)} did most of the work: there they counted for ${primaryLabel} more than for ${runnerUpLabel}.${opposing}`,
+    lead: `Your answers on ${dimensionLabel(leading[0].dimension)} made the largest positive contribution: there they counted for ${primaryLabel} more than for ${runnerUpLabel}.${opposing}`,
     unavailableNote: null,
   }
 }

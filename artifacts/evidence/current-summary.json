@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1101,
-      "newCount": 703,
+      "currentCount": 1095,
+      "newCount": 705,
       "newFindings": [
         {
           "audience": "public",
@@ -137,6 +137,16 @@
           "source": "Negotiate a regionally led corridor with designated ports, inspection rules, and a narrower cargo schedule. Accepted cost: Relief is delayed and the mission is constrained by regional bargaining."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/connected/relations.ts#releaseRead",
+          "count": 1,
+          "file": "lib/connected/relations.ts",
+          "fingerprint": "05f553ebbc55695f2a7d2864267c7e62a6c319d579fc67f7f4de07c2905498a9",
+          "matched": "your technology choice",
+          "rule": "repeated-adjacent-opening",
+          "source": "Your Technology choice puts safeguards on high-risk uses. That leaves a separate question about distributing model copies."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.16.options.0.label",
           "count": 1,
@@ -265,6 +275,16 @@
           "matched": "legal authority, force priorities, and risk tolerance / escort, strike, or combat commitment is pre-authorized",
           "rule": "repeated-three-part-list",
           "source": "Beijing has announced a ten-day “maritime safety and customs enforcement” regime around three major Taiwanese ports. China Coast Guard vessels order selected merchant ships to stop for inspection; nearby People's Liberation Army (PLA) aircraft and naval vessels have not fired. Several major shipping firms suspend calls, and Taipei rejects the inspections as lawful. A U.S.–Japan–Philippines–Republic of Korea (South Korea) coordination group agrees that disruption and escalation matter, but members differ in exposure, legal authority, force priorities, and risk tolerance. No basing, escort, strike, or combat commitment is pre-authorized. Here, a common floor is the action every member accepts; modular participation lets governments opt into different parts of a package; and burden-sharing describes how costs and risks are divided."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/profile-compare.ts#discussionQuestions.foundation.securityCompetition",
+          "count": 1,
+          "file": "lib/profile-compare.ts",
+          "fingerprint": "0d033105ce59dad58dc7feb748764d11abc3137cede4873471fff77add2ca77a",
+          "matched": "rather than",
+          "rule": "rather-than-reflex",
+          "source": "What would let repeated cooperation change a rivalry rather than merely pause it?"
         },
         {
           "audience": "frozen",
@@ -507,16 +527,6 @@
           "source": "The first question is whether outside action would likely protect civilians rather than widen the war and leave a worse political vacuum."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/profile-compare.ts#FOUNDATION_ARGUMENT_TEXT.institutions.highStart",
-          "count": 1,
-          "file": "lib/profile-compare.ts",
-          "fingerprint": "139a33450ce2a435e063f84204e2c7639ca968d5fb4fe25cd093bda86ec1ee8b",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "rules, monitoring, and repeated interaction can change incentives rather than merely decorate power"
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.10.options.0.label",
           "count": 1,
@@ -545,6 +555,16 @@
           "matched": "lens cards",
           "rule": "lens-metaphor-review",
           "source": "The actor-lens cards track how security logic looks from inside another actor's position. Your decision cards stayed closer to your own line."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/connected/relations.ts#buildConnectedRelations.2.changesWith",
+          "count": 1,
+          "file": "lib/connected/relations.ts",
+          "fingerprint": "1488734d76c9212d2face63705794c774c30eb836b4f6eb3cf289c55b6c3c58e",
+          "matched": "At least two subjects provide Foundation rivalry, a personal Security decision, or the separate exact AI rivalry/cooperation answers / A different Security decision, Foundation rivalry position, or separate AI cooperation answers changes this text",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "A different Security decision, Foundation rivalry position, or separate AI cooperation answers changes this text. An AI geopolitics average cannot replace those answers."
         },
         {
           "audience": "frozen",
@@ -2157,6 +2177,16 @@
           "source": "The logic carries weight when a durable order needs consent from its strongest challengers."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/connected/relations.ts#releaseRead",
+          "count": 1,
+          "file": "lib/connected/relations.ts",
+          "fingerprint": "4a9f94bf588bced5a0fead6c7d751a65a976b7dcc10d03852689542a61fe365e",
+          "matched": "your technology choice",
+          "rule": "repeated-adjacent-opening",
+          "source": "Your Technology choice keeps model access broad by default, placing weight on the costs of concentrated control."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v3.json#items.6.whyHard",
           "count": 1,
@@ -2388,16 +2418,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/profile-compare.ts#FOUNDATION_SIDE_TEXT.orderJustice.sharedHigh",
-          "count": 1,
-          "file": "lib/profile-compare.ts",
-          "fingerprint": "5135baea96a0dce5baf1473619b105ab219083c345ed92cadf9ee86f1b550641",
-          "matched": "real weight",
-          "rule": "retired-house-words",
-          "source": "order, sovereignty, and precedent carrying real weight"
-        },
-        {
-          "audience": "public",
           "context": "route:/method#MethodPage.p",
           "count": 1,
           "file": "app/method/page.tsx",
@@ -2595,6 +2615,16 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "You lean toward limiting commitments and avoiding overextension rather than pressing every available advantage."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/connected/relations.ts#releaseRead",
+          "count": 1,
+          "file": "lib/connected/relations.ts",
+          "fingerprint": "58d5471bafac8460d2bc3356ae4fc4eb814ac8c0f3474a422091d9dab499a6dc",
+          "matched": "your technology choice",
+          "rule": "repeated-adjacent-opening",
+          "source": "Your Technology choice restricts broad release above a capability threshold. Independent investigation remains a separate access question."
         },
         {
           "audience": "frozen",
@@ -3095,6 +3125,16 @@
           "matched": "the aggregate score",
           "rule": "repeated-adjacent-opening",
           "source": "The aggregate score is at the midpoint. Individual answers may be neutral or may offset one another."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/profile-compare.ts#discussionQuestions.ai.deploymentPace",
+          "count": 1,
+          "file": "lib/profile-compare.ts",
+          "fingerprint": "69963ae957f3d7725c9db98b58656e7ad03fbe9ac2b516c3a5bbd2a7b8561a42",
+          "matched": "what evidence would",
+          "rule": "repeated-adjacent-opening",
+          "source": "What evidence would justify delaying a useful deployment, and what would justify proceeding?"
         },
         {
           "audience": "public",
@@ -4427,16 +4467,6 @@
           "source": "Offer reciprocal stand-down talks if compulsory inspections cease, without recognizing Beijing's claimed authority. Accepted cost: Domestic audiences may perceive negotiation under pressure as a concession."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/results/module-interpretation.ts#summary",
-          "count": 1,
-          "file": "lib/results/module-interpretation.ts",
-          "fingerprint": "9c9c5b09a8d56baee2f0bf4176edfc45352b16fc055f03d24286d88390bc341f",
-          "matched": "the recorded technology",
-          "rule": "repeated-adjacent-opening",
-          "source": "The recorded technology positions leave the scope of capability controls open"
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.6.prompt",
           "count": 1,
@@ -4598,6 +4628,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/connected/relations.ts#buildConnectedRelations.1.text",
+          "count": 1,
+          "file": "lib/connected/relations.ts",
+          "fingerprint": "a322518012a5efc164632cf1988c6d1a80c85e5b10614bccc00ba3d4449dfc1f",
+          "matched": "in technology you",
+          "rule": "repeated-adjacent-opening",
+          "source": "In Technology, you chose a public computing service with screening and monitoring."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/futures/trajectories.ts#trajectories.7.assumptions.1",
           "count": 1,
           "file": "lib/futures/trajectories.ts",
@@ -4605,16 +4645,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "The handoff is chosen rather than imposed, across generations."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:components/profile/profile-report.tsx#buildProfileNextSteps.description",
-          "count": 1,
-          "file": "components/profile/profile-report.tsx",
-          "fingerprint": "a3a6cea526bc31b3bb9d15ef06b9f2bc85ec1945a04ff07b2cf0541994362432",
-          "matched": "Map / map",
-          "rule": "repeated-adjacent-abstract-language",
-          "source": "Use the reference map without assigning a Decision Pattern to this Profile."
         },
         {
           "audience": "frozen",
@@ -5187,16 +5217,6 @@
           "source": "Symbolic visibility is taken for durable change, even when no shared standard or implementation follows."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/results/module-interpretation.ts#summary",
-          "count": 1,
-          "file": "lib/results/module-interpretation.ts",
-          "fingerprint": "b9821ed96ebaffce442d5a19c55fd0fe471b96518ffbae271005a142860ae094",
-          "matched": "the recorded security",
-          "rule": "repeated-adjacent-opening",
-          "source": "The recorded security positions leave the extent of coercive involvement open"
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.22.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -5385,16 +5405,6 @@
           "matched": "the strongest objection",
           "rule": "repeated-adjacent-opening",
           "source": "The strongest objection is that a small affected group can bear a concentrated cost while the majority receives the benefit. Reversibility at the agency level may not repair an individual's loss."
-        },
-        {
-          "audience": "public",
-          "context": "route:/about#AboutPage.p",
-          "count": 1,
-          "file": "app/about/page.tsx",
-          "fingerprint": "c0554d65bc078a952617c628b427a00ca2a4b0d49482d327c123ac05b6d3d58f",
-          "matched": "The questions, cases, and readings are authored / the scoring is a set of authored weights, described in full in Method, and not a validated test",
-          "rule": "repeated-three-part-list",
-          "source": "built and edits it. He trained at Johns Hopkins SAIS in technology, security, and governance, and writes about frontier technology and great-power competition. The questions, cases, and readings are authored; the scoring is a set of authored weights, described in full in Method, and not a validated test. AI tools were used in drafting and checking; the sources cited on each page are the record of what was checked."
         },
         {
           "audience": "public",
@@ -5695,6 +5705,16 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "The more durable answer is to widen the political cost of coercion through law, regional diplomacy, and shared monitoring."
+        },
+        {
+          "audience": "public",
+          "context": "route:/method#MethodPage.p",
+          "count": 1,
+          "file": "app/method/page.tsx",
+          "fingerprint": "cbd96d8ba6d6a12a415d2aae2cba013c2fbe3170949926bcf336cf9b46cd4612",
+          "matched": "access and control, public authority and practical capacity, and cooperation under security conditions / original result, question or score, and completion details",
+          "rule": "repeated-three-part-list",
+          "source": "Connected Profile uses three authored rules: access and control, public authority and practical capacity, and cooperation under security conditions. Each observation retains its subject, original result, question or score, and completion details. Actor-role judgments cannot establish a personal choice. A named result cannot supply missing answers."
         },
         {
           "audience": "frozen",
@@ -7038,7 +7058,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 160,
+      "resolvedCount": 168,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7058,6 +7078,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "0669ce2454897b8ae66d8c69b4f8adfc1a5effbabd7410cbf884dce09def78c6"
+        },
+        {
+          "count": 1,
           "fingerprint": "069d6db5d5e8f589b66a19ae8859f897860bd7bdfc275ef65e182f10a5a3aec9"
         },
         {
@@ -7067,6 +7091,10 @@
         {
           "count": 1,
           "fingerprint": "0c89c2cf3ef5d9c6e34ed2e624e75cc3d22974739dec6844edfaa627b04dd349"
+        },
+        {
+          "count": 1,
+          "fingerprint": "0e1e7f568560b253d365d16f88ac166bd895c36bf63b3e00dc60a1b5e8aac519"
         },
         {
           "count": 1,
@@ -7274,6 +7302,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "5f0d413ad01eb06ad3af5f2521accb5cf8176991f2f826ef37cf60826807a835"
+        },
+        {
+          "count": 1,
           "fingerprint": "62ff4d571613a32cc76019e849b9d807f7998febff1673a5e5e54fd5e12551b6"
         },
         {
@@ -7335,6 +7367,10 @@
         {
           "count": 1,
           "fingerprint": "780c882e8f7d834ed9ef8f0e39ab573458521f93f290ccfb1045c5b468b00639"
+        },
+        {
+          "count": 1,
+          "fingerprint": "7893852a59c640349cffd4fdbc19a45921ed92066cd93e43b39b7d6ec5d158d2"
         },
         {
           "count": 1,
@@ -7462,6 +7498,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "a734a2cfdfbbc24155dc3439047ccaab57b0260f4e834f10495e51ecb1218d8e"
+        },
+        {
+          "count": 1,
           "fingerprint": "aaa4bd953e6a02c970765beaaf2f6988e490d689c0e1298f9caa630e0e9c1de3"
         },
         {
@@ -7574,6 +7614,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "d304470c7ae1229a3d6d327616ac5cbf4c7ee460a7331df924e728f7202acebe"
+        },
+        {
+          "count": 1,
           "fingerprint": "d513984fe792771557ec1894a2da0fc427ee77dbab69f7f3869e9029ad0bb20f"
         },
         {
@@ -7591,6 +7635,10 @@
         {
           "count": 1,
           "fingerprint": "d9f03aacabe8eebbc8eaaf219e976e811a1cc636d8f2b1a3ddbfee6b33939c98"
+        },
+        {
+          "count": 1,
+          "fingerprint": "dc3ee2af2da52b391e78111e784c01bd9d7576298dcf59459439cef2edcacf9e"
         },
         {
           "count": 1,
@@ -7666,6 +7714,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "fad4ca4e6d6fc620b17c0da4981dad8578afeacc94a5225f893ed1c9f42644b7"
+        },
+        {
+          "count": 1,
           "fingerprint": "faf25f29e01ba1ac143c7267899ee9169b26183e4c8eaa786ec3ae288b77d81b"
         },
         {
@@ -7681,7 +7733,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 398
+      "unchangedCount": 390
     },
     "higherPriorityFindings": [
       {
@@ -8068,7 +8120,7 @@
         "jsonPath": null,
         "key": "AiResultPage.p",
         "kind": "self-narration",
-        "line": 302,
+        "line": 296,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -8090,7 +8142,7 @@
         "jsonPath": null,
         "key": "resultLayers.3.body",
         "kind": "self-narration",
-        "line": 74,
+        "line": 75,
         "match": "separate records",
         "matched": "separate records",
         "priority": "P1",
@@ -8112,7 +8164,7 @@
         "jsonPath": null,
         "key": "authoredChoices.2.heading",
         "kind": "self-narration",
-        "line": 88,
+        "line": 89,
         "match": "separate records",
         "matched": "separate records",
         "priority": "P1",
@@ -8134,7 +8186,7 @@
         "jsonPath": null,
         "key": "limitations.3.body",
         "kind": "self-narration",
-        "line": 108,
+        "line": 109,
         "match": "kept separate",
         "matched": "kept separate",
         "priority": "P1",
@@ -8156,7 +8208,7 @@
         "jsonPath": null,
         "key": "MethodPage.h3",
         "kind": "self-narration",
-        "line": 244,
+        "line": 245,
         "match": "stay separate",
         "matched": "stay separate",
         "priority": "P1",
@@ -8178,7 +8230,7 @@
         "jsonPath": null,
         "key": "MethodPage.p",
         "kind": "self-narration",
-        "line": 416,
+        "line": 417,
         "match": "the live scorer",
         "matched": "the live scorer",
         "priority": "P1",
@@ -8209,50 +8261,6 @@
         "rule": "product-self-narration",
         "severity": "P1",
         "source": "Foundation, AI, module, Perspective, and shared Profile links encode the data needed to reopen the shared view. A Focus Area result link includes its answer selections; other result types may encode derived scores, labels, or saved layers. Opening or sharing one of these URLs exposes that encoded data to the recipient and to services that handle the request. Treat those URLs as disclosures you control. Removing local history does not retract a link already sent or remove it from browser or message history.",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "AiProjectBridge.h2",
-        "context": "content-key:components/ai/ai-project-bridge.tsx#AiProjectBridge.h2",
-        "copyKey": "AiProjectBridge.h2",
-        "file": "components/ai/ai-project-bridge.tsx",
-        "jsonPath": null,
-        "key": "AiProjectBridge.h2",
-        "kind": "self-narration",
-        "line": 74,
-        "match": "remain separate",
-        "matched": "remain separate",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "AI and the Foundation remain separate domain reads",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
-        "contentKey": "AiProjectBridge.p",
-        "context": "content-key:components/ai/ai-project-bridge.tsx#AiProjectBridge.p",
-        "copyKey": "AiProjectBridge.p",
-        "file": "components/ai/ai-project-bridge.tsx",
-        "jsonPath": null,
-        "key": "AiProjectBridge.p",
-        "kind": "self-narration",
-        "line": 120,
-        "match": "remain separate",
-        "matched": "remain separate",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "You may save a Foundation result and read the two records side by side inside Profile. The records remain separate unless a reviewed bridge is explicitly authored.",
         "strict": false,
         "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
       },
@@ -8376,7 +8384,7 @@
         "jsonPath": null,
         "key": "enCopy.unavailable.tuple-mismatch",
         "kind": "self-narration",
-        "line": 164,
+        "line": 159,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -10928,7 +10936,7 @@
         "jsonPath": null,
         "key": "buildModuleInterpretation.scope",
         "kind": "self-narration",
-        "line": 50,
+        "line": 52,
         "match": "registered form",
         "matched": "registered form",
         "priority": "P1",
@@ -10947,11 +10955,11 @@
         "priority": "P0"
       },
       {
-        "count": 131,
+        "count": 129,
         "priority": "P1"
       },
       {
-        "count": 1101,
+        "count": 1095,
         "priority": "P2"
       }
     ]

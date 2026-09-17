@@ -110,10 +110,6 @@ test("result, profile, share-card, posture, and locale surfaces use the shared f
     ],
     "app/api/card/route.tsx": [/buildFoundationCardCopy/],
     "lib/foundation-social-copy.ts": [/formatArchetypeReadingCode/],
-    "components/profile/profile-compare.tsx": [
-      /formatArchetypeReadingCode/,
-      /formatArchetypeReadingCodeForSpeech/,
-    ],
     "components/profile/profile-report.tsx": [
       /formatArchetypeReadingCode/,
       /formatArchetypeReadingCodeForSpeech/,

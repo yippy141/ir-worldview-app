@@ -93,7 +93,7 @@ export function ModuleResultView({
   // Keep their historical directional analysis below, separate from the opening evidence.
   const readingCalls = buildModuleDecisiveCalls({ moduleDefinition, selected: scoredSelections, laneLabelMap })
   const availableEvidence = resultEvidenceSelections.filter(({ primary }) => primary)
-  const interpretation = buildModuleInterpretation(moduleDefinition, result, scoredSelections.filter(({ primary }) => primary).length, { bankVersion, scoringVersion, mode })
+  const interpretation = buildModuleInterpretation(moduleDefinition, result, scoredSelections.filter(({ primary }) => primary).length, { bankVersion, scoringVersion, mode, choices: selected })
   const continuation = getModuleContinuation(slug)
   const comparisonStatus = ACTIVE_MODULE_COMPARISON_STATUS
   const identityCode = [
@@ -231,7 +231,7 @@ export function ModuleResultView({
               <div key={lane.key} className="explore-card stack-sm">
                 <div className="stack-xs">
                   <p className="eyebrow">{lane.label}</p>
-                  <p className="module-lane-copy">{lane.summary}</p>
+                  <p className="module-lane-copy">Choices within {lane.label.toLowerCase()}, on its own scale.</p>
                 </div>
                 <ScaleBar
                   value={lane.score}
@@ -239,7 +239,7 @@ export function ModuleResultView({
                   lowLabel={lane.lowLabel}
                   highLabel={lane.highLabel}
                   tone={slug}
-                  className="module-lane-meter"
+                  className="module-lane-meter position-scale"
                 />
               </div>
             ))}

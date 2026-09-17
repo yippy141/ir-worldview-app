@@ -74,9 +74,8 @@
 }
 
 @media print {
-  .section {
-    break-inside: avoid;
-  }
+  .record { break-inside: avoid; }
+  .section h2, .record h3 { break-after: avoid; }
 
   .records {
     gap: 0.75rem;

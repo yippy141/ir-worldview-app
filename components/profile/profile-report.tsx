@@ -1,5 +1,6 @@
 "use client"
 
+import { ConnectedProfile } from "@/components/profile/connected-profile"
 import { DomainMark } from "@/components/results/domain-mark"
 import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
 import { resolveModulePayload } from "@/lib/modules/framework"
@@ -54,15 +55,6 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
   const moduleSnapshots = Object.values(profile.modules)
     .filter((moduleSnapshot): moduleSnapshot is ModuleSnapshot => Boolean(moduleSnapshot))
     .sort((left, right) => right.timestamp - left.timestamp)
-  const securitySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "security") ?? null
-  const technologySnapshot = moduleSnapshots.find((snapshot) => snapshot.slug === "technology") ?? null
-  const nextSteps = buildProfileNextSteps({
-    foundationPayload: foundationIdentity ? displayFoundation?.payload ?? null : null,
-    securitySnapshot,
-    technologySnapshot,
-    aiSnapshot: profile.aiGovernance,
-    mode,
-  })
 
   return (
     <article className="result-article result-canvas profile-report">
@@ -118,6 +110,8 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
         </header>
       )}
 
+      <ConnectedProfile profile={profile} mode={mode} />
+
       <DomainRecordsSection
         moduleSnapshots={moduleSnapshots}
         aiSnapshot={profile.aiGovernance}
@@ -143,9 +137,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
         />
       )}
 
-      <ReviewedRelationsSection />
 
-      <NextActionsSection steps={nextSteps} />
 
       {mode === "local" ? <ResultHistoryDrawer profile={profile} /> : null}
     </article>
@@ -185,7 +177,7 @@ function DomainRecordsSection({
           const snapshot = modulesBySlug[slug]
           if (!snapshot) return null
           const resolved = snapshot?.payload ? resolveModulePayload(snapshot.payload) : null
-          const moduleReading = resolved ? buildModuleInterpretation(resolved.definition, resolved.runtime.buildModuleResult(resolved.definition, resolved.payload.mode, resolved.payload.answers), resolved.runtime.getSelectedModuleOptions(resolved.definition, resolved.payload.mode, resolved.payload.answers).filter(({ question, primary }) => primary && question.cardType !== "actorLens").length, { bankVersion: resolved.bankVersion, scoringVersion: resolved.scoringVersion, mode: resolved.payload.mode }) : null
+          const moduleReading = resolved ? buildModuleInterpretation(resolved.definition, resolved.runtime.buildModuleResult(resolved.definition, resolved.payload.mode, resolved.payload.answers), resolved.runtime.getSelectedModuleOptions(resolved.definition, resolved.payload.mode, resolved.payload.answers).filter(({ question, primary }) => primary && question.cardType !== "actorLens").length, { bankVersion: resolved.bankVersion, scoringVersion: resolved.scoringVersion, mode: resolved.payload.mode, choices: resolved.runtime.getSelectedModuleOptions(resolved.definition, resolved.payload.mode, resolved.payload.answers) }) : null
           const title = slug === "security" ? "Security" : "Technology"
 
 
@@ -239,39 +231,6 @@ function DomainRecordsSection({
               Open AI Governance result
             </Link>
         </article>}
-      </div>
-    </section>
-  )
-}
-
-function ReviewedRelationsSection() {
-  return <section className="profile-relations stack-sm" aria-labelledby="profile-reviewed-relations">
-    <h2 id="profile-reviewed-relations">How these records relate</h2>
-    <p>No reviewed cross-domain relation is available.</p>
-    <p>Each result is shown on its own. The Profile does not infer a relationship from similar labels or numbers.</p>
-  </section>
-}
-
-function NextActionsSection({ steps }: { steps: ProfileNextStep[] }) {
-  return (
-    <section className="result-section stack-md" aria-labelledby="profile-next-action">
-      <div className="stack-xs">
-        <p className="eyebrow">Next action</p>
-        <h2 id="profile-next-action" className="profile-section-heading">
-          What to open next
-        </h2>
-      </div>
-      <div className="profile-state-actions" aria-label="Recommended next destinations">
-        {steps.map((step, index) => (
-          <Link
-            key={step.href}
-            href={step.href}
-            className={`profile-state-action${index === 0 ? " profile-state-action--primary" : ""}`}
-          >
-            <span className="profile-state-action__label">{step.title}</span>
-            <span className="profile-state-action__meta">{step.description}</span>
-          </Link>
-        ))}
       </div>
     </section>
   )
@@ -380,55 +339,4 @@ function buildProfileModifiers(
     `Closest tradition: ${traditionNounLabel(foundation.familyKey)}`,
     `Nearest alternative: ${traditionNounLabel(foundation.runnerUpKey)}`,
   ]
-}
-
-type ProfileNextStep = {
-  title: string
-  description: string
-  href: string
-}
-
-function buildProfileNextSteps({
-  foundationPayload,
-  securitySnapshot,
-  technologySnapshot,
-  aiSnapshot,
-  mode,
-}: {
-  foundationPayload: string | null
-  securitySnapshot: ModuleSnapshot | null
-  technologySnapshot: ModuleSnapshot | null
-  aiSnapshot: ProfileStore["aiGovernance"]
-  mode: "local" | "shared"
-}): ProfileNextStep[] {
-  if (mode === "shared") {
-    return [
-      {
-        title: "Take the Foundation yourself",
-        description: "Answer the fourteen-question Foundation inventory.",
-        href: "/quiz",
-      },
-      {
-        title: "Open Worldview Map",
-        description: "Compare traditions, thinkers, and reviewed public positions.",
-        href: "/explore/atlas",
-      },
-    ]
-  }
-
-  const steps: ProfileNextStep[] = []
-
-  if (!foundationPayload) steps.push({ title: "Add Foundation", description: "Fourteen questions about international politics.", href: "/quiz" })
-  if (!securitySnapshot) steps.push({ title: "Add Security", description: "Examine commitments, threats and the use of force.", href: foundationPayload ? `/modules/security?foundation=${encodeURIComponent(foundationPayload)}` : "/modules/security" })
-  if (!technologySnapshot) steps.push({ title: "Add Technology", description: "Examine access, interdependence and industrial power.", href: foundationPayload ? `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}` : "/modules/technology" })
-  if (!aiSnapshot) steps.push({ title: "Add AI Governance", description: "Examine who should govern capable AI.", href: "/ai" })
-  if (steps.length === 0) steps.push({ title: "Open Perspective Runs", description: "Consider another actor's constraints in a role-conditioned exercise.", href: "/perspectives" })
-
-  steps.push({
-    title: "Open Worldview Map",
-    description: "Use the reference map without assigning a Decision Pattern to this Profile.",
-    href: "/explore/atlas",
-  })
-
-  return steps.slice(0, 3)
 }

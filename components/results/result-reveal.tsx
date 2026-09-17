@@ -25,7 +25,7 @@ export function ResultReveal({ domain, payload, children }: { domain: ResultDoma
     const start = () => {
       finish()
       if (media.matches || document.hidden || !element.animate) return
-      element.dataset.motion = "drawing"
+      try {
       element.querySelectorAll<SVGGeometryElement>("[data-draw]").forEach(path => {
         const length = path.getTotalLength()
         const start = Number(path.dataset.start ?? 200)
@@ -35,10 +35,13 @@ export function ResultReveal({ domain, payload, children }: { domain: ResultDoma
           { strokeDasharray: `${length} ${length}`, strokeDashoffset: "0" },
         ], { delay: start, duration, fill: "both", easing: "linear" }))
       })
-      element.querySelectorAll("[data-mark-base]").forEach(base => animations.push(base.animate(
-        [{ opacity: .16 }, { opacity: .16, offset: .85 }, { opacity: 1 }], { duration: 1800, fill: "both" },
+      element.querySelectorAll<SVGElement>("[data-deposit]").forEach(dot => animations.push(dot.animate(
+        [{ opacity: 0 }, { opacity: 1 }], { delay: Number(dot.dataset.start ?? 700), duration: 180, fill: "both" },
       )))
+      // Hide the canonical base only after every enhancement starts successfully.
+      element.dataset.motion = "drawing"
       timer = setTimeout(finish, 2000)
+      } catch { finish() }
     }
     // Consume in an effect, once per mounted payload. Strict Mode's rehearsal
     // cancels the scheduled frame and reschedules it with the same decision.

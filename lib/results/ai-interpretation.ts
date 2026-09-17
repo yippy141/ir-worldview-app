@@ -98,5 +98,9 @@ export function aiComparisonTerms(resolved: ResolvedAiPayload) {
     humanFuture: "Which specific future proposition do you accept or reject? This mixed axis cannot distinguish preferred futures without separate answers.",
   }
   const contrast = rows[0].term !== 0 ? rows[0].axis : (Object.keys(s) as AiAxisKey[]).sort((a, b) => Math.abs((profiles[ak][b] ?? 0) - (profiles[nk][b] ?? 0)) - Math.abs((profiles[ak][a] ?? 0) - (profiles[nk][a] ?? 0)))[0]
-  return { rows, question: questions[contrast], difference: totals[ak] - totals[nk], residual: totals[ak] - totals[nk] - rows.reduce((sum, row) => sum + row.term, 0) }
+  const maxPositive = Math.max(0, ...rows.map(row => row.term))
+  const minNegative = Math.min(0, ...rows.map(row => row.term))
+  const supporting = maxPositive > 0 ? rows.filter(row => Math.abs(row.term - maxPositive) < 1e-9) : []
+  const opposing = minNegative < 0 ? rows.filter(row => Math.abs(row.term - minNegative) < 1e-9) : []
+  return { rows, supporting, opposing, question: questions[contrast], difference: totals[ak] - totals[nk], residual: totals[ak] - totals[nk] - rows.reduce((sum, row) => sum + row.term, 0) }
 }

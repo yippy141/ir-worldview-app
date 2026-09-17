@@ -15,6 +15,7 @@ const contents = [
   { href: "#how-answers-become-a-profile", label: "How answers become a profile" },
   { href: "#foundation-robustness", label: "Foundation robustness diagnostic" },
   { href: "#evidence-and-versioning", label: "Evidence and versioning" },
+  { href: "#connected-comparisons", label: "Connections and pair comparisons" },
   { href: "#limits-privacy-and-corrections", label: "Limits, privacy, and corrections" },
 ]
 
@@ -176,7 +177,7 @@ export default function MethodPage() {
       </nav>
 
       <article className={styles.record}>
-        <section id="what-results-mean" className={styles.chapter}>
+      <section id="what-results-mean" className={styles.chapter}>
           <header className={styles.chapterHeader}>
             <p className={styles.chapterNumber}>Chapter 1</p>
             <h2>What the result means</h2>
@@ -564,6 +565,14 @@ export default function MethodPage() {
           <BackToContents />
         </section>
 
+        <section id="connected-comparisons" className="article-section stack-sm">
+        <h2>Connections and pair comparisons</h2>
+        <p>Connected Profile uses three authored rules: access and control, public authority and practical capacity, and cooperation under security conditions. Each observation retains its subject, original result, question or score, and completion details. Actor-role judgments cannot establish a personal choice. A named result cannot supply missing answers.</p>
+        <p>Pair comparisons subtract scores only within the same registered bank, scorer, form, language and wording edition. There is no reviewed mapping across different forms or languages. Unknown completion details stay unknown; people may explicitly supply original completion details in Compare. AI links omit the form and cannot recover it from scores.</p>
+        <p>Differences below 0.35 on a 1–7 scale are described as small. Directional wording requires both positions to sit at least 0.35 away from the midpoint. These are editorial display rules, not statistical significance, validated equivalence or population norms. Exact largest-gap ties are retained. No scores are pooled across subjects.</p>
+        <p>Foundation answer examples require an exact completion identifier and matching questionnaire, scoring, wording and language details. An unavailable example may reflect deletion, a different language, missing answers or missing completion binding; it does not establish the age of the result. Authored alternative answers are distinguished from recorded second choices. Comparison terms use the registered scorer, with rounding residuals retained in its calculation.</p>
+        <p>New pair inputs, display names, corrections and follow-up reflections remain in page memory and clear on leaving or resetting. New comparisons do not fetch pasted links or create joint share links. Historical Compare URLs already send their query contents to the server when opened; later address-bar cleanup cannot undo that exposure.</p>
+      </section>
         <section id="limits-privacy-and-corrections" className={styles.chapter}>
           <header className={styles.chapterHeader}>
             <p className={styles.chapterNumber}>Chapter 4</p>

@@ -73,8 +73,6 @@ export function FoundationLocalEvidence({
   if (state.status === "checking") {
     return (
       <section className={styles.section} data-local-evidence-status="checking">
-        <p className={styles.eyebrow}>{copy.eyebrow}</p>
-        <h2>{copy.title}</h2>
         <p>{copy.checking}</p>
       </section>
     )
@@ -83,16 +81,13 @@ export function FoundationLocalEvidence({
   if (state.status === "unavailable") {
     return (
       <section className={styles.section} data-local-evidence-status={state.reason}>
-        <p className={styles.eyebrow}>{copy.eyebrow}</p>
-        <h2>{copy.unavailableTitle}</h2>
-        <p>{copy.unavailable[state.reason]}</p>
+        <p>{locale === "en" ? "The answers for this result are not available here." : "此处没有这份结果的原始答案。"}</p>
       </section>
     )
   }
 
   return (
     <section className={styles.section} data-local-evidence-status="available">
-      <p className={styles.eyebrow}>{copy.eyebrow}</p>
       <h2>{copy.title}</h2>
       <p>{copy.intro}</p>
       <ol className={styles.records}>
@@ -145,14 +140,14 @@ function readHistoryHandoff(payloadDigest: string): FoundationEvidenceHandoff | 
 
 const enCopy = {
   eyebrow: "Local result evidence",
-  title: "Choices tied to this result",
-  checking: "Checking this browser for an exact completion record.",
+  title: "Your answers",
+  checking: "Checking for your answers…",
   intro:
-    "These records were derived when this result was generated. Each comparison reruns the completed form through the same scorer while holding every other submitted answer fixed.",
+    "These examples show how a different answer would have changed the comparison. All other submitted answers stay fixed; the leading name may stay the same.",
   yourChoice: "Your choice",
   alternative: {
     "actual-second-choice": "Your recorded second choice",
-    "model-selected-nearest-alternative": "Model-selected nearest alternative",
+    "model-selected-nearest-alternative": "An authored alternative, not a recorded second choice",
   },
   note:
     "The full answer set was not stored. These records stay on this device and are deleted with the associated local history.",

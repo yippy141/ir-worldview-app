@@ -72,11 +72,11 @@ test("a clear result names the largest positive term as a relative contribution,
   )[0]
 
   assert.equal(copy.state, "leading")
-  assert.match(copy.lead, new RegExp(`^Your answers on ${dimensionLabels[largest.dimension]} did most of the work`, "u"))
+  assert.match(copy.lead, new RegExp(`^Your answers on ${dimensionLabels[largest.dimension]} made the largest positive contribution`, "u"))
   assert.match(copy.lead, /counted for Realism more than for Institutionalism/u)
   assert.doesNotMatch(copy.lead, /sided with|endorse|believe/u)
   if (lowest.signedContribution < 0) {
-    assert.match(copy.lead, new RegExp(`On ${dimensionLabels[lowest.dimension]} they counted the other way`, "u"))
+    assert.match(copy.lead, new RegExp(`On ${dimensionLabels[lowest.dimension]} they made the largest opposing contribution`, "u"))
     assert.doesNotMatch(copy.lead, /stayed close/u)
     assert.match(
       copyFor(CLEAR_REALIST_SCORES, { lowDifferentiation: true }).copy.lead,
@@ -110,7 +110,7 @@ test("two dimensions with the same largest positive term are named together", ()
   assert.ok(first.signedContribution > 0)
   assert.equal(copy.state, "tied-leading")
   // Row order follows the scorer's stable sort, so only the pairing is asserted.
-  assert.match(copy.lead, /^Your answers on (Security rivalry and Institutions and rules|Institutions and rules and Security rivalry) did most of the work, in equal measure/u)
+  assert.match(copy.lead, /^Your answers on (Security rivalry and Institutions and rules|Institutions and rules and Security rivalry) made the largest positive contributions, in equal measure/u)
 })
 
 test("no positive term names where the runner-up gets support and invents no tie", () => {

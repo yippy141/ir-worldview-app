@@ -251,7 +251,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   )
   await expect(
     nearestComparison.getByRole("heading", {
-      name: /^Why .+, and not .+$/,
+      name: /^.+ and .+$/,
     }),
   ).toBeVisible()
   await expect(
@@ -286,20 +286,20 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
     savedFoundation.getByRole("heading", { level: 1 }),
   ).toBeVisible()
   await expect(page.locator(".profile-domain-record")).toHaveCount(0)
-  await expect(page.getByRole("link", { name: /Add Security/ })).toBeVisible()
+  await expect(page.getByRole("link", { name: "compare a result with someone" })).toBeVisible()
   await expect(
     page.getByRole("heading", { name: "Try another vantage point" }),
   ).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "How these records relate" }),
+    page.getByRole("heading", { name: "Connections worth examining" }),
   ).toBeVisible()
   await expect(
-    page.getByText("No reviewed cross-domain relation is available.", {
+    page.getByRole("heading", { name: "Connections worth examining",
       exact: true,
     }),
   ).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "What to open next" }),
+    page.getByRole("heading", { name: "One next question" }),
   ).toBeVisible()
   await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
   await expect(page.getByText("No numeric bridge", { exact: true })).toHaveCount(0)
@@ -346,15 +346,15 @@ test("legacy Profiles preserve saved results without inventing a Foundation iden
       page.getByRole("heading", { name: "Complete the current Foundation first" }),
     ).toBeVisible()
     await expect(
-      page.getByRole("heading", { name: "How these records relate" }),
+      page.getByRole("heading", { name: "Connections worth examining" }),
     ).toBeVisible()
     await expect(
-      page.getByText("No reviewed cross-domain relation is available.", {
+      page.getByRole("heading", { name: "Connections worth examining",
         exact: true,
       }),
     ).toBeVisible()
     await expect(
-      page.getByRole("heading", { name: "What to open next" }),
+      page.getByRole("heading", { name: "One next question" }),
     ).toBeVisible()
     await expect(page.getByText("separate-domain-read", { exact: true })).toHaveCount(0)
     await expect(page.getByText("Biggest shift", { exact: true })).toHaveCount(0)

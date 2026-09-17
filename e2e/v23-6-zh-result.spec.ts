@@ -119,7 +119,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
     await expect(page.locator(
       '[data-zh-foundation-story-chapter="evidence"] [data-local-evidence-status="no-local-binding"]',
     ))
-      .toContainText("无法显示精确的本地依据")
+      .toHaveText("此处没有这份结果的原始答案。")
 
     const width = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,

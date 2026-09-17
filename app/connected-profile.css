@@ -1,0 +1,56 @@
+/* Extensions of the existing editorial reading surface. Source excerpts carry
+   the argument; input controls stay ordinary and do not assign team colors. */
+.connected-profile { padding-block: 48px; max-width: 880px; margin-inline: auto; }
+.connected-profile h2, .comparison-output > h2 { font-family: var(--font-serif), serif; font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.2; }
+.connected-relation { padding-block: 32px 40px; border-bottom: 1px solid var(--line-2); }
+.connected-relation h3, .comparison-domain > h3 { font-family: var(--font-serif), serif; font-size: clamp(1.5rem, 2.5vw, 2rem); line-height: 1.3; }
+.connected-profile p, .comparison-output p { max-width: 72ch; line-height: 1.7; }
+.connected-evidence { list-style: none; margin: 24px 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+.connected-evidence li { min-width: 0; }
+.connected-evidence p { margin: 6px 0; font-size: .95rem; }
+.connected-evidence .connected-source { color: var(--text-2); font-size: .8rem; }
+.connected-text-button { color: var(--accent); background: transparent; border: 0; padding: 10px 0; text-decoration: underline; text-underline-offset: 4px; font: inherit; text-align: left; cursor: pointer; }
+.connected-next { margin-top: 40px; }
+.connected-correction { margin-top: 12px; }
+.connected-reflection fieldset, .compare-person { min-width: 0; border: 0; padding: 0; margin: 0; }
+.connected-reflection legend, .compare-person legend { font-weight: 600; margin-bottom: 16px; }
+.compare-person legend { font-family: var(--font-serif), serif; font-size: 1.6rem; }
+.compare-person input:not([type=checkbox]), .compare-person select, .connected-profile textarea { width: 100%; min-height: 44px; border: 1px solid var(--line-2); background: var(--bg-2); color: var(--text); padding: 10px 12px; border-radius: 0; font: inherit; }
+.compare-person textarea, .connected-profile textarea { min-height: 100px; resize: vertical; }
+.compare-checkbox { display: flex; gap: 10px; align-items: start; padding-block: 10px; cursor: pointer; line-height: 1.5; }
+.compare-checkbox input { margin-top: 5px; flex-shrink: 0; accent-color: var(--accent); }
+.compare-completion p, .compare-completion label { font-size: .875rem; line-height: 1.6; }
+.compare-completion summary { padding-block: 12px; cursor: pointer; }
+.connected-compare .compare-input-panel { background: transparent; border: 0; padding: 0 0 32px; }
+.connected-compare .compare-form-grid { gap: 40px; }
+.connected-compare button:focus-visible, .connected-profile button:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.connected-compare button:disabled { opacity: .6; cursor: wait; }
+.comparison-output { padding-block: 40px; border-top: 1px solid var(--line-2); }
+.comparison-output h2[tabindex]:focus { outline: 2px solid var(--accent); outline-offset: 8px; }
+.comparison-domain { padding-bottom: 32px; border-bottom: 1px solid var(--line-2); }
+.comparison-lead { font-size: 1.1rem; }
+.comparison-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.comparison-table caption { text-align: left; color: var(--text-2); padding-bottom: 12px; }
+.comparison-table th, .comparison-table td { padding: 16px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.comparison-table th:first-child { width: 60%; }
+.comparison-table th span { display: block; margin-top: 8px; font-weight: 400; color: var(--text-2); font-size: .875rem; line-height: 1.5; }
+.comparison-independent { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.comparison-independent .connected-evidence { display: block; }
+.comparison-independent .connected-evidence li { margin-block: 20px; }
+@media (max-width: 680px) {
+ .connected-evidence, .comparison-independent, .connected-compare .compare-form-grid { grid-template-columns: 1fr; }
+ .connected-profile { padding-block: 32px; }
+ .comparison-table th:first-child { width: 52%; }
+ .comparison-table th, .comparison-table td { padding: 12px 6px; font-size: .875rem; }
+}
+@media print {
+ .connected-compare form, .connected-profile button, .connected-profile textarea, .connected-reflection { display: none; }
+ .connected-profile, .comparison-output { max-width: none; padding: 0; }
+ .connected-relation, .comparison-domain { break-inside: auto; }
+ .connected-profile h2, .connected-profile h3, .comparison-output h2, .comparison-output h3 { break-after: avoid; }
+ .connected-evidence { display: block; }
+ .connected-evidence li, .comparison-table tr { break-inside: avoid; }
+ .comparison-table thead { display: table-header-group; }
+}
+
+.comparison-poles { display: block; color: var(--text-2); font-size: .875rem; line-height: 1.6; margin-block: 4px 12px; }

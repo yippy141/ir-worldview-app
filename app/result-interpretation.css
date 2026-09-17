@@ -81,3 +81,33 @@
   .result-canvas .profile-details { background: transparent; }
   .ai-archetype-mark { color: currentColor; }
 }
+
+/* Grayscale-safe positions: a bordered diamond for the value, a thin dashed
+   vertical tick for midpoint. Borders survive disabled background printing. */
+.position-scale .v10-scale-bar__fill::after { width: 10px; height: 10px; top: -2px; border: 2px solid var(--accent); background: var(--bg); transform: translateX(50%) rotate(45deg); z-index: 2; }
+.position-scale .v10-scale-bar__track::before { border-left-style: dashed; }
+@media print {
+ .position-scale .v10-scale-bar__track { border-top: 1px solid #777 !important; background: transparent !important; height: 8px; }
+ .position-scale .v10-scale-bar__fill { background: transparent !important; border: 0 !important; overflow: visible !important; }
+ .position-scale .v10-scale-bar__fill::after { display: block !important; border: 2px solid #000 !important; background: #fff !important; width: 10px; height: 10px; top: -3px; print-color-adjust: exact; }
+ .position-scale .v10-scale-bar__track::before { border-left: 1px dashed #555 !important; height: 18px; top: -5px; }
+ .result-axis-reading, .ai-dim-row, .module-axis-row, .ai-governance-payoff__card, .reading-entry { break-inside: avoid; page-break-inside: avoid; }
+ .result-figure > h2, .result-section > h2 { break-after: avoid; }
+ .alt-compare-scroll { overflow: visible; }
+ .alt-compare { width: 100%; min-width: 0; }
+ .alt-compare thead { display: table-header-group; }
+ .alt-compare tr { break-inside: avoid; }
+ .result-section, .result-article { break-inside: auto; }
+}
+
+@media print {
+ /* Block flow lets the printer keep a short reading together across pages. */
+ .ai-result-canvas .stack-lg, .ai-result-canvas .stack-md,
+ .ai-result-canvas .ai-governance-payoff__debate-grid { display: block; }
+ .ai-result-canvas .stack-lg > * + *, .ai-result-canvas .stack-md > * + * { margin-top: 18px; }
+ .ai-result-canvas h2, .ai-result-canvas h3, .ai-result-canvas h4,
+ .ai-result-canvas .reading-path-header { break-after: avoid; page-break-after: avoid; }
+ .ai-result-canvas .reading-entry { display: block; }
+ .ai-result-canvas .result-figure__bars, .ai-result-canvas .ai-governance-payoff__debate-grid { display: block; }
+ .ai-result-canvas .ai-governance-payoff__card { margin-block: 18px; }
+}

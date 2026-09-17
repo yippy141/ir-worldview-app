@@ -37,10 +37,9 @@ test("Profile puts saved work before relations, continuation and history", () =>
   const orderedMarkers = [
     'aria-label="Open saved results"',
     "<ResultCardHero",
+    "<ConnectedProfile",
     "<DomainRecordsSection",
     "<PerspectiveRunsSection",
-    "<ReviewedRelationsSection",
-    "<NextActionsSection",
   ]
 
   let previous = -1
@@ -50,8 +49,7 @@ test("Profile puts saved work before relations, continuation and history", () =>
     previous = index
   }
 
-  assert.match(report, /No reviewed cross-domain relation is available\./u)
-  assert.match(report, /does not infer a relationship from[\s\S]*similar labels or numbers/u)
+  assert.match(report, /<ConnectedProfile profile=\{profile\} mode=\{mode\}/u)
   assert.doesNotMatch(report, /overlayDeltas|buildProfileAssessment|buildIntegratedHeadline/u)
   assert.doesNotMatch(report, /laneSummaries|keyDrivers|strongLenses/u)
 })

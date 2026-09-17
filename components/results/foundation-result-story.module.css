@@ -609,7 +609,7 @@
 
 @media print {
   @page {
-    size: A4;
+    size: auto;
     margin: 14mm;
   }
 
@@ -810,3 +810,14 @@
 .openingPayoff summary { padding: 12px 0; color: var(--accent); cursor: pointer; }
 @media (max-width:480px) { .frontispiece { padding: 24px 0 32px; } .frontispieceLead { font-size: 16px; } }
 @media print { .frontispiece { break-inside: avoid; } }
+
+.evidenceSection { margin-block: 48px; max-width: 880px; }
+@media print {
+ .chapter { display: block; }
+ .chapterCopy { max-width: 72ch; }
+ .chapterTitle { break-after: avoid; }
+ .chapterCopy p:not(.chapterNumber) { font-size: 10pt; line-height: 1.55; }
+ .inlineVisual { padding: 12px 0; break-inside: auto; page-break-inside: auto; }
+ .evidenceSection { margin-block: 24px; }
+ .contributionRow { break-inside: avoid; }
+}

@@ -1,5 +1,6 @@
 "use client"
 
+import { bindAiCompletionToSnapshot } from "@/lib/results/ai-completion-evidence"
 import { useEffect } from "react"
 import { useLocale } from "next-intl"
 import {
@@ -22,9 +23,11 @@ export function AiProfileSync({
 
   useEffect(() => {
     if (!consumeProfileSaveIntent("ai-governance", snapshot.payload)) return
+    const timestamp = Date.now()
+    bindAiCompletionToSnapshot(snapshot.payload, timestamp)
     saveAiGovernanceSnapshot({
       ...snapshot,
-      timestamp: Date.now(),
+      timestamp,
       ...completionProvenance("aiGovernance", locale),
     })
   }, [locale, snapshot])
