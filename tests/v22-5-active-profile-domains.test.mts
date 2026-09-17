@@ -10,7 +10,7 @@ test("active Profile renders independent domain records without frozen movement 
   const source = readSource("components/profile/profile-report.tsx")
 
   assert.match(source, /Each result answers its own set of questions/)
-  assert.match(source, /No reviewed cross-domain relation is available/)
+  assert.match(source, /<ConnectedProfile profile=\{profile\} mode=\{mode\}/)
   assert.match(source, /\(\["security", "technology"\] as const\)\.map/)
   assert.match(
     source,

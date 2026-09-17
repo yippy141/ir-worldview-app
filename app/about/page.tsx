@@ -16,55 +16,21 @@ export default function AboutPage() {
 
   return (
     <div className="container stack-lg reading-page info-page">
-      <section className="panel stack-md">
-        <p className="eyebrow">About</p>
-        <h1>It asks how you read world politics, and shows you the logic you used.</h1>
-        <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
-          Answer fourteen questions about international politics, then explore the arguments behind your result. Security, Technology, and AI Governance put the same kind of
-          question to you inside one policy field. Cases and Perspective Runs ask you to decide
-          from a named seat. Each result is a reading of your answers: which explanation you
-          trusted, which cost you accepted, and which rival argument came closest.
-        </p>
-        <div className="row gap-sm wrap">
-          <Link href="/quiz" className="cta-primary">Start the Foundation</Link>
-          <Link href="/method" className="cta-secondary">How the scoring works</Link>
-        </div>
-      </section>
-
-      <section className="panel stack-md">
+      <header className="stack-md">
+        <h1>About</h1>
+        <p>People can agree on what should happen and disagree about why. They can also apply different standards to a military crisis, an export restriction or the release of a powerful AI model. I built this app to make those differences easier to examine.</p>
+        <p>The questionnaires cover international politics, Security, Technology and AI Governance. The Library explains the arguments behind the results. Cases let you work through a particular decision, while Futures explores the conditions you would accept in very different possible worlds.</p>
+        <p>You can start with whichever subject interests you. The aim is to leave with a clearer explanation of your choices and a question worth discussing with someone else.</p>
+      </header>
+      <section className="stack-md">
         <h2>Who made it</h2>
-        <p style={{ lineHeight: "1.7", maxWidth: "720px" }}>
-          {siteConfig.author} built and edits it. He trained at Johns Hopkins SAIS in technology,
-          security, and governance, and writes about frontier technology and great-power
-          competition. The questions, cases, and readings are authored; the scoring is a set of
-          authored weights, described in full in Method, and not a validated test. AI tools were
-          used in drafting and checking; the sources cited on each page are the record of what
-          was checked.
-        </p>
+        <p>I&apos;m {siteConfig.author}. I studied international relations at Johns Hopkins SAIS, with a focus on technology and governance. I began this as a personal project and used AI tools extensively to build it. The design and interpretations have changed through successive rounds of testing, criticism and revision.</p>
+        <p>This is an independent project. The scoring rules are available in <Link href="/method">Method</Link>, together with their limitations. Empirical validation remains work to do.</p>
       </section>
-
-      <section className="panel stack-md">
-        <h2>What the scores are and are not</h2>
-        <ul className="content-list">
-          <li>A score is a position on this model&apos;s scale. It is not a percentile, and nobody is being ranked.</li>
-          <li>Nationality, citizenship, and culture never change a score.</li>
-          <li>A named reading summarizes nearby profiles. It is not a type you belong to.</li>
-          <li>Four traditions are scored. Feminist, postcolonial, and green approaches are described in the Library and not scored.</li>
-        </ul>
-      </section>
-
-      <section className="panel stack-md">
-        <h2>Corrections and contact</h2>
-        <p style={{ lineHeight: "1.7", maxWidth: "720px" }}>
-          Factual corrections, privacy questions, and security reports go to the project email.
-          Nothing you have answered travels with that message.
-        </p>
-        <div className="row gap-sm wrap">
-          {email ? (
-            <a href={email.href} className="cta-primary">Email the project</a>
-          ) : null}
-          <Link href="/privacy" className="cta-secondary">Privacy</Link>
-        </div>
+      <section className="stack-md">
+        <h2>Corrections</h2>
+        <p>A misleading question or an explanation that does not follow from your answers is useful feedback. Please name the page or question when contacting me. You do not need to include your result link or disclose your answers.</p>
+        <p>{email && <a href={email.href}>Email the project</a>} · <Link href="/method">Method</Link> · <Link href="/privacy">Privacy</Link></p>
       </section>
     </div>
   )

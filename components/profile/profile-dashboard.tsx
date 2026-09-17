@@ -60,7 +60,7 @@ export function ProfileDashboard() {
         <section className="profile-state-panel profile-state-panel--empty stack-lg">
           <div className="profile-state-panel__intro stack-sm">
             <p className="eyebrow">Profile</p>
-            <h1>Your results, ready to return to.</h1>
+            <h1>Your results, ready to return to</h1>
             <p className="profile-state-panel__body">
               Choose a question to begin. Foundation, AI Governance, Security and Technology can each be taken on their own.
               Results stay on this device unless you choose to share them.
@@ -74,7 +74,7 @@ export function ProfileDashboard() {
             </Link>
             <Link href="/ai" className="profile-state-action">
               <span className="profile-state-action__label">Try AI Governance</span>
-              <span className="profile-state-action__meta">Create a separate AI-policy record.</span>
+              <span className="profile-state-action__meta">Examine who should govern capable AI.</span>
             </Link>
             <Link href="/modules/security" className="profile-state-action">
               <span className="profile-state-action__label">Start Security</span>

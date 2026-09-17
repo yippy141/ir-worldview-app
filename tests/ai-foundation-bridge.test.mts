@@ -92,10 +92,9 @@ test("AI landing and result copy make no relationship inference", () => {
     new URL("../app/ai/page.tsx", import.meta.url),
     "utf8",
   )
-  assert.match(component, /buildAiFoundationBaseline/u)
-  assert.match(component, /Separate reads\. No reviewed bridge\./u)
-  assert.match(component, /no relationship is inferred/u)
-  assert.match(component, /does not infer alignment/u)
+  assert.match(component, /Profile connects available choices/u)
+  assert.match(component, /href="\/compare"/u)
+  assert.doesNotMatch(component, /buildAiFoundationBaseline|No reviewed bridge/u)
   assert.doesNotMatch(component, /foundation\.familyLabel/u)
   assert.doesNotMatch(component, /asks how that view travels/u)
   assert.doesNotMatch(component, /governing instincts behave/u)

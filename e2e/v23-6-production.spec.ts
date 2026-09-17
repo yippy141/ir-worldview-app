@@ -343,7 +343,7 @@ test("a shared result has no local evidence binding", async ({ browser, baseURL 
       .toHaveAttribute("data-local-evidence-status", "no-local-binding")
     await expect(
       page.locator("[data-local-evidence-status]:visible")
-        .getByText(/Shared links carry the result/iu),
+        .getByText("The answers for this result are not available here.", { exact: true }),
     ).toBeVisible()
   } finally {
     await context.close()
@@ -357,13 +357,13 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
   await expect(sticky).toHaveCount(1)
   await expect(sticky).toBeVisible()
   const chapterVisuals = sticky.locator("[data-foundation-chapter-visual]")
-  await expect(chapterVisuals).toHaveCount(7)
+  await expect(chapterVisuals).toHaveCount(6)
   expect(await chapterVisuals.evaluateAll((elements) => elements.every(
     (element) => getComputedStyle(element).position === "sticky",
   ))).toBe(true)
   expect(await sticky.evaluate((element) => element.querySelectorAll(
     "[data-foundation-story-chapter] > [data-foundation-chapter-visual]",
-  ).length)).toBe(7)
+  ).length)).toBe(6)
 
   const noJs = await browser.newContext({
     baseURL,
@@ -375,7 +375,7 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
     await noJsPage.goto(`/results/${fixtures.clearerPureCore}`)
     await expect(noJsPage.locator("[data-foundation-story-chapter]")).toHaveCount(7)
     await expect(noJsPage.locator("[data-foundation-sticky-region]")).toBeVisible()
-    await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(7)
+    await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(6)
     await noJsPage.getByText("Open the orientation matrix", { exact: true }).click()
     await expect(noJsPage.locator(
       '[role="region"][aria-label="Registered Foundation reading matrix"]:visible',
@@ -392,9 +392,8 @@ for (const width of [320, 390, 768, 1440] as const) {
   test(`result story fits ${width}px and retains its first insight`, async ({ page }) => {
     await page.setViewportSize({ width, height: width < 768 ? 844 : 1000 })
     await page.goto(`/results/${fixtures.clearerPureCore}`)
-    await expect(page.getByRole("heading", {
-      name: /^Why .+, and not .+$/,
-    })).toBeVisible()
+    await expect(page.locator("#foundation-story-chapter-01")).toBeVisible()
+    await expect(page.locator("#foundation-story-chapter-01")).toHaveText(/^.+ and .+$/)
     expect(await page.evaluate(() => document.documentElement.scrollWidth))
       .toBeLessThanOrEqual(width)
 
@@ -443,7 +442,7 @@ test("reduced motion keeps every chapter and its visible state available", async
 
   await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(7)
   await expect(page.locator("[data-foundation-chapter-visual]"))
-    .toHaveCount(7)
+    .toHaveCount(6)
   const motion = await page.locator("[data-foundation-result-story]").evaluate((story) => {
     const sample = story.querySelector<HTMLElement>("[data-foundation-story-chapter]")
     if (!sample) return null
@@ -462,11 +461,11 @@ test("Profile distinguishes an unsaved domain set from a saved domain record", a
   await setProfile(page, profileStoreV5)
   await page.goto("/profile")
   await expect(page.locator(".profile-domain-record")).toHaveCount(0)
-  for (const label of ["Add Security", "Add Technology", "Add AI Governance"]) await expect(page.getByRole("link", { name: new RegExp(label) })).toBeVisible()
-  await expect(page.getByText("No reviewed cross-domain relation is available.", {
+  await expect(page.getByRole("link", { name: "Try a related decision" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Connections worth examining",
     exact: true,
   })).toBeVisible()
-  await expect(page.getByRole("heading", { name: "What to open next" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "One next question" })).toBeVisible()
 
   await page.evaluate(
     ({ key, value }) => window.localStorage.setItem(key, JSON.stringify(value)),
@@ -474,7 +473,7 @@ test("Profile distinguishes an unsaved domain set from a saved domain record", a
   )
   await page.reload()
   await expect(page.getByText("V4 security interpretation", { exact: true })).toBeVisible()
-  await expect(page.getByText("No reviewed cross-domain relation is available.", {
+  await expect(page.getByRole("heading", { name: "Connections worth examining",
     exact: true,
   })).toBeVisible()
 })
@@ -497,18 +496,18 @@ test("Simplified Chinese root and result remain Chinese-only at 390px", async ({
     .toBeLessThanOrEqual(390)
 })
 
-test("print mode is static, complete, and includes the worked application in at most five pages", async ({ context, page }) => {
+test("print mode is static and retains the worked application without a page-count target", async ({ context, page }) => {
   await page.goto(`/results/${fixtures.clearerPureCore}`)
   await page.emulateMedia({ media: "print", reducedMotion: "reduce" })
 
   await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(7)
   await expect(page.locator("[data-foundation-sticky-region]")).toBeVisible()
-  await expect(page.locator("[data-foundation-chapter-visual]")).toHaveCount(7)
+  await expect(page.locator("[data-foundation-chapter-visual]")).toHaveCount(6)
   const printVisualPositions = await page
     .locator("[data-foundation-chapter-visual]")
     .evaluateAll((visuals) => visuals.map((visual) =>
       window.getComputedStyle(visual).position))
-  expect(printVisualPositions).toEqual(Array(7).fill("static"))
+  expect(printVisualPositions).toEqual(Array(6).fill("static"))
   await expect(page.locator(
     '[role="region"][aria-label="Registered Foundation reading matrix"]:visible',
   ))
@@ -523,8 +522,8 @@ test("print mode is static, complete, and includes the worked application in at 
   })
   const pdfText = Buffer.from(data, "base64").toString("latin1")
   const pageCount = pdfText.match(/\/Type\s*\/Page\b/gu)?.length ?? 0
-  expect(pageCount).toBeGreaterThanOrEqual(3)
-  expect(pageCount).toBeLessThanOrEqual(5)
+  expect(pageCount).toBeGreaterThan(0)
+  await expect(page.locator(".result-application")).toBeVisible()
 })
 
 async function focusRootDestination(

@@ -16,7 +16,6 @@ import { aiPayloadToAxisScores, resolveAiPayload } from "@/lib/ai-governance-sha
 import {
   buildAiGovernanceSummary,
   getAiAxisPush,
-  getAiComparisonAxes,
   getAxisCards,
 } from "@/lib/ai-governance-results"
 import {
@@ -217,23 +216,19 @@ export default async function AiResultPage(
           <NearestAlternative
             primaryLabel={archetypeLabel}
             runnerUpLabel={runnerUpLabel}
-            rows={getAiComparisonAxes(
-              decoded.ak,
-              runnerUpKey,
-              axisScores,
-              resolved.scoring.archetypeProfiles,
-            ).map((row) => ({
-              key: row.axis,
-              label: row.label,
-              lowLabel: aiAxisPoles[row.axis].low,
-              highLabel: aiAxisPoles[row.axis].high,
-              note: `Comparison term: ${(comparison.rows.find(term => term.axis === row.axis)?.term ?? 0).toFixed(3)}`,
-              userScore: row.userScore,
-              primaryExpected: row.primaryExpected,
-              runnerUpExpected: row.runnerUpExpected,
-            }))}
+            rows={[...comparison.supporting, ...comparison.opposing].map(row => {
+              const expected = (weight: number): "high" | "low" | "neutral" => weight > .2 ? "high" : weight < -.2 ? "low" : "neutral"
+              return {
+                key: row.axis, label: resolved.schema.aiAxisLabels[row.axis],
+                lowLabel: aiAxisPoles[row.axis].low, highLabel: aiAxisPoles[row.axis].high,
+                note: `${row.term > 0 ? "Largest supporting term" : "Largest opposing term"}: ${row.term.toFixed(3)}`,
+                userScore: axisScores[row.axis],
+                primaryExpected: expected(resolved.scoring.archetypeProfiles[decoded.ak][row.axis] ?? 0),
+                runnerUpExpected: expected(resolved.scoring.archetypeProfiles[runnerUpKey][row.axis] ?? 0),
+              }
+            })}
           />
-          <p className="result-figure__note">{hasTiedLead ? `This compares the saved ${archetypeLabel} label with ${runnerUpLabel}; an equal score does not establish a winner.` : comparison.difference <= 0 ? `The rounded positions do not establish ${archetypeLabel} ahead of ${runnerUpLabel}. The saved names are preserved without asserting a winner.` : `The recorded positions favor ${archetypeLabel} over ${runnerUpLabel} most through ${resolved.schema.aiAxisLabels[comparison.rows.reduce((best, row) => row.term > best.term ? row : best).axis].toLowerCase()}.`}</p>
+          <p className="result-figure__note">{comparison.supporting.length ? `The largest supporting ${comparison.supporting.length > 1 ? "terms are" : "term is"} ${comparison.supporting.map(row => resolved.schema.aiAxisLabels[row.axis]).join(" and ")}.` : "No axis term favors the saved leading label over the alternative."} {comparison.opposing.length ? `The largest opposing ${comparison.opposing.length > 1 ? "terms are" : "term is"} ${comparison.opposing.map(row => resolved.schema.aiAxisLabels[row.axis]).join(" and ")}.` : "No axis term favors the alternative over the saved label."} {comparison.difference <= 0 ? "These rounded positions do not establish the saved label ahead of the alternative." : ""}</p>
           <p className="result-axis-note"><strong>A case that distinguishes these emphases. </strong>{comparison.question}</p>
           <details className="result-figure__note"><summary>How the comparison terms are calculated</summary><p>Each term is your position on the axis, measured from the midpoint, multiplied by how differently the two approaches weight that axis. Positive terms favor {archetypeLabel}; negative terms favor {runnerUpLabel}.</p></details>
         </section>
@@ -269,8 +264,7 @@ export default async function AiResultPage(
           <h2>Reasoning and policy debates</h2>
           <div>
             <div className="stack-lg result-details-body">
-              <AiGovernancePayoffSections payoff={payoff} />
-              <AiGovernanceProfileSections resolved={resolved} />
+              <details><summary>Policy debates behind the approaches</summary><AiGovernancePayoffSections payoff={payoff} /><AiGovernanceProfileSections resolved={resolved} /></details>
               <details>
                 <summary>Saved category wording</summary>
                 <p className="result-scope">The registered model describes {archetypeLabel} in the words below. This is a category reference; the recorded positions and any co-leading readings determine how far it applies.</p>

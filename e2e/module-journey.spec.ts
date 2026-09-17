@@ -131,7 +131,7 @@ for (const slug of ["security", "technology"] as const) {
       expect([resolved.bankVersion, resolved.scoringVersion]).toEqual([fixture.version.bankVersion, fixture.version.scoringVersion])
       const result = fixture.version.runtime.buildModuleResult(fixture.version.definition, mode, fixture.answers)
       await expect(page.locator(".result-verdict__name")).toHaveText(result.headline)
-      const interpretation = buildModuleInterpretation(fixture.version.definition, result, fixture.questions.filter(q => q.cardType !== "actorLens").length, { ...fixture.version, mode })
+      const interpretation = buildModuleInterpretation(fixture.version.definition, result, fixture.questions.filter(q => q.cardType !== "actorLens").length, { ...fixture.version, mode, choices: fixture.version.runtime.getSelectedModuleOptions(fixture.version.definition, mode, fixture.answers) })
       await expect(page.locator(".result-verdict__gloss")).toHaveText(interpretation.summary)
       await expect(page.locator(".result-application")).toContainText(interpretation.example.rival)
       const selected = fixture.version.runtime.getSelectedModuleOptions(fixture.version.definition, mode, fixture.answers)
@@ -189,7 +189,7 @@ test("legacy, partial and answer-absent shared results preserve their exact bank
     }
   }
   await page.getByRole("link", { name: "View Profile", exact: true }).click()
-  await expect(page.getByRole("heading", { name: "Your results, ready to return to." })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Your results, ready to return to" })).toBeVisible()
 })
 
 test("actor-only records keep their existing result without posing as scored-answer evidence", async ({ page }) => {

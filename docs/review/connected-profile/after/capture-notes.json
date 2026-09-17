@@ -1,0 +1,32 @@
+{
+  "synthetic": true,
+  "browser": "Playwright Chromium",
+  "viewport": [
+    1440,
+    1000
+  ],
+  "print": "A4 portrait and landscape, backgrounds disabled",
+  "frames": [
+    {
+      "code": "S-",
+      "fresh": "drawing with canonical base opacity 0",
+      "replay": "frame sampled about 1050ms after click",
+      "complete": "canonical base restored",
+      "text": "Dependencia"
+    },
+    {
+      "code": "P-",
+      "fresh": "drawing with canonical base opacity 0",
+      "replay": "frame sampled about 1050ms after click",
+      "complete": "canonical base restored",
+      "text": "Shi (勢)"
+    },
+    {
+      "code": "P/S-",
+      "fresh": "drawing with canonical base opacity 0",
+      "replay": "frame sampled about 1050ms after click",
+      "complete": "canonical base restored",
+      "text": "Shi (勢)–Dependencia"
+    }
+  ]
+}

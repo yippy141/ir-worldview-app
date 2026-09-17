@@ -834,11 +834,11 @@ test("production print lays out every Foundation chapter and restores sticky scr
   const visuals = story.locator("[data-foundation-chapter-visual]")
 
   await expect(chapters).toHaveCount(7)
-  await expect(visuals).toHaveCount(7)
+  await expect(visuals).toHaveCount(6)
   const screenPositions = await visuals.evaluateAll((elements) =>
     elements.map((element) => getComputedStyle(element).position),
   )
-  expect(screenPositions).toEqual(Array(7).fill("sticky"))
+  expect(screenPositions).toEqual(Array(6).fill("sticky"))
 
   await page.emulateMedia({ media: "print" })
   const printVisuals = await visuals.evaluateAll((elements) =>
@@ -860,7 +860,8 @@ test("production print lays out every Foundation chapter and restores sticky scr
     expect(visual.width).toBeGreaterThan(20)
   }
 
-  const printChapters = await chapters.evaluateAll((elements) =>
+  await expect(chapters.locator("[data-local-evidence-status]")).toHaveText("The answers for this result are not available here.")
+  const printChapters = await chapters.filter({ has: page.locator("h2") }).evaluateAll((elements) =>
     elements.map((element) => ({
       height: element.getBoundingClientRect().height,
       hasHeading: Boolean(element.querySelector("h2")),
@@ -890,10 +891,10 @@ test("production print keeps the complete Profile reading visible without empty 
   )
   const domainRecords = domainSection.locator("article.profile-domain-record")
   const relationsSection = page.locator(
-    'section[aria-labelledby="profile-reviewed-relations"]',
+    'section[aria-labelledby="connected-profile-heading"]',
   )
   const nextSection = page.locator(
-    'section[aria-labelledby="profile-next-action"]',
+    '.connected-next',
   )
 
   await expect(foundationPayoff.getByRole("heading", {
@@ -902,12 +903,9 @@ test("production print keeps the complete Profile reading visible without empty 
     exact: true,
   })).toBeVisible()
   await expect(domainRecords).toHaveCount(3)
-  await expect(relationsSection.getByText(
-    "No reviewed cross-domain relation is available.",
-    { exact: true },
-  )).toBeVisible()
+  await expect(relationsSection.getByRole("heading", { name: "Connections worth examining" })).toBeVisible()
   await expect(nextSection.getByRole("heading", {
-    name: "What to open next",
+    name: "One next question",
     exact: true,
   })).toBeVisible()
 
@@ -916,8 +914,8 @@ test("production print keeps the complete Profile reading visible without empty 
     .locator([
       "section.result-card-hero",
       'section[aria-labelledby="profile-domain-records"]',
-      'section[aria-labelledby="profile-reviewed-relations"]',
-      'section[aria-labelledby="profile-next-action"]',
+      'section[aria-labelledby="connected-profile-heading"]',
+      '.connected-next',
     ].join(", "))
     .evaluateAll((elements) =>
       elements.map((element) => {

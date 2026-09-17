@@ -2,7 +2,7 @@ import { aiAxisScoresToArray, encodeAiPayload, resolveAiPayload } from "@/lib/ai
 import type { AiAnswers, AiQuizMode } from "@/lib/ai-governance-types"
 import { markFreshResult } from "@/lib/results/fresh-foundation-result"
 
-export type AiObservation = { kind: "direct-observation"; id: string; prompt: string; selection: string; secondary?: string }
+export type AiObservation = { kind: "direct-observation"; id: string; prompt: string; selection: string; secondary?: string; value?: number }
 export type AiCompletionEvidence = { payload: string; mode: AiQuizMode; bank: number; scorer: number; locale: "en"; observations: AiObservation[] }
 
 const likertLabels = ["", "Strongly disagree", "Disagree", "Somewhat disagree", "Neutral", "Somewhat agree", "Agree", "Strongly agree"]
@@ -17,7 +17,7 @@ export function qualifyAiCompletion(payload: string, answers: AiAnswers, mode: A
     const answer = answers[question.id]
     if (question.kind === "likert") {
       if (typeof answer !== "number" || !Number.isInteger(answer) || answer < 1 || answer > 7) return null
-      observations.push({ kind: "direct-observation", id: question.id, prompt: question.prompt, selection: `${likertLabels[answer]} (${answer} of 7)` })
+      observations.push({ kind: "direct-observation", id: question.id, prompt: question.prompt, selection: `${likertLabels[answer]} (${answer} of 7)`, value: answer })
     } else {
       const primary = typeof answer === "object" ? answer.primary : answer
       const secondary = typeof answer === "object" ? answer.secondary : undefined
@@ -40,10 +40,21 @@ export function qualifyAiCompletion(payload: string, answers: AiAnswers, mode: A
 let pending: AiCompletionEvidence | null = null
 export function handoffAiCompletion(payload: string, answers: AiAnswers, mode: AiQuizMode) {
   pending = qualifyAiCompletion(payload, answers, mode)
+  active = pending ? { evidence: pending, timestamp: null } : null
   if (pending) markFreshResult("ai", payload)
 }
 export function takeAiCompletion(payload: string): AiCompletionEvidence | null {
   const value = pending
   pending = null
   return value?.payload === payload ? value : null
+}
+
+// A single exact completion can follow its newly saved result to Profile within
+// this page session. The timestamp binding prevents borrowing a same-score run.
+let active: { evidence: AiCompletionEvidence; timestamp: number | null } | null = null
+export function bindAiCompletionToSnapshot(payload: string, timestamp: number) {
+  if (active?.evidence.payload === payload) active.timestamp = timestamp
+}
+export function aiEvidenceForSnapshot(snapshot: { payload: string; timestamp: number }): AiCompletionEvidence | null {
+  return active?.timestamp === snapshot.timestamp && active.evidence.payload === snapshot.payload ? active.evidence : null
 }

@@ -84,7 +84,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "nearest",
       number: "01",
-      title: `Why ${props.primaryLabel}, and not ${props.runnerUpLabel}`,
+      title: `${props.primaryLabel} and ${props.runnerUpLabel}`,
       copy: (
         <>
           <p>
@@ -175,16 +175,8 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "evidence",
       number: "04",
-      title: "Choices behind your result",
-      copy: (
-        <>
-          <p>
-            Up to three of your own answers, each beside the alternative that
-            would have moved the result. They come from the answers you
-            submitted in this browser; a shared link cannot show them.
-          </p>
-        </>
-      ),
+      title: "Your answers",
+      copy: null,
       visualLabel: "Your answers and the alternatives",
       renderVisual: () => <FoundationLocalEvidence payload={props.payload} />,
     },
@@ -206,22 +198,14 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "case",
       number: "06",
-      title: "Test the reading against a reviewed case",
-      copy: (
-        <>
-          <p>
-            One reviewed case where two of these considerations collide. Work
-            out which you would put first; the case keeps its evidence window
-            and its rival interpretation.
-          </p>
-        </>
-      ),
+      title: props.pressureCase ? "Test the reading against a reviewed case" : "Try a decision",
+      copy: <p>{props.pressureCase ? "One reviewed case where two of these considerations collide. Work out which you would put first." : "Work through a concrete choice and consider which condition would change your response."}</p>,
       visualLabel: "Reviewed historical case",
       renderVisual: () => props.pressureCase ? (
         <CasePanel pressureCase={props.pressureCase} />
       ) : (
         <p className={styles.visualNote}>
-          No reviewed case is linked to this result.
+          <Link href="/decisions">Explore a decision</Link>
         </p>
       ),
     },
@@ -317,6 +301,7 @@ function StoryChapter({
   renderVisual,
 }: StoryChapterDefinition) {
   const headingId = `foundation-story-chapter-${number}`
+  if (id === "evidence") return <section id={id} className={styles.evidenceSection} data-foundation-story-chapter={id}>{renderVisual()}</section>
 
   return (
     <section
@@ -326,7 +311,6 @@ function StoryChapter({
       data-foundation-story-chapter={id}
     >
       <div className={styles.chapterCopy}>
-        <p className={styles.chapterNumber}>Chapter {number}</p>
         <h2 id={headingId} className={styles.chapterTitle}>{title}</h2>
         {copy}
       </div>
@@ -362,7 +346,7 @@ function ContributionView({
     return (
       <p className={styles.visualNote} data-contribution-status="legacy-unavailable">
         The dimension-by-dimension terms cannot be shown for this link. The
-        rows in chapter 01 still apply.
+        positions above still apply.
       </p>
     )
   }
@@ -414,8 +398,7 @@ function ContributionView({
       </ol>
       <p className={styles.visualNote}>
         Positive terms count toward {primaryLabel}; negative terms count toward {runnerUpLabel}.
-        Values are shown to three decimal places. The deterministic test also
-        reconciles the scorer&apos;s final two-decimal rounding step.
+
       </p>
     </>
   )

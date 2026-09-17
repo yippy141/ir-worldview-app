@@ -1,0 +1,42 @@
+import { expect, test } from "@playwright/test"
+import { resultFixtures } from "../tests/decision-exercises/fixtures"
+import { openSyntheticReview } from "./fixtures/product-completion"
+import { QUIZ_STORAGE_KEY } from "../lib/storage-keys"
+const fixtures = resultFixtures().foundation
+const samples = [fixtures["S-"], fixtures["P-"], Object.values(fixtures).find(f => f.code.includes("/"))!]
+for (const sample of samples) test(`filled mark ${sample.code}: fresh, replay and completed fallbacks`, async ({ page, browser }) => {
+  await page.context().route("**/*", route => ["GET", "HEAD"].includes(route.request().method()) ? route.continue() : route.abort())
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  await openSyntheticReview(page, "foundation")
+  await page.evaluate(({ key, answers }) => { const draft = JSON.parse(localStorage.getItem(key)!); draft.answers = answers; localStorage.setItem(key, JSON.stringify(draft)) }, { key: QUIZ_STORAGE_KEY, answers: sample.answers })
+  await page.reload()
+  await page.getByRole("button", { name: "Generate my result →", exact: true }).click()
+  const reveal = page.locator("[data-result-reveal=foundation]")
+  const base = reveal.locator("[data-mark-base]")
+  await expect(reveal).toHaveAttribute("data-motion", "drawing")
+  await expect(base).toHaveCSS("opacity", "0")
+  await expect(reveal.locator("h1")).toBeVisible()
+  await expect(reveal.locator("[data-foundation-hero-marks]")).toHaveAttribute("data-foundation-hero-marks", sample.code)
+  await expect(reveal).toHaveAttribute("data-motion", "complete")
+  await expect(base).toHaveCSS("opacity", "1")
+  await reveal.getByRole("button", { name: /Replay/ }).click()
+  await expect(base).toHaveCSS("opacity", "0")
+  await page.evaluate(() => window.dispatchEvent(new Event("pagehide")))
+  await expect(base).toHaveCSS("opacity", "1")
+  await reveal.getByRole("button", { name: /Replay/ }).click()
+  await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")))
+  await expect(base).toHaveCSS("opacity", "1")
+  await page.emulateMedia({ reducedMotion: "reduce" })
+  await expect(base).toHaveCSS("opacity", "1")
+  await page.emulateMedia({ reducedMotion: "no-preference" })
+  await page.evaluate(() => { Element.prototype.animate = () => { throw new Error("synthetic animation failure") } })
+  await reveal.getByRole("button", { name: /Replay/ }).click()
+  await expect(reveal).toHaveAttribute("data-motion", "complete")
+  await expect(base).toHaveCSS("opacity", "1")
+  const staticPage = await browser.newPage({ javaScriptEnabled: false })
+  await staticPage.goto(page.url())
+  await expect(staticPage.locator("[data-mark-base]")).toHaveCSS("opacity", "1")
+  await staticPage.emulateMedia({ media: "print" })
+  await expect(staticPage.locator("[data-mark-base]")).toHaveCSS("opacity", "1")
+  await staticPage.close()
+})

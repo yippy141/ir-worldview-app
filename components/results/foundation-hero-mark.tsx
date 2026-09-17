@@ -14,15 +14,14 @@ const filledGuides: Record<string, Array<{ d: string; width: number }>> = {
     { d: "M51 12 Q54 23 43 45 Q33 66 22 70", width: 12 },
   ],
   "M-": [
-    { d: "M13 67 Q52 35 91 67", width: 12 },
+    { d: "M14 66 C27 54 40 51 52 51 C64 51 77 58 90 66", width: 12 },
     { d: "M28.5 17 Q29 33 33 49", width: 8 },
     { d: "M49 11 Q49 31 50 48", width: 8 },
     { d: "M72 17 Q72 34 68 49", width: 8 },
   ],
   "S-": [
     { d: "M33 16 C10 45 17 86 59 87", width: 15 },
-    { d: "M52 42 H80", width: 26 },
-    { d: "M48 62 L85 76", width: 9 },
+        { d: "M48 62 L85 76", width: 9 },
   ],
 }
 
@@ -49,7 +48,12 @@ function DrawnMark({ code }: { code: string }) {
       const start = 200 + index * Math.min(120, 700 / segments.length)
       const timing = { "data-draw": true, "data-start": start, "data-duration": 1600 - start }
       if (node.fill === "currentColor") {
-        const guide = filledGuides[code]?.[filledIndex++] ?? (node.kind === "circle" ? { d: `M${node.cx - node.r} ${node.cy} H${node.cx + node.r}`, width: node.r * 2 + 1 } : null)
+        if (node.kind === "circle") return <g key={index}>
+          <defs><mask id={`${unique}-${index}`} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><circle cx={node.cx} cy={node.cy} r={node.r + 1} fill="white" data-deposit data-start="900" /></mask></defs>
+          <g mask={`url(#${unique}-${index})`}><Artwork node={node} /></g>
+        </g>
+        const guide = filledGuides[code]?.[filledIndex++]
+
         if (!guide) return <Artwork key={index} node={node} />
         return <g key={index}>
           <defs><mask id={`${unique}-${index}`} maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><path d={guide.d} stroke="white" fill="none" strokeWidth={guide.width} strokeLinecap="round" strokeLinejoin="round" {...timing} /></mask></defs>

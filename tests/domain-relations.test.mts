@@ -235,9 +235,8 @@ test("AI results do not publish automatic Foundation synthesis", () => {
     new URL("../components/ai/ai-project-bridge.tsx", import.meta.url),
     "utf8",
   )
-  assert.match(source, /DEFAULT_DOMAIN_RELATION_READ/u)
-  assert.match(source, /No explicit reviewed bridge/u)
-  assert.match(source, /does not combine them into a master score/u)
+  assert.match(source, /never pools scores or assigns a view/u)
+  assert.match(source, /href="\/profile"/u)
   assert.doesNotMatch(source, /getCrossModuleSynthesis/u)
   assert.doesNotMatch(source, /likelyAlignment|likelyTensions/u)
 })

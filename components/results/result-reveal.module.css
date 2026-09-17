@@ -5,5 +5,6 @@
 .replay:hover { color: var(--text); }
 .replay:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .reveal[data-motion=drawing] :global([data-mark-overlay]) { visibility: visible; }
+.reveal[data-motion=drawing] :global([data-mark-base]) { opacity: 0; }
 @media (prefers-reduced-motion: reduce) { .replay { display: none !important; } .reveal :global([data-mark-overlay]) { display: none !important; } .reveal :global([data-mark-base]) { opacity: 1 !important; } }
 @media print { .replay { display: none !important; } .reveal :global([data-mark-overlay]) { display: none !important; } .reveal :global([data-mark-base]) { opacity: 1 !important; } }
