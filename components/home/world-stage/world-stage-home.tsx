@@ -44,7 +44,7 @@ import styles from "./world-stage.module.css"
 const secondaryLinks = [
   { label: "Compare", href: "/compare" },
   { label: "About", href: "/about" },
-  { label: "Futures", href: "/futures" },
+  { label: "AI Futures", href: "/futures" },
   { label: "Methods", href: "/method" },
   { label: "References", href: "/references" },
   { label: "Privacy", href: "/privacy" },
@@ -259,7 +259,7 @@ export function WorldStageHome({
         <nav aria-label={chinese ? controls.worldStageSections : "Related reading"}>
           <a href="#membership-maps">{chinese ? "成员资格地图" : "Membership maps"}</a>
           <Link href="/cases">{chinese ? "案例" : hasActiveCurrentCase ? "Current cases" : "Case archive"} →</Link>
-          <Link href="/futures">{chinese ? "未来情景" : "Futures"} →</Link>
+          <Link href="/futures">{chinese ? "AI 未来" : "AI Futures"} →</Link>
         </nav>
       </section>
 

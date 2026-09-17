@@ -1585,3 +1585,5 @@
   .claimSources { margin-top: 8px; }
 }
 @media print { .claimRow { display: block; break-inside: avoid; } }
+
+.pageHeader h1 + .archiveIntro, .archiveIntro h2 + p { margin-top: 12px; }

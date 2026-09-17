@@ -38,7 +38,7 @@ test('all targeted Foundation forms, historical full/legacy outputs and unavaila
  }
  for(const [name,payload] of Object.entries(historical)) {
   await page.goto(`/results/${payload}`);await expect(page.locator('h1')).toBeVisible()
-  await expect(page.getByText('This link could not be decoded.')).toHaveCount(0)
+  await expect(page.getByText('This link could not be decoded')).toHaveCount(0)
   if(name==='legacy') await capture(page,'1440-foundation-legacy')
  }
  await page.goto('/results/'+Buffer.from(JSON.stringify({v:99})).toString('base64url'))

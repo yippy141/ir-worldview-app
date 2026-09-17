@@ -30,7 +30,7 @@ export function ScenarioDetail({ scenario }: { scenario: FutureScenario }) {
     {scenario.legacySummary && <details className={styles.disclosure}><summary>Earlier project summary and extension</summary><p>{scenario.legacySummary}</p><p className={styles.small}>Preserved from the earlier project catalogue. This is project interpretation, not a source quotation or an extra matching descriptor. Where its extension differs from the original premise, the source distinction above governs.</p></details>}
     <FeatureLedger scenario={scenario} />
     <section className={styles.section}><h2>Compare the institutional difference</h2><div className={styles.related}>{scenario.comparisons.map(id => { const other = findFuture(id); return other ? <Link key={id} href={compareHref(scenario.id, id)} prefetch={false}>{scenario.name} and {other.name}</Link> : null })}</div></section>
-    {scenario.exercise && <section className={styles.section}><h2>Optional deeper exercise</h2><p>This exercise concerns decisions inside this scenario. It does not determine your general Futures preferences.</p><Link href={scenario.exercise.href} prefetch={false}>{scenario.exercise.label}</Link></section>}
+    {scenario.exercise && <section className={styles.section}><h2>Optional deeper exercise</h2><p>This exercise concerns decisions inside this scenario. It does not determine your general AI Futures preferences.</p><Link href={scenario.exercise.href} prefetch={false}>{scenario.exercise.label}</Link></section>}
     <ScenarioSources scenario={scenario} />
   </>
 }

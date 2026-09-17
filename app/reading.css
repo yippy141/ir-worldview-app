@@ -7,7 +7,7 @@
 .reading-page :is(a,summary,button):focus-visible { outline: 2px solid var(--accent-light); outline-offset: 4px; }
 .reading-page :is(a,summary) { scroll-margin-top: 96px; }
 .reading-argument { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: clamp(28px,5vw,72px); padding-block: 34px; border-block: 1px solid var(--line); }
-.reading-argument p { font-size: 1rem; line-height: 1.8; margin: 0; }
+.reading-argument p { font-size: 1rem; line-height: 1.8; }
 .reading-argument h2, .reading-argument h3 { margin: 0; }
 .reading-counterpoint { border-left: 2px solid var(--accent); padding-left: 28px; }
 .reading-counterpoint .muted { font-size: .86rem; line-height: 1.65; }
@@ -158,3 +158,17 @@
 
 .reading-tradition .article-header + .article-section { padding-top: 0; }
 .ai-approach-reading > .ai-atlas-mark-hero { max-width: none; margin-inline: 0; }
+
+/* Shared reading rhythm: headings introduce prose, not a second line of the title. */
+.reading-page :is(h2, h3, h4) + :is(p, ul, ol, dl),
+.reading-application h2 + p,
+.documented-membership h2 + p { margin-top: 12px; }
+.reading-page p + :is(h2, h3, h4) { margin-top: 28px; }
+.reading-application p + p { margin-top: 16px; }
+.reading-page .reference-card-grid { grid-template-columns: 1fr; gap: 0; }
+.reading-page .reference-card__name { font-size: clamp(24px, 2.4vw, 30px); }
+
+.profile-state-panel__intro h1 + p { margin-top: 16px; }
+.reading-page .reference-card { row-gap: 12px; }
+.reading-page .reference-card > * { margin-top: 0; }
+.reading-page .reference-card__domain { max-width: 35ch; }

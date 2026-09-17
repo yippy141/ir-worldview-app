@@ -36,7 +36,7 @@ export type RootCopy = Readonly<{
 const englishRootCopy: RootCopy = {
   brand: "IR Worldview Inventory",
   brandAriaLabel: "IR Worldview Inventory home",
-  heading: "Choose where to start.",
+  heading: "Choose where to start",
   introduction: "Explore your views on international politics, technology and possible futures.",
   enter: "Enter", menu: "Main menu", map: "Explore the map", independent: "Every questionnaire is independent.",
   primaryNavigationLabel: "Primary destinations",
@@ -69,7 +69,7 @@ const englishRootCopy: RootCopy = {
 const chineseRootCopy: RootCopy = {
   brand: "国际关系世界观清单",
   brandAriaLabel: "返回国际关系世界观清单首页",
-  heading: "选择一个起点。",
+  heading: "选择一个起点",
   introduction: "探索你对国际政治、技术与可能未来的看法。",
   enter: "进入", menu: "主菜单", map: "探索地图", independent: "每份问卷都可独立完成。",
   primaryNavigationLabel: "主要入口",

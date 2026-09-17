@@ -369,3 +369,6 @@
     display: none;
   }
 }
+
+.chapter > h2 + p { margin-top: 16px; }
+.chapter > p + p { margin-top: 16px; }

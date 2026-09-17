@@ -9,4 +9,4 @@ export type AlignmentScene = {
 
 export const ALIGNMENT_COLORS = { blue: "#86abd2", red: "#ca7770", gold: "#cea857", muted: "#293b50" } as const
 export const ROOT_REVOLUTION_MS = 140_000
-export const ROOT_SCENE_MS = 8_000
+export const ROOT_SCENE_MS = 5_500

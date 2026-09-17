@@ -174,7 +174,7 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
       <div className="container stack-lg">
         <div className="panel stack-md">
           <p className="eyebrow">Unknown brief</p>
-          <h1>This vantage point is unavailable.</h1>
+          <h1>This vantage point is unavailable</h1>
           <p className="muted">Choose one of the six role briefs to start a run.</p>
           <div className="row gap-sm wrap">
             <Link href="/perspectives" className="cta-primary">Perspective Runs</Link>
@@ -415,7 +415,7 @@ export function PerspectiveQuiz({ perspectiveId }: { perspectiveId: PerspectiveI
         <div className="stack-lg">
           <section className="panel stack-sm">
             <p className="eyebrow">Review</p>
-            <h1>Review your recommendations.</h1>
+            <h1>Review your recommendations</h1>
             <p className="muted perspective-run__instruction">
               The result compares this run with your Foundation baseline. Change any answer before
               you generate it.

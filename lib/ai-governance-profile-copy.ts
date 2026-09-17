@@ -42,7 +42,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     policyBundle: [
       "Prioritize institutions that preserve national or alliance-level capability without ignoring safety.",
       "Back safeguards that are enforceable under competition rather than relying on universal trust.",
-      "Accept bounded military and intelligence use if refusal would create serious strategic vulnerability.",
+      "Allow limited military and intelligence uses when refusing them would create a serious security risk.",
     ],
     internationalOrder: [
       "Likely to view coordination through the lens of reciprocity, verification, and durable competitive asymmetry.",
@@ -65,7 +65,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     governingInstinct:
       "Build rules that can outlast temporary advantage because frontier AI risks are too transnational for one state or one lab to govern alone.",
     policyBundle: [
-      "Support verification, shared standards, and institutional arrangements that make restraint legible across borders.",
+      "Support inspections and shared standards so governments can check whether others are keeping agreed limits.",
       "Prefer governance designs that do not depend entirely on the benevolence of frontier developers.",
       "Accept slower deployment if that buys broader legitimacy and stronger coordination capacity.",
     ],
@@ -91,7 +91,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
       "Keep frontier AI answerable to public authority so governance is not quietly privatized by the actors building the systems.",
     policyBundle: [
       "Support mandatory external oversight, reporting duties, and visible accountability structures.",
-      "Prefer rules that remain legible to democratic and civic institutions rather than only technical insiders.",
+      "Prefer rules that elected representatives and civic groups can understand and challenge, rather than leaving decisions to technical specialists.",
       "Back stronger guardrails on deployment if the alternative is rule-setting by frontier labs alone.",
     ],
     internationalOrder: [
@@ -122,7 +122,7 @@ export const aiArchetypeDeepProfiles: Record<AiArchetypeKey, AiArchetypeDeepProf
     internationalOrder: [
       "Likely to ask what middle powers, developing states, and public institutions can realistically do, not just what ideal theory recommends.",
       "Centers sovereignty, implementation bottlenecks, and state dependence on frontier vendors.",
-      "May favor diversified supply, procurement leverage, and domestic supervisory competence before grander institutional visions.",
+      "May prioritize alternative suppliers, stronger purchasing terms and the ability to oversee systems at home before proposing new international institutions.",
     ],
     strongestCritique:
       "Your critics will say that capacity-building can slide into managerialism, missing deeper legitimacy problems or wider civilizational stakes.",

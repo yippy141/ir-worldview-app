@@ -87,7 +87,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a ministry must choose between a cheap foreign digital stack and a costlier allied one, this pattern stops hedging. Dependence on a rival's infrastructure is the kind of fact that makes it choose control over open exchange.",
     confusionNote:
-      "It is easy to mistake for Coalition Pragmatist, because both resist maximalism, and for Cross-Pressured Synthesizer, because both can look unsettled. The difference: Bridge Builder keeps the overlap between arguments intact, while Cross-Pressured Synthesizer shows a real split between domains or between diagnosis and decision.",
+      "It is easy to mistake for Coalitions First, because both resist maximalism, and for Different by Domain, because both can look unsettled. The difference: Several Lenses keeps the overlap between arguments intact, while Different by Domain shows a real split between domains or between diagnosis and decision.",
     pressureTestQuestions: [
       "When the case hardens, do you still hold several explanations open, or do you settle quickly on one?",
       "Do alliance strain and escalation risk usually outrank the chance of immediate advantage?",
@@ -117,7 +117,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Order outranks moral ambition",
     ],
     cardPressureNote:
-      "Ask it about deterrence and this pattern reinforces bounded deterrence. Ask it about an exposed chokepoint and it accepts tighter controls than its caution elsewhere would predict.",
+      "On deterrence, this approach supports clear limits on escalation. Where a country depends on one supplier or route, it is more willing to use controls.",
     detailSummary:
       "This realist pattern treats competition as lasting and treats every contest as a place where a state can overreach. Its first move is to hold position without taking on commitments that are expensive to keep or hard to reverse.",
     soWhat:
@@ -136,7 +136,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a supplier that is also a rival controls a chokepoint, this pattern supports targeted export controls and protection of the chokepoint. It applies the same test it applies to force: is the control worth the dependence it creates elsewhere, and can it be held?",
     confusionNote:
-      "It is easy to mistake for Competitive Balancer, because both start from rivalry, and for Coalition Pragmatist, because both accept limits. The difference: this pattern treats the strategic ceiling as the first question, and Competitive Balancer treats it as a later correction.",
+      "It is easy to mistake for Power and Leverage, because both start from rivalry, and for Coalitions First, because both accept limits. The difference: this pattern treats the strategic ceiling as the first question, and Power and Leverage treats it as a later correction.",
     pressureTestQuestions: [
       "When a rival probes the boundary, do you look first for a firm ceiling or for a chance to press advantage?",
       "How much risk of overextension would you absorb for a cleaner strategic signal?",
@@ -185,7 +185,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a rival is catching up in advanced semiconductors, this pattern favors export controls, defense of the chokepoint, and tighter screening of strategic dependence. Control of the technology is leverage, and leverage unused is leverage wasted.",
     confusionNote:
-      "It is easy to mistake for Constraint-First Realist, because both are plainly realist, and for Structural Inequality Critic, because both pay close attention to leverage. The difference: this pattern sees leverage as a competitive tool, and Structural Inequality Critic sees it as evidence of a deeper hierarchy.",
+      "It is easy to mistake for Power with Limits, because both are plainly realist, and for Power Behind the Rules, because both pay close attention to leverage. The difference: this pattern sees leverage as a competitive tool, and Power Behind the Rules sees it as evidence of a deeper hierarchy.",
     pressureTestQuestions: [
       "When does caution start to look like strategic drift instead of prudence?",
       "How much alliance friction would you accept if a harder line improved your position?",
@@ -235,7 +235,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a coalition is debating export controls and shared standards, this pattern favors trusted production networks, coordinated controls, and shared governance over unilateral closure, because a control only one partner enforces leaks.",
     confusionNote:
-      "It is easy to mistake for Institution Builder, because both value coordination, and for Constraint-First Realist, because both resist overreach. The difference: Coalition Pragmatist starts with partner management and whether a policy can last, and neither with rules alone nor with strategic ceilings alone.",
+      "It is easy to mistake for Rules and Cooperation, because both value coordination, and for Power with Limits, because both resist overreach. The difference: Coalitions First starts with partner management and whether a policy can last, and neither with rules alone nor with strategic ceilings alone.",
     pressureTestQuestions: [
       "Would you still back the policy if key partners could not carry it for long?",
       "When coalition unity and strategic speed collide, which usually wins?",
@@ -285,7 +285,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a research board must decide how far to open a capable model, this pattern favors standards-setting, narrow controls, and shared infrastructure over each state duplicating the work, because a shared rule can be verified and a national one can only be asserted.",
     confusionNote:
-      "It is easy to mistake for Coalition Pragmatist, because both trust coordinated action, and for Legitimacy Reader, because both can take institutions seriously. The difference: Institution Builder puts its faith first in rule design, monitoring, and repeated cooperation.",
+      "It is easy to mistake for Coalitions First, because both trust coordinated action, and for Meaning and Legitimacy, because both can take institutions seriously. The difference: Rules and Cooperation puts its faith first in rule design, monitoring, and repeated cooperation.",
     pressureTestQuestions: [
       "When do broken rules mean the institution needs repair, and when do they mean it should be abandoned?",
       "How much rivalry can a rule-based arrangement absorb before you stop trusting it?",
@@ -335,7 +335,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a research board must decide how far to open a capable model, this pattern asks who is entitled to define acceptable risk and whether the outside world will treat that definition as legitimate, and it weighs access as a question of standing as much as of safety.",
     confusionNote:
-      "It is easy to mistake for Institution Builder, because both can value rules, and for Justice-Forward Solidarist, because both keep legitimacy in view. The difference: Legitimacy Reader is centered on meaning, recognition, and interpretation, and stops short of a moral argument for overriding sovereignty.",
+      "It is easy to mistake for Rules and Cooperation, because both can value rules, and for Justice and Protection, because both keep legitimacy in view. The difference: Meaning and Legitimacy is centered on meaning, recognition, and interpretation, and stops short of a moral argument for overriding sovereignty.",
     pressureTestQuestions: [
       "When does legitimacy change the outcome, and when does it only color the story?",
       "Do you read the same move differently depending on who makes it and how they are seen?",
@@ -366,7 +366,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "Legitimacy and justice are read together",
     ],
     cardPressureNote:
-      "Force is this pattern's hardest test: whether bounded action can stay bounded. Technology brings harms, access, and unequal protection into view.",
+      "Military action raises a difficult question for this approach: can an intervention stay within its stated limits? Technology policy raises related questions about access and who is protected from harm.",
     detailSummary:
       "This pattern gives humanitarian protection and wider moral claims serious weight. It still attends to authority and precedent, and it is willing to say that those guardrails should bend in an extreme case, provided the action has legitimacy and a limit.",
     soWhat:
@@ -381,11 +381,11 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
       "How unevenly moral urgency travels across institutions, coalitions, and domestic politics.",
     ],
     securitySummary:
-      "If mass killing is under way and a veto blocks authorization, this pattern weighs civilian protection, the legal grounding available, and the risk that a bounded action becomes an open-ended intervention. It will act without full authorization only when the limit can be shown as well as the need.",
+      "If mass killing is under way and a veto blocks authorization, this pattern weighs civilian protection, the legal grounding available, and the risk that a limited action becomes an open-ended intervention. It will act without full authorization only when the limit can be shown as well as the need.",
     technologySummary:
       "If a government must decide how far to open a capable model, this pattern asks who is harmed, who gets access, and who is protected, and treats capability as the smaller part of the question.",
     confusionNote:
-      "It is easy to mistake for Legitimacy Reader, because both take legitimacy seriously, and for Bridge Builder, because both resist a sovereignty-first conclusion. The difference: this pattern is readier to say that extreme moral stakes should change the threshold for action.",
+      "It is easy to mistake for Meaning and Legitimacy, because both take legitimacy seriously, and for Several Lenses, because both resist a sovereignty-first conclusion. The difference: this pattern is readier to say that extreme moral stakes should change the threshold for action.",
     pressureTestQuestions: [
       "What threshold of harm would justify bending a sovereignty-first rule?",
       "How much legal or institutional grounding do you need before acting in an extreme case?",
@@ -434,7 +434,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a ministry is signing for data-centre capacity it cannot build itself, this pattern asks who controls the chokepoints, who is excluded from industrial depth, and who will write the rules once the dependence is locked in.",
     confusionNote:
-      "It is easy to mistake for Competitive Balancer, because both take leverage seriously, and for Development-Sovereignty Builder, because both focus on dependence. The difference: Structural Inequality Critic treats the hierarchy itself as the story, where the others see state strategy or policy room.",
+      "It is easy to mistake for Power and Leverage, because both take leverage seriously, and for Capacity and Autonomy, because both focus on dependence. The difference: Power Behind the Rules treats the hierarchy itself as the story, where the others see state strategy or policy room.",
     pressureTestQuestions: [
       "Who carries the hidden cost of the policy, and who gets to write the rules?",
       "Does the institution solve the problem, or does it reproduce an unequal structure under cleaner language?",
@@ -484,7 +484,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a cabinet is deciding whether to build a sovereign cloud, this pattern backs public capacity, trusted infrastructure, and diversified suppliers, and it rejects both full self-sufficiency and pure openness on the same ground: each narrows future choice.",
     confusionNote:
-      "It is easy to mistake for Structural Inequality Critic, because both focus on dependence, and for Coalition Pragmatist, because both can value coordination. The difference: Development-Sovereignty Builder is centered on state capacity and future bargaining room.",
+      "It is easy to mistake for Power Behind the Rules, because both focus on dependence, and for Coalitions First, because both can value coordination. The difference: Capacity and Autonomy is centered on state capacity and future bargaining room.",
     pressureTestQuestions: [
       "Does the policy expand room to maneuver later, or does it buy short-term relief at the price of future dependence?",
       "Which outside commitments strengthen domestic capacity, and which hollow it out?",
@@ -534,7 +534,7 @@ export const atlasLitePatterns: AtlasLitePattern[] = [
     technologySummary:
       "If a rival is racing ahead in a strategic technology, this pattern diagnoses the rivalry and the dependence clearly, and still ends in a policy built on coordination, safety, or access, because the domain rewards different instincts than force does.",
     confusionNote:
-      "It is easy to mistake for Bridge Builder, because both resist a single hard label. The difference: Bridge Builder holds several arguments open at once, while Cross-Pressured Synthesizer shows a real split between domains, or between diagnosis and choice.",
+      "It is easy to mistake for Several Lenses, because both resist a single hard label. The difference: Several Lenses holds several arguments open at once, while Different by Domain shows a real split between domains, or between diagnosis and choice.",
     pressureTestQuestions: [
       "Which domain should carry more weight when the readings point in different directions?",
       "Does your diagnosis read harder than the policy you would endorse?",

@@ -1,3 +1,5 @@
+import { additionalThinkers, getAdditionalThinker } from "@/content/reading/additional-thinkers"
+import { ThinkerReading } from "@/components/reference/thinker-reading"
 import { DestinationLink } from "@/components/layout/destination-link"
 import { EvidenceControls } from "@/components/reading/evidence-controls"
 import { referenceIntroductions } from "@/content/reading/reference-introductions"
@@ -32,13 +34,15 @@ import { getVisibleReferenceEntities } from "@/lib/field/items"
 import type { Metadata } from "next"
 
 export function generateStaticParams() {
-  return getVisibleReferenceEntities().map((entity) => ({ id: entity.id }))
+  return [...getVisibleReferenceEntities(), ...additionalThinkers].map((entity) => ({ id: entity.id }))
 }
 
 export async function generateMetadata(
   { params }: { params: Promise<{ id: string }> },
 ): Promise<Metadata> {
   const { id } = await params
+  const reading = getAdditionalThinker(id)
+  if (reading) return { title: `${reading.name} | Thinkers`, description: reading.argument }
   const entity = getVisibleReferenceEntityById(id)
   const title = entity
     ? `${entity.name} | Reference profile`
@@ -56,6 +60,8 @@ export default async function ReferenceDetailPage(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params
+  const readingEssay = getAdditionalThinker(id)
+  if (readingEssay) return <ThinkerReading thinker={readingEssay} />
   const entity = getVisibleReferenceEntityById(id)
 
   if (!entity) {
@@ -63,7 +69,7 @@ export default async function ReferenceDetailPage(
       <div className="container stack-lg">
         <div className="panel stack-md">
           <p className="eyebrow">Reference profile</p>
-          <h1>This profile is unavailable.</h1>
+          <h1>This profile is unavailable</h1>
           <p className="muted">
             The link may be outdated, or the profile may have been withdrawn for re-coding.
           </p>

@@ -1,0 +1,13 @@
+{
+  "baseline": "aab1723 (same app/components/lib/content/public tree as main 6c19e41)",
+  "candidate": "working tree based on 6c19e41",
+  "widths": [
+    320,
+    390,
+    768,
+    1440
+  ],
+  "height": 1000,
+  "reducedMotion": true,
+  "personalData": false
+}

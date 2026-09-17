@@ -76,7 +76,7 @@ export default async function SharedProfilePage(
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
           <p className="eyebrow">Invalid shared profile</p>
-          <h1>This shared profile link could not be decoded.</h1>
+          <h1>This shared profile link could not be decoded</h1>
           <p className="muted" style={{ lineHeight: "1.65" }}>
             The URL may be incomplete, corrupted, or from an older version of the inventory.
           </p>

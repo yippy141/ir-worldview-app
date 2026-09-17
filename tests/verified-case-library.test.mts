@@ -133,7 +133,7 @@ test("the profile page exposes the required learning and navigation contracts", 
 
   assert.match(source, /<h1 className=\{styles\.publicName\}>\{pattern\.publicName\}<\/h1>/)
   assert.match(source, /\{pattern\.technicalDescriptor\}/)
-  assert.match(source, /See the same case through other readings\./)
+  assert.match(source, /See the same case through other readings/)
   assert.match(source, /href="\/modules\/security"/)
   assert.match(source, /href="\/modules\/technology"/)
   assert.match(source, /href="\/ai"/)

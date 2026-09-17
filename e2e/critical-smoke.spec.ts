@@ -216,7 +216,7 @@ test("legacy answer-bearing challenge links recover to the ordinary case", async
   await page.goto(`/cases/${record.slug}/challenge#legacy-answer-bearing-token`)
   expect(navigationRequests.some((url) => url.includes("legacy-answer-bearing-token"))).toBe(false)
   await expect(
-    page.getByRole("heading", { name: "Answer-bearing challenge links have been retired." }),
+    page.getByRole("heading", { name: "Answer-bearing challenge links have been retired" }),
   ).toBeVisible()
   await expect(
     page.getByRole("link", { name: "Open the ordinary case" }),
@@ -718,7 +718,7 @@ test("Worldview Map bare and legacy routes select the correct projection", async
   await page.getByRole("button", { name: "Continuous" }).click()
   await expect(
     page.getByText(
-      "Secondary view. This projection does not encode applying advantage or restraint.",
+      "Position reflects the axes below, not membership of a quadrant. Colors identify the related tradition. This view does not show the applying-advantage or restraint posture used by the archetype sigils.",
       { exact: true },
     ),
   ).toBeVisible()
@@ -894,7 +894,7 @@ test("invalid Foundation result shows a plain recovery path", async ({ page }) =
 
   await expect(page.getByText("Invalid result", { exact: true })).toBeVisible()
   await expect(
-    page.getByRole("heading", { name: "This link could not be decoded." }),
+    page.getByRole("heading", { name: "This link could not be decoded" }),
   ).toBeVisible()
   await expect(page.getByRole("link", { name: "Take the Foundation" })).toBeVisible()
 })

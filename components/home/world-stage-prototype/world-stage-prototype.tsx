@@ -73,7 +73,7 @@ export function WorldStagePrototype() {
       <div className={styles.primaryLayout}>
         <section className={styles.menuRegion} aria-labelledby="world-stage-heading">
           <div className={styles.introduction}>
-            <h1 id="world-stage-heading">Choose a starting point.</h1>
+            <h1 id="world-stage-heading">Choose a starting point</h1>
             <p>Map your judgments, test them in context, or read the field.</p>
           </div>
 

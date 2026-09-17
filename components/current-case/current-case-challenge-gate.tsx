@@ -10,7 +10,7 @@ export function CurrentCaseChallengeGate({
   return (
     <section className={styles.recoveryPanel} aria-labelledby="challenge-recovery-heading">
       <p className={`${styles.recoveryEyebrow} eyebrow`}>Current Case invitation</p>
-      <h1 id="challenge-recovery-heading">Answer-bearing challenge links have been retired.</h1>
+      <h1 id="challenge-recovery-heading">Answer-bearing challenge links have been retired</h1>
       <p>
         This legacy link may contain an encrypted judgment from another reader. The site does not
         read, validate, or reveal it. You can still complete the same case and compare judgments

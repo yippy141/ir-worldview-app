@@ -1,3 +1,5 @@
+import { getAdditionalThinker } from "@/content/reading/additional-thinkers"
+import { TranslationStatusNotice } from "@/components/i18n/translation-status-notice"
 import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import { ZhHansFieldMap } from "@/components/field/zh-hans-field-map"
@@ -26,6 +28,7 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 
 export default async function ChineseReferenceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
+  if (getAdditionalThinker(id)) return <TranslationStatusNotice />
   const entity = getVisibleReferenceEntityById(id)
 
   if (!entity || entity.entityType === "movement") {

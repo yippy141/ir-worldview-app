@@ -35,7 +35,7 @@
               "value": {
                 "id": "p-plus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Kairos attends first to changing leverage and to windows that may close.",
+                "text": "Kairos looks for a chance to act before an advantage disappears.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -57,7 +57,7 @@
               "value": {
                 "id": "p-plus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Preserve room to maneuver until an opening is consequential.",
+                "text": "Keep your options open until there is a clear reason to act.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -72,7 +72,7 @@
               "value": {
                 "id": "p-plus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Commit scarce resources at the point of greatest immediate effect.",
+                "text": "Put limited resources where they can make the most difference now.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -87,7 +87,7 @@
               "value": {
                 "id": "p-plus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Move while an advantage remains usable and its cost is bounded.",
+                "text": "Use an advantage while it lasts, with a clear limit on what you will risk.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -106,7 +106,7 @@
           "value": {
             "id": "p-plus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Speed and concentration come at the price of consultation and continuity.",
+            "text": "Acting quickly can leave less time to consult others or plan for what follows.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -121,7 +121,7 @@
           "value": {
             "id": "p-plus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "It earns its keep when waiting would close meaningful options.",
+            "text": "Waiting can sometimes mean losing an opportunity that will not return.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -136,7 +136,7 @@
           "value": {
             "id": "p-plus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "A temporary edge may purchase action by spending legitimacy and future cooperation.",
+            "text": "An immediate gain can cost trust and make future cooperation harder.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -151,7 +151,7 @@
           "value": {
             "id": "p-plus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Urgency gets mistaken for opportunity; the response then outruns any defensible aim.",
+            "text": "A sense of urgency can push leaders to act before they know what they want to achieve.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -169,7 +169,7 @@
               "value": {
                 "id": "p-plus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "Durable rules that preserve choice through delay would count against this interpretation.",
+                "text": "Reconsider when existing rules keep your options open without immediate action.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -184,7 +184,7 @@
               "value": {
                 "id": "p-plus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "Evidence that using leverage breeds more resistance than gain would cut against the fit.",
+                "text": "Reconsider when using your advantage creates more opposition than it overcomes.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -213,7 +213,7 @@
               "value": {
                 "id": "p-plus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Kairos uses the opening to contain disorder and protect coexistence.",
+                "text": "Order-first Kairos uses an opportunity to prevent conflict from spreading.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -232,7 +232,7 @@
               "value": {
                 "id": "p-plus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "For Conditional Kairos, action is warranted only by the case's authority and foreseeable effects.",
+                "text": "Conditional Kairos asks who has the right to act and what the likely consequences are.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -251,7 +251,7 @@
               "value": {
                 "id": "p-plus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Justice-first Kairos directs leverage toward obligations left unmet by settled arrangements.",
+                "text": "Justice-first Kairos uses an advantage to protect people whom existing arrangements have failed.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -365,7 +365,7 @@
               "value": {
                 "id": "p-minus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Shi reads the field before the clash: incentives, dependencies, and positions reveal how leverage is forming.",
+                "text": "Shi asks how to improve your position before a confrontation begins.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -387,7 +387,7 @@
               "value": {
                 "id": "p-minus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Accumulate bargaining strength before forcing a decision.",
+                "text": "Build bargaining strength before demanding a decision.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -402,7 +402,7 @@
               "value": {
                 "id": "p-minus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Alter incentives and alignments before raising the level of confrontation.",
+                "text": "Change what others stand to gain or lose before escalating a dispute.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -417,7 +417,7 @@
               "value": {
                 "id": "p-minus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Let time work when it improves the underlying position.",
+                "text": "Wait when time is likely to improve your position.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -436,7 +436,7 @@
           "value": {
             "id": "p-minus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Visible progress slows so that the eventual position can harden.",
+            "text": "Building a stronger position can mean accepting slower progress now.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -451,7 +451,7 @@
           "value": {
             "id": "p-minus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "The approach works best when the outcome is shaped well before formal choice.",
+            "text": "Preparation can settle much of a dispute before formal negotiations begin.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -466,7 +466,7 @@
           "value": {
             "id": "p-minus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "Preparation may become a respectable name for endless delay or hidden manipulation.",
+            "text": "Preparation can become an excuse for endless delay or manipulation.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -481,7 +481,7 @@
           "value": {
             "id": "p-minus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Indirect leverage is treated as control, leaving too little room for others to adapt.",
+            "text": "Leaders may overestimate their influence and forget that others can adapt.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -499,7 +499,7 @@
               "value": {
                 "id": "p-minus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "Immediate harm that makes waiting costlier than positional improvement would undermine the fit.",
+                "text": "Reconsider when the harm caused by waiting outweighs the advantage you might gain.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -514,7 +514,7 @@
               "value": {
                 "id": "p-minus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "Easy countermeasures against the assembled conditions would undermine it as well.",
+                "text": "Reconsider when others can easily work around the pressure you have built.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -543,7 +543,7 @@
               "value": {
                 "id": "p-minus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Shi shapes conditions to reduce pressure for imposed settlement and preserve coexistence.",
+                "text": "Order-first Shi changes the conditions of a dispute so that force is less necessary.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -562,7 +562,7 @@
               "value": {
                 "id": "p-minus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Conditional Shi builds position only when a defensible mandate and expected effects warrant it.",
+                "text": "Conditional Shi asks whether building pressure is justified and likely to work.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -581,7 +581,7 @@
               "value": {
                 "id": "p-minus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Under Justice-first Shi, leverage reshapes conditions that make protection contingent on hierarchy.",
+                "text": "Justice-first Shi builds leverage to challenge arrangements that leave weaker people unprotected.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -709,7 +709,7 @@
               "value": {
                 "id": "r-plus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Grotian reasoning starts with the gap between stated commitments and rules that can carry force.",
+                "text": "Grotian reasoning asks what will make governments keep the promises they have made.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -731,7 +731,7 @@
               "value": {
                 "id": "r-plus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Turn broad promises into explicit duties and procedures.",
+                "text": "Turn broad promises into clear duties and procedures.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -746,7 +746,7 @@
               "value": {
                 "id": "r-plus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Assemble enough capacity to make agreed consequences credible.",
+                "text": "Make sure there are resources and authority to respond when rules are broken.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -761,7 +761,7 @@
               "value": {
                 "id": "r-plus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Enforce through processes that remain visible and open to challenge.",
+                "text": "Enforce rules through procedures people can inspect and challenge.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -780,7 +780,7 @@
           "value": {
             "id": "r-plus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Dependable follow-through costs discretion and creates a real risk of coercion.",
+            "text": "Enforcing common rules limits governments’ freedom to act and can require coercion.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -795,7 +795,7 @@
           "value": {
             "id": "r-plus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "It proves most useful when commitments repeatedly collapse for want of enforceable backing.",
+            "text": "This approach helps when agreements keep failing because breaking them has no consequences.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -810,7 +810,7 @@
           "value": {
             "id": "r-plus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "Enforcement rarely lands evenly; selective power can hollow out the legitimacy of the rule.",
+            "text": "Rules lose credibility when powerful states enforce them against others but ignore them themselves.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -825,7 +825,7 @@
           "value": {
             "id": "r-plus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Compliance becomes the proxy for legitimacy, and the mandate expands past its stated bounds.",
+            "text": "Getting people to obey a rule is mistaken for proving that the rule is fair.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -843,7 +843,7 @@
               "value": {
                 "id": "r-plus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "Sustained reciprocal compliance without coercive backing would weaken this account.",
+                "text": "Reconsider when governments reliably keep agreements without threats or penalties.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -858,7 +858,7 @@
               "value": {
                 "id": "r-plus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "Repeated evasion and fragmentation after enforcement would point the other way.",
+                "text": "Reconsider when enforcement leads to more evasion or drives participants out of the agreement.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -887,7 +887,7 @@
               "value": {
                 "id": "r-plus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Grotian gives common rules force to contain destabilizing breaches.",
+                "text": "Order-first Grotian enforces common rules to stop breaches from causing wider instability.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -906,7 +906,7 @@
               "value": {
                 "id": "r-plus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Conditional Grotian scales enforcement to a defensible mandate and the foreseeable costs of the case.",
+                "text": "Conditional Grotian asks whether enforcement is authorized and whether its costs are justified.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -925,7 +925,7 @@
               "value": {
                 "id": "r-plus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Justice-first Grotian insists that obligations bind even those who benefit from weak enforcement.",
+                "text": "Justice-first Grotian insists that obligations apply to powerful states as well as weak ones.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1053,7 +1053,7 @@
               "value": {
                 "id": "r-minus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Concert first asks who can disrupt a settlement, what they fear, and what limits they will accept.",
+                "text": "Concert asks who could undermine an agreement and what limits they would accept.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1075,7 +1075,7 @@
               "value": {
                 "id": "r-minus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Set reciprocal limits before rivalry becomes unmanageable.",
+                "text": "Agree on mutual limits before rivalry becomes harder to manage.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1090,7 +1090,7 @@
               "value": {
                 "id": "r-minus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Keep consequential participants in regular consultation.",
+                "text": "Keep the powers that can disrupt an agreement involved in regular talks.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1105,7 +1105,7 @@
               "value": {
                 "id": "r-minus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Prefer a bounded settlement to maximal demands that endanger the wider order.",
+                "text": "Accept a limited agreement when demanding more could put peace at risk.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1124,7 +1124,7 @@
           "value": {
             "id": "r-minus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Restraint among disruptive powers is bought with less ambition and incomplete inclusion.",
+            "text": "Keeping major powers in an agreement can mean accepting modest goals and leaving some people out.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1139,7 +1139,7 @@
           "value": {
             "id": "r-minus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "The logic carries weight when a durable order needs consent from its strongest challengers.",
+            "text": "An agreement is more likely to last when the powers able to overturn it accept its terms.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1154,7 +1154,7 @@
           "value": {
             "id": "r-minus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "Accommodation can turn power into privilege and leave weaker participants outside the bargain.",
+            "text": "A bargain among powerful states can protect their privileges at weaker states’ expense.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1169,7 +1169,7 @@
           "value": {
             "id": "r-minus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Elite agreement is mistaken for legitimacy; the settlement then lacks roots beyond the negotiating room.",
+            "text": "Leaders may agree among themselves without securing the support needed to make the deal last.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1187,7 +1187,7 @@
               "value": {
                 "id": "r-minus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "A settlement easily overturned by excluded parties would cast doubt on the fit.",
+                "text": "Reconsider when people excluded from the bargain can readily overturn it.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1202,7 +1202,7 @@
               "value": {
                 "id": "r-minus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "Evidence that general rules constrain major powers better than discretionary bargains would do the same.",
+                "text": "Reconsider when common rules restrain powerful states better than private bargains do.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1231,7 +1231,7 @@
               "value": {
                 "id": "r-minus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Concert trades reciprocal restraint for protection against systemic breakdown.",
+                "text": "Order-first Concert accepts mutual limits to prevent a wider breakdown in relations.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1250,7 +1250,7 @@
               "value": {
                 "id": "r-minus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Conditional Concert bargains only when accommodation has a defensible mandate and manageable consequences.",
+                "text": "Conditional Concert asks whether a compromise is justified and what it will cost those affected.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1269,7 +1269,7 @@
               "value": {
                 "id": "r-minus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Justice-first Concert preserves consultation while denying powerful participants a veto over basic protection.",
+                "text": "Justice-first Concert keeps powerful states in talks without giving them a veto over protecting others.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1381,7 +1381,7 @@
               "value": {
                 "id": "m-plus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Satyagraha looks first to the public meanings that sustain authority or strip it of acceptance.",
+                "text": "Satyagraha asks why people accept authority and how that acceptance can change.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1403,7 +1403,7 @@
               "value": {
                 "id": "m-plus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Recast the dispute around the principle that gives it public meaning.",
+                "text": "Make clear which principle is at stake in a dispute.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1418,7 +1418,7 @@
               "value": {
                 "id": "m-plus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Make the contest visible enough for another standard to become conceivable.",
+                "text": "Bring a disputed practice into public view so that people can question it.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1433,7 +1433,7 @@
               "value": {
                 "id": "m-plus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Organize support around a different account of acceptable conduct.",
+                "text": "Organize support for a different standard of acceptable conduct.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1452,7 +1452,7 @@
           "value": {
             "id": "m-plus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Material bargaining slows while the struggle over legitimacy becomes unmistakable.",
+            "text": "Challenging what people accept as legitimate can delay a practical bargain.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1467,7 +1467,7 @@
           "value": {
             "id": "m-plus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "The reading has greatest purchase where authority depends on public acceptance of its claims.",
+            "text": "This approach helps when an authority depends on people continuing to accept its justification.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1482,7 +1482,7 @@
           "value": {
             "id": "m-plus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "It can overcredit persuasion while discounting organized coercion and material interest.",
+            "text": "Persuasion may matter less than force or material interests in a particular dispute.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1497,7 +1497,7 @@
           "value": {
             "id": "m-plus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Symbolic visibility is taken for durable change, even when no shared standard or implementation follows.",
+            "text": "Public attention is mistaken for lasting change, even when policy and institutions stay the same.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1515,7 +1515,7 @@
               "value": {
                 "id": "m-plus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "If reframing leaves incentives and institutions untouched, the interpretation loses force.",
+                "text": "Reconsider when changing the language of a dispute changes neither incentives nor institutions.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1530,7 +1530,7 @@
               "value": {
                 "id": "m-plus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "A standard with no organized route to implementation would further weaken it.",
+                "text": "Reconsider when there is no organized way to put a new standard into practice.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1559,7 +1559,7 @@
               "value": {
                 "id": "m-plus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Satyagraha contests legitimacy to restore workable coexistence.",
+                "text": "Order-first Satyagraha challenges an authority’s justification to make coexistence possible again.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1578,7 +1578,7 @@
               "value": {
                 "id": "m-plus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Conditional Satyagraha calibrates public contestation to its mandate and foreseeable effects.",
+                "text": "Conditional Satyagraha asks whether a public challenge is justified and what it is likely to change.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1597,7 +1597,7 @@
               "value": {
                 "id": "m-plus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "For Justice-first Satyagraha, accepted standards must yield when they leave protection unmet.",
+                "text": "Justice-first Satyagraha challenges accepted practices when they leave people unprotected.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1715,7 +1715,7 @@
               "value": {
                 "id": "m-minus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Musyawarah listens for objections that formal agreement can bury and for relationships the process must sustain.",
+                "text": "Musyawarah asks whose objections have been missed and what would make an agreement acceptable to them.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1737,7 +1737,7 @@
               "value": {
                 "id": "m-minus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Consult before positions calcify into public commitments.",
+                "text": "Consult people before they become committed to opposing positions.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1752,7 +1752,7 @@
               "value": {
                 "id": "m-minus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Seek terms that differently placed participants can continue to live with.",
+                "text": "Look for terms that people in different positions can live with.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1767,7 +1767,7 @@
               "value": {
                 "id": "m-minus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Leave room for dissent and renewed dialogue within the collective decision.",
+                "text": "Leave room to disagree and reopen a discussion after a decision.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1786,7 +1786,7 @@
           "value": {
             "id": "m-minus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Broader ownership is purchased with a slower, less ambitious decision.",
+            "text": "A decision that more people accept may take longer and achieve less.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1801,7 +1801,7 @@
           "value": {
             "id": "m-minus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "It works when implementation will depend on trust and consent that must endure.",
+            "text": "This approach helps when carrying out an agreement depends on lasting trust and consent.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1816,7 +1816,7 @@
           "value": {
             "id": "m-minus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "Consensus can hide pressure, postpone urgent duties, and reward whoever is most willing to obstruct.",
+            "text": "Calls for consensus can hide pressure, delay urgent action or reward obstruction.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1831,7 +1831,7 @@
           "value": {
             "id": "m-minus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Silence is read as consent, and consultation continues after delay itself has become harmful.",
+            "text": "Silence is mistaken for agreement, or talks continue while the cost of delay grows.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -1849,7 +1849,7 @@
               "value": {
                 "id": "m-minus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "Compounding harm that demands a timely decision would count heavily against this fit.",
+                "text": "Reconsider when delay is causing serious harm and a decision cannot wait.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1864,7 +1864,7 @@
               "value": {
                 "id": "m-minus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "Nominal agreement masking coercion or unresolved noncompliance would count against it too.",
+                "text": "Reconsider when apparent agreement hides pressure or a refusal to follow through.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1893,7 +1893,7 @@
               "value": {
                 "id": "m-minus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Musyawarah uses deliberation to maintain coexistence without abandoning mutual restraint.",
+                "text": "Order-first Musyawarah uses discussion to preserve coexistence and mutual restraint.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1912,7 +1912,7 @@
               "value": {
                 "id": "m-minus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Under Conditional Musyawarah, the needed degree of consensus follows the decision's mandate and consequences.",
+                "text": "Conditional Musyawarah asks how much agreement a decision needs, given its authority and effects.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -1931,7 +1931,7 @@
               "value": {
                 "id": "m-minus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Justice-first Musyawarah broadens deliberation but refuses to let consensus erase duties to excluded people.",
+                "text": "Justice-first Musyawarah includes more voices without letting consensus erase obligations to excluded people.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2043,7 +2043,7 @@
               "value": {
                 "id": "s-plus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Dirigisme sees the bottleneck: scattered decisions have left a needed capacity unfunded or unbuilt.",
+                "text": "Dirigisme asks what needs to be built and why separate investment decisions have not delivered it.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2065,7 +2065,7 @@
               "value": {
                 "id": "s-plus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Steer finance toward capabilities judged strategically necessary.",
+                "text": "Direct funding toward capabilities considered strategically necessary.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2080,7 +2080,7 @@
               "value": {
                 "id": "s-plus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Coordinate infrastructure and production when separate choices conflict.",
+                "text": "Coordinate infrastructure and production when separate plans work against each other.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2095,7 +2095,7 @@
               "value": {
                 "id": "s-plus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Tie public support to clear investment conditions.",
+                "text": "Attach clear investment requirements to public support.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2114,7 +2114,7 @@
           "value": {
             "id": "s-plus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Coordinated capacity comes with less decentralization and more exposure to capture.",
+            "text": "Public coordination can reduce local choice and give favored firms undue influence.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2129,7 +2129,7 @@
           "value": {
             "id": "s-plus-strongest-case",
             "kind": "authored-interpretation",
-            "text": "Its case sharpens when fragmented incentives cannot deliver a shared capability in time.",
+            "text": "This approach helps when separate investors will not build a capability that is needed in time.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2144,7 +2144,7 @@
           "value": {
             "id": "s-plus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "Concentrated direction can lock in error, shelter favored interests, and weaken correction.",
+            "text": "A central plan can preserve costly mistakes and protect politically favored firms.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2159,7 +2159,7 @@
           "value": {
             "id": "s-plus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "A targeted intervention hardens into permanent protection or detailed control.",
+            "text": "A temporary intervention becomes permanent protection from competition or scrutiny.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2177,7 +2177,7 @@
               "value": {
                 "id": "s-plus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "Reliable decentralized investment on acceptable terms would erode the rationale.",
+                "text": "Reconsider when independent investors can reliably deliver what is needed on acceptable terms.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2192,7 +2192,7 @@
               "value": {
                 "id": "s-plus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "Persistent public misallocation coupled with resistance to correction would erode it further.",
+                "text": "Reconsider when public investment repeatedly fails and officials resist changing course.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2221,7 +2221,7 @@
               "value": {
                 "id": "s-plus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Dirigisme coordinates capacity to protect continuity and meet collective needs.",
+                "text": "Order-first Dirigisme coordinates investment to keep essential systems working.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2240,7 +2240,7 @@
               "value": {
                 "id": "s-plus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Conditional Dirigisme intervenes only where evidence and a bounded mandate support coordination.",
+                "text": "Conditional Dirigisme requires evidence that coordination is needed and clear limits on the intervention.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2259,7 +2259,7 @@
               "value": {
                 "id": "s-plus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Justice-first Dirigisme aims directed investment at unmet needs and unequal burdens.",
+                "text": "Justice-first Dirigisme directs investment toward neglected needs and people who bear unequal costs.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2371,7 +2371,7 @@
               "value": {
                 "id": "s-minus-notice-01",
                 "kind": "authored-interpretation",
-                "text": "Dependencia traces how external chokepoints and costly dependencies narrow practical autonomy.",
+                "text": "Dependencia asks how reliance on outside suppliers, finance or markets limits a country’s choices.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2393,7 +2393,7 @@
               "value": {
                 "id": "s-minus-instinct-01",
                 "kind": "authored-interpretation",
-                "text": "Diversify suppliers, finance, or markets where concentration creates asymmetric exposure.",
+                "text": "Find alternative suppliers, lenders or markets when dependence gives one partner too much power.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2408,7 +2408,7 @@
               "value": {
                 "id": "s-minus-instinct-02",
                 "kind": "authored-interpretation",
-                "text": "Develop domestic or regional capacity where exit would otherwise be prohibitive.",
+                "text": "Build domestic or regional alternatives when changing partners would otherwise be too costly.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2423,7 +2423,7 @@
               "value": {
                 "id": "s-minus-instinct-03",
                 "kind": "authored-interpretation",
-                "text": "Reduce reliance on any single gatekeeper to preserve policy room.",
+                "text": "Avoid relying on a single provider that can dictate your options.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2442,7 +2442,7 @@
           "value": {
             "id": "s-minus-accepted-tradeoff",
             "kind": "authored-interpretation",
-            "text": "Greater freedom to choose may require paying in efficiency and access.",
+            "text": "Gaining more freedom to choose can mean paying more or losing access to useful markets.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2457,7 +2457,7 @@
           "value": {
             "id": "s-minus-strongest-case",
             "kind": "authored-interpretation",
-          "text": "The interpretation is most persuasive when concentrated dependence makes formal choice expensive to exercise.",
+            "text": "This approach helps explain why a country may be formally free to choose but unable to afford saying no.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2472,7 +2472,7 @@
           "value": {
             "id": "s-minus-strongest-objection",
             "kind": "authored-interpretation",
-            "text": "Interdependence may be reciprocal, while diversification simply replaces one expensive constraint with another.",
+            "text": "Both partners may depend on each other, and an alternative supplier may bring costs of its own.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2487,7 +2487,7 @@
           "value": {
             "id": "s-minus-failure-mode",
             "kind": "authored-interpretation",
-            "text": "Every tie is treated as domination, and insulation produces vulnerabilities of its own.",
+            "text": "Every outside tie is treated as a threat, even when cutting ties creates new vulnerabilities.",
             "sourceIds": [],
             "scope": null,
             "asOf": null,
@@ -2505,7 +2505,7 @@
               "value": {
                 "id": "s-minus-weaken-fit-01",
                 "kind": "authored-interpretation",
-                "text": "Open ties that disperse leverage and permit cheap switching would weaken the diagnosis.",
+                "text": "Reconsider when several partners are available and switching between them is affordable.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2520,7 +2520,7 @@
               "value": {
                 "id": "s-minus-weaken-fit-02",
                 "kind": "authored-interpretation",
-                "text": "A better explanation rooted in domestic constraints would weaken it further.",
+                "text": "Reconsider when domestic problems explain the constraint better than external dependence does.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2549,7 +2549,7 @@
               "value": {
                 "id": "s-minus-variant-o",
                 "kind": "authored-interpretation",
-                "text": "Order-first Dependencia reduces dependencies that put continuity and practical autonomy at risk.",
+                "text": "Order-first Dependencia reduces reliance on partners that can disrupt essential services or dictate policy.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2568,7 +2568,7 @@
               "value": {
                 "id": "s-minus-variant-c",
                 "kind": "authored-interpretation",
-                "text": "Conditional Dependencia targets only asymmetries whose expected harm justifies the cost of exit.",
+                "text": "Conditional Dependencia weighs the risk of dependence against the cost of finding alternatives.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,
@@ -2587,7 +2587,7 @@
               "value": {
                 "id": "s-minus-variant-j",
                 "kind": "authored-interpretation",
-                "text": "Justice-first Dependencia restructures ties that impose unequal burdens or deny meaningful agency.",
+                "text": "Justice-first Dependencia changes relationships that impose unequal costs or deny people a meaningful choice.",
                 "sourceIds": [],
                 "scope": null,
                 "asOf": null,

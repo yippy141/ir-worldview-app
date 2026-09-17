@@ -1935,3 +1935,5 @@
     line-height: 1.45;
   }
 }
+
+.listTitle + .listNote { margin-top: 10px; }

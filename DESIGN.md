@@ -111,7 +111,7 @@ Rules:
 - Maintain one dominant reading column on text-heavy pages.
 - Use asymmetry when it clarifies priority. Do not fill space with matching cards.
 - The homepage opens with a speculative globe and an immediately usable Enter
-  control. Enter reveals one menu grouped by Questionnaires, Futures, Cases and
+  control. Enter reveals one menu grouped by Questionnaires, AI Futures, Cases and
   exercises, Library, and Your worldview. The geographic scene stays independent
   of navigation. `/#menu` and `/zh#menu` are direct menu entries.
 - Result pages show payoff before caveat.
@@ -212,6 +212,8 @@ Every public block declares one job: payoff, mechanism, definition, instruction,
 - Ban em dashes in authored English prose. Exempt Chinese typography, quotations, proper names, and machine separators.
 - Define internal codes such as `P+`, `Kairos`, and version tuples before using them as interface shorthand.
 
+Editorial titles and headings have no terminal full stop. Keep punctuation in complete questionnaire statements, citations and body prose. Headings need a visible gap before their first paragraph; do not override shared stack spacing with a blanket paragraph margin reset. Use concrete verbs and explain the actual policy problem rather than repeated abstract labels such as “the case, the objection, and the test.”
+
 ## 12. Banned patterns
 
 - gradients introduced as a visual upgrade
@@ -272,16 +274,16 @@ Navigation and share controls sit in the same place on every result. Visual iden
 - Same duration and care for every result. Foundation blends draw both marks in the existing blend composition.
 - Trigger: the existing one-use handoffs (`lib/results/fresh-foundation-result.ts`, `lib/results/ai-completion-evidence.ts`). Extend them to Security and Technology; do not add a second completion system.
 
-### Home globe (owner decision, 16 September 2026)
+### Home globe (owner decisions, 16 and 18 September 2026)
 
 - Preserve Canvas with `d3-geo`, the checked-in Natural Earth geometry, and a complete server SVG. Do not add a second rendering stack. Report compressed initial and deferred JavaScript differences.
 - The opening is authored speculative art. The caption places its short Spectral scene title first, the persistent brass **Imagined alignments** label below it, then the group key. Keep that order at every viewport. Fictional states have private editorial rationales, no probability, prediction date, or dependency on visitor answers.
 - Named arrangement IDs are independent of paint: colors can reverse between fictional scenes, while keys and inspection use the same semantic labels. Yellow marks places outside the named arrangements; muted places are explicitly unassigned. One Earth uses one worldwide-authority group and faint internal borders. Geometry and oceans remain fixed.
-- The ten authored scenes hold for eight seconds each; the camera revolves in 140 seconds. Camera and story clocks are independent. Drag rotates the projection; bounded zoom and Reset view remain available. Manual input pauses until explicit Play, without snapping back. Pause freezes both clocks. Wheel zoom operates only on a focused globe, and touch scrolling remains available.
+- The fifteen authored scenes hold for 5.5 seconds each; the camera revolves in 140 seconds. Camera and story clocks are independent. Drag rotates the projection; bounded zoom and Reset view remain available. Manual input pauses until explicit Play, without snapping back. Pause freezes both clocks. Wheel zoom operates only on a focused globe, and touch scrolling remains available.
 - Globe controls use square native buttons with at least 44px targets. Previous, next and zoom actions use inline SVG marks with accessible names; Play/Pause and Reset view retain text. Brass focus outlines remain visible. Deliberate place inspection and the place selector expose the place name and fictional grouping; the explanatory disclosure is collapsed initially.
-- No decorative rings, orbits, hover-driven country selection, sound, or flashing. One idle revolution takes 140 seconds; complete authored scenes dwell for 12 seconds. Hidden and offscreen views stop rendering. Reduced motion is a completed still with manual controls.
-- The entrance and menu are one mounted root experience. Enter immediately reveals the menu and focuses its heading. A prior menu visit or saved work on the device opens the menu directly; View the opening remains available. Deep links bypass the opening; Back from a child returns to the menu. A semantic menu and complete labelled still remain without JavaScript and in print.
-- Enter and return move the same mounted globe over 400ms on desktop, with a brief menu fade and immediately usable actions. Hash/history entries and reduced motion use the final layout immediately. Narrow layouts never move the globe across controls. Root destination hover uses brighter text, a restrained surface and a fixed-width marker, with a visible focus outline.
+- No decorative rings, orbits, hover-driven country selection, sound, or flashing. One idle revolution takes 140 seconds; complete authored scenes dwell for 5.5 seconds. Hidden and offscreen views stop rendering. Reduced motion is a completed still with manual controls.
+- The entrance and menu are one mounted root experience. Enter immediately reveals the menu and focuses its heading. The bare homepage always opens the centered entrance, including with saved work or a prior menu visit; View the opening remains available. Deep links bypass the opening; Back from a child returns to the menu. A semantic menu and complete labelled still remain without JavaScript and in print.
+- Enter and return move the same mounted globe over 650ms on desktop, with a 360ms menu fade starting after 90ms and immediately usable actions. Hash/history entries and reduced motion use the final layout immediately. Narrow layouts never move the globe across controls. Root destination hover uses brighter text, a restrained surface and a fixed-width marker, with a visible focus outline.
 - The desktop menu keeps the globe in the left column and the five destination groups on the right. Questionnaires spans the menu width; the remaining groups form two columns. At 900px and below, the menu precedes the globe and the globe stops being sticky. At 500px and below, all groups use one column. The destination groups share the existing navigation registry and locale labels; local saved-work status follows the groups.
 - The basemap has 174 polygon features and a small-place point supplement, with explicit omissions. All supported features receive an explicit assignment or muted treatment in each shot; points represent locations, not territorial size or influence.
 - `/world-stage` remains the documented-map destination, preserving its anchors, research, source controls and provider attribution. EU/NATO and RCEP membership records live in a separately labelled documented section. Evidence dates, factual keys and source ledgers remain binding there; basemap retrieval dates never stand in for event dates.

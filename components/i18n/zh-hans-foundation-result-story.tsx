@@ -285,7 +285,7 @@ export function ZhHansFoundationResultStory(
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>从这份结果继续</p>
-          <h2>打开下一项记录，或继续核对当前读法。</h2>
+          <h2>打开下一项记录，或继续核对当前读法</h2>
         </div>
         <div className={`${styles.actions} print-hidden`}>
           <NextLink href={props.nextAction.href} className="cta-primary">
@@ -602,7 +602,7 @@ function ZhHansCasePanel() {
   return (
     <article className={styles.casePanel}>
       <p className={styles.caseMeta}>有明确证据时间窗的案例记录</p>
-      <h3>选择一个案例，先写下你会作出的决定。</h3>
+      <h3>选择一个案例，先写下你会作出的决定</h3>
       <p>
         再比较：当证据窗口或其他实施约束改变时，你是否仍会保留同一个基础判断。
       </p>

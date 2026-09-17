@@ -144,11 +144,11 @@ export default async function ArchetypeDetailPage({
             <div className={styles.instinctGrid}>
               <div>
                 <h3>Likely policy instincts</h3>
-                <ol>
+                <ul>
                   {claimList(contentRecord.content.likelyPolicyInstincts).map((text) => (
                     <li key={text}>{text}</li>
                   ))}
-                </ol>
+                </ul>
               </div>
               <div>
                 <h3>Accepted tradeoff</h3>
@@ -163,27 +163,26 @@ export default async function ArchetypeDetailPage({
             aria-labelledby="case-heading"
           >
             <div className={styles.sectionHeading}>
-              <h2 id="case-heading">The case, the objection, and the test</h2>
+              <h2 id="case-heading">Where this approach helps and falls short</h2>
               <p>
-                Read the argument for the reading beside the best argument
-                against it.
+                Each approach solves some problems and makes others harder.
               </p>
             </div>
             <dl className={styles.argumentLedger}>
               <div>
-                <dt>Strongest case for this reading</dt>
+                <dt>When it helps</dt>
                 <dd>{claimText(contentRecord.content.strongestCaseForReading)}</dd>
               </div>
               <div>
-                <dt>Strongest objection</dt>
+                <dt>The main objection</dt>
                 <dd>{claimText(contentRecord.content.strongestObjection)}</dd>
               </div>
               <div>
-                <dt>Common failure mode</dt>
+                <dt>Where it goes wrong</dt>
                 <dd>{claimText(contentRecord.content.commonFailureMode)}</dd>
               </div>
               <div>
-                <dt>Evidence that would weaken the fit</dt>
+                <dt>When to reconsider</dt>
                 <dd>
                   <ul>
                     {claimList(contentRecord.content.evidenceThatWouldWeakenFit).map((text) => (
@@ -201,10 +200,10 @@ export default async function ArchetypeDetailPage({
             aria-labelledby="variants-heading"
           >
             <div className={styles.sectionHeading}>
-              <h2 id="variants-heading">Three equal-weight orientations</h2>
+              <h2 id="variants-heading">Order and justice</h2>
               <p>
-                The same reading, weighing order against justice three ways. None
-                ranks above another.
+                People who favor this approach can still disagree about when to
+                preserve order and when to challenge it.
               </p>
             </div>
             <div className={styles.variantRows}>

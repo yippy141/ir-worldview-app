@@ -27,7 +27,7 @@
 .destination:active, .destination[aria-current=page] { color: var(--text); background: var(--line-2); border-left-color: var(--text); text-decoration: none; }
 .group .independent { margin: 4px 0 0; color: var(--muted); font-size: 12px; }
 .localState { padding-top: 20px; border-top: 1px solid var(--line); margin-top: 28px; }
-.localState h3 { margin: 0 0 6px; font: 500 13px var(--font-sans); }
+.localState h3 { margin: 0 0 10px; font: 500 13px var(--font-sans); }
 .localState p { margin: 0; font-size: 13px; line-height: 1.65; color: var(--muted); }
 .returnOpening { display: inline-flex; align-items: center; min-height: 44px; margin-top: 12px; color: var(--muted); font-size: 12px; }
 .root a:focus-visible, .menuHeading h2:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; }

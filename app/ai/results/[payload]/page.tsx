@@ -93,7 +93,7 @@ export default async function AiResultPage(
         <DestinationLink destination="ai" />
         <div className="panel stack-md">
           <p className="eyebrow">Invalid result</p>
-          <h1>This link could not be decoded.</h1>
+          <h1>This link could not be decoded</h1>
           <p className="muted history-line">
             The result URL may be incomplete or corrupted.
           </p>
@@ -255,8 +255,8 @@ export default async function AiResultPage(
         <AiProjectBridge mode="result" />
         <section className="article-section stack-sm" aria-labelledby="futures-invitation">
           <h2 id="futures-invitation">Which futures would you want?</h2>
-          <p className="muted">Browse nineteen possible worlds and say which conditions you would want in them. Futures is a separate exercise and starts empty.</p>
-          <p><Link href={futuresRoutes.collection} prefetch={false}>Explore the Futures catalogue</Link> · <Link href={futuresRoutes.preferences} prefetch={false}>Consider preferred conditions</Link></p>
+          <p className="muted">Browse nineteen possible worlds and say which conditions you would want in them. AI Futures is a separate exercise and starts empty.</p>
+          <p><Link href={futuresRoutes.collection} prefetch={false}>Explore the AI Futures catalogue</Link> · <Link href={futuresRoutes.preferences} prefetch={false}>Consider preferred conditions</Link></p>
         </section>
 
         <section className="result-section result-appendix-section stack-md">

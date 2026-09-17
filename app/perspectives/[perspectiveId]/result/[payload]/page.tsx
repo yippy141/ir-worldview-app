@@ -47,7 +47,7 @@ export default async function PerspectiveResultPage(
       <div className="container stack-lg result-invalid">
         <div className="panel stack-md">
           <p className="eyebrow">Invalid run link</p>
-          <h1>This link could not be decoded.</h1>
+          <h1>This link could not be decoded</h1>
           <p className="muted history-line">
             The run URL may be incomplete, corrupted, or from an older scenario set.
           </p>

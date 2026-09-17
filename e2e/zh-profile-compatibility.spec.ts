@@ -196,7 +196,7 @@ test("legacy Chinese Profiles keep saved records without inventing a Foundation 
   await expect(
     page.getByRole("heading", { level: 1, name: "基础身份不可用" }),
   ).toBeVisible()
-  await expect(page.getByText("这个链接无法解码。")).toHaveCount(0)
+  await expect(page.getByText("这个链接无法解码")).toHaveCount(0)
   await expect(
     page.getByRole("heading", { name: "已归档的基础记录" }),
   ).toBeVisible()

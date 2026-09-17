@@ -23,7 +23,7 @@ export default function PrivacyPage() {
     <div className="container stack-lg reading-page info-page">
       <section className="panel stack-md">
         <p className="eyebrow">Privacy and data use</p>
-        <h1>Your drafts and saved history stay in this browser.</h1>
+        <h1>Your drafts and saved history stay in this browser</h1>
         <p className="muted" style={{ lineHeight: "1.7", maxWidth: "720px" }}>
           The inventory requires no account. Saved results and Current Case judgments support your
           Profile on this device. Generating a result creates a URL that encodes the data needed to

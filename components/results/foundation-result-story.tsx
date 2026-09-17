@@ -268,7 +268,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>Continue from this result</p>
-          <h2>Read the rival argument, or take a question to a harder case.</h2>
+          <h2>Read the rival argument, or take a question to a harder case</h2>
         </div>
         <div className={`${styles.actions} print-hidden`}>
           <Link href={props.nextAction.href} className="cta-primary">
