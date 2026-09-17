@@ -18,13 +18,13 @@ export function moduleToken(slug: "security" | "technology", offset = 0, mode: "
   const answers = Object.fromEntries(v.runtime.getModuleQuestions(v.definition, mode).map((q, i) => [q.id, { primary: q.options[(i + offset) % q.options.length].id }]))
   return encodeModulePayload({ v: 3, bv: v.bankVersion, sv: v.scoringVersion, slug, mode, answers })
 }
-export function aiFixture(seed = 7) {
+export function aiFixture(seed = 7, mode: "standard" | "analyst" = "standard") {
   const v = getCurrentAiGovernanceVersion()
   let state = seed
   const next = () => { state = (Math.imul(state, 1664525) + 1013904223) >>> 0; return state }
-  const answers: AiAnswers = Object.fromEntries(v.schema.getAiCoreQuestions("standard").map(q => [q.id, 1 + next() % 7]))
-  for (const q of v.scoring.getAiScenarioSequence(answers, "standard")) answers[q.id] = v.schema.getScenarioOptions(q, "standard")[next() % v.schema.getScenarioOptions(q, "standard").length].id
-  const r = v.scoring.generateAiGovernanceResult(answers, "standard")
+  const answers: AiAnswers = Object.fromEntries(v.schema.getAiCoreQuestions(mode).map(q => [q.id, 1 + next() % 7]))
+  for (const q of v.scoring.getAiScenarioSequence(answers, mode)) answers[q.id] = v.schema.getScenarioOptions(q, mode)[next() % v.schema.getScenarioOptions(q, mode).length].id
+  const r = v.scoring.generateAiGovernanceResult(answers, mode)
   const token = encodeAiPayload({ v: 2, bv: v.bankVersion, sv: v.scoringVersion, as: aiAxisScoresToArray(r.axisScores), ak: r.archetypeKey, nk: v.scoring.getNeighboringArchetypeKey(r.archetypeKey, r.archetypeScores), rl: r.riskLens, pm: r.paceModifier, gm: r.geopoliticsModifier })
   return { token, answers, result: r }
 }

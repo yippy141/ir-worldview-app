@@ -42,6 +42,10 @@ export function ProfileCompare() {
     setPeople(current => current.map((p, i) => i === index ? { ...p, ...patch } : p) as [Person, Person])
     setPair(null); setError("")
   }
+  function replaceResult(index: number, raw: string, selected?: EvidenceBundle) {
+    // Manual completion details belong only to the result they were confirmed for.
+    update(index, { raw, selected, form: "", wording: false })
+  }
   function compare(event: FormEvent) {
     event.preventDefault()
     const decoded = people.map(p => {
@@ -66,11 +70,11 @@ export function ProfileCompare() {
         {people.map((person, index) => <fieldset className="compare-person stack-sm" key={index}>
           <legend>{index === 0 ? "First person" : "Second person"}</legend>
           <label className="stack-xs"><span>Display name (optional)</span><input maxLength={60} value={person.name} onChange={e => update(index, { name: e.target.value })} autoComplete="off" /></label>
-          <label className="stack-xs"><span>{index === 0 ? "Your result or shared Profile link" : "Their voluntarily shared result or Profile link"}</span><textarea ref={index === 0 ? firstInput : undefined} className="compare-textarea" maxLength={MAX_COMPARISON_INPUT} value={person.raw} onChange={e => update(index, { raw: e.target.value, selected: undefined })} autoComplete="off" spellCheck={false} required={!person.selected} /></label>
+          <label className="stack-xs"><span>{index === 0 ? "Your result or shared Profile link" : "Their voluntarily shared result or Profile link"}</span><textarea ref={index === 0 ? firstInput : undefined} className="compare-textarea" maxLength={MAX_COMPARISON_INPUT} value={person.raw} onChange={e => replaceResult(index, e.target.value)} autoComplete="off" spellCheck={false} required={!person.selected} /></label>
           {index === 0 && <><button type="button" className="cta-secondary" onClick={() => { const request = ++savedRequest.current; void loadLocalProfileEvidence(loadProfileStore()).then(bundle => { if (request === savedRequest.current) setSaved(bundle) }) }}>Use my saved result</button>
             {saved && <label className="stack-xs"><span>Choose one result to include</span><select value={Object.keys(person.selected ?? {})[0] ?? ""} onChange={e => {
               const domain = e.target.value as Domain
-              update(0, { selected: domain ? { [domain]: saved[domain] } : undefined, raw: domain ? `Selected: ${DOMAIN_LABELS[domain]}` : "" })
+              replaceResult(0, domain ? `Selected: ${DOMAIN_LABELS[domain]}` : "", domain ? { [domain]: saved[domain] } : undefined)
             }}><option value="">Choose a subject</option>{Object.keys(saved).map(key => <option key={key} value={key}>{DOMAIN_LABELS[key as Domain]}</option>)}</select>{Object.keys(saved).length === 0 && <span>No results are saved in this browser.</span>}</label>}</>}
           <details className="compare-completion"><summary>Completion details, if known</summary>
             <p>AI links omit the form. Standalone AI and Security/Technology links omit language and wording details. Leave these unknown unless the original completion confirms them.</p>
