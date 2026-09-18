@@ -57,10 +57,10 @@ test("projection camera wraps longitude, bounds poles and zoom, and never mutate
 })
 
 
-test("ten eight-second scenes separate arrangement identity from paint and include one worldwide authority", () => {
-  assert.equal(ROOT_SCENE_MS, 8000)
+test("fifteen 5.5-second scenes separate arrangement identity from paint and include one worldwide authority", () => {
+  assert.equal(ROOT_SCENE_MS, 5500)
   assert.equal(ROOT_REVOLUTION_MS, 140000)
-  assert.equal(ROOT_GLOBE_SCENES.length, 10)
+  assert.equal(ROOT_GLOBE_SCENES.length, 15)
   const first = ROOT_GLOBE_SCENES[0].groups.find(group => group.countries.includes("RUS"))!
   const early = ROOT_GLOBE_SCENES[1].groups.find(group => group.countries.includes("RUS"))!
   assert.equal(first.id, early.id)

@@ -118,5 +118,5 @@ export function interpretPreferences(answers: PreferenceAnswers, result = matchF
   }
   if (result.outcome !== "shortlist") return { title: nonResults[result.outcome].title, paragraphs: [nonResults[result.outcome].text] }
   const comparison = comparativeReading(result.shortlist, answers)
-  return { title: "Futures to consider", paragraphs: [...themes.slice(0, 1).map(theme => theme.text), ...(comparison ? [comparison] : [])] }
+  return { title: "AI Futures to consider", paragraphs: [...themes.slice(0, 1).map(theme => theme.text), ...(comparison ? [comparison] : [])] }
 }

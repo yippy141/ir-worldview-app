@@ -105,8 +105,8 @@ test('no-JS, print, keyboard and reduced-motion reading retain the argument and 
  for(let i=0;i<90 && !await target.evaluate(e=>e===document.activeElement);i++)await page.keyboard.press(test.info().project.use.browserName === 'webkit' ? 'Alt+Tab' : 'Tab')
  await expect(target).toBeFocused();await page.keyboard.press('Enter');await expect(page).toHaveURL(/#reference-support-heading/)
  await page.evaluate(()=>window.dispatchEvent(new Event('beforeprint')));await page.emulateMedia({media:'print'});await expect(page.locator('.reading-evidence-source').first().locator('.reference-evidence-list')).toBeVisible();await capture(page,'reference-print')
- await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));await page.emulateMedia({media:'screen'});await expect(page.locator('.reading-evidence-source[open]')).toHaveCount(0);await page.goto('/zh/ai/atlas');await expect(page.getByRole('heading',{name:'此页面的简体中文内容尚未通过编辑审校。'})).toBeVisible()
- await page.goto('/zh/ai/quiz');await expect(page.getByRole('heading',{name:'中文版问卷正在校对。'})).toBeVisible()
+ await page.evaluate(()=>window.dispatchEvent(new Event('afterprint')));await page.emulateMedia({media:'screen'});await expect(page.locator('.reading-evidence-source[open]')).toHaveCount(0);await page.goto('/zh/ai/atlas');await expect(page.getByRole('heading',{name:'此页面的简体中文内容尚未通过编辑审校'})).toBeVisible()
+ await page.goto('/zh/ai/quiz');await expect(page.getByRole('heading',{name:'中文版问卷正在校对'})).toBeVisible()
 })
 
 test('two-times-equivalent reflow, unavailable records and separate source consultation preserve access',async({page,context,browser})=>{
@@ -126,7 +126,7 @@ test('two-times-equivalent reflow, unavailable records and separate source consu
  const popupPromise=page.waitForEvent('popup');await source.click();const popup=await popupPromise;await popup.waitForLoadState();expect(popup.url()).toBe(href);await popup.close()
  await expect(page.locator('.reading-evidence-source:not([open])')).toHaveCount(0)
  expect(await page.evaluate(()=>localStorage.length)).toBe(0)
- await page.goto('/explore/reference/not-a-published-record');await expect(page.getByRole('heading',{name:'This profile is unavailable.'})).toBeVisible()
+ await page.goto('/explore/reference/not-a-published-record');await expect(page.getByRole('heading',{name:'This profile is unavailable'})).toBeVisible()
 })
 
 test('Chinese copy binding survives baseline, all targeted extensions and a preserved historical draft',async({page})=>{

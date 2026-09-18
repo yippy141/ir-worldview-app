@@ -44,7 +44,7 @@ export function ProfileDashboard() {
       <section className="profile-state-panel profile-state-panel--loading stack-md" aria-busy="true">
         <p className="eyebrow">Profile</p>
         <div className="stack-xs">
-          <h1>Loading your Profile from this browser...</h1>
+          <h1>Loading your Profile from this browser</h1>
           <p className="profile-state-panel__body">
             Profile is stored locally on this device unless you choose to share it.
           </p>

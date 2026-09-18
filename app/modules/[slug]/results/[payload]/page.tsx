@@ -40,7 +40,7 @@ export default async function ModuleResultPage({ params, searchParams }: Props) 
       <div className="container stack-lg" style={{ paddingTop: "48px" }}>
         <div className="panel stack-md">
           <p className="eyebrow">Invalid Focus Area result</p>
-          <h1>This Focus Area result could not be decoded.</h1>
+          <h1>This Focus Area result could not be decoded</h1>
           <p className="muted" style={{ lineHeight: "1.65" }}>
             The link may be incomplete, corrupted, or from an older version of the module.
           </p>

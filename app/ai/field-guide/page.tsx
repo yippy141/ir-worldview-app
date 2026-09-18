@@ -29,7 +29,7 @@ const sections = [
   { id: "axes", label: "The axes behind a result" },
   { id: "under-modeled", label: "What is left out" },
   { id: "start", label: "Where to read next" },
-  { id: "futures", label: "Futures" },
+  { id: "futures", label: "AI Futures" },
 ]
 
 export const metadata: Metadata = {
@@ -290,17 +290,17 @@ export default function AiFieldGuidePage() {
 
             <section id="futures" className="ai-fg-section stack-md">
               <header className="ai-fg-section__head">
-                <h2 className="ai-fg-section__title">Futures</h2>
+                <h2 className="ai-fg-section__title">AI Futures</h2>
               </header>
               <p>
-                The six approaches argue about the next release. Futures asks about the world
+                The six approaches argue about the next release. AI Futures asks about the world
                 after many releases: nineteen possible futures, from continued human rule to
                 authority passing to artificial systems, and the conditions you would want in
                 each.{" "}
-                <Link href={futuresRoutes.collection} prefetch={false}>Browse the whole Futures catalogue</Link>
+                <Link href={futuresRoutes.collection} prefetch={false}>Browse the whole AI Futures catalogue</Link>
                 {" "}or{" "}
                 <Link href={futuresRoutes.preferences} prefetch={false}>say which conditions you would want</Link>.
-                Futures is a separate exercise and starts empty; it does not change an AI
+                AI Futures is a separate exercise and starts empty; it does not change an AI
                 Governance result.
               </p>
             </section>

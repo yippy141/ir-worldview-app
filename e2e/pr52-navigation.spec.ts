@@ -134,7 +134,7 @@ test("six route overflow witnesses fit 1440px before and after evidence expansio
       expect(closed.owners).toHaveLength(0)
       await expect(page.locator("#catalogue")).toBeVisible()
       await expect(page.locator('#catalogue article[data-origin]')).toHaveCount(19)
-      await expect(page.getByRole("link", { name: "Browse all futures", exact: true })).toHaveAttribute("href", "#catalogue")
+      await expect(page.getByRole("link", { name: "Browse all AI futures", exact: true })).toHaveAttribute("href", "#catalogue")
     } else {
       expect(closed.owners.length).toBeGreaterThan(0)
       expect(closed.owners.every(o => o.content === "none" && o.background === "none")).toBe(true)

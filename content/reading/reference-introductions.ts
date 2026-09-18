@@ -24,7 +24,7 @@ export const referenceIntroductions: Readonly<Record<string, {
   },
   "john-mearsheimer": {
     argument: "In his 2019 argument about international order, Mearsheimer links the limits of liberal projects to nationalism and great-power competition. The question is how far a shared order can reach when its political ambitions provoke resistance.",
-    mechanism: "The published summary distinguishes an order that manages the world economy from more bounded orders organized around competing powers. Cooperation over some functions and security competition can therefore coexist in this account.",
+    mechanism: "The published summary distinguishes an order that manages the world economy from smaller orders built around competing powers. Cooperation over some functions and security competition can therefore coexist in this account.",
     limitation: "The predicted configuration is Mearsheimer's 2019 argument, not an established outcome or a current forecast by this project. The summary supports this narrow account; it does not establish how every institution or conflict will develop.",
     sourceId: "S2", locator: "Bound to Fail (Spring 2019), Belfer Center published summary",
   },

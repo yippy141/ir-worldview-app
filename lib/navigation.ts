@@ -38,7 +38,7 @@ export const navigationSections = [
   { id: "questionnaires", labelKey: "questionnaires", overview: "modules", children: ["foundation", "security", "technology", "ai"] },
   { id: "futures", labelKey: "futures", children: ["futures", "futurePreferences", "futureCompare"] },
   { id: "cases", labelKey: "casesExercises", children: ["cases", "decisions", "perspectives"] },
-  { id: "library", labelKey: "explore", children: ["library", "thinkers", "archetypes", "aiApproaches", "aiFieldGuide", "worldviewMap", "references"] },
+  { id: "library", labelKey: "explore", children: ["library", "worldviewMap", "thinkers", "archetypes", "aiApproaches", "aiFieldGuide", "references"] },
   { id: "profile", labelKey: "yourWorldview", children: ["profile"] },
 ] as const satisfies readonly { id: string; labelKey: keyof typeof english.chrome.nav; children: readonly DestinationId[]; overview?: DestinationId }[]
 export type NavigationSectionId = (typeof navigationSections)[number]["id"]

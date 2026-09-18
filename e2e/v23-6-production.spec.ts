@@ -77,7 +77,7 @@ test("returning-state hydration preserves root menu geometry", async ({ page }) 
     .toHaveAttribute("data-root-returning", "resolved")
   const menu = page.getByRole("navigation", { name: "Primary destinations" })
   await page.evaluate(() => document.fonts.ready)
-  await expect(page.getByRole("heading", { name: "Choose where to start." })).toBeInViewport()
+  await expect(page.getByRole("heading", { name: "Choose where to start" })).toBeInViewport()
   const before = await menu.boundingBox()
   expect(before).not.toBeNull()
 
@@ -192,7 +192,7 @@ test("legacy and invalid result URLs fail closed without reconstructed contribut
 
   await page.goto("/results/not-a-valid-payload")
   await expect(page.getByText("Invalid result", { exact: true })).toBeVisible()
-  await expect(page.getByRole("heading", { name: "This link could not be decoded." }))
+  await expect(page.getByRole("heading", { name: "This link could not be decoded" }))
     .toBeVisible()
 })
 
@@ -483,7 +483,7 @@ test("Simplified Chinese root and result remain Chinese-only at 390px", async ({
   await page.goto("/zh")
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
   await page.goto("/zh#menu")
-  await expect(page.locator("[data-root-group] > h3")).toHaveText(["问卷", "未来议题", "案例与练习", "观点资料", "你的世界观"])
+  await expect(page.locator("[data-root-group] > h3")).toHaveText(["问卷", "AI 未来", "案例与练习", "观点资料", "你的世界观"])
   expect(await page.evaluate(() => document.documentElement.scrollWidth))
     .toBeLessThanOrEqual(390)
 

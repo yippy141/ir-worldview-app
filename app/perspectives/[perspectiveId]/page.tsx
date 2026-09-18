@@ -33,7 +33,7 @@ export default async function PerspectiveRunPage(
       <div className="container stack-lg">
         <div className="panel stack-md">
           <p className="eyebrow">Unknown brief</p>
-          <h1>This vantage point is unavailable.</h1>
+          <h1>This vantage point is unavailable</h1>
           <p className="muted">Choose one of the six role briefs to start a run.</p>
           <div className="row gap-sm wrap">
             <Link href="/perspectives" className="cta-primary">Perspective Runs</Link>

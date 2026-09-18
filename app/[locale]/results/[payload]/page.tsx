@@ -94,7 +94,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
       <div className="container stack-lg result-invalid">
         <section className="panel stack-md">
           <p className="eyebrow">共享结果无效</p>
-          <h1>这个链接无法解码。</h1>
+          <h1>这个链接无法解码</h1>
           <p className="muted">链接可能不完整、已损坏，或来自无法识别的版本。</p>
           <div className="row gap-sm wrap">
             <Link href="/zh/quiz" className="cta-primary">开始基础问卷</Link>

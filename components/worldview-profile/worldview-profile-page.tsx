@@ -34,7 +34,7 @@ const contentsLinks: ContentsLink[] = [
   { href: "#strengths-and-blind-spots", label: "Strengths and blind spots" },
   { href: "#domain-shifts", label: "Domain shifts" },
   { href: "#nearby-profiles", label: "Nearby Decision Patterns" },
-  { href: "#pressure-test", label: "Pressure test" },
+  { href: "#pressure-test", label: "Questions to consider" },
   { href: "#method-and-status", label: "Method and status" },
 ]
 
@@ -232,12 +232,12 @@ export function WorldviewProfilePage({ pattern }: WorldviewProfilePageProps) {
           </section>
 
           <section id="pressure-test" className={styles.section} aria-labelledby="pressure-heading">
-            <h2 id="pressure-heading">Questions that test this pattern</h2>
-            <ol className={styles.pressureList}>
+            <h2 id="pressure-heading">Questions to consider</h2>
+            <ul className={styles.pressureList}>
               {pattern.pressureTestQuestions.map((question) => (
                 <li key={question}>{question}</li>
               ))}
-            </ol>
+            </ul>
           </section>
 
           <section
@@ -340,7 +340,7 @@ function CaseRecord({
       </div>
 
       <div className={styles.otherReading}>
-        <h4>See the same case through other readings.</h4>
+        <h4>See the same case through other readings</h4>
         {otherPattern ? (
           <>
             <p className={styles.otherReadingName}>

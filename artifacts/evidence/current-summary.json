@@ -4,7 +4,7 @@
     "advisory": {
       "baselineCount": 558,
       "currentCount": 1095,
-      "newCount": 705,
+      "newCount": 706,
       "newFindings": [
         {
           "audience": "public",
@@ -1087,16 +1087,6 @@
           "source": "A focused read on deterrence, alliances, escalation, and the legitimacy of force"
         },
         {
-          "audience": "public",
-          "context": "content-key:content/archetypes.json#records.0.content.evidenceThatWouldWeakenFit.value.0.value.text",
-          "count": 1,
-          "file": "content/archetypes.json",
-          "fingerprint": "24fda1054a5f27a714ee7a6b08d7abe748a2638551f4a97155ec6d3e40032821",
-          "matched": "Durable",
-          "rule": "retired-house-words",
-          "source": "Durable rules that preserve choice through delay would count against this interpretation."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.22.options.3.label",
           "count": 1,
@@ -1125,6 +1115,16 @@
           "matched": "durable",
           "rule": "retired-house-words",
           "source": "how to reconcile sovereignty with durable multilateral rules"
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.0.confusionNote",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "27421e853e002c29af2c8f399ed8136011877e0a3e6df94dd14cf342c0e3696c",
+          "matched": "Several Lenses",
+          "rule": "lens-metaphor-review",
+          "source": "It is easy to mistake for Coalitions First, because both resist maximalism, and for Different by Domain, because both can look unsettled. The difference: Several Lenses keeps the overlap between arguments intact, while Different by Domain shows a real split between domains or between diagnosis and decision."
         },
         {
           "audience": "frozen",
@@ -2168,16 +2168,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:content/archetypes.json#records.3.content.strongestCaseForReading.value.text",
-          "count": 1,
-          "file": "content/archetypes.json",
-          "fingerprint": "4a7a03db9ffc5705a365c1b6f7c91ebf7afb40b6cb75024abacd493c541c8aeb",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "The logic carries weight when a durable order needs consent from its strongest challengers."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/connected/relations.ts#releaseRead",
           "count": 1,
           "file": "lib/connected/relations.ts",
@@ -2937,6 +2927,16 @@
           "source": "Maps and public-position records are editorial reference layers. Their construction, support, and limits remain visible rather than borrowing certainty from the scoring system."
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.9.confusionNote",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "62fe7426128a8ec6ceba9850b636f617aed22d86f834acfb2822be4ec3277ceb",
+          "matched": "Several Lenses",
+          "rule": "lens-metaphor-review",
+          "source": "It is easy to mistake for Several Lenses, because both resist a single hard label. The difference: Several Lenses holds several arguments open at once, while Different by Domain shows a real split between domains, or between diagnosis and choice."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.32.prompt",
           "count": 1,
@@ -3137,16 +3137,6 @@
           "source": "What evidence would justify delaying a useful deployment, and what would justify proceeding?"
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.democraticGuardrailist.policyBundle.1",
-          "count": 1,
-          "file": "lib/ai-governance-profile-copy.ts",
-          "fingerprint": "6a15a174145045a488b81949529bb3ec0307dc78b7295b45df08605a8d31aafe",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Prefer rules that remain legible to democratic and civic institutions rather than only technical insiders."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.1.options.0.label",
           "count": 1,
@@ -3297,6 +3287,16 @@
           "source": "With return terms unknown, what should the fictional adult considering this offer do?"
         },
         {
+          "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.9.confusionNote",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "6fd8955ad9672f10cde30feb5a42cb459e543222f245c0f23084ee70898d7ef6",
+          "matched": "Lenses, Lenses",
+          "rule": "repeated-abstract-map-language",
+          "source": "It is easy to mistake for Several Lenses, because both resist a single hard label. The difference: Several Lenses holds several arguments open at once, while Different by Domain shows a real split between domains, or between diagnosis and choice."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.15.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -3315,16 +3315,6 @@
           "matched": "often",
           "rule": "general-prevalence-language-review",
           "source": "Glaser, Van Evera, and Snyder argue that the system often rewards restraint. Most wars come from miscalculation, domestic pathologies, or spirals that both sides could have avoided. Anarchy by itself does not require endless expansion."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.1.cardPressureNote",
-          "count": 1,
-          "file": "lib/atlas-lite.ts",
-          "fingerprint": "7074f3b0218ecc57442e59d86564ab78ae154119dfac64fab95ba3d339367ef7",
-          "matched": "ask it about",
-          "rule": "repeated-sentence-opening",
-          "source": "Ask it about deterrence and this pattern reinforces bounded deterrence. Ask it about an exposed chokepoint and it accepts tighter controls than its caution elsewhere would predict."
         },
         {
           "audience": "frozen",
@@ -3598,6 +3588,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:content/reading/additional-thinkers.ts#additionalThinkers.1.explanation",
+          "count": 1,
+          "file": "content/reading/additional-thinkers.ts",
+          "fingerprint": "7b337282a1df9d86c0dd1bd6cc07f1f48af9ada9afe46d07491ec4fb8568ab00",
+          "matched": "rather than",
+          "rule": "rather-than-reflex",
+          "source": "Governing the Commons compares arrangements that worked with ones that failed. The point is to understand the conditions that support cooperation, rather than assume that one form of ownership will solve every problem."
+        },
+        {
+          "audience": "public",
           "context": "content-key:lib/explore-content.ts#exploreFamilies.0.subtraditions.3.note",
           "count": 1,
           "file": "lib/explore-content.ts",
@@ -3665,6 +3665,16 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .code is invalid."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.democraticGuardrailist.policyBundle.1",
+          "count": 1,
+          "file": "lib/ai-governance-profile-copy.ts",
+          "fingerprint": "7e8208b3587270eb062ed2a19f4b94e5398cd917a62c480c719aa6287f08a728",
+          "matched": "rather than",
+          "rule": "rather-than-reflex",
+          "source": "Prefer rules that elected representatives and civic groups can understand and challenge, rather than leaving decisions to technical specialists."
         },
         {
           "audience": "public",
@@ -4588,6 +4598,16 @@
         },
         {
           "audience": "public",
+          "context": "content-key:lib/atlas-lite.ts#atlasLitePatterns.6.confusionNote",
+          "count": 1,
+          "file": "lib/atlas-lite.ts",
+          "fingerprint": "a0af1e655e0976ee8abcb37e2c5af05d39250d67a72e0db2ed43a9d30dc1f9fd",
+          "matched": "Several Lenses",
+          "rule": "lens-metaphor-review",
+          "source": "It is easy to mistake for Meaning and Legitimacy, because both take legitimacy seriously, and for Several Lenses, because both resist a sovereignty-first conclusion. The difference: this pattern is readier to say that extreme moral stakes should change the threshold for action."
+        },
+        {
+          "audience": "public",
           "context": "route:/references#methodsRefs.4.note",
           "count": 1,
           "file": "app/references/page.tsx",
@@ -5207,16 +5227,6 @@
           "source": "Invalid archetype identity catalog: ... .analogue is invalid."
         },
         {
-          "audience": "public",
-          "context": "content-key:content/archetypes.json#records.4.content.commonFailureMode.value.text",
-          "count": 1,
-          "file": "content/archetypes.json",
-          "fingerprint": "b97226539a54ed6009ffbd914d12dc60e86e0f81620cae01b5205d5b434b5b52",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "Symbolic visibility is taken for durable change, even when no shared standard or implementation follows."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.22.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -5365,6 +5375,16 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Take surveillance, training, and equipment from several partners while declining exclusive access or a defense commitment. Accepted cost: Immediate deterrence is weaker, and the larger power may exploit continued ambiguity."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:content/reading/additional-thinkers.ts#additionalThinkers.2.argument",
+          "count": 1,
+          "file": "content/reading/additional-thinkers.ts",
+          "fingerprint": "be726063f075f4b597a9ffee0fd81ee8fef78655830b1697f14253c9cd492065",
+          "matched": "landscape",
+          "rule": "retired-house-words",
+          "source": "An idea promoted internationally does not arrive in an empty political landscape. Acharya asks how local actors adapt outside norms to beliefs and practices they already regard as legitimate."
         },
         {
           "audience": "public",
@@ -6125,16 +6145,6 @@
           "matched": "the dimension-by-dimension terms",
           "rule": "repeated-adjacent-opening",
           "source": "The dimension-by-dimension terms are not available for this result."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:content/archetypes.json#records.6.content.strongestCaseForReading.value.text",
-          "count": 1,
-          "file": "content/archetypes.json",
-          "fingerprint": "dbcae4fd32381cd816e3d324da585f69ea0ac8420ff6510f4c9b4c5262a2eea4",
-          "matched": "sharpens",
-          "rule": "retired-house-words",
-          "source": "Its case sharpens when fragmented incentives cannot deliver a shared capability in time."
         },
         {
           "audience": "frozen",
@@ -7058,7 +7068,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 168,
+      "resolvedCount": 169,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7454,6 +7464,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "97db9359f173f24202cc3c42aa1eada2c2e6126476066746380388b055b4a18d"
+        },
+        {
+          "count": 1,
           "fingerprint": "987437f864d441f8fbf9a853fb23200c6b14dc288a91af20e74370b753d97e43"
         },
         {
@@ -7733,7 +7747,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 390
+      "unchangedCount": 389
     },
     "higherPriorityFindings": [
       {
@@ -8296,7 +8310,7 @@
         "jsonPath": null,
         "key": "FieldExplorer.p",
         "kind": "self-narration",
-        "line": 963,
+        "line": 964,
         "match": "saved layers",
         "matched": "saved layers",
         "priority": "P1",

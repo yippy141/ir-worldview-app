@@ -30,7 +30,7 @@ export default function DeparturePage() {
         })}
         <article><div><h3><Link href="/futures/scenarios/constitutional-delegation" prefetch={false}>Constitutional Delegation</Link></h3><p className={styles.small}>Project-authored catalogue scenario</p></div><p>AI administration under a public mandate people can genuinely revise. Compare it with an AI ruler or a narrowly empowered gatekeeper: competent administration, legitimate authority and practical reversibility can come apart. Its published entry makes revision and enforcement explicit premises, with their costs and open questions.</p></article>
       </div>
-      <Link href="/futures" prefetch={false}>Browse the whole Futures catalogue</Link>
+      <Link href="/futures" prefetch={false}>Browse the whole AI Futures catalogue</Link>
     </section>
     <section className={styles.sources} aria-labelledby="source-title">
       <h2 id="source-title">Where the framework ends and this story begins</h2>

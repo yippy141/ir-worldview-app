@@ -53,8 +53,8 @@ test("every catalogue entry, original anchor and source status; comparison accep
     await expect(page.getByText(s.sources[0].title, { exact: true })).toHaveAttribute("href", s.sources[0].url)
     await page.getByText("All authored features used in comparison", { exact: true }).click()
     await expect(page.getByText("These are editorial descriptors", { exact: false })).toBeVisible()
-    await page.getByRole("link", { name: "All futures", exact: true }).click()
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Which futures could you live with?")
+    await page.getByRole("link", { name: "All AI futures", exact: true }).click()
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Which AI futures could you live with?")
   }
   await page.goto("/futures/compare?a=reversion&b=constitutional-delegation")
   await expect(page.getByLabel("First scenario")).toHaveValue("reversion")
@@ -150,13 +150,13 @@ test("keyboard selection, mandatory review, reduced motion and returning routes"
   await page.getByRole("button", { name: /^Review answers/ }).click()
   await expect(page.getByRole("button", { name: "Compare my preferred conditions", exact: true })).toBeDisabled()
   expect(await page.locator('article[lang="en"]').evaluate(el => el.getAnimations({ subtree: true }).filter(a => a.playState === "running").length)).toBe(0)
-  await page.getByRole("link", { name: "All futures", exact: true }).click()
+  await page.getByRole("link", { name: "All AI futures", exact: true }).click()
   await page.getByRole("link", { name: "Answer the questions", exact: true }).click()
   await expect(page.getByRole("button", { name: "Begin the twelve questions" })).toBeVisible()
   await page.goto("/ai")
-  await expect(page.getByRole("link", { name: /^Futures Nineteen possible worlds/ })).toHaveAttribute("href", "/futures")
+  await expect(page.getByRole("link", { name: /^AI Futures Nineteen possible worlds/ })).toHaveAttribute("href", "/futures")
   await page.goto("/ai/field-guide#futures")
-  await expect(page.getByRole("link", { name: "Browse the whole Futures catalogue", exact: true })).toHaveAttribute("href", "/futures")
+  await expect(page.getByRole("link", { name: "Browse the whole AI Futures catalogue", exact: true })).toHaveAttribute("href", "/futures")
 })
 
 test("catalogue, questions, varied results and any-two comparison reflow and synthetic captures", async ({ page }) => {

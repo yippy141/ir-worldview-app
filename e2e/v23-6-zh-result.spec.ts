@@ -170,7 +170,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
     await page.goto("/zh/results/not-a-foundation-payload")
     await expect(page.getByRole("heading", {
       level: 1,
-      name: "这个链接无法解码。",
+      name: "这个链接无法解码",
     })).toBeVisible()
     await expect(page.locator("[data-zh-foundation-result-story]"))
       .toHaveCount(0)

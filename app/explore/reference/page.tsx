@@ -1,3 +1,4 @@
+import { additionalThinkers } from "@/content/reading/additional-thinkers"
 import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { ReferenceProfileCard } from "@/components/reference/reference-profile-card"
@@ -25,7 +26,7 @@ export default function ReferenceBrowsePage() {
           <h1>Thinkers</h1>
         </div>
         <p className="muted atlas-page-lead">
-          Read the argument behind a public position, how it explains cooperation or conflict, and where it can fall short. Each profile stays within a dated body of work and links its supporting sources.
+          Read the argument behind a public position, how it explains cooperation or conflict, and where it can fall short. Each profile or reading essay names the work it covers and links its sources.
         </p>
       </div>
 
@@ -43,6 +44,13 @@ export default function ReferenceBrowsePage() {
           {entities.map((entity) => (
             <ReferenceProfileCard key={entity.id} entity={entity} />
           ))}
+          {additionalThinkers.map(thinker => <article className="reference-card stack-xs" role="listitem" key={thinker.id}>
+            <div className="reference-card__meta-row"><span>Reading essay · {thinker.year}</span></div>
+            <h3 className="reference-card__name">{thinker.name}</h3>
+            <p className="muted reference-card__domain">{thinker.topic}</p>
+            <p className="reference-card__summary">{thinker.argument}</p>
+            <div className="reference-card__foot"><span className="reference-card__coding">Reading essay · no map position</span><Link href={`/explore/reference/${thinker.id}`} className="reference-card__link">Read the essay →</Link></div>
+          </article>)}
         </div>
       ) : (
         <section className="panel stack-sm">

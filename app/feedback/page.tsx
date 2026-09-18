@@ -17,7 +17,7 @@ export default function FeedbackPage() {
     <div className="container stack-lg reading-page info-page" style={{ paddingTop: "48px" }}>
       <section className="panel stack-md">
         <p className="eyebrow">Corrections and contact</p>
-        <h1>Report a factual, privacy, or security problem.</h1>
+        <h1>Report a factual, privacy, or security problem</h1>
         <p style={{ lineHeight: "1.7", maxWidth: "650px" }}>
           Use the project email for a factual correction, privacy question, or security report.
           The site does not accept general product submissions or research responses.

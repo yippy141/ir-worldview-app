@@ -873,8 +873,9 @@ export function FieldExplorer() {
                   >
                     {matrixAvailable ? (
                       <p className={styles.continuousNote}>
-                        Secondary view. This projection does not encode applying
-                        advantage or restraint.
+                        Position reflects the axes below, not membership of a quadrant.
+                        Colors identify the related tradition. This view does not show
+                        the applying-advantage or restraint posture used by the archetype sigils.
                       </p>
                     ) : null}
                     {mappableItems.length > 0 ? (
@@ -883,13 +884,13 @@ export function FieldExplorer() {
                         markers={markers}
                         connectors={connectors}
                         hulls={hulls}
-                        showAnchors
+                        showAnchors={false}
                         onSelect={(key) => handleSelect(key as FieldSelectionKey)}
                         markerHrefPrefix="field-item-"
                         caption={
                           filters.scopes.includes("ai-governance" as ReferenceScope)
                             ? copy?.map.aiCaption ?? "AI-governance positions use different axes and remain available in the list."
-                            : copy?.map.spacingCaption ?? "Spacing is comparative, not calibrated. The vertical axis separates Realism, Institutionalism, and Critical political economy only weakly because all three include material explanations. Exact collisions form one cluster at the shared coordinate; opening it reveals every item without changing its source position."
+                            : copy?.map.spacingCaption ?? "Decision Patterns are authored reading examples, not questionnaire results or additional archetypes. Their positions summarize five broad judgments, so patterns related to the same tradition can appear in different parts of this view. Overlapping points can be opened to see every entry."
                         }
                         copy={copy}
                       />

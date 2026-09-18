@@ -61,7 +61,6 @@ function localStatusText(copy: RootCopy, status: RootLocalStatus | null) {
   })
 }
 
-const MENU_VISITED = "ir-worldview-menu-visited"
 export function RootHome({ locale, copy, visual, scenes }: {
   locale: Locale; copy: RootCopy; visual: RootGlobeVisual; scenes: AlignmentScene[]
 }) {
@@ -80,13 +79,8 @@ export function RootHome({ locale, copy, visual, scenes }: {
     }
     const location = () => {
       finishMotion()
-      let returning = false
-      try {
-        const status = readRootLocalStatus(window.localStorage)
-        returning = Boolean(sessionStorage.getItem(MENU_VISITED) || status.foundation || status.domains || status.perspectives || status.draft)
-      } catch { /* Hash navigation also works when storage is blocked. */ }
       const hash = window.location.hash
-      setMode(hash === "#entrance" ? "entrance" : hash === "#menu" || hash === "#map-details" || returning ? "menu" : "entrance")
+      setMode(hash === "#entrance" ? "entrance" : hash === "#menu" || hash === "#map-details" ? "menu" : "entrance")
     }
     refresh(); location()
     // The SSR menu has different geometry from the hydrated composition.
@@ -120,13 +114,12 @@ export function RootHome({ locale, copy, visual, scenes }: {
       if (matchMedia("(min-width: 901px)").matches) motion.current.push(globe.animate([
         { transformOrigin: "top left", transform: `translate(${first.left - last.left}px, ${first.top - last.top}px) scale(${first.width / last.width})` },
         { transformOrigin: "top left", transform: "none" },
-      ], { duration: 400, easing: "cubic-bezier(.22,1,.36,1)" }))
-      if (next === "menu" && menuLinks.current) motion.current.push(menuLinks.current.animate([{ opacity: .35 }, { opacity: 1 }], { duration: 180, easing: "ease-out" }))
+      ], { duration: 650, easing: "cubic-bezier(.22,1,.36,1)" }))
+      if (next === "menu" && menuLinks.current) motion.current.push(menuLinks.current.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 360, delay: 90, fill: "backwards", easing: "ease-out" }))
     }
     ;(next === "menu" ? menuHeading.current : enterLink.current)?.focus({ preventScroll: true })
   }
   const enter = () => {
-    try { sessionStorage.setItem(MENU_VISITED, "true") } catch { /* Optional convenience only. */ }
     // Replace the entrance entry so browser Back from a child returns to the menu.
     transition("menu")
   }

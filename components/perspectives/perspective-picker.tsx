@@ -31,7 +31,7 @@ export function PerspectivePicker() {
       <header className="article-header stack-md">
         <div className="stack-xs">
           <p className="eyebrow">Perspective Runs</p>
-          <h1>Advise from a different seat.</h1>
+          <h1>Advise from a different seat</h1>
         </div>
         <p className="muted perspective-page-lead">
           Advise from a defined strategic position, such as an exposed ally or a rising power.

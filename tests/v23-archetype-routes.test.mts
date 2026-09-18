@@ -112,7 +112,7 @@ test("all eight detail routes retain legacy paths and expose qualified partial c
   assert.match(detailSource, /formatArchetypeCodeSpeech\(identity\.code\)/)
   assert.match(detailSource, /traditionNounLabel\(identity\.familyKey\)/)
   assert.ok(
-    detailSource.indexOf("Three equal-weight orientations") <
+    detailSource.indexOf("Order and justice") <
       detailSource.indexOf("Historical comparison"),
   )
   assert.ok(

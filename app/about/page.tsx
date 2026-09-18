@@ -19,7 +19,7 @@ export default function AboutPage() {
       <header className="stack-md">
         <h1>About</h1>
         <p>People can agree on what should happen and disagree about why. They can also apply different standards to a military crisis, an export restriction or the release of a powerful AI model. I built this app to make those differences easier to examine.</p>
-        <p>The questionnaires cover international politics, Security, Technology and AI Governance. The Library explains the arguments behind the results. Cases let you work through a particular decision, while Futures explores the conditions you would accept in very different possible worlds.</p>
+        <p>The questionnaires cover international politics, Security, Technology and AI Governance. The Library explains the arguments behind the results. Cases let you work through a particular decision, while AI Futures explores the conditions you would accept in very different possible worlds.</p>
         <p>You can start with whichever subject interests you. The aim is to leave with a clearer explanation of your choices and a question worth discussing with someone else.</p>
       </header>
       <section className="stack-md">

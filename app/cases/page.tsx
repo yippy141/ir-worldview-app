@@ -63,7 +63,7 @@ export default function CurrentCasesPage() {
       </section>
       <section className={styles.archiveIntro}>
         <h2><Link href="/futures">From present choices to future trajectories →</Link></h2>
-        <p>Follow how access, verification and institutional capacity could shape AI governance. Futures offers conditional scenarios, not forecasts or outcomes inferred from your answers.</p>
+        <p>Follow how access, verification and institutional capacity could shape AI governance. AI Futures offers conditional scenarios, not forecasts or outcomes inferred from your answers.</p>
       </section>
     </div>
   )

@@ -50,7 +50,7 @@ export default function AiPage() {
             </Link>
             <Link href={futuresRoutes.collection} prefetch={false} className="resource-list-link">
               <span className="resource-list-copy">
-                <span className="resource-list-title">Futures</span>
+                <span className="resource-list-title">AI Futures</span>
                 <span className="resource-list-text">Nineteen possible worlds, and the conditions you would want in them.</span>
               </span>
             </Link>

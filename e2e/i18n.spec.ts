@@ -71,7 +71,7 @@ test("approved English and Simplified Chinese route pairs remain distinct", asyn
 
   await page.goto("/zh#menu")
   await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")
-  await expect(page.getByRole("heading", { name: "选择一个起点。" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "选择一个起点" })).toBeVisible()
 
   for (const pair of approvedPairs) {
     const englishResponse = await page.goto(pair.en)
@@ -121,7 +121,7 @@ test("unapproved Chinese result reading routes preserve opaque segments and show
     await page.goto(pathname)
     expect(page.url()).toContain(pathname)
     await expect(page.getByRole("heading", {
-      name: "此页面的简体中文内容尚未通过编辑审校。",
+      name: "此页面的简体中文内容尚未通过编辑审校",
     })).toBeVisible()
     await expect(page.getByText("You may continue to the English questionnaire.")).toHaveCount(0)
     await expect(page.locator("html")).toHaveAttribute("lang", "zh-Hans")

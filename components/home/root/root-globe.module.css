@@ -9,7 +9,7 @@
 .hint { position: absolute; bottom: 7%; left: 0; right: 0; text-align: center; pointer-events: none; font-size: 12px; color: var(--text-2); }
 .caption { text-align: center; padding: 0 8px; }
 .label { margin: 0 0 12px; font-size: 13px; color: var(--accent); }
-.title { margin: 0 0 4px; font: 500 clamp(26px, 2.6vw, 36px)/1.2 var(--font-serif); letter-spacing: -.02em; text-wrap: balance; }
+.title { margin: 0 0 8px; font: 500 clamp(26px, 2.6vw, 36px)/1.2 var(--font-serif); letter-spacing: -.02em; text-wrap: balance; }
 .key { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 16px; color: var(--text-2); font-size: 12px; }
 .key span { display: flex; gap: 6px; align-items: center; }
 .key i { display: block; width: 8px; height: 8px; background: var(--accent); }

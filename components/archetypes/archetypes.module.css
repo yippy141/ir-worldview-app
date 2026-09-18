@@ -536,7 +536,7 @@
   line-height: 1.35;
 }
 
-.instinctGrid ol,
+.instinctGrid ul,
 .argumentLedger ul {
   margin: 1rem 0 0;
   padding-left: 1.25rem;
@@ -885,3 +885,9 @@
     overflow-wrap: anywhere;
   }
 }
+
+/* Keep the explanation visibly separate from its heading. */
+.instinctGrid h3 + p, .historyGrid h3 + p, .nameNote h3 + p { margin-top: 12px; }
+.instinctGrid li + li, .argumentLedger li + li { margin-top: 10px; }
+
+.sourceLedger h3 + p { margin-top: 12px; }

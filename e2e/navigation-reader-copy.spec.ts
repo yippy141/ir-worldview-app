@@ -49,10 +49,10 @@ const parents = [
   ["/compare", "/profile", "Profile"],
   ["/compare?left=missing", "/profile", "Profile"],
   [`/cases/${caseRecord.slug}/challenge`, "/cases", "Cases"],
-  ["/futures/departure", "/futures", "All futures"],
-  ["/futures/preferences", "/futures", "All futures"],
-  ["/futures/scenarios/gatekeeper", "/futures", "All futures"],
-  ["/futures/compare", "/futures", "All futures"],
+  ["/futures/departure", "/futures", "All AI futures"],
+  ["/futures/preferences", "/futures", "All AI futures"],
+  ["/futures/scenarios/gatekeeper", "/futures", "All AI futures"],
+  ["/futures/compare", "/futures", "All AI futures"],
   ["/zh/explore/reference", "/zh/explore", "观点资料"],
   ["/zh/explore/reference/susan-strange", "/zh/explore/reference", "思想家"],
   ["/zh/explore/reference/missing", "/zh/explore/reference", "思想家"],
@@ -157,6 +157,6 @@ test("Chinese navigation keeps unsupported surfaces behind the existing translat
   await page.locator('main').getByRole('link', { name: '观点资料', exact: true }).click()
   await expect(page).toHaveURL(/\/zh\/explore$/)
   await expect(page.locator('main')).not.toContainText('The traditions, readings')
-  await expect(page.locator('main h1')).toHaveText("此页面的简体中文内容尚未通过编辑审校。")
+  await expect(page.locator('main h1')).toHaveText("此页面的简体中文内容尚未通过编辑审校")
   await expect(page.locator('main [lang="en"]')).toHaveCount(0)
 })
