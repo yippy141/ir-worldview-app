@@ -1,0 +1,23 @@
+{
+  "ir-worldview-history": [
+    {
+      "timestamp": 1789828672394,
+      "schemaVersion": 4,
+      "familyKey": "constructivist",
+      "neighborKey": "institutionalist",
+      "strategyModifier": "Restrainer",
+      "normativeModifier": "Conditional Solidarist",
+      "dimensionScores": {
+        "securityCompetition": 4.5,
+        "institutions": 5.5,
+        "domesticFilters": 5,
+        "normsIdentity": 6,
+        "politicalEconomy": 5,
+        "restraint": 5.5,
+        "orderJustice": 4.5
+      },
+      "locale": "en",
+      "localeCopyVersion": 2
+    }
+  ]
+}

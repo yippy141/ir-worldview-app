@@ -1,0 +1,65 @@
+{
+  "profileSaveIntent": {
+    "consumeMismatch": null,
+    "consumeMatch": {
+      "identity": "RESULT-B"
+    },
+    "consumeSecond": null,
+    "remainingRaw": null
+  },
+  "v3Contradictory": {
+    "encoded": "eyJ2IjozLCJkcyI6WzYuNSw2LjIsNS45LDIuMSwyLjQsMiwyLjJdLCJmayI6ImNvbnN0cnVjdGl2aXN0IiwibmsiOiJyZWFsaXN0Iiwic20iOiJNYXhpbWl6ZXIiLCJubSI6IlVuaXZlcnNhbGlzdCIsIml2Ijo0LCJzdiI6MiwiY3YiOjIsImNsIjoiZW4ifQ",
+    "resolved": {
+      "resultFamilyKey": "constructivist",
+      "resultRunnerUpKey": "realist",
+      "resultStrategy": "Maximizer",
+      "resultNormative": "Universalist",
+      "payloadFamilyKey": "constructivist",
+      "payloadRunnerUp": "realist",
+      "scoringVersion": 2,
+      "questionSet": null,
+      "resultTier": "extended",
+      "targetedFamilyPair": null
+    }
+  },
+  "v5CoreBv2": {
+    "encoded": "eyJ2Ijo1LCJkcyI6WzYuNSw2LjIsNS45LDIuMSwyLjQsMiwyLjJdLCJmayI6InJlYWxpc3QiLCJuayI6Imluc3RpdHV0aW9uYWxpc3QiLCJzbSI6IkhlZGdlciIsIm5tIjoiUGx1cmFsaXN0IiwiaXYiOjQsImJ2IjoyLCJzdiI6MiwiY3YiOjIsImNsIjoiZW4iLCJxcyI6ImNvcmUifQ",
+    "resolved": {
+      "payloadV": 5,
+      "payloadQs": "core",
+      "payloadBv": 2,
+      "resultFamilyKey": "realist",
+      "resultRunnerUpKey": "institutionalist",
+      "resultStrategy": "Maximizer",
+      "resultNormative": "Universalist",
+      "scoringCalibration": "core",
+      "questionSet": "core",
+      "resultTier": "core"
+    }
+  },
+  "parseComparisonInput": {
+    "approved": {
+      "ok": true,
+      "error": null,
+      "families": [
+        "foundation"
+      ]
+    },
+    "httpOrigin": {
+      "ok": false,
+      "error": "Use a valid result or shared Profile link from this app (up to 50,000 characters)."
+    },
+    "evilOrigin": {
+      "ok": false,
+      "error": "Use a valid result or shared Profile link from this app (up to 50,000 characters)."
+    },
+    "oversized": {
+      "ok": false,
+      "error": "Use a valid result or shared Profile link from this app (up to 50,000 characters)."
+    },
+    "malformed": {
+      "ok": false,
+      "error": "Use a valid result or shared Profile link from this app (up to 50,000 characters)."
+    }
+  }
+}

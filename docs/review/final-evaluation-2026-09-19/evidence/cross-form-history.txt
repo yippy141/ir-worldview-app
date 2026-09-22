@@ -1,0 +1,187 @@
+Replay reveal
+Shi (勢)
+
+Realism leads this Foundation read
+
+Your recorded position treats enduring rivalry as a constraint that favorable intentions alone cannot remove. The strategic position leans toward setting limits on pressure and avoiding overextension. The normative position leaves the threshold for overriding established order unresolved.
+
+Explore this reading
+
+The lead is clearer within the current item set. Critical political economy remains the nearest alternative. This is a model result. It does not establish a durable trait.
+
+An arms-control bargain under pressure
+
+Suppose two rivals offer reciprocal inspections at declared facilities. Undeclared sites remain possible, and compliance requires a real concession from each side.
+
+The rivalry-centered argument asks whether the agreement changes incentives to cheat or merely records a temporary bargain. Independent inspection matters insofar as it makes evasion costly. The restraint position adds a reason to preserve a limited bargain even if it leaves some advantage unused.
+
+The strongest objection
+
+The strongest rival argument is that repeated inspection can itself make cooperation more durable, even when the initial political bargain is fragile.
+
+What would change the argument. The argument changes if inspections reveal violations soon enough to matter, or if the concession materially changes one side's ability to coerce the other.
+
+An illustrative application of the reasoning. This is not a recorded answer or a prediction.
+
+The next question. Would you accept verified limits at declared sites if neither side could rule out undeclared facilities? Which concession would make you refuse?
+
+Reading code and form
+Realism and Critical political economy
+
+The political-economy challenge is that hierarchy and dependence may be doing more work than diplomacy admits. The rows below put your positions beside what each reading expects.
+
+Nearest modeled alternative
+
+These are authored model emphases, not measured expectations about people.
+DIMENSION	REALISM	CRITICAL POLITICAL ECONOMY	YOU
+Security rivalry
+Reassurance — Rivalry
+	Rivalry	Reassurance	5.5
+Markets and dependence
+Security and diplomacy — Markets and dependence
+	No strong model emphasis	Markets and dependence	4.0
+Domestic politics
+System pressure — Domestic politics
+	No strong model emphasis	Domestic politics	5.0
+What did the work
+
+Your answers on Security rivalry made the largest positive contribution: there they counted for Realism more than for Critical political economy. On Restraint and advantage they made the largest opposing contribution; that is where Critical political economy gets its support.
+
+Each row shows how far one dimension pulled toward one reading or the other.
+
+How this is calculated
+
+Realism minus Critical political economy
+
+Security rivalry
++3.821
+Markets and dependence
++2.007
+Identity and legitimacy
++0.671
+Restraint and advantage
+-0.460
+Institutions and rules
+-0.457
+Order and justice
+-0.344
+Domestic politics
++0.057
+
+Positive terms count toward Realism; negative terms count toward Critical political economy.
+
+Where this reading sits
+
+The matrix highlights Realism and Critical political economy under your posture, beside the readings that share it. Open it to compare the two, and to see which readings a different posture would have produced.
+
+The Foundation readings
+
+Open the orientation matrix
+
+The answers for this result are not available here.
+
+Your other results on this device
+
+Security, Technology, and AI Governance each give their own result. None of them changes this one.
+
+Saved on this device
+
+Security
+
+No saved Security record is available on this device.
+
+Open Security
+Technology
+
+No saved Technology record is available on this device.
+
+Open Technology
+AI Governance
+
+No saved AI Governance record is available on this device.
+
+Open AI Governance
+Test the reading against a reviewed case
+
+One reviewed case where two of these considerations collide. Work out which you would put first.
+
+Reviewed historical case
+
+Arms-control verification
+
+INF Treaty Verification Regime
+
+When a verified arms-control regime later collapses, does that show that institutions failed, or that they worked only while the political bargain held?
+
+The case separates faith in verification from faith that rules can survive a deeper strategic break.
+
+Read the case record
+What this model can and cannot say
+
+Your answers were compared with four authored tradition profiles. It is a reading of those answers, not a measurement of proven accuracy, and not a personal trait. Readings near a boundary between traditions move more easily than others.
+
+Read the Foundation method and limits
+
+What this model covers
+
+Modeled here
+Realist, institutionalist, constructivist, and critical political economy reference profiles.
+Under-modeled
+Feminist, postcolonial and decolonial, green, and English School approaches are not named as scored families.
+Diagnostic status
+Structural sensitivity was tested with constructed inputs. No human participant or population inference follows from that diagnostic.
+Raw posture scale
+The registered restraint boundary is not a claim that the completed form is symmetrically centered around that raw value.
+
+Continue from this result
+
+Read the rival argument, or take a question to a harder case
+Read the Security domain
+View Profile
+Try a decision exercise
+Open Perspective Runs
+Security and Technology
+
+Security cases make the tradeoff between rivalry and restraint concrete.
+
+Foundation
+
+Report a factual problem
+
+RESEARCH COLLECTION
+
+Research responses are not collected
+
+Draft answers and saved Foundation history stay in this browser. Generated result links contain the data needed to reopen a result; Focus Area links include selected answer IDs. Separate first-party aggregate counters may receive derived buckets when coarse measurement is enabled. The site does not collect research responses or contact details.
+
+Any future research study would require separate information about its purpose, consent, retention, deletion, and access rules.
+
+Read the privacy and data-use note.
+
+Copy share link
+Save as PDF
+Retake the Foundation questionnaire
+
+Saved to this device
+
+Compared with your last saved result
+
+From Sep 19, 2026 — Constructivism · Restrainer · Conditional Solidarist
+
+PRIMARY FAMILY
+
+Changed from Constructivism to Realism.
+
+MODIFIERS
+
+Normative: Conditional Solidarist → Universalist
+
+LARGEST DIMENSION SHIFTS
+
+Identity and legitimacy
+6.0 → 4.0 (-2.0)
+Institutions and rules
+5.5 → 4.0 (-1.5)
+Security rivalry
+4.5 → 5.5 (+1.0)
+Copy share link

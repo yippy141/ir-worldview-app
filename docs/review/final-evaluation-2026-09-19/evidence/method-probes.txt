@@ -1,0 +1,177 @@
+=== Core likert sanity ===
+forward item: sc2 reverse item: v21_sc_rev_02
+
+=== Aggregate checks ===
+--- all4 ---
+dimensions: {
+  securityCompetition: 4,
+  institutions: 4,
+  domesticFilters: 4,
+  normsIdentity: 4,
+  politicalEconomy: 4,
+  restraint: 4,
+  orderJustice: 4
+}
+familyScores: {
+  realist: 0,
+  institutionalist: 0,
+  constructivist: 0,
+  criticalPoliticalEconomy: 0
+}
+family: realist Strategic Realist
+runnerUp: institutionalist Liberal Institutionalist
+gap: 0.000
+strategy: Hedger normative: Conditional Solidarist
+archetype: P/R+ Kairos–Grotian
+--- all7 ---
+dimensions: {
+  securityCompetition: 4,
+  institutions: 4,
+  domesticFilters: 4,
+  normsIdentity: 4,
+  politicalEconomy: 4,
+  restraint: 4,
+  orderJustice: 4
+}
+familyScores: {
+  realist: 0,
+  institutionalist: 0,
+  constructivist: 0,
+  criticalPoliticalEconomy: 0
+}
+family: realist Strategic Realist
+runnerUp: institutionalist Liberal Institutionalist
+gap: 0.000
+strategy: Hedger normative: Conditional Solidarist
+archetype: P/R+ Kairos–Grotian
+--- all1 ---
+dimensions: {
+  securityCompetition: 4,
+  institutions: 4,
+  domesticFilters: 4,
+  normsIdentity: 4,
+  politicalEconomy: 4,
+  restraint: 4,
+  orderJustice: 4
+}
+familyScores: {
+  realist: 0,
+  institutionalist: 0,
+  constructivist: 0,
+  criticalPoliticalEconomy: 0
+}
+family: realist Strategic Realist
+runnerUp: institutionalist Liberal Institutionalist
+gap: 0.000
+strategy: Hedger normative: Conditional Solidarist
+archetype: P/R+ Kairos–Grotian
+--- all forward=7 all reverse=1 ---
+dimensions: {
+  securityCompetition: 7,
+  institutions: 7,
+  domesticFilters: 7,
+  normsIdentity: 7,
+  politicalEconomy: 7,
+  restraint: 7,
+  orderJustice: 7
+}
+familyScores: {
+  realist: -0,
+  institutionalist: -0,
+  constructivist: -0,
+  criticalPoliticalEconomy: 0
+}
+family: realist Strategic Realist
+runnerUp: institutionalist Liberal Institutionalist
+gap: 0.000
+strategy: Restrainer normative: Pluralist
+archetype: P/R- Shi (勢)–Concert
+--- all forward=1 all reverse=7 ---
+dimensions: {
+  securityCompetition: 1,
+  institutions: 1,
+  domesticFilters: 1,
+  normsIdentity: 1,
+  politicalEconomy: 1,
+  restraint: 1,
+  orderJustice: 1
+}
+familyScores: {
+  realist: 0,
+  institutionalist: 0,
+  constructivist: 0,
+  criticalPoliticalEconomy: -0
+}
+family: realist Strategic Realist
+runnerUp: institutionalist Liberal Institutionalist
+gap: 0.000
+strategy: Maximizer normative: Universalist
+archetype: P/R+ Kairos–Grotian
+--- varied sequence ---
+dimensions: {
+  securityCompetition: 4.5,
+  institutions: 5.5,
+  domesticFilters: 5,
+  normsIdentity: 6,
+  politicalEconomy: 5,
+  restraint: 5.5,
+  orderJustice: 4.5
+}
+familyScores: {
+  realist: -0.91,
+  institutionalist: 0.49,
+  constructivist: 1.12,
+  criticalPoliticalEconomy: 0.02
+}
+family: constructivist Social Constructivist
+runnerUp: institutionalist Liberal Institutionalist
+gap: 0.630
+strategy: Restrainer normative: Conditional Solidarist
+archetype: M- Musyawarah
+
+=== Single-item sweep (all others at 4) ===
+sc2 dim=securityCompetition rev=N -> 1:constructivist 2:constructivist 3:constructivist 4:realist 5:realist 6:realist 7:realist  [CHANGES]
+v21_sc_rev_02 dim=securityCompetition rev=Y -> 1:realist 2:realist 3:realist 4:realist 5:constructivist 6:constructivist 7:constructivist  [CHANGES]
+in2 dim=institutions rev=N -> 1:criticalPoliticalEconomy 2:criticalPoliticalEconomy 3:criticalPoliticalEconomy 4:realist 5:institutionalist 6:institutionalist 7:institutionalist  [CHANGES]
+v21_in_rev_03 dim=institutions rev=Y -> 1:institutionalist 2:institutionalist 3:institutionalist 4:realist 5:criticalPoliticalEconomy 6:criticalPoliticalEconomy 7:criticalPoliticalEconomy  [CHANGES]
+df1 dim=domesticFilters rev=N -> 1:constructivist 2:constructivist 3:constructivist 4:realist 5:criticalPoliticalEconomy 6:criticalPoliticalEconomy 7:criticalPoliticalEconomy  [CHANGES]
+v21_df_rev_04 dim=domesticFilters rev=Y -> 1:criticalPoliticalEconomy 2:criticalPoliticalEconomy 3:criticalPoliticalEconomy 4:realist 5:constructivist 6:constructivist 7:constructivist  [CHANGES]
+ni2 dim=normsIdentity rev=N -> 1:realist 2:realist 3:realist 4:realist 5:constructivist 6:constructivist 7:constructivist  [CHANGES]
+v21_ni_rev_05 dim=normsIdentity rev=Y -> 1:constructivist 2:constructivist 3:constructivist 4:realist 5:realist 6:realist 7:realist  [CHANGES]
+pe2 dim=politicalEconomy rev=N -> 1:constructivist 2:constructivist 3:constructivist 4:realist 5:criticalPoliticalEconomy 6:criticalPoliticalEconomy 7:criticalPoliticalEconomy  [CHANGES]
+v21_pe_rev_02 dim=politicalEconomy rev=Y -> 1:criticalPoliticalEconomy 2:criticalPoliticalEconomy 3:criticalPoliticalEconomy 4:realist 5:constructivist 6:constructivist 7:constructivist  [CHANGES]
+rs2 dim=restraint rev=N -> 1:realist 2:realist 3:realist 4:realist 5:institutionalist 6:institutionalist 7:institutionalist  [CHANGES]
+v21_rs_rev_04 dim=restraint rev=Y -> 1:institutionalist 2:institutionalist 3:institutionalist 4:realist 5:realist 6:realist 7:realist  [CHANGES]
+oj1 dim=orderJustice rev=N -> 1:criticalPoliticalEconomy 2:criticalPoliticalEconomy 3:criticalPoliticalEconomy 4:realist 5:realist 6:realist 7:realist  [CHANGES]
+oj2 dim=orderJustice rev=Y -> 1:realist 2:realist 3:realist 4:realist 5:criticalPoliticalEconomy 6:criticalPoliticalEconomy 7:criticalPoliticalEconomy  [CHANGES]
+
+=== Order/justice dimension sweep ===
+all4 family: realist normative: Conditional Solidarist
+oj=1 dim=1 family=criticalPoliticalEconomy normative=Universalist
+oj=2 dim=2 family=criticalPoliticalEconomy normative=Universalist
+oj=3 dim=3 family=criticalPoliticalEconomy normative=Universalist
+oj=4 dim=4 family=realist normative=Conditional Solidarist
+oj=5 dim=5 family=realist normative=Pluralist
+oj=6 dim=6 family=realist normative=Pluralist
+oj=7 dim=7 family=realist normative=Pluralist
+
+=== Restraint dimension sweep ===
+all4 family: realist strategy: Hedger
+rs=1 dim=1 family=realist strategy=Maximizer
+rs=2 dim=2 family=realist strategy=Maximizer
+rs=3 dim=3 family=realist strategy=Maximizer
+rs=4 dim=4 family=realist strategy=Hedger
+rs=5 dim=5 family=institutionalist strategy=Restrainer
+rs=6 dim=6 family=institutionalist strategy=Restrainer
+rs=7 dim=7 family=institutionalist strategy=Restrainer
+
+=== Bank coverage ===
+securityCompetition: total=2 fwd=[sc2] rev=[v21_sc_rev_02]
+institutions: total=2 fwd=[in2] rev=[v21_in_rev_03]
+domesticFilters: total=2 fwd=[df1] rev=[v21_df_rev_04]
+normsIdentity: total=2 fwd=[ni2] rev=[v21_ni_rev_05]
+politicalEconomy: total=2 fwd=[pe2] rev=[v21_pe_rev_02]
+restraint: total=2 fwd=[rs2] rev=[v21_rs_rev_04]
+orderJustice: total=2 fwd=[oj1] rev=[oj2]
+total core items: 14
+displayed order: sc2, v21_sc_rev_02, in2, v21_in_rev_03, df1, v21_df_rev_04, ni2, v21_ni_rev_05, pe2, v21_pe_rev_02, rs2, v21_rs_rev_04, oj1, oj2

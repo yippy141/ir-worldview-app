@@ -1,0 +1,352 @@
+[
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 1027,
+    "snippet": "border-left: 2px solid color-mix(in srgb, var(--accent) 40%, var(--border) 60%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 1037,
+    "snippet": "border-left: 3px solid var(--accent)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 2363,
+    "snippet": "border-left: 3px solid var(--accent-light)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 3480,
+    "snippet": "border-left: 2px solid color-mix(in srgb, var(--accent) 22%, var(--border) 78%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 3822,
+    "snippet": "border-left: 3px solid var(--t-institutionalist)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4098,
+    "snippet": "border-left: 3px solid var(--result-card-accent)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4205,
+    "snippet": "border-left: 2px solid color-mix(in srgb, var(--result-card-accent) 40%, var(--border) 60%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4341,
+    "snippet": "border-left: 2px solid color-mix(in srgb, var(--accent) 38%, var(--border) 62%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4430,
+    "snippet": "border-left: 2px solid color-mix(in srgb, var(--accent) 42%, var(--border) 58%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4506,
+    "snippet": "border-left: 3px solid color-mix(in srgb, var(--t-constructivist) 48%, var(--border) 52%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4510,
+    "snippet": "border-left: 3px solid color-mix(in srgb, var(--t-institutionalist) 48%, var(--border) 52%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 4514,
+    "snippet": "border-left: 3px solid color-mix(in srgb, var(--accent) 50%, var(--border) 50%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 6016,
+    "snippet": "border-left: 3px solid var(--border)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 6774,
+    "snippet": "border-left: 2px solid color-mix(in srgb, var(--accent) 50%, var(--border) 50%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 6878,
+    "snippet": "border-left: 2px solid var(--accent)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 7263,
+    "snippet": "border-left: 3px solid color-mix(in srgb, var(--accent) 55%, var(--border) 45%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 7328,
+    "snippet": "border-left: 3px solid var(--accent)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 7463,
+    "snippet": "border-left: 3px solid color-mix(in srgb, var(--accent) 58%, var(--border) 42%)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 10210,
+    "snippet": "border-left: 3px solid var(--accent)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 10450,
+    "snippet": "border-left: 3px solid var(--accent)"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 5028,
+    "snippet": "border-left-width: 4px"
+  },
+  {
+    "antipattern": "border-accent-on-rounded",
+    "name": "Border accent on rounded element",
+    "description": "Thick accent border on a rounded card — the border clashes with the rounded corners. Remove the border or the border-radius.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 10492,
+    "snippet": "border-top: 3px solid"
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 1237,
+    "snippet": "transition: width"
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 6073,
+    "snippet": "transition: width"
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/private/tmp/ir-final-audit-20260919/source/app/globals.css",
+    "line": 10585,
+    "snippet": "transition: width"
+  },
+  {
+    "antipattern": "overused-font",
+    "name": "Overused font",
+    "description": "Inter, Roboto, Fraunces, Geist, Plus Jakarta Sans, and Space Grotesk are used on so many sites they no longer feel distinctive. Each new wave of AI-generated UIs converges on the same handful of faces. Choose a face that gives your interface personality.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/current-case/current-case.module.css",
+    "line": 1475,
+    "snippet": "font-family: Arial",
+    "importedBy": [
+      "current-case-app.tsx",
+      "current-case-archive.tsx",
+      "current-case-challenge-gate.tsx",
+      "current-case-public-actions.tsx",
+      "current-case-result-sharing.tsx"
+    ]
+  },
+  {
+    "antipattern": "overused-font",
+    "name": "Overused font",
+    "description": "Inter, Roboto, Fraunces, Geist, Plus Jakarta Sans, and Space Grotesk are used on so many sites they no longer feel distinctive. Each new wave of AI-generated UIs converges on the same handful of faces. Choose a face that gives your interface personality.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/current-case/current-case.module.css",
+    "line": 1507,
+    "snippet": "font-family: Arial",
+    "importedBy": [
+      "current-case-app.tsx",
+      "current-case-archive.tsx",
+      "current-case-challenge-gate.tsx",
+      "current-case-public-actions.tsx",
+      "current-case-result-sharing.tsx"
+    ]
+  },
+  {
+    "antipattern": "overused-font",
+    "name": "Overused font",
+    "description": "Inter, Roboto, Fraunces, Geist, Plus Jakarta Sans, and Space Grotesk are used on so many sites they no longer feel distinctive. Each new wave of AI-generated UIs converges on the same handful of faces. Choose a face that gives your interface personality.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/current-case/current-case.module.css",
+    "line": 1561,
+    "snippet": "font-family: Arial",
+    "importedBy": [
+      "current-case-app.tsx",
+      "current-case-archive.tsx",
+      "current-case-challenge-gate.tsx",
+      "current-case-public-actions.tsx",
+      "current-case-result-sharing.tsx"
+    ]
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/home/world-stage/world-stage.module.css",
+    "line": 230,
+    "snippet": "transition: width",
+    "importedBy": [
+      "world-stage-fallback-map.tsx",
+      "world-stage-home.tsx",
+      "world-stage-map.tsx"
+    ]
+  },
+  {
+    "antipattern": "layout-transition",
+    "name": "Layout property animation",
+    "description": "Animating width, height, padding, or margin causes layout thrash and janky performance. Use transform and opacity instead, or grid-template-rows for height animations.",
+    "severity": "warning",
+    "category": "quality",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/home/world-stage-prototype/world-stage-prototype.module.css",
+    "line": 156,
+    "snippet": "transition: width",
+    "importedBy": [
+      "world-stage-map.tsx",
+      "world-stage-prototype.tsx"
+    ]
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/quiz/ai-governance-review-screen.tsx",
+    "line": 187,
+    "snippet": "borderLeft: \"3px solid"
+  },
+  {
+    "antipattern": "side-tab",
+    "name": "Side-tab accent border",
+    "description": "Thick colored border on one side of a card — the most recognizable tell of AI-generated UIs. Use a subtler accent or remove it entirely.",
+    "severity": "warning",
+    "category": "slop",
+    "file": "/private/tmp/ir-final-audit-20260919/source/components/quiz/ai-governance-review-screen.tsx",
+    "line": 196,
+    "snippet": "borderLeft: \"3px solid"
+  }
+]

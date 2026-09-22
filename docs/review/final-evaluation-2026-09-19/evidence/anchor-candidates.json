@@ -1,0 +1,12 @@
+[
+  {
+    "from": "/",
+    "href": "#entrance",
+    "status": "missing in server HTML; inspect hydrated DOM before declaring broken"
+  },
+  {
+    "from": "/zh",
+    "href": "#entrance",
+    "status": "missing in server HTML; inspect hydrated DOM before declaring broken"
+  }
+]
