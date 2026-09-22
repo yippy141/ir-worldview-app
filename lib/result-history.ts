@@ -1,12 +1,10 @@
 import type { DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
-import { SCHEMA_VERSION } from "@/lib/quiz-schema"
 import { RESULT_HISTORY_STORAGE_KEY } from "@/lib/storage-keys"
 import type { CompletionProvenance } from "@/lib/locale-provenance"
 import {
   LEGACY_ENGLISH_PROVENANCE,
   isCompletionLocale,
   isLocaleCopyVersion,
-  sameResearchEquivalenceCohort,
 } from "@/lib/locale-provenance"
 
 export { RESULT_HISTORY_STORAGE_KEY } from "@/lib/storage-keys"
@@ -23,14 +21,15 @@ export type ResultSnapshot = CompletionProvenance & {
 
 const MAX_SNAPSHOTS = 5
 
-export function saveSnapshot(snapshot: ResultSnapshot): void {
-  if (typeof window === "undefined") return
+export function saveSnapshot(snapshot: ResultSnapshot): boolean {
+  if (typeof window === "undefined") return false
   const history = loadHistory()
   const updated = [snapshot, ...history].slice(0, MAX_SNAPSHOTS)
   try {
     window.localStorage.setItem(RESULT_HISTORY_STORAGE_KEY, JSON.stringify(updated))
+    return true
   } catch {
-    // localStorage unavailable or full — skip silently
+    return false
   }
 }
 
@@ -76,11 +75,14 @@ export function getLastSnapshot(): ResultSnapshot | null {
   return history[0] ?? null
 }
 
+/**
+ * Legacy snapshots have no reliable form or scoring-version provenance.
+ * Keep them readable, but never treat them as longitudinal comparisons.
+ */
 export function getLastComparableSnapshot(
-  provenance: CompletionProvenance,
+  _provenance: CompletionProvenance,
 ): ResultSnapshot | null {
-  return loadHistory().find((snapshot) =>
-    sameResearchEquivalenceCohort(snapshot, provenance)) ?? null
+  return null
 }
 
 /** Storage deduplication only: equal recorded markers include unknown/unknown.

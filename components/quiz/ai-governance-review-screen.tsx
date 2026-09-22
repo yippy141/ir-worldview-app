@@ -29,9 +29,9 @@ type AnswerRow = {
 
 function loadState(): AiQuizState | null {
   if (typeof window === "undefined") return null
-  const raw = window.localStorage.getItem(AI_GOVERNANCE_STORAGE_KEY)
-  if (!raw) return null
   try {
+    const raw = window.localStorage.getItem(AI_GOVERNANCE_STORAGE_KEY)
+    if (!raw) return null
     const parsed = JSON.parse(raw)
     if (
       parsed &&
@@ -61,6 +61,7 @@ export function AiGovernanceReviewScreen() {
   const [state, setState] = useState<AiQuizState | null>(null)
   const [ready, setReady] = useState(false)
   const [generating, setGenerating] = useState(false)
+  const [generationError, setGenerationError] = useState<string | null>(null)
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -100,7 +101,8 @@ export function AiGovernanceReviewScreen() {
   }
 
   function handleGenerate() {
-    if (!isComplete) return
+    if (!isComplete || generating) return
+    setGenerationError(null)
     setGenerating(true)
     try {
       const result = generateAiGovernanceResult(answers, mode)
@@ -120,6 +122,7 @@ export function AiGovernanceReviewScreen() {
       markProfileSaveIntent("ai-governance", payload)
       router.push(`/ai/results/${payload}`)
     } catch {
+      setGenerationError("We couldn’t generate or open your result. Your answers are still here. Please try Generate again.")
       setGenerating(false)
     }
   }
@@ -143,7 +146,7 @@ export function AiGovernanceReviewScreen() {
         <p className="eyebrow">AI Governance Compass</p>
         <h1>Review your answers</h1>
         <p className="muted" style={{ lineHeight: "1.65" }}>
-          Edit any answer before you generate. All processing stays in your browser.
+          Edit any answer before you generate. Your answers are scored in this browser.
         </p>
         <p className="muted" style={{ fontSize: "0.875rem", lineHeight: "1.6" }}>
           {answeredCount} of {questions.length} questions answered
@@ -201,6 +204,8 @@ export function AiGovernanceReviewScreen() {
           </div>
         )}
 
+        {generationError ? <p role="alert">{generationError}</p> : null}
+
         <div className="row gap-sm wrap">
           <button
             type="button"
@@ -222,7 +227,7 @@ export function AiGovernanceReviewScreen() {
           />
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-          The profile is computed when you click &ldquo;Generate.&rdquo; No data leaves your browser.
+          Your answers are scored in this browser. The result page URL contains your scores; the answer transcript stays here.
         </p>
       </section>
     </div>
