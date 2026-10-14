@@ -111,10 +111,10 @@ test("public entry points match reviewed Current Case availability", async ({ pa
     await expect(page).toHaveURL(new RegExp(`/cases/${activeCase.slug}$`))
   } else {
     await expect(page).toHaveURL(/\/cases$/)
-    await expect(page.getByRole("heading", { name: "Recent cases" })).toBeVisible()
+    await expect(page.getByRole("heading", { name: "Assess a case" })).toBeVisible()
     await expect(page.locator("li").getByText("Current case", { exact: true })).toHaveCount(0)
-    await expect(page.locator("li").first()).toContainText("Review due")
-    await expect(page.locator("li").last()).toContainText("Background")
+    await expect(page.locator("li").first()).toContainText("Snapshot")
+    await expect(page.locator("li").last()).toContainText("Snapshot")
   }
 
   await page.goto(`/cases/${record.slug}`)

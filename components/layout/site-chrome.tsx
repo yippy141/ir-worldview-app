@@ -40,6 +40,10 @@ const publicNavItems: PublicNavItem[] = [
     active: (pathname) => pathname === "/ai" || pathname.startsWith("/ai/"),
   },
   {
+    ...navigationItem("library"),
+    active: (pathname) => pathname === "/explore" || pathname.startsWith("/explore/"),
+  },
+  {
     ...navigationItem("profile"),
     active: (pathname) =>
       pathname === "/profile" || pathname.startsWith("/profile/") || pathname.startsWith("/compare"),

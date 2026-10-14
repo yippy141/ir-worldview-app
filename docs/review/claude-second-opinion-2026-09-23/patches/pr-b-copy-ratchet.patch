@@ -1,0 +1,917 @@
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index a0b8128..a233325 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -35,6 +35,9 @@ jobs:
+       - name: Audit public copy
+         run: npm run copy:audit:strict
+ 
++      - name: Copy ratchet (public copy may not get worse)
++        run: npm run copy:ratchet
++
+       - name: Verify checked-in evidence artifacts
+         run: npm run evidence:audit:check
+ 
+diff --git a/AGENTS.md b/AGENTS.md
+index bec4986..504485d 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -35,6 +35,15 @@ interactive than to a SaaS tool, AI demo, or personality-test product.
+    user's question before the system explains itself. Trust notes belong
+    below the first payoff, not in the hero.
+ 
++## Writing
++
++The principles above limit what the product may claim. They are not
++instructions to add disclaimers. Meet them by choosing a claim the data
++supports and stating it plainly; never state a bigger claim and then deny it.
++Every model writing reader-facing copy reads `docs/voice/VOICE.md` first, and
++`npm run copy:ratchet` must pass. The ratchet fails when copy gets worse and
++when an edited string still trips a high-precision rule.
++
+ ## Methodology guardrails
+ 
+ - Do not present scores as population percentiles unless they actually are.
+diff --git a/IR_EDITORIAL_STYLE_GUIDE.md b/IR_EDITORIAL_STYLE_GUIDE.md
+index 7b6e3b3..136121f 100644
+--- a/IR_EDITORIAL_STYLE_GUIDE.md
++++ b/IR_EDITORIAL_STYLE_GUIDE.md
+@@ -155,7 +155,7 @@ The reviewer then reads only the after-passages file against "The owner's read".
+ 
+ ## Machine checks
+ 
+-`npm run copy:audit` reports every rule in this guide it can detect. `copy:audit:strict` runs in CI and fails on the P0 and P1 template rules. After the Sprint A rewrite lands, promote `product-self-narration`, `ranking-opener-in-option`, and `does-not-claim-heading` to strict so the patterns cannot return.
++`npm run copy:audit` reports every rule in this guide it can detect, plus the voice rules in `scripts/copy-voice-rules.mjs`. `copy:audit:strict` runs in CI but only its correctness and leakage rules can fail it, and none currently match public copy. The enforcement that matters is `npm run copy:ratchet`, also in CI: counts per file may only fall, and any edited string must pass the locked rules (see the header of `scripts/copy-ratchet.mjs`). After a cleanup, run `npm run copy:ratchet:update` to lock in the lower counts. `docs/voice/VOICE.md` covers how a sentence should sound.
+ 
+ ## Owner-approved copy
+ 
+diff --git a/docs/voice/VOICE.md b/docs/voice/VOICE.md
+new file mode 100644
+index 0000000..658da33
+--- /dev/null
++++ b/docs/voice/VOICE.md
+@@ -0,0 +1,80 @@
++# Voice
++
++Read this before writing any sentence a reader will see. It sits beside `IR_EDITORIAL_STYLE_GUIDE.md`, which owns page shapes and the name table. This file owns how a sentence sounds. `npm run copy:ratchet` enforces the parts a machine can check.
++
++## The reader and the speaker
++
++The speaker is an analyst who has read the reader's answers and has a view. The analyst says what the answers show, names the case that tests it, and says what would change the call. The analyst does not describe the product, its review status, or its limits unless the reader is about to act on something those limits affect.
++
++## Guardrails limit the claim, not the sentence
++
++AGENTS.md asks for no fake precision and no claim the model cannot support. Meet that by choosing a smaller claim and stating it plainly. Do not state a larger claim and then deny it.
++
++> Before: "This is a model result. It does not establish a durable trait."
++> After: delete it. "Your answers put rivalry first" is already scoped to answers.
++
++> Before: "It does not mean 54% of people agree with you, and it is not a percentile."
++> After: "5.4 is where your answers sit on this dimension's 1 to 7 scale."
++
++If a sentence starts with "This is not", "It does not", "No … is assigned", or "These are authored", rewrite it as what the thing is.
++
++## Report, then interpret once
++
++First say what the person answered. That needs no hedge because it is a fact about their answers. Then give one interpretation, once, under a plain label. Do not qualify each sentence of the interpretation. One scope sentence at the top of a section is enough; after that, commit.
++
++> "You agreed strongly with both rivalry statements and disagreed with both rules statements. Read as: you expect a rival to take what it can, so you want the cost of trying to be visible early."
++
++## Know who is reading
++
++| Page | Who reads it | Person |
++| --- | --- | --- |
++| Result, owner's first view | The person who answered | "you", about their answers |
++| Result opened from a share link | Someone else | "these answers", "this reader" |
++| Archetype, Library, Decision Pattern, Thinker | Anyone, often before answering | third person about the idea: "Kairos puts power and timing first" |
++| Quiz item and explainer | The person answering | "you" only in the question itself |
++
++Never write "your answers", "your result", or "in this result" on a page a visitor can reach without answering. That copy also becomes the search snippet.
++
++## One limit per screen
++
++A screen may carry one sentence about a limit, placed next to the action it affects (a share button, a delete button, a result that cannot be shown). Everything else about limits goes to Method, once, stated as what the method does.
++
++## Explainers show the two answers
++
++A question's explainer never restates the question. It has three parts, each optional:
++
++- Agree if: one sentence describing what someone who agrees believes about a concrete case.
++- Disagree if: the same for disagreement.
++- Term: a definition for one technical term.
++
++Use one case for both sides, so the illustration shows the choice without tilting it. An explainer may not add a condition to the claim or illustrate only one side, because people who open it would then be answering a different question from people who do not.
++
++## Anchor in something that happened
++
++Prefer a named case, date, document, or actor over an abstraction. "Kennedy's quarantine in October 1962" does more than "an escalation ceiling". Two anchors per paragraph on reference pages, one per result section.
++
++## End on the call and what would flip it
++
++A result or reference section ends with a judgment and the condition that would change it. "What would change this" replaces "What this does not claim".
++
++## Mechanics
++
++- Twelve to twenty-two words per sentence. A full stop beats a semicolon.
++- No em dashes. No "not X but Y", "X, not Y", "rather than" unless both halves carry information.
++- At most one negation per sentence. Two is a rewrite.
++- Break any three-item parallel list that exists for rhythm.
++- No sentence whose subject is the product, a record, a layer, a form, a version, or a model.
++- One name per thing, from the style guide's table. Never render a family label ("Strategic Realist") or a technical descriptor ("Bridge Builder") next to the public name.
++
++## Brief for a model writing copy
++
++Paste this with the file list:
++
++```
++Write the reader-facing copy in [files]. Read docs/voice/VOICE.md and IR_EDITORIAL_STYLE_GUIDE.md first.
++Say what the answers show, then interpret once. Choose claims the data supports and state them without disclaimers.
++Do not add sentences about review status, validation, versions, storage, or what the model does not claim.
++Third person on any page a visitor can reach without answering.
++Run npm run copy:ratchet. It must pass. Do not satisfy it with synonyms: if a sentence trips negation-stack or audit-voice, change what the sentence claims.
++Deliver the diff and docs/review/after-passages-[task].md with before/after pairs. Nothing else.
++```
+diff --git a/package.json b/package.json
+index f46cd18..627ce2e 100644
+--- a/package.json
++++ b/package.json
+@@ -17,6 +17,9 @@
+     "test:e2e": "playwright test",
+     "copy:audit": "node scripts/audit-public-copy.mjs",
+     "copy:audit:strict": "node scripts/audit-public-copy.mjs --strict",
++    "copy:ratchet": "node scripts/copy-ratchet.mjs",
++    "copy:ratchet:update": "node scripts/copy-ratchet.mjs --update",
++    "copy:ratchet:report": "node scripts/copy-ratchet.mjs --report",
+     "copy:render:runtime": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/render-runtime-copy.mts",
+     "evidence:audit": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts",
+     "evidence:audit:check": "node --experimental-strip-types --import ./tests/register-alias-loader.mjs scripts/evidence-audit.mts --check",
+diff --git a/scripts/audit-public-copy.mjs b/scripts/audit-public-copy.mjs
+index cd2ef51..a52768d 100644
+--- a/scripts/audit-public-copy.mjs
++++ b/scripts/audit-public-copy.mjs
+@@ -5,6 +5,7 @@ import { extname, relative, resolve, sep } from "node:path"
+ import ts from "typescript"
+ import { compareCodeUnitStrings } from "./code-unit-order.mjs"
+ import { isContractedArchetypeBetaReference } from "./public-copy-contracts.mjs"
++import { voiceFindings } from "./copy-voice-rules.mjs"
+ 
+ const projectRoot = resolve(import.meta.dirname, "..")
+ const scanTargets = [
+@@ -370,6 +371,7 @@ for (const file of files) {
+   }
+ 
+   findings.push(...structuralFindings(file, source, candidates))
++  findings.push(...voiceRuleFindings(file, source, candidates))
+ }
+ 
+ const deduped = deduplicate(findings).sort(compareFindings)
+@@ -629,6 +631,26 @@ function buildFinding({ file, source, candidate, match, rule, audience }) {
+   }
+ }
+ 
++function voiceRuleFindings(file, source, candidates) {
++  const fileName = toPosix(relative(projectRoot, file))
++  const audienceFor = (candidate) => classifyAudience(file, candidate)
++  return voiceFindings({ fileName, source, candidates, audienceFor }).map(
++    ({ candidate, id, priority, kind, matched, reason, action }) =>
++      structuralFinding({
++        id,
++        priority,
++        kind,
++        fileName,
++        source,
++        candidate,
++        audience: audienceFor(candidate),
++        matched,
++        reason,
++        action,
++      }),
++  )
++}
++
+ function structuralFindings(file, source, candidates) {
+   const findings = []
+   const fileName = toPosix(relative(projectRoot, file))
+diff --git a/scripts/copy-ratchet.mjs b/scripts/copy-ratchet.mjs
+new file mode 100644
+index 0000000..bff9aea
+--- /dev/null
++++ b/scripts/copy-ratchet.mjs
+@@ -0,0 +1,266 @@
++#!/usr/bin/env node
++/**
++ * Copy ratchet. Public copy may get better or stay the same. It may not get
++ * worse, and any string you edit has to come out clean on the high-precision
++ * rules.
++ *
++ * Two tiers:
++ *
++ * LOCKED rules are precise enough that every hit is worth fixing. Each hit is
++ * stored as a content fingerprint. Editing a flagged string changes its
++ * fingerprint, so an edited string must pass these rules before CI goes green.
++ * Old untouched strings keep passing until someone touches them. This is how
++ * the backlog drains without a separate rewrite sprint.
++ *
++ * COUNTED rules are useful but noisier. For these, the number of hits per file
++ * and rule may not rise. Edits are free as long as the count does not grow.
++ *
++ * Usage:
++ *   node scripts/copy-ratchet.mjs                 check against the baseline
++ *   node scripts/copy-ratchet.mjs --update        lower the baseline after fixes
++ *   node scripts/copy-ratchet.mjs --update --accept="reason"
++ *                                                  accept new hits, with a reason
++ *   node scripts/copy-ratchet.mjs --report        worst files first, for planning
++ */
++
++import { execFileSync } from "node:child_process"
++import { createHash } from "node:crypto"
++import { readFileSync, writeFileSync, existsSync } from "node:fs"
++import { resolve } from "node:path"
++
++const root = resolve(import.meta.dirname, "..")
++const baselinePath = resolve(root, "scripts/copy-baseline.json")
++const auditPath = resolve(root, "scripts/audit-public-copy.mjs")
++
++export const LOCKED_RULES = new Set([
++  "hard-coded-question-count",
++  "public-release-language",
++  "implementation-detail",
++  "retired-product-history",
++  "banned-contrastive-template",
++  "authored-english-em-dash",
++  "sits-between-template",
++  "keeps-in-play-template",
++  "pulls-clear-template",
++  "you-generally-believe-template",
++  "product-self-narration",
++  "does-not-claim-heading",
++  "ranking-opener-in-option",
++  "retired-house-words",
++  "audit-voice",
++  "catalogue-second-person",
++  "internal-label-render",
++  "explainer-changes-item",
++])
++
++const RATCHETED_AUDIENCES = new Set(["public", "frozen"])
++
++const args = process.argv.slice(2)
++const flag = (name) => args.includes(`--${name}`)
++const option = (name) =>
++  args.find((arg) => arg.startsWith(`--${name}=`))?.slice(name.length + 3) ?? null
++
++function normalize(value) {
++  return String(value ?? "").toLowerCase().replace(/\s+/g, " ").trim()
++}
++
++export function fingerprint(finding) {
++  return createHash("sha1")
++    .update([finding.rule, normalize(finding.source), normalize(finding.matched)].join("\u0000"))
++    .digest("hex")
++    .slice(0, 16)
++}
++
++function runAudit() {
++  const stdout = execFileSync(process.execPath, [auditPath, "--format=json"], {
++    cwd: root,
++    encoding: "utf8",
++    maxBuffer: 128 * 1024 * 1024,
++  })
++  return JSON.parse(stdout).findings.filter((finding) =>
++    RATCHETED_AUDIENCES.has(finding.audience),
++  )
++}
++
++export function summarize(findings) {
++  const locked = {}
++  const counted = {}
++  for (const finding of findings) {
++    if (LOCKED_RULES.has(finding.rule)) {
++      const key = fingerprint(finding)
++      locked[key] ??= {
++        rule: finding.rule,
++        file: finding.file,
++        excerpt: finding.source.slice(0, 90),
++        count: 0,
++      }
++      locked[key].count += 1
++    } else {
++      const key = `${finding.file}::${finding.rule}`
++      counted[key] = (counted[key] ?? 0) + 1
++    }
++  }
++  return { locked: sortObject(locked), counted: sortObject(counted) }
++}
++
++export function compare(baseline, current, findings) {
++  const regressions = []
++  const improvements = { locked: 0, counted: 0 }
++
++  for (const [key, entry] of Object.entries(current.locked)) {
++    const allowed = baseline.locked[key]?.count ?? 0
++    if (entry.count > allowed) {
++      const examples = findings.filter(
++        (finding) => LOCKED_RULES.has(finding.rule) && fingerprint(finding) === key,
++      )
++      regressions.push({ tier: "locked", key, extra: entry.count - allowed, examples })
++    }
++  }
++  for (const [key, count] of Object.entries(current.counted)) {
++    const allowed = baseline.counted[key] ?? 0
++    if (count > allowed) {
++      const [file, rule] = key.split("::")
++      const examples = findings.filter((finding) => finding.file === file && finding.rule === rule)
++      regressions.push({ tier: "counted", key, extra: count - allowed, allowed, count, examples })
++    }
++  }
++  for (const [key, entry] of Object.entries(baseline.locked)) {
++    improvements.locked += Math.max(0, entry.count - (current.locked[key]?.count ?? 0))
++  }
++  for (const [key, count] of Object.entries(baseline.counted)) {
++    improvements.counted += Math.max(0, count - (current.counted[key] ?? 0))
++  }
++  return { regressions, improvements }
++}
++
++function sortObject(object) {
++  return Object.fromEntries(Object.entries(object).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)))
++}
++
++function loadBaseline() {
++  if (!existsSync(baselinePath)) return null
++  return JSON.parse(readFileSync(baselinePath, "utf8"))
++}
++
++function writeBaseline(summary, previous, acceptance) {
++  const acceptances = previous?.acceptances ?? []
++  if (acceptance) acceptances.push(acceptance)
++  const body = {
++    schema: 1,
++    note:
++      "Generated by scripts/copy-ratchet.mjs --update. Counts may only fall. Raise them only with --accept and a reason.",
++    totals: {
++      locked: Object.values(summary.locked).reduce((sum, entry) => sum + entry.count, 0),
++      counted: Object.values(summary.counted).reduce((sum, count) => sum + count, 0),
++    },
++    acceptances,
++    locked: summary.locked,
++    counted: summary.counted,
++  }
++  writeFileSync(baselinePath, `${JSON.stringify(body, null, 2)}\n`)
++  return body.totals
++}
++
++function printRegression(regression) {
++  const first = regression.examples[0]
++  if (regression.tier === "locked") {
++    for (const example of regression.examples.slice(0, regression.extra)) {
++      console.log(`\n  ${example.file}:${example.line}  [${example.rule}]`)
++      console.log(`    “${example.source.slice(0, 200)}”`)
++      console.log(`    matched: ${example.matched}`)
++      console.log(`    why: ${example.reason}`)
++      console.log(`    fix: ${example.action}`)
++    }
++  } else {
++    console.log(`\n  ${regression.key}: ${regression.allowed} → ${regression.count}`)
++    if (first) {
++      console.log(`    why: ${first.reason}`)
++      console.log(`    fix: ${first.action}`)
++      for (const example of regression.examples.slice(0, 4)) {
++        console.log(`    - line ${example.line}: ${example.matched.slice(0, 120)}`)
++      }
++    }
++  }
++}
++
++function report(findings) {
++  const byFile = new Map()
++  for (const finding of findings) {
++    const entry = byFile.get(finding.file) ?? { total: 0, locked: 0, rules: new Map() }
++    entry.total += 1
++    if (LOCKED_RULES.has(finding.rule)) entry.locked += 1
++    entry.rules.set(finding.rule, (entry.rules.get(finding.rule) ?? 0) + 1)
++    byFile.set(finding.file, entry)
++  }
++  const rows = [...byFile.entries()].sort((a, b) => b[1].locked - a[1].locked || b[1].total - a[1].total)
++  console.log("file | locked | total | top rules")
++  for (const [file, entry] of rows.slice(0, 40)) {
++    const top = [...entry.rules.entries()]
++      .sort((a, b) => b[1] - a[1])
++      .slice(0, 3)
++      .map(([rule, count]) => `${rule} ${count}`)
++      .join(", ")
++    console.log(`${file} | ${entry.locked} | ${entry.total} | ${top}`)
++  }
++}
++
++if (import.meta.url === `file://${process.argv[1]}`) {
++  const findings = runAudit()
++  const current = summarize(findings)
++  const baseline = loadBaseline()
++
++  if (flag("report")) {
++    report(findings)
++    process.exit(0)
++  }
++
++  if (!baseline) {
++    if (!flag("update")) {
++      console.error("No scripts/copy-baseline.json. Run with --update once to create it.")
++      process.exit(1)
++    }
++    const totals = writeBaseline(current, null, null)
++    console.log(`Created copy baseline: ${totals.locked} locked, ${totals.counted} counted.`)
++    process.exit(0)
++  }
++
++  const { regressions, improvements } = compare(baseline, current, findings)
++
++  if (flag("update")) {
++    const reason = option("accept")
++    if (regressions.length && !reason) {
++      console.error(
++        `${regressions.length} regressions. Fix them, or run --update --accept="why these are acceptable".`,
++      )
++      for (const regression of regressions) printRegression(regression)
++      process.exit(1)
++    }
++    const acceptance = regressions.length
++      ? {
++          date: new Date().toISOString().slice(0, 10),
++          reason,
++          added: regressions.reduce((sum, regression) => sum + regression.extra, 0),
++        }
++      : null
++    const totals = writeBaseline(current, baseline, acceptance)
++    console.log(
++      `Baseline updated: ${totals.locked} locked, ${totals.counted} counted` +
++        ` (${improvements.locked + improvements.counted} fewer than before).`,
++    )
++    process.exit(0)
++  }
++
++  if (regressions.length) {
++    console.log(`Copy ratchet: ${regressions.length} regression(s). Public copy got worse here:`)
++    for (const regression of regressions) printRegression(regression)
++    console.log(
++      "\nEdited strings must pass the locked rules. See IR_EDITORIAL_STYLE_GUIDE.md and docs/voice/VOICE.md.",
++    )
++    process.exitCode = 1
++  } else {
++    const fixed = improvements.locked + improvements.counted
++    console.log(
++      `Copy ratchet: no regressions.${fixed ? ` ${fixed} fewer hits than the baseline; run npm run copy:ratchet:update to lock that in.` : ""}`,
++    )
++  }
++}
+diff --git a/scripts/copy-voice-rules.mjs b/scripts/copy-voice-rules.mjs
+new file mode 100644
+index 0000000..0f0d932
+--- /dev/null
++++ b/scripts/copy-voice-rules.mjs
+@@ -0,0 +1,295 @@
++/**
++ * Voice rules for public copy. These catch the patterns the phrase rules in
++ * audit-public-copy.mjs cannot see: stacked negation, audit language shown to
++ * readers, catalogue pages that talk as if the visitor already answered,
++ * internal labels rendered next to public ones, and question explainers that
++ * restate or rewrite the question.
++ *
++ * Each rule returns plain objects. The auditor turns them into findings with
++ * its own structuralFinding() so file, route, audience and context stay
++ * consistent with every other rule.
++ */
++
++import { isContractedArchetypeBetaReference } from "./public-copy-contracts.mjs"
++
++// "neither … nor" is one negation. "without" is left out: it is usually a
++// plain preposition ("act without consent"), not a denial.
++const NEGATOR =
++  /\bneither\b[^.;]{1,80}?\bnor\b|\b(?:not|never|no|none|nothing|cannot|rather than|instead of)\b|\b\w+n[’']t\b/giu
++
++const LOOKS_LIKE_CODE = /:not\(|\[[a-z-]+\]|[{}<>=]|\b\w+\.\w+\(/u
++
++const AUDIT_VOICE =
++  /\bno validation claim\b|\bnot (?:been )?validated\b|\bvalidation has(?: not)? been\b|\bpending (?:human )?(?:editorial )?review\b|\bowner-authori[sz]ed\b|\bAI-assisted\b|\bauthored (?:reference|interpretation|anchor|tradition|reasoning|pattern)s?\b|\breference anchors?\b|\bevidence window\b|\bmeasured population\b|\bno (?:pattern|label|type|archetype) is assigned\b|\bdoes not (?:claim|diagnose|predict|assign|measure|certify)\b|\bis not (?:a|an) (?:diagnosis|prediction|verdict|measurement|test score|personality type|validated)\b|\bnot a (?:diagnosis|prediction|verdict|validated \w+)\b/giu
++
++const READER_RESULT_CLAIM =
++  /\byour (?:answers?|results?|scores?|responses?|profile)\b|\b(?:in )?this result\b|\byou (?:scored|leaned|chose|answered|put)\b/giu
++
++const CONCESSION_CLAUSE = /\beven (?:when|if|during|though|as|where)\b/giu
++
++// Files whose copy is read by visitors who may not have answered anything.
++const CATALOGUE_FILES = [
++  /^content\/archetypes\.json$/,
++  /^lib\/atlas-lite\.ts$/,
++  /^lib\/explore-content\.ts$/,
++  /^content\/explore\//,
++  /^content\/reading\//,
++  /^app\/(?:\[locale\]\/)?(?:archetypes|explore|library)\//,
++  /^components\/atlas\//,
++]
++
++// Per-pattern fields in atlas-lite that are written as questions to the
++// reader. Asking the reader something is fine on a catalogue page.
++const CATALOGUE_READER_QUESTION_PATHS = /pressureTestQuestions/
++
++// Identifiers that carry internal or retired labels. Rendering them in app/ or
++// components/ puts a second name for the same thing on screen.
++const INTERNAL_LABEL_IDENTIFIERS =
++  /\bFAMILY_LABELS\s*\[|\bfamilyLabel\s*\(|\.technicalDescriptor\b|\.originalTechnicalDescriptor\b/gu
++
++const RENDER_LAYER = /^(?:app|components)\//
++
++// Content metadata that is stored with copy but not rendered as reading text.
++const METADATA_PATH = /(?:^|\.)(?:qualification|publicationAuthorization|reviewIds|sourceIds)(?:\.|$)/
++
++const INSTRUMENT_FILE = /^content\/instrument\/(?!schema|foundation\.scoring)[\w.-]+\.json$/
++
++const STOPWORDS = new Set(
++  "a an the and or but of to in on at for from by with as is are was were be been being it its this that these those their there than then when whether which who whom what how do does did can could should would may might will shall into over under about more most less least very so such any some each other another own same not no yes if even usually often state states".split(
++    " ",
++  ),
++)
++
++function words(text) {
++  return text.match(/[A-Za-z][A-Za-z’'-]*/g) ?? []
++}
++
++function contentWords(text) {
++  const byStem = new Map()
++  for (const raw of words(text)) {
++    const word = raw.toLowerCase().replace(/[’']s$/, "")
++    if (word.length <= 3 || STOPWORDS.has(word)) continue
++    if (!byStem.has(stem(word))) byStem.set(stem(word), word)
++  }
++  return byStem
++}
++
++function stem(word) {
++  return word.replace(/(?:ing|ed|es|s|ly)$/u, "")
++}
++
++function sentences(text) {
++  return text
++    .split(/(?<=[.!?])\s+(?=[A-Z“"(])/u)
++    .map((sentence) => sentence.trim())
++    .filter(Boolean)
++}
++
++// Quoted option labels (“Not sure”, “None of these”) are names, not claims.
++function stripQuoted(text) {
++  return text.replace(/“[^”]{1,40}”|"[^"]{1,40}"/gu, "QUOTED")
++}
++
++function isEnglish(text) {
++  const latin = (text.match(/[A-Za-z]/g) ?? []).length
++  const cjk = (text.match(/[㐀-鿿]/g) ?? []).length
++  return latin > 0 && cjk / Math.max(1, latin) < 0.2
++}
++
++/**
++ * @param {object} input
++ * @param {string} input.fileName  repo-relative posix path
++ * @param {string} input.source    file contents
++ * @param {Array<{text:string,index:number,line:number,path:string|null}>} input.candidates
++ * @param {(candidate:object) => string} input.audienceFor
++ * @returns {Array<{candidate:object, id:string, priority:string, kind:string, matched:string, reason:string, action:string}>}
++ */
++export function voiceFindings({ fileName, source, candidates, audienceFor }) {
++  const out = []
++  const isCatalogue = CATALOGUE_FILES.some((pattern) => pattern.test(fileName))
++  const isInstrument = INSTRUMENT_FILE.test(fileName)
++
++  for (const candidate of candidates) {
++    const text = candidate.text
++    if (!isEnglish(text)) continue
++    const audience = audienceFor(candidate)
++    if (audience === "operational" || audience === "editorial-source") continue
++    if (METADATA_PATH.test(candidate.path ?? "")) continue
++
++    // 1. Negation stacked inside one sentence.
++    for (const sentence of LOOKS_LIKE_CODE.test(text) ? [] : sentences(stripQuoted(text))) {
++      const wordCount = words(sentence).length
++      if (wordCount < 6) continue
++      NEGATOR.lastIndex = 0
++      const negators = sentence.match(NEGATOR) ?? []
++      if (negators.length >= 2) {
++        out.push({
++          candidate,
++          id: "negation-stack",
++          priority: "P1",
++          kind: "voice",
++          matched: `${negators.length} negations: ${negators.map((n) => (n.length > 12 ? "neither…nor" : n)).join(", ")} | ${sentence.slice(0, 120)}`,
++          reason:
++            "Two or more negations in one sentence. The reader has to work out what is being ruled out before learning what is true.",
++          action:
++            "Write the positive claim. If a limit is needed, make the claim smaller instead of adding a clause that denies a bigger one.",
++        })
++        break
++      }
++    }
++
++    // 2. Audit and provenance language shown to readers.
++    if (
++      !isContractedArchetypeBetaReference({ text, fileName, path: candidate.path })
++    ) {
++      AUDIT_VOICE.lastIndex = 0
++      let match
++      while ((match = AUDIT_VOICE.exec(text)) !== null) {
++        out.push({
++          candidate,
++          id: "audit-voice",
++          priority: "P1",
++          kind: "voice",
++          matched: match[0],
++          reason:
++            "Review, provenance, or validation language written for the audit trail. Readers see a disclaimer where they expected content.",
++          action:
++            "Delete it, or move one plain sentence about limits to Method. Keep review status in content metadata, not in reader-facing text.",
++        })
++      }
++    }
++
++    // 3. Catalogue copy that assumes the visitor answered.
++    if (isCatalogue && !CATALOGUE_READER_QUESTION_PATHS.test(candidate.path ?? "")) {
++      READER_RESULT_CLAIM.lastIndex = 0
++      let match
++      while ((match = READER_RESULT_CLAIM.exec(text)) !== null) {
++        out.push({
++          candidate,
++          id: "catalogue-second-person",
++          priority: "P1",
++          kind: "voice",
++          matched: match[0],
++          reason:
++            "Catalogue and reference pages are read by people who have not answered. Copy that says “your answers” or “this result” is wrong for them and is also used as the search snippet.",
++          action:
++            "Describe the pattern in the third person (“Kairos puts power and timing first”). Result pages can add the second-person line.",
++        })
++      }
++    }
++
++    // 4. Instrument prompts that carry a concession clause.
++    if (isInstrument && /(?:^|\.)prompt$/.test(candidate.path ?? "")) {
++      CONCESSION_CLAUSE.lastIndex = 0
++      const match = CONCESSION_CLAUSE.exec(text)
++      if (match) {
++        out.push({
++          candidate,
++          id: "concession-clause-item",
++          priority: "P2",
++          kind: "instrument-copy",
++          matched: match[0],
++          reason:
++            "An “even when” clause adds a second condition to the item. Agreeing then means accepting both the claim and the condition.",
++          action:
++            "In the next bank version, state one claim. If the condition is the point, make it the claim.",
++        })
++      }
++    }
++  }
++
++  // 5. Explainers that restate or rewrite the question.
++  if (isInstrument) {
++    out.push(...explainerFindings(fileName, source, candidates, audienceFor))
++  }
++
++  // 6. Internal labels rendered in the UI.
++  if (RENDER_LAYER.test(fileName)) {
++    INTERNAL_LABEL_IDENTIFIERS.lastIndex = 0
++    let match
++    while ((match = INTERNAL_LABEL_IDENTIFIERS.exec(source)) !== null) {
++      const line = source.slice(0, match.index).split("\n").length
++      const lineText = source.split("\n")[line - 1].trim()
++      out.push({
++        candidate: { text: lineText, index: match.index, line, path: "render" },
++        id: "internal-label-render",
++        priority: "P1",
++        kind: "voice",
++        matched: match[0],
++        reason:
++          "This renders an internal or retired label (family label or technical descriptor). Readers then see two names for one thing.",
++        action:
++          "Render the public name only (traditionNounLabel, publicName). Keep internal labels in scoring, payloads, and tests.",
++      })
++    }
++  }
++
++  return out
++}
++
++function explainerFindings(fileName, source, candidates, audienceFor) {
++  const out = []
++  let parsed
++  try {
++    parsed = JSON.parse(source)
++  } catch {
++    return out
++  }
++  const items = Array.isArray(parsed?.items) ? parsed.items : []
++  items.forEach((item, index) => {
++    const prompt = typeof item?.prompt === "string" ? item.prompt : null
++    const explainer = item?.clarification?.whatItAsks
++    if (!prompt || typeof explainer !== "string") return
++    const path = `items.${index}.clarification.whatItAsks`
++    const candidate =
++      candidates.find((entry) => entry.path === path) ?? { text: explainer, index: 0, line: 1, path }
++    if (audienceFor(candidate) === "operational") return
++
++    const promptWords = contentWords(prompt)
++    const explainerWords = contentWords(explainer)
++    const termWords = contentWords(
++      (item.clarification.terms ?? []).map((term) => `${term.term} ${term.definition}`).join(" "),
++    )
++    const shared = [...explainerWords.keys()].filter((word) => promptWords.has(word))
++    const added = [...explainerWords.keys()]
++      .filter((word) => !promptWords.has(word) && !termWords.has(word))
++      .map((word) => explainerWords.get(word))
++    const overlap = shared.length / Math.max(1, explainerWords.size)
++
++    if (overlap >= 0.6) {
++      out.push({
++        candidate,
++        id: "explainer-restates-item",
++        priority: "P2",
++        kind: "instrument-copy",
++        matched: `${Math.round(overlap * 100)}% of the explainer's content words repeat the item`,
++        reason: "The explainer repeats the question in other words, so it adds reading without adding help.",
++        action:
++          "Replace with what agreeing and disagreeing look like, plus any term definition. Do not paraphrase the item.",
++      })
++    } else if (added.length >= 4) {
++      out.push({
++        candidate,
++        id: "explainer-changes-item",
++        priority: "P1",
++        kind: "instrument-copy",
++        matched: `new ideas: ${added.slice(0, 8).join(", ")}`,
++        reason:
++          "The explainer introduces ideas the item does not contain. People who open it answer a different question from people who do not.",
++        action:
++          "In the next bank version, keep the explainer inside the item's claim: agreeing looks like…, disagreeing looks like…, and term definitions.",
++      })
++    }
++  })
++  return out
++}
++
++export const VOICE_RULE_IDS = [
++  "negation-stack",
++  "audit-voice",
++  "catalogue-second-person",
++  "concession-clause-item",
++  "explainer-restates-item",
++  "explainer-changes-item",
++  "internal-label-render",
++]
+diff --git a/tests/copy-voice-rules.test.mts b/tests/copy-voice-rules.test.mts
+new file mode 100644
+index 0000000..04e1a77
+--- /dev/null
++++ b/tests/copy-voice-rules.test.mts
+@@ -0,0 +1,144 @@
++import test from "node:test"
++import assert from "node:assert/strict"
++import { voiceFindings } from "@/scripts/copy-voice-rules.mjs"
++import { compare, summarize, fingerprint } from "@/scripts/copy-ratchet.mjs"
++
++type Candidate = { text: string; index: number; line: number; path: string | null }
++
++function run(fileName: string, texts: Array<string | Candidate>, source = "") {
++  const candidates = texts.map((text, index) =>
++    typeof text === "string" ? { text, index, line: index + 1, path: `k${index}` } : text,
++  )
++  return voiceFindings({
++    fileName,
++    source,
++    candidates,
++    audienceFor: () => "public",
++  }).map((finding: { id: string }) => finding.id)
++}
++
++test("negation-stack flags a sentence that rules things out twice", () => {
++  assert.deepEqual(run("components/results/x.tsx", ["It is not a percentile, and not a margin of error."]), [
++    "negation-stack",
++  ])
++})
++
++test("negation-stack leaves single negation, neither…nor, and quoted option labels alone", () => {
++  assert.deepEqual(run("components/x.tsx", ["Monitoring can keep an agreement alive when trust is thin."]), [])
++  assert.deepEqual(run("components/x.tsx", ["Neither foreign national teams nor the custodian visit the site."]), [])
++  assert.deepEqual(run("components/x.tsx", ["“Not sure” and “None of these” are complete answers here."]), [])
++  assert.deepEqual(run("components/x.tsx", ["button:not([disabled]), input:not([disabled]) and more"]), [])
++})
++
++test("audit-voice flags provenance language in reader copy", () => {
++  assert.ok(run("app/x/page.tsx", ["These are authored reference anchors."]).includes("audit-voice"))
++  assert.ok(run("app/x/page.tsx", ["This page does not claim to measure anything."]).includes("audit-voice"))
++})
++
++test("catalogue-second-person applies to catalogue files only", () => {
++  const gloss = { text: "Your answers put power and timing first.", index: 0, line: 1, path: "records.0.identity.gloss" }
++  assert.deepEqual(run("content/archetypes.json", [gloss]), ["catalogue-second-person"])
++  assert.deepEqual(run("lib/narrative/foundation.ts", [gloss]), [])
++  const question = {
++    text: "When the case hardens, do you still hold several explanations open?",
++    index: 0,
++    line: 1,
++    path: "atlasLitePatterns.0.pressureTestQuestions.0",
++  }
++  assert.deepEqual(run("lib/atlas-lite.ts", [question]), [])
++})
++
++test("metadata paths are skipped", () => {
++  const qualification = {
++    text: "pending human editorial review; no external expert review; no validation claim.",
++    index: 0,
++    line: 1,
++    path: "records.0.content.noticesFirst.qualification",
++  }
++  assert.deepEqual(run("content/archetypes.json", [qualification]), [])
++})
++
++test("internal-label-render flags family labels and technical descriptors in the render layer", () => {
++  const source = "<p>{pattern.technicalDescriptor}</p>\n<span>{familyLabel(key)}</span>"
++  assert.deepEqual(run("components/atlas/card.tsx", [], source), [
++    "internal-label-render",
++    "internal-label-render",
++  ])
++  assert.deepEqual(run("lib/share.ts", [], source), [])
++})
++
++test("explainer rules catch restating and rewriting the item", () => {
++  const restates = JSON.stringify({
++    items: [
++      {
++        prompt: "Recognition from other states rarely changes what governments seek in major security disputes.",
++        clarification: {
++          whatItAsks:
++            "Does recognition from other states have little effect on what governments seek in major security disputes?",
++          terms: [],
++        },
++      },
++    ],
++  })
++  assert.deepEqual(run("content/instrument/foundation.v9.json", [], restates), ["explainer-restates-item"])
++
++  const rewrites = JSON.stringify({
++    items: [
++      {
++        prompt: "A new governing coalition often redirects foreign policy even when the external threat remains unchanged.",
++        clarification: {
++          whatItAsks: "Can elections, leadership changes, and domestic coalitions shift foreign policy as much as events abroad?",
++          terms: [],
++        },
++      },
++    ],
++  })
++  assert.deepEqual(run("content/instrument/foundation.v9.json", [], rewrites), ["explainer-changes-item"])
++})
++
++test("concession-clause-item flags two-condition items", () => {
++  const prompt = {
++    text: "Monitoring can keep agreements alive even when trust is thin.",
++    index: 0,
++    line: 1,
++    path: "items.3.prompt",
++  }
++  assert.deepEqual(run("content/instrument/foundation.v9.json", [prompt]), ["concession-clause-item"])
++})
++
++function finding(rule: string, file: string, source: string, matched = "x") {
++  return { rule, file, source, matched, line: 1, reason: "r", action: "a", audience: "public" }
++}
++
++test("ratchet: editing a locked string makes it a new hit; counted rules only fail on growth", () => {
++  const before = [
++    finding("retired-house-words", "lib/a.ts", "A durable bargain."),
++    finding("rather-than-reflex", "lib/a.ts", "Act rather than wait."),
++  ]
++  const baseline = summarize(before)
++
++  const edited = [
++    finding("retired-house-words", "lib/a.ts", "A durable bargain, kept."),
++    finding("rather-than-reflex", "lib/a.ts", "Act now rather than wait."),
++  ]
++  const result = compare(baseline, summarize(edited), edited)
++  assert.equal(result.regressions.length, 1)
++  assert.equal(result.regressions[0].tier, "locked")
++
++  const grown = [...before, finding("rather-than-reflex", "lib/a.ts", "Lead rather than follow.")]
++  const grownResult = compare(baseline, summarize(grown), grown)
++  assert.equal(grownResult.regressions.length, 1)
++  assert.equal(grownResult.regressions[0].tier, "counted")
++
++  const fixed = [before[1]]
++  const fixedResult = compare(baseline, summarize(fixed), fixed)
++  assert.equal(fixedResult.regressions.length, 0)
++  assert.equal(fixedResult.improvements.locked, 1)
++})
++
++test("ratchet fingerprints ignore file moves and whitespace", () => {
++  assert.equal(
++    fingerprint(finding("audit-voice", "lib/a.ts", "Authored  reference anchors")),
++    fingerprint(finding("audit-voice", "lib/b.ts", "authored reference anchors")),
++  )
++})

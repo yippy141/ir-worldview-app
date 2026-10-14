@@ -1,5 +1,6 @@
 "use client"
 
+import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import { useEffect, useMemo, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
@@ -277,6 +278,7 @@ export function AiGovernanceQuizApp() {
 
       <AiGlossaryDrawer open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
 
+      {currentQuestion && <FirstInstinctPrompt />}
       {currentQuestion ? (
         <section className="panel stack-md">
           {fromReview ? (

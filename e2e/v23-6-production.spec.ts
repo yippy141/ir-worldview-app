@@ -216,7 +216,7 @@ test("local evidence is exact-bound, rejects tuple mismatch, and is deleted with
     window.localStorage.setItem(key, JSON.stringify(set))
   }, { key: FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY })
   await page.reload()
-  await expect(page.locator("[data-local-evidence-status]:visible"))
+  await expect(page.locator("[data-local-evidence-status]").first())
     .toHaveAttribute("data-local-evidence-status", "tuple-mismatch")
 
   await page.evaluate(
@@ -224,7 +224,7 @@ test("local evidence is exact-bound, rejects tuple mismatch, and is deleted with
     { key: FOUNDATION_LOCAL_EVIDENCE_STORAGE_KEY, value: evidence.localEvidenceJson },
   )
   await page.reload()
-  await expect(page.locator("[data-local-evidence-status]:visible"))
+  await expect(page.locator("[data-local-evidence-status]").first())
     .toHaveAttribute("data-local-evidence-status", "available")
 
   await page.goto("/privacy")
@@ -235,7 +235,7 @@ test("local evidence is exact-bound, rejects tuple mismatch, and is deleted with
   })).toBeVisible()
   await page.goBack()
   await page.reload()
-  await expect(page.locator("[data-local-evidence-status]:visible"))
+  await expect(page.locator("[data-local-evidence-status]").first())
     .toHaveAttribute("data-local-evidence-status", "deleted")
 })
 
@@ -339,12 +339,12 @@ test("a shared result has no local evidence binding", async ({ browser, baseURL 
   const page = await context.newPage()
   try {
     await page.goto(`/results/${fixtures.clearerPureCore}`)
-    await expect(page.locator("[data-local-evidence-status]:visible"))
+    await expect(page.locator("[data-local-evidence-status]").first())
       .toHaveAttribute("data-local-evidence-status", "no-local-binding")
     await expect(
-      page.locator("[data-local-evidence-status]:visible")
+      page.locator("[data-local-evidence-status]")
         .getByText("The answers for this result are not available here.", { exact: true }),
-    ).toBeVisible()
+    ).toHaveCount(0)
   } finally {
     await context.close()
   }

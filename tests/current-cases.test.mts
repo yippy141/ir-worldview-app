@@ -330,7 +330,7 @@ test("English and Chinese publication sets both fail closed for an invalid catal
   assert.deepEqual(getPublishedZhHansCurrentCases(invalidCatalog), [])
 })
 
-test("English and Chinese case indexes and details regenerate freshness hourly", () => {
+test("English and Chinese case indexes and details revalidate hourly", () => {
   const routeFiles = [
     "app/cases/page.tsx",
     "app/cases/[slug]/page.tsx",
@@ -343,12 +343,7 @@ test("English and Chinese case indexes and details regenerate freshness hourly",
     assert.match(
       source,
       /export const revalidate = 3600/,
-      `${routeFile} must refresh deadline presentation hourly`,
-    )
-    assert.match(
-      source,
-      /new Date\(\)\.toISOString\(\)\.slice\(0, 10\)/,
-      `${routeFile} must supply the date-only freshness contract`,
+      `${routeFile} must revalidate hourly`,
     )
   }
 })

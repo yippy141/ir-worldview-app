@@ -527,6 +527,16 @@
           "source": "The first question is whether outside action would likely protect civilians rather than widen the war and leave a worse political vacuum."
         },
         {
+          "audience": "public",
+          "context": "content-key:components/results/profile-method-callout.tsx#ProfileMethodCallout.p",
+          "count": 1,
+          "file": "components/results/profile-method-callout.tsx",
+          "fingerprint": "13a5cdcdefc170c90415fc794eec4eed21ad870c2a8baad9687146055f647deb",
+          "matched": "maps / maps",
+          "rule": "repeated-adjacent-abstract-language",
+          "source": "This reading maps your priorities across eight AI governance questions and six approaches to governing the technology."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.10.options.0.label",
           "count": 1,
@@ -1818,16 +1828,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/results/ai-interpretation.ts#readings.oversight.high",
-          "count": 1,
-          "file": "lib/results/ai-interpretation.ts",
-          "fingerprint": "3df90acf23d84e759c2f18bed7bf7bc5e527a668c9c4dbd554f126ebb46cc44c",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Oversight leans toward stronger public supervision rather than developer discretion."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/results/module-interpretation.ts#example.rival",
           "count": 1,
           "file": "lib/results/module-interpretation.ts",
@@ -2297,16 +2297,6 @@
           "source": "Your universalist score adds nuance: you do not dismiss the moral argument, but you hold it to a higher standard of consistency."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/results/ai-interpretation.ts#readings.oversight.low",
-          "count": 1,
-          "file": "lib/results/ai-interpretation.ts",
-          "fingerprint": "4d8cd0fb220d5b1f0624b594ddff00e854b548a1acce0d7e4429dd940b375a27",
-          "matched": "rather than",
-          "rule": "rather-than-reflex",
-          "source": "Oversight leans toward developers and technical experts rather than stronger public supervision."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v2.json#items.17.clarification.whatItDoesNotAsk",
           "count": 1,
@@ -2645,6 +2635,16 @@
           "matched": "Accepted cost:",
           "rule": "accepted-cost-label",
           "source": "Keep forces distant and make commercial resilience plus diplomacy the response every member undertakes. Accepted cost: The common floor may not deter a coercive regime Beijing is prepared to sustain."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/results/profile-method-callout.tsx#ProfileMethodCallout.p",
+          "count": 1,
+          "file": "components/results/profile-method-callout.tsx",
+          "fingerprint": "59c7d39307a3c335d72a8b465ff645fa20f605618c9a84e31d6a25b2803f91af",
+          "matched": "this reading maps",
+          "rule": "repeated-adjacent-opening",
+          "source": "This reading maps your priorities across eight AI governance questions and six approaches to governing the technology."
         },
         {
           "audience": "public",
@@ -5028,16 +5028,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:components/results/ai-completion-evidence.tsx#pairRead",
-          "count": 1,
-          "file": "components/results/ai-completion-evidence.tsx",
-          "fingerprint": "b3c7b6483026408bbf38b53c6942bec399921c78e16765a7dd6ad92c1fa85670",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "You endorsed both propositions: durable strategic competition and a usual priority for coordination over competitive advantage. In this completion, treating rivalry as a constraint does not eliminate the case for cooperation."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-field-guide-content.ts#aiUnderModeledPerspectives.5.currentCoverage",
           "count": 1,
           "file": "lib/ai-governance-field-guide-content.ts",
@@ -5735,6 +5725,16 @@
           "matched": "access and control, public authority and practical capacity, and cooperation under security conditions / original result, question or score, and completion details",
           "rule": "repeated-three-part-list",
           "source": "Connected Profile uses three authored rules: access and control, public authority and practical capacity, and cooperation under security conditions. Each observation retains its subject, original result, question or score, and completion details. Actor-role judgments cannot establish a personal choice. A named result cannot supply missing answers."
+        },
+        {
+          "audience": "public",
+          "context": "content-key:components/results/profile-method-callout.tsx#ProfileMethodCallout.p",
+          "count": 1,
+          "file": "components/results/profile-method-callout.tsx",
+          "fingerprint": "cca7840a6c49c52d8dc09f8f56b1e760434c5b9d4e8a14db7921419fe69deebc",
+          "matched": "rather than",
+          "rule": "rather-than-reflex",
+          "source": "Treat it as a starting lens for debate rather than a fixed label."
         },
         {
           "audience": "frozen",
@@ -8127,28 +8127,6 @@
       {
         "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
         "audience": "public",
-        "contentKey": "AiResultPage.p",
-        "context": "route:/ai/results/[payload]#AiResultPage.p",
-        "copyKey": "AiResultPage.p",
-        "file": "app/ai/results/[payload]/page.tsx",
-        "jsonPath": null,
-        "key": "AiResultPage.p",
-        "kind": "self-narration",
-        "line": 296,
-        "match": "tuple",
-        "matched": "tuple",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": "/ai/results/[payload]",
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "Model tuple: bank",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
         "contentKey": "resultLayers.3.body",
         "context": "route:/method#resultLayers.3.body",
         "copyKey": "resultLayers.3.body",
@@ -8332,7 +8310,7 @@
         "jsonPath": null,
         "key": "ModuleApp.p",
         "kind": "self-narration",
-        "line": 481,
+        "line": 482,
         "match": "What it does not claim",
         "matched": "What it does not claim",
         "priority": "P1",
@@ -8398,7 +8376,7 @@
         "jsonPath": null,
         "key": "enCopy.unavailable.tuple-mismatch",
         "kind": "self-narration",
-        "line": 159,
+        "line": 155,
         "match": "tuple",
         "matched": "tuple",
         "priority": "P1",
@@ -10969,7 +10947,7 @@
         "priority": "P0"
       },
       {
-        "count": 129,
+        "count": 128,
         "priority": "P1"
       },
       {

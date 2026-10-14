@@ -3,6 +3,7 @@
 
 import { useRef, useState } from "react"
 import { completeEpisode, episodeProvenance, type Episode, type Decision, deferredDecision } from "@/lib/decision-exercises/content"
+import { SimulationContext } from "./simulation-context"
 import { Evidence } from "./evidence"
 import styles from "./exercise.module.css"
 import accessStyles from "./access-experience.module.css"
@@ -68,6 +69,7 @@ export function EpisodePlayer({ episode, links, preview = false }: { episode: Ep
   const label = (id: string) => id === "defer" ? "Decision withheld" : episode.options.find(option => option.id === id)!.label
   return <article className={`${styles.page} ${access ? accessStyles.accessPage : ""} ${preview ? styles.embedded : ""}`}>
     {!preview && <a className="parent-link" href={links?.exit ?? "/decisions"}>All decisions</a>}
+    <SimulationContext episode={episode.id} />
     <h1>{episode.title}</h1>
     <p className={styles.lead}>{episode.invitation}</p>
     <p className={styles.small}>Fictional decision exercise · Unscored{preview ? " · Draft for local review" : ""}</p>

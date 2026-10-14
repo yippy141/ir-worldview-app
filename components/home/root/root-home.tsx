@@ -155,7 +155,7 @@ export function RootHome({ locale, copy, visual, scenes }: {
           {ROOT_DESTINATIONS.map(group => <section key={group.id} className={styles.group} data-root-group={group.id}>
             <h3>{copy.destinationCopy[group.id].label}</h3>
             <p>{copy.destinationCopy[group.id].explanation}</p>
-            <ul>{group.children.map(id => <li key={id}><DestinationLink destination={id} className={styles.destination} /></li>)}</ul>
+            <ul>{group.children.map(id => <li key={id}><DestinationLink destination={id} className={styles.destination} />{id in copy.questionnaireDetails && <span className={styles.independent}> ({copy.questionnaireDetails[id as keyof typeof copy.questionnaireDetails]})</span>}</li>)}</ul>
             {group.id === "questionnaires" && <p className={styles.independent}>{copy.independent}</p>}
           </section>)}
         </nav>

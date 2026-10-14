@@ -1,6 +1,14 @@
 # STATE
 
-## Current release — product-wide presentation, 16 September 2026
+## Planning pointer — 29 September 2026
+
+Start at [docs/pm/README.md](docs/pm/README.md) for the recovered September 23
+Claude packet, independent assessment, current local checkpoint and proposed
+sprint queue. The release sections below are dated historical records, not
+current branch instructions. This recovery does not establish deployment or
+release acceptance.
+
+## Historical release — product-wide presentation, 16 September 2026
 
 - One isolated worktree: `/Users/jinhuayip/Developer/ir-worldview-product-finish`, branch `codex/product-wide-experience-finish`.
 - PR60 verified merged at `4f4f22ba1b51760f2f0cd9f77ff47042c713e6b0` (reviewed head `e9dd21c739eb080fd30abdddcbb8106893afd074`); that refreshed main is the release base. Other checkouts preserved.

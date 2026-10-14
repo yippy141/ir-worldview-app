@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { SimulationContext } from "@/components/decision-exercises/simulation-context"
 import { decisionPublications, getPublishedDecision, decisionHref } from "@/lib/decision-exercises/catalog"
 import styles from "@/components/decision-exercises/exercise.module.css"
 export const metadata = { title: "Decision exercises | IR Worldview Inventory", description: "Choose an arrangement, reconsider one changed provision, and examine what your choices support." }
@@ -9,7 +10,7 @@ export default function DecisionsPage() {
   <p>These fictional, unscored exercises work on their own. Available in English.</p>
   <ul className={styles.index}>{decisionPublications.map(record => {
    const episode = getPublishedDecision(record.slug)!
-   return <li key={record.id}><h2><Link href={decisionHref(record.id)} prefetch={false}>{episode.title} →</Link></h2><p>{episode.id === "verify" ? "Advise a cabinet on an agreement limiting sensitive AI training. Decide who can inspect whom when national access becomes one-sided." : "Decide how a research institute provides access to a capable model. Reconsider when the developer gains control over evaluator admissions."}</p></li>
+   return <li key={record.id}><SimulationContext episode={episode.id} /><h2><Link href={decisionHref(record.id)} prefetch={false}>{episode.title} →</Link></h2><p>{episode.id === "verify" ? "Advise a cabinet on an agreement limiting sensitive AI training. Decide who can inspect whom when national access becomes one-sided." : "Decide how a research institute provides access to a capable model. Reconsider when the developer gains control over evaluator admissions."}</p></li>
   })}</ul>
   <p><Link href="/cases">Explore sourced cases</Link> · <Link href="/ai">AI Governance</Link></p>
  </article>

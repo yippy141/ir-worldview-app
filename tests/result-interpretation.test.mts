@@ -78,9 +78,9 @@ test("exact AI terms reconcile every registered scorer, rounding and six-way tie
     assert.ok(comparison.rows.some(row => row.term < 0), "Divergent terms must survive")
     const tie = resolveAiPayload(encodeAiPayload({ ...fixture.resolved.payload, as: [4,4,4,4,4,4,4,4] }))!
     assert.equal(new Set(Object.values(tie.scoring.scoreArchetypes(Object.fromEntries(Object.keys(version.schema.aiAxisLabels).map(k => [k, 4])) as typeof fixture.result.axisScores))).size, 1)
-    assert.match(buildAiInterpretation(tie).summary, /does not establish|unsettled|does not resolve/)
+    assert.match(buildAiInterpretation(tie).summary, /You balance|You weigh/)
   }
-  assert.match(aiAxisReading("humanFuture", 1), /cannot identify a preferred future/)
+  assert.match(aiAxisReading("humanFuture", 1), /open to AI changing human roles/)
   assert.doesNotMatch(aiAxisReading("humanFuture", 1), /you would|upload|leave Earth/)
 })
 

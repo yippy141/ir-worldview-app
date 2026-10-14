@@ -15,6 +15,7 @@ export type RootCopy = Readonly<{
   enter: string
   menu: string
   map: string
+  questionnaireDetails: Readonly<Partial<Record<"foundation" | "security" | "technology" | "ai", string>>>
   independent: string
   primaryNavigationLabel: string
   destinationCopy: Readonly<Record<RootDestinationId, DestinationCopy>>
@@ -40,9 +41,10 @@ const englishRootCopy: RootCopy = {
   introduction: "Explore your views on international politics, technology and possible futures.",
   enter: "Enter", menu: "Main menu", map: "Explore the map", independent: "Every questionnaire is independent.",
   primaryNavigationLabel: "Primary destinations",
+  questionnaireDetails: { foundation: "12 questions · 3 min", security: "9 cases · 6 min", technology: "9 cases · 6 min", ai: "22 questions · 5 min" },
   destinationCopy: {
     questionnaires: { label: sectionLabel("questionnaires"), explanation: "Foundation covers international politics. Security, Technology and AI Governance examine specific policy choices." },
-    futures: { label: sectionLabel("futures"), explanation: "Browse scenarios, answer preferences and compare possible worlds." },
+    futures: { label: sectionLabel("futures"), explanation: "Browse scenarios, rank scenario priorities and compare possible worlds." },
     cases: { label: sectionLabel("cases"), explanation: "Examine a case, make a decision, or answer from another actor’s position." },
     library: { label: sectionLabel("library"), explanation: "Explore traditions, thinkers and the arguments behind the results." },
     profile: { label: sectionLabel("profile"), explanation: "Open your saved results." },
@@ -73,6 +75,7 @@ const chineseRootCopy: RootCopy = {
   introduction: "探索你对国际政治、技术与可能未来的看法。",
   enter: "进入", menu: "主菜单", map: "探索地图", independent: "每份问卷都可独立完成。",
   primaryNavigationLabel: "主要入口",
+  questionnaireDetails: { foundation: "12 题 · 3 分钟", security: "9 个案例 · 6 分钟", technology: "9 个案例 · 6 分钟", ai: "22 题 · 5 分钟" },
   destinationCopy: {
     questionnaires: { label: sectionLabel("questionnaires", "zh-Hans"), explanation: "基础问卷探讨国际政治。安全、技术与人工智能治理问卷考察具体的政策选择。" },
     futures: { label: sectionLabel("futures", "zh-Hans"), explanation: "浏览情景、回答偏好问题，并比较不同的可能世界。" },

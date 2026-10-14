@@ -3,6 +3,7 @@
 import { ResultReveal } from "@/components/results/result-reveal"
 
 import Link from "next/link"
+import { ProfileMethodCallout } from "@/components/results/profile-method-callout"
 import { WorkedApplication } from "@/components/results/worked-application"
 import type { CSSProperties, ReactNode } from "react"
 import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
@@ -163,13 +164,13 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
             {`The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the readings that share it. `}
             {props.lowDifferentiation
               ? `In your result the two finished close, so the rival argument is worth reading before the name settles.`
-              : `Open it to compare the two, and to see which readings a different posture would have produced.`}
+              : `Compare the two below to see which readings a different posture would have produced.`}
           </p>
         </>
       ),
       visualLabel: "The Foundation readings",
       renderVisual: () => (
-        <details className="profile-details"><summary>Open the orientation matrix</summary><ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} /></details>
+        <ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} />
       ),
     },
     {
@@ -209,26 +210,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
         </p>
       ),
     },
-    {
-      id: "limits",
-      number: "07",
-      title: "What this model can and cannot say",
-      copy: (
-        <>
-          <p>
-            Your answers were compared with four authored tradition profiles.
-            It is a reading of those answers, not a measurement of proven
-            accuracy, and not a personal trait. Readings near a boundary between traditions
-            move more easily than others.
-          </p>
-          <p>
-            <Link href="/method">Read the Foundation method and limits</Link>
-          </p>
-        </>
-      ),
-      visualLabel: "What this model covers",
-      renderVisual: () => <LimitsPanel />,
-    },
+
   ]
 
   return (
@@ -265,6 +247,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
         </div>
       </div>
 
+      <ProfileMethodCallout />
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>Continue from this result</p>
@@ -478,41 +461,6 @@ function CasePanel({ pressureCase }: { pressureCase: PressureCase }) {
         </Link>
       ) : null}
     </article>
-  )
-}
-
-function LimitsPanel() {
-  return (
-    <dl className={styles.limits}>
-      <div>
-        <dt>Modeled here</dt>
-        <dd>
-          Realist, institutionalist, constructivist, and critical political
-          economy reference profiles.
-        </dd>
-      </div>
-      <div>
-        <dt>Under-modeled</dt>
-        <dd>
-          Feminist, postcolonial and decolonial, green, and English School
-          approaches are not named as scored families.
-        </dd>
-      </div>
-      <div>
-        <dt>Diagnostic status</dt>
-        <dd>
-          Structural sensitivity was tested with constructed inputs. No human
-          participant or population inference follows from that diagnostic.
-        </dd>
-      </div>
-      <div>
-        <dt>Raw posture scale</dt>
-        <dd>
-          The registered restraint boundary is not a claim that the completed
-          form is symmetrically centered around that raw value.
-        </dd>
-      </div>
-    </dl>
   )
 }
 

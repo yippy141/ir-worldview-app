@@ -439,11 +439,7 @@ export default function MethodPage() {
                 around the form&apos;s constructed center.
               </p>
             </div>
-            <p className={styles.relatedLink}>
-              <a href="https://github.com/yippy141/ir-worldview-app/tree/main/docs/research/v23-6-foundation-robustness">
-                Open the exact diagnostic methods and data
-              </a>
-            </p>
+
           </section>
 
           <section className={styles.subsection} aria-labelledby="worldview-map">

@@ -1,0 +1,61 @@
+{
+  "recoveredOn": "2026-09-29",
+  "sourceStatus": "Present locally, untracked at discovery; preserved without edits",
+  "files": [
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/BRAND-BRIEF.md",
+      "bytes": 7849,
+      "sha256": "07b6bdd92615d14e6ebd7616710d4b7eab8e35f8ee030d6848d82b4c81587011"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/EXEMPLARS.md",
+      "bytes": 12268,
+      "sha256": "1998f638ae5dfd0d130c8f0e7b3a97c9e6e58050057cbfd5b67adaaa935a2a16"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/IMPLEMENTATION-PLAN.md",
+      "bytes": 13707,
+      "sha256": "64ff0c84779ee74648179520f6de73c76a18e1bdda2e7d820e12f7ea8e3ae2ec"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/README.md",
+      "bytes": 846,
+      "sha256": "99f9044117a587bbbfb80a65b57085eb615213cb8682507ab1a999790571aea7"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/VERIFICATION.md",
+      "bytes": 4825,
+      "sha256": "d43aa812df345d6af96ed71b464cf736770ff55d87c938df404c417abd8ccd49"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/brand/parallax-app-icon.svg",
+      "bytes": 8470,
+      "sha256": "581958ed0e06f87348cb71fdd7bcf47862ff732698510b6e693ae040b5726847"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/brand/parallax-favicon-16.svg",
+      "bytes": 8095,
+      "sha256": "bcf764c53e71f21320d226f0400edd4e1c4ec5deed55a752d7de04ae55e937fd"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/brand/parallax-mark-angle.svg",
+      "bytes": 8650,
+      "sha256": "dd05d37ccbf08a85920cc76ecc06df25ec33f6fbb36260255d9a3b2390e75c2a"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/brand/parallax-mark-two-views.svg",
+      "bytes": 8083,
+      "sha256": "7b36567258b1d7b1268841f61cedbf9fc75444070bf174ea66c818fb3d8d4c28"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/patches/pr-a-pilot-trust.patch",
+      "bytes": 45942,
+      "sha256": "42984b3cbc10eb2e766765d70c8aabe9bdd62d97c4385eaa8ea47a45f15f78c1"
+    },
+    {
+      "path": "docs/review/claude-second-opinion-2026-09-23/patches/pr-b-copy-ratchet.patch",
+      "bytes": 39251,
+      "sha256": "e551e906ee7e89b965fcd5690cccb0e017999c2f0689872d40ec34a2268e4edf"
+    }
+  ]
+}

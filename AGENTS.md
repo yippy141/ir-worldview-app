@@ -2,6 +2,10 @@
 
 You are working on the **IR Worldview Inventory**.
 
+For current PM context and sprint preparation, start at
+[`docs/pm/README.md`](docs/pm/README.md). Recovered review packets are historical
+evidence; use their assessed dispositions before applying patches or prompts.
+
 This is a serious editorial interactive with a thin social/share layer. The
 core promise is reflection, self-location, and structured worldview mapping.
 The product should feel closer to a Foreign Affairs / Economist / policy-journal

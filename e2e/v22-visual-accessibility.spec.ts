@@ -860,7 +860,7 @@ test("production print lays out every Foundation chapter and restores sticky scr
     expect(visual.width).toBeGreaterThan(20)
   }
 
-  await expect(chapters.locator("[data-local-evidence-status]")).toHaveText("The answers for this result are not available here.")
+  await expect(chapters.locator("[data-local-evidence-status]")).toBeHidden()
   const printChapters = await chapters.filter({ has: page.locator("h2") }).evaluateAll((elements) =>
     elements.map((element) => ({
       height: element.getBoundingClientRect().height,

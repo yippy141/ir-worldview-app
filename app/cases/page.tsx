@@ -2,10 +2,7 @@ import Link from "next/link"
 import type { Metadata } from "next"
 import { CurrentCaseArchive } from "@/components/current-case/current-case-archive"
 import { createEnglishApprovedMetadata } from "@/i18n/metadata"
-import {
-  getActivePublishedLaunchCurrentCase,
-  getPublishedCurrentCases,
-} from "@/lib/current-cases/catalog"
+import { getPublishedCurrentCases } from "@/lib/current-cases/catalog"
 import { toCurrentCasePublicRecord } from "@/lib/current-cases/presentation"
 import styles from "@/components/current-case/current-case.module.css"
 
@@ -18,22 +15,16 @@ export const metadata: Metadata = createEnglishApprovedMetadata("/cases", {
 export const revalidate = 3600
 
 export default function CurrentCasesPage() {
-  const referenceDate = new Date().toISOString().slice(0, 10)
   const cases = getPublishedCurrentCases()
-  const activeCase = getActivePublishedLaunchCurrentCase(cases, {
-    referenceDate,
-  })
 
   return (
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <div>
-        <p className="eyebrow">Current Case</p>
-          <h1>{activeCase ? "Assess a current case" : "Recent cases"}</h1>
+          <p className="eyebrow">Current Case</p>
+          <h1>Assess a case</h1>
           <p className={styles.archiveIntro}>
-            {activeCase
-              ? "Read a sourced international-affairs case and make a first decision. Then compare your reasoning with alternative readings and a changed assumption."
-              : "No Current Case is inside its active editorial review window. Recent records remain available below with their evidence dates and status."}
+            Apply your worldview to real-world geopolitical and economic flashpoints. Each case briefing is anchored to a documented historical decision window.
           </p>
         </div>
         <p className={styles.pageMeta}>
@@ -53,8 +44,6 @@ export default function CurrentCasesPage() {
       ) : (
         <CurrentCaseArchive
           records={cases.map(toCurrentCasePublicRecord)}
-          activeCaseId={activeCase?.id ?? null}
-          referenceDate={referenceDate}
         />
       )}
       <section className={styles.archiveIntro} aria-labelledby="decision-exercises-entry">

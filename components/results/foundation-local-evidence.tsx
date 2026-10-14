@@ -79,11 +79,7 @@ export function FoundationLocalEvidence({
   }
 
   if (state.status === "unavailable") {
-    return (
-      <section className={styles.section} data-local-evidence-status={state.reason}>
-        <p>{locale === "en" ? "The answers for this result are not available here." : "此处没有这份结果的原始答案。"}</p>
-      </section>
-    )
+    return <span hidden data-local-evidence-status={state.reason} />
   }
 
   return (

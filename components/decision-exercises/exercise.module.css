@@ -160,3 +160,5 @@
  .verifyIntroduction, .verifyForm, .verifyVisual { grid-column: auto; grid-row: auto; }
  .episodeGrid:has(> .verifyIntroduction) > .verifyVisual { margin-top: 32px; }
 }
+
+.categoryPill { display: inline-block; max-width: 100%; border: 1px solid var(--line-2); border-radius: 16px; padding: 5px 12px; color: var(--text-2); font-size: 13px; line-height: 1.5; }
