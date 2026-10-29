@@ -9,7 +9,6 @@ import type { Locale } from "@/i18n/routing"
 import {
   type CurrentCasePublicRecord,
 } from "@/lib/current-cases/presentation"
-import { getEffectiveCurrentCaseFreshnessStatus } from "@/lib/current-cases/validation"
 import {
   getCurrentCaseDraft,
   getLatestCurrentCaseResponse,
@@ -22,12 +21,8 @@ import styles from "./current-case.module.css"
 
 export function CurrentCaseArchive({
   records,
-  activeCaseId,
-  referenceDate,
 }: {
   records: CurrentCasePublicRecord[]
-  activeCaseId: string | null
-  referenceDate: string
 }) {
   const [store, setStore] = useState<CurrentCaseResponseStore | null>(null)
   const locale = useLocale() as Locale
@@ -48,27 +43,15 @@ export function CurrentCaseArchive({
         const draft = store ? getCurrentCaseDraft(store, record.id) : null
         const validDraft =
           draft && draft.step !== "brief" && isDraftForCurrentCase(draft, record) ? draft : null
-        const effectiveFreshnessStatus =
-          getEffectiveCurrentCaseFreshnessStatus(record, referenceDate)
-        const archiveFreshnessStatus =
-          effectiveFreshnessStatus === "active" && record.id === activeCaseId
-            ? "active"
-            : effectiveFreshnessStatus === "active"
-              ? "review-due"
-              : effectiveFreshnessStatus ?? "review-due"
         const progressStatus = validResponse
           ? copy.completed(formatLocalizedDate(validResponse.completedAt, locale, "medium"))
           : validDraft
             ? copy.draft
             : null
-        const freshnessStatus =
-          archiveFreshnessStatus === "active"
-            ? copy.current
-            : archiveFreshnessStatus === "review-due"
-              ? copy.reviewDue
-              : archiveFreshnessStatus === "background"
-                ? copy.background
-                : copy.archived
+        const snapshotDate = new Intl.DateTimeFormat(locale === "zh-Hans" ? "zh-CN" : "en", {
+          month: "long", year: "numeric", timeZone: "UTC",
+        }).format(new Date(`${record.evidenceWindow.end}T00:00:00Z`))
+        const freshnessStatus = locale === "zh-Hans" ? `${snapshotDate}快照` : `${snapshotDate} Snapshot`
         const status = progressStatus
           ? `${progressStatus} · ${freshnessStatus}`
           : freshnessStatus

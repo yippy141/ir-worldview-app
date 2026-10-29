@@ -21,7 +21,9 @@ test("history selection rejects unknown priors without rewriting saved records",
  Object.defineProperty(globalThis,'window',{configurable:true,value:{localStorage:{getItem:(key:string)=>key===RESULT_HISTORY_STORAGE_KEY?bytes:null}}})
  try {
   assert.equal(getLastComparableSnapshot({locale:'en',localeCopyVersion:0}),null)
-  assert.deepEqual(getLastComparableSnapshot({locale:'en',localeCopyVersion:1}),snapshots[1])
+  assert.equal(getLastComparableSnapshot({locale:'en',localeCopyVersion:1}),null)
+  // Matching recorded markers permits storage dedup only, not comparison or ownership.
+  assert.deepEqual(getLastSnapshotWithProvenance({locale:'en',localeCopyVersion:1}),snapshots[1])
   assert.deepEqual(getLastSnapshotWithProvenance({locale:'en',localeCopyVersion:0}),snapshots[0])
   assert.deepEqual(loadHistory(),snapshots)
  } finally {if(original)Object.defineProperty(globalThis,'window',original);else Reflect.deleteProperty(globalThis,'window')}

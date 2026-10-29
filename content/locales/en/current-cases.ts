@@ -137,9 +137,7 @@ export const englishCurrentCaseArchive = {
   title: "Assess a current case",
   recentTitle: "Recent cases",
   intro:
-    "Read a sourced international-affairs case and make a first decision. Then compare your reasoning with alternative readings and a changed assumption.",
-  noActiveBody:
-    "No Current Case is inside its active editorial review window. Recent records remain available below with their evidence dates and status.",
+    "Apply your worldview to real-world geopolitical and economic flashpoints. Each case briefing is anchored to a documented historical decision window.",
   privacyNote:
     "Responses and in-progress drafts stay in this browser. Each record shows its evidence window, sources, and correction status.",
   categories: {

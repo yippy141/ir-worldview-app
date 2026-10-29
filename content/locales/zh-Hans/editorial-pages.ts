@@ -169,12 +169,7 @@ export const zhHansMethodsPage = {
         "这项诊断不支持信度、效度或人群分布主张。完整的方法、随机种子、受保护文件摘要和生成数据均保存在项目代码库中。",
         "克制态势的正负号沿用登记的原始分界值 4。这个数值并不是所有问卷形式的构造型空模型中心。完整问卷登记的独立空模型校准中心是 4.657735。强制选择题的信号来自不对称的编辑设定，因此，不能把原始分界值 4 两侧相等的数值距离理解为相对于完整问卷构造中心的对称位置。",
       ],
-      actions: [
-        {
-          href: "https://github.com/yippy141/ir-worldview-app/tree/main/docs/research/v23-6-foundation-robustness",
-          label: "查看完整诊断方法与数据",
-        },
-      ],
+
     },
     {
       id: "worldview-map",

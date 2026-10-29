@@ -1,3 +1,4 @@
+import { ProfileMethodCallout } from "@/components/results/profile-method-callout"
 import { ResultReveal } from "@/components/results/result-reveal"
 import { DestinationLink } from "@/components/layout/destination-link"
 import { AiCompletionEvidence } from "@/components/results/ai-completion-evidence"
@@ -293,7 +294,6 @@ export default async function AiResultPage(
         </section>
 
 
-              <p>Model tuple: bank {resolved.bankVersion}, scorer {resolved.scoringVersion}. Saved comparison: {archetypeLabel} minus {runnerUpLabel} = {comparison.difference.toFixed(2)}. Rounding residual: {comparison.residual.toFixed(4)}.</p>
               <ul className="content-list">{comparison.rows.map(row => <li key={row.axis}>{resolved.schema.aiAxisLabels[row.axis]}: {row.term.toFixed(3)}</li>)}</ul>
               <div className="stack-md">
                 <h2>Axis profile</h2>
@@ -309,21 +309,12 @@ export default async function AiResultPage(
 
             </div>
           </details>
+          <ProfileMethodCallout domain="ai" />
           <details className="profile-details" id="ai-sources">
             <summary>Reading, sources and scope</summary>
             <div className="stack-lg result-details-body">
               <AiGovernanceReadingListSection archetypeKey={decoded.ak} interpretation={interpretation} />
 
-              <div className="callout stack-xs">
-                <p className="result-strong">Coverage limits</p>
-                <p className="muted result-note-sm">
-                  The Compass covers a defined set of AI governance debates and leaves others
-                  outside its scope. The raw scores locate this response inside the model. The
-                  archetype is the closest fit among six authored profiles.{" "}
-                  <Link href="/method">Full methods note →</Link>{" "}
-                  <Link href="/ai/field-guide">AI scope →</Link>
-                </p>
-              </div>
 
               <div className="stack-md">
                 <p>

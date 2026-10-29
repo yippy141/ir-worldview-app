@@ -1,5 +1,6 @@
 "use client"
 
+import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import Link from "next/link"
 
 import type { FoundationQuizSession as QuizSession } from "@/lib/foundation-draft-copy"
@@ -63,7 +64,7 @@ const englishFoundationQuizUi = {
     baselineExtended: `${questionCountsBySet.baselineExtended} additional questions · the scored extension without the research-comparison block.`,
   },
   setLabels: {
-    core: "Core set",
+    core: "Standard · 12 questions",
     targetedExtended: "Targeted extension",
     fullExtended: "Saved full extension",
     baselineExtended: "Baseline extension",
@@ -136,14 +137,14 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   const requestedFirstFamily = searchParams.get("first")
   const requestedSecondFamily = searchParams.get("second")
 
-  const [session, setSession] = useState<QuizSession>(createEmptySession())
+  const [session, setSession] = useState<QuizSession & { lang?: Locale }>(createEmptySession())
   const [currentIndex, setCurrentIndex] = useState(
     hasIndexedQuestion && !isNaN(initialQ) ? initialQ : 0,
   )
   const [supportOpen, setSupportOpen] = useState(false)
   const [ready, setReady] = useState(false)
   const [entranceOpen, setEntranceOpen] = useState(false)
-  const [legacyAcknowledged, setLegacyAcknowledged] = useState(false)
+  const [resumeOpen, setResumeOpen] = useState(false)
   const [renderEpoch, setRenderEpoch] = useState(0)
   const foundationStartTracked = useRef(false)
   const itemVisibleAtRef = useRef<{
@@ -160,10 +161,12 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         window.localStorage.removeItem(QUIZ_STORAGE_KEY)
       }
 
-      const baseSession = initializeFoundationDraftCopy(parsed ?? {
+      const initialized = initializeFoundationDraftCopy(parsed ?? {
         ...createEmptySession(),
         activeMode: "standard" as const,
       }, locale)
+      const baseSession = { ...initialized, lang: initialized.foundationCopy?.status === "single-copy" ? initialized.foundationCopy.locale : locale }
+      setResumeOpen(Boolean(parsed && Object.keys(parsed.answers).length && !fromReview && !hasIndexedQuestion && !requestedExtension && !requestedCoreRepair))
       setEntranceOpen(locale === "en" && Object.keys(baseSession.answers).length === 0 && !requestedExtension && !requestedCoreRepair)
       const hasCompleteCore = foundationCoreQuestions.every(
         (question) => baseSession.answers[question.id] !== undefined,
@@ -212,7 +215,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     }, 0)
 
     return () => window.clearTimeout(timeout)
-  }, [locale, requestedExtension, requestedFirstFamily, requestedSecondFamily, requestedCoreRepair])
+  }, [locale, requestedExtension, requestedFirstFamily, requestedSecondFamily, requestedCoreRepair, fromReview, hasIndexedQuestion])
 
   useEffect(() => {
     if (!ready) return
@@ -399,8 +402,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   }
 
   function resetQuiz() {
-    setSession(initializeFoundationDraftCopy({ ...createEmptySession(), activeMode: "standard" }, locale))
+    setSession({ ...initializeFoundationDraftCopy({ ...createEmptySession(), activeMode: "standard" }, locale), lang: locale })
     setCurrentIndex(0)
+    setResumeOpen(false)
     setSupportOpen(false)
     foundationStartTracked.current = false
     itemVisibleAtRef.current = null
@@ -450,13 +454,13 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     <div className={locale === "en" ? "stack-lg foundation-task" : "stack-lg"}>
       {entranceOpen && <section className="foundation-entrance">
         <h1>How do you judge the arguments behind world politics?</h1>
-        <p className="entrance-count">{questions.length} questions · estimated 6–8 minutes</p>
+        <p className="entrance-count">{displayedSet === "core" ? "Standard · 12 questions · about 3 minutes" : `${questions.length} questions`}</p>
         <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
         <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
         <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
       </section>}
       <FoundationCopyNotice session={session} locale={locale} onRestart={resetQuiz} />
-      <section
+      {!resumeOpen && <section
         className={
           locale === "en" ? "panel quiz-header quiz-header--focused" : (copy.positionMap ? "panel quiz-header quiz-header--with-map" : "panel quiz-header")
         }
@@ -519,14 +523,21 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             copy={copy.positionMap}
           /></details>
         ) : null}
-      </section>
-
-      {session.questionSet === "fullExtended" && !legacyAcknowledged && <section className="panel stack-md" aria-label={locale === "zh-Hans" ? "已保存的问卷" : "Saved questionnaire"}>
-        <h2>{locale === "zh-Hans" ? "保留你已开始的题组" : "Keep the form you started"}</h2>
-        <p>{locale === "zh-Hans" ? "这份草稿包含原有的研究比较题。你的答案和题目总数保持不变。你可以继续此题组，或使用上方的“重新开始”清除草稿并从当前核心题组开始。" : "This saved form includes the original research-comparison questions. Your answers and question total are unchanged. Continue this form, or use Start over above to clear the draft and begin the current core form."}</p>
-        <button type="button" className="primary-button" onClick={() => setLegacyAcknowledged(true)}>{locale === "zh-Hans" ? "继续已保存的题组" : "Continue this saved form"}</button>
       </section>}
-      {currentQuestion && (session.questionSet !== "fullExtended" || legacyAcknowledged) ? (
+
+      {resumeOpen && <section className="panel stack-md" aria-label={locale === "zh-Hans" ? "已保存的问卷" : "Saved questionnaire"}>
+        <p>{locale === "zh-Hans" ? `你有一份尚未完成的问卷（已回答 ${completedCount} 题，共 ${questions.length} 题）。` : `You have an unfinished questionnaire in progress (${completedCount} of ${questions.length} answered).`}</p>
+        <div className="row gap-sm wrap">
+          <button type="button" className="primary-button" onClick={() => {
+            const nextIndex = questions.findIndex(question => session.answers[question.id] === undefined)
+            setCurrentIndex(nextIndex < 0 ? questions.length - 1 : nextIndex)
+            setResumeOpen(false)
+          }}>{locale === "zh-Hans" ? "从上次停下的地方继续" : "Continue where I left off"}</button>
+          <button type="button" className="secondary-button" onClick={resetQuiz}>{locale === "zh-Hans" ? `重新开始（${questionCountsBySet.core} 道核心题）` : `Start fresh (${questionCountsBySet.core} core questions)`}</button>
+        </div>
+      </section>}
+      {currentQuestion && !resumeOpen && <FirstInstinctPrompt locale={locale} />}
+      {currentQuestion && !resumeOpen ? (
         <section className="panel stack-md">
           {fromReview ? (
             <div>

@@ -5,7 +5,6 @@ import { ResearchStatusNotice } from "@/components/research/research-status-noti
 import {
   FoundationResultStory,
 } from "@/components/results/foundation-result-story"
-import { HistoryCompare } from "@/components/results/history-compare"
 import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
 import { ShareActions } from "@/components/results/share-actions"
 import { localizedAlternates, publicPath } from "@/i18n/paths"
@@ -287,17 +286,6 @@ export default async function ResultPage(
               strategyModifier={result.strategyModifier}
               normativeModifier={result.normativeModifier}
               displayLabel={archetypeShareLabel}
-            />
-            <HistoryCompare
-              familyKey={result.familyKey}
-              neighborKey={result.runnerUpKey}
-              strategyModifier={result.strategyModifier}
-              normativeModifier={result.normativeModifier}
-              dimensionScores={dimensionScores}
-              provenance={{
-                locale: resolved.provenance.completionLocale,
-                localeCopyVersion: resolved.provenance.localeCopyVersion,
-              }}
             />
             <div className="row gap-sm wrap print-hidden">
               <ResultCardHeroShare

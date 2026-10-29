@@ -657,9 +657,9 @@ function ZhHansLimitsPanel({
         <dt>完整记录</dt>
         <dd>
           <NextLink
-            href="https://github.com/yippy141/ir-worldview-app/tree/main/docs/research/v23-6-foundation-robustness"
+            href="/zh/method#foundation-robustness"
           >
-            在代码仓库中查看精确方法与诊断数据
+            查看基础问卷稳健性诊断
           </NextLink>
         </dd>
       </div>

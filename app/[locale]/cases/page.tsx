@@ -4,7 +4,6 @@ import { zhHansCurrentCaseArchive } from "@/content/locales/zh-Hans/current-case
 import { zhHansRouteMetadata } from "@/content/locales/zh-Hans/metadata"
 import { createLocalizedMetadata } from "@/i18n/metadata"
 import {
-  getActivePublishedLaunchCurrentCase,
   getPublishedCurrentCases,
 } from "@/lib/current-cases/catalog"
 import {
@@ -20,12 +19,8 @@ export function generateMetadata(): Metadata {
 export const revalidate = 3600
 
 export default function ChineseCurrentCasesPage() {
-  const referenceDate = new Date().toISOString().slice(0, 10)
   const canonicalCases = getPublishedCurrentCases()
   const cases = localizePublishedCurrentCases(canonicalCases)
-  const activeCase = getActivePublishedLaunchCurrentCase(canonicalCases, {
-    referenceDate,
-  })
   const content = zhHansCurrentCaseArchive
 
   return (
@@ -33,9 +28,9 @@ export default function ChineseCurrentCasesPage() {
       <header className={styles.pageHeader}>
         <div>
           <p className="eyebrow">{content.eyebrow}</p>
-          <h1>{activeCase ? content.title : content.recentTitle}</h1>
+          <h1>{content.title}</h1>
           <p className={styles.archiveIntro}>
-            {activeCase ? content.intro : content.noActiveBody}
+            {content.intro}
           </p>
         </div>
         <p className={styles.pageMeta}>{content.privacyNote}</p>
@@ -49,8 +44,6 @@ export default function ChineseCurrentCasesPage() {
       ) : (
         <CurrentCaseArchive
           records={cases.map(toZhHansCurrentCasePublicRecord)}
-          activeCaseId={activeCase?.id ?? null}
-          referenceDate={referenceDate}
         />
       )}
     </div>

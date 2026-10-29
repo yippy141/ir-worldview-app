@@ -179,7 +179,7 @@ export function RootGlobe({ visual, scenes, chinese = false }: { visual: RootGlo
         {([[copy.west, -15, 0], [copy.east, 15, 0], [copy.north, 0, 10], [copy.south, 0, -10]] as const).map(([label, x, y]) => <button key={label} type="button" onClick={() => controls.current?.rotate(x, y)}>{label}</button>)}
       </div>
       <p>{copy.geometry}</p>
-      <a href="https://github.com/yippy141/ir-worldview-app/blob/main/lib/world-stage/data/world-countries-110m.provenance.md">{copy.attribution}</a>
+      <a href={chinese ? "/zh/world-stage#provenance" : "/world-stage#provenance"}>{copy.attribution}</a>
       <Link href={destinations.worldStage.href} prefetch={false}>{copy.mapLink}</Link>
     </details>
   </figure>

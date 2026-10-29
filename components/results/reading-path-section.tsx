@@ -1,3 +1,4 @@
+import { readingUrl } from "@/lib/reading-links"
 import Link from "next/link"
 
 export type ReadingPathEntry = {
@@ -59,18 +60,16 @@ export function ReadingPathSection({
             <div className="reading-entry-list">
               {path.entries.map((entry) => (
                 <article key={entry.id} className="reading-entry">
-                  {entry.url ? (
+
                     <a
-                      href={entry.url}
+                      href={readingUrl(entry)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="reading-entry-title reading-entry-title-link"
                     >
                       {entry.title}
                     </a>
-                  ) : (
-                    <p className="reading-entry-title">{entry.title}</p>
-                  )}
+
 
                   {entry.author || entry.year ? (
                     <p className="reading-entry-meta">

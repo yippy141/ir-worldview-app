@@ -1,6 +1,10 @@
 # V23.6 Baseline and Owner Decisions
 
-## Active Batch B — 9 September 2026
+Planning update, 29 September 2026: use the [PM index](docs/pm/README.md) for
+current recovery and sprint context. The checkpoints below preserve prior
+decisions; their dated active-work labels do not dispatch new work.
+
+## Historical Batch B — 9 September 2026
 
 PR #52 merged as `20780d0381bed82958d6a5dff2b809100b6142af`. Its repair and owner merge step are complete. Batch B starts directly from that verified mainline on `release/batch-b-reading-and-localization`: finite Chinese semantic dispositions, compatible copy dispatch, shared reading templates and deeper navigation. [Batch B evidence](docs/evidence/batch-b-reading-and-localization/README.md) records the candidate. No merge, manual deployment or collection is authorized. The previous candidate record below is historical; its awaiting-merge language is superseded here.
 

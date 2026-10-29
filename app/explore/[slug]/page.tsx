@@ -1,3 +1,4 @@
+import { readingUrl } from "@/lib/reading-links"
 import { PageContents } from "@/components/reading/page-contents"
 import { notFound } from "next/navigation"
 import Link from "next/link"
@@ -224,7 +225,7 @@ export default async function ExploreDetailPage({ params }: Props) {
                 <div>
                   {family.readings.map((reading) => (
                     <div key={reading.title} className="reading-bib">
-                      <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                      <p style={{ fontWeight: 600 }}><a href={readingUrl(reading)} target="_blank" rel="noopener noreferrer">{reading.title}</a></p>
                       <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
                         {reading.author}
                       </p>
@@ -243,7 +244,7 @@ export default async function ExploreDetailPage({ params }: Props) {
                   <div>
                     {family.advancedReadings.map((reading) => (
                       <div key={reading.title} className="reading-bib">
-                        <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                        <p style={{ fontWeight: 600 }}><a href={readingUrl(reading)} target="_blank" rel="noopener noreferrer">{reading.title}</a></p>
                         <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
                           {reading.author}
                         </p>
@@ -263,7 +264,7 @@ export default async function ExploreDetailPage({ params }: Props) {
                   <div>
                     {family.counterReadings.map((reading) => (
                       <div key={reading.title} className="reading-bib">
-                        <p style={{ fontWeight: 600 }}>{reading.title}</p>
+                        <p style={{ fontWeight: 600 }}><a href={readingUrl(reading)} target="_blank" rel="noopener noreferrer">{reading.title}</a></p>
                         <p className="muted" style={{ fontSize: "0.875rem", marginTop: "2px" }}>
                           {reading.author}
                         </p>

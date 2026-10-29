@@ -109,7 +109,7 @@ export function DocumentedGlobe({ visual, scenes, chinese = false }: { visual: R
         <p>{scene.places?.join(" · ")}</p>
         <p>{chinese ? "暗色陆地不在当前问题范围内，不表示中立。点表示小型地域的位置，大小不代表影响力。含174个地理要素的底图未包含某些领土和岛屿。" : "Muted land is outside this question, not a statement of neutrality. Points locate small places; sizes do not encode influence. The 174-feature basemap omits some territories and islands."}</p>
         {scene.sources.map(source => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.title}</a>)}
-        <a href="https://github.com/yippy141/ir-worldview-app/blob/main/lib/world-stage/data/world-countries-110m.provenance.md">{chinese ? "地理数据与边界说明" : "Geometry and boundary cautions"}</a>
+        <a href={chinese ? "/zh/world-stage#provenance" : "/world-stage#provenance"}>{chinese ? "地理数据与边界说明" : "Geometry and boundary cautions"}</a>
       </div></details></div>
     </figcaption>
     <div className={styles.controls}>

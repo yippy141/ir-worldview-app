@@ -1,0 +1,1034 @@
+diff --git a/app/[locale]/results/[payload]/page.tsx b/app/[locale]/results/[payload]/page.tsx
+index a6c82f3..4195508 100644
+--- a/app/[locale]/results/[payload]/page.tsx
++++ b/app/[locale]/results/[payload]/page.tsx
+@@ -8,6 +8,8 @@ import {
+   type ZhHansComparisonRow,
+ } from "@/components/i18n/zh-hans-foundation-result-story"
+ import { ShareActions } from "@/components/results/share-actions"
++import { SharedResultNotice } from "@/components/results/shared-result-notice"
++import { SHARED_VIEW_VALUE } from "@/lib/result-ownership"
+ import {
+   zhHansFoundationDimensionPoles,
+   zhHansFoundationQuizUi,
+@@ -30,6 +32,7 @@ import type { PureArchetypeCode } from "@/lib/archetype-marks"
+ 
+ type Props = {
+   params: Promise<{ locale: string; payload: string }>
++  searchParams?: Promise<{ via?: string | string[] }>
+ }
+ 
+ export async function generateMetadata({ params }: Props): Promise<Metadata> {
+@@ -85,8 +88,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
+   }
+ }
+ 
+-export default async function ChineseFoundationResultPage({ params }: Props) {
++export default async function ChineseFoundationResultPage({ params, searchParams }: Props) {
+   const { payload } = await params
++  const via = (await searchParams)?.via
++  const sharedView = via === SHARED_VIEW_VALUE
+   const resolved = resolveFoundationPayload(payload)
+ 
+   if (!resolved) {
+@@ -181,7 +186,9 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
+ 
+   return (
+     <div className="wide-container locale-foundation-result">
++      {sharedView ? <SharedResultNotice variant="shared" payload={payload} /> : null}
+       <FoundationProfileSync
++        sharedView={sharedView}
+         snapshot={{
+           payload,
+           resultPath: publicPath("zh-Hans", `/results/${payload}`),
+@@ -247,6 +254,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
+               normativeModifier={narrative.normativeLabel}
+               displayLabel={`${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
+               locale="zh-Hans"
++              sharedView={sharedView}
+             />
+             <p className="muted">
+               中文解释保留既有的经审校基础家族长文。模型规范专名仍以英文显示，并明确标注其编辑状态。
+diff --git a/app/globals.css b/app/globals.css
+index 455ea44..268e81d 100644
+--- a/app/globals.css
++++ b/app/globals.css
+@@ -8863,31 +8863,45 @@ html:lang(zh-Hans) .quiz-shell-label {
+   margin-bottom: 4px;
+ }
+ 
+-/* History-compare surfaces */
+-.history-compare {
+-  margin-top: 32px;
+-}
+-
+ .history-line {
+   line-height: 1.65;
+ }
+ 
+-.history-saved-note {
+-  font-size: 0.75rem;
++/* Result ownership: who is reading this result, and whether it was saved. */
++.result-ownership-note {
++  margin: 12px 0 0;
++  font-size: 0.875rem;
+   color: var(--muted);
+-  margin-top: 8px;
+ }
+ 
+-.history-compare-date {
+-  font-size: 0.875rem;
++.result-ownership-note a {
++  color: var(--accent);
+ }
+ 
+-.history-shift-label {
+-  font-size: 0.875rem;
++.shared-result-notice {
++  margin: 16px 0 0;
++  padding: 12px 16px;
++  border-left: 2px solid var(--accent);
++  background: color-mix(in srgb, var(--accent) 8%, transparent);
+ }
+ 
+-.history-shift-delta {
+-  font-size: 0.75rem;
++.shared-result-notice p {
++  margin: 0;
++  font-size: 0.95rem;
++  line-height: 1.5;
++  color: var(--text);
++}
++
++.shared-result-notice a {
++  color: var(--accent);
++  font-weight: 600;
++}
++
++@media print {
++  .shared-result-notice,
++  .result-ownership-note {
++    display: none;
++  }
+ }
+ 
+ /* Restraint posture — a one-dimensional scale for the dimension the map's
+diff --git a/app/results/[payload]/page.tsx b/app/results/[payload]/page.tsx
+index 4856826..1670022 100644
+--- a/app/results/[payload]/page.tsx
++++ b/app/results/[payload]/page.tsx
+@@ -5,7 +5,7 @@ import { ResearchStatusNotice } from "@/components/research/research-status-noti
+ import {
+   FoundationResultStory,
+ } from "@/components/results/foundation-result-story"
+-import { ResultCardHeroShare } from "@/components/results/result-card-hero-share"
++import { SharedResultNotice } from "@/components/results/shared-result-notice"
+ import { ShareActions } from "@/components/results/share-actions"
+ import { localizedAlternates, publicPath } from "@/i18n/paths"
+ import { getAtlasPatternHref } from "@/lib/atlas-lite"
+@@ -31,6 +31,7 @@ import { DIMENSION_POLES } from "@/lib/results/dimension-bands"
+ import { buildFoundationPayoff } from "@/lib/results/foundation-payoff"
+ import { getV2ScoringCalibration } from "@/lib/scoring"
+ import { resolveFoundationPayload } from "@/lib/share"
++import { SHARED_VIEW_VALUE } from "@/lib/result-ownership"
+ import { buildFoundationShareCardUrl } from "@/lib/share-card"
+ import { traditionNounLabel } from "@/lib/worldview-config"
+ import type { Metadata } from "next"
+@@ -110,9 +111,17 @@ function buildResultMetadata(
+ }
+ 
+ export default async function ResultPage(
+-  { params }: { params: Promise<{ payload: string }> },
++  {
++    params,
++    searchParams,
++  }: {
++    params: Promise<{ payload: string }>
++    searchParams: Promise<{ via?: string | string[] }>
++  },
+ ) {
+   const { payload } = await params
++  const { via } = await searchParams
++  const sharedView = via === SHARED_VIEW_VALUE
+   const resolved = resolveFoundationPayload(payload)
+ 
+   if (!resolved) {
+@@ -224,7 +233,9 @@ export default async function ResultPage(
+ 
+   return (
+     <div className="wide-container">
++      {sharedView ? <SharedResultNotice variant="shared" payload={payload} /> : null}
+       <FoundationProfileSync
++        sharedView={sharedView}
+         snapshot={{
+           payload,
+           resultPath: `/results/${payload}`,
+@@ -286,14 +297,8 @@ export default async function ResultPage(
+               strategyModifier={result.strategyModifier}
+               normativeModifier={result.normativeModifier}
+               displayLabel={archetypeShareLabel}
++              sharedView={sharedView}
+             />
+-            <div className="row gap-sm wrap print-hidden">
+-              <ResultCardHeroShare
+-                shareUrl={`/results/${payload}`}
+-                title={`IR Worldview: ${archetype.name}`}
+-                text={`My IR worldview result: ${archetypeShareLabel}`}
+-              />
+-            </div>
+           </>
+         }
+       />
+diff --git a/components/profile/foundation-profile-sync.tsx b/components/profile/foundation-profile-sync.tsx
+index 1ec41d8..643b325 100644
+--- a/components/profile/foundation-profile-sync.tsx
++++ b/components/profile/foundation-profile-sync.tsx
+@@ -1,6 +1,7 @@
+ "use client"
+ 
+-import { useEffect } from "react"
++import Link from "next/link"
++import { useEffect, useSyncExternalStore } from "react"
+ import { useLocale } from "next-intl"
+ import {
+   saveFoundationSnapshot,
+@@ -9,10 +10,40 @@ import {
+ import { consumeProfileSaveIntent } from "@/lib/profile-save-intent"
+ import { completionProvenance } from "@/lib/locale-provenance"
+ import { resolveFoundationPayload } from "@/lib/share"
++import { publicPath } from "@/i18n/paths"
++import {
++  browserKnowsFoundationResult,
++  getResultOwnership,
++  setResultOwnership,
++  subscribeResultOwnership,
++} from "@/lib/result-ownership"
+ import type { Locale } from "@/i18n/routing"
++import { SharedResultNotice } from "@/components/results/shared-result-notice"
++
++const noteCopy = {
++  en: {
++    savedBefore: "Saved to your ",
++    profile: "Profile",
++    savedAfter: " on this device.",
++    failed: "This browser blocked saving. Copy the link to keep this result.",
++  },
++  "zh-Hans": {
++    savedBefore: "已保存到此设备上的",
++    profile: "档案",
++    savedAfter: "。",
++    failed: "此浏览器阻止了保存。请复制链接保留这份结果。",
++  },
++} as const
+ 
++/**
++ * Saves a Foundation result to the local Profile only when this tab generated
++ * it, then tells the reader what happened. A result opened from a link is
++ * never saved; if the browser has no record of it, the reader is told the page
++ * may be someone else's result.
++ */
+ export function FoundationProfileSync({
+   snapshot,
++  sharedView = false,
+ }: {
+   snapshot: Omit<
+     FoundationSnapshot,
+@@ -22,16 +53,33 @@ export function FoundationProfileSync({
+     | "instrumentStructuralVersion"
+     | "scoringVersion"
+   >
++  /** The server already rendered a shared-result notice from the URL. */
++  sharedView?: boolean
+ }) {
+   const locale = useLocale() as Locale
++  const payload = snapshot.payload
++  const ownership = useSyncExternalStore(
++    subscribeResultOwnership,
++    () => getResultOwnership(payload),
++    () => "unknown" as const,
++  )
+ 
+   useEffect(() => {
+     const intent = consumeProfileSaveIntent("foundation", snapshot.payload)
+-    if (!intent) return
++    if (!intent) {
++      if (
++        !sharedView &&
++        getResultOwnership(snapshot.payload) === "unknown" &&
++        browserKnowsFoundationResult(snapshot.payload) === false
++      ) {
++        setResultOwnership(snapshot.payload, "opened-from-link")
++      }
++      return
++    }
+     const resolved = resolveFoundationPayload(snapshot.payload)
+     const payloadProvenance = resolved?.provenance
+     const routeProvenance = completionProvenance("foundation", locale)
+-    saveFoundationSnapshot({
++    const saved = saveFoundationSnapshot({
+       ...snapshot,
+       ...(intent.mode ? { mode: intent.mode } : {}),
+       ...(intent.localEvidenceId
+@@ -45,7 +93,29 @@ export function FoundationProfileSync({
+       localeCopyVersion:
+         payloadProvenance?.localeCopyVersion ?? routeProvenance.localeCopyVersion,
+     })
+-  }, [locale, snapshot])
++    setResultOwnership(snapshot.payload, saved ? "saved" : "save-failed")
++  }, [locale, sharedView, snapshot])
++
++  const text = locale === "zh-Hans" ? noteCopy["zh-Hans"] : noteCopy.en
+ 
++  if (ownership === "saved") {
++    return (
++      <p className="result-ownership-note" role="status" data-ownership="saved">
++        {text.savedBefore}
++        <Link href={publicPath(locale, "/profile")}>{text.profile}</Link>
++        {text.savedAfter}
++      </p>
++    )
++  }
++  if (ownership === "save-failed") {
++    return (
++      <p className="result-ownership-note" role="status" data-ownership="save-failed">
++        {text.failed}
++      </p>
++    )
++  }
++  if (ownership === "opened-from-link") {
++    return <SharedResultNotice variant="unknown" />
++  }
+   return null
+ }
+diff --git a/components/results/share-actions.tsx b/components/results/share-actions.tsx
+index 93be337..8af384a 100644
+--- a/components/results/share-actions.tsx
++++ b/components/results/share-actions.tsx
+@@ -6,6 +6,7 @@ import { publicPath } from "@/i18n/paths"
+ import type { Locale } from "@/i18n/routing"
+ import { copyText } from "@/lib/clipboard"
+ import { QUIZ_STORAGE_KEY, notifyQuizSessionUpdated } from "@/lib/quiz-session"
++import { withSharedView } from "@/lib/result-ownership"
+ 
+ type Props = {
+   payload: string
+@@ -14,6 +15,8 @@ type Props = {
+   normativeModifier: string
+   displayLabel?: string
+   locale?: Locale
++  /** The reader opened someone else's result from a shared link. */
++  sharedView?: boolean
+ }
+ 
+ const shareCopy = {
+@@ -26,9 +29,11 @@ const shareCopy = {
+     copyLink: "Copy link",
+     savePdf: "Save as PDF",
+     retake: "Retake the Foundation questionnaire",
++    takeOwn: "Take the Foundation",
+     fallback: "Foundation share link",
+     title: (family: string) => `IR Worldview: ${family}`,
+     text: (result: string) => `My IR worldview result: ${result}`,
++    sharedText: (result: string) => `An IR worldview result: ${result}`,
+   },
+   "zh-Hans": {
+     copied: "已复制",
+@@ -39,9 +44,11 @@ const shareCopy = {
+     copyLink: "复制链接",
+     savePdf: "打印或存为 PDF",
+     retake: "重新完成基础问卷",
++    takeOwn: "完成基础问卷",
+     fallback: "基础结果分享链接",
+     title: (family: string) => `国际关系世界观画像：${family}`,
+     text: (result: string) => `我的国际关系世界观结果：${result}`,
++    sharedText: (result: string) => `一份国际关系世界观结果：${result}`,
+   },
+ } as const
+ 
+@@ -52,6 +59,7 @@ export function ShareActions({
+   normativeModifier,
+   displayLabel,
+   locale = "en",
++  sharedView = false,
+ }: Props) {
+   const router = useRouter()
+   const copy = shareCopy[locale]
+@@ -67,7 +75,10 @@ export function ShareActions({
+     `${familyLabel} · ${strategyModifier} · ${normativeModifier}`
+ 
+   function getShareUrl() {
+-    return new URL(publicPath(locale, `/results/${payload}`), window.location.origin).toString()
++    return new URL(
++      withSharedView(publicPath(locale, `/results/${payload}`)),
++      window.location.origin,
++    ).toString()
+   }
+ 
+   async function handleCopy() {
+@@ -85,7 +96,7 @@ export function ShareActions({
+       try {
+         await navigator.share({
+           title: copy.title(displayLabel ?? familyLabel),
+-          text: copy.text(resultLabel),
++          text: sharedView ? copy.sharedText(resultLabel) : copy.text(resultLabel),
+           url: getShareUrl(),
+         })
+       } catch {
+@@ -141,7 +152,7 @@ export function ShareActions({
+         {copy.savePdf}
+       </button>
+       <button type="button" className="secondary-button" onClick={handleRetake}>
+-        {copy.retake}
++        {sharedView ? copy.takeOwn : copy.retake}
+       </button>
+       {copyState === "error" ? (
+         <label className="share-copy-fallback">
+diff --git a/components/results/shared-result-notice.tsx b/components/results/shared-result-notice.tsx
+new file mode 100644
+index 0000000..db216fe
+--- /dev/null
++++ b/components/results/shared-result-notice.tsx
+@@ -0,0 +1,73 @@
++"use client"
++
++import Link from "next/link"
++import { useSyncExternalStore } from "react"
++import { useLocale } from "next-intl"
++import { browserKnowsFoundationResult, subscribeLocalStorage } from "@/lib/result-ownership"
++import { publicPath } from "@/i18n/paths"
++import type { Locale } from "@/i18n/routing"
++
++type Variant = "shared" | "unknown"
++
++const copy: Record<"en" | "zh-Hans", Record<Variant, { before: string; action: string; after: string }>> = {
++  en: {
++    shared: {
++      before: "You are looking at someone else’s result.",
++      action: "Take the Foundation",
++      after: " to see where you land.",
++    },
++    unknown: {
++      before: "Opened from a link. If this is someone else’s result,",
++      action: "take the Foundation",
++      after: " to see where you land.",
++    },
++  },
++  "zh-Hans": {
++    shared: {
++      before: "这是别人分享的结果。",
++      action: "完成基础问卷",
++      after: "，看看你自己的位置。",
++    },
++    unknown: {
++      before: "此结果来自链接。如果这不是你的结果，可以",
++      action: "完成基础问卷",
++      after: "，看看你自己的位置。",
++    },
++  },
++}
++
++/**
++ * Tells a reader who arrived from a link that the result below belongs to
++ * someone else, and offers the questionnaire. Result copy is written in the
++ * second person for its owner, so a recipient needs this before reading it.
++ */
++export function SharedResultNotice({
++  variant,
++  payload,
++}: {
++  variant: Variant
++  /** When set, the notice hides itself if this browser saved the result. */
++  payload?: string
++}) {
++  const locale = (useLocale() as Locale) === "zh-Hans" ? "zh-Hans" : "en"
++  const text = copy[locale][variant]
++  // An owner opening their own shared link on the same device.
++  const ownResult = useSyncExternalStore(
++    subscribeLocalStorage,
++    () => (payload ? browserKnowsFoundationResult(payload) === true : false),
++    () => false,
++  )
++
++  if (ownResult) return null
++  const gap = locale === "en" ? " " : ""
++  return (
++    <aside className="shared-result-notice" data-shared-result={variant}>
++      <p>
++        {text.before}
++        {gap}
++        <Link href={publicPath(locale, "/quiz")}>{text.action}</Link>
++        {text.after}
++      </p>
++    </aside>
++  )
++}
+diff --git a/e2e/critical-smoke.spec.ts b/e2e/critical-smoke.spec.ts
+index 6f0a5ea..3c66bc5 100644
+--- a/e2e/critical-smoke.spec.ts
++++ b/e2e/critical-smoke.spec.ts
+@@ -268,12 +268,14 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
+     resultActions.getByRole("button", { name: "Copied!", exact: true }),
+   ).toBeVisible()
+   const shareUrl = await page.evaluate(() => navigator.clipboard.readText())
+-  expect(shareUrl).toBe(page.url())
++  expect(shareUrl).toBe(`${page.url()}?via=share`)
+ 
+   const sharedResult = await context.newPage()
+   await sharedResult.goto(shareUrl)
+-  await expect(sharedResult).toHaveURL(/\/results\/[A-Za-z0-9_-]+$/)
++  await expect(sharedResult).toHaveURL(/\/results\/[A-Za-z0-9_-]+\?via=share$/)
+   await expect(sharedResult.getByText("Invalid result")).toHaveCount(0)
++  // Same browser context: the owner's own link is recognised, so no shared notice.
++  await expect(sharedResult.locator('[data-shared-result="shared"]')).toHaveCount(0)
+   await sharedResult.close()
+ 
+   await page.getByRole("link", { name: "View Profile" }).click()
+diff --git a/e2e/history-copy-provenance.spec.ts b/e2e/history-copy-provenance.spec.ts
+deleted file mode 100644
+index dc82636..0000000
+--- a/e2e/history-copy-provenance.spec.ts
++++ /dev/null
+@@ -1,56 +0,0 @@
+-import { test, expect, type Page } from '@playwright/test'
+-import { mkdirSync } from 'node:fs'
+-import { syntheticAnswers } from '../tests/decision-exercises/fixtures'
+-import { generateResult } from '../lib/scoring'
+-import { buildFoundationCopySharePayload } from '../lib/foundation-copy-share'
+-import { encodePayload, resolveFoundationPayload } from '../lib/share'
+-import { SCHEMA_VERSION } from '../lib/quiz-schema'
+-import { RESULT_HISTORY_STORAGE_KEY } from '../lib/storage-keys'
+-import { resolveArchetype } from '../lib/archetypes'
+-const dir=process.env.HISTORY_EVIDENCE_DIR ?? 'test-results/history-copy'
+-function fixture(seed:number,copy:number,locale:'en'|'zh-Hans'='en') {
+- const raw=generateResult(syntheticAnswers(seed,'core'),'analyst','core')
+- const payload=encodePayload(buildFoundationCopySharePayload(raw,locale,'core',undefined,copy))
+- const resolved=resolveFoundationPayload(payload)!
+- return {payload,name:resolveArchetype(resolved.result).name,snapshot:{timestamp:1700000000000+seed,schemaVersion:SCHEMA_VERSION,familyKey:resolved.result.familyKey,neighborKey:resolved.result.runnerUpKey,strategyModifier:resolved.result.strategyModifier,normativeModifier:resolved.result.normativeModifier,dimensionScores:resolved.dimensionScores,locale,localeCopyVersion:copy}}
+-}
+-async function seed(page:Page,snapshots:ReturnType<typeof fixture>['snapshot'][]) {
+- await page.goto('/privacy');await page.evaluate(({key,snapshots})=>localStorage.setItem(key,JSON.stringify(snapshots)),{key:RESULT_HISTORY_STORAGE_KEY,snapshots})
+-}
+-async function history(page:Page){return page.evaluate(key=>JSON.parse(localStorage.getItem(key)??'[]'),RESULT_HISTORY_STORAGE_KEY)}
+-async function capture(page:Page,name:string){mkdirSync(dir,{recursive:true});await page.locator('.history-saved-note').scrollIntoViewIfNeeded();await page.screenshot({path:`${dir}/${name}.png`})}
+-for(const locale of ['en','zh-Hans'] as const) test(`${locale}: unknown saved observations stay individually readable without a comparison`,async({page})=>{
+- const prior=fixture(1,0,locale),current=fixture(12,0,locale)
+- await seed(page,[prior.snapshot]);await page.goto(`/results/${current.payload}`)
+- await expect(page.locator('.history-saved-note')).toBeVisible()
+- await expect(page.locator('.history-compare')).toHaveCount(0)
+- await expect(page.locator('h1')).toContainText(current.name)
+- expect((await history(page)).find((s:{timestamp:number})=>s.timestamp===prior.snapshot.timestamp)).toEqual(prior.snapshot)
+- await capture(page,`unknown-${locale}`)
+-})
+-test('reopening an unknown result does not churn bounded history or evict unrelated records',async({page})=>{
+- const current=fixture(12,0),others=[1,2,3,4].map(n=>fixture(n,1).snapshot)
+- await seed(page,[current.snapshot,...others]);const before=await history(page)
+- for(let i=0;i<6;i++) {
+-  await page.goto(`/results/${current.payload}`);await expect(page.locator('.history-saved-note')).toBeVisible();await page.reload();await expect(page.locator('.history-saved-note')).toBeVisible()
+- }
+- expect(await history(page)).toEqual(before)
+- await expect(page.locator('.history-compare')).toHaveCount(0)
+-})
+-test('known comparison clears on a same-document Next navigation to an unknown result',async({page})=>{
+- const prior=fixture(1,1),known=fixture(12,1),unknown=fixture(12,0)
+- // A test-only redirect on the existing Next link supplies another result URL.
+- // The result route/RSC and component are real; no new test route or production link is added.
+- await page.route('**/feedback*',route=>route.fulfill({status:307,headers:{location:`/results/${unknown.payload}`}}))
+- // Register before navigation so link prefetch cannot bypass the deterministic redirect.
+- await seed(page,[prior.snapshot]);await page.goto(`/results/${known.payload}`)
+- await expect(page.locator('.history-compare')).toBeVisible();await capture(page,'known-control')
+- await page.evaluate(()=>{(window as unknown as {historyNavigationSentinel:boolean}).historyNavigationSentinel=true})
+- await page.getByRole('link',{name:'Report a factual problem'}).click()
+- await expect(page).toHaveURL(new RegExp(`/results/${unknown.payload}$`))
+- expect(await page.evaluate(()=>(window as unknown as {historyNavigationSentinel:boolean}).historyNavigationSentinel)).toBe(true)
+- await expect(page.locator('.history-saved-note')).toBeVisible()
+- await expect(page.locator('.history-compare')).toHaveCount(0)
+- expect((await history(page)).find((s:{timestamp:number})=>s.timestamp===prior.snapshot.timestamp)).toEqual(prior.snapshot)
+- await expect(page.locator('h1')).toContainText(known.name)
+-})
+diff --git a/e2e/i18n.spec.ts b/e2e/i18n.spec.ts
+index af3850b..0147f8b 100644
+--- a/e2e/i18n.spec.ts
++++ b/e2e/i18n.spec.ts
+@@ -243,13 +243,13 @@ test("one canonical Foundation result payload renders in English and Chinese", a
+     link: (window as typeof window & { __foundationShareLink?: string }).__foundationShareLink,
+     origin: window.location.origin,
+   }))
+-  expect(copiedShare.link).toBe(`${copiedShare.origin}${chinesePath}`)
++  expect(copiedShare.link).toBe(`${copiedShare.origin}${chinesePath}?via=share`)
+ 
+   await page.getByRole("link", { name: "切换至英文" }).last().click()
+   await expect(page).toHaveURL(new RegExp(`${englishPath}$`))
+ })
+ 
+-test("Foundation history follows payload provenance rather than the viewing locale", async ({ page }) => {
++test("opening a result link leaves legacy history and the Profile untouched", async ({ page }) => {
+   const resolved = resolveFoundationPayload(FOUNDATION_SHARE_V3_TOKEN)
+   expect(resolved).not.toBeNull()
+   if (!resolved) return
+@@ -271,15 +271,13 @@ test("Foundation history follows payload provenance rather than the viewing loca
+   )
+ 
+   await page.goto(`/results/${FOUNDATION_SHARE_V3_TOKEN}`)
+-  await expect.poll(async () => page.evaluate((key) => {
+-    const raw = localStorage.getItem(key)
+-    return raw ? JSON.parse(raw).length : 0
+-  }, RESULT_HISTORY_STORAGE_KEY)).toBe(2)
+-
++  await expect(page.locator("main h1")).toBeVisible()
++  await page.waitForLoadState("networkidle")
++  // Viewing a link is not a completion: nothing is added to either store.
+   const history = await page.evaluate((key) =>
+     JSON.parse(localStorage.getItem(key) ?? "[]"), RESULT_HISTORY_STORAGE_KEY)
+-  expect(history[0]).toMatchObject({ locale: "zh-Hans", localeCopyVersion: 1 })
+-  expect(history[1]).toMatchObject({ locale: "en", localeCopyVersion: 1 })
++  expect(history).toEqual([englishSnapshot])
++  expect(await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+ })
+ 
+ test("one canonical Profile Share V3 payload renders in English and Chinese", async ({ page }) => {
+diff --git a/e2e/pilot-trust.spec.ts b/e2e/pilot-trust.spec.ts
+index b03037b..aa3b547 100644
+--- a/e2e/pilot-trust.spec.ts
++++ b/e2e/pilot-trust.spec.ts
+@@ -1,4 +1,4 @@
+-import { expect, test } from "@playwright/test"
++import { expect, test, type Page } from "@playwright/test"
+ import fixture from "../tests/fixtures/profile-store-v5.json"
+ import { PROFILE_STORAGE_KEY, PROFILE_SAVE_INTENT_KEY, RESULT_HISTORY_STORAGE_KEY, AI_GOVERNANCE_STORAGE_KEY } from "../lib/storage-keys"
+ import { getAiCoreQuestions, getScenarioOptions } from "../lib/ai-governance-schema"
+@@ -11,37 +11,67 @@ import type { AiAnswers } from "../lib/ai-governance-types"
+ const payload = fixture.foundation.payload
+ const resultPath = `/results/${payload}`
+ 
+-test("shared Foundation is read-only in a fresh browser", async ({ page }) => {
++const savedNote = (page: Page) => page.locator('[data-ownership="saved"]')
++const failedNote = (page: Page) => page.locator('[data-ownership="save-failed"]')
++const sharedNotice = (page: Page, variant: "shared" | "unknown") =>
++  page.locator(`[data-shared-result="${variant}"]`)
++
++test("a link opened in a fresh browser is read-only and says it may be someone else's", async ({ page }) => {
+   await page.goto(resultPath)
+   await expect(page.locator("h1")).toBeVisible()
+-  await page.waitForLoadState("networkidle")
++  await expect(sharedNotice(page, "unknown")).toBeVisible()
++  await expect(savedNote(page)).toHaveCount(0)
+   expect(await page.evaluate((key) => localStorage.getItem(key), RESULT_HISTORY_STORAGE_KEY)).toBeNull()
+   expect(await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+-  await expect(page.getByText("Saved to this device", { exact: true })).toHaveCount(0)
+ })
+ 
+-test("completion intent saves once and reload stays read-only", async ({ page }) => {
++test("a share link renders the shared notice on the server and saves nothing", async ({ page }) => {
++  const response = await page.request.get(`${resultPath}?via=share`)
++  expect(await response.text()).toContain('data-shared-result="shared"')
++  await page.goto(`${resultPath}?via=share`)
++  await expect(sharedNotice(page, "shared")).toContainText("someone else’s result")
++  await expect(sharedNotice(page, "unknown")).toHaveCount(0)
++  await expect(page.getByRole("button", { name: "Take the Foundation", exact: true })).toBeVisible()
++  await page.waitForLoadState("networkidle")
++  await expect(savedNote(page)).toHaveCount(0)
++  expect(await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
++})
++
++test("completion intent saves once, says so, and reload stays quiet", async ({ page }) => {
+   await page.goto("/")
+   await page.evaluate(({ key, payload }) => sessionStorage.setItem(key, JSON.stringify({ foundation: { identity: payload, mode: "standard" } })), { key: PROFILE_SAVE_INTENT_KEY, payload })
+   await page.goto(resultPath)
+-  await expect.poll(() => page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).not.toBeNull()
++  await expect(savedNote(page)).toHaveText("Saved to your Profile on this device.")
++  await expect(savedNote(page).getByRole("link", { name: "Profile" })).toHaveAttribute("href", "/profile")
+   const saved = await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)
+   expect(JSON.parse(saved!).foundationHistory).toHaveLength(1)
+   await page.reload()
+   await page.waitForLoadState("networkidle")
++  await expect(savedNote(page)).toHaveCount(0)
++  await expect(sharedNotice(page, "unknown")).toHaveCount(0)
+   expect(await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBe(saved)
+ })
+ 
+-test("throwing storage never reports a saved Foundation", async ({ page }) => {
++test("the owner opening their own share link on the same device sees no shared notice", async ({ page }) => {
++  await page.goto("/")
++  await page.evaluate(({ key, payload }) => sessionStorage.setItem(key, JSON.stringify({ foundation: { identity: payload } })), { key: PROFILE_SAVE_INTENT_KEY, payload })
++  await page.goto(resultPath)
++  await expect(savedNote(page)).toBeVisible()
++  await page.goto(`${resultPath}?via=share`)
++  await page.waitForLoadState("networkidle")
++  await expect(sharedNotice(page, "shared")).toHaveCount(0)
++})
++
++test("throwing storage reports that the result was not saved", async ({ page }) => {
+   await page.goto("/")
+   await page.evaluate(({ key, payload }) => sessionStorage.setItem(key, JSON.stringify({ foundation: { identity: payload } })), { key: PROFILE_SAVE_INTENT_KEY, payload })
+   await page.addInitScript(() => {
+     Storage.prototype.setItem = () => { throw new DOMException("Full", "QuotaExceededError") }
+   })
+   await page.goto(resultPath)
+-  await page.waitForLoadState("networkidle")
+   await expect(page.locator("h1")).toBeVisible()
+-  await expect(page.getByText("Saved to this device", { exact: true })).toHaveCount(0)
++  await expect(failedNote(page)).toContainText("This browser blocked saving.")
++  await expect(savedNote(page)).toHaveCount(0)
+   expect(await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+ })
+ 
+@@ -82,6 +112,7 @@ test("AI encoding failure preserves answers and allows retry", async ({ page })
+ 
+ test("genuine Foundation completion saves exactly once", async ({ page }) => {
+   await page.goto("/quiz")
++  await page.getByRole("button", { name: "Start Foundation", exact: true }).click()
+   await expect(page.getByRole("heading", { name: "Foundation", exact: true })).toBeVisible()
+   for (let step = 0; step < 60; step++) {
+     const midpoint = page.getByRole("button", { name: "Continue", exact: true })
+@@ -96,6 +127,8 @@ test("genuine Foundation completion saves exactly once", async ({ page }) => {
+   await expect(page).toHaveURL(/\/quiz\/review$/)
+   await page.getByRole("button", { name: "Generate my result →" }).click()
+   await expect(page).toHaveURL(/\/results\//)
++  await expect(savedNote(page)).toBeVisible()
++  await expect(sharedNotice(page, "unknown")).toHaveCount(0)
+   await expect.poll(() => page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).not.toBeNull()
+   const saved = await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)
+   expect(JSON.parse(saved!).foundationHistory).toHaveLength(1)
+@@ -122,7 +155,7 @@ for (const [label, encoded] of provenanceCases) {
+     await page.waitForLoadState("networkidle")
+     await expect(page.getByText("This link could not be decoded.")).toHaveCount(0)
+     await expect(page.getByText("Compared with your last saved result")).toHaveCount(0)
+-    await expect(page.getByText("Saved to this device", { exact: true })).toHaveCount(0)
++    await expect(savedNote(page)).toHaveCount(0)
+     expect(await page.evaluate((key) => localStorage.getItem(key), RESULT_HISTORY_STORAGE_KEY)).toBe(history)
+     expect(await page.evaluate((key) => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+   })
+diff --git a/e2e/v22-visual-accessibility.spec.ts b/e2e/v22-visual-accessibility.spec.ts
+index 8e8b1fc..0b0df68 100644
+--- a/e2e/v22-visual-accessibility.spec.ts
++++ b/e2e/v22-visual-accessibility.spec.ts
+@@ -809,7 +809,7 @@ for (const nativeShare of [false, true] as const) {
+       ).toBeVisible()
+       const fallback = actions.getByLabel("Foundation share link")
+       await expect(fallback).toBeVisible()
+-      await expect(fallback).toHaveValue(page.url())
++      await expect(fallback).toHaveValue(`${page.url()}?via=share`)
+     }
+ 
+     await expect(
+diff --git a/lib/result-history.ts b/lib/result-history.ts
+deleted file mode 100644
+index daacd5f..0000000
+--- a/lib/result-history.ts
++++ /dev/null
+@@ -1,97 +0,0 @@
+-import type { DimensionScores, FamilyKey, StrategyModifier, NormativeModifier } from "@/lib/types"
+-import { RESULT_HISTORY_STORAGE_KEY } from "@/lib/storage-keys"
+-import type { CompletionProvenance } from "@/lib/locale-provenance"
+-import {
+-  LEGACY_ENGLISH_PROVENANCE,
+-  isCompletionLocale,
+-  isLocaleCopyVersion,
+-} from "@/lib/locale-provenance"
+-
+-export { RESULT_HISTORY_STORAGE_KEY } from "@/lib/storage-keys"
+-
+-export type ResultSnapshot = CompletionProvenance & {
+-  timestamp: number
+-  schemaVersion: number
+-  familyKey: FamilyKey
+-  neighborKey: FamilyKey
+-  strategyModifier: StrategyModifier
+-  normativeModifier: NormativeModifier
+-  dimensionScores: DimensionScores
+-}
+-
+-const MAX_SNAPSHOTS = 5
+-
+-export function saveSnapshot(snapshot: ResultSnapshot): boolean {
+-  if (typeof window === "undefined") return false
+-  const history = loadHistory()
+-  const updated = [snapshot, ...history].slice(0, MAX_SNAPSHOTS)
+-  try {
+-    window.localStorage.setItem(RESULT_HISTORY_STORAGE_KEY, JSON.stringify(updated))
+-    return true
+-  } catch {
+-    return false
+-  }
+-}
+-
+-export function loadHistory(): ResultSnapshot[] {
+-  if (typeof window === "undefined") return []
+-  try {
+-    const raw = window.localStorage.getItem(RESULT_HISTORY_STORAGE_KEY)
+-    if (!raw) return []
+-    const parsed = JSON.parse(raw)
+-    if (!Array.isArray(parsed)) return []
+-    return parsed.flatMap((value): ResultSnapshot[] => {
+-      if (typeof value !== "object" || value === null) return []
+-      const candidate = value as Partial<ResultSnapshot>
+-      if (
+-        typeof candidate.timestamp !== "number" ||
+-        typeof candidate.schemaVersion !== "number" ||
+-        typeof candidate.familyKey !== "string" ||
+-        typeof candidate.neighborKey !== "string" ||
+-        typeof candidate.strategyModifier !== "string" ||
+-        typeof candidate.normativeModifier !== "string" ||
+-        typeof candidate.dimensionScores !== "object" ||
+-        candidate.dimensionScores === null
+-      ) return []
+-
+-      return [{
+-        ...(candidate as Omit<ResultSnapshot, "locale" | "localeCopyVersion">),
+-        ...(isCompletionLocale(candidate.locale) &&
+-        isLocaleCopyVersion(candidate.localeCopyVersion)
+-          ? {
+-              locale: candidate.locale,
+-              localeCopyVersion: candidate.localeCopyVersion,
+-            }
+-          : LEGACY_ENGLISH_PROVENANCE),
+-      }]
+-    })
+-  } catch {
+-    return []
+-  }
+-}
+-
+-export function getLastSnapshot(): ResultSnapshot | null {
+-  const history = loadHistory()
+-  return history[0] ?? null
+-}
+-
+-/**
+- * Legacy snapshots have no reliable form or scoring-version provenance.
+- * Keep them readable, but never treat them as longitudinal comparisons.
+- */
+-export function getLastComparableSnapshot(
+-  _provenance: CompletionProvenance,
+-): ResultSnapshot | null {
+-  return null
+-}
+-
+-/** Storage deduplication only: equal recorded markers include unknown/unknown.
+- * This lookup does not establish eligibility for a comparison narrative.
+- */
+-export function getLastSnapshotWithProvenance(
+-  provenance: CompletionProvenance,
+-): ResultSnapshot | null {
+-  return loadHistory().find((snapshot) =>
+-    snapshot.locale === provenance.locale &&
+-    snapshot.localeCopyVersion === provenance.localeCopyVersion) ?? null
+-}
+diff --git a/lib/result-ownership.ts b/lib/result-ownership.ts
+new file mode 100644
+index 0000000..7f2dc08
+--- /dev/null
++++ b/lib/result-ownership.ts
+@@ -0,0 +1,64 @@
++import { loadProfileStore } from "@/lib/profile-store"
++import { PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
++
++/**
++ * Whether this browser's local Profile holds a Foundation result.
++ *
++ * Returns null when local storage cannot be read, so callers claim nothing
++ * either way. A result is "known" only if it was saved here after a
++ * completion in this browser.
++ */
++export function browserKnowsFoundationResult(payload: string): boolean | null {
++  if (typeof window === "undefined") return null
++  try {
++    if (window.localStorage.getItem(PROFILE_STORAGE_KEY) === null) return false
++  } catch {
++    return null
++  }
++  const store = loadProfileStore()
++  return [store.foundation, ...store.foundationHistory].some(
++    (entry) => entry?.payload === payload,
++  )
++}
++
++/** Query parameter added to links made with the share controls. */
++export const SHARED_VIEW_PARAM = "via"
++export const SHARED_VIEW_VALUE = "share"
++
++export function withSharedView(url: string): string {
++  const separator = url.includes("?") ? "&" : "?"
++  return `${url}${separator}${SHARED_VIEW_PARAM}=${SHARED_VIEW_VALUE}`
++}
++
++/**
++ * What the result page learned about the current reader. Written once by the
++ * save effect and read with useSyncExternalStore, so rendering stays a pure
++ * function of this store.
++ */
++export type ResultOwnership = "unknown" | "saved" | "save-failed" | "opened-from-link"
++
++const ownershipByPayload = new Map<string, ResultOwnership>()
++const ownershipListeners = new Set<() => void>()
++
++export function setResultOwnership(payload: string, ownership: ResultOwnership): void {
++  if (ownershipByPayload.get(payload) === ownership) return
++  ownershipByPayload.set(payload, ownership)
++  for (const listener of ownershipListeners) listener()
++}
++
++export function getResultOwnership(payload: string): ResultOwnership {
++  return ownershipByPayload.get(payload) ?? "unknown"
++}
++
++export function subscribeResultOwnership(listener: () => void): () => void {
++  ownershipListeners.add(listener)
++  return () => {
++    ownershipListeners.delete(listener)
++  }
++}
++
++export function subscribeLocalStorage(listener: () => void): () => void {
++  if (typeof window === "undefined") return () => {}
++  window.addEventListener("storage", listener)
++  return () => window.removeEventListener("storage", listener)
++}
+diff --git a/tests/history-copy-provenance.test.mts b/tests/history-copy-provenance.test.mts
+index 9518d50..2474167 100644
+--- a/tests/history-copy-provenance.test.mts
++++ b/tests/history-copy-provenance.test.mts
+@@ -1,10 +1,6 @@
+ import test from "node:test"
+ import assert from "node:assert/strict"
+ import { sameResearchEquivalenceCohort } from "@/lib/locale-provenance"
+-import { getLastComparableSnapshot, getLastSnapshotWithProvenance, loadHistory, RESULT_HISTORY_STORAGE_KEY, type ResultSnapshot } from "@/lib/result-history"
+-import { generateResult } from "@/lib/scoring"
+-import { syntheticAnswers } from "@/tests/decision-exercises/fixtures"
+-import { SCHEMA_VERSION } from "@/lib/quiz-schema"
+ 
+ for (const locale of ["en", "zh-Hans"] as const) test(`${locale}: equal unknown copy markers cannot establish comparison eligibility`, () => {
+  for (const [left,right,eligible] of [[0,0,false],[0,1,false],[1,0,false],[0,2,false],[2,0,false],[1,1,true],[2,2,true],[1,2,false]] as const) {
+@@ -12,19 +8,3 @@ for (const locale of ["en", "zh-Hans"] as const) test(`${locale}: equal unknown
+  }
+  assert.equal(sameResearchEquivalenceCohort({locale,localeCopyVersion:1},{locale:locale==='en'?'zh-Hans':'en',localeCopyVersion:1}),false)
+ })
+-
+-test("history selection rejects unknown priors without rewriting saved records", () => {
+- const result = generateResult(syntheticAnswers(12,'core'),'analyst','core')
+- const snapshots: ResultSnapshot[] = [0,1].map((copy,i)=>({timestamp:100+i,schemaVersion:SCHEMA_VERSION,familyKey:result.familyKey,neighborKey:result.runnerUpKey,strategyModifier:result.strategyModifier,normativeModifier:result.normativeModifier,dimensionScores:result.dimensionScores,locale:'en',localeCopyVersion:copy}))
+- const bytes=JSON.stringify(snapshots)
+- const original=Object.getOwnPropertyDescriptor(globalThis,'window')
+- Object.defineProperty(globalThis,'window',{configurable:true,value:{localStorage:{getItem:(key:string)=>key===RESULT_HISTORY_STORAGE_KEY?bytes:null}}})
+- try {
+-  assert.equal(getLastComparableSnapshot({locale:'en',localeCopyVersion:0}),null)
+-  assert.equal(getLastComparableSnapshot({locale:'en',localeCopyVersion:1}),null)
+-  // Matching recorded markers permits storage dedup only, not comparison or ownership.
+-  assert.deepEqual(getLastSnapshotWithProvenance({locale:'en',localeCopyVersion:1}),snapshots[1])
+-  assert.deepEqual(getLastSnapshotWithProvenance({locale:'en',localeCopyVersion:0}),snapshots[0])
+-  assert.deepEqual(loadHistory(),snapshots)
+- } finally {if(original)Object.defineProperty(globalThis,'window',original);else Reflect.deleteProperty(globalThis,'window')}
+-})
+diff --git a/tests/pilot-trust.test.mts b/tests/pilot-trust.test.mts
+index dfff2b5..5de6c21 100644
+--- a/tests/pilot-trust.test.mts
++++ b/tests/pilot-trust.test.mts
+@@ -1,44 +1,79 @@
+ import test from "node:test"
+ import assert from "node:assert/strict"
+-import { loadHistory, saveSnapshot, getLastComparableSnapshot, type ResultSnapshot } from "@/lib/result-history"
+-import { markProfileSaveIntent } from "@/lib/profile-save-intent"
+-import { saveProfileStore, emptyProfileStore } from "@/lib/profile-store"
++import { consumeProfileSaveIntent, markProfileSaveIntent } from "@/lib/profile-save-intent"
++import { emptyProfileStore, saveProfileStore, serializeProfileStore } from "@/lib/profile-store"
++import { browserKnowsFoundationResult, withSharedView } from "@/lib/result-ownership"
++import { PROFILE_STORAGE_KEY } from "@/lib/storage-keys"
++import fixture from "./fixtures/profile-store-v5.json" with { type: "json" }
+ 
+-const snapshot: ResultSnapshot = {
+-  timestamp: 1000, schemaVersion: 4, familyKey: "realist", neighborKey: "institutionalist",
+-  strategyModifier: "Restrainer", normativeModifier: "Pluralist",
+-  dimensionScores: { securityCompetition: 4, institutions: 4, domesticFilters: 4, normsIdentity: 4, politicalEconomy: 4, restraint: 4, orderJustice: 4 },
+-  locale: "en", localeCopyVersion: 1,
+-}
++type StorageStub = { getItem(key: string): string | null; setItem(key: string, value: string): void; removeItem(key: string): void }
+ 
+-test("persistence helpers explicitly report successful, full, and unavailable storage", () => {
++function withWindow(value: unknown, run: () => void) {
+   const previous = Object.getOwnPropertyDescriptor(globalThis, "window")
++  Object.defineProperty(globalThis, "window", { configurable: true, value })
++  try {
++    run()
++  } finally {
++    if (previous) Object.defineProperty(globalThis, "window", previous)
++    else delete (globalThis as { window?: unknown }).window
++  }
++}
++
++function memoryStorage(): StorageStub & { values: Map<string, string> } {
+   const values = new Map<string, string>()
+-  const storage = {
+-    getItem: (key: string) => values.get(key) ?? null,
+-    setItem: (key: string, value: string) => { values.set(key, value) },
++  return {
++    values,
++    getItem: (key) => values.get(key) ?? null,
++    setItem: (key, value) => { values.set(key, value) },
++    removeItem: (key) => { values.delete(key) },
+   }
+-  try {
+-    Object.defineProperty(globalThis, "window", { configurable: true, value: { localStorage: storage, sessionStorage: storage } })
+-    assert.equal(saveSnapshot(snapshot), true)
+-    assert.deepEqual(loadHistory(), [snapshot])
+-    // Same locale/copy and scores cannot establish missing form/scoring provenance.
+-    assert.equal(getLastComparableSnapshot(snapshot), null)
++}
++
++test("persistence helpers report success, a full store, and blocked storage", () => {
++  const storage = memoryStorage()
++  withWindow({ localStorage: storage, sessionStorage: storage }, () => {
+     assert.equal(saveProfileStore(emptyProfileStore()), true)
+     assert.equal(markProfileSaveIntent("foundation", "owned"), true)
+     storage.setItem = () => { throw new Error("quota") }
+-    assert.equal(saveSnapshot(snapshot), false)
+     assert.equal(saveProfileStore(emptyProfileStore()), false)
+     assert.equal(markProfileSaveIntent("foundation", "owned"), false)
+-    Object.defineProperty(globalThis, "window", { configurable: true, value: {
+-      get localStorage() { throw new Error("blocked") },
+-      get sessionStorage() { throw new Error("blocked") },
+-    } })
+-    assert.equal(saveSnapshot(snapshot), false)
++  })
++  withWindow({
++    get localStorage() { throw new Error("blocked") },
++    get sessionStorage() { throw new Error("blocked") },
++  }, () => {
+     assert.equal(saveProfileStore(emptyProfileStore()), false)
+     assert.equal(markProfileSaveIntent("foundation", "owned"), false)
+-  } finally {
+-    if (previous) Object.defineProperty(globalThis, "window", previous)
+-    else delete (globalThis as { window?: unknown }).window
+-  }
++  })
++})
++
++test("a save intent is consumed once and only for the result it names", () => {
++  const storage = memoryStorage()
++  withWindow({ localStorage: storage, sessionStorage: storage }, () => {
++    markProfileSaveIntent("foundation", "abc", { mode: "standard" })
++    assert.equal(consumeProfileSaveIntent("foundation", "other"), null)
++    assert.deepEqual(consumeProfileSaveIntent("foundation", "abc"), { identity: "abc", mode: "standard" })
++    assert.equal(consumeProfileSaveIntent("foundation", "abc"), null)
++  })
++})
++
++test("ownership is known only from this browser's saved Profile", () => {
++  const payload = fixture.foundation.payload
++  const storage = memoryStorage()
++  withWindow({ localStorage: storage, sessionStorage: storage }, () => {
++    assert.equal(browserKnowsFoundationResult(payload), false)
++    storage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(fixture))
++    assert.equal(browserKnowsFoundationResult(payload), true)
++    assert.equal(browserKnowsFoundationResult(`${payload}x`), false)
++    storage.setItem(PROFILE_STORAGE_KEY, serializeProfileStore(emptyProfileStore()))
++    assert.equal(browserKnowsFoundationResult(payload), false)
++  })
++  withWindow({ get localStorage() { throw new Error("blocked") } }, () => {
++    assert.equal(browserKnowsFoundationResult(payload), null)
++  })
++})
++
++test("share links carry the shared-view marker without disturbing other parameters", () => {
++  assert.equal(withSharedView("/results/abc"), "/results/abc?via=share")
++  assert.equal(withSharedView("/zh/results/abc?x=1"), "/zh/results/abc?x=1&via=share")
+ })

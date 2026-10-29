@@ -1,5 +1,6 @@
 "use client"
 
+import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import { markFreshResult } from "@/lib/results/fresh-foundation-result"
 
 import { useEffect, useMemo, useRef, useState } from "react"
@@ -523,6 +524,7 @@ export function ModuleApp({
       </section>
       ) : null}
 
+      {!introOpen && stage === "questions" && currentQuestion && <FirstInstinctPrompt />}
       {!introOpen && stage === "questions" && currentQuestion && currentLane ? (
         <section className={`stack-md quiz-question-frame ${styles.question}`} key={currentQuestion.id}>
           <div className={styles.questionHeader}>

@@ -1,5 +1,9 @@
 # IR Worldview Inventory
 
+For current planning, recovered Claude work, and future sprint prompts, start
+with the [PM index](docs/pm/README.md). It distinguishes proposed work from
+implemented changes and historical release records.
+
 IR Worldview Inventory is a Next.js editorial interactive about how people read world politics. The product has two clear entry points: the IR Foundation and the standalone AI Governance Compass. Security and Technology Focus Areas add issue-specific depth, Perspective Runs test contextual shifts, and Profile brings saved layers together on one device.
 
 ## Project overview

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import { futuresRoutes } from "@/lib/futures/catalogue/index"
 import { AiEntranceActions } from "@/components/ai/ai-entrance-actions"
 import { aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
@@ -19,6 +20,7 @@ export default function AiPage() {
       <article className="lobby-page stack-xl">
         <section className="ai-landing-hero stack-md">
           <h1 className="ai-landing-hero__h1">Who should be allowed to build, release, and stop powerful AI?</h1>
+          <FirstInstinctPrompt />
           <AiEntranceActions>
           <p className="ai-landing-hero__sub">
             You take positions on release, oversight, military use, and rivalry between states.

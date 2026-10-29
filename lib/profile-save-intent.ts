@@ -32,8 +32,8 @@ function readProfileSaveIntents(): ProfileSaveIntents {
   }
 }
 
-function writeProfileSaveIntents(intents: ProfileSaveIntents): void {
-  if (typeof window === "undefined") return
+function writeProfileSaveIntents(intents: ProfileSaveIntents): boolean {
+  if (typeof window === "undefined") return false
 
   try {
     if (Object.keys(intents).length === 0) {
@@ -41,8 +41,10 @@ function writeProfileSaveIntents(intents: ProfileSaveIntents): void {
     } else {
       window.sessionStorage.setItem(PROFILE_SAVE_INTENT_KEY, JSON.stringify(intents))
     }
+    return true
   } catch {
     // A blocked or full session store must not prevent result navigation.
+    return false
   }
 }
 
@@ -51,9 +53,9 @@ export function markProfileSaveIntent(
   kind: ProfileSaveIntentKind,
   identity: string,
   metadata: { mode?: QuizMode; localEvidenceId?: string } = {},
-): void {
-  if (!identity) return
-  writeProfileSaveIntents({
+): boolean {
+  if (!identity) return false
+  return writeProfileSaveIntents({
     ...readProfileSaveIntents(),
     [kind]: {
       identity,
