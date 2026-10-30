@@ -1,6 +1,8 @@
 "use client"
 
 import { buildFoundationInterpretationZh } from "@/lib/results/foundation-interpretation-zh"
+import { ambiguousFoundationCopy, foundationLensSubtitle, type FoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
 import { WorkedApplication } from "@/components/results/worked-application"
 import type { DimensionScores } from "@/lib/types"
 import NextLink from "next/link"
@@ -49,6 +51,7 @@ type NextAction = {
 
 export type ZhHansFoundationResultStoryProps = {
   payload: string
+  presentation: FoundationPresentation
   dimensionScores?: DimensionScores
   resultTier: FoundationTier
   questionSet: FoundationQuestionSet | null
@@ -87,6 +90,8 @@ export function ZhHansFoundationResultStory(
 ) {
   const interpretation = props.dimensionScores ? buildFoundationInterpretationZh(props.dimensionScores) : null
   const heading = buildZhHansFoundationResultHeading(props)
+  const ambiguous = !props.presentation.showArchetype
+  const ambiguityCopy = ambiguousFoundationCopy(props.presentation, "zh-Hans")
   const primaryMarkCode = "archetypes" in props.archetype
     ? props.archetype.archetypes.find(
         ({ familyKey }) => familyKey === props.primaryFamily,
@@ -97,7 +102,7 @@ export function ZhHansFoundationResultStory(
     {
       id: "nearest",
       number: "01",
-      title: `当前读法与${props.runnerUpLabel}的差异`,
+      title: `当前解释与${props.runnerUpLabel}的差异`,
       copy: (
         <>
           <p>
@@ -108,7 +113,7 @@ export function ZhHansFoundationResultStory(
           </p>
         </>
       ),
-      visualLabel: "最近的模型替代读法",
+      visualLabel: "最近的模型替代解释",
       renderVisual: () => (
         <ZhHansNearestAlternative
           primaryLabel={props.primaryLabel}
@@ -120,12 +125,12 @@ export function ZhHansFoundationResultStory(
     {
       id: "contribution",
       number: "02",
-      title: "两种读法之间的精确分类贡献",
+      title: "两种解释之间的精确分类贡献",
       copy: (
         <>
           <p>
             每一行都是当前评分函数中“{props.primaryLabel}减去
-            {props.runnerUpLabel}”的一项。正值增加前一种读法的相对得分，负值则减少它的相对得分。
+            {props.runnerUpLabel}”的一项。正值增加前一种解释的相对得分，负值则减少它的相对得分。
           </p>
           <p>
             计算使用本次完成题组所注册的校准。图中不会把原始量尺中点的距离说成分类依据，也不会公开内部的前两名差值。
@@ -145,18 +150,18 @@ export function ZhHansFoundationResultStory(
     {
       id: "matrix",
       number: "03",
-      title: "这组读法在注册矩阵中的位置",
+      title: "这组解释在注册矩阵中的位置",
       copy: (
         <>
           <p>
-            基础模型在四种理论传统和两种克制姿态之间注册了八个参照读法。高亮位置分别表示当前领先家族和最近替代家族在本结果姿态中的位置。
+            基础模型在四种理论传统和两种克制姿态之间注册了八个参照解释。高亮位置分别表示当前领先家族和最近替代家族在本结果姿态中的位置。
           </p>
           <p>
             这张矩阵只是一套参照系统，不用于给人排序，也不表示任何人口类别。
           </p>
         </>
       ),
-      visualLabel: "八个注册基础读法",
+      visualLabel: "八个注册基础解释",
       renderVisual: () => (
         <ZhHansArchetypeMatrix
           primaryCode={props.primaryMatrixCode}
@@ -180,7 +185,7 @@ export function ZhHansFoundationResultStory(
       ),
       visualLabel: "保存在当前设备上的题目依据",
       renderVisual: () => (
-        <FoundationLocalEvidence payload={props.payload} locale="zh-Hans" />
+        <FoundationLocalEvidence payload={props.payload} showPairEvidence={!ambiguous} locale="zh-Hans" />
       ),
     },
     {
@@ -203,7 +208,7 @@ export function ZhHansFoundationResultStory(
     {
       id: "case",
       number: "06",
-      title: "把基础读法带入一个有证据时间窗的案例",
+      title: "把基础解释带入一个有证据时间窗的案例",
       copy: (
         <>
           <p>{props.caseTest}</p>
@@ -242,33 +247,39 @@ export function ZhHansFoundationResultStory(
     },
   ]
 
+  const visibleChapters = ambiguous ? chapters.filter(chapter => ["evidence", "domains", "limits"].includes(chapter.id)) : chapters
+  if (!ambiguous && interpretation) visibleChapters.splice(4, 0, {
+    id: "worked-case", number: "worked", title: "不计分的反思示例",
+    copy: <p>这个示例无需提交答案，也不会改变已保存的结果。</p>,
+    visualLabel: "将解释用于具体争议",
+    renderVisual: () => <><WorkedApplication example={interpretation.example} locale="zh-Hans" /><p>{interpretation.followUp.question}</p></>,
+  })
   return (
     <article
       className={styles.story}
       data-zh-foundation-result-story
+      data-foundation-presentation={props.presentation.kind}
     >
       <header className={frontispiece.frontispiece} aria-labelledby="zh-foundation-result-heading">
-        {primaryMarkCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={primaryMarkCode} />
-          : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
-        <h1 id="zh-foundation-result-heading" lang="en">{props.archetype.name}</h1>
-        <p className={frontispiece.qualification}>{heading.title}</p>
-        <p className={frontispiece.frontispieceLead}>{interpretation?.summary ?? heading.lead}</p>
-        <a href="#nearest" className="cta-primary print-hidden">查看这份读法</a>
-        {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><NextLink href={props.nextAction.href}>{props.nextAction.label}</NextLink></p> : null}
+        {!ambiguous && (primaryMarkCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={primaryMarkCode} />
+          : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />)}
+        <h1 id="zh-foundation-result-heading" lang={ambiguous ? "zh-Hans" : "en"}>{ambiguous ? ambiguityCopy.title : props.archetype.name}</h1>
+        {!ambiguous && <p className={frontispiece.qualification}>{foundationLensSubtitle(props.lowDifferentiation ? [props.primaryFamily, props.runnerUpFamily] : [props.primaryFamily], "zh-Hans")}</p>}
+        {!ambiguous && <p className={frontispiece.qualification}>{heading.title}</p>}
+        <p className={frontispiece.frontispieceLead}>{ambiguous ? ambiguityCopy.summary : interpretation?.summary ?? heading.lead}</p>
+        <a href={ambiguous ? "#dimensions" : "#nearest"} className="cta-primary print-hidden">查看这份解释</a>
+        {!props.legacy && props.resultTier === "core" ? <p><NextLink href={props.nextAction.href}>{props.nextAction.label}</NextLink></p> : null}
       </header>
       <section className={frontispiece.openingPayoff} aria-label="结果要点">
-        {interpretation ? <><p className="result-scope">{heading.lead}</p><WorkedApplication example={interpretation.example} locale="zh-Hans" /><p>{interpretation.followUp.question}</p></> : <><p>{props.immediateHeadline} {props.familyMeaning}</p><p>{props.strategicMeaning}</p></>}
-        <details>
-          <summary>名称、编码与题组</summary>
-          <p>{props.archetypeCode}</p>
-          <p>{heading.eyebrow}</p>
-          <p>当前参照：{props.primaryLabel}</p>
-          <p>最近替代：{props.runnerUpLabel}</p>
-          <p>原型专名沿用基础模型的规范英文名称；中文专名与原型释义尚未完成编辑审校。</p>
-          <p>{props.strategyLabel} · {props.normativeLabel}</p>
-        </details>
+        <p className="result-scope">{ambiguous ? ambiguityCopy.qualification : heading.lead}</p>
+        {ambiguous ? <p>{ambiguityCopy.candidates}</p> : <>
+          <p>解释性位置关注世界政治由哪些力量驱动；战略位置关注施加优势的限度；规范性位置关注正义何时可以优先于既有秩序。</p>
+          <details><summary>名称、编码与题组</summary><p>规范英文名称：{props.archetype.name}</p><p>{props.archetypeCode}</p><p>{heading.eyebrow}</p><p>{props.strategyLabel} · {props.normativeLabel}</p></details>
+        </>}
+
       </section>
 
+      <section id="dimensions" className={frontispiece.evidenceSection}><FoundationDimensionSummary scores={props.presentation.dimensionScores} locale="zh-Hans" /></section>
       <div className={styles.storyBody}>
         <div
           className={styles.chapters}
@@ -276,8 +287,8 @@ export function ZhHansFoundationResultStory(
           role="group"
           aria-label="滚动阅读结果章节"
         >
-          {chapters.map((chapter) => (
-            <StoryChapter key={chapter.id} {...chapter} />
+          {visibleChapters.map((chapter, index) => (
+            <StoryChapter key={chapter.id} {...chapter} number={String(index + 1).padStart(2, "0")} />
           ))}
         </div>
       </div>
@@ -285,7 +296,7 @@ export function ZhHansFoundationResultStory(
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>从这份结果继续</p>
-          <h2>打开下一项记录，或继续核对当前读法</h2>
+          <h2>打开下一项记录，或继续核对当前解释</h2>
         </div>
         <div className={`${styles.actions} print-hidden`}>
           <NextLink href={props.nextAction.href} className="cta-primary">
@@ -331,6 +342,7 @@ function StoryChapter({
     <section
       className={styles.chapter}
       aria-labelledby={headingId}
+      id={id}
       data-zh-foundation-story-chapter={id}
     >
       <div className={styles.chapterCopy}>
@@ -429,6 +441,7 @@ function ZhHansContributionView({
 
   return (
     <div data-contribution-status="current-v5">
+      <div className={frontispiece.scaleEnds} data-contribution-endpoints><span>← {runnerUpLabel}</span><span>{primaryLabel} →</span></div>
       <ol className={styles.contributionList}>
         {rows.map((row) => {
           const magnitude = Math.abs(row.signedContribution) / maxMagnitude
@@ -478,7 +491,7 @@ function ZhHansArchetypeMatrix({
   const matrixTable = (
     <table className={styles.matrix}>
       <caption className="sr-only">
-        四种模型传统与两种克制姿态组成的八项基础读法矩阵
+        四种模型传统与两种克制姿态组成的八项基础解释矩阵
       </caption>
       <thead>
         <tr>

@@ -18,10 +18,10 @@ test("Chinese low-differentiation core heading names both live readings", () => 
 
   assert.equal(
     heading.title,
-    "初步基础读法：战略现实主义与自由制度主义",
+    "初步基础解释：战略现实主义与自由制度主义",
   )
   assert.match(heading.eyebrow, /十四道核心题/u)
-  assert.match(heading.lead, /这两种读法都仍然成立/u)
+  assert.match(heading.lead, /这两种解释都仍然成立/u)
   assert.match(heading.lead, /五道定向跟进题/u)
   assert.doesNotMatch(heading.lead, /[0-9]+\.[0-9]+/u)
 })
@@ -41,9 +41,9 @@ test("Chinese clearer core, targeted, and full headings retain the runner-up and
     })
 
     assert.match(heading.eyebrow, new RegExp(fixture.form, "u"))
-    assert.equal(heading.title, "社会建构主义在这次基础读法中领先")
+    assert.equal(heading.title, "社会建构主义在这次基础解释中领先")
     assert.match(heading.lead, /只在当前题组中较为清楚/u)
-    assert.match(heading.lead, /战略现实主义仍是最近的替代读法/u)
+    assert.match(heading.lead, /战略现实主义仍是最近的替代解释/u)
     assert.match(heading.lead, /模型结果/u)
     assert.match(heading.lead, /不代表持久不变的个人特质/u)
   }
@@ -59,7 +59,7 @@ test("Chinese blend and legacy headings remain distinct", () => {
     runnerUpLabel: "自由制度主义",
   })
   assert.equal(blend.title, "社会建构主义与自由制度主义仍然接近")
-  assert.match(blend.lead, /没有让其中一种读法形成清楚的模型领先/u)
+  assert.match(blend.lead, /没有让其中一种解释形成清楚的模型领先/u)
 
   const legacy = buildZhHansFoundationResultHeading({
     resultTier: "extended",
@@ -69,7 +69,7 @@ test("Chinese blend and legacy headings remain distinct", () => {
     primaryLabel: "战略现实主义",
     runnerUpLabel: "自由制度主义",
   })
-  assert.equal(legacy.title, "较早版本的基础读法：战略现实主义")
+  assert.equal(legacy.title, "较早版本的基础解释：战略现实主义")
   assert.match(legacy.lead, /无法确认其完整题组与校准元组/u)
   assert.doesNotMatch(legacy.lead, /领先/u)
 })
@@ -92,7 +92,7 @@ test("Chinese route uses current V5 contribution math and exact local evidence",
   assert.match(routeSource, /decomposeFoundationFamilyDifference/u)
   assert.match(
     storySource,
-    /<FoundationLocalEvidence payload=\{props\.payload\} locale="zh-Hans" \/>/u,
+    /<FoundationLocalEvidence payload=\{props\.payload\} showPairEvidence=\{!ambiguous\} locale="zh-Hans" \/>/u,
   )
   assert.match(storySource, /data-contribution-status="current-v5"/u)
   assert.match(storySource, /data-contribution-status="legacy-unavailable"/u)
@@ -128,7 +128,7 @@ test("Chinese story uses localized domain chrome and fails closed on English det
     storySource,
     /Checking this device|No saved Security|Open Technology|Open AI Governance/u,
   )
-  assert.match(storySource, /lang="en"/u)
+  assert.match(storySource, /lang=\{ambiguous \? "zh-Hans" : "en"\}/u)
   assert.match(storySource, /规范英文名称/u)
 })
 

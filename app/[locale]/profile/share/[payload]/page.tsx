@@ -1,3 +1,5 @@
+import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
+import type { DimensionScores } from "@/lib/types"
 import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -167,7 +169,7 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
               {view.foundation ? copy.foundationEyebrow : unavailable.eyebrow}
             </p>
             <h2 id="zh-shared-profile-foundation">
-              {view.foundation ? copy.savedFoundation : unavailable.archivedTitle}
+              {view.foundation ? view.foundation.ambiguous ? view.foundation.archetypeName : copy.savedFoundation : unavailable.archivedTitle}
             </h2>
           </div>
 
@@ -176,7 +178,7 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
               <p className="profile-domain-record__result">
                 {view.foundation.summary}
               </p>
-              <p className="muted">
+              {!view.foundation.ambiguous && <><p className="muted">
                 {copy.runnerUp}：{view.foundation.runnerUpLabel}
               </p>
               <p className="muted">
@@ -184,7 +186,9 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
                 <span lang="en">{view.foundation.archetypeName}</span>
                 <span> · {view.foundation.archetypeCode}</span>
               </p>
-              <p className="muted">{copy.foundationCanonicalNote}</p>
+              <p className="muted">{copy.foundationCanonicalNote}</p></>}
+              {view.foundation.qualification && <><p>{view.foundation.qualification}</p><p>{view.foundation.familyLabel}</p></>}
+              {view.foundation.ambiguous && <FoundationDimensionSummary scores={Object.fromEntries(view.foundation.dimensions.map(({ key, score }) => [key, score])) as DimensionScores} locale="zh-Hans" />}
               <div className="row gap-sm wrap" aria-label={copy.modifiersAria}>
                 {view.foundation.modifiers.map((modifier) => (
                   <span key={modifier} className="atlas-tag">{modifier}</span>

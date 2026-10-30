@@ -1,5 +1,9 @@
 "use client"
 
+
+import { ambiguousFoundationCopy } from "@/lib/results/foundation-result-heading"
+import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
+
 import { ConnectedProfile } from "@/components/profile/connected-profile"
 import { DomainMark } from "@/components/results/domain-mark"
 import { AiArchetypeMark } from "@/components/results/ai-archetype-mark"
@@ -24,7 +28,7 @@ import {
   type ArchetypeDisplayCode,
 } from "@/lib/archetype-display"
 import { formatFieldDate } from "@/lib/field/items"
-import { resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
+import { foundationIdentityTitle, resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import type { ProfileShareFoundationRecord } from "@/lib/profile-share"
 import { type ModuleSnapshot, type ProfileStore } from "@/lib/profile-store"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
@@ -67,13 +71,13 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
       {foundationArchetype && foundationIdentity && displayFoundation ? (
         <ResultCardHero
           eyebrow={mode === "local" ? "Your Foundation result" : "Shared Foundation result"}
-          label={foundationArchetype.name}
-          accent={FAMILY_ACCENT[foundationIdentity.result.familyKey]}
-          modifiers={buildProfileModifiers(
+          label={foundationIdentityTitle(foundationIdentity)}
+          accent={foundationIdentity.presentation.showArchetype ? FAMILY_ACCENT[foundationIdentity.result.familyKey] : "profile"}
+          modifiers={foundationIdentity.presentation.showArchetype ? buildProfileModifiers(
             foundationIdentity.result,
             foundationArchetype.code,
-          )}
-          summary={buildFoundationInterpretation(foundationIdentity.result.dimensionScores).summary}
+          ) : []}
+          summary={foundationIdentity.presentation.showArchetype ? buildFoundationInterpretation(foundationIdentity.result.dimensionScores).summary : ambiguousFoundationCopy(foundationIdentity.presentation).summary}
           actions={
             <>
               {mode === "local" && foundation ? (
@@ -103,13 +107,18 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
           <p className="profile-hero-summary">Open a result to inspect its reasoning, or continue with another question.</p>
           {displayFoundation && <div className="stack-sm">
             <h2>Foundation result unavailable</h2>
-            <p>The saved Foundation payload cannot be resolved, so this Profile does not infer a replacement reading. Other saved records remain available below.</p>
+            <p>The saved Foundation payload cannot be resolved, so this Profile does not infer a replacement interpretation. Other saved records remain available below.</p>
             <Link href={displayFoundation.resultPath}>Open saved Foundation result</Link>
           </div>}
           {actionSlot}
         </header>
       )}
 
+      {foundationIdentity && !foundationIdentity.presentation.showArchetype && <section className="result-section stack-md">
+        <p>{ambiguousFoundationCopy(foundationIdentity.presentation).qualification}</p>
+        <p>{ambiguousFoundationCopy(foundationIdentity.presentation).candidates}</p>
+        <FoundationDimensionSummary scores={foundationIdentity.result.dimensionScores} />
+      </section>}
       <ConnectedProfile profile={profile} mode={mode} />
 
       <DomainRecordsSection
@@ -168,7 +177,7 @@ function DomainRecordsSection({
           Saved domain results
         </h2>
         <p className="muted profile-domain-intro">
-          Each result answers its own set of questions. Open it for the full reading and evidence.
+          Each result answers its own set of questions. Open it for the full interpretation and evidence.
         </p>
       </div>
 
@@ -274,7 +283,7 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
                   <li key={`f-${snapshot.timestamp}`} className="profile-history-row">
                     <span className="profile-history-row__date">{formatFieldDate(snapshot.timestamp)}</span>
                     <span className="profile-history-row__label">
-                      Foundation · {identity?.archetype.name ?? "result unavailable"}
+                      Foundation · {foundationIdentityTitle(identity)}
                     </span>
                     <FoundationProfileResultLink
                       href={snapshot.resultPath}

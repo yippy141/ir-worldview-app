@@ -1,5 +1,8 @@
 "use client"
 
+import { classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { generateResult, getV2ScoringCalibration } from "@/lib/scoring"
+import { foundationGlossary } from "@/lib/foundation-glossary"
 import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import Link from "next/link"
 
@@ -176,12 +179,17 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         requestedSecondFamily,
       )
 
+      const canTarget = hasCompleteCore && classifyFoundationPresentation(
+        generateResult(selectFoundationAnswersForSet(baseSession.answers, "core"), "analyst", "core"),
+        getV2ScoringCalibration("core").lowDifferentiationThreshold,
+      ).showArchetype
+
       if (baseSession.questionSet === "fullExtended") {
         setSession({ ...baseSession, activeMode: baseSession.activeMode ?? "analyst" })
       } else if (
         requestedExtension === "targeted" &&
         requestedPair &&
-        hasCompleteCore
+        canTarget
       ) {
         setSession({
           ...baseSession,
@@ -189,7 +197,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
           questionSet: "targetedExtended",
           targetedFamilyPair: requestedPair,
         })
-      } else if (requestedExtension === "full" && hasCompleteCore) {
+      } else if ((requestedExtension === "full" || (requestedExtension === "targeted" && !canTarget)) && hasCompleteCore) {
         setSession({
           ...baseSession,
           activeMode: "analyst",
@@ -594,6 +602,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             {hasSupport(currentQuestion) ? (
               <SupportBlock
                 question={currentQuestion}
+                locale={locale}
                 visible={supportVisible}
                 onToggle={() => setSupportOpen((open) => !open)}
                 autoShown={session.contextAssist}
@@ -733,12 +742,14 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
 function SupportBlock({
   question,
+  locale,
   visible,
   autoShown,
   onToggle,
   copy,
 }: {
   question: Question
+  locale: Locale
   visible: boolean
   autoShown: boolean
   onToggle: () => void
@@ -779,6 +790,7 @@ function SupportBlock({
             lineHeight: "1.6",
           }}
         >
+          {foundationGlossary(question.id, locale).map(term => <p key={term.term}><strong>{term.term}:</strong> {term.definition}</p>)}
           {question.helpText ? <p>{question.helpText}</p> : null}
           {question.clarification ? (
             <ClarificationCopy clarification={question.clarification} copy={copy} />
@@ -823,7 +835,7 @@ function questionLabel(question: Question, copy: FoundationQuizUiCopy) {
 }
 
 function hasSupport(question: Question) {
-  return Boolean(question.helpText || question.clarification)
+  return Boolean(question.helpText || question.clarification || foundationGlossary(question.id, "en").length)
 }
 
 function supportToggleLabel(question: Question, copy: FoundationQuizUiCopy) {

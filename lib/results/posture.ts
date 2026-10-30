@@ -8,7 +8,7 @@ import {
 } from "@/lib/archetypes"
 import { archetypeEvidencePath } from "@/lib/archetype-evidence"
 import { LOW_DIFFERENTIATION_THRESHOLD } from "@/lib/scoring-calibration"
-import type { CanonicalFoundationResult } from "@/lib/scoring"
+import { getV2ScoringCalibration, type CanonicalFoundationResult, type FoundationScoringCalibration } from "@/lib/scoring"
 
 // ---------------------------------------------------------------------------
 // Restraint posture
@@ -42,7 +42,8 @@ export type RestraintPosture = {
   /** Position along the drawn track, 0 (press advantage) to 1 (hold back). */
   fraction: number
   /** Where the + / − sign flips, as a track fraction. */
-  postureCut: number
+  postureCut: number | null
+  routingExplanation: string
   /** The sign the respondent's own archetype carries. */
   posture: PostureSign
   /** The end the respondent currently sits on. */
@@ -86,6 +87,7 @@ function toEndpoint(archetype: Archetype | BlendArchetype): PostureEndpoint {
 export function resolveRestraintPosture(
   result: CanonicalFoundationResult,
   lowDifferentiationThreshold = LOW_DIFFERENTIATION_THRESHOLD,
+  calibration?: FoundationScoringCalibration,
 ): RestraintPosture {
   const current = resolveArchetype(result, lowDifferentiationThreshold)
   const advantage = getArchetypeByCode(withPosture(current.code, "+"))
@@ -96,10 +98,22 @@ export function resolveRestraintPosture(
   const low = advantage ? toEndpoint(advantage) : toEndpoint(current)
   const high = restraint ? toEndpoint(restraint) : toEndpoint(current)
 
+  const thresholds = calibration ? getV2ScoringCalibration(calibration) : null
+  // Modifier routing takes precedence over the midpoint fallback for Hedgers.
+  const signBoundary = thresholds ? Math.max(thresholds.strategyLowerThreshold,
+    Math.min(HEDGER_POSTURE_MIDPOINT, thresholds.strategyUpperThreshold)) : null
+  const routingExplanation = thresholds
+    ? `On this form, Maximizer ends at ${thresholds.strategyLowerThreshold} and Restrainer begins at ${thresholds.strategyUpperThreshold}; Hedger is the open band between them. The posture sign changes at ${signBoundary}.`
+    : "The form calibration is unavailable, so no numeric routing boundary is shown. The issued posture sign is preserved."
+  const hedgerExplanation = result.strategyModifier === "Hedger"
+    ? ` This result is in the calibrated middle band (Hedger). Its ${current.posture} code is retained historical shorthand, not a Maximizer or Restrainer classification.`
+    : ""
+
   return {
     score: result.dimensionScores.restraint,
     fraction: toFraction(result.dimensionScores.restraint),
-    postureCut: toFraction(HEDGER_POSTURE_MIDPOINT),
+    postureCut: signBoundary === null ? null : toFraction(signBoundary),
+    routingExplanation: routingExplanation + hedgerExplanation,
     posture: current.posture,
     current: toEndpoint(current),
     low,

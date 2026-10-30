@@ -58,7 +58,7 @@ test("scores at the calibration means give zero terms and claim no midpoint or t
   const { decomposition, copy } = copyFor(scores)
   for (const row of decomposition.rows) assert.equal(Math.abs(row.signedContribution), 0)
   assert.equal(copy.state, "no-advantage")
-  assert.equal(copy.lead, "These dimension terms give neither reading an advantage.")
+  assert.equal(copy.lead, "These dimension terms give neither interpretation an advantage.")
   assert.doesNotMatch(copy.lead, /midpoint|tie|level/u)
   assert.equal(copy.unavailableNote, null)
 })

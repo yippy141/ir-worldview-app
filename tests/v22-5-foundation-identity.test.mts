@@ -152,11 +152,11 @@ test("Profile hero identity is the payload-resolved Foundation archetype", () =>
     source,
     /resolveFoundationIdentityFromSnapshot\s*\(\s*foundation\s*\)/,
   )
-  assert.match(source, /label=\{foundationArchetype\.name\}/)
-  assert.match(source, /summary=\{buildFoundationInterpretation\(foundationIdentity\.result\.dimensionScores\)\.summary\}/)
+  assert.match(source, /label=\{foundationIdentityTitle\(foundationIdentity\)\}/)
+  assert.match(source, /summary=\{foundationIdentity\.presentation\.showArchetype \? buildFoundationInterpretation\(foundationIdentity\.result\.dimensionScores\)\.summary/)
   assert.match(
     source,
-    /accent=\{FAMILY_ACCENT\[foundationIdentity\.result\.familyKey\]\}/,
+    /accent=\{foundationIdentity\.presentation\.showArchetype \? FAMILY_ACCENT\[foundationIdentity\.result\.familyKey\]/,
   )
   assert.doesNotMatch(source, /\b(?:atlasMatch|matchAtlasLiteProfile)\b/)
   assert.doesNotMatch(source, /label=\{assessment\.synthesis\}/)
@@ -171,7 +171,7 @@ test("Profile metadata and sharing use the Foundation archetype rather than an i
       path.join(repositoryRoot, relativePath),
       "utf8",
     )
-    assert.match(source, /resolveFoundationArchetypeFromSnapshot/)
+    assert.match(source, /resolveFoundationIdentityFromSnapshot/)
     assert.doesNotMatch(source, /buildIntegratedHeadline/)
   }
 })
@@ -187,7 +187,7 @@ test("current Foundation results lead with the actual registered name and retain
   )
 
   assert.match(routeSource, /archetype=\{archetype\}/)
-  assert.match(storySource, /<h1 id="foundation-result-heading">\{props\.archetype\.name\}<\/h1>/)
+  assert.match(storySource, /<h1 id="foundation-result-heading">\{ambiguous \? ambiguityCopy\.title : props\.archetype\.name\}<\/h1>/)
   assert.match(storySource, /className=\{styles\.qualification\}>\{heading\.title\}/)
   assert.doesNotMatch(
     `${routeSource}\n${storySource}`,

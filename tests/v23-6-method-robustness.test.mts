@@ -38,7 +38,7 @@ test("public Method copy states the bounded Foundation robustness diagnostic", (
   assert.match(diagnostic, /correlated synthetic and canonical[\s\S]*changed less often/u)
   assert.match(diagnostic, /no claim about reliability, validity, or population\s+distributions/u)
   assert.match(diagnostic, /exact methods, seeds, protected-file digests, and generated\s+data/u)
-  assert.match(diagnostic, /registered raw-score boundary/u)
+  assert.match(diagnostic, /4\.56 is the effective sign boundary/u)
   assert.match(diagnostic, /4\.657735/u)
   assert.doesNotMatch(diagnostic, /<table\b/u)
 })
@@ -56,15 +56,15 @@ test("Simplified Chinese Method copy carries the same diagnostic boundary", () =
   assert.match(diagnostic, /带相关结构的合成组合与典型组合/u)
   assert.match(diagnostic, /不支持信度、效度或人群分布主张/u)
   assert.match(diagnostic, /完整的方法、随机种子、受保护文件摘要和生成数据/u)
-  assert.match(diagnostic, /登记的原始分界值 4/u)
+  assert.match(diagnostic, /实际符号分界是 4\.56/u)
   assert.match(diagnostic, /4\.657735/u)
 })
 
-test("posture presentation calls 4 a registered boundary rather than a form center", () => {
+test("posture presentation uses supplied form calibration instead of a universal boundary", () => {
   const posture = source("components/results/posture-strip.tsx")
-  assert.match(posture, /registered raw-score routing boundary is 4/u)
-  assert.match(posture, /registered routing boundary for the posture sign/u)
-  assert.match(posture, /It is not a[\s\S]*symmetric center for every form/u)
+  assert.match(posture, /posture.routingExplanation/u)
+  assert.match(posture, /calibration/u)
+  assert.doesNotMatch(posture, /routing boundary is 4/u)
 })
 
 test("posture audit derives its signal balance from the protected full bank", () => {

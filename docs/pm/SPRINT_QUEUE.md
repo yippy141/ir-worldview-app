@@ -26,3 +26,13 @@
 ## Decisions that remain with the owner
 
 Public name/Chinese brand; substantive instrument redesign and pilot; intentional changes to contracted public disclosure. Ordinary engineering fixes within a dispatched sprint do not need repeated approval. Merge, deployment and data collection remain separate from this recovery.
+
+## Package B — bounded implementation (30 October 2026)
+
+Implemented locally on `codex/foundation-stabilization-package-b`, based on a preserved local Package A snapshot (`73a7701`), not merged main. Scope: honest flat/multiway presentation, safe continuation, form-aware posture explanation, result sequencing and supplemental glossary. Verification: 42 focused tests and 7 Chromium checks passed; typecheck and production build passed. Full suite: 753 passed / 4 failed (three stale evidence-artifact checks and the historical dependency-lockfile guard rejecting Package A upgrades). Lint: 14 errors in untouched AI quiz/world-stage components. Per AGENTS.md, stop and report these failures; no audit baseline refresh or unrelated fixes. Protected files are unchanged. Not merged, deployed or owner-accepted.
+
+### Ceasefire construct memo — deferred versioned-bank work
+
+`an_tradeoff_ceasefire_settlement` currently assigns Order and justice 3.1 to immediate harm reduction and 6.2 to accountability. This may mix two distinctions: order versus justice, and immediate settlement versus durable accountability. Neither reversing the numbers nor choosing a preferred policy resolves the construct question. Keep the issued item, weights, calibration and historical decoding intact. Before a future revision: adjudicate the intended construct, review option symmetry and dimension coverage, pilot comprehension and discrimination, then version the bank and recalibrate with an explicit compatibility plan. The English and Chinese method pages disclose this limitation.
+
+Deferred with the same versioning requirement: reverse-pair response-style sensitivity; options that mix intensity with distinct explanatory logics; actor-perspective judgments versus personal policy preferences; and scenario wording/clarification revisions that change administered meaning. Supplemental definitions of forward presence, tightly limited mandate and general license in Package B are unscored UI help and do not rewrite issued v5 copy.

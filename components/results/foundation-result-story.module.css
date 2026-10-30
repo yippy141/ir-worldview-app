@@ -821,3 +821,10 @@
  .evidenceSection { margin-block: 24px; }
  .contributionRow { break-inside: avoid; }
 }
+
+.dimensionList { list-style: none; padding: 0; display: grid; gap: 20px; }
+.dimensionTrack { position: relative; height: 6px; margin: 12px 6px; background: var(--line); }
+.dimensionTrack::before { content: ""; position: absolute; left: 50%; top: -3px; height: 12px; border-left: 1px solid var(--muted); }
+.dimensionMark { position: absolute; top: -3px; width: 3px; height: 12px; background: var(--accent); transform: translateX(-50%); }
+.scaleEnds { display: flex; justify-content: space-between; gap: 24px; font-size: .85rem; color: var(--text-2); }
+.scaleEnds > :last-child { text-align: right; }

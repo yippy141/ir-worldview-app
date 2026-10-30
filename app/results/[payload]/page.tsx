@@ -1,3 +1,5 @@
+import { ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { questionCountsBySet } from "@/lib/quiz-schema"
 import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
 import { FoundationProfileSync } from "@/components/profile/foundation-profile-sync"
@@ -58,7 +60,7 @@ export async function generateMetadata(
   const norm = normFromNormativeModifier(
     resolved.result.normativeModifier,
   )
-  const socialCopy = buildEnglishFoundationResultSocialCopy(archetype, norm)
+  const socialCopy = buildEnglishFoundationResultSocialCopy(archetype, norm, classifyFoundationPresentation(resolved.result, lowDifferentiationThreshold))
   const cardImage = buildFoundationShareCardUrl(payload)
 
   return buildResultMetadata(
@@ -137,6 +139,7 @@ export default async function ResultPage(
 
   const { dimensionScores, result, resultTier } = resolved
   const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
+  const presentation = classifyFoundationPresentation(result, calibration.lowDifferentiationThreshold)
   const lowDifferentiation =
     result.nearestFitGap < calibration.lowDifferentiationThreshold
   const currentPayload = resolved.payload.v === 5
@@ -201,22 +204,22 @@ export default async function ResultPage(
     archetype.code,
     normativeSuffix,
   )
-  const archetypeShareLabel = `${archetype.name} · ${archetypeCode}`
+  const archetypeShareLabel = presentation.showArchetype ? `${archetype.name} · ${archetypeCode}` : ambiguousFoundationCopy(presentation).title
   const targetedExtensionHref =
     `/quiz?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
   const nextAction = resultTier === "core"
     ? {
-        href: currentPayload && lowDifferentiation
+        href: currentPayload && presentation.showArchetype && lowDifferentiation
           ? targetedExtensionHref
           : "/quiz?extension=full",
-        label: currentPayload && lowDifferentiation
+        label: currentPayload && presentation.showArchetype && lowDifferentiation
           ? "Answer 5 targeted items"
-          : "Take the full extended set",
-        reason: currentPayload && lowDifferentiation
+          : `Answer ${questionCountsBySet.baselineExtended} general extension questions`,
+        reason: currentPayload && presentation.showArchetype && lowDifferentiation
           ? `${primaryLabel} and ${runnerUpLabel} remain close. Five follow-up items target the distinctions between them.`
-          : "The extended set adds more item evidence to the provisional core reading.",
+          : "The general extension examines all four traditions without selecting an arbitrary tied pair.",
       }
-    : {
+    : !presentation.showArchetype ? { href: "/method", label: "Understand these dimensions", reason: "The dimensions remain interpretable even when the family scores do not establish a leader." } : {
         href: withFoundationPayload(payoff.nextStep.href, payload),
         label: payoff.nextStep.label,
         reason: payoff.nextStep.reason,
@@ -230,6 +233,7 @@ export default async function ResultPage(
         questionSet={resolved.questionSet}
         legacy={!currentPayload}
         lowDifferentiation={lowDifferentiation}
+        presentation={presentation}
         primaryFamily={result.familyKey}
         primaryLabel={primaryLabel}
         runnerUpFamily={result.runnerUpKey}
@@ -289,7 +293,7 @@ export default async function ResultPage(
             <div className="row gap-sm wrap print-hidden">
               <ResultCardHeroShare
                 shareUrl={`/results/${payload}`}
-                title={`IR Worldview: ${archetype.name}`}
+                title={`IR Worldview: ${archetypeShareLabel}`}
                 text={`IR worldview result: ${archetypeShareLabel}`}
               />
             </div>
