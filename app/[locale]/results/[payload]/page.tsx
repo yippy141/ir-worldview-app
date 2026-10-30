@@ -181,30 +181,6 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
 
   return (
     <div className="wide-container locale-foundation-result">
-      <FoundationProfileSync
-        snapshot={{
-          payload,
-          resultPath: publicPath("zh-Hans", `/results/${payload}`),
-          familyKey: result.familyKey,
-          familyLabel: narrative.familyLabel,
-          runnerUpKey: result.runnerUpKey,
-          runnerUpLabel: narrative.runnerUpLabel,
-          summary: narrative.summary,
-          dimensionScores,
-          strategyModifier: result.strategyModifier,
-          normativeModifier: result.normativeModifier,
-          keyDrivers: keyDrivers.map((driver) => ({
-            type: driver.type,
-            label: driver.label,
-            description: driver.description,
-          })),
-          strongLenses: strongLenses.map((lens) => ({
-            label: lens.label,
-            description: lens.description,
-          })),
-        }}
-      />
-
       <ZhHansFoundationResultStory
         dimensionScores={dimensionScores}
         payload={payload}
@@ -239,6 +215,29 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         }}
         utility={
           <>
+            <FoundationProfileSync
+              snapshot={{
+                payload,
+                resultPath: publicPath("zh-Hans", `/results/${payload}`),
+                familyKey: result.familyKey,
+                familyLabel: narrative.familyLabel,
+                runnerUpKey: result.runnerUpKey,
+                runnerUpLabel: narrative.runnerUpLabel,
+                summary: narrative.summary,
+                dimensionScores,
+                strategyModifier: result.strategyModifier,
+                normativeModifier: result.normativeModifier,
+                keyDrivers: keyDrivers.map((driver) => ({
+                  type: driver.type,
+                  label: driver.label,
+                  description: driver.description,
+                })),
+                strongLenses: strongLenses.map((lens) => ({
+                  label: lens.label,
+                  description: lens.description,
+                })),
+              }}
+            />
             <DestinationLink destination="foundation" />
             <ShareActions
               payload={payload}

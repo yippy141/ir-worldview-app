@@ -57,14 +57,14 @@ const englishFoundationQuizUi = {
   title: "Foundation",
   adaptedBeta: "",
   setSummary: {
-    core: `${questionCountsBySet.core} questions · about 6 to 8 minutes · followed by a provisional result.`,
+    core: (count) => `${count} questions · followed by a provisional result.`,
     targetedExtended:
-      "5 follow-up questions examine the distinction between your two nearest modeled traditions.",
-    fullExtended: `${questionCountsBySet.fullExtended} additional questions · saved form, including its research-comparison items.`,
-    baselineExtended: `${questionCountsBySet.baselineExtended} additional questions · the scored extension without the research-comparison block.`,
+      (count) => `${count} follow-up questions examine the distinction between your two nearest modeled traditions.`,
+    fullExtended: (count) => `${count} additional questions · saved form, including its research-comparison items.`,
+    baselineExtended: (count) => `${count} additional questions · the scored extension without the research-comparison block.`,
   },
   setLabels: {
-    core: "Standard · 12 questions",
+    core: "Standard",
     targetedExtended: "Targeted extension",
     fullExtended: "Saved full extension",
     baselineExtended: "Baseline extension",
@@ -454,7 +454,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     <div className={locale === "en" ? "stack-lg foundation-task" : "stack-lg"}>
       {entranceOpen && <section className="foundation-entrance">
         <h1>How do you judge the arguments behind world politics?</h1>
-        <p className="entrance-count">{displayedSet === "core" ? "Standard · 12 questions · about 3 minutes" : `${questions.length} questions`}</p>
+        <p className="entrance-count">{displayedSet === "core" ? `Standard · ${questions.length} questions` : `${questions.length} questions`}</p>
         <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
         <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
         <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
@@ -471,7 +471,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
               <div className="stack-xs">
                 {locale !== "en" ? <h1>{copy.title}</h1> : entranceOpen ? <p className="task-orientation-title">{copy.title}</p> : <h1 className="task-orientation-title">{copy.title}</h1>}
-                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet]}</p>}
+                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet](questions.length)}</p>}
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}

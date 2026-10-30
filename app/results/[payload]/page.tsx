@@ -224,30 +224,6 @@ export default async function ResultPage(
 
   return (
     <div className="wide-container">
-      <FoundationProfileSync
-        snapshot={{
-          payload,
-          resultPath: `/results/${payload}`,
-          familyKey: result.familyKey,
-          familyLabel: result.familyLabel,
-          runnerUpKey: result.runnerUpKey,
-          runnerUpLabel: result.runnerUpLabel,
-          summary: narrative.summary,
-          dimensionScores,
-          strategyModifier: result.strategyModifier,
-          normativeModifier: result.normativeModifier,
-          keyDrivers: keyDrivers.map((driver) => ({
-            type: driver.type,
-            label: driver.label,
-            description: driver.description,
-          })),
-          strongLenses: strongLenses.map((lens) => ({
-            label: lens.label,
-            description: lens.description,
-          })),
-        }}
-      />
-
       <FoundationResultStory
         payload={payload}
         resultTier={resultTier}
@@ -275,6 +251,29 @@ export default async function ResultPage(
         nextAction={nextAction}
         utility={
           <>
+            <FoundationProfileSync
+              snapshot={{
+                payload,
+                resultPath: `/results/${payload}`,
+                familyKey: result.familyKey,
+                familyLabel: result.familyLabel,
+                runnerUpKey: result.runnerUpKey,
+                runnerUpLabel: result.runnerUpLabel,
+                summary: narrative.summary,
+                dimensionScores,
+                strategyModifier: result.strategyModifier,
+                normativeModifier: result.normativeModifier,
+                keyDrivers: keyDrivers.map((driver) => ({
+                  type: driver.type,
+                  label: driver.label,
+                  description: driver.description,
+                })),
+                strongLenses: strongLenses.map((lens) => ({
+                  label: lens.label,
+                  description: lens.description,
+                })),
+              }}
+            />
             <DestinationLink destination="foundation" />
             <p>
               <Link href="/feedback">Report a factual problem</Link>
@@ -291,7 +290,7 @@ export default async function ResultPage(
               <ResultCardHeroShare
                 shareUrl={`/results/${payload}`}
                 title={`IR Worldview: ${archetype.name}`}
-                text={`My IR worldview result: ${archetypeShareLabel}`}
+                text={`IR worldview result: ${archetypeShareLabel}`}
               />
             </div>
           </>
