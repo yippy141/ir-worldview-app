@@ -1,5 +1,7 @@
 "use client"
 
+import { QUIZ_STORAGE_KEY } from "@/lib/quiz-session"
+import { buildFoundationExtensionPayoff } from "@/lib/results/foundation-extension-payoff"
 import { useEffect, useState } from "react"
 import type { Locale } from "@/i18n/routing"
 import {
@@ -18,10 +20,13 @@ type LoadState = FoundationLocalEvidenceLookup | { status: "checking" }
 export function FoundationLocalEvidence({
   payload,
   locale = "en",
+  showPairEvidence = true,
 }: {
   payload: string
   locale?: Locale
+  showPairEvidence?: boolean
 }) {
+  const [draftJson, setDraftJson] = useState<string | null>(null)
   const [state, setState] = useState<LoadState>({ status: "checking" })
 
   useEffect(() => {
@@ -47,6 +52,7 @@ export function FoundationLocalEvidence({
             window.location.href,
           )
         }
+        try { setDraftJson(window.localStorage.getItem(QUIZ_STORAGE_KEY)) } catch { setDraftJson(null) }
         setState(
           lookupFoundationLocalEvidence(
             window.localStorage,
@@ -78,12 +84,14 @@ export function FoundationLocalEvidence({
     )
   }
 
-  if (state.status === "unavailable") {
-    return <span hidden data-local-evidence-status={state.reason} />
+  const extension = buildFoundationExtensionPayoff(payload, state.status === "available" ? state.evidence : null, locale, draftJson)
+  const extensionSection = extension ? <section className={styles.section} data-foundation-extension-payoff><h2>{extension.title}</h2>{extension.comparison && <p>{extension.comparison}</p>}<p>{extension.summary}</p><p className={styles.note}>{extension.note}</p></section> : null
+  if (state.status === "unavailable" || !showPairEvidence) {
+    return <>{extensionSection}<span hidden data-local-evidence-status={state.status === "unavailable" ? state.reason : "pair-suppressed"} /></>
   }
 
   return (
-    <section className={styles.section} data-local-evidence-status="available">
+    <>{extensionSection}<section className={styles.section} data-local-evidence-status="available">
       <h2>{copy.title}</h2>
       <p>{copy.intro}</p>
       <ol className={styles.records}>
@@ -111,7 +119,7 @@ export function FoundationLocalEvidence({
         ))}
       </ol>
       <p className={styles.note}>{copy.note}</p>
-    </section>
+    </section></>
   )
 }
 
@@ -154,7 +162,7 @@ const enCopy = {
     deleted: "The local evidence associated with this completion is no longer available on this device.",
     "tuple-mismatch": "The saved record does not match this result's full scoring and form tuple, so it is not shown.",
     "locale-mismatch": "The local evidence was authored in a different completion language, so this page does not substitute or translate it.",
-    "no-records": "No submitted item produced a positive exact counterfactual for the two current readings.",
+    "no-records": "No submitted item produced a positive exact counterfactual for the two current interpretations.",
   },
 } as const
 
@@ -177,6 +185,6 @@ const zhCopy = {
     deleted: "当前设备上已没有与本次完成记录关联的本地依据。",
     "tuple-mismatch": "已保存记录与本结果的题组和评分元组不完全一致，因此不会显示。",
     "locale-mismatch": "这份本地依据来自另一种完成语言。本页不会擅自替换或翻译其中的题目与选项。",
-    "no-records": "没有任何已提交题目为当前两个读法生成正向的精确反事实依据。",
+    "no-records": "没有任何已提交题目为当前两个解释生成正向的精确反事实依据。",
   },
 } as const

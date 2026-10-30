@@ -13,6 +13,10 @@ export type ProfileSaveIntent = {
 
 type ProfileSaveIntents = Partial<Record<ProfileSaveIntentKind, ProfileSaveIntent>>
 
+// A completion can still reach its result when session storage is unavailable.
+// This fallback lives only for the current page navigation, never in a share URL.
+const memoryIntents: ProfileSaveIntents = {}
+
 function readProfileSaveIntents(): ProfileSaveIntents {
   if (typeof window === "undefined") return {}
 
@@ -37,7 +41,11 @@ function writeProfileSaveIntents(intents: ProfileSaveIntents): boolean {
 
   try {
     if (Object.keys(intents).length === 0) {
-      window.sessionStorage.removeItem(PROFILE_SAVE_INTENT_KEY)
+      try {
+        window.sessionStorage.removeItem(PROFILE_SAVE_INTENT_KEY)
+      } catch {
+        window.sessionStorage.setItem(PROFILE_SAVE_INTENT_KEY, "{}")
+      }
     } else {
       window.sessionStorage.setItem(PROFILE_SAVE_INTENT_KEY, JSON.stringify(intents))
     }
@@ -55,16 +63,21 @@ export function markProfileSaveIntent(
   metadata: { mode?: QuizMode; localEvidenceId?: string } = {},
 ): boolean {
   if (!identity) return false
-  return writeProfileSaveIntents({
+  const intent = {
+    identity,
+    ...(metadata.mode ? { mode: metadata.mode } : {}),
+    ...(metadata.localEvidenceId
+      ? { localEvidenceId: metadata.localEvidenceId }
+      : {}),
+  }
+  const written = writeProfileSaveIntents({
     ...readProfileSaveIntents(),
-    [kind]: {
-      identity,
-      ...(metadata.mode ? { mode: metadata.mode } : {}),
-      ...(metadata.localEvidenceId
-        ? { localEvidenceId: metadata.localEvidenceId }
-        : {}),
-    },
+    [kind]: intent,
   })
+  // Do not let an older in-memory completion supersede a new marker.
+  delete memoryIntents[kind]
+  if (!written && typeof window !== "undefined") memoryIntents[kind] = intent
+  return written
 }
 
 /**
@@ -74,14 +87,23 @@ export function markProfileSaveIntent(
 export function consumeProfileSaveIntent(
   kind: ProfileSaveIntentKind,
   identity: string,
+  onStorageFailure?: () => void,
 ): ProfileSaveIntent | null {
   if (!identity) return null
   const intents = readProfileSaveIntents()
-  const intent = intents[kind]
+  const intent = memoryIntents[kind] ?? intents[kind]
   if (intent?.identity !== identity) return null
 
+  // Persisted markers must be cleared before authorizing a save. Otherwise a
+  // reload could replay an old completion and replace the local Profile again.
+  const persisted = intents[kind]
   delete intents[kind]
-  writeProfileSaveIntents(intents)
+  if (persisted && !writeProfileSaveIntents(intents)) {
+    delete memoryIntents[kind]
+    onStorageFailure?.()
+    return null
+  }
+  delete memoryIntents[kind]
   return intent
 }
 

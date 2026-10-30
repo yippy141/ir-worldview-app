@@ -1,5 +1,8 @@
 "use client"
 
+import { classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { generateResult, getV2ScoringCalibration } from "@/lib/scoring"
+import { foundationGlossary } from "@/lib/foundation-glossary"
 import { FirstInstinctPrompt } from "@/components/quiz/first-instinct-prompt"
 import Link from "next/link"
 
@@ -57,14 +60,14 @@ const englishFoundationQuizUi = {
   title: "Foundation",
   adaptedBeta: "",
   setSummary: {
-    core: `${questionCountsBySet.core} questions · about 6 to 8 minutes · followed by a provisional result.`,
+    core: (count) => `${count} questions · followed by a provisional result.`,
     targetedExtended:
-      "5 follow-up questions examine the distinction between your two nearest modeled traditions.",
-    fullExtended: `${questionCountsBySet.fullExtended} additional questions · saved form, including its research-comparison items.`,
-    baselineExtended: `${questionCountsBySet.baselineExtended} additional questions · the scored extension without the research-comparison block.`,
+      (count) => `${count} follow-up questions examine the distinction between your two nearest modeled traditions.`,
+    fullExtended: (count) => `${count} additional questions · saved form, including its research-comparison items.`,
+    baselineExtended: (count) => `${count} additional questions · the scored extension without the research-comparison block.`,
   },
   setLabels: {
-    core: "Standard · 12 questions",
+    core: "Standard",
     targetedExtended: "Targeted extension",
     fullExtended: "Saved full extension",
     baselineExtended: "Baseline extension",
@@ -176,12 +179,17 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
         requestedSecondFamily,
       )
 
+      const canTarget = hasCompleteCore && classifyFoundationPresentation(
+        generateResult(selectFoundationAnswersForSet(baseSession.answers, "core"), "analyst", "core"),
+        getV2ScoringCalibration("core").lowDifferentiationThreshold,
+      ).showArchetype
+
       if (baseSession.questionSet === "fullExtended") {
         setSession({ ...baseSession, activeMode: baseSession.activeMode ?? "analyst" })
       } else if (
         requestedExtension === "targeted" &&
         requestedPair &&
-        hasCompleteCore
+        canTarget
       ) {
         setSession({
           ...baseSession,
@@ -189,7 +197,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
           questionSet: "targetedExtended",
           targetedFamilyPair: requestedPair,
         })
-      } else if (requestedExtension === "full" && hasCompleteCore) {
+      } else if ((requestedExtension === "full" || (requestedExtension === "targeted" && !canTarget)) && hasCompleteCore) {
         setSession({
           ...baseSession,
           activeMode: "analyst",
@@ -454,7 +462,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
     <div className={locale === "en" ? "stack-lg foundation-task" : "stack-lg"}>
       {entranceOpen && <section className="foundation-entrance">
         <h1>How do you judge the arguments behind world politics?</h1>
-        <p className="entrance-count">{displayedSet === "core" ? "Standard · 12 questions · about 3 minutes" : `${questions.length} questions`}</p>
+        <p className="entrance-count">{displayedSet === "core" ? `Standard · ${questions.length} questions` : `${questions.length} questions`}</p>
         <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
         <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
         <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
@@ -471,7 +479,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             <div className="row gap-sm wrap center" style={{ justifyContent: "space-between" }}>
               <div className="stack-xs">
                 {locale !== "en" ? <h1>{copy.title}</h1> : entranceOpen ? <p className="task-orientation-title">{copy.title}</p> : <h1 className="task-orientation-title">{copy.title}</h1>}
-                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet]}</p>}
+                {(locale !== "en" || displayedSet !== "core") && <p className="muted" style={{ lineHeight: "1.65" }}>{copy.setSummary[displayedSet](questions.length)}</p>}
                 {copy.adaptedBeta ? (
                   <p className="muted" style={{ fontSize: "0.82rem" }}>{copy.adaptedBeta}</p>
                 ) : null}
@@ -594,6 +602,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
             {hasSupport(currentQuestion) ? (
               <SupportBlock
                 question={currentQuestion}
+                locale={locale}
                 visible={supportVisible}
                 onToggle={() => setSupportOpen((open) => !open)}
                 autoShown={session.contextAssist}
@@ -733,12 +742,14 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
 function SupportBlock({
   question,
+  locale,
   visible,
   autoShown,
   onToggle,
   copy,
 }: {
   question: Question
+  locale: Locale
   visible: boolean
   autoShown: boolean
   onToggle: () => void
@@ -779,6 +790,7 @@ function SupportBlock({
             lineHeight: "1.6",
           }}
         >
+          {foundationGlossary(question.id, locale).map(term => <p key={term.term}><strong>{term.term}:</strong> {term.definition}</p>)}
           {question.helpText ? <p>{question.helpText}</p> : null}
           {question.clarification ? (
             <ClarificationCopy clarification={question.clarification} copy={copy} />
@@ -823,7 +835,7 @@ function questionLabel(question: Question, copy: FoundationQuizUiCopy) {
 }
 
 function hasSupport(question: Question) {
-  return Boolean(question.helpText || question.clarification)
+  return Boolean(question.helpText || question.clarification || foundationGlossary(question.id, "en").length)
 }
 
 function supportToggleLabel(question: Question, copy: FoundationQuizUiCopy) {

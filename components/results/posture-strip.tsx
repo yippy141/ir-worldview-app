@@ -4,11 +4,12 @@ import {
   formatArchetypeDisplayCode,
 } from "@/lib/archetype-display"
 import { resolveRestraintPosture, type PostureEndpoint } from "@/lib/results/posture"
-import type { CanonicalFoundationResult } from "@/lib/scoring"
+import type { CanonicalFoundationResult, FoundationScoringCalibration } from "@/lib/scoring"
 
 type Props = {
   result: CanonicalFoundationResult
   lowDifferentiationThreshold?: number
+  calibration?: FoundationScoringCalibration
 }
 
 function Endpoint({
@@ -48,9 +49,10 @@ function Endpoint({
 export function PostureStrip({
   result,
   lowDifferentiationThreshold,
+  calibration,
 }: Props) {
-  const posture = resolveRestraintPosture(result, lowDifferentiationThreshold)
-  const scoreLabel = `raw score ${posture.score.toFixed(1)}`
+  const posture = resolveRestraintPosture(result, lowDifferentiationThreshold, calibration)
+  const scoreLabel = `score ${posture.score.toFixed(2)} on the 1 to 7 scale`
 
   return (
     <section
@@ -65,13 +67,13 @@ export function PostureStrip({
       <div
         className="posture-strip__scale"
         role="img"
-        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${formatArchetypeCodeSpeech(posture.low.code)}) and ${posture.high.name} (${formatArchetypeCodeSpeech(posture.high.code)}). The registered raw-score routing boundary is 4. This profile reads as ${posture.current.name}.`}
+        aria-label={`Restraint ${scoreLabel}, between ${posture.low.name} (${formatArchetypeCodeSpeech(posture.low.code)}) and ${posture.high.name} (${formatArchetypeCodeSpeech(posture.high.code)}). ${posture.routingExplanation} This profile is summarized as ${posture.current.name}.`}
       >
         <div className="posture-strip__track">
-          <span
+          {posture.postureCut !== null && <span
             className="posture-strip__cut"
             style={{ left: `${posture.postureCut * 100}%` }}
-          />
+          />}
           <span
             className="posture-strip__mark"
             style={{ left: `${posture.fraction * 100}%` }}
@@ -99,8 +101,7 @@ export function PostureStrip({
       </p>
 
       <p className="muted result-note-xs">
-        A raw score of 4 is the registered routing boundary for the posture sign. It is not a
-        symmetric center for every form.
+        {posture.routingExplanation}
       </p>
 
       <p className="muted result-note-xs">

@@ -18,7 +18,7 @@ type Props = {
 
 const shareCopy = {
   en: {
-    copied: "Copied!",
+    copied: "Link copied!",
     share: "Share result",
     copyShare: "Copy share link",
     linkCopied: "Link copied!",
@@ -28,10 +28,10 @@ const shareCopy = {
     retake: "Retake the Foundation questionnaire",
     fallback: "Foundation share link",
     title: (family: string) => `IR Worldview: ${family}`,
-    text: (result: string) => `My IR worldview result: ${result}`,
+    text: (result: string) => `IR worldview result: ${result}`,
   },
   "zh-Hans": {
-    copied: "已复制",
+    copied: "链接已复制",
     share: "分享结果",
     copyShare: "复制分享链接",
     linkCopied: "链接已复制",
@@ -41,7 +41,7 @@ const shareCopy = {
     retake: "重新完成基础问卷",
     fallback: "基础结果分享链接",
     title: (family: string) => `国际关系世界观画像：${family}`,
-    text: (result: string) => `我的国际关系世界观结果：${result}`,
+    text: (result: string) => `国际关系世界观结果：${result}`,
   },
 } as const
 
@@ -71,7 +71,7 @@ export function ShareActions({
   }
 
   async function handleCopy() {
-    const copied = (await copyText(getShareUrl())) || (await copyText(resultLabel))
+    const copied = await copyText(getShareUrl())
     if (!copied) {
       setCopyState("error")
       return
@@ -113,7 +113,7 @@ export function ShareActions({
       >
         {copyState === "copied"
           ? copy.copied
-          : copyState === "error" && !canNativeShare
+          : copyState === "error"
             ? copy.copyUnavailable
           : canNativeShare
             ? copy.share

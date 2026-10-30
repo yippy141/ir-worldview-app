@@ -9,7 +9,7 @@ import { hasAnyCurrentProfileRecord } from "@/components/profile/profile-record-
 import { ProfileShareActions } from "@/components/profile/profile-share-actions"
 import { loadCurrentCaseResponseStore } from "@/lib/current-cases/response-store"
 import type { CurrentCaseResponseStore } from "@/lib/current-cases/types"
-import { resolveFoundationArchetypeFromSnapshot } from "@/lib/profile-foundation-identity"
+import { foundationIdentityTitle, resolveFoundationIdentityFromSnapshot } from "@/lib/profile-foundation-identity"
 import {
   loadProfileStore,
   type ProfileStore,
@@ -99,8 +99,8 @@ export function ProfileDashboard() {
     const payload = buildCompatibleProfileSharePayload(profile)
     return payload ? encodeProfileSharePayload(payload) : null
   })()
-  const foundationArchetype = profile.foundation
-    ? resolveFoundationArchetypeFromSnapshot(profile.foundation)
+  const foundationIdentity = profile.foundation
+    ? resolveFoundationIdentityFromSnapshot(profile.foundation)
     : null
 
   return (
@@ -113,7 +113,7 @@ export function ProfileDashboard() {
             <ProfileShareActions
               payload={sharePayload}
               headline={
-                foundationArchetype?.name ?? "Foundation result unavailable"
+                foundationIdentityTitle(foundationIdentity)
               }
             />
           ) : undefined

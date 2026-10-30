@@ -18,10 +18,10 @@ test("low-differentiation core headlines both live readings and keeps the regist
 
   assert.equal(
     heading.title,
-    "An initial Foundation read: Realism and Institutionalism",
+    "An initial Foundation result: Realism and Institutionalism",
   )
   assert.match(heading.eyebrow, /14-item core form/u)
-  assert.match(heading.lead, /Both readings remain live/u)
+  assert.match(heading.lead, /Both interpretations remain live/u)
   assert.match(heading.lead, /targeted follow-up items/u)
 })
 
@@ -40,7 +40,7 @@ test("clearer core, targeted, and full forms retain the runner-up and model limi
     })
 
     assert.match(heading.eyebrow, new RegExp(fixture.form, "u"))
-    assert.equal(heading.title, "Constructivism leads this Foundation read")
+    assert.equal(heading.title, "Constructivism leads this Foundation result")
     assert.match(heading.lead, /clearer within the current item set/u)
     assert.match(heading.lead, /Realism remains the nearest alternative/u)
     assert.match(heading.lead, /does not establish a durable trait/u)
@@ -57,9 +57,9 @@ test("legacy heading fails closed on exact-form contribution claims", () => {
     runnerUpLabel: "Institutionalism",
   })
 
-  assert.equal(heading.title, "Registered legacy Foundation read: Realism")
+  assert.equal(heading.title, "Registered legacy Foundation result: Realism")
   assert.match(heading.lead, /exact completed-form tuple is unavailable/u)
-  assert.doesNotMatch(heading.lead, /leads this Foundation read/u)
+  assert.doesNotMatch(heading.lead, /leads this Foundation result/u)
 })
 
 test("result story has one sticky rail with chapter-local visuals in DOM order", () => {

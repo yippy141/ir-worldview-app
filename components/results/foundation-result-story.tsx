@@ -7,6 +7,7 @@ import { ProfileMethodCallout } from "@/components/results/profile-method-callou
 import { WorkedApplication } from "@/components/results/worked-application"
 import type { CSSProperties, ReactNode } from "react"
 import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
+import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
 import { FoundationDomainRecords } from "@/components/results/foundation-domain-records"
 import { FoundationLocalEvidence } from "@/components/results/foundation-local-evidence"
 import { NearestAlternative, type ComparisonRow } from "@/components/results/nearest-alternative"
@@ -20,7 +21,7 @@ import {
 import { buildFoundationContributionCopy } from "@/lib/results/foundation-contribution-copy"
 import type { FoundationContributionRow } from "@/lib/results/foundation-contributions"
 import type { FoundationPayoff } from "@/lib/results/foundation-payoff"
-import { buildFoundationResultHeading } from "@/lib/results/foundation-result-heading"
+import { ambiguousFoundationCopy, foundationLensSubtitle, type FoundationPresentation, buildFoundationResultHeading } from "@/lib/results/foundation-result-heading"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import type {
   FamilyKey,
@@ -45,6 +46,7 @@ type NextAction = {
 
 export type FoundationResultStoryProps = {
   payload: string
+  presentation: FoundationPresentation
   resultTier: FoundationTier
   questionSet: FoundationQuestionSet | null
   legacy: boolean
@@ -67,6 +69,8 @@ export type FoundationResultStoryProps = {
 
 export function FoundationResultStory(props: FoundationResultStoryProps) {
   const heading = buildFoundationResultHeading(props)
+  const ambiguous = !props.presentation.showArchetype
+  const ambiguityCopy = ambiguousFoundationCopy(props.presentation)
   const primaryCode = matrixCode(
     props.primaryFamily,
     props.archetype,
@@ -89,7 +93,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       copy: (
         <>
           <p>
-            {`${props.payoff.mainTension.rivalArgument} The rows below put your positions beside what each reading expects.`}
+            {`${props.payoff.mainTension.rivalArgument} The rows below put your positions beside what each interpretation expects.`}
           </p>
         </>
       ),
@@ -130,7 +134,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
           <>
             <p>{copy.lead}</p>
             <p>
-              Each row shows how far one dimension pulled toward one reading or the other.
+              Each row shows how far one dimension pulled toward one interpretation or the other.
             </p>
             <details>
               <summary>How this is calculated</summary>
@@ -141,7 +145,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
           </>
         )
       })(),
-      visualLabel: `${props.primaryLabel} minus ${props.runnerUpLabel}`,
+      visualLabel: "Which answers favor each interpretation?",
       renderVisual: () => (
         <ContributionView
           rows={props.contributionRows}
@@ -154,21 +158,21 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "matrix",
       number: "03",
-      title: "Where this reading sits",
+      title: "Orientation Matrix",
       copy: (
         <>
           <p>
             {/* The closeness sentence depends on lowDifferentiation (the gap
                 between the two rounded family scores is under the calibrated
                 threshold). Matrix cells are a display grid, not a distance. */}
-            {`The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the readings that share it. `}
+            {`The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the interpretations that share it. `}
             {props.lowDifferentiation
-              ? `In your result the two finished close, so the rival argument is worth reading before the name settles.`
-              : `Compare the two below to see which readings a different posture would have produced.`}
+              ? `In your result the two finished close, so the rival argument is worth examining before the name settles.`
+              : `Compare the two below to see which interpretations a different posture would have produced.`}
           </p>
         </>
       ),
-      visualLabel: "The Foundation readings",
+      visualLabel: "The Foundation interpretations",
       renderVisual: () => (
         <ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} />
       ),
@@ -179,7 +183,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       title: "Your answers",
       copy: null,
       visualLabel: "Your answers and the alternatives",
-      renderVisual: () => <FoundationLocalEvidence payload={props.payload} />,
+      renderVisual: () => <FoundationLocalEvidence payload={props.payload} showPairEvidence={!ambiguous} />,
     },
     {
       id: "domains",
@@ -199,7 +203,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "case",
       number: "06",
-      title: props.pressureCase ? "Test the reading against a reviewed case" : "Try a decision",
+      title: props.pressureCase ? "Test the interpretation against a reviewed case" : "Try a decision",
       copy: <p>{props.pressureCase ? "One reviewed case where two of these considerations collide. Work out which you would put first." : "Work through a concrete choice and consider which condition would change your response."}</p>,
       visualLabel: "Reviewed historical case",
       renderVisual: () => props.pressureCase ? (
@@ -213,27 +217,43 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
 
   ]
 
+  const visibleChapters = ambiguous
+    ? chapters.filter(chapter => ["evidence", "domains"].includes(chapter.id))
+    : chapters
+  const workedCase: StoryChapterDefinition = {
+    id: "worked-case", number: "worked", title: "An unscored reflection example",
+    copy: <p>This example does not ask for a submitted answer and does not change the saved result.</p>,
+    visualLabel: "Apply the interpretation to a concrete dispute",
+    renderVisual: () => <><WorkedApplication example={props.payoff.interpretation.example} /><p>{props.payoff.interpretation.followUp.question}</p></>,
+  }
+  if (!ambiguous) visibleChapters.splice(4, 0, workedCase)
+
   return (
     <article
       className={styles.story}
       data-foundation-result-story
+      data-foundation-presentation={props.presentation.kind}
     >
       <ResultReveal domain="foundation" payload={props.payload}><header className={styles.frontispiece} aria-labelledby="foundation-result-heading">
-        {markPrimaryCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={markPrimaryCode} />
-          : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />}
-        <h1 id="foundation-result-heading">{props.archetype.name}</h1>
-        <p className={styles.qualification}>{heading.title}</p>
-        {props.payoff.interpretation.summary.split("\n\n").map(paragraph => <p key={paragraph} className={styles.frontispieceLead}>{paragraph}</p>)}
-        <a href="#nearest" className="cta-primary print-hidden">Explore this reading</a>
-        {!props.legacy && props.lowDifferentiation && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
+        {!ambiguous && (markPrimaryCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={markPrimaryCode} />
+          : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />)}
+        <h1 id="foundation-result-heading">{ambiguous ? ambiguityCopy.title : props.archetype.name}</h1>
+        {!ambiguous && <p className={styles.qualification}>{foundationLensSubtitle(props.lowDifferentiation ? [props.primaryFamily, props.runnerUpFamily] : [props.primaryFamily])}</p>}
+        {!ambiguous && <p className={styles.qualification}>{heading.title}</p>}
+        {(ambiguous ? ambiguityCopy.summary : props.payoff.interpretation.summary).split("\n\n").map(paragraph => <p key={paragraph} className={styles.frontispieceLead}>{paragraph}</p>)}
+        <a href={ambiguous ? "#dimensions" : "#nearest"} className="cta-primary print-hidden">Explore this result</a>
+        {!props.legacy && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
       </header></ResultReveal>
       <section className={styles.openingPayoff} aria-label="Immediate result payoff">
-        <p className="result-scope">{heading.lead}</p>
-        <WorkedApplication example={props.payoff.interpretation.example} />
-        <p><strong>The next question. </strong>{props.payoff.interpretation.followUp.question}</p>
-        <details><summary>Reading code and form</summary><p aria-label={props.archetypeCodeSpeech}>{props.archetypeCode}</p><p>{props.archetypeCodeKey}</p><p>{heading.eyebrow}</p></details>
+        <p className="result-scope">{ambiguous ? ambiguityCopy.qualification : heading.lead}</p>
+        {ambiguous ? <p>{ambiguityCopy.candidates}</p> : <>
+          <p>The explanatory position concerns what drives world politics; the strategic position concerns how hard to press an advantage; the normative position concerns when justice can override established order.</p>
+          <details><summary>Result code and form</summary><p aria-label={props.archetypeCodeSpeech}>{props.archetypeCode}</p><p>{props.archetypeCodeKey}</p><p>{heading.eyebrow}</p></details>
+        </>}
+
       </section>
 
+      <section id="dimensions" className={styles.evidenceSection}><FoundationDimensionSummary scores={props.presentation.dimensionScores} /></section>
       <div className={styles.storyBody}>
         <div
           className={styles.chapters}
@@ -241,8 +261,8 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
           role="group"
           aria-label="Scroll-led result chapters"
         >
-          {chapters.map((chapter) => (
-            <StoryChapter key={chapter.id} {...chapter} />
+          {visibleChapters.map((chapter, index) => (
+            <StoryChapter key={chapter.id} {...chapter} number={String(index + 1).padStart(2, "0")} />
           ))}
         </div>
       </div>
@@ -251,7 +271,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>Continue from this result</p>
-          <h2>Read the rival argument, or take a question to a harder case</h2>
+          <h2>{ambiguous ? "Review your positions or explore another question" : "Read the rival argument, or take a question to a harder case"}</h2>
         </div>
         <div className={`${styles.actions} print-hidden`}>
           <Link href={props.nextAction.href} className="cta-primary">
@@ -348,6 +368,7 @@ function ContributionView({
 
   return (
     <>
+      <div className={styles.scaleEnds} data-contribution-endpoints><span>← {runnerUpLabel}</span><span>{primaryLabel} →</span></div>
       <ol className={styles.contributionList}>
         {rows.map((row) => {
           const magnitude = Math.abs(row.signedContribution) / maxMagnitude
@@ -400,12 +421,12 @@ function ArchetypeMatrix({
     <div
       className={styles.matrixScroll}
       role="region"
-      aria-label="Registered Foundation reading matrix"
+      aria-label="Registered Foundation interpretation matrix"
       tabIndex={0}
     >
       <table className={styles.matrix}>
         <caption className="sr-only">
-          Eight registered readings by modeled tradition and restraint posture
+          Eight registered interpretations by modeled tradition and restraint posture
         </caption>
         <thead>
           <tr>

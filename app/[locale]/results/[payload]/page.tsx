@@ -1,3 +1,5 @@
+import { ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { questionCountsBySet } from "@/lib/quiz-schema"
 import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
 import Link from "next/link"
@@ -55,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       )
     : null
   const socialCopy = narrative && archetype
-    ? buildZhHansFoundationResultSocialCopy(archetype, narrative.summary)
+    ? buildZhHansFoundationResultSocialCopy(archetype, narrative.summary, resolved ? classifyFoundationPresentation(resolved.result, getV2ScoringCalibration(resolved.scoringCalibration).lowDifferentiationThreshold) : undefined)
     : null
   const title = socialCopy?.title ?? "共享结果无法读取｜国际关系世界观清单"
   const description = socialCopy?.description ?? "此基础结果链接无法解码。"
@@ -108,6 +110,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
 
   const { dimensionScores, result, provenance, resultTier } = resolved
   const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
+  const presentation = classifyFoundationPresentation(result, calibration.lowDifferentiationThreshold)
   const lowDifferentiation =
     result.nearestFitGap < calibration.lowDifferentiationThreshold
   const currentPayload = resolved.payload.v === 5
@@ -162,7 +165,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         reason: "较早版本链接没有精确的完成题组元组。重新完成当前问卷后，可查看与本次提交相绑定的解释。",
       }
     : resultTier === "core"
-      ? lowDifferentiation
+      ? presentation.showArchetype && lowDifferentiation
         ? {
             href: targetedExtensionHref,
             label: "回答五道定向题",
@@ -170,41 +173,17 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
           }
         : {
             href: fullExtensionHref,
-            label: "完成全部扩展题",
-            reason: "扩展题会为这份核心初步读法增加更多题目依据，同时保留当前结果。",
+            label: `回答 ${questionCountsBySet.baselineExtended} 道一般扩展题`,
+            reason: "扩展题会为这份核心初步解释增加更多题目依据，同时保留当前结果。",
           }
       : {
           href: publicPath("zh-Hans", "/cases"),
-          label: "用一个案例检验这份读法",
+          label: "用一个案例检验这份解释",
           reason: "选择一个有明确证据时间窗的案例，比较具体约束出现时哪些判断仍然成立。",
         }
 
   return (
     <div className="wide-container locale-foundation-result">
-      <FoundationProfileSync
-        snapshot={{
-          payload,
-          resultPath: publicPath("zh-Hans", `/results/${payload}`),
-          familyKey: result.familyKey,
-          familyLabel: narrative.familyLabel,
-          runnerUpKey: result.runnerUpKey,
-          runnerUpLabel: narrative.runnerUpLabel,
-          summary: narrative.summary,
-          dimensionScores,
-          strategyModifier: result.strategyModifier,
-          normativeModifier: result.normativeModifier,
-          keyDrivers: keyDrivers.map((driver) => ({
-            type: driver.type,
-            label: driver.label,
-            description: driver.description,
-          })),
-          strongLenses: strongLenses.map((lens) => ({
-            label: lens.label,
-            description: lens.description,
-          })),
-        }}
-      />
-
       <ZhHansFoundationResultStory
         dimensionScores={dimensionScores}
         payload={payload}
@@ -212,6 +191,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         questionSet={resolved.questionSet}
         legacy={!currentPayload}
         lowDifferentiation={lowDifferentiation}
+        presentation={presentation}
         primaryFamily={result.familyKey}
         primaryLabel={narrative.familyLabel}
         runnerUpFamily={result.runnerUpKey}
@@ -239,13 +219,36 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
         }}
         utility={
           <>
+            <FoundationProfileSync
+              snapshot={{
+                payload,
+                resultPath: publicPath("zh-Hans", `/results/${payload}`),
+                familyKey: result.familyKey,
+                familyLabel: narrative.familyLabel,
+                runnerUpKey: result.runnerUpKey,
+                runnerUpLabel: narrative.runnerUpLabel,
+                summary: narrative.summary,
+                dimensionScores,
+                strategyModifier: result.strategyModifier,
+                normativeModifier: result.normativeModifier,
+                keyDrivers: keyDrivers.map((driver) => ({
+                  type: driver.type,
+                  label: driver.label,
+                  description: driver.description,
+                })),
+                strongLenses: strongLenses.map((lens) => ({
+                  label: lens.label,
+                  description: lens.description,
+                })),
+              }}
+            />
             <DestinationLink destination="foundation" />
             <ShareActions
               payload={payload}
               familyLabel={narrative.familyLabel}
               strategyModifier={narrative.strategyLabel}
               normativeModifier={narrative.normativeLabel}
-              displayLabel={`${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}`}
+              displayLabel={presentation.showArchetype ? `${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}` : ambiguousFoundationCopy(presentation, "zh-Hans").title}
               locale="zh-Hans"
             />
             <p className="muted">

@@ -25,7 +25,7 @@ export function ResultCardHeroShare({ shareUrl, title, text }: Props) {
 
   async function copyLink() {
     const url = resolveUrl()
-    const copied = (await copyText(url)) || (await copyText(text))
+    const copied = await copyText(url)
     if (!copied) {
       setCopyState("error")
       return

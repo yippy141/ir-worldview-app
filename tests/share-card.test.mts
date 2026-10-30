@@ -33,6 +33,7 @@ test("Foundation card inputs derive archetype, norm, and bounded coordinates", (
     "archetype",
     "coordinates",
     "norm",
+    "presentation",
   ])
   assert.equal("percentiles" in parsed, false)
   assert.equal("rarity" in parsed, false)

@@ -93,6 +93,10 @@ const authoredChoices = [
 
 const limitations = [
   {
+    heading: "Ceasefire and accountability need construct review",
+    body: "The extended ceasefire item places immediate harm reduction and accountability at different points on Order and justice. Whether that contrast consistently measures justice versus order, rather than short-term settlement versus long-term accountability, remains unresolved. Current scoring and issued links are preserved; any correction requires a versioned item review and recalibration, not a silent weight change.",
+  },
+  {
     heading: "Not validated",
     body: "This is not a validated psychometric instrument. The dimensions, family profiles, and thresholds reflect theoretical judgment and editorial design, not large-sample calibration.",
   },
@@ -421,7 +425,7 @@ export default function MethodPage() {
               </p>
               <p>
                 Results changed more often near family boundaries and the boundary between a
-                single-family and blended reading. The correlated synthetic and canonical
+                single-family and blended interpretation. The correlated synthetic and canonical
                 ensembles changed less often when their starting results were farther from those
                 boundaries.
               </p>
@@ -431,12 +435,12 @@ export default function MethodPage() {
                 data are available in the project repository.
               </p>
               <p>
-                The posture sign uses 4 as a registered raw-score boundary. Four is not the
-                constructed null center for every form. For the exact full form, the registered
-                independent-null calibration centers restraint at 4.657735. The authored
-                forced-choice signals make that form asymmetric around the raw boundary, so equal
-                numeric distances on either side of 4 should not be read as equivalent positions
-                around the form&apos;s constructed center.
+                Posture signs preserve the registered routing: Maximizer carries + and
+                Restrainer carries −; Hedger uses 4 only as a fallback sign split.
+                On the extended form, Maximizer ends at 4.56 and Hedger begins above it,
+                so 4.56 is the effective sign boundary. A Hedger with a − code remains in
+                the calibrated middle band, not the Restrainer category. The independent-null
+                restraint center is 4.657735; neither routing cut is a population norm.
               </p>
             </div>
 

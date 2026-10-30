@@ -44,7 +44,7 @@ export function buildFoundationInterpretation(scores: DimensionScores): ResultIn
   }
   const middle = positionBand(scores[first]) === "middle"
   return { kind: "model-interpretation", summary,
-    scope: "This reading combines the reported positions. It does not identify particular answers or establish a lasting personal trait.",
+    scope: "This interpretation combines the reported positions. It does not identify particular answers or establish a lasting personal trait.",
     example: { kind: "illustrative-implication", title: "An arms-control bargain under pressure",
       facts: "Suppose two rivals offer reciprocal inspections at declared facilities. Undeclared sites remain possible, and compliance requires a real concession from each side.",
       application: `${middle ? "The scores do not establish a dominant explanation here. One live argument is that inspections change incentives; another is that they work only while the strategic bargain holds." : lenses[first].application} ${scores.restraint >= 5 ? "The restraint position adds a reason to preserve a limited bargain even if it leaves some advantage unused." : scores.restraint <= 3 ? "The advantage-oriented position adds a reason to demand stronger terms while bargaining power is available." : "The strategic score does not settle how hard to press for better terms."}`,

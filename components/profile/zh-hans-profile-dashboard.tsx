@@ -1,5 +1,6 @@
 "use client"
 
+import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
 import { buildFoundationInterpretationZh } from "@/lib/results/foundation-interpretation-zh"
 import NextLink from "next/link"
 import { useEffect, useRef, useState } from "react"
@@ -123,16 +124,18 @@ export function ZhHansProfileDashboard() {
         {view.foundation ? (
           <div className="stack-sm">
             <p className="profile-domain-record__result">
-              {copy.foundationRead(
+              {view.foundation.ambiguous ? view.foundation.archetypeName : copy.foundationRead(
                 view.foundation.familyLabel,
                 view.foundation.runnerUpLabel,
               )}
             </p>
-            <p>{foundationIdentity ? buildFoundationInterpretationZh(foundationIdentity.result.dimensionScores).summary : view.foundation.summary}</p>
-            <p className="muted">
+            <p>{foundationIdentity && !view.foundation.ambiguous ? buildFoundationInterpretationZh(foundationIdentity.result.dimensionScores).summary : view.foundation.summary}</p>
+            {!view.foundation.ambiguous && <p className="muted">
               {copy.nearest}：{view.foundation.familyLabel}；{copy.runnerUp}：
               {view.foundation.runnerUpLabel}。
-            </p>
+            </p>}
+            {view.foundation.qualification && <p>{view.foundation.qualification}</p>}
+            {view.foundation.ambiguous && foundationIdentity && <FoundationDimensionSummary scores={foundationIdentity.result.dimensionScores} locale="zh-Hans" />}
             {foundationRoute && foundationSnapshot ? (
               <FoundationProfileResultLink
                 href={getProfileResultHref(foundationRoute, "zh-Hans")}

@@ -1,3 +1,4 @@
+import { ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
 import {
   resolveArchetype,
   type Archetype,
@@ -23,6 +24,7 @@ export function resolveFoundationIdentityFromSnapshot(
       lowDifferentiationThreshold,
     ),
     result: resolved.result,
+    presentation: classifyFoundationPresentation(resolved.result, lowDifferentiationThreshold),
   }
 }
 
@@ -37,4 +39,13 @@ export function resolveFoundationArchetypeFromSnapshot(
   snapshot: FoundationSnapshot,
 ): Archetype | BlendArchetype | null {
   return resolveFoundationIdentityFromSnapshot(snapshot)?.archetype ?? null
+}
+
+/** A display title never promotes an enumeration-order identity for a broad tie. */
+export function foundationIdentityTitle(
+  identity: ReturnType<typeof resolveFoundationIdentityFromSnapshot>,
+  locale: "en" | "zh-Hans" = "en",
+): string {
+  if (!identity) return locale === "en" ? "Foundation result unavailable" : "基础结果不可用"
+  return identity.presentation.showArchetype ? identity.archetype.name : ambiguousFoundationCopy(identity.presentation, locale).title
 }
