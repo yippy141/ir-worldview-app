@@ -4,6 +4,10 @@ PR #66 is the active repair. The starting revision was [e15a749](https://github.
 
 Checkpoint A covers dependency patches, lint and build, questionnaire counts, completed and edited drafts, and recipient isolation. Checkpoint B covers supported result language, local answer evidence, the Brazil attribution and focused entrances. A B-dependent failure stays open through B. Keep the bank, calibration, score and payload contracts stable.
 
+## Tested implementation
+
+The runtime and lockfile were tested at [41d64ca](https://github.com/yippy141/ir-worldview-app/commit/41d64caac5d7c8b559dfde041763d3b87827ce43). The two-language walkthrough exercised five interpretation states, linked modules, the Compare form, the case correction, the translation-status exit and the browser opt-out. The route crawl recorded 162 published paths returning 200. Both prototype controls and the guessed comparison path returned 404. The result suite passed 25 checks with the duplicate WebKit crawl skipped. All 29 decision-exercise checks passed. [Tested runtime preview](https://ir-worldview-ubfatce82-yippy141s-projects.vercel.app) · [CI on this revision](https://github.com/yippy141/ir-worldview-app/actions/runs/44942070578)
+
 ## Five-minute founder walkthrough
 
 1. Open the preview in a fresh browser. Start Foundation from the first screen. Compare the advertised count with the review screen. Open broader exploration and the Brazil tariff case.

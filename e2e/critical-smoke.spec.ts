@@ -261,7 +261,7 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
     .first()
     .click()
   await expect(
-    resultActions.getByRole("button", { name: "Copied!", exact: true }),
+    resultActions.getByRole("button", { name: "Link copied!", exact: true }).first(),
   ).toBeVisible()
   const shareUrl = await page.evaluate(() => navigator.clipboard.readText())
   expect(shareUrl).toBe(page.url())

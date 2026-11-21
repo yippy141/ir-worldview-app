@@ -235,7 +235,7 @@ test("one canonical Foundation result payload renders in English and Chinese", a
   ).toBeVisible()
   await expect(page.getByText("You first ask whether", { exact: false })).toHaveCount(0)
   await page.getByRole("button", { name: "复制分享链接" }).click()
-  await expect(page.getByRole("button", { name: "已复制", exact: true })).toBeVisible()
+  await expect(page.getByRole("button", { name: "链接已复制", exact: true }).first()).toBeVisible()
   const copiedShare = await page.evaluate(() => ({
     link: (window as typeof window & { __foundationShareLink?: string }).__foundationShareLink,
     origin: window.location.origin,
@@ -376,8 +376,9 @@ test("English and Chinese /current routes preserve locale when no launch case is
   await expect(page).toHaveURL(/\/zh\/cases$/)
   await expect(page.getByRole("heading", { name: "研判当前案例" })).toBeVisible()
   await expect(page.locator("li").getByText("当前案例", { exact: true })).toHaveCount(0)
-  await expect(page.locator("li").first()).toContainText("待复核")
-  await expect(page.locator("li").last()).toContainText("背景案例")
+  for (const record of getPublishedCurrentCases()) {
+    await expect(page.locator(`main li:has(a[href="/zh/cases/${record.slug}"])`)).toContainText("证据更新至")
+  }
 })
 
 test("Current Case keeps its locale-neutral draft IDs and step across language switching", async ({ page }) => {

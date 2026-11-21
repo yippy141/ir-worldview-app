@@ -355,13 +355,13 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
   await expect(sticky).toHaveCount(1)
   await expect(sticky).toBeVisible()
   const chapterVisuals = sticky.locator("[data-foundation-chapter-visual]")
-  await expect(chapterVisuals).toHaveCount(6)
+  await expect(chapterVisuals).toHaveCount(5)
   expect(await chapterVisuals.evaluateAll((elements) => elements.every(
     (element) => getComputedStyle(element).position === "sticky",
   ))).toBe(true)
   expect(await sticky.evaluate((element) => element.querySelectorAll(
     "[data-foundation-story-chapter] > [data-foundation-chapter-visual]",
-  ).length)).toBe(6)
+  ).length)).toBe(5)
 
   const noJs = await browser.newContext({
     baseURL,
@@ -371,10 +371,9 @@ test("desktop has one sticky visual region and mobile remains a complete linear 
   const noJsPage = await noJs.newPage()
   try {
     await noJsPage.goto(`/results/${fixtures.clearerPureCore}`)
-    await expect(noJsPage.locator("[data-foundation-story-chapter]")).toHaveCount(6)
+    await expect(noJsPage.locator("[data-foundation-story-chapter]")).toHaveCount(5)
     await expect(noJsPage.locator("[data-foundation-sticky-region]")).toBeVisible()
-    await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(6)
-    await noJsPage.getByText("Open the orientation matrix", { exact: true }).click()
+    await expect(noJsPage.locator("[data-foundation-chapter-visual]")).toHaveCount(5)
     await expect(noJsPage.locator(
       '[role="region"][aria-label="Registered Foundation interpretation matrix"]:visible',
     ))
@@ -438,9 +437,9 @@ test("reduced motion keeps every chapter and its visible state available", async
   await page.emulateMedia({ reducedMotion: "reduce" })
   await page.goto(`/results/${fixtures.clearerPureCore}`)
 
-  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(6)
+  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(5)
   await expect(page.locator("[data-foundation-chapter-visual]"))
-    .toHaveCount(6)
+    .toHaveCount(5)
   const motion = await page.locator("[data-foundation-result-story]").evaluate((story) => {
     const sample = story.querySelector<HTMLElement>("[data-foundation-story-chapter]")
     if (!sample) return null
@@ -498,14 +497,14 @@ test("print mode is static and retains the worked application without a page-cou
   await page.goto(`/results/${fixtures.clearerPureCore}`)
   await page.emulateMedia({ media: "print", reducedMotion: "reduce" })
 
-  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(6)
+  await expect(page.locator("[data-foundation-story-chapter]")).toHaveCount(5)
   await expect(page.locator("[data-foundation-sticky-region]")).toBeVisible()
-  await expect(page.locator("[data-foundation-chapter-visual]")).toHaveCount(6)
+  await expect(page.locator("[data-foundation-chapter-visual]")).toHaveCount(5)
   const printVisualPositions = await page
     .locator("[data-foundation-chapter-visual]")
     .evaluateAll((visuals) => visuals.map((visual) =>
       window.getComputedStyle(visual).position))
-  expect(printVisualPositions).toEqual(Array(6).fill("static"))
+  expect(printVisualPositions).toEqual(Array(5).fill("static"))
   await expect(page.locator(
     '[role="region"][aria-label="Registered Foundation interpretation matrix"]:visible',
   ))
