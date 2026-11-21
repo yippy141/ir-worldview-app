@@ -1,4 +1,6 @@
-# Proposed sprint queue
+# Historical sprint queue
+
+Current assignment and status: [PROJECT_STATE.md](PROJECT_STATE.md).
 
 29 September 2026. Recovery and assessment are complete; the implementation work below is proposed, not shipped. Use one bounded sprint per kickoff. Recheck the starting tree and skip already-resolved findings.
 

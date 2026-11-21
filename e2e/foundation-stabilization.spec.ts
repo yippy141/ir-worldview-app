@@ -88,3 +88,32 @@ test("manually requested targeted extension cannot select a pair for a tied core
     await expect(page.getByText(`${term}:`,{exact:true})).toBeVisible()
   }
 })
+
+test("submission, reopening, recipient isolation and an edited answer have distinct return states", async ({ page, browser, baseURL }) => {
+  const { openSyntheticReview } = await import("./fixtures/product-completion")
+  const generate = await openSyntheticReview(page, "foundation")
+  await generate.click()
+  await expect(page).toHaveURL(/\/results\//)
+  const issued = page.url()
+  await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).completed, QUIZ_STORAGE_KEY)).toBe(true)
+  const recipient = await browser.newContext({ baseURL })
+  try {
+    const opened = await recipient.newPage()
+    await opened.goto(issued)
+    await expect(opened.locator("h1")).toBeVisible()
+    await expect(opened.locator("[data-local-evidence-status]")).not.toHaveAttribute("data-local-evidence-status", "checking")
+    await expect(opened.locator('[data-local-evidence-status="available"], [data-foundation-save-status]')).toHaveCount(0)
+    expect(await opened.evaluate(key => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+  } finally {
+    await recipient.close()
+  }
+  await page.goto("/")
+  await expect(page.getByRole("link", { name: /saved Foundation result/ })).toBeVisible()
+  await page.goto("/quiz/review")
+  await page.getByRole("button", { name: "Edit", exact: true }).first().click()
+  await page.locator('button.answer-button:not([aria-pressed="true"])').first().click()
+  await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).completed, QUIZ_STORAGE_KEY)).toBe(false)
+  await page.goto("/")
+  await expect(page.getByRole("link", { name: /Review your Foundation answers/ })).toBeVisible()
+  await expect(page.getByRole("link", { name: "Open your saved results" })).toBeVisible()
+})

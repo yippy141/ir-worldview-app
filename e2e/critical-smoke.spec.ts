@@ -128,10 +128,14 @@ test("the root project index opens Foundation and a draft resumes after reload",
   await stageNav.getByRole("link", { name: "Foundation", exact:true }).click()
   await expect(page).toHaveURL(/\/quiz$/)
 
+  await page.getByRole("button", { name: "Start Foundation", exact: true }).click()
   await answerCurrentFoundationQuestion(page)
   await expect(page.getByText(/1 of \d+ answered/)).toBeVisible()
 
   await page.reload()
+  await expect(page.getByRole("button", { name: "Continue where I left off" })).toBeVisible()
+  await page.getByRole("button", { name: "Continue where I left off" }).click()
+  await page.getByRole("button", { name: "Back", exact: true }).click()
   await expect(page.getByText(/1 of \d+ answered/)).toBeVisible()
   await expect(page.locator('button[aria-pressed="true"]')).toHaveCount(1)
 })

@@ -1,5 +1,4 @@
-import { lensFromFamily, postureFromStrategyModifier } from "@/lib/archetypes"
-import { buildFoundationHero, buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
+import { buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
 import type { ResultInterpretation } from "@/lib/results/interpretation"
 import type {
   DimensionKey,
@@ -131,7 +130,6 @@ export function buildFoundationPayoff(input: FoundationPayoffInput): FoundationP
   const tensionKey = selectTension(input, primaryDimension)
 
   const interpretation = buildFoundationInterpretation(input.dimensionScores)
-  interpretation.summary = buildFoundationHero(input.dimensionScores, `${lensFromFamily(input.familyKey)}${postureFromStrategyModifier(input.strategyModifier, input.dimensionScores.restraint)}`)
   return {
     interpretation,
     corePattern: {

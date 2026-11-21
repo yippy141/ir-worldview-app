@@ -37,6 +37,6 @@ export function readRootLocalStatus(storage: Pick<Storage, "getItem">): RootLoca
     perspectives: Array.isArray(profile?.perspectiveRuns)
       ? profile.perspectiveRuns.length
       : 0,
-    draft: Object.keys(answers ?? {}).length,
+    draft: quiz?.completed === true ? 0 : Object.keys(answers ?? {}).length,
   }
 }

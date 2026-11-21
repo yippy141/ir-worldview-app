@@ -85,6 +85,6 @@ test('Profile empty, single, legacy multiple-domain and shared views; every Pers
  for(const perspective of perspectiveCatalog) {
   const payload=encodePerspectivePayload({v:1,perspectiveId:perspective.id,scenarioSetVersion:perspective.scenarioSetVersion,baselineScores:[4,4,4,4,4,4,4],answers:Object.fromEntries(perspective.scenarios.map(q=>[q.id,q.options[0].id]))})
   await page.goto(`/perspectives/${perspective.id}/result/${payload}`)
-  await expect(page.locator('h1')).toContainText(perspective.shortLabel)
+  await expect(page.locator('h1')).toContainText(perspective.shortLabel, { ignoreCase: true })
  }
 })

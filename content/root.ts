@@ -1,3 +1,6 @@
+import { questionCountsBySet } from "@/lib/quiz-schema"
+import { getModuleDefinition, getModuleQuestions } from "@/lib/modules/framework"
+import { aiTotalQuestionCountsByMode } from "@/lib/ai-governance-schema"
 import { sectionLabel } from "@/lib/navigation"
 import type { Locale } from "@/i18n/routing"
 import type { RootDestinationId } from "@/lib/root/destinations"
@@ -34,14 +37,25 @@ export type RootCopy = Readonly<{
   utilityLinks: ReadonlyArray<Readonly<{ label: string; href: string }>>
 }>
 
+function questionnaireDetails(locale: Locale) {
+  const zh = locale === "zh-Hans"
+  const questions = (count: number) => zh ? `${count} 题` : `${count} questions`
+  const cases = (slug: "security" | "technology") => {
+    const definition = getModuleDefinition(slug)!
+    const count = getModuleQuestions(definition, "standard").length
+    return zh ? `${count} 个案例` : `${count} cases`
+  }
+  return { foundation: questions(questionCountsBySet.core), security: cases("security"), technology: cases("technology"), ai: questions(aiTotalQuestionCountsByMode.standard) }
+}
+
 const englishRootCopy: RootCopy = {
   brand: "IR Worldview Inventory",
   brandAriaLabel: "IR Worldview Inventory home",
   heading: "Choose where to start",
-  introduction: "Explore your views on international politics, technology and possible futures.",
-  enter: "Enter", menu: "Main menu", map: "Explore the map", independent: "Every questionnaire is independent.",
+  introduction: "What shapes your judgment about rivalry, cooperation and the use of power?",
+  enter: "Explore all activities", menu: "Main menu", map: "Explore the map", independent: "Every questionnaire is independent.",
   primaryNavigationLabel: "Primary destinations",
-  questionnaireDetails: { foundation: "12 questions · 3 min", security: "9 cases · 6 min", technology: "9 cases · 6 min", ai: "22 questions · 5 min" },
+  questionnaireDetails: questionnaireDetails("en"),
   destinationCopy: {
     questionnaires: { label: sectionLabel("questionnaires"), explanation: "Foundation covers international politics. Security, Technology and AI Governance examine specific policy choices." },
     futures: { label: sectionLabel("futures"), explanation: "Browse scenarios, rank scenario priorities and compare possible worlds." },
@@ -72,10 +86,10 @@ const chineseRootCopy: RootCopy = {
   brand: "国际关系世界观清单",
   brandAriaLabel: "返回国际关系世界观清单首页",
   heading: "选择一个起点",
-  introduction: "探索你对国际政治、技术与可能未来的看法。",
-  enter: "进入", menu: "主菜单", map: "探索地图", independent: "每份问卷都可独立完成。",
+  introduction: "你如何判断国家间的竞争、合作与权力运用？",
+  enter: "浏览全部内容", menu: "主菜单", map: "探索地图", independent: "每份问卷都可独立完成。",
   primaryNavigationLabel: "主要入口",
-  questionnaireDetails: { foundation: "12 题 · 3 分钟", security: "9 个案例 · 6 分钟", technology: "9 个案例 · 6 分钟", ai: "22 题 · 5 分钟" },
+  questionnaireDetails: questionnaireDetails("zh-Hans"),
   destinationCopy: {
     questionnaires: { label: sectionLabel("questionnaires", "zh-Hans"), explanation: "基础问卷探讨国际政治。安全、技术与人工智能治理问卷考察具体的政策选择。" },
     futures: { label: sectionLabel("futures", "zh-Hans"), explanation: "浏览情景、回答偏好问题，并比较不同的可能世界。" },

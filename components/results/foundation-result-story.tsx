@@ -8,7 +8,6 @@ import { WorkedApplication } from "@/components/results/worked-application"
 import type { CSSProperties, ReactNode } from "react"
 import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
 import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
-import { FoundationDomainRecords } from "@/components/results/foundation-domain-records"
 import { FoundationLocalEvidence } from "@/components/results/foundation-local-evidence"
 import { NearestAlternative, type ComparisonRow } from "@/components/results/nearest-alternative"
 import { ARCHETYPE_MATRIX_CELLS } from "@/lib/field/archetype-matrix"
@@ -69,6 +68,7 @@ export type FoundationResultStoryProps = {
 
 export function FoundationResultStory(props: FoundationResultStoryProps) {
   const heading = buildFoundationResultHeading(props)
+  const midpointPosture = !props.legacy && props.presentation.dimensionScores.restraint === 4
   const ambiguous = !props.presentation.showArchetype
   const ambiguityCopy = ambiguousFoundationCopy(props.presentation)
   const primaryCode = matrixCode(
@@ -165,7 +165,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
             {/* The closeness sentence depends on lowDifferentiation (the gap
                 between the two rounded family scores is under the calibrated
                 threshold). Matrix cells are a display grid, not a distance. */}
-            {`The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the interpretations that share it. `}
+            {midpointPosture ? "The restraint score is at the midpoint. Neither posture row is highlighted. " : `The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the interpretations that share it. `}
             {props.lowDifferentiation
               ? `In your result the two finished close, so the rival argument is worth examining before the name settles.`
               : `Compare the two below to see which interpretations a different posture would have produced.`}
@@ -174,31 +174,8 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       ),
       visualLabel: "The Foundation interpretations",
       renderVisual: () => (
-        <ArchetypeMatrix primaryCode={primaryCode} runnerCode={runnerCode} />
+        <ArchetypeMatrix primaryCode={midpointPosture ? null : primaryCode} runnerCode={midpointPosture ? null : runnerCode} />
       ),
-    },
-    {
-      id: "evidence",
-      number: "04",
-      title: "Your answers",
-      copy: null,
-      visualLabel: "Your answers and the alternatives",
-      renderVisual: () => <FoundationLocalEvidence payload={props.payload} showPairEvidence={!ambiguous} />,
-    },
-    {
-      id: "domains",
-      number: "05",
-      title: "Your other results on this device",
-      copy: (
-        <>
-          <p>
-            Security, Technology, and AI Governance each give their own
-            result. None of them changes this one.
-          </p>
-        </>
-      ),
-      visualLabel: "Saved on this device",
-      renderVisual: () => <FoundationDomainRecords />,
     },
     {
       id: "case",
@@ -218,7 +195,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
   ]
 
   const visibleChapters = ambiguous
-    ? chapters.filter(chapter => ["evidence", "domains"].includes(chapter.id))
+    ? chapters.filter(chapter => ["case"].includes(chapter.id))
     : chapters
   const workedCase: StoryChapterDefinition = {
     id: "worked-case", number: "worked", title: "An unscored reflection example",
@@ -245,7 +222,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
         {!props.legacy && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
       </header></ResultReveal>
       <section className={styles.openingPayoff} aria-label="Immediate result payoff">
-        <p className="result-scope">{ambiguous ? ambiguityCopy.qualification : heading.lead}</p>
+        <p className="result-scope">{ambiguous ? null : heading.lead}</p>
         {ambiguous ? <p>{ambiguityCopy.candidates}</p> : <>
           <p>The explanatory position concerns what drives world politics; the strategic position concerns how hard to press an advantage; the normative position concerns when justice can override established order.</p>
           <details><summary>Result code and form</summary><p aria-label={props.archetypeCodeSpeech}>{props.archetypeCode}</p><p>{props.archetypeCodeKey}</p><p>{heading.eyebrow}</p></details>
@@ -253,6 +230,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
 
       </section>
 
+      <FoundationLocalEvidence payload={props.payload} showPairEvidence={!ambiguous} />
       <section id="dimensions" className={styles.evidenceSection}><FoundationDimensionSummary scores={props.presentation.dimensionScores} /></section>
       <div className={styles.storyBody}>
         <div
@@ -412,8 +390,8 @@ function ArchetypeMatrix({
   primaryCode,
   runnerCode,
 }: {
-  primaryCode: PureArchetypeCode
-  runnerCode: PureArchetypeCode
+  primaryCode: PureArchetypeCode | null
+  runnerCode: PureArchetypeCode | null
 }) {
   const rows = ["+", "-"] as const
 

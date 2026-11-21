@@ -35,6 +35,7 @@ import {
 } from "@/lib/quiz-schema"
 import {
   QUIZ_STORAGE_KEY,
+  writeFoundationDraft,
   createEmptySession,
   notifyQuizSessionUpdated,
   parseQuizSession,
@@ -227,7 +228,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
 
   useEffect(() => {
     if (!ready) return
-    window.localStorage.setItem(QUIZ_STORAGE_KEY, JSON.stringify(session))
+    writeFoundationDraft(window.localStorage, session)
     notifyQuizSessionUpdated()
   }, [ready, session])
 
@@ -534,7 +535,7 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
       </section>}
 
       {resumeOpen && <section className="panel stack-md" aria-label={locale === "zh-Hans" ? "已保存的问卷" : "Saved questionnaire"}>
-        <p>{locale === "zh-Hans" ? `你有一份尚未完成的问卷（已回答 ${completedCount} 题，共 ${questions.length} 题）。` : `You have an unfinished questionnaire in progress (${completedCount} of ${questions.length} answered).`}</p>
+        <p>{locale === "zh-Hans" ? `此浏览器已保存答案（已回答 ${completedCount} 题，共 ${questions.length} 题）。` : `Answers saved in this browser (${completedCount} of ${questions.length} answered).`}</p>
         <div className="row gap-sm wrap">
           <button type="button" className="primary-button" onClick={() => {
             const nextIndex = questions.findIndex(question => session.answers[question.id] === undefined)

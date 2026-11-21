@@ -36,6 +36,7 @@ import {
 } from "@/lib/research/tier1-aggregate"
 import {
   QUIZ_STORAGE_KEY,
+  writeFoundationDraft,
   notifyQuizSessionUpdated,
   parseQuizSession,
 } from "@/lib/quiz-session"
@@ -221,6 +222,10 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
         // the local evidence section will render an unavailable state.
       }
 
+      try {
+        writeFoundationDraft(window.localStorage, session, true, localEvidenceId)
+        notifyQuizSessionUpdated()
+      } catch { /* Result navigation remains available with blocked storage. */ }
       markProfileSaveIntent("foundation", payload, {
         mode: session.activeMode,
         ...(localEvidenceId ? { localEvidenceId } : {}),

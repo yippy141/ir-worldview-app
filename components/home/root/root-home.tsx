@@ -139,7 +139,13 @@ export function RootHome({ locale, copy, visual, scenes }: {
     </header>
     <div className={styles.entrance}>
       <p>{copy.introduction}</p>
-      <a ref={enterLink} href="#menu" className={styles.enter} onClick={event => {
+      <Link className={styles.enter} href={localStatus?.foundation && !localStatus.draft ? "/profile" : "/quiz"}>
+        {localStatus?.foundation && !localStatus.draft ? (locale === "en" ? "Open your saved Foundation result" : "查看已保存的基础结果") : localStatus?.draft ? (locale === "en" ? "Review your Foundation answers" : "查看基础问卷答案") : (locale === "en" ? "Start Foundation" : "开始基础问卷")}{(!localStatus?.foundation || localStatus.draft > 0) && ` · ${copy.questionnaireDetails.foundation}`}
+      </Link>
+      <p className={styles.savingCue}>{locale === "en" ? "With browser storage available, you can return to your answers here. " : "浏览器允许保存时，你可以回来继续作答。"}<Link href="/privacy">{locale === "en" ? "Data use and shared links" : "数据使用与结果分享"}</Link></p>
+      {localStatus && !(localStatus.foundation && !localStatus.draft) && (localStatus.foundation || localStatus.domains > 0 || localStatus.perspectives > 0) && <Link href="/profile">{locale === "en" ? "Open your saved results" : "查看已保存结果"}</Link>}
+      <Link href="/cases/us-brazil-section-301-tariffs">{locale === "en" ? "How should Brazil respond to U.S. tariffs?" : "巴西应如何应对美国关税？"}</Link>
+      <a ref={enterLink} href="#menu" className={styles.returnOpening} onClick={event => {
         if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
         event.preventDefault(); enter()
       }}>{copy.enter}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6" /></svg></a>
@@ -160,7 +166,7 @@ export function RootHome({ locale, copy, visual, scenes }: {
           </section>)}
         </nav>
         <div className={styles.localState} data-root-returning={localStatus ? "resolved" : "pending"}>
-          <h3>{copy.localState.heading}</h3><p>{statusText}</p>
+          <h3>{copy.localState.heading}</h3>{localStatus && <p>{statusText}</p>}
         </div>
         <a className={styles.returnOpening} href="#entrance" onClick={event => {
           if (event.button || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return

@@ -39,6 +39,18 @@ interactive than to a SaaS tool, AI demo, or personality-test product.
    user's question before the system explains itself. Trust notes belong
    below the first payoff, not in the hero.
 
+## Reviewing a user journey
+
+- Follow one concrete judgment from the invitation through the questions,
+  result, return visit, and shared view. Check that counts, saved progress,
+  and the strength of the interpretation agree at each destination.
+- For a new result sentence, identify the answer, score, or editorial source
+  that supports it. Name the actor and decision in reader-facing examples.
+  Keep instructions beside the action they help the reader take.
+- When reviewing a revision, identify the tested commit or preview and
+  distinguish observed behavior, participant feedback, and design hypotheses.
+  Use a fresh browser context for first visits and a saved one for returns.
+
 ## Methodology guardrails
 
 - Do not present scores as population percentiles unless they actually are.

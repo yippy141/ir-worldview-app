@@ -24,6 +24,7 @@ import {
   hasPerspectiveBankCapability,
 } from "@/lib/modules/perspective-bank"
 import { loadProfileStore, type FoundationSnapshot } from "@/lib/profile-store"
+import { ambiguousFoundationCopy, issuedFoundationAmbiguity } from "@/lib/results/foundation-result-heading"
 import { resolveFoundationPayload } from "@/lib/share"
 import type {
   ModuleAnswers,
@@ -207,21 +208,6 @@ export function ModuleApp({
         : [],
     [moduleDefinition],
   )
-  const linkedFoundation = useMemo(() => {
-    if (!foundationPayload) return null
-
-    const resolved = resolveFoundationPayload(foundationPayload)
-    if (!resolved) return null
-
-    return {
-      payload: foundationPayload,
-      familyLabel: resolved.result.familyLabel,
-      strategyModifier: resolved.result.strategyModifier,
-      normativeModifier: resolved.result.normativeModifier,
-      summary: resolved.result.explanation,
-    }
-  }, [foundationPayload])
-
   if (!moduleDefinition) {
     return null
   }
@@ -245,23 +231,8 @@ export function ModuleApp({
   const modulesLandingPath = foundationPayload
     ? `/modules?foundation=${encodeURIComponent(foundationPayload)}`
     : "/modules"
-  const currentFoundation = deviceFoundation
-    ? {
-        familyLabel: deviceFoundation.familyLabel,
-        strategyModifier: deviceFoundation.strategyModifier,
-        normativeModifier: deviceFoundation.normativeModifier,
-        summary: deviceFoundation.summary,
-        source: "device" as const,
-      }
-    : linkedFoundation
-      ? {
-          familyLabel: linkedFoundation.familyLabel,
-          strategyModifier: linkedFoundation.strategyModifier,
-          normativeModifier: linkedFoundation.normativeModifier,
-          summary: linkedFoundation.summary,
-          source: "linked" as const,
-        }
-      : null
+  const currentFoundation = currentFoundationPayload ? resolveFoundationPayload(currentFoundationPayload) : null
+  const ambiguity = currentFoundation && issuedFoundationAmbiguity(currentFoundation)
 
   const progress = questions.length === 0 ? 0 : Math.round((completedCount / questions.length) * 100)
   const ready = questions.length > 0 && completedCount === questions.length
@@ -465,7 +436,7 @@ export function ModuleApp({
         </div>
         <p className="muted">{questions.length} cases · estimated {moduleDefinition.timeEstimate[mode]}. Advanced adds {analystAdditionCount} cases. Choose one main answer; where available, you can add a second choice.</p>
         <p className="entrance-reading">Read <Link href="/explore/atlas">Decision Patterns</Link>, or try <Link href={slug === "security" ? "/decisions/who-gets-to-verify" : "/decisions/who-gets-access"}>{slug === "security" ? "Who gets to verify?" : "Who gets access?"}</Link>.</p>
-        {currentFoundation && <p className="muted">Linked Foundation: <Link href={`/results/${currentFoundationPayload}`}>{currentFoundation.familyLabel}</Link>. This questionnaire gives its own result.</p>}
+        {currentFoundation && <p className="muted">Linked Foundation: <Link href={`/results/${currentFoundationPayload}`}>{ambiguity ? ambiguousFoundationCopy(ambiguity).title : currentFoundation.result.familyLabel}</Link>. This questionnaire gives its own result.</p>}
 
         <section className="module-scope-details" aria-labelledby="module-scope-heading">
           <h2 id="module-scope-heading">Scope, lanes, and how to read the cases</h2>

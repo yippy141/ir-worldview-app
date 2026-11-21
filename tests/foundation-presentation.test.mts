@@ -1,3 +1,6 @@
+import { evidenceFromToken } from "@/lib/connected/evidence"
+import { buildBaselineFieldItem } from "@/lib/field/items"
+import { resolveWorldviewMapBaseline } from "@/lib/field/archetype-matrix"
 import assert from "node:assert/strict"
 import test from "node:test"
 import profileFixture from "./fixtures/profile-store-v5.json" with { type: "json" }
@@ -44,6 +47,9 @@ test("ambiguous results use dimension-first titles across Profile, metadata and 
     const profile = parseProfileStore(JSON.stringify(profileFixture), "en")
     assert.ok(profile.foundation)
     profile.foundation = { ...profile.foundation, payload, resultPath: `/results/${payload}` }
+    assert.deepEqual(resolveWorldviewMapBaseline(profile.foundation)?.activeCellCodes, [])
+    assert.equal(evidenceFromToken("foundation", payload)?.title, buildBaselineFieldItem(profile.foundation)?.summary)
+    assert.equal(buildBaselineFieldItem(profile.foundation)?.familyKey, undefined)
     const frozen = JSON.stringify(profile)
     const identity = resolveFoundationIdentityFromSnapshot(profile.foundation)!
     const card = buildFoundationShareCardInput(result, .3675)
@@ -87,9 +93,10 @@ test("extended and targeted payoff uses exact completion evidence, never a share
     const exact = selectFoundationAnswersForSet(answers, questionSet, pair)
     const payload = encodePayload(buildFoundationSharePayload(generateResult(exact,"analyst",calibration), "en", questionSet, pair))
     const evidence = await persistFoundationLocalEvidence({storage:new MemoryStorage(),sessionStorage:new MemoryStorage(),payload,answers:exact,completionLocale:"en",questionSet,targetedFamilyPair:pair,mode:"analyst",scoringCalibration:calibration})
-    const draft = JSON.stringify({v:7,questionSet,targetedFamilyPair:pair,activeMode:"analyst",orderSeed:"test",answers:exact,contextAssist:false,itemLatencyBuckets:{}})
+    const draft = JSON.stringify({v:7,completed:true,localEvidenceId:evidence.binding.localCompletionId,foundationCopy:{status:"single-copy",locale:"en",version:evidence.binding.copyVersion},questionSet,targetedFamilyPair:pair,activeMode:"analyst",orderSeed:"test",answers:exact,contextAssist:false,itemLatencyBuckets:{}})
     const bound = buildFoundationExtensionPayoff(payload,evidence,"en",draft)!
     assert.ok(bound.comparison)
+    assert.equal(buildFoundationExtensionPayoff(payload,evidence,"en",draft.replace(evidence.binding.localCompletionId,"different-completion"))!.comparison,null)
     assert.match(bound.note, /not score changes between core and extended/)
     assert.equal(buildFoundationExtensionPayoff(payload,null,"en",draft)!.comparison,null)
     assert.equal(buildFoundationExtensionPayoff(payload,evidence,"en",draft.replace('"answers":', '"discardedAnswers":'))!.comparison,null)

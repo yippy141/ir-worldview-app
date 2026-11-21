@@ -1,3 +1,5 @@
+import { getV2ScoringCalibration } from "@/lib/scoring"
+import type { resolveFoundationPayload } from "@/lib/share"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
 import { MODELED_FAMILY_KEYS, traditionNounLabel } from "@/lib/worldview-config"
 import { questionCountsBySet } from "@/lib/quiz-schema"
@@ -118,4 +120,12 @@ function foundationFormLabel(questionSet: FoundationQuestionSet | null, resultTi
   if (questionSet === "baselineExtended") return "baseline extension form"
   if (questionSet === "fullExtended") return "full extended form"
   return "legacy Foundation form"
+}
+
+/** Older issued forms retain their registered presentation. */
+export function issuedFoundationAmbiguity(resolved: NonNullable<ReturnType<typeof resolveFoundationPayload>>) {
+  if (resolved.payload.v !== 5) return null
+  const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
+  const view = classifyFoundationPresentation(resolved.result, calibration.lowDifferentiationThreshold)
+  return view.showArchetype ? null : view
 }

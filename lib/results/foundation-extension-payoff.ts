@@ -31,7 +31,13 @@ export function buildFoundationExtensionPayoff(
   const unresolved = presentation.kind !== "clear"
   let comparison: string | null = null
   const draft = parseQuizSession(draftJson)
-  if (evidence && draft && draft.questionSet === resolved.questionSet
+  const receipt = draft && draftJson ? JSON.parse(draftJson) : null
+  if (evidence && draft && receipt?.completed === true
+    && receipt.localEvidenceId === evidence.binding.localCompletionId
+    && draft.foundationCopy?.status === "single-copy"
+    && draft.foundationCopy.version === evidence.binding.copyVersion
+    && draft.foundationCopy.locale === evidence.binding.completionLocale
+    && draft.questionSet === resolved.questionSet
     && getFoundationResultQuestions(draft.questionSet, draft.targetedFamilyPair).every(q => draft.answers[q.id] !== undefined)) {
     const current = generateResult(selectFoundationAnswersForSet(draft.answers, draft.questionSet, draft.targetedFamilyPair), "analyst", resolved.scoringCalibration)
     const rebuilt = buildFoundationCopySharePayload(current, evidence.binding.completionLocale, draft.questionSet, draft.targetedFamilyPair, evidence.binding.copyVersion)
@@ -55,7 +61,7 @@ export function buildFoundationExtensionPayoff(
       ? zh ? "完成追加题目后，领先传统仍未分开。当前维度分数比由排序生成的名称更有解释力。" : "After the additional questions, the leading traditions remain unresolved. The dimension scores are more informative than the name produced by their ordering."
       : extraRecords.length
         ? zh ? `保留的追加题目比较通过${dimensions}，支持${primary}相对于${runner}的解释。${unresolved ? "不过，完成题组后两种解释仍未明显分开。" : "这有助于说明当前领先解释获得了哪些支持。"}`
-          : `The retained additional-answer comparisons reinforced ${primary} relative to ${runner} through ${dimensions}. ${unresolved ? "Even so, the completed form leaves these interpretations tied or close." : "These examples show where the current leading interpretation gained support."}`
+          : `In these selected questions about ${dimensions}, your choices favored ${primary} over ${runner}. ${unresolved ? "Even so, the completed form leaves these interpretations tied or close." : "The examples were selected because they helped explain that lead."}`
         : zh ? `完成追加题目后，${unresolved ? `${primary}与${runner}仍然接近或并列` : `${primary}在当前题组中领先`}。当前页面没有可用的追加答案比较记录，无法指出哪些具体选择加强或复杂化了结果。`
           : `After the additional questions, ${unresolved ? `${primary} and ${runner} remain tied or close` : `${primary} leads within this form`}. No additional-answer comparison records are available here, so this page cannot identify which extra choices reinforced or complicated that result.`,
     note: zh ? "这里比较的是同一完成题组中保留答案与替代项的作用，不是核心题组与扩展题组之间的分数增减。各题组使用各自的校准。仅保留少量示例，不能代表所有追加答案。"

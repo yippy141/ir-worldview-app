@@ -205,6 +205,7 @@ export function AiGovernanceQuizApp() {
     return (
       <>
         <ModeGate
+          key={gateMode}
           currentMode={gateMode}
           hasDraft={hasDraft}
           focusPrimaryOnMount={focusModeGateAfterReset}
@@ -499,9 +500,6 @@ function ModeGate({
   const [selectedMode, setSelectedMode] = useState<AiQuizMode>(currentMode)
   const modeChanged = hasDraft && selectedMode !== currentMode
 
-  useEffect(() => {
-    setSelectedMode(currentMode)
-  }, [currentMode])
 
   return (
     <div className="stack-lg">

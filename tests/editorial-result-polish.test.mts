@@ -2,23 +2,19 @@ import { getFamilyByKey } from "@/lib/explore-content"
 import { MODELED_FAMILY_KEYS } from "@/lib/worldview-config"
 import test from "node:test"
 import assert from "node:assert/strict"
-import { archetypes } from "@/lib/archetypes"
-import { buildFoundationHero } from "@/lib/results/foundation-interpretation"
+import { buildFoundationInterpretation } from "@/lib/results/foundation-interpretation"
 import { aiAxisReading, interpretAiPositions } from "@/lib/results/ai-interpretation"
 import { readingUrl } from "@/lib/reading-links"
 import { getAiReadingList } from "@/lib/ai-governance-reading-lists-v2"
 import type { AiArchetypeKey, AiAxisScores } from "@/lib/ai-governance-types"
 
 const keys: AiArchetypeKey[] = ["precautionarySteward", "strategicCompetitor", "coordinationArchitect", "democraticGuardrailist", "stateCapacityBuilder", "openEcosystemBuilder"]
-test("all Foundation heroes define the archetype before connecting domestic politics", () => {
-  const scores = { securityCompetition: 4, institutions: 4, domesticFilters: 7, normsIdentity: 4, politicalEconomy: 4, restraint: 4, orderJustice: 4 }
-  const heroes = archetypes.map(a => buildFoundationHero(scores, a.code))
-  assert.equal(new Set(heroes).size, 8)
-  for (const hero of heroes) {
-    assert.match(hero, /^You .*\. You .*\. Within that approach, .*domestic coalitions/)
-    assert.equal(hero.match(/\./g)?.length, 3)
-    assert.doesNotMatch(hero, /cannot|do not settle|does not/)
-  }
+test("economic dependence and an unresolved posture do not prescribe intervention", () => {
+  const scores = { securityCompetition: 4, institutions: 4, domesticFilters: 4, normsIdentity: 4, politicalEconomy: 7, restraint: 4, orderJustice: 4 }
+  const { summary } = buildFoundationInterpretation(scores)
+  assert.match(summary, /dependenc/)
+  assert.match(summary, /unresolved/)
+  assert.doesNotMatch(summary, /deliberate intervention|redirect economic gains/)
 })
 test("AI heroes and axes speak directly without repeating sentences", () => {
   for (const value of [1, 4, 7]) {

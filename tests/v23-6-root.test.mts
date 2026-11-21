@@ -1,3 +1,4 @@
+import { createEmptySession, writeFoundationDraft } from "@/lib/quiz-session"
 import test from "node:test"
 import assert from "node:assert/strict"
 import { readFileSync } from "node:fs"
@@ -119,4 +120,20 @@ test("World Stage reuses the production map, controls, sources, fallback, and at
   assert.match(map, /Mapbox/)
   assert.match(map, /OpenStreetMap/)
   assert.match(map, /source/iu)
+})
+
+test("only the actual local submission completes the matching draft revision", () => {
+  const data = new Map<string, string>()
+  const storage = { getItem: (key: string) => data.get(key) ?? null, setItem: (key: string, value: string) => { data.set(key, value) } }
+  const draft = { ...createEmptySession(), answers: { q1: 4 } }
+  writeFoundationDraft(storage, draft)
+  assert.equal(readRootLocalStatus(storage).draft, 1)
+  writeFoundationDraft(storage, draft, true)
+  writeFoundationDraft(storage, draft)
+  assert.equal(readRootLocalStatus(storage).draft, 0)
+  const edited = { ...draft, answers: { q1: 6 } }
+  writeFoundationDraft(storage, edited)
+  writeFoundationDraft(storage, draft, true)
+  assert.equal(readRootLocalStatus(storage).draft, 1)
+  assert.deepEqual(JSON.parse(storage.getItem(QUIZ_STORAGE_KEY)!).answers, edited.answers)
 })

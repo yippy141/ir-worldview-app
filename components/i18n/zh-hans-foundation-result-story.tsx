@@ -6,7 +6,7 @@ import { FoundationDimensionSummary } from "@/components/results/foundation-dime
 import { WorkedApplication } from "@/components/results/worked-application"
 import type { DimensionScores } from "@/lib/types"
 import NextLink from "next/link"
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react"
+import { type CSSProperties, type ReactNode } from "react"
 import { FoundationHeroMark } from "@/components/results/foundation-hero-mark"
 import frontispiece from "@/components/results/foundation-result-story.module.css"
 import { FoundationLocalEvidence } from "@/components/results/foundation-local-evidence"
@@ -15,11 +15,6 @@ import { chineseShellContent } from "@/content/locales/index"
 import { ARCHETYPE_MATRIX_CELLS } from "@/lib/field/archetype-matrix"
 import type { PureArchetypeCode } from "@/lib/archetype-marks"
 import type { Archetype, BlendArchetype } from "@/lib/archetypes"
-import {
-  emptyProfileStore,
-  loadProfileStore,
-  type ProfileStore,
-} from "@/lib/profile-store"
 import type { FoundationContributionRow } from "@/lib/results/foundation-contributions"
 import { buildZhHansFoundationResultHeading } from "@/lib/results/zh-hans-foundation-result"
 import type {
@@ -90,6 +85,7 @@ export function ZhHansFoundationResultStory(
 ) {
   const interpretation = props.dimensionScores ? buildFoundationInterpretationZh(props.dimensionScores) : null
   const heading = buildZhHansFoundationResultHeading(props)
+  const midpointPosture = !props.legacy && props.presentation.dimensionScores.restraint === 4
   const ambiguous = !props.presentation.showArchetype
   const ambiguityCopy = ambiguousFoundationCopy(props.presentation, "zh-Hans")
   const primaryMarkCode = "archetypes" in props.archetype
@@ -164,46 +160,10 @@ export function ZhHansFoundationResultStory(
       visualLabel: "八个注册基础解释",
       renderVisual: () => (
         <ZhHansArchetypeMatrix
-          primaryCode={props.primaryMatrixCode}
-          runnerCode={props.runnerMatrixCode}
+          primaryCode={midpointPosture ? null : props.primaryMatrixCode}
+          runnerCode={midpointPosture ? null : props.runnerMatrixCode}
         />
       ),
-    },
-    {
-      id: "evidence",
-      number: "04",
-      title: "本次提交中能够显示的具体选择",
-      copy: (
-        <>
-          <p>
-            如果结果是在这个浏览器中生成，系统最多会保留三条从确切答案集推导出的本地依据。结果网址不包含这些记录，也不包含原始答案。
-          </p>
-          <p>
-            共享、较早版本、已删除、语言不匹配或完整元组不匹配的记录都会如实显示为不可用。本页不会根据维度汇总分数反推题目依据。
-          </p>
-        </>
-      ),
-      visualLabel: "保存在当前设备上的题目依据",
-      renderVisual: () => (
-        <FoundationLocalEvidence payload={props.payload} showPairEvidence={!ambiguous} locale="zh-Hans" />
-      ),
-    },
-    {
-      id: "domains",
-      number: "05",
-      title: "领域问卷仍是彼此独立的记录",
-      copy: (
-        <>
-          <p>
-            安全、技术与权力、人工智能治理分别使用自己的问题和量尺。相近的标签或数值并不会自动构成它们与基础结果之间经过审校的关系。
-          </p>
-          <p>
-            下方只报告当前设备上是否保存了相应记录。详细领域结果尚无经审校的中文长文版本，因此链接会明确标注为英文页面。
-          </p>
-        </>
-      ),
-      visualLabel: "当前设备上的独立领域记录",
-      renderVisual: () => <ZhHansDomainRecords />,
     },
     {
       id: "case",
@@ -247,7 +207,7 @@ export function ZhHansFoundationResultStory(
     },
   ]
 
-  const visibleChapters = ambiguous ? chapters.filter(chapter => ["evidence", "domains", "limits"].includes(chapter.id)) : chapters
+  const visibleChapters = ambiguous ? chapters.filter(chapter => ["case", "limits"].includes(chapter.id)) : chapters
   if (!ambiguous && interpretation) visibleChapters.splice(4, 0, {
     id: "worked-case", number: "worked", title: "不计分的反思示例",
     copy: <p>这个示例无需提交答案，也不会改变已保存的结果。</p>,
@@ -271,7 +231,8 @@ export function ZhHansFoundationResultStory(
         {!props.legacy && props.resultTier === "core" ? <p><NextLink href={props.nextAction.href}>{props.nextAction.label}</NextLink></p> : null}
       </header>
       <section className={frontispiece.openingPayoff} aria-label="结果要点">
-        <p className="result-scope">{ambiguous ? ambiguityCopy.qualification : heading.lead}</p>
+        {midpointPosture && <p>克制维度处于中点，无法据此确定战略姿态。</p>}
+        <p className="result-scope">{ambiguous ? null : heading.lead}</p>
         {ambiguous ? <p>{ambiguityCopy.candidates}</p> : <>
           <p>解释性位置关注世界政治由哪些力量驱动；战略位置关注施加优势的限度；规范性位置关注正义何时可以优先于既有秩序。</p>
           <details><summary>名称、编码与题组</summary><p>规范英文名称：{props.archetype.name}</p><p>{props.archetypeCode}</p><p>{heading.eyebrow}</p><p>{props.strategyLabel} · {props.normativeLabel}</p></details>
@@ -279,6 +240,7 @@ export function ZhHansFoundationResultStory(
 
       </section>
 
+      <FoundationLocalEvidence payload={props.payload} showPairEvidence={!ambiguous} locale="zh-Hans" />
       <section id="dimensions" className={frontispiece.evidenceSection}><FoundationDimensionSummary scores={props.presentation.dimensionScores} locale="zh-Hans" /></section>
       <div className={styles.storyBody}>
         <div
@@ -483,8 +445,8 @@ function ZhHansArchetypeMatrix({
   primaryCode,
   runnerCode,
 }: {
-  primaryCode: PureArchetypeCode
-  runnerCode: PureArchetypeCode
+  primaryCode: PureArchetypeCode | null
+  runnerCode: PureArchetypeCode | null
 }) {
   const rows = ["+", "-"] as const
   const labels = chineseShellContent.profileShare.familyLabels
@@ -545,69 +507,6 @@ function ZhHansArchetypeMatrix({
         <div className={styles.tableScroll}>{matrixTable}</div>
       </details>
     </>
-  )
-}
-
-function ZhHansDomainRecords() {
-  const [profile, setProfile] = useState<ProfileStore>(() => emptyProfileStore())
-  const [ready, setReady] = useState(false)
-
-  useEffect(() => {
-    const load = () => {
-      setProfile(loadProfileStore("zh-Hans"))
-      setReady(true)
-    }
-    load()
-    window.addEventListener("storage", load)
-    return () => window.removeEventListener("storage", load)
-  }, [])
-
-  const records = [
-    {
-      key: "security",
-      label: "安全",
-      record: profile.modules.security ?? null,
-      startHref: "/modules/security",
-    },
-    {
-      key: "technology",
-      label: "技术与权力",
-      record: profile.modules.technology ?? null,
-      startHref: "/modules/technology",
-    },
-    {
-      key: "ai-governance",
-      label: "人工智能治理",
-      record: profile.aiGovernance,
-      startHref: "/ai",
-    },
-  ] as const
-
-  return (
-    <div className={styles.domainRecords} aria-live="polite">
-      {records.map(({ key, label, record, startHref }) => (
-        <article
-          key={key}
-          className={styles.domainRecord}
-          data-domain-record-status={!ready ? "checking" : record ? "saved" : "empty"}
-        >
-          <h3>{label}</h3>
-          {!ready ? (
-            <p>正在检查当前设备上的保存记录。</p>
-          ) : record ? (
-            <>
-              <p>当前设备已保存一份独立的{label}记录。</p>
-              <NextLink href={record.resultPath}>打开英文结果</NextLink>
-            </>
-          ) : (
-            <>
-              <p>当前设备尚无可读取的{label}记录。</p>
-              <NextLink href={startHref}>打开英文问卷</NextLink>
-            </>
-          )}
-        </article>
-      ))}
-    </div>
   )
 }
 

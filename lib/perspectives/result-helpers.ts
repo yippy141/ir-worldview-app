@@ -154,7 +154,7 @@ export function buildPerspectiveResultCopy(result: PerspectiveRunResult): Perspe
 
   if (strongest.length === 0) {
     return {
-      headline: `${roleLabel} kept your baseline steady`,
+      headline: `Your recommendations as ${roleLabel.toLowerCase()}`,
       summary: "This run stayed close to your Foundation baseline across all seven dimensions.",
       stableThread: buildStableThread(result),
       largestMovement: buildLargestMovementLine(result),
@@ -166,10 +166,10 @@ export function buildPerspectiveResultCopy(result: PerspectiveRunResult): Perspe
   const supportingText = formatList(supportingLabels)
 
   return {
-    headline: `${roleLabel} shifted your emphasis on ${lead.label.toLowerCase()}`,
+    headline: `How you advised the ${roleLabel.toLowerCase()}`,
     summary: supportingText
-      ? `The role moved you toward ${lead.direction}. Shifts also appeared in ${supportingText}.`
-      : `The role moved you toward ${lead.direction}.`,
+      ? `In these cases your recommendations leaned toward ${lead.direction}. Other differences from Foundation appeared in ${supportingText}.`
+      : `In these cases your recommendations leaned toward ${lead.direction}.`,
     stableThread: buildStableThread(result),
     largestMovement: buildLargestMovementLine(result),
   }

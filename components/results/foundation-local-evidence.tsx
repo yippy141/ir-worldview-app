@@ -27,10 +27,12 @@ export function FoundationLocalEvidence({
   showPairEvidence?: boolean
 }) {
   const [draftJson, setDraftJson] = useState<string | null>(null)
-  const [state, setState] = useState<LoadState>({ status: "checking" })
+  const [loaded, setLoaded] = useState<{ payload: string; locale: Locale; state: LoadState } | null>(null)
+  const state: LoadState = loaded?.payload === payload && loaded.locale === locale ? loaded.state : { status: "checking" }
 
   useEffect(() => {
     let cancelled = false
+    const setState = (state: LoadState) => setLoaded({ payload, locale, state })
 
     void foundationPayloadDigest(payload)
       .then((payloadDigest) => {

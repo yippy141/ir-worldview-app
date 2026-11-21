@@ -36,7 +36,7 @@ export function CurrentCasePageHeader({
       <div>
         <DestinationLink destination="cases" />
         <p className="eyebrow">
-          {copy.eyebrow} · {copy.categories[record.category]}
+          {effectiveFreshnessStatus === "active" ? copy.eyebrow : (locale === "en" ? "Historical decision" : "历史决策案例")} · {copy.categories[record.category]}
         </p>
         <h1>{record.title}</h1>
         <p className={styles.pageDek}>{record.dek}</p>

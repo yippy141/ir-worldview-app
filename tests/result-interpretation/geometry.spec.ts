@@ -105,7 +105,7 @@ test("no-JS payoff, keyboard disclosures, print expansion and return anchors", a
   await expect(page.locator("#ai-sources")).toHaveAttribute("open")
   await expect(page.locator("#ai-calculations")).not.toHaveAttribute("open")
   await page.goto(`/results/${foundation.payload}`)
-  await page.getByRole("link", { name: "Explore this reading", exact: true }).click()
+  await page.getByRole("link", { name: "Explore this result", exact: true }).click()
   await expect(page).toHaveURL(/#nearest$/)
   const context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 900 } })
   const staticPage = await context.newPage()

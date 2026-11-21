@@ -1,3 +1,4 @@
+import { issuedFoundationAmbiguity } from "@/lib/results/foundation-result-heading"
 import {
   archetypes,
   normFromNormativeModifier,
@@ -107,9 +108,11 @@ export type WorldviewMapBaseline = Readonly<{
   payloadVersion: SharePayload["v"]
   scoringCalibration: FoundationScoringCalibration
   provenance: FoundationCompletionRecord
+  ambiguity: ReturnType<typeof issuedFoundationAmbiguity>
   resolvedArchetype: Archetype | BlendArchetype
   normativeState: NormativeStatePresentation
   activeCellCodes:
+    | readonly []
     | readonly [PureArchetypeCode]
     | readonly [PureArchetypeCode, PureArchetypeCode]
   /**
@@ -184,6 +187,8 @@ export function resolveWorldviewMapBaseline(
   const suffix = normFromNormativeModifier(resolved.result.normativeModifier)
   const continuousPosition = toMapPosition(resolved.dimensionScores)
 
+  const ambiguity = issuedFoundationAmbiguity(resolved)
+  const unresolvedPosture = resolved.payload.v === 5 && resolved.dimensionScores.restraint === 4
   return {
     source: "exact-foundation-payload",
     payloadVersion: resolved.payload.v,
@@ -195,7 +200,8 @@ export function resolveWorldviewMapBaseline(
       suffix,
       publicLabel: normativeDisplayAlias(suffix),
     },
-    activeCellCodes,
+    ambiguity,
+    activeCellCodes: ambiguity || unresolvedPosture ? [] : activeCellCodes,
     leadingPureCode,
     dimensionScores: resolved.dimensionScores,
     continuousProjection: {

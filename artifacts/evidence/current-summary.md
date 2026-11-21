@@ -987,15 +987,15 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1095. Unchanged and suppressed: 389. New: 706. Resolved: 169.
+P2 advisory baseline: 558. Current: 1096. Unchanged and suppressed: 387. New: 709. Resolved: 171.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
 | Priority | Count |
 | --- | --- |
 | P0 | 17 |
-| P1 | 128 |
-| P2 | 1095 |
+| P1 | 124 |
+| P2 | 1096 |
 
 ### P0 and P1 findings
 
@@ -1020,16 +1020,16 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P0 | public-release-language | operational | lib/research/scoring-replay.ts:578 (content-key:lib/research/scoring-replay.ts#generateReplayResult) | v2 |
 | P1 | product-self-narration | public | app/method/page.tsx:75 (route:/method#resultLayers.3.body) | separate records |
 | P1 | product-self-narration | public | app/method/page.tsx:89 (route:/method#authoredChoices.2.heading) | separate records |
-| P1 | product-self-narration | public | app/method/page.tsx:109 (route:/method#limitations.3.body) | kept separate |
-| P1 | product-self-narration | public | app/method/page.tsx:245 (route:/method#MethodPage.h3) | stay separate |
-| P1 | product-self-narration | public | app/method/page.tsx:417 (route:/method#MethodPage.p) | the live scorer |
+| P1 | product-self-narration | public | app/method/page.tsx:113 (route:/method#limitations.4.body) | kept separate |
+| P1 | product-self-narration | public | app/method/page.tsx:249 (route:/method#MethodPage.h3) | stay separate |
+| P1 | product-self-narration | public | app/method/page.tsx:421 (route:/method#MethodPage.p) | the live scorer |
 | P1 | product-self-narration | public | app/privacy/page.tsx:93 (route:/privacy#PrivacyPage.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:856 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:964 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
-| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:482 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
+| P1 | does-not-claim-heading | public | components/modules/module-app.tsx:453 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
 | P1 | product-self-narration | public | components/modules/module-result.tsx:269 (content-key:components/modules/module-result.tsx#ModuleResultView.p) | registered form |
 | P1 | product-self-narration | public | components/profile/current-judgments-section.tsx:43 (content-key:components/profile/current-judgments-section.tsx#CurrentJudgmentsSection.p) | stay separate |
-| P1 | product-self-narration | public | components/results/foundation-local-evidence.tsx:155 (content-key:components/results/foundation-local-evidence.tsx#enCopy.unavailable.tuple-mismatch) | tuple |
+| P1 | product-self-narration | public | components/results/foundation-local-evidence.tsx:165 (content-key:components/results/foundation-local-evidence.tsx#enCopy.unavailable.tuple-mismatch) | tuple |
 | P1 | ranking-opener-in-option | public | content/current-cases/europe-missile-defence-coalition-ukraine.json:137 (content-key:content/current-cases/europe-missile-defence-coalition-ukraine.json#worldviewReadings.2.noticesFirst) | The decisive test is |
 | P1 | ranking-opener-in-option | public | content/current-cases/south-china-sea-award-at-ten.json:127 (content-key:content/current-cases/south-china-sea-award-at-ten.json#worldviewReadings.1.noticesFirst) | The central contest is |
 | P1 | authored-english-em-dash | frozen | content/instrument/ai-governance.v2.json:282 (frozen-compatibility:content/instrument/ai-governance.v2.json#items.18.clarification.whatItAsks) | — |
@@ -1139,11 +1139,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | product-self-narration | public | lib/profile-helpers.ts:146 (content-key:lib/profile-helpers.ts#MOSAIC_ANCHOR_LINES.constructivist) | saved layers |
 | P1 | product-self-narration | public | lib/profile-helpers.ts:148 (content-key:lib/profile-helpers.ts#MOSAIC_ANCHOR_LINES.criticalPoliticalEconomy) | saved layers |
 | P1 | authored-english-em-dash | operational | lib/profile-store.ts:1152 (content-key:lib/profile-store.ts#evidence.question) | — |
-| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:31 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title) | Foundation read |
-| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:33 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead) | tuple |
-| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:39 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.eyebrow) | Foundation read |
-| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:40 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title) | Foundation read |
-| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:57 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.title) | Foundation read |
+| P1 | product-self-narration | public | lib/results/foundation-result-heading.ts:99 (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead) | tuple |
 | P1 | product-self-narration | public | lib/results/local-evidence.ts:768 (content-key:lib/results/local-evidence.ts#assertPayloadMatchesGeneration) | tuple |
 | P1 | product-self-narration | public | lib/results/module-interpretation.ts:52 (content-key:lib/results/module-interpretation.ts#buildModuleInterpretation.scope) | registered form |
 
@@ -1251,6 +1247,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.0.options.3.label) | Accepted cost: |
 | 1 | stronger-path-template | frozen | content/instrument/security.v3.json (frozen-compatibility:content/instrument/security.v3.json#items.2.options.1.label) | The stronger path |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.13.options.3.label) | Accepted cost: |
+| 1 | repeated-adjacent-opening | public | lib/perspectives/result-helpers.ts (content-key:lib/perspectives/result-helpers.ts#buildPerspectiveResultCopy.summary) | in these cases |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.15.options.2.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/futures/departure.ts (content-key:lib/futures/departure.ts#departureQuestions.7.policyPrompt) | with the revised |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.7.options.1.label) | Accepted cost: |
@@ -1343,6 +1340,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.evidenceShift.0) | rather than |
 | 1 | rather-than-reflex | public | content/reading/reference-introductions.ts (content-key:content/reading/reference-introductions.ts#referenceIntroductions.susan-strange.mechanism) | rather than |
 | 1 | retired-house-words | public | lib/ai-governance-scoring-v21.ts (content-key:lib/ai-governance-scoring-v21.ts#archetypeDescriptions.coordinationArchitect) | durable |
+| 1 | repeated-adjacent-opening | public | app/method/page.tsx (route:/method#limitations.4.body) | focus areas are |
 | 1 | repeated-adjacent-opening | public | lib/narrative/foundation.ts (content-key:lib/narrative/foundation.ts#FAMILY_DEBATE_FRAMES.criticalPoliticalEconomy) | across the foundation |
 | 1 | retired-house-words | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.11.disputes.0) | genuinely |
 | 1 | rather-than-reflex | frozen | lib/modules/security-v21.ts (frozen-compatibility:lib/modules/security-v21.ts#securityV21Module) | rather than |
@@ -1416,6 +1414,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.14.options.0.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | components/results/profile-method-callout.tsx (content-key:components/results/profile-method-callout.tsx#ProfileMethodCallout.p) | this reading maps |
 | 1 | retired-house-words | public | lib/modules/security.ts (content-key:lib/modules/security.ts#createSecurityModule.measures.3) | sharpens |
+| 1 | repeated-adjacent-opening | public | lib/results/foundation-result-heading.ts (content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.eyebrow) | foundation result from |
 | 1 | rather-than-reflex | public | lib/reference-profiles/catalog.ts (content-key:lib/reference-profiles/catalog.ts#REFERENCE_PROFILE_CATALOG.profiles.2.disputes.2) | rather than |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.7.options.3.label) | Accepted cost: |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.6.options.3.label) | Accepted cost: |
@@ -1440,7 +1439,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.politicalEconomy.low) | the aggregate score |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.1.label) | Accepted cost: |
 | 1 | retired-house-words | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.0.label) | durable |
-| 1 | general-prevalence-language-review | public | app/method/page.tsx (route:/method#MethodPage.p) | often |
 | 1 | repeated-three-part-list | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.20.scene) | foreign support, monitoring, and limits / none guarantees protection without shifting cost, exposure, or freedom of action |
 | 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#MethodPage.p) | rather than |
 | 1 | lens-metaphor-review | public | lib/atlas-lite.ts (content-key:lib/atlas-lite.ts#atlasLitePatterns.9.confusionNote) | Several Lenses |
@@ -1562,6 +1560,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.8.options.2.label) | Accepted cost: |
 | 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.2.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.2.options.2.label) | Accepted cost: |
+| 1 | rather-than-reflex | public | app/method/page.tsx (route:/method#limitations.0.body) | rather than |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.0.label) | Accepted cost: |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.12.options.0.label) | Accepted cost: |
 | 1 | rather-than-reflex | public | lib/ai-governance-profile-copy.ts (content-key:lib/ai-governance-profile-copy.ts#aiArchetypeDeepProfiles.strategicCompetitor.shareBlurb) | rather than |
@@ -1677,6 +1676,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | rather-than-reflex | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.6.options.1.label) | rather than |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.18.options.3.label) | Accepted cost: |
 | 1 | rather-than-reflex | frozen | content/instrument/technology.v2.json (frozen-compatibility:content/instrument/technology.v2.json#items.9.options.1.label) | rather than |
+| 1 | general-prevalence-language-review | public | app/method/page.tsx (route:/method#MethodPage.p) | often |
 | 1 | rather-than-reflex | frozen | lib/modules/security-v22.ts (frozen-compatibility:lib/modules/security-v22.ts#securityV22Module.instincts.2) | rather than |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.4.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#dimensionDriverDescriptions.normsIdentity.midRange) | the aggregate score |
@@ -1787,7 +1787,6 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | clarification-negation-template | frozen | content/instrument/ai-governance.v2.json (frozen-compatibility:content/instrument/ai-governance.v2.json#items.16.clarification.whatItDoesNotAsk) | This is not asking |
 | 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.13.options.1.label) | rather than |
 | 1 | repeated-abstract-map-language | public | app/method/page.tsx (route:/method#MethodPage.p) | Maps, layers |
-| 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#briefing) | durable |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.19.options.0.label) | Accepted cost: |
 | 1 | retired-house-words | public | content/current-cases/us-brazil-section-301-tariffs.json (content-key:content/current-cases/us-brazil-section-301-tariffs.json#knownUncertainties.3) | durable |
 | 1 | rather-than-reflex | public | lib/futures/trajectories.ts (content-key:lib/futures/trajectories.ts#trajectories.1.assumptions.0) | rather than |
@@ -1891,6 +1890,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 26aedcebdf04a1bcda109404706255c248bca94fd7b40aaef264c5b0419b7fbf |
 | 1 | 26ce302b0a074f516f8ddb2f422c64edcdd354ca5dc6a532fe52620db1c2be7a |
 | 1 | 27674ff88d52851b8e9f1f6942210283e7758f4ae87446a0c809bc7918d787a6 |
+| 1 | 27cae3520d9c15e8c3e285dfdc92d56854c66107b724f6d24d17ec4fd2030932 |
 | 1 | 2a9b110780e68eae1a807b32b4e09410068d1906e7253888ddf447296e1f1891 |
 | 1 | 2f31a2fffc0977b6faf01b6f98a759810af2dbc20f753b943f1bff24d7bd24fe |
 | 1 | 308eb529ff383ee1ce7785270fdc7029b61b4ad4b50572bdecd67c5b76bc1197 |
@@ -1984,6 +1984,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | b3a88ec8cc2fdc2e9bcdfe81541e174ad72e49604718799bf4f4d00af90b19f5 |
 | 1 | b4135c81153027c25157e2176ab8d270ebd3e31714f5257a0eba265988271166 |
 | 1 | b76e2e7802e11a7a08a36cdd88a93f0efb9c661ec87bdb1b5ebf694df5c909a4 |
+| 1 | bb15477f18fcd40e13fa19f4fadbbe2dfc219ffb8df5e122ae3e227b91960d73 |
 | 1 | bc5b0cd19d7181cf18049be4c15c2cabeff1e39df7595b30d5dc03653ab41660 |
 | 1 | bf7ab258c2e9e41ec348a704f5679ca2a21ef1ae5806b2a3653e1c537271f2c3 |
 | 1 | c01cb2cc3a71dbf08911a0f62272296c755c324ec8c356e4e3f4c8c8db67e8e9 |

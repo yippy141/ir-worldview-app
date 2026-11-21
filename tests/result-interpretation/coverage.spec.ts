@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test"
-import { readFileSync, writeFileSync } from "node:fs"
+import { dirname } from "node:path"
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs"
 
 const delta = JSON.parse(readFileSync("docs/evidence/result-interpretation/route-delta.json", "utf8")) as { routes: { route: string; template: string; locale: string; content_id: string }[] }
 
@@ -18,5 +19,7 @@ test("all 162 inherited finite routes render with an internal link enumeration",
     const links = await page.locator('main a[href^="/"]').evaluateAll(elements => [...new Set(elements.map(el => el.getAttribute("href")!))])
     observations.push({ ...entry, status: response?.status(), heading: await heading.innerText(), internalLinks: links, linkedFiniteTargets: links.filter(link => routes.has(link.split(/[?#]/)[0])), screenshotCaptured: false, screenshotInspected: false, geometryAsserted: false, taskExecuted: "fresh-state render, heading and internal link enumeration" })
   }
-  writeFileSync(process.env.RESULT_ROUTE_EVIDENCE_FILE ?? "test-results/result-interpretation/finite-route-results.json", JSON.stringify(observations, null, 2))
+  const output = process.env.RESULT_ROUTE_EVIDENCE_FILE ?? "test-results/result-interpretation/finite-route-results.json"
+  mkdirSync(dirname(output), { recursive: true })
+  writeFileSync(output, JSON.stringify(observations, null, 2))
 })

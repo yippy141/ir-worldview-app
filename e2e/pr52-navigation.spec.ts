@@ -59,7 +59,9 @@ for (const width of [320, 390, 768]) test(`shared navigation fits ${width}px clo
     const hrefs = await panel.locator("a").evaluateAll(elements => elements.map(e => e.getAttribute("href")))
     if (mobile) {
       for (const href of mobileDestinations) expect(hrefs).toContain(route.startsWith("/zh") ? `/zh${href}` : href)
-      await expect(panel.getByRole("link", { name: route.startsWith("/zh") ? "切换至英文" : "Switch to Simplified Chinese" })).toBeVisible()
+      const languageSwitch = panel.getByRole("link", { name: route.startsWith("/zh") ? "切换至英文" : "Switch to Simplified Chinese" })
+      if (route === "/decisions") await expect(languageSwitch).toHaveCount(0)
+      else await expect(languageSwitch).toBeVisible()
       if (!route.startsWith("/zh")) {
         await expect(panel.getByText("Corrections and contact", { exact: true })).toBeVisible()
       }

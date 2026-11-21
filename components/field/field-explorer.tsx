@@ -963,7 +963,7 @@ export function FieldExplorer() {
         {loading
           ? copy?.map.statusLoading ?? "Loading saved layers."
           : matrixAvailable && projection === "matrix"
-            ? `Eight archetypes shown.${matrixBaseline ? ` ${matrixBaseline.resolvedArchetype.name} is your Foundation reading.` : " No Foundation baseline is saved."}`
+            ? `Eight archetypes shown.${matrixBaseline ? ` ${matrixBaseline.ambiguity ? "Your answers do not identify a single leading tradition" : matrixBaseline.activeCellCodes.length ? matrixBaseline.resolvedArchetype.name + " is your Foundation reading" : "Your restraint score is at the midpoint"}.` : " No Foundation baseline is saved."}`
             : copy?.map.statusShown(visibleItems.length, selectedItem?.label) ??
               `${visibleItems.length} items shown.${selectedItem ? ` ${selectedItem.label} selected.` : ""}`}
       </p>
