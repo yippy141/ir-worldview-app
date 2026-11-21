@@ -29,13 +29,13 @@ for (const prefix of ["", "/zh"]) {
       await expect(page.locator('meta[property="og:title"]')).not.toHaveAttribute("content", /Kairos|Grotian|Mētis|Kautilya/)
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true)
     }
-    await page.screenshot({path:`/private/tmp/package-b-${prefix ? "zh-mobile" : "en-desktop"}.png`})
+    await page.screenshot({path:test.info().outputPath(`package-b-${prefix ? "zh-mobile" : "en-desktop"}.png`)})
     const response = await request.get(`/api/card?payload=${multi}`)
     expect(response.status()).toBe(200)
     expect(response.headers()["content-type"]).toContain("image/png")
     if (!prefix) {
       const fs = await import("node:fs/promises")
-      await fs.writeFile("/private/tmp/package-b-multi-card.png",await response.body())
+      await fs.writeFile(test.info().outputPath("package-b-multi-card.png"),await response.body())
     }
   })
 }

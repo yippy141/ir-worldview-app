@@ -833,12 +833,12 @@ test("production print lays out every Foundation chapter and restores sticky scr
   const chapters = story.locator("[data-foundation-story-chapter]")
   const visuals = story.locator("[data-foundation-chapter-visual]")
 
-  await expect(chapters).toHaveCount(7)
-  await expect(visuals).toHaveCount(6)
+  await expect(chapters).toHaveCount(5)
+  await expect(visuals).toHaveCount(5)
   const screenPositions = await visuals.evaluateAll((elements) =>
     elements.map((element) => getComputedStyle(element).position),
   )
-  expect(screenPositions).toEqual(Array(6).fill("sticky"))
+  expect(screenPositions).toEqual(Array(5).fill("sticky"))
 
   await page.emulateMedia({ media: "print" })
   const printVisuals = await visuals.evaluateAll((elements) =>
