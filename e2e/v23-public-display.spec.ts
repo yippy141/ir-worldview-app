@@ -134,7 +134,7 @@ test("Foundation results render pure marks and blend Diptychs without inventing 
     name: "Kairos",
   })).toBeVisible()
   await expect(
-    page.getByText("Realism leads this Foundation read", { exact: true }),
+    page.getByText("Realism leads this Foundation result", { exact: true }),
   ).toBeVisible()
 
   await page.goto(`/results/${BLEND_RESULT_PAYLOAD}`)

@@ -95,31 +95,12 @@ function labelsFor(payload: string) {
 test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
   test.use({ viewport: { width: 390, height: 844 } })
 
-  test("low-differentiation core names both readings before the register", async ({ page }) => {
-    const labels = labelsFor(LOW_DIFFERENTIATION_CORE)
+  test("flat core keeps all seven dimensions and offers the general extension", async ({ page }) => {
     await page.goto(`/zh/results/${LOW_DIFFERENTIATION_CORE}`)
-
-    await expect(page.getByText(`初步基础读法：${labels.primary}与${labels.runnerUp}`,{exact:true})).toBeVisible()
-    await expect(page.getByText("在当前题组中，这两种读法都仍然成立。", {
-      exact: false,
-    })).toBeVisible()
-    await expect(page.getByRole("link", { name: "回答五道定向题" }).first())
-      .toBeVisible()
-    await expect(page.locator("[data-zh-foundation-sticky-region]"))
-      .toBeVisible()
-    await expect(page.locator("[data-zh-foundation-chapter-visual]"))
-      .toHaveCount(7)
-    expect(await page.locator("[data-zh-foundation-chapter-visual]").first()
-      .evaluate((element) => getComputedStyle(element).position))
-      .toBe("static")
-    await expect(page.locator(
-      '[data-zh-foundation-story-chapter="matrix"] details',
-    ))
-      .not.toHaveAttribute("open", "")
-    await expect(page.locator(
-      '[data-zh-foundation-story-chapter="evidence"] [data-local-evidence-status="no-local-binding"]',
-    ))
-      .toHaveText("此处没有这份结果的原始答案。")
+    await expect(page.locator("h1")).toHaveText("各维度均处于中点")
+    await expect(page.locator("[data-foundation-mark]")).toHaveCount(0)
+    await expect(page.locator("[data-foundation-dimensions] li")).toHaveCount(7)
+    await expect(page.locator('a[href*="extension=full"]').first()).toBeVisible()
 
     const width = await page.evaluate(() => ({
       scrollWidth: document.documentElement.scrollWidth,
@@ -137,9 +118,9 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
   test("clear pure and close blend results keep their distinct model status", async ({ page }) => {
     const pureLabels = labelsFor(CLEAR_PURE_FULL)
     await page.goto(`/zh/results/${CLEAR_PURE_FULL}`)
-    await expect(page.getByText(`${pureLabels.primary}在这次基础读法中领先`,{exact:true})).toBeVisible()
+    await expect(page.getByText(`${pureLabels.primary}在这次基础解释中领先`,{exact:true})).toBeVisible()
     await expect(page.getByText(
-      `${pureLabels.runnerUp}仍是最近的替代读法`,
+      `${pureLabels.runnerUp}仍是最近的替代解释`,
       { exact: false },
     )).toBeVisible()
     await expect(page.locator('[data-foundation-mark="pure"]')).toHaveCount(1)
@@ -161,7 +142,7 @@ test.describe("V23.6 Simplified Chinese Foundation result at 390px", () => {
   test("legacy and invalid links fail closed in Chinese", async ({ page }) => {
     const legacyLabels = labelsFor(LEGACY_RESULT)
     await page.goto(`/zh/results/${LEGACY_RESULT}`)
-    await expect(page.getByText(`较早版本的基础读法：${legacyLabels.primary}`,{exact:true})).toBeVisible()
+    await expect(page.getByText(`较早版本的基础解释：${legacyLabels.primary}`,{exact:true})).toBeVisible()
     await expect(page.locator(
       '[data-zh-foundation-story-chapter="contribution"] [data-contribution-status="legacy-unavailable"]',
     ))

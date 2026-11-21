@@ -100,7 +100,7 @@ test("result route uses exact contribution math and local-only evidence without 
 
   assert.match(routeSource, /decomposeFoundationFamilyDifference/u)
   assert.match(storySource, /FoundationLocalEvidence payload=\{props\.payload\}/u)
-  assert.match(storySource, /FoundationDomainRecords/u)
+  assert.doesNotMatch(storySource, /FoundationDomainRecords|readProfileStore/u)
   assert.doesNotMatch(combined, /getDimensionPush|PlacementFirmnessBar|nearestFitGap\.toFixed/u)
   assert.doesNotMatch(combined, /Firmly fixed|stable enough to argue from|high confidence|validated|reliable/u)
 })

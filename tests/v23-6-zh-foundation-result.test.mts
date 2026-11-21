@@ -106,7 +106,7 @@ test("Chinese route uses current V5 contribution math and exact local evidence",
   )
 })
 
-test("Chinese story uses localized domain chrome and fails closed on English detail text", () => {
+test("Chinese shared result keeps device domain records private", () => {
   const storySource = readFileSync(
     path.join(
       repositoryRoot,
@@ -115,15 +115,7 @@ test("Chinese story uses localized domain chrome and fails closed on English det
     "utf8",
   )
 
-  for (const copy of [
-    "安全",
-    "技术与权力",
-    "人工智能治理",
-    "打开英文结果",
-    "打开英文问卷",
-  ]) {
-    assert.match(storySource, new RegExp(copy, "u"))
-  }
+  assert.doesNotMatch(storySource, /readProfileStore|FoundationDomainRecords|打开英文问卷/u)
   assert.doesNotMatch(
     storySource,
     /Checking this device|No saved Security|Open Technology|Open AI Governance/u,

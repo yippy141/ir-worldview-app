@@ -72,6 +72,7 @@ test("ambiguous results use dimension-first titles across Profile, metadata and 
   }
   const result = core(1)
   const heading = buildFoundationResultHeading({resultTier:"core", questionSet:"core", legacy:false, lowDifferentiation:true, primaryLabel:result.familyLabel, runnerUpLabel:result.runnerUpLabel, presentation:classify(result)})
+  assert.match(evidenceFromToken("foundation", encodePayload(buildFoundationSharePayload(result, "en", "core")))!.title, /are tied/)
   assert.match(heading.title, /are tied/)
   assert.match(heading.lead, /does not establish a winner/)
 })

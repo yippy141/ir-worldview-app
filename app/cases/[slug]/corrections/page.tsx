@@ -46,10 +46,12 @@ export default async function CurrentCaseCorrectionsPage({
 
       <section className={styles.correctionStatus}>
         <h2>Record status</h2>
-        <p>
+        {record.corrections?.length ? record.corrections.map(entry => <p key={entry.date}>
+          <time dateTime={entry.date}>{formatCurrentCaseDate(entry.date)}</time> · {entry.summary}
+        </p>) : <p>
           No public correction is recorded. Changes that could affect the judgment or readings will
           be recorded here with their date.
-        </p>
+        </p>}
       </section>
 
       <p className={styles.pageDek}>

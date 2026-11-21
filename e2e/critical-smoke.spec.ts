@@ -1,3 +1,5 @@
+import { buildCanonicalFoundationResult } from "../lib/scoring"
+import { buildFoundationSharePayload, encodePayload } from "../lib/share"
 import { expect, test, type Page } from "@playwright/test"
 import {
   getActivePublishedLaunchCurrentCase,
@@ -250,19 +252,9 @@ test("Foundation review generates a result, share link, and saved Profile", asyn
   ).toHaveCount(0)
 
   const resultStory = page.locator("[data-foundation-result-story]")
-  const nearestComparison = resultStory.locator(
-    '[data-foundation-story-chapter="nearest"]',
-  )
-  await expect(
-    nearestComparison.getByRole("heading", {
-      name: /^.+ and .+$/,
-    }),
-  ).toBeVisible()
-  await expect(
-    resultStory.getByRole("heading", {
-      name: "What this model can and cannot say",
-    }),
-  ).toBeVisible()
+  await expect(resultStory.getByRole("heading", { level: 1 })).toHaveText("All dimensions at the midpoint")
+  await expect(resultStory.locator('[data-foundation-story-chapter="nearest"]')).toHaveCount(0)
+  await expect(resultStory.locator("[data-foundation-dimensions] li")).toHaveCount(7)
   const resultActions = resultStory.locator("footer")
   await resultActions
     .getByRole("button", { name: "Copy share link", exact: true })
@@ -643,8 +635,10 @@ test("Worldview Map bare and legacy routes select the correct projection", async
   }
   await expect.poll(() => new URL(page.url()).search).toBe("")
 
-  const blendPayload =
-    "eyJ2Ijo1LCJkcyI6WzEsMSw0LDQsNCw0LDRdLCJmayI6ImNyaXRpY2FsUG9saXRpY2FsRWNvbm9teSIsIm5rIjoiY29uc3RydWN0aXZpc3QiLCJzbSI6IkhlZGdlciIsIm5tIjoiQ29uZGl0aW9uYWwgU29saWRhcmlzdCIsIml2Ijo0LCJidiI6Miwic3YiOjIsImN2IjoxLCJjbCI6ImVuIiwicXMiOiJjb3JlIn0"
+  const blendPayload = encodePayload(buildFoundationSharePayload(buildCanonicalFoundationResult({
+    securityCompetition: 1, institutions: 1, domesticFilters: 4, normsIdentity: 3.5,
+    politicalEconomy: 3, restraint: 3, orderJustice: 4,
+  }, "core"), "en", "core"))
   await page.evaluate(
     ({ key, fixture, payload }) => {
       const profile = structuredClone(fixture)

@@ -1,12 +1,6 @@
 # STATE
 
-## Planning pointer — 29 September 2026
-
-Start at [docs/pm/README.md](docs/pm/README.md) for the recovered September 23
-Claude packet, independent assessment, current local checkpoint and proposed
-sprint queue. The release sections below are dated historical records, not
-current branch instructions. This recovery does not establish deployment or
-release acceptance.
+See [current project state](docs/pm/PROJECT_STATE.md) for PR #66. The release records below are historical.
 
 ## Historical release — product-wide presentation, 16 September 2026
 

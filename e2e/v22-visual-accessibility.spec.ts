@@ -233,11 +233,11 @@ async function renderedContrastSamples(locator: Locator): Promise<ContrastSample
 test("Foundation result leads with its canonical name before payoff and disclosed metadata", async ({ page }) => {
   await page.goto(`/results/${FOUNDATION_PAYLOAD}`)
   await expect(page.getByRole("heading", {level:1,name:"Concert",exact:true})).toBeVisible()
-  await expect(page.getByText("Registered legacy Foundation read: Institutionalism",{exact:true})).toBeVisible()
+  await expect(page.getByText("Registered legacy Foundation result: Institutionalism",{exact:true})).toBeVisible()
   await expect(page.locator("[data-foundation-result-story] h1")).toHaveCount(1)
   const hierarchy = await page.locator('#foundation-result-heading, [aria-label="Immediate result payoff"]').evaluateAll(elements=>elements.map(element=>element.id||element.getAttribute('aria-label')))
   expect(hierarchy).toEqual(['foundation-result-heading','Immediate result payoff'])
-  await expect(page.getByText('Reading code and form',{exact:true})).toBeVisible()
+  await expect(page.getByText('Result code and form',{exact:true})).toBeVisible()
 })
 
 test("dark-theme result-label chips meet WCAG AA across result and Profile surfaces", async ({

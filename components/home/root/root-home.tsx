@@ -140,7 +140,7 @@ export function RootHome({ locale, copy, visual, scenes }: {
     <div className={styles.entrance}>
       <p>{copy.introduction}</p>
       <Link className={styles.enter} href={localStatus?.foundation && !localStatus.draft ? "/profile" : "/quiz"}>
-        {localStatus?.foundation && !localStatus.draft ? (locale === "en" ? "Open your saved Foundation result" : "查看已保存的基础结果") : localStatus?.draft ? (locale === "en" ? "Review your Foundation answers" : "查看基础问卷答案") : (locale === "en" ? "Start Foundation" : "开始基础问卷")}{(!localStatus?.foundation || localStatus.draft > 0) && ` · ${copy.questionnaireDetails.foundation}`}
+        {localStatus?.foundation && !localStatus.draft ? (locale === "en" ? "View your saved Foundation result in Profile" : "查看已保存的基础结果") : localStatus?.draft ? (locale === "en" ? "Review your Foundation answers" : "查看基础问卷答案") : (locale === "en" ? "Start Foundation" : "开始基础问卷")}{!localStatus?.foundation && !localStatus?.draft && ` · ${copy.questionnaireDetails.foundation}`}
       </Link>
       <p className={styles.savingCue}>{locale === "en" ? "With browser storage available, you can return to your answers here. " : "浏览器允许保存时，你可以回来继续作答。"}<Link href="/privacy">{locale === "en" ? "Data use and shared links" : "数据使用与结果分享"}</Link></p>
       {localStatus && !(localStatus.foundation && !localStatus.draft) && (localStatus.foundation || localStatus.domains > 0 || localStatus.perspectives > 0) && <Link href="/profile">{locale === "en" ? "Open your saved results" : "查看已保存结果"}</Link>}

@@ -122,10 +122,25 @@ function foundationFormLabel(questionSet: FoundationQuestionSet | null, resultTi
   return "legacy Foundation form"
 }
 
-/** Older issued forms retain their registered presentation. */
-export function issuedFoundationAmbiguity(resolved: NonNullable<ReturnType<typeof resolveFoundationPayload>>) {
+type IssuedFoundation = NonNullable<ReturnType<typeof resolveFoundationPayload>>
+
+function issuedPresentation(resolved: IssuedFoundation) {
   if (resolved.payload.v !== 5) return null
   const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
-  const view = classifyFoundationPresentation(resolved.result, calibration.lowDifferentiationThreshold)
-  return view.showArchetype ? null : view
+  return classifyFoundationPresentation(resolved.result, calibration.lowDifferentiationThreshold)
+}
+
+export function issuedFoundationAmbiguity(resolved: IssuedFoundation) {
+  const view = issuedPresentation(resolved)
+  return view && !view.showArchetype ? view : null
+}
+
+export function linkedFoundationTitle(resolved: IssuedFoundation) {
+  const view = issuedPresentation(resolved)
+  if (view && !view.showArchetype) return ambiguousFoundationCopy(view).title
+  const primary = traditionNounLabel(resolved.result.familyKey)
+  const alternative = traditionNounLabel(resolved.result.runnerUpKey)
+  if (view?.kind === "two-way-tie") return `${primary} and ${alternative} are tied`
+  if (view?.kind === "close") return `${primary} and ${alternative} are close`
+  return primary
 }

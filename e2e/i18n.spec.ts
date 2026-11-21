@@ -26,7 +26,7 @@ const approvedPairs = [
     zh: "/zh/beta",
     heading: "帮助检验这项清单是否清楚、公平并具有实际用途。",
   },
-  { en: "/cases", zh: "/zh/cases", heading: "近期案例" },
+  { en: "/cases", zh: "/zh/cases", heading: "研判当前案例" },
 ] as const
 
 // Frozen tests/fixtures/profile-share-v3.json encoded with the shared codec.
@@ -168,7 +168,7 @@ test("legacy Chinese Foundation review preserves unknown exposure provenance", a
   await expect(page.getByText(questions[0].prompt, { exact: true })).toHaveCount(0)
   await page.getByRole("button", { name: "生成我的结果 →" }).click()
   await expect(page).toHaveURL(/\/zh\/results\/[A-Za-z0-9_-]+$/)
-  await expect(page.locator("[data-zh-foundation-result-story] h1")).toHaveText("Kairos–Grotian")
+  await expect(page.locator("[data-zh-foundation-result-story] h1")).toHaveText("各维度均处于中点")
 
   const payload = decodeURIComponent(new URL(page.url()).pathname.split("/").at(-1) ?? "")
   const resolved = resolveFoundationPayload(payload)
@@ -227,12 +227,9 @@ test("one canonical Foundation result payload renders in English and Chinese", a
   })).toBeVisible()
   await expect(page.getByText("Concert", { exact: true })).toBeVisible()
   await page.getByText("名称、编码与题组", { exact: true }).click()
-  await expect(
-    page.getByText("当前参照：自由制度主义", { exact: true }),
-  ).toBeVisible()
-  await expect(page.getByText("最近替代：社会建构主义", { exact: true })).toBeVisible()
-  await expect(page.locator("[data-zh-foundation-chapter-visual]")).toHaveCount(7)
-  await expect(page.getByText(/原型专名沿用基础模型的规范英文名称/)).toBeVisible()
+  await expect(page.getByText("规范英文名称：Concert", { exact: true })).toBeVisible()
+  await expect(page.locator('[data-zh-foundation-story-chapter="nearest"]')).toContainText("社会建构主义")
+  await expect(page.locator('[data-contribution-status="legacy-unavailable"]')).toBeVisible()
   await expect(
     page.getByText("结构版本 3 · 评分版本 1 · 中文文案版本 1", { exact: true }),
   ).toBeVisible()
@@ -271,15 +268,11 @@ test("Foundation history follows payload provenance rather than the viewing loca
   )
 
   await page.goto(`/results/${FOUNDATION_SHARE_V3_TOKEN}`)
-  await expect.poll(async () => page.evaluate((key) => {
-    const raw = localStorage.getItem(key)
-    return raw ? JSON.parse(raw).length : 0
-  }, RESULT_HISTORY_STORAGE_KEY)).toBe(2)
-
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible()
+  await page.waitForLoadState("networkidle")
   const history = await page.evaluate((key) =>
     JSON.parse(localStorage.getItem(key) ?? "[]"), RESULT_HISTORY_STORAGE_KEY)
-  expect(history[0]).toMatchObject({ locale: "zh-Hans", localeCopyVersion: 1 })
-  expect(history[1]).toMatchObject({ locale: "en", localeCopyVersion: 1 })
+  expect(history).toEqual([englishSnapshot])
 })
 
 test("one canonical Profile Share V3 payload renders in English and Chinese", async ({ page }) => {
@@ -376,12 +369,12 @@ test("approved Chinese long-form routes never silently render unapproved English
 test("English and Chinese /current routes preserve locale when no launch case is active", async ({ page }) => {
   await page.goto("/current")
   await expect(page).toHaveURL(/\/cases$/)
-  await expect(page.getByRole("heading", { name: "Recent cases" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "Assess a case" })).toBeVisible()
   await expect(page.locator("li").getByText("Current case", { exact: true })).toHaveCount(0)
 
   await page.goto("/zh/current")
   await expect(page).toHaveURL(/\/zh\/cases$/)
-  await expect(page.getByRole("heading", { name: "近期案例" })).toBeVisible()
+  await expect(page.getByRole("heading", { name: "研判当前案例" })).toBeVisible()
   await expect(page.locator("li").getByText("当前案例", { exact: true })).toHaveCount(0)
   await expect(page.locator("li").first()).toContainText("待复核")
   await expect(page.locator("li").last()).toContainText("背景案例")

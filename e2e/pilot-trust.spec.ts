@@ -76,7 +76,13 @@ test("AI encoding failure preserves answers and allows retry", async ({ page }) 
   await expect(generate).toBeEnabled()
   await page.evaluate(() => {
     const original = window.btoa
-    window.btoa = () => { window.btoa = original; throw new Error("Injected encoding failure") }
+    window.btoa = (value) => {
+      if (value.startsWith('{"v":2,"bv":')) {
+        window.btoa = original
+        throw new Error("Injected AI payload encoding failure")
+      }
+      return original.call(window, value)
+    }
   })
   await generate.click()
   await expect(page.getByRole("alert").filter({ hasText: "Your answers are still here" })).toContainText("Your answers are still here")

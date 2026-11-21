@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test"
+import { openSyntheticReview } from "./fixtures/product-completion"
 import { syntheticAnswers } from "../tests/decision-exercises/fixtures"
 import { foundationCoreQuestions, getFoundationQuestionsForSet, questionCountsBySet } from "../lib/quiz-schema"
 import { generateResult } from "../lib/scoring"
@@ -90,7 +91,6 @@ test("manually requested targeted extension cannot select a pair for a tied core
 })
 
 test("submission, reopening, recipient isolation and an edited answer have distinct return states", async ({ page, browser, baseURL }) => {
-  const { openSyntheticReview } = await import("./fixtures/product-completion")
   const generate = await openSyntheticReview(page, "foundation")
   await generate.click()
   await expect(page).toHaveURL(/\/results\//)
