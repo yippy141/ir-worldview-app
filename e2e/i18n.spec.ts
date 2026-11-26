@@ -498,10 +498,14 @@ test("English and Chinese share routes are private and no-store", async ({ reque
   for (const pathname of [
     "/results/cache-test-payload",
     "/zh/results/cache-test-payload",
+    "/ai/results/cache-test-payload",
+    "/modules/security/results/cache-test-payload",
+    "/perspectives/coalition-manager/result/cache-test-payload",
     "/profile/share/cache-test-payload",
     "/zh/profile/share/cache-test-payload",
   ]) {
     const response = await request.get(pathname)
+    expect(response.headers()["x-robots-tag"], pathname).toContain("noindex")
     expect(response.headers()["cache-control"], pathname).toBe("private, no-store, max-age=0")
   }
 })

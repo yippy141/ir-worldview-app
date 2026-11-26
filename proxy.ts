@@ -4,6 +4,7 @@ import { routing } from "@/i18n/routing"
 import {
   isSensitiveSharePath,
   privateNoStoreHeader,
+  resultIndexingHeader,
 } from "@/lib/http-headers"
 
 const handleLocaleRouting = createMiddleware(routing)
@@ -45,6 +46,7 @@ export default function proxy(request: NextRequest) {
 
 function applyPrivateShareHeaders(response: NextResponse, pathname: string) {
   if (isSensitiveSharePath(pathname)) {
+    response.headers.set(resultIndexingHeader.key, resultIndexingHeader.value)
     response.headers.set("Cache-Control", privateNoStoreHeader)
   }
   return response

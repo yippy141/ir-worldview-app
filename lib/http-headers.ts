@@ -14,6 +14,8 @@ export const mapReferrerHeader = {
   value: "strict-origin-when-cross-origin",
 } as const
 
+export const resultIndexingHeader = { key: "X-Robots-Tag", value: "noindex, nofollow" } as const
+
 export const privateNoStoreHeader = "private, no-store, max-age=0"
 
 export const sensitiveShareRoutes = [

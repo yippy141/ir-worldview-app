@@ -5,6 +5,7 @@ import {
   mapReferrerHeader,
   privacyHeaders,
   privateNoStoreHeader,
+  resultIndexingHeader,
 } from "./lib/http-headers"
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts")
@@ -25,9 +26,11 @@ const nextConfig: NextConfig = {
         source,
         headers: [mapReferrerHeader],
       })),
+      { source: "/api/card", headers: [resultIndexingHeader] },
       ...localizedSensitiveShareRoutes.map((source) => ({
         source,
         headers: [
+          resultIndexingHeader,
           { key: "Cache-Control", value: privateNoStoreHeader },
         ],
       })),
