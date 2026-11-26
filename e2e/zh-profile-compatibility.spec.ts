@@ -128,7 +128,7 @@ test("Chinese Profile links translated results once and English-only results can
     "href",
     "/modules/security/results/retired-v4-token",
   )
-  await expect(technology.getByRole("link", { name: "添加英文结果" })).toHaveAttribute(
+  await expect(technology.getByRole("link", { name: "查看问卷开放情况（英文）" })).toHaveAttribute(
     "href",
     "/modules/technology",
   )

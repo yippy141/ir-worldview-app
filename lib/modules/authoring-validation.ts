@@ -743,11 +743,30 @@ export function validateModuleAuthoringRecord(
   registered: ModuleRegistrationVersions,
   options: ModuleAuthoringValidationOptions = {},
 ): ModuleAuthoringValidationResult {
+  return validateRegistration(record, registered, "public", options)
+}
+
+export function validateWithdrawnModuleRecord(
+  record: ModuleAuthoringRecord,
+  registered: ModuleRegistrationVersions,
+): ModuleAuthoringValidationResult {
+  return validateRegistration(record, registered, "compatibility", {})
+}
+
+function validateRegistration(
+  record: ModuleAuthoringRecord,
+  registered: ModuleRegistrationVersions,
+  registry: "public" | "compatibility",
+  options: ModuleAuthoringValidationOptions = {},
+): ModuleAuthoringValidationResult {
   const { definition, manifest } = record
   const base = validateDomainModuleManifest(manifest, options)
   const issues: ModuleAuthoringValidationIssue[] = base.ok ? [] : [...base.issues]
   const add = (code: string, path: string, message: string) => issues.push({ code, path, message })
-  if (manifest.releaseState !== "public-beta" && manifest.releaseState !== "shipping") {
+  if (registry === "compatibility" && (manifest.releaseState !== "withdrawn" || manifest.releaseDecision)) {
+    add("registration.withdrawal", "releaseState", "Compatibility registration requires a withdrawn manifest without a current approval.")
+  }
+  if (registry === "public" && manifest.releaseState !== "public-beta" && manifest.releaseState !== "shipping") {
     add("registration.non-public", "releaseState", "Only public-beta or shipping manifests may enter the runtime registry.")
   }
   if (definition.slug !== manifest.slug) add("registration.slug", "slug", "Definition slug must match its manifest.")

@@ -1,3 +1,5 @@
+import { acceptsModuleCompletions } from "@/lib/modules/manifests"
+import { syntheticProfile } from "../tests/connected-fixtures"
 import { expect, test, type Page } from "@playwright/test"
 import { moduleJourneyFixture } from "./fixtures/module-journey"
 import { MODULE_DRAFT_STORAGE_KEY, PROFILE_STORAGE_KEY } from "../lib/storage-keys"
@@ -33,9 +35,23 @@ async function seedReview(page: Page, fixture: ReturnType<typeof moduleJourneyFi
 
 for (const slug of ["security", "technology"] as const) {
   for (const mode of ["standard", "analyst"] as const) {
-    test(`${slug} ${mode}: start, keyboard, mode drafts, incomplete review and reload`, async ({ page }) => {
+    test(`${slug} ${mode}: entrance, draft protection and reload`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "reduce" })
       const fixture = moduleJourneyFixture(slug, mode)
+      if (!acceptsModuleCompletions(slug)) {
+        fixture.draft.stage = "review"
+        const stored = JSON.stringify(fixture.store)
+        await page.goto("/privacy")
+        await page.evaluate(({ key, stored }) => localStorage.setItem(key, stored), { key: MODULE_DRAFT_STORAGE_KEY, stored })
+        await page.goto(`/modules/${slug}`)
+        await expect(page.locator("[data-module-withdrawn]")).toBeVisible()
+        await expect(page.getByRole("button", { name: /Start|Resume|See .*result/i })).toHaveCount(0)
+        expect(await page.evaluate(key => localStorage.getItem(key), MODULE_DRAFT_STORAGE_KEY)).toBe(stored)
+        await expect(frame(page)).toHaveCount(0)
+        await page.reload()
+        await expect(page.locator("[data-module-withdrawn]")).toBeVisible()
+        return
+      }
       await page.goto(`/modules/${slug}`)
       await expect(page.getByRole("region", { name: "Introduction and scope" })).toBeVisible()
       await expect(frame(page)).toHaveCount(0)
@@ -96,34 +112,38 @@ for (const slug of ["security", "technology"] as const) {
       await expect(heading(page)).toHaveText(fixture.questions[1].title)
     })
 
-    test(`${slug} ${mode}: review edit, exact result evidence, standalone Profile`, async ({ page }) => {
+    test(`${slug} ${mode}: issued result evidence and standalone Profile`, async ({ page }) => {
       await page.emulateMedia({ reducedMotion: "reduce" })
       const fixture = moduleJourneyFixture(slug, mode)
-      await page.goto(`/modules/${slug}`)
-      await seedReview(page, fixture)
-      await page.getByRole("button", { name: /^Change answer 1:/ }).click()
-      await expect(heading(page)).toBeFocused()
-      const replacement = fixture.questions[0].options[1]
-      await frame(page).getByRole("button", { name: new RegExp(replacement.title) }).first().click()
-      fixture.answers[fixture.questions[0].id] = { primary: replacement.id }
-      if (mode === "analyst") {
-        const secondary = fixture.questions[0].options[2]
-        const secondaryButton = frame(page).locator("button.secondary-choice-button").filter({ hasText: secondary.title })
-        if (await secondaryButton.count()) {
-          await secondaryButton.click()
-          fixture.answers[fixture.questions[0].id].secondary = secondary.id
+      if (acceptsModuleCompletions(slug)) {
+        await page.goto(`/modules/${slug}`)
+        await seedReview(page, fixture)
+        await page.getByRole("button", { name: /^Change answer 1:/ }).click()
+        await expect(heading(page)).toBeFocused()
+        const replacement = fixture.questions[0].options[1]
+        await frame(page).getByRole("button", { name: new RegExp(replacement.title) }).first().click()
+        fixture.answers[fixture.questions[0].id] = { primary: replacement.id }
+        if (mode === "analyst") {
+          const secondary = fixture.questions[0].options[2]
+          const secondaryButton = frame(page).locator("button.secondary-choice-button").filter({ hasText: secondary.title })
+          if (await secondaryButton.count()) {
+            await secondaryButton.click()
+            fixture.answers[fixture.questions[0].id].secondary = secondary.id
+          }
         }
+        await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).drafts, MODULE_DRAFT_STORAGE_KEY))
+          .toMatchObject({ [Object.keys(fixture.store.drafts)[0]]: { answers: fixture.answers } })
+        await page.reload()
+        await expect(heading(page)).toBeFocused()
+        await expect(frame(page).locator('button.option-card[aria-pressed="true"]')).toContainText(replacement.title)
+        await page.getByRole("button", { name: "Review answers", exact: true }).click()
+        await page.reload()
+        await expect(page.getByRole("heading", { name: "Check your answers" })).toBeFocused()
+        await expect(page.locator("ol li").first()).toContainText(replacement.label)
+        await page.getByRole("button", { name: /^See .* result/ }).click()
+      } else {
+        await page.goto(fixture.resultPath)
       }
-      await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key)!).drafts, MODULE_DRAFT_STORAGE_KEY))
-        .toMatchObject({ [Object.keys(fixture.store.drafts)[0]]: { answers: fixture.answers } })
-      await page.reload()
-      await expect(heading(page)).toBeFocused()
-      await expect(frame(page).locator('button.option-card[aria-pressed="true"]')).toContainText(replacement.title)
-      await page.getByRole("button", { name: "Review answers", exact: true }).click()
-      await page.reload()
-      await expect(page.getByRole("heading", { name: "Check your answers" })).toBeFocused()
-      await expect(page.locator("ol li").first()).toContainText(replacement.label)
-      await page.getByRole("button", { name: /^See .* result/ }).click()
       await expect(page).toHaveURL(new RegExp(`/modules/${slug}/results/`))
       const encoded = new URL(page.url()).pathname.split("/").at(-1)!
       const resolved = resolveModulePayload(encoded)!
@@ -149,6 +169,10 @@ for (const slug of ["security", "technology"] as const) {
       expect(order.indexOf("Choices behind this reading")).toBeLessThan(order.indexOf("Your lane results"))
       await expect(page.getByRole("link", { name: "View Profile", exact: true })).toHaveCount(1)
       await expect(page.getByRole("link", { name: slug === "security" ? "Who gets to verify? →" : "Who gets access? →", exact: true })).toBeVisible()
+      if (!acceptsModuleCompletions(slug)) {
+        expect(await page.evaluate(key => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+        return
+      }
       await expect.poll(() => page.evaluate(key => JSON.parse(localStorage.getItem(key) ?? "{}").modules, PROFILE_STORAGE_KEY))
         .toMatchObject({ [slug]: { payload: encoded, scores: result.scores } })
       await page.getByRole("link", { name: "View Profile", exact: true }).click()
@@ -209,16 +233,15 @@ test("actor-only records keep their existing result without posing as scored-ans
 
 test("multiple standalone modules retain direct links; shared Profile does not import records", async ({ page, browser }) => {
   test.setTimeout(60_000)
-  const fixtures = [moduleJourneyFixture("security", "standard"), moduleJourneyFixture("technology", "analyst")]
-  for (const fixture of fixtures) {
-    await page.goto(`/modules/${fixture.context.slug}`)
-    await seedReview(page, fixture)
-    await page.getByRole("button", { name: /^See .* result/ }).click()
-    await expect(page.locator(".result-verdict__name")).toBeVisible()
-    await expect.poll(() => page.evaluate(({ key, slug }) => Boolean(JSON.parse(localStorage.getItem(key) ?? "{}").modules?.[slug]), { key: PROFILE_STORAGE_KEY, slug: fixture.context.slug })).toBe(true)
+  const historical = syntheticProfile().profile
+  historical.foundation = null
+  historical.aiGovernance = null
+  await page.goto("/privacy")
+  await page.evaluate(({ key, stored }) => localStorage.setItem(key, stored), { key: PROFILE_STORAGE_KEY, stored: JSON.stringify(historical) })
+  await page.goto("/profile")
+  for (const snapshot of Object.values(historical.modules)) {
+    await expect(page.getByRole("link", { name: `Open ${snapshot.slug === "security" ? "Security" : "Technology"} result`, exact: true })).toHaveAttribute("href", snapshot.resultPath)
   }
-  await page.getByRole("link", { name: "View Profile", exact: true }).click()
-  for (const fixture of fixtures) await expect(page.getByRole("link", { name: `Open ${fixture.version.definition.shortTitle} result`, exact: true })).toHaveAttribute("href", fixture.resultPath)
   const raw = await page.evaluate(key => localStorage.getItem(key), PROFILE_STORAGE_KEY)
   const profile = parseProfileStore(raw)
   expect(profile.foundation).toBeNull()
@@ -244,16 +267,21 @@ test("320/390/768/1440 reflow, reduced motion, print and no-JS boundaries", asyn
     for (const slug of ["security", "technology"] as const) {
       const fixture = moduleJourneyFixture(slug, "analyst")
       await page.goto(`/modules/${slug}`)
-      await seedReview(page, fixture)
-      await expect(page.getByRole("region", { name: "Introduction and scope" })).toHaveCount(0)
+      if (acceptsModuleCompletions(slug)) {
+        await seedReview(page, fixture)
+        await expect(page.getByRole("region", { name: "Introduction and scope" })).toHaveCount(0)
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+        await page.getByRole("button", { name: /^Change answer 1:/ }).click()
+        await expect(heading(page)).toBeFocused()
+        expect(await frame(page).evaluate(node => getComputedStyle(node).animationName)).toBe("none")
+        expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
+        const box = await heading(page).boundingBox()
+        const header = await page.locator(".quiz-shell-header").boundingBox()
+        expect(box!.y).toBeGreaterThanOrEqual(header!.height)
+      } else {
+        await expect(page.locator("[data-module-withdrawn]")).toBeVisible()
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
-      await page.getByRole("button", { name: /^Change answer 1:/ }).click()
-      await expect(heading(page)).toBeFocused()
-      expect(await frame(page).evaluate(node => getComputedStyle(node).animationName)).toBe("none")
-      expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
-      const box = await heading(page).boundingBox()
-      const header = await page.locator(".quiz-shell-header").boundingBox()
-      expect(box!.y).toBeGreaterThanOrEqual(header!.height)
       await page.goto(fixture.resultPath)
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width)
     }
@@ -271,7 +299,12 @@ test("320/390/768/1440 reflow, reduced motion, print and no-JS boundaries", asyn
   const context = await browser.newContext({ javaScriptEnabled: false })
   const noJS = await context.newPage()
   await noJS.goto(new URL("/modules/security", page.url()).href, { waitUntil: "networkidle" })
-  await expect(noJS.getByText("Enable JavaScript to answer questions or resume a draft on this device.")).toBeVisible()
+  await expect(noJS.locator("h1")).toBeVisible()
+  if (acceptsModuleCompletions("security")) {
+    await expect(noJS.getByText("Enable JavaScript to answer questions or resume a draft on this device.")).toBeVisible()
+  } else {
+    await expect(noJS.locator("[data-module-withdrawn]")).toBeVisible()
+  }
   await expect(noJS.getByText("Loading your draft…")).not.toBeVisible()
   await noJS.goto(new URL(moduleJourneyFixture("security", "standard").resultPath, page.url()).href)
   await expect(noJS.getByRole("region", { name: "Choices behind this reading" })).toBeVisible()

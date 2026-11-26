@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { DomainMark } from "@/components/results/domain-mark"
+import { acceptsModuleCompletions } from "@/lib/modules/manifests"
 import { modules } from "@/lib/modules/framework"
 import type { ModuleSlug } from "@/lib/modules/types"
 import { resolveFoundationPayload } from "@/lib/share"
@@ -26,7 +27,7 @@ const introductions: Record<ModuleSlug, { covers: string; scenes: string }> = {
 export const metadata: Metadata = {
   title: "Security and Technology | IR Worldview Inventory",
   description:
-    "Two shorter questionnaires built from cases. Each gives its own result and leaves your Foundation result alone.",
+    "Security and Technology questionnaire status and access to saved results.",
 }
 
 export default async function ModulesPage(
@@ -51,8 +52,7 @@ export default async function ModulesPage(
               <h1>Security and Technology</h1>
               <p className="lobby-lead">
                 An ally asks for troops on its border. A ministry decides whether to fund public
-                compute. You choose, and the result shows which logic you kept returning to. Each
-                questionnaire gives its own result and leaves your Foundation result alone.
+                compute. These are two of the choices readers faced in the questionnaires. Earlier results are available in Profile.
               </p>
 
             </div>
@@ -78,12 +78,12 @@ export default async function ModulesPage(
                     </div>
                     <div className="stack-xs">
                       <Link href={href} className="cta-primary">
-                        Start {moduleDefinition.shortTitle}
+                        {acceptsModuleCompletions(moduleDefinition.slug) ? `Start ${moduleDefinition.shortTitle}` : `${moduleDefinition.shortTitle} questionnaire paused`}
                       </Link>
-                      <p className="module-choice-note">
+                      {acceptsModuleCompletions(moduleDefinition.slug) && <p className="module-choice-note">
                         Standard: {moduleDefinition.questionsByMode.standard.length} cases, {moduleDefinition.timeEstimate.standard}.
                         Advanced: {moduleDefinition.questionsByMode.analyst.length} cases, {moduleDefinition.timeEstimate.analyst}.
-                      </p>
+                      </p>}
                     </div>
                   </div>
 

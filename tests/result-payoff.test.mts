@@ -6,7 +6,7 @@ import { compareAi, rankExact } from "@/experiments/result-payoff/evidence"
 import { episodes, completeEpisode, syntheticPrior, deferredDecision } from "@/experiments/result-payoff/episodes"
 import { getCurrentAiGovernanceVersion, SUPPORTED_AI_GOVERNANCE_VERSIONS } from "@/lib/ai-governance-versions"
 import { getAiAxisPush } from "@/lib/ai-governance-results"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getLatestModuleVersion } from "@/lib/modules/versions"
 import securityBank from "@/content/instrument/security.v5.json" with { type: "json" }
 import type { AiAnswers, AiAxisKey, AiAxisScores } from "@/lib/ai-governance-types"
 
@@ -73,7 +73,7 @@ test("payoff characterization: midpoint extremity differs from exact version-spe
 })
 
 test("payoff characterization: Security explanation prompt still contains policy-action options", () => {
-  assert.equal(getCurrentModuleVersion("security").bankVersion, 5)
+  assert.equal(getLatestModuleVersion("security").bankVersion, 5)
   const question = securityBank.items.find(q => q.id === "gray_zone_sabotage")!
   assert.equal(question.cardType, "explanation")
   assert.equal(question.prompt, "What is the most persuasive reading of what the rival is testing?")

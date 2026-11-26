@@ -13,12 +13,11 @@ import {
   countAnsweredModuleQuestions,
   countAnsweredModuleQuestionsByLane,
   encodeModulePayload,
-  getModuleDefinition,
   getModulePerspectiveCoverage,
   getModuleQuestions,
   moduleAllowsSecondChoice,
 } from "@/lib/modules/framework"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getModuleVersion } from "@/lib/modules/versions"
 import {
   ACTOR_LENS_INSTRUCTION,
   hasPerspectiveBankCapability,
@@ -51,14 +50,18 @@ const MODULE_LOCALE = "en"
 
 export function ModuleApp({
   slug,
+  bankVersion,
+  scoringVersion,
   foundationPayload,
 }: {
   slug: ModuleSlug
+  bankVersion: number
+  scoringVersion: number
   foundationPayload?: string
 }) {
   const router = useRouter()
-  const moduleDefinition = getModuleDefinition(slug)
-  const currentVersion = moduleDefinition ? getCurrentModuleVersion(slug) : null
+  const currentVersion = getModuleVersion(slug, bankVersion, scoringVersion)
+  const moduleDefinition = currentVersion?.definition
   const [mode, setMode] = useState<QuizMode>("standard")
   const [answers, setAnswers] = useState<ModuleAnswers>({})
   const [orderSeed, setOrderSeed] = useState("")
@@ -438,7 +441,7 @@ export function ModuleApp({
         {currentFoundation && <p className="muted">Linked Foundation: <Link href={`/results/${currentFoundationPayload}`}>{linkedFoundationTitle(currentFoundation)}</Link>. This questionnaire gives its own result.</p>}
 
         <section className="module-scope-details" aria-labelledby="module-scope-heading">
-          <h2 id="module-scope-heading">Scope, lanes, and how to read the cases</h2>
+          <h2 id="module-scope-heading">What the cases cover</h2>
           <div className="module-scope-grid">
             <div className="stack-xs">
               <p className="eyebrow">What it tests</p>

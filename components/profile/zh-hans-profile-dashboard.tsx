@@ -281,7 +281,7 @@ function ZhHansDomainRecords({
                 </p>
               </div>
               <NextLink href={route.href} className="profile-domain-record__link">
-                {snapshot ? copy.openEnglishResult : copy.addEnglishResult}
+                {snapshot ? copy.openEnglishResult : copy.moduleStatus}
               </NextLink>
             </article>
           )
@@ -537,7 +537,7 @@ function buildZhHansNextSteps({
       steps.push({
         title: copy.nextSecurity,
         description: copy.nextSecurityDescription,
-        href: `/modules/security?foundation=${encodeURIComponent(foundationPayload)}`,
+        href: "/decisions/who-gets-to-verify",
         englishOnly: true,
       })
     }
@@ -545,7 +545,7 @@ function buildZhHansNextSteps({
       steps.push({
         title: copy.nextTechnology,
         description: copy.nextTechnologyDescription,
-        href: `/modules/technology?foundation=${encodeURIComponent(foundationPayload)}`,
+        href: "/decisions/who-gets-access",
         englishOnly: true,
       })
     }

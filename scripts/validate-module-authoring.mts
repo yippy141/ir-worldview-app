@@ -11,12 +11,13 @@ import {
   formatModuleAuthoringIssues,
   validateDomainModuleManifestPaths,
   validateModuleAuthoringRecord,
+  validateWithdrawnModuleRecord,
   type ModuleAuthoringValidationIssue,
 } from "@/lib/modules/authoring-validation"
 import { modules } from "@/lib/modules/framework"
-import { MODULE_AUTHORING_RECORDS } from "@/lib/modules/manifests"
+import { MODULE_AUTHORING_RECORDS, acceptsModuleCompletions } from "@/lib/modules/manifests"
 import { MODULE_SLUGS } from "@/lib/modules/types"
-import { getCurrentModuleVersion } from "@/lib/modules/versions"
+import { getModuleVersion } from "@/lib/modules/versions"
 import manifestFingerprints from "@/tests/fixtures/module-manifest-fingerprints.json" with {
   type: "json",
 }
@@ -52,7 +53,7 @@ export function matchesCanonicalManifestFingerprint(
     }
   > = manifestFingerprints,
 ) {
-  const expected = fixtures[manifest.slug]
+  const expected = fixtures[`${manifest.slug}-v${manifest.versions.manifest}`] ?? fixtures[manifest.slug]
   return Boolean(
     expected &&
       expected.manifestVersion === manifest.versions.manifest &&
@@ -107,18 +108,25 @@ export function validateRegisteredModuleAuthoring(
   const runtimeSlugs = modules.map((definition) => definition.slug)
   if (JSON.stringify(registeredSlugs) !== JSON.stringify(runtimeSlugs)) {
     issues.push(
-      "registry: authoring records must match the shipping module registry in canonical order.",
+      "registry: authoring records must match the supported module registry in canonical order.",
     )
   }
   if (JSON.stringify(registeredSlugs) !== JSON.stringify([...MODULE_SLUGS])) {
     issues.push(
-      "registry: authoring records must cover every stable shipping module slug exactly once.",
+      "registry: authoring records must cover every stable module slug exactly once.",
     )
   }
 
   const manifests = MODULE_AUTHORING_RECORDS.map((record) => {
-    const current = getCurrentModuleVersion(record.definition.slug)
-    const result = validateModuleAuthoringRecord(record, current)
+    const tuple = record.manifest.versions
+    const version = getModuleVersion(record.definition.slug, tuple.questionBank, tuple.scoring)
+    if (!version || version.definition !== record.definition) {
+      issues.push(`${record.definition.slug}: operational definition must match its registered compatibility tuple.`)
+    }
+    const validate = acceptsModuleCompletions(record.definition.slug)
+      ? validateModuleAuthoringRecord
+      : validateWithdrawnModuleRecord
+    const result = validate(record, { bankVersion: tuple.questionBank, scoringVersion: tuple.scoring })
     if (!result.ok) {
       issues.push(
         ...formatModuleAuthoringIssues(record.manifest.slug, result.issues),

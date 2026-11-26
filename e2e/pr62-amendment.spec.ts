@@ -1,3 +1,5 @@
+import { acceptsModuleCompletions } from "@/lib/modules/manifests"
+import { moduleJourneyFixture } from "./fixtures/module-journey"
 import { test, expect } from "@playwright/test"
 import { openSyntheticReview } from "./fixtures/product-completion"
 
@@ -10,11 +12,17 @@ test("questionnaire entrances keep their actions and visible scope without examp
     await page.goto(route)
     await expect(page.locator(".entrance-example")).toHaveCount(0)
     await expect(page.locator("h1")).toBeVisible()
-    await expect(page.getByRole("button", { name: /Start/ }).or(page.getByRole("link", { name: /Start/ })).first()).toBeVisible()
-    if (route.startsWith("/modules/")) {
-      await expect(page.getByRole("heading", { name: "Scope, lanes, and how to read the cases" })).toBeVisible()
+    if (route === "/modules/security" || route === "/modules/technology") {
+      const slug = route === "/modules/security" ? "security" : "technology"
+      if (!acceptsModuleCompletions(slug)) {
+        await expect(page.locator("[data-module-withdrawn]")).toBeVisible()
+        await expect(page.getByRole("button", { name: /Start/ })).toHaveCount(0)
+        continue
+      }
+      await expect(page.getByRole("heading", { name: "What the cases cover" })).toBeVisible()
       await expect(page.getByText("What it tests", { exact: true })).toBeVisible()
     }
+    await expect(page.getByRole("button", { name: /Start/ }).or(page.getByRole("link", { name: /Start/ })).first()).toBeVisible()
   }
 })
 
@@ -38,8 +46,11 @@ test("partial-position feedback stays opt-in and usable without disturbing the s
 })
 
 for (const domain of ["foundation", "ai", "security", "technology"] as const) test(`${domain}: worked reading and available answer evidence are in normal flow`, async ({ page }) => {
-  const submit = await openSyntheticReview(page, domain)
-  await submit.click()
+  if ((domain === "security" || domain === "technology") && !acceptsModuleCompletions(domain)) {
+    await page.goto(moduleJourneyFixture(domain, "standard").resultPath)
+  } else {
+    await (await openSyntheticReview(page, domain)).click()
+  }
   await expect(page).toHaveURL(/\/results\//)
   await expect(page.locator(".result-application")).toBeVisible()
   const evidence = domain === "foundation" ? page.locator('[data-local-evidence-status="available"]')

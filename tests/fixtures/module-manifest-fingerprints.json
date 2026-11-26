@@ -8,5 +8,15 @@
     "manifestVersion": 2,
     "resultCopyVersion": 1,
     "fingerprint": "0dee7367ac98a0af6ce2903b6687a36fb27c1b81a9b0fb7b282badebd55f719e"
+  },
+  "security-v1": {
+    "manifestVersion": 1,
+    "resultCopyVersion": 1,
+    "fingerprint": "4e78a6053e00793e66ad9e77d316e49622b4ad0f0df93e19b067e628d80d67dc"
+  },
+  "technology-v1": {
+    "manifestVersion": 1,
+    "resultCopyVersion": 1,
+    "fingerprint": "a36cadde5cd33e33405ea8305c0b2369fad00f863874e313ac22bd946e710b5d"
   }
 }

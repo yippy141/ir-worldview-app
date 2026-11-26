@@ -60,7 +60,7 @@ export const SECURITY_V5_TUPLE = {
   scoringVersion: SECURITY_SCORING_VERSION,
 } as const satisfies ModuleVersionTuple
 
-export const CURRENT_MODULE_TUPLES = {
+export const LATEST_MODULE_TUPLES = {
   security: SECURITY_V5_TUPLE,
   technology: MODULE_V22_TUPLE,
 } as const satisfies Record<ModuleSlug, ModuleVersionTuple>
@@ -122,8 +122,8 @@ export function getModuleVersion(
   )
 }
 
-export function getCurrentModuleVersion(slug: ModuleSlug): ModuleVersion {
-  const current = CURRENT_MODULE_TUPLES[slug]
+export function getLatestModuleVersion(slug: ModuleSlug): ModuleVersion {
+  const current = LATEST_MODULE_TUPLES[slug]
   const version = getModuleVersion(
     slug,
     current.bankVersion,

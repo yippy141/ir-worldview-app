@@ -128,12 +128,11 @@ test("Field Guide is readable without JavaScript and in print", async ({ browser
   await context.close()
 })
 
-test("module parent navigation preserves the saved answers and resumes through root secondary links", async ({ page }) => {
+test("module parent navigation preserves the saved answers through the hold and root secondary links", async ({ page }) => {
   await page.goto('/privacy')
   await page.evaluate(({ key, store }) => localStorage.setItem(key, JSON.stringify(store)), { key: MODULE_DRAFT_STORAGE_KEY, store: security.store })
   await page.goto('/modules/security')
-  await expect(page.locator('.quiz-shell-exit')).toHaveText('Security and Technology')
-  await page.locator('.quiz-shell-exit').click()
+  await page.locator('main').getByRole('link', { name: 'Security and Technology', exact: true }).first().click()
   await expect(page).toHaveURL(/\/modules$/)
   await page.goto('/#menu')
   await page.locator('[data-root-group=questionnaires]').getByRole('link', { name: 'Security', exact: true }).click()
