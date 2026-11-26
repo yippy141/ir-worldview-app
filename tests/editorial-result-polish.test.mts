@@ -12,8 +12,8 @@ const keys: AiArchetypeKey[] = ["precautionarySteward", "strategicCompetitor", "
 test("economic dependence and an unresolved posture do not prescribe intervention", () => {
   const scores = { securityCompetition: 4, institutions: 4, domesticFilters: 4, normsIdentity: 4, politicalEconomy: 7, restraint: 4, orderJustice: 4 }
   const { summary } = buildFoundationInterpretation(scores)
-  assert.match(summary, /dependenc/)
-  assert.match(summary, /unresolved/)
+  assert.match(summary, /controls a market or a crucial supply/)
+  assert.match(summary, /leaves open when to press an advantage/)
   assert.doesNotMatch(summary, /deliberate intervention|redirect economic gains/)
 })
 test("AI heroes and axes speak directly without repeating sentences", () => {

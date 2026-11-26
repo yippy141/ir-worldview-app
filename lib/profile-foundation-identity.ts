@@ -1,4 +1,4 @@
-import { ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { ambiguousFoundationCopy, classifyFoundationPresentation, foundationMidpointCopy } from "@/lib/results/foundation-result-heading"
 import {
   resolveArchetype,
   type Archetype,
@@ -24,7 +24,7 @@ export function resolveFoundationIdentityFromSnapshot(
       lowDifferentiationThreshold,
     ),
     result: resolved.result,
-    presentation: classifyFoundationPresentation(resolved.result, lowDifferentiationThreshold),
+    presentation: classifyFoundationPresentation(resolved.result, lowDifferentiationThreshold, resolved.payload.v === 5),
   }
 }
 
@@ -47,5 +47,6 @@ export function foundationIdentityTitle(
   locale: "en" | "zh-Hans" = "en",
 ): string {
   if (!identity) return locale === "en" ? "Foundation result unavailable" : "基础结果不可用"
-  return identity.presentation.showArchetype ? identity.archetype.name : ambiguousFoundationCopy(identity.presentation, locale).title
+  if (!identity.presentation.showArchetype) return ambiguousFoundationCopy(identity.presentation, locale).title
+  return foundationMidpointCopy(identity.presentation, locale)?.title ?? identity.archetype.name
 }

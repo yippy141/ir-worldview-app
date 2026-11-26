@@ -110,8 +110,8 @@ Rules:
 
 - Maintain one dominant reading column on text-heavy pages.
 - Use asymmetry when it clarifies priority. Do not fill space with matching cards.
-- The homepage opens with a speculative globe and an immediately usable Enter
-  control. Enter reveals one menu grouped by Questionnaires, AI Futures, Cases and
+- The homepage offers Foundation first, one named case and a link to the full menu.
+  Show the saved result or draft when available. The menu groups Questionnaires, AI Futures, Cases and
   exercises, Library, and Your worldview. The geographic scene stays independent
   of navigation. `/#menu` and `/zh#menu` are direct menu entries.
 - Result pages show payoff before caveat.
@@ -257,9 +257,9 @@ Added 13 September 2026 from the whole-product review. Binding for Sprint A and 
 
 ### Result
 
-1. Mark, name, one paragraph that says something about this person's answers.
+1. Lead with the finding the scores support. A mark or name may accompany it when both tradition and posture warrant that reading. Keep historical labels available in the record.
 2. Why this reading and not the nearest rival, with the comparison figure.
-3. What did the work: the dimension that carried the result, and the one that pulled against it when the data shows one.
+3. Explain the difference between the two scores using the dimension that carried the result, and the one that pulled against it when the data shows one.
 4. The reader's own choices beside the alternatives (kept from `FoundationLocalEvidence`; framed in one sentence).
 5. A case that tests the reading.
 6. Limits in one paragraph with a link to Method.
@@ -267,7 +267,7 @@ Navigation and share controls sit in the same place on every result. Visual iden
 
 ### Reveal on fresh completion
 
-- The page arrives complete. Name and first paragraph readable at t=0. Nothing waits at opacity 0.
+- The page arrives complete. Finding and first paragraph readable at t=0. Nothing waits at opacity 0.
 - 0.2 s to 1.6 s: the mark draws itself. Stroked paths use `stroke-dasharray`/`stroke-dashoffset` in an authored order with a 120 ms stagger; filled shapes reveal through a growing `clipPath` circle. Split compound paths into drawable segments in the mark definition.
 - 1.6 s to 2.0 s: the brass rule under the name extends from zero; the reading code's letter-spacing settles from wide to normal.
 - End state is pixel-identical to a direct load. Reduced motion, no JS, print, shared links, reloads, browser Back: final state immediately. A small "Replay" control in the hero, hidden in print.
@@ -282,8 +282,8 @@ Navigation and share controls sit in the same place on every result. Visual iden
 - The fifteen authored scenes hold for 5.5 seconds each; the camera revolves in 140 seconds. Camera and story clocks are independent. Drag rotates the projection; bounded zoom and Reset view remain available. Manual input pauses until explicit Play, without snapping back. Pause freezes both clocks. Wheel zoom operates only on a focused globe, and touch scrolling remains available.
 - Globe controls use square native buttons with at least 44px targets. Previous, next and zoom actions use inline SVG marks with accessible names; Play/Pause and Reset view retain text. Brass focus outlines remain visible. Deliberate place inspection and the place selector expose the place name and fictional grouping; the explanatory disclosure is collapsed initially.
 - No decorative rings, orbits, hover-driven country selection, sound, or flashing. One idle revolution takes 140 seconds; complete authored scenes dwell for 5.5 seconds. Hidden and offscreen views stop rendering. Reduced motion is a completed still with manual controls.
-- The entrance and menu are one mounted root experience. Enter immediately reveals the menu and focuses its heading. The bare homepage always opens the centered entrance, including with saved work or a prior menu visit; View the opening remains available. Deep links bypass the opening; Back from a child returns to the menu. A semantic menu and complete labelled still remain without JavaScript and in print.
-- Enter and return move the same mounted globe over 650ms on desktop, with a 360ms menu fade starting after 90ms and immediately usable actions. Hash/history entries and reduced motion use the final layout immediately. Narrow layouts never move the globe across controls. Root destination hover uses brighter text, a restrained surface and a fixed-width marker, with a visible focus outline.
+- The entrance and menu are one mounted root experience. Explore all activities immediately reveals the menu and focuses its heading. The bare homepage always opens the centered entrance, including with saved work or a prior menu visit; View the opening remains available. Deep links bypass the opening; Back from a child returns to the menu. A semantic menu and complete labelled still remain without JavaScript and in print.
+- Opening and closing the menu move the same mounted globe over 650ms on desktop, with a 360ms menu fade starting after 90ms and immediately usable actions. Hash/history entries and reduced motion use the final layout immediately. Narrow layouts never move the globe across controls. Root destination hover uses brighter text, a restrained surface and a fixed-width marker, with a visible focus outline.
 - The desktop menu keeps the globe in the left column and the five destination groups on the right. Questionnaires spans the menu width; the remaining groups form two columns. At 900px and below, the menu precedes the globe and the globe stops being sticky. At 500px and below, all groups use one column. The destination groups share the existing navigation registry and locale labels; local saved-work status follows the groups.
 - The basemap has 174 polygon features and a small-place point supplement, with explicit omissions. All supported features receive an explicit assignment or muted treatment in each shot; points represent locations, not territorial size or influence.
 - `/world-stage` remains the documented-map destination, preserving its anchors, research, source controls and provider attribution. EU/NATO and RCEP membership records live in a separately labelled documented section. Evidence dates, factual keys and source ledgers remain binding there; basemap retrieval dates never stand in for event dates.

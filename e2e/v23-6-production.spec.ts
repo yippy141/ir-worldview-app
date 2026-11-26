@@ -134,8 +134,8 @@ test("current core result headlines both readings while a clearer result stays p
   await page.goto(`/results/${fixtures.clearerPureCore}`)
   await expect(page.getByText(/leads this Foundation result/))
     .toBeVisible()
-  await expect(page.getByText(/clearer within the current item set/iu)).toBeVisible()
-  await expect(page.getByText(/does not establish a durable trait/iu)).toBeVisible()
+  await expect(page.getByText(/ranking describes your answers on this form/iu)).toBeVisible()
+  await expect(page.getByText(/how consistently you would take the same view over time/iu)).toBeVisible()
   await expect(page.locator('[data-foundation-mark="pure"]:visible')).toHaveCount(1)
 })
 

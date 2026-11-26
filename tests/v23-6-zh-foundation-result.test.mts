@@ -120,7 +120,7 @@ test("Chinese shared result keeps device domain records private", () => {
     storySource,
     /Checking this device|No saved Security|Open Technology|Open AI Governance/u,
   )
-  assert.match(storySource, /lang=\{ambiguous \? "zh-Hans" : "en"\}/u)
+  assert.match(storySource, /lang=\{ambiguous \|\| midpoint \? "zh-Hans" : "en"\}/u)
   assert.match(storySource, /规范英文名称/u)
 })
 

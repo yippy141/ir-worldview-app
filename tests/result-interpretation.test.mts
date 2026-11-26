@@ -98,7 +98,7 @@ test("Foundation synthesis varies within families and respects the direction of 
   }
   assert.equal(readings.size, 4)
   for (const summaries of readings.values()) assert.ok(summaries.size > 1)
-  assert.match(foundationAxisReading("institutions", 1), /power more weight/)
+  assert.match(foundationAxisReading("institutions", 1), /members have the power to uphold it/)
   assert.doesNotMatch(foundationAxisReading("institutions", 1), /give rules real weight/)
   const comparison = buildFoundationPayoff({
     dimensionScores: { securityCompetition: 6, institutions: 1, domesticFilters: 4, normsIdentity: 4, politicalEconomy: 5, restraint: 5, orderJustice: 4 },

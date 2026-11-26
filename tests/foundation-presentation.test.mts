@@ -4,7 +4,7 @@ import { resolveWorldviewMapBaseline } from "@/lib/field/archetype-matrix"
 import assert from "node:assert/strict"
 import test from "node:test"
 import profileFixture from "./fixtures/profile-store-v5.json" with { type: "json" }
-import { syntheticAnswers } from "@/tests/decision-exercises/fixtures"
+import { mixedEconomicAnswers, syntheticAnswers } from "@/tests/decision-exercises/fixtures"
 import { foundationCoreQuestions } from "@/lib/quiz-schema"
 import { generateResult, buildCanonicalFoundationResult, foundationScoringCalibrationForForm } from "@/lib/scoring"
 import { encodePayload, buildFoundationSharePayload } from "@/lib/share"
@@ -64,7 +64,7 @@ test("ambiguous results use dimension-first titles across Profile, metadata and 
       assert.equal(view.foundation?.dimensions.length, 7)
       assert.equal(view.foundation?.archetypeName, foundationIdentityTitle(identity, locale))
     }
-    for (const social of [buildEnglishFoundationResultSocialCopy(card.archetype, card.norm, card.presentation), buildEnglishProfileSocialCopy(card.archetype, card.presentation), buildZhHansFoundationResultSocialCopy(card.archetype, "arbitrary rationale", card.presentation)]) {
+    for (const social of [buildEnglishFoundationResultSocialCopy(card.archetype, card.norm, card.presentation), buildEnglishProfileSocialCopy(card.archetype, card.presentation), buildZhHansFoundationResultSocialCopy(card.archetype, card.presentation)]) {
       assert.ok(!social.title.includes(card.archetype.name))
       assert.ok(!social.description.includes("arbitrary rationale"))
     }
@@ -98,7 +98,7 @@ test("extended and targeted payoff uses exact completion evidence, never a share
     const bound = buildFoundationExtensionPayoff(payload,evidence,"en",draft)!
     assert.ok(bound.comparison)
     assert.equal(buildFoundationExtensionPayoff(payload,evidence,"en",draft.replace(evidence.binding.localCompletionId,"different-completion"))!.comparison,null)
-    assert.match(bound.note, /not score changes between core and extended/)
+    assert.match(bound.note, /Each form uses its own scoring scale/)
     assert.equal(buildFoundationExtensionPayoff(payload,null,"en",draft)!.comparison,null)
     assert.equal(buildFoundationExtensionPayoff(payload,evidence,"en",draft.replace('"answers":', '"discardedAnswers":'))!.comparison,null)
     assert.match(buildFoundationExtensionPayoff(payload,null,"zh-Hans")!.title,/追加题目/)
@@ -112,4 +112,29 @@ test("supplemental glossary defines the requested terms without touching adminis
     assert.equal(foundationGlossary("v21_rs_rev_05",locale).length,1)
     assert.deepEqual(foundationGlossary("not-an-item",locale),[])
   }
+})
+
+test("economic agreement and an unresolved posture travel together without prescribing a state role", () => {
+  const result = generateResult(mixedEconomicAnswers, "analyst", "core")
+  assert.equal(result.dimensionScores.politicalEconomy, 6.5)
+  assert.equal(result.dimensionScores.restraint, 4)
+  assert.deepEqual([result.familyKey, result.runnerUpKey], ["criticalPoliticalEconomy", "institutionalist"])
+  assert.deepEqual([result.familyScores.criticalPoliticalEconomy, result.familyScores.institutionalist], [2.11, .61])
+  const card = buildFoundationShareCardInput(result, .3675)
+  assert.equal(card.archetype.name, "Dirigisme", "the issued archetype is preserved")
+  const cardCopy = buildFoundationCardCopy(card.archetype, card.norm, card.presentation)
+  assert.equal(cardCopy.name, "Critical political economy")
+  assert.match(cardCopy.gloss, /4 on the 1 to 7 scale/)
+  const social = buildEnglishFoundationResultSocialCopy(card.archetype, card.norm, card.presentation)
+  assert.doesNotMatch(social.description, /Dirigisme|state actively shaping|deliberate intervention/)
+  const profile = parseProfileStore(JSON.stringify(profileFixture), "en")
+  const payload = encodePayload(buildFoundationSharePayload(result, "en", "core"))
+  profile.foundation = { ...profile.foundation!, payload, resultPath: `/results/${payload}` }
+  for (const locale of ["en", "zh-Hans"] as const) {
+    const view = buildLocalizedProfileShareView(profile, locale)!
+    assert.equal(view.foundation?.archetypeName, locale === "en" ? cardCopy.name : "批判政治经济学")
+    assert.equal(view.foundation?.archetypeCode, "")
+  }
+  const legacy = buildFoundationShareCardInput(result, .3675, false)
+  assert.equal(buildFoundationCardCopy(legacy.archetype, legacy.norm, legacy.presentation).name, legacy.archetype.name)
 })

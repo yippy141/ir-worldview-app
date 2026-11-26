@@ -7,7 +7,7 @@ export const zhHansUsBrazilTariffsCase = {
   version: 1,
   publicationStatus: "published",
   launchRole: "archive",
-  originalTitle: "U.S. Section 301 tariffs on Brazil and Brazil’s calibrated retaliation debate",
+  originalTitle: "Brazil’s choice after the U.S. tariff announcement",
   title: "美国对巴西加征 301 条款关税：巴西如何权衡有限反制",
   dek: "美国一揽子选择性关税措施迫使巴西在反制、国内纾困、谈判和更广泛的规则回应之间作出选择。",
   category: "economic-statecraft",
@@ -182,8 +182,8 @@ export const zhHansUsBrazilTariffsCase = {
   nextRoutes: [
     {
       href: "/modules/technology",
-      label: "技术与地缘经济专题",
-      reason: "检验你如何权衡贸易杠杆、依赖和国内政策空间。",
+      label: "技术问卷档案",
+      reason: "技术问卷暂停作答。此前生成的结果链接仍可打开。",
     },
     {
       href: "/explore/atlas",

@@ -1,7 +1,7 @@
 "use client"
 
 import { buildFoundationInterpretationZh } from "@/lib/results/foundation-interpretation-zh"
-import { ambiguousFoundationCopy, foundationLensSubtitle, type FoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { foundationMidpointCopy, ambiguousFoundationCopy, foundationLensSubtitle, type FoundationPresentation } from "@/lib/results/foundation-result-heading"
 import { FoundationDimensionSummary } from "@/components/results/foundation-dimension-summary"
 import { WorkedApplication } from "@/components/results/worked-application"
 import type { DimensionScores } from "@/lib/types"
@@ -86,6 +86,7 @@ export function ZhHansFoundationResultStory(
   const interpretation = props.dimensionScores ? buildFoundationInterpretationZh(props.dimensionScores) : null
   const heading = buildZhHansFoundationResultHeading(props)
   const midpointPosture = !props.legacy && props.presentation.dimensionScores.restraint === 4
+  const midpoint = foundationMidpointCopy(props.presentation, "zh-Hans")
   const ambiguous = !props.presentation.showArchetype
   const ambiguityCopy = ambiguousFoundationCopy(props.presentation, "zh-Hans")
   const primaryMarkCode = "archetypes" in props.archetype
@@ -221,11 +222,11 @@ export function ZhHansFoundationResultStory(
       data-foundation-presentation={props.presentation.kind}
     >
       <header className={frontispiece.frontispiece} aria-labelledby="zh-foundation-result-heading">
-        {!ambiguous && (primaryMarkCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={primaryMarkCode} />
+        {!ambiguous && !midpoint && (primaryMarkCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={primaryMarkCode} />
           : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />)}
-        <h1 id="zh-foundation-result-heading" lang={ambiguous ? "zh-Hans" : "en"}>{ambiguous ? ambiguityCopy.title : props.archetype.name}</h1>
-        {!ambiguous && <p className={frontispiece.qualification}>{foundationLensSubtitle(props.lowDifferentiation ? [props.primaryFamily, props.runnerUpFamily] : [props.primaryFamily], "zh-Hans")}</p>}
-        {!ambiguous && <p className={frontispiece.qualification}>{heading.title}</p>}
+        <h1 id="zh-foundation-result-heading" lang={ambiguous || midpoint ? "zh-Hans" : "en"}>{ambiguous ? ambiguityCopy.title : midpoint?.title ?? props.archetype.name}</h1>
+        {!ambiguous && !midpoint && <p className={frontispiece.qualification}>{foundationLensSubtitle(props.lowDifferentiation ? [props.primaryFamily, props.runnerUpFamily] : [props.primaryFamily], "zh-Hans")}</p>}
+        {!ambiguous && !midpoint && <p className={frontispiece.qualification}>{heading.title}</p>}
         <p className={frontispiece.frontispieceLead}>{ambiguous ? ambiguityCopy.summary : interpretation?.summary ?? heading.lead}</p>
         <a href={ambiguous ? "#dimensions" : "#nearest"} className="cta-primary print-hidden">查看这份解释</a>
         {!props.legacy && props.resultTier === "core" ? <p><NextLink href={props.nextAction.href}>{props.nextAction.label}</NextLink></p> : null}
@@ -235,7 +236,7 @@ export function ZhHansFoundationResultStory(
         <p className="result-scope">{ambiguous ? null : heading.lead}</p>
         {ambiguous ? <p>{ambiguityCopy.candidates}</p> : <>
           <p>解释性位置关注世界政治由哪些力量驱动；战略位置关注施加优势的限度；规范性位置关注正义何时可以优先于既有秩序。</p>
-          <details><summary>名称、编码与题组</summary><p>规范英文名称：{props.archetype.name}</p><p>{props.archetypeCode}</p><p>{heading.eyebrow}</p><p>{props.strategyLabel} · {props.normativeLabel}</p></details>
+          <details><summary>名称、编码与题组</summary><p>规范英文名称：{props.archetype.name}{midpoint ? "。编码在中点仍会指定方向。" : ""}</p><p>{props.archetypeCode}</p><p>{heading.eyebrow}</p><p>{props.strategyLabel} · {props.normativeLabel}</p></details>
         </>}
 
       </section>

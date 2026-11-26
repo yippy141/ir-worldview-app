@@ -8,6 +8,7 @@ import { foundationDraftCopyVersion, foundationDraftMatchesLocale, foundationDra
 import { useEffect, useState } from "react"
 import { hasCompleteFoundationAnswers } from "@/lib/quiz-completion"
 import { markFreshFoundationResult } from "@/lib/results/fresh-foundation-result"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { getZhHansFoundationQuestionsForSet } from "@/content/locales/zh-Hans/foundation-instrument"
 import {
@@ -58,7 +59,7 @@ const englishFoundationReviewUi = {
   eyebrow: "Review your answers",
   title: "Review your Foundation answers",
   intro:
-    "Check each answer before generating your result. You can add separate Security and Technology readings afterward.",
+    "Choose Edit beside any answer you want to change. When you’re ready, generate your result below.",
   progress: (mode, answered, total) => `${mode} · ${answered} of ${total} questions answered`,
   questionsHeading: "Foundation questions",
   incomplete: "Finish every foundation question before generating the result.",
@@ -74,7 +75,7 @@ const englishFoundationReviewUi = {
     cancel: "Keep answers",
   },
   localProcessing:
-    "Your result is computed in this browser. When coarse measurement is on and the aggregate service is enabled, first-party counters receive reached steps and, at result generation, derived scores and labels plus item IDs with coarse response-time buckets. They contain no answers, raw timestamps, response ordering, or identifier.",
+    "This browser calculates your result. When measurement and aggregate counters are enabled, the site counts steps reached. On completion it also counts score and label groups, question IDs and approximate response times. The counters exclude individual answers, exact times, answer order and identifiers.",
   setLabels: {
     core: "Core set",
     targetedExtended: "Targeted extension",
@@ -348,7 +349,7 @@ export function ReviewScreen({ locale = "en" }: { locale?: Locale }) {
           />
         </div>
         <p className="muted" style={{ fontSize: "0.8rem", lineHeight: "1.55" }}>
-          {copy.localProcessing}
+          {copy.localProcessing}{" "}<Link href={publicPath(locale, "/privacy")}>{locale === "en" ? "Data use and opt-out" : "数据使用与退出统计"}</Link>
         </p>
       </section>
 

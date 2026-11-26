@@ -19,11 +19,18 @@ export function syntheticAnswers(seed: number, questionSet: "core" | "baselineEx
       : question.options[primary].id]
   }))
 }
+const mixedEconomicRatings = [5, 6, 7, 6, 6, 3, 5, 3, 7, 2, 6, 6, 2, 5]
+export const mixedEconomicAnswers: Answers = Object.fromEntries(
+  getFoundationResultQuestions("core").map((question, index) => [question.id, mixedEconomicRatings[index]]),
+)
+
 export function resultFixtures() {
   const foundation: Record<string, { payload: string; name: string; code: string; answers: Answers; low: boolean }> = {}
   for (let seed = 1; seed <= 4000; seed++) {
     const answers = syntheticAnswers(seed, "core")
     const raw = generateResult(answers, "analyst", "core")
+    // The gallery exercises named marks. A midpoint has no signed mark.
+    if (raw.dimensionScores.restraint === 4) continue
     const payload = encodePayload(buildFoundationSharePayload(raw, "en", "core"))
     const resolved = resolveFoundationPayload(payload)!
     const archetype = resolveArchetype(resolved.result)

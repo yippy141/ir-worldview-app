@@ -61,11 +61,11 @@ const englishFoundationQuizUi = {
   title: "Foundation",
   adaptedBeta: "",
   setSummary: {
-    core: (count) => `${count} questions · followed by a provisional result.`,
+    core: (count) => `${count} questions · then review your answers and see your result.`,
     targetedExtended:
-      (count) => `${count} follow-up questions examine the distinction between your two nearest modeled traditions.`,
-    fullExtended: (count) => `${count} additional questions · saved form, including its research-comparison items.`,
-    baselineExtended: (count) => `${count} additional questions · the scored extension without the research-comparison block.`,
+      (count) => `${count} follow-up questions compare the two traditions closest to your first result.`,
+    fullExtended: (count) => `${count} additional questions in this saved edition, including a set for comparing questionnaire versions.`,
+    baselineExtended: (count) => `${count} additional questions about rivalry, cooperation and the choices governments face. These count toward your extended result.`,
   },
   setLabels: {
     core: "Standard",
@@ -87,15 +87,15 @@ const englishFoundationQuizUi = {
   questionProgress: (label, index, total) => `${label} · ${index} of ${total}`,
   howToAnswer: "How to answer",
   publicDefensibilityNote:
-    "Select the judgment you would actually use. Public defensibility alone should not determine your answer.",
+    "",
   analystSecondChoiceNote:
-    "If a second option remains plausible, Advanced mode lets you mark it as a lower-weight backup.",
+    "In Advanced mode you can also choose a second option. It counts less.",
   stronglyDisagree: "Strongly disagree",
   stronglyAgree: "Strongly agree",
   likertAria: (value) => `${value} — ${value === 1 ? "strongly disagree" : value === 7 ? "strongly agree" : `${value} out of 7`}`,
   secondMostPersuasive: "Second-most persuasive",
   secondChoiceHelp:
-    "Use this only when another option also captures part of your analytic judgment. It counts less than your main choice.",
+    "Leave this blank if only one option fits.",
   back: "Back",
   next: "Next",
   reviewAnswers: "Review your answers →",
@@ -115,10 +115,10 @@ const englishFoundationQuizUi = {
     both: "Both",
   },
   choiceInstructions: {
-    explanation: "Which option best explains what is driving the case? Choose the one you would use in your own analysis.",
-    decision: "Which consideration should lead the decision? Choose the one you would use to decide the case.",
-    actorLens: "Which logic best fits the named actor's strategic position? Judge the actor's position independently of the policy you would choose.",
-    both: "Which option is most persuasive overall? Choose the one that best matches your own judgment.",
+    explanation: "Which explanation best accounts for what happened?",
+    decision: "Which consideration should guide the decision?",
+    actorLens: "What matters most to the actor named in the question?",
+    both: "Which argument do you find most persuasive?",
   },
   dimensionLabels,
   positionMap: {
@@ -462,9 +462,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
   return (
     <div className={locale === "en" ? "stack-lg foundation-task" : "stack-lg"}>
       {entranceOpen && <section className="foundation-entrance">
-        <h1>How do you judge the arguments behind world politics?</h1>
+        <h1>What makes an agreement between rivals last?</h1>
         <p className="entrance-count">{displayedSet === "core" ? `Standard · ${questions.length} questions` : `${questions.length} questions`}</p>
-        <p>Consider power, cooperation, ideas and economic interests. Your result explains which traditions your answers came nearest, and where another reading pulls against them.</p>
+        <p>You might look to inspectors who can catch cheating, or to the power each country has to enforce the deal. Rate statements like these, then see which arguments your answers support across seven scales.</p>
         <button type="button" className="primary-button" onClick={() => { setEntranceOpen(false); requestAnimationFrame(() => document.querySelector<HTMLElement>(".quiz-question-frame h2")?.focus()) }}>Start Foundation</button>
         <p className="entrance-reading">Read first: <Link href="/explore">the arguments in the Library</Link>, or <Link href="/archetypes">Foundation readings</Link>.</p>
       </section>}
@@ -588,9 +588,9 @@ export function QuizApp({ locale = "en" }: { locale?: Locale }) {
                   <p style={{ lineHeight: "1.65", fontSize: "0.92rem" }}>
                     {copy.choiceInstructions[currentQuestion.cardType]}
                   </p>
-                  <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
+                  {copy.publicDefensibilityNote && <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
                     {copy.publicDefensibilityNote}
-                  </p>
+                  </p>}
                   {session.activeMode === "analyst" && currentQuestion.allowSecondChoiceInAnalyst ? (
                     <p className="muted" style={{ lineHeight: "1.6", fontSize: "0.84rem" }}>
                       {copy.analystSecondChoiceNote}

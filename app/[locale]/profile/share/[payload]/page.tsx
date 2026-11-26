@@ -181,12 +181,12 @@ export default async function ChineseSharedProfilePage({ params }: Props) {
               {!view.foundation.ambiguous && <><p className="muted">
                 {copy.runnerUp}：{view.foundation.runnerUpLabel}
               </p>
-              <p className="muted">
+              {view.foundation.archetypeCode && <><p className="muted">
                 {copy.foundationCanonicalName}：
                 <span lang="en">{view.foundation.archetypeName}</span>
                 <span> · {view.foundation.archetypeCode}</span>
               </p>
-              <p className="muted">{copy.foundationCanonicalNote}</p></>}
+              <p className="muted">{copy.foundationCanonicalNote}</p></>}</>}
               {view.foundation.qualification && <><p>{view.foundation.qualification}</p><p>{view.foundation.familyLabel}</p></>}
               {view.foundation.ambiguous && <FoundationDimensionSummary scores={Object.fromEntries(view.foundation.dimensions.map(({ key, score }) => [key, score])) as DimensionScores} locale="zh-Hans" />}
               <div className="row gap-sm wrap" aria-label={copy.modifiersAria}>

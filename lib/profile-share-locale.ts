@@ -1,4 +1,5 @@
-import { ambiguousFoundationCopy } from "@/lib/results/foundation-result-heading"
+import { ambiguousFoundationCopy, foundationMidpointCopy } from "@/lib/results/foundation-result-heading"
+import { foundationTraditionDescription } from "@/lib/foundation-social-copy"
 import type { Locale } from "@/i18n/routing"
 import { chineseShellContent } from "@/content/locales/zh-Hans"
 import {
@@ -48,6 +49,7 @@ export function buildLocalizedProfileShareView(
   const foundationIdentity = foundation
     ? resolveFoundationIdentityFromSnapshot(foundation)
     : null
+  const midpoint = foundationMidpointCopy(foundationIdentity?.presentation, locale)
   const zh = locale === "zh-Hans"
   const unavailable = zhHansProfileRecordsUi.unavailableFoundation
   const origins = profileOriginCohorts(profile)
@@ -68,13 +70,13 @@ export function buildLocalizedProfileShareView(
       : zh
         ? unavailable.title
         : "Foundation result unavailable",
-    intro: foundationIdentity
+    intro: midpoint?.summary ?? (foundationIdentity
       ? zh
         ? ZH_SHARE.intro
-        : foundationIdentity.presentation.showArchetype ? foundationIdentity.archetype.gloss : ambiguousFoundationCopy(foundationIdentity.presentation, locale).summary
+        : foundationIdentity.presentation.showArchetype ? foundationTraditionDescription(foundationIdentity.archetype, foundationIdentity.presentation) : ambiguousFoundationCopy(foundationIdentity.presentation, locale).summary
       : zh
         ? unavailable.body
-        : "This Profile’s Foundation payload could not be resolved, so no Foundation interpretation can be shown. The saved result remains unchanged.",
+        : "This Profile’s Foundation payload could not be resolved, so no Foundation interpretation can be shown. The saved result remains unchanged."),
     foundation: foundationIdentity
       ? buildLocalizedFoundationView(foundationIdentity, zh)
       : null,
@@ -133,6 +135,7 @@ function buildLocalizedFoundationView(
     ? ZH_SHARE.familyLabels[foundationResult.runnerUpKey]
     : traditionNounLabel(foundationResult.runnerUpKey)
 
+  const midpoint = foundationMidpointCopy(foundationIdentity.presentation, zh ? "zh-Hans" : "en")
   const ambiguous = !foundationIdentity.presentation.showArchetype
   const ambiguityCopy = ambiguousFoundationCopy(foundationIdentity.presentation, zh ? "zh-Hans" : "en")
   return {
@@ -140,7 +143,7 @@ function buildLocalizedFoundationView(
     qualification: ambiguous ? ambiguityCopy.qualification : null,
     heading: zh ? ZH_SHARE.foundationHeading : "Foundation",
     archetypeName: foundationIdentityTitle(foundationIdentity, zh ? "zh-Hans" : "en"),
-    archetypeCode: ambiguous ? "" : formatArchetypeDisplayCode(foundationArchetype.code),
+    archetypeCode: ambiguous || midpoint ? "" : formatArchetypeDisplayCode(foundationArchetype.code),
     familyLabel: ambiguous ? ambiguityCopy.candidates : familyLabel,
     runnerUpLabel: ambiguous ? "" : runnerUpLabel,
     modifiers: ambiguous ? [] : [
@@ -151,9 +154,9 @@ function buildLocalizedFoundationView(
         ? ZH_SHARE.normativeLabels[foundationResult.normativeModifier]
         : foundationResult.normativeModifier,
     ],
-    summary: ambiguous ? ambiguityCopy.summary : zh
+    summary: midpoint?.summary ?? (ambiguous ? ambiguityCopy.summary : zh
       ? ZH_SHARE.foundationSummary(familyLabel, runnerUpLabel)
-      : foundationResult.explanation,
+      : foundationTraditionDescription(foundationArchetype, foundationIdentity.presentation)),
     dimensions: (Object.keys(dimensionLabels) as DimensionKey[]).map(
       (key) => ({
         key,

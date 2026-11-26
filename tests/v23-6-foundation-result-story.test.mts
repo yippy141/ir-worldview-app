@@ -21,8 +21,8 @@ test("low-differentiation core headlines both live readings and keeps the regist
     "An initial Foundation result: Realism and Institutionalism",
   )
   assert.match(heading.eyebrow, /14-item core form/u)
-  assert.match(heading.lead, /Both interpretations remain live/u)
-  assert.match(heading.lead, /targeted follow-up items/u)
+  assert.match(heading.lead, /Both traditions fit these answers closely/u)
+  assert.match(heading.lead, /Five follow-up questions/u)
 })
 
 test("clearer core, targeted, and full forms retain the runner-up and model limit", () => {
@@ -41,9 +41,9 @@ test("clearer core, targeted, and full forms retain the runner-up and model limi
 
     assert.match(heading.eyebrow, new RegExp(fixture.form, "u"))
     assert.equal(heading.title, "Constructivism leads this Foundation result")
-    assert.match(heading.lead, /clearer within the current item set/u)
-    assert.match(heading.lead, /Realism remains the nearest alternative/u)
-    assert.match(heading.lead, /does not establish a durable trait/u)
+    assert.match(heading.lead, /ranking describes your answers on this form/u)
+    assert.match(heading.lead, /Realism is the next closest match/u)
+    assert.match(heading.lead, /how consistently you would take the same view over time/u)
   }
 })
 
@@ -58,7 +58,7 @@ test("legacy heading fails closed on exact-form contribution claims", () => {
   })
 
   assert.equal(heading.title, "Registered legacy Foundation result: Realism")
-  assert.match(heading.lead, /exact completed-form tuple is unavailable/u)
+  assert.match(heading.lead, /omits the form details/u)
   assert.doesNotMatch(heading.lead, /leads this Foundation result/u)
 })
 

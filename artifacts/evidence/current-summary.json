@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1096,
-      "newCount": 709,
+      "currentCount": 1092,
+      "newCount": 706,
       "newFindings": [
         {
           "audience": "public",
@@ -25,16 +25,6 @@
           "matched": "rather than",
           "rule": "rather-than-reflex",
           "source": "The best leverage comes from negotiating with peers that face the same terms rather than one by one."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.2",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "024a76ec2a68894eea7589e90824bd96bb7564b24d2a029e36029f14a2f39fd8",
-          "matched": "the normative position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The normative position gives order and sovereignty priority over attempts to impose justice from outside."
         },
         {
           "audience": "frozen",
@@ -497,16 +487,6 @@
           "source": "Conduct highly selective CCG inspections with announced expiry dates and heavy PLA overwatch, keeping daily encounters in a law-enforcement frame. Accepted cost: Selectivity reduces economic pressure and may be circumvented."
         },
         {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead",
-          "count": 1,
-          "file": "lib/results/foundation-result-heading.ts",
-          "fingerprint": "133c54589db6204d1d7254e2edf6f3f2717c2a0e081dc2ac055478df61d8322b",
-          "matched": "durable",
-          "rule": "retired-house-words",
-          "source": "The lead is clearer within the current item set. ... remains the nearest alternative. This is a model result. It does not establish a durable trait."
-        },
-        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v5.json#items.3.options.2.label",
           "count": 1,
@@ -735,16 +715,6 @@
           "matched": "invalid archetype identity",
           "rule": "repeated-adjacent-opening",
           "source": "Invalid archetype identity catalog: ... .gloss is required."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.2",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "193c7c51f3dcbcebc269f647d54ab362b6583cc764def48797354158114900e7",
-          "matched": "the strategic position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The strategic position leans toward setting limits on pressure and avoiding overextension."
         },
         {
           "audience": "frozen",
@@ -1495,6 +1465,16 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "As capabilities rise, controlled access and staged release are usually more defensible than open diffusion."
+        },
+        {
+          "audience": "public",
+          "context": "route:/modules#metadata.description",
+          "count": 1,
+          "file": "app/modules/page.tsx",
+          "fingerprint": "32638cfa0eb0197b500d20ff3f14750777cd6664565a3003b0e35a8a69b41b37",
+          "matched": "security and technology",
+          "rule": "repeated-adjacent-opening",
+          "source": "Security and Technology questionnaire status and access to saved results."
         },
         {
           "audience": "frozen",
@@ -3518,16 +3498,6 @@
         },
         {
           "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.restraint.1",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "789cce64a8e85514ebb23072bd70370add0b25a53c151f4278d0faa091dc6031",
-          "matched": "the strategic position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The strategic position leaves the boundary between applying pressure and setting limits unresolved."
-        },
-        {
-          "audience": "public",
           "context": "content-key:lib/ai-governance-glossary.ts#aiGlossary.7.definition",
           "count": 1,
           "file": "lib/ai-governance-glossary.ts",
@@ -3975,16 +3945,6 @@
           "matched": "usually",
           "rule": "general-prevalence-language-review",
           "source": "Shi is not only a classical term. 勢 and 大势 are in live use in contemporary PRC official discourse, where 大势 usually carries the sense of the trend of history moving in a settled direction. This archetype uses the strategic sense of building your own position rather than forcing the outcome. It does not import the contemporary political claim. Readers should know the word is doing current work as well as classical work."
-        },
-        {
-          "audience": "public",
-          "context": "content-key:lib/results/foundation-interpretation.ts#explanations.orderJustice.1",
-          "count": 1,
-          "file": "lib/results/foundation-interpretation.ts",
-          "fingerprint": "877707dde10a27ea87a2b96be01ef87e7cfca94b206c05935071bdc2fefdb932",
-          "matched": "the normative position",
-          "rule": "repeated-adjacent-opening",
-          "source": "The normative position leaves the threshold for overriding established order unresolved."
         },
         {
           "audience": "public",
@@ -6297,6 +6257,16 @@
           "source": "Begin escorted deliveries under defensive rules, a fixed route, and an initial review after 72 hours. Accepted cost: Escorts may exchange fire and turn a relief mission into a wider confrontation."
         },
         {
+          "audience": "public",
+          "context": "content-key:components/quiz-app.tsx#englishFoundationQuizUi.choiceInstructions.actorLens",
+          "count": 1,
+          "file": "components/quiz-app.tsx",
+          "fingerprint": "dfce00dd67290b034ea6c15504fc050833861aedd8ab2a6cc74268b5232ae102",
+          "matched": "What matters most",
+          "rule": "what-matters-most-template",
+          "source": "What matters most to the actor named in the question?"
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/ai-governance.v3.json#items.1.prompt",
           "count": 1,
@@ -7098,7 +7068,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 171,
+      "resolvedCount": 172,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7550,6 +7520,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "a98e9021f997fb8899cf8cf6f9337285a9497cea14b4af130ee792c02d075030"
+        },
+        {
+          "count": 1,
           "fingerprint": "aaa4bd953e6a02c970765beaaf2f6988e490d689c0e1298f9caa630e0e9c1de3"
         },
         {
@@ -7785,7 +7759,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 387
+      "unchangedCount": 386
     },
     "higherPriorityFindings": [
       {
@@ -8055,14 +8029,14 @@
       {
         "action": "Describe current behavior; keep release history in engineering or decision records.",
         "audience": "operational",
-        "contentKey": "validateModuleAuthoringRecord",
-        "context": "content-key:lib/modules/authoring-validation.ts#validateModuleAuthoringRecord",
-        "copyKey": "validateModuleAuthoringRecord",
+        "contentKey": "validateRegistration",
+        "context": "content-key:lib/modules/authoring-validation.ts#validateRegistration",
+        "copyKey": "validateRegistration",
         "file": "lib/modules/authoring-validation.ts",
         "jsonPath": null,
-        "key": "validateModuleAuthoringRecord",
+        "key": "validateRegistration",
         "kind": "release",
-        "line": 751,
+        "line": 770,
         "match": "beta",
         "matched": "beta",
         "priority": "P0",
@@ -8348,7 +8322,7 @@
         "jsonPath": null,
         "key": "ModuleApp.p",
         "kind": "self-narration",
-        "line": 452,
+        "line": 455,
         "match": "What it does not claim",
         "matched": "What it does not claim",
         "priority": "P1",
@@ -10827,28 +10801,6 @@
       {
         "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
         "audience": "public",
-        "contentKey": "buildFoundationResultHeading.lead",
-        "context": "content-key:lib/results/foundation-result-heading.ts#buildFoundationResultHeading.lead",
-        "copyKey": "buildFoundationResultHeading.lead",
-        "file": "lib/results/foundation-result-heading.ts",
-        "jsonPath": null,
-        "key": "buildFoundationResultHeading.lead",
-        "kind": "self-narration",
-        "line": 99,
-        "match": "tuple",
-        "matched": "tuple",
-        "priority": "P1",
-        "reason": "The sentence describes the product's internal objects instead of the reader's question, decision, or result.",
-        "route": null,
-        "rule": "product-self-narration",
-        "severity": "P1",
-        "source": "This link preserves its issued result. Its exact completed-form tuple is unavailable, so this page does not reconstruct calibrated contribution claims from the score summary.",
-        "strict": false,
-        "suggestedAction": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure."
-      },
-      {
-        "action": "Name what the reader did or will see. Move storage and calculation notes to Method or one disclosure.",
-        "audience": "public",
         "contentKey": "assertPayloadMatchesGeneration",
         "context": "content-key:lib/results/local-evidence.ts#assertPayloadMatchesGeneration",
         "copyKey": "assertPayloadMatchesGeneration",
@@ -10897,11 +10849,11 @@
         "priority": "P0"
       },
       {
-        "count": 124,
+        "count": 123,
         "priority": "P1"
       },
       {
-        "count": 1096,
+        "count": 1092,
         "priority": "P2"
       }
     ]
@@ -84708,7 +84660,7 @@
     {
       "category": "scoring-runtime",
       "path": "lib/modules/versions.ts",
-      "sha256": "056ac23d6dfc3777298847cd601d2acf97661dee5a40c94e1e4095c033bbda34"
+      "sha256": "55e9ec8b5d06581c2a2353719911b829395a0228ae1233ddef037558e2f69b0c"
     },
     {
       "category": "scoring-runtime",
@@ -84753,7 +84705,7 @@
     {
       "category": "calibration",
       "path": "scripts/calibrate-modules.mts",
-      "sha256": "b34af8e105f72017c7a35310c3b0b45781b8a1e261f679e9c41d276a815aa640"
+      "sha256": "2a214f2cb0b54b08a547209aed1a14c2613c5aa752790260732fbe56d325fc3d"
     },
     {
       "category": "calibration",

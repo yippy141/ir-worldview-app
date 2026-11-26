@@ -39,7 +39,7 @@ export function ConnectedProfile({ profile, mode }: { profile: ProfileStore; mod
   const next = relations[0] ?? buildConnectedRelations(bundle).find(r => bundle.ai || bundle.technology ? r.topic === "access" : r.topic === "cooperation")!
   return <section className="connected-profile" aria-labelledby="connected-profile-heading">
     <h2 id="connected-profile-heading">Connections worth examining</h2>
-    {relations.length ? relations.map(relation => <RelationReading key={relation.ruleId} relation={relation} />) : <p>{Object.keys(bundle).length <= 1 ? "One subject is enough to start a discussion. Open your result above or consider the question below." : "These results do not contain enough matching context for a cross-topic observation. You can still compare their separate readings or explore the question below."}</p>}
+    {relations.length ? relations.map(relation => <RelationReading key={relation.ruleId} relation={relation} />) : <p>{Object.keys(bundle).length <= 1 ? "Try the question below, then ask a friend which condition would change their answer." : "These results cover different situations. You can read each one separately or try the question below."}</p>}
     <section className="connected-next stack-sm"><h2>One next question</h2><Reflection relation={next} /><p><Link href={next.exercise}>Try a related decision</Link> or <Link href="/compare">compare a result with someone</Link>.</p></section>
   </section>
 }

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test"
 import { openSyntheticReview } from "./fixtures/product-completion"
-import { syntheticAnswers } from "../tests/decision-exercises/fixtures"
+import { mixedEconomicAnswers, syntheticAnswers } from "../tests/decision-exercises/fixtures"
 import { foundationCoreQuestions, getFoundationQuestionsForSet, questionCountsBySet } from "../lib/quiz-schema"
 import { generateResult } from "../lib/scoring"
 import { buildFoundationSharePayload, encodePayload } from "../lib/share"
@@ -116,4 +116,41 @@ test("submission, reopening, recipient isolation and an edited answer have disti
   await page.goto("/")
   await expect(page.getByRole("link", { name: /Review your Foundation answers/ })).toBeVisible()
   await expect(page.getByRole("link", { name: "Open your saved results" })).toBeVisible()
+})
+
+test("mixed economic answers support a tradition while leaving posture open on result, return and share", async ({ page, browser, baseURL }) => {
+  const generate = await openSyntheticReview(page, "foundation")
+  await page.evaluate(({ key, answers }) => {
+    const draft = JSON.parse(localStorage.getItem(key)!)
+    localStorage.setItem(key, JSON.stringify({ ...draft, answers }))
+  }, { key: QUIZ_STORAGE_KEY, answers: mixedEconomicAnswers })
+  await page.reload()
+  await generate.click()
+  await expect(page.locator("h1")).toHaveText("Critical political economy")
+  await expect(page.locator("[data-foundation-mark]")).toHaveCount(0)
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", /Critical political economy/)
+  const evidence = page.locator('[data-local-evidence-status="available"]')
+  await expect(evidence).toBeVisible()
+  for (const [statement, answer] of [["Economic rules often give", "Strongly agree"], ["Open markets usually give", "Disagree"]]) {
+    const record = evidence.getByRole("listitem").filter({ hasText: statement })
+    await expect(record.locator("dd").first()).toHaveText(answer)
+  }
+  const path = new URL(page.url()).pathname
+  await page.goto("/profile")
+  await expect(page.locator("h1")).toHaveText("Critical political economy")
+  const recipient = await browser.newContext({ baseURL })
+  try {
+    const shared = await recipient.newPage()
+    for (const [prefix, title] of [["", "Critical political economy"], ["/zh", "批判政治经济学"]]) {
+      await shared.goto(prefix + path)
+      await expect(shared.locator("h1")).toHaveText(title)
+      await expect(shared.locator("[data-foundation-mark]")).toHaveCount(0)
+      await expect(shared.locator('meta[property="og:title"]')).toHaveAttribute("content", new RegExp(title))
+      await expect(shared.locator("[data-local-evidence-status]")).not.toHaveAttribute("data-local-evidence-status", "checking")
+      await expect(shared.locator('[data-local-evidence-status="available"]')).toHaveCount(0)
+    }
+    expect(await shared.evaluate(key => localStorage.getItem(key), PROFILE_STORAGE_KEY)).toBeNull()
+  } finally {
+    await recipient.close()
+  }
 })

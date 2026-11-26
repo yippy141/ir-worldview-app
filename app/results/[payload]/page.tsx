@@ -1,4 +1,4 @@
-import { ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { foundationMidpointCopy, ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
 import { questionCountsBySet } from "@/lib/quiz-schema"
 import { DestinationLink } from "@/components/layout/destination-link"
 import Link from "next/link"
@@ -60,7 +60,7 @@ export async function generateMetadata(
   const norm = normFromNormativeModifier(
     resolved.result.normativeModifier,
   )
-  const socialCopy = buildEnglishFoundationResultSocialCopy(archetype, norm, classifyFoundationPresentation(resolved.result, lowDifferentiationThreshold))
+  const socialCopy = buildEnglishFoundationResultSocialCopy(archetype, norm, classifyFoundationPresentation(resolved.result, lowDifferentiationThreshold, resolved.payload.v === 5))
   const cardImage = buildFoundationShareCardUrl(payload)
 
   return buildResultMetadata(
@@ -139,7 +139,7 @@ export default async function ResultPage(
 
   const { dimensionScores, result, resultTier } = resolved
   const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
-  const presentation = classifyFoundationPresentation(result, calibration.lowDifferentiationThreshold)
+  const presentation = classifyFoundationPresentation(result, calibration.lowDifferentiationThreshold, resolved.payload.v === 5)
   const lowDifferentiation =
     result.nearestFitGap < calibration.lowDifferentiationThreshold
   const currentPayload = resolved.payload.v === 5
@@ -204,7 +204,7 @@ export default async function ResultPage(
     archetype.code,
     normativeSuffix,
   )
-  const archetypeShareLabel = presentation.showArchetype ? `${archetype.name} · ${archetypeCode}` : ambiguousFoundationCopy(presentation).title
+  const archetypeShareLabel = foundationMidpointCopy(presentation)?.title ?? (presentation.showArchetype ? `${archetype.name} · ${archetypeCode}` : ambiguousFoundationCopy(presentation).title)
   const targetedExtensionHref =
     `/quiz?extension=targeted&first=${result.familyKey}&second=${result.runnerUpKey}`
   const nextAction = resultTier === "core"
@@ -217,7 +217,7 @@ export default async function ResultPage(
           : `Answer ${questionCountsBySet.baselineExtended} general extension questions`,
         reason: currentPayload && presentation.showArchetype && lowDifferentiation
           ? `${primaryLabel} and ${runnerUpLabel} remain close. Five follow-up items target the distinctions between them.`
-          : "The general extension examines all four traditions without selecting an arbitrary tied pair.",
+          : "The extra questions cover all four traditions and include decisions about how governments use power.",
       }
     : !presentation.showArchetype ? { href: "/method", label: "Understand these dimensions", reason: "The dimensions remain interpretable even when the family scores do not establish a leader." } : {
         href: withFoundationPayload(payoff.nextStep.href, payload),

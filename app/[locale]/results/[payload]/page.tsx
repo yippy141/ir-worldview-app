@@ -1,4 +1,4 @@
-import { ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
+import { foundationMidpointCopy, ambiguousFoundationCopy, classifyFoundationPresentation } from "@/lib/results/foundation-result-heading"
 import { questionCountsBySet } from "@/lib/quiz-schema"
 import { DestinationLink } from "@/components/layout/destination-link"
 import type { Metadata } from "next"
@@ -39,16 +39,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const resolved = resolveFoundationPayload(payload)
   const chinesePath = publicPath("zh-Hans", `/results/${payload}`)
   const englishPath = publicPath("en", `/results/${payload}`)
-  const narrative = resolved
-    ? buildZhHansFoundationNarrative({
-        familyKey: resolved.result.familyKey,
-        runnerUpKey: resolved.result.runnerUpKey,
-        strategyModifier: resolved.result.strategyModifier,
-        normativeModifier: resolved.result.normativeModifier,
-        dimensionScores: resolved.dimensionScores,
-        scoringCalibration: resolved.scoringCalibration,
-      })
-    : null
   const archetype = resolved
     ? resolveArchetype(
         resolved.result,
@@ -56,8 +46,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           .lowDifferentiationThreshold,
       )
     : null
-  const socialCopy = narrative && archetype
-    ? buildZhHansFoundationResultSocialCopy(archetype, narrative.summary, resolved ? classifyFoundationPresentation(resolved.result, getV2ScoringCalibration(resolved.scoringCalibration).lowDifferentiationThreshold) : undefined)
+  const socialCopy = resolved && archetype
+    ? buildZhHansFoundationResultSocialCopy(archetype, classifyFoundationPresentation(resolved.result, getV2ScoringCalibration(resolved.scoringCalibration).lowDifferentiationThreshold, resolved.payload.v === 5))
     : null
   const title = socialCopy?.title ?? "共享结果无法读取｜国际关系世界观清单"
   const description = socialCopy?.description ?? "此基础结果链接无法解码。"
@@ -110,7 +100,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
 
   const { dimensionScores, result, provenance, resultTier } = resolved
   const calibration = getV2ScoringCalibration(resolved.scoringCalibration)
-  const presentation = classifyFoundationPresentation(result, calibration.lowDifferentiationThreshold)
+  const presentation = classifyFoundationPresentation(result, calibration.lowDifferentiationThreshold, resolved.payload.v === 5)
   const lowDifferentiation =
     result.nearestFitGap < calibration.lowDifferentiationThreshold
   const currentPayload = resolved.payload.v === 5
@@ -248,7 +238,7 @@ export default async function ChineseFoundationResultPage({ params }: Props) {
               familyLabel={narrative.familyLabel}
               strategyModifier={narrative.strategyLabel}
               normativeModifier={narrative.normativeLabel}
-              displayLabel={presentation.showArchetype ? `${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}` : ambiguousFoundationCopy(presentation, "zh-Hans").title}
+              displayLabel={foundationMidpointCopy(presentation, "zh-Hans")?.title ?? (presentation.showArchetype ? `${archetype.name} · ${formatArchetypeDisplayCode(archetype.code)} · ${narrative.strategyLabel} · ${narrative.normativeLabel}` : ambiguousFoundationCopy(presentation, "zh-Hans").title)}
               locale="zh-Hans"
             />
             <p className="muted">

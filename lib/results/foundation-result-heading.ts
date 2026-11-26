@@ -1,7 +1,7 @@
 import { getV2ScoringCalibration } from "@/lib/scoring"
 import type { resolveFoundationPayload } from "@/lib/share"
 import type { CanonicalFoundationResult } from "@/lib/scoring"
-import { MODELED_FAMILY_KEYS, traditionNounLabel } from "@/lib/worldview-config"
+import { MODELED_FAMILY_KEYS, ZH_TRADITION_NOUN_LABELS, traditionNounLabel } from "@/lib/worldview-config"
 import { questionCountsBySet } from "@/lib/quiz-schema"
 import type { Locale } from "@/i18n/routing"
 import type { DimensionScores, FamilyKey, FoundationQuestionSet, FoundationTier } from "@/lib/types"
@@ -10,6 +10,7 @@ export type FoundationPresentationKind = "flat" | "multiway-tie" | "two-way-tie"
 export type FoundationPresentation = {
   kind: FoundationPresentationKind
   tiedFamilies: FamilyKey[]
+  midpointFamilies: FamilyKey[]
   showArchetype: boolean
   dimensionScores: DimensionScores
 }
@@ -19,6 +20,7 @@ export type FoundationPresentation = {
 export function classifyFoundationPresentation(
   result: Pick<CanonicalFoundationResult, "dimensionScores" | "familyScores" | "nearestFitGap">,
   lowDifferentiationThreshold: number,
+  currentForm = true,
 ): FoundationPresentation {
   const scores = MODELED_FAMILY_KEYS.map(key => [key, Math.round(result.familyScores[key] * 100)] as const)
   const top = Math.max(...scores.map(([, score]) => score))
@@ -29,7 +31,26 @@ export function classifyFoundationPresentation(
     : tiedFamilies.length > 2 ? "multiway-tie"
     : tiedFamilies.length === 2 ? "two-way-tie"
     : result.nearestFitGap < lowDifferentiationThreshold ? "close" : "clear"
-  return { kind, tiedFamilies, showArchetype: kind !== "flat" && kind !== "multiway-tie", dimensionScores: result.dimensionScores }
+  // Flat and multiway ties have their own dimension-first presentation.
+  const showArchetype = kind !== "flat" && kind !== "multiway-tie"
+  const midpointFamilies = currentForm && showArchetype && result.dimensionScores.restraint === 4
+    ? [...scores].sort((left, right) => right[1] - left[1])
+      .slice(0, kind === "clear" ? 1 : 2).map(([key]) => key)
+    : []
+  return { kind, tiedFamilies, midpointFamilies, showArchetype, dimensionScores: result.dimensionScores }
+}
+
+/** An exact posture midpoint supports a family comparison, but neither signed archetype. */
+export function foundationMidpointCopy(presentation?: FoundationPresentation, locale: Locale = "en") {
+  if (!presentation?.midpointFamilies?.length) return null
+  const zh = locale === "zh-Hans"
+  const title = presentation.midpointFamilies.map(key => zh
+    ? ZH_TRADITION_NOUN_LABELS[key] : traditionNounLabel(key)).join(zh ? "与" : " and ")
+  return {
+    title,
+    summary: zh ? "克制维度为 4 分，正好处于 1 至 7 分量尺的中点。这个分数无法说明你倾向于扩大还是限制承诺。"
+      : "Restraint falls at 4 on the 1 to 7 scale. That leaves open when you would take on a commitment or set a limit.",
+  }
 }
 
 const lensSubtitles: Record<Locale, Record<FamilyKey, string>> = {
@@ -96,22 +117,22 @@ export function buildFoundationResultHeading(input: FoundationResultHeadingInput
   if (legacy) return {
     eyebrow: "Issued Foundation result from an earlier payload",
     title: `Registered legacy Foundation result: ${primaryLabel}`,
-    lead: "This link preserves its issued result. Its exact completed-form tuple is unavailable, so this page does not reconstruct calibrated contribution claims from the score summary.",
+    lead: "This older link preserves the original result. It omits the form details needed to show how much each dimension contributed.",
   }
   if (lowDifferentiation && resultTier === "core") return {
     eyebrow: `Initial Foundation result from the ${formLabel}`,
     title: `An initial Foundation result: ${primaryLabel} and ${runnerUpLabel}`,
-    lead: "Both interpretations remain live in the current item set. The registered name summarizes the model output while targeted follow-up items test the boundary between them.",
+    lead: "Both traditions fit these answers closely. Five follow-up questions ask about the points where their explanations differ.",
   }
   if (lowDifferentiation) return {
     eyebrow: `Foundation result from the ${formLabel}`,
     title: `${primaryLabel} and ${runnerUpLabel} remain close`,
-    lead: "The current item set does not give either interpretation a clear modeled lead. The registered name summarizes this nearby pair.",
+    lead: "Even with the extra questions, these two traditions score close together.",
   }
   return {
     eyebrow: `Foundation result from the ${formLabel}`,
     title: `${primaryLabel} leads this Foundation result`,
-    lead: `The lead is clearer within the current item set. ${runnerUpLabel} remains the nearest alternative. This is a model result. It does not establish a durable trait.`,
+    lead: `${runnerUpLabel} is the next closest match. This ranking describes your answers on this form. It cannot tell us how consistently you would take the same view over time.`,
   }
 }
 function foundationFormLabel(questionSet: FoundationQuestionSet | null, resultTier: FoundationTier) {

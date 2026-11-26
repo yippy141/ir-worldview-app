@@ -52,7 +52,7 @@ export function ProfileShareActions({
       : sharePath
 
   async function handleCopy() {
-    const copied = (await copyText(shareUrl)) || (await copyText(headline))
+    const copied = await copyText(shareUrl)
     if (!copied) {
       setCopyState("error")
       return
@@ -80,6 +80,9 @@ export function ProfileShareActions({
 
   return (
     <div className="row gap-sm wrap print-hidden">
+      <p className="result-scope">{locale === "en"
+        ? "Anyone with this link can read the results in your shared Profile. Included Security and Technology links can reveal answer choices."
+        : "持有此链接的人都能查看你分享的画像。画像所含的安全或技术结果链接可能显示你的选项。"}</p>
       <button type="button" className="primary-button" onClick={handleShare}>
         {copyState === "copied" ? copy.copied : copy.share}
       </button>

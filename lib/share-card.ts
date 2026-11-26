@@ -37,6 +37,7 @@ export function parseFoundationShareCardRequest(
 export function buildFoundationShareCardInput(
   result: CanonicalFoundationResult,
   lowDifferentiationThreshold = LOW_DIFFERENTIATION_THRESHOLD,
+  currentForm = true,
 ): ShareCardInput {
   const archetype = resolveArchetype(result, lowDifferentiationThreshold)
   const coordinates = toDisplayPosition(
@@ -45,7 +46,7 @@ export function buildFoundationShareCardInput(
   )
 
   return {
-    presentation: classifyFoundationPresentation(result, lowDifferentiationThreshold),
+    presentation: classifyFoundationPresentation(result, lowDifferentiationThreshold, currentForm),
     archetype,
     norm: normFromNormativeModifier(result.normativeModifier),
     coordinates,

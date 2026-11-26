@@ -75,7 +75,7 @@ export function ProfileReport({ profile, mode, actionSlot, foundationRecord }: P
           accent={foundationIdentity.presentation.showArchetype ? FAMILY_ACCENT[foundationIdentity.result.familyKey] : "profile"}
           modifiers={foundationIdentity.presentation.showArchetype ? buildProfileModifiers(
             foundationIdentity.result,
-            foundationArchetype.code,
+            foundationIdentity.presentation.midpointFamilies.length ? null : foundationArchetype.code,
           ) : []}
           summary={foundationIdentity.presentation.showArchetype ? buildFoundationInterpretation(foundationIdentity.result.dimensionScores).summary : ambiguousFoundationCopy(foundationIdentity.presentation).summary}
           actions={
@@ -332,19 +332,19 @@ function ResultHistoryDrawer({ profile }: { profile: ProfileStore }) {
 
 function buildProfileModifiers(
   foundation: CanonicalFoundationResult,
-  archetypeCode: ArchetypeDisplayCode,
+  archetypeCode: ArchetypeDisplayCode | null,
 ): ResultCardModifier[] {
   const normativeSuffix = normFromNormativeModifier(
     foundation.normativeModifier,
   )
   return [
-    {
+    ...(archetypeCode ? [{
       label: formatArchetypeReadingCode(archetypeCode, normativeSuffix),
       accessibleLabel: formatArchetypeReadingCodeForSpeech(
         archetypeCode,
         normativeSuffix,
       ),
-    },
+    }] : []),
     `Closest tradition: ${traditionNounLabel(foundation.familyKey)}`,
     `Nearest alternative: ${traditionNounLabel(foundation.runnerUpKey)}`,
   ]

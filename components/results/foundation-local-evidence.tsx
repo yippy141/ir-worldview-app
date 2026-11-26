@@ -149,14 +149,14 @@ const enCopy = {
   title: "Your answers",
   checking: "Checking for your answers…",
   intro:
-    "These examples show how a different answer would have changed the comparison. All other submitted answers stay fixed; the leading name may stay the same.",
+    "For each statement, compare your answer with an alternative. Only that answer changes in the calculation. The same tradition may still lead.",
   yourChoice: "Your choice",
   alternative: {
     "actual-second-choice": "Your recorded second choice",
-    "model-selected-nearest-alternative": "An authored alternative, not a recorded second choice",
+    "model-selected-nearest-alternative": "Alternative used for comparison",
   },
   note:
-    "The full answer set was not stored. These records stay on this device and are deleted with the associated local history.",
+    "These examples stay in this browser. Clearing local history removes them. A shared Foundation link contains the scores and leaves out these answers.",
   unavailableTitle: "Exact local evidence is unavailable",
   unavailable: {
     legacy: "This result predates the current exact-form evidence contract, so item-level evidence cannot be reconstructed.",

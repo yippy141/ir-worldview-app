@@ -5,8 +5,8 @@
   "hero": {
     "title": "Library",
     "payoff": [
-      "What the Foundation scores against, and what to set your result beside.",
-      "Start with a name you were given, a thinker you have heard of, or a decision you would have made differently."
+      "Why might two countries honour a treaty even if they distrust each other? Realists ask who can enforce it. Institutionalists also ask who can detect cheating.",
+      "Read the four traditions side by side, or follow a thinker’s argument back to its source."
     ],
     "boundary": "Nothing in the Library changes your result."
   },
@@ -29,7 +29,7 @@
     {
       "id": "modeled-traditions",
       "heading": "Traditions",
-      "intro": "The traditions the Foundation scores against. Each is broader than fourteen questions can capture."
+      "intro": "Foundation compares your answers with four traditions. Each includes disagreements that fourteen questions can only begin to cover."
     },
     {
       "id": "foundation-dimensions",
@@ -44,7 +44,7 @@
     {
       "id": "reference-positions",
       "heading": "Thinkers",
-      "intro": "Four thinkers, each read from cited work within a dated window. No thinker is assigned a Foundation reading."
+      "intro": "Read Mearsheimer on power, Keohane on cooperation, Wendt on identity and Strange on markets. Each entry cites the work behind it."
     },
     {
       "id": "focus-context",

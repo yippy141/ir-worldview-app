@@ -70,7 +70,7 @@ export function ProfileCompare() {
         {people.map((person, index) => <fieldset className="compare-person stack-sm" key={index}>
           <legend>{index === 0 ? "First person" : "Second person"}</legend>
           <label className="stack-xs"><span>Display name (optional)</span><input maxLength={60} value={person.name} onChange={e => update(index, { name: e.target.value })} autoComplete="off" /></label>
-          <label className="stack-xs"><span>{index === 0 ? "Your result or shared Profile link" : "Their voluntarily shared result or Profile link"}</span><textarea ref={index === 0 ? firstInput : undefined} className="compare-textarea" maxLength={MAX_COMPARISON_INPUT} value={person.raw} onChange={e => replaceResult(index, e.target.value)} autoComplete="off" spellCheck={false} required={!person.selected} /></label>
+          <label className="stack-xs"><span>{index === 0 ? "Your result or shared Profile link" : "Result or Profile link they chose to share"}</span><textarea ref={index === 0 ? firstInput : undefined} className="compare-textarea" maxLength={MAX_COMPARISON_INPUT} value={person.raw} onChange={e => replaceResult(index, e.target.value)} autoComplete="off" spellCheck={false} required={!person.selected} /></label>
           {index === 0 && <><button type="button" className="cta-secondary" onClick={() => { const request = ++savedRequest.current; void loadLocalProfileEvidence(loadProfileStore()).then(bundle => { if (request === savedRequest.current) setSaved(bundle) }) }}>Use my saved result</button>
             {saved && <label className="stack-xs"><span>Choose one result to include</span><select value={Object.keys(person.selected ?? {})[0] ?? ""} onChange={e => {
               const domain = e.target.value as Domain
@@ -83,7 +83,7 @@ export function ProfileCompare() {
           </details>
         </fieldset>)}
       </div>
-      <p className="result-scope">Names are local labels. Newly pasted links are read in this page without fetching them, saving them or sending them to the server. Leaving or resetting clears this comparison.</p>
+      <p className="result-scope">Names and pasted links stay on this page. Pasting a link does not open it or send it to the server. Leave or reset to clear the comparison.</p>
       {legacy && <p role="note">This historical comparison URL already sent its contents to the server when opened. Removing them from the address bar cannot undo that request.</p>}
       <div className="row gap-sm wrap"><button type="submit" className="primary-button" disabled={!ready}>Compare results</button><button className="cta-secondary" type="button" onClick={() => { setPeople([people[1], people[0]]); if (pair) { setPair([pair[1], pair[0]]); setNames([names[1], names[0]]) } }}>Swap people</button><button className="cta-secondary" type="button" onClick={reset}>Reset comparison</button></div>
       {error && <p role="alert">{error}</p>}
@@ -96,7 +96,7 @@ export function ProfileCompare() {
         {c.largest.length > 1 && <p>These gaps are equal; their display order does not rank their importance.</p>}
         {(c.sharedChoices.length > 0 || c.differentChoices.length > 0) && <p>{c.sharedChoices.length} supplied choices match; {c.differentChoices.length} differ. Reasons are compared only when explicitly supplied.</p>}
         <h4>A possible discussion</h4><p>{c.prompt}</p>
-        <details><summary>Inspect the contributing evidence</summary>
+        <details><summary>See the answers and sources behind this comparison</summary>
           <p>{c.comparability.reason} {c.left?.provenance.exposureSource === "declared" || c.right?.provenance.exposureSource === "declared" ? "Some completion details were supplied by the people comparing." : ""}</p>
           <div className="comparison-independent">{[c.left, c.right].map((r, i) => <article key={i}><h4>{names[i]}</h4>{r && <><EvidenceList evidence={r.observations.filter((o: Observation) => o.kind !== "derived-score")} />{r.missingness && <p>{r.missingness}</p>}<p className="result-scope">Bank {r.provenance.bank ?? "unknown"}, scorer {r.provenance.scorer ?? "unknown"}, form {r.provenance.form ?? "unknown"}, language {r.provenance.language ?? "unknown"}, wording {r.provenance.copy ?? "unknown"}</p></>}</article>)}</div>
         </details>

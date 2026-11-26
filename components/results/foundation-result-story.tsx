@@ -20,7 +20,7 @@ import {
 import { buildFoundationContributionCopy } from "@/lib/results/foundation-contribution-copy"
 import type { FoundationContributionRow } from "@/lib/results/foundation-contributions"
 import type { FoundationPayoff } from "@/lib/results/foundation-payoff"
-import { ambiguousFoundationCopy, foundationLensSubtitle, type FoundationPresentation, buildFoundationResultHeading } from "@/lib/results/foundation-result-heading"
+import { foundationMidpointCopy, ambiguousFoundationCopy, foundationLensSubtitle, type FoundationPresentation, buildFoundationResultHeading } from "@/lib/results/foundation-result-heading"
 import { dimensionLabels } from "@/lib/quiz-schema"
 import type {
   FamilyKey,
@@ -69,6 +69,7 @@ export type FoundationResultStoryProps = {
 export function FoundationResultStory(props: FoundationResultStoryProps) {
   const heading = buildFoundationResultHeading(props)
   const midpointPosture = !props.legacy && props.presentation.dimensionScores.restraint === 4
+  const midpoint = foundationMidpointCopy(props.presentation)
   const ambiguous = !props.presentation.showArchetype
   const ambiguityCopy = ambiguousFoundationCopy(props.presentation)
   const primaryCode = matrixCode(
@@ -109,7 +110,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     {
       id: "contribution",
       number: "02",
-      title: "What did the work",
+      title: "Which scores explain the difference?",
       copy: (() => {
         // Personalized sentences depend on contributionRows (signedContribution
         // per dimension, primary minus runner-up), on legacy, and on
@@ -167,8 +168,8 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
                 threshold). Matrix cells are a display grid, not a distance. */}
             {midpointPosture ? "The restraint score is at the midpoint. Neither posture row is highlighted. " : `The matrix highlights ${props.primaryLabel} and ${props.runnerUpLabel} under your posture, beside the interpretations that share it. `}
             {props.lowDifferentiation
-              ? `In your result the two finished close, so the rival argument is worth examining before the name settles.`
-              : `Compare the two below to see which interpretations a different posture would have produced.`}
+              ? `The two traditions scored close together.`
+              : `Read across each row to see how the same posture fits different traditions.`}
           </p>
         </>
       ),
@@ -181,7 +182,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       id: "case",
       number: "06",
       title: props.pressureCase ? "Test the interpretation against a reviewed case" : "Try a decision",
-      copy: <p>{props.pressureCase ? "One reviewed case where two of these considerations collide. Work out which you would put first." : "Work through a concrete choice and consider which condition would change your response."}</p>,
+      copy: <p>{props.pressureCase ? "Read the historical case and decide which explanation fits the evidence." : "Work through a concrete choice and consider which condition would change your response."}</p>,
       visualLabel: "Reviewed historical case",
       renderVisual: () => props.pressureCase ? (
         <CasePanel pressureCase={props.pressureCase} />
@@ -199,7 +200,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
     : chapters
   const workedCase: StoryChapterDefinition = {
     id: "worked-case", number: "worked", title: "An unscored reflection example",
-    copy: <p>This example does not ask for a submitted answer and does not change the saved result.</p>,
+    copy: <p>Consider what evidence you would need before accepting the deal.</p>,
     visualLabel: "Apply the interpretation to a concrete dispute",
     renderVisual: () => <><WorkedApplication example={props.payoff.interpretation.example} /><p>{props.payoff.interpretation.followUp.question}</p></>,
   }
@@ -212,11 +213,11 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       data-foundation-presentation={props.presentation.kind}
     >
       <ResultReveal domain="foundation" payload={props.payload}><header className={styles.frontispiece} aria-labelledby="foundation-result-heading">
-        {!ambiguous && (markPrimaryCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={markPrimaryCode} />
+        {!ambiguous && !midpoint && (markPrimaryCode ? <FoundationHeroMark payload={props.payload} code={props.archetype.code as BlendArchetype["code"]} primaryCode={markPrimaryCode} />
           : <FoundationHeroMark payload={props.payload} code={props.archetype.code as PureArchetypeCode} />)}
-        <h1 id="foundation-result-heading">{ambiguous ? ambiguityCopy.title : props.archetype.name}</h1>
-        {!ambiguous && <p className={styles.qualification}>{foundationLensSubtitle(props.lowDifferentiation ? [props.primaryFamily, props.runnerUpFamily] : [props.primaryFamily])}</p>}
-        {!ambiguous && <p className={styles.qualification}>{heading.title}</p>}
+        <h1 id="foundation-result-heading">{ambiguous ? ambiguityCopy.title : midpoint?.title ?? props.archetype.name}</h1>
+        {!ambiguous && !midpoint && <p className={styles.qualification}>{foundationLensSubtitle(props.lowDifferentiation ? [props.primaryFamily, props.runnerUpFamily] : [props.primaryFamily])}</p>}
+        {!ambiguous && !midpoint && <p className={styles.qualification}>{heading.title}</p>}
         {(ambiguous ? ambiguityCopy.summary : props.payoff.interpretation.summary).split("\n\n").map(paragraph => <p key={paragraph} className={styles.frontispieceLead}>{paragraph}</p>)}
         <a href={ambiguous ? "#dimensions" : "#nearest"} className="cta-primary print-hidden">Explore this result</a>
         {!props.legacy && props.resultTier === "core" ? <p><Link href={props.nextAction.href}>{props.nextAction.label}</Link></p> : null}
@@ -224,8 +225,8 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       <section className={styles.openingPayoff} aria-label="Immediate result payoff">
         <p className="result-scope">{ambiguous ? null : heading.lead}</p>
         {ambiguous ? <p>{ambiguityCopy.candidates}</p> : <>
-          <p>The explanatory position concerns what drives world politics; the strategic position concerns how hard to press an advantage; the normative position concerns when justice can override established order.</p>
-          <details><summary>Result code and form</summary><p aria-label={props.archetypeCodeSpeech}>{props.archetypeCode}</p><p>{props.archetypeCodeKey}</p><p>{heading.eyebrow}</p></details>
+          <p>The first five scales compare explanations of world politics. The last two ask when to use an advantage and when justice can outweigh sovereignty.</p>
+          <details><summary>Result code and form</summary>{midpoint && <p>Issued name: {props.archetype.name}. Its code assigns a direction even at the midpoint.</p>}<p aria-label={props.archetypeCodeSpeech}>{props.archetypeCode}</p><p>{props.archetypeCodeKey}</p><p>{heading.eyebrow}</p></details>
         </>}
 
       </section>
@@ -249,7 +250,7 @@ export function FoundationResultStory(props: FoundationResultStoryProps) {
       <footer className={styles.footer}>
         <div>
           <p className={styles.sectionLabel}>Continue from this result</p>
-          <h2>{ambiguous ? "Review your positions or explore another question" : "Read the rival argument, or take a question to a harder case"}</h2>
+          <h2>{ambiguous ? "Review your positions or explore another question" : "Would you make the same call in a case?"}</h2>
         </div>
         <div className={`${styles.actions} print-hidden`}>
           <Link href={props.nextAction.href} className="cta-primary">

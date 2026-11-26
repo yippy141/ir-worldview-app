@@ -681,7 +681,7 @@ function evidenceExplanation(locale: Locale, dimension: DimensionKey): string {
     : dimensionLabels[dimension]
   return locale === "zh-Hans"
     ? `在其余已提交答案不变的情况下，这个替代选项对两个当前读法差异的最大影响出现在“${label}”维度。`
-    : `With every other submitted answer held fixed, this substitution changes the difference between the two current readings most through ${label}.`
+    : `Changing this answer affects the gap most on the ${label} scale.`
 }
 
 function localizedQuestionMap(locale: Locale, copyVersion: FoundationCopyVersion): Map<string, Question> {

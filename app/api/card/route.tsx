@@ -36,6 +36,7 @@ export async function GET(request: Request) {
   const input = buildFoundationShareCardInput(
     resolved.result,
     lowDifferentiationThreshold,
+    resolved.payload.v === 5,
   )
 
   const { archetype, norm, coordinates } = input

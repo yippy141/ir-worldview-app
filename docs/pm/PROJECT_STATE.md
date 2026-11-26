@@ -1,23 +1,20 @@
 # Current project state
 
-PR #66 is the active repair. The starting revision was [e15a749](https://github.com/yippy141/ir-worldview-app/commit/e15a74963ffa25f157db1dea941d0a99ed113d8f). Release status and the tested head belong in the handoff receipt. [Pull request and preview](https://github.com/yippy141/ir-worldview-app/pull/66) · [Verification](https://github.com/yippy141/ir-worldview-app/pull/66/checks)
+## PR 66, November 26
 
-Checkpoint A covers dependency patches, lint and build, questionnaire counts, completed and edited drafts, and recipient isolation. Checkpoint B covers supported result language, local answer evidence, the Brazil attribution and focused entrances. A B-dependent failure stays open through B. Keep the bank, calibration, score and payload contracts stable.
+The release candidate builds on the [previously tested PR head](https://github.com/yippy141/ir-worldview-app/commit/6f28274b1086f36fb79bb0324a8b5bbe020611de). Packages A and B are complete. This pass edits the English reader journey, keeps answer evidence bound to the completed form, and repairs a conflict between the family match and the restraint score in the result, Profile and sharing. Foundation and AI Governance remain open. [Current PR](https://github.com/yippy141/ir-worldview-app/pull/66) · [Checks on the candidate](https://github.com/yippy141/ir-worldview-app/pull/66/checks)
 
-## Tested implementation
+Both issue questionnaires reached their owner-review deadline on November 21. The candidate applies their existing withdrawal decisions. New Security and Technology completions are closed. Historical results, drafts and registered scorers remain available. Reopening requires a separate dated decision for each tuple and its allowed modes. [Withdrawal and evidence](MODULE_BETA_WITHDRAWAL.md)
 
-The runtime and lockfile were tested at [41d64ca](https://github.com/yippy141/ir-worldview-app/commit/41d64caac5d7c8b559dfde041763d3b87827ce43). The two-language walkthrough exercised five interpretation states, linked modules, the Compare form, the case correction, the translation-status exit and the browser opt-out. The route crawl recorded 162 published paths returning 200. Both prototype controls and the guessed comparison path returned 404. The result suite passed 25 checks with the duplicate WebKit crawl skipped. All 29 decision-exercise checks passed. [Tested runtime preview](https://ir-worldview-ubfatce82-yippy141s-projects.vercel.app) · [CI on this revision](https://github.com/yippy141/ir-worldview-app/actions/runs/44942070578)
+## Read the experience
 
-## Five-minute founder walkthrough
+- Start on the home page. Choose Foundation, answer one question, leave and return. Review the answers before generating a result. The [editorial passages](../review/after-passages-nov26.md) follow this journey through sharing and the historical Brazil case.
+- For the mixed example use 5, 6, 7, 6, 6, 3, 5, 3, 7, 2, 6, 6, 2, 5 in displayed order. The markets score is 6.5 and the restraint score is 4. The economic tradition leads and the posture remains unresolved. Compare the local evidence with a fresh recipient window. Inspect the share card.
+- Open the Security or Technology entrance and an earlier result link. The first explains the pause. The second decodes using its issued version. Check data use and opt-out in Privacy.
+- Open the Brazil brief. Read the trade minister’s estimate in the context of the July 17 evidence cutoff, then open its source. Library introductions explain how the authors’ arguments relate to the scores.
 
-1. Open the preview in a fresh browser. Start Foundation from the first screen. Compare the advertised count with the review screen. Open broader exploration and the Brazil tariff case.
-2. Answer the core with all midpoints. Review and generate. Inspect the heading, Compare, the personal map and a linked module. Look for any named winner.
-3. Return home, open the saved result, then edit a response. Check the distinction between the saved result and answers awaiting review.
-4. Open the same result in another browser profile. Check for personal evidence and unexpected local saves. On the original browser inspect a differentiated result and trace its description to the recorded choices.
-5. Open the dated Brazil brief and source ledger. Switch languages on a translated page and follow the English exit on an inbound translation-status page. Inspect privacy, opt-out and result-link disclosures.
+## Founder decisions
 
-The September queue is historical planning. Private participant evidence stays outside this repository.
+Review the [14 wording candidates](FOUNDATION_CORE_CANDIDATES.md) before any administration. Three proposals change what respondents are judging. Keep the ceasefire alternatives unscored pending a separate decision. The standalone Ismograph design study and device screenshots are in the founder receipt outside the repository. Public branding remains IR Worldview Inventory. Production release is a separate owner action.
 
-## Release dependency
-
-Both existing Security and Technology public-beta decisions were due for review on 21 November 2026. Live validation on 22 November reports date.overdue for both. Renewing these approvals requires a substantive module decision. The repair does not advance their dates or change the validator’s clock. [Security decision](../v23/security/V23_3_SECURITY_V5_BETA_RELEASE_DECISION.md) · [Technology decision](../v23/V23_4_TECHNOLOGY_V3_BETA_RELEASE_DECISION.md)
+The exact tested candidate SHA, preview and final gate outcomes belong in the handoff receipt. Participant materials stay outside this repository. [Verification and release procedure](KICKOFF.md)

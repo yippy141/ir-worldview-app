@@ -176,7 +176,7 @@ test("Profile metadata and sharing use the Foundation archetype rather than an i
   }
 })
 
-test("current Foundation results lead with the actual registered name and retain the live reading qualification", () => {
+test("Foundation titles use the issued name only for a differentiated result with a resolved posture", () => {
   const routeSource = readFileSync(
     path.join(repositoryRoot, "app/results/[payload]/page.tsx"),
     "utf8",
@@ -187,7 +187,7 @@ test("current Foundation results lead with the actual registered name and retain
   )
 
   assert.match(routeSource, /archetype=\{archetype\}/)
-  assert.match(storySource, /<h1 id="foundation-result-heading">\{ambiguous \? ambiguityCopy\.title : props\.archetype\.name\}<\/h1>/)
+  assert.match(storySource, /<h1 id="foundation-result-heading">\{ambiguous \? ambiguityCopy\.title : midpoint\?\.title \?\? props\.archetype\.name\}<\/h1>/)
   assert.match(storySource, /className=\{styles\.qualification\}>\{heading\.title\}/)
   assert.doesNotMatch(
     `${routeSource}\n${storySource}`,
