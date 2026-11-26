@@ -19,7 +19,11 @@ import {
   type FoundationSnapshot,
 } from "../lib/profile-store"
 
+import { resultFixtures } from "../tests/decision-exercises/fixtures"
+
 const fixtures = buildFoundationFixtureSet()
+// The frozen V23.6 blend has an unresolved posture. Use a signed blend for mark geometry.
+const signedBlend = resultFixtures().foundation["R/M-"]
 const rootDestinations = [
   { id: "foundation", pathname: "/quiz" }, { id: "futures", pathname: "/futures" },
   { id: "library", pathname: "/explore" }, { id: "perspectives", pathname: "/perspectives" },
@@ -140,7 +144,7 @@ test("current core result headlines both readings while a clearer result stays p
 })
 
 test("a near-boundary result renders the registered blend presentation", async ({ page }) => {
-  await page.goto(`/results/${fixtures.blendCore}`)
+  await page.goto(`/results/${signedBlend.payload}`)
 
   const blend = page.locator('[data-foundation-mark="blend"]:visible')
   await expect(blend).toHaveCount(1)
@@ -405,11 +409,11 @@ for (const width of [320, 390, 768, 1440] as const) {
 for (const resultCase of [
   {
     name: "English",
-    path: `/results/${fixtures.blendCore}`,
+    path: `/results/${signedBlend.payload}`,
   },
   {
     name: "Simplified Chinese",
-    path: `/zh/results/${fixtures.blendCore}`,
+    path: `/zh/results/${signedBlend.payload}`,
   },
 ] as const) {
   test(`${resultCase.name} low-differentiation diptych fits 768px`, async ({ page }) => {

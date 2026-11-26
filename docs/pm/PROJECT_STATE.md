@@ -6,6 +6,12 @@ The release candidate builds on the [previously tested PR head](https://github.c
 
 Both issue questionnaires reached their owner-review deadline on November 21. The candidate applies their existing withdrawal decisions. New Security and Technology completions are closed. Historical results, drafts and registered scorers remain available. Reopening requires a separate dated decision for each tuple and its allowed modes. [Withdrawal and evidence](MODULE_BETA_WITHDRAWAL.md)
 
+## Production provenance and search indexing
+
+On November 26 the public domain served the same eleven homepage script URLs as the recorded October 29 Production deployment of [da875d3](https://github.com/yippy141/ir-worldview-app/commit/da875d34ec7d0791e1cbfb2737e047a30c3a5053). That lockfile contains Next.js 16.2.11. The production-only npm audit reported one critical, four high and one moderate package entry. The application uses ImageResponse, one of the APIs named in the [Next.js advisory](https://github.com/advisories/GHSA-vcvr-r3jv-pc5j). The release candidate uses 16.4.6 and its production-only audit reported zero. Its full tree still has twelve high-severity development-tool entries. These are registry and source findings. Deployment and remediation on the public domain need an owner release decision.
+
+English and Chinese Foundation result probes on the public domain returned no explicit noindex instruction. The preview host’s deployment-level header alone cannot establish production behavior. The candidate sends X-Robots-Tag on personalized result, shared Profile and case-challenge routes, including Chinese variants, and the Foundation card endpoint. This requests exclusion from search. A recipient can still open or forward a link.
+
 ## Read the experience
 
 - Start on the home page. Choose Foundation, answer one question, leave and return. Review the answers before generating a result. The [editorial passages](../review/after-passages-nov26.md) follow this journey through sharing and the historical Brazil case.

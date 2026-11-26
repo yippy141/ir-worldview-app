@@ -504,3 +504,13 @@ As of July 17 officials did not know whether the exemption list would change bef
 **Before**  Scope, lanes, and how to read the cases
 
 **After**  What the cases cover (available on reopening)
+
+## Privacy, from the review and share controls
+
+**Before**  “The analytics request does not include request IP, cookie, user-agent, or referrer headers.”
+
+**After**  “The site receives ordinary connection information when your browser contacts it. When the site reports an event to Vercel Web Analytics, it leaves out the incoming IP, cookies, browser identification and referrer.”
+
+**Before**  分析请求不附带请求 IP、Cookie、用户代理或来源标头。
+
+**After**  浏览器访问本站时，服务器会收到常规连接信息。本站向 Vercel Web Analytics 转发事件时，不会转发访问者的 IP、Cookie、浏览器标识或来源标头。

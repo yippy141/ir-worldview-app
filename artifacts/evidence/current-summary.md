@@ -987,7 +987,7 @@ Fixture baseline digest: `ef9d6654053922017172f72163dde712a822912e07f42e44d4b7ef
 
 ## Public-copy audit delta
 
-P2 advisory baseline: 558. Current: 1092. Unchanged and suppressed: 386. New: 706. Resolved: 172.
+P2 advisory baseline: 558. Current: 1091. Unchanged and suppressed: 384. New: 707. Resolved: 174.
 
 Higher-priority findings remain visible regardless of the P2 baseline.
 
@@ -995,7 +995,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | --- | --- |
 | P0 | 17 |
 | P1 | 123 |
-| P2 | 1092 |
+| P2 | 1091 |
 
 ### P0 and P1 findings
 
@@ -1023,7 +1023,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | P1 | product-self-narration | public | app/method/page.tsx:113 (route:/method#limitations.4.body) | kept separate |
 | P1 | product-self-narration | public | app/method/page.tsx:249 (route:/method#MethodPage.h3) | stay separate |
 | P1 | product-self-narration | public | app/method/page.tsx:421 (route:/method#MethodPage.p) | the live scorer |
-| P1 | product-self-narration | public | app/privacy/page.tsx:93 (route:/privacy#PrivacyPage.p) | saved layers |
+| P1 | product-self-narration | public | app/privacy/page.tsx:94 (route:/privacy#PrivacyPage.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:856 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | product-self-narration | public | components/field/field-explorer.tsx:964 (content-key:components/field/field-explorer.tsx#FieldExplorer.p) | saved layers |
 | P1 | does-not-claim-heading | public | components/modules/module-app.tsx:455 (content-key:components/modules/module-app.tsx#ModuleApp.p) | What it does not claim |
@@ -1815,6 +1815,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | retired-house-words | public | content/instrument/foundation.v2.json (content-key:content/instrument/foundation.v2.json#items.32.prompt) | durable |
 | 1 | rather-than-reflex | frozen | content/instrument/technology.v3.json (frozen-compatibility:content/instrument/technology.v3.json#items.1.options.0.label) | rather than |
 | 1 | retired-house-words | public | lib/result-helpers.ts (content-key:lib/result-helpers.ts#neighborOverlapTexts.criticalPoliticalEconomy.institutionalist) | genuinely |
+| 1 | repeated-adjacent-three-part-list | public | app/privacy/page.tsx (route:/privacy#PrivacyPage.p) | device class, referrer category, and broad return-age bucket / free text, custom timestamps, and app-owned persistent IP records are excluded |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v4.json (frozen-compatibility:content/instrument/security.v4.json#items.11.options.1.label) | Accepted cost: |
 | 1 | repeated-adjacent-opening | public | lib/futures/preferences.ts (content-key:lib/futures/preferences.ts#requirementLabels.digitalStanding.absent) | i require shared |
 | 1 | accepted-cost-label | frozen | content/instrument/security.v5.json (frozen-compatibility:content/instrument/security.v5.json#items.5.options.2.label) | Accepted cost: |
@@ -1901,6 +1902,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 398d061c452a59de956e9382c6cc71b579cc6d6e54502741a2d2055017378ab2 |
 | 1 | 3b32392131e313b8827125b4f7d9a114c2e36aa6595f67d2bc4cc7c0e4d8f36b |
 | 1 | 3be1360958707b00f2f206985d48ef2d910ff3a17f53bd695245648a26006ac3 |
+| 1 | 3db213daf24bc4319f6a4b20b7ff71da175664d2412391392e6fe6c082d99785 |
 | 1 | 41e1b836003d675ce10afb815c5d5fb07e5b2d416708f565bbe1cca8b1579942 |
 | 1 | 43f1064733485a73212a0913b9ea8acecdd6baf460fe36a199a1bf25d58ea989 |
 | 1 | 44d147a4740d15d2a264803f352e34fae81aa47af0438616672d6418740aa929 |
@@ -1921,6 +1923,7 @@ Higher-priority findings remain visible regardless of the P2 baseline.
 | 1 | 5f0d413ad01eb06ad3af5f2521accb5cf8176991f2f826ef37cf60826807a835 |
 | 1 | 62ff4d571613a32cc76019e849b9d807f7998febff1673a5e5e54fd5e12551b6 |
 | 1 | 64faaa59ced980a6eb3c9dd98414404d29103d0e5f69a26041faab21d590fc29 |
+| 1 | 67fc257d1736cd689b8d5ccfcd0b2bce13d04c9ae429496124da50d1759030cd |
 | 1 | 689de962962d10b8cf83810e1db73fefa16f96bfbba692236db8504f24abd1ad |
 | 1 | 690aca4166020393557611d3d3ff79ce2c1bb84bcc1d1b9969c1af2e9a2057ff |
 | 1 | 698006e9c48998d7dc62d0f0052ce4a1cac8b366406044eeab3e61acc2e0e896 |

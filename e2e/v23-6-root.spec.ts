@@ -278,7 +278,10 @@ test("touch rotation yields vertical page scrolling and releases capture on brow
   test.skip(browserName !== "chromium", "This touch-emulation witness requires Chromium CDP; WebKit pointer and keyboard paths run separately.")
   const context = await browser.newContext({ viewport: { width: 390, height: 600 }, hasTouch: true, isMobile: true })
   const page = await context.newPage(); const globe = await ready(page, `${baseURL}/`)
-  const art = globe.getByRole("group", { name: "Rotatable globe of imagined alignments", exact: true }); const box = (await art.boundingBox())!
+  const art = globe.getByRole("group", { name: "Rotatable globe of imagined alignments", exact: true })
+  await art.scrollIntoViewIfNeeded()
+  const box = (await art.boundingBox())!
+  const startingScroll = await page.evaluate(() => scrollY)
   const cdp = await context.newCDPSession(page)
   const x = box.x + box.width / 2, y = box.y + box.height / 2
   await cdp.send("Input.dispatchTouchEvent", { type: "touchStart", touchPoints: [{ x, y }] })
@@ -291,7 +294,7 @@ test("touch rotation yields vertical page scrolling and releases capture on brow
   await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y: y - 110 }] })
   await cdp.send("Input.dispatchTouchEvent", { type: "touchMove", touchPoints: [{ x, y: y - 170 }] })
   await cdp.send("Input.dispatchTouchEvent", { type: "touchEnd", touchPoints: [] })
-  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0)
+  await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(startingScroll)
   await expect(globe).toHaveAttribute("data-dragging", "false")
   await context.close()
 })

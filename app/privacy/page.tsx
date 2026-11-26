@@ -71,8 +71,9 @@ export default function PrivacyPage() {
           Full URLs, result payloads, answer IDs, confidence, reasoning tags, profile families,
           saved-result flags, dimension scores, email, free text, custom timestamps, and app-owned
           persistent IP records are excluded. Referrer URLs are reduced to categories in the
-          browser. The analytics request does not include request IP, cookie, user-agent, or
-          referrer headers.
+          browser. The site receives ordinary connection information when your browser contacts it.
+          When the site reports an event to Vercel Web Analytics, it leaves out the incoming IP,
+          cookies, browser identification and referrer.
         </p>
         <p style={{ lineHeight: "1.7" }}>
           To limit aggregate-counter abuse, the write endpoint converts the request IP into a

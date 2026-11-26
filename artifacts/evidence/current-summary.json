@@ -3,8 +3,8 @@
   "copyAudit": {
     "advisory": {
       "baselineCount": 558,
-      "currentCount": 1092,
-      "newCount": 706,
+      "currentCount": 1091,
+      "newCount": 707,
       "newFindings": [
         {
           "audience": "public",
@@ -6697,6 +6697,16 @@
           "source": "You see political economy as primary. Your runner-up score reflects some belief that institutions, if genuinely reformed, could matter. The question your profile leaves open is whether that reform is realistic."
         },
         {
+          "audience": "public",
+          "context": "route:/privacy#PrivacyPage.p",
+          "count": 1,
+          "file": "app/privacy/page.tsx",
+          "fingerprint": "f368ecda2e532dfe7820aaf58494ec081fa31cfa553b71bd21a4654a1d69e7fe",
+          "matched": "device class, referrer category, and broad return-age bucket / free text, custom timestamps, and app-owned persistent IP records are excluded",
+          "rule": "repeated-adjacent-three-part-list",
+          "source": "Full URLs, result payloads, answer IDs, confidence, reasoning tags, profile families, saved-result flags, dimension scores, email, free text, custom timestamps, and app-owned persistent IP records are excluded. Referrer URLs are reduced to categories in the browser. The site receives ordinary connection information when your browser contacts it. When the site reports an event to Vercel Web Analytics, it leaves out the incoming IP, cookies, browser identification and referrer."
+        },
+        {
           "audience": "frozen",
           "context": "frozen-compatibility:content/instrument/security.v4.json#items.11.options.1.label",
           "count": 1,
@@ -7068,7 +7078,7 @@
         }
       ],
       "priority": "P2",
-      "resolvedCount": 172,
+      "resolvedCount": 174,
       "resolvedFindings": [
         {
           "count": 1,
@@ -7248,6 +7258,10 @@
         },
         {
           "count": 1,
+          "fingerprint": "3db213daf24bc4319f6a4b20b7ff71da175664d2412391392e6fe6c082d99785"
+        },
+        {
+          "count": 1,
           "fingerprint": "41e1b836003d675ce10afb815c5d5fb07e5b2d416708f565bbe1cca8b1579942"
         },
         {
@@ -7325,6 +7339,10 @@
         {
           "count": 1,
           "fingerprint": "64faaa59ced980a6eb3c9dd98414404d29103d0e5f69a26041faab21d590fc29"
+        },
+        {
+          "count": 1,
+          "fingerprint": "67fc257d1736cd689b8d5ccfcd0b2bce13d04c9ae429496124da50d1759030cd"
         },
         {
           "count": 1,
@@ -7759,7 +7777,7 @@
           "fingerprint": "fc6c2f2e2ef88f2f0de1f0f71be8b9894d0792b48e94aebab8c4cae5621b1fac"
         }
       ],
-      "unchangedCount": 386
+      "unchangedCount": 384
     },
     "higherPriorityFindings": [
       {
@@ -8256,7 +8274,7 @@
         "jsonPath": null,
         "key": "PrivacyPage.p",
         "kind": "self-narration",
-        "line": 93,
+        "line": 94,
         "match": "saved layers",
         "matched": "saved layers",
         "priority": "P1",
@@ -10853,7 +10871,7 @@
         "priority": "P1"
       },
       {
-        "count": 1092,
+        "count": 1091,
         "priority": "P2"
       }
     ]
